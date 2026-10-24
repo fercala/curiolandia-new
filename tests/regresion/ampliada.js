@@ -96,11 +96,12 @@ const base = {age:5,name:'QA',variant:'es',intro:true,first:{askedName:1},unlock
   await p.waitForTimeout(100);
   return{fail:accepted&&(!!err||p.errs.length>0),accepted,error:err,errors:[...new Set(p.errs)]};
  },{guardado:{...base,...save}});
- await test('matriz-ajustes','Controles de edad, modo, voz y variante (36 combinaciones) y persistencia final',async p=>{
-  // Integración DOM: activa los controles y sus onchange, sin reconstruir 36 mundos 3D.
+ await test('matriz-ajustes','Controles de edad, modo y variante (12 combinaciones; la voz es siempre la del navegador) y persistencia final',async p=>{
+  // Integración DOM: activa los controles y sus onchange, sin reconstruir 12 mundos 3D. Sin «a-voz»: la elección de voz
+  // grabada se quitó en la fase 0 y S.voz es siempre 'nav'.
   const cases=await p.evaluate(()=>{openAdult();const cases=[];
-   for(const age of[3,4,5])for(const free of[false,true])for(const voice of['','fer','nav'])for(const variant of['es','ar']){
-    for(const [name,value]of[['a-age',String(age)],['a-mode',free?'libre':'camino'],['a-voz',voice],['a-var',variant]]){
+   for(const age of[3,4,5])for(const free of[false,true])for(const voice of['nav'])for(const variant of['es','ar']){
+    for(const [name,value]of[['a-age',String(age)],['a-mode',free?'libre':'camino'],['a-var',variant]]){
      const el=[...document.querySelectorAll(`[name="${name}"]`)].find(e=>e.value===value);if(!el)throw new Error('Control ausente: '+name);el.click();
     }
     const got={age:S.age,free:!!S.unlockAll,voice:S.voz||'',variant:S.variant};

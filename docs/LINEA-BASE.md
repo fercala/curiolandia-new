@@ -62,3 +62,9 @@ deje de terminar en una fase es una regresión.
 - `npm run tipos`: 0 errores. `npm run test:unidad`: 11 de 11.
 - `npm run tipos:js`: **283 avisos** de tipos en `src/*.js` (límite en `tests/tipos-js-limite.txt`, ver [TIPOS.md](TIPOS.md)).
   Solo pueden bajar.
+
+## Fase 2a: VIVO y funciones pon*
+
+Todo en verde con el código de la fase 2a (24 de octubre de 2026): humo, informe-b, voces, casa, guardado-viejo,
+camino 3/4/5, limites (0 hallazgos), cobertura (15 de 15), ampliada (17 de 17) y **250 de 253 juegos** (los 3 de regar,
+igual que antes). `npm run tipos:js`: 278 avisos.
