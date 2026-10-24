@@ -1,1 +1,8 @@
 .playwright-mcp/
+node_modules/
+dist/
+src/artifact.html
+src/index.html
+tests/capturas/
+tests/regresion/salida/
+__pycache__/
