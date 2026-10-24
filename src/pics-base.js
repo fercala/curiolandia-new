@@ -10,9 +10,9 @@
 //     (viewBox "-62 -62 124 124"). Se usa K como color del contorno y sw(grosor) para el trazo.
 //   - Este archivo crea PICS; los demás (pics-new, pics-a..e, pics-mine) añaden más con
 //     Object.assign(PICS,{clave:`...svg...`}). Si dos archivos usan la misma clave, gana el último
-//     en el orden de build.sh.
+//     en el orden de ARCHIVOS (herramientas/vite/curiolandia.mts).
 //   - Al arrancar, core.js convierte CADA dibujo de PICS en una imagen: IMG[clave]=svgImg(...)
-//     (320 px). Por eso los pics-*.js van antes que core.js en build.sh.
+//     (320 px). Por eso los pics-*.js van antes que core.js en ARCHIVOS (herramientas/vite/curiolandia.mts).
 //   - Para pintarlo en el canvas: pic('gato', x, y, tamaño) (core.js), que busca IMG['gato'] por su
 //     nombre y lo dibuja centrado en (x,y). Si la clave no existe, no pinta nada (no da error).
 //     thing(k,x,y,s) (comps.js) acepta además cosas dibujadas {draw} y caritas 'emo:...'.

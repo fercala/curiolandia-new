@@ -1,0 +1,17 @@
+{
+  // Revisión de tipos del código JavaScript del juego (src/*.js) con los tipos de src/tipos/. Todavía no es estricta:
+  // el código es global y sin tipos, así que salen muchos avisos. `npm run tipos:js` los cuenta y falla solo si hay
+  // más que el límite apuntado en tests/tipos-js-limite.txt (ver docs/TIPOS.md). Cada fase debería bajarlo.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "types": ["three"]
+  },
+  "include": ["src/*.js", "src/tipos/*.d.ts"],
+  "exclude": ["src/icons.js"]
+}

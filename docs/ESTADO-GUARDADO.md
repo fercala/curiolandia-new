@@ -48,7 +48,7 @@
 | `rooms` | número o ausente | (v1.590) Cuántas habitaciones de la casa ya se vieron abiertas: si hay más abiertas, al entrar en la casa Tito anuncia la nueva. Ausente = 1. |
 | `tito` | `{shell, scarf, hat, glasses, bow, kind}` | Colores y ropa de Tito; `kind` = `'caracol'`, `'erizo'`, `'tortuga'` o `'conejo'`. |
 | `owned` | `{idArtículo: 1}` | Artículos que tiene. |
-| `vales`, `valesLog` | listas | Vales que ofrece la familia y vales comprados (`{id, txt, d, given}`). |
+| `vales`, `valesLog` | listas | Vales que ofrece la familia (`{id, txt, ic, p: precio, on: si se ofrece}`) y vales comprados (además `d`: fecha, `given`: entregado). |
 | `bday`, `bdayDone` | `{d, m}` (mes de 0 a 11) o `null`; fecha | Cumpleaños y última vez que se celebró. |
 | `unlockAll` | `true/false` | Modo libre (todo abierto). |
 | `seenOpen` | `{clave: [ids]}` | Qué estaba abierto la última vez, para animar lo que se abre nuevo. |

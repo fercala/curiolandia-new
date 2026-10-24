@@ -1,5 +1,6 @@
 # Monta la web y pasa las pruebas en cada PR y en cada push a main; desde main, además, la publica en GitHub Pages.
-# Pruebas (ver tests/regresion/LEEME.md): comentarios de cabecera, humo (escenas de día y de noche), los fallos B1-B7,
+# Pruebas: comentarios de cabecera, tipos (TypeScript estricto y el límite de avisos de src/*.js, docs/TIPOS.md),
+# Vitest (tests/unidad) y las de Playwright (tests/regresion/LEEME.md): humo (escenas de día y de noche), los fallos B1-B7,
 # la elección de voz, la casa de Tito, la copia de la partida de curiolandia-3d y una octava parte de los juegos.
 # Las pruebas de regresión siempre terminan con 0; comprobar.js lee sus resultados y falla si hay hallazgos.
 name: Web
@@ -34,6 +35,9 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:comentarios
+      - run: npm run tipos
+      - run: npm run tipos:js
+      - run: npm run test:unidad
       - run: npm run test:humo
       - run: npm run test:pr
       - if: always()

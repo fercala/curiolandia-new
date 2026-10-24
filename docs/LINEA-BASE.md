@@ -54,3 +54,11 @@ deje de terminar en una fase es una regresión.
 | `casa.js` | C1-C7 bien |
 | `guardado-viejo.js` (nueva) | G1-G5 bien |
 | `juegos.js dist 0 1 90` | 250 de 253 (los 3 de regar, ver arriba) |
+
+## Fase 1: montaje con Vite y tipos
+
+- La página que monta Vite (`dist/index.html`) es la misma que la de `build.sh` y `build_web.py`, byte a byte; `humo.js`
+  y `guardado-viejo.js` pasan sobre ella.
+- `npm run tipos`: 0 errores. `npm run test:unidad`: 11 de 11.
+- `npm run tipos:js`: **283 avisos** de tipos en `src/*.js` (límite en `tests/tipos-js-limite.txt`, ver [TIPOS.md](TIPOS.md)).
+  Solo pueden bajar.
