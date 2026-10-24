@@ -34,14 +34,14 @@
  *
  * Globales que define y usan otros archivos:
  *   SCENES, TEMAS, TEMA, tst, gDone, drawLogo, drawLogoSmall, pill, inR,
- *   deferredInstall, standalone, MZ, asamHoy, suggestTema, tree,
+ *   VIVO.deferredInstall, standalone, MZ, asamHoy, suggestTema, tree,
  *   drawCasita, GNAME, gIcon, stationPos, drawStation, finishGame,
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
  *   SEASON_NEXT, dayIdx, ALBUM_KEYS.
  * Depende de:
  *   core.js (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
- *   pick, rnd, idle...), lex.js (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
+ *   pick, rnd, VIVO.idle...), lex.js (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
  *   extras.js (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
  *   comps*.js (makeGame), pics-*.js (pic, PICS), tienda.js / adult.js
  *   (drawTito, TITO, inTito, drawHome/atHome en core).
@@ -83,8 +83,8 @@ function pill(x,y,w,h,t,f='#fff',c=K,sz=32){const s=hv('pill'+x+y,hR(x,y,w,h));c
 const inR=(x,y,cx,cy,w,h)=>Math.abs(x-cx)<w/2&&Math.abs(y-cy)<h/2;
 // deferredInstall: el aviso del navegador para instalar el juego como app (PWA). Se guarda al llegar el
 // evento 'beforeinstallprompt' para enseñarlo luego desde el botón "Instalar el juego" de la portada o la zona de adultos.
-let deferredInstall=null;
-addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e});
+Object.assign(VIVO,{deferredInstall:null});
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();VIVO.deferredInstall=e});
 // standalone(): true si el juego ya se está ejecutando instalado (pantalla completa o app), y entonces no se muestran los botones de instalar ni de pantalla completa.
 const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone;
 
@@ -108,14 +108,14 @@ SCENES.title={music:null,
     const p=hv('play',hC(1080,560,120))*(1+Math.sin(T*4)*.05); ctx.save();ctx.translate(1080,560);ctx.scale(p,p);circ(0,0,110,'#7CC86E',8);ctx.beginPath();ctx.moveTo(-30,-48);ctx.lineTo(54,0);ctx.lineTo(-30,48);ctx.closePath();fillStroke('#fff',6);ctx.restore();
     if(S.age){pill(205,830,330,80,S.name?'Juega: '+S.name:'¿Quién juega?');pill(1395,830,330,80,'Empezar de nuevo','#fff','#C0473C')}
     if(document.fullscreenEnabled&&!standalone()){const s=hv('fs',hR(1515,85,90,90));ctx.save();ctx.translate(1515,85);ctx.scale(s,s);card(-45,-45,90,90,'#fff',6,28);ctx.lineWidth=7;ctx.strokeStyle=K;ctx.lineCap='round';ctx.beginPath();for(const[a,b,c,d]of[[-25,-10,-25,-25],[-25,-25,-10,-25],[25,-25,10,-25],[25,-25,25,-10],[-25,10,-25,25],[-25,25,-10,25],[25,25,10,25],[25,25,25,10]]){ctx.moveTo(a,b);ctx.lineTo(c,d)}ctx.stroke();ctx.restore()}
-    if(deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30);
+    if(VIVO.deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30);
   },
 // down(x, y): el primer toque desbloquea el audio (initAudio). Según dónde toque: pantalla completa, instalar,
 // cambiar nombre (openNameDlg), empezar de nuevo (openResetDlg) o, en cualquier otro sitio, empezar a jugar.
   down(x,y){
     initAudio();
     if(inR(x,y,1515,85,100,100)&&document.fullscreenEnabled&&!standalone()){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}return}
-    if(deferredInstall&&!standalone()&&inR(x,y,185,85,300,80)){deferredInstall.prompt();deferredInstall.userChoice.finally(()=>{deferredInstall=null});return}
+    if(VIVO.deferredInstall&&!standalone()&&inR(x,y,185,85,300,80)){VIVO.deferredInstall.prompt();VIVO.deferredInstall.userChoice.finally(()=>{VIVO.deferredInstall=null});return}
     if(S.age&&y>780&&x<380){SFX.tap();openNameDlg(()=>{});return}
     if(S.age&&y>780&&x>1220){SFX.tap();openResetDlg();return}
     SFX.pop(); pickVoice();
@@ -141,7 +141,7 @@ SCENES.edad={music:'title',
   },
 // down(x, y): si toca un globo, guarda S.age, reinicia la dificultad adaptativa (ADAPT=0) y sigue con
 // 'quien' o con 'intro'/'map'.
-  down(x,y){[3,4,5].forEach((n,i)=>{if(dist(x,y,480+i*320,520)<150){S.age=n;ADAPT=0;save();SFX.good();if(!S.name&&!S.first.askedName)go('quien');else go(S.intro?'map':'intro',{hello:true})}})}
+  down(x,y){[3,4,5].forEach((n,i)=>{if(dist(x,y,480+i*320,520)<150){S.age=n;VIVO.ADAPT=0;save();SFX.good();if(!S.name&&!S.first.askedName)go('quien');else go(S.intro?'map':'intro',{hello:true})}})}
 };
 /* ---------- ¿QUIÉN JUEGA? ---------- */
 // ¿QUIÉN JUEGA? Pide el nombre del niño (lo escribe un adulto en el diálogo openNameDlg). Se puede saltar.
@@ -222,6 +222,8 @@ function suggestTema(){
   for(const n of L){const t=T3[n-1];if(t&&!tst(t.id).done)return t}
   return T3.find(t=>!tst(t.id).done)||null;
 }
+// ponSuggestTema(f): cambia suggestTema por otra función (zonas.js la cambia por la de las zonas).
+function ponSuggestTema(f){suggestTema=f}
 // tree(x, y, s, season): dibuja un árbol en (x, y) a escala s según la estación: 'invierno' (ramas con nieve),
 // 'primavera' (flores), 'verano' (frutas), 'otoño' (hojas caídas) o 'gris' (zona dormida). Lo usan el mapa, las zonas
 // y la asamblea (pregunta de las estaciones).
@@ -242,7 +244,7 @@ SCENES.map={music:'map',
     const n=temasDone();
     if(n>S.seenFl){S.seenFl=n;save();later(600,()=>{SFX.sparkle();burst(130,740,40);say(`¡Mirá${kid()}! ¡Tito tiene ${n===1?'una flor':NUM[n]+' flores'} en su caparazón!`)})}
     else if(o.hello)later(400,()=>this.prompt(true));
-    if(sessionT>15*60&&!restAsked&&!S.limit){restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
+    if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },
 // prompt(first): saludo según la hora (si first) y consigna: asamblea si no se ha hecho hoy; si no, el jardín. (Sustituido en zonas.js.)
   prompt(first){const h=new Date().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
@@ -366,6 +368,8 @@ const gIcon=(g,t)=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='
 // Hasta 4 juegos van en una fila; si hay más, en dos filas de 3. OJO: zonas.js la reescribe (camino en zigzag y hasta
 // 8 juegos) y world3d.js la vuelve a envolver con las posiciones proyectadas del 3D.
 function stationPos(t,j){const n=t.games.length;if(n<=4){return[860-(n-1)*180+j*360,560]}const r=Math.floor(j/3),c=j%3;return[540+c*360,r?700:420]}
+// ponStationPos(f): cambia stationPos por otra función (zonas.js y world3d.js la cambian por la suya).
+function ponStationPos(f){stationPos=f}
 // drawStation(t, j, x, y, o): dibuja la estación del juego j del tema t en (x, y): círculo blanco (amarillo si es el
 // primero y no está hecho), el dibujo del juego (lupa, búsqueda, cartas de memoria o el icono) y, si está terminado,
 // una estrella con "×N" veces. o.s = escala. Solo dibuja.
@@ -426,6 +430,8 @@ function finishGame(t,gi){
   if(first){const pool=(t.words||[]).map(w=>w.k).filter(k=>k&&PICS[k]&&!S.stk[k]);giveSticker(pool.length?pick(pool):(gIcon(t.games[gi],t).length>4&&PICS[gIcon(t.games[gi],t)]?gIcon(t.games[gi],t):t.icon))}
   sayQ(pick(['¡Lo lograste! ¡Ganaste una estrella!','¡Muy bien'+kid()+'! ¡Una estrella más!','¡Bravo! ¡Terminaste el juego!']),()=>later(600,()=>go('casita',{t:t.id,fin})));// espera a que acabe la última felicitación del juego
 }
+// ponFinishGame(f): cambia finishGame por otra función (tienda.js y repaso.js la envuelven).
+function ponFinishGame(f){finishGame=f}
 // JUEGO: escena "contenedor". makeGame (comps*.js) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
@@ -433,11 +439,11 @@ function finishGame(t,gi){
 SCENES.juego={music:'game',
 // enter(o): REP = veces que ya se ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
 // Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces.
-  enter(o){this.t=TEMA[o.t];this.gi=o.g;REP=Math.min(2,tst(o.t).g[o.g]||0);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
+  enter(o){this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=Math.min(2,tst(o.t).g[o.g]||0);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
 // update(dt): pasa el tiempo al juego.
   update(dt){this.g.update&&this.g.update(dt)},
 // draw(): dibuja el juego, la casa, las estrellas de rondas (g.done de g.total), el cartel "Nivel N" al repetir y Tito.
-  draw(){this.g.draw();drawHome();if(this.g.total)drawRounds(Math.min(this.g.done,this.g.total),this.g.total);if(REP>0){card(1400,140,160,56,'#9B8AD9',5,28);text('Nivel '+(REP+1),1480,180,30,'#fff')}drawTito(TITO.x,TITO.y,TITO.w)},
+  draw(){this.g.draw();drawHome();if(this.g.total)drawRounds(Math.min(this.g.done,this.g.total),this.g.total);if(VIVO.REP>0){card(1400,140,160,56,'#9B8AD9',5,28);text('Nivel '+(VIVO.REP+1),1480,180,30,'#fff')}drawTito(TITO.x,TITO.y,TITO.w)},
 // down(x, y): casa -> vuelve a la casita sin terminar; si ya terminó, solo chispas; Tito -> repite la consigna del juego;
 // si no, se lo pasa al juego.
   down(x,y){if(atHome(x,y)){SFX.tap();go('casita',{t:this.t.id});return}if(this.fin){sparkles(x,y,4);return}if(inTito(x,y)){this.g.prompt&&this.g.prompt();return}this.g.down&&this.g.down(x,y)},
@@ -546,7 +552,7 @@ SCENES.asamblea={music:'plaza',
 // mucho rato quieto). En 'tiempo' y 'emocion' no hay respuesta correcta, así que no se señala nada.
   hint(){if(this.busy)return null;const s=this.s;
     if(s==='hola')return{x:800,y:500,r:180};
-    if(s==='dia'||s==='manana'){if(AGE()>=4&&this.errs<1)return idle>14?{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}:null;return{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}}
+    if(s==='dia'||s==='manana'){if(AGE()>=4&&this.errs<1)return VIVO.idle>14?{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}:null;return{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}}
     if(s==='mes'){const c=this.cal[this.d.getDate()-1];return{x:c.x,y:c.y,r:55}}
     const o=this.opts.find(o=>o.ok);return o&&!['tiempo','emocion'].includes(s)?{x:o.x,y:o.y,r:o.s*.6}:null},
 // update(): nada que actualizar cada cuadro.
@@ -613,7 +619,7 @@ SCENES.asamblea={music:'plaza',
 // Tras dos fallos se pone idle = 7 para que la ayuda (brillo) aparezca enseguida.
     else{o.shake=T;this.errs++;SFX.bad();
       const bad={dianoche:'Mirá por la ventana. '+(o.v==='dia'?'Ahora no hay sol.':'Ahora hay luz.'),ropa:cap(W_(o.v))+' no va con este tiempo.',estacion:'Ese es el árbol '+(o.v==='otoño'?'del otoño':o.v==='invierno'?'del invierno':o.v==='verano'?'del verano':'de la primavera')+'. Probá con otro.',siguiente:'Mmm, después de '+estacionDe(this.d)+' no viene '+o.v+'.'}[s];
-      say(bad||'Probá otra vez.');if(this.errs>=2)idle=7}
+      say(bad||'Probá otra vez.');if(this.errs>=2)VIVO.idle=7}
   }
 };
 

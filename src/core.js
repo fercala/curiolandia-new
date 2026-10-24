@@ -4,21 +4,23 @@
  * (ver ARCHIVOS en herramientas/vite/curiolandia.mts). Como todo se concatena en un único <script>, lo que se define aquí lo ven todos los archivos siguientes.
  *
  * Qué define (globales que usan los demás archivos):
+ *  - VIVO: estado de la partida en curso que no se guarda y que cambian varios archivos (ver su comentario). Las demás
+ *    globales no se reasignan desde otro archivo: para eso están ponS, ponT, ponCtx, ponGo, ponRec y ponOnRight.
  *  - Pantalla: W y H (pantalla lógica de 1600x900), cv y ctx (el lienzo 2D), SC/OX/OY/DPR (escala y márgenes), resize().
  *  - Utilidades: rnd, ri, pick, shuffle, clamp, lerp, dist, easeOut, back, PI, hex2, col.
  *  - Estado guardado: KEY, DEF, S, save(), rec(), ymd(), today(), AGE().
  *  - Rioplatense / castellano de España: TU, _tuRe, tx(), V(); nombres de los dibujos: LEX, LEX2, W_, Wn, art, dela, ala.
  *  - Imágenes: IMG, IMGG, svgImg(), greyOf(), pic(), picG().
  *  - Dibujo básico: rr, fillStroke, card, circ, ell, text, star, hand, speaker, sky, cloud, flower.
- *  - Puntero: MX, MY, mouseOn, hovNow, hR, hC, hv, setCursor.
+ *  - Puntero: VIVO.MX, VIVO.MY, VIVO.mouseOn, VIVO.hovNow, hR, hC, hv, setCursor.
  *  - Tito en 2D: TITO, drawTito(), inTito(), titoKind(), temasDone().
  *  - Sonido: initAudio, setVol, tone, noise, syn, SFX, SOUNDS, ONO, playSound; música: MUSIC, musKey, musicTick.
- *  - Voz: say(), voces grabadas (vozLoad, vozFile, vozGet, vozPlay, vozSeq, sayTTS, vozStop), pickVoice (con S.vozNav, vozCalidad, vocesES), vozProbar, talking, kid, PRAISE, praise, cap.
- *  - Escenas: scene, sceneName, sceneArg, sceneTok, go(), later(), whenQuiet(), sayQ(), T, fade, idle, drag, timers.
+ *  - Voz: say(), voces grabadas (vozLoad, vozFile, vozGet, vozPlay, vozSeq, sayTTS, vozStop), pickVoice (con S.vozNav, vozCalidad, vocesES), vozProbar, VIVO.talking, kid, PRAISE, praise, cap.
+ *  - Escenas: scene, sceneName, sceneArg, sceneTok, go(), later(), whenQuiet(), sayQ(), T, VIVO.fade, VIVO.idle, VIVO.drag, VIVO.timers.
  *  - Partículas: parts, burst(), sparkles(), heart(), drawParts().
  *  - Interfaz común: HOME, drawHome, atHome, drawRounds, drawLock (candado de adultos), drawHelp (ayudas).
- *  - Dificultad adaptativa: ADAPT, streak, REP, nOpts, onRight, onWrongTwice, nRounds; tiempo: sessionT, minuteAcc.
- *  - Pegatinas: toast, giveSticker, drawSticker, drawToast. Calendario: DIAS, DIASL, DIAC, MESES, ESTACIONES, estacionDe.
+ *  - Dificultad adaptativa: VIVO.ADAPT, streak, VIVO.REP, nOpts, onRight, onWrongTwice, nRounds; tiempo: VIVO.sessionT, VIVO.minuteAcc.
+ *  - Pegatinas: VIVO.toast, giveSticker, drawSticker, drawToast. Calendario: DIAS, DIASL, DIAC, MESES, ESTACIONES, estacionDe.
  *
  * Depende de: pics-*.js (PICS, K = color de la tinta, TITO_SVG, ERIZO_SVG, TORTUGA_SVG, CONEJO_SVG, LUPI_SVG,
  * GLASSES_SVG, HAND_SVG). Mientras el juego corre usa también SCENES (scenes.js y otros), titoImg/drawTitoWear (tienda.js).
@@ -27,6 +29,16 @@
 const W=1600,H=900, LF='Andika, Fredoka, "Trebuchet MS", sans-serif', DF='Fredoka, "Baloo 2", system-ui, sans-serif';
 const cv=document.getElementById('cv'); let ctx=cv.getContext('2d');
 let SC=1,OX=0,OY=0,DPR=1;
+// VIVO: el estado de la partida en curso que no se guarda y que cambian varios archivos (puntero, voz, escena, candado,
+// dificultad, tiempo de juego, avisos). Un objeto en vez de variables sueltas porque un módulo no puede reasignar una
+// variable que importa, pero sí cambiar un campo (fase 2 de docs/PLAN-MIGRACION.md). Cada grupo de campos se rellena
+// con Object.assign donde se explica, más abajo y en scenes.js (deferredInstall) y tienda.js (coinBanner); el tipo con
+// todos los campos está en src/tipos/globales.d.ts (Vivo).
+/** @type {Vivo} */
+const VIVO=/** @type {any} */({});
+// ponCtx(g): cambia el lienzo en el que dibuja todo (ctx). world3d.js dibuja así en lienzos aparte (texturas, muestras
+// de fondo) y luego deja el de antes. Es la única forma de cambiar ctx desde otro archivo.
+function ponCtx(g){ctx=g}
 // resize(): ajusta el lienzo al tamaño de la ventana. El juego siempre "piensa" en una pantalla de 1600x900 (W x H):
 // SC es la escala para que quepa entera, OX/OY el margen (bandas) para centrarla y DPR la densidad de píxeles
 // (como mucho 2, para no gastar de más en móviles). Se llama al cargar y cada vez que cambia el tamaño.
@@ -103,6 +115,9 @@ const DEF={age:0,name:'',variant:'',hemi:'N',vol:{voz:1,mus:.45,fx:.8},limit:0,t
 // S empieza siendo una copia de DEF (JSON.parse(JSON.stringify(...)) hace una copia profunda) y load() la completa.
 /** @type {Estado} */
 let S=JSON.parse(JSON.stringify(DEF));
+// ponS(nuevo): cambia la partida entera por otra (borrar todo en adult.js). Es la única forma de cambiar S desde otro
+// archivo; para cambiar un campo basta con S.campo = valor.
+function ponS(nuevo){S=nuevo}
 // sanoS(d, def): arregla en el sitio los campos de una partida guardada d que no tienen el tipo de su valor por defecto
 // en def, para que una partida o copia rota no rompa el juego. Solo mira los campos que def tiene con un valor no null:
 //   - null o undefined: se borra (queda el valor por defecto);
@@ -176,6 +191,8 @@ const today=()=>ymd(new Date());
 // rec(habilidad, acierto): suma un acierto (ok verdadero) o un fallo en S.stats[habilidad] y guarda.
 // repaso.js la envuelve para apuntar además el resultado por juego (S.gs, S.kg).
 function rec(k,ok){const s=S.stats[k]||(S.stats[k]={ok:0,err:0});ok?s.ok++:s.err++;save()}
+// ponRec(f): cambia rec por otra función (repaso.js la envuelve para apuntar también los fallos de cada juego).
+function ponRec(f){rec=f}
 // AGE(): edad elegida (3, 4 o 5); si aún no se eligió, 3.
 const AGE=()=>S.age||3;
 
@@ -300,14 +317,14 @@ function flower(x,y,r,c,lw=3){for(let i=0;i<5;i++){const a=i*PI*2/5+T*.0;circ(x+
 // Puntero en coordenadas lógicas (1600x900): MX/MY posición; mouseOn solo es true con ratón (con el dedo no hay "pasar por encima").
 // hovNow: id de lo que está bajo el ratón en este cuadro (lo apunta hv() al dibujar); hovPrev, hovT y dwellDone sirven para
 // el sonidito al pasar por encima y para decir el nombre si el ratón se queda quieto (hoverTick() en adult.js).
-let MX=-9,MY=-9,mouseOn=false,hovNow=null,hovPrev=null,hovT=0,dwellDone=false;
+Object.assign(VIVO,{MX:-9,MY:-9,mouseOn:false,hovNow:null,hovPrev:null,hovT:0,dwellDone:false});
 // hR(x,y,w,h): ¿el ratón está dentro del rectángulo centrado en (x,y)? Nunca con el dedo ni mientras se arrastra.
-const hR=(x,y,w,h)=>mouseOn&&!drag&&Math.abs(MX-x)<w/2&&Math.abs(MY-y)<h/2;
+const hR=(x,y,w,h)=>VIVO.mouseOn&&!VIVO.drag&&Math.abs(VIVO.MX-x)<w/2&&Math.abs(VIVO.MY-y)<h/2;
 // hC(x,y,r): ¿el ratón está dentro del círculo de centro (x,y) y radio r?
-const hC=(x,y,r)=>mouseOn&&!drag&&dist(MX,MY,x,y)<r;
+const hC=(x,y,r)=>VIVO.mouseOn&&!VIVO.drag&&dist(VIVO.MX,VIVO.MY,x,y)<r;
 // hv(id, encima): si encima es cierto, apunta id como lo que hay bajo el ratón y devuelve 1.07 (escala para agrandarlo un poco);
 // si no, devuelve 1. Uso típico al dibujar un botón: const s=hv('boton',hC(x,y,r)).
-function hv(id,hit){if(hit){hovNow=id;return 1.07}return 1}
+function hv(id,hit){if(hit){VIVO.hovNow=id;return 1.07}return 1}
 // CUR: cursores dibujados a mano (pt = mano que señala, grab = puño al arrastrar); curMode: el que está puesto.
 let CUR={},curMode='';
 // makeCursors(): dibuja los dos cursores en un lienzo de 48x48 y los convierte en imagen para el CSS. Si falla, usa los del sistema.
@@ -356,13 +373,13 @@ function drawTito(x,y,w,o={}){
   const blink=o.sleep||((T+.5)%3.9)<.14;
   const tk=titoKind(),D=TITO_2D[tk];
   if(blink)for(const [ex,ey,er] of TITO_EYES[tk]){circ(ex*k,ey*k,(er+1)*k,D.skin,5*k);ctx.beginPath();ctx.moveTo((ex-10)*k,(ey+2)*k);ctx.quadraticCurveTo(ex*k,(ey+(o.sleep?10:7))*k,(ex+10)*k,(ey+2)*k);ctx.lineWidth=4*k;ctx.strokeStyle=K;ctx.stroke()}
-  if(talking&&o.mouth!==false&&(T*7|0)%2){ell(D.mouth[0]*k,D.mouth[1]*k,11*k,9*k,'#7A2E3A',3.5*k)}
+  if(VIVO.talking&&o.mouth!==false&&(T*7|0)%2){ell(D.mouth[0]*k,D.mouth[1]*k,11*k,9*k,'#7A2E3A',3.5*k)}
   // flores en el caparazón
   const n=Math.min(FLPOS.length,o.flowers??temasDone());
   for(let j=0;j<n;j++){const [a,r]=FLPOS[j],[fx,fy,fs]=D.fl;flower((fx+Math.cos(a)*r*fs)*k,(fy+Math.sin(a)*r*fs)*k,13*k*(1+Math.sin(T*3+j)*.05),FLC[j%FLC.length],2.5*k)}
   if(typeof drawTitoWear==='function'&&!o.plain)drawTitoWear(k);
   ctx.restore();
-  if(talking&&o.bubble!==false&&!o.flip){const bx=x+w*.92,by=y-30;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}
+  if(VIVO.talking&&o.bubble!==false&&!o.flip){const bx=x+w*.92,by=y-30;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}
 }
 // inTito(x,y): ¿el punto toca a Tito? (rectángulo aproximado alrededor de TITO).
 const inTito=(x,y)=>x>TITO.x&&x<TITO.x+TITO.w&&y>TITO.y-40&&y<TITO.y+TITO.w*.85;
@@ -502,7 +519,8 @@ function musicTick(){
 /* ---------- voz ---------- */
 // VOICE / VOICE_EN: voces del navegador elegidas para español e inglés. talking: true mientras Tito habla (mueve la boca).
 // sayTok: número de la última frase; sirve para ignorar el final de frases que ya se cortaron.
-let VOICE=null,VOICE_EN=null,talking=false,sayTok=0;
+let VOICE=null,VOICE_EN=null;
+Object.assign(VIVO,{talking:false,sayTok:0});
 // vozCalidad(v): puntos de calidad de una voz del navegador según su nombre. Las «naturales» o en línea (Edge: «Online
 // (Natural)») valen 4; las mejoradas de Apple («Premium», «Enhanced», «Mejorada») 3; las de Google y Siri 2; el resto 0.
 const vozCalidad=v=>/natural|online|neural/i.test(v.name)?4:/premium|enhanced|mejorad/i.test(v.name)?3:/google|siri/i.test(v.name)?2:0;
@@ -524,7 +542,7 @@ function pickVoice(){
 }
 // vozProbar(): dice un saludo con la voz del navegador elegida (VOICE), aunque S.voz sea la grabada, para comparar voces
 // en la zona de adultos. Corta lo que estuviera sonando. Usa una frase que ya existe (no hay frase nueva).
-function vozProbar(){try{speechSynthesis.cancel()}catch(e){}const tok=++sayTok;sayTTS(tx('¡Hola! Soy Tito. ¿Jugamos? Tocá la plaza.'),tok,()=>{})}
+function vozProbar(){try{speechSynthesis.cancel()}catch(e){}const tok=++VIVO.sayTok;sayTTS(tx('¡Hola! Soy Tito. ¿Jugamos? Tocá la plaza.'),tok,()=>{})}
 // Algunos navegadores cargan las voces tarde: se vuelve a elegir cuando avisan de que cambiaron.
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
 /* ---------- voces grabadas: solo en la web (carpeta voz/ con manifest.json); si una frase no tiene audio, habla el navegador ---------- */
@@ -584,7 +602,7 @@ function vozGet(f){f=VOZ_DIR+f;return VOZ_BL[f]||(VOZ_BL[f]=fetch(f).then(r=>{if
 // Al acabar el último llama a fin(); si algo falla llama a fallo() (say() usa entonces la voz del navegador).
 function vozPlay(fs,tok,fin,fail){
   const a=VOZ_EL||(VOZ_EL=new Audio()),get=vozGet;
-  const step=n=>{if(n>=fs.length){VOZ_FIN=null;fin();return}get(fs[n]).then(u=>{if(tok!==sayTok)return;if(n===0)vozStop();a.src=u;a.playbackRate=VOZ_RATE;a.preservesPitch=true;a.volume=Math.min(1,S.vol.voz);VOZ_FIN=fin;
+  const step=n=>{if(n>=fs.length){VOZ_FIN=null;fin();return}get(fs[n]).then(u=>{if(tok!==VIVO.sayTok)return;if(n===0)vozStop();a.src=u;a.playbackRate=VOZ_RATE;a.preservesPitch=true;a.volume=Math.min(1,S.vol.voz);VOZ_FIN=fin;
     a.onended=()=>step(n+1);a.onerror=()=>{VOZ_FIN=null;fail()};const p=a.play();if(p)p.catch(()=>{VOZ_FIN=null;fail()})}).catch(()=>{VOZ_FIN=null;fail()})};
   Promise.all(fs.map(get)).catch(()=>{});step(0);
 }
@@ -592,7 +610,7 @@ function vozPlay(fs,tok,fin,fail){
 // se corta). Si la frase ya no es la actual (tok!==sayTok), no habla. Lo usa vozSeq para el nombre del niño y para las oraciones sin grabar de una frase mezclada.
 // Sin voz del navegador, o si no avisa del final a tiempo, sigue igualmente.
 function sayTTS(tt,tok,next){let go=false;const nx=()=>{if(go)return;go=true;next()};
-  if(!('speechSynthesis' in window)||tok!==sayTok){nx();return}
+  if(!('speechSynthesis' in window)||tok!==VIVO.sayTok){nx();return}
   try{const u=new SpeechSynthesisUtterance(tt);if(VOICE){u.voice=VOICE;u.lang=VOICE.lang}else u.lang=S.variant==='es'?'es-ES':'es-AR';
     u.rate=.9;u.pitch=1.1;u.volume=S.vol.voz;u.onend=nx;u.onerror=nx;speechSynthesis.speak(u)}catch(e){nx();return}
   setTimeout(nx,1500+tt.length*95)}
@@ -600,7 +618,7 @@ function sayTTS(tt,tok,next){let go=false;const nx=()=>{if(go)return;go=true;nex
 // solo vozPlay y los {t} los dice sayTTS. Precarga todos los mp3 al empezar. Al acabar llama a fin(); si falla un mp3,
 // a fallo() (say() dice entonces la frase entera con la voz del navegador).
 function vozSeq(plan,tok,fin,fail){plan.forEach(f=>{if(typeof f==='string')vozGet(f).catch(()=>{})});
-  const step=i=>{if(tok!==sayTok||i>=plan.length){fin();return}// cortada por otra frase: también se da por terminada
+  const step=i=>{if(tok!==VIVO.sayTok||i>=plan.length){fin();return}// cortada por otra frase: también se da por terminada
     if(plan[i].t!=null){sayTTS(plan[i].t,tok,()=>step(i+1));return}
     let j=i;while(j<plan.length&&typeof plan[j]==='string')j++;// i..j-1: mp3 seguidos
     vozPlay(plan.slice(i,j),tok,()=>step(j),fail)};
@@ -619,21 +637,21 @@ function vozSeq(plan,tok,fin,fail){plan.forEach(f=>{if(typeof f==='string')vozGe
    Las frases nuevas se escriben en castellano de España y se apuntan para grabarlas. */
 function say(t,cb,o={}){
   if(!o.en)t=tx(t);
-  const tok=++sayTok, my=sceneTok; let done=false;
-  idle=0;// la ayuda cuenta desde que Tito calla (quien quiera la ayuda enseguida pone idle=12 después de say)
-  const fin=()=>{if(done)return;done=true;if(tok===sayTok)talking=false;if(MUS&&AC)MUS.gain.setTargetAtTime(S.vol.mus*.22,AC.currentTime,.2);if(cb&&my===sceneTok)cb()};
+  const tok=++VIVO.sayTok, my=sceneTok; let done=false;
+  VIVO.idle=0;// la ayuda cuenta desde que Tito calla (quien quiera la ayuda enseguida pone idle=12 después de say)
+  const fin=()=>{if(done)return;done=true;if(tok===VIVO.sayTok)VIVO.talking=false;if(MUS&&AC)MUS.gain.setTargetAtTime(S.vol.mus*.22,AC.currentTime,.2);if(cb&&my===sceneTok)cb()};
 // est: duración estimada de la frase en ms (para los temporizadores de seguridad).
   const est=900+t.length*85/(o.rate||1);
-  if(window.__fast){if(window.__said)window.__said.push(t);talking=true;setTimeout(fin,30);return}
+  if(window.__fast){if(window.__said)window.__said.push(t);VIVO.talking=true;setTimeout(fin,30);return}
 // vf: plan de vozFile para la frase (mp3 grabados y trozos {t}), o null/false si no hay nada grabado o la voz está a 0.
   const vf=!o.en&&S.vol.voz>0&&vozFile(t);
 // Sin MP3 y sin voz del navegador (o con volumen 0): se hace como que habla un rato para que el juego siga.
-  if(!vf&&(!('speechSynthesis' in window)||S.vol.voz<=0)){talking=true;setTimeout(fin,Math.min(est,2500));return}
+  if(!vf&&(!('speechSynthesis' in window)||S.vol.voz<=0)){VIVO.talking=true;setTimeout(fin,Math.min(est,2500));return}
   try{speechSynthesis.cancel()}catch(e){}
   if(MUS&&AC)MUS.gain.setTargetAtTime(S.vol.mus*.07,AC.currentTime,.1);
-  talking=true;
+  VIVO.talking=true;
 // speak(): habla con la voz del navegador, si esta sigue siendo la frase actual.
-  const speak=()=>{ if(tok!==sayTok||!('speechSynthesis' in window))return;
+  const speak=()=>{ if(tok!==VIVO.sayTok||!('speechSynthesis' in window))return;
     const u=new SpeechSynthesisUtterance(t),vv=o.en?VOICE_EN:VOICE; if(vv){u.voice=vv;u.lang=vv.lang}else u.lang=o.en?(S.variant==='es'?'en-GB':'en-US'):S.variant==='es'?'es-ES':'es-AR';
     u.rate=o.rate||.9; u.pitch=o.pitch||1.1; u.volume=S.vol.voz; u.onend=fin; u.onerror=fin;
     speechSynthesis.speak(u);
@@ -642,7 +660,7 @@ function say(t,cb,o={}){
 // Si la frase lleva el nombre del niño (", Lucía", de kid() o praise()), el MP3 grabado no lo tiene: Tito dice antes
 // el nombre con la voz del navegador y después suena lo grabado ("Lucía. ¡Muy bien! ¡Una estrella más!").
   if(vf){if(S.name&&t.includes(', '+S.name))vf.unshift({t:S.name+'.'});
-    vozSeq(vf,tok,fin,()=>{if(tok===sayTok&&!done)speak()});setTimeout(fin,est/VOZ_RATE+4000+vf.filter(f=>f.t!=null).length*2500);return}
+    vozSeq(vf,tok,fin,()=>{if(tok===VIVO.sayTok&&!done)speak()});setTimeout(fin,est/VOZ_RATE+4000+vf.filter(f=>f.t!=null).length*2500);return}
   setTimeout(speak,60);
   setTimeout(fin,est+1500);
 }
@@ -671,13 +689,14 @@ const cap=s=>s?s[0].toUpperCase()+s.slice(1):s;
    de escena y anula temporizadores y callbacks de la anterior), T (segundos desde el arranque; para animar),
    fade (velo de transición, de 1 a 0), timers (de later), parts (partículas), idle (segundos sin tocar; activa
    las ayudas), hintSaid (ya se repitió la consigna), drag (lo que se está arrastrando, o null). */
-let scene=null,sceneName='',sceneTok=0,T=0,fade=0,timers=[],parts=[],idle=0,hintSaid=false,drag=null,sceneArg={};
+let scene=null,sceneName='',sceneTok=0,T=0,parts=[],sceneArg={};
+Object.assign(VIVO,{fade:0,timers:[],idle:0,hintSaid:false,drag:null});
 // later(ms, fn): ejecuta fn dentro de ms milisegundos, pero solo si se sigue en la misma escena. Dentro de las escenas
 // usa esto en vez de setTimeout: lo cuenta frame() con el reloj del juego y go() lo anula.
-function later(ms,fn){timers.push({t:ms/1000,fn,tok:sceneTok})}
+function later(ms,fn){VIVO.timers.push({t:ms/1000,fn,tok:sceneTok})}
 // whenQuiet(fn, max): llama a fn en cuanto Tito calla (talking false), o como mucho a los max segundos (8) por si la
 // voz se queda colgada. Va con later(), así que si se cambia de escena mientras espera, fn no se llama.
-function whenQuiet(fn,max=8){const t0=T,chk=()=>{if(!talking||T-t0>max)fn();else later(100,chk)};chk()}
+function whenQuiet(fn,max=8){const t0=T,chk=()=>{if(!VIVO.talking||T-t0>max)fn();else later(100,chk)};chk()}
 // sayQ(texto, cb, o): como say(), pero espera a que Tito acabe la frase que esté diciendo (whenQuiet). Para las frases
 // que el juego dice solo, programadas con later() (consignas, presentaciones): así no cortan una frase que dijo Tito al
 // responder a un toque del niño en ese rato.
@@ -688,10 +707,15 @@ function sayQ(t,cb,o){whenQuiet(()=>say(t,cb,o))}
 // Ejemplos: go('map',{hello:true}) vuelve al mapa saludando; go('casita',{t:idTema}) abre un tema.
 function go(n,o={}){
   if(!SCENES[n]){console.warn('go: no existe la escena',n);return}// nombre mal escrito: se queda en la escena actual en vez de romperse
-  sceneTok++; timers=[]; parts=[]; idle=0; hintSaid=false; drag=null; setCursor('pt');
-  try{speechSynthesis.cancel()}catch(e){} talking=false;
-  sceneName=n; sceneArg=o; scene=SCENES[n]; fade=1; musKey=scene.music||null; scene.enter&&scene.enter(o);
+  sceneTok++; VIVO.timers=[]; parts=[]; VIVO.idle=0; VIVO.hintSaid=false; VIVO.drag=null; setCursor('pt');
+  try{speechSynthesis.cancel()}catch(e){} VIVO.talking=false;
+  sceneName=n; sceneArg=o; scene=SCENES[n]; VIVO.fade=1; musKey=scene.music||null; scene.enter&&scene.enter(o);
 }
+// ponGo(f): cambia go por otra función. Las capas la envuelven: repaso.js (deja el repaso al salir) y world3d.js
+// (vuelve a 2D al ir a una escena sin 3D). La envoltura llama a la de antes, que guarda antes de llamar a ponGo.
+function ponGo(f){go=f}
+// ponT(t): cambia el reloj de juego T (en segundos). Lo avanza frame() en adult.js en cada cuadro.
+function ponT(t){T=t}
 /* PARTÍCULAS. parts es una lista de objetos {x, y, vx, vy (velocidad en px/s), life (segundos que dura), t (edad),
    c (color), r (tamaño), rot (giro), g (gravedad; 900 si no se da; 0 = flota), k (tipo)}.
    Tipos k: 's' estrella; 'c' confeti (rectángulo que gira; es lo que se dibuja con cualquier otro valor); 'd' punto;
@@ -731,54 +755,57 @@ function drawRounds(done,of,y=80){
 // Candado de la zona de adultos (abajo a la derecha): hay que mantenerlo pulsado 3 s. lockDown = se está pulsando;
 // lockHold = segundos que lleva, en tiempo real (aunque el aparato vaya a pocos cuadros por segundo); lockPrev = hora
 // del cuadro anterior. Lo gestionan pointerdown y frame() en adult.js.
-let lockHold=0,lockDown=false,lockPrev=0;
+Object.assign(VIVO,{lockHold:0,lockDown:false,lockPrev:0});
 // drawLock(): dibuja el candado semitransparente y, mientras se pulsa, un arco que se va llenando.
 function drawLock(){
   const x=1546,y=852; ctx.globalAlpha=.45; ctx.fillStyle=K; rr(x-18,y-12,36,28,6); ctx.fill(); ctx.beginPath(); ctx.arc(x,y-12,11,PI,0); ctx.lineWidth=5; ctx.strokeStyle=K; ctx.stroke(); ctx.globalAlpha=1;
-  if(lockDown){ctx.beginPath();ctx.arc(x,y,40,-PI/2,-PI/2+PI*2*lockHold/3);ctx.lineWidth=8;ctx.strokeStyle='#9B8AD9';ctx.stroke()}
+  if(VIVO.lockDown){ctx.beginPath();ctx.arc(x,y,40,-PI/2,-PI/2+PI*2*VIVO.lockHold/3);ctx.lineWidth=8;ctx.strokeStyle='#9B8AD9';ctx.stroke()}
 }
 /* ayuda: brillo y manito */
 // drawHelp(): ayuda automática si el niño no hace nada. Pide a la escena su hint(): a los 6 s sin tocar dibuja un brillo
 // alrededor; a los 11 s, la manita (siguiendo h.path si lo hay, o moviéndose con h.dx/h.dy) y repite una vez la consigna con scene.prompt().
 // idle no cuenta mientras Tito habla (frame) y vuelve a 0 con cada say(): la ayuda nunca corta una frase de Tito.
 function drawHelp(){
-  if(!scene.hint||drag)return; const h=scene.hint(); if(!h)return;
-  if(idle>6){const p=(Math.sin(T*5)+1)/2;ctx.save();ctx.globalAlpha=.35+.35*p;ctx.lineWidth=12;ctx.strokeStyle='#FFC93C';ctx.beginPath();ctx.arc(h.x,h.y,(h.r||110)+10+p*12,0,PI*2);ctx.stroke();ctx.restore()}
-  if(idle>11){const k=(T*1.2)%1;if(h.path&&h.path.length>1){const q=(T*.5)%1,f=q*(h.path.length-1),i=Math.floor(f),a=h.path[i],b=h.path[Math.min(h.path.length-1,i+1)];hand(lerp(a[0],b[0],f-i)+20,lerp(a[1],b[1],f-i)+14,90)}else hand(h.x+30-k*20+(h.dx||0)*k,h.y+20-k*10+(h.dy||0)*k,90);
-    if(!hintSaid&&scene.prompt&&!talking){hintSaid=true;scene.prompt()}}// nunca mientras Tito habla: cortaría su frase
+  if(!scene.hint||VIVO.drag)return; const h=scene.hint(); if(!h)return;
+  if(VIVO.idle>6){const p=(Math.sin(T*5)+1)/2;ctx.save();ctx.globalAlpha=.35+.35*p;ctx.lineWidth=12;ctx.strokeStyle='#FFC93C';ctx.beginPath();ctx.arc(h.x,h.y,(h.r||110)+10+p*12,0,PI*2);ctx.stroke();ctx.restore()}
+  if(VIVO.idle>11){const k=(T*1.2)%1;if(h.path&&h.path.length>1){const q=(T*.5)%1,f=q*(h.path.length-1),i=Math.floor(f),a=h.path[i],b=h.path[Math.min(h.path.length-1,i+1)];hand(lerp(a[0],b[0],f-i)+20,lerp(a[1],b[1],f-i)+14,90)}else hand(h.x+30-k*20+(h.dx||0)*k,h.y+20-k*10+(h.dy||0)*k,90);
+    if(!VIVO.hintSaid&&scene.prompt&&!VIVO.talking){VIVO.hintSaid=true;scene.prompt()}}// nunca mientras Tito habla: cortaría su frase
 }
 /* adaptativo */
 // Dificultad adaptativa (no se guarda en S): ADAPT va de -1 (más fácil) a 1 (más difícil); streak cuenta aciertos a la
 // primera seguidos; REP = veces que ya se jugó este juego (0 a 2; lo pone la escena 'juego' de scenes.js).
-let ADAPT=0,streak=0,REP=0;
+let streak=0;
+Object.assign(VIVO,{ADAPT:0,REP:0});
 // nOpts(): cuántas opciones enseñar en un juego (de 2 a 4): 2 a los 3 años y 3 a los 4 y 5, más ADAPT, y +1 al repetir.
-function nOpts(){return clamp(({3:2,4:3,5:3})[AGE()]+ADAPT+(REP>=1?1:0),2,4)}
+function nOpts(){return clamp(({3:2,4:3,5:3})[AGE()]+VIVO.ADAPT+(VIVO.REP>=1?1:0),2,4)}
 // onRight(aLaPrimera): avisar de un acierto; 4 aciertos seguidos a la primera suben la dificultad.
-function onRight(first){if(first){streak++;if(streak>=4){ADAPT=Math.min(1,ADAPT+1);streak=0}}}
+function onRight(first){if(first){streak++;if(streak>=4){VIVO.ADAPT=Math.min(1,VIVO.ADAPT+1);streak=0}}}
+// ponOnRight(f): cambia onRight por otra función (tienda.js la envuelve para dar monedas al acertar).
+function ponOnRight(f){onRight=f}
 // onWrongTwice(): avisar de que se falló dos veces; baja la dificultad.
-function onWrongTwice(){ADAPT=Math.max(-1,ADAPT-1);streak=0}
+function onWrongTwice(){VIVO.ADAPT=Math.max(-1,VIVO.ADAPT-1);streak=0}
 // nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición.
-const nRounds=()=>(AGE()<=3?4:5)+(REP>=2?1:0);
+const nRounds=()=>(AGE()<=3?4:5)+(VIVO.REP>=2?1:0);
 /* tiempo de juego */
 // sessionT: segundos jugados en esta sesión (para S.limit); restAsked: ya se propuso descansar; minuteAcc: segundos aún
 // no apuntados en S.days. Los usa frame() en adult.js.
 // La sesión sigue al recargar la página: si S.ses ({t: segundos, at: hora en ms}, se guarda cada 15 s) es de hace menos
 // de 30 min, sessionT sigue desde ahí. Así recargar no se salta el límite de tiempo («a dormir»).
-let sessionT=(()=>{const s=S.ses,ago=s&&Date.now()-s.at;return s&&isFinite(+s.t)&&ago>=0&&ago<30*60e3?+s.t:0})(),restAsked=false,minuteAcc=0;
+Object.assign(VIVO,{sessionT:(()=>{const s=S.ses,ago=s&&Date.now()-s.at;return s&&isFinite(+s.t)&&ago>=0&&ago<30*60e3?+s.t:0})(),restAsked:false,minuteAcc:0});
 
 /* ---------- pegatinas ---------- */
 // toast: aviso de "¡Pegatina nueva!" que se ve unos segundos: {k: dibujo, t: momento T en que salió, x, y opcionales}.
-let toast=null;
+Object.assign(VIVO,{toast:null});
 // giveSticker(dibujo, ya): da una pegatina (suma 1 en S.stk y guarda), enseña el aviso y suena un brillo. Devuelve la clave.
 // ya = true: la pegatina ya se sumó antes (premio guardado al momento); solo enseña el aviso.
-function giveSticker(k,ya){if(!ya){S.stk[k]=(S.stk[k]||0)+1;save()}toast={k,t:T};setTimeout(()=>SFX.sparkle(),300);return k}
+function giveSticker(k,ya){if(!ya){S.stk[k]=(S.stk[k]||0)+1;save()}VIVO.toast={k,t:T};setTimeout(()=>SFX.sparkle(),300);return k}
 // drawSticker(dibujo,x,y,tamaño,giro,gris): pegatina redonda con sombra; gris = una que aún no se tiene.
 function drawSticker(k,x,y,s,rot=0,grey){ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.shadowColor='rgba(74,52,40,.25)';ctx.shadowBlur=s*.08;ctx.shadowOffsetY=s*.04;
   circ(0,0,s*.55,'#fff',0);ctx.shadowColor='transparent';circ(0,0,s*.55,null,3,'#EADFCF');if(grey){ctx.globalAlpha=.25;picG(k,0,0,s*.86);ctx.globalAlpha=1}else pic(k,0,0,s*.86);ctx.restore()}
 // drawToast(): dibuja el aviso de pegatina nueva: entra con rebote, se queda y se va a los 2,8 s.
-function drawToast(){if(!toast)return;const k=T-toast.t;if(k>2.8){toast=null;return}
-  const a=k<.3?back(k/.3):k>2.4?1-(k-2.4)/.4:1;ctx.save();ctx.globalAlpha=clamp(a,0,1);ctx.translate(toast.x||800,toast.y||180);ctx.scale(clamp(a,0,1.2),clamp(a,0,1.2));
-  card(-230,-80,460,160,'#FFF6E6',6,40);drawSticker(toast.k,-140,0,130,Math.sin(T*4)*.1);text(V(['¡Figurita nueva!','¡Pegatina nueva!']),60,14,38,K);ctx.restore()}
+function drawToast(){if(!VIVO.toast)return;const k=T-VIVO.toast.t;if(k>2.8){VIVO.toast=null;return}
+  const a=k<.3?back(k/.3):k>2.4?1-(k-2.4)/.4:1;ctx.save();ctx.globalAlpha=clamp(a,0,1);ctx.translate(VIVO.toast.x||800,VIVO.toast.y||180);ctx.scale(clamp(a,0,1.2),clamp(a,0,1.2));
+  card(-230,-80,460,160,'#FFF6E6',6,40);drawSticker(VIVO.toast.k,-140,0,130,Math.sin(T*4)*.1);text(V(['¡Figurita nueva!','¡Pegatina nueva!']),60,14,38,K);ctx.restore()}
 
 /* ---------- calendario ---------- */
 // Calendario: DIAS empieza en domingo (como getDay()); DIASL en lunes; DIAC es el color de cada día (desde el lunes).

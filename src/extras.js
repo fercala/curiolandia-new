@@ -182,8 +182,8 @@ for(const t of[...T3,...T4,...T5])if(typeof CUENTOS!=='undefined'&&CUENTOS[t.id]
 // Envuelve makeGame(g, t, onDone): los juegos 'cuento' abren el cuento del tema (Story, cuentos.js) y los 'cancion'
 // crean el componente Song con la canción g.song; los demás tipos siguen igual.
 const _makeGame0=makeGame;
-makeGame=function(g,t,onDone){
+ponMakeGame(function(g,t,onDone){
   if(g.t==='cuento')return Story(CUENTOS[t.id],{},onDone);
   if(g.t==='cancion')return Song(Object.assign({bg:t.bg,key:'cancion'},SONGS[g.song]()),onDone);
   return _makeGame0(g,t,onDone);
-};
+});

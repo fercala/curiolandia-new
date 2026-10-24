@@ -47,6 +47,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 - Todo el código está comentado: cada archivo tiene una cabecera que explica qué hace y cada función tiene un comentario encima.
 - Las líneas son muy largas (el código está escrito de forma compacta). Usa la búsqueda del editor o `grep -n "nombreFuncion" src/*.js` para encontrar las cosas.
 - Si algo "no hace caso" a tu cambio, probablemente otro archivo posterior lo envuelve o lo sobrescribe (ver "Capas" en ARQUITECTURA.md). Busca el nombre en todos los archivos.
+- No reasignes desde un archivo una variable o función global que declara otro (`x = ...`): usa `VIVO.x` o su función `pon*` (ARQUITECTURA.md, «Leer sí, reasignar no»). Si hace falta una nueva, añade el campo a `VIVO` y al tipo `Vivo`, o una función `pon*` junto a la global. `npm run test:unidad` falla si no.
 - Hay código antiguo que ya no se usa (sobre todo en `scenes.js`: el mapa, el jardín y la casita v1). Está marcado en los comentarios.
 
 ## 2. Reglas que no se pueden saltar
@@ -158,7 +159,7 @@ games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tu
 
 La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/comps.js` y `src/comps2.js`. La mejor forma de aprender es copiar un juego parecido de otro tema.
 
-Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRounds()` (número de rondas) y `REP` (veces que ya se ha jugado) se ajustan solos según la edad y los aciertos.
+Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRounds()` (número de rondas) y `VIVO.REP` (veces que ya se ha jugado) se ajustan solos según la edad y los aciertos.
 
 ## 6. Un tipo de juego nuevo (componente)
 
@@ -189,7 +190,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
      };
    }
    ```
-2. Reglas: `done` debe llegar a `total`; `onDone()` una sola vez; usa `later` y no `setTimeout`; para arrastrar usa la global `drag` (ver `Arrastra`).
+2. Reglas: `done` debe llegar a `total`; `onDone()` una sola vez; usa `later` y no `setTimeout`; para arrastrar usa `VIVO.drag` (ver `Arrastra`).
 3. Si no se debe usar en el repaso diario (no tiene aciertos y fallos), añade su `t` a `NOREP` en repaso.js.
 4. Úsalo en un tema con `make:(d,t)=>MiTipo({...}, d)` y ponle nombre en `GNAME` (zonas.js) o con `name`.
 

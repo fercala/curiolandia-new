@@ -31,12 +31,15 @@ lo que hoy las pruebas leen sueltas (última tabla) o las pruebas tendrán que p
 | `#adult` (elemento HTML) | `src/head.html` | Ver si la zona de adultos está abierta (`hidden`). |
 | `save`, `doReset`, `go`, `sceneName`, `scene`, `S` | `core.js`, `adult.js` | Guardar, borrar todo, cambiar de escena. |
 | `OX`, `OY`, `SC` | `core.js` | Pasar de la pantalla lógica 1600x900 a píxeles de la ventana (ratón de verdad). |
-| `talking` | `core.js` | Esperar a que Tito termine de hablar. |
+| `VIVO.talking` | `core.js` | Esperar a que Tito termine de hablar. |
+| `VIVO.fade`, `VIVO.sessionT`, `VIVO.minuteAcc` | `core.js` | Esperar a que acabe el velo de una escena; tiempo de juego (`cobertura.js`, `limites.js`). |
+| `ponGo` | `core.js` | Envolver `go` para apuntar las escenas (`camino.js`). |
 | `pickVoice`, `VOICE` | `core.js` | Prueba de la elección de voz (`voces.js`). |
 | `bkEncode`, `bkDecode` | `adult.js` | Copias de seguridad. |
-| `MX`, `T` | `core.js` | Posición del ratón y reloj de juego. |
+| `VIVO.MX`, `T` | `core.js` | Posición del ratón y reloj de juego. |
 | `localStorage['curiolandia-new.v1']` | `core.js` (`KEY`) | Escribir partidas de prueba antes de cargar. |
 | `localStorage['curiolandia.v1']` | `core.js` (`KEY_VIEJA`) | La partida de curiolandia-3d que se copia (`guardado-viejo.js`). |
 | Versión en `sw.js` (`curiolandia-new-vX`) | `package.json` (`version`) y `herramientas/vite/curiolandia.mts` | `cobertura.js` la lee para el informe. |
 
-Cuentas sacadas con `grep` sobre `tests/` el 24 de octubre de 2026 (fase 0).
+Cuentas sacadas con `grep` sobre `tests/` el 24 de octubre de 2026 (fase 0). En la fase 2a, `talking`, `fade`, `sessionT`,
+`minuteAcc` y `MX` pasaron a `VIVO` y `camino.js` envuelve `go` con `ponGo`.

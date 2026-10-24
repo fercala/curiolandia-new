@@ -13,7 +13,7 @@ const R = L.registro('camino');
     console.log('== Partida nueva,', edad, 'años');
     const p = await L.abrir(b, srv.port, { hora: 11, fecha: '2026-10-21', guardado: null });
     // Lista de escenas por las que pasa (envolviendo go, que es global).
-    await p.evaluate(() => { window.__esc = []; const g0 = go; go = function (n, o) { window.__esc.push(n); return g0(n, o) } });
+    await p.evaluate(() => { window.__esc = []; const g0 = go; ponGo(function (n, o) { window.__esc.push(n); return g0(n, o) }) });
     const esc = () => p.evaluate(() => __cl.name);
     const id = 'camino-' + edad;
     // 1. Portada -> edad

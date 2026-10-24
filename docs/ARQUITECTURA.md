@@ -71,6 +71,22 @@ Todos los `.js` se pegan, en un orden fijo (`ARCHIVOS` en `herramientas/vite/cur
 
 Como todo va en el mismo `<script>`, **todas las variables globales se comparten**. Por ejemplo, `S` (definido en `core.js`) se usa en todos los archivos.
 
+**Leer sí, reasignar no** (desde la fase 2 de la migración). Un archivo puede leer las globales de otro y cambiar los
+campos de sus objetos (`S.coins++`, `SCENES.map.draw = ...`), pero no reasignar una variable o función global que
+declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo que varios archivos cambian hay dos vías:
+
+- **`VIVO`** (`core.js`): el estado de la partida en curso que no se guarda. Son el puntero (`VIVO.MX`, `VIVO.MY`,
+  `VIVO.mouseOn`, `VIVO.hovNow`...), la voz (`VIVO.talking`, `VIVO.sayTok`) y la escena (`VIVO.fade`, `VIVO.timers`,
+  `VIVO.idle`, `VIVO.hintSaid`, `VIVO.drag`). También el candado (`VIVO.lockHold`...), la dificultad (`VIVO.ADAPT`,
+  `VIVO.REP`), el tiempo de juego (`VIVO.sessionT`, `VIVO.restAsked`, `VIVO.minuteAcc`) y los avisos (`VIVO.toast`,
+  `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/tipos/globales.d.ts`.
+- **Funciones `pon*`** para cambiar una global entera desde otro archivo: `ponS` (partida nueva), `ponT` (reloj),
+  `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
+  (`core.js`), `ponThing` (`comps.js`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`scenes.js`),
+  `ponMakeGame` (`temas.js`) y `ponGoSeguir` (`zonas.js`).
+
+`npm run test:unidad` lo comprueba (`tests/unidad/globales.test.ts`, con `herramientas/analisis/globales.mts`).
+
 ## 3. La pantalla lógica de 1600x900
 
 Todo el juego trabaja en una pantalla imaginaria de **1600 x 900 píxeles**. `core.js` escala el lienzo al tamaño real de la ventana y `adult.js` convierte cada toque a esas coordenadas (`toLogical`). Así nunca tienes que pensar en el tamaño del móvil: si dibujas algo en `x=800, y=450`, siempre sale en el centro.
@@ -85,7 +101,7 @@ Cada cuadro (unas 60 veces por segundo) `frame()` hace, en este orden:
 4. Música (`musicTick`) y `scene.update(dt)`.
 5. **Si la escena es 3D** (`scene.three`), llama a `R3frame(dt)` de `world3d.js`, que anima y pinta el 3D en `#gl`.
 6. `scene.draw()` pinta lo 2D en `#cv` (encima del 3D), y luego la ayuda (`drawHelp`), las partículas (`drawParts`), avisos y monedas.
-   La ayuda automática se rige por `idle`, los segundos sin tocar: brillo a los 6 s, manita y `prompt()` a los 11 s. `idle` no avanza mientras Tito habla y vuelve a 0 con cada `say()`, así la ayuda nunca corta una frase (desde v1.586). Por lo mismo, las frases que el juego dice solo con `later()` usan `sayQ()` en vez de `say()`: esperan a que Tito acabe la frase que esté diciendo (`whenQuiet()`). Un juego que quiere la ayuda enseguida (tras el segundo fallo) pone `idle=12` **después** de su `say()`: la manita sale ya y la consigna se repite cuando Tito acaba.
+   La ayuda automática se rige por `VIVO.idle`, los segundos sin tocar: brillo a los 6 s, manita y `prompt()` a los 11 s. `VIVO.idle` no avanza mientras Tito habla y vuelve a 0 con cada `say()`, así la ayuda nunca corta una frase (desde v1.586). Por lo mismo, las frases que el juego dice solo con `later()` usan `sayQ()` en vez de `say()`: esperan a que Tito acabe la frase que esté diciendo (`whenQuiet()`). Un juego que quiere la ayuda enseguida (tras el segundo fallo) pone `idle=12` **después** de su `say()`: la manita sale ya y la consigna se repite cuando Tito acaba.
 
 Los toques llegan por eventos del navegador: `pointerdown` → `scene.down(x,y)`, `pointermove` → `scene.move`, `pointerup` → `scene.up`. La tecla Escape equivale a tocar el botón de la casa.
 
@@ -134,6 +150,10 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 // Patrón para envolver un método sin perder el original
 { const A = SCENES.asamblea, enter0 = A.enter;
   A.enter = function (o) { enter0.call(this, o); /* lo nuevo */ }; }
+
+// Patrón para envolver una función global de otro archivo: con su pon* (ver «Leer sí, reasignar no»)
+{ const f0 = finishGame;
+  ponFinishGame(function (t, gi) { f0(t, gi); /* lo nuevo */ }); }
 ```
 
 - `zonas.js` reescribe el mapa y la casita de `scenes.js` (la versión de `scenes.js` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).

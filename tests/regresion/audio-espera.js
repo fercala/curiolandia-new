@@ -24,7 +24,7 @@ const espia = require('./espia');
     // fallar dos veces: tocar lejos de la ayuda (si la hay) dos veces, esperando a que Tito calle entre medias
     for (let k = 0; k < 2; k++) {
       await p.evaluate(() => { const sc = __cl.scene; const h = sc.hint && sc.hint(); if (!h || h.dx != null || h.path) return; const x = h.x > 800 ? 300 : 1300, y = h.y > 450 ? 250 : 700; sc.down && sc.down(x, y); sc.up && sc.up(x, y) });
-      const t1 = Date.now(); while (Date.now() - t1 < 9000 && await p.evaluate(() => talking)) await p.waitForTimeout(150);
+      const t1 = Date.now(); while (Date.now() - t1 < 9000 && await p.evaluate(() => VIVO.talking)) await p.waitForTimeout(150);
       await p.waitForTimeout(500);
     }
     const [D, EV] = await p.evaluate(t0 => [__dichos.filter(d => d.t >= t0), __ev.filter(e => e[0] >= t0)], t0);

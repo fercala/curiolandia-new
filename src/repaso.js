@@ -22,14 +22,14 @@ Object.assign(DEF,{kg:{},gs:{},rep:null});
 for(const k of['kg','gs'])if(!S[k]||typeof S[k]!=='object')S[k]={};
 // Envuelve rec(habilidad, acierto) de core.js: además de las estadísticas normales, si estamos en un juego
 // apunta en S.kg que esa habilidad sale en este juego (sin repetir, máximo 6) y suma el acierto/fallo en S.gs.
-{const r0=rec;rec=function(k,ok){r0(k,ok);if(sceneName==='juego'&&scene.t&&scene.gi!=null){const id=scene.t.id+'#'+scene.gi,m=S.kg[k]||(S.kg[k]=[]);
+{const r0=rec;ponRec(function(k,ok){r0(k,ok);if(sceneName==='juego'&&scene.t&&scene.gi!=null){const id=scene.t.id+'#'+scene.gi,m=S.kg[k]||(S.kg[k]=[]);
   if(m[0]!==id){const i=m.indexOf(id);if(i>=0)m.splice(i,1);m.unshift(id);if(m.length>6)m.pop()}
-  const g=S.gs[id]||(S.gs[id]={ok:0,err:0,d:''});ok?g.ok++:g.err++;save()}}}
+  const g=S.gs[id]||(S.gs[id]={ok:0,err:0,d:''});ok?g.ok++:g.err++;save()}})}
 // true mientras se juega un juego lanzado desde el repaso (para volver al repaso al terminar).
 let REP_ON=false;
 // Envuelve finishGame(tema, nº de juego): guarda la fecha en que se jugó (S.gs[id].d) y,
 // si el juego venía del repaso de hoy, lo marca como hecho. Después llama al finishGame original.
-{const f0=finishGame;finishGame=function(t,gi){const id=t.id+'#'+gi,g=S.gs[id]||(S.gs[id]={ok:0,err:0,d:''});g.d=today();if(REP_ON&&S.rep&&S.rep.list.includes(id))S.rep.done[id]=1;save();f0(t,gi)}}
+{const f0=finishGame;ponFinishGame(function(t,gi){const id=t.id+'#'+gi,g=S.gs[id]||(S.gs[id]={ok:0,err:0,d:''});g.d=today();if(REP_ON&&S.rep&&S.rep.list.includes(id))S.rep.done[id]=1;save();f0(t,gi)})}
 // Tipos de juego que no sirven para repasar (no tienen acierto/fallo o son solo de mirar/escuchar).
 const NOREP=['conocer','enConocer','cuento','cancion','trazo','decora','mifamilia','velas'];
 // repOk(id): ¿se puede usar el juego id ('temaId#juego') en el repaso? Tiene que existir,
@@ -112,9 +112,9 @@ SCENES.repaso={music:'casita',
 {const e0=SCENES.casita.enter;SCENES.casita.enter=function(o){if(REP_ON&&!o.fin){REP_ON=false;go('repaso',{back:1});return}REP_ON=false;return e0.call(this,o)}}
 // Si desde un juego del repaso se va a otro sitio que no sea la vuelta normal (un atajo de la zona de adultos al mapa,
 // a una zona o a otro tema con hello), se olvida el repaso: si no, la siguiente casita que se abriera saltaría al repaso.
-{const g0=go;go=function(n,o={}){if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))REP_ON=false;return g0(n,o)}}
+{const g0=go;ponGo(function(n,o={}){if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))REP_ON=false;return g0(n,o)})}
 // el botón verde pasa una vez por día por el repaso, si hay algo que cuesta
-{const g0=goSeguir;goSeguir=function(){if(asamHoy()&&repDue()&&!(S.rep&&S.rep.d===today()&&S.rep.seen)){go('repaso',{seguir:1});return}g0()}}
+{const g0=goSeguir;ponGoSeguir(function(){if(asamHoy()&&repDue()&&!(S.rep&&S.rep.d===today()&&S.rep.seen)){go('repaso',{seguir:1});return}g0()})}
 // botón del repaso en el mapa, arriba
 const REPBTN={x:1215,y:66};
 // Envuelve draw/down/dwell del mapa para dibujar el botón del repaso, abrirlo al tocarlo y decir su nombre.

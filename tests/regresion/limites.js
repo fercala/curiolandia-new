@@ -157,7 +157,7 @@ caso('mp3-caidos', 'Los MP3 no se pueden descargar (sin conexión): debe hablar 
 });
 caso('limite-tiempo', 'Se acaba el tiempo de juego (límite 10 min) a mitad de un juego', { guardado: Object.assign({}, BASE, { limit: 10 }) }, async p => {
   const m = []; await p.evaluate(() => __cl.go('juego', { t: '4A-T1', g: 1 })); await p.waitForTimeout(500);
-  await p.evaluate(() => { sessionT = 10 * 60 + 1 }); await p.waitForTimeout(1500);
+  await p.evaluate(() => { VIVO.sessionT = 10 * 60 + 1 }); await p.waitForTimeout(1500);
   const e = await p.evaluate(() => __cl.name); if (e !== 'dormir') m.push('al pasar el límite no va a «dormir»: ' + e);
   await L.clic(p, 800, 450); await p.waitForTimeout(800); const e2 = await p.evaluate(() => __cl.name);
   if (e2 !== 'dormir') m.push('tras el límite, tocar la pantalla sale de «dormir» a ' + e2);

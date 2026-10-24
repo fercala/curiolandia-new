@@ -43,12 +43,12 @@ const base = {age:5,name:'QA',variant:'es',intro:true,first:{askedName:1},unlock
  });
  await test('cofre-salida-normal','Control: salir del cofre con la casita entrega el premio una vez',async p=>{
   await p.evaluate(()=>{S.owned={};S.coins=0;__cl.go('cofre',{t:'3A-T1'})});
-  await p.waitForFunction(()=>fade<.5);await L.clic(p,80,80);await p.waitForFunction(()=>sceneName!=='cofre');
+  await p.waitForFunction(()=>VIVO.fade<.5);await L.clic(p,80,80);await p.waitForFunction(()=>sceneName!=='cofre');
   return p.evaluate(()=>({fail:S.coins!==10||!S.owned.gorroFiesta,coins:S.coins,owned:S.owned.gorroFiesta}));
  });
  await test('repaso-salida','No perder las cinco monedas si se sale durante la celebración del repaso',async p=>{
   await p.evaluate(()=>{S.coins=0;S.temas['3A-T1']={g:{1:1},done:0};S.rep={d:today(),list:['3A-T1#1'],done:{'3A-T1#1':1},weak:0,paid:0,seen:1};__cl.go('repaso',{})});
-  await p.waitForFunction(()=>fade<.59);await L.clic(p,80,80);await p.waitForFunction(()=>sceneName==='map');await p.waitForTimeout(800);
+  await p.waitForFunction(()=>VIVO.fade<.59);await L.clic(p,80,80);await p.waitForFunction(()=>sceneName==='map');await p.waitForTimeout(800);
   await p.evaluate(()=>__cl.go('repaso',{}));await p.waitForTimeout(900);
   return p.evaluate(()=>({fail:S.rep.paid===1&&S.coins===0,paid:S.rep.paid,coins:S.coins,done:S.rep.done,scene:sceneName}));
  });
@@ -59,13 +59,13 @@ const base = {age:5,name:'QA',variant:'es',intro:true,first:{askedName:1},unlock
  });
  await test('arrastre-borde','Los muebles grandes no deben quedar recortados al arrastrarlos al borde',async p=>{
   await p.evaluate(()=>{S.temas['3A-T1']={g:{},done:1};S.owned.cama=1;S.home={cama:{x:930,y:720,r:'dormitorio'}};SCENES.casaTito.room='dormitorio';__cl.go('casaTito',{})});
-  await p.waitForFunction(()=>fade<.5);
+  await p.waitForFunction(()=>VIVO.fade<.5);
   await L.arrastrar(p,930,650,1590,650);await p.waitForTimeout(150);
   return p.evaluate(()=>({fail:S.home.cama.x+HSIZE.cama/2>W,position:S.home.cama,size:HSIZE.cama,right:S.home.cama.x+HSIZE.cama/2,width:W}));
  });
  await test('arrastre-tito','Un objeto arrastrado junto a Tito debe poder volver a moverse',async p=>{
   await p.evaluate(()=>{S.owned.robot=1;S.home={robot:{x:930,y:720,r:'salon'}};SCENES.casaTito.room='salon';__cl.go('casaTito',{})});
-  await p.waitForFunction(()=>fade<.5);
+  await p.waitForFunction(()=>VIVO.fade<.5);
   await L.arrastrar(p,930,650,440,530);
   const pos=await p.evaluate(()=>({...S.home.robot}));
   await L.arrastrar(p,pos.x,pos.y-70,1000,650);await p.waitForTimeout(150);
@@ -73,7 +73,7 @@ const base = {age:5,name:'QA',variant:'es',intro:true,first:{askedName:1},unlock
  });
  await test('arrastre-normal','Control: mover un objeto en el suelo y guardar su posición',async p=>{
   await p.evaluate(()=>{S.owned.robot=1;S.home={robot:{x:930,y:720,r:'salon'}};SCENES.casaTito.room='salon';__cl.go('casaTito',{})});
-  await p.waitForFunction(()=>fade<.5);
+  await p.waitForFunction(()=>VIVO.fade<.5);
   await L.arrastrar(p,930,650,1100,650);
   const before=await p.evaluate(()=>({...S.home.robot}));await p.reload();await p.waitForTimeout(350);
   return p.evaluate(b=>({fail:S.home.robot.x!==b.x||S.home.robot.y!==b.y,before:b,after:S.home.robot}),before);
@@ -112,7 +112,7 @@ const base = {age:5,name:'QA',variant:'es',intro:true,first:{askedName:1},unlock
   return{fail:cases.some(c=>!c.ok)||last.age!==5||!last.free||last.voice!=='nav'||last.variant!=='ar',count:cases.length,cases,last};
  });
  await test('riega-sostenido','Control del guion: regar exige mantener el arrastre, no soltar inmediatamente',async p=>{
-  await p.evaluate(()=>__cl.go('juego',{t:'3A-T10',g:1}));await p.waitForFunction(()=>fade<.5);
+  await p.evaluate(()=>__cl.go('juego',{t:'3A-T10',g:1}));await p.waitForFunction(()=>VIVO.fade<.5);
   const total=await p.evaluate(()=>scene.g.total);
   for(let n=0;n<total;n++){
    // Tras soltar, esperar el retorno para no intentar coger una posición ya obsoleta.

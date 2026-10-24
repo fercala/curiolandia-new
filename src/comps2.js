@@ -36,7 +36,7 @@ function picS(n,x,y,s){const i=shadowOf(n);if(!i||!i.complete)return;ctx.drawIma
 const _thing0=thing;
 // Nueva thing(): si k es 'emo:alegria' (etc.) dibuja la carita de esa emoción
 // con drawFace (scenes.js); si no, hace lo de siempre.
-thing=function(k,x,y,s){if(typeof k==='string'&&k.startsWith('emo:')){drawFace(x,y,s*.44,k.slice(4));return}_thing0(k,x,y,s)};
+ponThing(function(k,x,y,s){if(typeof k==='string'&&k.startsWith('emo:')){drawFace(x,y,s*.44,k.slice(4));return}_thing0(k,x,y,s)});
 // Como thing(), pero si flip es verdadero dibuja la cosa reflejada (mirando
 // al otro lado).
 function picF(k,x,y,s,flip){if(!flip){thing(k,x,y,s);return}ctx.save();ctx.translate(x,y);ctx.scale(-1,1);thing(k,0,0,s);ctx.restore()}
@@ -118,19 +118,19 @@ function Une(cfg,onDone){
     // Toque: en una tarjeta izquierda empieza la línea; en una derecha con una
     // izquierda elegida, comprueba la pareja; si no, Tito dice el nombre.
     down(x,y){if(this.busy)return;const l=this.at(this.L,x,y);
-      if(l&&!l.ok){this.sel=l;this.mx=x;this.my=y;this.dragging=true;drag={it:l,une:1};setCursor('grab');SFX.pop();if(Math.random()<.5)say(cap(nameT(l.k))+'.');return}
+      if(l&&!l.ok){this.sel=l;this.mx=x;this.my=y;this.dragging=true;VIVO.drag={it:l,une:1};setCursor('grab');SFX.pop();if(Math.random()<.5)say(cap(nameT(l.k))+'.');return}
       const r=this.at(this.R,x,y);if(r&&!r.ok&&this.sel){this.check(this.sel,r);return}
       if(r&&!r.ok){SFX.tap();say(cap(nameT(r.k))+'.');return}SFX.tap()},
     // Mueve el extremo de la línea que se arrastra.
     move(x,y){if(this.dragging){this.mx=x;this.my=y}},
     // Soltar: si se suelta sobre una tarjeta derecha, comprueba la pareja; si no,
     // la tarjeta izquierda sigue elegida para tocar luego su pareja.
-    up(x,y){if(!this.dragging)return;this.dragging=false;drag=null;setCursor('pt');const r=this.at(this.R,x,y);if(r&&!r.ok)this.check(this.sel,r);else{this.mx=null;this.my=null}},
+    up(x,y){if(!this.dragging)return;this.dragging=false;VIVO.drag=null;setCursor('pt');const r=this.at(this.R,x,y);if(r&&!r.ok)this.check(this.sel,r);else{this.mx=null;this.my=null}},
     // Comprueba si l y r son pareja: sí → estrella, línea fija y, si están todas,
     // siguiente ronda u onDone; no → temblor y frase de error.
     check(l,r){if(l.m===r.m){l.ok=r.ok=T;this.sel=null;SFX.good();burst(r.x,r.y,20);rec(cfg.key||'une',this.errs===0);onRight(this.errs===0);this.errs=0;this.done++;scene.starPop=T;this.busy=true;
         say(cfg.okSay?cfg.okSay(l.k,r.k):praise(),()=>later(250,()=>{this.busy=false;if(this.L.every(o=>o.ok)){this.i++;if(this.i>=R)onDone();else this.load()}}))}
-      else{SFX.bad();r.shake=T;this.errs++;if(this.errs===1)rec(cfg.key||'une',false);this.sel=null;say(cfg.why?cfg.why(l.k,r.k):'Mmm, '+nameT(l.k)+' no va con '+nameT(r.k)+'.');if(this.errs>=2){onWrongTwice();idle=12}}}
+      else{SFX.bad();r.shake=T;this.errs++;if(this.errs===1)rec(cfg.key||'une',false);this.sel=null;say(cfg.why?cfg.why(l.k,r.k):'Mmm, '+nameT(l.k)+' no va con '+nameT(r.k)+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=12}}}
   };
 }
 
@@ -180,7 +180,7 @@ function Lens(cfg,onDone){
     // Ayuda: la cosa pedida o la primera sin encontrar.
     hint(){const o=this.cur()||items.find(o=>!o.found);return o?{x:o.x,y:o.y,r:o.s*.5+30}:null},
     // Con ratón, la lente sigue al puntero con suavidad.
-    update(){if(mouseOn){L.x=lerp(L.x,MX,.5);L.y=lerp(L.y,MY,.5)}},
+    update(){if(VIVO.mouseOn){L.x=lerp(L.x,VIVO.MX,.5);L.y=lerp(L.y,VIVO.MY,.5)}},
     // Dibuja el fondo, las cosas encontradas, lo que tapa y, recortado al círculo
     // de la lente (clip), lo que se ve dentro; luego el aro, el mango y estrellas.
     draw(){cfg.base();for(const o of items)if(o.found){const b=1+.1*Math.max(0,1-(T-o.found)*2);ctx.save();ctx.translate(o.x,o.y);ctx.scale(b,b);cfg.shown?cfg.shown(o):thing(o.k,0,0,o.s);ctx.restore()}
@@ -199,7 +199,7 @@ function Lens(cfg,onDone){
       o.found=T;SFX.good();burst(o.x,o.y,24);rec(cfg.key||'lupa',true);onRight(true);this.done++;scene.starPop=T;this.busy=true;
       say((cfg.foundSay?V(cfg.foundSay(o.k)):'¡Encontraste '+nameT(o.k)+'!'),()=>later(250,()=>{this.busy=false;if(this.done>=R){if(!this.fin){this.fin=1;onDone()}}else if(cfg.ask){this.i++;this.ask()}}))},
     // Mueve la lente con el dedo apoyado (o con el ratón).
-    move(x,y){if(this.on||!mouseOn){L.x=x;L.y=y}},/* soltar el dedo */ up(){this.on=0}
+    move(x,y){if(this.on||!VIVO.mouseOn){L.x=x;L.y=y}},/* soltar el dedo */ up(){this.on=0}
   };
 }
 
@@ -225,14 +225,14 @@ function TocaPartes(cfg,onDone){
     // proporción a su radio.
     partAt(x,y){return cfg.parts.filter(p=>dist(x,y,p.x,p.y)<p.r).sort((a,b)=>dist(x,y,a.x,a.y)/a.r-dist(x,y,b.x,b.y)/b.r)[0]},
     // Dibuja el dibujo y, 1,4 s tras un toque, resalta la parte tocada y su nombre.
-    draw(){cfg.bg();cfg.draw(T-this.hlT<1.4?this.hl:null);if(mouseOn&&!this.busy){const p=this.partAt(MX,MY);if(p)hv('p'+p.id,true)}
+    draw(){cfg.bg();cfg.draw(T-this.hlT<1.4?this.hl:null);if(VIVO.mouseOn&&!this.busy){const p=this.partAt(VIVO.MX,VIVO.MY);if(p)hv('p'+p.id,true)}
       if(this.hl&&T-this.hlT<1.4){const p=cfg.parts.find(q=>q.id===this.hl);ctx.globalAlpha=.5;for(const q of cfg.parts)if(q.id===p.id)circ(q.x,q.y,q.r,null,10,'#FFC93C');ctx.globalAlpha=1;text(Wn(V(p.n)).toUpperCase(),cfg.lx||420,cfg.ly||300,64,K,{f:LF})}},
     // Toque: acierto → estrella y siguiente parte (u onDone); fallo → Tito dice
     // qué parte es y repite; al 2º fallo baja la dificultad y fuerza la ayuda.
     down(x,y){if(this.busy||!this.t)return;const p=this.partAt(x,y);if(!p){SFX.tap();sparkles(x,y,3);return}this.hl=p.id;this.hlT=T;
       if(p.id===this.t.id){this.busy=true;SFX.good();burst(x,y,24);rec(cfg.key||'partes',this.errs===0);onRight(this.errs===0);this.done++;scene.starPop=T;
         say(praise()+' '+cap(V(p.n))+'.'+(p.say?' '+V(p.say):''),()=>later(350,()=>{this.busy=false;this.i++;if(this.i>=R)onDone();else this.ask()}))}
-      else{SFX.bad();this.errs++;if(this.errs===1)rec(cfg.key||'partes',false);say(cap(V(p.n))+'. Buscá '+V(this.t.n)+'.');if(this.errs>=2){onWrongTwice();idle=12}}}
+      else{SFX.bad();this.errs++;if(this.errs===1)rec(cfg.key||'partes',false);say(cap(V(p.n))+'. Buscá '+V(this.t.n)+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=12}}}
   };
 }
 
@@ -291,7 +291,7 @@ function Frota(cfg,onDone){
       for(const s of spots)if(s.h>0){ctx.save();ctx.translate(s.x,s.y+Math.sin(T*3+s.ph)*3);ctx.globalAlpha=Math.max(.15,s.h);ctx.scale(.6+.4*s.h,.6+.4*s.h);cfg.spot(s);ctx.restore()}
       for(const b of bub){const k=(T-b.t)/2;if(k>1)continue;ctx.globalAlpha=(1-k)*.8;circ(b.x,b.y-k*30,b.r,'rgba(255,255,255,.7)',3,'#9ED9F5')}ctx.globalAlpha=1;
       while(bub.length&&T-bub[0].t>2)bub.shift();
-      if(mouseOn&&cfg.tool){ctx.save();ctx.translate(MX,MY);ctx.rotate(-.5);cfg.tool();ctx.restore()}},
+      if(VIVO.mouseOn&&cfg.tool){ctx.save();ctx.translate(VIVO.MX,VIVO.MY);ctx.rotate(-.5);cfg.tool();ctx.restore()}},
     // Tocar empieza a frotar; mover con el dedo apoyado sigue frotando.
     down(x,y){this.on=1;this.rub(x,y)},/* mover: sigue frotando */ move(x,y){if(this.on)this.rub(x,y)},/* soltar: deja de frotar */ up(){this.on=0}
   };
@@ -318,23 +318,23 @@ function Llena(cfg,onDone){
     // Repite cuántas hay que meter.
     prompt(){say(V(cfg.ask(this.n)))},
     // Ayuda: una cosa que queda fuera y hacia el recipiente.
-    hint(){const o=this.its.find(o=>!o.in2);return o&&!drag?{x:o.x,y:o.y,r:70,dx:cfg.zone.x-o.x,dy:cfg.zone.y-o.y}:null},
+    hint(){const o=this.its.find(o=>!o.in2);return o&&!VIVO.drag?{x:o.x,y:o.y,r:70,dx:cfg.zone.x-o.x,dy:cfg.zone.y-o.y}:null},
     // Acerca cada cosa no arrastrada a su sitio (hx,hy).
-    update(dt){for(const o of this.its){if(drag&&drag.it===o)continue;o.x=lerp(o.x,o.hx,Math.min(1,dt*10));o.y=lerp(o.y,o.hy,Math.min(1,dt*10))}},
+    update(dt){for(const o of this.its){if(VIVO.drag&&VIVO.drag.it===o)continue;o.x=lerp(o.x,o.hx,Math.min(1,dt*10));o.y=lerp(o.y,o.hy,Math.min(1,dt*10))}},
     // Dibuja el recipiente, la tarjeta con el número N, una fila de N círculos
     // (amarillos los ya metidos) y las cosas.
-    draw(){cfg.bg();const z=cfg.zone;const hl=drag&&dist(drag.it.x,drag.it.y,z.x,z.y)<z.r;cfg.drawZone(hl,this.c);
+    draw(){cfg.bg();const z=cfg.zone;const hl=VIVO.drag&&dist(VIVO.drag.it.x,VIVO.drag.it.y,z.x,z.y)<z.r;cfg.drawZone(hl,this.c);
       numCard(this.n,z.x+z.r*.85,z.y-z.r*.95,120);
       for(let j=0;j<this.n;j++)circ(z.x-(this.n-1)*22+j*44,z.y+z.r+34,15,j<this.c?'#FFC93C':'#fff',4);
-      for(const o of this.its){if(o.in2&&!cfg.showInside)continue;const hs=o.in2?1:hv(o,hC(o.x,o.y,60));ctx.save();ctx.translate(o.x,o.y);ctx.scale(hs*(drag&&drag.it===o?1.12:1)*(o.in2?.7:1),hs*(drag&&drag.it===o?1.12:1)*(o.in2?.7:1));thing(o.k,0,0,o.s);ctx.restore()}},
+      for(const o of this.its){if(o.in2&&!cfg.showInside)continue;const hs=o.in2?1:hv(o,hC(o.x,o.y,60));ctx.save();ctx.translate(o.x,o.y);ctx.scale(hs*(VIVO.drag&&VIVO.drag.it===o?1.12:1)*(o.in2?.7:1),hs*(VIVO.drag&&VIVO.drag.it===o?1.12:1)*(o.in2?.7:1));thing(o.k,0,0,o.s);ctx.restore()}},
     // Toque: coge una cosa que esté fuera.
-    down(x,y){if(this.busy)return;const o=this.its.filter(o=>!o.in2&&dist(x,y,o.x,o.y)<75).pop();if(!o){SFX.tap();return}drag={it:o,dx:x-o.x,dy:y-o.y};setCursor('grab');SFX.pop()},
+    down(x,y){if(this.busy)return;const o=this.its.filter(o=>!o.in2&&dist(x,y,o.x,o.y)<75).pop();if(!o){SFX.tap();return}VIVO.drag={it:o,dx:x-o.x,dy:y-o.y};setCursor('grab');SFX.pop()},
     // Mueve la cosa arrastrada.
-    move(x,y){if(drag&&this.its.includes(drag.it)){drag.it.x=clamp(x-drag.dx,60,1540);drag.it.y=clamp(y-drag.dy,60,860)}},
+    move(x,y){if(VIVO.drag&&this.its.includes(VIVO.drag.it)){VIVO.drag.it.x=clamp(x-VIVO.drag.dx,60,1540);VIVO.drag.it.y=clamp(y-VIVO.drag.dy,60,860)}},
     // Soltar: dentro del recipiente cuenta una más (Tito dice el número); al
     // llegar a N, estrella y siguiente ronda. Fuera, se queda donde se soltó.
     // Nota: no hay error posible (no se puede meter de más porque se bloquea).
-    up(){if(!drag||!this.its.includes(drag.it))return;const o=drag.it;drag=null;setCursor('pt');const z=cfg.zone;
+    up(){if(!VIVO.drag||!this.its.includes(VIVO.drag.it))return;const o=VIVO.drag.it;VIVO.drag=null;setCursor('pt');const z=cfg.zone;
       if(dist(o.x,o.y,z.x,z.y)<z.r+30){this.c++;o.in2=T;o.hx=z.x+rnd(-z.r*.4,z.r*.4);o.hy=z.y+rnd(-z.r*.2,z.r*.3);SFX.count(this.c);say(cap(NUM[this.c]));
         if(this.c>=this.n){this.busy=true;rec('contar',true);onRight(true);this.done++;scene.starPop=T;later(700,()=>{SFX.good();burst(z.x,z.y,30);say(praise()+' '+V(cfg.okSay(this.n)),()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))})}}
       else{o.hx=o.x;o.hy=o.y}}
@@ -399,13 +399,13 @@ function Gira(cfg,onDone){
       // cartel del estado debajo de las estrellas de rondas y del cartel «Nivel» (scenes.js), que antes lo tapaban
       const st=this.state();card(1260,214,300,96,'#fff',6,48);if(st==='dia'){pic('sol',1320,262,80);text('DÍA',1440,278,46,K,{f:LF})}else if(st==='noche'){pic('luna',1320,262,80);text('NOCHE',1450,278,42,K,{f:LF})}else text('...',1410,278,46,K)},
     // Toque cerca de la Tierra: empieza a girar; this.on guarda el ángulo del dedo.
-    down(x,y){if(this.ok)return;if(dist(x,y,C.x,C.y)<C.r+120){this.on=Math.atan2(y-C.y,x-C.x);SFX.whoosh();setCursor('grab');drag={it:this,gira:1}}},
+    down(x,y){if(this.ok)return;if(dist(x,y,C.x,C.y)<C.r+120){this.on=Math.atan2(y-C.y,x-C.x);SFX.whoosh();setCursor('grab');VIVO.drag={it:this,gira:1}}},
     // Girar: suma a 'a' lo que ha girado el dedo alrededor del centro desde el
     // último movimiento (diferencia de ángulos normalizada con atan2).
     move(x,y){if(this.on==null)return;const b=Math.atan2(y-C.y,x-C.x);a+=Math.atan2(Math.sin(b-this.on),Math.cos(b-this.on));this.on=b},
     // Soltar: si el estado es el pedido, estrella y siguiente ronda; si es el
     // contrario, Tito avisa (en 'medio' no dice nada). No cuenta errores.
-    up(){if(this.on==null)return;this.on=null;drag=null;setCursor('pt');const st=this.state();
+    up(){if(this.on==null)return;this.on=null;VIVO.drag=null;setCursor('pt');const st=this.state();
       if(st===this.want){this.ok=true;SFX.good();burst(C.x+Math.cos(a)*(C.r+50),C.y+Math.sin(a)*(C.r+50),30);rec('dia-noche',true);onRight(true);this.done++;scene.starPop=T;
         say(this.want==='noche'?'¡Sí! Ahora Leo está del lado oscuro: es de noche y ve la luna.':'¡Sí! Ahora a Leo le da el sol: es de día.',()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
       else if(st!=='medio'){say(this.want==='noche'?'Ahí le da el sol, es de día. Seguí girando.':'Ahí no le da el sol, es de noche. Seguí girando.')}}
@@ -662,4 +662,4 @@ function Story(data,cfg,onDone){
 // para saltar de página sin que el callback viejo dispare
 // Invalida la frase en curso: al subir sayTok, el callback de say() de la
 // página anterior ya no se ejecuta (así no pasa dos páginas de golpe).
-function sceneTokBump(){sayTok++;talking=false}
+function sceneTokBump(){VIVO.sayTok++;VIVO.talking=false}

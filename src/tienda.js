@@ -40,7 +40,8 @@ if(!S.vales)S.vales=JSON.parse(JSON.stringify(VALES_DEF));
 // Animación de monedas: shownCoins es el número que se ve (va subiendo cuando cada moneda llega al marcador),
 // coinFx las monedas que vuelan, coinBanner el cartel "+N", coinBumpT cuándo saltó el marcador por última vez,
 // gameCoins cuántas monedas de acierto se han dado en el juego actual (máximo 5 por juego).
-let shownCoins=S.coins,coinFx=[],coinBanner=null,coinBumpT=-9,gameCoins=0;
+let shownCoins=S.coins,coinFx=[],coinBumpT=-9,gameCoins=0;
+Object.assign(VIVO,{coinBanner:null});
 // coinPend: monedas ya sumadas a S.coins (creditCoins) cuya animación aún no ha salido; el marcador no las enseña hasta
 // que llegan volando. coinPendTok: escena en la que se abonaron (si se sale antes, el marcador ya las cuenta).
 let coinPend=0,coinPendTok=-1;
@@ -63,7 +64,7 @@ const inCoinHUD=(x,y)=>{hudAt();return inR(x,y,HUDX+10,HUDY,220,84)};
 // hacia el marcador (la última lleva el resto) y, si son 3 o más o se pasa icon, muestra el cartel "+n" con ese dibujo.
 // ya = true: las monedas ya se sumaron antes con creditCoins; solo se anima (y se descuentan de coinPend).
 function giveCoins(n,x,y,icon,ya){if(!(n>0))return;if(ya)coinPend=Math.max(0,coinPend-n);else{S.coins=(S.coins||0)+n;S.coinsTot=(S.coinsTot||0)+n;save()}const m=Math.min(n,10);
-  for(let i=0;i<m;i++)coinFx.push({x:x+rnd(-36,36),y:y+rnd(-36,36),t:T+i*.09,v:i<m-1?1:n-(m-1)});if(n>=3||icon)coinBanner={n,t:T,icon}}
+  for(let i=0;i<m;i++)coinFx.push({x:x+rnd(-36,36),y:y+rnd(-36,36),t:T+i*.09,v:i<m-1?1:n-(m-1)});if(n>=3||icon)VIVO.coinBanner={n,t:T,icon}}
 // Gasta n monedas (sin comprobar si hay suficientes) y anima monedas que salen del marcador hacia (x,y).
 function spendCoins(n,x,y){S.coins-=n;save();shownCoins-=n;coinBumpT=T;for(let i=0;i<Math.min(n,8);i++)coinFx.push({x,y,t:T+i*.06,spend:1})}
 // Dibuja y avanza las monedas que vuelan y el cartel "+N". Cada moneda tarda 0,75 s; cuando llega
@@ -77,15 +78,15 @@ function drawCoinFx(){hudAt();
   // sin monedas volando, el marcador enseña S.coins menos las abonadas que aún esperan su animación en esta escena
   coinFx=coinFx.filter(c=>!c.done);if(coinPend&&coinPendTok!==sceneTok)coinPend=0;if(!coinFx.length)shownCoins=S.coins-coinPend;
   // Cartel "+N": entra con rebote (0-0,3 s), se queda y se desvanece entre 2,2 y 2,6 s.
-  if(coinBanner){const k=T-coinBanner.t;if(k>2.6){coinBanner=null;return}const a=k<.3?back(k/.3):k>2.2?1-(k-2.2)/.4:1;ctx.save();ctx.globalAlpha=clamp(a,0,1);ctx.translate(coinBanner.x||800,coinBanner.y||470);ctx.scale(clamp(a,0,1.2),clamp(a,0,1.2));
-    card(-250,-90,500,180,'#FFF6D6',7,50);pic(coinBanner.icon||'monedas',-140,0,150);text('+'+coinBanner.n,60,26,92,'#D9962A',{f:LF,st:8,sc:'#fff'});ctx.restore()}}
+  if(VIVO.coinBanner){const k=T-VIVO.coinBanner.t;if(k>2.6){VIVO.coinBanner=null;return}const a=k<.3?back(k/.3):k>2.2?1-(k-2.2)/.4:1;ctx.save();ctx.globalAlpha=clamp(a,0,1);ctx.translate(VIVO.coinBanner.x||800,VIVO.coinBanner.y||470);ctx.scale(clamp(a,0,1.2),clamp(a,0,1.2));
+    card(-250,-90,500,180,'#FFF6D6',7,50);pic(VIVO.coinBanner.icon||'monedas',-140,0,150);text('+'+VIVO.coinBanner.n,60,26,92,'#D9962A',{f:LF,st:8,sc:'#fff'});ctx.restore()}}
 // Envuelve onRight: el primer acierto de cada ronda en un juego da 1 moneda (máximo 5 por juego).
-{const or0=onRight;onRight=function(first){or0(first);if(first&&sceneName==='juego'&&gameCoins<5){gameCoins++;giveCoins(1,MX||800,MY||450)}}}
+{const or0=onRight;ponOnRight(function(first){or0(first);if(first&&sceneName==='juego'&&gameCoins<5){gameCoins++;giveCoins(1,VIVO.MX||800,VIVO.MY||450)}})}
 // Envuelve la entrada a un juego para poner a cero el contador gameCoins.
 {const e0=SCENES.juego.enter;SCENES.juego.enter=function(o){gameCoins=0;e0.call(this,o)}}
 // Envuelve finishGame: terminar un juego da 3 monedas la primera vez y 2 si se repite. (La variable now no se usa.)
-{const f0=finishGame;finishGame=function(t,gi){const st=S.temas[t.id],first=!(st&&st.g[gi]),was=!!(st&&st.done);f0(t,gi);const now=!!(S.temas[t.id]&&S.temas[t.id].done)&&!was;
-  giveCoins(first?3:2,800,420)}}
+{const f0=finishGame;ponFinishGame(function(t,gi){const st=S.temas[t.id],first=!(st&&st.g[gi]),was=!!(st&&st.done);f0(t,gi);const now=!!(S.temas[t.id]&&S.temas[t.id].done)&&!was;
+  giveCoins(first?3:2,800,420)})}
 
 /* ---------- Tito con ropa y colores ---------- */
 // Colores del caparazón (o púas, caparazón de tortuga, mochila del conejo): nombre → [relleno, borde].
@@ -379,7 +380,7 @@ SCENES.casaTito={music:'casita',room:'salon',
     if(inR(x,y,395,94,450,100)){SFX.pop();const hl=houseLevel(),f=hl<4?HOUSE_NEXT[hl]-temasDone():0;say(hl<4?'La casa de Tito crece cuando terminás casitas. '+(f===1?'Falta una':'Faltan '+f)+' para que crezca.':'¡La casa de Tito ya es un castillo!');return}
     const wa=this.wardArrows().find(([ax,ay])=>dist(x,y,ax,ay)<40);if(wa){SFX.whoosh();this.wpg=(this.wpg||0)+wa[2];return}
     // los objetos se miran antes que Tito: uno soltado delante de él tiene que poder volver a moverse
-    const o=this.itemAt(x,y);if(o){const p=S.home[o.id];this.drag={id:o.id,dx:x-o.x,dy:y-o.y,sx:x,sy:y,ox:p.x,oy:p.y,moved:false};drag={it:o,home:1};setCursor('grab');return}
+    const o=this.itemAt(x,y);if(o){const p=S.home[o.id];this.drag={id:o.id,dx:x-o.x,dy:y-o.y,sx:x,sy:y,ox:p.x,oy:p.y,moved:false};VIVO.drag={it:o,home:1};setCursor('grab');return}
     if(inR(x,y,440,500,380,330)){this.jump=T;SFX.boing();say(pick(['¡Me encanta mi casa!','¡Gracias por jugar conmigo!','¡Qué lindo día!',V(['¿Viste mi ropa nueva?','¿Has visto mi ropa nueva?'])]));return}
     const w=this.wardrobe().find(w=>dist(x,y,w.x,w.y)<46);if(w){const it=w.it,on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();this.jump=T;say(on?'¡Me puse '+itemName(it)+'!':V(['Me saqué ','Me quité '])+itemName(it)+'.');return}
     SFX.tap();sparkles(x,y,3)},
@@ -389,7 +390,7 @@ SCENES.casaTito={music:'casita',room:'salon',
   // Al soltar: si se soltó sobre el botón de otra habitación abierta, el objeto se va a esa habitación (a un hueco
   // libre) y Tito lo dice; sobre una cerrada, vuelve a su sitio. Si no, se encaja en los límites y se guarda. Si no se
   // movió, era un toque y hace la acción del objeto (homeAction).
-  up(x,y){const d=this.drag;if(!d)return;this.drag=null;drag=null;setCursor('pt');const p=S.home[d.id];
+  up(x,y){const d=this.drag;if(!d)return;this.drag=null;VIVO.drag=null;setCursor('pt');const p=S.home[d.id];
     if(!d.moved){save();homeAction(d.id,p.x,p.y-80);return}
     const rb=roomBtns().find(b=>dist(x,y,b.x,b.y)<44&&b.R.id!==this.room);
     if(rb){if(roomOpen(rb.R.id)){const sp=homeSpot(d.id,rb.R.id);Object.assign(p,{x:sp[0],y:sp[1],r:rb.R.id});save();SFX.whoosh();sparkles(rb.x,rb.y,10);say('¡Listo! Ya está en '+rb.R.n+'.');return}

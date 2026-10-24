@@ -41,18 +41,18 @@ const checkpoint=()=>fs.writeFileSync(path.join(L.SAL,name+'.json'),JSON.stringi
  });
  const prepareReview=p=>p.evaluate(()=>{S.temas['3A-T1']={g:{1:1},done:0};S.rep={d:today(),list:['3A-T1#1'],done:{},weak:1,paid:0,seen:1};__cl.go('repaso',{})});
  await test('repaso-atajo','Salir del juego de repaso al mapa debe limpiar su contexto',async p=>{
-  await prepareReview(p);await p.waitForFunction(()=>fade<.5);const station=await p.evaluate(()=>scene.pos(0));await L.clic(p,...station);await p.waitForFunction(()=>sceneName==='juego');
+  await prepareReview(p);await p.waitForFunction(()=>VIVO.fade<.5);const station=await p.evaluate(()=>scene.pos(0));await L.clic(p,...station);await p.waitForFunction(()=>sceneName==='juego');
   await p.evaluate(()=>openAdult());await p.getByRole('button',{name:'Mapa',exact:true}).click();await p.waitForFunction(()=>sceneName==='map');
   await p.evaluate(()=>openAdult());await p.locator('#a-tema').selectOption('3A-T2');await p.locator('#a-gotema').click();
   const result=await p.evaluate(()=>({scene:sceneName,theme:scene.t?.id||null,reviewFlag:REP_ON}));return{fail:result.scene!=='casita'||result.theme!=='3A-T2',requested:'3A-T2',result};
  });
  await test('repaso-casa-control','Control: la casa del juego de repaso vuelve al repaso y limpia el contexto',async p=>{
-  await prepareReview(p);await p.waitForFunction(()=>fade<.5);const station=await p.evaluate(()=>scene.pos(0));await L.clic(p,...station);await p.waitForFunction(()=>sceneName==='juego'&&fade<.5);await L.clic(p,80,80);
+  await prepareReview(p);await p.waitForFunction(()=>VIVO.fade<.5);const station=await p.evaluate(()=>scene.pos(0));await L.clic(p,...station);await p.waitForFunction(()=>sceneName==='juego'&&VIVO.fade<.5);await L.clic(p,80,80);
   return p.evaluate(()=>({fail:sceneName!=='repaso'||REP_ON,scene:sceneName,reviewFlag:REP_ON}));
  });
  const prepareGift=p=>p.evaluate(()=>{S.gift='';S.coins=0;S.seenFl=temasDone();S.houseSeen=houseLevel();S.petSeen=petStage();for(const z of MAINZ)S.woke[z]=1;newlyOpen('map',MZ2.filter(z=>spotNeed(z.id)&&spotOpen(z.id)).map(z=>z.id));__cl.go('map',{})});
  await test('diario-salida','El regalo diario debe entregarse aunque se salga pronto del mapa',async p=>{
-  await prepareGift(p);await p.waitForFunction(()=>fade<.5);await L.clic(p,80,80);await p.waitForFunction(()=>sceneName==='title');
+  await prepareGift(p);await p.waitForFunction(()=>VIVO.fade<.5);await L.clic(p,80,80);await p.waitForFunction(()=>sceneName==='title');
   await p.evaluate(()=>__cl.go('map',{}));await p.waitForTimeout(2000);
   return p.evaluate(()=>({fail:S.gift===today()&&S.coins===0,claimed:S.gift,coins:S.coins,date:today()}));
  });
@@ -61,18 +61,18 @@ const checkpoint=()=>fs.writeFileSync(path.join(L.SAL,name+'.json'),JSON.stringi
   return p.evaluate(()=>({fail:S.coins!==3,coins:S.coins,claimed:S.gift}));
  });
  await test('reloj-10fps','El reloj de sesión no debe contar la mitad del tiempo a 10 FPS',async p=>{
-  await p.evaluate(()=>{sessionT=0;minuteAcc=0;__cl.go('juego',{t:'3A-T1',g:1})});
-  const before=await p.evaluate(()=>({elapsed:performance.now(),counted:sessionT,frames:window.__qaFrames||0}));await p.waitForTimeout(3000);
-  const after=await p.evaluate(()=>({elapsed:performance.now(),counted:sessionT,frames:window.__qaFrames||0}));
+  await p.evaluate(()=>{VIVO.sessionT=0;VIVO.minuteAcc=0;__cl.go('juego',{t:'3A-T1',g:1})});
+  const before=await p.evaluate(()=>({elapsed:performance.now(),counted:VIVO.sessionT,frames:window.__qaFrames||0}));await p.waitForTimeout(3000);
+  const after=await p.evaluate(()=>({elapsed:performance.now(),counted:VIVO.sessionT,frames:window.__qaFrames||0}));
   const elapsed=(after.elapsed-before.elapsed)/1000,counted=after.counted-before.counted,frames=after.frames-before.frames;
   return{fail:counted<elapsed*.75,elapsed,counted,frames,ratio:counted/elapsed};
  },{antes:()=>{window.__qaFrames=0;window.requestAnimationFrame=cb=>setTimeout(()=>{window.__qaFrames++;cb(performance.now())},100);window.cancelAnimationFrame=clearTimeout}});
  await test('reloj-normal-control','Control: el reloj cuenta el tiempo de la pestaña sin ralentización artificial',async p=>{
-  await p.evaluate(()=>{sessionT=0;minuteAcc=0;__cl.go('juego',{t:'3A-T1',g:1})});const before=await p.evaluate(()=>({elapsed:performance.now(),counted:sessionT}));await p.waitForTimeout(3000);const after=await p.evaluate(()=>({elapsed:performance.now(),counted:sessionT}));
+  await p.evaluate(()=>{VIVO.sessionT=0;VIVO.minuteAcc=0;__cl.go('juego',{t:'3A-T1',g:1})});const before=await p.evaluate(()=>({elapsed:performance.now(),counted:VIVO.sessionT}));await p.waitForTimeout(3000);const after=await p.evaluate(()=>({elapsed:performance.now(),counted:VIVO.sessionT}));
   const elapsed=(after.elapsed-before.elapsed)/1000,counted=after.counted-before.counted;return{fail:counted<elapsed*.8,elapsed,counted,ratio:counted/elapsed};
  });
  await test('teclado-cofre-control','Escape desde el cofre entrega una sola vez el premio como el botón de casa',async p=>{
-  await p.evaluate(()=>{S.coins=0;S.owned={};__cl.go('cofre',{t:'3A-T1'})});await p.waitForFunction(()=>fade<.5);await p.keyboard.press('Escape');await p.waitForFunction(()=>sceneName!=='cofre');
+  await p.evaluate(()=>{S.coins=0;S.owned={};__cl.go('cofre',{t:'3A-T1'})});await p.waitForFunction(()=>VIVO.fade<.5);await p.keyboard.press('Escape');await p.waitForFunction(()=>sceneName!=='cofre');
   return p.evaluate(()=>({fail:S.coins!==10||!S.owned.gorroFiesta,coins:S.coins,gift:S.owned.gorroFiesta}));
  });
  await test('pwa-sin-conexion','La PWA cargada y cacheada debe arrancar de nuevo sin conexión',async p=>{
@@ -81,7 +81,7 @@ const checkpoint=()=>fs.writeFileSync(path.join(L.SAL,name+'.json'),JSON.stringi
   const result=await p.evaluate(()=>({scene:sceneName,worker:!!navigator.serviceWorker.controller,three:typeof THREE!=='undefined'}));await p.context().setOffline(false);return{fail:result.scene!=='title'||!result.worker||!result.three,...result};
  });
  const prepareVoucher=async p=>{
-  await p.evaluate(()=>{S.coins=100;S.first.tienda=1;__cl.go('tienda',{})});await p.waitForFunction(()=>fade<.5);
+  await p.evaluate(()=>{S.coins=100;S.first.tienda=1;__cl.go('tienda',{})});await p.waitForFunction(()=>VIVO.fade<.5);
   const tab=await p.evaluate(()=>scene.tabs().find(t=>t.id==='vales'));await L.clic(p,tab.x,tab.y);
   const it=await p.evaluate(()=>{const g=scene.grid().find(g=>g.it.vale?.id==='v1');return{x:g.x,y:g.y}});await L.clic(p,it.x,it.y);await p.waitForFunction(()=>scene.conf&&T-scene.confT>.3);
  };

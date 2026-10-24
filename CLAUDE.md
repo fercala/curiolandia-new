@@ -4,7 +4,8 @@ Migración de Curiolandia 3D (juego de temas de Educación Infantil, 3 a 5 años
 con arquitectura limpia. Se habla y se documenta en castellano.
 
 ## Antes de nada
-- **Estado: fase 1 (herramientas sin mover código), 24 de octubre de 2026.** La fase 0 está publicada. El código es el de
+- **Estado: fase 2 (de globales a módulos), 24 de octubre de 2026.** Las fases 0 y 1 están publicadas. Desde la 2a, un
+  archivo no reasigna las globales de otro: usa `VIVO` o las funciones `pon*` ([docs/ARQUITECTURA.md](docs/ARQUITECTURA.md)). El código es el de
   `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas; [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.
