@@ -9,13 +9,13 @@
 //   - Listas de datos de los juegos: SEAS_IC, SEAS_C, MSAY, BINS, BINSAY, habZ, pVivo, pNoVivo, NECES,
 //     NOVIVOS, MIX, FORMQ, FCOL, FILA, ORD, PESO.
 //   - T5 (temas de 5 años) y C5 (rincón de 5 años).
-// Depende de: core.js (dibujo, say, V, AGE, nRounds, nOpts, MESES, NUM, estacionDe...), temas.js y
+// Depende de: el núcleo, src/nucleo/ (dibujo, say, V, AGE, nRounds, nOpts, MESES, NUM, estacionDe...), temas.js y
 // temas4.js (BG, fondos, shape2, zoneIcon, palm, fern, plateN...), comps.js / comps2.js (componentes
 // de juego: Arrastra, ChoiceGame, Secuencia, Une, Series, Gira, Cruce, Apaga, Lens...) y PICS.
 // Recuerda: no cambies ninguna frase que se diga con say() (tienen MP3 grabado).
 /* ================= TEMAS DE 5 AÑOS: LA MONTAÑA ================= */
 // Estación del año del mes m (0 = enero ... 11 = diciembre), mirando el día 15 de ese mes
-// con estacionDe() (core.js, que tiene en cuenta el hemisferio).
+// con estacionDe() (nucleo/interfaz.ts, que tiene en cuenta el hemisferio).
 const seasonOfMonth=m=>estacionDe(new Date(2026,m,15));
 // SEAS_IC = dibujo y SEAS_C = color de fondo de cada estación, para las tarjetas de los meses.
 const SEAS_IC={otoño:'hojaNaranja',invierno:'copo',primavera:'flor',verano:'sol'},SEAS_C={otoño:'#FFD6A0',invierno:'#D6EEFA',primavera:'#FBD3E4',verano:'#FFF0A8'};

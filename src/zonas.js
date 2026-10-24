@@ -36,7 +36,7 @@
  *   drawSeguir, drawZoneSpot, stLocked, GIFTS, nextGift, grantGift,
  *   drawChest, isBday.
  * Depende de:
- *   core.js (S, save, go, later, say, SFX, T, dibujo...), scenes.js
+ *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), scenes.js
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
  *   drawLogoSmall, inR, GNAME), temas*.js, extras.js (CAN, RUT, TRZ,
  *   FIESTAS, BG, TUNES, playTune), ingles.js (ING), tienda.js (SHOP,

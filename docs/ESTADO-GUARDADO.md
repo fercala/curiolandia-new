@@ -1,23 +1,23 @@
 # El estado guardado `S`
 
-`S` es el objeto global con todo lo que el juego recuerda: edad, nombre, progreso, monedas, ropa de Tito, ajustes de la familia... Está definido en `src/core.js` y se guarda en el `localStorage` del navegador.
+`S` es el objeto global con todo lo que el juego recuerda: edad, nombre, progreso, monedas, ropa de Tito, ajustes de la familia... Está definido en `src/nucleo/guardado.ts` (sus tipos, en `src/nucleo/tipos.ts`) y se guarda en el `localStorage` del navegador.
 
 > **Importante:** hay niños jugando con partidas guardadas en sus móviles. Si cambias el formato de `S` de forma incompatible, esas partidas se rompen o se pierden. Lee la sección 3 antes de tocar nada.
 
 ## 1. Cómo se guarda y se carga
 
-- **Clave** en `localStorage`: `'curiolandia-new.v1'` (constante `KEY` en core.js). No se cambia nunca.
+- **Clave** en `localStorage`: `'curiolandia-new.v1'` (constante `KEY` en `nucleo/guardado.ts`). No se cambia nunca.
 - **Partida de curiolandia-3d:** las dos webs están en `fercala.github.io` y comparten `localStorage`. Si no hay partida propia, `load()` copia **una sola vez** la de `'curiolandia.v1'` (`KEY_VIEJA`) y lo apunta en `'curiolandia-new.copiada'` (`KEY_COPIA`). La vieja nunca se escribe ni se borra, así el juego viejo sigue igual. Lo prueba `tests/regresion/guardado-viejo.js`.
 - **Guardar**: `save()` escribe todo `S` como JSON. **No hay guardado automático**: llama a `save()` justo después de cambiar algo que deba recordarse.
 - **Cargar**: `load()` se ejecuta una vez al arrancar. Hace `S = Object.assign(copia de DEF, lo guardado)`. Es decir: parte de los valores por defecto `DEF` y encima pone lo guardado. Solo mezcla el **primer nivel** (los objetos de dentro, como `S.tito`, se toman tal cual de lo guardado). Antes de mezclar, `sanoS(lo guardado, DEF)` quita los campos con un tipo imposible (desde v1.586): un `null` donde `DEF` tiene un valor, un objeto que no es objeto, un número donde va texto (se pasa a texto) o un texto con número donde va número (se pasa a número), y las entradas de `temas` que no son objetos. Esos campos quedan con su valor por defecto, así una partida o copia rota no rompe el juego.
-- Después de `sanoS`, `sanoHondo()` (core.js, v1.592) arregla lo de dentro de las colecciones: `temas.X.g`, `stats`, `gs`, `home`, `kg`, `vales`, `valesLog`, `rep` y `cofreP` (ver su comentario). Se usa también cuando otra pestaña guarda (evento `storage`): esta pestaña adopta esa partida para no pisarla con datos viejos.
+- Después de `sanoS`, `sanoHondo()` (`nucleo/guardado.ts`; viene de core.js de curiolandia-3d v1.592) arregla lo de dentro de las colecciones: `temas.X.g`, `stats`, `gs`, `home`, `kg`, `vales`, `valesLog`, `rep` y `cofreP` (ver su comentario). Se usa también cuando otra pestaña guarda (evento `storage`): esta pestaña adopta esa partida para no pisarla con datos viejos.
 - Los campos de `tienda.js` (`DEF2`) se rellenan después: `sanoS(S, DEF2)` y luego `for (k in DEF2) if (S[k] === undefined) S[k] = copia de DEF2[k]`. `repaso.js` hace lo mismo con los suyos.
 - Si no hay partida pero sí una de **Letrilandia** (otro juego de la familia, clave `letrilandia.v1`), se copian de ahí el nombre, la edad, el acento y el volumen.
 - **Copia de seguridad** (zona de adultos): `bkEncode()` genera un texto `CURIO1.` + JSON comprimido en base64; "Recuperar" lo vuelve a escribir en `localStorage` y recarga la página. `bkDecode()` solo acepta un objeto con `temas` que sea un objeto (no `null` ni una lista).
 
 ## 2. Los campos
 
-### En `DEF` (core.js)
+### En `DEF` (`nucleo/guardado.ts`)
 
 | Campo | Formato | Para qué |
 |---|---|---|
@@ -81,7 +81,7 @@
 3. **Los juegos de un tema se guardan por posición** (`S.temas[id].g[índice]`): añade juegos nuevos **al final** de `games`. Si insertas uno en medio, las estrellas guardadas pasan a apuntar a otro juego.
 4. **Campo nuevo = valor por defecto obligatorio.** Tres formas válidas:
    - añadirlo a `DEF2` en tienda.js (se rellena solo en las partidas viejas);
-   - añadirlo a `DEF` en core.js (también se rellena al cargar);
+   - añadirlo a `DEF` en `nucleo/guardado.ts` (y su tipo a `Estado` en `nucleo/tipos.ts`) (también se rellena al cargar);
    - o leerlo siempre con un valor de respaldo: `S.miCampo || 0`.
 5. **Subcampos nuevos dentro de un objeto** (por ejemplo `S.tito.zapatos`): `load()` no los rellena en partidas viejas. Léelos siempre con respaldo: `(S.tito.zapatos || '')`.
 6. Llama a `save()` después de cambiar algo.

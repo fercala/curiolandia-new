@@ -1,11 +1,14 @@
 // Busca en el código del juego (src/*.js, en el orden de ARCHIVOS) las variables y funciones globales que un archivo
 // declara y otro reasigna (x = ..., x += ..., x++). Un módulo no puede reasignar lo que importa, así que antes de pasar
 // a módulos (fase 2 de docs/PLAN-MIGRACION.md) no puede quedar ninguna: lo comprueba tests/unidad/globales.test.ts.
-// Lo que se comparte y cambia está en VIVO (core.js) o se cambia con su función pon* (ponS, ponGo...).
+// Lo que se comparte y cambia está en VIVO (src/nucleo/pantalla.ts) o se cambia con su función pon* (ponS, ponGo...).
+// También sabe qué exportan los módulos (exportadas): el puente de src/modulos.ts lo deja en globalThis, así que el
+// código global tampoco puede reasignarlo ni declarar algo con el mismo nombre, y src/tipos/puente.d.ts tiene que
+// dar tipo a cada cosa (lineasPuente).
 // Lee el código con el analizador de rolldown (el de Vite) y sigue los ámbitos de JavaScript (funciones, bloques,
 // for, catch, switch) para no confundir una variable local con la global del mismo nombre.
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join, normalize, relative } from 'node:path';
 import { parseSync } from 'rolldown/utils';
 
 /** Un nodo del árbol de sintaxis (ESTree): tipo, posición y el resto de campos según el tipo. */
@@ -121,9 +124,49 @@ function escrituras(programa: Nodo, globales: ReadonlySet<string>): Map<string, 
   return cuenta;
 }
 
-// escriturasCruzadas(src, archivos): las globales de cada archivo que otro archivo reasigna. Vacía = se puede pasar
-// a módulos sin que nadie reasigne lo que importa.
-export function escriturasCruzadas(src: string, archivos: readonly string[]): EscrituraCruzada[] {
+/** Algo con valor (no un tipo) que exporta un módulo: su nombre y el archivo de src/ donde se declara. */
+export interface Exportada {
+  readonly nombre: string;
+  readonly archivo: string;
+}
+
+// exportadas(src, archivo): lo que exporta con valor (constantes, variables y funciones; no los tipos) el módulo
+// src/archivo, en orden. Sigue `export * from` y `export {…} from` hasta el archivo que lo declara. Es lo que el puente
+// de src/modulos.ts deja en globalThis.
+export function exportadas(src: string, archivo: string): Exportada[] {
+  const r = parseSync(archivo, readFileSync(join(src, archivo), 'utf8'));
+  if (r.errors.length) throw new Error(`${archivo}: ${r.errors[0]?.message ?? 'no se puede leer'}`);
+  const desde = (n: Nodo): string => {
+    const fuente = hijos(n, 'source')[0];
+    return normalize(join(dirname(archivo), String(fuente?.['value'])));
+  };
+  const lista: Exportada[] = [];
+  for (const n of hijos(r.program as unknown as Nodo, 'body')) {
+    if (n.type === 'ExportAllDeclaration') lista.push(...exportadas(src, desde(n)));
+    if (n.type !== 'ExportNamedDeclaration' || n['exportKind'] === 'type') continue;
+    const d = hijos(n, 'declaration')[0];
+    if (d) for (const nombre of declaradas([d], true)) lista.push({ nombre, archivo });
+    for (const e of hijos(n, 'specifiers')) {
+      if (e['exportKind'] === 'type') continue;
+      const nombre = String(hijos(e, 'exported')[0]?.['name']);
+      const origen = hijos(n, 'source').length ? desde(n) : archivo;
+      lista.push({ nombre, archivo: origen === archivo ? archivo : exportadas(src, origen).find((x) => x.nombre === nombre)?.archivo ?? origen });
+    }
+  }
+  return lista;
+}
+
+// lineasPuente(src, entradas): las líneas de src/tipos/puente.d.ts que dan su tipo a lo que el puente deja en
+// globalThis (lo que exportan las entradas, en orden): `declare const X: typeof import('../archivo').X;`.
+export function lineasPuente(src: string, entradas: readonly string[]): string[] {
+  const desdeTipos = (a: string): string => relative(join(src, 'tipos'), join(src, a)).split('\\').join('/');
+  return entradas.flatMap((e) => exportadas(src, e)).map(({ nombre, archivo }) => `declare const ${nombre}: typeof import('${desdeTipos(archivo)}').${nombre};`);
+}
+
+// escriturasCruzadas(src, archivos, deModulos): las globales de cada archivo que otro archivo reasigna. Vacía = se
+// puede pasar a módulos sin que nadie reasigne lo que importa. deModulos son los nombres que el puente trae de los
+// módulos (exportadas): un archivo global no puede reasignarlos ni declarar otra global con su nombre.
+export function escriturasCruzadas(src: string, archivos: readonly string[], deModulos: readonly Exportada[] = []): EscrituraCruzada[] {
   const programas = archivos.map((f) => {
     const r = parseSync(f, readFileSync(join(src, f), 'utf8'));
     if (r.errors.length) throw new Error(`${f}: ${r.errors[0]?.message ?? 'no se puede leer'}`);
@@ -131,9 +174,17 @@ export function escriturasCruzadas(src: string, archivos: readonly string[]): Es
   });
   // De quién es cada global: del primer archivo que la declara arriba del todo.
   const duenno = new Map<string, string>();
-  for (const { f, programa } of programas) for (const n of declaradas(hijos(programa, 'body'), true)) if (!duenno.has(n)) duenno.set(n, f);
-  const globales = new Set(duenno.keys());
+  for (const { nombre, archivo } of deModulos) duenno.set(nombre, archivo);
   const r: EscrituraCruzada[] = [];
+  for (const { f, programa } of programas) {
+    for (const n of declaradas(hijos(programa, 'body'), true)) {
+      const de = duenno.get(n);
+      // Una global con el nombre de algo de un módulo: el navegador daría error al cargar (ver src/modulos.ts).
+      if (de && deModulos.some((m) => m.nombre === n)) r.push({ nombre: n, declaradaEn: de, escritaEn: f, veces: 1 });
+      else if (!de) duenno.set(n, f);
+    }
+  }
+  const globales = new Set(duenno.keys());
   for (const { f, programa } of programas) {
     for (const [nombre, veces] of escrituras(programa, globales)) {
       const declaradaEn = duenno.get(nombre);

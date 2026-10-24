@@ -6,7 +6,9 @@ con arquitectura limpia. Se habla y se documenta en castellano.
 ## Antes de nada
 - **Estado: fase 2 (de globales a módulos), 24 de octubre de 2026.** Las fases 0 y 1 están publicadas. Desde la 2a, un
   archivo no reasigna las globales de otro: usa `VIVO` o las funciones `pon*`. Desde la 2b, los archivos pasan a módulos
-  TypeScript (`src/modulos.ts`, ya están los dibujos de `src/dibujos/`) y el resto sigue global ([docs/ARQUITECTURA.md](docs/ARQUITECTURA.md)). El código es el de
+  TypeScript (`src/modulos.ts`; ya están los dibujos de `src/dibujos/` y, desde la 2c, el núcleo de `src/nucleo/`, antes
+  `core.js`) y el resto sigue global. El puente deja lo de los módulos en `globalThis` siempre al día y de solo lectura
+  ([docs/ARQUITECTURA.md](docs/ARQUITECTURA.md)). El código es el de
   `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas; [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.

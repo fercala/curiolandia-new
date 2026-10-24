@@ -12,8 +12,8 @@
  * Qué es una escena:
  *   Un objeto SCENES.nombre = { music, enter, update, draw, down, move,
  *   up, hint, prompt, dwell, ... }. Todos los métodos son opcionales salvo
- *   draw. Quien los llama (core.js y adult.js):
- *     - go(nombre, o)  (core.js) cambia de escena: borra temporizadores
+ *   draw. Quien los llama (el núcleo, src/nucleo/, y adult.js):
+ *     - go(nombre, o)  (nucleo/escenas.ts) cambia de escena: borra temporizadores
  *       later(), partículas y la voz, pone la música scene.music y llama a
  *       scene.enter(o). "o" lleva los datos del viaje ({t, g, hello, fin...}).
  *     - El bucle de adult.js llama cada cuadro a scene.update(dt) y
@@ -21,7 +21,7 @@
  *       ~1 s sobre una zona registrada con hv(id, ...).
  *     - Los punteros llaman a scene.down/move/up(x, y) en coordenadas
  *       lógicas de 1600x900.
- *     - drawHelp() (core.js) pide scene.hint() -> {x, y, r} para el brillo
+ *     - drawHelp() (nucleo/interfaz.ts) pide scene.hint() -> {x, y, r} para el brillo
  *       y la manita de ayuda cuando el niño no toca nada, y entonces llama
  *       una vez a scene.prompt() para repetir la consigna en voz alta.
  *
@@ -39,21 +39,21 @@
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
  *   SEASON_NEXT, dayIdx, ALBUM_KEYS.
  * Depende de:
- *   core.js (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
+ *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle...), lex.js (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
  *   extras.js (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
- *   comps*.js (makeGame), src/dibujos/ (PICS) y core.js (pic), tienda.js / adult.js
+ *   comps*.js (makeGame), src/dibujos/ (PICS) y nucleo/imagenes.ts (pic), tienda.js / adult.js
  *   (drawTito, TITO, inTito, drawHome/atHome en core).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
  *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
  *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.stats (rec).
  * ===================================================================== */
 /* ================= ESCENAS ================= */
-// SCENES: todas las escenas del juego, por nombre. go('nombre', o) cambia a SCENES.nombre.
+// SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
+// archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
 // Cada escena: {music: clave de música o null, enter(o), update(dt), draw(), down(x,y), move(x,y), up(x,y),
 // hint() -> {x,y,r} o null, prompt() (repite la consigna), dwell(id) (dice el nombre de lo que hay bajo el ratón)}.
-const SCENES={};
 // Cada tema guarda en t.zone a qué zona del mapa pertenece (3 años -> jardín, 4 -> bosque, 5 -> montaña).
 // Los temas de extras.js, fiestas e inglés ya traen su propia zone ('extras', 'fiestas', 'ingles').
 [...T3,C3].forEach(t=>t.zone='jardin');[...T4,C4].forEach(t=>t.zone='bosque');[...T5,C5].forEach(t=>t.zone='montana');

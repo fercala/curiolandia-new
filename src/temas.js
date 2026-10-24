@@ -12,13 +12,13 @@
 //   - T3 (lista de temas de 3 años), C3 (Rincón de los Conceptos de 3 años), COLS3.
 //   - makeGame(g,t,onDone): crea el juego g del tema t (extras.js e ingles.js la amplían).
 //   - GICON: icono por defecto de algunos tipos de juego.
-// Depende de: core.js (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
+// Depende de: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), comps.js (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan scenes.js (TEMAS, TEMA,
 //   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, extras.js y cuentos.js.
 //
-// Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (core.js/lex.js) los pasa
+// Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y lex.js) los pasa
 // a castellano de España cuando S.variant==='es'. Si una frase cambia mucho, se pone una lista
 // [rioplatense, España] y V() elige. ¡No cambies ninguna frase que se diga con say()! Cada una
 // tiene su MP3 grabado (voz/manifest.json), y el MP3 se busca por el texto exacto.

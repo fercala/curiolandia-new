@@ -4,7 +4,7 @@
 // Define (globales): sayMix, ENC, enBlob, enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer,
 //   EnEscucha, EnGlobos, EnCuenta, ENG, ING. ING se añade a TEMAS en scenes.js y a la zona 'ingles' en zonas.js.
 // Envuelve: makeGame (temas.js / extras.js).
-// Depende de: core.js (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight, onWrongTwice, praise,
+// Depende de: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight, onWrongTwice, praise,
 //   SFX, later, shuffle, pick), temas.js (NUM, DIAC, BG, nRounds, nOpts, drawFace), lex.js (V, cap).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
 /* ================= EL RINCÓN DEL INGLÉS ================= */

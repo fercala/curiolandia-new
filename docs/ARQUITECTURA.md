@@ -48,10 +48,16 @@ Características técnicas:
 
 El juego está a medio camino entre dos formas de cargar el código (fase 2 de la migración):
 
-- **Módulos TypeScript** (`src/modulos.ts` y lo que importa, por ahora los dibujos de `src/dibujos/`). Cada archivo
-  importa lo que usa (`import { K, PICS } from './pics-base.ts'`). El plugin de Vite los junta con rolldown en un
-  `<script>` que va **antes** del código global. `src/modulos.ts` deja en `globalThis` lo que el código global
-  todavía usa de ellos (el **puente**: `PICS`, `K`, `TITO_SVG`...; sus tipos están en `src/tipos/puente.d.ts`).
+- **Módulos TypeScript** (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/` y el núcleo de
+  `src/nucleo/`). Cada archivo importa lo que usa (`import { S, save } from './guardado.ts'`). El plugin de Vite los
+  junta con rolldown en un `<script>` que va **antes** del código global. `src/modulos.ts` deja en `globalThis` todo
+  lo que exportan `src/dibujos/todos.ts` y `src/nucleo/indice.ts` (el **puente**; sus tipos están en
+  `src/tipos/puente.d.ts`).
+  - Cada nombre del puente es una propiedad de `globalThis` con `get`: el código global lee siempre el valor actual
+    del módulo, aunque cambie (`S` tras `ponS`, `ctx` tras `ponCtx`, `T`, `scene`, `go` tras `ponGo`...).
+  - El código global **no puede reasignarlos** (`T = 3` da error: para eso están las funciones `pon*`) ni declarar
+    una global con el mismo nombre (el navegador da error al cargar; por eso `SCENES` ya no se declara en
+    `scenes.js`: está en `nucleo/escenas.ts` y los archivos le añaden escenas).
 - **Código global**: los `.js` de `src/` que aún no son módulos se pegan, en un orden fijo (`ARCHIVOS` en
   `herramientas/vite/curiolandia.mts`), dentro de un único `<script>` después del de los módulos. **El orden importa**:
   un archivo puede usar lo que definen los anteriores.
@@ -63,9 +69,9 @@ importar de otros módulos, nunca del código global.
 |---|---|---|
 | — | `head.html` | Cabecera HTML: estilos, los dos lienzos (`#gl` para el 3D y `#cv` para el 2D, encima), la carga de Three.js y los paneles HTML (nombre, reinicio, zona de adultos). |
 | — | `modulos.ts` | Entrada de los módulos: los importa en orden y deja el puente en `globalThis`. |
-| 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. |
-| 2 | `core.js` | **El núcleo**: utilidades, el estado guardado `S`, idioma (`tx`), dibujo 2D básico, Tito en 2D, sonido (`tone`, `noise`), música, voz (`say`), el sistema de escenas (`SCENES`, `go`, `later`), partículas (`parts`), ayuda automática, dificultad adaptativa, pegatinas. |
-| 3 | `lex.js` | Vocabulario: nombres de las cosas (`LEX`, `LEX2`), sonidos de animales y la tabla de cambios del español rioplatense al de España. |
+| 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts`; `dibujos/todos.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. `todos.ts` los carga en su orden: quien necesita `PICS` completo importa de ahí. |
+| 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`, `rec`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas), `voz` (`say`, `sayQ`, voces) e `interfaz` (botón de volver, rondas, ayudas, dificultad, pegatinas, calendario). |
+| 3 | `lex.js` | Primer archivo global. Vocabulario: nombres de las cosas (`LEX`, `LEX2`), sonidos de animales y la tabla de cambios del español rioplatense al de España. |
 | 4 | `comps.js`, `comps2.js` | **Componentes de juego**: el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
 | 5 | `temas.js`, `temas4.js`, `temas5.js` | **Contenido**: los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas.js` también tiene `makeGame`. |
 | 6 | `cuentos.js` | Los cuentos ilustrados de cada tema (`CUENTOS`). |
@@ -81,27 +87,28 @@ importar de otros módulos, nunca del código global.
 | — | `tipos/estado.d.ts`, `tipos/globales.d.ts`, `tipos/puente.d.ts` | Tipos del estado `S`, de los temas, de lo que hay en `window` y del puente, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
-Como todo va en el mismo `<script>`, **todas las variables globales se comparten**. Por ejemplo, `S` (definido en `core.js`) se usa en todos los archivos.
+Como el código global va en el mismo `<script>`, **todas sus variables globales se comparten**, y además ve las del puente. Por ejemplo, `S` (de `nucleo/guardado.ts`) se usa en todos los archivos.
 
 **Leer sí, reasignar no** (desde la fase 2 de la migración). Un archivo puede leer las globales de otro y cambiar los
 campos de sus objetos (`S.coins++`, `SCENES.map.draw = ...`), pero no reasignar una variable o función global que
 declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo que varios archivos cambian hay dos vías:
 
-- **`VIVO`** (`core.js`): el estado de la partida en curso que no se guarda. Son el puntero (`VIVO.MX`, `VIVO.MY`,
+- **`VIVO`** (`nucleo/pantalla.ts`): el estado de la partida en curso que no se guarda. Son el puntero (`VIVO.MX`, `VIVO.MY`,
   `VIVO.mouseOn`, `VIVO.hovNow`...), la voz (`VIVO.talking`, `VIVO.sayTok`) y la escena (`VIVO.fade`, `VIVO.timers`,
   `VIVO.idle`, `VIVO.hintSaid`, `VIVO.drag`). También el candado (`VIVO.lockHold`...), la dificultad (`VIVO.ADAPT`,
   `VIVO.REP`), el tiempo de juego (`VIVO.sessionT`, `VIVO.restAsked`, `VIVO.minuteAcc`) y los avisos (`VIVO.toast`,
-  `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/tipos/globales.d.ts`.
+  `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
 - **Funciones `pon*`** para cambiar una global entera desde otro archivo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
-  (`core.js`), `ponThing` (`comps.js`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`scenes.js`),
-  `ponMakeGame` (`temas.js`) y `ponGoSeguir` (`zonas.js`).
+  (núcleo), `ponThing` (`comps.js`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`scenes.js`),
+  `ponMakeGame` (`temas.js`) y `ponGoSeguir` (`zonas.js`). Dentro del núcleo hay dos más: `ponMusica` (la música
+  de la escena, la usa `go`) y `ponRopaTito` (`tienda.js` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
 `npm run test:unidad` lo comprueba (`tests/unidad/globales.test.ts`, con `herramientas/analisis/globales.mts`).
 
 ## 3. La pantalla lógica de 1600x900
 
-Todo el juego trabaja en una pantalla imaginaria de **1600 x 900 píxeles**. `core.js` escala el lienzo al tamaño real de la ventana y `adult.js` convierte cada toque a esas coordenadas (`toLogical`). Así nunca tienes que pensar en el tamaño del móvil: si dibujas algo en `x=800, y=450`, siempre sale en el centro.
+Todo el juego trabaja en una pantalla imaginaria de **1600 x 900 píxeles**. `nucleo/pantalla.ts` escala el lienzo al tamaño real de la ventana y `adult.js` convierte cada toque a esas coordenadas (`toLogical`). Así nunca tienes que pensar en el tamaño del móvil: si dibujas algo en `x=800, y=450`, siempre sale en el centro.
 
 ## 4. El bucle principal (`frame` en `adult.js`)
 
@@ -272,7 +279,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 ## 10. Voz e idioma
 
-- `say(texto, alAcabar)` hace hablar a Tito con la **voz del navegador** (`speechSynthesis`). La voz es la elegida en la zona de adultos (`S.vozNav`) o la más natural del país (`pickVoice`, `vozCalidad` en core.js). El código de las voces grabadas (`vozLoad`, `vozFile`, `vozSeq`...) sigue en core.js pero no se usa, porque `S.voz` es siempre `'nav'`; se quita en la migración.
+- `say(texto, alAcabar)` hace hablar a Tito con la **voz del navegador** (`speechSynthesis`). La voz es la elegida en la zona de adultos (`S.vozNav`) o la más natural del país (`pickVoice`, `vozCalidad` en `nucleo/voz.ts`). El código de las voces grabadas (`vozLoad`, `vozFile`, `vozSeq`...) sigue en `nucleo/voz.ts` pero no se usa, porque `S.voz` es siempre `'nav'`; se quita en la migración.
 - Muchos textos del código están escritos en **español rioplatense** ("Tocá", "Buscá") porque el juego nació así; `tx()` los convierte al **castellano de España** cuando la variante es España (`S.variant='es'`). `V(['rioplatense', 'España'])` elige entre dos versiones cuando el cambio es grande.
 - Las frases nuevas o cambiadas se escriben en castellano de España y se apuntan en `dialogos/` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
 

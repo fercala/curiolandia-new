@@ -29,16 +29,17 @@ lo que hoy las pruebas leen sueltas (última tabla) o las pruebas tendrán que p
 | `window.__said` | lo ponen las pruebas | `say()` apunta ahí cada frase en modo rápido. |
 | `window.__w3` (`ok`, `W`, `retito`, `FPS`, `pickAt`, `proj`...) | `src/world3d.js` | Saber si hay 3D y leer el mundo 3D. |
 | `#adult` (elemento HTML) | `src/head.html` | Ver si la zona de adultos está abierta (`hidden`). |
-| `save`, `doReset`, `go`, `sceneName`, `scene`, `S` | `core.js`, `adult.js` | Guardar, borrar todo, cambiar de escena. |
-| `OX`, `OY`, `SC` | `core.js` | Pasar de la pantalla lógica 1600x900 a píxeles de la ventana (ratón de verdad). |
-| `VIVO.talking` | `core.js` | Esperar a que Tito termine de hablar. |
-| `VIVO.fade`, `VIVO.sessionT`, `VIVO.minuteAcc` | `core.js` | Esperar a que acabe el velo de una escena; tiempo de juego (`cobertura.js`, `limites.js`). |
-| `ponGo` | `core.js` | Envolver `go` para apuntar las escenas (`camino.js`). |
-| `pickVoice`, `VOICE` | `core.js` | Prueba de la elección de voz (`voces.js`). |
+| `save`, `doReset`, `go`, `sceneName`, `scene`, `S` | `nucleo/guardado.ts`, `nucleo/escenas.ts`, `adult.js` | Guardar, borrar todo, cambiar de escena. |
+| `OX`, `OY`, `SC` | `nucleo/pantalla.ts` | Pasar de la pantalla lógica 1600x900 a píxeles de la ventana (ratón de verdad). |
+| `VIVO.talking` | `nucleo/voz.ts` | Esperar a que Tito termine de hablar. |
+| `VIVO.fade`, `VIVO.sessionT`, `VIVO.minuteAcc` | `nucleo/escenas.ts`, `nucleo/interfaz.ts` | Esperar a que acabe el velo de una escena; tiempo de juego (`cobertura.js`, `limites.js`). |
+| `ponGo` | `nucleo/escenas.ts` | Envolver `go` para apuntar las escenas (`camino.js`). |
+| `pickVoice`, `VOICE` | `nucleo/voz.ts` | Prueba de la elección de voz (`voces.js`). |
+| `VOZ`, `vozFile`, `tx`, `kid` | `nucleo/voz.ts`, `nucleo/idioma.ts` | Plan de voz de una frase con el nombre del niño (`limites.js`, `audio.js`; sin voces grabadas `VOZ` es `null`). |
 | `bkEncode`, `bkDecode` | `adult.js` | Copias de seguridad. |
-| `VIVO.MX`, `T` | `core.js` | Posición del ratón y reloj de juego. |
-| `localStorage['curiolandia-new.v1']` | `core.js` (`KEY`) | Escribir partidas de prueba antes de cargar. |
-| `localStorage['curiolandia.v1']` | `core.js` (`KEY_VIEJA`) | La partida de curiolandia-3d que se copia (`guardado-viejo.js`). |
+| `VIVO.MX`, `T` | `nucleo/puntero.ts`, `nucleo/pantalla.ts` | Posición del ratón y reloj de juego. |
+| `localStorage['curiolandia-new.v1']` | `nucleo/guardado.ts` (`KEY`) | Escribir partidas de prueba antes de cargar. |
+| `localStorage['curiolandia.v1']` | `nucleo/guardado.ts` (`KEY_VIEJA`) | La partida de curiolandia-3d que se copia (`guardado-viejo.js`). |
 | Versión en `sw.js` (`curiolandia-new-vX`) | `package.json` (`version`) y `herramientas/vite/curiolandia.mts` | `cobertura.js` la lee para el informe. |
 
 Cuentas sacadas con `grep` sobre `tests/` el 24 de octubre de 2026 (fase 0). En la fase 2a, `talking`, `fade`, `sessionT`,

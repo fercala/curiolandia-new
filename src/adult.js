@@ -10,7 +10,7 @@
  *  3) La COPIA DE SEGURIDAD: bkEncode/bkDecode/bkWire convierten S en un código de texto o un archivo JSON y al revés.
  * Globales que define: SKILL, esc, openAdult, closeAdult, openNameDlg, openResetDlg, doReset, toLogical, dlgOpen,
  * isPortrait, hoverTick, frame, window.__cl (para pruebas automáticas), bkEncode, bkDecode.
- * Depende de: core.js (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), scenes.js (tst, gDone,
+ * Depende de: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), scenes.js (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas*.js/extras.js/ingles.js (T3, C3, T4, C4, T5, C5,
  * CAN, RUT, TRZ, FIESTAS, ING), tienda.js (STARS, drawCoinFx), zonas.js (zoneOpen) y world3d.js (R3frame, __w3).
  * frame() la arranca boot.js.
@@ -308,7 +308,7 @@ async function bkDecode(code){code=String(code||'').trim();let j;
   const d=JSON.parse(j);if(!d||typeof d!=='object'||Array.isArray(d)||!d.temas||typeof d.temas!=='object'||Array.isArray(d.temas))throw new Error('formato');return d}
 // bkWire(q): conecta los botones de la sección "Copia de seguridad": ver código, copiarlo, descargar archivo .json,
 // recuperar desde código o archivo. Al recuperar, enseña un resumen y, si se confirma, escribe la copia directamente en
-// localStorage y recarga la página (load() de core.js la mezcla con DEF como cualquier partida guardada).
+// localStorage y recarga la página (load() de nucleo/guardado.ts la mezcla con DEF como cualquier partida guardada).
 function bkWire(q){const msg=(h)=>{q('#a-bk-msg').innerHTML=h},ta=q('#a-bk-txt');
   q('#a-bk-code').onclick=async()=>{ta.value=await bkEncode();ta.select();msg('Este código tiene todo el progreso. Copialo y guardalo, por ejemplo mandándotelo por mensaje.')};
   q('#a-bk-copy').onclick=async()=>{if(!ta.value.startsWith('CURIO'))ta.value=await bkEncode();ta.select();let ok=false;try{await navigator.clipboard.writeText(ta.value);ok=true}catch(e){try{ok=document.execCommand('copy')}catch(e2){}}

@@ -19,7 +19,7 @@
 //     el juego. La escena llama entonces a finishGame() (scenes.js).
 // CAMPOS del objeto juego que lee la escena:
 //   - total: número de estrellas/pasos del juego (las estrellitas grises de arriba
-//     a la derecha, drawRounds en core.js). Si es 0 o falta, no se dibujan.
+//     a la derecha, drawRounds en nucleo/interfaz.ts). Si es 0 o falta, no se dibujan.
 //   - done: cuántos pasos lleva bien. El componente hace this.done++ en cada
 //     acierto y pone scene.starPop=T para que la estrella nueva haga "pop".
 // MÉTODOS (todos opcionales salvo draw; la escena comprueba si existen):
@@ -29,36 +29,36 @@
 //   - draw(): pinta TODO el juego en el lienzo 2D de 1600x900 (fondo incluido).
 //   - down(x,y) / move(x,y) / up(x,y): el dedo o el ratón toca, se mueve y se
 //     levanta, en coordenadas lógicas 1600x900. Para arrastrar se usa la global
-//     `drag` (core.js): drag={it, dx, dy}; mientras drag no es null, la ayuda no
+//     `VIVO.drag` (nucleo/escenas.ts): drag={it, dx, dy}; mientras drag no es null, la ayuda no
 //     se dibuja.
 //   - prompt(): repite la consigna en voz alta (al tocar a Tito, o cuando salta la
 //     ayuda por inactividad).
 //   - hint(): devuelve dónde está la respuesta para la AYUDA automática (drawHelp
-//     en core.js), o null si no hay que ayudar. Formato: {x, y, r} = círculo que
+//     en nucleo/interfaz.ts), o null si no hay que ayudar. Formato: {x, y, r} = círculo que
 //     brilla (a los 6 s sin tocar nada); opcional dx, dy = hacia dónde se desliza
 //     la manita (arrastres); opcional path = lista de puntos [[x,y],...] que la
 //     manita recorre (trazos, girar). A los 11 s sale la manita y se llama prompt().
 // CÓMO INFORMA DEL ACIERTO / ERROR:
-//   - rec(clave, ok) (core.js): suma un acierto o error en S.stats[clave]
+//   - rec(clave, ok) (nucleo/guardado.ts): suma un acierto o error en S.stats[clave]
 //     (estadísticas de la zona de adultos). Se suele llamar solo en el primer
 //     intento de cada pregunta.
-//   - onRight(primeraVez) (core.js): acierto. Si fue a la primera, sube la racha
+//   - onRight(primeraVez) (nucleo/interfaz.ts): acierto. Si fue a la primera, sube la racha
 //     y la dificultad adaptativa (ADAPT). tienda.js la envuelve para dar 1 MONEDA
 //     por cada acierto a la primera, como mucho 5 monedas por partida.
-//   - onWrongTwice() (core.js): dos fallos seguidos; baja la dificultad (ADAPT).
+//   - onWrongTwice() (nucleo/interfaz.ts): dos fallos seguidos; baja la dificultad (ADAPT).
 //     Algunos componentes también ponen idle=12 para que salga la ayuda ya.
-//   - Sonidos y efectos: SFX.good()/SFX.bad(), burst(), sparkles() (core.js).
+//   - Sonidos y efectos: SFX.good()/SFX.bad(), burst(), sparkles() (nucleo/sonido.ts y nucleo/escenas.ts).
 // FINAL Y ESTRELLAS / MONEDAS:
 //   - Al acabar, el componente llama onDone() (normalmente tras la frase final y
 //     un later()). La escena llama a finishGame(t, gi): apunta el juego en
 //     S.temas[t.id].g[gi] (eso es la ESTRELLA del juego en el camino del tema),
 //     marca el tema como terminado si ya están todos y da una figurita la primera
 //     vez. tienda.js añade 3 monedas (primera vez) o 2 (repetición).
-//   - REP (core.js) = veces que ya se jugó este juego (0..2): algunos
+//   - VIVO.REP (nucleo/interfaz.ts) = veces que ya se jugó este juego (0..2): algunos
 //     componentes ponen más opciones o más rondas en la repetición.
 // DIFICULTAD POR EDAD: AGE() (3, 4 o 5), nOpts() (cuántas opciones mostrar,
-//   2..4) y nRounds() (cuántas rondas, 4..6) vienen de core.js.
-// TIEMPOS: later(ms, fn) (core.js) programa algo para dentro de ms milisegundos;
+//   2..4) y nRounds() (cuántas rondas, 4..6) vienen de nucleo/interfaz.ts.
+// TIEMPOS: later(ms, fn) (nucleo/escenas.ts) programa algo para dentro de ms milisegundos;
 //   si se cambia de escena antes, ya no se ejecuta.
 // VOZ: say(texto, alAcabar) habla y luego llama a alAcabar. V(x) elige la variante
 //   de idioma si x es una lista ['rioplatense','España'] (lex.js). NO cambies el
@@ -73,11 +73,11 @@
 // plW, fem, unN, KID_PARTS, KID_C, KID_FINE, drawKid, kidPartAt, layoutChoice,
 // drawChoice, hitItem, drawBasket, dotsCard, COLORES, paintPot, colorAdj y todos
 // los componentes.
-// DEPENDE DE: core.js (ctx, T, W, H, say, later, SFX, rec, onRight,
+// DEPENDE DE: el núcleo, src/nucleo/ (ctx, T, W, H, say, later, SFX, rec, onRight,
 // onWrongTwice, AGE, nOpts, nRounds, REP, idle, drag, scene, MX/MY, mouseOn,
 // burst, sparkles, parts, card, circ, ell, star, text, rr, fillStroke, hv, hR,
 // hC, back, lerp, clamp, dist, rnd, ri, pick, shuffle, cap, praise, SOUNDS,
-// playSound, ONO, IMG...), lex.js (W_, Wn, V, tx) y los dibujos de src/dibujos/ (con pic y picG de core.js).
+// playSound, ONO, IMG...), lex.js (W_, Wn, V, tx) y los dibujos de src/dibujos/ (con pic y picG de nucleo/imagenes.ts).
 // ============================================================================
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
 // Dibuja una "cosa" k centrada en (x,y) con tamaño s.
