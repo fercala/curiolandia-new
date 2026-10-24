@@ -104,11 +104,12 @@ caso('candado-adultos', 'Abrir la zona de adultos manteniendo el candado y cambi
   const m = []; await p.evaluate(() => __cl.go('map', {})); await p.waitForTimeout(800);
   const [a, b] = await p.evaluate(() => [OX + 1550 * SC, OY + 860 * SC]); await p.mouse.move(a, b); await p.mouse.down(); const t0 = Date.now(); while (Date.now() - t0 < 10000 && await p.evaluate(() => document.getElementById('adult').hidden)) await p.waitForTimeout(200); const tard = Date.now() - t0; await p.mouse.up(); if (tard > 4500) m.push('INFO: hubo que mantener el candado ' + (tard / 1000).toFixed(1) + ' s (cuenta en tiempo de juego: con pocos fotogramas por segundo tarda más)'); await p.waitForTimeout(500);
   const ab = await p.evaluate(() => !document.getElementById('adult').hidden); if (!ab) { m.push('mantener el candado 10 s no abre la zona de adultos'); await p.evaluate(() => openAdult()) }
-  for (const nm of ['a-age', 'a-var', 'a-voz', 'a-hemi', 'a-lim', 'a-kind', 'a-mode', 'a-mi']) {
+  // Sin «a-voz»: la elección de voz grabada se quitó en la fase 0 (solo voz del navegador).
+  for (const nm of ['a-age', 'a-var', 'a-hemi', 'a-lim', 'a-kind', 'a-mode', 'a-mi']) {
     const n = await p.evaluate(nm => document.querySelectorAll(`#adult [name=${nm}]`).length, nm);
     for (let i = 0; i < n; i++) { await p.evaluate(([nm, i]) => { const r = document.querySelectorAll(`#adult [name=${nm}]`)[i]; r.checked = true; r.dispatchEvent(new Event('change')) }, [nm, i]); await p.waitForTimeout(120) }
   }
-  await p.evaluate(() => { const r = document.querySelector('#adult [name=a-voz][value=""]'); r.checked = true; r.dispatchEvent(new Event('change')); const v = document.querySelector('#adult [name=a-var][value=es]'); if (v) { v.checked = true; v.dispatchEvent(new Event('change')) } });
+  await p.evaluate(() => { const v = document.querySelector('#adult [name=a-var][value=es]'); if (v) { v.checked = true; v.dispatchEvent(new Event('change')) } });
   await p.evaluate(() => closeAdult()); await p.waitForTimeout(500);
   return m.concat(await recorrido(p, await p.evaluate(() => __cl.S.age)));
 });
