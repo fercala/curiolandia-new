@@ -8,8 +8,8 @@
 //   SHOP, TIER_NEED, shopItems, itemName, isWorn, wear, drawItemPic, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de
 //   la casa), roomOf, roomOpen, roomsOpen, homeRoom, homeSpot, placeHome, HSIZE, homeItems, homeAction, homeLight, roomBg,
 //   roomBtns y las escenas SCENES.tienda y SCENES.casaTito.
-// Envuelve: onRight y finishGame (core.js/scenes.js), SCENES.juego.enter y SCENES.juego.draw (scenes.js).
-// Depende de: core.js (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
+// Envuelve: onRight y finishGame (nucleo/interfaz.ts y scenes.js), SCENES.juego.enter y SCENES.juego.draw (scenes.js).
+// Depende de: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
 //   TITO_SVG...), lex.js (V, W_), scenes.js (SCENES, finishGame), zonas.js (houseLevel, drawTitoHouse, drawPet, petStage,
 //   PET_NEXT, HOUSE_NEXT, temasDone, shellIcon), comps2.js (playTune, TUNES).
 /* ================= MONEDAS, TIENDA Y CASA DE TITO ================= */
@@ -113,6 +113,8 @@ function drawTitoWear(k){const t=S.tito||{};
   if(t.hat&&HATPOS[t.hat]){const [x,y,s]=HATPOS[t.hat];pic(t.hat,x*k,(y+HY)*k,s*k);
     if(tk==='caracol')for(const ex of[174,222]){circ(ex*k,20*k,15*k,'#fff',5*k);circ((ex+3)*k,22*k,7*k,K,0);circ((ex+5)*k,19*k,2.5*k,'#fff',0)}}
   if(t.glasses){for(const [ex,ey,er_] of E)circ(ex*k,ey*k,(er_+3)*k,'rgba(40,40,70,.38)',6*k);const [a,b]=E;ctx.beginPath();ctx.moveTo((a[0]+a[2]+3)*k,(a[1]-2)*k);ctx.lineTo((b[0]-b[2]-3)*k,(b[1]-2)*k);ctx.lineWidth=4*k;ctx.strokeStyle=K;ctx.stroke();for(const [ex,ey] of E){ctx.beginPath();ctx.arc((ex-4)*k,(ey-6)*k,6*k,PI*1.1,PI*1.6);ctx.lineWidth=3*k;ctx.strokeStyle='rgba(255,255,255,.8)';ctx.stroke()}}}
+// tito.ts dibuja a Tito con su imagen de colores (titoImg) y su ropa (drawTitoWear): se las damos con ponRopaTito.
+ponRopaTito(titoImg,drawTitoWear);
 
 /* ---------- catálogo ---------- */
 // icono de la casa de Tito: la casita con caparazón para el caracol; para los otros animales, su casa en pequeño (con el emblema de su animal)

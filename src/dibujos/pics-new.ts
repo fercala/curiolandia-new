@@ -6,9 +6,9 @@
 // `...${...}...` que llaman a funciones de ayuda; la cadena final se calcula una sola vez al cargar.
 // Globales: leaf(), cloudP(), mitt, crayon(), MQD, mq(), person(), BEBE (ayudas), y los dibujos de
 // Tito con su propio marco 240x200: TITO_SVG (caracol), ERIZO_SVG, TORTUGA_SVG, CONEJO_SVG
-// (los usan core.js, icons.js y tienda.js).
+// (los usan nucleo/imagenes.ts, icons.js y tienda.js).
 // Depende de: K, sw() y eye() de pics-base.ts. pics-a.ts reutiliza person().
-// Nota: la línea siguiente dice viewBox -60 -60 120 120, pero core.js pinta todos los dibujos de
+// Nota: la línea siguiente dice viewBox -60 -60 120 120, pero nucleo/imagenes.ts pinta todos los dibujos de
 // PICS con viewBox -62 -62 124 124 (el mismo centro, un poco más de margen).
 // ==========================================================================
 /* ---------- Dibujos nuevos de Curiolandia (viewBox -60 -60 120 120) ---------- */

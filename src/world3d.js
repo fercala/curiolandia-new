@@ -52,7 +52,7 @@
  *
  * Globales que usan otros archivos: R3frame (adult.js), window.__w3 (pruebas y zona de adultos: retito,
  *   PRK...). Además este archivo SUSTITUYE funciones globales de otros: go, stationPos, goSeguir...
- * Depende de: core.js (S, T, PI, ctx, say, sayMix, tone, noise, parts, SCENES, scene, sceneName, go,
+ * Depende de: el núcleo, src/nucleo/ (S, T, PI, ctx, say, sayMix, tone, noise, parts, SCENES, scene, sceneName, go,
  *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, K, DF, LF, DIAC...),
  *   zonas.js (MZ2, ZPOS, ZONES), scenes.js (TITO, HOUSE_AT, stationPos) y three.min.js.
  * Todo va dentro de una función que se llama sola: si no hay WebGL, se sale y el juego sigue en 2D.
@@ -89,7 +89,7 @@ addEventListener('resize',rs);rs();
 const _v=new THREE.Vector3(),_w=new THREE.Vector3(),_u=new THREE.Vector3();
 // proj(p): pasa un punto 3D del mundo (Vector3) a coordenadas de la pantalla lógica 1600x900. Devuelve [x,y].
 // project() da coordenadas de -1 a 1; se pasan a píxeles de la ventana y luego se deshace el encaje del juego
-// en la ventana (desplazamiento OX/OY y escala SC de core.js).
+// en la ventana (desplazamiento OX/OY y escala SC de nucleo/pantalla.ts).
 function proj(p){_v.copy(p).project(W3.cam);return[((_v.x+1)/2*innerWidth-OX)/SC,((1-_v.y)/2*innerHeight-OY)/SC]}
 // projO(o,dy): como proj, pero del centro de un objeto 3D o, subido dy unidades. Devuelve [x,y] en 1600x900.
 function projO(o,dy=0){o.getWorldPosition(_w);_w.y+=dy;return proj(_w)}
@@ -169,7 +169,7 @@ const gcache=(k,f)=>GC[k]||(GC[k]=keep(olGeo(f())));
 // TXC: caché de texturas dibujadas (por clave). Estas no se liberan al cambiar de escena.
 const TXC={};
 // canvasTex(w,h,fn,key): crea una textura de w x h píxeles dibujándola con fn(g). Truco: cambia por un momento la
-// variable global ctx (core.js) por la del lienzo nuevo, así fn puede usar las funciones 2D de siempre (card, text,
+// variable global ctx (nucleo/pantalla.ts, con ponCtx) por la del lienzo nuevo, así fn puede usar las funciones 2D de siempre (card, text,
 // flower...); mouseOn se apaga para que no se dibujen efectos de "ratón encima". Si se da key, se guarda en TXC.
 // La textura trae t.redraw() para volver a dibujarla (por ejemplo cuando termina de cargar una imagen).
 function canvasTex(w,h,fn,key){if(key&&TXC[key])return TXC[key];const c=document.createElement('canvas');c.width=w;c.height=h;
@@ -318,7 +318,7 @@ const SYL3={RANA:'RA NA',ÁRBOL:'ÁR BOL',PINGÜINO:'PIN GÜI NO',MUÑECO:'MU Ñ
 // sayNum(n,cb): Tito dice el número n (1-10); en el Rincón del inglés lo dice en inglés ('@' = frase en inglés).
 function sayNum(n,cb){/* dice un número: en el Rincón del inglés, en inglés */if(sceneName==='ingles')sayMix3(['@'+['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][n-1]],cb);else say3(NUM10[n-1],cb)}
 // numPop(x,y,n,tx): hace salir flotando en (x,y) de 1600x900 el número n (con n puntitos) o el texto tx en grande.
-// Sin tx, suena una nota más aguda cuanto mayor es n. Usa la lista de partículas parts de core.js.
+// Sin tx, suena una nota más aguda cuanto mayor es n. Usa la lista de partículas parts de nucleo/escenas.ts.
 function numPop(x,y,n,tx){parts.push({x:Math.min(1480,Math.max(120,x)),y:Math.max(160,y-45),vx:0,vy:-40,life:tx?2.2:1.4,t:0,c:['#FF6B6B','#F5A623','#4CB4E7','#5CC16A','#A77BDB'][(n-1)%5],r:tx?28:38,rot:0,k:'t',tx:tx||String(n),dots:tx?0:n,g:0});if(!tx)tone([523,587,659,698,784,880,988,1046,1175,1318][(n-1)%10],.12,'sine',.05)}/* cada número suena un poco más agudo que el anterior *//* el número contado aparece flotando */
 // skyTap(x,y,w): tocar el cielo vacío (justo después de pickAt, porque usa el rayo RC). Calcula el punto 3D en la
 // pared del fondo (z = -19,5) y Tito mira hacia allí.
@@ -772,7 +772,7 @@ function guard3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.guard=1;g.userDa
 //      mk(geometría,color,{p:posición,r:rotación,s:escala,to:padre,ol:grosor del contorno oscuro (0 = sin contorno),cs:false = no hace sombra}).
 //      Los subgrupos sirven de "articulaciones": se gira o mueve el subgrupo y se mueven todas sus piezas.
 //   2. g.userData.cann=1: la "marca de tipo". WOBK (más abajo) reconoce por ella los objetos que se pueden tocar; wobInit los guarda
-//      en w.trees y wobTap, al tocarlos, pone g.userData.wob=T (el instante del toque, en segundos del reloj global T de core.js).
+//      en w.trees y wobTap, al tocarlos, pone g.userData.wob=T (el instante del toque, en segundos del reloj global T de nucleo/pantalla.ts).
 //   3. g.userData.dur: cuánto dura (en segundos) la animación del toque; pasado ese tiempo, wobInit vuelve a poner wob=null.
 //      Para eso el tipo tiene que estar también en la lista larga de wobInit; si no, se usa el meneo genérico de árbol de 1,6 s.
 //   4. hitS(g,...) (opcional): una bola invisible más grande para acertar con el dedo en objetos finos.
@@ -828,7 +828,7 @@ function parrot3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.parrot=1;hitS(g
   for(const sd of[-1,1])mk(Sph(.03,6,5),K,{p:[sd*.1,.05,.12],s:nt?[1.3,.3,1]:[1,1,1],to:hd,ol:0,cs:false});for(const sd of[-1,1])mk(Sph(.04,6,5),'#FFC93C',{p:[sd*.06,-.02,0],s:[1,.5,1.6],to:b,ol:0,cs:false});
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,sl=nt&&!(e>=0&&e<1.4);hd.rotation.z=sl?.35:Math.sin(T*1.3)*.2;hd.rotation.y=sl?0:Math.sin(T*.7)*.4;
     if(e>=0&&e<1.4){const f=Math.sin(e*28)*.8*(1-e/1.4);W[0].rotation.z=-.3+f;W[1].rotation.z=.3-f;b.position.y=2.04+Math.sin(e/1.4*PI)*.35;hd.rotation.x=Math.sin(e*12)*.2}else{W[0].rotation.z=W[1].rotation.z=0;b.position.y=2.04;hd.rotation.x=0}});return g}
-// squawk(d): graznido del loro, dos notas seguidas con tone (core.js); d = retraso en segundos
+// squawk(d): graznido del loro, dos notas seguidas con tone (nucleo/sonido.ts); d = retraso en segundos
 const squawk=(d=0)=>{tone(1100,.12,'sawtooth',.04,1.4,d);tone(1300,.16,'sawtooth',.04,.7,d+.15)};
 // Inglés: la bandera del Reino Unido ondea en su mástil; al tocarla ondea con fuerza y suena una fanfarria
 // (patrón común: ver cann3) Marca flag, 1,8 s, con hitS. La tela es un plano de 10x1 trozos con la bandera dibujada en un canvas
@@ -923,7 +923,7 @@ function hitS(g,r,y,sx=1,sy=1){const h=new THREE.Mesh(gcache('xhit',()=>Sph(1,6,
 function titoCheer(x,y){if(W3&&!W3.chF){W3.chF=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.',()=>sylClap(x,y,'CONTENTO'));numPop(x,y-60,2,'CONTENTO');parts[parts.length-1].hl=1}},2400)}/* la primera fiesta de la visita: Tito explica que está contento */noteParts(x,y,4,150);/* la fanfarria de Tito también suelta notas musicales */const st=SCENES[sceneName];if(st)st.hop=T+.15;if(W3&&!skyNow().night)({jardin:['frog','burrow'],bosque:['squir'],montana:['peng'],fiestas:['balloon'],ingles:['guard'],casita:['bird','lady'],map:['gull'],cofre:['parrot','crab']}[sceneName]||[]).forEach((k,i)=>chainWob(W3,k,.5+i*.2,.12,3));/* los animales de alrededor también lo celebran */for(let i=0;i<5;i++)parts.push({x:x+rnd(-60,60),y:y-20+rnd(-20,20),vx:rnd(-25,25),vy:rnd(-110,-70),life:1.3,t:0,c:pick(['#FF5A7E','#FF7A9A','#F28AB8']),r:rnd(11,15),rot:0,k:'h',g:-15});/* al celebrar, también suben corazoncitos */[523,659,784,1046].forEach((f,i)=>tone(f,.16,'triangle',.08,1,.2+i*.1));for(let i=0;i<3;i++)sparkles(x+(i-1)*60,y-40*i)}
 // reacciones en cadena: al tocar algo, otras cosas de su tipo reaccionan después, escalonadas
 // dropParts(x,y,n,cols,k): suelta n partículas que caen (nieve, hojas) en el punto x,y de la pantalla; cols = colores posibles,
-// k = forma de la partícula (ver cómo se dibujan las parts en core.js). (El comentario de arriba, reacciones en cadena, es de chainWob.)
+// k = forma de la partícula (ver cómo se dibujan las parts en drawParts, nucleo/escenas.ts). (El comentario de arriba, reacciones en cadena, es de chainWob.)
 function dropParts(x,y,n,cols,k){/* al sacudir un árbol cae nieve (Montaña) u hojas (Bosque) */for(let i=0;i<n;i++)parts.push({x:x+rnd(-55,55),y:y+rnd(-30,20),vx:rnd(-30,30),vy:rnd(-40,20),life:rnd(1,1.6),t:0,c:pick(cols),r:rnd(5,10),rot:rnd(0,6),k,g:260})}
 // allTap(w,t,kind,x,y,N): cuenta en voz alta (sayNum) cuántos objetos distintos del tipo kind se han tocado (los guarda en el Set
 // w['_all'+kind]); N = cuántos hay (si no se da, los cuenta en w.trees; con kind 'bfly' no cuenta las abejas). Cuenta hasta 10. Al tocarlos todos: '¡Muy bien!', se reinicia

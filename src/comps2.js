@@ -18,7 +18,7 @@
 // arrowBtn, refCard, panel, germ, pathPts, NOTE, TUNES, playTune, sceneTokBump.
 // Además REDEFINE thing() (comps.js) para dibujar caritas 'emo:...'.
 // DEPENDE DE: comps.js (thing, ChoiceGame, Arrastra, layoutChoice, drawChoice,
-// hitItem, nameT, eseEs, NUM), core.js (dibujo, voz, SFX, tone, AC, sayTok,
+// hitItem, nameT, eseEs, NUM), el núcleo, src/nucleo/ (dibujo, voz, SFX, tone, AC, sayTok,
 // talking, DIAC, ala, sky, hand, inR...), lex.js (V, Wn, tx), src/dibujos/
 // (PICS, pic, svgImg), scenes.js (drawFace, BG) y cuentos.js (CUENTOS, datos
 // de Story). Al ir todo en un mismo script, se resuelven cuando se ejecutan.
@@ -562,7 +562,7 @@ const TUNES={
   fin:[[60,.25],[64,.25],[67,.25],[72,.75]]
 };
 // Toca la melodía t (de TUNES) a bpm tiempos por minuto y volumen v, con
-// la nota y su octava baja (tone de core.js). Devuelve la duración en segundos.
+// la nota y su octava baja (tone de nucleo/sonido.ts). Devuelve la duración en segundos.
 function playTune(t,bpm=150,v=.28){if(!AC)return;let d=0;const b=60/bpm;for(const [n,l] of t){tone(NOTE(n),l*b*.95,'triangle',v,0,d);tone(NOTE(n-12),l*b*.9,'sine',v*.4,0,d);d+=l*b}return d}
 
 /* ---------- canción ---------- */

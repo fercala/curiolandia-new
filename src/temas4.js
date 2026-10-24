@@ -12,7 +12,7 @@
 //   - Listas de datos de los juegos: DSAY, ESTS, SENT, SENTQ, EMO4, EMOADJ, SITS, FRUTAS, VERDURAS,
 //     OFICIOS, ADIV, SALVAJES, DOMESTICOS, PLANT_PARTS, COLS4. Añade 4 colores a COLORES.
 //   - T4 (temas de 4 años), C4 (rincón de 4 años) y z_x().
-// Depende de: core.js (dibujo, say, V, AGE, nRounds, nOpts, DIASL, ESTACIONES, NUM, EMO...), temas.js
+// Depende de: el núcleo, src/nucleo/ (dibujo, say, V, AGE, nRounds, nOpts, DIASL, ESTACIONES, NUM, EMO...), temas.js
 // (BG, floor, grass, swatch, sizeSlot, vestir), comps.js / comps2.js (los componentes de juego) y PICS.
 // Recuerda: no cambies ninguna frase que se diga con say() (tienen MP3 grabado).
 /* ================= FONDOS NUEVOS ================= */
@@ -57,7 +57,7 @@ const DSAY=['El lunes. Es el primer día de la semana. ¡Volvemos a la escuela!'
 function locomotive(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-80,-70,150,120,'#FF6B5E',7,20);card(-60,-130,60,70,'#5B5F6B',6,8);card(20,-40,60,50,'#BFEAF7',5,8);circ(-50,62,24,'#5B5F6B',6);circ(30,62,24,'#5B5F6B',6);for(let i=0;i<3;i++){ctx.globalAlpha=.5;circ(-30+i*10,-150-i*34-((T*30)%34),16+i*6,'#fff',3,'#B8B0A6')}ctx.globalAlpha=1;ctx.restore()}
 // ESTS: nombre con artículo de cada estación (clave = nombre de ESTACIONES).
 const ESTS={otoño:'el otoño',invierno:'el invierno',primavera:'la primavera',verano:'el verano'};
-// Árbol de la estación e ('otoño', 'invierno'...): cosa dibujada {name, draw} usando tree() de core.js.
+// Árbol de la estación e ('otoño', 'invierno'...): cosa dibujada {name, draw} usando tree().
 const seasonTree=e=>({name:ESTS[e],draw:(x,y,s)=>tree(x,y+s*.28,s/290,e)});
 // Forma geométrica f ('circulo', 'cuadrado', 'triangulo', 'rectangulo', 'ovalo' o 'rombo')
 // rellena de color c. Devuelve {name, f, draw}. También la usa temas5.js.
@@ -120,7 +120,7 @@ const momentScene=m=>({name:{manana:'la mañana',tarde:'la tarde',noche:'la noch
 // Plato con n cosas k (clave de PICS) encima: {name ("tres galletas"... con unN), n, draw}. Para "Más y menos".
 const plateN=(n,k)=>({name:unN(n,k),n,draw:(x,y,s)=>{pic('plato',x,y+s*.1,s*1.05);const P=[[0,0],[-.2,.04],[.2,.04],[-.1,-.12],[.1,-.12],[0,.17],[-.24,-.12],[.24,-.12],[-.12,.2],[.12,.2]];for(let i=0;i<n;i++)pic(k,x+P[i][0]*s,y+P[i][1]*s,s*.24)}});
 // COLS4: [clave de PICS, color] para pintar los colores nuevos de 4 años (naranja, violeta, rosa,
-// marrón y gris). La línea siguiente añade gris, blanco, negro y celeste a COLORES (core.js).
+// marrón y gris). La línea siguiente añade gris, blanco, negro y celeste a COLORES.
 const COLS4=[['calabaza','naranja'],['zanahoria','naranja'],['naranja','naranja'],['berenjena','violeta'],['uva','violeta'],['cerdo','rosa'],['flor','rosa'],['chocolate','marron'],['ardilla','marron'],['castana','marron'],['elefante','gris'],['piedra','gris']];
 Object.assign(COLORES,{gris:{c:'#9AA5B4',n:'gris'},blanco:{c:'#FFFFFF',n:'blanco'},negro:{c:'#3B3F58',n:'negro'},celeste:{c:'#7FD3F0',n:'celeste'}});
 

@@ -3,9 +3,9 @@
 // y con eso prepara cada día una lista de 3 juegos para repasar (escena SCENES.repaso).
 // Define (globales usadas en otros archivos): REP_ON, NOREP, repOk, repWeak, repOld, repBuild, repToday,
 //   repAllDone, repDue, REPBTN y la escena SCENES.repaso. Añade a S los campos kg, gs y rep.
-// Envuelve (cambia el comportamiento de) funciones de otros archivos: rec (core.js), finishGame (scenes.js),
+// Envuelve (cambia el comportamiento de) funciones de otros archivos: rec (nucleo/guardado.ts), finishGame (scenes.js),
 //   SCENES.casita.enter y goSeguir (zonas.js) y los métodos draw/down/dwell de SCENES.map (zonas.js).
-// Depende de: core.js (S, DEF, save, say, rec, today, later, SFX, dibujo), scenes.js (TEMA, TEMAS, tst,
+// Depende de: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo), scenes.js (TEMA, TEMAS, tst,
 //   finishGame, drawStation, GNAME), zonas.js (goSeguir, asamHoy, drawRoad, lockOver, unlockFx),
 //   tienda.js (STARS, giveCoins, drawCoinHUD, inCoinHUD).
 // Formato del estado guardado:
@@ -20,7 +20,7 @@
 // Valores por defecto de los campos nuevos y arreglo de partidas antiguas que no los tienen.
 Object.assign(DEF,{kg:{},gs:{},rep:null});
 for(const k of['kg','gs'])if(!S[k]||typeof S[k]!=='object')S[k]={};
-// Envuelve rec(habilidad, acierto) de core.js: además de las estadísticas normales, si estamos en un juego
+// Envuelve rec(habilidad, acierto) de nucleo/guardado.ts: además de las estadísticas normales, si estamos en un juego
 // apunta en S.kg que esa habilidad sale en este juego (sin repetir, máximo 6) y suma el acierto/fallo en S.gs.
 {const r0=rec;ponRec(function(k,ok){r0(k,ok);if(sceneName==='juego'&&scene.t&&scene.gi!=null){const id=scene.t.id+'#'+scene.gi,m=S.kg[k]||(S.kg[k]=[]);
   if(m[0]!==id){const i=m.indexOf(id);if(i>=0)m.splice(i,1);m.unshift(id);if(m.length>6)m.pop()}

@@ -10,7 +10,7 @@
 //   costumeZone, freeDeco, FIESTAS. Añade palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento.
 // Envuelve: makeGame (temas.js) para los tipos 'cuento' y 'cancion'.
 // Depende de: temas.js/temas4.js/temas5.js (T3, T4, T5, BG, DIASL, MESES, ESTS, COLORES, swatch, dayCard, monthCard,
-//   makeGame), comps.js/comps2.js (componentes, Song, panel, germ, pathPts), cuentos.js (CUENTOS, Story), core.js, lex.js.
+//   makeGame), comps.js/comps2.js (componentes, Song, panel, germ, pathPts), cuentos.js (CUENTOS, Story), el núcleo (src/nucleo/), lex.js.
 /* ================= CANCIONES ================= */
 // Letra de la canción de los días (lunes a domingo). Un elemento lista es [rioplatense, España].
 const DLYR=[['Lunes, empieza la semana.','Lunes, empieza la semana.'],'Martes, jugamos con ganas.','Miércoles, ¡ya estamos en la mitad!','Jueves, ¡qué bien se está!',['Viernes, último día de escuela.','Viernes, último día de cole.'],'Sábado, ¡a jugar y a pasear!','Domingo, en familia a descansar.'];
