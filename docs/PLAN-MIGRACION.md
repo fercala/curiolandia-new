@@ -154,6 +154,16 @@ Pendientes: cuándo parar la tarea horaria del repo viejo (o portar sus mejoras)
 ## 12. Herramientas disponibles para Claude
 
 Plugins instalados por Fernando el 24 de octubre de 2026: Design (accesibilidad, crítica de diseño, textos), ux-ui-audit,
-TypeScript Patterns Enforcer y frontend-design. El plugin playwright busca Google Chrome en `/opt/google/chrome/chrome`; en el
-entorno en la nube hay Chromium, así que hay que crear allí un script que lance
-`/opt/pw-browsers/chromium-*/chrome-linux64/chrome --no-sandbox "$@"`. UX Agent Skills estaba instalado pero no se cargó en la sesión.
+TypeScript Patterns Enforcer, frontend-design, playwright y UX Agent Skills. Comprobados el 24 de octubre de 2026:
+
+- **TypeScript Patterns Enforcer**: funcionan la guía (`/typescript-patterns-enforcer:check`), el agente de revisión y el
+  gancho que revisa cada `.ts` al guardarlo. El gancho bloquea `any`, bucles `for`/`while`, `switch`, números mágicos,
+  `.then()`, `@ts-ignore` sin TODO y regex sin ejemplo. Los comentarios de cabecera en castellano no los marca. Al pasar
+  código viejo a `.ts` (fase 2) saltará mucho: se puede silenciar por archivo con
+  `/* eslint-disable ts-patterns/<regla> */` y quitarlo al limpiar ese archivo.
+- **Design, ux-ui-audit y frontend-design**: cargan. Los conectores de Design (Figma, Slack, Notion...) no conectan en la
+  nube; no hacen falta.
+- **playwright**: funciona con el gancho de inicio [.claude/hooks/chrome-playwright.sh](../.claude/hooks/chrome-playwright.sh),
+  que crea el lanzador de Chrome en cada sesión. La red de la nube no deja abrir `fercala.github.io`: se prueba en local.
+- **UX Agent Skills**: no carga como plugin (depende de `web-quality-skills`, que no está en el catálogo). Hay una copia
+  local en `.claude/skills`, `.claude/agents` y `.claude/scripts`; ver [.claude/LEEME.md](../.claude/LEEME.md).
