@@ -68,3 +68,9 @@ deje de terminar en una fase es una regresión.
 Todo en verde con el código de la fase 2a (24 de octubre de 2026): humo, informe-b, voces, casa, guardado-viejo,
 camino 3/4/5, limites (0 hallazgos), cobertura (15 de 15), ampliada (17 de 17) y **250 de 253 juegos** (los 3 de regar,
 igual que antes). `npm run tipos:js`: 278 avisos.
+
+## Fase 2b: dibujos como módulos
+
+Todo en verde con los dibujos como módulos (24 de octubre de 2026): humo, informe-b, voces, casa, guardado-viejo,
+camino 3/4/5, limites (0 hallazgos), cobertura (15 de 15), ampliada (17 de 17) y **250 de 253 juegos** (los 3 de regar).
+`npm run tipos:js`: 254 avisos. La página pesa lo mismo (1,3 MB): los módulos van sin comentarios.

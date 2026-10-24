@@ -19,7 +19,7 @@
 // Además REDEFINE thing() (comps.js) para dibujar caritas 'emo:...'.
 // DEPENDE DE: comps.js (thing, ChoiceGame, Arrastra, layoutChoice, drawChoice,
 // hitItem, nameT, eseEs, NUM), core.js (dibujo, voz, SFX, tone, AC, sayTok,
-// talking, DIAC, ala, sky, hand, inR...), lex.js (V, Wn, tx), pics-*.js
+// talking, DIAC, ala, sky, hand, inR...), lex.js (V, Wn, tx), src/dibujos/
 // (PICS, pic, svgImg), scenes.js (drawFace, BG) y cuentos.js (CUENTOS, datos
 // de Story). Al ir todo en un mismo script, se resuelven cuando se ejecutan.
 // ============================================================================

@@ -1,38 +1,52 @@
 // ==========================================================================
-// pics-new.js: dibujos nuevos de Curiolandia (temas de 3 años, familia) y Tito.
+// pics-new.ts: dibujos nuevos de Curiolandia (temas de 3 años, familia) y Tito.
 // ==========================================================================
 // Añade dibujos a PICS con Object.assign(PICS,{...}). Formato de un dibujo y cómo se busca por
-// su nombre: ver la cabecera de pics-base.js. Aquí muchos dibujos se escriben con plantillas
+// su nombre: ver la cabecera de pics-base.ts. Aquí muchos dibujos se escriben con plantillas
 // `...${...}...` que llaman a funciones de ayuda; la cadena final se calcula una sola vez al cargar.
 // Globales: leaf(), cloudP(), mitt, crayon(), MQD, mq(), person(), BEBE (ayudas), y los dibujos de
 // Tito con su propio marco 240x200: TITO_SVG (caracol), ERIZO_SVG, TORTUGA_SVG, CONEJO_SVG
 // (los usan core.js, icons.js y tienda.js).
-// Depende de: K, sw() y eye() de pics-base.js. pics-a.js reutiliza person().
+// Depende de: K, sw() y eye() de pics-base.ts. pics-a.ts reutiliza person().
 // Nota: la línea siguiente dice viewBox -60 -60 120 120, pero core.js pinta todos los dibujos de
 // PICS con viewBox -62 -62 124 124 (el mismo centro, un poco más de margen).
 // ==========================================================================
 /* ---------- Dibujos nuevos de Curiolandia (viewBox -60 -60 120 120) ---------- */
 // Hoja de árbol SVG: c = color de la hoja, c2 = color de los nervios.
-const leaf=(c,c2)=>`<path d="M-44 44 Q-60 -20 0 -50 Q48 -60 46 -46 Q56 10 -44 44 Z" fill="${c}" ${sw()}/><path d="M-44 44 Q0 0 34 -40 M-14 10 l-14 -20 M0 -6 l-6 -24 M8 -16 l20 4 M-6 2 l26 6" fill="none" stroke="${c2}" stroke-width="4" stroke-linecap="round"/><path d="M-44 44 l-10 10" ${sw(5)}/>`;
+import { K, PICS, eye, smile, sw } from './pics-base.ts';
+const leaf=(c: string,c2: string)=>`<path d="M-44 44 Q-60 -20 0 -50 Q48 -60 46 -46 Q56 10 -44 44 Z" fill="${c}" ${sw()}/><path d="M-44 44 Q0 0 34 -40 M-14 10 l-14 -20 M0 -6 l-6 -24 M8 -16 l20 4 M-6 2 l26 6" fill="none" stroke="${c2}" stroke-width="4" stroke-linecap="round"/><path d="M-44 44 l-10 10" ${sw(5)}/>`;
 // Nube SVG de color c, desplazada dy hacia abajo.
-const cloudP=(c,dy=0)=>`<g transform="translate(0 ${dy})"><path d="M-40 10 Q-58 10 -56 -8 Q-54 -26 -34 -24 Q-30 -48 -4 -46 Q18 -46 24 -28 Q46 -34 52 -14 Q58 10 36 10 Z" fill="${c}" ${sw()}/></g>`;
+const cloudP=(c: string,dy=0)=>`<g transform="translate(0 ${dy})"><path d="M-40 10 Q-58 10 -56 -8 Q-54 -26 -34 -24 Q-30 -48 -4 -46 Q18 -46 24 -28 Q46 -34 52 -14 Q58 10 36 10 Z" fill="${c}" ${sw()}/></g>`;
 // mitt: manopla verde (SVG fijo), para el dibujo de los guantes.
 const mitt=`<path d="M-18 40 V-10 Q-20 -40 2 -40 Q22 -40 20 -10 V40 Z" fill="#7CC86E" ${sw()}/><path d="M-18 4 Q-34 -6 -32 -22 Q-28 -30 -18 -20" fill="#7CC86E" ${sw()}/><rect x="-22" y="30" width="46" height="18" rx="6" fill="#FFF3B0" ${sw(4)}/>`;
 // Lápiz de cera SVG: c = color del cuerpo, c2 = color de la punta, a = giro en grados, x = posición horizontal.
-const crayon=(c,c2,a,x)=>`<g transform="translate(${x} 4) rotate(${a})"><rect x="-9" y="-36" width="18" height="74" rx="3" fill="${c}" ${sw(4)}/><path d="M-9 -36 L0 -54 L9 -36 Z" fill="${c2}" ${sw(4)}/><rect x="-9" y="-16" width="18" height="10" fill="#fff" opacity=".6"/><rect x="-9" y="18" width="18" height="10" fill="#fff" opacity=".6"/></g>`;
+const crayon=(c: string,c2: string,a: number,x: number)=>`<g transform="translate(${x} 4) rotate(${a})"><rect x="-9" y="-36" width="18" height="74" rx="3" fill="${c}" ${sw(4)}/><path d="M-9 -36 L0 -54 L9 -36 Z" fill="${c2}" ${sw(4)}/><rect x="-9" y="-16" width="18" height="10" fill="#fff" opacity=".6"/><rect x="-9" y="18" width="18" height="10" fill="#fff" opacity=".6"/></g>`;
 // MQD: posiciones de los puntos negros de la mariquita; mq(n) dibuja una mariquita con n puntos.
 const MQD=[[-20,-8],[20,-8],[-18,24],[18,24],[-26,8],[26,8]];
 // Mariquita SVG con n puntos (posiciones en MQD).
-const mq=n=>`<path d="M-6 -48 q-8 -12 -16 -10 M6 -48 q8 -12 16 -10" fill="none" ${sw(3)}/><circle cx="0" cy="-36" r="16" fill="${K}"/><ellipse cy="8" rx="42" ry="42" fill="#FF5A5A" ${sw()}/><path d="M0 -34 V50" ${sw(4)}/>${MQD.slice(0,n).map(([a,b])=>`<circle cx="${a}" cy="${b}" r="8" fill="${K}"/>`).join('')}<circle cx="-6" cy="-40" r="3.5" fill="#fff"/><circle cx="6" cy="-40" r="3.5" fill="#fff"/>`;
+const mq=(n: number)=>`<path d="M-6 -48 q-8 -12 -16 -10 M6 -48 q8 -12 16 -10" fill="none" ${sw(3)}/><circle cx="0" cy="-36" r="16" fill="${K}"/><ellipse cy="8" rx="42" ry="42" fill="#FF5A5A" ${sw()}/><path d="M0 -34 V50" ${sw(4)}/>${MQD.slice(0,n).map(([a,b])=>`<circle cx="${a}" cy="${b}" r="8" fill="${K}"/>`).join('')}<circle cx="-6" cy="-40" r="3.5" fill="#fff"/><circle cx="6" cy="-40" r="3.5" fill="#fff"/>`;
 
 /* personas: cuerpo entero, con los pies en y=54 */
+// Persona: las opciones de person() (explicadas justo debajo).
+export interface Persona {
+  readonly skin: string;
+  readonly hair: string;
+  readonly style?: string;
+  readonly shirt?: string;
+  readonly pants?: string;
+  readonly dress?: boolean;
+  readonly glasses?: boolean;
+  readonly beard?: string;
+  readonly cane?: boolean;
+  readonly s?: number;
+}
 // Dibuja una persona de cuerpo entero (SVG) con los pies en y=54. Opciones en o:
 //   skin, hair = colores de piel y pelo; style = peinado ('long', 'pig' coletas, 'bun' moño,
 //   'curly' rizado, 'bald' calvo; otro = corto); shirt, pants = colores de ropa; dress = vestido
 //   en vez de pantalón; glasses = gafas; beard = color de la barba; cane = bastón;
 //   s = tamaño (menos de .9 = niño, con la cabeza más grande).
 // Devuelve la cadena SVG escalada para que los pies queden siempre abajo del cuadro.
-function person(o){
+export function person(o: Persona): string {
   const s=o.s||1, sk=o.skin, hr=o.hair, sh=o.shirt||'#5B8DEF', pn=o.pants||'#4A78D0';
   const kid=s<.9, hy=kid?-26:-30, hrad=kid?19:16;
   let hairB='',hairF='';
@@ -77,7 +91,7 @@ paraguas:`<path d="M0 -40 V36 q0 14 -14 14 q-12 0 -12 -12" fill="none" ${sw(7)}/
 botasAgua:`<g transform="translate(26 -4)"><path d="M-40 -40 H-10 V18 H8 Q16 18 16 32 V44 H-40 Z" fill="#FFD66B" ${sw()}/><path d="M-40 36 H16" ${sw(5)}/></g><g transform="translate(-8 6)"><path d="M-40 -40 H-10 V18 H8 Q16 18 16 32 V44 H-40 Z" fill="#FFC93C" ${sw()}/><path d="M-40 36 H16 M-40 -28 H-10" ${sw(5)}/></g>`,
 lluvia:cloudP('#E4ECF4',-16)+`<path d="M-30 12 l-6 14 M-4 12 l-6 14 M22 12 l-6 14 M-18 36 l-6 14 M8 36 l-6 14 M34 36 l-6 14" stroke="#5B8DEF" stroke-width="7" stroke-linecap="round"/>`,
 nublado:`<g transform="translate(14 -14) scale(.8)"><path d="M-40 10 Q-58 10 -56 -8 Q-54 -26 -34 -24 Q-30 -48 -4 -46 Q18 -46 24 -28 Q46 -34 52 -14 Q58 10 36 10 Z" fill="#C9D3DE" ${sw()}/></g>`+cloudP('#fff',16),
-nieve:cloudP('#fff',-16)+`<g stroke="#5BB8E6" stroke-width="4" stroke-linecap="round">${[[-30,22],[0,30],[30,20],[-16,46],[16,48]].map(([x,y])=>`<path d="M${x-7} ${y} h14 M${x} ${y-7} v14 M${x-5} ${y-5} l10 10 M${x+5} ${y-5} l-10 10"/>`).join('')}</g>`,
+nieve:cloudP('#fff',-16)+`<g stroke="#5BB8E6" stroke-width="4" stroke-linecap="round">${([[-30,22],[0,30],[30,20],[-16,46],[16,48]] as const).map(([x,y])=>`<path d="M${x-7} ${y} h14 M${x} ${y-7} v14 M${x-5} ${y-5} l10 10 M${x+5} ${y-5} l-10 10"/>`).join('')}</g>`,
 tormenta:cloudP('#9AA5B4',-16)+`<path d="M2 0 L-14 28 H0 L-8 54 L20 18 H6 L16 0 Z" fill="#FFD66B" ${sw(4)}/><path d="M-34 14 l-5 12 M30 14 l-5 12" stroke="#5B8DEF" stroke-width="6" stroke-linecap="round"/>`,
 viento:`<g fill="none" stroke="#6FA8DC" stroke-width="9" stroke-linecap="round"><path d="M-54 -18 H18 Q38 -18 38 -34 Q38 -48 24 -48 Q12 -48 12 -36"/><path d="M-54 4 H34 Q54 4 54 20 Q54 34 40 34 Q28 34 28 24"/><path d="M-44 26 H4"/></g><g transform="translate(-30 -40) rotate(-30) scale(.32)">${leaf('#7CC86E','#4E9A44')}</g>`,
 niebla:`<g fill="none" stroke-linecap="round"><path d="M-54 -30 Q-36 -40 -18 -30 T18 -30 T54 -30" stroke="#B8C2CC" stroke-width="10"/><path d="M-54 -6 Q-36 -16 -18 -6 T18 -6 T54 -6" stroke="#C9D1D9" stroke-width="10"/><path d="M-54 18 Q-36 8 -18 18 T18 18 T54 18" stroke="#B8C2CC" stroke-width="10"/><path d="M-54 42 Q-36 32 -18 42 T18 42 T54 42" stroke="#C9D1D9" stroke-width="10"/></g>`,
@@ -115,7 +129,7 @@ toalla:`<rect x="-46" y="-40" width="92" height="84" rx="10" fill="#FF8A7A"/><re
 crema:`<rect x="-10" y="-56" width="20" height="16" rx="4" fill="#FF8A7A" ${sw(4)}/><path d="M-30 -40 H30 L34 48 Q34 54 28 54 H-28 Q-34 54 -34 48 Z" fill="#FFF3B0" ${sw()}/><circle cx="0" cy="6" r="16" fill="#FFC93C" ${sw(4)}/><path d="M0 -20 v-6 M0 32 v6 M-26 6 h6 M26 6 h-6" stroke="#FFA94D" stroke-width="5" stroke-linecap="round"/>`,
 castillo:`<path d="M-50 48 V-6 H-36 V-16 H-26 V-6 H-14 V-30 H-4 V-40 H4 V-30 H14 V-6 H26 V-16 H36 V-6 H50 V48 Z" fill="#FFD66B" ${sw()}/><path d="M-8 48 V24 Q0 14 8 24 V48" fill="#E8B84A" ${sw(4)}/><path d="M0 -40 V-58 L16 -52 L0 -46" fill="#FF5A5A" ${sw(3)}/><rect x="-36" y="6" width="10" height="12" rx="3" fill="#E8B84A"/><rect x="26" y="6" width="10" height="12" rx="3" fill="#E8B84A"/>`,
 concha:`<path d="M0 46 L-48 -6 Q-40 -46 0 -48 Q40 -46 48 -6 Z" fill="#F7C7DA" ${sw()}/><path d="M0 46 L-30 -38 M0 46 L-12 -46 M0 46 L12 -46 M0 46 L30 -38" fill="none" stroke="#E79AB8" stroke-width="5" stroke-linecap="round"/><path d="M-14 46 H14 V54 H-14 Z" fill="#F7C7DA" ${sw(4)}/>`,
-galleta:`<circle r="44" fill="#E8B46A" ${sw()}/>${[[-18,-16],[14,-22],[20,10],[-8,16],[-24,10],[2,-2]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="6" fill="#6B3E26"/>`).join('')}`,
+galleta:`<circle r="44" fill="#E8B46A" ${sw()}/>${([[-18,-16],[14,-22],[20,10],[-8,16],[-24,10],[2,-2]] as const).map(([a,b])=>`<circle cx="${a}" cy="${b}" r="6" fill="#6B3E26"/>`).join('')}`,
 plato:`<ellipse cx="0" cy="10" rx="56" ry="26" fill="#fff" ${sw()}/><ellipse cx="0" cy="8" rx="38" ry="15" fill="#F1E9DC"/>`,
 bol:`<path d="M-56 -10 H56 Q54 46 0 48 Q-54 46 -56 -10 Z" fill="#7FD3F0" ${sw()}/><ellipse cx="0" cy="-10" rx="56" ry="12" fill="#EAF6FB" ${sw(5)}/><path d="M-40 12 q40 16 80 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>`,
 macedonia:`<path d="M-56 -10 H56 Q54 46 0 48 Q-54 46 -56 -10 Z" fill="#7FD3F0" ${sw()}/><circle cx="-30" cy="-16" r="13" fill="#FF5A5A" ${sw(3)}/><circle cx="-6" cy="-22" r="13" fill="#FFD66B" ${sw(3)}/><circle cx="20" cy="-16" r="13" fill="#7CC86E" ${sw(3)}/><circle cx="38" cy="-12" r="10" fill="#FFA94D" ${sw(3)}/><path d="M-56 -10 H56" ${sw(5)}/>`,
@@ -140,7 +154,7 @@ nene:person({skin:'#F2C29B',hair:'#8A5A3C',style:'short',shirt:'#FF8A7A',pants:'
 const TITO_SPIRAL=(()=>{let d='';for(let i=0;i<=90;i++){const a=i/90*Math.PI*2*2.3,r=6+i/90*46;d+=(i?'L':'M')+(96+Math.cos(a)*r).toFixed(1)+' '+(100+Math.sin(a)*r).toFixed(1)+' '}return d})();
 // TITO_SVG: Tito caracol (marco 240x200, mirando a la derecha). Los colores #FFA94D / #D9762A del
 // caparazón son "marcadores": la tienda (tienda.js) los sustituye para pintarlo de otro color.
-const TITO_SVG=`<path d="M14 184 Q8 160 40 158 L150 158 Q158 120 166 86 Q172 60 196 58 Q224 58 226 92 Q228 140 218 168 Q212 190 186 190 L30 190 Q14 190 14 184 Z" fill="#9BD86A" ${sw(6)}/>
+export const TITO_SVG=`<path d="M14 184 Q8 160 40 158 L150 158 Q158 120 166 86 Q172 60 196 58 Q224 58 226 92 Q228 140 218 168 Q212 190 186 190 L30 190 Q14 190 14 184 Z" fill="#9BD86A" ${sw(6)}/>
 <path d="M40 176 H150" stroke="#7CC04E" stroke-width="5" stroke-linecap="round"/>
 <path d="M188 62 Q182 42 176 24 M208 62 Q214 42 222 24" fill="none" ${sw(6)}/>
 <circle cx="174" cy="20" r="15" fill="#fff" ${sw(5)}/><circle cx="222" cy="20" r="15" fill="#fff" ${sw(5)}/>
@@ -153,7 +167,7 @@ const TITO_SVG=`<path d="M14 184 Q8 160 40 158 L150 158 Q158 120 166 86 Q172 60 
 <circle cx="184" cy="100" r="7" fill="#FF8A7A" opacity=".5"/><circle cx="222" cy="100" r="6" fill="#FF8A7A" opacity=".5"/>`;
 
 // Tito erizo (mismo marco 240x200 que el caracol: cabeza arriba a la derecha, así la ropa le queda en su sitio)
-const ERIZO_SVG=`<ellipse cx="62" cy="186" rx="17" ry="9" fill="#8A5A3C" ${sw(5)}/><ellipse cx="148" cy="186" rx="17" ry="9" fill="#8A5A3C" ${sw(5)}/>
+export const ERIZO_SVG=`<ellipse cx="62" cy="186" rx="17" ry="9" fill="#8A5A3C" ${sw(5)}/><ellipse cx="148" cy="186" rx="17" ry="9" fill="#8A5A3C" ${sw(5)}/>
 <ellipse cx="108" cy="158" rx="88" ry="30" fill="#F2D6B0" ${sw(6)}/>
 <path d="M2 137 L23 132 L5 121 L27 120 L13 106 L35 109 L25 92 L46 99 L41 81 L60 92 L59 73 L76 87 L80 68 L93 84 L101 66 L110 84 L123 68 L127 87 L143 74 L142 93 L162 82 L155 101 L177 94 L166 110 L188 108 L174 121 L195 123 L 170 150 L 30 150 Z" fill="#B07A4F" ${sw(6)}/>
 <path d="M41 134 L15 131 M44 125 L20 117 M50 117 L28 104 M59 110 L41 94 M69 104 L56 85 M81 100 L73 79 M94 98 L92 76 M108 98 L111 77 M120 101 L129 80 M132 105 L146 86 M143 110 L161 95 M151 118 L173 106 M157 126 L181 119" fill="none" stroke="#7A5030" stroke-width="5" stroke-linecap="round"/>
@@ -168,7 +182,7 @@ const ERIZO_SVG=`<ellipse cx="62" cy="186" rx="17" ry="9" fill="#8A5A3C" ${sw(5)
 <circle cx="194" cy="116" r="7" fill="#FF8A7A" opacity=".5"/>`;
 
 // Tito tortuga y Tito conejo (mismo marco 240x200). El caparazón / la mochila usan los colores de marcador del caracol (#FFA94D / #D9762A) para que la tienda los pinte
-const TORTUGA_SVG=`<path d="M8 172 L26 160 L28 176 Z" fill="#8FD07A" ${sw(5)}/>
+export const TORTUGA_SVG=`<path d="M8 172 L26 160 L28 176 Z" fill="#8FD07A" ${sw(5)}/>
 <ellipse cx="52" cy="182" rx="18" ry="12" fill="#8FD07A" ${sw(5)}/><ellipse cx="150" cy="182" rx="18" ry="12" fill="#8FD07A" ${sw(5)}/>
 <path d="M164 158 Q184 140 190 116 L216 122 Q210 158 184 170 Z" fill="#8FD07A" ${sw(6)}/>
 <ellipse cx="100" cy="168" rx="88" ry="14" fill="#F3E2A9" ${sw(6)}/>
@@ -180,7 +194,7 @@ const TORTUGA_SVG=`<path d="M8 172 L26 160 L28 176 Z" fill="#8FD07A" ${sw(5)}/>
 <circle cx="199" cy="90" r="5.5" fill="${K}"/><circle cx="223" cy="88" r="5" fill="${K}"/><circle cx="201" cy="87" r="2" fill="#fff"/><circle cx="225" cy="85" r="1.8" fill="#fff"/>
 <path d="M208 108 q8 6 16 0" fill="none" ${sw(4)}/>
 <circle cx="194" cy="104" r="6" fill="#FF8A7A" opacity=".5"/>`;
-const CONEJO_SVG=`<circle cx="34" cy="158" r="15" fill="#fff" ${sw(5)}/>
+export const CONEJO_SVG=`<circle cx="34" cy="158" r="15" fill="#fff" ${sw(5)}/>
 <ellipse cx="88" cy="188" rx="26" ry="9" fill="#EDE3D6" ${sw(5)}/><ellipse cx="160" cy="188" rx="26" ry="9" fill="#EDE3D6" ${sw(5)}/>
 <ellipse cx="112" cy="150" rx="74" ry="40" fill="#EDE3D6" ${sw(6)}/>
 <ellipse cx="150" cy="158" rx="24" ry="26" fill="#fff"/>

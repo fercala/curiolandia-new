@@ -1,10 +1,14 @@
-// Pruebas del montaje (herramientas/vite/curiolandia.mts): que la página lleve todo el código del juego en el orden de
-// ARCHIVOS, sin depender de internet (ni Google Fonts ni cdnjs), y que el service worker use la caché propia con la
-// versión de package.json. Son las primeras pruebas de Vitest; las reglas del juego llegan en la fase 3.
+// Pruebas del montaje (herramientas/vite/curiolandia.mts): que la página lleve los módulos y después todo el código
+// global en el orden de ARCHIVOS, sin depender de internet (ni Google Fonts ni cdnjs), que los módulos dejen al código
+// global lo que necesita (el puente de src/modulos.ts) y que el service worker use la caché propia con la versión de
+// package.json. Las reglas del juego llegan en la fase 3.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describe, expect, test } from 'vitest';
-import { ARCHIVOS, PREFIJO_CACHE, codigoJuego, nombreCache, paginaJuego, serviceWorker } from '../../herramientas/vite/curiolandia.mts';
+import { runInNewContext } from 'node:vm';
+import { beforeAll, describe, expect, test } from 'vitest';
+import {
+  ARCHIVOS, PREFIJO_CACHE, codigoJuego, codigoModulos, nombreCache, paginaJuego, serviceWorker,
+} from '../../herramientas/vite/curiolandia.mts';
 
 const RAIZ = join(import.meta.dirname, '..', '..');
 const SRC = join(RAIZ, 'src');
@@ -18,9 +22,9 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: los dibujos van antes que core.js, y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
+  // El orden importa: core.js primero, y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['pics-base.js', 'core.js'],
+    ['core.js', 'lex.js'],
     ['core.js', 'scenes.js'],
     ['scenes.js', 'zonas.js'],
     ['adult.js', 'world3d.js'],
@@ -31,17 +35,41 @@ describe('ARCHIVOS', () => {
 });
 
 describe('paginaJuego', () => {
-  const publicada = paginaJuego({ src: SRC, conServiceWorker: true });
-  const desarrollo = paginaJuego({ src: SRC, conServiceWorker: false });
+  const pagina = { publicada: '', desarrollo: '', modulos: '' };
+  beforeAll(async () => {
+    pagina.publicada = await paginaJuego({ src: SRC, conServiceWorker: true });
+    pagina.desarrollo = await paginaJuego({ src: SRC, conServiceWorker: false });
+    pagina.modulos = await codigoModulos(SRC);
+  });
 
-  test('lleva el código de todos los archivos, en orden', () => {
+  test('lleva el código de todos los archivos globales, en orden', () => {
+    const { publicada } = pagina;
     const posiciones = ARCHIVOS.map((f) => publicada.indexOf(readFileSync(join(SRC, f), 'utf8')));
     expect(posiciones.every((p) => p >= 0)).toBe(true);
     expect([...posiciones].sort((a, b) => a - b)).toEqual(posiciones);
     expect(publicada).toContain(codigoJuego(SRC));
   });
 
+  test('los módulos van antes que el código global, en un <script> normal', () => {
+    const { publicada, modulos } = pagina;
+    expect(publicada.indexOf(`<script>\n${modulos}</script>`)).toBeGreaterThan(0);
+    expect(publicada.indexOf(modulos)).toBeLessThan(publicada.indexOf(codigoJuego(SRC)));
+  });
+
+  // Ejecuta los módulos en un entorno vacío y mira lo que dejan para el código global (src/modulos.ts).
+  test('los módulos dejan los dibujos al código global', () => {
+    const global: Record<string, unknown> = {};
+    runInNewContext(pagina.modulos, global);
+    const pics: unknown = global['PICS'];
+    expect(typeof pics === 'object' && pics !== null ? Object.keys(pics).length : 0).toBeGreaterThan(300);
+    expect(pics).toMatchObject({ gato: expect.stringContaining('<path') });
+    for (const k of ['K', 'TITO_SVG', 'ERIZO_SVG', 'TORTUGA_SVG', 'CONEJO_SVG', 'LUPI_SVG', 'GLASSES_SVG', 'HAND_SVG']) {
+      expect(typeof global[k], k).toBe('string');
+    }
+  });
+
   test('no carga nada de internet: fuentes y Three.js locales', () => {
+    const { publicada } = pagina;
     expect(publicada).not.toContain('fonts.googleapis.com');
     expect(publicada).not.toContain('cdnjs.cloudflare.com');
     expect(publicada).toContain('<script src="three.min.js">');
@@ -50,6 +78,7 @@ describe('paginaJuego', () => {
   });
 
   test('registra el service worker solo en la web publicada; en desarrollo, el cliente de Vite', () => {
+    const { publicada, desarrollo } = pagina;
     expect(publicada).toContain('serviceWorker.register("sw.js")');
     expect(publicada).not.toContain('@vite/client');
     expect(desarrollo).not.toContain('serviceWorker.register');

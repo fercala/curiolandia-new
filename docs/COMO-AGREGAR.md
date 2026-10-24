@@ -214,12 +214,14 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 
 ## 8. Un dibujo
 
-1. Añádelo dentro del `Object.assign(PICS,{...})` del archivo que corresponda (`pics-mine.js` para iconos generales; `pics-a` lugares, oficios y vehículos; `pics-b` 4 años; `pics-c` 5 años; `pics-d` reciclaje, fiestas y cuentos; `pics-e` tienda):
+1. Añádelo dentro del `Object.assign(PICS,{...})` del módulo que corresponda, en `src/dibujos/` (`pics-mine.ts` para iconos generales; `pics-a` lugares, oficios y vehículos; `pics-b` 4 años; `pics-c` 5 años; `pics-d` reciclaje, fiestas y cuentos; `pics-e` tienda):
    ```js
    trompeta:`<path d="M-50 0 L20 -14 L20 14 Z" fill="#FFC93C" ${sw()}/><circle cx="-50" cy="0" r="8" fill="#FFC93C" ${sw(4)}/>`,
    ```
    Es el interior de un SVG con el centro en (0,0) y todo dentro de -56..56. `${sw()}` pone el contorno marrón del juego.
-2. Comprueba que el nombre no existe ya: `grep -n "trompeta:" src/pics-*.js` (si existe, el del archivo posterior sustituye al anterior).
+   Son módulos TypeScript estrictos: una función de ayuda nueva lleva el tipo de sus parámetros (`(x: number, c: string) =>`)
+   y `npm run tipos` tiene que pasar.
+2. Comprueba que el nombre no existe ya: `grep -n "trompeta:" src/dibujos/*.ts` (si existe, gana el del módulo que va después en los `import` de `src/modulos.ts`).
 3. Añade su nombre hablado a `LEX` en lex.js: `trompeta:'la trompeta'`.
 4. Úsalo por su nombre: `pic('trompeta', x, y, tamaño)` o en `words`, `items`...
 

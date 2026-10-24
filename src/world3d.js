@@ -177,7 +177,7 @@ function canvasTex(w,h,fn,key){if(key&&TXC[key])return TXC[key];const c=document
   const t=new THREE.CanvasTexture(c);t.anisotropy=4;t.redraw=()=>{draw();t.needsUpdate=true};if(key)TXC[key]=t;return t}
 // picsReady(ks): true si todas las imágenes IMG[k] de la lista ks ya han terminado de cargar (o no existen).
 const picsReady=ks=>ks.every(k=>!IMG[k]||IMG[k].complete);
-// picTex(k,px): textura cuadrada de px píxeles con la imagen IMG[k] (dibujos de pics-*.js). Si la imagen aún
+// picTex(k,px): textura cuadrada de px píxeles con la imagen IMG[k] (dibujos de src/dibujos/). Si la imagen aún
 // carga, se redibuja sola al terminar.
 function picTex(k,px=256){const t=canvasTex(px,px,g=>{const i=IMG[k];if(i&&i.complete)g.drawImage(i,0,0,px,px)},'pic:'+k+px);
   if(IMG[k]&&!IMG[k].complete)IMG[k].addEventListener('load',()=>t.redraw(),{once:true});return t}

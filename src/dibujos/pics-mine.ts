@@ -1,13 +1,14 @@
 // ==========================================================================
-// pics-mine.js: iconos propios de la versión 2 (notas, carpa, pizarra, casaCaracol, manos,
+// pics-mine.ts: iconos propios de la versión 2 (notas, carpa, pizarra, casaCaracol, manos,
 // dientes, estrellas): los usan las canciones, rutinas y trazos (extras.js), zonas.js y tienda.js.
 // ==========================================================================
 // Añade dibujos a PICS con Object.assign(PICS,{clave:`...svg...`}). Formato de un dibujo (SVG con
 // centro en 0,0 dentro de -62..62) y cómo se busca por su nombre con pic(clave,...): ver la cabecera
-// de pics-base.js.
+// de pics-base.ts.
 // Es el último archivo de dibujos en ARCHIVOS (herramientas/vite/curiolandia.mts), así que si repite una clave, gana el de aquí.
 // ==========================================================================
 /* ---------- íconos propios de la v2 ---------- */
+import { K, PICS, sw } from './pics-base.ts';
 Object.assign(PICS,{
 notas:`<path d="M-26 34 V-30 L34 -44 V22" fill="none" ${sw(7)}/><path d="M-26 -14 L34 -28" fill="none" ${sw(7)}/><ellipse cx="-38" cy="34" rx="16" ry="12" fill="#9B8AD9" ${sw()} transform="rotate(-20 -38 34)"/><ellipse cx="22" cy="22" rx="16" ry="12" fill="#F58BB4" ${sw()} transform="rotate(-20 22 22)"/><path d="M-50 -46 l6 -10 l6 10 M44 -54 l5 -8 l5 8" fill="none" stroke="#FFC93C" stroke-width="4" stroke-linecap="round"/>`,
 carpa:`<path d="M-54 46 L-44 -6 L0 -46 L44 -6 L54 46 Z" fill="#FFF6E6" ${sw()}/><path d="M-44 -6 L-30 46 M-14 -32 L-10 46 M14 -32 L10 46 M44 -6 L30 46" fill="none" stroke="#FF6B5E" stroke-width="9"/><path d="M-54 46 L-44 -6 L0 -46 L44 -6 L54 46 Z" fill="none" ${sw()}/><path d="M-14 46 Q0 4 14 46 Z" fill="#7A4A9A" ${sw(4)}/><path d="M0 -46 V-60" ${sw(4)}/><path d="M0 -60 L20 -54 L0 -48 Z" fill="#FFC93C" ${sw(3)}/><path d="M-44 -6 Q-30 6 -16 -6 Q-2 6 12 -6 Q26 6 44 -6" fill="none" stroke="#5B8DEF" stroke-width="6"/>`,

@@ -1,6 +1,6 @@
 /* ================= NÚCLEO DE CURIOLANDIA ================= */
 /*
- * core.js: el núcleo de Curiolandia. Va justo después de los dibujos (pics-*.js) y antes que todo lo demás
+ * core.js: el núcleo de Curiolandia. Es el primer archivo global: va después de los módulos (los dibujos, src/dibujos/) y antes que todo lo demás
  * (ver ARCHIVOS en herramientas/vite/curiolandia.mts). Como todo se concatena en un único <script>, lo que se define aquí lo ven todos los archivos siguientes.
  *
  * Qué define (globales que usan los demás archivos):
@@ -22,7 +22,7 @@
  *  - Dificultad adaptativa: VIVO.ADAPT, streak, VIVO.REP, nOpts, onRight, onWrongTwice, nRounds; tiempo: VIVO.sessionT, VIVO.minuteAcc.
  *  - Pegatinas: VIVO.toast, giveSticker, drawSticker, drawToast. Calendario: DIAS, DIASL, DIAC, MESES, ESTACIONES, estacionDe.
  *
- * Depende de: pics-*.js (PICS, K = color de la tinta, TITO_SVG, ERIZO_SVG, TORTUGA_SVG, CONEJO_SVG, LUPI_SVG,
+ * Depende de: los dibujos de src/dibujos/, que src/modulos.ts deja en globalThis (PICS, K = color de la tinta, TITO_SVG, ERIZO_SVG, TORTUGA_SVG, CONEJO_SVG, LUPI_SVG,
  * GLASSES_SVG, HAND_SVG). Mientras el juego corre usa también SCENES (scenes.js y otros), titoImg/drawTitoWear (tienda.js).
  * El bucle de dibujo frame() y la entrada (dedo/ratón) están en adult.js; el arranque, en boot.js.
  */
@@ -239,7 +239,7 @@ const IMG={},IMGG={};
 // svgImg(interior, viewBox, px): crea una imagen a partir de un trozo de SVG. px es el ancho en píxeles y el alto sale de
 // la proporción del viewBox. La imagen carga de forma asíncrona: hay que mirar .complete antes de dibujarla.
 function svgImg(inner,vb,px){const i=new Image();i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="${px}" height="${Math.round(px*(+vb.split(' ')[3])/(+vb.split(' ')[2]))}">${inner}</svg>`);return i}
-// Se convierten en imagen todos los dibujos de pics-*.js (cada uno está dibujado en un cuadro de -62 a 62).
+// Se convierten en imagen todos los dibujos de src/dibujos/ (cada uno está dibujado en un cuadro de -62 a 62).
 for(const k in PICS) IMG[k]=svgImg(PICS[k],'-62 -62 124 124',320);
 // Personajes: Tito en sus cuatro formas, Lupi, las gafas y la mano que señala en las ayudas.
 IMG.tito=svgImg(TITO_SVG,'0 0 240 200',480);IMG.erizo=svgImg(ERIZO_SVG,'0 0 240 200',480);IMG.tortuga=svgImg(TORTUGA_SVG,'0 0 240 200',480);IMG.conejo=svgImg(CONEJO_SVG,'0 0 240 200',480); IMG.lupi=svgImg(LUPI_SVG,'0 0 200 230',420); IMG.glasses=svgImg(GLASSES_SVG,'0 0 200 230',420); IMG.hand=svgImg(HAND_SVG,'0 0 80 110',160);

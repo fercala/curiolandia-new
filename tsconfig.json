@@ -1,5 +1,6 @@
 {
-  // Tipos estrictos para el código TypeScript nuevo (montaje, pruebas de Vitest y, desde la fase 2, el juego).
+  // Tipos estrictos para el código TypeScript: montaje, pruebas de Vitest y los módulos del juego (src/**/*.ts, desde
+  // la fase 2). src/tipos/ son los tipos del código global para tsconfig.js.json, no de los módulos.
   // `npm run tipos` tiene que terminar sin errores; lo comprueba GitHub Actions.
   "compilerOptions": {
     "target": "ES2022",
@@ -15,5 +16,6 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["vite.config.mts", "herramientas/**/*.mts", "tests/unidad/**/*.ts"]
+  "include": ["vite.config.mts", "herramientas/**/*.mts", "tests/unidad/**/*.ts", "src/**/*.ts"],
+  "exclude": ["src/tipos"]
 }

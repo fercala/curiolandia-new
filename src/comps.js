@@ -77,7 +77,7 @@
 // onWrongTwice, AGE, nOpts, nRounds, REP, idle, drag, scene, MX/MY, mouseOn,
 // burst, sparkles, parts, card, circ, ell, star, text, rr, fillStroke, hv, hR,
 // hC, back, lerp, clamp, dist, rnd, ri, pick, shuffle, cap, praise, SOUNDS,
-// playSound, ONO, IMG...), lex.js (W_, Wn, V, tx) y los pics-*.js (pic, picG).
+// playSound, ONO, IMG...), lex.js (W_, Wn, V, tx) y los dibujos de src/dibujos/ (con pic y picG de core.js).
 // ============================================================================
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
 // Dibuja una "cosa" k centrada en (x,y) con tamaño s.

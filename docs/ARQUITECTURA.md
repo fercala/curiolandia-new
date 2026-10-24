@@ -20,7 +20,7 @@ Otras guías:
 Curiolandia 3D es un juego web para niños de Educación Infantil (3, 4 y 5 años). Tito (un caracol; también puede ser erizo, tortuga o conejo) guía al niño por una isla con zonas por edad. Cada zona tiene un camino de **casitas**, cada casita es un **tema** (la familia, los animales, el otoño...) y dentro de cada tema hay varios **juegos** cortos. Al terminar un tema se abre un **cofre** con un regalo para Tito. Las monedas que se ganan se gastan en una **tienda**.
 
 Características técnicas:
-- **HTML + JavaScript puro**, sin frameworks y sin paso de compilación aparte de concatenar archivos (`npm` solo trae Playwright para las pruebas).
+- **HTML + JavaScript y TypeScript**, sin frameworks. Vite monta la página: junta los módulos TypeScript y pega el código global (ver «Archivos de `src/`»).
 - **Three.js r128** para la capa 3D (el archivo `three.min.js` va incluido).
 - **Funciona sin conexión** (es una PWA con service worker) y se puede instalar en el móvil.
 - **Voz del navegador** (`speechSynthesis`) para todo lo que dice Tito; no hay voces grabadas.
@@ -46,12 +46,24 @@ Características técnicas:
 
 ### Archivos de `src/`
 
-Todos los `.js` se pegan, en un orden fijo (`ARCHIVOS` en `herramientas/vite/curiolandia.mts`), dentro de un único `<script>`. **El orden importa**: un archivo puede usar y modificar lo que definen los anteriores.
+El juego está a medio camino entre dos formas de cargar el código (fase 2 de la migración):
+
+- **Módulos TypeScript** (`src/modulos.ts` y lo que importa, por ahora los dibujos de `src/dibujos/`). Cada archivo
+  importa lo que usa (`import { K, PICS } from './pics-base.ts'`). El plugin de Vite los junta con rolldown en un
+  `<script>` que va **antes** del código global. `src/modulos.ts` deja en `globalThis` lo que el código global
+  todavía usa de ellos (el **puente**: `PICS`, `K`, `TITO_SVG`...; sus tipos están en `src/tipos/puente.d.ts`).
+- **Código global**: los `.js` de `src/` que aún no son módulos se pegan, en un orden fijo (`ARCHIVOS` en
+  `herramientas/vite/curiolandia.mts`), dentro de un único `<script>` después del de los módulos. **El orden importa**:
+  un archivo puede usar lo que definen los anteriores.
+
+Los archivos pasan de globales a módulos de uno en uno, desde el principio de `ARCHIVOS`: un módulo solo puede
+importar de otros módulos, nunca del código global.
 
 | Orden | Archivo | Qué contiene |
 |---|---|---|
 | — | `head.html` | Cabecera HTML: estilos, los dos lienzos (`#gl` para el 3D y `#cv` para el 2D, encima), la carga de Three.js y los paneles HTML (nombre, reinicio, zona de adultos). |
-| 1 | `pics-base.js`, `pics-new.js`, `pics-a.js` ... `pics-e.js`, `pics-mine.js` | **Dibujos**. Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. |
+| — | `modulos.ts` | Entrada de los módulos: los importa en orden y deja el puente en `globalThis`. |
+| 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. |
 | 2 | `core.js` | **El núcleo**: utilidades, el estado guardado `S`, idioma (`tx`), dibujo 2D básico, Tito en 2D, sonido (`tone`, `noise`), música, voz (`say`), el sistema de escenas (`SCENES`, `go`, `later`), partículas (`parts`), ayuda automática, dificultad adaptativa, pegatinas. |
 | 3 | `lex.js` | Vocabulario: nombres de las cosas (`LEX`, `LEX2`), sonidos de animales y la tabla de cambios del español rioplatense al de España. |
 | 4 | `comps.js`, `comps2.js` | **Componentes de juego**: el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
@@ -66,7 +78,7 @@ Todos los `.js` se pegan, en un orden fijo (`ARCHIVOS` en `herramientas/vite/cur
 | 13 | `adult.js` | Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
 | 14 | `world3d.js` | **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
 | 15 | `boot.js` | Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
-| — | `tipos/estado.d.ts`, `tipos/globales.d.ts` | Tipos del estado `S`, de los temas y de lo que hay en `window`, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
+| — | `tipos/estado.d.ts`, `tipos/globales.d.ts`, `tipos/puente.d.ts` | Tipos del estado `S`, de los temas, de lo que hay en `window` y del puente, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
 Como todo va en el mismo `<script>`, **todas las variables globales se comparten**. Por ejemplo, `S` (definido en `core.js`) se usa en todos los archivos.
@@ -287,7 +299,7 @@ Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAd
 ## 14. Montar y publicar
 
 ```
-src/head.html + src/*.js (orden de ARCHIVOS) + public/ ──Vite + herramientas/vite/curiolandia.mts──> dist/
+src/head.html + src/modulos.ts (rolldown) + src/*.js (orden de ARCHIVOS) + public/ ──Vite + herramientas/vite/curiolandia.mts──> dist/
   (index.html, sw.js, manifest.webmanifest, three.min.js, fuentes, iconos)
 main ──GitHub Actions (.github/workflows/web.yml)──> pruebas ──> dist/ en GitHub Pages
 ```
