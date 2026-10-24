@@ -88,8 +88,12 @@ const R = L.registro('informe-b');
     if (await p.evaluate(() => __cl.name) !== 'intro') return 'no se pudo abrir el cuento';
     await L.clic(p, 1500, 820); await p.waitForTimeout(1500);
     const esc = await p.evaluate(() => __cl.name); if (esc !== 'map') return 'sigue en ' + esc;
-    // el candado sigue funcionando: mantener pulsado 3,5 s sobre él
-    const [a, c] = await p.evaluate(() => [OX + 1546 * SC, OY + 852 * SC]); await p.mouse.move(a, c); await p.mouse.down(); await p.waitForTimeout(4000); await p.mouse.up();
+    // el candado sigue funcionando: mantenerlo pulsado hasta que se abra la zona de adultos (máximo 10 s). El juego
+    // cuenta como mucho 0,25 s por fotograma (lockHold en frame()), así que sin tarjeta gráfica (el mapa a unos 3 FPS)
+    // hacen falta más de los 3 s de un aparato normal.
+    const [a, c] = await p.evaluate(() => [OX + 1546 * SC, OY + 852 * SC]); await p.mouse.move(a, c); await p.mouse.down();
+    for (let t = 0; t < 10000 && await p.evaluate(() => document.getElementById('adult').hidden); t += 250) await p.waitForTimeout(250);
+    await p.mouse.up();
     if (!(await p.evaluate(() => !document.getElementById('adult').hidden))) return 'el candado ya no abre la zona de adultos';
   }, { rapido: false });// con voz de verdad: en modo rápido el cuento se acaba solo en 3 s
 

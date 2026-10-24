@@ -8,6 +8,7 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 |---|---|
 | comps.js, `Excava` | Falla con más de 6 objetos (solo hay 6 posiciones). |
 | comps.js / comps2.js | `Atrapa`, `Excava`, `Riega`, `Frota` y `Velas` no llaman a `onRight`: no dan la moneda por acierto ni ajustan la dificultad. |
+| adult.js, `frame()` | El candado de adultos cuenta como mucho 0,25 s por fotograma (`lockHold`): en un aparato que vaya a menos de 4 FPS (el mapa sin tarjeta gráfica va a unos 3) hay que mantenerlo pulsado más de 3 s. Visto en las pruebas de la fase 0 (B5 de `informe-b.js`, que ahora espera hasta 10 s). |
 | extras.js + temas | El cuento se añade al final de `games` al cargar: añadir un juego al final de un tema con cuento desplaza el progreso guardado del cuento (ver COMO-AGREGAR.md, receta 5). |
 
 ## Límites que conviene saber
@@ -15,7 +16,6 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 - Cada camino de edad admite 12 casitas (`zonePos()` en zonas.js) y cada casita unos 8 juegos (`st3Pos()` en world3d.js).
 - La casa de Tito tiene 12 huecos de suelo y 4 de pared por habitación (`HOMESPOT`, `WALLSPOT`): a partir de ahí las cosas nuevas se colocan al azar y pueden quedar unas encima de otras (se pueden mover arrastrándolas).
 - Varios números están escritos a mano en frases grabadas ("tres casitas", "seis flores"): si se cambia `NEED` o la regla de 6 flores, las frases dejan de cuadrar.
-- Las oraciones con números solo suenan grabadas si están grabadas todas sus piezas (ver VOCES.md); los números de más de 999 siempre los dice la voz del navegador.
 - `tx()` convierte "a vos" en "a tú" (debería ser "a ti"): "¡Ahora te toca a tú!" ya está grabado así en tres frases de las canciones, y hay una más pendiente. Arreglarlo cambia el texto de frases grabadas: habría que regrabarlas.
 
 ## Rarezas sin efecto visible (limpieza)

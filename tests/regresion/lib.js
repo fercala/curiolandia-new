@@ -43,7 +43,7 @@ async function abrir(b, port, o = {}) {
     if (rapido) window.__fast = 1;
   }, [o.hora, o.fecha, o.rapido !== false]);
   if (o.guardado !== undefined || o.crudo !== undefined) {
-    await p.addInitScript(([g, c]) => { try { if (!sessionStorage.getItem('__puesto')) { sessionStorage.setItem('__puesto', '1'); localStorage.clear(); if (c !== undefined && c !== null) localStorage.setItem('curiolandia.v1', c); else if (g) localStorage.setItem('curiolandia.v1', JSON.stringify(g)) } } catch (e) { } }, [o.guardado, o.crudo]);
+    await p.addInitScript(([g, c]) => { try { if (!sessionStorage.getItem('__puesto')) { sessionStorage.setItem('__puesto', '1'); localStorage.clear(); if (c !== undefined && c !== null) localStorage.setItem('curiolandia-new.v1', c); else if (g) localStorage.setItem('curiolandia-new.v1', JSON.stringify(g)) } } catch (e) { } }, [o.guardado, o.crudo]);
   }
   if (o.antes) await p.addInitScript(o.antes);
   await p.goto(`http://localhost:${port}/index.html`);

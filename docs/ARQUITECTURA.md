@@ -1,11 +1,16 @@
 # Arquitectura de Curiolandia 3D
 
+> **En este repo (fase 0 de la migración):** el código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) con tres
+> cambios: sin voces grabadas (todo con la voz del navegador, `S.voz='nav'`), clave de guardado propia con copia única
+> de la partida vieja ([ESTADO-GUARDADO.md](ESTADO-GUARDADO.md)) y montaje a `dist/` publicado por GitHub Actions
+> (apartado 14). Lo que esta guía cuenta de `voz/`, `voz-fer/` y las grabaciones describe el juego viejo.
+
 Esta guía explica cómo está hecho el juego por dentro. Está pensada para alguien que empieza: léela de arriba abajo una vez antes de tocar código. Para los pasos concretos de "cómo añado X", ve a [COMO-AGREGAR.md](COMO-AGREGAR.md).
 
 Otras guías:
 - [COMO-AGREGAR.md](COMO-AGREGAR.md): el proceso de trabajo y recetas paso a paso.
 - [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md): el estado `S` que se guarda en el móvil y cómo no romperlo.
-- [VOCES.md](VOCES.md): cómo habla Tito y cómo se graban frases nuevas.
+- [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md): lo que las pruebas leen del juego (`window.__cl`) y no puede cambiar de nombre.
 - [PROBLEMAS-CONOCIDOS.md](PROBLEMAS-CONOCIDOS.md): fallos y rarezas que se han visto en el código y siguen sin arreglar.
 
 ---
@@ -15,27 +20,24 @@ Otras guías:
 Curiolandia 3D es un juego web para niños de Educación Infantil (3, 4 y 5 años). Tito (un caracol; también puede ser erizo, tortuga o conejo) guía al niño por una isla con zonas por edad. Cada zona tiene un camino de **casitas**, cada casita es un **tema** (la familia, los animales, el otoño...) y dentro de cada tema hay varios **juegos** cortos. Al terminar un tema se abre un **cofre** con un regalo para Tito. Las monedas que se ganan se gastan en una **tienda**.
 
 Características técnicas:
-- **HTML + JavaScript puro**, sin frameworks, sin npm y sin paso de compilación aparte de concatenar archivos.
+- **HTML + JavaScript puro**, sin frameworks y sin paso de compilación aparte de concatenar archivos (`npm` solo trae Playwright para las pruebas).
 - **Three.js r128** para la capa 3D (el archivo `three.min.js` va incluido).
 - **Funciona sin conexión** (es una PWA con service worker) y se puede instalar en el móvil.
-- **Voces grabadas** en MP3 para cada frase que dice Tito, con la voz del navegador como respaldo.
-- Se publica en GitHub Pages: https://fercala.github.io/curiolandia-3d/
+- **Voz del navegador** (`speechSynthesis`) para todo lo que dice Tito; no hay voces grabadas.
+- Se publica en GitHub Pages: https://fercala.github.io/curiolandia-new/
 
 ## 2. Mapa del repositorio
 
 ```
-/                       la web publicada (lo que sirve GitHub Pages)
-├── index.html          el juego montado (¡no se edita a mano! se genera desde src/)
-├── sw.js               service worker (generado por src/build_web.py)
-├── manifest.webmanifest  datos de la PWA (generado)
-├── three.min.js        Three.js r128
-├── fonts/, icon-*.png  fuentes e iconos
-├── voz/                MP3 de la voz principal + voz/manifest.json (texto -> archivo)
-├── voz-fer/            MP3 de la "Voz de Fer" (mismos nombres) + manifest.json
+/
 ├── src/                EL CÓDIGO FUENTE (aquí es donde se trabaja)
-├── docs/               esta documentación
-├── tests/humo.js       prueba automática: recorre las escenas y busca errores
-├── herramientas/voces/ scripts para generar y preparar las voces grabadas
+├── public/             lo que se copia tal cual a la web: three.min.js (r128), fonts/, iconos
+├── dist/               la web montada (no está en git; la genera `npm run build` y la publica GitHub Actions)
+├── tests/              humo.js, comentarios.py y regresion/ (ver tests/regresion/LEEME.md)
+├── dialogos/           catálogo de frases (todos.csv) y frases nuevas o cambiadas (pendientes.txt)
+├── docs/               esta documentación y el plan de migración
+├── .github/workflows/  web.yml: pruebas en cada PR y publicación desde main
+├── package.json        solo Playwright, para las pruebas
 ├── CLAUDE.md           reglas cortas para trabajar con Claude Code
 └── README.md           presentación del proyecto
 ```
@@ -63,7 +65,7 @@ Todos los `.js` se pegan, en un orden fijo, dentro de un único `<script>` (lo h
 | 14 | `world3d.js` | **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
 | 15 | `boot.js` | Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `build.sh` | Concatena todo en `src/artifact.html` y `src/index.html`. |
-| — | `build_web.py` | Genera la web instalable en `src/web/` (index, `sw.js`, manifest) y el zip. Tiene la versión `VER`. |
+| — | `build_web.py` | Genera la web instalable en `dist/` (index, `sw.js`, manifest y lo de `public/`). Tiene la versión `VER`. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
 Como todo va en el mismo `<script>`, **todas las variables globales se comparten**. Por ejemplo, `S` (definido en `core.js`) se usa en todos los archivos.
@@ -237,11 +239,9 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 ## 10. Voz e idioma
 
-- `say(texto, alAcabar)` hace hablar a Tito. Busca un **MP3 grabado** para ese texto exacto en `voz/manifest.json` (o `voz-fer/` si se eligió la Voz de Fer). Si solo hay grabada una parte, mezcla: lo grabado con MP3 y el resto con la voz del navegador; las oraciones con números se arman con piezas grabadas ("hoy es jueves" + "22" + "de octubre"). El nombre del niño lo dice la voz del navegador antes de lo grabado. Detalles en [VOCES.md](VOCES.md).
+- `say(texto, alAcabar)` hace hablar a Tito con la **voz del navegador** (`speechSynthesis`). La voz es la elegida en la zona de adultos (`S.vozNav`) o la más natural del país (`pickVoice`, `vozCalidad` en core.js). El código de las voces grabadas (`vozLoad`, `vozFile`, `vozSeq`...) sigue en core.js pero no se usa, porque `S.voz` es siempre `'nav'`; se quita en la migración.
 - Muchos textos del código están escritos en **español rioplatense** ("Tocá", "Buscá") porque el juego nació así; `tx()` los convierte al **castellano de España** cuando la variante es España (`S.variant='es'`). `V(['rioplatense', 'España'])` elige entre dos versiones cuando el cambio es grande.
-- **Regla de oro: no cambies el texto de ninguna frase que ya dice `say()`**, porque perdería su MP3. Las frases nuevas se escriben en castellano de España y se apuntan para grabarlas.
-
-Todo el detalle en [VOCES.md](VOCES.md).
+- Las frases nuevas o cambiadas se escriben en castellano de España y se apuntan en `dialogos/` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
 
 ## 11. Sonido, música y partículas
 
@@ -267,9 +267,12 @@ Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAd
 
 ```
 src/*.js + head.html ──build.sh──> src/artifact.html, src/index.html
-src/index.html ──build_web.py──> src/web/index.html, sw.js, manifest.webmanifest, zip
-src/web/{index.html, sw.js, manifest.webmanifest} ──copiar──> raíz del repo ──git push──> GitHub Pages
+src/index.html + public/ ──build_web.py──> dist/ (index.html, sw.js, manifest.webmanifest, three.min.js, fuentes, iconos)
+main ──GitHub Actions (.github/workflows/web.yml)──> pruebas ──> dist/ en GitHub Pages
 ```
+
+`npm run build` hace los dos primeros pasos. Nadie copia archivos a mano ni los sube montados: al fusionar en `main`,
+el workflow monta, prueba y publica.
 
 `VER` en `build_web.py` es el nombre de la caché del service worker: **hay que subirlo en cada publicación** o los móviles seguirán con la versión anterior. Los pasos exactos están en [COMO-AGREGAR.md](COMO-AGREGAR.md#1-el-proceso-de-trabajo).
 
@@ -277,6 +280,6 @@ src/web/{index.html, sw.js, manifest.webmanifest} ──copiar──> raíz del 
 
 No hay tests unitarios. Se prueba de dos maneras:
 - **A mano**: abrir el juego con un servidor local (`python3 -m http.server`) y jugar.
-- **Automática**: `node tests/humo.js` abre el juego en un navegador sin ventana, recorre las escenas de día y de noche, guarda capturas en `tests/capturas/` y falla si hay errores de JavaScript.
+- **Automática**: `node tests/humo.js dist` abre el juego en un navegador sin ventana, recorre las escenas de día y de noche, guarda capturas en `tests/capturas/` y falla si hay errores de JavaScript. Las pruebas de regresión de `tests/regresion/` juegan como un niño; en cada PR, GitHub Actions pasa `npm run test:pr` (ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md) y [LINEA-BASE.md](LINEA-BASE.md)).
 
 Para pruebas desde la consola del navegador, el juego expone `window.__cl` (escenas, `go`, `S`...) y `window.__w3` (mundo 3D, `pickAt`, `proj`). Con `window.__fast = 1` la voz no espera al audio, y `window.__said` guarda lo que va diciendo Tito.

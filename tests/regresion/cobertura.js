@@ -4,7 +4,7 @@ const L=require('./lib'),fs=require('fs'),path=require('path');
 const [root='.',filter='']=process.argv.slice(2),name='cobertura'+(filter?'-'+filter:'');
 let repositoryCommit=null;try{repositoryCommit=require('child_process').execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim()}catch{}
 const webSha256=require('crypto').createHash('sha256').update(fs.readFileSync(path.join(root,'index.html'))).digest('hex');
-const gameVersion=(fs.readFileSync(path.join(root,'sw.js'),'utf8').match(/curiolandia3d-v([\d.]+)/)||[])[1]||null;
+const gameVersion=(fs.readFileSync(path.join(root,'sw.js'),'utf8').match(/curiolandia-new-v([\d.]+)/)||[])[1]||null;
 const report={date:new Date().toISOString(),repositoryCommit,gameVersion,webSha256,note:'Fixtures sintéticos. Ratón/teclado/DOM reales donde se indica; __fast omite audio. No certifica escucha ni móvil físico.',results:[]};
 const base={age:4,name:'QA',variant:'es',intro:true,first:{askedName:1},unlockAll:true,coins:100,coinsTot:100,gift:'2026-10-24',seenFl:0,houseSeen:0,petSeen:0,woke:{jardin:1,bosque:1,montana:1},seenOpen:{}};
 fs.mkdirSync(L.SAL,{recursive:true});

@@ -2,7 +2,7 @@
 
 Escrito el 23 y 24 de octubre de 2026 con Fernando. Es la versión del repo del documento de trabajo
 [Curiolandia 3D: migración a arquitectura limpia](https://claude.ai/artifact/6sp7FQAvERP6wEPG83Qc2W).
-**Estado: sin empezar.** No se toca código hasta que Fernando lo diga: antes termina los últimos cambios en la versión original.
+**Estado: fase 0 empezada el 24 de octubre de 2026** (Fernando: «empezamos con la fase 0»). Código importado de `curiolandia-3d` en el commit `dd5fc61` (v1.592).
 
 ## 1. Resumen
 

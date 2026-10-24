@@ -1,0 +1,50 @@
+# Línea base (fase 0)
+
+Medidas del juego tal como se importó de `curiolandia-3d` (commit `dd5fc61`, v1.592), para compararlas al final de cada
+fase de la migración. Si una fase empeora algo de aquí, se explica en su PR.
+
+Medido el 24 de octubre de 2026 en el entorno en la nube de Claude Code (4 núcleos, Chromium 1.63 de Playwright sin
+ventana y **sin tarjeta gráfica**: WebGL por software con SwiftShader). En un móvil o un ordenador con tarjeta gráfica
+todo va mucho más rápido; lo que importa es comparar siempre en el mismo sitio.
+
+## Tamaño de la web (`dist/`)
+
+| Archivo | Bytes | Comprimido (gzip) |
+| --- | --- | --- |
+| `index.html` (todo el juego) | 1.300.964 | 419.720 |
+| `three.min.js` (r128) | 603.445 | — |
+| `dist/` entera | 2.100.292 | — |
+
+La web de `curiolandia-3d` pesa unos 101 MB más: `voz/` (48 MB) y `voz-fer/` (51 MB) no se publican aquí.
+
+## Fotogramas por segundo
+
+`node tests/regresion/fps.js dist`: cuatro segundos contando `requestAnimationFrame` en cada escena, partida de 3 años,
+sin otras pruebas en marcha.
+
+| Escena | FPS |
+| --- | --- |
+| Mapa (3D) | 2,7 |
+| Casita 3A-T1 (3D) | 6,4 |
+| Cuento de la introducción (2D) | 22,2 |
+| Juego 3A-T1 #0 (2D) | 60,1 |
+
+El mapa es lo más pesado. Con menos de 4 FPS el candado de adultos tarda más de 3 s en abrirse
+(ver [PROBLEMAS-CONOCIDOS.md](PROBLEMAS-CONOCIDOS.md)).
+
+## Juegos que terminan siguiendo la ayuda
+
+`node tests/regresion/juegos.js dist 0 1 90` (los 253 juegos, uno detrás de otro, 90 s cada uno como máximo).
+
+Resultado: _pendiente; se completa cuando acabe la pasada entera (unas dos horas en este entorno)._
+
+## Pruebas en verde al importar
+
+| Prueba | Resultado |
+| --- | --- |
+| `tests/comentarios.py` | 26 archivos, 0 fallos |
+| `tests/humo.js` | de día y de noche, 3D sí, 0 errores |
+| `informe-b.js` | B1-B7 bien (B5 con la espera del candado ajustada; fallaba igual en `curiolandia-3d` en este entorno) |
+| `voces.js` | V1-V3 bien |
+| `casa.js` | C1-C7 bien |
+| `guardado-viejo.js` (nueva) | G1-G5 bien |

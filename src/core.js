@@ -62,7 +62,7 @@ function col(c,s){ // mezcla un color hacia su gris (s=1 color pleno, 0 gris)
  * ESTADO GUARDADO S
  * -----------------
  * S es un único objeto con TODO el progreso y los ajustes del niño. Se guarda entero, como JSON, en el localStorage
- * del navegador con la clave KEY ('curiolandia.v1') cada vez que se llama a save(). No hay guardado automático:
+ * del navegador con la clave KEY ('curiolandia-new.v1') cada vez que se llama a save(). No hay guardado automático:
  * después de cambiar algo de S hay que llamar a save().
  *
  * Campos que crea DEF (aquí):
@@ -94,7 +94,10 @@ function col(c,s){ // mezcla un color hacia su gris (s=1 color pleno, 0 gris)
  * o con "S.x||valor" al leerlo). Ojo: al cargar, Object.assign solo mezcla el primer nivel: dentro de un objeto
  * (salvo vol) no se añaden valores por defecto que falten.
  */
-const KEY='curiolandia.v1';
+// KEY: clave de guardado de esta versión. KEY_VIEJA es la de curiolandia-3d, que se publica en el mismo dominio
+// (fercala.github.io) y por eso comparte localStorage: su partida se copia una sola vez (ver load()) y nunca se escribe.
+// KEY_COPIA marca que esa copia ya se hizo (solo si había partida vieja), para no volver a traerla nunca más.
+const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curiolandia-new.copiada';
 // DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (adult.js) también parte de aquí.
 const DEF={age:0,name:'',variant:'',hemi:'N',vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0};
 // S empieza siendo una copia de DEF (JSON.parse(JSON.stringify(...)) hace una copia profunda) y load() la completa.
@@ -137,10 +140,14 @@ function sanoHondo(d){const ob=v=>!!v&&typeof v==='object'&&!Array.isArray(v),nu
 // partida vieja queda con su valor por defecto; vol se mezcla aparte para no perder volúmenes nuevos. Antes, sanoS() quita
 // los campos con un tipo imposible (null, un nombre que no es texto...), que también quedan con su valor por defecto, y
 // sanoHondo() arregla lo que hay dentro de las colecciones (temas, home, vales...).
-// Si no hay partida, intenta traer nombre, edad, acento y volumen de Letrilandia (otro juego que guarda en
+// Si no hay partida propia y nunca se copió, trae la de curiolandia-3d (KEY_VIEJA) una sola vez: la lee, apunta
+// KEY_COPIA y la trata como una partida guardada más (el siguiente save() la escribe ya en KEY). La vieja no se toca.
+// Una vieja rota (JSON mal escrito) se ignora sin marcar la copia: el juego empieza una partida nueva.
+// Si tampoco hay esa, intenta traer nombre, edad, acento y volumen de Letrilandia (otro juego que guarda en
 // 'letrilandia.v1' en el mismo dominio). Los try/catch evitan fallos si el navegador bloquea localStorage.
 (function load(){
   let d=null; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  if(!d)try{if(!localStorage.getItem(KEY_COPIA)){d=JSON.parse(localStorage.getItem(KEY_VIEJA)||'null');if(d)localStorage.setItem(KEY_COPIA,'1')}}catch(e){d=null}
   if(d&&typeof d==='object'&&!Array.isArray(d)){sanoS(d,DEF);sanoHondo(d);if(d.vol)sanoS(d.vol,DEF.vol);S=Object.assign(S,d,{vol:Object.assign({},DEF.vol,d.vol||{})});return}
   // primera vez: si Letrilandia ya se jugó en este dispositivo, traemos nombre, edad, acento y volúmenes
   try{const l=JSON.parse(localStorage.getItem('letrilandia.v1')||'null');
@@ -150,6 +157,9 @@ function sanoHondo(d){const ob=v=>!!v&&typeof v==='object'&&!Array.isArray(v),nu
 // rioplatense casi todas las frases irían con la voz del navegador. Las partidas que ya eligieron acento no cambian.
 // El texto original está escrito en rioplatense y tx() lo pasa a España.
 if(!S.variant)S.variant='es';
+// Esta versión no lleva voces grabadas (ni voz/ ni voz-fer/): todo lo dice la voz del navegador. Una partida copiada
+// de curiolandia-3d puede traer S.voz '' o 'fer'; se pasa a 'nav' para que vozLoad() no busque manifiestos.
+S.voz='nav';
 // save(): guarda S entero en localStorage. Llámala después de cada cambio de S. Si falla (modo privado, sin espacio)
 // no pasa nada: el juego sigue, pero sin guardar.
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}

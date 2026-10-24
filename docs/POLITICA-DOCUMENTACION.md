@@ -33,8 +33,7 @@ El objetivo es que cualquier programador, también uno que empieza, pueda abrir 
 | Cómo está organizado el código: un archivo nuevo, el orden de `build.sh`, una capa o envoltura nueva, el flujo del niño, la capa 3D | [ARQUITECTURA.md](ARQUITECTURA.md) |
 | La forma de añadir algo (objeto 3D, tema, juego, componente, cuento, dibujo, tienda, escena, zona de adultos) o el proceso de montar, probar y publicar | [COMO-AGREGAR.md](COMO-AGREGAR.md) (su receta) |
 | Un campo nuevo o distinto del estado guardado `S` | [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md) (tabla de campos, con su valor por defecto) |
-| Cómo habla Tito o el proceso de grabar voces | [VOCES.md](VOCES.md) |
-| Diálogos nuevos o cambiados de `say()` | `dialogos/pendientes.txt` (una por línea, texto exacto) y el catálogo `dialogos/todos.csv` (`python3 herramientas/voces/dialogos.py`). Ver [dialogos/LEEME.md](../dialogos/LEEME.md) |
+| Diálogos nuevos o cambiados de `say()` | `dialogos/pendientes.txt` (una por línea, texto exacto) y una fila nueva en el catálogo `dialogos/todos.csv`. Ver [dialogos/LEEME.md](../dialogos/LEEME.md) |
 | Arreglas un fallo de la lista, o encuentras uno que no arreglas | [PROBLEMAS-CONOCIDOS.md](PROBLEMAS-CONOCIDOS.md) (quítalo o añádelo) |
 | Una herramienta, una prueba o un comando nuevo | El README y la sección del proceso en COMO-AGREGAR.md |
 | Una regla de trabajo nueva | `CLAUDE.md` y esta política |
@@ -64,17 +63,13 @@ Antes de cada commit:
    ```sh
    python3 tests/comentarios.py
    ```
-   Revisa que cada `.js` de `src/` tenga cabecera de archivo y que cada función escrita al principio de una línea tenga un comentario encima. Tiene que terminar con `TODO BIEN`. Para que se ejecute sola en cada commit, actívala una vez en tu copia del repo:
-   ```sh
-   git config core.hooksPath herramientas/git-hooks
-   ```
-   (Con eso, `git commit` se para si falta un comentario o si cambias `src/` sin tocar ningún documento. Si de verdad el cambio no necesita documentación, puedes saltártelo con `git commit --no-verify`, pero explícalo en el mensaje del commit.)
+   Revisa que cada `.js` de `src/` tenga cabecera de archivo y que cada función escrita al principio de una línea tenga un comentario encima. Tiene que terminar con `TODO BIEN`. GitHub Actions la pasa en cada PR (`npm run test:comentarios`); los ganchos de commit llegan en la fase 1 de la migración.
 2. **Repaso a mano con la lista** (la misma está en la plantilla de los pull requests, `.github/pull_request_template.md`):
    - [ ] Cada función nueva o cambiada tiene su comentario de cabecera, y es correcto.
    - [ ] La lógica complicada lleva comentarios dentro.
    - [ ] Los comentarios de lo que he cambiado o borrado siguen siendo verdad.
    - [ ] He actualizado los documentos de `docs/` que tocan (tabla 1.2).
-   - [ ] He apuntado los diálogos nuevos o cambiados en `dialogos/pendientes.txt` y he rehecho `dialogos/todos.csv`.
+   - [ ] He apuntado los diálogos nuevos o cambiados en `dialogos/pendientes.txt` y en `dialogos/todos.csv`.
    - [ ] Si publico: he subido `VER` y he añadido la entrada en `docs/CAMBIOS.md`.
 
 ## 3. Estilo

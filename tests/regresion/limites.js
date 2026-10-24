@@ -44,7 +44,7 @@ caso('guardado-letrilandia', 'Primera vez con partida de Letrilandia en el mismo
   const m = await recorrido(p, 5); if (S.n !== 'Leo' || S.a !== 5 || S.v !== 'es') m.push('no se trajo bien Letrilandia: ' + JSON.stringify(S)); return m
 });
 caso('sin-almacenamiento', 'localStorage bloqueado (modo privado estricto)', { antes: () => { const e = () => { throw new DOMException('bloqueado', 'SecurityError') }; Storage.prototype.getItem = e; Storage.prototype.setItem = e; Storage.prototype.clear = e } }, async p => { await L.clic(p, 800, 450); await p.waitForTimeout(800); await L.clic(p, 800, 520); await p.waitForTimeout(800); return recorrido(p, 4) });
-caso('almacenamiento-lleno', 'localStorage lleno (setItem falla con QuotaExceeded)', { guardado: BASE, antes: () => { const s0 = Storage.prototype.setItem; Storage.prototype.setItem = function (k, v) { if (k === 'curiolandia.v1' && sessionStorage.getItem('__puesto')) throw new DOMException('lleno', 'QuotaExceededError'); return s0.call(this, k, v) } } }, async p => recorrido(p, 4));
+caso('almacenamiento-lleno', 'localStorage lleno (setItem falla con QuotaExceeded)', { guardado: BASE, antes: () => { const s0 = Storage.prototype.setItem; Storage.prototype.setItem = function (k, v) { if (k === 'curiolandia-new.v1' && sessionStorage.getItem('__puesto')) throw new DOMException('lleno', 'QuotaExceededError'); return s0.call(this, k, v) } } }, async p => recorrido(p, 4));
 
 // ---------- Copia de seguridad ----------
 caso('copia-ida-vuelta', 'Copia de seguridad: código -> recuperar en otra partida', { guardado: BASE }, async p => {

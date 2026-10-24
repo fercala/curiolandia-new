@@ -6,7 +6,8 @@
 
 ## 1. Cómo se guarda y se carga
 
-- **Clave** en `localStorage`: `'curiolandia.v1'` (constante `KEY` en core.js). No se cambia nunca.
+- **Clave** en `localStorage`: `'curiolandia-new.v1'` (constante `KEY` en core.js). No se cambia nunca.
+- **Partida de curiolandia-3d:** las dos webs están en `fercala.github.io` y comparten `localStorage`. Si no hay partida propia, `load()` copia **una sola vez** la de `'curiolandia.v1'` (`KEY_VIEJA`) y lo apunta en `'curiolandia-new.copiada'` (`KEY_COPIA`). La vieja nunca se escribe ni se borra, así el juego viejo sigue igual. Lo prueba `tests/regresion/guardado-viejo.js`.
 - **Guardar**: `save()` escribe todo `S` como JSON. **No hay guardado automático**: llama a `save()` justo después de cambiar algo que deba recordarse.
 - **Cargar**: `load()` se ejecuta una vez al arrancar. Hace `S = Object.assign(copia de DEF, lo guardado)`. Es decir: parte de los valores por defecto `DEF` y encima pone lo guardado. Solo mezcla el **primer nivel** (los objetos de dentro, como `S.tito`, se toman tal cual de lo guardado). Antes de mezclar, `sanoS(lo guardado, DEF)` quita los campos con un tipo imposible (desde v1.586): un `null` donde `DEF` tiene un valor, un objeto que no es objeto, un número donde va texto (se pasa a texto) o un texto con número donde va número (se pasa a número), y las entradas de `temas` que no son objetos. Esos campos quedan con su valor por defecto, así una partida o copia rota no rompe el juego.
 - Después de `sanoS`, `sanoHondo()` (core.js, v1.592) arregla lo de dentro de las colecciones: `temas.X.g`, `stats`, `gs`, `home`, `kg`, `vales`, `valesLog`, `rep` y `cofreP` (ver su comentario). Se usa también cuando otra pestaña guarda (evento `storage`): esta pestaña adopta esa partida para no pisarla con datos viejos.
@@ -67,7 +68,7 @@
 
 | Campo | Formato | Para qué |
 |---|---|---|
-| `voz` | `''`, `'fer'` o `'nav'` | Voz de Tito: grabada (`voz/`), de Fer (`voz-fer/`) o solo la voz del navegador (`'nav'`, sin MP3). |
+| `voz` | `'nav'` | Siempre `'nav'` (solo voz del navegador): `load()` lo pone así al arrancar, también en partidas copiadas de curiolandia-3d que traían `''` (voz grabada) o `'fer'`. |
 | `vozNav` | texto (`voiceURI` o nombre), `''` o ausente | Voz del navegador elegida en la zona de adultos (v1.589). Vacío o ausente: automática (`pickVoice`). Si esa voz no existe en el aparato, se usa la automática. Se conserva al empezar de nuevo. |
 | `quiet3` | `0` o `1` | Si Tito se calla al tocar el paisaje 3D. |
 | `last` | id de tema | Último tema visitado. |
@@ -93,7 +94,7 @@ Desde la consola del navegador (F12):
 ```js
 __cl.S                    // ver el estado
 __cl.S.age = 5; __cl.S.unlockAll = true; __cl.go('map')   // cambiar algo y volver al mapa
-localStorage.removeItem('curiolandia.v1'); location.reload()  // empezar de cero (¡borra la partida de ese navegador!)
+localStorage.removeItem('curiolandia-new.v1'); location.reload()  // empezar de cero (¡borra la partida de ese navegador!)
 ```
 
 Para probar que una partida antigua sigue funcionando, guarda una copia de seguridad antes de tu cambio, monta tu versión y recupera esa copia en la zona de adultos.

@@ -21,35 +21,27 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 ## 1. El proceso de trabajo
 
 ### Lo que necesitas
-- `git`, `sh`, Python 3 y un navegador. Nada más para trabajar.
-- Para la prueba automática: Node.js y Playwright (`npm install -g playwright && npx playwright install chromium`).
+- `git`, `sh`, Python 3, Node.js y un navegador.
+- Para las pruebas automáticas: `npm ci && npx playwright install chromium` (Playwright está fijado en `package.json`).
 
 ### Paso a paso
 
 1. **Trae lo último**: `git pull`.
 2. **Crea una rama** para tu cambio: `git checkout -b mi-cambio`. (El dueño del proyecto decide si se fusiona a `main`.)
-3. **Edita solo `src/`.** Nunca edites `index.html`, `sw.js` ni `manifest.webmanifest` de la raíz a mano: se generan.
-4. **Monta el juego** desde la raíz del repo:
-   ```sh
-   mkdir -p src/web
-   sh src/build.sh            # crea src/artifact.html y src/index.html
-   python3 src/build_web.py   # crea src/web/index.html, sw.js y manifest
-   ```
-   La primera vez, copia también a `src/web/` lo que la web necesita para verse como la publicada: `cp -r fonts voz voz-fer icon-*.png apple-touch-icon.png src/web/` (son archivos ignorados por git).
-5. **Prueba a mano**: `cd src/web && python3 -m http.server 8000` y abre http://localhost:8000. Juega lo que has cambiado. Abre la consola del navegador (F12) y comprueba que no hay errores en rojo.
+3. **Edita solo `src/`** (y `public/` para fuentes o iconos). La web montada (`dist/`) no se edita ni se sube: se genera.
+4. **Monta el juego** desde la raíz del repo: `npm run build` (hace `sh src/build.sh` y `python3 src/build_web.py`; deja la web completa en `dist/`).
+5. **Prueba a mano**: `cd dist && python3 -m http.server 8000` y abre http://localhost:8000. Juega lo que has cambiado. Abre la consola del navegador (F12) y comprueba que no hay errores en rojo.
    - Trucos de consola: `__cl.S.age=5; __cl.S.unlockAll=true; __cl.go('map')` (todo abierto); `__cl.go('casita',{t:'3A-T1'})` (ir a un tema); `window.__fast=1; window.__said=[]` (la voz no espera y `__said` guarda lo que dice Tito: útil para copiar frases exactas).
    - Para probar de noche sin esperar: en la consola, `Date.prototype.getHours=()=>22; __cl.go('map')`.
-6. **Prueba automática**: `node tests/humo.js src/web`. Debe terminar con `TODO BIEN`. Mira las capturas en `tests/capturas/`.
+6. **Prueba automática**: `npm run test:humo` (debe terminar con `TODO BIEN`; capturas en `tests/capturas/`) y `npm run test:pr`, lo mismo que pasa GitHub Actions en cada PR (unos minutos; las pruebas de una en una, nunca a la vez).
 7. **Prueba en un móvil** si has tocado algo visual o de rendimiento (el 3D es lo más pesado).
-8. **Frases nuevas**: apúntalas para grabarlas (ver [VOCES.md](VOCES.md)).
-9. **Documenta el cambio** siguiendo [POLITICA-DOCUMENTACION.md](POLITICA-DOCUMENTACION.md): comentarios en el código, documentos de `docs/` que toque y entrada en [CAMBIOS.md](CAMBIOS.md). Comprueba con `python3 tests/comentarios.py` (con el gancho activado, `git commit` lo hace solo: `git config core.hooksPath herramientas/git-hooks`).
+8. **Frases nuevas o cambiadas**: apúntalas en `dialogos/pendientes.txt` y en `dialogos/todos.csv` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
+9. **Documenta el cambio** siguiendo [POLITICA-DOCUMENTACION.md](POLITICA-DOCUMENTACION.md): comentarios en el código, documentos de `docs/` que toque y entrada en [CAMBIOS.md](CAMBIOS.md). Comprueba con `npm run test:comentarios` (GitHub Actions lo pasa también en cada PR).
 10. **Para publicar**:
-   1. Sube la versión `VER` en `src/build_web.py` (`curiolandia3d-v1.N` → `v1.N+1`). **Sin esto los móviles se quedan con la versión anterior.**
-   2. Vuelve a montar (paso 4).
-   3. Copia a la raíz: `cp src/web/index.html src/web/sw.js src/web/manifest.webmanifest .`
-   4. Pon la versión en la entrada de [CAMBIOS.md](CAMBIOS.md) (cambia "Sin publicar" por `v1.N (fecha)`).
-   5. Commit con un mensaje que diga qué cambia, y push. GitHub Pages publica la raíz de `main` en un par de minutos.
-11. **Si te equivocas** al publicar: `git revert` del commit, vuelve a subir `VER` y publica otra vez.
+   1. Sube la versión `VER` en `src/build_web.py` (`curiolandia-new-v0.N` → `v0.N+1`). **Sin esto los móviles se quedan con la versión anterior.**
+   2. Pon la versión en la entrada de [CAMBIOS.md](CAMBIOS.md).
+   3. Abre un PR. Al fusionarlo en `main`, GitHub Actions monta, pasa las pruebas y publica `dist/` en GitHub Pages.
+11. **Si te equivocas** al publicar: `git revert` del commit en `main`, sube `VER` y fusiona otra vez.
 
 ### Cómo orientarte en el código
 - Todo el código está comentado: cada archivo tiene una cabecera que explica qué hace y cada función tiene un comentario encima.
@@ -59,11 +51,11 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 
 ## 2. Reglas que no se pueden saltar
 
-1. **Evita cambiar el texto de una frase que ya dice `say()`**: cada una tiene su MP3. Cada diálogo nuevo o cambiado, en castellano de España y apuntado en `dialogos/pendientes.txt`. → [VOCES.md](VOCES.md), [dialogos/LEEME.md](../dialogos/LEEME.md)
+1. **Cada diálogo nuevo o cambiado**, en castellano de España y apuntado en `dialogos/pendientes.txt` y `dialogos/todos.csv` (aquí no hay MP3: los textos se pueden mejorar). → [dialogos/LEEME.md](../dialogos/LEEME.md)
 2. **No rompas las partidas guardadas**: no cambies el formato de `S`, ni `id` de temas, artículos o dibujos guardados; campos nuevos con valor por defecto. → [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md)
 3. **Los juegos de un tema se guardan por posición**: no quites ni reordenes juegos publicados; los nuevos, al final (cuidado con el cuento: ver receta 5).
 4. **Sube `VER`** cada vez que publiques.
-5. **Sin dependencias nuevas**: nada de npm ni librerías externas en el juego.
+5. **Sin dependencias nuevas** en el juego hasta la fase 1 de la migración (`npm` solo trae Playwright para las pruebas).
 6. **Piensa en niños de 3 a 5 años**: zonas de toque grandes, nada de leer (todo se dice en voz), refuerzo positivo, nada de castigos ni prisas.
 7. **Usa `later()`**, no `setTimeout`, dentro de las escenas y los juegos. Una frase que el juego dice solo, sin que el niño toque (una consigna con `later()`), va con `sayQ()`: espera a que Tito acabe lo que esté diciendo. Si es una pregunta, comprueba antes que el niño no la haya respondido ya. Tras un segundo fallo, pon `idle=12` **después** del `say()`.
 8. **Un premio se guarda antes de celebrarlo**: si marcas algo como cobrado (`S.gift`, `R.paid`...), suma las monedas y la pegatina en ese mismo momento (`creditCoins(n)` y `S.stk[k]++`, luego `save()`), y deja para la animación `giveCoins(n, x, y, icono, true)` y `giveSticker(k, true)`, que ya no suman. `later()` se anula al cambiar de escena: lo que va dentro se puede perder.
