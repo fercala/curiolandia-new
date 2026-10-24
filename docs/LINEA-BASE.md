@@ -36,7 +36,12 @@ El mapa es lo más pesado. Con menos de 4 FPS el candado de adultos tarda más d
 
 `node tests/regresion/juegos.js dist 0 1 90` (los 253 juegos, uno detrás de otro, 90 s cada uno como máximo).
 
-Resultado: _pendiente; se completa cuando acabe la pasada entera (unas dos horas en este entorno)._
+Resultado (24 de octubre de 2026, 47 minutos): **250 de 253 juegos terminan**, sin errores de JavaScript.
+
+Los 3 que no terminan son los de regar (`riega`): 3A-T10 #1, 4A-T10 #3 y 5A-T10 #4. No es un fallo del juego: el
+conductor de las pruebas suelta la regadera al momento y hay que mantenerla regando un rato (ya pasaba en
+`curiolandia-3d`; ver `tests/regresion/AMPLIADA.md`, control de regar manteniendo el arrastre). Cualquier otro juego que
+deje de terminar en una fase es una regresión.
 
 ## Pruebas en verde al importar
 
@@ -48,3 +53,4 @@ Resultado: _pendiente; se completa cuando acabe la pasada entera (unas dos horas
 | `voces.js` | V1-V3 bien |
 | `casa.js` | C1-C7 bien |
 | `guardado-viejo.js` (nueva) | G1-G5 bien |
+| `juegos.js dist 0 1 90` | 250 de 253 (los 3 de regar, ver arriba) |
