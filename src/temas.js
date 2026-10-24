@@ -15,7 +15,7 @@
 // Depende de: core.js (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), comps.js (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
-//   drawKid, isPl, colorAdj) y los dibujos PICS (pics-*.js). Lo usan scenes.js (TEMAS, TEMA,
+//   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan scenes.js (TEMAS, TEMA,
 //   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, extras.js y cuentos.js.
 //
 // Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (core.js/lex.js) los pasa

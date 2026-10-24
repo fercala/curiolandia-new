@@ -1,11 +1,11 @@
 // ==========================================================================
-// pics-a.js: dibujos de lugares, oficios, objetos y vehículos (sobre todo para 4 años).
+// pics-a.ts: dibujos de lugares, oficios, objetos y vehículos (sobre todo para 4 años).
 // ==========================================================================
 // Añade dibujos a PICS (Object.assign sobre PICS, con clave:`...svg...`). Formato de un dibujo (SVG con
 // centro en 0,0 dentro de -62..62) y cómo se busca por su nombre con pic(clave,...): ver la cabecera
-// de pics-base.js. Las funciones de ayuda de este archivo devuelven trozos de SVG (cadenas) y solo
-// se llaman al cargar, para construir los dibujos. Depende de K, sw() y eye() de pics-base.js.
-// También usa person() de pics-new.js para los oficios.
+// de pics-base.ts. Las funciones de ayuda de este archivo devuelven trozos de SVG (cadenas) y solo
+// se llaman al cargar, para construir los dibujos. Depende de K, sw() y eye() de pics-base.ts.
+// También usa person() de pics-new.ts para los oficios.
 // Ayudas (prefijo PA_ para no chocar con otros archivos): PA_oct, PA_win, PA_P, PA_star, PA_hat,
 // PA_heart, PA_spiral, PA_wh, PA_lens.
 // Dibujos: escuela, hospital, parque, piscina, tienda, calendario, semáforo, paso de cebra, stop,
@@ -14,12 +14,23 @@
 // ==========================================================================
 /* ---------- Dibujos PA: lugares, oficios, objetos y vehiculos ---------- */
 // Devuelve los 8 puntos (texto 'x,y x,y ...') de un octógono de radio r centrado en (0,cy). Para la señal de stop.
-const PA_oct=(r,cy)=>[...Array(8)].map((_,i)=>{const a=(22.5+45*i)*Math.PI/180;return `${(r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`}).join(' ');
+import { K, PICS, eye, sw } from './pics-base.ts';
+import { person, type Persona } from './pics-new.ts';
+const PA_oct=(r: number,cy: number)=>[...Array(8)].map((_,i)=>{const a=(22.5+45*i)*Math.PI/180;return `${(r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`}).join(' ');
 // Ventana SVG azul con su cruz, con la esquina de arriba a la izquierda en (x,y) y tamaño w x h.
-const PA_win=(x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="#BFEAF7" ${sw(4)}/><path d="M${x+w/2} ${y} V${y+h} M${x} ${y+h/2} H${x+w}" ${sw(2.5)}/>`;
+const PA_win=(x: number,y: number,w: number,h: number)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="#BFEAF7" ${sw(4)}/><path d="M${x+w/2} ${y} V${y+h} M${x} ${y+h/2} H${x+w}" ${sw(2.5)}/>`;
 
 /* persona con brazos, ropa, sombrero y objetos extra (basada en person()) */
-// Persona con extras para los oficios. o = opciones de person() (pics-new.js). x = extras:
+// RetoquesPersona: los retoques que acepta PA_P (explicados justo debajo).
+interface RetoquesPersona {
+  readonly R?: readonly [string, number, number];
+  readonly L?: readonly [string, number, number];
+  readonly mid?: string;
+  readonly hold?: string;
+  readonly top?: string;
+  readonly T?: number;
+}
+// Persona con extras para los oficios. o = opciones de person() (pics-new.ts). x = extras:
 //   R / L = [camino SVG del brazo derecho / izquierdo, x de la mano, y de la mano] para moverlo;
 //   mid = SVG que va entre el cuerpo y los brazos (chaleco, delantal...);
 //   hold = SVG que va encima de los brazos (lo que lleva en la mano);
@@ -27,10 +38,11 @@ const PA_win=(x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="
 //   T = altura extra del sombrero: si no cabe en el cuadro, encoge la figura con los pies fijos.
 // Funciona retocando el texto SVG que devuelve person() con replace() y búsquedas de texto, y
 // añade un contorno oscuro a las mangas. Si se cambia person(), estas búsquedas pueden fallar.
-const PA_P=(o,x={})=>{let s=person(o);
+const PA_P=(o: Persona,x: RetoquesPersona={})=>{let s=person(o);
  if(x.R)s=s.replace('M20 -6 Q30 10 28 26',x.R[0]).replace('<circle cx="28" cy="28"',`<circle cx="${x.R[1]}" cy="${x.R[2]}"`);
  if(x.L)s=s.replace('M-20 -6 Q-30 10 -28 26',x.L[0]).replace('<circle cx="-28" cy="28"',`<circle cx="${x.L[1]}" cy="${x.L[2]}"`);
  const am=s.match(/<path d="(M-20 [^"]*)" fill="none" stroke="#[0-9A-Fa-f]{6}" stroke-width="10" stroke-linecap="round"\/>/);
+ if(!am)throw new Error('PA_P: person() ha cambiado y no se encuentra el brazo izquierdo');
  const bi=s.search(/<path d="M-1[46] -12 H1[46]/);
  s=s.slice(0,bi)+`<path d="${am[1]}" fill="none" stroke="${K}" stroke-width="15" stroke-linecap="round"/>`+s.slice(bi);
  s=s.replace(am[0],(x.mid||'')+am[0]+(x.hold||''));
@@ -38,19 +50,19 @@ const PA_P=(o,x={})=>{let s=person(o);
  if(x.T){const rt=1.08*x.T-2.32,f=Math.min(1,114/(56-rt)),ty=56-56*f;s=`<g transform="translate(0 ${ty.toFixed(1)}) scale(${f.toFixed(3)})">${s}</g>`}
  return s};
 // Estrella SVG de 5 puntas centrada en (cx,cy), radio r y color c.
-const PA_star=(cx,cy,r,c)=>`<polygon points="${[...Array(10)].map((_,i)=>{const a=(-90+36*i)*Math.PI/180,q=i%2?r*.45:r;return `${(cx+q*Math.cos(a)).toFixed(1)},${(cy+q*Math.sin(a)).toFixed(1)}`}).join(' ')}" fill="${c}" ${sw(2)}/>`;
+const PA_star=(cx: number,cy: number,r: number,c: string)=>`<polygon points="${[...Array(10)].map((_,i)=>{const a=(-90+36*i)*Math.PI/180,q=i%2?r*.45:r;return `${(cx+q*Math.cos(a)).toFixed(1)},${(cy+q*Math.sin(a)).toFixed(1)}`}).join(' ')}" fill="${c}" ${sw(2)}/>`;
 // PA_hat: gorro blanco de cocinero (SVG fijo).
 const PA_hat=`<path d="M-14 -48 Q-28 -54 -22 -68 Q-20 -82 -6 -78 Q2 -90 12 -78 Q26 -80 24 -66 Q28 -54 14 -48 Z" fill="#FFFFFF" ${sw(4)}/><rect x="-15" y="-50" width="30" height="10" rx="2" fill="#FFFFFF" ${sw(4)}/>`;
 
 // Corazón SVG centrado en (x,y), tamaño r, color c y grosor de contorno w.
-const PA_heart=(x,y,r,c,w=3)=>`<path d="M${x} ${y+r*.9} C${x-r*1.6} ${y-r*.1} ${x-r*.9} ${y-r*1.3} ${x} ${y-r*.45} C${x+r*.9} ${y-r*1.3} ${x+r*1.6} ${y-r*.1} ${x} ${y+r*.9} Z" fill="${c}" ${sw(w)}/>`;
+const PA_heart=(x: number,y: number,r: number,c: string,w=3)=>`<path d="M${x} ${y+r*.9} C${x-r*1.6} ${y-r*.1} ${x-r*.9} ${y-r*1.3} ${x} ${y-r*.45} C${x+r*.9} ${y-r*1.3} ${x+r*1.6} ${y-r*.1} ${x} ${y+r*.9} Z" fill="${c}" ${sw(w)}/>`;
 // Devuelve el camino SVG (atributo d) de una espiral de n medias vueltas que empieza en (cx,cy) y se abre st en cada vuelta. Para la manguera enrollada.
-const PA_spiral=(cx,cy,st,n)=>{let d=`M${cx} ${cy}`,x=cx;for(let i=1;i<=n;i++){const r=st*i/2;x=i%2?cx+st*(i+1)/2:cx-st*i/2;d+=` A${r} ${r} 0 0 1 ${x} ${cy}`}return d};
+const PA_spiral=(cx: number,cy: number,st: number,n: number)=>{let d=`M${cx} ${cy}`,x=cx;for(let i=1;i<=n;i++){const r=st*i/2;x=i%2?cx+st*(i+1)/2:cx-st*i/2;d+=` A${r} ${r} 0 0 1 ${x} ${cy}`}return d};
 
 // Rueda SVG (neumático gris y llanta clara) centrada en (x,y) con radio r.
-const PA_wh=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#5B5F6B" ${sw()}/><circle cx="${x}" cy="${y}" r="${r*.4}" fill="#E4ECF4" ${sw(2.5)}/>`;
+const PA_wh=(x: number,y: number,r: number)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#5B5F6B" ${sw()}/><circle cx="${x}" cy="${y}" r="${r*.4}" fill="#E4ECF4" ${sw(2.5)}/>`;
 // Globo de aire caliente SVG (forma de gota invertida) de semiancho b y color c.
-const PA_lens=(b,c)=>{const w=13*b/46;return `<path d="M0 -58 C${b*.74} -58 ${b} -34 ${b} -14 C${b*.96} 4 ${w*1.5} 16 ${w} 22 H${-w} C${-w*1.5} 16 ${-b*.96} 4 ${-b} -14 C${-b} -34 ${-b*.74} -58 0 -58 Z" fill="${c}" ${sw(b>40?5:3)}/>`};
+const PA_lens=(b: number,c: string)=>{const w=13*b/46;return `<path d="M0 -58 C${b*.74} -58 ${b} -34 ${b} -14 C${b*.96} 4 ${w*1.5} 16 ${w} 22 H${-w} C${-w*1.5} 16 ${-b*.96} 4 ${-b} -14 C${-b} -34 ${-b*.74} -58 0 -58 Z" fill="${c}" ${sw(b>40?5:3)}/>`};
 
 // Dibujos de este archivo: lugares, señales, oficios, herramientas y vehículos.
 Object.assign(PICS,{
@@ -111,13 +123,13 @@ calendario:`<path d="M-48 -44 H48 V48 Q48 54 42 54 H-42 Q-48 54 -48 48 Z" fill="
 
 semaforo:`<rect x="-6" y="34" width="12" height="18" fill="#5B5F6B" ${sw(4)}/><rect x="-18" y="48" width="36" height="8" rx="3" fill="#5B5F6B" ${sw(4)}/>`+
  `<rect x="-24" y="-58" width="48" height="94" rx="12" fill="#5B5F6B" ${sw()}/>`+
- [[-38,'#FF5A5A'],[-12,'#FFC93C'],[14,'#7CC86E']].map(([y,c])=>`<circle cx="0" cy="${y}" r="15" fill="${c}" opacity=".35"/><circle cx="0" cy="${y}" r="11" fill="${c}" ${sw(3)}/><circle cx="-4" cy="${y-4}" r="3.5" fill="#FFFFFF" opacity=".8"/>`).join(''),
+ ([[-38,'#FF5A5A'],[-12,'#FFC93C'],[14,'#7CC86E']] as const).map(([y,c])=>`<circle cx="0" cy="${y}" r="15" fill="${c}" opacity=".35"/><circle cx="0" cy="${y}" r="11" fill="${c}" ${sw(3)}/><circle cx="-4" cy="${y-4}" r="3.5" fill="#FFFFFF" opacity=".8"/>`).join(''),
 
 pasoCebra:`<rect x="-58" y="-54" width="116" height="110" rx="6" fill="#E4D3B8" ${sw(4)}/>`+
  `<path d="M-34 -54 H34 L51 56 H-51 Z" fill="#6B7280" ${sw(4)}/>`+
  `<path d="M-34 -54 L-51 56 M34 -54 L51 56" stroke="#B8B0A6" stroke-width="3"/>`+
  `<path d="M0 -50 V-38 M0 -28 V-16 M0 46 V56" stroke="#FFD66B" stroke-width="5" stroke-linecap="round"/>`+
- [0,1,2,3,4].map(i=>{const hw=y=>42+0.155*y,X=(y,f)=>(-hw(y)+2*hw(y)*f).toFixed(1),f0=0.07+i*0.19,f1=f0+0.12,t=-6,b=34;return `<path d="M${X(t,f0)} ${t} H${X(t,f1)} L${X(b,f1)} ${b} H${X(b,f0)} Z" fill="#FFFFFF" ${sw(3)}/>`}).join(''),
+ [0,1,2,3,4].map(i=>{const hw=(y: number)=>42+0.155*y,X=(y: number,f: number)=>(-hw(y)+2*hw(y)*f).toFixed(1),f0=0.07+i*0.19,f1=f0+0.12,t=-6,b=34;return `<path d="M${X(t,f0)} ${t} H${X(t,f1)} L${X(b,f1)} ${b} H${X(b,f0)} Z" fill="#FFFFFF" ${sw(3)}/>`}).join(''),
 
 stop:`<rect x="-5" y="18" width="10" height="38" fill="#B8B0A6" ${sw(4)}/>`+
  `<polygon points="${PA_oct(42,-17)}" fill="#FF5A5A" ${sw()}/>`+
@@ -199,7 +211,7 @@ tambor:`<path d="M-44 -8 V36 A44 13 0 0 0 44 36 V-8 Z" fill="#FF5A5A" ${sw()}/>`
 perfume:`<path d="M-18 -26 Q-30 -40 -40 -32" fill="none" stroke="${K}" stroke-width="7" stroke-linecap="round"/><path d="M-18 -26 Q-30 -40 -40 -32" fill="none" stroke="#FFC93C" stroke-width="3" stroke-linecap="round"/><ellipse cx="-46" cy="-24" rx="9" ry="12" fill="#FF8A7A" ${sw(4)}/>`+
  `<rect x="-36" y="-10" width="60" height="62" rx="16" fill="#F58BB4" ${sw()}/><rect x="-14" y="-18" width="16" height="10" fill="#E4ECF4" ${sw(4)}/><rect x="-18" y="-32" width="24" height="16" rx="3" fill="#FFC93C" ${sw(4)}/><rect x="6" y="-28" width="7" height="6" rx="1" fill="#FFC93C" ${sw(2.5)}/>`+
  `<path d="M-24 4 V30" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity=".6"/>${PA_heart(-6,22,11,'#FFFFFF',3)}`+
- [[22,-26,4],[30,-34,5],[32,-20,4.5],[41,-28,6],[44,-40,4],[50,-16,4],[54,-30,4]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#F7C7DA" ${sw(2)}/>`).join(''),
+ ([[22,-26,4],[30,-34,5],[32,-20,4.5],[41,-28,6],[44,-40,4],[50,-16,4],[54,-30,4]] as const).map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#F7C7DA" ${sw(2)}/>`).join(''),
 cactus:`<g transform="translate(0 3) scale(.94)"><path d="M-10 2 H-26 Q-34 2 -34 -8 V-24 Q-34 -32 -27 -32 Q-20 -32 -20 -24 V-10 H-10 Z" fill="#7CC86E" ${sw()}/><path d="M10 -10 H26 Q34 -10 34 -20 V-34 Q34 -42 27 -42 Q20 -42 20 -34 V-22 H10 Z" fill="#7CC86E" ${sw()}/>`+
  `<path d="M-13 14 V-34 Q-13 -48 0 -48 Q13 -48 13 -34 V14 Z" fill="#7CC86E" ${sw()}/><path d="M0 -40 V8" stroke="#5FA84E" stroke-width="4" stroke-linecap="round"/>`+
  `<path d="M-13 -24 l-5 -2 M-13 -8 l-5 -2 M13 -2 l5 -2 M-30 -20 l-5 -1 M30 -30 l5 -1 M6 -30 l3 -3 M-6 -14 l-3 -3 M6 0 l3 -3" ${sw(2)}/>`+
@@ -233,7 +245,7 @@ patrullero:`<g transform="translate(-1 6)"><path d="M-56 18 V0 Q-54 -10 -36 -12 
  `<rect x="-16" y="-42" width="16" height="8" fill="#FF5A5A"/><rect x="0" y="-42" width="16" height="8" fill="#5B8DEF"/><rect x="-16" y="-42" width="32" height="8" rx="3" fill="none" ${sw(3.5)}/>`+
  `<path d="M-22 -46 l-6 -5 M-8 -48 l-2 -6" stroke="#FF5A5A" stroke-width="4" stroke-linecap="round"/><path d="M22 -46 l6 -5 M8 -48 l2 -6" stroke="#5B8DEF" stroke-width="4" stroke-linecap="round"/>`+
  PA_wh(-30,22,14)+PA_wh(32,22,14)+`</g>`,
-submarino:`<g transform="translate(1 13)">`+[[-48,-26,5],[-38,-38,4],[-50,-48,6],[-34,-55,3.5]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#BFEAF7" ${sw(2.5)}/>`).join('')+
+submarino:`<g transform="translate(1 13)">`+([[-48,-26,5],[-38,-38,4],[-50,-48,6],[-34,-55,3.5]] as const).map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#BFEAF7" ${sw(2.5)}/>`).join('')+
  `<path d="M10 -36 V-54 H22" fill="none" stroke="${K}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 -36 V-54 H22" fill="none" stroke="#B8B0A6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="20" y="-59" width="7" height="10" rx="2" fill="#5B5F6B" ${sw(3)}/>`+
  `<path d="M-40 -2 L-56 -16 V28 L-40 14 Z" fill="#FFA94D" ${sw(4)}/><path d="M-12 -12 V-30 Q-12 -36 -6 -36 H14 Q20 -36 20 -30 V-12 Z" fill="#FFC93C" ${sw()}/>`+
  `<path d="M-46 6 Q-46 -14 -20 -14 H30 Q54 -14 54 8 Q54 30 30 30 H-20 Q-46 30 -46 6 Z" fill="#FFC93C" ${sw()}/>`+

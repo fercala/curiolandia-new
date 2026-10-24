@@ -43,7 +43,7 @@
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle...), lex.js (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
  *   extras.js (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
- *   comps*.js (makeGame), pics-*.js (pic, PICS), tienda.js / adult.js
+ *   comps*.js (makeGame), src/dibujos/ (PICS) y core.js (pic), tienda.js / adult.js
  *   (drawTito, TITO, inTito, drawHome/atHome en core).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
  *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
