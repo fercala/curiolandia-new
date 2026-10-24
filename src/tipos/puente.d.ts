@@ -133,6 +133,7 @@ declare const vozCalidad: typeof import('../nucleo/voz.ts').vozCalidad;
 declare const vocesES: typeof import('../nucleo/voz.ts').vocesES;
 declare const pickVoice: typeof import('../nucleo/voz.ts').pickVoice;
 declare const vozProbar: typeof import('../nucleo/voz.ts').vozProbar;
+declare const VOZ: typeof import('../nucleo/voz.ts').VOZ;
 declare const vozLoad: typeof import('../nucleo/voz.ts').vozLoad;
 declare const vozFile: typeof import('../nucleo/voz.ts').vozFile;
 declare const vozStop: typeof import('../nucleo/voz.ts').vozStop;

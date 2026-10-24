@@ -1,9 +1,9 @@
 // voz.ts: Tito habla. say() es LA función de voz del juego.
 //   say(), sayQ(), kid(), PRAISE, praise(), cap(); initAudio() (desbloquea voz y sonido en cada toque);
 //   voz del navegador: VOICE, VOICE_EN, pickVoice() (con S.vozNav, vozCalidad, vocesES), vozProbar(), sayTTS();
-//   voces grabadas: vozLoad, vozFile, vozGet, vozPlay, vozSeq, vozStop (esta versión no lleva MP3: S.voz es 'nav');
+//   voces grabadas: VOZ, vozLoad, vozFile, vozGet, vozPlay, vozSeq, vozStop (esta versión no lleva MP3: S.voz es 'nav');
 //   VIVO.talking y VIVO.sayTok.
-// VOICE y VOICE_EN cambian (pickVoice): desde fuera de este módulo solo se leen.
+// VOICE, VOICE_EN y VOZ cambian (pickVoice, vozLoad): desde fuera de este módulo solo se leen (limites.js y audio.js miran VOZ).
 // Al cargar el módulo elige voz, carga el manifiesto de voces (si toca) y envuelve speechSynthesis.cancel.
 import { whenQuiet, sceneTok } from './escenas.ts';
 import { S } from './guardado.ts';
@@ -69,7 +69,7 @@ const vozN=(t: string): string=>t.replace(/\s+/g,' ').trim(),vozK=(t: string): s
 // S.voz: '' = la voz grabada de siempre (voz/), 'fer' = la voz de Fer (voz-fer/, mismos nombres de archivo); 'nav' = todo con la voz del navegador (no se usa ningún MP3)
 // VOZ: {clave de frase: archivo mp3} leído del manifest (null si no hay); VOZ_DIR: carpeta actual; VOZ_EL: el único
 // reproductor <audio>; VOZ_FIN: qué hacer al acabar la frase actual; VOZ_RATE: velocidad (0,9); VOZ_BL: audios ya descargados.
-let VOZ: Record<string,string>|null=null,VOZ_DIR='voz/',VOZ_EL: HTMLAudioElement|null=null,VOZ_FIN: (()=>void)|null=null;const VOZ_RATE=.9,VOZ_BL: Record<string,Promise<string>>={};
+export let VOZ: Record<string,string>|null=null;let VOZ_DIR='voz/',VOZ_EL: HTMLAudioElement|null=null,VOZ_FIN: (()=>void)|null=null;const VOZ_RATE=.9,VOZ_BL: Record<string,Promise<string>>={};
 // vozLoad(cb): carga voz/manifest.json o voz-fer/manifest.json (según S.voz) y llama a cb al acabar.
 // Con S.voz 'nav' no carga nada: VOZ queda en null y say() habla siempre con la voz del navegador.
 // El manifest tiene la forma {"f": {"Frase exacta.": "archivo.mp3", ...}}. Solo funciona servido por http(s), no con file://.
