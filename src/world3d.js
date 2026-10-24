@@ -53,7 +53,7 @@
  * Globales que usan otros archivos: R3frame (adult.js), window.__w3 (pruebas y zona de adultos: retito,
  *   PRK...). Además este archivo SUSTITUYE funciones globales de otros: go, stationPos, goSeguir...
  * Depende de: core.js (S, T, PI, ctx, say, sayMix, tone, noise, parts, SCENES, scene, sceneName, go,
- *   OX/OY/SC para pasar de 1600x900 a píxeles, MX/MY/mouseOn, IMG, card, text, flower, K, DF, LF, DIAC...),
+ *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, K, DF, LF, DIAC...),
  *   zonas.js (MZ2, ZPOS, ZONES), scenes.js (TITO, HOUSE_AT, stationPos) y three.min.js.
  * Todo va dentro de una función que se llama sola: si no hay WebGL, se sale y el juego sigue en 2D.
  * ========================================================================== */
@@ -173,7 +173,7 @@ const TXC={};
 // flower...); mouseOn se apaga para que no se dibujen efectos de "ratón encima". Si se da key, se guarda en TXC.
 // La textura trae t.redraw() para volver a dibujarla (por ejemplo cuando termina de cargar una imagen).
 function canvasTex(w,h,fn,key){if(key&&TXC[key])return TXC[key];const c=document.createElement('canvas');c.width=w;c.height=h;
-  const draw=()=>{const g=c.getContext('2d'),old=ctx;g.clearRect(0,0,w,h);ctx=g;const mo=mouseOn;mouseOn=false;try{fn(g)}catch(e){console.error(e)}mouseOn=mo;ctx=old};draw();
+  const draw=()=>{const g=c.getContext('2d'),old=ctx;g.clearRect(0,0,w,h);ponCtx(g);const mo=VIVO.mouseOn;VIVO.mouseOn=false;try{fn(g)}catch(e){console.error(e)}VIVO.mouseOn=mo;ponCtx(old)};draw();
   const t=new THREE.CanvasTexture(c);t.anisotropy=4;t.redraw=()=>{draw();t.needsUpdate=true};if(key)TXC[key]=t;return t}
 // picsReady(ks): true si todas las imágenes IMG[k] de la lista ks ya han terminado de cargar (o no existen).
 const picsReady=ks=>ks.every(k=>!IMG[k]||IMG[k].complete);
@@ -1084,13 +1084,13 @@ function makeTito(into){const root=into||new THREE.Group(),b=grp(root);root.user
     const bl=((tt+.5)%3.9)<.14?.12:1;for(const e of eyes)e.scale.y=bl;
     head.rotation.z=Math.sin(tt*1.3)*.06+(o.look||0);
     // si está quieto y callado, cada tanto mira a un lado y al otro (como buscando las preguntas); al caminar o hablar mira al frente
-    {const c=(tt+(o.ph||0)*3)%9;let lt=!wk&&!talking&&c<2.4?Math.sin(c/2.4*PI*2)*.45:0;const lk=root.userData.lk;
+    {const c=(tt+(o.ph||0)*3)%9;let lt=!wk&&!VIVO.talking&&c<2.4?Math.sin(c/2.4*PI*2)*.45:0;const lk=root.userData.lk;
       if(lk&&!wk&&T-lk.t<2.2){const v=root.worldToLocal(lk.p.clone());lt=Math.max(-1.1,Math.min(1.1,Math.atan2(-v.z,v.x)))}// y si se toca algo del paisaje, gira la cabeza para mirarlo
       la+=(lt-la)*Math.min(1,(dt||0)*5);head.rotation.y=la}
     // el erizo olisquea: la nariz da unos saltitos rápidos cada pocos segundos
     if(nose){const c=(tt+1.7)%4.3;nose.scale.setScalar(c<.6?1+Math.abs(Math.sin(c*PI*5))*.3:1)}
     // orejas del conejo (se mueven solas y de vez en cuando dan un respingo) y cola de la tortuga
-    for(const [m,ax,b0,amp,sp,ph] of wig){const tw=((tt+ph*.3)%5)<.35?Math.sin(((tt+ph*.3)%5)/.35*PI)*2.5:0;m.rotation[ax]=b0+Math.sin(tt*sp+ph)*amp+tw*amp*Math.sign(b0||1)}const tk=talking&&o.talk!==false&&(T*7|0)%2;mo.visible=!!tk;mouth.visible=!tk;
+    for(const [m,ax,b0,amp,sp,ph] of wig){const tw=((tt+ph*.3)%5)<.35?Math.sin(((tt+ph*.3)%5)/.35*PI)*2.5:0;m.rotation[ax]=b0+Math.sin(tt*sp+ph)*amp+tw*amp*Math.sign(b0||1)}const tk=VIVO.talking&&o.talk!==false&&(T*7|0)%2;mo.visible=!!tk;mouth.visible=!tk;
     // al terminar el salto vuelve justo al suelo (antes se quedaba flotando a la altura del último cuadro del salto)
     // al tocarlo salta a su manera: el conejo alto, la tortuga apenas (pesa con su caparazón), el erizo un brinco corto
     if(o.hop!=null){const k=T-o.hop,[hh,hd]=HOP[kind]||HOP.caracol;root.position.y=(o.y0||0)+(k>=0&&k<hd?Math.sin(k/hd*PI)*hh:0)}
@@ -1202,7 +1202,7 @@ function camRig(w,pos,look,par=1){w.cb={pos:pos.clone(),look:look.clone(),par};w
 // camTick(w,dt): cada cuadro acerca la cámara suavemente a su destino (w.camT) más el paralaje del ratón (MX,MY);
 // k=1-e^(-3*dt) hace que el suavizado vaya igual de rápido con cualquier número de cuadros por segundo
 function camTick(w,dt){const c=w.cb;if(!c)return;const k=1-Math.exp(-dt*3);
-  const mx=mouseOn?(MX-800)/800:0,my=mouseOn?(MY-450)/450:0;
+  const mx=VIVO.mouseOn?(VIVO.MX-800)/800:0,my=VIVO.mouseOn?(VIVO.MY-450)/450:0;
   const tp=w.camT.pos.clone().add(V3(mx*c.par,-my*c.par*.5,0)),tl=w.camT.look;
   w.cam.position.lerp(tp,k);w.camL.lerp(tl,k);w.cam.lookAt(w.camL)}
 
@@ -1462,7 +1462,7 @@ function restore2D(){Object.assign(TITO,TITO0);HOUSE_AT[0]=HOUSE0[0];HOUSE_AT[1]
 // la llamada y los vuelve a poner después (solo si seguimos en una escena 3D).
 function call0(fn,self,x,y){const tx_=TITO.x,h0=HOUSE_AT[0];TITO.x=-9999;HOUSE_AT[0]=-9999;try{fn.call(self,x,y)}finally{if(sceneName&&scene&&scene.three){TITO.x=tx_;HOUSE_AT[0]=h0}}}
 // envuelve go() (cambio de escena, core/scenes): al ir a una escena que no es 3D, restaura TITO/HOUSE_AT y el cursor normal
-const go0=go;go=function(n,o){go0(n,o);if(!(scene&&scene.three)){restore2D();setCursor('pt')}};
+const go0=go;ponGo(function(n,o){go0(n,o);if(!(scene&&scene.three)){restore2D();setCursor('pt')}});
 // cambiar de personaje (zona de adultos): Tito se rehace dentro del mismo grupo, así la escena sigue igual
 // retito(): sin parámetros; usa W3. Lo llama la zona de adultos (adult.js, vía window.__w3.retito) al cambiar el animal guía.
 function retito(){const w=W3,t=w&&w.tito;if(!t)return;const keepUD={face:t.userData.face,rest:t.userData.rest};
@@ -1646,13 +1646,13 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
     const h=w.spots.casaTito,[hx,hy]=projO(h,0);HOUSE_AT[0]=hx;HOUSE_AT[1]=hy+60;titoRect(w.tito)},
   // draw(): se llama cada cuadro encima del 3D: decide qué hay bajo el ratón (hov, hovTito), su nombre, el logo, botones y bocadillo de Tito
   draw(){this.sync();const w=W3;
-    let hv_=null;let hT=false;if(mouseOn&&!drag&&!(w&&busy3(w))){const u=pickAt(MX,MY);if(u&&u.spot){hv_=u.spot;hovNow='mz'+u.spot}else if(u&&u.id==='tito'){hovNow='tito';hT=true}else if(u&&u.id==='pipo')hovNow='pipo'}
+    let hv_=null;let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.spot){hv_=u.spot;VIVO.hovNow='mz'+u.spot}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}else if(u&&u.id==='pipo')VIVO.hovNow='pipo'}
     this.hov=hv_;this.hovTito=hT;
     // nombre del lugar bajo el ratón; los de arriba del mapa quedaban escondidos detrás del cartel de Curiolandia
     if(hv_){const z=mzOf(hv_);ctx.font=`600 34px ${DF}`;const t=cap(z.name),tw=ctx.measureText(t).width;const cy=Math.max(z.y-z.r-70,118);card(z.x-tw/2-26,cy,tw+52,58,'rgba(255,255,255,.92)',5,29);text(t,z.x,cy+41,34,K,{w:600})}
     card(560,22,480,88,'#fff',6,44);drawLogoSmall(800,86,56);
     drawSeguir();drawHome();drawCoinHUD();
-    if(talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+    if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): toque en el mapa. Botones 2D -> lógica original; objetos que vuelan; nada -> objeto tocable, mar o pasear;
   // Tito -> salta; mascota -> lógica 2D de la mascota; lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
   down(x,y){const w=W3;if(!w||busy3(w))return;
@@ -1667,9 +1667,9 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
     this.titoAt=z.id;walkTo(w,w.tito,to,()=>{if(sceneName==='map')call0(down0,this,z.x,z.y)},{zoom:V3(0,9,8)})}
  });
  // Seguir: Tito camina hacia la plaza o hacia la zona del próximo tema antes de entrar
- const gs0=goSeguir;goSeguir=function(){const w=W3;if(sceneName!=='map'||!w||w.kind!=='map')return gs0();
+ const gs0=goSeguir;ponGoSeguir(function(){const w=W3;if(sceneName!=='map'||!w||w.kind!=='map')return gs0();
    let id='plaza';if(asamHoy()){const t=nextTema();if(!t)return gs0();id=MAINZ.includes(t.zone)?t.zone:t.zone==='fiestas'?'fiestas':t.zone==='ingles'?'ingles':t.id==='X-CAN'?'canciones':t.id==='X-RUT'?'rutinas':t.id==='X-TRZ'?'trazos':'plaza'}
-   const g=w.spots[id];SCENES.map.titoAt=id;walkTo(w,w.tito,g.position.clone().add(V3(1.4,0,2.4)),()=>{if(sceneName==='map')gs0()},{zoom:V3(0,9,8)})};
+   const g=w.spots[id];SCENES.map.titoAt=id;walkTo(w,w.tito,g.position.clone().add(V3(1.4,0,2.4)),()=>{if(sceneName==='map')gs0()},{zoom:V3(0,9,8)})});
 }
 
 /* ================= LAS ZONAS: un camino de casitas en 3D ================= */
@@ -1771,12 +1771,12 @@ function buildZone(z,st){const Z=ZONES[z],P=ZPOS[z],sty=ZSTYLE[z]||ZSTYLE.jardin
     sync(){const w=W3;if(!w||w.kind!=='zone')return;const P=ZPOS[z];for(const id in w.cas){const [x,y,r]=projR(w.cas[id],1.6,1.3);P[id].x=x;P[id].y=y}titoRect(w.tito)},
     // draw(): cada cuadro: qué casita hay bajo el ratón, cartel con el nombre de la zona y de la casita, botones y bocadillo de Tito
     draw(){this.sync();const w=W3,Z=ZONES[z];let hv_=null;
-      let hT=false;if(mouseOn&&!drag&&!(w&&busy3(w))){const u=pickAt(MX,MY);if(u&&u.tema){hv_=u.tema;hovNow='j:'+u.tema}else if(u&&u.id==='tito'){hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
+      let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.tema){hv_=u.tema;VIVO.hovNow='j:'+u.tema}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
       {const nm=cap(Z.name);ctx.font=`600 44px ${DF}`;const tw=Math.min(900,ctx.measureText(nm).width);card(800-tw/2-40,26,tw+80,80,'rgba(255,255,255,.92)',6,40);text(nm,800,82,44,K,{w:600})}
       // nombre de la casita bajo el ratón; en la fila de arriba no se monta sobre el cartel de la zona
       if(hv_){const t=TEMA[hv_],p=ZPOS[z][hv_];ctx.font=`600 32px ${DF}`;const nm=t.concepts?'Rincón de los Conceptos':V(t.n),tw=ctx.measureText(nm).width,cy=Math.max(p.y-178,116);card(p.x-tw/2-24,cy,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p.x,cy+38,32,K,{w:600})}
       drawHome();drawCoinHUD();
-      if(talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+      if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
     // down(x,y): toque en la zona: botones; objetos que vuelan; nada -> objeto tocable, cielo (skyTap) o pasear; Tito -> salta;
     // casita cerrada -> tiembla el candado; casita abierta -> Tito camina hasta ella y luego se entra (down original)
     down(x,y){const w=W3;if(!w||busy3(w))return;
@@ -1796,8 +1796,8 @@ const st3Tito=(n,j)=>{const g={tortuga:-.7,erizo:-.45}[S.tito&&S.tito.kind]||0;r
 function st3Pos(n,j){if(n<=4)return[(j-(n-1)/2)*4.3,.4];const per=n<=6?3:4,r=Math.floor(j/per),c=j%per,cc=r?per-1-c:c;return[(cc-(per-1)/2)*(per===3?4.8:4.2),r?3.4:-2.4]}
 // bgSample(t): dibuja el fondo 2D del tema (t.bg) en un lienzo para usarlo de telón 3D y toma muestras de color.
 // Devuelve {tex: textura del fondo, ground: color medio del suelo, top: color de arriba (cielo)}. Cambia ctx un momento.
-function bgSample(t){const c=document.createElement('canvas');c.width=1024;c.height=576;const g=c.getContext('2d'),old=ctx;ctx=g;g.scale(.64,.64);try{t.bg()}catch(e){}
-  const c2=document.createElement('canvas');c2.width=64;c2.height=36;const g2=c2.getContext('2d',{willReadFrequently:true});ctx=g2;g2.scale(.04,.04);try{t.bg()}catch(e){}ctx=old;
+function bgSample(t){const c=document.createElement('canvas');c.width=1024;c.height=576;const g=c.getContext('2d'),old=ctx;ponCtx(g);g.scale(.64,.64);try{t.bg()}catch(e){}
+  const c2=document.createElement('canvas');c2.width=64;c2.height=36;const g2=c2.getContext('2d',{willReadFrequently:true});ponCtx(g2);g2.scale(.04,.04);try{t.bg()}catch(e){}ponCtx(old);
   const d=g2.getImageData(28,33,8,3).data;let r=0,gg=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gg+=d[i+1];b+=d[i+2]}const n=d.length/4;const tex=new THREE.CanvasTexture(c);tex.anisotropy=4;
   const top=g2.getImageData(32,0,1,1).data;return{tex,ground:new THREE.Color(r/n/255,gg/n/255,b/n/255),top:new THREE.Color(top[0]/255,top[1]/255,top[2]/255)}}
 // buildCasita(t,st): mundo 3D de dentro de la casita del tema t: telón con el fondo del tema, suelo, camino y una estación por juego
@@ -1839,7 +1839,7 @@ let lastGame=null;{const je=SCENES.juego.enter;SCENES.juego.enter=function(o){la
 // Convierte en 3D la escena de la casita de un tema (scenes.js)
 {const S0=SCENES.casita,enter0=S0.enter,down0=S0.down,sp0=stationPos;
  // stationPos(t,j): en 3D, la posición 2D de la estación j es la proyectada (w.st[j].p2); si no, la original sp0
- stationPos=function(t,j){const w=W3;if(w&&w.kind==='casita'&&w.t===t&&w.st&&w.st[j]&&scene===SCENES.casita)return w.st[j].p2;return sp0(t,j)};
+ ponStationPos(function(t,j){const w=W3;if(w&&w.kind==='casita'&&w.t===t&&w.st&&w.st[j]&&scene===SCENES.casita)return w.st[j].p2;return sp0(t,j)});
  Object.assign(S0,{three:true,
   // enter(o): o.t = tema, o.g = juego del que se vuelve (Tito aparece ahí); construye el mundo 3D
   enter(o){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(lastGame&&lastGame.t===(o&&o.t)?lastGame.g:null);enter0.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
@@ -1847,11 +1847,11 @@ let lastGame=null;{const je=SCENES.juego.enter;SCENES.juego.enter=function(o){la
   sync(){const w=W3;if(!w||w.kind!=='casita')return;w.st.forEach(s=>{const [x,y]=projO(s.sp,0);s.p2=[x,y]});titoRect(w.tito)},
   // draw(): cada cuadro: estación bajo el ratón y su nombre (GNAME), cartel con el tema, botones y bocadillo de Tito
   draw(){this.sync();const t=this.t,w=W3;let hv_=null;
-    let hT=false;if(mouseOn&&!drag&&!(w&&busy3(w))){const u=pickAt(MX,MY);if(u&&u.game!=null){hv_=u.game;hovNow='g:'+u.game}else if(u&&u.id==='tito'){hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
+    let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.game!=null){hv_=u.game;VIVO.hovNow='g:'+u.game}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
     {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(V(t.n)).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(V(t.n),310+tw/2,110,54,K,{w:600})}
     if(hv_!=null){const g=t.games[hv_],nm=GNAME[g.t]||'',p=w.st[hv_].p2;if(nm){ctx.font=`600 32px ${DF}`;const tw=ctx.measureText(nm).width;card(p[0]-tw/2-24,p[1]+120,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p[0],p[1]+158,32,K,{w:600})}}
     drawHome();drawCoinHUD();
-    if(talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+    if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): toque en la casita: botones; objetos; Tito; estación cerrada -> candado; abierta -> Tito camina y se abre el juego
   down(x,y){const w=W3;if(!w||busy3(w))return;const t=this.t;
     if(atHome(x,y)||inCoinHUD(x,y))return call0(down0,this,x,y);
@@ -1904,7 +1904,7 @@ function buildCofre(st){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=sky
   enter(o){this.hop=null;this.hov=false;enter0.call(this,o);if(sceneName!=='cofre')return;setWorld(buildCofre(this));titoRect(W3.tito)},
   // draw(): cada cuadro: ratón sobre el cofre, apertura (this.op), el premio que sale, los toques que faltan (3 círculos) y botones
   draw(){const w=W3;if(w&&w.kind==='cofre')titoRect(w.tito);
-    this.hov=false;if(!this.openT&&mouseOn&&!drag&&w&&w.kind==='cofre'){const u=pickAt(MX,MY);if(u&&u.id==='chest'){this.hov=true;hovNow='cf:cofre'}}
+    this.hov=false;if(!this.openT&&VIVO.mouseOn&&!VIVO.drag&&w&&w.kind==='cofre'){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.id==='chest'){this.hov=true;VIVO.hovNow='cf:cofre'}}
     if(this.openT){const k=T-this.openT;this.op=clamp(k*2.2,0,1)}
     if(this.openT){const k=T-this.openT,e=clamp((k-.25)/.8,0,1),gy=lerp(520,290,e*e*(3-2*e)),gs=back(e)*260;
       if(e>0){if(this.gift)drawItemPic(this.gift,800,gy,gs);else pic('monedas',800,gy,gs)}
@@ -1914,7 +1914,7 @@ function buildCofre(st){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=sky
       {const s=hv('cf:casa',hC(600,800,74));ctx.save();ctx.translate(600,800);ctx.scale(s,s);circ(0,0,72,'#fff',7);ctx.save();ctx.scale(.3,.3);drawTitoHouse(0,90,houseLevel());ctx.restore();ctx.restore()}
       {const p=(Math.sin(T*4)+1)/2,s=hv('cf:seguir',hC(1000,800,74));ctx.save();ctx.translate(1000,800);ctx.scale(s*(1+p*.05),s*(1+p*.05));ctx.globalAlpha=.35+.3*p;circ(0,0,84,null,10,'#FFC93C');ctx.globalAlpha=1;circ(0,0,72,'#7CC86E',7);ctx.beginPath();ctx.moveTo(-20,-32);ctx.lineTo(34,0);ctx.lineTo(-20,32);ctx.closePath();fillStroke('#fff',5);ctx.restore()}}
     drawHome();drawCoinHUD();
-    if(talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+    if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): antes de abrirse: el cofre (lógica original en el centro), Tito o las flores; después, lógica original
   down(x,y){if(!this.openT){const u=pickAt(x,y);if(u&&u.id==='chest')return call0(down0,this,800,520);if(u&&u.id==='tito'){this.hop=T;return down0.call(this,x,y)}
       // las flores alrededor del cofre también responden (lejos del cofre, para no quitarle toques)
@@ -1946,7 +1946,7 @@ function buildTitle(){const w=newWorld({fov:34,kind:'title',shadow:10}),nt=skyNo
     const p=hv('play',hC(1180,560,120))*(1+Math.sin(T*4)*.05);ctx.save();ctx.translate(1180,560);ctx.scale(p,p);circ(0,0,110,'#7CC86E',8);ctx.beginPath();ctx.moveTo(-30,-48);ctx.lineTo(54,0);ctx.lineTo(-30,48);ctx.closePath();fillStroke('#fff',6);ctx.restore();
     if(S.age){pill(205,830,330,80,S.name?'Juega: '+S.name:'¿Quién juega?');pill(1395,830,330,80,'Empezar de nuevo','#fff','#C0473C')}
     if(document.fullscreenEnabled&&!standalone()){const s=hv('fs',hR(1515,85,90,90));ctx.save();ctx.translate(1515,85);ctx.scale(s,s);card(-45,-45,90,90,'#fff',6,28);ctx.lineWidth=7;ctx.strokeStyle=K;ctx.lineCap='round';ctx.beginPath();for(const[a,b,c,d]of[[-25,-10,-25,-25],[-25,-25,-10,-25],[25,-25,10,-25],[25,-25,25,-10],[-25,10,-25,25],[-25,25,-10,25],[25,25,10,25],[25,25,25,10]]){ctx.moveTo(a,b);ctx.lineTo(c,d)}ctx.stroke();ctx.restore()}
-    if(deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30)}});
+    if(VIVO.deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30)}});
 }
 // marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
 window.__w3.ok=true;

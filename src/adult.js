@@ -11,7 +11,7 @@
  * Globales que define: SKILL, esc, openAdult, closeAdult, openNameDlg, openResetDlg, doReset, toLogical, dlgOpen,
  * isPortrait, hoverTick, frame, window.__cl (para pruebas automáticas), bkEncode, bkDecode.
  * Depende de: core.js (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), scenes.js (tst, gDone,
- * TEMAS, TEMA, suggestTema, dayIdx, standalone, deferredInstall), temas*.js/extras.js/ingles.js (T3, C3, T4, C4, T5, C5,
+ * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas*.js/extras.js/ingles.js (T3, C3, T4, C4, T5, C5,
  * CAN, RUT, TRZ, FIESTAS, ING), tienda.js (STARS, drawCoinFx), zonas.js (zoneOpen) y world3d.js (R3frame, __w3).
  * frame() la arranca boot.js.
  */
@@ -31,7 +31,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function installHTML(){
   if(standalone())return '<p class="note">El juego ya está instalado en este dispositivo.</p>';
   const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-  return (deferredInstall?'<p><button id="a-install" style="background:#FFE08A">Instalar Curiolandia</button></p>':'')+
+  return (VIVO.deferredInstall?'<p><button id="a-install" style="background:#FFE08A">Instalar Curiolandia</button></p>':'')+
    `<ul><li><b>iPhone o iPad (Safari):</b> tocá el botón Compartir (el cuadrado con la flecha) y elegí «Agregar a inicio».</li>
    <li><b>Android (Chrome):</b> menú ⋮ → «Instalar aplicación» o «Agregar a la pantalla principal».</li>
    <li><b>Computadora (Chrome o Edge):</b> el ícono de instalar en la barra de direcciones.</li></ul>
@@ -62,7 +62,7 @@ function vozGuiaHTML(){
      5. Los estilos (.row, .opt, .note...) están en head.html. Los textos del panel no se dicen con say(), se pueden cambiar. */
 function openAdult(){
   adultWas=S.age+'|'+!!S.unlockAll;// para saber al cerrar si cambiaron la edad o el modo libre (closeAdult)
-  lockDown=false;lockHold=0;try{speechSynthesis.cancel()}catch(e){}
+  VIVO.lockDown=false;VIVO.lockHold=0;try{speechSynthesis.cancel()}catch(e){}
   const el=document.getElementById('adult');el.hidden=false;
 // tmOf(listaDeTemas): HTML con una tarjeta por tema: nombre, juegos hechos/total, barra de progreso y si está completo.
   const tmOf=L=>L.map(t=>{const n=gDone(t),N=t.games.length;return `<div class="tm ${tst(t.id).done?'done':''}"><b>${esc(V(t.n))}</b>${n}/${N} juegos${tst(t.id).done?' · completo 🌼':''}<div class="bar"><i style="width:${Math.round(n/N*100)}%"></i></div></div>`}).join('');
@@ -139,7 +139,7 @@ function openAdult(){
   bkWire(q);
 // Nombre (máx. 20 letras) y edad. Al cambiar la edad se reinicia la dificultad adaptativa.
   q('#a-name').oninput=e=>{S.name=e.target.value.trim().slice(0,20);save()};
-  el.querySelectorAll('[name=a-age]').forEach(r=>r.onchange=()=>{S.age=+r.value;ADAPT=0;save()});
+  el.querySelectorAll('[name=a-age]').forEach(r=>r.onchange=()=>{S.age=+r.value;VIVO.ADAPT=0;save()});
 // Personaje de Tito: se guarda en S.tito.kind y se pide a la capa 3D que rehaga a Tito (__w3.retito).
   el.querySelectorAll('[name=a-kind]').forEach(r=>r.onchange=()=>{S.tito=S.tito||{};S.tito.kind=r.value;save();try{if(window.__w3&&__w3.retito)__w3.retito()}catch(e){console.error(e)}});
 // Variante del idioma: cambia S.variant, elige otra voz del navegador y Tito saluda para que se oiga el cambio.
@@ -157,7 +157,7 @@ function openAdult(){
   el.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{closeAdult();go(b.dataset.go,{hello:true})});
   q('#a-gotema').onclick=()=>{const id=q('#a-tema').value;closeAdult();go('casita',{t:id,hello:true})};
 // Botón de instalar: lanza el aviso de instalación guardado por el navegador y vuelve a pintar el panel.
-  const ib=q('#a-install');if(ib)ib.onclick=()=>{if(!deferredInstall)return;deferredInstall.prompt();deferredInstall.userChoice.finally(()=>{deferredInstall=null;openAdult()})};
+  const ib=q('#a-install');if(ib)ib.onclick=()=>{if(!VIVO.deferredInstall)return;VIVO.deferredInstall.prompt();VIVO.deferredInstall.userChoice.finally(()=>{VIVO.deferredInstall=null;openAdult()})};
 // bdc(): guarda el cumpleaños (día y mes; mes de 0 a 11) o null si falta alguno, y permite volver a celebrarlo hoy.
   const bdc=()=>{const d=+q('#a-bd').value,m=+q('#a-bm').value;S.bday=d&&m?{d,m:m-1}:null;S.bdayDone='';save()};q('#a-bd').onchange=bdc;q('#a-bm').onchange=bdc;
 // Vales: activar/desactivar, cambiar el texto (no vacío) y el precio (de 1 a 500). "Entregado" lo quita de pendientes.
@@ -174,7 +174,7 @@ function openAdult(){
 }
 // adultWas: edad y modo libre al abrir el panel. closeAdult(): cierra el panel y pone a cero el tiempo de la sesión (también el guardado en S.ses); si Tito estaba dormido (límite de tiempo), vuelve al mapa; si cambió la edad o el modo libre, vuelve a abrir la escena 3D actual (B3 del informe de pruebas jugadas).
 let adultWas='';
-function closeAdult(){document.getElementById('adult').hidden=true;sessionT=0;S.ses=null;save();if(sceneName==='dormir'){go('map',{hello:true});return}
+function closeAdult(){document.getElementById('adult').hidden=true;VIVO.sessionT=0;S.ses=null;save();if(sceneName==='dormir'){go('map',{hello:true});return}
   // Si cambió la edad o el modo libre, el mapa, el camino o la casita se vuelven a abrir para que candados y colores
   // cuadren con lo que se puede jugar. El cofre no (cuenta y premia al entrar) y las demás escenas no muestran candados.
   if(adultWas!==S.age+'|'+!!S.unlockAll&&scene&&scene.three&&!['cofre','title'].includes(sceneName))go(sceneName,Object.assign({},sceneArg,{hello:false,from:null,fin:false}))}
@@ -196,7 +196,7 @@ document.getElementById('nm-in').onkeydown=e=>{if(e.key==='Enter')document.getEl
 function openResetDlg(){document.getElementById('resetDlg').hidden=false}
 // doReset(): borra el progreso: S vuelve a DEF, conservando solo los ajustes de keep (idioma, voz, hemisferio, volumen,
 // límite, vales y cumpleaños), guarda y vuelve a la portada. Ver la nota de posibles fallos en doc/notes/core.md.
-function doReset(){const keep={variant:S.variant,voz:S.voz,vozNav:S.vozNav,hemi:S.hemi,vol:S.vol,limit:S.limit,vales:S.vales,bday:S.bday};S=Object.assign(JSON.parse(JSON.stringify(DEF)),keep);ADAPT=0;save();go('title')}
+function doReset(){const keep={variant:S.variant,voz:S.voz,vozNav:S.vozNav,hemi:S.hemi,vol:S.vol,limit:S.limit,vales:S.vales,bday:S.bday};ponS(Object.assign(JSON.parse(JSON.stringify(DEF)),keep));VIVO.ADAPT=0;save();go('title')}
 // Botones del diálogo de empezar de nuevo.
 document.getElementById('rs-yes').onclick=()=>{document.getElementById('resetDlg').hidden=true;doReset()};
 document.getElementById('rs-no').onclick=()=>{document.getElementById('resetDlg').hidden=true};
@@ -210,18 +210,18 @@ function toLogical(e){return[(e.clientX-OX)/SC,(e.clientY-OY)/SC]}
 const dlgOpen=()=>!document.getElementById('adult').hidden||!document.getElementById('nameDlg').hidden||!document.getElementById('resetDlg').hidden;
 // Tocar (dedo o ratón): activa el audio, reinicia el contador de inactividad y, por orden: aviso de móvil en vertical,
 // candado de adultos (esquina de abajo a la derecha, empieza a contar), y si no hay transición, scene.down(x,y).
-cv.addEventListener('pointerdown',e=>{e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}initAudio();idle=0;hintSaid=false;
-  const [x,y]=toLogical(e);MX=x;MY=y;mouseOn=e.pointerType==='mouse';
+cv.addEventListener('pointerdown',e=>{e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}initAudio();VIVO.idle=0;VIVO.hintSaid=false;
+  const [x,y]=toLogical(e);VIVO.MX=x;VIVO.MY=y;VIVO.mouseOn=e.pointerType==='mouse';
   if(isPortrait()&&!portraitOk){portraitOk=true;return}
-  if(dist(x,y,1546,852)<50&&sceneName!=='title'){lockDown=true;lockHold=0;return}// solo el candado dibujado (drawLock): antes, un rectángulo más grande tapaba el centro del botón de saltar el cuento
-  if(fade>.6||!scene)return;
+  if(dist(x,y,1546,852)<50&&sceneName!=='title'){VIVO.lockDown=true;VIVO.lockHold=0;return}// solo el candado dibujado (drawLock): antes, un rectángulo más grande tapaba el centro del botón de saltar el cuento
+  if(VIVO.fade>.6||!scene)return;
   try{scene.down&&scene.down(x,y)}catch(err){console.error(err)}});
 // Mover: actualiza MX/MY y llama a scene.move(x,y) (arrastrar). Con ratón, moverse cuenta como "algo de actividad".
-cv.addEventListener('pointermove',e=>{const [x,y]=toLogical(e);MX=x;MY=y;mouseOn=e.pointerType==='mouse';if(e.pointerType==='mouse')idle=Math.min(idle,4);if(scene&&scene.move)try{scene.move(x,y)}catch(err){console.error(err)}});
+cv.addEventListener('pointermove',e=>{const [x,y]=toLogical(e);VIVO.MX=x;VIVO.MY=y;VIVO.mouseOn=e.pointerType==='mouse';if(e.pointerType==='mouse')VIVO.idle=Math.min(VIVO.idle,4);if(scene&&scene.move)try{scene.move(x,y)}catch(err){console.error(err)}});
 // El ratón sale del lienzo: ya no hay nada "debajo".
-cv.addEventListener('pointerleave',()=>{mouseOn=false});
+cv.addEventListener('pointerleave',()=>{VIVO.mouseOn=false});
 // upH(evento): soltar (o cancelar): suelta el candado y llama a scene.up(x,y).
-const upH=e=>{lockDown=false;if(!scene)return;const [x,y]=toLogical(e);if(e.pointerType!=='mouse')mouseOn=false;try{scene.up&&scene.up(x,y)}catch(err){console.error(err)}};
+const upH=e=>{VIVO.lockDown=false;if(!scene)return;const [x,y]=toLogical(e);if(e.pointerType!=='mouse')VIVO.mouseOn=false;try{scene.up&&scene.up(x,y)}catch(err){console.error(err)}};
 cv.addEventListener('pointerup',upH);cv.addEventListener('pointercancel',upH);
 // Sin menú contextual (pulsación larga o clic derecho).
 cv.addEventListener('contextmenu',e=>e.preventDefault());
@@ -236,9 +236,9 @@ let lastF=performance.now();
 // hoverTick(dt): gestiona el "pasar por encima" con ratón: suena SFX.hov al entrar en un elemento nuevo (hovNow) y, si el
 // ratón se queda 1,1 s quieto encima y Tito no habla, llama a scene.dwell(id) una vez (suele decir el nombre).
 function hoverTick(dt){
-  if(!mouseOn||drag||dlgOpen()){hovPrev=null;hovT=0;return}
-  if(hovNow!==hovPrev){if(hovNow!=null&&fade<.3)try{SFX.hov()}catch(e){}hovPrev=hovNow;hovT=0;dwellDone=false;return}
-  if(hovNow!=null){hovT+=dt;if(hovT>1.1&&!dwellDone&&!talking&&scene.dwell&&typeof hovNow==='string'){dwellDone=true;try{scene.dwell(hovNow)}catch(e){console.error(e)}}}
+  if(!VIVO.mouseOn||VIVO.drag||dlgOpen()){VIVO.hovPrev=null;VIVO.hovT=0;return}
+  if(VIVO.hovNow!==VIVO.hovPrev){if(VIVO.hovNow!=null&&VIVO.fade<.3)try{SFX.hov()}catch(e){}VIVO.hovPrev=VIVO.hovNow;VIVO.hovT=0;VIVO.dwellDone=false;return}
+  if(VIVO.hovNow!=null){VIVO.hovT+=dt;if(VIVO.hovT>1.1&&!VIVO.dwellDone&&!VIVO.talking&&scene.dwell&&typeof VIVO.hovNow==='string'){VIVO.dwellDone=true;try{scene.dwell(VIVO.hovNow)}catch(e){console.error(e)}}}
 }
 /* frame(now): EL BUCLE DEL JUEGO. Se ejecuta en cada cuadro de pantalla (requestAnimationFrame; lo arranca boot.js).
    Pasos: 1) calcula rdt (tiempo real, máx. 1 s) y dt (máx. 0,05 s para que una pausa no dé un salto) y avanza T, idle (solo mientras Tito calla) y el velo fade;
@@ -249,28 +249,28 @@ function hoverTick(dt){
    8) velo de transición; 9) rellena las bandas laterales en pantallas alargadas; 10) aviso de girar el móvil.
    Cada paso va en try/catch: un fallo de una escena se ve en la consola pero no para el juego. */
 function frame(now){
-  const rdt=Math.min(1,Math.max(0,(now-lastF)/1000)),dt=Math.min(.05,rdt);lastF=now;T+=dt;if(!talking)idle+=dt;fade=Math.max(0,fade-dt*3);
+  const rdt=Math.min(1,Math.max(0,(now-lastF)/1000)),dt=Math.min(.05,rdt);lastF=now;ponT(T+dt);if(!VIVO.talking)VIVO.idle+=dt;VIVO.fade=Math.max(0,VIVO.fade-dt*3);
 // Temporizadores de later(): solo se ejecutan si siguen en la escena en la que se crearon (t.tok===sceneTok).
-  for(const t of timers){t.t-=dt;if(t.t<=0&&!t.done){t.done=1;if(t.tok===sceneTok)try{t.fn()}catch(e){console.error(e)}}}timers=timers.filter(t=>!t.done);
-  if(lockDown){lockHold+=Math.min(.25,(now-lockPrev)/1000);if(lockHold>=3)openAdult()}lockPrev=now;// en tiempo real, no de juego (dt tiene tope)
+  for(const t of VIVO.timers){t.t-=dt;if(t.t<=0&&!t.done){t.done=1;if(t.tok===sceneTok)try{t.fn()}catch(e){console.error(e)}}}VIVO.timers=VIVO.timers.filter(t=>!t.done);
+  if(VIVO.lockDown){VIVO.lockHold+=Math.min(.25,(now-VIVO.lockPrev)/1000);if(VIVO.lockHold>=3)openAdult()}VIVO.lockPrev=now;// en tiempo real, no de juego (dt tiene tope)
 // Tiempo de juego (no cuenta con el panel abierto, en la portada ni durmiendo). Cada 15 s se apunta en S.days (en
 // minutos) y se guardan solo los últimos 30 días. Cuenta con rdt, el tiempo real (tope 1 s, para que volver de otra app
 // no sume la pausa), no con dt: en un móvil lento (10 cuadros por segundo) dt con tope contaba la mitad del tiempo.
-  if(document.getElementById('adult').hidden&&sceneName!=='title'&&sceneName!=='dormir'){sessionT+=rdt;minuteAcc+=rdt;
-    if(minuteAcc>=15){const d=today();S.days[d]=(S.days[d]||0)+minuteAcc/60;minuteAcc=0;
-      const ks=Object.keys(S.days).sort();while(ks.length>30)delete S.days[ks.shift()];S.ses={t:Math.round(sessionT),at:Date.now()};save()}
-    if(S.limit&&sessionT>=S.limit*60)go('dormir')}
+  if(document.getElementById('adult').hidden&&sceneName!=='title'&&sceneName!=='dormir'){VIVO.sessionT+=rdt;VIVO.minuteAcc+=rdt;
+    if(VIVO.minuteAcc>=15){const d=today();S.days[d]=(S.days[d]||0)+VIVO.minuteAcc/60;VIVO.minuteAcc=0;
+      const ks=Object.keys(S.days).sort();while(ks.length>30)delete S.days[ks.shift()];S.ses={t:Math.round(VIVO.sessionT),at:Date.now()};save()}
+    if(S.limit&&VIVO.sessionT>=S.limit*60)go('dormir')}
   try{musicTick();scene.update&&scene.update(dt)}catch(e){console.error(e)}
 // Fondo: en las escenas 3D, el lienzo 2D se deja transparente y R3frame dibuja el mundo en el lienzo #gl de debajo.
   ctx.setTransform(DPR,0,0,DPR,0,0);if(scene&&scene.three&&typeof R3frame==='function'){ctx.clearRect(0,0,cv.width,cv.height);try{R3frame(dt)}catch(e){console.error(e)}}else{ctx.fillStyle='#2E2420';ctx.fillRect(0,0,cv.width,cv.height)}
 // A partir de aquí se dibuja en coordenadas lógicas (1600x900), escaladas y centradas, y recortadas a ese rectángulo.
   ctx.setTransform(DPR*SC,0,0,DPR*SC,DPR*OX,DPR*OY);ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();
 // hovNow se vacía y lo vuelven a rellenar las llamadas a hv() mientras se dibuja la escena.
-  hovNow=null;
+  VIVO.hovNow=null;
   try{scene.draw();drawHelp();drawParts(dt);drawToast();drawCoinFx()}catch(e){console.error(e)}if(sceneName!=='title')drawLock();
   hoverTick(dt);
 // Velo de transición entre escenas (de color papel, se desvanece en un tercio de segundo).
-  if(fade>0){ctx.fillStyle=`rgba(255,246,230,${fade})`;ctx.fillRect(0,0,W,H)}
+  if(VIVO.fade>0){ctx.fillStyle=`rgba(255,246,230,${VIVO.fade})`;ctx.fillRect(0,0,W,H)}
   ctx.restore();
   // pantallas 2D en móviles alargados: las bandas de los lados (antes marrón oscuro) continúan el borde de la escena, como si siguiera
   if(!(scene&&scene.three)&&(OX>2||OY>2)){try{ctx.save();ctx.setTransform(1,0,0,1,0,0);const x0=Math.round(OX*DPR),y0=Math.round(OY*DPR),gw=Math.round(W*SC*DPR),gh=Math.round(H*SC*DPR),rw=cv.width-x0-gw,rh=cv.height-y0-gh;
@@ -286,7 +286,7 @@ function frame(now){
 // simular toques (tap), arrastres (drag) y ratón encima (hover), y abrir/cerrar la zona de adultos.
 window.__cl={go:(n,o)=>go(n,o),get S(){return S},get scene(){return scene},get name(){return sceneName},SCENES,TEMA,TEMAS,
   tap(x,y){scene.down&&scene.down(x,y);scene.up&&scene.up(x,y)},drag(a,b,c,d){scene.down(a,b);scene.move&&scene.move(c,d);scene.up&&scene.up(c,d)},
-  hover(x,y){MX=x;MY=y;mouseOn=true},T:()=>T,say,openAdult,closeAdult};
+  hover(x,y){VIVO.MX=x;VIVO.MY=y;VIVO.mouseOn=true},T:()=>T,say,openAdult,closeAdult};
 
 /* ---------- copia de seguridad del progreso ---------- */
 // bk64(bytes): bytes a base64 (por trozos de 32 KB, porque fromCharCode con muchos argumentos revienta).

@@ -95,7 +95,7 @@ async function conducir(p, hasta, ms, o = {}) {
   while (Date.now() - t0 < ms) {
     if (await p.evaluate(hasta)) return true;
     // Como un niño que escucha: espera a que Tito termine de hablar (máximo 12 s) y un momento más antes de tocar.
-    if (o.esperarVoz) { const t1 = Date.now(); while (Date.now() - t1 < 12000 && await p.evaluate(() => talking)) await p.waitForTimeout(150); await p.waitForTimeout(400) }
+    if (o.esperarVoz) { const t1 = Date.now(); while (Date.now() - t1 < 12000 && await p.evaluate(() => VIVO.talking)) await p.waitForTimeout(150); await p.waitForTimeout(400) }
     const f = o.real ? pasoReal : paso;
     const h = (o.cada && k++ % o.cada === o.cada - 1) ? await f(p, 1).then(() => null) : await f(p, o.azar == null ? 0.3 : o.azar);
     await p.waitForTimeout(h ? 220 : 300);

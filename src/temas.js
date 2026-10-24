@@ -356,6 +356,8 @@ function makeGame(g,t,onDone){
   if(g.t==='busca')return Busca({items:ks,bg:t.bg,key:t.id},onDone);
   if(g.t==='memoria')return Memoria({pool:ks,bg:t.bg},onDone);
 }
+// ponMakeGame(f): cambia makeGame por otra función (extras.js e ingles.js la envuelven con sus juegos).
+function ponMakeGame(f){makeGame=f}
 // GICON: icono por defecto de algunos tipos de juego (clave de PICS). Ojo: ahora mismo
 // ningún archivo la usa; el icono real lo decide gIcon() en scenes.js.
 const GICON={conocer:'ojo',busca:'ojo',memoria:'regalo',sonido:'tren'};

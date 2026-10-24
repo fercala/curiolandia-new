@@ -176,10 +176,10 @@ const ING=[
   {id:'EN-ANIMALS',n:'Los animales en inglés',icon:'perro',c:'#FFA94D',bg:BG.granja,zone:'ingles',en:'animals',tip:'mirar un libro de animales y nombrarlos en inglés.',games:[ENG.conocer,ENG.escucha,ENG.globos]}
 ];
 // Envuelve makeGame: si el tema tiene en y el juego es de tipo en*, crea el juego de inglés con las palabras de su edad.
-{const mg0=makeGame;makeGame=function(g,t,onDone){
+{const mg0=makeGame;ponMakeGame(function(g,t,onDone){
   if(t.en&&g.t.startsWith('en')){const items=enItems(t.en),bg=t.bg;
     if(g.t==='enConocer')return EnConocer({items,bg},onDone);
     if(g.t==='enEscucha')return EnEscucha({items,bg,key:'ingles-'+t.en},onDone);
     if(g.t==='enGlobos')return EnGlobos({items,bg,key:'ingles-'+t.en},onDone);
     if(g.t==='enCuenta')return EnCuenta({bg},onDone)}
-  return mg0(g,t,onDone)}}
+  return mg0(g,t,onDone)})}

@@ -41,7 +41,7 @@
  *   drawLogoSmall, inR, GNAME), temas*.js, extras.js (CAN, RUT, TRZ,
  *   FIESTAS, BG, TUNES, playTune), ingles.js (ING), tienda.js (SHOP,
  *   SHELLC, STARS, giveCoins, wear, placeHome, itemName, drawItemPic,
- *   drawCoinHUD, inCoinHUD, coinBanner, toast...).
+ *   drawCoinHUD, inCoinHUD, VIVO.coinBanner, VIVO.toast...).
  * Partes de S que toca: S.temas (solo lee), S.unlockAll (modo libre de la
  *   zona de adultos), S.seenOpen (lo último visto abierto, para animar
  *   candados), S.woke (zonas ya despertadas), S.first[zona], S.last,
@@ -124,7 +124,7 @@ function nextTema(){const z0=ageZoneOpen();
   for(const t of[CAN,RUT,...ING,TRZ,...MAINZ.map(z=>ZONES[z].temas.find(t=>t.concepts)),...FIESTAS])if(t&&!tst(t.id).done&&temaOpen(t))return t;
   return null}
 // Sustituye la suggestTema antigua de scenes.js: ahora la recomendación es la casita que toca en el camino.
-suggestTema=function(z){return curTema(z||ageZoneOpen())};
+ponSuggestTema(function(z){return curTema(z||ageZoneOpen())});
 // lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
 const lowName=t=>t.concepts?'el Rincón de los Conceptos':V(t.n).replace(/^./,c=>c.toLowerCase());
 // lockMsg(t): frase que dice Tito al tocar una casita cerrada, explicando qué hace falta para abrirla.
@@ -310,6 +310,8 @@ const spotNeed=id=>({canciones:NEED['X-CAN'],rutinas:NEED['X-RUT'],trazos:NEED['
 // goSeguir(): acción del botón "seguir el camino": si no se ha hecho la asamblea hoy, va a la asamblea; si no, a la
 // casita de nextTema(). Si no queda nada, lo dice.
 function goSeguir(){if(!asamHoy()){go('asamblea');return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
+// ponGoSeguir(f): cambia goSeguir por otra función (repaso.js y world3d.js la envuelven).
+function ponGoSeguir(f){goSeguir=f}
 // drawSeguir(): dibuja el botón verde de seguir, que late con un halo amarillo.
 function drawSeguir(){const p=(Math.sin(T*4)+1)/2,s=hv('seguir',hC(SEGUIR.x,SEGUIR.y,SEGUIR.r+8));ctx.save();ctx.translate(SEGUIR.x,SEGUIR.y);ctx.scale(s*(1+p*.05),s*(1+p*.05));
   ctx.globalAlpha=.35+.3*p;circ(0,0,SEGUIR.r+12,null,10,'#FFC93C');ctx.globalAlpha=1;circ(0,0,SEGUIR.r,'#7CC86E',7);ctx.beginPath();ctx.moveTo(-18,-28);ctx.lineTo(30,0);ctx.lineTo(-18,28);ctx.closePath();fillStroke('#fff',5);ctx.restore()}
@@ -366,7 +368,7 @@ SCENES.map=Object.assign(SCENES.map,{
     // regalo diario: las monedas se abonan a la vez que se marca el día (si se sale antes de verlas, no se pierden)
     else if(S.gift!==today()){S.gift=today();creditCoins(3);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>giveCoins(3,TITO.x+150,TITO.y+40,undefined,true))}
     else if(o.hello)later(400,()=>this.prompt(true));
-    if(sessionT>15*60&&!restAsked&&!S.limit){restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
+    if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },
 // ageZone(): zona que corresponde a la edad (la usa world3d.js para colocar a Tito).
   ageZone(){return ageZoneOpen()},
@@ -416,9 +418,9 @@ Object.assign(GNAME,{cuento:'El cuento',cancion:'La canción',trazo:'Trazos',sec
 // stationPos(t, j): (sustituye la de scenes.js) posición del juego j en la casita del tema t, formando un camino:
 // hasta 4 en una fila; hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al revés (zigzag).
 // world3d.js la vuelve a envolver con las posiciones 3D.
-stationPos=function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
+ponStationPos(function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
   if(n<=6){const r=Math.floor(j/3),c=j%3;return[540+(r?2-c:c)*360,r?700:420]}
-  const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]};
+  const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]});
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
 const stLocked=(t,j)=>!gameOpen(t,j);
 // CASITA v3: los juegos del tema forman un camino y se abren de uno en uno (gameOpen). Sustituye enter, prompt, hint,
@@ -492,14 +494,14 @@ function drawChest(x,y,s,op,sh){ctx.save();ctx.translate(x+sh,y);ctx.scale(s,s);
 // de abrirlo, cofrePend() lo entrega al arrancar, para que el premio del tema nunca se pierda.
 SCENES.cofre={music:'casita',
 // enter(o): prepara el cofre cerrado, elige el regalo, suma S.cofres, apunta el premio pendiente (S.cofreP) y lo anuncia.
-  enter(o){coinBanner=null;toast=null;this.t=TEMA[o.t];this.taps=0;this.op=0;this.openT=0;this.shakeT=-9;this.rewarded=false;this.gift=nextGift();this.busy=false;
+  enter(o){VIVO.coinBanner=null;VIVO.toast=null;this.t=TEMA[o.t];this.taps=0;this.op=0;this.openT=0;this.shakeT=-9;this.rewarded=false;this.gift=nextGift();this.busy=false;
     S.cofres=(S.cofres||0)+1;S.cofreP=Object.assign({},S.cofreP,{[this.t.id]:1});save();
     const n=lowName(this.t);later(400,()=>{SFX.tada();burst(800,300,70);say(('¡Terminaste todos los juegos de '+n).replace(/ de el /,' del ')+kid()+'! ¡Ganaste un cofre del tesoro! Tocalo tres veces para abrirlo.')})},
 // reward(): entrega el premio una sola vez (this.rewarded): regalo, figurita (S.stk) y monedas (S.coins). Se llama al
 // abrirse o al salir con la casa sin abrirlo, para que nunca se pierda. Quita el pendiente de S.cofreP (giveCoins guarda).
   reward(){if(this.rewarded)return;this.rewarded=true;if(S.cofreP)delete S.cofreP[this.t.id];const it=this.gift;if(it)grantGift(it);giveSticker(this.t.icon);giveCoins(it?10:20,800,560);
     // los carteles de figurita y monedas van a la derecha: en el centro tapaban el regalo y su nombre
-    if(toast){toast.x=1290;toast.y=300}if(coinBanner){coinBanner.x=1300;coinBanner.y=540}},
+    if(VIVO.toast){VIVO.toast.x=1290;VIVO.toast.y=300}if(VIVO.coinBanner){VIVO.coinBanner.x=1300;VIVO.coinBanner.y=540}},
 // next(): vuelve a la zona del tema con {from: id} (la zona felicita si ya no queda camino).
   next(){const z=this.t.zone;go(ZONES[z]?z:'map',{from:this.t.id})},
 // prompt(): cuántos toques faltan o, ya abierto, qué se puede hacer.
