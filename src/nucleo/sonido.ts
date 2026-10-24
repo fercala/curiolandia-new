@@ -92,8 +92,8 @@ export const SFX={
   splash:()=>{noise(.3,.3,1500,0,.5);tone(700,.15,'sine',.15,.5)},
   count:(n: number)=>tone(440*Math.pow(2,(n*2)/12),.18,'triangle',.3)
 };
-// SOUNDS: sonido de cada animal o vehículo, con la misma clave que su dibujo; suena con playSound(clave). lex.js añade más.
-// Para uno nuevo: añade clave:()=>{syn({...})} aquí o en lex.js, y su onomatopeya en ONO.
+// SOUNDS: sonido de cada animal o vehículo, con la misma clave que su dibujo; suena con playSound(clave). contenido/lex.ts añade más.
+// Para uno nuevo: añade clave:()=>{syn({...})} aquí o en contenido/lex.ts, y su onomatopeya en ONO.
 export const SOUNDS: Record<string,()=>void>={
   vaca:()=>{syn({f:150,fm:165,f2:118,d:1.1,lp:520,v:.55,vib:4,vibA:3,att:.12})},
   oveja:()=>{syn({f:420,f2:380,d:.8,lp:1700,vib:11,vibA:30,v:.4,att:.06})},

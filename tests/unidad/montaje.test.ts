@@ -22,11 +22,11 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: lex.js primero (core.js ya es módulo: src/nucleo/), y world3d.js y boot.js al final (ver
-  // docs/ARQUITECTURA.md).
+  // El orden importa: comps.js primero (core.js y lex.js ya son módulos: src/nucleo/ y src/contenido/), y world3d.js y
+  // boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['lex.js', 'comps.js'],
-    ['lex.js', 'scenes.js'],
+    ['comps.js', 'temas.js'],
+    ['temas.js', 'scenes.js'],
     ['scenes.js', 'zonas.js'],
     ['adult.js', 'world3d.js'],
     ['world3d.js', 'boot.js'],
@@ -88,6 +88,10 @@ describe('paginaJuego', () => {
     for (const k of ['say', 'go', 'ponS', 'tx', 'drawTito', 'later', 'save']) expect(typeof global[k], k).toBe('function');
     expect(global['S']).toMatchObject({ variant: 'es', voz: 'nav', vol: { voz: 1 } });
     expect(Object.keys(global['IMG'] as object).length).toBeGreaterThan(300);
+    // contenido/lex.ts amplía el vocabulario del núcleo.
+    expect(global['LEX']).toMatchObject({ gato: 'el gato', escuela: 'la escuela' });
+    expect(global['ONO']).toMatchObject({ vaca: '¡Muuu!', ambulancia: '¡Niinoo, niinoo!' });
+    expect(runInContext("S.variant = 'es'; tx('Agarralo con la valija')", global)).toBe('Cógelo con la maleta');
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

@@ -5,7 +5,7 @@
 //   EnEscucha, EnGlobos, EnCuenta, ENG, ING. ING se añade a TEMAS en scenes.js y a la zona 'ingles' en zonas.js.
 // Envuelve: makeGame (temas.js / extras.js).
 // Depende de: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight, onWrongTwice, praise,
-//   SFX, later, shuffle, pick), temas.js (NUM, DIAC, BG, nRounds, nOpts, drawFace), lex.js (V, cap).
+//   SFX, later, shuffle, pick), temas.js (NUM, DIAC, BG, nRounds, nOpts, drawFace), nucleo/idioma.ts y nucleo/voz.ts (V, cap).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
 /* ================= EL RINCÓN DEL INGLÉS ================= */
 // Las palabras en inglés las dice una voz en inglés (say con {en:1}); las explicaciones, Tito en castellano.

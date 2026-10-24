@@ -4,9 +4,11 @@
 // este archivo deja en globalThis lo que el código global todavía usa de ellos (el «puente»). Cuando todo sea módulo,
 // el puente desaparece.
 // Los import se evalúan en el orden en que están escritos: primero los dibujos (dibujos/todos.ts, que los carga en su
-// orden) y luego el núcleo (nucleo/indice.ts, lo que antes era core.js).
+// orden), luego el núcleo (nucleo/indice.ts, lo que antes era core.js) y después el contenido que lo amplía
+// (contenido/lex.ts, antes lex.js: no exporta nada, solo añade palabras y sonidos al núcleo).
 import * as dibujos from './dibujos/todos.ts';
 import * as nucleo from './nucleo/indice.ts';
+import './contenido/lex.ts';
 
 // puente(m): deja cada cosa que exporta el módulo m en globalThis con su mismo nombre, para el código global.
 // Es una propiedad con get que lee siempre el valor actual del módulo: así S, ctx, T, scene, go... están al día aunque

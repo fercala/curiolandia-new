@@ -1,14 +1,18 @@
+// contenido/lex.ts: amplía el vocabulario del núcleo (nucleo/idioma.ts y nucleo/sonido.ts). Antes era lex.js, el primer
+// archivo global; desde la fase 2d es un módulo que src/modulos.ts carga justo después del núcleo. Solo AÑADE cosas a
+// lo del núcleo y no exporta nada:
+//  - LEX: nombre con artículo (en rioplatense) de los dibujos nuevos: {claveDelDibujo: 'el nombre'}.
+//  - LEX2: palabras que cambian demasiado entre variantes: {clave: ['rioplatense', 'España']}. Tiene prioridad sobre LEX.
+//  - SOUNDS: sonidos sintetizados de animales, vehículos e instrumentos nuevos (con syn, tone y noise de nucleo/sonido.ts).
+//  - ONO: la onomatopeya que dice Tito para cada sonido nuevo (no cambies el texto: está en el catálogo de frases).
+//  - _tuRe: más pares [rioplatense, España] para tx().
+// Para un dibujo nuevo: añade su clave en LEX (y en LEX2 si en España se dice muy distinto); si suena, añade su función
+// en SOUNDS y su onomatopeya en ONO. Las claves 'emo:...' son las emociones de la asamblea. En la fase 5 (contenido
+// como datos) esto pasa a archivos de datos.
+import { _tuRe, LEX, LEX2 } from '../nucleo/idioma.ts';
+import { noise, ONO, SOUNDS, syn, tone } from '../nucleo/sonido.ts';
+
 /* ================= PALABRAS NUEVAS (v2) ================= */
-/*
- * lex.js: amplía el vocabulario del núcleo (nucleo/idioma.ts y nucleo/sonido.ts). Es el primer archivo global y solo AÑADE cosas a lo del núcleo:
- *  - LEX: nombre con artículo (en rioplatense) de los dibujos nuevos: {claveDelDibujo: 'el nombre'}.
- *  - LEX2: palabras que cambian demasiado entre variantes: {clave: ['rioplatense', 'España']}. Tiene prioridad sobre LEX.
- *  - SOUNDS: sonidos sintetizados de animales, vehículos e instrumentos nuevos (con syn, tone y noise de nucleo/sonido.ts).
- *  - ONO: la onomatopeya que dice Tito para cada sonido nuevo (tiene MP3 grabado: no cambies el texto).
- *  - _tuRe: más pares [rioplatense, España] para tx().
- * No define globales nuevas. Para un dibujo nuevo: añade su clave en LEX (y en LEX2 si en España se dice muy distinto);
- * si suena, añade su función en SOUNDS y su onomatopeya en ONO. Las claves 'emo:...' son las emociones de la asamblea.
- */
 Object.assign(LEX,{
  escuela:'la escuela',parque:'el parque',piscina:'la pileta',tienda:'la tienda',hospital:'el hospital',calendario:'el calendario',semaforo:'el semáforo',pasoCebra:'el paso de cebra',
  bombera:'la bombera',medico:'el médico',policia:'la policía',panadero:'el panadero',cocinera:'la cocinera',cartero:'el cartero',granjera:'la granjera',peluquero:'el peluquero',
@@ -72,7 +76,7 @@ Object.assign(ONO,{ambulancia:'¡Niinoo, niinoo!',camionBomberos:'¡Uuuiiiuuu!',
 // palabras rioplatenses nuevas que cambian en España
 // Función que se ejecuta una vez: convierte cada par de add en expresión regular (igual que _tuRe en nucleo/idioma.ts) y lo añade al
 // final de _tuRe, así que se aplica DESPUÉS de los pares de TU. Las expresiones largas van antes que las cortas.
-(function(){const add=[['las golosinas','las chucherías'],['golosinas','chucherías'],['la valija','la maleta'],['valija','maleta'],['el subte','el metro'],['subte','metro'],['el morrón','el pimiento'],['morrón','pimiento'],
+(function añadePares(): void{const add: readonly (readonly [string,string])[]=[['las golosinas','las chucherías'],['golosinas','chucherías'],['la valija','la maleta'],['valija','maleta'],['el subte','el metro'],['subte','metro'],['el morrón','el pimiento'],['morrón','pimiento'],
   ['el ananá','la piña'],['ananá','piña'],['la lamparita','la bombilla'],['lamparita','bombilla'],['la malla','el bañador'],['el piyama','el pijama'],['piyama','pijama'],['el barrilete','la cometa'],['barrilete','cometa'],
   ['la vereda','la acera'],['vereda','acera'],['la torta','la tarta'],['torta','tarta'],['el diario','el periódico'],['la hamaca','el columpio'],['el balde','el cubo'],['manejar','conducir'],['manejamos','conducimos'],
   ['la pollera','la falda'],['el durazno','el melocotón'],['durazno','melocotón'],['el chanchito','el cerdito'],['chanchito','cerdito'],['los chanchitos','los cerditos'],['chanchitos','cerditos'],

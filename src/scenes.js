@@ -41,7 +41,7 @@
  * Depende de:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
- *   pick, rnd, VIVO.idle...), lex.js (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
+ *   pick, rnd, VIVO.idle...), nucleo/idioma.ts (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
  *   extras.js (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
  *   comps*.js (makeGame), src/dibujos/ (PICS) y nucleo/imagenes.ts (pic), tienda.js / adult.js
  *   (drawTito, TITO, inTito, drawHome/atHome en core).

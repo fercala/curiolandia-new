@@ -12,9 +12,9 @@ import type { Plugin, ResolvedConfig } from 'vite';
 
 // Orden en que se pegan los .js de src/ que aún son globales (el mismo que tenía src/build.sh). Un archivo puede usar
 // lo que definen los de antes, así que no se reordena sin leer docs/ARQUITECTURA.md («El orden importa»). Los dibujos
-// (antes pics-*.js, al principio) y core.js ya son módulos: src/dibujos/ y src/nucleo/.
+// (antes pics-*.js, al principio), core.js y lex.js ya son módulos: src/dibujos/, src/nucleo/ y src/contenido/.
 export const ARCHIVOS = [
-  'lex.js', 'comps.js', 'comps2.js', 'temas.js', 'temas4.js', 'temas5.js', 'cuentos.js', 'extras.js',
+  'comps.js', 'comps2.js', 'temas.js', 'temas4.js', 'temas5.js', 'cuentos.js', 'extras.js',
   'ingles.js', 'scenes.js', 'zonas.js', 'tienda.js', 'repaso.js', 'adult.js', 'world3d.js', 'boot.js',
 ] as const;
 
