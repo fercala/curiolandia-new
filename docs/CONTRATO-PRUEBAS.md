@@ -37,6 +37,6 @@ lo que hoy las pruebas leen sueltas (última tabla) o las pruebas tendrán que p
 | `MX`, `T` | `core.js` | Posición del ratón y reloj de juego. |
 | `localStorage['curiolandia-new.v1']` | `core.js` (`KEY`) | Escribir partidas de prueba antes de cargar. |
 | `localStorage['curiolandia.v1']` | `core.js` (`KEY_VIEJA`) | La partida de curiolandia-3d que se copia (`guardado-viejo.js`). |
-| Versión en `sw.js` (`curiolandia-new-vX`) | `src/build_web.py` | `cobertura.js` la lee para el informe. |
+| Versión en `sw.js` (`curiolandia-new-vX`) | `package.json` (`version`) y `herramientas/vite/curiolandia.mts` | `cobertura.js` la lee para el informe. |
 
 Cuentas sacadas con `grep` sobre `tests/` el 24 de octubre de 2026 (fase 0).

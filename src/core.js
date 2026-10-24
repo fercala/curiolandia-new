@@ -1,7 +1,7 @@
 /* ================= NÚCLEO DE CURIOLANDIA ================= */
 /*
  * core.js: el núcleo de Curiolandia. Va justo después de los dibujos (pics-*.js) y antes que todo lo demás
- * (ver build.sh). Como todo se concatena en un único <script>, lo que se define aquí lo ven todos los archivos siguientes.
+ * (ver ARCHIVOS en herramientas/vite/curiolandia.mts). Como todo se concatena en un único <script>, lo que se define aquí lo ven todos los archivos siguientes.
  *
  * Qué define (globales que usan los demás archivos):
  *  - Pantalla: W y H (pantalla lógica de 1600x900), cv y ctx (el lienzo 2D), SC/OX/OY/DPR (escala y márgenes), resize().
@@ -101,6 +101,7 @@ const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curiolandia
 // DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (adult.js) también parte de aquí.
 const DEF={age:0,name:'',variant:'',hemi:'N',vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0};
 // S empieza siendo una copia de DEF (JSON.parse(JSON.stringify(...)) hace una copia profunda) y load() la completa.
+/** @type {Estado} */
 let S=JSON.parse(JSON.stringify(DEF));
 // sanoS(d, def): arregla en el sitio los campos de una partida guardada d que no tienen el tipo de su valor por defecto
 // en def, para que una partida o copia rota no rompa el juego. Solo mira los campos que def tiene con un valor no null:

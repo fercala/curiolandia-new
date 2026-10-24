@@ -30,7 +30,7 @@ El objetivo es que cualquier programador, también uno que empieza, pueda abrir 
 
 | Si cambias... | Actualiza |
 |---|---|
-| Cómo está organizado el código: un archivo nuevo, el orden de `build.sh`, una capa o envoltura nueva, el flujo del niño, la capa 3D | [ARQUITECTURA.md](ARQUITECTURA.md) |
+| Cómo está organizado el código: un archivo nuevo, el orden de `ARCHIVOS` (herramientas/vite/curiolandia.mts), una capa o envoltura nueva, el flujo del niño, la capa 3D | [ARQUITECTURA.md](ARQUITECTURA.md) |
 | La forma de añadir algo (objeto 3D, tema, juego, componente, cuento, dibujo, tienda, escena, zona de adultos) o el proceso de montar, probar y publicar | [COMO-AGREGAR.md](COMO-AGREGAR.md) (su receta) |
 | Un campo nuevo o distinto del estado guardado `S` | [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md) (tabla de campos, con su valor por defecto) |
 | Diálogos nuevos o cambiados de `say()` | `dialogos/pendientes.txt` (una por línea, texto exacto) y una fila nueva en el catálogo `dialogos/todos.csv`. Ver [dialogos/LEEME.md](../dialogos/LEEME.md) |
@@ -42,7 +42,7 @@ Si ninguna fila encaja pero un programador nuevo necesitaría saberlo, escríbel
 
 ### 1.3. En el registro de cambios (cada vez que se publica)
 
-Cada versión publicada (cada vez que sube `VER`) añade una entrada **arriba del todo** de [CAMBIOS.md](CAMBIOS.md):
+Cada versión publicada (cada vez que sube `version` en `package.json`) añade una entrada **arriba del todo** de [CAMBIOS.md](CAMBIOS.md):
 
 ```md
 ## v1.N (AAAA-MM-DD)
@@ -70,7 +70,7 @@ Antes de cada commit:
    - [ ] Los comentarios de lo que he cambiado o borrado siguen siendo verdad.
    - [ ] He actualizado los documentos de `docs/` que tocan (tabla 1.2).
    - [ ] He apuntado los diálogos nuevos o cambiados en `dialogos/pendientes.txt` y en `dialogos/todos.csv`.
-   - [ ] Si publico: he subido `VER` y he añadido la entrada en `docs/CAMBIOS.md`.
+   - [ ] Si publico: he subido `version` en `package.json` y he añadido la entrada en `docs/CAMBIOS.md`.
 
 ## 3. Estilo
 

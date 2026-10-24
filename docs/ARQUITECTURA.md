@@ -37,14 +37,16 @@ Características técnicas:
 ├── dialogos/           catálogo de frases (todos.csv) y frases nuevas o cambiadas (pendientes.txt)
 ├── docs/               esta documentación y el plan de migración
 ├── .github/workflows/  web.yml: pruebas en cada PR y publicación desde main
-├── package.json        solo Playwright, para las pruebas
+├── package.json        versión, órdenes (`npm run ...`) y herramientas: Vite, TypeScript, Vitest, Playwright
+├── vite.config.mts, index.html  Vite; index.html es solo la entrada, la página la monta el plugin
+├── herramientas/       vite/curiolandia.mts (el montaje) y git-hooks/ (ganchos de commit)
 ├── CLAUDE.md           reglas cortas para trabajar con Claude Code
 └── README.md           presentación del proyecto
 ```
 
 ### Archivos de `src/`
 
-Todos los `.js` se pegan, en un orden fijo, dentro de un único `<script>` (lo hace `src/build.sh`). **El orden importa**: un archivo puede usar y modificar lo que definen los anteriores.
+Todos los `.js` se pegan, en un orden fijo (`ARCHIVOS` en `herramientas/vite/curiolandia.mts`), dentro de un único `<script>`. **El orden importa**: un archivo puede usar y modificar lo que definen los anteriores.
 
 | Orden | Archivo | Qué contiene |
 |---|---|---|
@@ -64,8 +66,7 @@ Todos los `.js` se pegan, en un orden fijo, dentro de un único `<script>` (lo h
 | 13 | `adult.js` | Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
 | 14 | `world3d.js` | **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
 | 15 | `boot.js` | Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
-| — | `build.sh` | Concatena todo en `src/artifact.html` y `src/index.html`. |
-| — | `build_web.py` | Genera la web instalable en `dist/` (index, `sw.js`, manifest y lo de `public/`). Tiene la versión `VER`. |
+| — | `tipos/estado.d.ts`, `tipos/globales.d.ts` | Tipos del estado `S`, de los temas y de lo que hay en `window`, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
 Como todo va en el mismo `<script>`, **todas las variables globales se comparten**. Por ejemplo, `S` (definido en `core.js`) se usa en todos los archivos.
@@ -266,15 +267,15 @@ Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAd
 ## 14. Montar y publicar
 
 ```
-src/*.js + head.html ──build.sh──> src/artifact.html, src/index.html
-src/index.html + public/ ──build_web.py──> dist/ (index.html, sw.js, manifest.webmanifest, three.min.js, fuentes, iconos)
+src/head.html + src/*.js (orden de ARCHIVOS) + public/ ──Vite + herramientas/vite/curiolandia.mts──> dist/
+  (index.html, sw.js, manifest.webmanifest, three.min.js, fuentes, iconos)
 main ──GitHub Actions (.github/workflows/web.yml)──> pruebas ──> dist/ en GitHub Pages
 ```
 
-`npm run build` hace los dos primeros pasos. Nadie copia archivos a mano ni los sube montados: al fusionar en `main`,
+`npm run build` hace el primer paso; `npm run dev` sirve lo mismo sin service worker y recarga al guardar. Nadie copia archivos a mano ni los sube montados: al fusionar en `main`,
 el workflow monta, prueba y publica.
 
-`VER` en `build_web.py` es el nombre de la caché del service worker: **hay que subirlo en cada publicación** o los móviles seguirán con la versión anterior. Los pasos exactos están en [COMO-AGREGAR.md](COMO-AGREGAR.md#1-el-proceso-de-trabajo).
+`version` en `package.json` da el nombre de la caché del service worker (`curiolandia-new-v<versión>`): **hay que subirlo en cada publicación** o los móviles seguirán con la versión anterior. Los pasos exactos están en [COMO-AGREGAR.md](COMO-AGREGAR.md#1-el-proceso-de-trabajo).
 
 ## 15. Pruebas
 

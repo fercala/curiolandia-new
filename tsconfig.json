@@ -1,0 +1,19 @@
+{
+  // Tipos estrictos para el código TypeScript nuevo (montaje, pruebas de Vitest y, desde la fase 2, el juego).
+  // `npm run tipos` tiene que terminar sin errores; lo comprueba GitHub Actions.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["vite.config.mts", "herramientas/**/*.mts", "tests/unidad/**/*.ts"]
+}

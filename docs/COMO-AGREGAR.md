@@ -29,8 +29,8 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 1. **Trae lo último**: `git pull`.
 2. **Crea una rama** para tu cambio: `git checkout -b mi-cambio`. (El dueño del proyecto decide si se fusiona a `main`.)
 3. **Edita solo `src/`** (y `public/` para fuentes o iconos). La web montada (`dist/`) no se edita ni se sube: se genera.
-4. **Monta el juego** desde la raíz del repo: `npm run build` (hace `sh src/build.sh` y `python3 src/build_web.py`; deja la web completa en `dist/`).
-5. **Prueba a mano**: `cd dist && python3 -m http.server 8000` y abre http://localhost:8000. Juega lo que has cambiado. Abre la consola del navegador (F12) y comprueba que no hay errores en rojo.
+4. **Monta el juego** desde la raíz del repo: `npm run build` (deja la web completa en `dist/`). Mientras trabajas, `npm run dev` sirve el juego y recarga al guardar.
+5. **Prueba a mano**: `npm run preview` (o `cd dist && python3 -m http.server 8000`) y abre http://localhost:8000. Juega lo que has cambiado. Abre la consola del navegador (F12) y comprueba que no hay errores en rojo.
    - Trucos de consola: `__cl.S.age=5; __cl.S.unlockAll=true; __cl.go('map')` (todo abierto); `__cl.go('casita',{t:'3A-T1'})` (ir a un tema); `window.__fast=1; window.__said=[]` (la voz no espera y `__said` guarda lo que dice Tito: útil para copiar frases exactas).
    - Para probar de noche sin esperar: en la consola, `Date.prototype.getHours=()=>22; __cl.go('map')`.
 6. **Prueba automática**: `npm run test:humo` (debe terminar con `TODO BIEN`; capturas en `tests/capturas/`) y `npm run test:pr`, lo mismo que pasa GitHub Actions en cada PR (unos minutos; las pruebas de una en una, nunca a la vez).
@@ -38,10 +38,10 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 8. **Frases nuevas o cambiadas**: apúntalas en `dialogos/pendientes.txt` y en `dialogos/todos.csv` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
 9. **Documenta el cambio** siguiendo [POLITICA-DOCUMENTACION.md](POLITICA-DOCUMENTACION.md): comentarios en el código, documentos de `docs/` que toque y entrada en [CAMBIOS.md](CAMBIOS.md). Comprueba con `npm run test:comentarios` (GitHub Actions lo pasa también en cada PR).
 10. **Para publicar**:
-   1. Sube la versión `VER` en `src/build_web.py` (`curiolandia-new-v0.N` → `v0.N+1`). **Sin esto los móviles se quedan con la versión anterior.**
+   1. Sube `version` en `package.json` (`0.N.0` → `0.N+1.0`): es el nombre de la caché del service worker. **Sin esto los móviles se quedan con la versión anterior.**
    2. Pon la versión en la entrada de [CAMBIOS.md](CAMBIOS.md).
    3. Abre un PR. Al fusionarlo en `main`, GitHub Actions monta, pasa las pruebas y publica `dist/` en GitHub Pages.
-11. **Si te equivocas** al publicar: `git revert` del commit en `main`, sube `VER` y fusiona otra vez.
+11. **Si te equivocas** al publicar: `git revert` del commit en `main`, sube `version` y fusiona otra vez.
 
 ### Cómo orientarte en el código
 - Todo el código está comentado: cada archivo tiene una cabecera que explica qué hace y cada función tiene un comentario encima.
@@ -54,7 +54,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 1. **Cada diálogo nuevo o cambiado**, en castellano de España y apuntado en `dialogos/pendientes.txt` y `dialogos/todos.csv` (aquí no hay MP3: los textos se pueden mejorar). → [dialogos/LEEME.md](../dialogos/LEEME.md)
 2. **No rompas las partidas guardadas**: no cambies el formato de `S`, ni `id` de temas, artículos o dibujos guardados; campos nuevos con valor por defecto. → [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md)
 3. **Los juegos de un tema se guardan por posición**: no quites ni reordenes juegos publicados; los nuevos, al final (cuidado con el cuento: ver receta 5).
-4. **Sube `VER`** cada vez que publiques.
+4. **Sube `version` en `package.json`** cada vez que publiques.
 5. **Sin dependencias nuevas** en el juego hasta la fase 1 de la migración (`npm` solo trae Playwright para las pruebas).
 6. **Piensa en niños de 3 a 5 años**: zonas de toque grandes, nada de leer (todo se dice en voz), refuerzo positivo, nada de castigos ni prisas.
 7. **Usa `later()`**, no `setTimeout`, dentro de las escenas y los juegos. Una frase que el juego dice solo, sin que el niño toque (una consigna con `later()`), va con `sayQ()`: espera a que Tito acabe lo que esté diciendo. Si es una pregunta, comprueba antes que el niño no la haya respondido ya. Tras un segundo fallo, pon `idle=12` **después** del `say()`.
