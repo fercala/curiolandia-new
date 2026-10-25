@@ -27,8 +27,9 @@ import { TEMA, TEMAS, dayIdx, gDone, standalone, suggestTema, tst } from '../esc
 import { zoneOpen } from '../escenas/zonas.ts';
 import { STARS, drawCoinFx } from '../escenas/tienda.ts';
 import { esPartida } from '../dominio/partida.ts';
-// ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
-import { ahora } from './puertos.ts';
+// ahora() y escribirGuardado(): la fecha y la hora y el guardado (puertos de aplicacion/puertos.ts, desde las fases 3g
+// y 3h; antes new Date() y localStorage).
+import { ahora, escribirGuardado } from './puertos.ts';
 
 // SKILL: nombre legible de cada habilidad de S.stats para la tabla "Cómo le va" ({clave: 'texto'}). Si una clave
 // no está, se muestra la clave con espacios. Al crear un juego con una habilidad nueva, añade aquí su nombre.
@@ -324,7 +325,7 @@ export async function bkDecode(code: string): Promise<Libre>{code=String(code||'
   const d: unknown=JSON.parse(j);if(!esPartida(d)||!esPartida(d['temas']))throw new Error('formato');return d}
 // bkWire(q): conecta los botones de la sección "Copia de seguridad": ver código, copiarlo, descargar archivo .json,
 // recuperar desde código o archivo. Al recuperar, enseña un resumen y, si se confirma, escribe la copia directamente en
-// localStorage y recarga la página (load() de nucleo/guardado.ts la pone al día y la mezcla con DEF como cualquier
+// el guardado (escribirGuardado; en el navegador, localStorage) y recarga la página (load() de nucleo/guardado.ts la pone al día y la mezcla con DEF como cualquier
 // partida guardada).
 function bkWire(q: (s: string)=>HTMLInputElement){const msg=(h: string)=>{q('#a-bk-msg').innerHTML=h},ta=q('#a-bk-txt');
   q('#a-bk-code').onclick=async()=>{ta.value=await bkEncode();ta.select();msg('Este código tiene todo el progreso. Copialo y guardalo, por ejemplo mandándotelo por mensaje.')};
@@ -337,6 +338,6 @@ function bkWire(q: (s: string)=>HTMLInputElement){const msg=(h: string)=>{q('#a-
   const ask=async(src: string)=>{let d: Libre;try{d=await bkDecode(src)}catch(e){msg((e as Error).message==='navegador'?'Este navegador no puede abrir ese código. Probá con el archivo de copia.':'❌ Eso no parece una copia de Curiolandia. Revisá que el código esté completo.');return}
     const nT=Object.values<Libre>(d.temas||{}).filter(t=>t&&t.done).length,nG=Object.values<Libre>(d.temas||{}).reduce((a: number,t)=>a+Object.keys((t&&t.g)||{}).length,0);
     msg(`Copia encontrada${d.name?' de <b>'+esc(d.name)+'</b>':''}: ${nT} temas terminados, ${nG} juegos jugados y ${Math.max(0,Math.floor(+d.coins)||0)} monedas. <b>Reemplaza el progreso actual de este dispositivo.</b> <button id="a-bk-ok" class="danger">Sí, recuperar esta copia</button>`);
-    q('#a-bk-ok').onclick=()=>{try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){msg('❌ No se pudo guardar en este navegador.');return}location.reload()}};
+    q('#a-bk-ok').onclick=()=>{if(!escribirGuardado(KEY,JSON.stringify(d))){msg('❌ No se pudo guardar en este navegador.');return}location.reload()}};
   q('#a-bk-load').onclick=()=>ask(ta.value);
   q('#a-bk-file').onchange=e=>{const f=(e.target as HTMLInputElement).files&&(e.target as HTMLInputElement).files![0];if(!f)return;f.text().then(t=>ask(t))}}
