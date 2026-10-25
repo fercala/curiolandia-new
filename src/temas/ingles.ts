@@ -3,8 +3,8 @@
 //   EnGlobos, EnCuenta) y los 4 temas del rincón (ING), y engancha esos juegos en makeGame.
 // Desde la fase 2i es un módulo (temas/indice.ts lo carga después de extras.ts) y exporta: sayMix, ENC, enBlob,
 //   enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer, EnEscucha, EnGlobos, EnCuenta, ENG, ING y
-//   los tipos PalabraEn y OpcionesTarjeta. El puente de src/modulos.ts los deja en globalThis: ING se añade a TEMAS en
-//   escenas/escenas2d.ts y a la zona 'ingles' en escenas/zonas.ts, que aún son código global.
+//   los tipos PalabraEn y OpcionesTarjeta. El puente de src/modulos.ts los deja en globalThis. ING se añade a TEMAS en
+//   escenas/escenas2d.ts y a la zona 'ingles' en escenas/zonas.ts.
 // Al cargarse: envuelve makeGame (temas/temas.ts, ya envuelto por temas/extras.ts) con ponMakeGame.
 // Importa: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
 //   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, V, cap), juegos/ (NUM) y temas/temas.ts

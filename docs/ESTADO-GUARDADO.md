@@ -54,7 +54,7 @@
 | `seenOpen` | `{clave: [ids]}` | Qué estaba abierto la última vez, para animar lo que se abre nuevo. |
 | `houseSeen`, `petSeen` | números | Último nivel de la casa / etapa de Pipo celebrados. |
 | `cofres` | número | Cofres abiertos. |
-| `cofreP` | objeto `{idTema: 1}` o ausente | Cofres con el premio aún sin entregar (v1.592): se apunta al entrar en el cofre y se quita al dar el premio. Si la página se cerró antes, `cofrePend()` (zonas.js, llamada desde boot.js) lo entrega al arrancar. |
+| `cofreP` | objeto `{idTema: 1}` o ausente | Cofres con el premio aún sin entregar (v1.592): se apunta al entrar en el cofre y se quita al dar el premio. Si la página se cerró antes, `cofrePend()` (escenas/zonas.ts, llamada desde aplicacion/arranque.ts) lo entrega al arrancar. |
 
 ### En `escenas/repaso.ts`
 

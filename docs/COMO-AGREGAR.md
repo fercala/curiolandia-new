@@ -45,9 +45,9 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 
 ### Cómo orientarte en el código
 - Todo el código está comentado: cada archivo tiene una cabecera que explica qué hace y cada función tiene un comentario encima.
-- Las líneas son muy largas (el código está escrito de forma compacta). Usa la búsqueda del editor o `grep -n "nombreFuncion" src/*.js` para encontrar las cosas.
+- Las líneas son muy largas (el código está escrito de forma compacta). Usa la búsqueda del editor o `grep -rn "nombreFuncion" src/` para encontrar las cosas.
 - Si algo "no hace caso" a tu cambio, probablemente otro archivo posterior lo envuelve o lo sobrescribe (ver "Capas" en ARQUITECTURA.md). Busca el nombre en todos los archivos.
-- No reasignes desde un archivo una variable o función global que declara otro (`x = ...`): usa `VIVO.x` o su función `pon*` (ARQUITECTURA.md, «Leer sí, reasignar no»). Si hace falta una nueva, añade el campo a `VIVO` y al tipo `Vivo`, o una función `pon*` junto a la global. `npm run test:unidad` falla si no.
+- No se puede reasignar lo que se importa de otro módulo (`x = ...`): usa `VIVO.x` o su función `pon*` (ARQUITECTURA.md, «Leer sí, reasignar no»). Si hace falta una nueva, añade el campo a `VIVO` y al tipo `Vivo`, o una función `pon*` junto a la variable. `npm run tipos` lo marca como error.
 - Hay código antiguo que ya no se usa (sobre todo en `escenas/escenas2d.ts`: el mapa, el jardín y la casita v1). Está marcado en los comentarios.
 
 ## 2. Reglas que no se pueden saltar
@@ -104,7 +104,7 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
    - `id` único y **definitivo** (es la clave del progreso guardado).
    - `bg`: un fondo de `BG` (temas/temas.ts y temas/temas4.ts tienen la lista). Para uno nuevo, añádelo en el `Object.assign(BG,{...})` de temas/temas4.ts.
    - `season` (opcional): `'otoño'`, `'invierno'`... hace que Tito lo recomiende en esa estación.
-   - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, añade su línea a `src/tipos/puente.d.ts` (la prueba `globales` dice cuál falta).
+   - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, el puente lo deja también en `globalThis` (la prueba `globales` avisa si otro módulo ya exporta ese nombre).
 3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en escenas/zonas.ts) y cada casita para **unos 8 juegos** (`st3Pos()` en mundo3d/mundo3d.ts), contando el cuento. Para más hay que ampliar esas funciones.
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
 5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y escenas/zonas.ts al camino).
@@ -164,7 +164,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 
 ## 6. Un tipo de juego nuevo (componente)
 
-1. En `src/juegos/comps2.ts` crea una función exportada con esta forma (la interfaz completa está explicada en la cabecera de `juegos/comps.ts`; los tipos `Config`, `AlTerminar` y `Juego`, en `juegos/tipos.ts`). Importa del núcleo lo que uses y añade su línea a `src/tipos/puente.d.ts` (la prueba `globales` dice cuál falta) para que los temas, que aún son código global, la vean:
+1. En `src/juegos/comps2.ts` crea una función exportada con esta forma (la interfaz completa está explicada en la cabecera de `juegos/comps.ts`; los tipos `Config`, `AlTerminar` y `Juego`, en `juegos/tipos.ts`). Importa del núcleo lo que uses; los temas que la usen la importan de `juegos/indice.ts`:
    ```ts
    // MiTipo: <qué hace>. cfg: {bg, key, rounds, ...}. Llama a onDone() una vez al terminar.
    export function MiTipo(cfg: Config, onDone: AlTerminar): Juego{

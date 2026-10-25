@@ -16,14 +16,14 @@
 // temas/extras.ts para {t:'cuento'}).
 // MÓDULO (desde la fase 2e): exporta además IMGS, shadowOf, picS, picF, numCard,
 // arrowBtn, refCard, panel, germ, pathPts, NOTE, TUNES, playTune y sceneTokBump
-// (el puente de src/modulos.ts los deja en globalThis para el código global).
+// (el puente de src/modulos.ts los deja en globalThis).
 // Al cargarse cambia thing() (juegos/comps.ts) con ponThing para dibujar caritas
 // 'emo:...'.
 // IMPORTA: juegos/comps.ts (thing, ponThing, ChoiceGame, Arrastra, layoutChoice,
 // drawChoice, hitItem, nameT, eseEs, NUM), el núcleo, src/nucleo/ (dibujo, voz,
 // SFX, tone, AC, DIAC, ala, sky, hand, V, Wn, tx, svgImg...) y PICS y K de
-// src/dibujos/. Usa también drawFace, inR (escenas/escenas2d.ts) y BG (temas/temas.ts), que son
-// código global que se carga después: solo se usan al jugar, cuando ya existen
+// src/dibujos/. Usa también drawFace, inR (escenas/escenas2d.ts) y BG (temas/temas.ts), que se
+// cargan después: solo se usan al jugar, cuando ya existen
 // (sus tipos, en src/tardias.d.ts). Los datos de Story y Song (CUENTOS,
 // SONGS) llegan como parámetro; el tipo de un cuento está en contenido/tipos.ts.
 // ============================================================================

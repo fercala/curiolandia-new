@@ -1,14 +1,12 @@
-// Busca en el código del juego (src/*.js, en el orden de ARCHIVOS) las variables y funciones globales que un archivo
-// declara y otro reasigna (x = ..., x += ..., x++). Un módulo no puede reasignar lo que importa, así que antes de pasar
-// a módulos (fase 2 de docs/PLAN-MIGRACION.md) no puede quedar ninguna: lo comprueba tests/unidad/globales.test.ts.
-// Lo que se comparte y cambia está en VIVO (src/nucleo/pantalla.ts) o se cambia con su función pon* (ponS, ponGo...).
-// También sabe qué exportan los módulos (exportadas): el puente de src/modulos.ts lo deja en globalThis, así que el
-// código global tampoco puede reasignarlo ni declarar algo con el mismo nombre, y src/tipos/puente.d.ts tiene que
-// dar tipo a cada cosa (lineasPuente).
-// Lee el código con el analizador de rolldown (el de Vite) y sigue los ámbitos de JavaScript (funciones, bloques,
-// for, catch, switch) para no confundir una variable local con la global del mismo nombre.
+// Sabe qué exporta cada módulo del juego (exportadas): el puente de src/modulos.ts lo deja en globalThis con su nombre,
+// para las pruebas y para los módulos que usan algo de uno que se carga después (src/tardias.d.ts). Lo usa
+// tests/unidad/globales.test.ts para comprobar que dos módulos no exportan el mismo nombre (el puente daría error al
+// cargar).
+// Hasta la fase 2p también buscaba las globales que un archivo global reasignaba de otro (antes de pasarlo a módulo no
+// podía quedar ninguna) y generaba src/tipos/puente.d.ts; ya no queda código global.
+// Lee el código con el analizador de rolldown (el de Vite).
 import { readFileSync } from 'node:fs';
-import { dirname, join, normalize, relative } from 'node:path';
+import { dirname, join, normalize } from 'node:path';
 import { parseSync } from 'rolldown/utils';
 
 /** Un nodo del árbol de sintaxis (ESTree): tipo, posición y el resto de campos según el tipo. */
@@ -18,16 +16,6 @@ interface Nodo {
   readonly end: number;
   readonly [campo: string]: unknown;
 }
-
-/** Una global escrita desde un archivo que no es el suyo. */
-export interface EscrituraCruzada {
-  readonly nombre: string;
-  readonly declaradaEn: string;
-  readonly escritaEn: string;
-  readonly veces: number;
-}
-
-type Ambitos = readonly ReadonlySet<string>[];
 
 // esNodo(x): true si x es un nodo del árbol (objeto con type).
 function esNodo(x: unknown): x is Nodo {
@@ -68,62 +56,6 @@ function declaradas(instrucciones: readonly Nodo[], conVar: boolean): string[] {
   return r;
 }
 
-// varsDeFuncion(cuerpo): los var de un cuerpo de función, sin entrar en las funciones de dentro (se elevan a la función).
-function varsDeFuncion(cuerpo: Nodo): Set<string> {
-  const r = new Set<string>();
-  const ver = (n: Nodo): void => {
-    if (n !== cuerpo && /Function/.test(n.type)) return;
-    if (n.type === 'VariableDeclaration' && n['kind'] === 'var') {
-      for (const d of hijos(n, 'declarations')) for (const x of nombres(hijos(d, 'id')[0])) r.add(x);
-    }
-    for (const k of Object.keys(n)) for (const h of hijos(n, k)) ver(h);
-  };
-  ver(cuerpo);
-  return r;
-}
-
-// escrituras(programa, globales): cuántas veces escribe el archivo cada global que no tapa una variable local.
-// Recorre el árbol llevando la lista de ámbitos abiertos (cada uno con sus nombres declarados).
-function escrituras(programa: Nodo, globales: ReadonlySet<string>): Map<string, number> {
-  const cuenta = new Map<string, number>();
-  const apunta = (p: Nodo | undefined, amb: Ambitos): void => {
-    // Solo cuenta la escritura de una variable suelta (x = ...), no la de un campo (x.y = ...).
-    if (p?.type !== 'Identifier') return;
-    const n = String(p['name']);
-    if (globales.has(n) && !amb.some((s) => s.has(n))) cuenta.set(n, (cuenta.get(n) ?? 0) + 1);
-  };
-  const ver = (n: Nodo, amb: Ambitos): void => {
-    let dentro = amb;
-    if (n.type === 'FunctionDeclaration' || n.type === 'FunctionExpression' || n.type === 'ArrowFunctionExpression') {
-      const cuerpo = hijos(n, 'body')[0];
-      const s = new Set<string>(hijos(n, 'params').flatMap((p) => nombres(p)));
-      if (n.type === 'FunctionExpression' && esNodo(n['id'])) s.add(String(n['id']['name']));
-      if (cuerpo) {
-        for (const x of varsDeFuncion(cuerpo)) s.add(x);
-        if (cuerpo.type === 'BlockStatement') for (const x of declaradas(hijos(cuerpo, 'body'), false)) s.add(x);
-      }
-      dentro = [...amb, s];
-      for (const p of hijos(n, 'params')) ver(p, dentro);
-      if (cuerpo) for (const h of cuerpo.type === 'BlockStatement' ? hijos(cuerpo, 'body') : [cuerpo]) ver(h, dentro);
-      return;
-    }
-    if (n.type === 'BlockStatement' || n.type === 'StaticBlock') dentro = [...amb, new Set(declaradas(hijos(n, 'body'), false))];
-    if (/^For(In|Of)?Statement$/.test(n.type)) {
-      const ini = hijos(n, n.type === 'ForStatement' ? 'init' : 'left')[0];
-      if (ini?.type === 'VariableDeclaration') dentro = [...amb, new Set(declaradas([ini], false))];
-    }
-    if (n.type === 'CatchClause') dentro = [...amb, new Set(nombres(hijos(n, 'param')[0]))];
-    if (n.type === 'SwitchStatement') {
-      dentro = [...amb, new Set(hijos(n, 'cases').flatMap((c) => declaradas(hijos(c, 'consequent'), false)))];
-    }
-    if (n.type === 'AssignmentExpression') apunta(hijos(n, 'left')[0], dentro);
-    if (n.type === 'UpdateExpression') apunta(hijos(n, 'argument')[0], dentro);
-    for (const k of Object.keys(n)) for (const h of hijos(n, k)) ver(h, dentro);
-  };
-  for (const h of hijos(programa, 'body')) ver(h, []);
-  return cuenta;
-}
-
 /** Algo con valor (no un tipo) que exporta un módulo: su nombre y el archivo de src/ donde se declara. */
 export interface Exportada {
   readonly nombre: string;
@@ -154,42 +86,4 @@ export function exportadas(src: string, archivo: string): Exportada[] {
     }
   }
   return lista;
-}
-
-// lineasPuente(src, entradas): las líneas de src/tipos/puente.d.ts que dan su tipo a lo que el puente deja en
-// globalThis (lo que exportan las entradas, en orden): `declare const X: typeof import('../archivo').X;`.
-export function lineasPuente(src: string, entradas: readonly string[]): string[] {
-  const desdeTipos = (a: string): string => relative(join(src, 'tipos'), join(src, a)).split('\\').join('/');
-  return entradas.flatMap((e) => exportadas(src, e)).map(({ nombre, archivo }) => `declare const ${nombre}: typeof import('${desdeTipos(archivo)}').${nombre};`);
-}
-
-// escriturasCruzadas(src, archivos, deModulos): las globales de cada archivo que otro archivo reasigna. Vacía = se
-// puede pasar a módulos sin que nadie reasigne lo que importa. deModulos son los nombres que el puente trae de los
-// módulos (exportadas): un archivo global no puede reasignarlos ni declarar otra global con su nombre.
-export function escriturasCruzadas(src: string, archivos: readonly string[], deModulos: readonly Exportada[] = []): EscrituraCruzada[] {
-  const programas = archivos.map((f) => {
-    const r = parseSync(f, readFileSync(join(src, f), 'utf8'));
-    if (r.errors.length) throw new Error(`${f}: ${r.errors[0]?.message ?? 'no se puede leer'}`);
-    return { f, programa: r.program as unknown as Nodo };
-  });
-  // De quién es cada global: del primer archivo que la declara arriba del todo.
-  const duenno = new Map<string, string>();
-  for (const { nombre, archivo } of deModulos) duenno.set(nombre, archivo);
-  const r: EscrituraCruzada[] = [];
-  for (const { f, programa } of programas) {
-    for (const n of declaradas(hijos(programa, 'body'), true)) {
-      const de = duenno.get(n);
-      // Una global con el nombre de algo de un módulo: el navegador daría error al cargar (ver src/modulos.ts).
-      if (de && deModulos.some((m) => m.nombre === n)) r.push({ nombre: n, declaradaEn: de, escritaEn: f, veces: 1 });
-      else if (!de) duenno.set(n, f);
-    }
-  }
-  const globales = new Set(duenno.keys());
-  for (const { f, programa } of programas) {
-    for (const [nombre, veces] of escrituras(programa, globales)) {
-      const declaradaEn = duenno.get(nombre);
-      if (declaradaEn && declaradaEn !== f) r.push({ nombre, declaradaEn, escritaEn: f, veces });
-    }
-  }
-  return r;
 }

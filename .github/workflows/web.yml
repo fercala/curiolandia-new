@@ -36,7 +36,6 @@ jobs:
       - run: npm run build
       - run: npm run test:comentarios
       - run: npm run tipos
-      - run: npm run tipos:js
       - run: npm run test:unidad
       - run: npm run test:humo
       - run: npm run test:pr

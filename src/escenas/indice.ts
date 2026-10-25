@@ -3,7 +3,7 @@
 // asamblea, suggestTema y stationPos), y tienda.ts (antes tienda.js, fase 2l), que añade a S los campos de la tienda,
 // las escenas tienda y casaTito y envuelve onRight, finishGame y SCENES.juego para dar monedas, y repaso.ts (antes
 // repaso.js, fase 2m), que añade a S los campos del repaso, la escena repaso y el botón de la lupa del mapa, y envuelve
-// rec, go, finishGame, goSeguir y la casita. src/modulos.ts pasa todo lo que exportan al puente, para el código global.
+// rec, go, finishGame, goSeguir y la casita. src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';

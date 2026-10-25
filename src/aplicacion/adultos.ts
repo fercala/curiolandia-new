@@ -9,14 +9,14 @@
  *     ejecuta en cada cuadro (temporizadores, tiempo de juego, música, 3D, dibujo de la escena, ayudas, partículas...).
  *  3) La COPIA DE SEGURIDAD: bkEncode/bkDecode/bkWire convierten S en un código de texto o un archivo JSON y al revés.
  * Desde la fase 2n es un módulo: src/modulos.ts lo carga el último, después de las escenas, y el puente deja lo que
- * exporta en globalThis para boot.js (código global) y para las pruebas.
+ * exporta en globalThis para las pruebas. aplicacion/arranque.ts importa frame.
  * Define: SKILL, esc, toLogical, dlgOpen, isPortrait, hoverTick, window.__cl (para pruebas automáticas) y bkWire.
  * Exporta: openAdult, closeAdult, openNameDlg, openResetDlg, doReset, frame, bkEncode y bkDecode.
  * Importa: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
  * CAN, RUT, TRZ, FIESTAS, ING), escenas/tienda.ts (STARS, drawCoinFx) y escenas/zonas.ts (zoneOpen). Usa de mundo3d/mundo3d.ts, que va después, R3frame y
  * window.__w3 (tipos en src/tardias.d.ts y nucleo/tipos.ts).
- * frame() la arranca boot.js.
+ * frame() la pone en marcha aplicacion/arranque.ts.
  */
 import type { Tema } from '../juegos/tipos.ts';
 import type { Estado, Libre, Tito, Vale, Volumenes } from '../nucleo/tipos.ts';
@@ -251,7 +251,7 @@ function hoverTick(dt: number){
   if(VIVO.hovNow!==VIVO.hovPrev){if(VIVO.hovNow!=null&&VIVO.fade<.3)try{SFX.hov()}catch(e){}VIVO.hovPrev=VIVO.hovNow;VIVO.hovT=0;VIVO.dwellDone=false;return}
   if(VIVO.hovNow!=null){VIVO.hovT+=dt;if(VIVO.hovT>1.1&&!VIVO.dwellDone&&!VIVO.talking&&scene!.dwell&&typeof VIVO.hovNow==='string'){VIVO.dwellDone=true;try{scene!.dwell(VIVO.hovNow)}catch(e){console.error(e)}}}
 }
-/* frame(now): EL BUCLE DEL JUEGO. Se ejecuta en cada cuadro de pantalla (requestAnimationFrame; lo arranca boot.js).
+/* frame(now): EL BUCLE DEL JUEGO. Se ejecuta en cada cuadro de pantalla (requestAnimationFrame; lo arranca aplicacion/arranque.ts).
    Pasos: 1) calcula rdt (tiempo real, máx. 1 s) y dt (máx. 0,05 s para que una pausa no dé un salto) y avanza T, idle (solo mientras Tito calla) y el velo fade;
    2) ejecuta los temporizadores de later() que vencen (solo si siguen en su escena); 3) candado: 3 s reales pulsado abre la
    zona de adultos; 4) cuenta el tiempo jugado (S.days cada 15 s, límite S.limit -> escena 'dormir');

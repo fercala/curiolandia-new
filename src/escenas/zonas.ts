@@ -572,7 +572,7 @@ SCENES.cofre={music:'casita',
     if(this.gift&&dist(x,y,800,300)<140){SFX.pop();sparkles(800,300,10);say(cap(itemName(this.gift))+'.');return}
     SFX.tap();sparkles(x,y,3)}
 };
-// cofrePend(): al arrancar (boot.js), entrega sin animación los cofres que quedaron sin abrir (S.cofreP), uno por tema:
+// cofrePend(): al arrancar (aplicacion/arranque.ts), entrega sin animación los cofres que quedaron sin abrir (S.cofreP), uno por tema:
 // el siguiente regalo (o 20 monedas si no quedan), la pegatina del tema y 10 monedas, como reward(). Se ven en la casa de Tito.
 export function cofrePend(){const P=S.cofreP;if(!P||typeof P!=='object'){delete S.cofreP;return}
   for(const id of Object.keys(P)){delete P[id];const t=TEMA[id];if(!t)continue;const it=nextGift();if(it)grantGift(it);

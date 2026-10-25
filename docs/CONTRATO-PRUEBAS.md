@@ -5,8 +5,9 @@ escena y leen el estado por `window.__cl` y por unas pocas variables globales. M
 esta página tiene que seguir existiendo con el mismo nombre y el mismo significado**: es lo que permite comprobar que cada
 fase deja el juego igual. Si una fase lo cambia, cambia también las pruebas en el mismo PR y lo apunta aquí.
 
-Cuando el código pase a módulos (fase 2), estas variables dejan de ser globales: `window.__cl` tendrá que ofrecer
-lo que hoy las pruebas leen sueltas (última tabla) o las pruebas tendrán que pasar por `__cl`.
+Desde la fase 2p todo el código son módulos, pero el puente de `src/modulos.ts` sigue dejando en `globalThis`, con su
+nombre y de solo lectura, todo lo que exportan: las pruebas leen sueltas las variables de la última tabla igual que
+antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla con «X is not defined».
 
 ## `window.__cl` (definido en `src/aplicacion/adultos.ts`; su tipo, `PuertaPruebas`, en `src/nucleo/tipos.ts`)
 

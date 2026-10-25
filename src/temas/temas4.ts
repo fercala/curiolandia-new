@@ -3,7 +3,7 @@
 // ==========================================================================
 // Archivo de DATOS, con el mismo formato de tema y de juego que temas/temas.ts (mira allí la
 // explicación completa de cada campo: id, n, icon, c, trim, bg, season, intro, words, games).
-// Desde la fase 2f es un módulo. Exporta (y el puente lo deja en globalThis para el código global):
+// Desde la fase 2f es un módulo. Exporta (y el puente lo deja en globalThis):
 //   - bunting(), fern(), acacia(), palm(): ayudas de dibujo para fondos (las usa también temas/temas5.ts).
 //   - Fondos nuevos en BG: semana, bosque, polo, sabana, selva, mar, espacio, noche, huerta, calle,
 //     prehistoria, fiesta, bano, dormitorio, desierto, lluvia, parque (los usan temas5, extras y cuentos).

@@ -3,7 +3,7 @@
 // temas/temas.ts (antes temas.js): los 12 temas de 3 años (el Jardín) y su Rincón de los Conceptos.
 // ==========================================================================
 // Es sobre todo un archivo de DATOS. Desde la fase 2f es un módulo: exporta todo esto y el puente de src/modulos.ts
-// lo deja en globalThis para los archivos que aún son código global:
+// lo deja en globalThis:
 //   - floor(), grass(), fallingDeco(): ayudas para pintar fondos (también las usan temas4/temas5/extras).
 //   - BG: objeto con las funciones de fondo de cada tema (temas/temas4.ts le añade más).
 //   - swatch(), shape(), snowPart(), plateOf(), dayNight(): "cosas dibujadas" para los juegos.

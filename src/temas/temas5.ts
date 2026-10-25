@@ -3,7 +3,7 @@
 // ==========================================================================
 // Archivo de DATOS, con el mismo formato de tema y de juego que temas/temas.ts (mira allí la
 // explicación completa de cada campo: id, n, icon, c, trim, bg, season, intro, words, games).
-// Desde la fase 2f es un módulo. Exporta (y el puente lo deja en globalThis para el código global):
+// Desde la fase 2f es un módulo. Exporta (y el puente lo deja en globalThis):
 //   - Cosas dibujadas y ayudas: seasonOfMonth(), monthCard(), numObj(), thermo(), binDraw(), binOf(),
 //     fern2(), capullo, hojaHuevos, rowOf(), trunk(), bookOf().
 //   - Listas de datos de los juegos: SEAS_IC, SEAS_C, MSAY, BINS, BINSAY, habZ, pVivo, pNoVivo, NECES,

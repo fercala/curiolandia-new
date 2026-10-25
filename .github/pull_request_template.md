@@ -3,7 +3,7 @@
 
 ## Cómo lo he probado
 - [ ] `npm run build` y `npm run test:humo` terminan con TODO BIEN
-- [ ] `npm run tipos`, `npm run tipos:js` y `npm run test:unidad`
+- [ ] `npm run tipos` y `npm run test:unidad`
 - [ ] `npm run test:pr` (lo pasa también GitHub Actions)
 - [ ] Lo he jugado en el navegador sin errores en la consola
 
