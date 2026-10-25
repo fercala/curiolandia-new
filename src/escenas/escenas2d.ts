@@ -63,6 +63,8 @@ import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, S, SCENES, SFX
 import { NUM } from '../juegos/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
+// ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
+import { ahora } from '../aplicacion/puertos.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -232,7 +234,7 @@ export const asamHoy=()=>S.asam[today()]&&S.asam[today()].done;
 // OJO: escenas/zonas.ts la sustituye por suggestTema=function(z){return curTema(...)}, que sigue el camino en orden.
 export let suggestTema: (z?: string) => Tema | null=function(){
   const sea=estacionDe(),st=T3.find(t=>t.season===sea);if(st&&!tst(st.id).done)return st;
-  const m=new Date().getMonth(),L={8:[1],9:[4,2,3,5],10:[5,2,3,6],11:[6,7],0:[6,7],1:[7,8,9],2:[9,8,10],3:[10,9],4:[11,10],5:[12,11],6:[12],7:[12]}[m]||[1];
+  const m=ahora().getMonth(),L={8:[1],9:[4,2,3,5],10:[5,2,3,6],11:[6,7],0:[6,7],1:[7,8,9],2:[9,8,10],3:[10,9],4:[11,10],5:[12,11],6:[12],7:[12]}[m]||[1];
   for(const n of L){const t=T3[n-1];if(t&&!tst(t.id).done)return t}
   return T3.find(t=>!tst(t.id).done)||null;
 }
@@ -261,7 +263,7 @@ SCENES.map={music:'map',
     if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },
 // prompt(first): saludo según la hora (si first) y consigna: asamblea si no se ha hecho hoy; si no, el jardín. (Sustituido en escenas/zonas.ts.)
-  prompt(first){const h=new Date().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
+  prompt(first){const h=ahora().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
     if(!asamHoy())say((first?sal+kid()+'! ':'')+'Vamos a la plaza a hacer la asamblea. Tocá la plaza.');
     else say((first?sal+kid()+'! ':'')+'Tocá el jardín para jugar.')},
 // hint(): señala la plaza (si falta la asamblea) o el jardín. (Sustituido en escenas/zonas.ts.)
@@ -507,7 +509,7 @@ export const dayIdx=(d: Date)=>(d.getDay()+6)%7; // lunes=0
 SCENES.asamblea={music:'plaza',
 // enter(): fecha de hoy (this.d), día de la semana (this.ti), lo ya guardado hoy (this.rec) y la lista de pasos:
 // 3 años: hola, día/noche, día, tiempo, emoción. 4 años: + ropa y estación. 5 años: + mañana, mes, estación siguiente.
-  enter(){const a=AGE();this.d=new Date();this.ti=dayIdx(this.d);this.rec=S.asam[today()]||{};
+  enter(){const a=AGE();this.d=ahora();this.ti=dayIdx(this.d);this.rec=S.asam[today()]||{};
     this.steps=['hola',a<=3?'dianoche':null,'dia',a>=5?'manana':null,a>=5?'mes':null,'tiempo',a===4?'ropa':null,a>=4?'estacion':null,a>=5?'siguiente':null,'emocion','fin'].filter(Boolean);
     this.si=-1;this.next()},
 // next(): pasa al siguiente paso: reinicia errores, opciones y selección y llama a in_<paso>() si existe.

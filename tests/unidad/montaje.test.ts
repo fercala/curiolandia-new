@@ -1,7 +1,8 @@
 // Pruebas del montaje (herramientas/vite/curiolandia.mts): que la página lleve el juego entero (los módulos) en un solo
 // <script>, sin código global (desde la fase 2p) ni depender de internet (ni Google Fonts ni cdnjs), que los módulos
 // dejen en globalThis lo del puente de src/modulos.ts y pongan el juego en marcha, y que el service worker use la caché
-// propia con la versión de package.json, y que la partida lleve su versión (fase 3f). Las reglas del juego (fase 3)
+// propia con la versión de package.json, que la partida lleve su versión (fase 3f) y que el reloj y el azar se
+// puedan cambiar con ponPuertos (fase 3g). Las reglas del juego (fase 3)
 // tienen sus propias pruebas en tests/unidad/.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -133,6 +134,15 @@ describe('paginaJuego', () => {
     const vieja = { name: 'Leo', coins: 7, temas: { '3A-T1': { g: { 0: 1 }, done: 0 } } };
     const S = ejecutaModulos({ 'curiolandia.v1': JSON.stringify(vieja) })['S'];
     expect(S).toMatchObject({ ...vieja, ver: VERSION_PARTIDA, voz: 'nav' });
+  });
+
+  // Desde la fase 3g el juego pide la hora y el azar a sus puertos (aplicacion/puertos.ts): una prueba puede fijarlos
+  // sin tocar Date ni Math.random.
+  test('con un reloj y un azar de prueba (ponPuertos), el juego usa esa fecha y ese azar', () => {
+    const global = ejecutaModulos();
+    runInContext('ponPuertos({ reloj: { ahora: () => new Date(2026, 11, 25, 10) }, azar: { numero: () => 0 } })', global);
+    expect(runInContext('today()', global)).toBe('2026-12-25');
+    expect(runInContext("pick(['a', 'b', 'c'])", global)).toBe('a');
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

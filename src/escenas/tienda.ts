@@ -28,6 +28,8 @@ import { finishGame, inR, ponFinishGame } from './escenas2d.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
 import { TIER_NEED, estrellas, habitacionAbierta, nivelAbierto } from '../dominio/progreso.ts';
 import { alcanza, ganar, gastar, monedasAlTerminar, monedasPorAcierto } from '../dominio/monedas.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -435,7 +437,7 @@ SCENES.casaTito={music:'casita',room:'salon',
       if(o.id==='hamster'&&Math.cos(T*.9)<0)ctx.scale(-1,1);pic(o.id,0,-o.s*.42,o.s);if(o.id==='casitaPerro')pic('perro',o.s*.62,-o.s*.22+Math.abs(Math.sin(T*3))*-6,o.s*.55);ctx.restore()}
     if(nv&&!nv.slot&&S.home![nv.id]&&homeRoom(nv.id)===R.id&&(T-this.t0)<12){const p=S.home![nv.id],hs=HSIZE[nv.id]||160;arrowAt(p.x,p.y-hs*.9-30)}
     const tb=this.jump>0&&T>this.jump?Math.max(0,1-(T-this.jump)*2)*Math.abs(Math.sin((T-this.jump)*10))*-60:0;drawTito(250,330+tb,380);
-    if(nv&&nv.slot&&(T-this.t0)<6&&Math.random()<.15)sparkles(440+rnd(-120,120),420+rnd(-80,80),2);
+    if(nv&&nv.slot&&(T-this.t0)<6&&azar()<.15)sparkles(440+rnd(-120,120),420+rnd(-80,80),2);
     drawPet(190,872,150,{jump:this.petJump});
     const wd=this.wardrobe(),wa=this.wardArrows();if(wd.length){card(400,795,wa.length?1060:Math.min(1080,wd.length*100+40),100,'rgba(255,255,255,.8)',5,50);
       for(const [ax,ay,d] of wa){const s=hv('wpg'+d,hC(ax,ay,34));ctx.save();ctx.translate(ax,ay);ctx.scale(s*d,s);circ(0,0,32,'#fff',5);ctx.beginPath();ctx.moveTo(-8,-15);ctx.lineTo(10,0);ctx.lineTo(-8,15);ctx.lineWidth=8;ctx.strokeStyle=K;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.restore()}for(const w of wd){const on=isWorn(w.it),s=hv('w:'+w.it.id,hC(w.x,w.y,44));ctx.save();ctx.translate(w.x,w.y);ctx.scale(s,s);circ(0,0,42,on?'#FFF3B0':'#fff',on?7:4,on?'#FFC93C':K);drawItemPic(w.it,0,0,72);ctx.restore()}}

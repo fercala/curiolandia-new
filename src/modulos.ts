@@ -2,8 +2,10 @@
 // (herramientas/vite/curiolandia.mts) lo junta con rolldown en un único <script>. Desde la fase 2p de
 // docs/PLAN-MIGRACION.md ya no queda código global: todos los archivos de antes (core.js, scenes.js, world3d.js...) son
 // módulos TypeScript.
-// Los import se evalúan en el orden en que están escritos: primero los dibujos (dibujos/todos.ts, que los carga en su
-// orden), luego el núcleo (nucleo/indice.ts, lo que antes era core.js) y después el contenido que lo amplía
+// Los import se evalúan en el orden en que están escritos. Lo primero, desde la fase 3g, es conectar el reloj y el azar
+// del navegador a sus puertos (infraestructura/conectar.ts y aplicacion/puertos.ts): así cualquier módulo puede pedir
+// la hora (ahora()) o un número al azar (azar()) desde que se carga. Después, los dibujos (dibujos/todos.ts, que los
+// carga en su orden), luego el núcleo (nucleo/indice.ts, lo que antes era core.js) y después el contenido que lo amplía
 // (contenido/lex.ts, antes lex.js: no exporta nada, solo añade palabras y sonidos al núcleo). Por último, los
 // componentes de juego (juegos/indice.ts, antes comps.js y comps2.js) y los temas que los usan (temas/indice.ts,
 // antes temas.js, temas4.js y temas5.js). Luego los cuentos (contenido/cuentos.ts, antes cuentos.js: solo datos) y, al
@@ -12,6 +14,8 @@
 // zona de adultos, la entrada y el bucle de dibujo, que usan todo lo anterior. La capa 3D (mundo3d/mundo3d.ts, antes
 // world3d.js) envuelve las escenas del mapa, las zonas, la casita y el cofre. Con todo cargado y el puente puesto,
 // arrancar() (aplicacion/arranque.ts, antes boot.js) pone el juego en marcha.
+import './infraestructura/conectar.ts';
+import * as puertos from './aplicacion/puertos.ts';
 import * as dibujos from './dibujos/todos.ts';
 import * as nucleo from './nucleo/indice.ts';
 import './contenido/lex.ts';
@@ -42,6 +46,7 @@ function puente(m: Readonly<Record<string, unknown>>): void {
     });
   }
 }
+puente(puertos);
 puente(dibujos);
 puente(nucleo);
 puente(juegos);

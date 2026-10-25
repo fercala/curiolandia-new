@@ -10,7 +10,7 @@ import { exportadas } from '../../herramientas/analisis/globales.mts';
 
 const SRC = join(import.meta.dirname, '..', '..', 'src');
 // Lo que src/modulos.ts pasa al puente, en el mismo orden.
-const ENTRADAS = ['dibujos/todos.ts', 'nucleo/indice.ts', 'juegos/indice.ts', 'temas/indice.ts', 'contenido/cuentos.ts', 'escenas/indice.ts', 'aplicacion/adultos.ts', 'mundo3d/mundo3d.ts'] as const;
+const ENTRADAS = ['aplicacion/puertos.ts', 'dibujos/todos.ts', 'nucleo/indice.ts', 'juegos/indice.ts', 'temas/indice.ts', 'contenido/cuentos.ts', 'escenas/indice.ts', 'aplicacion/adultos.ts', 'mundo3d/mundo3d.ts'] as const;
 
 describe('globales', () => {
   test('el puente pasa lo que exportan los módulos y nada se repite', () => {
@@ -20,6 +20,14 @@ describe('globales', () => {
     expect(new Set(nombres).size).toBe(nombres.length);
     const modulos = readFileSync(join(SRC, 'modulos.ts'), 'utf8');
     for (const e of ENTRADAS) expect(modulos).toContain(`'./${e}'`);
+  });
+
+  // Desde la fase 3g, lo primero que se evalúa es la conexión del reloj y el azar a sus puertos: los demás módulos
+  // pueden pedir la hora o un número al azar al cargarse.
+  test('los puertos se conectan antes que nada', () => {
+    const modulos = readFileSync(join(SRC, 'modulos.ts'), 'utf8');
+    const imports = modulos.split('\n').filter((l) => l.startsWith('import '));
+    expect(imports[0]).toBe("import './infraestructura/conectar.ts';");
   });
 
   test('el juego arranca al final, con el puente ya puesto', () => {

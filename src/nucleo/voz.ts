@@ -11,6 +11,8 @@ import { tx } from './idioma.ts';
 import { VIVO } from './pantalla.ts';
 import { AC, initSonido, MUS } from './sonido.ts';
 import { pick } from './utilidades.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 
 /** Opciones de say(): en (inglés, voz VOICE_EN, sin tx ni MP3), rate (velocidad) y pitch (tono). */
 export interface OpcionesSay {
@@ -190,6 +192,6 @@ export const kid=(): string=>S.name?(', '+S.name):'';
 // PRAISE: felicitaciones (tienen MP3: no cambies el texto).
 export const PRAISE=['¡Muy bien!','¡Genial!','¡Bravo!','¡Excelente!','¡Eso es!','¡Qué bien!','¡Súper!','¡Lo encontraste!'];
 // praise(): una felicitación al azar; la mitad de las veces le añade el nombre del niño.
-export const praise=(): string=>{const p=pick(PRAISE);return S.name&&Math.random()<.5?p.slice(0,-1)+', '+S.name+'!':p};
+export const praise=(): string=>{const p=pick(PRAISE);return S.name&&azar()<.5?p.slice(0,-1)+', '+S.name+'!':p};
 // cap(texto): pone en mayúscula la primera letra.
 export const cap=(s: string): string=>s?(s[0] as string).toUpperCase()+s.slice(1):s;
