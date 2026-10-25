@@ -1,7 +1,7 @@
 // ARCHIVO: tienda.js — las recompensas: monedas, la tienda, la ropa y colores de Tito, la casa de Tito y los vales.
 // Cómo encaja: se ganan monedas al acertar en los juegos (envoltura de onRight) y al terminar un juego (envoltura de
 //   finishGame); se gastan en SCENES.tienda; lo comprado se ve en Tito (titoImg, drawTitoWear) o en SCENES.casaTito.
-//   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en zonas.js, pero usan SHOP, wear y placeHome.
+//   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en escenas/zonas.ts, pero usan SHOP, wear y placeHome.
 //   Los vales los configura un adulto en adult.js (S.vales) y se compran aquí (quedan apuntados en S.valesLog).
 // Define (globales): DEF2, VALES_DEF, shownCoins/coinFx/coinBanner (animación de monedas), hudAt, STARS, drawCoinHUD,
 //   inCoinHUD, giveCoins, spendCoins, drawCoinFx, SHELLC, SCARFC, titoImg, HATPOS, drawTitoWear, titoHouseIc, SHOPCAT,
@@ -10,7 +10,7 @@
 //   roomBtns y las escenas SCENES.tienda y SCENES.casaTito.
 // Envuelve: onRight y finishGame (nucleo/interfaz.ts y escenas/escenas2d.ts), SCENES.juego.enter y SCENES.juego.draw (escenas/escenas2d.ts).
 // Depende de: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
-//   TITO_SVG...), nucleo/idioma.ts (V, W_), escenas/escenas2d.ts (SCENES, finishGame), zonas.js (houseLevel, drawTitoHouse, drawPet, petStage,
+//   TITO_SVG...), nucleo/idioma.ts (V, W_), escenas/escenas2d.ts (SCENES, finishGame), escenas/zonas.ts (houseLevel, drawTitoHouse, drawPet, petStage,
 //   PET_NEXT, HOUSE_NEXT, temasDone, shellIcon), juegos/comps2.ts (playTune, TUNES).
 /* ================= MONEDAS, TIENDA Y CASA DE TITO ================= */
 // Campos del estado guardado S que añade este archivo (valores por defecto):
@@ -20,7 +20,7 @@
 //   puesto (color del caparazón, color de la bufanda, id del sombrero, 'gafas' o '', 'monio' o '');
 //   owned: {idArtículo:1} lo comprado o regalado; vales: lista de vales (ver VALES_DEF); valesLog: vales comprados
 //   [{id, txt, d:fecha, given:0/1}]; cofres: cofres abiertos. El resto (woke, bday, bdayDone, unlockAll, seenOpen,
-//   houseSeen, petSeen) lo usan otros archivos (zonas.js, adult.js, world3d.js).
+//   houseSeen, petSeen) lo usan otros archivos (escenas/zonas.ts, adult.js, world3d.js).
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
 const DEF2={coins:0,coinsTot:0,gift:'',woke:{},home:{},tito:{shell:'naranja',scarf:'roja',hat:'',glasses:'',bow:''},owned:{'caparazon:naranja':1,'bufanda:roja':1},vales:null,valesLog:[],bday:null,bdayDone:'',unlockAll:false,seenOpen:{},houseSeen:null,petSeen:null,cofres:0};
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.
@@ -174,7 +174,7 @@ const ROOMS=[{id:'salon',n:'el salón',need:0,ic:'sofa',cer:'cerrado'},{id:'dorm
   {id:'cocina',n:'la cocina',need:3,ic:'olla',cer:'cerrada'},{id:'bano',n:'el baño',need:5,ic:'banera',cer:'cerrado'},
   {id:'juegos',n:'el cuarto de juegos',need:8,ic:'bloques',cer:'cerrado'},{id:'jardin',n:'el jardín',need:11,ic:'arbol',cer:'cerrado'},
   {id:'torre',n:'la torre de las estrellas',need:14,ic:'telescopio',cer:'cerrada'}];
-// roomOf(id de habitación) → la habitación; roomOpen(id): ¿está abierta? (casitas terminadas, temasDone de zonas.js);
+// roomOf(id de habitación) → la habitación; roomOpen(id): ¿está abierta? (casitas terminadas, temasDone de escenas/zonas.ts);
 // roomsOpen(): las abiertas, en orden; homeRoom(id de objeto): habitación donde está ese objeto.
 const roomOf=r=>ROOMS.find(x=>x.id===r)||ROOMS[0],roomOpen=r=>{const R=roomOf(r);return R.need===0||temasDone()>=R.need},roomsOpen=()=>ROOMS.filter(R=>roomOpen(R.id)),
   homeRoom=id=>(S.home[id]&&S.home[id].r)||'salon';

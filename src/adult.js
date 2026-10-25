@@ -12,7 +12,7 @@
  * isPortrait, hoverTick, frame, window.__cl (para pruebas automáticas), bkEncode, bkDecode.
  * Depende de: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
- * CAN, RUT, TRZ, FIESTAS, ING), tienda.js (STARS, drawCoinFx), zonas.js (zoneOpen) y world3d.js (R3frame, __w3).
+ * CAN, RUT, TRZ, FIESTAS, ING), tienda.js (STARS, drawCoinFx), escenas/zonas.ts (zoneOpen) y world3d.js (R3frame, __w3).
  * frame() la arranca boot.js.
  */
 // SKILL: nombre legible de cada habilidad de S.stats para la tabla "Cómo le va" ({clave: 'texto'}). Si una clave

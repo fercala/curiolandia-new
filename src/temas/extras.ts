@@ -1,14 +1,14 @@
 // temas/extras.ts (antes extras.js): los temas "extra" del mapa: canciones (X-CAN), rutinas y hábitos (X-RUT), trazos (X-TRZ)
 // y los días especiales (FIESTAS: cumpleaños, Navidad, carnaval, Día del Libro).
 // Cómo encaja: cada tema es un objeto con el mismo formato que los de temas/temas.ts (id, n, icon, c, bg, zone, games).
-//   escenas/escenas2d.ts los mete en TEMAS/TEMA; zonas.js los pone en el mapa (canciones/rutinas/trazos son casitas sueltas
+//   escenas/escenas2d.ts los mete en TEMAS/TEMA; escenas/zonas.ts los pone en el mapa (canciones/rutinas/trazos son casitas sueltas
 //   de la zona 'extras', FIESTAS es la zona 'fiestas'); adult.js los lista en la zona de adultos.
 //   Los juegos con make:(d,t)=>... crean su componente directamente (Secuencia, Frota, Arrastra, Tracer, Velas,
 //   Cuenta, Atrapa, ChoiceGame, Puzzle de juegos/comps.ts y juegos/comps2.ts); los que solo llevan t (busca, memoria...) los crea
 //   makeGame de temas/temas.ts a partir de words del tema.
 // Desde la fase 2h es un módulo (temas/indice.ts lo carga después de temas5.ts) y exporta: DLYR, SONGS, bubbles,
 //   drops, RP, RUT, lineP, polyP, TRZ_L, TRZ, CAN, COSTUME, HATS, costumeZone, freeDeco, FIESTAS. El puente de
-//   src/modulos.ts los deja en globalThis para escenas/escenas2d.ts, zonas.js y adult.js, que aún son código global.
+//   src/modulos.ts los deja en globalThis para escenas/escenas2d.ts, escenas/zonas.ts y adult.js, que aún son código global.
 // Al cargarse: añade BG.trazo, palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento, y envuelve makeGame
 //   (temas/temas.ts, con ponMakeGame) para los tipos 'cuento' y 'cancion'.
 // Importa: temas.ts, temas4.ts y temas5.ts (T3, T4, T5, BG, ESTS, swatch, dayCard, monthCard, makeGame), juegos/

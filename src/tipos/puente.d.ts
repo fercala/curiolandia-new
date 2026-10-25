@@ -2,7 +2,7 @@
 // en su módulo. Al pasar a módulo cada archivo que lo usa, lo importará en vez de leerlo de aquí.
 // Son `const` aunque en su módulo algunos cambien (S, ctx, T, scene, go...): el código global los lee siempre al día,
 // pero no puede reasignarlos. tests/unidad/globales.test.ts comprueba que esta lista es exactamente la del puente: al
-// exportar algo nuevo en src/nucleo/, src/juegos/, src/temas/, src/contenido/cuentos.ts, src/escenas/escenas2d.ts o src/dibujos/todos.ts, añade aquí su línea (la prueba dice cuál falta).
+// exportar algo nuevo en src/nucleo/, src/juegos/, src/temas/, src/contenido/cuentos.ts, src/escenas/ o src/dibujos/todos.ts, añade aquí su línea (la prueba dice cuál falta).
 declare const GLASSES_SVG: typeof import('../dibujos/pics-base.ts').GLASSES_SVG;
 declare const HAND_SVG: typeof import('../dibujos/pics-base.ts').HAND_SVG;
 declare const K: typeof import('../dibujos/pics-base.ts').K;
@@ -394,3 +394,58 @@ declare const WX_ROPA: typeof import('../escenas/escenas2d.ts').WX_ROPA;
 declare const SEASON_NEXT: typeof import('../escenas/escenas2d.ts').SEASON_NEXT;
 declare const dayIdx: typeof import('../escenas/escenas2d.ts').dayIdx;
 declare const ALBUM_KEYS: typeof import('../escenas/escenas2d.ts').ALBUM_KEYS;
+declare const ZAGE: typeof import('../escenas/zonas.ts').ZAGE;
+declare const ZONES: typeof import('../escenas/zonas.ts').ZONES;
+declare const MAINZ: typeof import('../escenas/zonas.ts').MAINZ;
+declare const zoneOf: typeof import('../escenas/zonas.ts').zoneOf;
+declare const flowersIn: typeof import('../escenas/zonas.ts').flowersIn;
+declare const pathOf: typeof import('../escenas/zonas.ts').pathOf;
+declare const pathDone: typeof import('../escenas/zonas.ts').pathDone;
+declare const mainDone: typeof import('../escenas/zonas.ts').mainDone;
+declare const zoneOpen: typeof import('../escenas/zonas.ts').zoneOpen;
+declare const NEED: typeof import('../escenas/zonas.ts').NEED;
+declare const fiestaNow: typeof import('../escenas/zonas.ts').fiestaNow;
+declare const started: typeof import('../escenas/zonas.ts').started;
+declare const temaOpen: typeof import('../escenas/zonas.ts').temaOpen;
+declare const gameOpen: typeof import('../escenas/zonas.ts').gameOpen;
+declare const nextGameOf: typeof import('../escenas/zonas.ts').nextGameOf;
+declare const ageZoneOpen: typeof import('../escenas/zonas.ts').ageZoneOpen;
+declare const curTema: typeof import('../escenas/zonas.ts').curTema;
+declare const nextTema: typeof import('../escenas/zonas.ts').nextTema;
+declare const lowName: typeof import('../escenas/zonas.ts').lowName;
+declare const lockMsg: typeof import('../escenas/zonas.ts').lockMsg;
+declare const roadPath: typeof import('../escenas/zonas.ts').roadPath;
+declare const drawRoad: typeof import('../escenas/zonas.ts').drawRoad;
+declare const lockOver: typeof import('../escenas/zonas.ts').lockOver;
+declare const unlockFx: typeof import('../escenas/zonas.ts').unlockFx;
+declare const arrowAt: typeof import('../escenas/zonas.ts').arrowAt;
+declare const zonePos: typeof import('../escenas/zonas.ts').zonePos;
+declare const ZPOS: typeof import('../escenas/zonas.ts').ZPOS;
+declare const newlyOpen: typeof import('../escenas/zonas.ts').newlyOpen;
+declare const zoneScene: typeof import('../escenas/zonas.ts').zoneScene;
+declare const HOUSE_AT: typeof import('../escenas/zonas.ts').HOUSE_AT;
+declare const houseLevel: typeof import('../escenas/zonas.ts').houseLevel;
+declare const HOUSE_NEXT: typeof import('../escenas/zonas.ts').HOUSE_NEXT;
+declare const HOUSE_SAY: typeof import('../escenas/zonas.ts').HOUSE_SAY;
+declare const petStage: typeof import('../escenas/zonas.ts').petStage;
+declare const PET_NEXT: typeof import('../escenas/zonas.ts').PET_NEXT;
+declare const PET_SAY: typeof import('../escenas/zonas.ts').PET_SAY;
+declare const drawPet: typeof import('../escenas/zonas.ts').drawPet;
+declare const shellIcon: typeof import('../escenas/zonas.ts').shellIcon;
+declare const drawTitoHouse: typeof import('../escenas/zonas.ts').drawTitoHouse;
+declare const MZ2: typeof import('../escenas/zonas.ts').MZ2;
+declare const SEGUIR: typeof import('../escenas/zonas.ts').SEGUIR;
+declare const mzOf: typeof import('../escenas/zonas.ts').mzOf;
+declare const spotOpen: typeof import('../escenas/zonas.ts').spotOpen;
+declare const spotNeed: typeof import('../escenas/zonas.ts').spotNeed;
+declare const goSeguir: typeof import('../escenas/zonas.ts').goSeguir;
+declare const ponGoSeguir: typeof import('../escenas/zonas.ts').ponGoSeguir;
+declare const drawSeguir: typeof import('../escenas/zonas.ts').drawSeguir;
+declare const drawZoneSpot: typeof import('../escenas/zonas.ts').drawZoneSpot;
+declare const stLocked: typeof import('../escenas/zonas.ts').stLocked;
+declare const GIFTS: typeof import('../escenas/zonas.ts').GIFTS;
+declare const nextGift: typeof import('../escenas/zonas.ts').nextGift;
+declare const grantGift: typeof import('../escenas/zonas.ts').grantGift;
+declare const drawChest: typeof import('../escenas/zonas.ts').drawChest;
+declare const cofrePend: typeof import('../escenas/zonas.ts').cofrePend;
+declare const isBday: typeof import('../escenas/zonas.ts').isBday;

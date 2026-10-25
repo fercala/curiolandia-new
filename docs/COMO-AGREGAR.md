@@ -105,9 +105,9 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
    - `bg`: un fondo de `BG` (temas/temas.ts y temas/temas4.ts tienen la lista). Para uno nuevo, añádelo en el `Object.assign(BG,{...})` de temas/temas4.ts.
    - `season` (opcional): `'otoño'`, `'invierno'`... hace que Tito lo recomiende en esa estación.
    - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, añade su línea a `src/tipos/puente.d.ts` (la prueba `globales` dice cuál falta).
-3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en zonas.js) y cada casita para **unos 8 juegos** (`st3Pos()` en world3d.js), contando el cuento. Para más hay que ampliar esas funciones.
+3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en escenas/zonas.ts) y cada casita para **unos 8 juegos** (`st3Pos()` en world3d.js), contando el cuento. Para más hay que ampliar esas funciones.
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
-5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y zonas.js al camino).
+5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y escenas/zonas.ts al camino).
 6. Apunta todas las frases nuevas para grabar.
 
 ## 5. Un juego nuevo dentro de un tema
@@ -193,7 +193,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
    ```
 2. Reglas: `done` debe llegar a `total`; `onDone()` una sola vez; usa `later` y no `setTimeout`; para arrastrar usa `VIVO.drag` (ver `Arrastra`).
 3. Si no se debe usar en el repaso diario (no tiene aciertos y fallos), añade su `t` a `NOREP` en repaso.js.
-4. Úsalo en un tema con `make:(d,t)=>MiTipo({...}, d)` y ponle nombre en `GNAME` (zonas.js) o con `name`.
+4. Úsalo en un tema con `make:(d,t)=>MiTipo({...}, d)` y ponle nombre en `GNAME` (escenas/zonas.ts) o con `name`.
 
 ## 7. Un cuento
 
@@ -233,7 +233,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 3. **Si va en la casa de Tito**: su tamaño en `HSIZE` (si va colgado, también en `WALLITEMS`) y, si quieres, qué hace al tocarlo en la tabla de `homeAction`.
 4. **Si es ropa**: sombrero con su posición en `HATPOS`. Un tipo de ropa nuevo (por ejemplo zapatos) exige tocar `isWorn`, `wear`, `drawTitoWear` y leer `S.tito.zapatos || ''` (partidas viejas).
 5. **Colores** del caparazón o la bufanda: añade el color a `SHELLC`/`SCARFC` y una fila a su lista en `SHOP`.
-6. **Regalo del cofre**: añade su id a `GIFTS` (zonas.js) en la posición que quieras. Se regalan en orden, saltando los que el niño ya tiene.
+6. **Regalo del cofre**: añade su id a `GIFTS` (escenas/zonas.ts) en la posición que quieras. Se regalan en orden, saltando los que el niño ya tiene.
 7. No cambies ids existentes (están en `S.owned` y `S.home`).
 8. **Una habitación nueva**: añádela al final de `ROOMS` (tienda.js) con `id`, `n`, `need` (casitas), `ic` y `cer`, y su fondo en `roomBg`. Caben 7 botones entre el título y la tienda; si añades más, hay que juntarlos en `roomBtns`. Sus frases («El …», «Ya está en …», «¡Mi casa creció! …») van a `dialogos/pendientes.txt`.
 
@@ -244,7 +244,7 @@ Todo está en `temas/extras.ts` y `temas/ingles.ts`. Resumen (detalle en los com
 - **Canción**: melodía en `TUNES` (juegos/comps2.ts) → letra en `SONGS` (temas/extras.ts) → juego `{t:'cancion', song:'nombre', icon, name}` en `CAN.games`.
 - **Rutina**: viñetas en `RP` con `panel(...)` → juego con `Secuencia` en `RUT.games`.
 - **Trazo**: nivel nuevo al final de `TRZ_L()` y subir el número de niveles en `TRZ` (con su icono y nombre).
-- **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaNow()` (zonas.js).
+- **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaNow()` (escenas/zonas.ts).
 - **Tema de inglés**: palabras en `EN` (`{en, es, k, a}`; `a` = edad mínima) → tema en `ING` con `en:'conjunto'` y `games:[ENG.conocer, ENG.escucha, ENG.globos]`. Las palabras en inglés las dice la voz inglesa del navegador.
 - Comprueba en world3d.js que la zona 3D tiene hueco para otra casita.
 
@@ -262,7 +262,7 @@ SCENES.huerto={music:'jardin',
 ```
 Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepáralo en `enter`.
 
-**Zona nueva con camino**: `ZONES` y `NEED` en zonas.js, reglas en `temaOpen`/`spotOpen`/`spotNeed`/`lockMsg`, lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en world3d.js su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de zonas.js y la parte de zonas de world3d.js.
+**Zona nueva con camino**: `ZONES` y `NEED` en escenas/zonas.ts, reglas en `temaOpen`/`spotOpen`/`spotNeed`/`lockMsg`, lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en world3d.js su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y la parte de zonas de world3d.js.
 
 ## 12. Una opción en la zona de adultos
 

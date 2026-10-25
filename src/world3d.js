@@ -12,7 +12,7 @@
  *   (#cv) va encima y es transparente en las escenas 3D: en él se pintan los carteles, botones y HUD.
  *
  * Cómo engancha con la lógica 2D (la idea clave del archivo):
- *   - La lógica original (escenas/escenas2d.ts, zonas.js) trabaja en una pantalla lógica de 1600x900 y guarda las
+ *   - La lógica original (escenas/escenas2d.ts, escenas/zonas.ts) trabaja en una pantalla lógica de 1600x900 y guarda las
  *     posiciones de lo que se puede tocar en globales: MZ2 (zonas del mapa: x, y, r), ZPOS[zona][tema]
  *     (casitas de cada zona), stationPos(t,j) (puestos de una casita), TITO (rectángulo de Tito) y
  *     HOUSE_AT (casa de Tito y su mascota).
@@ -54,7 +54,7 @@
  *   PRK...). Además este archivo SUSTITUYE funciones globales de otros: go, stationPos, goSeguir...
  * Depende de: el núcleo, src/nucleo/ (S, T, PI, ctx, say, sayMix, tone, noise, parts, SCENES, scene, sceneName, go,
  *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, K, DF, LF, DIAC...),
- *   zonas.js (MZ2, ZPOS, ZONES), escenas/escenas2d.ts (TITO, HOUSE_AT, stationPos) y three.min.js.
+ *   escenas/zonas.ts (MZ2, ZPOS, ZONES), escenas/escenas2d.ts (TITO, HOUSE_AT, stationPos) y three.min.js.
  * Todo va dentro de una función que se llama sola: si no hay WebGL, se sale y el juego sigue en 2D.
  * ========================================================================== */
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea más abajo (si no hay WebGL se queda en null).
@@ -1106,7 +1106,7 @@ function makeTito(into){const root=into||new THREE.Group(),b=grp(root);root.user
   return root}
 
 /* ---------- Pipo, el dinosaurio que crece ---------- */
-// makePipo(st): construye a Pipo según su etapa st (petStage() en zonas.js, según las estrellas): 0 = huevo, 1 = huevo con la cabeza
+// makePipo(st): construye a Pipo según su etapa st (petStage() en escenas/zonas.ts, según las estrellas): 0 = huevo, 1 = huevo con la cabeza
 // asomando, 2 y 3 = dinosaurio pequeño y mediano, 4 = grande con corona. Devuelve el grupo con userData.id='pipo' y userData.anim.
 function makePipo(st){const g=new THREE.Group(),b=grp(g);g.userData.id='pipo';
   if(st<=1){mk(Sph(.62,22,16),'#FFF6E0',{p:[0,.78,0],s:[1,1.28,1],to:b,ol:.04});
@@ -1474,7 +1474,7 @@ function retito(){const w=W3,t=w&&w.tito;if(!t)return;const keepUD={face:t.userD
 window.__w3={get W(){return W3},retito,get PRK(){return PRK},set PRK(v){PRK=v;rs()},FPS,pickAt,proj,THREE,R};
 
 /* ================= EL MAPA: la isla de Curiolandia ================= */
-// MZB: copia de las posiciones 2D originales {x,y,r} de cada lugar del mapa (MZ2, zonas.js), porque sync() las sobrescribe con las proyectadas.
+// MZB: copia de las posiciones 2D originales {x,y,r} de cada lugar del mapa (MZ2, escenas/zonas.ts), porque sync() las sobrescribe con las proyectadas.
 // MP(x,y): pasa un punto de la pantalla 2D del mapa (1600x900) a coordenadas [x,z] del suelo 3D (40 píxeles = 1 unidad).
 // MAPPOS: dónde va cada lugar del mapa en 3D, en píxeles 2D (se pasan con MP). id del lugar -> [x,y].
 const MZB={};for(const z of MZ2)MZB[z.id]={x:z.x,y:z.y,r:z.r};
@@ -1634,13 +1634,13 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
   return w}
 
 /* ---------- escena del mapa en 3D ---------- */
-// Convierte la escena 2D del mapa (escenas/escenas2d.ts/zonas.js) en 3D: se guardan su enter/down originales (enter0/down0) y se sustituyen.
+// Convierte la escena 2D del mapa (escenas/escenas2d.ts/escenas/zonas.ts) en 3D: se guardan su enter/down originales (enter0/down0) y se sustituyen.
 // three:true hace que el bucle dibuje la capa 3D (R3frame) debajo de lo que pinte draw().
 {const S0=SCENES.map,enter0=S0.enter,down0=S0.down;
  Object.assign(S0,{three:true,
   // enter(o): entra al mapa: limpia estados, llama al enter original, construye el mundo 3D y sincroniza las posiciones 2D
   enter(o){this.hov=null;this.lockShake=null;this.hop=null;enter0.call(this,o);setWorld(buildMap(this));this.sync()},
-  // sync(): proyecta cada lugar 3D a la pantalla y escribe x,y,r en MZ2 (para que la lógica 2D de zonas.js acierte); también la casa y Tito
+  // sync(): proyecta cada lugar 3D a la pantalla y escribe x,y,r en MZ2 (para que la lógica 2D de escenas/zonas.ts acierte); también la casa y Tito
   sync(){const w=W3;if(!w||w.kind!=='map')return;
     for(const z of MZ2){const g=w.spots[z.id];if(!g)continue;const [x,y,r]=projR(g,2.6,1.2);z.x=x;z.y=y;z.r=Math.max(60,r)}
     const h=w.spots.casaTito,[hx,hy]=projO(h,0);HOUSE_AT[0]=hx;HOUSE_AT[1]=hy+60;titoRect(w.tito)},
@@ -1673,7 +1673,7 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
 }
 
 /* ================= LAS ZONAS: un camino de casitas en 3D ================= */
-// ZX(x,y): pasa un punto 2D de una zona (ZPOS, zonas.js) a [x,z] del suelo 3D de la zona (37 píxeles = 1 unidad)
+// ZX(x,y): pasa un punto 2D de una zona (ZPOS, escenas/zonas.ts) a [x,z] del suelo 3D de la zona (37 píxeles = 1 unidad)
 // ZPB: copia de las posiciones 2D originales de cada casita (ZPOS[zona][idTema]); sync() sobrescribe ZPOS con las proyectadas.
 // ZSTYLE: colores de cada zona {bg: cielo, g: césped, e: borde de tierra}.
 const ZX=(x,y)=>[(x-930)/37,(y-490)/37];
@@ -1767,7 +1767,7 @@ function buildZone(z,st){const Z=ZONES[z],P=ZPOS[z],sty=ZSTYLE[z]||ZSTYLE.jardin
   Object.assign(S0,{three:true,
     // enter(o): entra a la zona (o.from = tema del que se viene, ahí aparece Tito) y construye su mundo 3D
     enter(o){this.hov=null;this.hop=null;this.lockShake=null;enter0.call(this,o);if(sceneName!==z)return;if(o&&o.from)this.titoAt=o.from;setWorld(buildZone(z,this));this.sync()},
-    // sync(): proyecta cada casita a la pantalla y la escribe en ZPOS (lógica 2D de zonas.js); también Tito
+    // sync(): proyecta cada casita a la pantalla y la escribe en ZPOS (lógica 2D de escenas/zonas.ts); también Tito
     sync(){const w=W3;if(!w||w.kind!=='zone')return;const P=ZPOS[z];for(const id in w.cas){const [x,y,r]=projR(w.cas[id],1.6,1.3);P[id].x=x;P[id].y=y}titoRect(w.tito)},
     // draw(): cada cuadro: qué casita hay bajo el ratón, cartel con el nombre de la zona y de la casita, botones y bocadillo de Tito
     draw(){this.sync();const w=W3,Z=ZONES[z];let hv_=null;
