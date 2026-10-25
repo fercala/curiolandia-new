@@ -190,7 +190,7 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 | `casita` | escenas/zonas.ts (+3D) | Dentro de un tema: las estaciones de juego |
 | `juego` | escenas/escenas2d.ts | Ejecuta un juego (un componente de juegos/) |
 | `cofre` | escenas/zonas.ts (+3D) | Recompensa al terminar un tema |
-| `asamblea` | escenas/escenas2d.ts + escenas/zonas.ts | La rutina diaria (día, tiempo, emociones, cumpleaños) |
+| `asamblea` | escenas/escenas2d.ts | La rutina diaria (día, tiempo, emociones, cumpleaños) |
 | `tienda`, `casaTito` | escenas/tienda.ts | Tienda (con páginas) y casa de Tito (2D) con siete habitaciones (`ROOMS`) que se abren con las casitas terminadas |
 | `album` | escenas/escenas2d.ts | Álbum de pegatinas |
 | `repaso` | escenas/repaso.ts | Repaso diario |
@@ -210,7 +210,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
   ponGo(function (n, o) { /* lo nuevo */ return g0(n, o); }); }
 ```
 
-- Desde la fase 4d, el mapa, las zonas y la casita se definen una sola vez, en `escenas/zonas.ts` (antes `escenas/escenas2d.ts` tenía una versión 1 que `zonas.ts` reescribía y que ya no se usaba). `escenas/zonas.ts` aún añade tipos a `GNAME` y envuelve la asamblea (el paso de cumpleaños).
+- Desde la fase 4d, el mapa, las zonas y la casita se definen una sola vez, en `escenas/zonas.ts` (antes `escenas/escenas2d.ts` tenía una versión 1 que `zonas.ts` reescribía y que ya no se usaba). Desde la fase 4e, la asamblea (con el paso de cumpleaños y las monedas del día) y `GNAME` también están enteros en `escenas/escenas2d.ts` (antes `zonas.ts` los completaba): ya ningún archivo de escenas envuelve a otro.
 - Desde la fase 4c, `escenas/repaso.ts` ya no envuelve nada (antes `rec`, `go`, `goSeguir`, la casita y el mapa: ahora cada uno trae lo suyo del repaso, con el caso de uso `repasoDelDia`). Desde la fase 4b, terminar un juego ya no se envuelve: `finishGame` (`escenas/escenas2d.ts`) es una sola función, con su caso de uso `terminarJuego`, y la moneda de cada acierto la da `onRight` (núcleo); `escenas/tienda.ts` ya no envuelve nada.
 - `mundo3d/mundo3d.ts` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 

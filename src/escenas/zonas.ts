@@ -11,8 +11,8 @@
  *   nextTema, nextGameOf...), que les pasan la partida de verdad (PARTIDA)
  *   y el mapa (MAPA), y los mensajes de candado (lockMsg).
  *   También dibuja el mapa v3 (MZ2, botón "seguir el camino"), la casa de
- *   Tito que crece y la mascota Pipo, el cofre del tesoro que se gana al
- *   terminar un tema y el paso de cumpleaños de la asamblea.
+ *   Tito que crece y la mascota Pipo y el cofre del tesoro que se gana al
+ *   terminar un tema.
  *
  * Flujo del niño (con zonas.ts cargado):
  *   portada (title) -> mapa (map) -> [asamblea si no se ha hecho hoy]
@@ -28,8 +28,9 @@
  * Define una sola vez (desde la fase 4d; antes reescribía las de una
  *   versión 1 de escenas/escenas2d.ts) las escenas del mapa (SCENES.map),
  *   de las zonas (SCENES.jardin y las demás) y de la casita (SCENES.casita),
- *   y suggestTema y stationPos. De escenas/escenas2d.ts aún cambia GNAME
- *   (añade tipos) y envuelve SCENES.asamblea. mundo3d/mundo3d.ts después
+ *   y suggestTema y stationPos. No cambia nada de escenas/escenas2d.ts (hasta
+ *   la fase 4e añadía tipos a GNAME y envolvía la asamblea con el paso de
+ *   cumpleaños, que ahora están allí). mundo3d/mundo3d.ts después
  *   envuelve map, casita, cofre y las zonas, cambia stationPos (ponStationPos)
  *   y sobrescribe cada cuadro las x/y de ZPOS, MZ2, TITO y HOUSE_AT con las
  *   posiciones 3D proyectadas.
@@ -43,14 +44,14 @@
  *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
  *   drawSeguir, drawZoneSpot, suggestTema, stationPos, ponStationPos,
  *   stLocked, GIFTS, nextGift, grantGift,
- *   drawChest, isBday.
+ *   drawChest.
  * Importa:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), escenas/escenas2d.ts
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
  *   drawLogoSmall, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
- *   bunting), juegos/ (NUM, TUNES, playTune), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
+ *   bunting), juegos/ (NUM), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
- *   siguienteRegalo, esCumple) y de dominio/monedas.ts (MONEDAS, ganar, monedasDelCofre), y el tipo Articulo de
+ *   siguienteRegalo) y de dominio/monedas.ts (MONEDAS, ganar, monedasDelCofre), y el tipo Articulo de
  *   escenas/tienda.ts, y del núcleo inR, STARS, REP_ON y ponRepOn y las monedas (creditCoins, giveCoins, drawCoinHUD,
  *   inCoinHUD; desde la fase 4a en su módulo, nucleo/monedas.ts desde la 4b). Desde la fase 4c, el caso de uso del
  *   repaso del día (aplicacion/repasoDelDia.ts: tocaRepasar, repasoTerminado, seguirPorElRepaso), con CATALOGO de
@@ -60,20 +61,19 @@
  *   zona de adultos), S.seenOpen (lo último visto abierto, para animar
  *   candados), S.woke (zonas ya despertadas), S.first[zona], S.last,
  *   S.houseSeen, S.petSeen, S.seenFl, S.gift (regalo diario), S.owned,
- *   S.cofres, S.coins (vía giveCoins), S.stk, S.bday / S.bdayDone,
- *   S.asam.
+ *   S.cofres, S.coins (vía giveCoins) y S.stk.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
 import { MONEDAS, ganar, monedasDelCofre } from '../dominio/monedas.ts';
-import { GIFTS, HOUSE_NEXT, PET_NEXT, esCumple, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
+import { GIFTS, HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, ponRepOn, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
-import { NUM, TUNES, playTune } from '../juegos/indice.ts';
-import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting } from '../temas/indice.ts';
+import { NUM } from '../juegos/indice.ts';
+import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ } from '../temas/indice.ts';
 import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, tree, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
@@ -463,8 +463,6 @@ SCENES.map={music:'map',
 };
 
 /* ---------- casitas de tema: los juegos también son un camino ---------- */
-// Más nombres de tipos de juego (los de extras, fiestas, cuentos...).
-Object.assign(GNAME,{cuento:'El cuento',cancion:'La canción',trazo:'Trazos',secuencia:'¿Qué va primero?',series:'¿Qué viene después?',memoria:'Memoria',velas:'Soplar las velitas',decora:'Decorar'});
 // stationPos(t, j): posición [x, y] del juego j en la casita del tema t, formando un camino: hasta 4 en una fila;
 // hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al revés (zigzag). Desde la fase 4d está solo
 // aquí (antes había otra en escenas/escenas2d.ts). mundo3d/mundo3d.ts la envuelve con las posiciones 3D (ponStationPos).
@@ -606,35 +604,3 @@ export function cofrePend(){const P=S.cofreP;if(!P||typeof P!=='object'){delete 
   for(const id of Object.keys(P)){delete P[id];const t=TEMA[id];if(!t)continue;const it=nextGift();if(it)grantGift(it);
     S.stk[t.icon]=(S.stk[t.icon]||0)+1;Object.assign(S,ganar(S,monedasDelCofre(!!it)))}
   save()}
-/* ---------- cumpleaños en la asamblea ---------- */
-// isBday(d): true si d (hoy por defecto) es el cumpleaños guardado en S.bday ({m: mes 0-11, d: día}).
-// El bloque siguiente envuelve SCENES.asamblea: guarda los métodos originales (enter0, draw0...) y los llama desde los
-// nuevos, para añadir el paso 'cumple' (soplar tantas velas como años) una vez el día del cumpleaños (S.bdayDone).
-export const isBday=(d=ahora())=>esCumple(S.bday,d.getMonth(),d.getDate());
-{const A=SCENES.asamblea,enter0=A.enter,draw0=A.draw,down0=A.down,hint0=A.hint,prompt0=A.prompt,fin0=A.in_fin;
-// A.enter: si hoy es su cumpleaños y aún no se ha celebrado, mete el paso 'cumple' justo después de 'hola'.
- A.enter=function(o){enter0!.call(this,o);if(isBday()&&S.bdayDone!==today())this.steps.splice(1,0,'cumple')};
-// A.in_cumple: crea una vela por año (this.vs, máximo 7), toca la canción y pide soplarlas.
- A.in_cumple=function(){const n=clamp(S.age||AGE(),1,7);this.vs=Array.from({length:n},(_,j)=>({x:800-(n-1)*55+j*110,y:340,on:1}));this.vc=0;
-   later(300,()=>{playTune(TUNES.cumple);say('¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños'+kid()+'! Soplá las velitas: tocá cada una.')})};
-// A.draw: dibuja la tarta con las velas encendidas (llama que se mueve) y, en el paso 'mes', una tarta en el día del cumpleaños.
- A.draw=function(){draw0.call(this);
-   if(this.s==='cumple'){bunting(170,12);card(460,430,680,260,'#F58BB4',8,40);card(500,370,600,90,'#FFF6E6',7,30);for(let i=0;i<8;i++)circ(520+i*80,460,22,'#FF5A5A',4);card(400,670,800,40,'#E4D3B8',6,20);
-     for(const v of this.vs){card(v.x-14,v.y-10,28,80,DIAC[(v.x/110|0)%7],5,8);if(v.on){const f=1+Math.sin(T*14+v.x)*.12;ctx.save();ctx.translate(v.x,v.y-30);ctx.scale(f,1/f);ctx.beginPath();ctx.moveTo(0,-34);ctx.quadraticCurveTo(22,0,0,14);ctx.quadraticCurveTo(-22,0,0,-34);fillStroke('#FFC93C',4);ctx.restore()}}
-     if(this.sel){text('¡FELIZ CUMPLE!',800,790,64,'#F58BB4',{f:LF,st:8,sc:'#fff'})}}
-   if(this.s==='mes'&&S.bday&&S.bday.m===this.d.getMonth()&&this.cal){const c=this.cal[S.bday.d-1];if(c){pic('tarta',c.x+30,c.y-30,62)}}};
-// A.down: en el paso 'cumple', tocar una vela la apaga y cuenta en voz alta; con todas apagadas guarda S.bdayDone, da la
-// figurita de la tarta y 10 monedas y pasa al siguiente paso. En los demás pasos, la down original.
- A.down=function(x,y){if(this.s==='cumple'&&!atHome(x,y)&&!inTito(x,y)){if(this.busy)return;const v=this.vs.find((v: Libre)=>v.on&&Math.abs(x-v.x)<55&&y<v.y+80&&y>v.y-110);if(!v){SFX.tap();return}
-     v.on=0;this.vc++;SFX.whoosh();SFX.count(this.vc);say(cap(NUM[this.vc]||String(this.vc)));
-     // la pegatina y las monedas se guardan junto con S.bdayDone; la celebración solo las enseña (salir no las pierde)
-     if(this.vs.every((v: Libre)=>!v.on)){this.busy=true;this.sel=true;S.bdayDone=today();S.stk.tarta=(S.stk.tarta||0)+1;creditCoins(MONEDAS.cumple);save();later(700,()=>{SFX.tada();burst(800,400,90);burst(400,300,40);burst(1200,300,40);playTune(TUNES.cumple);giveSticker('tarta',true);
-       say('¡Que los cumplas feliz! Tito te regala diez monedas.',()=>{giveCoins(MONEDAS.cumple,800,400,'cofre',true);later(1200,()=>this.next())})})}return}
-   return down0!.call(this,x,y)};
-// A.hint: en 'cumple' señala la siguiente vela encendida.
- A.hint=function(){if(this.s==='cumple'){const v=this.vs&&this.vs.find((v: Libre)=>v.on);return v&&!this.busy?{x:v.x,y:v.y-30,r:60}:null}return hint0!.call(this)};
-// A.prompt: consigna del paso 'cumple'.
- A.prompt=function(){if(this.s==='cumple'){say('Tocá las velitas para soplarlas.');return}prompt0!.call(this)};
-// A.in_fin: la primera asamblea terminada de cada día regala además 5 monedas.
- A.in_fin=function(){const first=!(S.asam[today()]&&S.asam[today()].done);fin0.call(this);if(first)later(400,()=>giveCoins(MONEDAS.asamblea,800,420))};
-}

@@ -6,7 +6,7 @@
  * Es DOMINIO, como dominio/apertura.ts: no sabe nada de pantalla ni de S y no escribe nada. Recibe lo que mira (el
  * progreso de los temas, lo que ya tiene el niño, la fecha) y devuelve la respuesta. Los archivos de siempre conservan
  * sus nombres y les pasan S: temasDone y STARS (nucleo/tito.ts), roomOpen (escenas/tienda.ts), houseLevel, petStage,
- * nextGift e isBday (escenas/zonas.ts); trasTerminarJuego la usa el caso de uso aplicacion/terminarJuego.ts.
+ * nextGift (escenas/zonas.ts) e isBday (escenas/escenas2d.ts, desde la fase 4e); trasTerminarJuego la usa el caso de uso aplicacion/terminarJuego.ts.
  * Pruebas: tests/unidad/progreso.test.ts.
  * Exporta: HOUSE_NEXT, PET_NEXT, TIER_NEED y GIFTS (los números y el orden de las reglas), los tipos TemaGuardado,
  * ProgresoDeTema y TemaTrasJuego y las reglas estrellas, temasTerminados, nivelCasa, etapaPipo, habitacionAbierta,
