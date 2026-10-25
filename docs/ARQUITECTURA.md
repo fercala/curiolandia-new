@@ -76,8 +76,8 @@ importar de otros módulos, nunca del código global.
 | 4 | `juegos/comps.ts`, `juegos/comps2.ts` (antes `comps.js` y `comps2.js`; `juegos/indice.ts` los junta) | **Componentes de juego** (módulos): el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
 | 5 | `temas/temas.ts`, `temas4.ts`, `temas5.ts` (antes `temas.js`, `temas4.js` y `temas5.js`; `temas/indice.ts` los junta) | **Contenido** (módulos): los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas/temas.ts` también tiene `makeGame`. |
 | 6 | `contenido/cuentos.ts` (antes `cuentos.js`; tipos en `contenido/tipos.ts`) | **Cuentos** (módulo, solo datos): los cuentos ilustrados de cada tema (`CUENTOS`), que lee `Story`. |
-| 7 | `extras.js` | Primer archivo global. Canciones (`CAN`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). |
-| 8 | `ingles.js` | El Rincón del inglés (`EN`, `ING`, juegos `EnConocer`, `EnEscucha`...). |
+| 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento y envuelve `makeGame`. |
+| 8 | `ingles.js` | Primer archivo global. El Rincón del inglés (`EN`, `ING`, juegos `EnConocer`, `EnEscucha`...). |
 | 9 | `scenes.js` | **Escenas 2D** originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
 | 10 | `zonas.js` | Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `scenes.js`. Cofre y regalos (`GIFTS`). |
 | 11 | `tienda.js` | Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. |
@@ -212,7 +212,7 @@ Un **tema** es un objeto en `T3`, `T4`, `T5` (o `CAN`, `RUT`, `TRZ`, `FIESTAS`, 
   ] }
 ```
 
-`makeGame(juego, tema, alAcabar)` (temas/temas.ts, ampliado por extras.js e ingles.js) convierte cada entrada de `games` en un componente de juego.
+`makeGame(juego, tema, alAcabar)` (temas/temas.ts, ampliado por temas/extras.ts e ingles.js) convierte cada entrada de `games` en un componente de juego.
 
 Un **componente de juego** (juegos/comps.ts, juegos/comps2.ts) es una función que recibe una configuración y devuelve un objeto con `enter`, `draw`, `down/move/up`, `hint`, `prompt`, `total` y `done`. Cuando el niño termina, llama a `onDone()`. La lista completa de componentes y su configuración está en la cabecera de `juegos/comps.ts` y en [COMO-AGREGAR.md](COMO-AGREGAR.md#5-un-juego-nuevo-dentro-de-un-tema).
 

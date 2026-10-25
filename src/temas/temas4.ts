@@ -138,7 +138,7 @@ Object.assign(COLORES,{gris:{c:'#9AA5B4',n:'gris'},blanco:{c:'#FFFFFF',n:'blanco
 //   4A-T11 Los transportes por tierra, mar y aire · 4A-T12 Los bichitos y el verano
 // Aquí casi todos los juegos llevan name (el nombre que dice Tito) y usan también componentes
 // de juegos/comps2.ts: Secuencia, Une, Series, Lens, TocaPartes, Llena, Semaforo.
-// {t:'cancion', song:'dias'} es una canción de extras.js (SONGS.dias).
+// {t:'cancion', song:'dias'} es una canción de temas/extras.ts (SONGS.dias).
 // ---------------------------------------------------------------------------
 export const T4: Tema[]=[
 {id:'4A-T1',n:'Los días de la semana',icon:'calendario',c:'#FF8A7A',trim:1,bg:BG.semana,

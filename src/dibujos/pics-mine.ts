@@ -1,6 +1,6 @@
 // ==========================================================================
 // pics-mine.ts: iconos propios de la versión 2 (notas, carpa, pizarra, casaCaracol, manos,
-// dientes, estrellas): los usan las canciones, rutinas y trazos (extras.js), zonas.js y tienda.js.
+// dientes, estrellas): los usan las canciones, rutinas y trazos (temas/extras.ts), zonas.js y tienda.js.
 // ==========================================================================
 // Añade dibujos a PICS con Object.assign(PICS,{clave:`...svg...`}). Formato de un dibujo (SVG con
 // centro en 0,0 dentro de -62..62) y cómo se busca por su nombre con pic(clave,...): ver la cabecera

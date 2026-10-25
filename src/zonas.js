@@ -38,7 +38,7 @@
  * Depende de:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), scenes.js
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
- *   drawLogoSmall, inR, GNAME), temas*.js, extras.js (CAN, RUT, TRZ,
+ *   drawLogoSmall, inR, GNAME), temas*.js, temas/extras.ts (CAN, RUT, TRZ,
  *   FIESTAS, BG, TUNES, playTune), ingles.js (ING), tienda.js (SHOP,
  *   SHELLC, STARS, giveCoins, wear, placeHome, itemName, drawItemPic,
  *   drawCoinHUD, inCoinHUD, VIVO.coinBanner, VIVO.toast...).

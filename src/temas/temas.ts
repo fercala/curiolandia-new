@@ -11,13 +11,13 @@
 //     zonas donde se sueltan las cosas en los juegos de arrastrar (Arrastra, juegos/comps.ts).
 //   - vestir(): fábrica del juego "vestir al nene".
 //   - T3 (lista de temas de 3 años), C3 (Rincón de los Conceptos de 3 años), COLS3.
-//   - makeGame(g,t,onDone): crea el juego g del tema t (extras.js e ingles.js la amplían con ponMakeGame).
+//   - makeGame(g,t,onDone): crea el juego g del tema t (temas/extras.ts e ingles.js la amplían con ponMakeGame).
 //   - GICON: icono por defecto de algunos tipos de juego.
 // Importa: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan scenes.js (TEMAS, TEMA,
-//   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, extras.js y contenido/cuentos.ts.
+//   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, temas/extras.ts y contenido/cuentos.ts.
 //
 // Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
 // a castellano de España cuando S.variant==='es'. Si una frase cambia mucho, se pone una lista
@@ -159,7 +159,7 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //   3A-T8 Mi casa · 3A-T9 Los animales de la granja · 3A-T10 La primavera ·
 //   3A-T11 Los transportes · 3A-T12 El verano y la playa
 //
-// FORMATO DE UN TEMA (igual en T4, T5, C3, C4, C5 y en extras.js):
+// FORMATO DE UN TEMA (igual en T4, T5, C3, C4, C5 y en temas/extras.ts):
 //   id      identificador fijo: '3A-T1' = 3 años, tema 1; '3A-C' = rincón. Es la clave del
 //           progreso guardado S.temas[id] y de CUENTOS[id]: NO se puede cambiar.
 //   n       nombre que se ve y que dice Tito: texto o [rioplatense, España].
@@ -184,7 +184,7 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //           que se ganan al terminar un juego por primera vez.
 //   games   lista de juegos de la casita, en orden. Cada juego es un objeto:
 //             t     tipo de juego. 'conocer', 'busca' y 'memoria' se arman solos con las words
-//                   (ver makeGame); 'cancion' (con song) y 'cuento' los arma extras.js.
+//                   (ver makeGame); 'cancion' (con song) y 'cuento' los arma temas/extras.ts.
 //                   Cualquier otro tipo necesita make.
 //             icon  (opcional) clave de PICS para el botón del juego (gIcon en scenes.js).
 //             name  (opcional) nombre del juego que dice Tito; si falta, GNAME[t] (scenes.js).
@@ -192,7 +192,7 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //                   terminar y el propio tema, y devuelve el objeto del juego (normalmente con un
 //                   componente de juegos/comps.ts y juegos/comps2.ts: Arrastra, ChoiceGame, Cuenta, Pinta...).
 //           ¡OJO! El progreso se guarda por posición: S.temas[id].g[número de juego]. No quites ni
-//           reordenes juegos de un tema ya publicado; añade los nuevos al final. Además extras.js
+//           reordenes juegos de un tema ya publicado; añade los nuevos al final. Además temas/extras.ts
 //           añade al final {t:'cuento'} a cada tema que tiene cuento.
 //
 // Los dos componentes más usados reciben esta configuración (detalle en juegos/comps.ts):
@@ -353,7 +353,7 @@ export const C3: Tema={id:'3A-C',n:'Rincón de los Conceptos',icon:'estrella',c:
 // Si el juego trae make, lo usa. Si no, arma los genéricos con las words del tema:
 // 'conocer' (Conocer), 'busca' (Busca, "¿Dónde está...?") y 'memoria' (Memoria).
 // Devuelve el objeto del juego (con enter, draw, down, up, move...), que maneja SCENES.juego.
-// extras.js e ingles.js la envuelven para añadir 'cancion', 'cuento' y los juegos de inglés.
+// temas/extras.ts e ingles.js la envuelven para añadir 'cancion', 'cuento' y los juegos de inglés.
 export let makeGame: HaceJuego=function(g,t,onDone){
   if(g.make)return g.make(onDone,t);
   const ks=t.words.map((w: Cosa)=>w.k).filter(Boolean);
@@ -361,7 +361,7 @@ export let makeGame: HaceJuego=function(g,t,onDone){
   if(g.t==='busca')return Busca({items:ks,bg:t.bg,key:t.id},onDone);
   if(g.t==='memoria')return Memoria({pool:ks,bg:t.bg},onDone);
 }
-// ponMakeGame(f): cambia makeGame por otra función (extras.js e ingles.js la envuelven con sus juegos).
+// ponMakeGame(f): cambia makeGame por otra función (temas/extras.ts e ingles.js la envuelven con sus juegos).
 export function ponMakeGame(f: HaceJuego){makeGame=f}
 // GICON: icono por defecto de algunos tipos de juego (clave de PICS). Ojo: ahora mismo
 // ningún archivo la usa; el icono real lo decide gIcon() en scenes.js.
