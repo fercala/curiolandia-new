@@ -14,14 +14,14 @@
  * Exporta: openAdult, closeAdult, openNameDlg, openResetDlg, doReset, frame, bkEncode y bkDecode.
  * Importa: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
- * CAN, RUT, TRZ, FIESTAS, ING), escenas/monedas.ts (drawCoinFx), escenas/zonas.ts (zoneOpen) y esPartida de
+ * CAN, RUT, TRZ, FIESTAS, ING), drawCoinFx (nucleo/monedas.ts), escenas/zonas.ts (zoneOpen) y esPartida de
  * dominio/partida.ts (la copia de seguridad). Usa de mundo3d/mundo3d.ts, que va después, R3frame y
  * window.__w3 (tipos en src/tardias.d.ts y nucleo/tipos.ts).
  * frame() la pone en marcha aplicacion/arranque.ts.
  */
 import type { Tema } from '../juegos/tipos.ts';
 import type { Estado, Libre, Tito, Vale, Volumenes } from '../nucleo/tipos.ts';
-import { AC, DEF, DIASL, DPR, H, HOME, KEY, MESES, OX, OY, S, SC, SCENES, SFX, STARS, T, V, VIVO, VOICE, W, card, ctx, cv, dist, drawHelp, drawLock, drawParts, drawToast, go, initAudio, musicTick, pickVoice, ponS, ponT, save, say, scene, sceneArg, sceneName, sceneTok, setVol, text, today, tx, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
+import { AC, DEF, DIASL, DPR, H, HOME, KEY, MESES, OX, OY, S, SC, SCENES, SFX, STARS, T, V, VIVO, VOICE, W, card, ctx, cv, dist, drawCoinFx, drawHelp, drawLock, drawParts, drawToast, go, initAudio, musicTick, pickVoice, ponS, ponT, save, say, scene, sceneArg, sceneName, sceneTok, setVol, text, today, tx, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ } from '../temas/indice.ts';
 import { TEMA, TEMAS, dayIdx, gDone, standalone, suggestTema, tst } from '../escenas/escenas2d.ts';
 import { zoneOpen } from '../escenas/zonas.ts';
@@ -29,7 +29,6 @@ import { esPartida } from '../dominio/partida.ts';
 // ahora() y escribirGuardado(): la fecha y la hora y el guardado (puertos de aplicacion/puertos.ts, desde las fases 3g
 // y 3h; antes new Date() y localStorage).
 import { ahora, escribirGuardado } from './puertos.ts';
-import { drawCoinFx } from '../escenas/monedas.ts';
 
 // SKILL: nombre legible de cada habilidad de S.stats para la tabla "Cómo le va" ({clave: 'texto'}). Si una clave
 // no está, se muestra la clave con espacios. Al crear un juego con una habilidad nueva, añade aquí su nombre.

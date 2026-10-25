@@ -4,9 +4,10 @@
  * Es DOMINIO, como dominio/apertura.ts y dominio/progreso.ts: no sabe nada de pantalla, sonido ni localStorage. ganar
  * y gastar devuelven el monedero nuevo sin cambiar el que reciben; quien llama lo copia en S (S.coins y S.coinsTot) y
  * guarda.
- * La animación de las monedas que vuelan al marcador está en escenas/monedas.ts (creditCoins, giveCoins, spendCoins;
- * antes de la fase 4a, en escenas/tienda.ts), que usa estas reglas, igual que escenas/zonas.ts (regalo del día, cofre, cumpleaños, asamblea) y
- * escenas/repaso.ts. Pruebas: tests/unidad/monedas.test.ts.
+ * La animación de las monedas que vuelan al marcador está en nucleo/monedas.ts (creditCoins, giveCoins, spendCoins;
+ * antes de la fase 4a, en escenas/tienda.ts, y en la 4a, en escenas/monedas.ts), que usa estas reglas, igual que
+ * nucleo/interfaz.ts (onRight: la moneda de cada acierto), el caso de uso aplicacion/terminarJuego.ts (las de terminar
+ * un juego), escenas/zonas.ts (regalo del día, cofre, cumpleaños, asamblea) y escenas/repaso.ts. Pruebas: tests/unidad/monedas.test.ts.
  * Exporta: MONEDAS (cuántas da cada cosa), el tipo Monedero y las reglas monedasPorAcierto, monedasAlTerminar,
  * monedasDelCofre, ganar, gastar y alcanza.
  * No importa nada.

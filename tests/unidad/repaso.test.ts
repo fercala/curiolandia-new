@@ -1,13 +1,15 @@
 // Pruebas de las reglas del repaso diario (src/dominio/repaso.ts, fase 3d): qué juegos se pueden repasar, cuáles
 // cuestan, cuáles hace más tiempo que no se juegan, cómo se eligen los 3 del día, cuándo hay que volver a armarlo,
-// cuándo está terminado y cuándo toca, y los juegos recientes de cada habilidad. Sin navegador: cada prueba inventa
-// los temas, lo jugado y los resultados.
+// cuándo está terminado y cuándo toca, los juegos recientes de cada habilidad y, desde la fase 4b, lo que se apunta al
+// terminar un juego (la fecha y el juego del repaso hecho). Sin navegador: cada prueba inventa los temas, lo jugado y
+// los resultados.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (aciertos, fallos, estrellas):
    leerlos tal cual en la prueba es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
 import type { DatosRepaso, TemaRepasable } from '../../src/dominio/repaso.ts';
 import {
-  NOREP, REPASO, caducado, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, repasable, terminado, toca,
+  NOREP, REPASO, caducado, conFecha, conHecho, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, repasable,
+  terminado, toca,
 } from '../../src/dominio/repaso.ts';
 
 const HOY = '2026-10-25';
@@ -120,5 +122,22 @@ describe('juegos recientes de cada habilidad', () => {
     expect(conJuegoReciente(['A#0', 'B#0', 'C#0'], 'C#0')).toEqual(['C#0', 'A#0', 'B#0']);
     expect(conJuegoReciente(['1', '2', '3', '4', '5', '6'], 'X')).toEqual(['X', '1', '2', '3', '4', '5']);
     expect(conJuegoReciente([], 'A#0')).toEqual(['A#0']);
+  });
+});
+
+// Fase 4b: lo que apunta el repaso al terminar un juego.
+describe('al terminar un juego', () => {
+  test('conFecha pone hoy como último día jugado; si no había resultado, empieza sin aciertos ni fallos', () => {
+    const r = { ok: 3, err: 1, d: '2026-10-01' };
+    expect(conFecha(r, HOY)).toEqual({ ok: 3, err: 1, d: HOY });
+    expect(r.d).toBe('2026-10-01');
+    expect(conFecha(undefined, HOY)).toEqual({ ok: 0, err: 0, d: HOY });
+  });
+
+  test('conHecho marca hecho un juego del repaso del día; si no está en la lista, el mismo repaso', () => {
+    const R = { d: HOY, list: ['A#0', 'B#1'], done: { 'A#0': 1 }, weak: 1 };
+    expect(conHecho(R, 'B#1')).toEqual({ ...R, done: { 'A#0': 1, 'B#1': 1 } });
+    expect(R.done).toEqual({ 'A#0': 1 });
+    expect(conHecho(R, 'C#0')).toBe(R);
   });
 });

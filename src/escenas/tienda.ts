@@ -1,36 +1,35 @@
 // ARCHIVO: escenas/tienda.ts (antes tienda.js) — las recompensas: monedas, la tienda, la ropa y colores de Tito, la casa
 //   de Tito y los vales.
-// Cómo encaja: se ganan monedas al acertar en los juegos (envoltura de onRight) y al terminar un juego (envoltura de
-//   finishGame); se gastan en SCENES.tienda; lo comprado se ve en Tito (titoImg, drawTitoWear) o en SCENES.casaTito.
+// Cómo encaja: se ganan monedas al acertar en los juegos (onRight, en nucleo/interfaz.ts) y al terminar un juego
+//   (finishGame, en escenas/escenas2d.ts); se gastan en SCENES.tienda; lo comprado se ve en Tito (titoImg,
+//   drawTitoWear) o en SCENES.casaTito.
 //   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en escenas/zonas.ts, pero usan SHOP, wear y placeHome.
 //   Los vales los configura un adulto en aplicacion/adultos.ts (S.vales) y se compran aquí (quedan apuntados en S.valesLog).
 // Desde la fase 2l es un módulo: escenas/indice.ts lo carga después de zonas.ts, y el puente deja lo que exporta en
 //   globalThis para las pruebas (escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan). Los módulos que van
 //   antes (zonas.ts, temas/, nucleo/guardado.ts...) lo usan como global, con los tipos de src/tardias.d.ts.
-// Define: DEF2, VALES_DEF, gameCoins (monedas de acierto del juego actual), HATPOS, titoHouseIc,
+// Define: DEF2, VALES_DEF, HATPOS, titoHouseIc,
 //   SHOPCAT, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
 //   homeAction, homeLight, roomBg y las escenas SCENES.tienda y SCENES.casaTito.
 // Exporta (lo usan otros archivos o las pruebas): SHELLC, SCARFC, titoImg, drawTitoWear, SHOP, itemName, wear, drawItemPic, roomOf, roomOpen, roomsOpen, homeRoom,
 //   placeHome, HSIZE, homeItems y roomBtns, y los tipos Articulo y Vale.
-// Envuelve: onRight y finishGame (nucleo/interfaz.ts y escenas/escenas2d.ts), SCENES.juego.enter y SCENES.juego.draw (escenas/escenas2d.ts).
+// Envuelve: nada desde la fase 4b (antes onRight, finishGame y SCENES.juego, para las monedas: ahora las da el juego).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
-//   TITO_EYES..., STARS, inR), los dibujos de Tito (TITO_SVG...), escenas/monedas.ts (giveCoins, spendCoins, drawCoinHUD,
-//   inCoinHUD; desde la fase 4a las monedas están allí), escenas/escenas2d.ts (finishGame), escenas/zonas.ts (houseLevel,
+//   TITO_EYES..., STARS, inR y las monedas: spendCoins, drawCoinHUD, inCoinHUD), los dibujos de Tito
+//   (TITO_SVG...), escenas/zonas.ts (houseLevel,
 //   drawTitoHouse, drawPet, petStage, PET_NEXT, HOUSE_NEXT, shellIcon, arrowAt), temas/ (floor, bunting), juegos/
-//   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (estrellas, TIER_NEED, nivelAbierto, habitacionAbierta)
-//   y de dominio/monedas.ts (ganar, gastar, alcanza, monedasPorAcierto, monedasAlTerminar).
-import type { Escena, Libre, Tito, Vale } from '../nucleo/tipos.ts';
+//   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (TIER_NEED, nivelAbierto, habitacionAbierta)
+//   y de dominio/monedas.ts (alcanza).
+import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCENES, SFX, STARS, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inR, inTito, later, noise, onRight, pic, pick, playSound, ponOnRight, ponRopaTito, rnd, sanoS, save, say, sayQ, sceneName, setCursor, sky, sparkles, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import { DEF, FLC, H, IMG, LF, PI, S, SCENES, SFX, STARS, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
-import { finishGame, ponFinishGame } from './escenas2d.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
 import { TIER_NEED, habitacionAbierta, nivelAbierto } from '../dominio/progreso.ts';
-import { alcanza, monedasAlTerminar, monedasPorAcierto } from '../dominio/monedas.ts';
+import { alcanza } from '../dominio/monedas.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
-import { drawCoinHUD, giveCoins, inCoinHUD, spendCoins } from './monedas.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -103,16 +102,9 @@ const VALES_DEF: Vale[]=[{id:'v1',txt:'Un cuento extra antes de dormir',ic:'libr
   {id:'v4',txt:'Cocinar algo rico juntos',ic:'olla',p:60,on:0},{id:'v5',txt:'Elegir la película del fin de semana',ic:'tele',p:60,on:0},{id:'v6',txt:'Un abrazo de oso gigante',ic:'oso',p:10,on:0}];
 if(!S.vales)S.vales=JSON.parse(JSON.stringify(VALES_DEF));
 
-// gameCoins: cuántas monedas de acierto se han dado en el juego actual (máximo 5 por juego; ver la envoltura de onRight).
-// Las monedas (marcador, animación, creditCoins, giveCoins...) están desde la fase 4a en escenas/monedas.ts.
-let gameCoins=0;
-// Envuelve onRight: el primer acierto de cada ronda en un juego da 1 moneda (máximo 5 por juego; monedasPorAcierto).
-{const or0=onRight;ponOnRight(function(first: unknown){or0(first);const n=sceneName==='juego'?monedasPorAcierto(first,gameCoins):0;if(n){gameCoins++;giveCoins(n,VIVO.MX||800,VIVO.MY||450)}})}
-// Envuelve la entrada a un juego para poner a cero el contador gameCoins.
-{const e0=SCENES.juego.enter;SCENES.juego.enter=function(this: Escena,o: Libre){gameCoins=0;e0!.call(this,o)}}
-// Envuelve finishGame: terminar un juego da 3 monedas la primera vez y 2 si se repite (monedasAlTerminar).
-{const f0=finishGame;ponFinishGame(function(t,gi){const st=S.temas[t.id],first=!(st&&st.g[gi]);f0(t,gi);
-  giveCoins(monedasAlTerminar(first),800,420)})}
+// Las monedas en pantalla (marcador, animación, creditCoins, giveCoins...) están desde la fase 4a en su propio módulo,
+// desde la 4b en el núcleo (nucleo/monedas.ts). Las de cada acierto las da onRight (nucleo/interfaz.ts) y las de
+// terminar un juego, finishGame (escenas/escenas2d.ts): este archivo ya no envuelve ninguna de las dos.
 
 /* ---------- Tito con ropa y colores ---------- */
 // Colores del caparazón (o púas, caparazón de tortuga, mochila del conejo): nombre → [relleno, borde].
@@ -424,5 +416,3 @@ SCENES.casaTito={music:'casita',room:'salon',
       SFX.boing();p.x=d.ox;p.y=d.oy;save();return}
     const hs=HSIZE[d.id]||160;p.x=clamp(p.x,300+hs*.3,W-hs/2-10);p.y=clamp(p.y,WALLITEMS.includes(d.id)?300:420,780);save();SFX.snap()}// como homeSpot: lo grande no se sale por la derecha
 };
-// Envuelve el dibujo de los juegos para pintar también el marcador de monedas.
-{const d0=SCENES.juego.draw;SCENES.juego.draw=function(){d0.call(this);drawCoinHUD()}}

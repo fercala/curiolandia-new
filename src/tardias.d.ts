@@ -23,7 +23,7 @@ declare const openNameDlg: typeof import('./aplicacion/adultos.ts').openNameDlg;
 declare const openResetDlg: typeof import('./aplicacion/adultos.ts').openResetDlg;
 
 // De escenas/tienda.ts (después de escenas/zonas.ts): artículos de la tienda y casa de Tito (las monedas, desde la fase
-// 4a, están en escenas/monedas.ts, que va antes, y STARS y inR en el núcleo),
+// 4a tienen su módulo, desde la 4b nucleo/monedas.ts, y STARS e inR están en el núcleo),
 // con el tipo que tienen allí (ver sus comentarios).
 declare const SHELLC: typeof import('./escenas/tienda.ts').SHELLC;
 declare const SHOP: typeof import('./escenas/tienda.ts').SHOP;

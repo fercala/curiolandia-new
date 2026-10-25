@@ -48,8 +48,8 @@
  *   bunting), juegos/ (NUM, TUNES, playTune), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
  *   siguienteRegalo, esCumple) y de dominio/monedas.ts (MONEDAS, ganar, monedasDelCofre), y el tipo Articulo de
- *   escenas/tienda.ts, las monedas de escenas/monedas.ts (creditCoins, giveCoins, drawCoinHUD, inCoinHUD; desde la
- *   fase 4a) e inR y STARS del núcleo. Usa de escenas/tienda.ts, que va después y solo al jugar o dibujar (tipos en
+ *   escenas/tienda.ts, y del núcleo inR, STARS y las monedas (creditCoins, giveCoins, drawCoinHUD, inCoinHUD; desde la
+ *   fase 4a en su módulo, nucleo/monedas.ts desde la 4b). Usa de escenas/tienda.ts, que va después y solo al jugar o dibujar (tipos en
  *   src/tardias.d.ts): SHOP, SHELLC, wear, placeHome, itemName, drawItemPic.
  * Partes de S que toca: S.temas (solo lee), S.unlockAll (modo libre de la
  *   zona de adultos), S.seenOpen (lo último visto abierto, para animar
@@ -66,13 +66,12 @@ import { MONEDAS, ganar, monedasDelCofre } from '../dominio/monedas.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, esCumple, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, ell, fillStroke, flower, giveSticker, go, hC, hR, hv, inR, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
 import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting } from '../temas/indice.ts';
 import { GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, ponStationPos, ponSuggestTema, stationPos, tree, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
-import { creditCoins, drawCoinHUD, giveCoins, inCoinHUD } from './monedas.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {

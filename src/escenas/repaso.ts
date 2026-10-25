@@ -6,14 +6,15 @@
 // Define: DATOS, repWeak, repOld, repBuild, repToday, repAllDone, repDue, REPBTN y la escena SCENES.repaso.
 //   Añade a S los campos kg, gs y rep. Las reglas (qué juegos cuestan, cuáles son los más antiguos, cómo se elige el
 //   repaso, cuándo toca) están desde la fase 3d en dominio/repaso.ts; aquí se les pasan los datos de S (DATOS).
-// Exporta: REP_ON (true mientras se juega un juego del repaso; lo leen las pruebas).
-// Envuelve (cambia el comportamiento de) funciones de otros archivos: rec y go (src/nucleo/), finishGame
-//   (escenas/escenas2d.ts), SCENES.casita.enter y goSeguir (escenas/zonas.ts) y los métodos draw/down/dwell de SCENES.map
-//   (escenas/zonas.ts).
-// Importa: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo), escenas/escenas2d.ts (TEMA, TEMAS,
-//   tst, finishGame, drawStation, GNAME, asamHoy), escenas/zonas.ts (goSeguir, drawRoad, lockOver, unlockFx, arrowAt),
-//   escenas/monedas.ts (giveCoins, creditCoins, drawCoinHUD, inCoinHUD), STARS del núcleo, temas/ (floor), MONEDAS de
-//   dominio/monedas.ts y las reglas de dominio/repaso.ts.
+// Exporta: nada. REP_ON (true mientras se juega un juego del repaso; lo leen las pruebas) está desde la fase 4b en el
+//   núcleo (nucleo/escenas.ts): aquí se cambia con ponRepOn.
+// Envuelve (cambia el comportamiento de) funciones de otros archivos: rec y go (src/nucleo/), SCENES.casita.enter y
+//   goSeguir (escenas/zonas.ts) y los métodos draw/down/dwell de SCENES.map (escenas/zonas.ts). Desde la fase 4b ya no
+//   envuelve finishGame: la fecha del juego y el repaso hecho los apunta el caso de uso aplicacion/terminarJuego.ts.
+// Importa: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo, REP_ON y ponRepOn, y las monedas:
+//   giveCoins, creditCoins, drawCoinHUD, inCoinHUD), escenas/escenas2d.ts (TEMA, TEMAS, tst, drawStation, GNAME,
+//   asamHoy), escenas/zonas.ts (goSeguir, drawRoad, lockOver, unlockFx, arrowAt), STARS del núcleo, temas/ (floor),
+//   MONEDAS de dominio/monedas.ts y las reglas de dominio/repaso.ts.
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.
 //   S.gs = { 'temaId#juego': {ok, err, d} }      aciertos, fallos y último día jugado ('AAAA-MM-DD' de today()).
@@ -22,14 +23,13 @@
 //           seen = el botón verde ya pasó hoy por el repaso.
 import type { Escena, Libre, Repaso } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DEF, DF, LF, S, SCENES, SFX, STARS, T, TITO, V, atHome, burst, card, circ, ctx, dist, drawHome, drawTito, fillStroke, giveSticker, go, hC, hv, inTito, kid, later, pic, ponGo, ponRec, rec, save, say, sayQ, scene, sceneName, sky, sparkles, text, today } from '../nucleo/indice.ts';
+import { DEF, DF, LF, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, atHome, burst, card, circ, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, giveCoins, giveSticker, go, hC, hv, inCoinHUD, inTito, kid, later, pic, ponGo, ponRec, ponRepOn, rec, save, say, sayQ, scene, sceneName, sky, sparkles, text, today } from '../nucleo/indice.ts';
 import { floor } from '../temas/indice.ts';
-import { GNAME, TEMA, TEMAS, asamHoy, drawStation, finishGame, ponFinishGame, tst } from './escenas2d.ts';
+import { GNAME, TEMA, TEMAS, asamHoy, drawStation, tst } from './escenas2d.ts';
 import { arrowAt, drawRoad, goSeguir, lockOver, ponGoSeguir, unlockFx } from './zonas.ts';
 import { MONEDAS } from '../dominio/monedas.ts';
 import type { DatosRepaso } from '../dominio/repaso.ts';
 import { caducado, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, terminado, toca } from '../dominio/repaso.ts';
-import { creditCoins, drawCoinHUD, giveCoins, inCoinHUD } from './monedas.ts';
 
 /* ================= REPASO INTELIGENTE ================= */
 // Cada habilidad recuerda en qué juegos aparece (S.kg) y cada juego cómo le fue (S.gs).
@@ -42,11 +42,9 @@ Object.assign(DEF,{kg:{},gs:{},rep:null});
 {const r0=rec;ponRec(function(k: string,ok: unknown){r0(k,ok);if(sceneName==='juego'&&scene!.t&&scene!.gi!=null){const id=scene!.t.id+'#'+scene!.gi;
   S.kg![k]=conJuegoReciente(S.kg![k]||[],id);
   const g=S.gs![id]||(S.gs![id]={ok:0,err:0,d:''});ok?g.ok++:g.err++;save()}})}
-// true mientras se juega un juego lanzado desde el repaso (para volver al repaso al terminar).
-export let REP_ON=false;
-// Envuelve finishGame(tema, nº de juego): guarda la fecha en que se jugó (S.gs[id].d) y,
-// si el juego venía del repaso de hoy, lo marca como hecho. Después llama al finishGame original.
-{const f0=finishGame;ponFinishGame(function(t,gi){const id=t.id+'#'+gi,g=S.gs![id]||(S.gs![id]={ok:0,err:0,d:''});g.d=today();if(REP_ON&&S.rep&&S.rep.list.includes(id))S.rep.done[id]=1;save();f0(t,gi)})}
+// REP_ON (true mientras se juega un juego lanzado desde el repaso) está desde la fase 4b en el núcleo
+// (nucleo/escenas.ts): aquí se cambia con ponRepOn. La fecha del juego (S.gs[id].d) y el juego del repaso hecho los
+// apunta finishGame (escenas/escenas2d.ts), con el caso de uso aplicacion/terminarJuego.ts.
 // DATOS: lo que miran las reglas del repaso (dominio/repaso.ts), leído de S en el momento de cada pregunta.
 const DATOS: DatosRepaso={get stats(){return S.stats},get kg(){return S.kg!},get gs(){return S.gs!},get temas(){return TEMAS},tema:(id: string)=>TEMA[id],jugados:(id: string)=>tst(id).g};
 // repWeak(): los juegos «que cuestan», sin repetir (queCuestan): primero el más reciente de cada habilidad con 4+
@@ -70,7 +68,7 @@ const repDue=()=>toca(STARS(),S.rep,today(),DATOS);
 SCENES.repaso={music:'casita',
   // Al entrar. o.seguir: viene del botón verde (se apunta seen); o.back: vuelve de un juego del repaso
   // (anima la apertura del siguiente). Si está todo hecho y sin cobrar, da el premio.
-  enter(o){const R=repToday();this.L=R.list;this.unl=null;REP_ON=false;if(o.seguir){R.seen=1;save()}
+  enter(o){const R=repToday();this.L=R.list;this.unl=null;ponRepOn(false);if(o.seguir){R.seen=1;save()}
     // el premio (pegatina y 5 monedas) se guarda a la vez que R.paid; la celebración solo lo enseña (salir no lo pierde)
     if(repAllDone()&&!R.paid){R.paid=1;S.stk.lupa=(S.stk.lupa||0)+1;creditCoins(MONEDAS.repaso);save();later(500,()=>{SFX.tada();burst(800,350,90);giveSticker('lupa',true);say('¡Terminaste el repaso de hoy'+kid()+'! Tito te regala cinco monedas.',()=>{giveCoins(5,800,420,undefined,true);later(900,()=>sayQ('Tocá la flecha verde para seguir el camino.'))})});return}
     const nx=this.next();
@@ -105,19 +103,19 @@ SCENES.repaso={music:'casita',
     if(nx<0&&this.L.length){const p=(Math.sin(T*4)+1)/2,s=hv('rp:seguir',hC(1300,800,74));ctx.save();ctx.translate(1300,800);ctx.scale(s*(1+p*.05),s*(1+p*.05));ctx.globalAlpha=.35+.3*p;circ(0,0,84,null,10,'#FFC93C');ctx.globalAlpha=1;circ(0,0,72,'#7CC86E',7);ctx.beginPath();ctx.moveTo(-20,-32);ctx.lineTo(34,0);ctx.lineTo(-20,32);ctx.closePath();fillStroke('#fff',5);ctx.restore()}
     drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w)},
   // Toques: casa (mapa), Tito (explica), monedas (tienda), flecha verde (seguir el camino)
-  // o una estación (si está abierta lanza el juego con REP_ON=true).
+  // o una estación (si está abierta lanza el juego con ponRepOn(true)).
   down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}if(inTito(x,y)){this.prompt!(true);return}if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
     const nx=this.next();if(nx<0&&this.L.length&&dist(x,y,1300,800)<80){SFX.pop();goSeguir();return}
     for(let j=0;j<this.L.length;j++){const [gx,gy]=this.pos(j);if(dist(x,y,gx,gy)<140){
       if(!this.open(j)){SFX.boing();say('Este todavía está cerrado. Primero terminá el número '+((nx<0?j-1:nx)+1)+'.');return}
-      const [tid,g]=this.L[j].split('#');SFX.pop();this.prevNx=nx;REP_ON=true;go('juego',{t:tid,g:+g});return}}
+      const [tid,g]=this.L[j].split('#');SFX.pop();this.prevNx=nx;ponRepOn(true);go('juego',{t:tid,g:+g});return}}
     SFX.tap();sparkles(x,y)}
 };
 // al volver de un juego del repaso (o al tocar la casita desde el juego) se vuelve al repaso
-{const e0=SCENES.casita.enter;SCENES.casita.enter=function(this: Escena,o: Libre){if(REP_ON&&!o.fin){REP_ON=false;go('repaso',{back:1});return}REP_ON=false;return e0!.call(this,o)}}
+{const e0=SCENES.casita.enter;SCENES.casita.enter=function(this: Escena,o: Libre){if(REP_ON&&!o.fin){ponRepOn(false);go('repaso',{back:1});return}ponRepOn(false);return e0!.call(this,o)}}
 // Si desde un juego del repaso se va a otro sitio que no sea la vuelta normal (un atajo de la zona de adultos al mapa,
 // a una zona o a otro tema con hello), se olvida el repaso: si no, la siguiente casita que se abriera saltaría al repaso.
-{const g0=go;ponGo(function(n,o={}){if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))REP_ON=false;return g0(n,o)})}
+{const g0=go;ponGo(function(n,o={}){if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))ponRepOn(false);return g0(n,o)})}
 // el botón verde pasa una vez por día por el repaso, si hay algo que cuesta
 {const g0=goSeguir;ponGoSeguir(function(){if(asamHoy()&&repDue()&&!(S.rep&&S.rep.d===today()&&S.rep.seen)){go('repaso',{seguir:1});return}g0()})}
 // botón del repaso en el mapa, arriba
