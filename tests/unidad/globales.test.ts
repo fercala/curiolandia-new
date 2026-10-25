@@ -10,7 +10,7 @@ import { ARCHIVOS } from '../../herramientas/vite/curiolandia.mts';
 
 const SRC = join(import.meta.dirname, '..', '..', 'src');
 // Lo que src/modulos.ts pasa al puente, en el mismo orden.
-const ENTRADAS = ['dibujos/todos.ts', 'nucleo/indice.ts'] as const;
+const ENTRADAS = ['dibujos/todos.ts', 'nucleo/indice.ts', 'juegos/indice.ts'] as const;
 
 describe('globales', () => {
   test('ningún archivo reasigna las globales de otro ni las de los módulos', () => {

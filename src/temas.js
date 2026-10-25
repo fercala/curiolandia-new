@@ -7,13 +7,13 @@
 //   - BG: objeto con las funciones de fondo de cada tema (temas4.js le añade más).
 //   - swatch(), shape(), snowPart(), plateOf(), dayNight(): "cosas dibujadas" para los juegos.
 //   - roomZone(), mochilaZone, mesaZone, corralZone, pradoZone, kidZone(), panelZone(), sizeSlot():
-//     zonas donde se sueltan las cosas en los juegos de arrastrar (Arrastra, comps.js).
+//     zonas donde se sueltan las cosas en los juegos de arrastrar (Arrastra, juegos/comps.ts).
 //   - vestir(): fábrica del juego "vestir al nene".
 //   - T3 (lista de temas de 3 años), C3 (Rincón de los Conceptos de 3 años), COLS3.
 //   - makeGame(g,t,onDone): crea el juego g del tema t (extras.js e ingles.js la amplían).
 //   - GICON: icono por defecto de algunos tipos de juego.
 // Depende de: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
-//   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), comps.js (Arrastra,
+//   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan scenes.js (TEMAS, TEMA,
 //   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, extras.js y cuentos.js.
@@ -68,7 +68,7 @@ const BG={
 //   - una cadena: la clave de un dibujo de PICS (por ejemplo 'manzana'); se dibuja con pic();
 //   - un objeto {name, draw(x,y,s), ...}: name = cómo lo nombra Tito (con artículo),
 //     draw = función que lo pinta centrado en (x,y) dentro de un cuadrado de lado s.
-// thing(k,x,y,s) en comps.js sabe pintar las dos, y nameT(k) sabe nombrarlas.
+// thing(k,x,y,s) en juegos/comps.ts sabe pintar las dos, y nameT(k) sabe nombrarlas.
 // ---------------------------------------------------------------------------
 /* ---------- piezas dibujadas para algunos juegos ---------- */
 // Mancha de pintura del color c (clave de COLORES: 'rojo', 'azul'...).
@@ -96,7 +96,7 @@ const dayNight=d=>({name:d?'de día':'de noche',draw:(x,y,s)=>{ctx.save();rr(x-s
   ctx.fillStyle=d?'#9FDC8F':'#3D5A3E';ctx.fillRect(x-s/2,y+s*.22,s,s*.3);ctx.restore()}});
 
 // ---------------------------------------------------------------------------
-// ZONAS para Arrastra (comps.js). Una zona es un objeto con:
+// ZONAS para Arrastra (juegos/comps.ts). Una zona es un objeto con:
 //   id        nombre de la zona; cada cosa a arrastrar dice a qué zona va (item.zone).
 //   x,y,w,h   centro y tamaño del área donde se puede soltar.
 //   draw(z,hl) la pinta; hl = true cuando el niño arrastra algo por encima (se ilumina).
@@ -185,12 +185,12 @@ function vestir(okK,badK,ask,why){
 //             name  (opcional) nombre del juego que dice Tito; si falta, GNAME[t] (scenes.js).
 //             make(onDone,t) (opcional) crea el juego: recibe la función que hay que llamar al
 //                   terminar y el propio tema, y devuelve el objeto del juego (normalmente con un
-//                   componente de comps.js / comps2.js: Arrastra, ChoiceGame, Cuenta, Pinta...).
+//                   componente de juegos/comps.ts y juegos/comps2.ts: Arrastra, ChoiceGame, Cuenta, Pinta...).
 //           ¡OJO! El progreso se guarda por posición: S.temas[id].g[número de juego]. No quites ni
 //           reordenes juegos de un tema ya publicado; añade los nuevos al final. Además extras.js
 //           añade al final {t:'cuento'} a cada tema que tiene cuento.
 //
-// Los dos componentes más usados reciben esta configuración (detalle en comps.js):
+// Los dos componentes más usados reciben esta configuración (detalle en juegos/comps.ts):
 //   Arrastra({rounds, total, key, bg, why(it,z), placeSay(it,z), sayPick, noCard, gen(i)})
 //     gen(i) devuelve la ronda i: {ask, zones:[zonas], items:[{k, zone, s, x, y}], tray:{x0,x1,y},
 //     steps (opcional: órdenes de una en una {k, zone, say, ok}), okAll, onPlace, free, drawExtra}.

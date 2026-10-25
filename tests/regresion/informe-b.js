@@ -21,7 +21,7 @@ const R = L.registro('informe-b');
   });
 
   await caso('B2', 'Memoria apunta como fallo una pareja errada cuando la pareja ya se había visto', async p => {
-    // Rejilla de 6 cartas a los 3 años (3 columnas x 2 filas, como en comps.js). Turno 1: cartas 0 y 1 (nuevas: explorar,
+    // Rejilla de 6 cartas a los 3 años (3 columnas x 2 filas, como en juegos/comps.ts). Turno 1: cartas 0 y 1 (nuevas: explorar,
     // no es fallo). Turno 2: carta 2 y carta 0. Si la 2 es igual que la 1 (ya vista) y no se empareja, es fallo.
     const s = 220, xs = [0, 1, 2].map(i => 900 - 250 + i * 250), ys = [470 - 125, 470 + 125], pos = [];
     for (const y of ys) for (const x of xs) pos.push({ x, y });

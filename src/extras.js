@@ -4,17 +4,17 @@
 //   scenes.js los mete en TEMAS/TEMA; zonas.js los pone en el mapa (canciones/rutinas/trazos son casitas sueltas
 //   de la zona 'extras', FIESTAS es la zona 'fiestas'); adult.js los lista en la zona de adultos.
 //   Los juegos con make:(d,t)=>... crean su componente directamente (Secuencia, Frota, Arrastra, Tracer, Velas,
-//   Cuenta, Atrapa, ChoiceGame, Puzzle de comps.js/comps2.js); los que solo llevan t (busca, memoria...) los crea
+//   Cuenta, Atrapa, ChoiceGame, Puzzle de juegos/comps.ts y juegos/comps2.ts); los que solo llevan t (busca, memoria...) los crea
 //   makeGame de temas.js a partir de words del tema.
 // Define (globales): DLYR, SONGS, bubbles, drops, RP, RUT, lineP, polyP, BG.trazo, TRZ_L, TRZ, CAN, COSTUME, HATS,
 //   costumeZone, freeDeco, FIESTAS. Añade palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento.
 // Envuelve: makeGame (temas.js) para los tipos 'cuento' y 'cancion'.
 // Depende de: temas.js/temas4.js/temas5.js (T3, T4, T5, BG, DIASL, MESES, ESTS, COLORES, swatch, dayCard, monthCard,
-//   makeGame), comps.js/comps2.js (componentes, Song, panel, germ, pathPts), cuentos.js (CUENTOS, Story), el núcleo (src/nucleo/).
+//   makeGame), juegos/comps.ts y juegos/comps2.ts (componentes, Song, panel, germ, pathPts), cuentos.js (CUENTOS, Story), el núcleo (src/nucleo/).
 /* ================= CANCIONES ================= */
 // Letra de la canción de los días (lunes a domingo). Un elemento lista es [rioplatense, España].
 const DLYR=[['Lunes, empieza la semana.','Lunes, empieza la semana.'],'Martes, jugamos con ganas.','Miércoles, ¡ya estamos en la mitad!','Jueves, ¡qué bien se está!',['Viernes, último día de escuela.','Viernes, último día de cole.'],'Sábado, ¡a jugar y a pasear!','Domingo, en familia a descansar.'];
-// Canciones: SONGS[id]() devuelve la configuración para el componente Song (comps2.js):
+// Canciones: SONGS[id]() devuelve la configuración para el componente Song (juegos/comps2.ts):
 //   tune: melodía de TUNES; cols / s: columnas y tamaño de las tarjetas; mode: 'orden' (tocar en orden, por defecto)
 //   o 'pedido' (tocar la que dice Tito); intro, ask2, okAll: frases de inicio, de la segunda parte y del final;
 //   lines: [{say (verso que canta Tito), draw(x,y,s) o k (dibujo), n (nombre para pedirla), n2 (nombre al tocarla)}].
@@ -40,7 +40,7 @@ const SONGS={
 const bubbles=(x,y,s,n=7)=>{for(let j=0;j<n;j++)circ(x+Math.cos(j*2.1)*s*.3,y+Math.sin(j*1.7)*s*.24,s*(.04+(j%3)*.02),'rgba(255,255,255,.85)',3,'#9ED9F5')};
 // Dibuja tres gotas de agua cayendo junto a (x,y).
 const drops=(x,y,s)=>{for(let j=0;j<3;j++)ell(x-s*.06+j*s*.06,y+j*s*.07,s*.025,s*.04,'#5BB8E6',2)};
-// Viñetas de las rutinas para el juego Secuencia. panel(nombre, partes, extra) (comps2.js): nombre es lo que dice
+// Viñetas de las rutinas para el juego Secuencia. panel(nombre, partes, extra) (juegos/comps2.ts): nombre es lo que dice
 // Tito (texto o [rioplatense, España]); partes = [[dibujo, dx, dy, tamaño], ...] relativos al tamaño de la viñeta;
 // extra(x,y,s) dibuja algo más encima.
 const RP={
@@ -80,9 +80,9 @@ const RUT={id:'X-RUT',n:'Rutinas y hábitos',icon:'manos',c:'#5BB8E6',trim:0,bg:
   {t:'dormir',icon:'cama',name:'Antes de dormir',make:(d,t)=>Secuencia({bg:BG.dormitorio,key:'rutinas',panels:AGE()<=3?['banera','pijama','cama']:AGE()===4?['banera','pijama','cuento','cama']:['cena','banera','pijama','cepillo','cuento','cama'],first:true,
     ask:'¿Qué hacemos antes de dormir? Ordená del primero al último.',okAll:'¡Muy bien! Y al final, a la cama. ¡Buenas noches!'},d)}]};
 
-// Los trazos usan el componente Tracer (comps2.js): el niño lleva con el dedo un personaje por un camino de puntos.
+// Los trazos usan el componente Tracer (juegos/comps2.ts): el niño lleva con el dedo un personaje por un camino de puntos.
 /* ================= TRAZOS ================= */
-// Puntos de una línea recta de (x0,y0) a (x1,y1), con n tramos (pathPts está en comps2.js).
+// Puntos de una línea recta de (x0,y0) a (x1,y1), con n tramos (pathPts está en juegos/comps2.ts).
 const lineP=(x0,y0,x1,y1,n=60)=>pathPts(t=>[lerp(x0,x1,t),lerp(y0,y1,t)],n);
 // Puntos de una línea quebrada que pasa por los puntos P (n por tramo); se usa para el zigzag.
 const polyP=(P,n=24)=>{const out=[];for(let i=0;i<P.length-1;i++)for(let j=0;j<(i===P.length-2?n+1:n);j++){const t=j/n;out.push([lerp(P[i][0],P[i+1][0],t),lerp(P[i][1],P[i+1][1],t)])}return out};

@@ -22,10 +22,9 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: comps.js primero (core.js y lex.js ya son módulos: src/nucleo/ y src/contenido/), y world3d.js y
-  // boot.js al final (ver docs/ARQUITECTURA.md).
+  // El orden importa: temas.js primero (core.js, lex.js, comps.js y comps2.js ya son módulos: src/nucleo/,
+  // src/contenido/ y src/juegos/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['comps.js', 'temas.js'],
     ['temas.js', 'scenes.js'],
     ['scenes.js', 'zonas.js'],
     ['adult.js', 'world3d.js'],
@@ -77,7 +76,7 @@ describe('paginaJuego', () => {
     return global;
   };
 
-  test('los módulos dejan los dibujos y el núcleo al código global', () => {
+  test('los módulos dejan los dibujos, el núcleo y los componentes al código global', () => {
     const global = ejecutaModulos();
     const pics: unknown = global['PICS'];
     expect(typeof pics === 'object' && pics !== null ? Object.keys(pics).length : 0).toBeGreaterThan(300);
@@ -92,6 +91,9 @@ describe('paginaJuego', () => {
     expect(global['LEX']).toMatchObject({ gato: 'el gato', escuela: 'la escuela' });
     expect(global['ONO']).toMatchObject({ vaca: '¡Muuu!', ambulancia: '¡Niinoo, niinoo!' });
     expect(runInContext("S.variant = 'es'; tx('Agarralo con la valija')", global)).toBe('Cógelo con la maleta');
+    // juegos/: los componentes y sus ayudas de texto.
+    for (const k of ['Busca', 'Arrastra', 'Memoria', 'Tracer', 'Story', 'thing', 'ponThing']) expect(typeof global[k], k).toBe('function');
+    expect(runInContext("unN(3, 'perro') + ' / ' + eseEs('mesa')", global)).toBe('tres perros / Esa es la mesa');
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

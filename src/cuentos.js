@@ -5,7 +5,7 @@
 // Solo DATOS: no tiene funciones. Define la global CUENTOS.
 // Quién lo usa: extras.js recorre T3, T4 y T5 y, si CUENTOS[tema.id] existe, añade al FINAL de
 // los juegos del tema {t:'cuento', icon:'libro', name:'El cuento'}; al abrir ese juego llama a
-// Story(CUENTOS[tema.id], {}, onDone) (comps2.js), que pasa las páginas y luego hace las preguntas.
+// Story(CUENTOS[tema.id], {}, onDone) (juegos/comps2.ts), que pasa las páginas y luego hace las preguntas.
 // Depende de: BG (temas.js / temas4.js) para los fondos y PICS (src/dibujos/) para los dibujos.
 //
 // FORMATO: CUENTOS['id del tema'] = {title, pages, qs}
