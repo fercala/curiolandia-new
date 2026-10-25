@@ -1,6 +1,6 @@
 {
   "name": "curiolandia-new",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "private": true,
   "description": "Curiolandia: juego de temas de Educación Infantil con Tito como guía (migración de curiolandia-3d).",
   "scripts": {

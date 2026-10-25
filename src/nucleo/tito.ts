@@ -1,8 +1,9 @@
 // tito.ts: Tito en las escenas 2D (en el mapa 3D lo dibuja mundo3d/mundo3d.ts).
 //   TITO, temasDone(), FLPOS, FLC, titoKind(), TITO_EYES, TITO_2D, drawTito(), inTito(), ponRopaTito().
 // La ropa y los colores comprados en la tienda los pone escenas/tienda.ts con ponRopaTito (si no, Tito sale con su dibujo de
-// siempre y sin ropa).
+// siempre y sin ropa). La regla de temasDone está en dominio/progreso.ts (temasTerminados).
 import { K } from '../dibujos/todos.ts';
+import { temasTerminados } from '../dominio/progreso.ts';
 import { card, circ, ell, flower, speaker } from './dibujo.ts';
 import { S } from './guardado.ts';
 import { IMG } from './imagenes.ts';
@@ -23,8 +24,8 @@ export interface OpcionesTito {
 /* ---------- Tito ---------- */
 // TITO: posición y ancho de Tito en las escenas 2D (abajo a la izquierda).
 export const TITO={x:14,y:700,w:226};
-// temasDone(): cuántos temas están completos; es el número de flores del caparazón de Tito.
-export const temasDone=(): number=>Object.values(S.temas).filter(t=>t&&t.done).length;
+// temasDone(): cuántos temas están completos; es el número de flores del caparazón de Tito (temasTerminados).
+export const temasDone=(): number=>temasTerminados(S.temas);
 // FLPOS: sitio de cada flor del caparazón como [ángulo, distancia] desde el centro de las flores (15 como mucho). FLC: sus colores.
 export const FLPOS: readonly (readonly [number,number])[]=[[-2.4,58],[-1.9,60],[-1.4,62],[-.9,61],[-.4,60],[-2.9,56],[2.6,52],[-2.15,38],[-1.6,40],[-1.05,40],[-.5,38],[-2.65,36],[2.9,40],[-1.9,22],[-1.2,22]];
 export const FLC=['#FF8A7A','#F58BB4','#FFC93C','#9B8AD9','#7FD3F0','#FF6B5E','#FFA94D'];

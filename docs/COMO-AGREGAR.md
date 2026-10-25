@@ -233,7 +233,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 3. **Si va en la casa de Tito**: su tamaño en `HSIZE` (si va colgado, también en `WALLITEMS`) y, si quieres, qué hace al tocarlo en la tabla de `homeAction`.
 4. **Si es ropa**: sombrero con su posición en `HATPOS`. Un tipo de ropa nuevo (por ejemplo zapatos) exige tocar `isWorn`, `wear`, `drawTitoWear` y leer `S.tito.zapatos || ''` (partidas viejas).
 5. **Colores** del caparazón o la bufanda: añade el color a `SHELLC`/`SCARFC` y una fila a su lista en `SHOP`.
-6. **Regalo del cofre**: añade su id a `GIFTS` (escenas/zonas.ts) en la posición que quieras. Se regalan en orden, saltando los que el niño ya tiene.
+6. **Regalo del cofre**: añade su id a `GIFTS` (dominio/progreso.ts) en la posición que quieras. Se regalan en orden, saltando los que el niño ya tiene.
 7. No cambies ids existentes (están en `S.owned` y `S.home`).
 8. **Una habitación nueva**: añádela al final de `ROOMS` (escenas/tienda.ts) con `id`, `n`, `need` (casitas), `ic` y `cer`, y su fondo en `roomBg`. Caben 7 botones entre el título y la tienda; si añades más, hay que juntarlos en `roomBtns`. Sus frases («El …», «Ya está en …», «¡Mi casa creció! …») van a `dialogos/pendientes.txt`.
 

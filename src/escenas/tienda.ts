@@ -8,7 +8,7 @@
 //   globalThis para las pruebas (escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan). Los módulos que van
 //   antes (zonas.ts, temas/, nucleo/guardado.ts...) lo usan como global, con los tipos de src/tardias.d.ts.
 // Define: DEF2, VALES_DEF, shownCoins/coinFx/coinBanner (animación de monedas), hudAt, spendCoins, HATPOS, titoHouseIc,
-//   SHOPCAT, TIER_NEED, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
+//   SHOPCAT, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
 //   homeAction, homeLight, roomBg y las escenas SCENES.tienda y SCENES.casaTito.
 // Exporta (lo usan otros archivos o las pruebas): creditCoins, STARS, drawCoinHUD, inCoinHUD, giveCoins, drawCoinFx,
 //   SHELLC, SCARFC, titoImg, drawTitoWear, SHOP, itemName, wear, drawItemPic, roomOf, roomOpen, roomsOpen, homeRoom,
@@ -16,8 +16,8 @@
 // Envuelve: onRight y finishGame (nucleo/interfaz.ts y escenas/escenas2d.ts), SCENES.juego.enter y SCENES.juego.draw (escenas/escenas2d.ts).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
 //   TITO_EYES...), los dibujos de Tito (TITO_SVG...), escenas/escenas2d.ts (finishGame, inR), escenas/zonas.ts (houseLevel,
-//   drawTitoHouse, drawPet, petStage, PET_NEXT, HOUSE_NEXT, shellIcon, arrowAt), temas/ (floor, bunting) y juegos/
-//   (playTune, TUNES, NOTE).
+//   drawTitoHouse, drawPet, petStage, PET_NEXT, HOUSE_NEXT, shellIcon, arrowAt), temas/ (floor, bunting), juegos/
+//   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (estrellas, TIER_NEED, nivelAbierto, habitacionAbierta).
 import type { Escena, Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
 import { DEF, FLC, H, IMG, LF, PI, S, SCENES, SFX, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inTito, later, lerp, noise, onRight, pic, pick, playSound, ponOnRight, ponRopaTito, rnd, sanoS, save, say, sayQ, sceneName, sceneTok, setCursor, sky, sparkles, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
@@ -25,6 +25,7 @@ import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { finishGame, inR, ponFinishGame } from './escenas2d.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
+import { TIER_NEED, estrellas, habitacionAbierta, nivelAbierto } from '../dominio/progreso.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -124,8 +125,9 @@ export function creditCoins(n: number){if(!(n>0))return;S.coins=(S.coins||0)+n;S
 let HUDX=1450,HUDY=64;
 // Coloca el marcador de monedas: a la izquierda en los juegos, arriba a la derecha en el resto.
 const hudAt=()=>{if(sceneName==='juego'){HUDX=300;HUDY=74}else{HUDX=1450;HUDY=64}};
-// Número de estrellas: total de juegos terminados en todos los temas (S.temas[id].g). Abre artículos de la tienda.
-export const STARS=()=>Object.values(S.temas).reduce((a,t)=>a+Object.keys((t&&t.g)||{}).length,0);
+// Número de estrellas: total de juegos terminados en todos los temas (S.temas[id].g; regla estrellas de
+// dominio/progreso.ts). Abre artículos de la tienda.
+export const STARS=()=>estrellas(S.temas);
 // Dibuja el marcador de monedas (tarjeta amarilla con la moneda y el número); la moneda da un saltito al cambiar.
 export function drawCoinHUD(){hudAt();const b=1+.3*Math.max(0,1-(T-coinBumpT)*4),s=hv('coins',hR(HUDX+10,HUDY,220,84));ctx.save();ctx.translate(HUDX,HUDY);ctx.scale(s,s);card(-96,-38,216,76,'#FFF6D6',6,38);
   ctx.save();ctx.translate(-50,0);ctx.scale(b,b);pic('moneda',0,0,70);ctx.restore();text(String(Math.max(0,Math.round(shownCoins))),40,16,44,K,{f:LF});ctx.restore()}
@@ -222,8 +224,6 @@ export const SHOP: Articulo[]=[
 // torre); las mascotas, al jardín.
 SHOP.forEach(it=>{if(!it.room&&!it.slot&&!it.pref&&(it.cat==='juguetes'||it.cat==='mascotas'))it.pref=it.cat==='juguetes'?'juegos':'jardin'});
 SHOP.find(i=>i.id==='telescopio')!.pref='torre';// el telescopio, a la torre de las estrellas
-// Estrellas (STARS) necesarias para abrir cada nivel de artículos: nivel 1 siempre, 2 con 8, 3 con 20.
-const TIER_NEED: Record<number,number>={1:0,2:8,3:20};
 // Artículos de una categoría. Para "vales" crea artículos a partir de los vales activos de S.vales (máx. 10).
 const shopItems=(cat: string): Articulo[]=>cat==='vales'?S.vales!.filter(v=>v.on).slice(0,10).map(v=>({id:'vale:'+v.id,cat:'vales',p:v.p!,tier:1,vale:v,n:'el vale: '+v.txt})):SHOP.filter(i=>i.cat===cat);
 // Nombre de un artículo para decirlo en voz alta (it.n o el nombre del diccionario W_).
@@ -245,9 +245,10 @@ const ROOMS: Habitacion[]=[{id:'salon',n:'el salón',need:0,ic:'sofa',cer:'cerra
   {id:'cocina',n:'la cocina',need:3,ic:'olla',cer:'cerrada'},{id:'bano',n:'el baño',need:5,ic:'banera',cer:'cerrado'},
   {id:'juegos',n:'el cuarto de juegos',need:8,ic:'bloques',cer:'cerrado'},{id:'jardin',n:'el jardín',need:11,ic:'arbol',cer:'cerrado'},
   {id:'torre',n:'la torre de las estrellas',need:14,ic:'telescopio',cer:'cerrada'}];
-// roomOf(id de habitación) → la habitación; roomOpen(id): ¿está abierta? (casitas terminadas, temasDone de escenas/zonas.ts);
+// roomOf(id de habitación) → la habitación; roomOpen(id): ¿está abierta? (temas terminados, temasDone de nucleo/tito.ts;
+// regla habitacionAbierta de dominio/progreso.ts);
 // roomsOpen(): las abiertas, en orden; homeRoom(id de objeto): habitación donde está ese objeto.
-export const roomOf=(r: string)=>ROOMS.find(x=>x.id===r)||ROOMS[0],roomOpen=(r: string)=>{const R=roomOf(r);return R.need===0||temasDone()>=R.need},roomsOpen=()=>ROOMS.filter(R=>roomOpen(R.id)),
+export const roomOf=(r: string)=>ROOMS.find(x=>x.id===r)||ROOMS[0],roomOpen=(r: string)=>habitacionAbierta(roomOf(r).need,temasDone()),roomsOpen=()=>ROOMS.filter(R=>roomOpen(R.id)),
   homeRoom=(id: string)=>(S.home![id]&&S.home![id].r)||'salon';
 // homeSpot(id, r): un hueco libre para el objeto id en la habitación r: los de pared en WALLSPOT, la alfombra en el
 // centro y el resto en el primer hueco libre de HOMESPOT (o en un sitio al azar si están todos ocupados).
@@ -298,7 +299,7 @@ SCENES.tienda={music:'casita',
     for(const [ax,ay,d] of this.arrows()){const s=hv('pg'+d,hC(ax,ay,50));ctx.save();ctx.translate(ax,ay);ctx.scale(s*d,s);circ(0,0,46,'#fff',6);ctx.beginPath();ctx.moveTo(-12,-22);ctx.lineTo(14,0);ctx.lineTo(-12,22);ctx.lineWidth=10;ctx.strokeStyle=K;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.restore()}
     {const n=this.pages();if(n>1)for(let i=0;i<n;i++)circ(880-(n-1)*18+i*36,850,i===(this.page||0)?12:8,i===(this.page||0)?'#FFC93C':'#fff',4)}
     // own = ya es suyo, lk = bloqueado por estrellas, lr = su habitación de la casa aún está cerrada, w = lo lleva puesto.
-    for(const g of this.grid()){const it=g.it,own=S.owned![it.id]&&!it.vale,lk=STARS()<TIER_NEED[it.tier],lr=!own&&!lk&&it.room&&!roomOpen(it.room),w=own&&it.slot&&isWorn(it),s=lk?1:hv('it:'+it.id,hR(g.x,g.y,210,230));
+    for(const g of this.grid()){const it=g.it,own=S.owned![it.id]&&!it.vale,lk=!nivelAbierto(it.tier,STARS()),lr=!own&&!lk&&it.room&&!roomOpen(it.room),w=own&&it.slot&&isWorn(it),s=lk?1:hv('it:'+it.id,hR(g.x,g.y,210,230));
       ctx.save();ctx.translate(g.x,g.y);ctx.scale(s,s);card(-105,-115,210,230,w?'#FFF6D6':'#fff',w?9:6,32,w?'#FFC93C':K);drawItemPic(it,0,-22,150);
       if(own){circ(0,82,26,'#7CC86E',5);ctx.beginPath();ctx.moveTo(-11,82);ctx.lineTo(-2,92);ctx.lineTo(13,72);ctx.lineWidth=7;ctx.strokeStyle='#fff';ctx.lineCap='round';ctx.stroke()}
       else if(lr){ctx.globalAlpha=.7;card(-105,-115,210,230,'#F4EDE2',0,32);ctx.globalAlpha=1;pic('candado',0,-30,110);card(-62,40,124,50,'#fff',4,25);pic('casa',-30,65,40);text(String(roomOf(it.room).need),22,78,30,K,{f:LF})}
@@ -324,7 +325,7 @@ SCENES.tienda={music:'casita',
     const ar=this.arrows().find(([ax,ay]: Flecha)=>dist(x,y,ax,ay)<56);if(ar){SFX.whoosh();this.page=(this.page||0)+ar[2];return}
     const g=this.grid().find((g: Casilla)=>inR(x,y,g.x,g.y,210,230));if(!g){SFX.tap();sparkles(x,y,3);return}
     const it=g.it,need=TIER_NEED[it.tier];
-    if(STARS()<need){SFX.boing();say(cap(itemName(it))+' se abre cuando tengas '+need+' estrellas. ¡Ya tenés '+STARS()+'! Ganás estrellas terminando juegos.');return}
+    if(!nivelAbierto(it.tier,STARS())){SFX.boing();say(cap(itemName(it))+' se abre cuando tengas '+need+' estrellas. ¡Ya tenés '+STARS()+'! Ganás estrellas terminando juegos.');return}
     // su habitación de la casa aún está cerrada: se abre al terminar casitas (ROOMS)
     if(it.room&&!roomOpen(it.room)&&!S.owned![it.id]){SFX.boing();const R=roomOf(it.room);say(cap(itemName(it))+(/^(las|los) /.test(itemName(it))?' son para ':' es para ')+R.n+'. '+cap(R.n)+' se abre cuando termines '+(R.need===1?'una casita.':R.need+' casitas.'));return}
     if(S.owned![it.id]&&!it.vale){
