@@ -5,9 +5,11 @@
  *   Convierte el juego en un "camino": las zonas del mapa (jardín 3 años,
  *   bosque 4, montaña 5, días especiales, rincón del inglés) y, dentro de
  *   cada zona, las casitas (temas) se abren de una en una; dentro de cada
- *   casita, los juegos también. Aquí están las reglas de qué está abierto
- *   (zoneOpen, temaOpen, gameOpen, NEED, spotOpen), qué toca ahora
- *   (curTema, nextTema, nextGameOf) y los mensajes de candado (lockMsg).
+ *   casita, los juegos también. Las reglas de qué está abierto y qué toca
+ *   ahora están, desde la fase 3a, en dominio/apertura.ts; aquí siguen con
+ *   sus nombres de antes (zoneOpen, temaOpen, gameOpen, spotOpen, curTema,
+ *   nextTema, nextGameOf...), que les pasan la partida de verdad (PARTIDA)
+ *   y el mapa (MAPA), y los mensajes de candado (lockMsg).
  *   También dibuja el mapa v3 (MZ2, botón "seguir el camino"), la casa de
  *   Tito que crece y la mascota Pipo, el cofre del tesoro que se gana al
  *   terminar un tema y el paso de cumpleaños de la asamblea.
@@ -43,7 +45,8 @@
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), escenas/escenas2d.ts
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
  *   drawLogoSmall, inR, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
- *   bunting), juegos/ (NUM, TUNES, playTune) y el tipo Articulo de escenas/tienda.ts. Usa de escenas/tienda.ts, que va después y
+ *   bunting), juegos/ (NUM, TUNES, playTune), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
+ *   funciones de apertura) y el tipo Articulo de escenas/tienda.ts. Usa de escenas/tienda.ts, que va después y
  *   solo al jugar o dibujar (tipos en src/tardias.d.ts): (SHOP,
  *   SHELLC, STARS, giveCoins, wear, placeHome, itemName, drawItemPic,
  *   drawCoinHUD, inCoinHUD, VIVO.coinBanner, VIVO.toast...).
@@ -57,6 +60,8 @@
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
+import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
+import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, ell, fillStroke, flower, giveSticker, go, hC, hR, hv, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
@@ -81,8 +86,9 @@ export interface PosCasita {
   band?: number;
 }
 /* ================= ZONAS, CAMINO, MAPA Y CASITAS (v3) ================= */
-// ZAGE: edad de cada zona principal. Si el niño tiene esa edad o más, la zona está abierta desde el principio.
-export const ZAGE: Record<string, number>={jardin:3,bosque:4,montana:5};
+// ZAGE (edad de cada zona principal), MAINZ (las tres zonas principales) y NEED (casitas que pide cada cosa) son de
+// dominio/apertura.ts; se exportan también desde aquí, donde estaban antes.
+export { MAINZ, NEED, ZAGE };
 // ZONES: las zonas con camino de casitas. Formato: {temas: lista de temas en orden del camino, name: nombre para la voz,
 // hello: saludo al entrar la primera vez, bg(): dibuja el fondo, bands?: colores de las 3 franjas, cbox?: color del cuadro
 // del Rincón de los Conceptos}. Para cada clave se crea la escena SCENES[clave] = zoneScene(clave) (más abajo).
@@ -94,66 +100,45 @@ export const ZONES: Record<string, Zona>={
   ingles:{temas:ING,name:'el Rincón del inglés',hello:'¡Bienvenido al Rincón del inglés! Acá aprendemos palabras en inglés, como los nenes de Inglaterra. Las casitas se abren de a una. ',
     bg:()=>{sky('#E3F0FF','#FFF4E6');for(let i=0;i<7;i++){const x=300+i*150,y=110+(i%2)*40;ctx.globalAlpha=.5;card(x-44,y-28,88,56,'#fff',4,24);text(['Hi!','ABC','1 2 3','Yes!','Wow!'][i%5],x,y+12,26,DIAC[i%7],{f:LF});ctx.globalAlpha=1}}}
 };
-// MAINZ: las tres zonas principales por edad, en orden.
-export const MAINZ=['jardin','bosque','montana'];
+// PARTIDA: la partida de verdad, como la ven las reglas de dominio/apertura.ts. Lee S, la edad y la fecha en el
+// momento de cada pregunta (S cambia entero con ponS al empezar de nuevo o cargar una copia).
+const PARTIDA: Partida={get libre(){return !!S.unlockAll},get edad(){return AGE()},mes:()=>new Date().getMonth(),progreso:(id: string)=>tst(id) as Progreso};
+// MAPA: los temas de cada zona de ZONES, en el orden del camino, y los temas sueltos del mapa, para las reglas.
+const MAPA: Mapa<Tema>={zonas:Object.fromEntries(Object.entries(ZONES).map(([z,Z])=>[z,Z.temas])),can:CAN,rut:RUT,trz:TRZ};
 // zoneOf(t): zona del tema t ('jardin' si no tiene).
 export const zoneOf=(t: Tema): string=>t.zone||'jardin';
 // flowersIn(z): temas terminados en la zona z (cada tema terminado es una flor de Tito). Cuenta también el Rincón de los Conceptos.
-export const flowersIn=(z: string)=>ZONES[z].temas.filter(t=>tst(t.id).done).length;
+export const flowersIn=(z: string)=>flores(PARTIDA,MAPA,z);
 // pathOf(z): los temas del camino de la zona z, en orden, sin el Rincón de los Conceptos.
-export const pathOf=(z: string)=>ZONES[z].temas.filter(t=>!t.concepts);
+export const pathOf=(z: string)=>camino(MAPA,z);
 // pathDone(z): cuántas casitas del camino de la zona z están terminadas.
-export const pathDone=(z: string)=>pathOf(z).filter(t=>tst(t.id).done).length;
+export const pathDone=(z: string)=>terminadasEnCamino(PARTIDA,MAPA,z);
 // mainDone(): casitas del camino terminadas sumando las tres zonas principales. Es lo que miran los NEED de extras, fiestas e inglés.
-export const mainDone=()=>MAINZ.reduce((a,z)=>a+pathDone(z),0);
-// zoneOpen(z): ¿está abierta la zona z? El jardín y las zonas sin edad siempre. Bosque/montaña: si está el modo libre
-// (S.unlockAll) o la edad del niño llega (ZAGE[z] <= AGE()); si no, cuando la zona anterior está abierta y tiene 6 flores
-// (bosque <- jardín, montaña <- bosque; es recursiva). No escribe en S.
-export function zoneOpen(z: string): boolean{if(z==='jardin'||!ZAGE[z])return true;if(S.unlockAll||ZAGE[z]<=AGE())return true;const prev=z==='bosque'?'jardin':'bosque';return zoneOpen(prev)&&flowersIn(prev)>=6}
-
-/* ---------- el orden: qué está abierto ---------- */
-// cuántas casitas del camino hay que terminar para abrir cada cosa
-// NEED: cuántas casitas del camino (mainDone) hay que terminar para abrir cada cosa:
-// 'X-CAN' canciones, 'X-RUT' rutinas, 'X-TRZ' trazos, fiestas, ingles; concepts = casitas de ESA zona (pathDone) para el
-// Rincón de los Conceptos. OJO: lockMsg y algunas frases dicen el número con palabras ("tres", "cuatro", "dos").
-export const NEED: Record<string, number>={'X-CAN':1,'X-RUT':2,'X-TRZ':3,fiestas:4,ingles:2,concepts:3};
+export const mainDone=()=>terminadasPrincipales(PARTIDA,MAPA);
+// zoneOpen(z): ¿está abierta la zona z? Por edad, en modo libre o con 6 flores en la anterior (zonaAbierta, en
+// dominio/apertura.ts). No escribe en S.
+export const zoneOpen=(z: string): boolean=>zonaAbierta(PARTIDA,MAPA,z);
 // fiestaNow(): id de la fiesta del mes actual (diciembre-enero Navidad, febrero-marzo Carnaval, abril Día del Libro) o null.
-export const fiestaNow=()=>{const m=new Date().getMonth();return m===11||m===0?'F-navidad':m===1||m===2?'F-carnaval':m===3?'F-libro':null};
+export const fiestaNow=()=>fiestaDelMes(new Date().getMonth());
 // started(t): true si el tema t ya está terminado o tiene algún juego jugado (lo empezado nunca se vuelve a cerrar).
-export const started=(t: Tema)=>{const s=tst(t.id);return !!s.done||Object.keys(s.g).length>0};
-// temaOpen(t): ¿se puede entrar en la casita del tema t? Reglas, en orden:
-// 1) modo libre o ya empezado -> sí.
-// 2) temas de zonas principales: la zona debe estar abierta; el Rincón de los Conceptos pide NEED.concepts casitas
-//    terminadas en su zona; el resto, que la casita anterior del camino esté terminada (la primera siempre).
-// 3) fiestas e inglés: mainDone() >= NEED[zona] y además la anterior terminada (o, en fiestas, que sea la del mes).
-// 4) temas sueltos con NEED[t.id] (canciones, rutinas, trazos): mainDone() >= NEED[t.id].
-// 5) cualquier otro: abierto.
-export function temaOpen(t: Tema | null | undefined){if(!t)return false;if(S.unlockAll||started(t))return true;const z=t.zone;
-// Zonas principales: zona abierta + casita anterior del camino terminada (el Rincón va por número de casitas).
-  if(MAINZ.includes(z)){if(!zoneOpen(z))return false;if(t.concepts)return pathDone(z)>=NEED.concepts;const L=pathOf(z),i=L.indexOf(t);return i<=0||!!tst(L[i-1].id).done}
-// Fiestas e inglés: primero hace falta el número NEED de casitas; luego van en orden (la fiesta del mes se salta el orden).
-  if(z==='fiestas'||z==='ingles'){if(mainDone()<NEED[z])return false;const L=ZONES[z].temas,i=L.indexOf(t);return i<=0||!!tst(L[i-1].id).done||fiestaNow()===t.id}
-  if(NEED[t.id]!=null)return mainDone()>=NEED[t.id];
-  return true}
-// un juego se abre cuando terminaste el anterior (los ya jugados se pueden repetir)
+export const started=(t: Tema)=>empezado(PARTIDA,t);
+// temaOpen(t): ¿se puede entrar en la casita del tema t? Las reglas, en orden, están en temaAbierto
+// (dominio/apertura.ts): modo libre o ya empezado; zona abierta y casita anterior terminada; NEED para el Rincón de los
+// Conceptos, las fiestas, el inglés, las canciones, las rutinas y los trazos.
+export const temaOpen=(t: Tema | null | undefined)=>temaAbierto(PARTIDA,MAPA,t);
 // gameOpen(t, j): ¿está abierto el juego j del tema t? El primero siempre; los demás si se terminó el anterior; los ya
 // jugados siempre (se pueden repetir). En modo libre, todos.
-export const gameOpen=(t: Tema,j: number)=>S.unlockAll||j===0||!!tst(t.id).g[j]||!!tst(t.id).g[j-1];
+export const gameOpen=(t: Tema,j: number)=>juegoAbierto(PARTIDA,t,j);
 // nextGameOf(t): número del siguiente juego que toca (abierto y sin terminar) del tema t, o -1 si ya están todos.
-export const nextGameOf=(t: Tema)=>t.games.findIndex((_g,j)=>!tst(t.id).g[j]&&gameOpen(t,j));
+export const nextGameOf=(t: Tema)=>siguienteJuego(PARTIDA,t);
 // ageZoneOpen(): la zona de la edad del niño si está abierta; si no, el jardín.
-export const ageZoneOpen=()=>{const z=({3:'jardin',4:'bosque',5:'montana'} as Record<number, string>)[AGE()]||'jardin';return zoneOpen(z)?z:'jardin'};
+export const ageZoneOpen=()=>zonaDeLaEdad(PARTIDA,MAPA);
 // curTema(z): la casita que toca ahora en la zona z (la que brilla y lleva flecha): la primera del camino abierta y sin
 // terminar; si no queda, el Rincón de los Conceptos si está abierto y sin terminar; si no, null (camino terminado).
-export function curTema(z: string): Tema | null{if(z==='fiestas')return FIESTAS.find(t=>!tst(t.id).done&&temaOpen(t))||null;
-  const t=pathOf(z).find(t=>!tst(t.id).done&&temaOpen(t));if(t)return t;const c=ZONES[z].temas.find(t=>t.concepts);return c&&!tst(c.id).done&&temaOpen(c)?c:null}
-// nextTema(): siguiente tema para el botón "seguir el camino" del mapa. Busca primero en la zona de su edad, luego en
-// las otras zonas principales abiertas; después en los extras por este orden: canciones, rutinas, inglés, trazos, rincones
-// de conceptos y fiestas. Devuelve el tema o null si ya no queda nada.
-export function nextTema(){const z0=ageZoneOpen();
-  for(const z of[z0,...MAINZ.filter(z=>z!==z0)]){if(!zoneOpen(z))continue;const t=pathOf(z).find(t=>!tst(t.id).done&&temaOpen(t));if(t)return t}
-  for(const t of[CAN,RUT,...ING,TRZ,...MAINZ.map(z=>ZONES[z].temas.find(t=>t.concepts)),...FIESTAS])if(t&&!tst(t.id).done&&temaOpen(t))return t;
-  return null}
+export const curTema=(z: string): Tema | null=>temaQueToca(PARTIDA,MAPA,z);
+// nextTema(): siguiente tema para el botón "seguir el camino" del mapa: primero la zona de su edad, luego las otras
+// zonas principales abiertas y después los extras (ver siguienteTema en dominio/apertura.ts). null si no queda nada.
+export const nextTema=(): Tema | null=>siguienteTema(PARTIDA,MAPA);
 // Sustituye la suggestTema antigua de escenas/escenas2d.ts: ahora la recomendación es la casita que toca en el camino.
 ponSuggestTema(function(z){return curTema(z||ageZoneOpen())});
 // lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
@@ -334,10 +319,11 @@ export const SEGUIR={x:340,y:812,r:64};
 // mzOf(id): el sitio de MZ2 con ese id.
 export const mzOf=(id: string)=>MZ2.find(z=>z.id===id)!;
 // spotOpen(id): ¿está abierto el sitio id del mapa? Canciones/rutinas/trazos según temaOpen de su tema; fiestas e inglés
-// según NEED; bosque y montaña según zoneOpen; el resto (plaza, jardín, álbum, tienda, casa) siempre.
-export function spotOpen(id: string){if(S.unlockAll)return true;if(id==='canciones')return temaOpen(CAN);if(id==='rutinas')return temaOpen(RUT);if(id==='trazos')return temaOpen(TRZ);if(id==='fiestas')return mainDone()>=NEED.fiestas;if(id==='ingles')return mainDone()>=NEED.ingles;if(ZAGE[id])return zoneOpen(id);return true}
+// según NEED; bosque y montaña según zoneOpen; el resto (plaza, jardín, álbum, tienda, casa) siempre (sitioAbierto).
+export const spotOpen=(id: string)=>sitioAbierto(PARTIDA,MAPA,id);
 // spotNeed(id): casitas necesarias para abrir el sitio id (el número del cartel de su candado), o undefined si no tiene.
-export const spotNeed=(id: string)=>({canciones:NEED['X-CAN'],rutinas:NEED['X-RUT'],trazos:NEED['X-TRZ'],fiestas:NEED.fiestas,ingles:NEED.ingles} as Record<string, number>)[id];
+// Como antes, el tipo es number: solo se pregunta por sitios cerrados que no son zonas, y esos siempre lo tienen.
+export const spotNeed=(id: string)=>sitioNecesita(id) as number;
 // goSeguir(): acción del botón "seguir el camino": si no se ha hecho la asamblea hoy, va a la asamblea; si no, a la
 // casita de nextTema(). Si no queda nada, lo dice.
 export let goSeguir: () => void=function(){if(!asamHoy()){go('asamblea');return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
