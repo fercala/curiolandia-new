@@ -12,10 +12,11 @@ import type { Plugin, ResolvedConfig } from 'vite';
 
 // Orden en que se pegan los .js de src/ que aún son globales (el mismo que tenía src/build.sh). Un archivo puede usar
 // lo que definen los de antes, así que no se reordena sin leer docs/ARQUITECTURA.md («El orden importa»). Los dibujos
-// (antes pics-*.js, al principio), core.js, lex.js, comps.js, comps2.js y los temas ya son módulos: src/dibujos/,
-// src/nucleo/, src/contenido/, src/juegos/ y src/temas/.
+// (antes pics-*.js, al principio), core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js,
+// scenes.js, zonas.js y tienda.js ya son módulos: src/dibujos/, src/nucleo/, src/contenido/, src/juegos/, src/temas/ y
+// src/escenas/.
 export const ARCHIVOS = [
-  'tienda.js', 'repaso.js', 'adult.js', 'world3d.js', 'boot.js',
+  'repaso.js', 'adult.js', 'world3d.js', 'boot.js',
 ] as const;
 
 // Prefijo de las cachés del service worker. Es propio de este juego: en fercala.github.io hay otros (curiolandia-3d

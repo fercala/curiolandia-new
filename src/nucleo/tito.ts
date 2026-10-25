@@ -1,6 +1,6 @@
 // tito.ts: Tito en las escenas 2D (en el mapa 3D lo dibuja world3d.js).
 //   TITO, temasDone(), FLPOS, FLC, titoKind(), TITO_EYES, TITO_2D, drawTito(), inTito(), ponRopaTito().
-// La ropa y los colores comprados en la tienda los pone tienda.js con ponRopaTito (si no, Tito sale con su dibujo de
+// La ropa y los colores comprados en la tienda los pone escenas/tienda.ts con ponRopaTito (si no, Tito sale con su dibujo de
 // siempre y sin ropa).
 import { K } from '../dibujos/todos.ts';
 import { card, circ, ell, flower, speaker } from './dibujo.ts';
@@ -35,9 +35,9 @@ export const titoKind=(): FormaTito=>{const k=S.tito&&S.tito.kind;return k==='er
 // sitio de la boca y [x, y, escala] del centro de las flores.
 export const TITO_EYES: Record<FormaTito,readonly (readonly [number,number,number])[]>={caracol:[[174,20,15],[222,20,15]],erizo:[[184,94,13],[210,92,12]],tortuga:[[196,88,11],[220,86,10]],conejo:[[186,94,12],[210,90,11]]},TITO_2D: Record<FormaTito,{skin: string;mouth: readonly [number,number];fl: readonly [number,number,number]}>={caracol:{skin:'#9BD86A',mouth:[206,116],fl:[96,100,1]},erizo:{skin:'#F2D6B0',mouth:[216,124],fl:[98,118,.82]},tortuga:{skin:'#8FD07A',mouth:[216,110],fl:[100,116,.95]},conejo:{skin:'#EDE3D6',mouth:[220,122],fl:[69,142,.5]}};
 // titoImgF: da la imagen de Tito con los colores comprados; ropaF(k): le dibuja encima la ropa comprada a escala k.
-// Los pone tienda.js (titoImg, drawTitoWear) con ponRopaTito; hasta entonces, el dibujo de siempre y sin ropa.
+// Los pone escenas/tienda.ts (titoImg, drawTitoWear) con ponRopaTito; hasta entonces, el dibujo de siempre y sin ropa.
 let titoImgF: (()=>HTMLImageElement)|null=null,ropaF: ((k: number)=>void)|null=null;
-// ponRopaTito(img, ropa): tienda.js dice cómo vestir a Tito: img() da su imagen con los colores comprados y ropa(k) le
+// ponRopaTito(img, ropa): escenas/tienda.ts dice cómo vestir a Tito: img() da su imagen con los colores comprados y ropa(k) le
 // dibuja la ropa encima (k = escala del dibujo de 240x200). Antes era una dependencia hacia delante de core.js.
 export function ponRopaTito(img: ()=>HTMLImageElement,ropa: (k: number)=>void): void{titoImgF=img;ropaF=ropa}
 // drawTito(x,y,ancho,o): dibuja a Tito en 2D (en el mapa 3D lo dibuja world3d.js) con su balanceo, parpadeo, la boca

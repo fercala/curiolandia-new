@@ -1,5 +1,5 @@
 // ==========================================================================
-// pics-e.ts: dibujos de la tienda de Tito (tienda.js): monedas, cofre, muebles y juguetes.
+// pics-e.ts: dibujos de la tienda de Tito (escenas/tienda.ts): monedas, cofre, muebles y juguetes.
 // ==========================================================================
 // Añade dibujos a PICS (Object.assign sobre PICS, con clave:`...svg...`). Formato de un dibujo (SVG con
 // centro en 0,0 dentro de -62..62) y cómo se busca por su nombre con pic(clave,...): ver la cabecera

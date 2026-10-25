@@ -6,7 +6,7 @@
 // `...${...}...` que llaman a funciones de ayuda; la cadena final se calcula una sola vez al cargar.
 // Globales: leaf(), cloudP(), mitt, crayon(), MQD, mq(), person(), BEBE (ayudas), y los dibujos de
 // Tito con su propio marco 240x200: TITO_SVG (caracol), ERIZO_SVG, TORTUGA_SVG, CONEJO_SVG
-// (los usan nucleo/imagenes.ts, icons.js y tienda.js).
+// (los usan nucleo/imagenes.ts, icons.js y escenas/tienda.ts).
 // Depende de: K, sw() y eye() de pics-base.ts. pics-a.ts reutiliza person().
 // Nota: la línea siguiente dice viewBox -60 -60 120 120, pero nucleo/imagenes.ts pinta todos los dibujos de
 // PICS con viewBox -62 -62 124 124 (el mismo centro, un poco más de margen).
@@ -153,7 +153,7 @@ nene:person({skin:'#F2C29B',hair:'#8A5A3C',style:'short',shirt:'#FF8A7A',pants:'
 // 91 puntos en 2,3 vueltas con el radio creciendo de 6 a 52, alrededor de (96,100).
 const TITO_SPIRAL=(()=>{let d='';for(let i=0;i<=90;i++){const a=i/90*Math.PI*2*2.3,r=6+i/90*46;d+=(i?'L':'M')+(96+Math.cos(a)*r).toFixed(1)+' '+(100+Math.sin(a)*r).toFixed(1)+' '}return d})();
 // TITO_SVG: Tito caracol (marco 240x200, mirando a la derecha). Los colores #FFA94D / #D9762A del
-// caparazón son "marcadores": la tienda (tienda.js) los sustituye para pintarlo de otro color.
+// caparazón son "marcadores": la tienda (escenas/tienda.ts) los sustituye para pintarlo de otro color.
 export const TITO_SVG=`<path d="M14 184 Q8 160 40 158 L150 158 Q158 120 166 86 Q172 60 196 58 Q224 58 226 92 Q228 140 218 168 Q212 190 186 190 L30 190 Q14 190 14 184 Z" fill="#9BD86A" ${sw(6)}/>
 <path d="M40 176 H150" stroke="#7CC04E" stroke-width="5" stroke-linecap="round"/>
 <path d="M188 62 Q182 42 176 24 M208 62 Q214 42 222 24" fill="none" ${sw(6)}/>

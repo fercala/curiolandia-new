@@ -29,14 +29,14 @@ import type { Estado, Volumenes } from './tipos.ts';
  *   seenFl   cuántas flores del caparazón de Tito ya se celebraron (para avisar solo de las nuevas).
  *
  * Campos que añaden otros archivos al arrancar (si faltan en la partida, les ponen su valor por defecto):
- *   tienda.js (DEF2): coins, coinsTot, gift, woke, home, tito {shell, scarf, hat, glasses, bow y kind}, owned,
+ *   escenas/tienda.ts (DEF2): coins, coinsTot, gift, woke, home, tito {shell, scarf, hat, glasses, bow y kind}, owned,
  *                     vales, valesLog, bday, bdayDone, unlockAll, seenOpen, houseSeen, petSeen, cofres.
  *   repaso.js: kg {habilidad: [juegos donde sale]}, gs {'idTema#juego': {ok, err, d}} y rep (el repaso del día).
  *   Sueltos (pueden no existir): voz ('' o 'fer'), quiet3 (1 = Tito no comenta el paisaje 3D), last (último tema abierto).
  *
  * REGLA DE ORO: hay partidas guardadas en los móviles. Nunca cambies de forma incompatible un campo que ya existe
  * (ni su nombre, ni su tipo, ni lo que significan sus valores) ni la clave KEY. Para algo nuevo, añade un campo
- * nuevo y recuerda que en las partidas viejas NO estará: dale un valor por defecto (en DEF, en DEF2 de tienda.js
+ * nuevo y recuerda que en las partidas viejas NO estará: dale un valor por defecto (en DEF, en DEF2 de escenas/tienda.ts
  * o con "S.x||valor" al leerlo). Ojo: al cargar, Object.assign solo mezcla el primer nivel: dentro de un objeto
  * (salvo vol) no se añaden valores por defecto que falten.
  */

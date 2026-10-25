@@ -43,7 +43,7 @@
 //     (estadísticas de la zona de adultos). Se suele llamar solo en el primer
 //     intento de cada pregunta.
 //   - onRight(primeraVez) (nucleo/interfaz.ts): acierto. Si fue a la primera, sube la racha
-//     y la dificultad adaptativa (ADAPT). tienda.js la envuelve para dar 1 MONEDA
+//     y la dificultad adaptativa (ADAPT). escenas/tienda.ts la envuelve para dar 1 MONEDA
 //     por cada acierto a la primera, como mucho 5 monedas por partida.
 //   - onWrongTwice() (nucleo/interfaz.ts): dos fallos seguidos; baja la dificultad (ADAPT).
 //     Algunos componentes también ponen idle=12 para que salga la ayuda ya.
@@ -53,7 +53,7 @@
 //     un later()). La escena llama a finishGame(t, gi): apunta el juego en
 //     S.temas[t.id].g[gi] (eso es la ESTRELLA del juego en el camino del tema),
 //     marca el tema como terminado si ya están todos y da una figurita la primera
-//     vez. tienda.js añade 3 monedas (primera vez) o 2 (repetición).
+//     vez. escenas/tienda.ts añade 3 monedas (primera vez) o 2 (repetición).
 //   - VIVO.REP (nucleo/interfaz.ts) = veces que ya se jugó este juego (0..2): algunos
 //     componentes ponen más opciones o más rondas en la repetición.
 // DIFICULTAD POR EDAD: AGE() (3, 4 o 5), nOpts() (cuántas opciones mostrar,
@@ -561,7 +561,7 @@ export function Atrapa(cfg: Config, onDone: AlTerminar): Juego{
 // COMPONENTE Memoria: parejas de cartas boca abajo. cfg: pool (claves),
 // pairs (por defecto 3, 4 o 6 según la edad), intro, bg. Una estrella por
 // pareja. Lo crea makeGame para {t:'memoria'}. Cada pareja encontrada llama a
-// onRight(true): da una moneda (máximo 5 por juego, tienda.js).
+// onRight(true): da una moneda (máximo 5 por juego, escenas/tienda.ts).
 export function Memoria(cfg: Config, onDone: AlTerminar): Juego{
   const np=cfg.pairs||({3:3,4:4,5:6})[AGE()], ks=shuffle<Cosa>(cfg.pool).slice(0,np), cards=shuffle([...ks,...ks]).map((k): Libre=>({k,up:0,ok:0,flip:0}));
   const cols=cards.length<=6?3:4,rows=Math.ceil(cards.length/cols),s=Math.min(220,640/rows-30);

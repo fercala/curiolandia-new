@@ -55,9 +55,9 @@ Object.assign(VIVO,{ADAPT:0,REP:0});
 // nOpts(): cuántas opciones enseñar en un juego (de 2 a 4): 2 a los 3 años y 3 a los 4 y 5, más ADAPT, y +1 al repetir.
 export function nOpts(): number{return clamp((({3:2,4:3,5:3} as Record<number,number>)[AGE()] as number)+VIVO.ADAPT+(VIVO.REP>=1?1:0),2,4)}
 // onRight(aLaPrimera): avisar de un acierto; 4 aciertos seguidos a la primera suben la dificultad.
-// Es let y no function porque tienda.js la envuelve con ponOnRight.
+// Es let y no function porque escenas/tienda.ts la envuelve con ponOnRight.
 export let onRight=(first: unknown): void=>{if(first){streak++;if(streak>=4){VIVO.ADAPT=Math.min(1,VIVO.ADAPT+1);streak=0}}};
-// ponOnRight(f): cambia onRight por otra función (tienda.js la envuelve para dar monedas al acertar).
+// ponOnRight(f): cambia onRight por otra función (escenas/tienda.ts la envuelve para dar monedas al acertar).
 export function ponOnRight(f: typeof onRight): void{onRight=f}
 // onWrongTwice(): avisar de que se falló dos veces; baja la dificultad.
 export function onWrongTwice(): void{VIVO.ADAPT=Math.max(-1,VIVO.ADAPT-1);streak=0}

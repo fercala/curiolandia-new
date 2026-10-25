@@ -20,8 +20,8 @@
  *   -> casita con o.fin -> cofre -> vuelve a la zona ({from}).
  *
  * Desde la fase 2k es un módulo (escenas/indice.ts lo carga después de
- *   escenas2d.ts) y el puente deja lo que exporta en globalThis para tienda.js,
- *   repaso.js, adult.js y world3d.js, que aún son código global.
+ *   escenas2d.ts) y el puente deja lo que exporta en globalThis para repaso.js,
+ *   adult.js y world3d.js, que aún son código global (escenas/tienda.ts lo importa).
  *
  * Reescribe cosas de escenas/escenas2d.ts al cargarse:
  *   suggestTema y stationPos (con ponSuggestTema y ponStationPos), SCENES.jardin (entera), SCENES.map y
@@ -43,7 +43,7 @@
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), escenas/escenas2d.ts
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
  *   drawLogoSmall, inR, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
- *   bunting), juegos/ (NUM, TUNES, playTune). Usa de tienda.js, que va después y
+ *   bunting), juegos/ (NUM, TUNES, playTune) y el tipo Articulo de escenas/tienda.ts. Usa de escenas/tienda.ts, que va después y
  *   solo al jugar o dibujar (tipos en src/tardias.d.ts): (SHOP,
  *   SHELLC, STARS, giveCoins, wear, placeHome, itemName, drawItemPic,
  *   drawCoinHUD, inCoinHUD, VIVO.coinBanner, VIVO.toast...).
@@ -56,6 +56,7 @@
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena } from '../nucleo/tipos.ts';
+import type { Articulo } from './tienda.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, ell, fillStroke, flower, giveSticker, go, hC, hR, hv, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
@@ -260,7 +261,7 @@ export const houseLevel=()=>{const n=temasDone();return n<2?0:n<5?1:n<9?2:n<14?3
 export const HOUSE_NEXT=[2,5,9,14];
 export const HOUSE_SAY=['','¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.','¡La casa de Tito creció! Ahora tiene un piso más, con balcón.','¡La casa de Tito creció! Ahora tiene una torre con bandera.','¡La casa de Tito es un castillo! Tiene estrella y arcoíris.'];
 // petStage(): etapa de Pipo (0 huevo, 1 eclosión, 2-4 dinosaurio que crece) según las estrellas ganadas (STARS(), en
-// tienda.js). PET_NEXT: estrellas necesarias para cada etapa; PET_SAY: frase de cada etapa.
+// escenas/tienda.ts). PET_NEXT: estrellas necesarias para cada etapa; PET_SAY: frase de cada etapa.
 export const petStage=()=>{const s=STARS();return s<4?0:s<15?1:s<35?2:s<70?3:4};
 export const PET_NEXT=[4,15,35,70];
 export const PET_SAY=['¡Mirá! En el jardín de Tito apareció un huevo misterioso. ¡Si jugás, se va a abrir!','¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!','¡Pipo salió del cascarón y ya camina!','¡Pipo está creciendo un montón!','¡Pipo es un dinosaurio grandote! ¡Y tiene corona!'];
@@ -491,7 +492,7 @@ Object.assign(SCENES.casita,<Partial<Escena>>{
 });
 
 /* ---------- el cofre del tesoro: premio al terminar una casita ---------- */
-// GIFTS: regalos del cofre, en orden fijo: ids de artículos de SHOP (tienda.js). nextGift(): el primero que aún no se
+// GIFTS: regalos del cofre, en orden fijo: ids de artículos de SHOP (escenas/tienda.ts). nextGift(): el primero que aún no se
 // tiene (S.owned) o null. grantGift(it): lo marca como tuyo y se lo pone a Tito (wear) o lo coloca en su casa (placeHome).
 // Modifica S.owned (y lo que toquen wear/placeHome) y guarda.
 // regalos en orden fijo (sorpresa para el nene, pero sin azar); el resto queda en la tienda
@@ -500,7 +501,7 @@ export const GIFTS=['gorroFiesta','pelotaPlaya','cuadro','bufanda:azul','peluche
 export const nextGift=()=>GIFTS.map(id=>SHOP.find(i=>i.id===id)).find(it=>it&&!S.owned![it.id])||null;
 // grantGift(it): da el artículo it: S.owned, y se lo pone a Tito (si tiene slot) o lo coloca en su casa. Guarda.
 // Si se lo pone y la escena es 3D (el cofre), rehace a Tito 3D (retito) para que se vea al momento.
-export function grantGift(it: Libre){S.owned![it.id]=1;if(it.slot)wear(it,true);else placeHome(it.id);save();
+export function grantGift(it: Articulo){S.owned![it.id]=1;if(it.slot)wear(it,true);else placeHome(it.id);save();
   if(it.slot&&scene&&scene.three&&window.__w3&&window.__w3.retito)window.__w3.retito()}// Tito 3D se viste ya (en el cofre), no al cambiar de escena
 // drawChest(x, y, s, op, sh): dibuja el cofre a escala s, desplazado sh en horizontal (temblor). op = cuánto está abierto
 // (0 cerrado, 1 abierto): con op > 0 salen rayos de luz y brillo dentro; la tapa se aplasta en vertical (escala Y) hasta

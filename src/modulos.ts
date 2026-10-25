@@ -8,7 +8,8 @@
 // (contenido/lex.ts, antes lex.js: no exporta nada, solo añade palabras y sonidos al núcleo). Por último, los
 // componentes de juego (juegos/indice.ts, antes comps.js y comps2.js) y los temas que los usan (temas/indice.ts,
 // antes temas.js, temas4.js y temas5.js). Luego los cuentos (contenido/cuentos.ts, antes cuentos.js: solo datos) y, al
-// final, las escenas (escenas/indice.ts: escenas2d.ts y zonas.ts, antes scenes.js y escenas/zonas.ts), que usan los temas.
+// final, las escenas (escenas/indice.ts: escenas2d.ts, zonas.ts y tienda.ts, antes scenes.js, zonas.js y tienda.js), que
+// usan los temas.
 import * as dibujos from './dibujos/todos.ts';
 import * as nucleo from './nucleo/indice.ts';
 import './contenido/lex.ts';

@@ -26,14 +26,14 @@
  *       una vez a scene.prompt() para repetir la consigna en voz alta.
  *
  * Desde la fase 2j es un módulo: src/modulos.ts lo carga el último (usa los
- * temas) y el puente deja lo que exporta en globalThis para escenas/zonas.ts,
- * tienda.js, repaso.js, adult.js y world3d.js, que aún son código global.
+ * temas) y el puente deja lo que exporta en globalThis para repaso.js, adult.js y
+ * world3d.js, que aún son código global (escenas/zonas.ts y escenas/tienda.ts lo importan).
  *
  * OJO: escenas/zonas.ts (que va DESPUÉS) reescribe varias cosas de
  * este archivo: SCENES.map (enter, prompt, hint, dwell, draw, down),
  * SCENES.casita (enter, prompt, hint, draw, down), SCENES.jardin (la
  * sustituye entera por zoneScene('jardin')), y cambia suggestTema y
- * stationPos con ponSuggestTema y ponStationPos (tienda.js y repaso.js
+ * stationPos con ponSuggestTema y ponStationPos (escenas/tienda.ts y repaso.js
  * envuelven finishGame con ponFinishGame).
  * Y world3d.js vuelve a envolver map, casita, cofre, title y las zonas
  * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
@@ -443,12 +443,12 @@ export let finishGame: (t: Tema, gi: number) => void=function(t,gi){
   if(first){const pool=(t.words||[]).map((w: Libre)=>w.k).filter((k: string)=>k&&PICS[k]&&!S.stk[k]);giveSticker(pool.length?pick(pool):(gIcon(t.games[gi],t).length>4&&PICS[gIcon(t.games[gi],t)]?gIcon(t.games[gi],t):t.icon))}
   sayQ(pick(['¡Lo lograste! ¡Ganaste una estrella!','¡Muy bien'+kid()+'! ¡Una estrella más!','¡Bravo! ¡Terminaste el juego!']),()=>later(600,()=>go('casita',{t:t.id,fin})));// espera a que acabe la última felicitación del juego
 }
-// ponFinishGame(f): cambia finishGame por otra función (tienda.js y repaso.js la envuelven).
+// ponFinishGame(f): cambia finishGame por otra función (escenas/tienda.ts y repaso.js la envuelven).
 export function ponFinishGame(f: typeof finishGame){finishGame=f}
 // JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
-// tienda.js y world3d.js envuelven enter/draw (monedas del juego, recordar el último juego).
+// escenas/tienda.ts y world3d.js envuelven enter/draw (monedas del juego, recordar el último juego).
 SCENES.juego={music:'game',
 // enter(o): REP = veces que ya se ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
 // Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces.
