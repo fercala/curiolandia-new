@@ -2,6 +2,7 @@
 // Un componente es una función Nombre(cfg, onDone) que devuelve un objeto Juego (ver la cabecera de comps.ts).
 // Los campos propios de cada componente (rondas, tarjetas, fichas...) y su cfg aún son de forma libre: son la frontera
 // con los temas, que todavía son código global sin tipos.
+import type { Par } from '../nucleo/idioma.ts';
 import type { Libre, Pista } from '../nucleo/tipos.ts';
 
 export type { Libre };
@@ -38,3 +39,31 @@ export interface Juego {
 
 /** Lo que dibuja una cosa k centrada en (x, y) con tamaño s (thing en comps.ts). */
 export type DibujaCosa = (k: Cosa, x: number, y: number, s: number) => void;
+
+/** Crea el juego g del tema t (makeGame en temas/temas.ts; extras.js e ingles.js lo amplían con ponMakeGame). */
+export type HaceJuego = (g: Libre, t: Libre, onDone: AlTerminar) => Juego;
+
+/** Un juego de un tema (en games): tipo t, dibujo del botón, nombre y, si no es de los que crea makeGame solo, make. */
+export interface JuegoTema {
+  t: string;
+  icon?: string;
+  name?: string | Par;
+  make?: (onDone: AlTerminar, t: Tema) => Juego;
+  [campo: string]: any;
+}
+
+/**
+ * Un tema (T3, T4, T5 y los Rincones C3, C4, C5 en temas/): id, nombre, dibujo, colores, fondo, palabras y juegos. El
+ * resto de campos (zone, intro, season, tip...) depende del tema.
+ */
+export interface Tema {
+  id: string;
+  n: string | Par;
+  icon: string;
+  c: string;
+  trim: number;
+  bg: () => void;
+  words?: Cosa[];
+  games: JuegoTema[];
+  [campo: string]: any;
+}

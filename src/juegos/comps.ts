@@ -3,13 +3,13 @@
 // ARCHIVO juegos/comps.ts (antes comps.js) — Componentes de juego (parte 1)
 // ============================================================================
 // Aquí están los "motores" de cada TIPO de juego (elegir, buscar, arrastrar,
-// contar, memoria, puzle...). Un tema (temas.js, temas4.js, temas5.js, extras.js)
+// contar, memoria, puzle...). Un tema (temas/temas.ts, temas4.ts, temas5.ts, extras.js)
 // no programa sus juegos: elige un componente de este archivo o de juegos/comps2.ts y le
 // pasa una configuración (cfg) con los dibujos, las frases y el fondo.
 //
 // ---------- INTERFAZ COMÚN DE UN COMPONENTE DE JUEGO ----------
 // CREACIÓN: cada componente es una función  Nombre(cfg, onDone)  que DEVUELVE un
-//   objeto "juego" (no se usa `new`). La llama makeGame() (temas.js, ampliada en
+//   objeto "juego" (no se usa `new`). La llama makeGame() (temas/temas.ts, ampliada en
 //   extras.js e ingles.js) desde la escena SCENES.juego (scenes.js):
 //       this.g = makeGame(tema.games[j], tema, onDone)
 //   - cfg: objeto de configuración propio de cada tipo (ver cabecera de cada uno).

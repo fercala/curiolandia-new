@@ -2,20 +2,9 @@
 // variable global THREE desde three.min.js; sus tipos son los de @types/three 0.128 (misma versión).
 // Formato de un tema y de una escena: ver los comentarios de TEMAS y SCENES en src/scenes.js.
 
-/** Un juego de un tema: t es el tipo (conocer, busca, viste...); el resto depende del tipo. */
-interface JuegoTema {
-  t?: string;
-  [dato: string]: unknown;
-}
-
-/** Un tema (temas.js, temas4.js, temas5.js...): su id es la clave de S.temas. */
-interface Tema {
-  id: string;
-  n: string;
-  zone?: string;
-  games: JuegoTema[];
-  [dato: string]: unknown;
-}
+/** Un juego de un tema y un tema (su id es la clave de S.temas): están en src/juegos/tipos.ts, con los temas de src/temas/. */
+type JuegoTema = import('../juegos/tipos.ts').JuegoTema;
+type Tema = import('../juegos/tipos.ts').Tema;
 
 /** Un objeto de forma libre y VIVO (el estado de la partida en curso): están en src/nucleo/tipos.ts. */
 type Libre = import('../nucleo/tipos.ts').Libre;

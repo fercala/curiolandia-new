@@ -1,15 +1,15 @@
 // ARCHIVO: extras.js — los temas "extra" del mapa: canciones (X-CAN), rutinas y hábitos (X-RUT), trazos (X-TRZ)
 // y los días especiales (FIESTAS: cumpleaños, Navidad, carnaval, Día del Libro).
-// Cómo encaja: cada tema es un objeto con el mismo formato que los de temas.js (id, n, icon, c, bg, zone, games).
+// Cómo encaja: cada tema es un objeto con el mismo formato que los de temas/temas.ts (id, n, icon, c, bg, zone, games).
 //   scenes.js los mete en TEMAS/TEMA; zonas.js los pone en el mapa (canciones/rutinas/trazos son casitas sueltas
 //   de la zona 'extras', FIESTAS es la zona 'fiestas'); adult.js los lista en la zona de adultos.
 //   Los juegos con make:(d,t)=>... crean su componente directamente (Secuencia, Frota, Arrastra, Tracer, Velas,
 //   Cuenta, Atrapa, ChoiceGame, Puzzle de juegos/comps.ts y juegos/comps2.ts); los que solo llevan t (busca, memoria...) los crea
-//   makeGame de temas.js a partir de words del tema.
+//   makeGame de temas/temas.ts a partir de words del tema.
 // Define (globales): DLYR, SONGS, bubbles, drops, RP, RUT, lineP, polyP, BG.trazo, TRZ_L, TRZ, CAN, COSTUME, HATS,
 //   costumeZone, freeDeco, FIESTAS. Añade palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento.
-// Envuelve: makeGame (temas.js) para los tipos 'cuento' y 'cancion'.
-// Depende de: temas.js/temas4.js/temas5.js (T3, T4, T5, BG, DIASL, MESES, ESTS, COLORES, swatch, dayCard, monthCard,
+// Envuelve: makeGame (temas/temas.ts) para los tipos 'cuento' y 'cancion'.
+// Depende de: temas/ (temas.ts, temas4.ts y temas5.ts) (T3, T4, T5, BG, DIASL, MESES, ESTS, COLORES, swatch, dayCard, monthCard,
 //   makeGame), juegos/comps.ts y juegos/comps2.ts (componentes, Song, panel, germ, pathPts), cuentos.js (CUENTOS, Story), el núcleo (src/nucleo/).
 /* ================= CANCIONES ================= */
 // Letra de la canción de los días (lunes a domingo). Un elemento lista es [rioplatense, España].
@@ -134,7 +134,7 @@ const costumeZone=(wear)=>({id:'kid',x:1000,y:560,w:440,h:720,draw:(z,hl)=>{cons
 const freeDeco=(id,x,y,w,h,drawBase,slot)=>({id,x,y,w,h,draw:(z,hl)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}drawBase();ctx.restore()},slot,ps:.5});
 // Días especiales (zona 'fiestas'). Mismo formato que un tema, más fiesta:true y words: [{k}] (las palabras
 // del tema, que usan los juegos genéricos como busca, memoria o puzzle). Juegos con solo {t} (o {t, icon})
-// los crea makeGame de temas.js con esas words.
+// los crea makeGame de temas/temas.ts con esas words.
 const FIESTAS=[
 // Cumpleaños: soplar velas, decorar la tarta, contar regalos y ordenar la preparación.
 {id:'F-cumple',n:'El cumpleaños',icon:'tarta',c:'#F58BB4',trim:0,bg:BG.fiesta,zone:'fiestas',fiesta:true,
