@@ -76,5 +76,5 @@ Antes de cada commit:
 
 - Castellano de España, frases cortas y sencillas. Escribe para alguien que no conoce el proyecto.
 - Explica el porqué ("se hace así porque…") y los avisos ("ojo: si cambias esto, también…").
-- Nombra las cosas como en el código (`S.flowers`, `finishGame`, `world3d.js`) para que se puedan buscar con `grep`.
+- Nombra las cosas como en el código (`S.flowers`, `finishGame`, `mundo3d.ts`) para que se puedan buscar con `grep`.
 - No hace falta comentar lo obvio (`i++`), pero ante la duda, comenta.

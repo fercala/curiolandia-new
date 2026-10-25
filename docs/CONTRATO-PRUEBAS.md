@@ -27,7 +27,7 @@ lo que hoy las pruebas leen sueltas (última tabla) o las pruebas tendrán que p
 | --- | --- | --- |
 | `window.__fast` | lo ponen las pruebas | Modo rápido: `say()` no habla y acaba en 30 ms. |
 | `window.__said` | lo ponen las pruebas | `say()` apunta ahí cada frase en modo rápido. |
-| `window.__w3` (`ok`, `W`, `retito`, `FPS`, `pickAt`, `proj`...) | `src/world3d.js` | Saber si hay 3D y leer el mundo 3D. |
+| `window.__w3` (`ok`, `W`, `retito`, `FPS`, `pickAt`, `proj`...) | `src/mundo3d/mundo3d.ts` | Saber si hay 3D y leer el mundo 3D. |
 | `#adult` (elemento HTML) | `src/head.html` | Ver si la zona de adultos está abierta (`hidden`). |
 | `save`, `doReset`, `go`, `sceneName`, `scene`, `S` | `nucleo/guardado.ts`, `nucleo/escenas.ts`, `aplicacion/adultos.ts` | Guardar, borrar todo, cambiar de escena. |
 | `OX`, `OY`, `SC` | `nucleo/pantalla.ts` | Pasar de la pantalla lógica 1600x900 a píxeles de la ventana (ratón de verdad). |

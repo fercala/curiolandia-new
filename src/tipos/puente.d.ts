@@ -480,3 +480,4 @@ declare const doReset: typeof import('../aplicacion/adultos.ts').doReset;
 declare const frame: typeof import('../aplicacion/adultos.ts').frame;
 declare const bkEncode: typeof import('../aplicacion/adultos.ts').bkEncode;
 declare const bkDecode: typeof import('../aplicacion/adultos.ts').bkDecode;
+declare const R3frame: typeof import('../mundo3d/mundo3d.ts').R3frame;

@@ -43,7 +43,7 @@ export interface OpcionesTarjeta {
 // sayMix(['Tocá','@red'],cb): las partes con @ van en inglés.
 // Dice una frase mezclando castellano e inglés, trozo a trozo y en orden. parts: lista de textos; los que
 // empiezan por '@' se dicen en inglés (más despacio). Los vacíos se saltan. cb: se llama al terminar el último trozo.
-export function sayMix(parts: readonly string[],cb?: () => void){const P=parts.filter(Boolean);const step=(i: number)=>{if(i>=P.length){cb&&cb();return}const p=P[i],en=p[0]==='@';say(en?p.slice(1):p,()=>step(i+1),en?{en:1,rate:.8}:{})};step(0)}
+export function sayMix(parts: readonly string[],cb?: (() => void) | null){const P=parts.filter(Boolean);const step=(i: number)=>{if(i>=P.length){cb&&cb();return}const p=P[i],en=p[0]==='@';say(en?p.slice(1):p,()=>step(i+1),en?{en:1,rate:.8}:{})};step(0)}
 // Colores de la lista de colores en inglés: nombre inglés en minúsculas → color.
 export const ENC: Record<string,string>={red:'#FF5A5A',blue:'#5B8DEF',yellow:'#FFD66B',green:'#7CC86E',orange:'#FFA94D',pink:'#F58BB4',purple:'#9B8AD9',brown:'#A86B43',black:'#3B3330',white:'#FFFFFF'};
 // Devuelve una función de dibujo (x,y,s) de una mancha de pintura del color c (para las tarjetas de colores).

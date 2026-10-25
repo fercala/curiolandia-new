@@ -4,7 +4,7 @@
 // Para no reescribir la lógica de siempre, en cada cuadro se proyectan las posiciones 3D a coordenadas 1600x900
 // (MZ2, ZPOS, stationPos, TITO, HOUSE_AT) y los enter/down/hint originales trabajan sobre esas posiciones.
 /* ============================================================================
- * world3d.js — LA CAPA 3D DE CURIOLANDIA
+ * mundo3d/mundo3d.ts (antes world3d.js) — LA CAPA 3D DE CURIOLANDIA
  * ----------------------------------------------------------------------------
  * Qué hace:
  *   Dibuja con Three.js (r128) en el <canvas id="gl"> la portada, el mapa (la isla), las cinco zonas
@@ -50,32 +50,49 @@
  *   canvasTex/picTex/pillTex (texturas dibujadas con las funciones 2D de siempre), spr/plane (sprites y
  *   planos con textura).
  *
- * Globales que usan otros archivos: R3frame (aplicacion/adultos.ts), window.__w3 (pruebas y zona de adultos: retito,
- *   PRK...). Además este archivo SUSTITUYE funciones globales de otros: go, stationPos, goSeguir...
- * Depende de: el núcleo, src/nucleo/ (S, T, PI, ctx, say, sayMix, tone, noise, parts, SCENES, scene, sceneName, go,
- *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, K, DF, LF, DIAC...),
- *   escenas/zonas.ts (MZ2, ZPOS, ZONES), escenas/escenas2d.ts (TITO, HOUSE_AT, stationPos) y three.min.js.
+ * Desde la fase 2o es un módulo: src/modulos.ts lo carga el último (después de aplicacion/adultos.ts) y el puente deja
+ *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts, y THREE, que
+ *   llega como global desde three.min.js, en mundo3d/three.d.ts.
+ * Exporta: R3frame (lo llama frame(), en aplicacion/adultos.ts). Además deja window.__w3 (pruebas y zona de adultos:
+ *   retito, PRK...) y cambia funciones de otros con su pon*: go (ponGo), stationPos (ponStationPos) y goSeguir (ponGoSeguir).
+ * Importa: el núcleo, src/nucleo/ (S, T, PI, ctx, say, tone, noise, parts, SCENES, scene, sceneName, go,
+ *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, DF, LF, DIAC...),
+ *   los dibujos (K), temas/ (sayMix, FIESTAS), juegos/ (playTune, TUNES), escenas/zonas.ts (MZ2, ZPOS, ZONES),
+ *   escenas/escenas2d.ts (TITO, HOUSE_AT, stationPos) y escenas/tienda.ts (colores del caparazón y la bufanda).
  * Todo va dentro de una función que se llama sola: si no hay WebGL, se sale y el juego sigue en 2D.
  * ========================================================================== */
+import type * as Tres from 'three';
+import type { Tema } from '../juegos/tipos.ts';
+import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { OpcionesSay } from '../nucleo/voz.ts';
+import type { MallaBasica, Mundo, Nodo, OpcionesPaseo, OpcionesCinta, OpcionesMundo, OpcionesPieza, OpcionesPlano, OpcionesSprite, PiezaUnida, PuntoSuelo, TexturaDibujada, Trio } from './tipos.ts';
+import { K } from '../dibujos/todos.ts';
+import { DF, DIAC, FLC, IMG, LF, OX, OY, PI, S, SC, SCENES, SFX, T, TITO, V, VIVO, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, fillStroke, flower, go, hC, hR, hv, lerp, noise, parts, pic, pick, ponCtx, ponGo, rnd, say, scene, sceneName, setCursor, sparkles, speaker, temasDone, text, titoKind, tone, tx } from '../nucleo/indice.ts';
+import { FIESTAS, sayMix } from '../temas/indice.ts';
+import { TUNES, playTune } from '../juegos/indice.ts';
+import { GNAME, LOGOC, TEMA, asamHoy, drawLogo, drawLogoSmall, drawStation, gDone, inR, pill, ponStationPos, standalone, stationPos, tst } from '../escenas/escenas2d.ts';
+import { HOUSE_AT, MAINZ, MZ2, SEGUIR, ZAGE, ZONES, ZPOS, drawSeguir, drawTitoHouse, gameOpen, goSeguir, houseLevel, isBday, mzOf, nextGameOf, nextTema, pathDone, pathOf, petStage, ponGoSeguir, shellIcon, spotNeed, spotOpen, temaOpen, zoneOpen } from '../escenas/zonas.ts';
+import { SCARFC, SHELLC, drawCoinHUD, drawItemPic, inCoinHUD, itemName } from '../escenas/tienda.ts';
+
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea más abajo (si no hay WebGL se queda en null).
-let R3frame=null;
+export let R3frame: ((dt: number) => void) | null = null;
 // Función que se ejecuta al momento y encierra toda la capa 3D (sus variables no salen fuera, salvo R3frame y window.__w3).
 (function(){
 if(!window.THREE)return;
 // R: el dibujante (renderer) de Three.js sobre el <canvas id="gl">. Si el aparato no tiene WebGL, se sale sin 3D.
-let R;try{R=new THREE.WebGLRenderer({canvas:document.getElementById('gl'),antialias:true,powerPreference:'high-performance'})}catch(e){return}
+let R: Tres.WebGLRenderer;try{R=new THREE.WebGLRenderer({canvas:document.getElementById('gl') as HTMLCanvasElement,antialias:true,powerPreference:'high-performance'})}catch(e){return}
 if(!R.getContext())return;
 R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
 // V3(x,y,z): atajo para crear un vector 3D de Three.js.
-const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
+const V3=(x: number,y: number,z: number)=>new THREE.Vector3(x,y,z);
 // en móviles y tablets la sombra a 1024 se ve casi igual y ahorra memoria de GPU y batería
 const SHM=matchMedia('(pointer:coarse)').matches?1024:2048;
 // W3: el mundo 3D activo (escena, cámara, animaciones...). Ver la cabecera del archivo.
-let W3=null;
+let W3: Mundo|null=null;
 // fitCam(w): ajusta la cámara del mundo w al tamaño de la ventana.
 // La escena está pensada para 16:9: si la pantalla es más estrecha (móvil en vertical, tablet 4:3), se abre el
 // ángulo vertical (fov) para que lo que se ve a lo ancho sea lo mismo que en 16:9 y no se corten los lados.
-function fitCam(w){const a=innerWidth/innerHeight,c=w.cam,f=w.fov||40,A=16/9;c.aspect=a;
+function fitCam(w: Mundo){const a=innerWidth/innerHeight,c=w.cam,f=w.fov||40,A=16/9;c.aspect=a;
   c.fov=a<A?2*Math.atan(Math.tan(f*PI/360)*A/a)*180/PI:f;c.updateProjectionMatrix()}
 // PRK: factor de calidad (1 = nitidez completa, mínimo 0,5). Lo baja fpsTick si el aparato va lento.
 let PRK=1;
@@ -90,44 +107,44 @@ const _v=new THREE.Vector3(),_w=new THREE.Vector3(),_u=new THREE.Vector3();
 // proj(p): pasa un punto 3D del mundo (Vector3) a coordenadas de la pantalla lógica 1600x900. Devuelve [x,y].
 // project() da coordenadas de -1 a 1; se pasan a píxeles de la ventana y luego se deshace el encaje del juego
 // en la ventana (desplazamiento OX/OY y escala SC de nucleo/pantalla.ts).
-function proj(p){_v.copy(p).project(W3.cam);return[((_v.x+1)/2*innerWidth-OX)/SC,((1-_v.y)/2*innerHeight-OY)/SC]}
+function proj(p: Tres.Vector3){_v.copy(p).project(W3!.cam);return[((_v.x+1)/2*innerWidth-OX)/SC,((1-_v.y)/2*innerHeight-OY)/SC]}
 // projO(o,dy): como proj, pero del centro de un objeto 3D o, subido dy unidades. Devuelve [x,y] en 1600x900.
-function projO(o,dy=0){o.getWorldPosition(_w);_w.y+=dy;return proj(_w)}
+function projO(o: Tres.Object3D,dy=0){o.getWorldPosition(_w);_w.y+=dy;return proj(_w)}
 // projR(o,r,dy): proyecta el objeto o (subido dy) y además calcula cuánto mide en pantalla un radio r 3D
 // (proyectando otro punto r unidades "hacia arriba" según la cámara). Devuelve [x,y,radio] en 1600x900;
 // sirve para rellenar los círculos de toque de la lógica 2D (MZ2: x,y,r).
-function projR(o,r,dy=0){o.getWorldPosition(_w);_w.y+=dy;const a=proj(_w);_u.set(0,1,0).applyQuaternion(W3.cam.quaternion).multiplyScalar(r).add(_w);const b=proj(_u);return[a[0],a[1],Math.hypot(a[0]-b[0],a[1]-b[1])]}
+function projR(o: Tres.Object3D,r: number,dy=0){o.getWorldPosition(_w);_w.y+=dy;const a=proj(_w);_u.set(0,1,0).applyQuaternion(W3!.cam.quaternion).multiplyScalar(r).add(_w);const b=proj(_u);return[a[0],a[1],Math.hypot(a[0]-b[0],a[1]-b[1])]}
 // RC: el rayo que se lanza al tocar; _m: el punto tocado en coordenadas de -1 a 1. Tras pickAt, RC sigue
 // apuntando al toque y lo reutilizan wobTap, flyTap, skyTap...
 const RC=new THREE.Raycaster(),_m=new THREE.Vector2();
 // pickAt(x,y): ¿qué objeto 3D hay bajo el punto (x,y) de 1600x900? Lanza un rayo desde la cámara contra W3.pick
 // y sube por los padres del objeto tocado hasta encontrar uno con userData.id. Devuelve ese userData
 // (por ejemplo {id:'mz:jardin',spot:'jardin'}) o null si no hay nada que se pueda tocar.
-function pickAt(x,y){if(!W3)return null;_m.set((x*SC+OX)/innerWidth*2-1,-((y*SC+OY)/innerHeight)*2+1);RC.setFromCamera(_m,W3.cam);
-  for(const h of RC.intersectObjects(W3.pick,true)){let o=h.object;while(o&&!o.userData.id)o=o.parent;if(o)return o.userData}return null}
+function pickAt(x: number,y: number){if(!W3)return null;_m.set((x*SC+OX)/innerWidth*2-1,-((y*SC+OY)/innerHeight)*2+1);RC.setFromCamera(_m,W3.cam);
+  for(const h of RC.intersectObjects(W3.pick,true)){let o: Tres.Object3D|null=h.object;while(o&&!o.userData.id)o=o.parent;if(o)return o.userData}return null}
 
 /* ---------- materiales con estilo de dibujo: sombreado en 3 tonos + contorno marrón ---------- */
 // GRAD: textura de 3 píxeles (gris oscuro, gris claro, blanco) que hace que la luz se pinte en 3 escalones
 // en vez de en degradado: es lo que da el aspecto de dibujo animado (MeshToonMaterial).
 const GRAD=(()=>{const t=new THREE.DataTexture(new Uint8Array([150,150,150,255,212,212,212,255,255,255,255,255]),3,1,THREE.RGBAFormat);t.minFilter=t.magFilter=THREE.NearestFilter;t.generateMipmaps=false;t.needsUpdate=true;return t})();
 // MC: caché de materiales, para no crear dos iguales.
-const MC={};
+const MC: Record<string, Tres.MeshToonMaterial>={};
 // M(c,o): devuelve el material toon de color c (por ejemplo '#FFC93C') con las opciones extra o de Three.js
 // ({emissive, side, transparent...}). Se guarda en MC con clave color+opciones y se reutiliza.
-function M(c,o){const k=c+(o?JSON.stringify(o):'');return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:GRAD},o||{})))}
+function M(c: string,o?: Tres.MeshToonMaterialParameters){const k=c+(o?JSON.stringify(o):'');return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:GRAD},o||{})))}
 // OLC: caché de materiales de contorno, uno por grosor.
-const OLC={};
+const OLC: Record<number, Tres.ShaderMaterial>={};
 // OLm(w): material del contorno marrón de grosor w. Técnica del "casco invertido": se dibuja una copia de la pieza
 // hinchada w unidades a lo largo de las normales (atributo onorm) y solo por dentro (BackSide), de color marrón
 // liso; como la copia es un poco más grande y se ven sus caras de atrás, asoma como un borde alrededor de la pieza.
-function OLm(w){w=Math.round(w*1000)/1000;return OLC[w]||(OLC[w]=new THREE.ShaderMaterial({uniforms:{w:{value:w}},side:THREE.BackSide,
+function OLm(w: number){w=Math.round(w*1000)/1000;return OLC[w]||(OLC[w]=new THREE.ShaderMaterial({uniforms:{w:{value:w}},side:THREE.BackSide,
   vertexShader:'attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}',
   fragmentShader:'void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}'}))}
 // normales suavizadas sólo para el contorno (si no, las cajas quedan con huecos en las aristas)
 // olGeo(g): añade a la geometría g el atributo onorm que usa OLm. Junta los vértices que están en el mismo sitio
 // (redondeando a 1/500) y les da la media de sus normales, así las esquinas se hinchan juntas y no se abren.
 // Lo hace una sola vez por geometría (marca g.userData.ol). Devuelve g.
-function olGeo(g){if(g.userData.ol)return g;const p=g.attributes.position,n=g.attributes.normal,map=new Map(),o=new Float32Array(p.count*3);
+function olGeo(g: Tres.BufferGeometry){if(g.userData.ol)return g;const p=g.attributes.position,n=g.attributes.normal,map=new Map(),o=new Float32Array(p.count*3);
   for(let i=0;i<p.count;i++){const k=Math.round(p.getX(i)*500)+','+Math.round(p.getY(i)*500)+','+Math.round(p.getZ(i)*500);let a=map.get(k);if(!a)map.set(k,a=[]);a.push(i)}
   for(const a of map.values()){let x=0,y=0,z=0;for(const i of a){x+=n.getX(i);y+=n.getY(i);z+=n.getZ(i)}const l=Math.hypot(x,y,z)||1;for(const i of a){o[i*3]=x/l;o[i*3+1]=y/l;o[i*3+2]=z/l}}
   g.setAttribute('onorm',new THREE.BufferAttribute(o,3));g.userData.ol=1;return g}
@@ -136,63 +153,61 @@ function olGeo(g){if(g.userData.ol)return g;const p=g.attributes.position,n=g.at
 // to = grupo o escena donde se añade, cs/rs = false para no proyectar/recibir sombra, ol = grosor del contorno
 // (0 = sin contorno; por defecto .05). El contorno es una pieza hija que no se puede tocar (raycast vacío) y su
 // grosor se divide por la escala media para que se vea igual de grueso en piezas grandes y pequeñas. Devuelve la pieza.
-function mk(geo,c,o={}){const m=new THREE.Mesh(geo,typeof c==='string'?M(c):c);m.castShadow=o.cs!==false;m.receiveShadow=o.rs!==false;
+function mk(geo: Tres.BufferGeometry,c: string | Tres.Material,o: OpcionesPieza={}){const m=new THREE.Mesh(geo,typeof c==='string'?M(c):c);m.castShadow=o.cs!==false;m.receiveShadow=o.rs!==false;
   if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);
   if(o.s!=null){if(typeof o.s==='number')m.scale.setScalar(o.s);else m.scale.set(o.s[0],o.s[1],o.s[2])}
   if(o.ol!==0){const sc=(m.scale.x+m.scale.y+m.scale.z)/3,l=new THREE.Mesh(olGeo(geo),OLm((o.ol||.05)/sc));l.castShadow=false;l.receiveShadow=false;l.raycast=()=>{};m.add(l)}
   if(o.to)o.to.add(m);return m}
 // grp(to,p,s): crea un grupo vacío en la posición p [x,y,z] con escala s y lo añade a to. Devuelve el grupo.
-const grp=(to,p,s)=>{const g=new THREE.Group();if(p)g.position.set(p[0],p[1],p[2]);if(s)g.scale.setScalar(s);if(to)to.add(g);return g};
+const grp=(to: Tres.Object3D,p?: Trio,s?: number)=>{const g=new THREE.Group();if(p)g.position.set(p[0],p[1],p[2]);if(s)g.scale.setScalar(s);if(to)to.add(g);return g};
 // atajos de formas básicas: caja (ancho, alto, fondo), esfera (radio, segmentos), cilindro (radio arriba, radio abajo,
 // alto, lados) y cono (radio, alto, lados). Menos segmentos = menos trabajo para el móvil.
-const Box=(w,h,d)=>new THREE.BoxGeometry(w,h,d),Sph=(r,a=20,b=14)=>new THREE.SphereGeometry(r,a,b),Cyl=(a,b,h,n=20)=>new THREE.CylinderGeometry(a,b,h,n),Cone=(r,h,n=20)=>new THREE.ConeGeometry(r,h,n);
+const Box=(w: number,h: number,d: number)=>new THREE.BoxGeometry(w,h,d),Sph=(r: number,a=20,b=14)=>new THREE.SphereGeometry(r,a,b),Cyl=(a: number,b: number,h: number,n=20)=>new THREE.CylinderGeometry(a,b,h,n),Cone=(r: number,h: number,n=20)=>new THREE.ConeGeometry(r,h,n);
 // prism(w,h,d): prisma triangular (como un tejado) de base w, altura h y fondo d, centrado en el fondo.
-function prism(w,h,d){const s=new THREE.Shape();s.moveTo(-w/2,0);s.lineTo(w/2,0);s.lineTo(0,h);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:false});g.translate(0,0,-d/2);return g}
+function prism(w: number,h: number,d: number){const s=new THREE.Shape();s.moveTo(-w/2,0);s.lineTo(w/2,0);s.lineTo(0,h);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:false});g.translate(0,0,-d/2);return g}
 // rbox(w,h,d,r): caja con las esquinas redondeadas de radio r (para paredes, carteles, el autobús...).
-function rbox(w,h,d,r){const s=new THREE.Shape(),x=-w/2+r,y=-h/2+r,W_=w-2*r,H_=h-2*r;s.moveTo(x,-h/2);s.lineTo(x+W_,-h/2);s.quadraticCurveTo(w/2,-h/2,w/2,y);s.lineTo(w/2,y+H_);s.quadraticCurveTo(w/2,h/2,x+W_,h/2);s.lineTo(x,h/2);s.quadraticCurveTo(-w/2,h/2,-w/2,y+H_);s.lineTo(-w/2,y);s.quadraticCurveTo(-w/2,-h/2,x,-h/2);
+function rbox(w: number,h: number,d: number,r: number){const s=new THREE.Shape(),x=-w/2+r,y=-h/2+r,W_=w-2*r,H_=h-2*r;s.moveTo(x,-h/2);s.lineTo(x+W_,-h/2);s.quadraticCurveTo(w/2,-h/2,w/2,y);s.lineTo(w/2,y+H_);s.quadraticCurveTo(w/2,h/2,x+W_,h/2);s.lineTo(x,h/2);s.quadraticCurveTo(-w/2,h/2,-w/2,y+H_);s.lineTo(-w/2,y);s.quadraticCurveTo(-w/2,-h/2,x,-h/2);
   const g=new THREE.ExtrudeGeometry(s,{depth:d-r,bevelEnabled:true,bevelThickness:r/2,bevelSize:r/2,bevelSegments:2,curveSegments:6});g.translate(0,0,-(d-r)/2);return g}
 // starGeo(r,d): estrella de 5 puntas de radio r y grosor d, con los bordes biselados.
-function starGeo(r,d){const s=new THREE.Shape();for(let i=0;i<10;i++){const a=PI/2+i*PI/5,q=i%2?r*.45:r;i?s.lineTo(Math.cos(a)*q,Math.sin(a)*q):s.moveTo(Math.cos(a)*q,Math.sin(a)*q)}s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:true,bevelThickness:d*.3,bevelSize:d*.3,bevelSegments:1});g.translate(0,0,-d/2);return g}
+function starGeo(r: number,d: number){const s=new THREE.Shape();for(let i=0;i<10;i++){const a=PI/2+i*PI/5,q=i%2?r*.45:r;i?s.lineTo(Math.cos(a)*q,Math.sin(a)*q):s.moveTo(Math.cos(a)*q,Math.sin(a)*q)}s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:true,bevelThickness:d*.3,bevelSize:d*.3,bevelSegments:1});g.translate(0,0,-d/2);return g}
 
 // une varias piezas del mismo color en una sola geometría (menos llamadas de dibujo): [[geo,[x,y,z],[sx,sy,sz]|s,[rx,ry,rz]],...]
 const _o3=new THREE.Object3D();
 // mg(parts): parts = [[geometría, posición, escala, giro], ...]. Copia cada geometría, le aplica su posición/escala/giro
 // y las suelta todas juntas en una BufferGeometry nueva (solo posición y normal). Devuelve esa geometría.
-function mg(parts){const pos=[],nor=[];for(const [g0,p,sc,r] of parts){const g=g0.index?g0.toNonIndexed():g0.clone();_o3.position.set(...(p||[0,0,0]));if(sc==null)_o3.scale.set(1,1,1);else if(typeof sc==='number')_o3.scale.setScalar(sc);else _o3.scale.set(...sc);_o3.rotation.set(...(r||[0,0,0]));_o3.updateMatrix();g.applyMatrix4(_o3.matrix);
-  pos.push(...g.attributes.position.array);nor.push(...g.attributes.normal.array)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3));return g}
+function mg(parts: PiezaUnida[]){const pos=[],nor=[];for(const [g0,p,sc,r] of parts){const g=g0.index?g0.toNonIndexed():g0.clone();_o3.position.set(...(p||[0,0,0]));if(sc==null)_o3.scale.set(1,1,1);else if(typeof sc==='number')_o3.scale.setScalar(sc);else _o3.scale.set(...sc);_o3.rotation.set(...(r||[0,0,0]));_o3.updateMatrix();g.applyMatrix4(_o3.matrix);
+  pos.push(...(g.attributes.position.array as Float32Array));nor.push(...(g.attributes.normal.array as Float32Array))}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3));return g}
 // GC: caché de geometrías compartidas. keep(g) las marca para que disposeWorld no las borre al cambiar de escena.
-const GC={};const keep=g=>{g.userData.keep=1;return g};
+const GC: Record<string, Tres.BufferGeometry>={};const keep=(g: Tres.BufferGeometry)=>{g.userData.keep=1;return g};
 // gcache(k,f): devuelve la geometría guardada con el nombre k; si no existe, la crea con f(), le prepara el contorno
 // (olGeo) y la guarda para siempre. Úsalo para piezas que se repiten mucho (flores, copas de árbol, nubes...).
-const gcache=(k,f)=>GC[k]||(GC[k]=keep(olGeo(f())));
+const gcache=(k: string,f: () => Tres.BufferGeometry)=>GC[k]||(GC[k]=keep(olGeo(f())));
 /* ---------- texturas hechas con el dibujo 2D de siempre ---------- */
 // TXC: caché de texturas dibujadas (por clave). Estas no se liberan al cambiar de escena.
-const TXC={};
+const TXC: Record<string, TexturaDibujada>={};
 // canvasTex(w,h,fn,key): crea una textura de w x h píxeles dibujándola con fn(g). Truco: cambia por un momento la
 // variable global ctx (nucleo/pantalla.ts, con ponCtx) por la del lienzo nuevo, así fn puede usar las funciones 2D de siempre (card, text,
 // flower...); mouseOn se apaga para que no se dibujen efectos de "ratón encima". Si se da key, se guarda en TXC.
 // La textura trae t.redraw() para volver a dibujarla (por ejemplo cuando termina de cargar una imagen).
-function canvasTex(w,h,fn,key){if(key&&TXC[key])return TXC[key];const c=document.createElement('canvas');c.width=w;c.height=h;
-  const draw=()=>{const g=c.getContext('2d'),old=ctx;g.clearRect(0,0,w,h);ponCtx(g);const mo=VIVO.mouseOn;VIVO.mouseOn=false;try{fn(g)}catch(e){console.error(e)}VIVO.mouseOn=mo;ponCtx(old)};draw();
-  const t=new THREE.CanvasTexture(c);t.anisotropy=4;t.redraw=()=>{draw();t.needsUpdate=true};if(key)TXC[key]=t;return t}
-// picsReady(ks): true si todas las imágenes IMG[k] de la lista ks ya han terminado de cargar (o no existen).
-const picsReady=ks=>ks.every(k=>!IMG[k]||IMG[k].complete);
+function canvasTex(w: number,h: number,fn: (g: CanvasRenderingContext2D) => void,key?: string){if(key&&TXC[key])return TXC[key];const c=document.createElement('canvas');c.width=w;c.height=h;
+  const draw=()=>{const g=c.getContext('2d')!,old=ctx;g.clearRect(0,0,w,h);ponCtx(g);const mo=VIVO.mouseOn;VIVO.mouseOn=false;try{fn(g)}catch(e){console.error(e)}VIVO.mouseOn=mo;ponCtx(old)};draw();
+  const t=new THREE.CanvasTexture(c) as TexturaDibujada;t.anisotropy=4;t.redraw=()=>{draw();t.needsUpdate=true};if(key)TXC[key]=t;return t}
 // picTex(k,px): textura cuadrada de px píxeles con la imagen IMG[k] (dibujos de src/dibujos/). Si la imagen aún
 // carga, se redibuja sola al terminar.
-function picTex(k,px=256){const t=canvasTex(px,px,g=>{const i=IMG[k];if(i&&i.complete)g.drawImage(i,0,0,px,px)},'pic:'+k+px);
+function picTex(k: string,px=256){const t=canvasTex(px,px,g=>{const i=IMG[k];if(i&&i.complete)g.drawImage(i,0,0,px,px)},'pic:'+k+px);
   if(IMG[k]&&!IMG[k].complete)IMG[k].addEventListener('load',()=>t.redraw(),{once:true});return t}
 // spr(tex,w,h,o): sprite (cartel plano que siempre mira a la cámara) con la textura tex, de w x h unidades.
 // Opciones o: p posición, to dónde añadirlo, dt=false para dibujarlo siempre por encima, op opacidad, ro orden de dibujo.
-function spr(tex,w,h,o={}){const m=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:o.dt!==false,opacity:o.op??1}));m.scale.set(w,h??w,1);if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.to)o.to.add(m);m.renderOrder=o.ro||0;return m}
+function spr(tex: Tres.Texture,w: number,h?: number,o: OpcionesSprite={}){const m=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:o.dt!==false,opacity:o.op??1}));m.scale.set(w,h??w,1);if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.to)o.to.add(m);m.renderOrder=o.ro||0;return m}
 // plane(tex,w,h,o): plano fijo con la textura tex (no gira hacia la cámara). Opciones: p, r, to, ds (dos caras).
-function plane(tex,w,h,o={}){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex,transparent:true,alphaTest:.02,side:o.ds?THREE.DoubleSide:THREE.FrontSide}));if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);if(o.to)o.to.add(m);return m}
+function plane(tex: Tres.Texture,w: number,h: number,o: OpcionesPlano={}){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex,transparent:true,alphaTest:.02,side:o.ds?THREE.DoubleSide:THREE.FrontSide}));if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);if(o.to)o.to.add(m);return m}
 // cartel en forma de píldora: [texto, fondo, color del texto]
 // pillTex(t,bg,fg,sz): textura de 512x128 con el texto t sobre un cartel redondeado; se guarda en caché.
-function pillTex(t,bg='#fff',fg=K,sz=56){return canvasTex(512,128,g=>{g.font=`700 ${sz}px ${DF}`;const tw=Math.min(470,g.measureText(t).width+60);card(256-tw/2,14,tw,100,bg,8,50);text(t,256,64+sz*.36,sz,fg)},'pill:'+t+bg+fg+sz)}
+function pillTex(t: string,bg='#fff',fg=K,sz=56){return canvasTex(512,128,g=>{g.font=`700 ${sz}px ${DF}`;const tw=Math.min(470,g.measureText(t).width+60);card(256-tw/2,14,tw,100,bg,8,50);text(t,256,64+sz*.36,sz,fg)},'pill:'+t+bg+fg+sz)}
 // pillSpr(t,bg,fg,o): sprite con el cartel pillTex, de o.w unidades de ancho (2,4 por defecto) y proporción 4:1.
-const pillSpr=(t,bg,fg,o={})=>spr(pillTex(t,bg,fg),o.w||2.4,(o.w||2.4)/4,o);
+const pillSpr=(t: string,bg?: string,fg?: string,o: OpcionesSprite={})=>spr(pillTex(t,bg,fg),o.w||2.4,(o.w||2.4)/4,o);
 // flowerTex(c,n): textura de un cartelito con una flor de color c y el número n al lado.
-function flowerTex(c,n){return canvasTex(256,128,()=>{card(14,14,228,100,'#fff',8,50);flower(80,64,28,c,4);const L=String(n).length>1;text(String(n),L?168:170,L?84:92,L?52:72,K,{f:LF})},'fl:'+c+n)}
+function flowerTex(c: string,n: number|string){return canvasTex(256,128,()=>{card(14,14,228,100,'#fff',8,50);flower(80,64,28,c,4);const L=String(n).length>1;text(String(n),L?168:170,L?84:92,L?52:72,K,{f:LF})},'fl:'+c+n)}
 
 /* ---------- utilería ---------- */
 /* Patrón de los objetos de decoración de las zonas y del mapa (flower3, tree3, frog3, bus3...):
@@ -206,48 +221,48 @@ function flowerTex(c,n){return canvasTex(256,128,()=>{card(14,14,228,100,'#fff',
  * El sonido y lo que dice Tito al tocarlos no está aquí, sino en wobTap (segundo trozo). */
 // flower3(to,x,z,c,s,y): flor de color c (tallo + 5 pétalos + centro amarillo) con una zona de toque invisible
 // grande. Guarda la cabeza en g.userData.flower (wobInit la hace girar al tocarla). Devuelve el grupo.
-function flower3(to,x,z,c,s=1,y=0){const g=grp(to,[x,y,z],s);mk(gcache('stem',()=>Cyl(.035,.035,.5,5)),'#6FB84F',{p:[0,.25,0],ol:0,cs:false,to:g});const h=grp(g,[0,.55,0]);h.rotation.x=-.5;
+function flower3(to: Tres.Object3D,x: number,z: number,c: string,s=1,y=0){const g=grp(to,[x,y,z],s);mk(gcache('stem',()=>Cyl(.035,.035,.5,5)),'#6FB84F',{p:[0,.25,0],ol:0,cs:false,to:g});const h=grp(g,[0,.55,0]);h.rotation.x=-.5;
   mk(gcache('petals',()=>mg([0,1,2,3,4].map(i=>{const a=i/5*PI*2;return[Sph(.12,9,7),[Math.cos(a)*.13,Math.sin(a)*.13,0],[1,1,.5]]}))),c,{ol:.02,cs:false,to:h});mk(gcache('fcenter',()=>Sph(.09,9,7)),'#FFD66B',{p:[0,0,.03],s:[1,1,.6],ol:0,cs:false,to:h});
   const hit=new THREE.Mesh(gcache('fhit',()=>Sph(.32,6,4)),FHIT);hit.position.y=.45;g.add(hit);g.userData.flower=h;return g}
 const FHIT=new THREE.MeshBasicMaterial({visible:false});// zona de toque de las flores (son muy pequeñas para un dedo)
 // TREEC: colores de los árboles según el tipo: [copa, frutos o flores (null = sin ellos)].
-const TREEC={primavera:['#9BD86A','#F58BB4'],verano:['#6FC25A',null],'otoño':['#FFA94D','#FF6B5E'],invierno:['#E8F4F8',null],gris:['#C9C2B8',null]};
+const TREEC: Record<string, [string, string|null]>={primavera:['#9BD86A','#F58BB4'],verano:['#6FC25A',null],'otoño':['#FFA94D','#FF6B5E'],invierno:['#E8F4F8',null],gris:['#C9C2B8',null]};
 // tree3(to,x,z,s,kind,pine): árbol en (x,z) de escala s. kind = 'primavera'|'verano'|'otoño'|'invierno'|'gris'
 // (gris = zona aún bloqueada); pine=true hace un pino de tres conos. Marca userData.tree. Devuelve el grupo.
-function tree3(to,x,z,s=1,kind='verano',pine){const g=grp(to,[x,0,z],s),c=TREEC[kind]||TREEC.verano;mk(Cyl(.18,.26,1.4,10),kind==='gris'?'#B8AFA4':'#A86B43',{p:[0,.7,0],to:g});
+function tree3(to: Tres.Object3D,x: number,z: number,s=1,kind='verano',pine?: boolean|number){const g=grp(to,[x,0,z],s),c=TREEC[kind]||TREEC.verano;mk(Cyl(.18,.26,1.4,10),kind==='gris'?'#B8AFA4':'#A86B43',{p:[0,.7,0],to:g});
   if(pine){[[1.1,1.3,1.5],[.85,1.1,2.2],[.55,.9,2.85]].forEach(([r,h,y])=>mk(Cone(r,h,9),kind==='gris'?'#C9C2B8':'#4FA36A',{p:[0,y,0],to:g}))}
   else{mk(gcache('canopy',()=>mg([[0,2.1,0,.95],[-.55,1.75,.2,.7],[.55,1.8,-.1,.72],[.1,2.6,-.1,.6]].map(([a,b,d,r])=>[Sph(r,14,10),[a,b,d]]))),c[0],{to:g});
     if(c[1])mk(gcache('berries',()=>mg([0,1,2,3,4].map(i=>{const a=i*1.3;return[Sph(.13,8,6),[Math.cos(a)*.75,1.9+Math.sin(i*2)*.4,Math.sin(a)*.75+.2]]}))),c[1],{ol:.02,cs:false,to:g})}
   g.userData.tree=1;return g}
 // bush3(to,x,z,s,c): arbusto de tres bolas de color c. Marca userData.bush (al tocarlo se aplasta).
-function bush3(to,x,z,s=1,c='#7CC86E'){const g=grp(to,[x,0,z],s);mk(gcache('bush',()=>mg([[0,.35,0,.45],[-.4,.28,.1,.33],[.4,.3,0,.35]].map(([a,b,d,r])=>[Sph(r,12,8),[a,b,d]]))),c,{to:g});g.userData.bush=1;return g}
+function bush3(to: Tres.Object3D,x: number,z: number,s=1,c='#7CC86E'){const g=grp(to,[x,0,z],s);mk(gcache('bush',()=>mg([[0,.35,0,.45],[-.4,.28,.1,.33],[.4,.3,0,.35]].map(([a,b,d,r])=>[Sph(r,12,8),[a,b,d]]))),c,{to:g});g.userData.bush=1;return g}
 // rock3(to,x,z,s,c): piedra (dodecaedro achatado) con un giro que depende de x. Marca userData.rock (bota).
-function rock3(to,x,z,s=1,c='#B9B2A8'){const m=mk(new THREE.DodecahedronGeometry(.5,0),c,{p:[x,.2*s,z],s:[s,s*.7,s],r:[0,x*3,0],to});m.userData.rock=1;return m}
+function rock3(to: Tres.Object3D,x: number,z: number,s=1,c='#B9B2A8'){const m=mk(new THREE.DodecahedronGeometry(.5,0),c,{p:[x,.2*s,z],s:[s,s*.7,s],r:[0,x*3,0],to});m.userData.rock=1;return m}
 // lock3(to,p,s): candado amarillo en la posición p, para las zonas y casitas que aún no están abiertas.
-function lock3(to,p,s=1){const g=grp(to,p,s);mk(rbox(1.1,.85,.45,.12),'#FFC93C',{to:g,ol:.05});
+function lock3(to: Tres.Object3D,p: Trio,s=1){const g=grp(to,p,s);mk(rbox(1.1,.85,.45,.12),'#FFC93C',{to:g,ol:.05});
   const sh=new THREE.TorusGeometry(.33,.09,10,20,PI);mk(sh,'#B8B0A6',{p:[0,.42,0],to:g,ol:.04});
   mk(Cyl(.09,.09,.1,12),K,{p:[0,.05,.24],r:[PI/2,0,0],ol:0,to:g});mk(Box(.07,.22,.08),K,{p:[0,-.12,.24],ol:0,to:g});return g}
 // arrow3(to,p,s): flecha amarilla gruesa (apunta hacia arriba) que señala lo siguiente que hay que hacer.
-function arrow3(to,p,s=1){const sh=new THREE.Shape();[[-15,-46],[15,-46],[15,-16],[32,-16],[0,18],[-32,-16],[-15,-16]].forEach(([x,y],i)=>i?sh.lineTo(x/30,-y/30):sh.moveTo(x/30,-y/30));
+function arrow3(to: Tres.Object3D,p: Trio,s=1){const sh=new THREE.Shape();[[-15,-46],[15,-46],[15,-16],[32,-16],[0,18],[-32,-16],[-15,-16]].forEach(([x,y],i)=>i?sh.lineTo(x/30,-y/30):sh.moveTo(x/30,-y/30));
   const g=new THREE.ExtrudeGeometry(sh,{depth:.25,bevelEnabled:true,bevelThickness:.06,bevelSize:.06,bevelSegments:1});g.translate(0,0,-.125);return mk(g,'#FFC93C',{p,s,to,ol:.05,cs:false})}
 // la flecha de "siguiente" ya no gira entera (de canto se veía como una rayita): mira a la cámara y se balancea un poco
 // arrowSway(w,ar): en cada cuadro, gira la flecha ar para que mire a la cámara, con un balanceo suave.
-const arrowSway=(w,ar)=>{ar.rotation.y=Math.atan2(w.cam.position.x-ar.position.x,w.cam.position.z-ar.position.z)+Math.sin(T*1.5)*.45};
+const arrowSway=(w: Mundo,ar: Tres.Object3D)=>{ar.rotation.y=Math.atan2(w.cam.position.x-ar.position.x,w.cam.position.z-ar.position.z)+Math.sin(T*1.5)*.45};
 // ring3(to,p,r,c): aro plano y semitransparente de radio r tumbado en el suelo en p (marca un lugar).
-function ring3(to,p,r,c='#FFC93C'){const m=new THREE.Mesh(new THREE.TorusGeometry(r,.09,8,48),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.8}));m.rotation.x=-PI/2;m.position.set(p[0],p[1],p[2]);to.add(m);return m}
+function ring3(to: Tres.Object3D,p: Trio,r: number,c='#FFC93C'){const m=new THREE.Mesh(new THREE.TorusGeometry(r,.09,8,48),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.8}));m.rotation.x=-PI/2;m.position.set(p[0],p[1],p[2]);to.add(m);return m}
 // cinta plana (caminos): pts = [[x,z],...]
 // ribbon(to,pts,w,c,y,o): cinta plana de ancho w y color c que sigue los puntos pts del suelo (los caminos).
 // En cada punto se calcula la dirección (con el anterior y el siguiente) y se ponen dos vértices a los lados.
 // o.polygonOffset: empuja la cinta "hacia delante" para que no parpadee con el suelo; o.dash cada cuántos
 // puntos se pone una piedrecita (o.dashC su color). Devuelve la pieza.
-function ribbon(to,pts,w,c,y=.02,o={}){const pos=[],idx=[];const n=pts.length;
+function ribbon(to: Tres.Object3D,pts: PuntoSuelo[],w: number,c: string,y=.02,o: OpcionesCinta={}){const pos=[],idx=[];const n=pts.length;
   for(let i=0;i<n;i++){const a=pts[Math.max(0,i-1)],b=pts[Math.min(n-1,i+1)];let dx=b[0]-a[0],dz=b[1]-a[1];const l=Math.hypot(dx,dz)||1;dx/=l;dz/=l;
     pos.push(pts[i][0]-dz*w/2,y,pts[i][1]+dx*w/2,pts[i][0]+dz*w/2,y,pts[i][1]-dx*w/2);if(i)idx.push(i*2-2,i*2-1,i*2,i*2-1,i*2+1,i*2)}
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();
   const m=new THREE.Mesh(g,M(c,Object.assign({side:THREE.DoubleSide},o.polygonOffset?{polygonOffset:true,polygonOffsetFactor:-1-o.polygonOffset,polygonOffsetUnits:-4*o.polygonOffset}:{})));m.receiveShadow=true;to.add(m);
   if(o.dash){for(let i=2;i<n-2;i+=o.dash){mk(Cyl(.07,.07,.03,8),o.dashC||'#E4CFA0',{p:[pts[i][0],y+.02,pts[i][1]],ol:0,cs:false,to})}}return m}
 // bez(a,c,b,n): n+1 puntos [x,z] de una curva de Bézier cuadrática de a a b con el punto de control c (curvas de caminos).
-function bez(a,c,b,n=24){const r=[];for(let i=0;i<=n;i++){const t=i/n,u=1-t;r.push([u*u*a[0]+2*u*t*c[0]+t*t*b[0],u*u*a[1]+2*u*t*c[1]+t*t*b[1]])}return r}
+function bez(a: PuntoSuelo,c: PuntoSuelo,b: PuntoSuelo,n=24){const r: PuntoSuelo[]=[];for(let i=0;i<=n;i++){const t=i/n,u=1-t;r.push([u*u*a[0]+2*u*t*c[0]+t*t*b[0],u*u*a[1]+2*u*t*c[1]+t*t*b[1]])}return r}
 // punto suave y redondo para partículas (luciérnagas, nieve)
 // softTex(): textura de un punto blanco difuminado (64x64), compartida por todas las partículas que brillan.
 function softTex(){return canvasTex(64,64,()=>{const g=ctx.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,'#fff');g.addColorStop(.25,'rgba(255,255,255,.95)');g.addColorStop(.5,'rgba(255,255,255,.35)');g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.fillRect(0,0,64,64)},'ffly')}
@@ -255,16 +270,16 @@ function softTex(){return canvasTex(64,64,()=>{const g=ctx.createRadialGradient(
 // fallPts(w,n,cols,o): n partículas (con colores de la lista cols) que caen despacio y se mecen sobre una zona.
 // o: size tamaño, map textura, sp velocidad de caída, sw balanceo, h altura, wx/wz ancho y fondo, cx/cz centro, op opacidad.
 // Al llegar al suelo vuelven arriba. Todas son un único objeto Points (un solo dibujo). Devuelve el objeto.
-function fallPts(w,n,cols,o){const pos=new Float32Array(n*3),col=new Float32Array(n*3),ph=[],c=new THREE.Color(),H=o.h||9,WX=o.wx||36,WZ=o.wz||18,CX=o.cx||0,CZ=o.cz||0;
+function fallPts(w: Mundo,n: number,cols: string[],o: Libre){const pos=new Float32Array(n*3),col=new Float32Array(n*3),ph: number[]=[],c=new THREE.Color(),H=o.h||9,WX=o.wx||36,WZ=o.wz||18,CX=o.cx||0,CZ=o.cz||0;
   for(let i=0;i<n;i++){pos[i*3]=CX+(Math.random()-.5)*WX;pos[i*3+1]=Math.random()*H;pos[i*3+2]=CZ+(Math.random()-.5)*WZ;c.set(cols[i%cols.length]);col.set([c.r,c.g,c.b],i*3);ph.push(Math.random()*6.28)}
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('color',new THREE.BufferAttribute(col,3));
   const p=new THREE.Points(g,new THREE.PointsMaterial({size:o.size,map:o.map,vertexColors:true,transparent:true,depthWrite:false,opacity:o.op||1}));p.raycast=()=>{};w.sc.add(p);
-  w.upd.push(dt=>{for(let i=0;i<n;i++){const k=i*3;pos[k+1]-=o.sp*dt*(.7+(i%5)*.15);pos[k]+=Math.sin(T*.8+ph[i])*o.sw*dt;if(pos[k+1]<0){pos[k+1]=H;pos[k]=CX+(Math.random()-.5)*WX}}g.attributes.position.needsUpdate=true});return p}
+  w.upd.push((dt: number)=>{for(let i=0;i<n;i++){const k=i*3;pos[k+1]-=o.sp*dt*(.7+(i%5)*.15);pos[k]+=Math.sin(T*.8+ph[i])*o.sw*dt;if(pos[k+1]<0){pos[k+1]=H;pos[k]=CX+(Math.random()-.5)*WX}}g.attributes.position.needsUpdate=true});return p}
 // mariposa: dos alas que aletean y un vuelo en curvas alrededor de un punto
 // butterfly3(w,cx,cz,c,ph,o): mariposa de color c que vuela en ochos alrededor de (cx,cz); ph desfasa su vuelo.
 // o: s escala, r radio del vuelo, h altura. Al tocarla (userData.bfly) sube asustada y aletea más rápido.
-function butterfly3(w,cx,cz,c,ph,o={}){const g=grp(w.sc,[cx,1.5,cz],o.s||1.7);g.userData.bfly=1;g.add(new THREE.Mesh(gcache('bhit',()=>Sph(.4,6,4)),FHIT));const wg=gcache('wing',()=>{const c=r=>new THREE.CircleGeometry(r,12).rotateX(-PI/2);return mg([[c(.3),[0,0,-.13]],[c(.2),[-.06,0,.17]]])});// ala de dos lóbulos
-  mk(Cyl(.035,.035,.42,6),K,{r:[PI/2,0,0],ol:0,cs:false,to:g});const W=[];
+function butterfly3(w: Mundo,cx: number,cz: number,c: string,ph: number,o: Libre={}){const g=grp(w.sc,[cx,1.5,cz],o.s||1.7);g.userData.bfly=1;g.add(new THREE.Mesh(gcache('bhit',()=>Sph(.4,6,4)),FHIT));const wg=gcache('wing',()=>{const c=(r: number)=>new THREE.CircleGeometry(r,12).rotateX(-PI/2);return mg([[c(.3),[0,0,-.13]],[c(.2),[-.06,0,.17]]])});// ala de dos lóbulos
+  mk(Cyl(.035,.035,.42,6),K,{r:[PI/2,0,0],ol:0,cs:false,to:g});const W: [Tres.Group, number][]=[];
   for(const sd of[-1,1]){const pv=grp(g,[0,0,0]);mk(wg,M(c,{side:THREE.DoubleSide}),{p:[sd*.3,0,0],ol:0,cs:false,to:pv});W.push([pv,sd])}
   let lx=cx,lz=cz;w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,up=e<1.4?Math.sin(Math.min(e/1.4,1)*PI)*1.6:0;// al tocarla sube asustada y vuelve
     const t=T*.5+ph,R=o.r||3.2,x=cx+Math.cos(t)*R,z=cz+Math.sin(t*1.3)*R*.5;g.position.set(x,(o.h||1.9)+Math.sin(T*1.7+ph)*.4+up,z);
@@ -272,23 +287,23 @@ function butterfly3(w,cx,cz,c,ph,o={}){const g=grp(w.sc,[cx,1.5,cz],o.s||1.7);g.
 // gaviota: vuela en círculos sobre el mar aleteando de vez en cuando
 // gull3(w,R,Rz,h,ph,dir): gaviota que vuela en una elipse de radios R x Rz a la altura h sobre el mar;
 // dir = 1 o -1 es el sentido de giro. Aletea a ratos y planea; al tocarla da una voltereta.
-function gull3(w,R,Rz,h,ph,dir){const g=grp(w.sc,[0,h,0],1.6);g.userData.gull=1;g.add(new THREE.Mesh(gcache('ghit',()=>Sph(.9,6,4)),FHIT));// zona de toque invisible
+function gull3(w: Mundo,R: number,Rz: number,h: number,ph: number,dir: number){const g=grp(w.sc,[0,h,0],1.6);g.userData.gull=1;g.add(new THREE.Mesh(gcache('ghit',()=>Sph(.9,6,4)),FHIT));// zona de toque invisible
   mk(Sph(.18,10,8),'#FFFFFF',{s:[1,.8,1.6],ol:.02,cs:false,to:g});mk(Cone(.06,.2,6),'#FFA94D',{p:[0,0,.36],r:[PI/2,0,0],ol:0,cs:false,to:g});
-  const W=[];for(const sd of[-1,1]){const pv=grp(g,[sd*.12,.04,0]);mk(Box(.8,.04,.26),'#FFFFFF',{p:[sd*.4,0,0],ol:.02,cs:false,to:pv});W.push([pv,sd])}
+  const W: [Tres.Group, number][]=[];for(const sd of[-1,1]){const pv=grp(g,[sd*.12,.04,0]);mk(Box(.8,.04,.26),'#FFFFFF',{p:[sd*.4,0,0],ol:.02,cs:false,to:pv});W.push([pv,sd])}
   w.upd.push(()=>{const t=T*.12*dir+ph,x=Math.cos(t)*R,z=Math.sin(t)*Rz;g.position.set(x,h+Math.sin(T*.7+ph)*.5,z);g.rotation.y=Math.atan2(-Math.sin(t)*R*dir,Math.cos(t)*Rz*dir);
     const fl=Math.sin(T*.9+ph)>-.2?Math.sin(T*9+ph)*.5:.15;for(const [pv,sd] of W)pv.rotation.z=sd*fl;
     const k=g.userData.wob,e=k==null?9:T-k;g.rotation.z=e<.8?Math.min(e/.8,1)*PI*2:0});return g}// al tocarla da una voltereta
 // luciérnagas que flotan y parpadean (de noche); un solo dibujo para todas
 // fireflies(w,WX,WZ,sz): 24 luciérnagas repartidas en WX x WZ que flotan y parpadean (de noche).
 // Si se acaba de tocar la luna (w.starT), suben y brillan más un momento.
-function fireflies(w,WX,WZ,sz){const n=24,pos=new Float32Array(n*3),ph=[];for(let i=0;i<n;i++)ph.push([(Math.random()-.5)*WX,(Math.random()-.5)*WZ,Math.random()*6.28]);
+function fireflies(w: Mundo,WX: number,WZ: number,sz?: number){const n=24,pos=new Float32Array(n*3),ph: Trio[]=[];for(let i=0;i<n;i++)ph.push([(Math.random()-.5)*WX,(Math.random()-.5)*WZ,Math.random()*6.28]);
     const fg=new THREE.BufferGeometry();fg.setAttribute('position',new THREE.BufferAttribute(pos,3));
     const ff=new THREE.Points(fg,new THREE.PointsMaterial({color:'#FFF06A',size:sz||2.2,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));ff.raycast=()=>{};w.sc.add(ff);
     const s0=ff.material.size;w.upd.push(()=>{const b=w.starT!=null&&T-w.starT<1.6?Math.sin((T-w.starT)/1.6*PI):0;/* al tocar la luna, las luciérnagas suben a saludarla y brillan más */ff.material.size=s0*(1+b*.5);for(let i=0;i<n;i++){const [x,z,a]=ph[i];pos[i*3]=x+Math.sin(T*.5+a)*1.2;pos[i*3+1]=1.3+Math.sin(T*.9+a*2)*.6+b*1.4;pos[i*3+2]=z+Math.cos(T*.4+a)*1.2}fg.attributes.position.needsUpdate=true;ff.material.opacity=.65+.35*Math.sin(T*3)})}
 // estrellas que titilan en el cielo de noche (tres grupos que brillan a destiempo)
 // skyStars(w,y0,z0,WX,HY): cielo de noche: tres grupos de 12 estrellas en una franja de ancho WX y alto HY
 // sobre y0, en el fondo z0, que titilan a destiempo, y una estrella fugaz cada 9 s (o al tocar la luna: w.shootT).
-function skyStars(w,y0,z0,WX,HY){for(let k=0;k<3;k++){const n=12,pos=new Float32Array(n*3);for(let i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*WX;pos[i*3+1]=y0+Math.random()*HY;pos[i*3+2]=z0-Math.random()*2;if(Math.abs(pos[i*3]+12)<2&&Math.abs(pos[i*3+1]-2.3)<2)pos[i*3]+=5/* que no tapen la luna */}
+function skyStars(w: Mundo,y0: number,z0: number,WX: number,HY: number){for(let k=0;k<3;k++){const n=12,pos=new Float32Array(n*3);for(let i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*WX;pos[i*3+1]=y0+Math.random()*HY;pos[i*3+2]=z0-Math.random()*2;if(Math.abs(pos[i*3]+12)<2&&Math.abs(pos[i*3+1]-2.3)<2)pos[i*3]+=5/* que no tapen la luna */}
     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
     const p=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:1.5,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));p.raycast=()=>{};w.sc.add(p);
     w.upd.push(()=>{const b=w.starT!=null&&T-w.starT<1.6?1-(T-w.starT)/1.6:0;/* al tocar la luna, las estrellas brillan más un momento */p.material.opacity=Math.min(1,.55+.45*Math.sin(T*2.2+k*2.1)+b*.6);p.material.size=1.5+b*1.4})}
@@ -301,25 +316,25 @@ function skyStars(w,y0,z0,WX,HY){for(let k=0;k<3;k++){const n=12,pos=new Float32
 const NUM7=['Uno','Dos','Tres','Cuatro','Cinco','Seis','Siete'],NUM10=NUM7.concat(['Ocho','Nueve','Diez']);
 // say3(t,cb,o): como say(), pero calla si en la zona de adultos se eligió "Sin comentarios en el paisaje" (S.quiet3);
 // en ese caso llama igualmente a cb al cabo de medio segundo.
-function say3(t,cb,o){/* lo que Tito comenta del paisaje; se puede callar desde la zona de adultos */if(S.quiet3){if(cb)setTimeout(cb,500);return}say(t,cb,o)}
+function say3(t: string,cb?: (() => void) | null,o?: OpcionesSay){/* lo que Tito comenta del paisaje; se puede callar desde la zona de adultos */if(S.quiet3){if(cb)setTimeout(cb,500);return}say(t,cb,o)}
 // sayMix3(p,cb): como sayMix() (frases en varios idiomas), con el mismo interruptor S.quiet3.
-function sayMix3(p,cb){if(S.quiet3){if(cb)setTimeout(cb,500);return}sayMix(p,cb)}
+function sayMix3(p: readonly string[],cb?: (() => void) | null){if(S.quiet3){if(cb)setTimeout(cb,500);return}sayMix(p,cb)}
 // NAMES3: lo que Tito nombra al tocar cada cosa del paisaje. Cada fila es
 //   [marca de userData, frase (grabada), PALABRA escrita que sale flotando y se palmea por sílabas,
 //    tipo (1 = animal que de noche duerme y no se nombra; 2 = el búho, que duerme de día; 0/nada = siempre),
 //    frase extra opcional que dice la segunda vez, PALABRA de esa frase extra].
 // Lo usa wobTap (segundo trozo): gana la primera fila cuya marca tenga el objeto. No cambies las frases: tienen MP3 grabado.
-const NAMES3=[['frog','Rana.','RANA',1,'La rana es verde.'],['tree','El árbol.','ÁRBOL',0,'El viento. ¡Sopla y se llevan las hojas! Fiuuu.','VIENTO'],['peng','El pingüino.','PINGÜINO',1,'El pingüino. Es un pájaro que no vuela, ¡pero nada muy bien!'],['snowman','El muñeco de nieve.','MUÑECO',0,'Nieva. Caen copos de nieve cuando hace mucho frío.','COPO'],['bee','La abeja. Hace miel con las flores.','ABEJA',1],['bfly','La mariposa.','MARIPOSA',1,'La mariposa. Vuela de flor en flor.'],['bird','El pájaro.','PÁJARO',1],['skyb','El pájaro.','PÁJARO',1],['whale','La ballena.','BALLENA',0,'La ballena. Vive en el mar, pero respira aire.'],['sandc','El castillo de arena.','CASTILLO'],['ball','La pelota de playa.','PELOTA',0,'La pelota. En el recreo jugamos a la pelota.'],['cake','La tarta de cumpleaños.','TARTA',0,'La tarta. En el cumpleaños soplamos las velas.'],['pinata','La estrella.','ESTRELLA'],['palm','El árbol.','ÁRBOL'],['xtree','El árbol.','ÁRBOL',0,'La bola de Navidad.','BOLA'],['gull','El pájaro.','PÁJARO',1],['leafs','La hoja.','HOJA',0,'Las hojas. En otoño se ponen naranjas y amarillas, y se caen.'],['cloud','La gota de agua.','GOTA',1,'El arcoíris. Sale cuando hay sol y lluvia a la vez.','ARCOÍRIS'],['mush','La seta. Crece cuando llueve.','SETA'],['pump','La calabaza. Es grande y naranja.','CALABAZA'],['squir','La ardilla. Guarda comida para el invierno.','ARDILLA',1,'La bellota. Es el fruto del roble. ¡A las ardillas les encanta!','BELLOTA'],['owl','El búho. Vive en el bosque y sale de noche.','BÚHO',2],['ants','La hormiga. Trabaja en equipo y es muy fuerte.','HORMIGA',1],['nest','El nido. La casita de los pájaros.','NIDO'],['lady','La mariquita. Tiene puntitos negros.','MARIQUITA',1,'La mariquita. Es roja con puntitos.'],['gift','El regalo. ¡Qué bonito es regalar!','REGALO'],['boat','El barco. Navega por el agua.','BARCO'],['burrow','El conejo. Come zanahorias y salta.','CONEJO',1],['igloo','El iglú. Es una casa hecha con bloques de nieve.','IGLÚ',0,'La foca. Nada en el agua helada.','FOCA'],['sled','El trineo, para la nieve.','TRINEO'],['jack','Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.','SORPRESA'],['sleigh','El reno','RENO'],['hab','El globo aerostático. Vuela con aire caliente.','GLOBO'],['sunf','La planta. Tiene raíz, tallo y hojas.','PLANTA',1,'La semilla. De ella nace una planta nueva.','SEMILLA'],['kite','¡Súper! ¡La cometa! Con el viento vuela alto.','COMETA'],['can','La regadera. Las plantas necesitan agua.','REGADERA'],['flower','La flor. Muchas plantas tienen flores.','FLOR',0,'La planta es un ser vivo.','PLANTA']];/* cosas que Tito nombra (frases ya grabadas, algunas con una explicación); 1 = animal que de noche duerme, 2 = el búho, que de día duerme. Gana la primera fila cuya marca tenga el objeto: 'bee' va antes que 'bfly' porque las abejas llevan las dos marcas */
+const NAMES3: [string, string, string, number?, string?, string?][]=[['frog','Rana.','RANA',1,'La rana es verde.'],['tree','El árbol.','ÁRBOL',0,'El viento. ¡Sopla y se llevan las hojas! Fiuuu.','VIENTO'],['peng','El pingüino.','PINGÜINO',1,'El pingüino. Es un pájaro que no vuela, ¡pero nada muy bien!'],['snowman','El muñeco de nieve.','MUÑECO',0,'Nieva. Caen copos de nieve cuando hace mucho frío.','COPO'],['bee','La abeja. Hace miel con las flores.','ABEJA',1],['bfly','La mariposa.','MARIPOSA',1,'La mariposa. Vuela de flor en flor.'],['bird','El pájaro.','PÁJARO',1],['skyb','El pájaro.','PÁJARO',1],['whale','La ballena.','BALLENA',0,'La ballena. Vive en el mar, pero respira aire.'],['sandc','El castillo de arena.','CASTILLO'],['ball','La pelota de playa.','PELOTA',0,'La pelota. En el recreo jugamos a la pelota.'],['cake','La tarta de cumpleaños.','TARTA',0,'La tarta. En el cumpleaños soplamos las velas.'],['pinata','La estrella.','ESTRELLA'],['palm','El árbol.','ÁRBOL'],['xtree','El árbol.','ÁRBOL',0,'La bola de Navidad.','BOLA'],['gull','El pájaro.','PÁJARO',1],['leafs','La hoja.','HOJA',0,'Las hojas. En otoño se ponen naranjas y amarillas, y se caen.'],['cloud','La gota de agua.','GOTA',1,'El arcoíris. Sale cuando hay sol y lluvia a la vez.','ARCOÍRIS'],['mush','La seta. Crece cuando llueve.','SETA'],['pump','La calabaza. Es grande y naranja.','CALABAZA'],['squir','La ardilla. Guarda comida para el invierno.','ARDILLA',1,'La bellota. Es el fruto del roble. ¡A las ardillas les encanta!','BELLOTA'],['owl','El búho. Vive en el bosque y sale de noche.','BÚHO',2],['ants','La hormiga. Trabaja en equipo y es muy fuerte.','HORMIGA',1],['nest','El nido. La casita de los pájaros.','NIDO'],['lady','La mariquita. Tiene puntitos negros.','MARIQUITA',1,'La mariquita. Es roja con puntitos.'],['gift','El regalo. ¡Qué bonito es regalar!','REGALO'],['boat','El barco. Navega por el agua.','BARCO'],['burrow','El conejo. Come zanahorias y salta.','CONEJO',1],['igloo','El iglú. Es una casa hecha con bloques de nieve.','IGLÚ',0,'La foca. Nada en el agua helada.','FOCA'],['sled','El trineo, para la nieve.','TRINEO'],['jack','Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.','SORPRESA'],['sleigh','El reno','RENO'],['hab','El globo aerostático. Vuela con aire caliente.','GLOBO'],['sunf','La planta. Tiene raíz, tallo y hojas.','PLANTA',1,'La semilla. De ella nace una planta nueva.','SEMILLA'],['kite','¡Súper! ¡La cometa! Con el viento vuela alto.','COMETA'],['can','La regadera. Las plantas necesitan agua.','REGADERA'],['flower','La flor. Muchas plantas tienen flores.','FLOR',0,'La planta es un ser vivo.','PLANTA']];/* cosas que Tito nombra (frases ya grabadas, algunas con una explicación); 1 = animal que de noche duerme, 2 = el búho, que de día duerme. Gana la primera fila cuya marca tenga el objeto: 'bee' va antes que 'bfly' porque las abejas llevan las dos marcas */
 // sylClap(x,y,wd): palabra wd dividida en sílabas (SYL3): por cada sílaba suena una palmada, sale la sílaba escrita
 // flotando cerca de (x,y) y Tito da un saltito (st.hop=T). Se corta si cambia la escena.
-function sylClap(x,y,wd){/* una palmada por sílaba, con la sílaba escrita, y Tito salta con cada una */const sc0=sceneName,Y=(SYL3[wd]||wd).split(' '),n=Y.length,X=Math.min(1480-n*65,Math.max(120+n*65,x));Y.forEach((sy,i)=>setTimeout(()=>{if(sceneName!==sc0)return;noise(.06,.35,1800);{const st=SCENES[sceneName];if(st)st.hop=T}tone(330+i*60,.08,'triangle',.05);parts.push({x:X-(n-1)*65+i*130,y:Math.max(230,y-120),vx:0,vy:-20,life:1.3,t:0,c:['#5A6FD0','#E8803C','#4DB85A','#A77BDB'][i%4],r:20,rot:0,k:'t',tx:sy,g:0})},250+i*500))}
+function sylClap(x: number,y: number,wd: string){/* una palmada por sílaba, con la sílaba escrita, y Tito salta con cada una */const sc0=sceneName,Y=(SYL3[wd]||wd).split(' '),n=Y.length,X=Math.min(1480-n*65,Math.max(120+n*65,x));Y.forEach((sy,i)=>setTimeout(()=>{if(sceneName!==sc0)return;noise(.06,.35,1800);{const st=SCENES[sceneName];if(st)st.hop=T}tone(330+i*60,.08,'triangle',.05);parts.push({x:X-(n-1)*65+i*130,y:Math.max(230,y-120),vx:0,vy:-20,life:1.3,t:0,c:['#5A6FD0','#E8803C','#4DB85A','#A77BDB'][i%4],r:20,rot:0,k:'t',tx:sy,g:0})},250+i*500))}
 // SYL3: PALABRA -> sílabas separadas por espacios (para sylClap). Si una palabra falta, se palmea entera.
-const SYL3={RANA:'RA NA',ÁRBOL:'ÁR BOL',PINGÜINO:'PIN GÜI NO',MUÑECO:'MU ÑE CO',MARIPOSA:'MA RI PO SA',PÁJARO:'PÁ JA RO',BALLENA:'BA LLE NA',CASTILLO:'CAS TI LLO',PELOTA:'PE LO TA',TARTA:'TAR TA',ESTRELLA:'ES TRE LLA',HOJA:'HO JA',GOTA:'GO TA',SETA:'SE TA',ABEJA:'A BE JA',CALABAZA:'CA LA BA ZA',ARDILLA:'AR DI LLA',BÚHO:'BÚ HO',HORMIGA:'HOR MI GA',NIDO:'NI DO',MARIQUITA:'MA RI QUI TA',REGALO:'RE GA LO',BARCO:'BAR CO',CONEJO:'CO NE JO',IGLÚ:'I GLÚ',JÚPITER:'JÚ PI TER',ARCOÍRIS:'AR CO Í RIS',NIEVE:'NIE VE',FOCA:'FO CA',TRINEO:'TRI NE O',GLOBO:'GLO BO',PLANTA:'PLAN TA',SORPRESA:'SOR PRE SA',SATURNO:'SA TUR NO',COMETA:'CO ME TA',REGADERA:'RE GA DE RA',CONTENTO:'CON TEN TO',RENO:'RE NO',BOLA:'BO LA',COPO:'CO PO',VIENTO:'VIEN TO',BELLOTA:'BE LLO TA',SEMILLA:'SE MI LLA',ESTRELLA:'ES TRE LLA'};/* sílabas para dar una palmada por cada una */
+const SYL3: Record<string, string>={RANA:'RA NA',ÁRBOL:'ÁR BOL',PINGÜINO:'PIN GÜI NO',MUÑECO:'MU ÑE CO',MARIPOSA:'MA RI PO SA',PÁJARO:'PÁ JA RO',BALLENA:'BA LLE NA',CASTILLO:'CAS TI LLO',PELOTA:'PE LO TA',TARTA:'TAR TA',ESTRELLA:'ES TRE LLA',HOJA:'HO JA',GOTA:'GO TA',SETA:'SE TA',ABEJA:'A BE JA',CALABAZA:'CA LA BA ZA',ARDILLA:'AR DI LLA',BÚHO:'BÚ HO',HORMIGA:'HOR MI GA',NIDO:'NI DO',MARIQUITA:'MA RI QUI TA',REGALO:'RE GA LO',BARCO:'BAR CO',CONEJO:'CO NE JO',IGLÚ:'I GLÚ',JÚPITER:'JÚ PI TER',ARCOÍRIS:'AR CO Í RIS',NIEVE:'NIE VE',FOCA:'FO CA',TRINEO:'TRI NE O',GLOBO:'GLO BO',PLANTA:'PLAN TA',SORPRESA:'SOR PRE SA',SATURNO:'SA TUR NO',COMETA:'CO ME TA',REGADERA:'RE GA DE RA',CONTENTO:'CON TEN TO',RENO:'RE NO',BOLA:'BO LA',COPO:'CO PO',VIENTO:'VIEN TO',BELLOTA:'BE LLO TA',SEMILLA:'SE MI LLA'};/* sílabas para dar una palmada por cada una */
 // sayNum(n,cb): Tito dice el número n (1-10); en el Rincón del inglés lo dice en inglés ('@' = frase en inglés).
-function sayNum(n,cb){/* dice un número: en el Rincón del inglés, en inglés */if(sceneName==='ingles')sayMix3(['@'+['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][n-1]],cb);else say3(NUM10[n-1],cb)}
+function sayNum(n: number,cb?: (() => void) | null){/* dice un número: en el Rincón del inglés, en inglés */if(sceneName==='ingles')sayMix3(['@'+['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][n-1]],cb);else say3(NUM10[n-1],cb)}
 // numPop(x,y,n,tx): hace salir flotando en (x,y) de 1600x900 el número n (con n puntitos) o el texto tx en grande.
 // Sin tx, suena una nota más aguda cuanto mayor es n. Usa la lista de partículas parts de nucleo/escenas.ts.
-function numPop(x,y,n,tx){parts.push({x:Math.min(1480,Math.max(120,x)),y:Math.max(160,y-45),vx:0,vy:-40,life:tx?2.2:1.4,t:0,c:['#FF6B6B','#F5A623','#4CB4E7','#5CC16A','#A77BDB'][(n-1)%5],r:tx?28:38,rot:0,k:'t',tx:tx||String(n),dots:tx?0:n,g:0});if(!tx)tone([523,587,659,698,784,880,988,1046,1175,1318][(n-1)%10],.12,'sine',.05)}/* cada número suena un poco más agudo que el anterior *//* el número contado aparece flotando */
+function numPop(x: number,y: number,n: number,tx?: string){parts.push({x:Math.min(1480,Math.max(120,x)),y:Math.max(160,y-45),vx:0,vy:-40,life:tx?2.2:1.4,t:0,c:['#FF6B6B','#F5A623','#4CB4E7','#5CC16A','#A77BDB'][(n-1)%5],r:tx?28:38,rot:0,k:'t',tx:tx||String(n),dots:tx?0:n,g:0});if(!tx)tone([523,587,659,698,784,880,988,1046,1175,1318][(n-1)%10],.12,'sine',.05)}/* cada número suena un poco más agudo que el anterior *//* el número contado aparece flotando */
 // skyTap(x,y,w): tocar el cielo vacío (justo después de pickAt, porque usa el rayo RC). Calcula el punto 3D en la
 // pared del fondo (z = -19,5) y Tito mira hacia allí.
 //  - De noche: nace una estrella que se queda (hasta 30, en un único Points w.myS). Tito las cuenta del 1 al 7; cada
@@ -328,66 +343,66 @@ function numPop(x,y,n,tx){parts.push({x:Math.min(1480,Math.max(120,x)),y:Math.ma
 //    zona tiene arcoíris (w.rainbow), aparece y Tito nombra sus colores (nx dice uno tras otro). En la montaña, el
 //    primer toque explica la nieve.
 // Banderas en w para no repetir frases: nmStar, stF, snF, myRb.
-function skyTap(x,y,w){const r=RC.ray,k=r.direction.z<-.01?(-19.5-r.origin.z)/r.direction.z:30,v=r.at(k,new THREE.Vector3());if(w.tito)w.tito.userData.lk={p:v.clone(),t:T};/* Tito mira hacia donde se ha tocado */
-  if(skyNow().night){if(!w.myS){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(90),3));g.setDrawRange(0,0);w.myS=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:1.7,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));w.myS.raycast=()=>{};w.myS.frustumCulled=false;w.sc.add(w.myS);w.myN=0;w.upd.push(()=>{w.myS.material.opacity=.7+.3*Math.sin(T*2.6)})/* y titilan */}
-    {const g=w.myS.geometry,i=w.myN%30;g.attributes.position.array.set([v.x,v.y,v.z],i*3);g.attributes.position.needsUpdate=true;w.myN++;g.setDrawRange(0,Math.min(w.myN,30));numPop(x,y,(w.myN-1)%7+1);if(!w.nmStar){w.nmStar=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('La estrella.',()=>sylClap(x,y+60,'ESTRELLA'));numPop(x,y+40,3,'ESTRELLA');parts[parts.length-1].hl=1}},1100)}/* la primera estrella: Tito la nombra */sayNum((w.myN-1)%7+1,w.myN%7===0?()=>say3('¡Muy bien!',()=>{if(!w.stF){w.stF=1;say3('Las estrellas. Están muy, muy lejos. ¡Por eso las vemos pequeñitas!')}}):null);/* cuenta las estrellas en voz alta, y al completar la constelación: ¡muy bien! */if(w.myN%7===0){const a=g.attributes.position.array,L=[];for(let j=w.myN-7;j<w.myN;j++){const q=(j%30)*3;L.push(new THREE.Vector3(a[q],a[q+1],a[q+2]))}const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(L),new THREE.LineBasicMaterial({color:'#AFC0FF',transparent:true,opacity:.45}));ln.raycast=()=>{};w.sc.add(ln);(w.myL=w.myL||[]).push(ln);if(w.myL.length>4)w.sc.remove(w.myL.shift());[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.3,'sine',.07),250+i*110));setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300)}/* cada siete estrellas se unen en una constelación nueva, con música, y Tito salta */}/* y la estrellita se queda en el cielo (hasta 30) */parts.push({x,y,vx:0,vy:-6,life:1.6,t:0,c:'#FFF6C8',r:16,rot:0,k:'s',g:0});for(let i=0;i<4;i++)parts.push({x:x+rnd(-18,18),y:y+rnd(-18,18),vx:rnd(-20,20),vy:rnd(-20,20),life:.9,t:0,c:'#FFFFFF',r:rnd(5,7),rot:0,k:'s',g:0});tone(1760,.35,'sine',.05,1.02);tone(2637,.25,'sine',.025,1,.07)}
-  else{if(!w.myC)w.myC=[];if(w.myC.length>=6){const o=w.myC.shift();w.sc.remove(o)}{const c=cloud3(w.sc,v.x-.35,v.y,v.z,.3);c.traverse(o=>{if(o.isMesh)o.raycast=()=>{}});w.myN2=(w.myN2||0)+1;if(sceneName==='montana'&&!w.snF){w.snF=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('La nieve. Es agua congelada que cae del cielo.',()=>sylClap(x,y+60,'NIEVE'));numPop(x,y+40,3,'NIEVE');parts[parts.length-1].hl=1}},1100)}/* en la montaña, el primer toque al cielo explica la nieve */if(w.myN2<=6){numPop(x,y,w.myN2);sayNum(w.myN2)}/* cuenta las nubecillas en voz alta (hasta seis) */w.myC.push(c);if(w.myC.length===6&&w.rainbow&&!w.myRb){w.myRb=1;let cx=0,cy=0;w.myC.forEach(o=>{cx+=o.position.x/6;cy+=o.position.y/6});w.rainbow.position.set(cx,cy-.6,-20.5);w.rainT=T;[523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80));{const C=[['Rojo.','#E84A4A'],['Naranja.','#F5932E'],['Amarillo.','#F2C200'],['Verde.','#4DB85A'],['Azul.','#3D8FE0'],['Morado.','#9A63D1']];let k=0;const nx=()=>{if(k>=C.length||sceneName!==sc0)return;const [n,c]=C[k],en=sceneName==='ingles',ne=['Red','Orange','Yellow','Green','Blue','Purple'][k];parts.push({x:560+k*96,y:200,vx:0,vy:-25,life:2.2,t:0,c,r:22,rot:0,k:'t',tx:en?ne:n.slice(0,-1),g:0});k++;if(en)sayMix3(['@'+ne],nx);else say3(n,nx)}/* en el Rincón del inglés, los colores del arcoíris en inglés */,sc0=sceneName;setTimeout(nx,1300)}}/* con seis nubecillas sale un arcoíris, y Tito nombra sus colores */const t0=T;w.upd.push(dt=>{c.position.x+=.25*(dt||0);const q=Math.min(1,(T-t0)*3);c.scale.setScalar(.3*q)})}/* y la nubecilla se queda en el cielo (hasta 6) */
+function skyTap(x: number,y: number,w: Mundo){const r=RC.ray,k=r.direction.z<-.01?(-19.5-r.origin.z)/r.direction.z:30,v=r.at(k,new THREE.Vector3());if(w.tito)w.tito.userData.lk={p:v.clone(),t:T};/* Tito mira hacia donde se ha tocado */
+  if(skyNow().night){if(!w.myS){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(90),3));g.setDrawRange(0,0);w.myS=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:1.7,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));w.myS.raycast=()=>{};w.myS.frustumCulled=false;w.sc.add(w.myS);w.myN=0;w.upd.push(()=>{w.myS!.material.opacity=.7+.3*Math.sin(T*2.6)})/* y titilan */}
+    {const g=w.myS.geometry,i=w.myN!%30;(g.attributes.position.array as Float32Array).set([v.x,v.y,v.z],i*3);g.attributes.position.needsUpdate=true;w.myN!++;g.setDrawRange(0,Math.min(w.myN!,30));numPop(x,y,(w.myN!-1)%7+1);if(!w.nmStar){w.nmStar=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('La estrella.',()=>sylClap(x,y+60,'ESTRELLA'));numPop(x,y+40,3,'ESTRELLA');parts[parts.length-1].hl=1}},1100)}/* la primera estrella: Tito la nombra */sayNum((w.myN!-1)%7+1,w.myN!%7===0?()=>say3('¡Muy bien!',()=>{if(!w.stF){w.stF=1;say3('Las estrellas. Están muy, muy lejos. ¡Por eso las vemos pequeñitas!')}}):null);/* cuenta las estrellas en voz alta, y al completar la constelación: ¡muy bien! */if(w.myN!%7===0){const a=g.attributes.position.array,L=[];for(let j=w.myN!-7;j<w.myN!;j++){const q=(j%30)*3;L.push(new THREE.Vector3(a[q],a[q+1],a[q+2]))}const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(L),new THREE.LineBasicMaterial({color:'#AFC0FF',transparent:true,opacity:.45}));ln.raycast=()=>{};w.sc.add(ln);(w.myL=w.myL||[]).push(ln);if(w.myL.length>4)w.sc.remove(w.myL.shift()!);[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.3,'sine',.07),250+i*110));setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300)}/* cada siete estrellas se unen en una constelación nueva, con música, y Tito salta */}/* y la estrellita se queda en el cielo (hasta 30) */parts.push({x,y,vx:0,vy:-6,life:1.6,t:0,c:'#FFF6C8',r:16,rot:0,k:'s',g:0});for(let i=0;i<4;i++)parts.push({x:x+rnd(-18,18),y:y+rnd(-18,18),vx:rnd(-20,20),vy:rnd(-20,20),life:.9,t:0,c:'#FFFFFF',r:rnd(5,7),rot:0,k:'s',g:0});tone(1760,.35,'sine',.05,1.02);tone(2637,.25,'sine',.025,1,.07)}
+  else{if(!w.myC)w.myC=[];if(w.myC.length>=6){const o=w.myC.shift()!;w.sc.remove(o)}{const c=cloud3(w.sc,v.x-.35,v.y,v.z,.3);c.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}});w.myN2=(w.myN2||0)+1;if(sceneName==='montana'&&!w.snF){w.snF=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('La nieve. Es agua congelada que cae del cielo.',()=>sylClap(x,y+60,'NIEVE'));numPop(x,y+40,3,'NIEVE');parts[parts.length-1].hl=1}},1100)}/* en la montaña, el primer toque al cielo explica la nieve */if(w.myN2<=6){numPop(x,y,w.myN2);sayNum(w.myN2)}/* cuenta las nubecillas en voz alta (hasta seis) */w.myC.push(c);if(w.myC.length===6&&w.rainbow&&!w.myRb){w.myRb=1;let cx=0,cy=0;w.myC.forEach(o=>{cx+=o.position.x/6;cy+=o.position.y/6});w.rainbow.position.set(cx,cy-.6,-20.5);w.rainT=T;[523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80));{const C=[['Rojo.','#E84A4A'],['Naranja.','#F5932E'],['Amarillo.','#F2C200'],['Verde.','#4DB85A'],['Azul.','#3D8FE0'],['Morado.','#9A63D1']];let k=0;const nx=()=>{if(k>=C.length||sceneName!==sc0)return;const [n,c]=C[k],en=sceneName==='ingles',ne=['Red','Orange','Yellow','Green','Blue','Purple'][k];parts.push({x:560+k*96,y:200,vx:0,vy:-25,life:2.2,t:0,c,r:22,rot:0,k:'t',tx:en?ne:n.slice(0,-1),g:0});k++;if(en)sayMix3(['@'+ne],nx);else say3(n,nx)}/* en el Rincón del inglés, los colores del arcoíris en inglés */,sc0=sceneName;setTimeout(nx,1300)}}/* con seis nubecillas sale un arcoíris, y Tito nombra sus colores */const t0=T;w.upd.push((dt: number)=>{c.position.x+=.25*(dt||0);const q=Math.min(1,(T-t0)*3);c.scale.setScalar(.3*q)})}/* y la nubecilla se queda en el cielo (hasta 6) */
     for(let i=0;i<2;i++)parts.push({x,y,vx:0,vy:-10,life:.8,t:0,c:'#FFFFFF',r:12+i*6,rot:0,k:'o',g:0});for(let i=0;i<5;i++)parts.push({x:x+rnd(-15,15),y:y+rnd(-10,10),vx:rnd(-50,50),vy:rnd(-40,10),life:.7,t:0,c:'#FFFFFF',r:rnd(5,8),rot:0,k:'d',g:-20});noise(.18,.05,1200);tone(660,.15,'sine',.04,1.4)}}
 // la Osa Mayor en el cielo de noche de las zonas, entre el título y las monedas
 // jupiter(w): Júpiter en el cielo de noche (textura de rayas pintada a mano) con un halo. Marca userData.jup;
 // al tocarlo, durante 4 s, sus cuatro lunas dan vueltas a su alrededor.
-function jupiter(w){/* Júpiter, un planeta con rayas que brilla de noche */const cv=document.createElement('canvas');cv.width=64;cv.height=32;const c=cv.getContext('2d');['#F3DDB0','#D9A86C','#F6E6C4','#C98E55','#F3DDB0','#E2B985','#F6E6C4'].forEach((k,i)=>{c.fillStyle=k;c.fillRect(0,i*32/7,64,32/7+1)});c.fillStyle='#C0603A';c.beginPath();c.ellipse(40,20,5,2.6,0,0,7);c.fill();
+function jupiter(w: Mundo){/* Júpiter, un planeta con rayas que brilla de noche */const cv=document.createElement('canvas');cv.width=64;cv.height=32;const c=cv.getContext('2d')!;['#F3DDB0','#D9A86C','#F6E6C4','#C98E55','#F3DDB0','#E2B985','#F6E6C4'].forEach((k,i)=>{c.fillStyle=k;c.fillRect(0,i*32/7,64,32/7+1)});c.fillStyle='#C0603A';c.beginPath();c.ellipse(40,20,5,2.6,0,0,7);c.fill();
   const G=new THREE.Group();G.position.set(13.8,2.85,-19.4);G.userData.jup=1;G.userData.dur=4;const b=new THREE.Mesh(new THREE.SphereGeometry(.42,20,14),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv)}));b.rotation.z=.12;b.raycast=()=>{};G.add(b);
   const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:softTex(),color:'#FFE9B8',transparent:true,opacity:.45,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.setScalar(1.6);gl.raycast=()=>{};G.add(gl);hitS(G,.7,0);w.sc.add(G);
   const Mo=[0,1,2,3].map(i=>{const m=new THREE.Mesh(new THREE.SphereGeometry(.06,8,6),new THREE.MeshBasicMaterial({color:['#FFF2C0','#E8E8F0','#D8C8A8','#C8D0E0'][i],transparent:true}));m.raycast=()=>{};m.visible=false;G.add(m);return m});/* sus cuatro lunas grandes */
   w.upd.push(()=>{b.rotation.y=T*.25;gl.material.opacity=.38+.1*Math.sin(T*1.3);const e=G.userData.wob==null?-1:T-G.userData.wob,on=e>=0&&e<4;Mo.forEach((m,i)=>{m.visible=on;if(on){const r=.55+i*.2,a=e*(2.4-i*.45)+i*1.7;m.position.set(Math.cos(a)*r,Math.sin(a)*r*.18,Math.sin(a)*r*.3);m.material.opacity=Math.min(1,e*3,(4-e)*2)}})})}/* al tocarlo, sus lunas dan vueltas a su alrededor */
 // saturn(w): Saturno con sus anillos en el cielo de noche. Marca userData.sat; al tocarlo los anillos giran deprisa.
-function saturn(w){/* Saturno, con sus anillos, que brilla de noche */const G=new THREE.Group();G.position.set(-16.5,2.8,-19.4);G.userData.sat=1;G.userData.dur=2.5;
+function saturn(w: Mundo){/* Saturno, con sus anillos, que brilla de noche */const G=new THREE.Group();G.position.set(-16.5,2.8,-19.4);G.userData.sat=1;G.userData.dur=2.5;
   const b=new THREE.Mesh(new THREE.SphereGeometry(.34,18,12),new THREE.MeshBasicMaterial({color:'#EBD39A'}));b.raycast=()=>{};G.add(b);
   const rg=new THREE.Mesh(new THREE.RingGeometry(.48,.78,40),new THREE.MeshBasicMaterial({color:'#D8B878',side:THREE.DoubleSide,transparent:true,opacity:.9}));rg.raycast=()=>{};rg.rotation.x=-1.25;rg.rotation.y=.35;G.add(rg);
   const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:softTex(),color:'#FFE9B8',transparent:true,opacity:.35,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.setScalar(1.7);gl.raycast=()=>{};G.add(gl);hitS(G,.75,0);w.sc.add(G);
   w.upd.push(()=>{const e=G.userData.wob==null?-1:T-G.userData.wob,sp=e>=0&&e<2.5?(1-e/2.5)*9:0;rg.rotation.z+=(.15+sp)*.016;gl.material.opacity=.3+.08*Math.sin(T*1.1+1)})}/* al tocarlo, sus anillos giran deprisa */
 // bigDipper(w): la Osa Mayor (7 estrellas unidas por una línea) en el cielo de noche. Marca userData.dip; al tocarla
 // las estrellas se encienden una a una (cada 0,55 s) y Tito las cuenta con el número flotando encima.
-function bigDipper(w){const S=[[8.6,2.0],[10,1.85],[11.2,1.6],[12.3,1.35],[12.6,.6],[14.1,.45],[14.3,1.2]],z=-19.6,P=S.map(([x,y])=>new THREE.Vector3(x,y,z));
+function bigDipper(w: Mundo){const S=[[8.6,2.0],[10,1.85],[11.2,1.6],[12.3,1.35],[12.6,.6],[14.1,.45],[14.3,1.2]],z=-19.6,P=S.map(([x,y])=>new THREE.Vector3(x,y,z));
   const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints([...P,P[3]]),new THREE.LineBasicMaterial({color:'#AFC0FF',transparent:true,opacity:.35}));ln.raycast=()=>{};w.sc.add(ln);
   const g=new THREE.BufferGeometry().setFromPoints(P),p=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:2.1,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));p.raycast=()=>{};w.sc.add(p);
   const hg=new THREE.BufferGeometry();hg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3));const hl=new THREE.Points(hg,new THREE.PointsMaterial({color:'#FFFFFF',size:4.5,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));hl.raycast=()=>{};hl.visible=false;w.sc.add(hl);
   const G=new THREE.Group();G.position.set(11.4,1.25,z);G.userData.dip=1;G.userData.dur=4.2;hitS(G,1,0).scale.set(3.4,1.1,1);w.sc.add(G);/* se puede tocar: las estrellas se encienden una a una */
-  w.upd.push(()=>{p.material.opacity=.8+.2*Math.sin(T*1.7);const e=G.userData.wob==null?-1:T-G.userData.wob,i=Math.floor(e/.55);hl.visible=e>=0&&i<7;if(hl.visible){hl.geometry.attributes.position.array.set([P[i].x,P[i].y,P[i].z]);hl.geometry.attributes.position.needsUpdate=true;if(G.userData.ln!==i){G.userData.ln=i;tone([523,587,659,698,784,880,988][i],.22,'sine',.06);sayNum(i+1,i===6?()=>say3('¡Muy bien!'):null);{const v=new THREE.Vector3(P[i].x,P[i].y,P[i].z);hl.localToWorld(v);const [sx,sy]=proj(v);numPop(sx,sy+20,i+1)}}/* y las cuenta en voz alta, con el número flotando */}else G.userData.ln=-1})}
+  w.upd.push(()=>{p.material.opacity=.8+.2*Math.sin(T*1.7);const e=G.userData.wob==null?-1:T-G.userData.wob,i=Math.floor(e/.55);hl.visible=e>=0&&i<7;if(hl.visible){(hl.geometry.attributes.position.array as Float32Array).set([P[i].x,P[i].y,P[i].z]);hl.geometry.attributes.position.needsUpdate=true;if(G.userData.ln!==i){G.userData.ln=i;tone([523,587,659,698,784,880,988][i],.22,'sine',.06);sayNum(i+1,i===6?()=>say3('¡Muy bien!'):null);{const v=new THREE.Vector3(P[i].x,P[i].y,P[i].z);hl.localToWorld(v);const [sx,sy]=proj(v);numPop(sx,sy+20,i+1)}}/* y las cuenta en voz alta, con el número flotando */}else G.userData.ln=-1})}
 // rayos del sol de las zonas, que giran despacio
 // sunRays(w,x,y,z,c,e): los diez rayos del sol de las zonas (color c, brillo propio e), que giran y laten.
-function sunRays(w,x,y,z,c,e){const g=new THREE.Group();g.position.set(x,y,z);w.sc.add(g);
+function sunRays(w: Mundo,x: number,y: number,z: number,c: string,e: string){const g=new THREE.Group();g.position.set(x,y,z);w.sc.add(g);
   const r=mk(gcache('sunrays',()=>mg(Array.from({length:10},(_,i)=>{const a=i/10*PI*2;return [Box(.16,.5,.06),[Math.cos(a)*1.65,Math.sin(a)*1.65,0],null,[0,0,a-PI/2]]}))),M(c||'#FFD447',{emissive:e||'#E0A020'}),{ol:0,cs:false,rs:false});r.raycast=()=>{};g.add(r)/* los diez rayos en una sola pieza: menos trabajo para el móvil */
   w.upd.push(()=>{g.rotation.z=T*.25;const k=1+.06*Math.sin(T*2);g.scale.set(k,k,1)})}
 // nubecitas que cruzan el cielo de las zonas de día; se pueden tocar
 // águila que vuela en círculos delante de la montaña, de día; se puede tocar
 // mountEagle(w): águila que vuela en círculos delante de la montaña (de día). Marca userData.eagle.
-function mountEagle(w){const g=new THREE.Group();g.scale.setScalar(1.7);g.userData.eagle=1;hitS(g,1,0);w.sc.add(g);const W=[];mk(Sph(.22,10,8),'#7A5232',{s:[1,1.3,.8],ol:.03,cs:false,rs:false,to:g});mk(Sph(.14,10,8),'#FFFFFF',{p:[0,.3,.05],ol:.02,cs:false,rs:false,to:g});mk(Cone(.06,.14,6),'#FFC23A',{p:[0,.27,.2],r:[PI/2,0,0],ol:0,cs:false,rs:false,to:g});
-  for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.15;g.add(a);mk(Box(.95,.26,.06),'#6A4428',{p:[sd*.47,.04,0],r:[0,0,sd*.12],ol:.02,cs:false,rs:false,to:a});W.push([a,sd])}g.traverse(o=>{if(o.isMesh&&o.material!==FHIT)o.raycast=()=>{}});
+function mountEagle(w: Mundo){const g=new THREE.Group();g.scale.setScalar(1.7);g.userData.eagle=1;hitS(g,1,0);w.sc.add(g);const W: [Tres.Group, number][]=[];mk(Sph(.22,10,8),'#7A5232',{s:[1,1.3,.8],ol:.03,cs:false,rs:false,to:g});mk(Sph(.14,10,8),'#FFFFFF',{p:[0,.3,.05],ol:.02,cs:false,rs:false,to:g});mk(Cone(.06,.14,6),'#FFC23A',{p:[0,.27,.2],r:[PI/2,0,0],ol:0,cs:false,rs:false,to:g});
+  for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.15;g.add(a);mk(Box(.95,.26,.06),'#6A4428',{p:[sd*.47,.04,0],r:[0,0,sd*.12],ol:.02,cs:false,rs:false,to:a});W.push([a,sd])}g.traverse((o: Nodo)=>{if(o.isMesh&&o.material!==FHIT)o.raycast=()=>{}});
   w.upd.push(()=>{const t=T*.35;g.position.set(Math.cos(t)*7,1.7+Math.sin(t*2)*.4,-12);g.rotation.z=-Math.sin(t)*.3;W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*3)*.3)})}
 // en Navidad, de noche, el trineo de Papá Noel cruza el cielo de vez en cuando; se puede tocar
 // xmasSleigh(w): trineo de Papá Noel con dos renos (el primero con la nariz roja que brilla) que cruza el cielo cada
 // 26 s haciendo sonar cascabeles. Marca userData.sleigh. Las piezas no se tocan: solo la esfera invisible de hitS.
-function xmasSleigh(w){const g=new THREE.Group();g.userData.sleigh=1;hitS(g,1.6,.3).scale.x*=2.2;w.sc.add(g);const o={ol:.03,cs:false,rs:false,to:g};
+function xmasSleigh(w: Mundo){const g=new THREE.Group();g.userData.sleigh=1;hitS(g,1.6,.3).scale.x*=2.2;w.sc.add(g);const o={ol:.03,cs:false,rs:false,to:g};
   mk(Box(1,.4,.55),'#D9342B',{...o,p:[0,.2,0]});mk(Box(1.3,.06,.08),'#F2C14E',{...o,p:[.05,-.05,.22]});mk(Box(1.3,.06,.08),'#F2C14E',{...o,p:[.05,-.05,-.22]});mk(Sph(.24,12,10),'#D9342B',{...o,p:[-.15,.6,0]});mk(Sph(.14,10,8),'#F6D3B8',{...o,p:[-.15,.88,-.04]});mk(Cone(.15,.3,10),'#D9342B',{...o,p:[-.15,1.08,0]});mk(Sph(.12,10,8),'#FFFFFF',{...o,p:[-.15,.8,-.12],s:[1.2,.8,.6]});
-  for(let i=0;i<2;i++){const x=-1.1-i*.9;mk(Sph(.22,10,8),'#9A6A42',{...o,p:[x,.35,0],s:[1.4,.9,.9]});mk(Sph(.13,10,8),'#9A6A42',{...o,p:[x-.32,.6,0]});const ns=mk(Sph(i?.07:.05,6,5),i?new THREE.MeshBasicMaterial({color:'#FF3B2E'}):'#5A3A1E',{...o,p:[x-.45,.6,0]});if(i){const gl=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array([x-.47,.6,0]),3)),new THREE.PointsMaterial({color:'#FF5A4A',size:1.1,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));gl.raycast=()=>{};g.add(gl);w.upd.push(()=>{gl.material.opacity=.55+.45*Math.sin(T*5)})}/* la nariz del primer reno brilla */for(const sd of[-1,1])mk(Cyl(.02,.02,.25,4),'#5A3A1E',{...o,p:[x-.3,.8,sd*.06],r:[sd*.4,0,.3]})}
-  g.traverse(m=>{if(m.isMesh&&m.material!==FHIT)m.raycast=()=>{}});let jg=-1;w.upd.push(()=>{const c=T%26,q=c/10,n=Math.floor(T/26);if(q>.3&&jg!==n){jg=n;for(let i=0;i<6;i++){tone(2093+(i%3)*300,.07,'triangle',.02,1,i*.12);noise(.03,.025,6000,i*.12)}}/* al pasar, se oyen bajito los cascabeles */g.visible=q<1;if(!g.visible)return;g.position.set(-30+q*60,-.3+Math.sin(T*3)*.15,-19.5);g.rotation.y=PI;g.scale.setScalar(1.25)})}
+  for(let i=0;i<2;i++){const x=-1.1-i*.9;mk(Sph(.22,10,8),'#9A6A42',{...o,p:[x,.35,0],s:[1.4,.9,.9]});mk(Sph(.13,10,8),'#9A6A42',{...o,p:[x-.32,.6,0]});mk(Sph(i?.07:.05,6,5),i?new THREE.MeshBasicMaterial({color:'#FF3B2E'}):'#5A3A1E',{...o,p:[x-.45,.6,0]});if(i){const gl=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array([x-.47,.6,0]),3)),new THREE.PointsMaterial({color:'#FF5A4A',size:1.1,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));gl.raycast=()=>{};g.add(gl);w.upd.push(()=>{gl.material.opacity=.55+.45*Math.sin(T*5)})}/* la nariz del primer reno brilla */for(const sd of[-1,1])mk(Cyl(.02,.02,.25,4),'#5A3A1E',{...o,p:[x-.3,.8,sd*.06],r:[sd*.4,0,.3]})}
+  g.traverse((m: Nodo)=>{if(m.isMesh&&m.material!==FHIT)m.raycast=()=>{}});let jg=-1;w.upd.push(()=>{const c=T%26,q=c/10,n=Math.floor(T/26);if(q>.3&&jg!==n){jg=n;for(let i=0;i<6;i++){tone(2093+(i%3)*300,.07,'triangle',.02,1,i*.12);noise(.03,.025,6000,i*.12)}}/* al pasar, se oyen bajito los cascabeles */g.visible=q<1;if(!g.visible)return;g.position.set(-30+q*60,-.3+Math.sin(T*3)*.15,-19.5);g.rotation.y=PI;g.scale.setScalar(1.25)})}
 // pajaritos que cruzan el cielo de las zonas de día, de vez en cuando, aleteando
 // skyBirds(w): tres pajaritos que cruzan el cielo juntos cada 22 s aleteando (de día). Marca userData.skyb.
-function skyBirds(w){const B=[];for(let i=0;i<3;i++){const g=new THREE.Group();g.userData.skyb=1;hitS(g,.9,0);w.sc.add(g);const W=[];for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.04;g.add(a);const m=mk(Box(.6,.08,.08),'#4A4A5A',{p:[sd*.29,0,0],ol:0,cs:false,rs:false});m.raycast=()=>{};a.add(m);W.push([a,sd])}B.push([g,W,i])}
+function skyBirds(w: Mundo){const B: [Tres.Group, [Tres.Group, number][], number][]=[];for(let i=0;i<3;i++){const g=new THREE.Group();g.userData.skyb=1;hitS(g,.9,0);w.sc.add(g);const W: [Tres.Group, number][]=[];for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.04;g.add(a);const m=mk(Box(.6,.08,.08),'#4A4A5A',{p:[sd*.29,0,0],ol:0,cs:false,rs:false});m.raycast=()=>{};a.add(m);W.push([a,sd])}B.push([g,W,i])}
   w.upd.push(()=>{const c=T%22,q=c/9;B.forEach(([g,W,i])=>{g.visible=q<1;if(!g.visible)return;g.position.set(30-q*60-i*1.3,1.1+i*.35+Math.sin(T*2+i)*.1,-20.5);W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*9+i*1.7)*.5)})})}
 // skyClouds(w,tint): dos nubes con carita que cruzan el cielo de las zonas y un arcoíris escondido (w.rainbow)
 // que se ve 2,6 s cuando se pone w.rainT=T. tint = color de las nubes (si no, rosadas a partir de las 18 h).
-function skyClouds(w,tint){const rb=new THREE.Group();rb.visible=false;w.sc.add(rb);['#FF6B6B','#FFB347','#FFE45C','#7ED957','#5AB8F0','#9B7FE6'].forEach((c,i)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(2.3-i*.16,.09,6,32,PI),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0,depthWrite:false}));m.raycast=()=>{};rb.add(m)});w.rainbow=rb;
-  w.upd.push(()=>{const e=w.rainT==null?9:T-w.rainT;rb.visible=e<2.6;if(rb.visible){const o=Math.min(1,e*3,(2.6-e)*2)*.85;rb.children.forEach(m=>m.material.opacity=o)}})/* arcoíris que aparece un momento al tocar una nube */
-  for(let i=0;i<2;i++){const c=cloud3(w.sc,-19+i*35,.5+i*.5,-21,.5+i*.08);if(tint||new Date().getHours()>=18)c.traverse(o=>{if(o.isMesh&&o.material!==FHIT)o.material=M(tint||'#FFD6C6')})/* al atardecer, nubes rosadas; de noche, azuladas */;c.userData.cloud=1;hitS(c,1.5,0).position.x=1.1;orbFace(w,c,tint?1:0).position.set(1.1,.2,1.45);/* las nubes también tienen carita */
-  w.upd.push(dt=>{c.position.x+=.25*dt;if(c.position.x>30)c.position.x=-32})}}
+function skyClouds(w: Mundo,tint?: string){const rb=new THREE.Group();rb.visible=false;w.sc.add(rb);['#FF6B6B','#FFB347','#FFE45C','#7ED957','#5AB8F0','#9B7FE6'].forEach((c,i)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(2.3-i*.16,.09,6,32,PI),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0,depthWrite:false}));m.raycast=()=>{};rb.add(m)});w.rainbow=rb;
+  w.upd.push(()=>{const e=w.rainT==null?9:T-w.rainT;rb.visible=e<2.6;if(rb.visible){const o=Math.min(1,e*3,(2.6-e)*2)*.85;rb.children.forEach((m: Nodo)=>m.material.opacity=o)}})/* arcoíris que aparece un momento al tocar una nube */
+  for(let i=0;i<2;i++){const c=cloud3(w.sc,-19+i*35,.5+i*.5,-21,.5+i*.08);if(tint||new Date().getHours()>=18)c.traverse((o: Nodo)=>{if(o.isMesh&&o.material!==FHIT)o.material=M(tint||'#FFD6C6')})/* al atardecer, nubes rosadas; de noche, azuladas */;c.userData.cloud=1;hitS(c,1.5,0).position.x=1.1;orbFace(w,c,tint?1:0).position.set(1.1,.2,1.45);/* las nubes también tienen carita */
+  w.upd.push((dt: number)=>{c.position.x+=.25*dt;if(c.position.x>30)c.position.x=-32})}}
 // carita del sol (ojos abiertos) o de la luna (ojos cerrados, dormida)
 // orbFace(w,G,sleep): carita para el sol o la luna G: ojos, mofletes y sonrisa. sleep=true pone ojos cerrados (luna
 // dormida) que se abren un momento al tocarla; el sol parpadea, sonríe más al tocarlo y al atardecer bosteza.
 // (arc es una pequeña función que crea medio aro para los ojos cerrados.) Devuelve el grupo de la cara.
-function orbFace(w,G,sleep){const EY=[],OE=[];const g=new THREE.Group();g.position.z=1.02;G.add(g);const K='#5A3A1E',arc=a=>new THREE.TorusGeometry(.13,.035,6,12,PI);
+function orbFace(w: Mundo,G: Tres.Group,sleep: number|boolean){const EY: Tres.Mesh[]=[],OE: Tres.Mesh[]=[];const g=new THREE.Group();g.position.z=1.02;G.add(g);const K='#5A3A1E',arc=()=>new THREE.TorusGeometry(.13,.035,6,12,PI);
   for(const sd of[-1,1]){const e=sleep?mk(arc(),K,{p:[sd*.36,.2,0],r:[0,0,PI],ol:0,cs:false,rs:false}):mk(Sph(.09,10,8),K,{p:[sd*.36,.2,0],ol:0,cs:false,rs:false});e.raycast=()=>{};g.add(e);EY.push(e);if(sleep){const o=mk(Sph(.09,10,8),'#5A3A1E',{p:[sd*.36,.2,0],ol:0,cs:false,rs:false});o.visible=false;o.raycast=()=>{};g.add(o);OE.push(o)}
     const c=mk(Sph(.12,10,8),'#FF9A7A',{p:[sd*.58,-.08,-.05],s:[1,.6,.4],ol:0,cs:false,rs:false});c.raycast=()=>{};g.add(c)}
   const m=mk(new THREE.TorusGeometry(sleep?.12:.26,.04,6,14,PI),K,{p:[0,sleep?-.2:-.08,0],r:[0,0,PI],ol:0,cs:false,rs:false});m.raycast=()=>{};g.add(m);
@@ -397,29 +412,29 @@ function orbFace(w,G,sleep){const EY=[],OE=[];const g=new THREE.Group();g.positi
 // luna de las zonas por la noche, con un halo que respira
 // zoneMoon(w,x,y,z,c,e,hc): luna (o sol si se da el color c, con brillo e) de las zonas, con un halo de color hc que
 // respira. Marca userData.orb ('sol'|'luna'). Al llegar a la zona, Tito la mira (al sol solo de 7 a 11 h). Devuelve el grupo.
-function zoneMoon(w,x,y,z,c,e,hc){const G=new THREE.Group();G.position.set(x,y,z);G.userData.orb=c?'sol':'luna';w.sc.add(G);hitS(G,1.4,0);/* se puede tocar */const m=mk(Sph(1.1,20,16),M(c||'#FFF3B0',{emissive:e||'#B8963A'}),{ol:.12,cs:false,rs:false});m.raycast=()=>{};G.add(m);
+function zoneMoon(w: Mundo,x: number,y: number,z: number,c?: string,e?: string,hc?: string){const G=new THREE.Group();G.position.set(x,y,z);G.userData.orb=c?'sol':'luna';w.sc.add(G);hitS(G,1.4,0);/* se puede tocar */const m=mk(Sph(1.1,20,16),M(c||'#FFF3B0',{emissive:e||'#B8963A'}),{ol:.12,cs:false,rs:false});m.raycast=()=>{};G.add(m);
   const hg=new THREE.BufferGeometry();hg.setAttribute('position',new THREE.BufferAttribute(new Float32Array([x,y,z-.6]),3));
   const h=new THREE.Points(hg,new THREE.PointsMaterial({color:hc||'#FFF1A8',size:7,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false,opacity:.5}));h.raycast=()=>{};w.sc.add(h);
   w.upd.push(()=>{const q=Math.sin(T*1.3);h.material.size=7+q*.9;h.material.opacity=.45+.12*q});
   {const hr=new Date().getHours();if(!c||hr>=7&&hr<11){let dn=0;w.upd.push(()=>{if(!dn&&w.tito&&T>.8){dn=1;w.tito.userData.lk={p:G.position.clone(),t:T}}})}}/* al llegar por la mañana Tito mira al sol, y de noche a la luna */return G}
 // seta de sombrero rojo con lunares; al tocarla se aplasta y rebota como los arbustos
 // mush3(to,x,z,s): seta de sombrero rojo con lunares (de noche brillan). Marca userData.mush.
-function mush3(to,x,z,s){const g=grp(to,[x,0,z],s);g.userData.mush=1;mk(Cyl(.16,.2,.5,12),'#FFF6E6',{p:[0,.25,0],to:g,ol:.025});
+function mush3(to: Tres.Object3D,x: number,z: number,s: number){const g=grp(to,[x,0,z],s);g.userData.mush=1;mk(Cyl(.16,.2,.5,12),'#FFF6E6',{p:[0,.25,0],to:g,ol:.025});
   const nt=skyNow().night,cap=new THREE.SphereGeometry(.42,16,10,0,PI*2,0,PI/2);/* de noche las setas brillan un poco */mk(cap,nt?M('#E8503C',{emissive:'#6A1A0E'}):'#E8503C',{p:[0,.48,0],s:[1,.75,1],to:g,ol:.03});
   const dc=nt?M('#FFFFFF',{emissive:'#8FE3FF'}):'#FFFFFF';for(let i=0;i<5;i++){const a=i/5*PI*2;mk(Sph(.06,8,6),dc,{p:[Math.cos(a)*.26,.68,Math.sin(a)*.26],s:[1,.5,1],ol:0,cs:false,to:g})}mk(Sph(.07,8,6),dc,{p:[0,.8,0],s:[1,.5,1],ol:0,cs:false,to:g});return g}
 // autobús rojo de dos pisos que va y viene; al tocarlo da un saltito y pita
 // bus3(w,z): autobús rojo de dos pisos que va y viene por x entre -14 y 14 en la línea z, girando al dar la vuelta.
 // De noche lleva luces. Al tocarlo (userData.bus) da un saltito.
-function bus3(w,z){const D=w.sc,b=grp(D,[0,0,z],.9),body=grp(b,[0,0,0]);b.userData.bus=1;
+function bus3(w: Mundo,z: number){const D=w.sc,b=grp(D,[0,0,z],.9),body=grp(b,[0,0,0]);b.userData.bus=1;
   mk(rbox(3,1.9,1.2,.12),'#D9302C',{p:[0,1.25,0],to:body,ol:.05});mk(Box(3.02,.12,1.22),'#FFF3D6',{p:[0,1.3,0],ol:0,to:body});
   const nt=skyNow().night;for(const y of[.95,1.75])for(const sd of[-1,1])mk(Box(2.5,.38,.02),nt?M('#FFE08A',{emissive:'#C98A00'}):'#BFE6F8',{p:[0,y,sd*.61],ol:0,cs:false,to:body});
   for(const sd of[-1,1])mk(Sph(.13,10,8),nt?M('#FFF6C0',{emissive:'#FFD23C'}):'#F2EEE0',{p:[1.5,.62,sd*.38],s:[.5,1,1],ol:.015,cs:false,to:body});/* faros (de noche encendidos, y las ventanas con luz) */
   for(const x of[-.95,.95])for(const sd of[-1,1])mk(Cyl(.28,.28,.2,14),'#3A2E2A',{p:[x,.3,sd*.55],r:[PI/2,0,0],ol:.02,to:b});
-  let x=-14,dir=1;w.upd.push(dt=>{x+=dir*dt*1.6;if(x>14){x=14;dir=-1}if(x<-14){x=-14;dir=1}b.position.x=x;b.rotation.y+=((dir>0?0:PI)-b.rotation.y)*Math.min(1,dt*4);
+  let x=-14,dir=1;w.upd.push((dt: number)=>{x+=dir*dt*1.6;if(x>14){x=14;dir=-1}if(x<-14){x=-14;dir=1}b.position.x=x;b.rotation.y+=((dir>0?0:PI)-b.rotation.y)*Math.min(1,dt*4);
     const k=b.userData.wob,e=k==null?9:T-k;body.position.y=(e<.5?Math.sin(e/.5*PI)*.4:0)+Math.abs(Math.sin(T*8))*.02});return b}
 // muñeco de nieve; al tocarlo el sombrero da un salto y gira
 // snowman3(w,x,z,s): muñeco de nieve; al tocarlo el sombrero salta dando una vuelta. Marca userData.snowman.
-function snowman3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.snowman=1;
+function snowman3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.snowman=1;
   mk(Sph(.7,18,14),'#FFFFFF',{p:[0,.62,0],to:g,ol:.03});mk(Sph(.5,18,14),'#FFFFFF',{p:[0,1.6,0],to:g,ol:.03});
   for(const sd of[-1,1])mk(Sph(.06,8,6),K,{p:[sd*.17,1.7,.44],ol:0,cs:false,to:g});mk(Cone(.07,.4,8),'#FF8A3D',{p:[0,1.58,.6],r:[PI/2,0,0],ol:0,to:g});
   for(let i=0;i<3;i++)mk(Sph(.06,8,6),K,{p:[0,.5+i*.25,.68-Math.abs(i-1)*.05],ol:0,cs:false,to:g});
@@ -428,20 +443,20 @@ function snowman3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.snowman=1;
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/.9,1);hat.position.y=2.02+(e<.9?Math.sin(q*PI)*.9:0);hat.rotation.y=e<.9?q*PI*2:0});return g}
 // pinata3(w,x,z,s): piñata de estrella colgada de un palo; al tocarla se balancea y suelta 7 caramelos que saltan.
 // Marca userData.pinata.
-function pinata3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.pinata=1;
+function pinata3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.pinata=1;
   mk(Cyl(.08,.1,3.6,8),'#B07A4A',{p:[-1.2,1.8,0],to:g,ol:.02});mk(Cyl(.07,.07,1.5,8),'#B07A4A',{p:[-.5,3.55,0],r:[0,0,PI/2],to:g,ol:.02});
   const sw=grp(g,[.2,3.55,0]);mk(Cyl(.012,.012,.9,4),K,{p:[0,-.45,0],ol:0,cs:false,to:sw});mk(starGeo(.6,.4),'#FF6FA5',{p:[0,-1.45,0],to:sw,ol:.04});
   for(let i=0;i<5;i++){const a=PI/2+i*PI*2/5;mk(Cone(.08,.4,6),DIAC[i%7],{p:[Math.cos(a)*.62,-1.45+Math.sin(a)*.62,0],r:[0,0,a-PI/2],ol:0,cs:false,to:sw})}
-  const cd=[];for(let i=0;i<7;i++){const m=mk(Sph(.12,8,6),DIAC[i%7],{to:g,ol:.02,cs:false});m.visible=false;m.raycast=()=>{};cd.push(m)}
+  const cd: Tres.Mesh[]=[];for(let i=0;i<7;i++){const m=mk(Sph(.12,8,6),DIAC[i%7],{to:g,ol:.02,cs:false});m.visible=false;m.raycast=()=>{};cd.push(m)}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;sw.rotation.z=e<2.6?Math.sin(e*6)*.45*Math.exp(-e*1.4):0;sw.rotation.y=e<2.6?e*3*Math.exp(-e):0;
     for(let i=0;i<cd.length;i++){const m=cd[i];if(e>2.4){m.visible=false;continue}const a=i/cd.length*PI*2,vx=Math.cos(a)*1.3,vz=Math.sin(a)*1.3,t=Math.min(e,.75);
       m.visible=e>.05;m.position.set(.2+vx*t,Math.max(.12,2.1+3*t-6*t*t),vz*t)}});return g}
 // abeja: zumba de flor en flor; al tocarla sube dando vueltas (cuenta como mariposa para tocarla primero)
 // bee3(w,cx,cz,ph,sc): abeja que zumba en ochos alrededor de (cx,cz); al tocarla sube girando. Lleva bfly y bee
 // (cuenta como mariposa para algunas cosas; chainWob la separa).
-function bee3(w,cx,cz,ph,sc){const g=grp(w.sc,[cx,1.2,cz],sc||1.5);g.userData.bfly=1;g.userData.bee=1;g.add(new THREE.Mesh(gcache('bhit',()=>Sph(.4,6,4)),FHIT));
+function bee3(w: Mundo,cx: number,cz: number,ph: number,sc?: number){const g=grp(w.sc,[cx,1.2,cz],sc||1.5);g.userData.bfly=1;g.userData.bee=1;g.add(new THREE.Mesh(gcache('bhit',()=>Sph(.4,6,4)),FHIT));
   mk(Sph(.2,12,10),'#FFC93C',{s:[1,1,1.35],ol:.02,cs:false,to:g});for(const z of[-.08,.1])mk(new THREE.TorusGeometry(.19,.035,6,16),K,{p:[0,0,z],s:[1,1,1],ol:0,cs:false,to:g});
-  mk(Sph(.12,10,8),K,{p:[0,.02,.27],ol:0,cs:false,to:g});const W=[];
+  mk(Sph(.12,10,8),K,{p:[0,.02,.27],ol:0,cs:false,to:g});const W: [Tres.Group, number][]=[];
   for(const sd of[-1,1]){const pv=grp(g,[sd*.08,.14,0]);mk(Sph(.16,10,8),M('#FFFFFF',{transparent:true,opacity:.75}),{p:[sd*.14,.04,-.04],s:[1,.2,.6],ol:0,cs:false,to:pv});W.push([pv,sd])}
   let lx=cx,lz=cz;w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/1.2,1),up=e<1.2?Math.sin(q*PI)*1.4:0;
     const t=T*.7+ph,x=cx+Math.sin(t)*4.5,z=cz+Math.sin(t*2)*1;g.position.set(x,1.1+Math.abs(Math.sin(T*2.4+ph))*.5+up,z);
@@ -449,56 +464,56 @@ function bee3(w,cx,cz,ph,sc){const g=grp(w.sc,[cx,1.2,cz],sc||1.5);g.userData.bf
 // búho sobre un tocón: parpadea; al tocarlo gira la cabeza y ulula
 // owl3(w,x,z,s): búho sobre un tocón. De día duerme (Zzz); de noche tiene los ojos amarillos y parpadea.
 // Al tocarlo gira la cabeza. Marca userData.owl.
-function owl3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.owl=1;mk(Cyl(.55,.62,.9,14),'#8A5A3A',{p:[0,.45,0],to:g,ol:.03});mk(Cyl(.5,.5,.02,14),'#D9B58A',{p:[0,.91,0],ol:0,cs:false,to:g});
+function owl3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.owl=1;mk(Cyl(.55,.62,.9,14),'#8A5A3A',{p:[0,.45,0],to:g,ol:.03});mk(Cyl(.5,.5,.02,14),'#D9B58A',{p:[0,.91,0],ol:0,cs:false,to:g});
   mk(Sph(.48,16,12),'#9C6B45',{p:[0,1.38,0],s:[1,1.15,.9],to:g,ol:.03});mk(Sph(.32,14,10),'#E9D2AE',{p:[0,1.3,.2],s:[1,1.2,.6],ol:0,cs:false,to:g});
-  const hd=grp(g,[0,1.95,0]);mk(Sph(.4,16,12),'#9C6B45',{to:hd,ol:.03});mk(Sph(.33,14,10),'#E9D2AE',{p:[0,0,.16],s:[1.05,.85,.7],ol:0,cs:false,to:hd});const E=[],EW=[],nt=skyNow().night;
+  const hd=grp(g,[0,1.95,0]);mk(Sph(.4,16,12),'#9C6B45',{to:hd,ol:.03});mk(Sph(.33,14,10),'#E9D2AE',{p:[0,0,.16],s:[1.05,.85,.7],ol:0,cs:false,to:hd});const E: Tres.Mesh[]=[],EW: Tres.Mesh[]=[],nt=skyNow().night;
   for(const sd of[-1,1]){EW.push(mk(Sph(.19,12,10),nt?M('#FFE070',{emissive:'#C9A000'}):'#FFFFFF',{p:[sd*.17,.06,.3],s:[1,1,.5],ol:.02,cs:false,to:hd}));const pu=mk(Sph(.1,10,8),K,{p:[sd*.17,.07,.39],s:[1,1,.5],ol:0,cs:false,to:hd});E.push(pu);
     mk(Cone(.09,.26,6),'#7A4E30',{p:[sd*.24,.4,0],r:[0,0,-sd*.35],ol:0,cs:false,to:hd})}
   mk(Cone(.06,.16,6),'#FFA94D',{p:[0,-.08,.4],r:[PI/2+.6,0,0],ol:0,cs:false,to:hd});
   const zz=nt?null:zzz3(w,g,2.4);// el búho es nocturno: de día duerme y de noche está despierto
-  w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/1.2,1),sl=!nt&&e>3,bl=sl?.12:(T%4.3)<.15?.15:1;for(const pu of E)pu.scale.y=bl;for(const m of EW)m.scale.y=sl?.15:1;if(zz)zz.forEach(z=>z.visible=sl);
+  w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/1.2,1),sl=!nt&&e>3,bl=sl?.12:(T%4.3)<.15?.15:1;for(const pu of E)pu.scale.y=bl;for(const m of EW)m.scale.y=sl?.15:1;if(zz)zz.forEach(z=>z.visible=!!sl);
     hd.rotation.y=e<1.2?Math.sin(q*PI*2)*1.2:sl?0:Math.sin(T*.4)*.15;hd.rotation.x=sl?.25:0;hd.rotation.z=e<1.2?Math.sin(q*PI)*.2:0});return g}
 // cabina de teléfono roja (rincón de inglés): al tocarla tiembla y suena ring-ring
 // phone3(w,x,z,s): cabina de teléfono roja (inglés); de noche tiene luz dentro. Al tocarla tiembla. Marca userData.phone.
-function phone3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.phone=1;const R='#D9372C';
-  mk(Box(1,2.3,1),R,{p:[0,1.15,0],to:g,ol:.04});mk(Box(1.12,.18,1.12),R,{p:[0,2.38,0],to:g,ol:.03});mk(Sph(.5,14,8,0,PI*2,0,PI/2),R,{p:[0,2.46,0],s:[1,.35,1],to:g,ol:.03});
+function phone3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.phone=1;const R='#D9372C';
+  mk(Box(1,2.3,1),R,{p:[0,1.15,0],to:g,ol:.04});mk(Box(1.12,.18,1.12),R,{p:[0,2.38,0],to:g,ol:.03});mk(Sph(.5,14,8),R,{p:[0,2.46,0],s:[1,.35,1],to:g,ol:.03});
   const gl=canvasTex(64,128,()=>{ctx.fillStyle='#BFE6F5';ctx.fillRect(0,0,64,128);ctx.fillStyle='#D9372C';for(let i=1;i<4;i++)ctx.fillRect(0,i*32-3,64,6);ctx.fillRect(29,0,6,128)},'phonegl');
   mk(Box(.7,1.4,.02),skyNow().night?new THREE.MeshBasicMaterial({map:gl,color:'#FFF2B0'}):new THREE.MeshToonMaterial({map:gl}),{p:[0,1.15,.51],ol:0,cs:false,to:g});/* de noche la cabina tiene luz dentro */
   mk(Box(.8,.2,.02),'#FFFFFF',{p:[0,2.14,.51],ol:0,cs:false,to:g});return g}
 // charca con una rana sobre un nenúfar: al tocarla da un salto y croa
 // frog3(w,x,z,s): charca con nenúfares y una rana que hincha la garganta; al tocarla salta. De noche duerme.
 // Marca userData.frog.
-function frog3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.frog=1;mk(Cyl(1.3,1.3,.06,24),'#7FC8E8',{p:[0,.03,0],s:[1,1,.7],ol:.02,to:g});
-  mk(Cyl(.5,.5,.04,16,1,false,.4,PI*2-.6),'#5BB04B',{p:[-.2,.08,0],ol:0,cs:false,to:g});mk(Cyl(.28,.28,.04,12,1,false,1,PI*2-.6),'#5BB04B',{p:[.75,.08,.2],ol:0,cs:false,to:g});
+function frog3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.frog=1;mk(Cyl(1.3,1.3,.06,24),'#7FC8E8',{p:[0,.03,0],s:[1,1,.7],ol:.02,to:g});
+  mk(Cyl(.5,.5,.04,16),'#5BB04B',{p:[-.2,.08,0],ol:0,cs:false,to:g});mk(Cyl(.28,.28,.04,12),'#5BB04B',{p:[.75,.08,.2],ol:0,cs:false,to:g});
   const f=grp(g,[-.2,.1,0]);mk(Sph(.32,14,10),'#6CC24A',{p:[0,.22,0],s:[1,.7,1.1],to:f,ol:.03});
-  const FE=[],nt=skyNow().night;for(const sd of[-1,1]){mk(Sph(.11,10,8),'#6CC24A',{p:[sd*.15,.42,.18],to:f,ol:.02});FE.push(mk(Sph(.06,8,6),K,{p:[sd*.15,.46,.27],ol:0,cs:false,to:f}));mk(Sph(.12,8,6),'#5AAE3C',{p:[sd*.28,.08,.15],s:[1,.5,1.4],ol:.02,cs:false,to:f})}
+  const FE: Tres.Mesh[]=[],nt=skyNow().night;for(const sd of[-1,1]){mk(Sph(.11,10,8),'#6CC24A',{p:[sd*.15,.42,.18],to:f,ol:.02});FE.push(mk(Sph(.06,8,6),K,{p:[sd*.15,.46,.27],ol:0,cs:false,to:f}));mk(Sph(.12,8,6),'#5AAE3C',{p:[sd*.28,.08,.15],s:[1,.5,1.4],ol:.02,cs:false,to:f})}
   const th=mk(Sph(.12,10,8),'#F2E3A0',{p:[0,.2,.3],s:[1.2,.7,.6],ol:0,cs:false,to:f});
   const zz=nt?zzz3(w,f,.8):null;w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/.8,1),sl=nt&&e>=.8;f.position.y=.1+(e<.8?Math.sin(q*PI)*1.1:0);f.rotation.x=e<.8?-Math.sin(q*PI)*.4:0;
-    th.scale.setScalar(sl?1:1+Math.max(0,Math.sin(T*5))*.5*((T%3)<1.2?1:0));for(const m of FE)m.scale.y=sl?.15:1;if(zz)zz.forEach(z=>z.visible=sl)});return g}// de noche duerme sobre el nenúfar
+    th.scale.setScalar(sl?1:1+Math.max(0,Math.sin(T*5))*.5*((T%3)<1.2?1:0));for(const m of FE)m.scale.y=sl?.15:1;if(zz)zz.forEach(z=>z.visible=!!sl)});return g}// de noche duerme sobre el nenúfar
 // cangrejo de la playa del mapa: anda de lado de un lado a otro; al tocarlo abre y cierra las pinzas y corre
 // crab3(w,x0,x1,z,s): cangrejo que anda de lado entre x0 y x1; al tocarlo corre y abre las pinzas. De noche duerme.
 // Marca userData.crab.
-function crab3(w,x0,x1,z,s){const g=grp(w.sc,[x0,0,z],s);g.userData.crab=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));const C='#F0603C';
-  mk(Sph(.4,14,10),C,{p:[0,.3,0],s:[1.2,.6,.9],to:g,ol:.03});const P=[],CE=[],nt=skyNow().night;
+function crab3(w: Mundo,x0: number,x1: number,z: number,s: number){const g=grp(w.sc,[x0,0,z],s);g.userData.crab=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));const C='#F0603C';
+  mk(Sph(.4,14,10),C,{p:[0,.3,0],s:[1.2,.6,.9],to:g,ol:.03});const P: Tres.Group[]=[],CE: Tres.Mesh[]=[],nt=skyNow().night;
   for(const sd of[-1,1]){mk(Cyl(.03,.03,.25,5),C,{p:[sd*.13,.55,.18],ol:0,cs:false,to:g});CE.push(mk(Sph(.07,8,6),'#FFFFFF',{p:[sd*.13,.7,.18],ol:.015,cs:false,to:g}),mk(Sph(.035,6,5),K,{p:[sd*.13,.71,.24],ol:0,cs:false,to:g}));
     const cl=grp(g,[sd*.48,.35,.3]);mk(Sph(.16,10,8),C,{s:[1,.8,1.2],to:cl,ol:.02});const j=grp(cl,[0,0,.12]);mk(Box(.07,.06,.2),C,{p:[0,0,.08],ol:.01,cs:false,to:j});P.push(j);
     for(let i=0;i<3;i++)mk(Cyl(.025,.025,.35,4),C,{p:[sd*.42,.18,-.15+i*.15],r:[0,0,sd*1.1],ol:0,cs:false,to:g})}
-  const zz=nt?zzz3(w,g,1):null;let ph=0;w.upd.push(dt=>{const k=g.userData.wob,e=k==null?9:T-k,fast=e<1.2,sl=nt&&!fast;ph+=sl?0:dt*(fast?1.6:.35);for(const m of CE)m.scale.y=sl?.2:1;if(zz)zz.forEach(z=>z.visible=sl);// de noche duerme en la arena
+  const zz=nt?zzz3(w,g,1):null;let ph=0;w.upd.push((dt: number)=>{const k=g.userData.wob,e=k==null?9:T-k,fast=e<1.2,sl=nt&&!fast;ph+=sl?0:dt*(fast?1.6:.35);for(const m of CE)m.scale.y=sl?.2:1;if(zz)zz.forEach(z=>z.visible=!!sl);// de noche duerme en la arena
     g.position.x=x0+(x1-x0)*(.5-.5*Math.cos(ph));
     g.position.y=Math.abs(Math.sin(ph*14))*.04;for(const j of P)j.rotation.y=fast?Math.abs(Math.sin(e*16))*.7:Math.max(0,Math.sin(T*3))*.3});return g}
 // tarta de cumpleaños con velas: al tocarla se apagan con un soplido y al rato se vuelven a encender
 // cake3(w,x,z,s): tarta de cumpleaños con 5 velas; al tocarla se apagan una a una y a los 2,4 s se encienden.
 // Marca userData.cake.
-function cake3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.cake=1;g.userData.dur=2.5;mk(Cyl(.95,.95,.08,20),'#FFFFFF',{p:[0,.04,0],to:g,ol:.02});
+function cake3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.cake=1;g.userData.dur=2.5;mk(Cyl(.95,.95,.08,20),'#FFFFFF',{p:[0,.04,0],to:g,ol:.02});
   mk(Cyl(.75,.75,.5,20),'#F7A8C4',{p:[0,.33,0],to:g,ol:.03});mk(Cyl(.77,.77,.08,20),'#FFFFFF',{p:[0,.6,0],ol:.01,cs:false,to:g});mk(Cyl(.55,.55,.38,20),'#FFE08A',{p:[0,.83,0],to:g,ol:.03});
   for(let i=0;i<8;i++){const a=i/8*PI*2;mk(Sph(.07,8,6),DIAC[i%7],{p:[Math.cos(a)*.76,.5,Math.sin(a)*.76],ol:0,cs:false,to:g})}
-  const F=[];for(let i=0;i<5;i++){const a=i/5*PI*2+.3,cx=Math.cos(a)*.32,cz=Math.sin(a)*.32;mk(Cyl(.035,.035,.32,6),DIAC[i%7],{p:[cx,1.18,cz],ol:.01,cs:false,to:g});
+  const F: Tres.Mesh[]=[];for(let i=0;i<5;i++){const a=i/5*PI*2+.3,cx=Math.cos(a)*.32,cz=Math.sin(a)*.32;mk(Cyl(.035,.035,.32,6),DIAC[i%7],{p:[cx,1.18,cz],ol:.01,cs:false,to:g});
     const f=mk(Sph(.065,8,6),M('#FFB53C',{emissive:'#FF8A00'}),{p:[cx,1.42,cz],s:[1,1.7,1],ol:0,cs:false,to:g});F.push(f)}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,off=e<2.4;for(let i=0;i<F.length;i++){const f=F[i];f.visible=!off||e<.08*i;f.scale.set(1,1.7+Math.sin(T*12+i*2)*.25,1)}});return g}
 // mariquita que pasea en círculo por el suelo; al tocarla abre las alas y da un saltito volando
 // lady3(w,cx,cz,s): mariquita que da vueltas por el suelo; al tocarla abre las alas y salta volando. Marca userData.lady.
-function lady3(w,cx,cz,s){const g=grp(w.sc,[cx,0,cz],s);g.userData.lady=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
-  const b=grp(g,[0,0,0]);mk(Sph(.12,10,8),K,{p:[0,.14,.3],ol:0,cs:false,to:b});const W=[];
+function lady3(w: Mundo,cx: number,cz: number,s: number){const g=grp(w.sc,[cx,0,cz],s);g.userData.lady=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
+  const b=grp(g,[0,0,0]);mk(Sph(.12,10,8),K,{p:[0,.14,.3],ol:0,cs:false,to:b});const W: [Tres.Group, number][]=[];
   for(const sd of[-1,1]){const pv=grp(b,[0,.2,.05]);mk(new THREE.SphereGeometry(.3,14,10,sd<0?PI:0,PI,0,PI/2),'#E8402C',{s:[1,.8,1.2],to:pv,ol:.02});
     for(const [dx,dz] of[[.13,.1],[.16,-.14]])mk(Sph(.05,8,6),K,{p:[sd*dx,.2,dz],s:[1,.4,1],ol:0,cs:false,to:pv});W.push([pv,sd])}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/1.1,1),fl=e<1.1;const a=T*.35;
@@ -506,11 +521,11 @@ function lady3(w,cx,cz,s){const g=grp(w.sc,[cx,0,cz],s);g.userData.lady=1;g.add(
 // pajarito que picotea el suelo dando saltitos; al tocarlo echa a volar, da una vuelta y vuelve piando
 // bird3(w,cx,cz,s,c): pajarito de color c que picotea y da saltitos; al tocarlo da una vuelta volando. De noche
 // duerme. Marca userData.bird.
-function bird3(w,cx,cz,s,c){const g=grp(w.sc,[cx,0,cz],s);g.userData.bird=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
+function bird3(w: Mundo,cx: number,cz: number,s: number,c: string){const g=grp(w.sc,[cx,0,cz],s);g.userData.bird=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
   const b=grp(g,[0,0,0]);mk(Sph(.3,14,10),c,{p:[0,.35,0],s:[1,.9,1.25],to:b,ol:.03});mk(Sph(.2,12,8),'#FFF1D6',{p:[0,.3,.12],s:[1,.8,1],ol:0,cs:false,to:b});
   const hd=grp(b,[0,.62,.2]);mk(Sph(.19,12,10),c,{to:hd,ol:.03});mk(Cone(.06,.16,6),'#FFA94D',{p:[0,-.02,.22],r:[PI/2,0,0],ol:0,cs:false,to:hd});
-  const BE=[],nt=skyNow().night;for(const sd of[-1,1])BE.push(mk(Sph(.035,6,5),K,{p:[sd*.11,.05,.13],ol:0,cs:false,to:hd}));const zz=nt?zzz3(w,g,1):null;mk(Box(.18,.04,.3),c,{p:[0,.42,-.38],r:[-.5,0,0],ol:.02,cs:false,to:b});
-  const W=[];for(const sd of[-1,1]){const pv=grp(b,[sd*.25,.42,0]);mk(Box(.32,.04,.26),c,{p:[sd*.16,0,0],ol:.02,cs:false,to:pv});W.push([pv,sd])}
+  const BE: Tres.Mesh[]=[],nt=skyNow().night;for(const sd of[-1,1])BE.push(mk(Sph(.035,6,5),K,{p:[sd*.11,.05,.13],ol:0,cs:false,to:hd}));const zz=nt?zzz3(w,g,1):null;mk(Box(.18,.04,.3),c,{p:[0,.42,-.38],r:[-.5,0,0],ol:.02,cs:false,to:b});
+  const W: [Tres.Group, number][]=[];for(const sd of[-1,1]){const pv=grp(b,[sd*.25,.42,0]);mk(Box(.32,.04,.26),c,{p:[sd*.16,0,0],ol:.02,cs:false,to:pv});W.push([pv,sd])}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,fl=e<1.6,q=Math.min(e/1.6,1);
     if(fl){const a=q*PI*2;b.position.set(Math.sin(a)*1.4,Math.sin(q*PI)*2.4,(1-Math.cos(a))*.7);b.rotation.y=a+PI/2;hd.rotation.x=0;for(const [pv,sd] of W)pv.rotation.z=sd*Math.sin(T*35)*.7}
     else if(nt){b.position.set(0,0,0);b.rotation.y=.5;hd.rotation.x=.45;b.scale.set(1,1+Math.sin(T*2)*.03,1);for(const [pv] of W)pv.rotation.z=0}// de noche duerme
@@ -520,30 +535,30 @@ function bird3(w,cx,cz,s,c){const g=grp(w.sc,[cx,0,cz],s);g.userData.bird=1;g.ad
 // pingüino que pasea de un lado a otro balanceándose; al tocarlo da un saltito aleteando y chilla
 // peng3(w,x0,x1,z,s): pingüino que pasea entre x0 y x1 balanceándose; al tocarlo salta aleteando. De noche duerme de pie.
 // Marca userData.peng.
-function peng3(w,x0,x1,z,s){const g=grp(w.sc,[x0,0,z],s);g.userData.peng=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
+function peng3(w: Mundo,x0: number,x1: number,z: number,s: number){const g=grp(w.sc,[x0,0,z],s);g.userData.peng=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
   const b=grp(g,[0,0,0]);mk(Sph(.42,16,12),'#2F3446',{p:[0,.55,0],s:[1,1.35,.95],to:b,ol:.03});mk(Sph(.33,14,10),'#FFFFFF',{p:[0,.5,.14],s:[1,1.3,.8],ol:0,cs:false,to:b});
-  mk(Sph(.28,14,10),'#2F3446',{p:[0,1.18,0],to:b,ol:.03});const PE=[],nt=skyNow().night;for(const sd of[-1,1]){PE.push(mk(Sph(.07,8,6),'#FFFFFF',{p:[sd*.11,1.22,.22],ol:.01,cs:false,to:b}),mk(Sph(.035,6,5),K,{p:[sd*.11,1.22,.28],ol:0,cs:false,to:b}));
+  mk(Sph(.28,14,10),'#2F3446',{p:[0,1.18,0],to:b,ol:.03});const PE: Tres.Mesh[]=[],nt=skyNow().night;for(const sd of[-1,1]){PE.push(mk(Sph(.07,8,6),'#FFFFFF',{p:[sd*.11,1.22,.22],ol:.01,cs:false,to:b}),mk(Sph(.035,6,5),K,{p:[sd*.11,1.22,.28],ol:0,cs:false,to:b}));
     mk(Sph(.12,8,6),'#FFA94D',{p:[sd*.15,.04,.12],s:[1,.35,1.5],ol:.01,cs:false,to:b})}
-  mk(Cone(.07,.18,6),'#FFA94D',{p:[0,1.14,.3],r:[PI/2,0,0],ol:0,cs:false,to:b});const W=[];
+  mk(Cone(.07,.18,6),'#FFA94D',{p:[0,1.14,.3],r:[PI/2,0,0],ol:0,cs:false,to:b});const W: [Tres.Group, number][]=[];
   for(const sd of[-1,1]){const pv=grp(b,[sd*.38,.85,0]);mk(Box(.08,.5,.22),'#2F3446',{p:[0,-.22,0],ol:.02,cs:false,to:pv});W.push([pv,sd])}
-  const zz=nt?zzz3(w,g,1.6):null;let ph=0;w.upd.push(dt=>{const k=g.userData.wob,e=k==null?9:T-k,j=e<.9,q=Math.min(e/.9,1);if(!nt)ph+=dt*.25;const c=Math.cos(ph);g.position.x=x0+(x1-x0)*(.5-.5*c);
+  const zz=nt?zzz3(w,g,1.6):null;let ph=0;w.upd.push((dt: number)=>{const k=g.userData.wob,e=k==null?9:T-k,j=e<.9,q=Math.min(e/.9,1);if(!nt)ph+=dt*.25;const c=Math.cos(ph);g.position.x=x0+(x1-x0)*(.5-.5*c);
     for(const m of PE)m.scale.y=nt&&!j?.15:1;if(zz)zz.forEach(z=>z.visible=!j);// de noche duerme de pie, sin pasear
     b.rotation.y=j||nt?0:Math.sin(ph)>0?PI/2:-PI/2;b.rotation.z=j||nt?0:Math.sin(T*6)*.12;b.position.y=j?Math.sin(q*PI)*.7:0;for(const [pv,sd] of W)pv.rotation.z=sd*(j?.6+Math.sin(T*30)*.5:.15)});return g}
 // ardilla con una bellota: mueve la cola; al tocarla salta y da una vuelta
 // squir3(w,x,z,s): ardilla con una bellota que mueve la cola; al tocarla salta y da una vuelta. De noche duerme.
 // Marca userData.squir.
-function squir3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.squir=1;hitS(g,.65,.6);const C='#C9772E';
+function squir3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.squir=1;hitS(g,.65,.6);const C='#C9772E';
   const b=grp(g,[0,0,0]);mk(Sph(.32,14,10),C,{p:[0,.42,0],s:[1,1.25,.95],to:b,ol:.03});mk(Sph(.2,12,8),'#F2D6A8',{p:[0,.4,.16],s:[1,1.2,.7],ol:0,cs:false,to:b});
-  mk(Sph(.24,14,10),C,{p:[0,.9,.06],to:b,ol:.03});const SE=[],nt=skyNow().night;for(const sd of[-1,1]){mk(Cone(.08,.18,6),C,{p:[sd*.13,1.13,.02],ol:.01,cs:false,to:b});SE.push(mk(Sph(.045,6,5),K,{p:[sd*.1,.95,.25],ol:0,cs:false,to:b}))}
+  mk(Sph(.24,14,10),C,{p:[0,.9,.06],to:b,ol:.03});const SE: Tres.Mesh[]=[],nt=skyNow().night;for(const sd of[-1,1]){mk(Cone(.08,.18,6),C,{p:[sd*.13,1.13,.02],ol:.01,cs:false,to:b});SE.push(mk(Sph(.045,6,5),K,{p:[sd*.1,.95,.25],ol:0,cs:false,to:b}))}
   mk(Sph(.04,6,5),K,{p:[0,.88,.3],ol:0,cs:false,to:b});
-  const ac=grp(b,[0,.62,.28]);mk(Sph(.1,10,8),'#A0662E',{s:[1,1.15,1],ol:.01,cs:false,to:ac});mk(Sph(.11,10,6,0,PI*2,0,PI/2),'#6B4423',{p:[0,.05,0],ol:0,cs:false,to:ac});
+  const ac=grp(b,[0,.62,.28]);mk(Sph(.1,10,8),'#A0662E',{s:[1,1.15,1],ol:.01,cs:false,to:ac});mk(Sph(.11,10,6),'#6B4423',{p:[0,.05,0],ol:0,cs:false,to:ac});
   const tl=grp(b,[0,.3,-.28]);mk(Sph(.26,12,10),C,{p:[0,.4,-.12],s:[.8,1.5,.7],to:tl,ol:.03});
   const zz=nt?zzz3(w,g,1.3):null;w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,j=e<.8,q=Math.min(e/.8,1);tl.rotation.x=nt&&!j?.25:Math.sin(T*3)*.18;
     b.position.y=j?Math.sin(q*PI)*.9:0;b.rotation.y=j?q*PI*2:0;b.rotation.x=j?0:nt?.15:Math.max(0,Math.sin(T*1.3))*.12;for(const m of SE)m.scale.y=nt&&!j?.15:1;if(zz)zz.forEach(z=>z.visible=!j)});return g}// de noche duerme con la cola quieta
 // madriguera con un conejito que se asoma de vez en cuando; al tocarlo salta fuera y vuelve a meterse
 // burrow3(w,x,z,s): madriguera con un conejito que se asoma cada 5,5 s; al tocarlo salta fuera. De noche duerme dentro.
 // Marca userData.burrow.
-function burrow3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.burrow=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
+function burrow3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.burrow=1;g.add(new THREE.Mesh(gcache('chit',()=>Sph(.7,6,4)),FHIT));
   mk(new THREE.TorusGeometry(.5,.16,8,20),'#B88A5A',{p:[0,.04,0],r:[PI/2,0,0],s:[1,1,.6],to:g,ol:.02});mk(Cyl(.48,.48,.02,20),'#4A3324',{p:[0,.03,0],ol:0,cs:false,to:g});
   const r=grp(g,[0,0,0]),W='#FFFFFF';mk(Sph(.3,14,10),W,{p:[0,.3,0],s:[1,1.1,.95],to:r,ol:.03});
   for(const sd of[-1,1]){const e=grp(r,[sd*.12,.52,-.02]);mk(Sph(.08,8,6),W,{p:[0,.24,0],s:[1,3.2,.6],to:e,ol:.02});mk(Sph(.045,6,5),'#FFB3C7',{p:[0,.24,.03],s:[1,2.6,.4],ol:0,cs:false,to:e});e.rotation.z=-sd*.15;
@@ -556,16 +571,16 @@ function burrow3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.burrow=1;g.add(
 // torre del reloj (como el Big Ben): al tocarla suenan las campanas ding-dong y las agujas dan una vuelta
 // clock3(w,x,z,s): torre del reloj (como el Big Ben) cuyas agujas marcan la hora real; al tocarla dan una vuelta.
 // Marca userData.clock.
-function clock3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.clock=1;const C='#D9B77A',D2='#8A6A3C';
+function clock3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.clock=1;const C='#D9B77A',D2='#8A6A3C';
   mk(Box(1.1,3.2,1.1),C,{p:[0,1.6,0],to:g,ol:.04});for(let i=0;i<4;i++)mk(Box(1.16,.08,1.16),D2,{p:[0,.6+i*.7,0],ol:0,cs:false,to:g});
   mk(Box(1.3,1.3,1.3),C,{p:[0,3.85,0],to:g,ol:.04});mk(Cone(.95,1.5,4),'#3E5A4A',{p:[0,5.25,0],r:[0,PI/4,0],to:g,ol:.04});mk(Sph(.1,8,6),'#FFC93C',{p:[0,6.05,0],ol:0,cs:false,to:g});
-  mk(Cyl(.5,.5,.04,24),skyNow().night?M('#FFF8E6',{emissive:'#E0B040'}):'#FFF8E6',{p:[0,3.85,.66],r:[PI/2,0,0],to:g,ol:.025});/* de noche la esfera del reloj se ilumina */const H=[];
+  mk(Cyl(.5,.5,.04,24),skyNow().night?M('#FFF8E6',{emissive:'#E0B040'}):'#FFF8E6',{p:[0,3.85,.66],r:[PI/2,0,0],to:g,ol:.025});/* de noche la esfera del reloj se ilumina */const H: Tres.Group[]=[];
   for(const [l,wd] of[[.38,.06],[.26,.08]]){const hd=grp(g,[0,3.85,.7]);mk(Box(wd,l,.02),K,{p:[0,l/2,0],ol:0,cs:false,to:hd});H.push(hd)}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/1.5,1);const d=new Date(),mn=d.getMinutes()+d.getSeconds()/60,hr=d.getHours()%12+mn/60;H[0].rotation.z=-(e<1.5?q*PI*2:0)-mn/60*PI*2;H[1].rotation.z=-(e<1.5?q*PI/2:0)-hr/12*PI*2});return g}/* las agujas marcan la hora de verdad */
 // iglú con una foca que se asoma por la puerta; al tocarlo la foca sale, aplaude y vuelve a entrar
 // igloo3(w,x,z,s): iglú con una foca que se asoma cada 6 s; al tocarlo sale, aplaude y vuelve. Marca userData.igloo.
 // Las aletas se guardan en sl.userData.f1 y sl.userData['f-1'] (derecha e izquierda).
-function igloo3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.igloo=1;g.userData.dur=2.1;
+function igloo3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.igloo=1;g.userData.dur=2.1;
   mk(new THREE.SphereGeometry(1.2,20,12,0,PI*2,0,PI/2),'#F4FAFF',{to:g,ol:.04});
   for(let i=1;i<4;i++)mk(new THREE.TorusGeometry(1.2*Math.cos(i*.38),.02,4,32),'#BFD6E8',{p:[0,1.2*Math.sin(i*.38),0],r:[PI/2,0,0],ol:0,cs:false,to:g});
   mk(new THREE.CylinderGeometry(.5,.5,.8,16,1,true,-PI/2,PI),'#F4FAFF',{p:[0,.4,1.05],r:[PI/2,0,0],s:[1,1,1],to:g,ol:.03});mk(new THREE.CircleGeometry(.42,16,0,PI),skyNow().night?M('#FFC96B',{emissive:'#E08A20'}):'#3A4A66',{p:[0,.02,1.46],ol:0,cs:false,to:g});
@@ -578,32 +593,32 @@ function igloo3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.igloo=1;g.userDa
     sl.visible=sl.position.z>1.15});return g}
 // tambor de fiesta: al tocarlo se aplasta y suena un redoble
 // drum3(w,x,z,s): tambor de fiesta con dos baquetas; la animación al tocarlo (aplastarse) está en wobInit. Marca userData.drum.
-function drum3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.drum=1;
+function drum3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.drum=1;
   mk(Cyl(.7,.7,.9,20),'#E8503C',{p:[0,.45,0],to:g,ol:.04});for(const y of[.06,.84])mk(Cyl(.73,.73,.1,20),'#FFC93C',{p:[0,y,0],ol:.02,cs:false,to:g});
   mk(Cyl(.66,.66,.02,20),'#FFF8E6',{p:[0,.91,0],ol:0,cs:false,to:g});for(let i=0;i<8;i++){const a=i/8*PI*2;mk(Cyl(.02,.02,.7,4),'#FFFFFF',{p:[Math.cos(a)*.71,.45,Math.sin(a)*.71],r:[0,0,i%2?.5:-.5],ol:0,cs:false,to:g})}
   for(const sd of[-1,1]){const st=grp(g,[sd*.35,1.05,.2]);mk(Cyl(.03,.03,.8,6),'#C9A57A',{p:[0,.3,0],r:[0,0,-sd*.5],ol:.01,cs:false,to:st});mk(Sph(.07,8,6),'#FFFFFF',{p:[sd*.19,.64,0],ol:.01,cs:false,to:st})}
   return g}
 // buzón rojo inglés: al tocarlo sale volando una carta que da una vuelta y vuelve a entrar
 // post3(w,x,z,s): buzón rojo inglés; al tocarlo sale una carta volando que da una vuelta. Marca userData.post.
-function post3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.post=1;const R='#D9372C';
+function post3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.post=1;const R='#D9372C';
   mk(Cyl(.42,.46,1.5,18),R,{p:[0,.75,0],to:g,ol:.04});mk(new THREE.SphereGeometry(.44,18,8,0,PI*2,0,PI/2),R,{p:[0,1.5,0],to:g,ol:.035});
   mk(Cyl(.5,.5,.12,18),'#2F2A28',{p:[0,.06,0],ol:.02,cs:false,to:g});mk(Box(.42,.07,.04),'#2F2A28',{p:[0,1.25,.43],ol:0,cs:false,to:g});
   mk(Box(.3,.2,.02),'#FFF3B0',{p:[0,.9,.44],ol:0,cs:false,to:g});
-  const lt=grp(g,[0,1.25,.45]),lm=mk(Box(.62,.4,.02),'#FFFFFF',{ol:.015,cs:false,to:lt});mk(Box(.12,.12,.025),'#E8503C',{p:[.2,.1,0],ol:0,cs:false,to:lt});lt.visible=false;
+  const lt=grp(g,[0,1.25,.45]);mk(Box(.62,.4,.02),'#FFFFFF',{ol:.015,cs:false,to:lt});mk(Box(.12,.12,.025),'#E8503C',{p:[.2,.1,0],ol:0,cs:false,to:lt});lt.visible=false;
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;if(e<1.6){const q=e/1.6,a=q*PI*2;lt.visible=true;lt.position.set(Math.sin(a)*1.2,1.25+Math.sin(q*PI)*1.6,.45+(1-Math.cos(a))*.5);lt.rotation.set(-.3,0,Math.sin(T*10)*.3)}else lt.visible=false});return g}
 // fila de hormigas que dan vueltas; al tocarlas se dispersan corriendo y vuelven a la fila
 // ants3(w,x,z,s): hormiguero con 9 hormigas en fila que dan vueltas; al tocarlo se dispersan. De noche están dentro.
 // Marca userData.ants.
-function ants3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.ants=1;const hit=new THREE.Mesh(gcache('ahit',()=>Cyl(1.6,1.6,.6,10)),FHIT);hit.position.y=.3;g.add(hit);
+function ants3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.ants=1;const hit=new THREE.Mesh(gcache('ahit',()=>Cyl(1.6,1.6,.6,10)),FHIT);hit.position.y=.3;g.add(hit);
   mk(Sph(.5,12,8),'#B07A4A',{p:[0,0,0],s:[1,.5,1],to:g,ol:.02});mk(Cyl(.08,.08,.04,8),'#4A3324',{p:[0,.25,0],ol:0,cs:false,to:g});
-  const A=[],n=9,nt=skyNow().night,zz=nt?zzz3(w,g,.5):null;for(let i=0;i<n;i++){const a=grp(g,[0,0,0]);for(const z2 of[-.09,0,.09])mk(Sph(.055,6,5),'#2F2420',{p:[0,.06,z2],ol:0,cs:false,to:a});A.push(a)}
-  w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,sc=e<1.6?Math.sin(Math.min(e/1.6,1)*PI)*1.2:0,ins=nt&&e>=1.6;if(zz)zz.forEach(z=>z.visible=ins);
+  const A: Tres.Group[]=[],n=9,nt=skyNow().night,zz=nt?zzz3(w,g,.5):null;for(let i=0;i<n;i++){const a=grp(g,[0,0,0]);for(const z2 of[-.09,0,.09])mk(Sph(.055,6,5),'#2F2420',{p:[0,.06,z2],ol:0,cs:false,to:a});A.push(a)}
+  w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,sc=e<1.6?Math.sin(Math.min(e/1.6,1)*PI)*1.2:0,ins=nt&&e>=1.6;if(zz)zz.forEach(z=>z.visible=!!ins);
     for(let i=0;i<n;i++){A[i].visible=!ins;// de noche están dentro del hormiguero
       const a=i/n*PI*2-T*.35,r=1.15+sc*(.6+.4*Math.sin(i*2.3)),ox=Math.cos(a)*r,oz=Math.sin(a)*r*.7;A[i].position.set(ox,0,oz);A[i].rotation.y=-a+(sc>.05?Math.sin(T*20+i)*.8:0)}});return g}
 // faro de la orilla: la luz gira; al tocarlo suena la sirena y la luz parpadea
 // lighthouse3(w,x,z,s): faro de rayas con un haz de luz que gira (más largo de noche); al tocarlo gira deprisa y
 // parpadea. Marca userData.light.
-function lighthouse3(w,x,z,s){const g=grp(w.sc,[x,0,z],s),nt=skyNow().night;g.userData.light=1;g.userData.dur=1.9;
+function lighthouse3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s),nt=skyNow().night;g.userData.light=1;g.userData.dur=1.9;
   for(let i=0;i<4;i++)mk(Cyl(.5-i*.06,.56-i*.06,.7,16),i%2?'#E8503C':'#FFFFFF',{p:[0,.35+i*.7,0],to:g,ol:.035});
   mk(Cyl(.42,.42,.1,16),'#3A3A3A',{p:[0,2.85,0],ol:.02,cs:false,to:g});const lm=mk(Cyl(.26,.26,.4,12),M('#FFF3B0',{emissive:'#FFC93C'}),{p:[0,3.1,0],ol:.02,cs:false,to:g});
   mk(Cone(.38,.4,12),'#E8503C',{p:[0,3.5,0],to:g,ol:.03});const bm=grp(g,[0,3.1,0]);
@@ -612,18 +627,18 @@ function lighthouse3(w,x,z,s){const g=grp(w.sc,[x,0,z],s),nt=skyNow().night;g.us
 // guirnalda de bombillas de colores que parpadean al fondo de la zona de fiestas (de noche brillan más)
 // garland3(w,z,h): guirnalda de 26 bombillas de colores a la altura h en el fondo z, colgada de 4 postes.
 // Las bombillas pares e impares son dos Points (mk2) que se encienden por turnos; de noche brillan más.
-function garland3(w,z,h){const n=26,pos=new Float32Array(n*3),col=new Float32Array(n*3),wp=[];
+function garland3(w: Mundo,z: number,h: number){const n=26,pos=new Float32Array(n*3),col=new Float32Array(n*3),wp=[];
   for(let i=0;i<n;i++){const q=i/(n-1),x=-16+q*32,y=h-Math.sin((q*3%1)*PI)*.7;pos.set([x,y,z],i*3);const c=new THREE.Color(DIAC[i%7]);col.set([c.r,c.g,c.b],i*3);wp.push(new THREE.Vector3(x,y+.12,z))}
   const wire=new THREE.Line(new THREE.BufferGeometry().setFromPoints(wp),new THREE.LineBasicMaterial({color:'#5A4636'}));wire.raycast=()=>{};w.sc.add(wire);
   for(const x of[-16,-5.33,5.33,16]){mk(Cyl(.06,.06,h+.2,6),'#B07A4A',{p:[x,(h+.2)/2,z],ol:.015,cs:false,to:w.sc})}
-  const night=skyNow().night,mk2=(odd)=>{const gg=new THREE.BufferGeometry(),P=[],C=[];for(let i=odd;i<n;i+=2){P.push(pos[i*3],pos[i*3+1],pos[i*3+2]);C.push(col[i*3],col[i*3+1],col[i*3+2])}
+  const night=skyNow().night,mk2=(odd: number)=>{const gg=new THREE.BufferGeometry(),P=[],C=[];for(let i=odd;i<n;i+=2){P.push(pos[i*3],pos[i*3+1],pos[i*3+2]);C.push(col[i*3],col[i*3+1],col[i*3+2])}
     gg.setAttribute('position',new THREE.Float32BufferAttribute(P,3));gg.setAttribute('color',new THREE.Float32BufferAttribute(C,3));
     const pt=new THREE.Points(gg,new THREE.PointsMaterial({size:night?1.6:1,vertexColors:true,map:night?softTex():canvasTex(32,32,()=>{ctx.beginPath();ctx.arc(16,16,11,0,PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=K;ctx.stroke()},'bulb'),transparent:true,depthWrite:false,blending:night?THREE.AdditiveBlending:THREE.NormalBlending}));pt.raycast=()=>{};w.sc.add(pt);return pt};
   const A=mk2(0),B=mk2(1),s0=A.material.size;w.upd.push(()=>{const k=(Math.sin(T*2.2)+1)/2,b=w.starT!=null&&T-w.starT<1.6?1-(T-w.starT)/1.6:0;/* al tocar la luna, las bombillas se encienden más */A.material.opacity=Math.min(1,.45+.55*k+b);B.material.opacity=Math.min(1,1-.55*k+b);A.material.size=B.material.size=s0*(1+b*.6)})}
 // ballena en el mar (se ve en pantallas anchas): asoma y echa un chorro de agua; al tocarla, chorro grande y coletazo
 // whale3(w,x,z,s): ballena en el mar que asoma cada 8 s y echa un chorro (24 gotas); al tocarla, chorro grande y
 // coletazo. Marca userData.whale.
-function whale3(w,x,z,s){const g=grp(w.sc,[x,-1.1,z],s);g.userData.whale=1;g.userData.dur=2.2;g.add(new THREE.Mesh(gcache('whit',()=>Sph(2.2,6,4)),FHIT));const C='#5B7FB8';
+function whale3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,-1.1,z],s);g.userData.whale=1;g.userData.dur=2.2;g.add(new THREE.Mesh(gcache('whit',()=>Sph(2.2,6,4)),FHIT));const C='#5B7FB8';
   const b=grp(g,[0,0,0]);mk(Sph(1.2,18,12),C,{s:[1.6,.75,1],to:b,ol:.05});mk(Sph(.9,14,10),'#DCE8F5',{p:[.2,-.25,0],s:[1.5,.5,.9],ol:0,cs:false,to:b});
   for(const sd of[-1,1]){mk(Sph(.1,8,6),K,{p:[1.25,.25,sd*.62],ol:0,cs:false,to:b})}
   const tl=grp(b,[-1.8,.1,0]);mk(Box(.6,.12,1.3),C,{p:[-.3,.3,0],r:[0,0,.5],to:tl,ol:.03});
@@ -633,7 +648,7 @@ function whale3(w,x,z,s){const g=grp(w.sc,[x,-1.1,z],s);g.userData.whale=1;g.use
     const st=big?e:c-1,on=up>.6&&st>0&&st<1.6,hh=big?4:2.2;sp.visible=on;if(on){for(let i=0;i<n;i++){const q=((st*1.2+i/n)%1),a=i*2.4;pos[i*3]=.6+Math.cos(a)*q*.8;pos[i*3+1]=.6+Math.sin(q*PI)*hh*(1-q*.3);pos[i*3+2]=Math.sin(a)*q*.8}sp.geometry.attributes.position.needsUpdate=true}});return g}
 // delfín que salta en arco de vez en cuando (pantallas anchas); al tocarlo da un salto con voltereta
 // dolph3(w,x,z,s): delfín que salta en arco cada 7 s; al tocarlo salta más alto con voltereta. Marca userData.dolph.
-function dolph3(w,x,z,s){const g=grp(w.sc,[x,-1.1,z],s);g.rotation.y=PI/2;g.userData.dolph=1;g.userData.dur=1.4;g.add(new THREE.Mesh(gcache('whit',()=>Sph(2.2,6,4)),FHIT));const C='#7FA8D8';
+function dolph3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,-1.1,z],s);g.rotation.y=PI/2;g.userData.dolph=1;g.userData.dur=1.4;g.add(new THREE.Mesh(gcache('whit',()=>Sph(2.2,6,4)),FHIT));const C='#7FA8D8';
   const b=grp(g,[0,0,0]);mk(Sph(.5,14,10),C,{s:[2,.7,.7],to:b,ol:.04});mk(Cone(.18,.5,8),C,{p:[1.15,-.05,0],r:[0,0,-PI/2],ol:.02,cs:false,to:b});
   mk(Cone(.22,.45,6),C,{p:[0,.45,0],r:[0,0,-.4],s:[1,1,.3],ol:.02,cs:false,to:b});mk(Box(.2,.08,.8),C,{p:[-1.05,0,0],ol:.02,cs:false,to:b});mk(Sph(.06,6,5),K,{p:[.75,.12,.3],ol:0,cs:false,to:b});
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;let q,fl=0;if(e<1.4){q=e/1.4;fl=1}else{const c=T%7;q=c<1.2?c/1.2:-1}
@@ -641,12 +656,12 @@ function dolph3(w,x,z,s){const g=grp(w.sc,[x,-1.1,z],s);g.rotation.y=PI/2;g.user
 // "Zzz" que suben y se desvanecen sobre un animalito dormido (de noche)
 // zzz3(w,to,y): dos "z" que suben y se desvanecen a la altura y sobre el grupo to (animal dormido). Devuelve la
 // lista de sprites; cada animal decide cuándo se ven (visible).
-function zzz3(w,to,y){const Z=[];for(let i=0;i<2;i++){const q=spr(canvasTex(64,64,()=>text('z',32,52,56,'#FFFFFF',{f:LF,st:8,sc:'#5F6FB4'}),'zzz'),.5,.5,{p:[.2,y,0],to});q.raycast=()=>{};Z.push(q)}
+function zzz3(w: Mundo,to: Tres.Object3D,y: number){const Z: Tres.Sprite[]=[];for(let i=0;i<2;i++){const q=spr(canvasTex(64,64,()=>text('z',32,52,56,'#FFFFFF',{f:LF,st:8,sc:'#5F6FB4'}),'zzz'),.5,.5,{p:[.2,y,0],to});q.raycast=()=>{};Z.push(q)}
   w.upd.push(()=>{Z.forEach((q,i)=>{const k=(T*.35+i*.5)%1;q.position.set(.2+k*.5,y+k*1.1,0);q.scale.setScalar(.3+k*.4);q.material.opacity=k<.15?k/.15:1-(k-.15)/.85})});return Z}
 // según el mes del año, en el mapa caen hojas (otoño), nieve (invierno) o pétalos (primavera); en verano, nada
 // seasonFx(w): según el mes, caen hojas (octubre y noviembre), nieve (diciembre a febrero) o pétalos (marzo a mayo)
 // sobre el mapa con fallPts; en verano nada. leaf crea la textura de hoja.
-function seasonFx(w){const m=new Date().getMonth(),O={sp:.6,sw:1.2,h:12,wx:42,wz:24},
+function seasonFx(w: Mundo){const m=new Date().getMonth(),O={sp:.6,sw:1.2,h:12,wx:42,wz:24},
     leaf=()=>canvasTex(32,32,()=>{ctx.beginPath();ctx.ellipse(16,16,13,7,.6,0,PI*2);ctx.fillStyle='#fff';ctx.fill()},'leaf');
   if(m===9||m===10)fallPts(w,45,['#F28C38','#E8603C','#F2C14E','#C9772E'],{...O,size:1.8,map:leaf()});
   else if(m===11||m<=1)fallPts(w,70,['#FFFFFF','#F4FAFF'],{...O,size:1.1,sp:.9,sw:.5,map:canvasTex(64,64,()=>{ctx.beginPath();ctx.arc(32,32,20,0,PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=5;ctx.strokeStyle='#9DBFE3';ctx.stroke()},'snow')});
@@ -655,7 +670,7 @@ function seasonFx(w){const m=new Date().getMonth(),O={sp:.6,sw:1.2,h:12,wx:42,wz
 // xmasNow(): true en Navidad (del 1 de diciembre al 6 de enero).
 const xmasNow=()=>{const d=new Date(),m=d.getMonth();return m===11||(m===0&&d.getDate()<=6)};
 // xtree3(w,x,z,s): árbol de Navidad con bolas y estrella; al tocarlo la estrella gira. Marca userData.xtree.
-function xtree3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.xtree=1;g.userData.dur=1.6;mk(Cyl(.18,.22,.6,8),'#8A5A3A',{p:[0,.3,0],to:g,ol:.03});
+function xtree3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.xtree=1;g.userData.dur=1.6;mk(Cyl(.18,.22,.6,8),'#8A5A3A',{p:[0,.3,0],to:g,ol:.03});
   [[1.4,1.6,1.2],[1.1,1.4,2.1],[.75,1.2,2.9]].forEach(([r,h,y])=>mk(Cone(r,h,14),'#3E9A55',{p:[0,y,0],to:g,ol:.04}));
   for(let i=0;i<12;i++){const y=.9+(i%4)*.55+Math.floor(i/4)*.1,a=i*2.1,r=1.25-(y-.8)*.38;mk(Sph(.1,8,6),DIAC[i%7],{p:[Math.cos(a)*r,y,Math.sin(a)*r],ol:.01,cs:false,to:g})}
   const st=mk(starGeo(.35,.12),M('#FFC93C',{emissive:'#C98A00'}),{p:[0,3.75,0],to:g,ol:.03});
@@ -665,7 +680,7 @@ function xtree3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.xtree=1;g.userDa
 const hallowNow=()=>{const d=new Date(),m=d.getMonth(),n=d.getDate();return (m===9&&n>=15)||(m===10&&n<=2)};
 // pump3(w,x,z,s): calabaza con cara; al tocarla bota y salta la tapa; de noche la cara brilla como una vela.
 // Marca userData.pump.
-function pump3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.pump=1;g.userData.dur=1.5;const b=grp(g,[0,0,0]),nt=skyNow().night;
+function pump3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.pump=1;g.userData.dur=1.5;const b=grp(g,[0,0,0]),nt=skyNow().night;
   for(let i=0;i<6;i++){const a=i/6*PI;mk(Sph(.62,16,12),'#F28A1E',{p:[Math.cos(a)*.16,.55,Math.sin(a)*.16],s:[.8,.85,1],r:[0,a,0],to:b,ol:.03})}
   const lid=grp(b,[0,1.02,0]);mk(Cyl(.07,.1,.32,8),'#5E8A3A',{p:[0,.12,0],r:[0,0,.2],to:lid,ol:.02});mk(Sph(.12,8,6),'#6CC24A',{p:[.16,.06,0],s:[1.4,.4,1],to:lid,ol:.01,cs:false});
   const fm=nt?new THREE.MeshBasicMaterial({color:'#FFC24A'}):M('#3A2414');
@@ -677,15 +692,15 @@ function pump3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.pump=1;g.userData
 // Bosque: montón de hojas secas; al tocarlo las hojas saltan por el aire y vuelven a caer en su sitio
 // leafs3(w,x,z,s): montón de hojas secas (16 hojas); al tocarlo saltan por el aire y vuelven a su sitio.
 // La posición de reposo y el salto de cada hoja se guardan en l.userData.b. Marca userData.leafs.
-function leafs3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.leafs=1;g.userData.dur=1.9;mk(Sph(.9,14,8,0,PI*2,0,PI/2),'#C9772E',{s:[1.3,.45,1],to:g,ol:.03});
-  const LC=['#F28C38','#E8603C','#F2C14E','#C9772E','#D9502E'],L=[];for(let i=0;i<16;i++){const a=i*2.4,r=.25+(i%4)*.25,y=.42-r*.28,l=mk(Sph(.2,6,4),LC[i%5],{p:[Math.cos(a)*r*1.3,y,Math.sin(a)*r],s:[1.3,.25,.8],r:[0,a,.3],ol:.01,cs:false,to:g});
+function leafs3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.leafs=1;g.userData.dur=1.9;mk(Sph(.9,14,8),'#C9772E',{s:[1.3,.45,1],to:g,ol:.03});
+  const LC=['#F28C38','#E8603C','#F2C14E','#C9772E','#D9502E'],L: Tres.Mesh[]=[];for(let i=0;i<16;i++){const a=i*2.4,r=.25+(i%4)*.25,y=.42-r*.28,l=mk(Sph(.2,6,4),LC[i%5],{p:[Math.cos(a)*r*1.3,y,Math.sin(a)*r],s:[1.3,.25,.8],r:[0,a,.3],ol:.01,cs:false,to:g});
     l.userData.b=[l.position.x,y,l.position.z,Math.cos(a)*(1+i%3*.4),2.6+(i%5)*.5,Math.sin(a)*(1+i%3*.4)];L.push(l)}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;for(const l of L){const b=l.userData.b;if(e<1.9){const q=e/1.9,h=Math.sin(q*PI)*b[4];l.position.set(b[0]+b[3]*Math.sin(q*PI)*.8,b[1]+h,b[2]+b[5]*Math.sin(q*PI)*.8);l.rotation.z=.3+Math.sin(e*7+b[3])*.8}else if(l.position.y!==b[1]){l.position.set(b[0],b[1],b[2]);l.rotation.z=.3}}});return g}
 // Jardín (de día): una cometa de colores ondea en el cielo; al tocarla da una vuelta en el aire
 // kite3(w,x,y,z,s): cometa de 4 colores con cola que ondea en el cielo; al tocarla da una vuelta. Marca userData.kite.
-function kite3(w,x,y,z,s){const g=grp(w.sc,[x,y,z],s);g.userData.kite=1;hitS(g,1.1,-.4,1,1.5);g.userData.dur=1.4;const k=grp(g,[0,0,0]);
-  [['#FF6B6B',0],['#FFC93C',1],['#5BB8F5',2],['#6CC24A',3]].forEach(([c,i])=>{const P=[[0,1],[-1,0],[0,-1],[1,0]],A=P[i],B=P[(i+1)%4],gq=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),new THREE.Vector3(B[0]*.6,B[1]*.95,0),new THREE.Vector3(A[0]*.6,A[1]*.95,0)]);gq.computeVertexNormals();mk(gq,M(c,{side:THREE.DoubleSide}),{ol:0,cs:false,to:k})});mk(Cyl(.02,.02,1.9,4),'#8A5A3A',{p:[0,0,.01],ol:0,cs:false,to:k});mk(Cyl(.02,.02,1.2,4),'#8A5A3A',{p:[0,0,.01],r:[0,0,PI/2],ol:0,cs:false,to:k});
-  const tl=[];for(let i=0;i<5;i++)tl.push(mk(Box(.22,.12,.02),DIAC[i%7],{p:[0,-1.1-i*.38,0],r:[0,0,.6],ol:0,cs:false,to:k}));
+function kite3(w: Mundo,x: number,y: number,z: number,s: number){const g=grp(w.sc,[x,y,z],s);g.userData.kite=1;hitS(g,1.1,-.4,1,1.5);g.userData.dur=1.4;const k=grp(g,[0,0,0]);
+  ([['#FF6B6B',0],['#FFC93C',1],['#5BB8F5',2],['#6CC24A',3]] as [string, number][]).forEach(([c,i])=>{const P=[[0,1],[-1,0],[0,-1],[1,0]],A=P[i],B=P[(i+1)%4],gq=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),new THREE.Vector3(B[0]*.6,B[1]*.95,0),new THREE.Vector3(A[0]*.6,A[1]*.95,0)]);gq.computeVertexNormals();mk(gq,M(c,{side:THREE.DoubleSide}),{ol:0,cs:false,to:k})});mk(Cyl(.02,.02,1.9,4),'#8A5A3A',{p:[0,0,.01],ol:0,cs:false,to:k});mk(Cyl(.02,.02,1.2,4),'#8A5A3A',{p:[0,0,.01],r:[0,0,PI/2],ol:0,cs:false,to:k});
+  const tl: Tres.Mesh[]=[];for(let i=0;i<5;i++)tl.push(mk(Box(.22,.12,.02),DIAC[i%7],{p:[0,-1.1-i*.38,0],r:[0,0,.6],ol:0,cs:false,to:k}));
   mk(Cyl(.012,.012,9,3),'#FFFFFF',{p:[1.6,-4.4,.5],r:[.1,0,.36],ol:0,cs:false,rs:false,to:g});
   w.upd.push(()=>{const q=g.userData.wob,e=q==null?9:T-q;g.position.x=x+Math.sin(T*.5)*.6;g.position.y=y+Math.sin(T*.8)*.3;
     k.rotation.z=(e<1.4?Math.min(e/1.4,1)*PI*2:0)+Math.sin(T*1.1)*.15;tl.forEach((t,i)=>t.position.x=Math.sin(T*3-i*.8)*.12*(i+1));
@@ -693,25 +708,25 @@ function kite3(w,x,y,z,s){const g=grp(w.sc,[x,y,z],s);g.userData.kite=1;hitS(g,1
 // Mapa (de día): un globo aerostático de rayas flota sobre el mar; al tocarlo se enciende la llama y sube un poco
 // hab3(w,x,y,z,s): globo aerostático de gajos de colores que flota; al tocarlo se enciende la llama y sube.
 // De noche brilla y la llama queda encendida. Marca userData.hab.
-function hab3(w,x,y,z,s){const g=grp(w.sc,[x,y,z],s);g.userData.hab=1;g.userData.dur=2.2;const nt=skyNow().night;/* de noche la llama queda encendida y el globo brilla */
+function hab3(w: Mundo,x: number,y: number,z: number,s: number){const g=grp(w.sc,[x,y,z],s);g.userData.hab=1;g.userData.dur=2.2;const nt=skyNow().night;/* de noche la llama queda encendida y el globo brilla */
   ['#FF6B6B','#FFC93C','#5BB8F5','#FF6B6B','#FFC93C','#5BB8F5'].forEach((c,i)=>mk(new THREE.SphereGeometry(1.2,6,14,i*PI/3,PI/3),nt?M(c,{emissive:'#'+new THREE.Color(c).multiplyScalar(.4).getHexString()}):c,{p:[0,1.6,0],s:[1,1.15,1],ol:.03,to:g}));
   mk(Cyl(.45,.25,.5,12),'#FF6B6B',{p:[0,.35,0],ol:.02,cs:false,to:g});mk(Box(.55,.4,.55),'#B07A4A',{p:[0,-.7,0],ol:.03,to:g});
   for(const [a,b] of[[-1,-1],[1,-1],[-1,1],[1,1]])mk(Cyl(.015,.015,.75,3),'#6B4423',{p:[a*.22,-.15,b*.22],ol:0,cs:false,to:g});
   const fl=mk(Cone(.12,.35,8),M('#FFB020',{emissive:'#FF7A00'}),{p:[0,.05,0],ol:0,cs:false,to:g});fl.visible=false;
-  w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;g.position.x=x+Math.sin(T*.13)*.8;g.position.y=y+Math.sin(T*.6)*.2+(e<2.2?Math.sin(e/2.2*PI)*1.2:0);fl.visible=nt||e<1.2;if(fl.visible)fl.scale.setScalar((e<1.2?1:.6)*(1+Math.sin(T*30)*.25))});return g}
+  w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;g.position.x=x+Math.sin(T*.13)*.8;g.position.y=y+Math.sin(T*.6)*.2+(e<2.2?Math.sin(e/2.2*PI)*1.2:0);fl.visible=!!(nt||e<1.2);if(fl.visible)fl.scale.setScalar((e<1.2?1:.6)*(1+Math.sin(T*30)*.25))});return g}
 // Inglés: una tetera para la hora del té; al tocarla tiembla, silba y echa vapor por el pitorro
 // tea3(w,x,z,s): tetera con taza (inglés); al tocarla tiembla y echa vapor (4 bolitas). Marca userData.tea.
-function tea3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.tea=1;g.userData.dur=1.8;const b=grp(g,[0,0,0]),C='#5BB8F5';
-  mk(Sph(.5,16,12),C,{p:[0,.45,0],s:[1,.85,1],to:b,ol:.03});mk(Sph(.3,14,8,0,PI*2,0,PI/2),'#FFFFFF',{p:[0,.8,0],s:[1,.5,1],to:b,ol:.02});mk(Sph(.08,8,6),'#FFC93C',{p:[0,.97,0],to:b,ol:.01,cs:false});
+function tea3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.tea=1;g.userData.dur=1.8;const b=grp(g,[0,0,0]),C='#5BB8F5';
+  mk(Sph(.5,16,12),C,{p:[0,.45,0],s:[1,.85,1],to:b,ol:.03});mk(Sph(.3,14,8),'#FFFFFF',{p:[0,.8,0],s:[1,.5,1],to:b,ol:.02});mk(Sph(.08,8,6),'#FFC93C',{p:[0,.97,0],to:b,ol:.01,cs:false});
   mk(Cyl(.06,.1,.5,8),C,{p:[.55,.6,0],r:[0,0,-.9],to:b,ol:.02});mk(new THREE.TorusGeometry(.2,.05,6,12),C,{p:[-.5,.5,0],to:b,ol:.02});
   for(let i=0;i<6;i++){const a=i/6*PI*2;mk(Sph(.06,6,5),'#FFFFFF',{p:[Math.cos(a)*.47,.45,Math.sin(a)*.47],ol:0,cs:false,to:b})}
   const cp=grp(g,[.95,0,.45]);mk(Cyl(.17,.13,.26,12),'#FFFFFF',{p:[0,.13,0],to:cp,ol:.02});mk(Cyl(.3,.3,.03,14),'#FFFFFF',{p:[0,.01,0],to:cp,ol:.02,cs:false});mk(new THREE.TorusGeometry(.08,.025,5,10),'#FFFFFF',{p:[.19,.15,0],to:cp,ol:.01,cs:false});
-  const sm=new THREE.MeshBasicMaterial({color:'#FFFFFF',transparent:true,opacity:0,depthWrite:false}),ST=[];for(let i=0;i<4;i++){const m=new THREE.Mesh(gcache('steam',()=>Sph(.14,8,6)),sm);m.raycast=()=>{};g.add(m);ST.push(m)}
+  const sm=new THREE.MeshBasicMaterial({color:'#FFFFFF',transparent:true,opacity:0,depthWrite:false}),ST: Tres.Mesh<Tres.BufferGeometry, Tres.MeshBasicMaterial>[]=[];for(let i=0;i<4;i++){const m=new THREE.Mesh(gcache('steam',()=>Sph(.14,8,6)),sm);m.raycast=()=>{};g.add(m);ST.push(m)}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;b.rotation.z=e<1.2?Math.sin(e*40)*.05*(1-e/1.2):0;sm.opacity=e<1.8?Math.min(e*4,1)*(1-e/1.8)*.9:0;
     ST.forEach((m,i)=>{const q=((e*1.2+i*.25)%1);m.position.set(.8+q*.5,.85+q*1.1,0);m.scale.setScalar(.6+q*1.4)})});return g}
 // Fiestas: caja sorpresa; al tocarla se abre la tapa y sale un payaso con muelle que rebota
 // jack3(w,x,z,s): caja sorpresa; al tocarla se abre la tapa y sale un payaso con muelle que rebota. Marca userData.jack.
-function jack3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.jack=1;g.userData.dur=2.4;
+function jack3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.jack=1;g.userData.dur=2.4;
   ['#FF6B6B','#5BB8F5','#FFC93C','#6CC24A'].forEach((c,i)=>mk(Box(.9,.9,.02),c,{p:[Math.sin(i*PI/2)*.45,.45,Math.cos(i*PI/2)*.45],r:[0,i*PI/2,0],to:g,ol:.02}));mk(Box(.9,.02,.9),'#C9772E',{p:[0,.01,0],to:g,ol:0,cs:false});
   const lid=grp(g,[0,.9,-.45]);mk(Box(.94,.06,.94),'#B48CE0',{p:[0,.03,.45],to:lid,ol:.02});mk(Cyl(.04,.04,.4,6),'#8A5A3A',{p:[.5,.45,0],r:[0,0,PI/2],ol:0,cs:false,to:g});mk(Sph(.07,8,6),'#FF6B6B',{p:[.72,.6,0],to:g,ol:.01,cs:false});
   const j=grp(g,[0,.3,0]),sp=[];for(let i=0;i<6;i++)sp.push(mk(new THREE.TorusGeometry(.16,.035,5,10),'#BFC6D1',{p:[0,i*.17,0],r:[PI/2,0,0],ol:0,cs:false,to:j}));
@@ -721,14 +736,14 @@ function jack3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.jack=1;g.userData
     const st=e<2?1+Math.sin(e*14)*Math.exp(-e*2.5)*.45:Math.max(0,1-(e-2)/.3);j.scale.y=st*o;hd.scale.set(1,1/Math.max(st*o,.2),1);hd.rotation.z=Math.sin(e*9)*.25*Math.exp(-e*1.5)}else{lid.rotation.x=0;j.visible=false}});return g}
 // Jardín: una regadera; al tocarla se inclina y riega con gotitas
 // can3(w,x,z,s): regadera; al tocarla se inclina y caen gotitas. Marca userData.can.
-function can3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.can=1;g.userData.dur=1.8;const b=grp(g,[0,0,0]),C='#5BB8F5';
+function can3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.can=1;g.userData.dur=1.8;const b=grp(g,[0,0,0]),C='#5BB8F5';
   mk(Cyl(.32,.36,.6,14),C,{p:[0,.3,0],to:b,ol:.03});mk(new THREE.TorusGeometry(.22,.045,6,12,PI),C,{p:[-.05,.6,0],to:b,ol:.02});mk(Cyl(.04,.07,.7,8),C,{p:[.5,.45,0],r:[0,0,-1],to:b,ol:.02});mk(Cyl(.1,.05,.1,10),'#FFC93C',{p:[.8,.66,0],r:[0,0,-1],to:b,ol:.01,cs:false});
-  const dm=new THREE.MeshBasicMaterial({color:'#7FC8F8',transparent:true,opacity:0}),DR=[];for(let i=0;i<6;i++){const m=new THREE.Mesh(gcache('drop',()=>Sph(.05,6,5)),dm);m.raycast=()=>{};g.add(m);DR.push(m)}
+  const dm=new THREE.MeshBasicMaterial({color:'#7FC8F8',transparent:true,opacity:0}),DR: Tres.Mesh<Tres.BufferGeometry, Tres.MeshBasicMaterial>[]=[];for(let i=0;i<6;i++){const m=new THREE.Mesh(gcache('drop',()=>Sph(.05,6,5)),dm);m.raycast=()=>{};g.add(m);DR.push(m)}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,o=e<1.8?Math.min(e/.3,1)*Math.min((1.8-e)/.3,1):0;b.rotation.z=-o*.5;dm.opacity=o>.8?.9:0;
     DR.forEach((m,i)=>{const q=(e*2+i/6)%1;m.position.set(1+q*.35+(i%3-1)*.05,.55-q*.55,(i%3-1)*.1)})});return g}
 // Montaña: un trineo rojo; al tocarlo se desliza por la nieve y vuelve
 // sled3(w,x,z,s): trineo rojo; al tocarlo se desliza por la nieve y vuelve. Marca userData.sled.
-function sled3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.sled=1;g.userData.dur=2;const b=grp(g,[0,0,0]);
+function sled3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.sled=1;g.userData.dur=2;const b=grp(g,[0,0,0]);
   mk(Box(1.4,.08,.6),'#E8503C',{p:[0,.32,0],to:b,ol:.03});for(const sd of[-1,1]){mk(Box(1.5,.05,.05),'#8A5A3A',{p:[0,.05,sd*.26],to:b,ol:.01,cs:false});mk(new THREE.TorusGeometry(.12,.025,5,10,PI),'#8A5A3A',{p:[.75,.17,sd*.26],r:[0,0,-PI/2],to:b,ol:0,cs:false});
     for(const px of[-.45,.35])mk(Cyl(.025,.025,.27,4),'#8A5A3A',{p:[px,.18,sd*.26],to:b,ol:0,cs:false})}
   mk(Box(.08,.3,.6),'#E8503C',{p:[-.68,.48,0],to:b,ol:.02});
@@ -736,28 +751,28 @@ function sled3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.sled=1;g.userData
 // Bosque: un pájaro carpintero en un tronco; de vez en cuando picotea, y al tocarlo hace toc-toc-toc muy rápido; de noche duerme
 // wpk3(w,x,z,s): pájaro carpintero en un tronco que picotea cada 4,5 s; al tocarlo hace toc-toc rápido. De noche
 // duerme. Marca userData.wpk.
-function wpk3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.wpk=1;hitS(g,.6,1.3,1,1.6);g.userData.dur=1.3;mk(Cyl(.32,.4,2.4,12),'#8A5A3A',{p:[0,1.2,0],to:g,ol:.04});mk(Cyl(.33,.33,.04,12),'#E3C08F',{p:[0,2.41,0],to:g,ol:0,cs:false});
+function wpk3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.wpk=1;hitS(g,.6,1.3,1,1.6);g.userData.dur=1.3;mk(Cyl(.32,.4,2.4,12),'#8A5A3A',{p:[0,1.2,0],to:g,ol:.04});mk(Cyl(.33,.33,.04,12),'#E3C08F',{p:[0,2.41,0],to:g,ol:0,cs:false});
   mk(Sph(.12,10,8),'#3A2414',{p:[.05,1.7,.33],s:[1,1.3,.3],to:g,ol:0,cs:false});const bd=grp(g,[.22,1.15,.42],1.5),nt=skyNow().night;
   mk(Sph(.18,12,10),'#2F3446',{p:[0,0,0],s:[.9,1.3,.8],to:bd,ol:.02});mk(Sph(.12,10,8),'#FFFFFF',{p:[0,-.02,.1],s:[.9,1.2,.6],to:bd,ol:0,cs:false});
   const hd=grp(bd,[0,.26,.04]);mk(Sph(.13,12,10),'#2F3446',{to:hd,ol:.02});mk(Sph(.09,10,8),'#E8503C',{p:[0,.1,-.04],s:[1,.8,1.4],to:hd,ol:0,cs:false});mk(Cone(.035,.2,6),'#FFC93C',{p:[0,-.02,.18],r:[PI/2,0,0],to:hd,ol:0,cs:false});
-  for(const sd of[-1,1])mk(Sph(.03,6,5),nt?'#2F3446':'#FFFFFF',{p:[sd*.08,.03,.09],s:nt?[1,.3,1]:[1,1,1],to:hd,ol:0,cs:false});const zz=nt?zzz3(w,g,1.6):null;
+  for(const sd of[-1,1])mk(Sph(.03,6,5),nt?'#2F3446':'#FFFFFF',{p:[sd*.08,.03,.09],s:nt?[1,.3,1]:[1,1,1],to:hd,ol:0,cs:false});if(nt)zzz3(w,g,1.6);
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;if(e<1.3)hd.rotation.x=Math.abs(Math.sin(e*PI*7))*.6;else if(nt)hd.rotation.x=.5;else{const c=T%4.5;hd.rotation.x=c<.6?Math.abs(Math.sin(c*PI*5))*.5:0}});return g}
 // Casitas: una pelota de playa; al tocarla bota tres veces rodando y vuelve a su sitio
 // ball3(w,x,z,s): pelota de playa de gajos; al tocarla bota tres veces rodando y vuelve. Marca userData.ball.
-function ball3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.ball=1;g.userData.dur=1.8;const b=grp(g,[0,.45,0]);
+function ball3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.ball=1;g.userData.dur=1.8;const b=grp(g,[0,.45,0]);
   ['#FF6B6B','#FFFFFF','#5BB8F5','#FFFFFF','#FFC93C','#FFFFFF'].forEach((c,i)=>mk(new THREE.SphereGeometry(.45,5,12,i*PI/3,PI/3),c,{to:b,ol:.02}));
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;if(e<1.8){const q=e/1.8,ph=q*3,h=Math.abs(Math.sin(ph*PI))*(1-q)*1.6,d=Math.sin(q*PI)*1.2;b.position.set(d,.45+h,0);b.rotation.z=-d/.45;b.scale.set(1,h<.08?.85:1,1)}
     else if(b.position.x!==0){b.position.set(0,.45,0);b.rotation.z=0;b.scale.set(1,1,1)}});return g}
 // Inglés: un soldado de la guardia con gorro alto; al tocarlo saluda y marca el paso
 // guard3(w,x,z,s): soldado de la guardia inglesa con gorro alto; al tocarlo saluda y marca el paso. Marca userData.guard.
 // (La función sigue en el segundo trozo del archivo.)
-function guard3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.guard=1;g.userData.dur=2;const b=grp(g,[0,0,0]),L=[];
+function guard3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.guard=1;g.userData.dur=2;const b=grp(g,[0,0,0]),L: Tres.Group[]=[];
   for(const sd of[-1,1]){const l=grp(b,[sd*.12,.55,0]);mk(Cyl(.08,.08,.55,8),'#2F3446',{p:[0,-.27,0],to:l,ol:.02});mk(Box(.14,.08,.22),K,{p:[0,-.52,.04],to:l,ol:0,cs:false});L.push(l)}
   mk(Cyl(.24,.22,.6,12),'#E03A3A',{p:[0,.85,0],to:b,ol:.03});mk(Cyl(.25,.25,.07,12),'#FFFFFF',{p:[0,.7,0],to:b,ol:0,cs:false});for(let i=0;i<3;i++)mk(Sph(.025,6,5),'#FFC93C',{p:[0,.8+i*.12,.23],to:b,ol:0,cs:false});
   mk(Sph(.17,12,10),'#FFE0C2',{p:[0,1.3,0],to:b,ol:.02});for(const sd of[-1,1])mk(Sph(.025,6,5),K,{p:[sd*.06,1.32,.15],to:b,ol:0,cs:false});
   mk(Cyl(.19,.21,.5,12),'#1E1E28',{p:[0,1.65,0],to:b,ol:.03});mk(Sph(.19,12,8),'#1E1E28',{p:[0,1.9,0],s:[1,.6,1],to:b,ol:0,cs:false});
   // los brazos: un grupo por brazo con el pivote en el hombro, para poder girarlos enteros
-  const A=[];for(const sd of[-1,1]){const a=grp(b,[sd*.29,1.08,0]);mk(Cyl(.06,.06,.45,8),'#E03A3A',{p:[0,-.2,0],to:a,ol:.02});mk(Sph(.07,8,6),'#FFFFFF',{p:[0,-.45,0],to:a,ol:0,cs:false});A.push(a)}
+  const A: Tres.Group[]=[];for(const sd of[-1,1]){const a=grp(b,[sd*.29,1.08,0]);mk(Cyl(.06,.06,.45,8),'#E03A3A',{p:[0,-.2,0],to:a,ol:.02});mk(Sph(.07,8,6),'#FFFFFF',{p:[0,-.45,0],to:a,ol:0,cs:false});A.push(a)}
   // cada cuadro: durante 2 s tras el toque, el brazo derecho (A[1]) sube a saludar en 0,25 s, se queda y baja;
   // desde 0,8 s las piernas (L) marcan el paso alternándose y el cuerpo b da botecitos. Después, todo en reposo.
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;if(e<2){A[1].rotation.z=e<.25?e/.25*2.6:e<1?2.6:Math.max(0,2.6-(e-1)*5);A[1].rotation.x=e<1?-.4:0;
@@ -782,11 +797,11 @@ function guard3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.guard=1;g.userDa
 //   6. Los sonidos, partículas y la voz del toque NO están aquí: están en wobTap, en la rama else if(u.cann){...}.
 //   De noche (skyNow().night) muchos animales duermen: zzz3 les pone unas zetas y su animación de reposo cambia.
 // cann3: el cuerpo b retrocede, el tubo tb se aplasta y salen 18 papelitos de confeti P en parábola durante 2 s.
-function cann3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.cann=1;g.userData.dur=2;const b=grp(g,[0,0,0]);
+function cann3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.cann=1;g.userData.dur=2;const b=grp(g,[0,0,0]);
   for(const sd of[-1,1])mk(Cyl(.28,.28,.08,14),'#FFC93C',{p:[sd*.32,.28,0],r:[0,0,PI/2],to:b,ol:.02});mk(Box(.5,.18,.5),'#8A5A3A',{p:[0,.3,0],to:b,ol:.02});
   const tb=grp(b,[0,.45,0]);tb.rotation.x=-.7;mk(Cyl(.2,.24,.9,14),'#B48CE0',{p:[0,.3,0],to:tb,ol:.03});mk(Cyl(.23,.23,.08,14),'#FF6B6B',{p:[0,.72,0],to:tb,ol:.01,cs:false});
   // 18 papelitos escondidos; cada uno guarda en userData.v su velocidad inicial [x,y,z]. raycast vacío = no se pueden tocar
-  const P=[];for(let i=0;i<18;i++){const m=mk(Box(.2,.03,.12),DIAC[i%7],{ol:0,cs:false,to:g});m.raycast=()=>{};m.visible=false;const a=i*2.4,r=.4+(i%5)*.25;m.userData.v=[Math.cos(a)*r,3.4+(i%4)*.5,1.6+Math.sin(a)*r];P.push(m)}
+  const P: Tres.Mesh[]=[];for(let i=0;i<18;i++){const m=mk(Box(.2,.03,.12),DIAC[i%7],{ol:0,cs:false,to:g});m.raycast=()=>{};m.visible=false;const a=i*2.4,r=.4+(i%5)*.25;m.userData.v=[Math.cos(a)*r,3.4+(i%4)*.5,1.6+Math.sin(a)*r];P.push(m)}
   // retroceso del cañón (0,4 s) y aplastamiento del tubo (0,2 s); cada papelito sigue una parábola y=0,9+vy*t-2,6*t*t
   // (la gravedad), sin bajar del suelo (.05) y con el avance en z topado; a los 2 s se esconden otra vez
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;b.position.z=e<.4?-Math.sin(e/.4*PI)*.18:0;tb.scale.y=e<.2?1-Math.sin(e/.2*PI)*.2:1;
@@ -794,15 +809,15 @@ function cann3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.cann=1;g.userData
 // Montaña: una cabra montés sobre una roca; mueve la cabeza y al tocarla da un salto y bala
 // (patrón común: ver cann3) Marca goat, 1,6 s. b = el cuerpo, que salta y da una vuelta entera; hd = la cabeza, que se mueve sola.
 // De noche duerme: zetas, cabeza agachada y cuerpo un poco aplastado.
-function goat3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.goat=1;g.userData.dur=1.6;mk(Sph(.7,10,8),'#9AA3AE',{p:[0,.2,0],s:[1.2,.75,1],to:g,ol:.04});
-  const b=grp(g,[0,.68,0]),C='#F1E7D6',nt=skyNow().night,zz=nt?zzz3(w,g,1.4):null;mk(Sph(.32,12,10),C,{p:[0,.42,0],s:[1.35,.9,.9],to:b,ol:.03});for(const [px,pz] of[[-.28,-.14],[-.28,.14],[.28,-.14],[.28,.14]])mk(Cyl(.05,.05,.32,6),C,{p:[px,.16,pz],to:b,ol:.01,cs:false});
+function goat3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.goat=1;g.userData.dur=1.6;mk(Sph(.7,10,8),'#9AA3AE',{p:[0,.2,0],s:[1.2,.75,1],to:g,ol:.04});
+  const b=grp(g,[0,.68,0]),C='#F1E7D6',nt=skyNow().night;if(nt)zzz3(w,g,1.4);mk(Sph(.32,12,10),C,{p:[0,.42,0],s:[1.35,.9,.9],to:b,ol:.03});for(const [px,pz] of[[-.28,-.14],[-.28,.14],[.28,-.14],[.28,.14]])mk(Cyl(.05,.05,.32,6),C,{p:[px,.16,pz],to:b,ol:.01,cs:false});
   const hd=grp(b,[.42,.62,0]);mk(Sph(.17,10,8),C,{s:[1.2,1,.9],to:hd,ol:.02});for(const sd of[-1,1]){mk(new THREE.TorusGeometry(.1,.03,5,10,PI*1.2),'#8A6A4A',{p:[-.05,.14,sd*.07],r:[0,0,.6],to:hd,ol:0,cs:false});mk(Sph(.025,6,5),K,{p:[.1,.04,sd*.1],to:hd,ol:0,cs:false})}
   mk(Cone(.05,.14,6),'#FFFFFF',{p:[.12,-.18,0],r:[PI,0,0],to:hd,ol:0,cs:false});
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;hd.rotation.z=nt&&!(e<1.6)?-.45:Math.sin(T*.9)*.15;if(e<1.6){const q=e/1.6;b.position.y=.68+Math.sin(q*PI)*1.1;b.rotation.y=q*PI*2;b.scale.y=q<.08||q>.92?.85:1}else{b.position.y=nt?.6:.68;b.rotation.y=0;b.scale.y=nt?.8:1}});return g}
 // Mapa: una palmera en la playa; al tocarla se balancea y se le cae un coco que bota
 // (patrón común: ver cann3) Marca palm, 1,8 s. t = tronco (6 trozos que se curvan), cr = copa con 7 hojas, C = 3 cocos; solo cae el primero (cc).
 // El tronco se mece siempre un poco con T; al tocarlo, un vaivén que se va apagando.
-function palm3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.palm=1;g.userData.dur=1.8;const t=grp(g,[0,0,0]);
+function palm3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.palm=1;g.userData.dur=1.8;const t=grp(g,[0,0,0]);
   for(let i=0;i<6;i++)mk(Cyl(.17-i*.012,.2-i*.012,.5,8),i%2?'#B88A5A':'#A47548',{p:[Math.sin(i*.25)*.25*i/5,.25+i*.46,0],r:[0,0,-.12*i/5],to:t,ol:.02});
   const cr=grp(t,[.3,2.85,0]);for(let i=0;i<7;i++){const l=grp(cr,[0,0,0]);l.rotation.y=i/7*PI*2;mk(Cone(.32,1.6,4),i%2?'#4FAF5A':'#3E9A55',{p:[.75,-.12,0],r:[0,0,-PI/2-.35],s:[1,1,.25],to:l,ol:.02})}
   const C=[];for(const [a,b] of[[.18,.12],[-.14,.15],[.02,-.18]])C.push(mk(Sph(.14,10,8),'#6B4423',{p:[a,-.2,b],to:cr,ol:.02}));const cc=C[0];
@@ -812,8 +827,8 @@ function palm3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.palm=1;g.userData
 // Jardín: un girasol que mira hacia Tito; al tocarlo gira los pétalos y sonríe
 // (patrón común: ver cann3) Marca sunf, 1,5 s, con hitS. hd = cabeza que gira despacio hacia Tito (w.tito); pt = corona de pétalos,
 // que da una vuelta al tocarlo; sm = sonrisa, que se estira. De noche cierra los ojos, agacha la cabeza y encoge los pétalos.
-function sunf3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.sunf=1;hitS(g,.7,1.6,1,1.7);g.userData.dur=1.5;mk(Cyl(.06,.08,2.2,6),'#5E8A3A',{p:[0,1.1,0],to:g,ol:.02});for(const sd of[-1,1])mk(Sph(.22,8,6),'#6CC24A',{p:[sd*.22,.9+sd*.2,0],s:[1.4,.3,.8],r:[0,0,sd*.4],to:g,ol:.01,cs:false});
-  const hd=grp(g,[0,2.25,.05]),pt=grp(hd,[0,0,0]),nt=skyNow().night,zz=nt?zzz3(w,g,2.6):null;for(let i=0;i<12;i++){const a=i/12*PI*2;mk(Sph(.15,8,6),'#FFC93C',{p:[Math.cos(a)*.42,Math.sin(a)*.42,0],s:[1.6,.7,.3],r:[0,0,a],to:pt,ol:.01,cs:false})}
+function sunf3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.sunf=1;hitS(g,.7,1.6,1,1.7);g.userData.dur=1.5;mk(Cyl(.06,.08,2.2,6),'#5E8A3A',{p:[0,1.1,0],to:g,ol:.02});for(const sd of[-1,1])mk(Sph(.22,8,6),'#6CC24A',{p:[sd*.22,.9+sd*.2,0],s:[1.4,.3,.8],r:[0,0,sd*.4],to:g,ol:.01,cs:false});
+  const hd=grp(g,[0,2.25,.05]),pt=grp(hd,[0,0,0]),nt=skyNow().night;if(nt)zzz3(w,g,2.6);for(let i=0;i<12;i++){const a=i/12*PI*2;mk(Sph(.15,8,6),'#FFC93C',{p:[Math.cos(a)*.42,Math.sin(a)*.42,0],s:[1.6,.7,.3],r:[0,0,a],to:pt,ol:.01,cs:false})}
   mk(Cyl(.32,.32,.12,16),'#8A5A3A',{r:[PI/2,0,0],p:[0,0,.03],to:hd,ol:.02});for(const sd of[-1,1])mk(Sph(.04,6,5),K,{p:[sd*.11,.07,.1],s:nt?[1.2,.3,1]:[1,1,1],to:hd,ol:0,cs:false});const sm=mk(new THREE.TorusGeometry(.1,.025,5,10,PI),K,{p:[0,-.02,.1],r:[0,0,PI],to:hd,ol:0,cs:false});
   // seguimiento suave: en cada cuadro la cabeza recorre un 5 % de lo que le falta hasta el ángulo que mira a Tito (como mucho ±0,7)
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;const tx=w.tito?w.tito.position.x-x:0;if(nt&&!(e<1.5)){hd.rotation.y*=.9;hd.rotation.x+=(.6-hd.rotation.x)*.1;pt.scale.setScalar(.7)}else{hd.rotation.x*=.85;pt.scale.setScalar(1);hd.rotation.y+=((Math.max(-.7,Math.min(.7,tx*.12)))-hd.rotation.y)*.05}
@@ -821,10 +836,10 @@ function sunf3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.sunf=1;hitS(g,.7,
 // Cofre: un loro pirata en su percha; mueve la cabeza, al tocarlo aletea y grazna, y lo celebra cuando se abre el cofre
 // (patrón común: ver cann3) Marca parrot, 1,4 s, con hitS. b = cuerpo, W = alas (grupos con pivote en el hombro), hd = cabeza.
 // También se anima solo con chainWob (titoCheer, flores y cofre en la zona del cofre). Dormido (de noche) ladea la cabeza.
-function parrot3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.parrot=1;hitS(g,.7,1.6,1,2);g.userData.dur=1.4;mk(Cyl(.06,.08,2,8),'#8A5A3A',{p:[0,1,0],to:g,ol:.02});mk(Cyl(.3,.36,.08,12),'#8A5A3A',{p:[0,.04,0],to:g,ol:.02});mk(Cyl(.04,.04,.9,6),'#A47548',{p:[0,2,0],r:[0,0,PI/2],to:g,ol:.02});
+function parrot3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.parrot=1;hitS(g,.7,1.6,1,2);g.userData.dur=1.4;mk(Cyl(.06,.08,2,8),'#8A5A3A',{p:[0,1,0],to:g,ol:.02});mk(Cyl(.3,.36,.08,12),'#8A5A3A',{p:[0,.04,0],to:g,ol:.02});mk(Cyl(.04,.04,.9,6),'#A47548',{p:[0,2,0],r:[0,0,PI/2],to:g,ol:.02});
   const b=grp(g,[0,2.04,0]);mk(Sph(.24,12,10),'#E8503C',{p:[0,.28,0],s:[.9,1.3,.85],to:b,ol:.03});mk(Box(.14,.4,.05),'#5BB8F5',{p:[0,.02,-.2],r:[.5,0,0],to:b,ol:.01,cs:false});
-  const W=[];for(const sd of[-1,1]){const wg=grp(b,[sd*.2,.38,0]);mk(Sph(.14,8,6),'#5BB8F5',{p:[sd*.04,-.12,-.02],s:[.45,1.3,.8],to:wg,ol:.01,cs:false});mk(Sph(.08,8,6),'#FFC93C',{p:[sd*.05,-.28,-.04],s:[.5,1,.7],to:wg,ol:0,cs:false});W.push(wg)}
-  const hd=grp(b,[0,.62,.05]),nt=skyNow().night,zz=nt?zzz3(w,g,2.9):null;mk(Sph(.17,12,10),'#E8503C',{to:hd,ol:.02});mk(Sph(.09,8,6),'#FFFFFF',{p:[0,.02,.12],s:[1.3,.8,.6],to:hd,ol:0,cs:false});mk(Cone(.06,.16,6),'#3A2414',{p:[0,-.04,.19],r:[PI/2+.6,0,0],to:hd,ol:0,cs:false});
+  const W: Tres.Group[]=[];for(const sd of[-1,1]){const wg=grp(b,[sd*.2,.38,0]);mk(Sph(.14,8,6),'#5BB8F5',{p:[sd*.04,-.12,-.02],s:[.45,1.3,.8],to:wg,ol:.01,cs:false});mk(Sph(.08,8,6),'#FFC93C',{p:[sd*.05,-.28,-.04],s:[.5,1,.7],to:wg,ol:0,cs:false});W.push(wg)}
+  const hd=grp(b,[0,.62,.05]),nt=skyNow().night;if(nt)zzz3(w,g,2.9);mk(Sph(.17,12,10),'#E8503C',{to:hd,ol:.02});mk(Sph(.09,8,6),'#FFFFFF',{p:[0,.02,.12],s:[1.3,.8,.6],to:hd,ol:0,cs:false});mk(Cone(.06,.16,6),'#3A2414',{p:[0,-.04,.19],r:[PI/2+.6,0,0],to:hd,ol:0,cs:false});
   for(const sd of[-1,1])mk(Sph(.03,6,5),K,{p:[sd*.1,.05,.12],s:nt?[1.3,.3,1]:[1,1,1],to:hd,ol:0,cs:false});for(const sd of[-1,1])mk(Sph(.04,6,5),'#FFC93C',{p:[sd*.06,-.02,0],s:[1,.5,1.6],to:b,ol:0,cs:false});
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,sl=nt&&!(e>=0&&e<1.4);hd.rotation.z=sl?.35:Math.sin(T*1.3)*.2;hd.rotation.y=sl?0:Math.sin(T*.7)*.4;
     if(e>=0&&e<1.4){const f=Math.sin(e*28)*.8*(1-e/1.4);W[0].rotation.z=-.3+f;W[1].rotation.z=.3-f;b.position.y=2.04+Math.sin(e/1.4*PI)*.35;hd.rotation.x=Math.sin(e*12)*.2}else{W[0].rotation.z=W[1].rotation.z=0;b.position.y=2.04;hd.rotation.x=0}});return g}
@@ -833,29 +848,29 @@ const squawk=(d=0)=>{tone(1100,.12,'sawtooth',.04,1.4,d);tone(1300,.16,'sawtooth
 // Inglés: la bandera del Reino Unido ondea en su mástil; al tocarla ondea con fuerza y suena una fanfarria
 // (patrón común: ver cann3) Marca flag, 1,8 s, con hitS. La tela es un plano de 10x1 trozos con la bandera dibujada en un canvas
 // (canvasTex, guardada en caché como 'ukflag'). En cada cuadro se mueve la z de cada vértice con una onda: más fuerte y rápida tras el toque.
-function flag3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.flag=1;hitS(g,.8,2.6,1.1,1.8);g.userData.dur=1.8;mk(Cyl(.05,.06,3.4,8),'#E8E8EE',{p:[0,1.7,0],to:g,ol:.02});mk(Sph(.1,8,6),'#FFC93C',{p:[0,3.45,0],to:g,ol:.01,cs:false});
-  const tx=canvasTex(256,128,()=>{ctx.fillStyle='#1F3D8F';ctx.fillRect(0,0,256,128);ctx.lineCap='butt';/* X(color,grosor): dibuja las dos diagonales de la bandera */const X=(c,wd)=>{ctx.strokeStyle=c;ctx.lineWidth=wd;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(256,128);ctx.moveTo(256,0);ctx.lineTo(0,128);ctx.stroke()};X('#fff',26);X('#D7263D',9);
+function flag3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.flag=1;hitS(g,.8,2.6,1.1,1.8);g.userData.dur=1.8;mk(Cyl(.05,.06,3.4,8),'#E8E8EE',{p:[0,1.7,0],to:g,ol:.02});mk(Sph(.1,8,6),'#FFC93C',{p:[0,3.45,0],to:g,ol:.01,cs:false});
+  const tx=canvasTex(256,128,()=>{ctx.fillStyle='#1F3D8F';ctx.fillRect(0,0,256,128);ctx.lineCap='butt';/* X(color,grosor): dibuja las dos diagonales de la bandera */const X=(c: string,wd: number)=>{ctx.strokeStyle=c;ctx.lineWidth=wd;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(256,128);ctx.moveTo(256,0);ctx.lineTo(0,128);ctx.stroke()};X('#fff',26);X('#D7263D',9);
     ctx.fillStyle='#fff';ctx.fillRect(108,0,40,128);ctx.fillRect(0,44,256,40);ctx.fillStyle='#D7263D';ctx.fillRect(116,0,24,128);ctx.fillRect(0,52,256,24)},'ukflag');
   // translate(.8,...) pone el borde izquierdo de la tela en el mástil; X0 guarda la x original de cada vértice: la onda crece con x,
   // así el lado del mástil no se mueve. P.needsUpdate=true avisa a Three.js de que los vértices han cambiado
-  const geo=new THREE.PlaneGeometry(1.6,.8,10,1);geo.translate(.8,0,0);const fl=new THREE.Mesh(geo,new THREE.MeshToonMaterial({map:tx,gradientMap:GRAD,side:THREE.DoubleSide}));fl.position.set(.04,3,0);g.add(fl);const P=geo.attributes.position,X0=[];for(let i=0;i<P.count;i++)X0.push(P.getX(i));
+  const geo=new THREE.PlaneGeometry(1.6,.8,10,1);geo.translate(.8,0,0);const fl=new THREE.Mesh(geo,new THREE.MeshToonMaterial({map:tx,gradientMap:GRAD,side:THREE.DoubleSide}));fl.position.set(.04,3,0);g.add(fl);const P=geo.attributes.position,X0: number[]=[];for(let i=0;i<P.count;i++)X0.push(P.getX(i));
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,a=e<1.8?.22*(1-e/1.8)+.07:.07,sp=e<1.8?9:3.5;for(let i=0;i<P.count;i++){const x=X0[i];P.setZ(i,Math.sin(x*4-T*sp)*a*x)}P.needsUpdate=true});return g}
 // Fiestas: una máquina de pompas; las pompas suben despacio y, al tocarlas, explotan con un "plop"
 // (patrón común: ver cann3, con una diferencia) Lo tocable no es la máquina sino cada pompa: 5 grupos b con marca bub y dur 0,35 s.
 // u.ph (0..1) es la fase de subida de cada pompa; al tocarla crece, desaparece y vuelve a empezar abajo (ph=0).
 // Todas las pompas comparten material (bm) y geometría (gcache), para gastar menos memoria.
-function bubbles3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);mk(rbox(.7,.5,.5,.08),'#5BB8F5',{p:[0,.25,0],to:g,ol:.03});mk(Cyl(.12,.15,.2,10),'#FFC93C',{p:[0,.58,0],to:g,ol:.02});
-  const bm=new THREE.MeshBasicMaterial({color:'#7FC8FF',transparent:true,opacity:.6,depthWrite:false}),hm=new THREE.MeshBasicMaterial({color:'#FFFFFF'}),B=[];
+function bubbles3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);mk(rbox(.7,.5,.5,.08),'#5BB8F5',{p:[0,.25,0],to:g,ol:.03});mk(Cyl(.12,.15,.2,10),'#FFC93C',{p:[0,.58,0],to:g,ol:.02});
+  const bm=new THREE.MeshBasicMaterial({color:'#7FC8FF',transparent:true,opacity:.6,depthWrite:false}),hm=new THREE.MeshBasicMaterial({color:'#FFFFFF'}),B: Tres.Group[]=[];
   for(let i=0;i<5;i++){const b=grp(g,[0,0,0]);b.userData.bub=1;b.userData.dur=.35;const m=new THREE.Mesh(gcache('bub',()=>Sph(.3,14,10)),bm);b.add(m);const h=new THREE.Mesh(gcache('bubh',()=>Sph(.05,6,5)),hm);h.position.set(-.1,.12,.21);h.raycast=()=>{};b.add(h);b.userData.ph=i/5;B.push(b)}
   // dt = segundos desde el cuadro anterior (lo pasa R3frame): la subida avanza con dt y cada pompa sigue su propio camino ondulado
-  w.upd.push(dt=>{for(const b of B){const u=b.userData;if(u.wob!=null&&T-u.wob<.35){b.scale.setScalar(1+(T-u.wob)*3);b.children[0].material===bm&&(b.visible=(T-u.wob)<.12);if(T-u.wob>.3)u.ph=0;continue}b.visible=true;
+  w.upd.push((dt: number)=>{for(const b of B){const u=b.userData;if(u.wob!=null&&T-u.wob<.35){b.scale.setScalar(1+(T-u.wob)*3);(b.children[0] as Nodo).material===bm&&(b.visible=(T-u.wob)<.12);if(T-u.wob>.3)u.ph=0;continue}b.visible=true;
     u.ph=(u.ph+dt*.12)%1;const q=u.ph,i=B.indexOf(b);b.position.set(Math.sin(q*9+i*2)*.5+(i-2)*.25,.7+q*4.2,Math.cos(q*7+i)*.3);b.scale.setScalar(Math.min(q*8,1)*(.8+(i%3)*.15))}});return g}
 // Bosque: un nido con tres huevos sobre un tocón; al tocarlo los huevos se abren, asoman tres pollitos piando y se vuelven a esconder
 // (patrón común: ver cann3) Marca nest, 2,4 s. E = los 3 huevos {e: grupo del huevo, ck: pollito, top: mitad de arriba de la cáscara, i: número}.
 // Cada huevo empieza 0,15 s después del anterior.
-function nest3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.nest=1;g.userData.dur=2.4;mk(Cyl(.45,.5,.6,12),'#8A5A3A',{p:[0,.3,0],to:g,ol:.03});mk(Cyl(.44,.44,.03,12),'#E3C08F',{p:[0,.61,0],to:g,ol:0,cs:false});
+function nest3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.nest=1;g.userData.dur=2.4;mk(Cyl(.45,.5,.6,12),'#8A5A3A',{p:[0,.3,0],to:g,ol:.03});mk(Cyl(.44,.44,.03,12),'#E3C08F',{p:[0,.61,0],to:g,ol:0,cs:false});
   mk(new THREE.TorusGeometry(.32,.12,6,14),'#B07A4A',{p:[0,.7,0],r:[PI/2,0,0],to:g,ol:.02});mk(Cyl(.3,.24,.1,12),'#9A6A3E',{p:[0,.66,0],to:g,ol:0,cs:false});
-  const E=[];[[-.12,-.06],[.13,-.04],[0,.12]].forEach(([a,b],i)=>{const e=grp(g,[a,.72,b]);const lo=mk(Sph(.11,10,8,0,PI*2,PI/2,PI/2),'#F6F0E2',{s:[1,1.25,1],to:e,ol:.01,cs:false});
+  const E: {e: Tres.Group, ck: Tres.Group, top: Tres.Mesh, i: number}[]=[];[[-.12,-.06],[.13,-.04],[0,.12]].forEach(([a,b],i)=>{const e=grp(g,[a,.72,b]);mk(Sph(.11,10,8),'#F6F0E2',{s:[1,1.25,1],to:e,ol:.01,cs:false});
     const ck=grp(e,[0,0,0]);mk(Sph(.1,10,8),'#FFD84A',{p:[0,.06,0],to:ck,ol:.01,cs:false});mk(Cone(.03,.07,5),'#FF9A3C',{p:[0,.06,.1],r:[PI/2,0,0],to:ck,ol:0,cs:false});for(const sd of[-1,1])mk(Sph(.018,5,4),K,{p:[sd*.04,.1,.08],to:ck,ol:0,cs:false});
     const top=mk(Sph(.11,10,8),'#F6F0E2',{s:[1,1.25,1],to:e,ol:.01,cs:false});E.push({e,ck,top,i})});
   // q (0..1) sube en 0,3 s, se mantiene y baja en los últimos 0,3 s: la cáscara se levanta y gira, el pollito asoma y bota;
@@ -866,7 +881,7 @@ function nest3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.nest=1;g.userData
 // (patrón común: ver cann3) Marca marm, 2 s, con hitS. m = la marmota entera (sube y baja en y); hd = la cabeza, que mira a los lados.
 // Al tocarla: espera 0,3 s, baja en 0,2 s, se queda escondida y vuelve a subir en 0,4 s.
 // De noche está metida en la madriguera (y=-0,75) y se oculta (visible=false) cuando baja del todo.
-function marm3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.marm=1;hitS(g,.6,.5);g.userData.dur=2;mk(Cyl(.5,.6,.16,14),'#FFFFFF',{p:[0,.08,0],to:g,ol:.03});mk(Cyl(.3,.3,.02,12),'#3A2D28',{p:[0,.17,0],to:g,ol:0,cs:false});
+function marm3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.marm=1;hitS(g,.6,.5);g.userData.dur=2;mk(Cyl(.5,.6,.16,14),'#FFFFFF',{p:[0,.08,0],to:g,ol:.03});mk(Cyl(.3,.3,.02,12),'#3A2D28',{p:[0,.17,0],to:g,ol:0,cs:false});
   const m=grp(g,[0,0,0]),C='#A07850';mk(Sph(.26,12,10),C,{p:[0,.4,0],s:[1,1.5,.9],to:m,ol:.03});mk(Sph(.17,10,8),'#E8D2B0',{p:[0,.4,.14],s:[1,1.4,.6],to:m,ol:0,cs:false});
   const hd=grp(m,[0,.82,.04]);mk(Sph(.2,12,10),C,{to:hd,ol:.02});mk(Sph(.1,8,6),'#E8D2B0',{p:[0,-.05,.15],s:[1.2,.8,.7],to:hd,ol:0,cs:false});mk(Sph(.035,6,5),K,{p:[0,-.01,.21],to:hd,ol:0,cs:false});
   for(const sd of[-1,1]){mk(Sph(.03,6,5),K,{p:[sd*.08,.06,.16],to:hd,ol:0,cs:false});mk(Sph(.06,8,6),C,{p:[sd*.15,.14,0],s:[1,.8,.6],to:hd,ol:0,cs:false});mk(Sph(.06,8,6),C,{p:[sd*.12,.5,.18],to:m,ol:0,cs:false})}
@@ -874,12 +889,12 @@ function marm3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.marm=1;hitS(g,.6,
 // Jardín: un espantapájaros con un cuervo en el brazo; al tocarlo el espantapájaros se menea, el cuervo sale volando, da una vuelta y vuelve
 // (patrón común: ver cann3) Marca scare, 2,6 s. b = el espantapájaros (se menea 1,2 s); cr = el cuervo, con alas W, que da una vuelta
 // en círculo (ángulo a) subiendo y bajando, y vuelve a su brazo. De noche el cuervo duerme (zetas, cabeza ladeada).
-function scare3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.scare=1;g.userData.dur=2.6;const b=grp(g,[0,0,0]);mk(Cyl(.05,.06,2.2,6),'#8A5A3A',{p:[0,1.1,0],to:b,ol:.02});mk(Cyl(.04,.04,1.6,6),'#8A5A3A',{p:[0,1.55,0],r:[0,0,PI/2],to:b,ol:.02});
+function scare3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.scare=1;g.userData.dur=2.6;const b=grp(g,[0,0,0]);mk(Cyl(.05,.06,2.2,6),'#8A5A3A',{p:[0,1.1,0],to:b,ol:.02});mk(Cyl(.04,.04,1.6,6),'#8A5A3A',{p:[0,1.55,0],r:[0,0,PI/2],to:b,ol:.02});
   mk(Box(.6,.7,.3),'#5BB8F5',{p:[0,1.3,0],to:b,ol:.03});for(let i=0;i<3;i++)mk(Box(.12,.12,.31),'#FFC93C',{p:[-.15+i*.15,1.1+(i%2)*.25,0],to:b,ol:0,cs:false});
   for(const sd of[-1,1]){mk(Box(.4,.22,.24),'#E8503C',{p:[sd*.48,1.55,0],to:b,ol:.02});mk(Cone(.08,.2,6),'#F2C14E',{p:[sd*.76,1.55,0],r:[0,0,-sd*PI/2],to:b,ol:0,cs:false})}
   mk(Sph(.22,12,10),'#E9C99A',{p:[0,1.92,0],to:b,ol:.02});for(const sd of[-1,1])mk(Box(.06,.06,.02),K,{p:[sd*.08,1.96,.21],r:[0,0,PI/4],to:b,ol:0,cs:false});mk(new THREE.TorusGeometry(.08,.015,4,8,PI),K,{p:[0,1.86,.2],r:[0,0,PI],to:b,ol:0,cs:false});
   mk(Cyl(.42,.42,.04,14),'#C9772E',{p:[0,2.08,0],to:b,ol:.02});mk(Cyl(.2,.24,.28,12),'#C9772E',{p:[0,2.24,0],to:b,ol:.02});
-  const cr=grp(g,[.6,1.7,0]),W=[],nt=skyNow().night,zz=nt?zzz3(w,g,2.1):null;mk(Sph(.12,10,8),'#2F3446',{s:[1.3,1,.9],to:cr,ol:.02});mk(Sph(.08,8,6),'#2F3446',{p:[.12,.1,0],to:cr,ol:.01,cs:false});mk(Cone(.03,.1,5),'#F2C14E',{p:[.22,.09,0],r:[0,0,-PI/2],to:cr,ol:0,cs:false});
+  const cr=grp(g,[.6,1.7,0]),W: Tres.Group[]=[],nt=skyNow().night;if(nt)zzz3(w,g,2.1);mk(Sph(.12,10,8),'#2F3446',{s:[1.3,1,.9],to:cr,ol:.02});mk(Sph(.08,8,6),'#2F3446',{p:[.12,.1,0],to:cr,ol:.01,cs:false});mk(Cone(.03,.1,5),'#F2C14E',{p:[.22,.09,0],r:[0,0,-PI/2],to:cr,ol:0,cs:false});
   for(const sd of[-1,1]){const wg=grp(cr,[0,.04,sd*.08]);mk(Box(.18,.02,.14),'#2F3446',{p:[0,0,sd*.07],to:wg,ol:0,cs:false});W.push(wg)}
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;b.rotation.z=e<1.2?Math.sin(e*12)*.12*(1-e/1.2):0;
     if(e<2.6){const q=Math.min(e/2.6,1),a=q*PI*2;cr.position.set(.6+Math.sin(a)*1.6,1.7+Math.sin(q*PI)*1.6,Math.cos(a)*1.2-1.2+1.2*(1-Math.cos(q*PI*2))*.0);cr.rotation.y=-a;const f=Math.sin(T*30)*.7;W[0].rotation.x=f;W[1].rotation.x=-f}
@@ -888,9 +903,9 @@ function scare3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.scare=1;g.userDa
 // (patrón común: ver cann3) Marca umb, 2,4 s. cn = la copa con 8 gajos P (cada gajo es un grupo que gira en x para abrirse);
 // D = 10 gotas de lluvia que caen en bucle; RB = arcoíris de 5 arcos que aparece 2 s después del toque y se va a los 5,5 s
 // (rbT guarda el último toque, porque el arcoíris dura más que wob).
-function umb3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.umb=1;g.userData.dur=2.4;mk(Cyl(.25,.3,.5,12),'#2F3446',{p:[0,.25,0],to:g,ol:.02});mk(Cyl(.025,.025,1.8,6),'#2F3446',{p:[0,1.1,0],to:g,ol:.01});
-  const cn=grp(g,[0,2,0]),P=[];for(let i=0;i<8;i++){const p=grp(cn,[0,0,0]);p.rotation.y=i/8*PI*2;mk(Cone(.3,1.1,3),i%2?'#E8503C':'#FFFFFF',{p:[0,-.5,0],s:[1,1,.25],r:[0,0,0],to:p,ol:.01,cs:false});P.push(p)}
-  const dm=new THREE.MeshBasicMaterial({color:'#7FC8F8',transparent:true,opacity:0}),D=[];for(let i=0;i<10;i++){const m=new THREE.Mesh(gcache('rdrop',()=>Cyl(.015,.015,.22,4)),dm);m.raycast=()=>{};g.add(m);D.push(m)}
+function umb3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.umb=1;g.userData.dur=2.4;mk(Cyl(.25,.3,.5,12),'#2F3446',{p:[0,.25,0],to:g,ol:.02});mk(Cyl(.025,.025,1.8,6),'#2F3446',{p:[0,1.1,0],to:g,ol:.01});
+  const cn=grp(g,[0,2,0]),P: Tres.Group[]=[];for(let i=0;i<8;i++){const p=grp(cn,[0,0,0]);p.rotation.y=i/8*PI*2;mk(Cone(.3,1.1,3),i%2?'#E8503C':'#FFFFFF',{p:[0,-.5,0],s:[1,1,.25],r:[0,0,0],to:p,ol:.01,cs:false});P.push(p)}
+  const dm=new THREE.MeshBasicMaterial({color:'#7FC8F8',transparent:true,opacity:0}),D: Tres.Mesh<Tres.BufferGeometry, Tres.MeshBasicMaterial>[]=[];for(let i=0;i<10;i++){const m=new THREE.Mesh(gcache('rdrop',()=>Cyl(.015,.015,.22,4)),dm);m.raycast=()=>{};g.add(m);D.push(m)}
   /* arcoíris que sale cuando para la lluvia */const RB=['#E8503C','#F5A623','#F8E04A','#6CC56C','#4A90E2'].map((c,i)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(1.5-i*.12,.06,6,28,PI),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0,depthWrite:false}));m.raycast=()=>{};m.position.set(0,2.3,-.4);g.add(m);return m});let rbT=-99;
   // o (0..1) = cuánto está abierto: se abre en 0,3 s y se cierra en los últimos 0,4 s; las gotas solo se ven con el paraguas más de medio abierto
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;if(k!=null)rbT=k;const re=T-rbT,ro=re>2&&re<5.5?Math.min((re-2)/.5,1)*Math.min((5.5-re)/.8,1)*.75:0;RB.forEach(m=>{m.material.opacity=ro;m.visible=ro>0});const o=e<2.4?Math.min(e/.3,1)*Math.min((2.4-e)/.4,1):0;P.forEach(p=>p.children[0].rotation.x=-o*1.15);cn.position.y=2-o*.0;dm.opacity=o>.5?.8:0;
@@ -902,13 +917,13 @@ const summerNow=()=>{const d=new Date(),m=d.getMonth(),n=d.getDate();return (m==
 const winterNow=()=>{const d=new Date(),m=d.getMonth(),n=d.getDate();return (m===11&&n>=21)||m===0||m===1};
 // (patrón común: ver cann3) Sombrilla de playa. Marca sunb, 1,6 s. tp = la tela (6 gajos de cono de colores), que da una vuelta
 // subiendo un poco al tocarla. También pone una toalla rosa en el suelo.
-function sunb3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.sunb=1;g.userData.dur=1.6;mk(Cyl(.04,.04,2,6),'#FFFFFF',{p:[0,1,0],r:[0,0,.15],to:g,ol:.01});
+function sunb3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.sunb=1;g.userData.dur=1.6;mk(Cyl(.04,.04,2,6),'#FFFFFF',{p:[0,1,0],r:[0,0,.15],to:g,ol:.01});
   const tp=grp(g,[-.15,2,0]);tp.rotation.z=.15;['#FF6B6B','#FFFFFF','#5BB8F5','#FFFFFF','#FFC93C','#FFFFFF'].forEach((c,i)=>mk(new THREE.ConeGeometry(1.1,.5,3,1,false,i*PI/3,PI/3),c,{to:tp,ol:.02}));
   mk(Box(1,.06,.5),'#FF8FB1',{p:[.9,.03,.4],r:[0,.4,0],to:g,ol:.02,cs:false});
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k;tp.rotation.y=e<1.6?(1-Math.cos(e/1.6*PI))*PI:0;tp.position.y=2+(e<1.6?Math.sin(e/1.6*PI)*.25:0)});return g}
 // (patrón común: ver cann3) Castillo de arena. Marca sandc, 1,4 s. fl = la banderita, que ondea despacio siempre y rápido al tocarla.
 // También pone un cubo azul al lado.
-function sandc3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.sandc=1;g.userData.dur=1.4;const C='#EBCB8B';mk(Box(1.1,.5,.8),C,{p:[0,.25,0],to:g,ol:.03});
+function sandc3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.sandc=1;g.userData.dur=1.4;const C='#EBCB8B';mk(Box(1.1,.5,.8),C,{p:[0,.25,0],to:g,ol:.03});
   for(const [a,b] of[[-.5,-.35],[.5,-.35],[-.5,.35],[.5,.35]]){mk(Cyl(.16,.18,.8,8),C,{p:[a,.4,b],to:g,ol:.02});mk(Cone(.2,.25,8),'#E0B870',{p:[a,.92,b],to:g,ol:.01,cs:false})}
   mk(Cyl(.25,.28,.7,10),C,{p:[0,.85,0],to:g,ol:.02});mk(Cyl(.015,.015,.5,4),'#8A5A3A',{p:[0,1.45,0],to:g,ol:0,cs:false});const fl=mk(Box(.28,.16,.02),'#FF6B6B',{p:[.14,1.62,0],to:g,ol:0,cs:false});
   mk(Cyl(.2,.14,.3,10),'#5BB8F5',{p:[.9,.15,.3],to:g,ol:.02,cs:false});
@@ -916,34 +931,35 @@ function sandc3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.sandc=1;g.userDa
 // zona de toque invisible más grande, para que los dedos pequeños acierten con las cosas pequeñas o finas
 // hitS(g,r,y,sx,sy): g = grupo al que se añade; r = radio; y = altura del centro; sx, sy = estirar en horizontal (x y z) o en vertical.
 // Usa el material invisible FHIT (el rayo del toque la encuentra pero no se ve). Devuelve la malla.
-function hitS(g,r,y,sx=1,sy=1){const h=new THREE.Mesh(gcache('xhit',()=>Sph(1,6,4)),FHIT);h.position.y=y;h.scale.set(r*sx,r*sy,r*sx);g.add(h);return h}
+function hitS(g: Tres.Object3D,r: number,y: number,sx=1,sy=1){const h=new THREE.Mesh(gcache('xhit',()=>Sph(1,6,4)),FHIT);h.position.y=y;h.scale.set(r*sx,r*sy,r*sx);g.add(h);return h}
 // Tito lo celebra con un salto y una fanfarria (cada 5 pompas explotadas, o al tocar H-E-L-L-O en orden)
 // titoCheer(x,y): x,y = punto de la pantalla 2D (1600x900) donde salen corazones, chispas y notas. Tito salta (st.hop) y suena una fanfarria;
 // la primera vez en la visita (W3.chF) Tito explica la emoción 'contento'; de día, los animales de la zona lo celebran con chainWob.
-function titoCheer(x,y){if(W3&&!W3.chF){W3.chF=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.',()=>sylClap(x,y,'CONTENTO'));numPop(x,y-60,2,'CONTENTO');parts[parts.length-1].hl=1}},2400)}/* la primera fiesta de la visita: Tito explica que está contento */noteParts(x,y,4,150);/* la fanfarria de Tito también suelta notas musicales */const st=SCENES[sceneName];if(st)st.hop=T+.15;if(W3&&!skyNow().night)({jardin:['frog','burrow'],bosque:['squir'],montana:['peng'],fiestas:['balloon'],ingles:['guard'],casita:['bird','lady'],map:['gull'],cofre:['parrot','crab']}[sceneName]||[]).forEach((k,i)=>chainWob(W3,k,.5+i*.2,.12,3));/* los animales de alrededor también lo celebran */for(let i=0;i<5;i++)parts.push({x:x+rnd(-60,60),y:y-20+rnd(-20,20),vx:rnd(-25,25),vy:rnd(-110,-70),life:1.3,t:0,c:pick(['#FF5A7E','#FF7A9A','#F28AB8']),r:rnd(11,15),rot:0,k:'h',g:-15});/* al celebrar, también suben corazoncitos */[523,659,784,1046].forEach((f,i)=>tone(f,.16,'triangle',.08,1,.2+i*.1));for(let i=0;i<3;i++)sparkles(x+(i-1)*60,y-40*i)}
+function titoCheer(x: number,y: number){if(W3&&!W3.chF){W3.chF=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.',()=>sylClap(x,y,'CONTENTO'));numPop(x,y-60,2,'CONTENTO');parts[parts.length-1].hl=1}},2400)}/* la primera fiesta de la visita: Tito explica que está contento */noteParts(x,y,4,150);/* la fanfarria de Tito también suelta notas musicales */const st=SCENES[sceneName];if(st)st.hop=T+.15;if(W3&&!skyNow().night)({jardin:['frog','burrow'],bosque:['squir'],montana:['peng'],fiestas:['balloon'],ingles:['guard'],casita:['bird','lady'],map:['gull'],cofre:['parrot','crab']}[sceneName]||[]).forEach((k,i)=>chainWob(W3!,k,.5+i*.2,.12,3));/* los animales de alrededor también lo celebran */for(let i=0;i<5;i++)parts.push({x:x+rnd(-60,60),y:y-20+rnd(-20,20),vx:rnd(-25,25),vy:rnd(-110,-70),life:1.3,t:0,c:pick(['#FF5A7E','#FF7A9A','#F28AB8']),r:rnd(11,15),rot:0,k:'h',g:-15});/* al celebrar, también suben corazoncitos */[523,659,784,1046].forEach((f,i)=>tone(f,.16,'triangle',.08,1,.2+i*.1));for(let i=0;i<3;i++)sparkles(x+(i-1)*60,y-40*i)}
 // reacciones en cadena: al tocar algo, otras cosas de su tipo reaccionan después, escalonadas
 // dropParts(x,y,n,cols,k): suelta n partículas que caen (nieve, hojas) en el punto x,y de la pantalla; cols = colores posibles,
 // k = forma de la partícula (ver cómo se dibujan las parts en drawParts, nucleo/escenas.ts). (El comentario de arriba, reacciones en cadena, es de chainWob.)
-function dropParts(x,y,n,cols,k){/* al sacudir un árbol cae nieve (Montaña) u hojas (Bosque) */for(let i=0;i<n;i++)parts.push({x:x+rnd(-55,55),y:y+rnd(-30,20),vx:rnd(-30,30),vy:rnd(-40,20),life:rnd(1,1.6),t:0,c:pick(cols),r:rnd(5,10),rot:rnd(0,6),k,g:260})}
+function dropParts(x: number,y: number,n: number,cols: string[],k: string){/* al sacudir un árbol cae nieve (Montaña) u hojas (Bosque) */for(let i=0;i<n;i++)parts.push({x:x+rnd(-55,55),y:y+rnd(-30,20),vx:rnd(-30,30),vy:rnd(-40,20),life:rnd(1,1.6),t:0,c:pick(cols),r:rnd(5,10),rot:rnd(0,6),k,g:260})}
 // allTap(w,t,kind,x,y,N): cuenta en voz alta (sayNum) cuántos objetos distintos del tipo kind se han tocado (los guarda en el Set
 // w['_all'+kind]); N = cuántos hay (si no se da, los cuenta en w.trees; con kind 'bfly' no cuenta las abejas). Cuenta hasta 10. Al tocarlos todos: '¡Muy bien!', se reinicia
 // la cuenta y Tito lo celebra (titoCheer).
-function allTap(w,t,kind,x,y,N){/* premio de Tito al tocar todos los de un tipo */const k='_all'+kind,n=N||(w.trees||[]).filter(o=>o.userData[kind]&&!(kind==='bfly'&&o.userData.bee)/* las abejas también llevan bfly: no cuentan como mariposas */).length;const o=(w[k]=w[k]||new Set).size;w[k].add(t);const m=w[k].size;if(n>1&&m>o&&m<=10){numPop(x,y,m);sayNum(m,m>=n?()=>say3('¡Muy bien!'):null)}/* en el Rincón del inglés se cuenta en inglés *//* cuenta en voz alta los que se van tocando */;if(n>1&&m>=n){w[k]=null;titoCheer(x,y)}}
+function allTap(w: Mundo,t: Tres.Object3D,kind: string,x: number,y: number,N?: number){/* premio de Tito al tocar todos los de un tipo */const k=('_all'+kind) as `_all${string}`,n=N||(w.trees||[]).filter(o=>o.userData[kind]&&!(kind==='bfly'&&o.userData.bee)/* las abejas también llevan bfly: no cuentan como mariposas */).length;const o=(w[k]=w[k]||new Set).size;w[k].add(t);const m=w[k].size;if(n>1&&m>o&&m<=10){numPop(x,y,m);sayNum(m,m>=n?()=>say3('¡Muy bien!'):null)}/* en el Rincón del inglés se cuenta en inglés *//* cuenta en voz alta los que se van tocando */;if(n>1&&m>=n){w[k]=null;titoCheer(x,y)}}
 // chainWob(w,kind,d0,step,max): programa que hasta max objetos del tipo kind se animen solos: el primero a los d0 segundos y cada uno
 // step segundos después del anterior. Pone userData.wobAt; wobInit lo convierte en wob=T cuando llega la hora.
-function chainWob(w,kind,d0,step,max){let i=0;for(const o of w.trees||[])if(o.userData[kind]&&!(kind==='bfly'&&o.userData.bee)&&i<max)/* las abejas también llevan bfly: aquí solo cuentan las mariposas */{o.userData.wobAt=T+d0+i*step;i++}}
+function chainWob(w: Mundo,kind: string,d0: number,step: number,max: number){let i=0;for(const o of w.trees||[])if(o.userData[kind]&&!(kind==='bfly'&&o.userData.bee)&&i<max)/* las abejas también llevan bfly: aquí solo cuentan las mariposas */{o.userData.wobAt=T+d0+i*step;i++}}
 // cloud3(to,x,y,z,s): nube de adorno (4 bolas unidas en una sola geometría con mg, guardada en gcache). to = padre. Devuelve el grupo.
 // No lleva marca: quien la crea le pone userData.cloud=1 (y hitS) si debe poder tocarse.
-function cloud3(to,x,y,z,s){const g=grp(to,[x,y,z],s);mk(gcache('cloud',()=>mg([[0,0,0,1],[1.1,.3,0,1.2],[2.2,0,0,.9],[1.1,-.2,.5,1]].map(([a,b,c,r])=>[Sph(r,14,10),[a,b,c]]))),'#FFFFFF',{cs:false,rs:false,ol:.04,to:g});return g}
+function cloud3(to: Tres.Object3D,x: number,y: number,z: number,s: number){const g=grp(to,[x,y,z],s);mk(gcache('cloud',()=>mg([[0,0,0,1],[1.1,.3,0,1.2],[2.2,0,0,.9],[1.1,-.2,.5,1]].map(([a,b,c,r])=>[Sph(r,14,10),[a,b,c]]))),'#FFFFFF',{cs:false,rs:false,ol:.04,to:g});return g}
 // balloon3(to,x,z,c,h): globo de color c con su cuerda de altura h. Marca balloon: wobInit lo hace subir y bajar al tocarlo. Devuelve el grupo.
-function balloon3(to,x,z,c,h=2.4){const g=grp(to,[x,0,z]);mk(Cyl(.012,.012,h,4),K,{p:[0,h/2,0],ol:0,cs:false,to:g});mk(Sph(.38,14,12),c,{p:[0,h+.35,0],s:[1,1.2,1],to:g,ol:.03});g.userData.balloon=1;return g}
+function balloon3(to: Tres.Object3D,x: number,z: number,c: string,h=2.4){const g=grp(to,[x,0,z]);mk(Cyl(.012,.012,h,4),K,{p:[0,h/2,0],ol:0,cs:false,to:g});mk(Sph(.38,14,12),c,{p:[0,h+.35,0],s:[1,1.2,1],to:g,ol:.03});g.userData.balloon=1;return g}
 
 /* ---------- Tito, el caracol, en 3D ---------- */
 // Spiral: curva de Three.js con forma de espiral logarítmica (radio R*e^(-b*ángulo)) en el plano XY; turns = vueltas, a0 = ángulo de
 // inicio. Es el eje del caparazón del caracol.
-class Spiral extends THREE.Curve{constructor(R,b,turns,a0){super();this.R=R;this.b=b;this.T=turns*PI*2;this.a0=a0}
+class Spiral extends THREE.Curve<Tres.Vector3>{declare R: number;declare b: number;declare T: number;declare a0: number;
+  constructor(R: number,b: number,turns: number,a0: number){super();this.R=R;this.b=b;this.T=turns*PI*2;this.a0=a0}
   // getPoint(t,o): el punto de la curva para t de 0 a 1 (lo pide TubeGeometry); lo escribe en o y lo devuelve
-  getPoint(t,o=new THREE.Vector3()){const th=t*this.T,r=this.R*Math.exp(-this.b*th),a=this.a0+th;return o.set(Math.cos(a)*r,Math.sin(a)*r,0)}}
+  getPoint(t: number,o=new THREE.Vector3()){const th=t*this.T,r=this.R*Math.exp(-this.b*th),a=this.a0+th;return o.set(Math.cos(a)*r,Math.sin(a)*r,0)}}
 // shellGeo(): geometría del caparazón del caracol. Hace un tubo de radio 1 a lo largo de la espiral y luego encoge cada anillo según su
 // distancia al centro (k) y lo estira en z (zs), así la concha se estrecha hacia dentro. Devuelve {g: geometría, sp: espiral, k, zs}
 // (sp, k y zs se usan para colocar la raya y las flores). Se calcula una sola vez y se guarda en SHELL.
@@ -952,30 +968,30 @@ function shellGeo(){const R=.74,b=.12,k=.36,zs=1.85,sp=new Spiral(R,b,2.1,-1.0),
   for(let i=0;i<=seg;i++){const P=sp.getPointAt(i/seg),tr=k*Math.hypot(P.x,P.y);for(let j=0;j<=rad;j++){const v=i*(rad+1)+j;p.setXYZ(v,P.x+(p.getX(v)-P.x)*tr,P.y+(p.getY(v)-P.y)*tr,(p.getZ(v)-P.z)*tr*zs)}}
   g.computeVertexNormals();return {g,sp,k,zs}}
 // SHELL: caché del caparazón (disposeWorld no la borra al cambiar de mundo)
-let SHELL=null;
+let SHELL: ReturnType<typeof shellGeo>|null=null;
 // personajes de Tito que ya tienen modelo (S.tito.kind; los demás vuelven al caracol)
-const TITO_KINDS=['caracol','erizo','tortuga','conejo'];
+const TITO_KINDS: readonly (string|undefined)[]=['caracol','erizo','tortuga','conejo'];
 // sonido al tocar a Tito, según el animal: el caracol con su boing de siempre, el conejo un pip-pip agudo, la tortuga un bonk grave y el erizo un resoplido
 // ffTap(x,y): lucecitas de luciérnaga en el punto tocado de la pantalla (de noche). (El comentario de arriba es de titoTapSfx.)
-function ffTap(x,y){/* de noche, donde se toca salen lucecitas de luciérnaga */for(let i=0;i<6;i++)parts.push({x:x+rnd(-18,18),y:y+rnd(-12,12),vx:rnd(-35,35),vy:rnd(-45,-15),life:rnd(.8,1.2),t:0,c:pick(['#E8FF8A','#C8F560','#FFF6A8']),r:rnd(3,5),rot:0,k:'d',g:-10})}
+function ffTap(x: number,y: number){/* de noche, donde se toca salen lucecitas de luciérnaga */for(let i=0;i<6;i++)parts.push({x:x+rnd(-18,18),y:y+rnd(-12,12),vx:rnd(-35,35),vy:rnd(-45,-15),life:rnd(.8,1.2),t:0,c:pick(['#E8FF8A','#C8F560','#FFF6A8']),r:rnd(3,5),rot:0,k:'d',g:-10})}
 // ringParts(x,y,n,d,c): n ondas (partículas 'o'), una cada 180 ms, empezando a los d ms; c = color (blanco si no se da)
-function ringParts(x,y,n,d,c){for(let i=0;i<n;i++)setTimeout(()=>parts.push({x:x+rnd(-30,30),y:y+rnd(-8,8),vx:0,vy:0,life:.8,t:0,c:c||'#FFFFFF',r:rnd(10,14),rot:0,k:'o',g:0}),(d||0)+i*180)}// ondas en el agua o en el suelo
+function ringParts(x: number,y: number,n: number,d: number,c: string){for(let i=0;i<n;i++)setTimeout(()=>parts.push({x:x+rnd(-30,30),y:y+rnd(-8,8),vx:0,vy:0,life:.8,t:0,c:c||'#FFFFFF',r:rnd(10,14),rot:0,k:'o',g:0}),(d||0)+i*180)}// ondas en el agua o en el suelo
 // noteParts(x,y,n,d): n notas musicales de colores que suben desde x,y de la pantalla; d = retraso en ms
-function noteParts(x,y,n,d){setTimeout(()=>{for(let i=0;i<n;i++)parts.push({x:x+rnd(-25,25),y:y-40+rnd(-10,10),vx:rnd(-35,35),vy:rnd(-95,-60),life:rnd(1,1.3),t:0,c:pick(['#7C5CFF','#FF5A7E','#2FA8E0','#3FAE5A','#F2A91C']),r:rnd(15,19),rot:rnd(-2,2),k:'n',g:-10})},d||0)}// notas musicales que suben
+function noteParts(x: number,y: number,n: number,d: number){setTimeout(()=>{for(let i=0;i<n;i++)parts.push({x:x+rnd(-25,25),y:y-40+rnd(-10,10),vx:rnd(-35,35),vy:rnd(-95,-60),life:rnd(1,1.3),t:0,c:pick(['#7C5CFF','#FF5A7E','#2FA8E0','#3FAE5A','#F2A91C']),r:rnd(15,19),rot:rnd(-2,2),k:'n',g:-10})},d||0)}// notas musicales que suben
 // titoHearts(x,y): 3 corazoncitos que suben encima de Tito
-function titoHearts(x,y){/* al tocar a Tito suben unos corazoncitos */for(let i=0;i<3;i++)parts.push({x:x+(i-1)*24,y:y-40-Math.abs(i-1)*8,vx:rnd(-15,15),vy:rnd(-95,-65),life:1.1,t:0,c:pick(['#FF5A7E','#FF7A9A','#F28AB8']),r:rnd(11,14),rot:0,k:'h',g:-15})}
+function titoHearts(x: number,y: number){/* al tocar a Tito suben unos corazoncitos */for(let i=0;i<3;i++)parts.push({x:x+(i-1)*24,y:y-40-Math.abs(i-1)*8,vx:rnd(-15,15),vy:rnd(-95,-65),life:1.1,t:0,c:pick(['#FF5A7E','#FF7A9A','#F28AB8']),r:rnd(11,14),rot:0,k:'h',g:-15})}
 // titoTapSfx(): el sonido al tocar a Tito según S.tito.kind (ver el comentario de antes de ffTap); try/catch por si el audio falla
 function titoTapSfx(){const k=S.tito&&S.tito.kind;try{if(k==='conejo'){tone(1180,.07,'triangle',.22,1.3);tone(1400,.07,'triangle',.2,1.3,.1)}else if(k==='tortuga'){tone(190,.22,'sine',.45,.6);tone(130,.18,'triangle',.18,0,.06)}else if(k==='erizo'){noise(.06,.18,2600);noise(.06,.16,3200,.09);tone(700,.06,'sine',.08,1.3,.16)}else SFX.boing()}catch(e){}}
 // HOP[animal] = [altura del salto, duración en s] cuando se toca a Tito (lo usa root.userData.anim)
-const HOP={caracol:[.9,.6],erizo:[.65,.45],tortuga:[.4,.5],conejo:[1.4,.7]};
+const HOP: Record<string, [number, number]>={caracol:[.9,.6],erizo:[.65,.45],tortuga:[.4,.5],conejo:[1.4,.7]};
 // makeTito(into): construye el modelo 3D de Tito según S.tito: kind = animal (TITO_KINDS), shell = color del caparazón/púas/mochila,
 // scarf = bufanda, hat/bow/glasses = ropa de la tienda; pone una flor por cada casita terminada (temasDone(), como mucho 15).
 // into: grupo donde construirlo (si no, uno nuevo). Devuelve root con userData.id='tito', userData.kind, userData.parts (piezas)
 // y userData.anim(dt,o) para animarlo en cada cuadro. No cambia S.
-function makeTito(into){const root=into||new THREE.Group(),b=grp(root);root.userData.id='tito';const t=S.tito||{},GR='#9BD86A';
-  const kind=TITO_KINDS.includes(t.kind)?t.kind:'caracol';root.userData.kind=kind;
-  const sc=(SHELLC[t.shell]||SHELLC.naranja),scarf=SCARFC[t.scarf]||SCARFC.roja;
-  let head,mouth,mo,sh,nose=null;const eyes=[],wig=[],stalks=[],ears=[];
+function makeTito(into?: Tres.Group){const root=into||new THREE.Group(),b=grp(root);root.userData.id='tito';const t=S.tito||{},GR='#9BD86A';
+  const kind: string=TITO_KINDS.includes(t.kind)?t.kind!:'caracol';root.userData.kind=kind;
+  const sc=(SHELLC[t.shell!]||SHELLC.naranja),scarf=SCARFC[t.scarf!]||SCARFC.roja;
+  let head,mouth,mo,sh,nose=null;const eyes: Tres.Group[]=[],wig: [Tres.Object3D, 'x'|'y'|'z', number, number, number, number][]=[],stalks: Tres.Group[]=[],ears: Tres.Group[]=[];
   // cada animal construye su cuerpo y rellena head, eyes, mouth (boca cerrada), mo (boca abierta al hablar) y sh (grupo de las flores);
   // wig = piezas que se menean solas: [malla, eje, ángulo base, amplitud, velocidad, fase]
   if(kind==='caracol'){
@@ -1000,7 +1016,7 @@ function makeTito(into){const root=into||new THREE.Group(),b=grp(root);root.user
   const CR='#F2D6B0',PU=t.shell&&t.shell!=='naranja'?sc[0]:'#9A6A45';
   mk(Sph(1,26,16),CR,{p:[.1,.72,0],s:[1.25,.72,.82],to:b,ol:.06});
   mk(Sph(1,24,16),PU,{p:[-.12,.98,0],s:[1.18,.82,.86],to:b,ol:.05});
-  const sp=gcache('puas',()=>{const parts=[],cn=Cone(.12,.46,6),q=new THREE.Quaternion(),e=new THREE.Euler(),U=new THREE.Vector3(0,1,0);
+  const sp=gcache('puas',()=>{const parts: PiezaUnida[]=[],cn=Cone(.12,.46,6),q=new THREE.Quaternion(),e=new THREE.Euler(),U=new THREE.Vector3(0,1,0);
     for(let i=0;i<70;i++){const y=1-(i+.5)/70*1.25,r=Math.sqrt(Math.max(0,1-y*y)),a=i*2.39996,d=new THREE.Vector3(Math.cos(a)*r,y,Math.sin(a)*r);if(d.x>.55||y<-.2)continue;
       const P=[d.x*1.15,d.y*.8,d.z*.84],n=new THREE.Vector3(d.x/1.15,d.y/.8,d.z/.84).normalize();q.setFromUnitVectors(U,n);e.setFromQuaternion(q);parts.push([cn,[P[0]+n.x*.16,P[1]+n.y*.16,P[2]+n.z*.16],1,[e.x,e.y,e.z]])}return mg(parts)});
   mk(sp,PU,{p:[-.12,.98,0],to:b,ol:.025});
@@ -1060,7 +1076,7 @@ function makeTito(into){const root=into||new THREE.Group(),b=grp(root);root.user
     for(let i=0;i<5;i++){const a2=i/5*PI*2;mk(Sph(.12,8,6),FLC[j%FLC.length],{p:[Math.cos(a2)*.14,Math.sin(a2)*.14,0],s:[1,1,.5],ol:.025,to:f})}mk(Sph(.09,8,6),'#FFD66B',{p:[0,0,.03],s:[1,1,.6],ol:.02,to:f})}
   }
   // ropa: sombrero en la cabeza y moño, en el sitio de cada personaje
-  const HP={caracol:[.05,.95,0],erizo:[-.05,.85,0],tortuga:[-.05,.72,0],conejo:[.07,.74,0]}[kind],BP={caracol:[-.3,2.55,.3],erizo:[-.25,1.95,.3],tortuga:[-.3,1.55,.3],conejo:[.35,2.4,.4]}[kind];
+  const HP=({caracol:[.05,.95,0],erizo:[-.05,.85,0],tortuga:[-.05,.72,0],conejo:[.07,.74,0]} as Record<string, Trio>)[kind],BP=({caracol:[-.3,2.55,.3],erizo:[-.25,1.95,.3],tortuga:[-.3,1.55,.3],conejo:[.35,2.4,.4]} as Record<string, Trio>)[kind];
   if(t.hat&&IMG[t.hat])spr(picTex(t.hat),1.35,1.35,{p:HP,to:head});
   if(t.bow)spr(picTex('monio'),.8,.8,{p:BP,to:b});
   if(t.glasses)for(const e of eyes){const gm=new THREE.Mesh(new THREE.TorusGeometry(.25,.04,8,20),M(K));gm.position.set(.16,0,.1);gm.rotation.y=PI/2.4;e.add(gm);const ln=new THREE.Mesh(new THREE.CircleGeometry(.24,20),new THREE.MeshBasicMaterial({color:0x28284a,transparent:true,opacity:.38}));ln.position.copy(gm.position);ln.rotation.copy(gm.rotation);e.add(ln)}
@@ -1073,7 +1089,7 @@ function makeTito(into){const root=into||new THREE.Group(),b=grp(root);root.user
   // anim(dt,o): se llama en cada cuadro desde la escena. dt = segundos desde el cuadro anterior. o = opciones: ph (desfase de tiempo),
   // walk (0..1, cuánto camina), hov (ratón encima), look (inclinar la cabeza), hop (instante T del toque), y0 (altura del suelo),
   // talk:false (no mover la boca aunque hable). Respira, parpadea, camina a su manera, mira alrededor, habla y reacciona al toque.
-  root.userData.anim=(dt,o={})=>{const tt=T+(o.ph||0),wk=o.walk||0;
+  root.userData.anim=(dt: number,o: Libre={})=>{const tt=T+(o.ph||0),wk=o.walk||0;
     hs+=((o.hov?1.08:1)-hs)*Math.min(1,(dt||0)*10);const br=Math.sin(tt*2.2)*.04;
     // cada animal camina a su manera: el caracol se estira y encoge, el conejo da saltitos, la tortuga se balancea despacio y el erizo trota
     if(kind==='conejo'){const ph=tt*6,u=Math.abs(Math.sin(ph)),sq=wk*Math.max(0,.35-u)*.5;b.position.y=u*.5*wk+br;b.rotation.z=-Math.cos(ph)*Math.sign(Math.sin(ph))*.12*wk;b.scale.set(hs*(1+sq),hs*(1-sq),hs)}
@@ -1102,17 +1118,17 @@ function makeTito(into){const root=into||new THREE.Group(),b=grp(root);root.user
     // el caracol mete los ojos (encoge las antenas) un momento y los vuelve a sacar
     if(stalks.length){const k=o.hop!=null?T-o.hop:9,e=k<0?0:k<.12?k/.12:k<.7?1:Math.max(0,1-(k-.7)/.35);for(const st of stalks)st.scale.y=1-.65*e}
     if(kind==='tortuga'){const k=o.hop!=null?T-o.hop:9,e=k<0?0:k<.15?k/.15:k<.9?1:Math.max(0,1-(k-.9)/.3);head.position.x=hx0-.5*e;head.scale.setScalar(1-.25*e)}};
-  root.traverse(o=>{if(o.isMesh&&o.material&&o.material.type==='MeshToonMaterial')o.castShadow=true});
+  root.traverse((o: Nodo)=>{if(o.isMesh&&o.material&&o.material.type==='MeshToonMaterial')o.castShadow=true});
   return root}
 
 /* ---------- Pipo, el dinosaurio que crece ---------- */
 // makePipo(st): construye a Pipo según su etapa st (petStage() en escenas/zonas.ts, según las estrellas): 0 = huevo, 1 = huevo con la cabeza
 // asomando, 2 y 3 = dinosaurio pequeño y mediano, 4 = grande con corona. Devuelve el grupo con userData.id='pipo' y userData.anim.
-function makePipo(st){const g=new THREE.Group(),b=grp(g);g.userData.id='pipo';
+function makePipo(st: number){const g=new THREE.Group(),b=grp(g);g.userData.id='pipo';
   if(st<=1){mk(Sph(.62,22,16),'#FFF6E0',{p:[0,.78,0],s:[1,1.28,1],to:b,ol:.04});
     [[.2,1,.5],[-.25,.6,.5],[.35,.5,.4],[-.1,1.3,.42],[.45,1.05,.2]].forEach(([x,y,z])=>mk(Sph(.11,10,8),'#9BD86A',{p:[x,y,z],s:[1,1,.3],ol:0,to:b}));
     if(st===1){const hd=grp(b,[0,1.5,0]);mk(Sph(.38,16,12),'#7CC86E',{to:hd,ol:.03});for(const z of[-.15,.15]){mk(Sph(.09,10,8),'#fff',{p:[.25,.08,z],ol:.02,to:hd});mk(Sph(.045,8,6),K,{p:[.32,.08,z*1.1],ol:0,to:hd})}
-      mk(Sph(.35,14,10,0),'#FFF6E0',{p:[0,.22,0],s:[1,.55,1],to:hd,ol:.03})}}
+      mk(Sph(.35,14,10),'#FFF6E0',{p:[0,.22,0],s:[1,.55,1],to:hd,ol:.03})}}
   else{const k=st===2?.62:st===3?.82:1,G2='#7CC86E';b.scale.setScalar(k);
     mk(Sph(.8,22,16),G2,{p:[0,1.05,0],s:[1.15,.9,.82],to:b,ol:.05});mk(Sph(.55,16,12),'#C9EFA5',{p:[.35,.95,.3],s:[1,1,.5],ol:0,to:b});
     const hd=grp(b,[.95,1.85,0]);mk(Sph(.5,18,14),G2,{s:[1.15,1,1],to:hd,ol:.045});
@@ -1124,23 +1140,23 @@ function makePipo(st){const g=new THREE.Group(),b=grp(g);g.userData.id='pipo';
     if(st>=4){const cr=grp(hd,[-.05,.5,0]);mk(Cyl(.28,.28,.22,16),'#FFC93C',{to:cr,ol:.03});for(let i=0;i<5;i++){const a=i/5*PI*2;mk(Cone(.07,.2,6),'#FFC93C',{p:[Math.cos(a)*.24,.2,Math.sin(a)*.24],to:cr,ol:.02})}}}
   const hit=new THREE.Mesh(Box(2,2.6,1.6),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=1.1;g.add(hit);
   // anim(jump): cada cuadro; en la etapa 0 el huevo tiembla a ratos, después respira; jump = instante T del toque (botes que se apagan)
-  g.userData.anim=(jump)=>{if(st===0){const w=Math.sin(T*.8)>.55?Math.sin(T*9)*.12:0;b.rotation.z=w}else b.position.y=Math.abs(Math.sin(T*3))*.06;
+  g.userData.anim=(jump: number)=>{if(st===0){const w=Math.sin(T*.8)>.55?Math.sin(T*9)*.12:0;b.rotation.z=w}else b.position.y=Math.abs(Math.sin(T*3))*.06;
     const j=jump?Math.max(0,1-(T-jump)*1.6)*Math.abs(Math.sin((T-jump)*10)):0;g.position.y=(g.userData.y0||0)+j*.8};
   return g}
 
 /* ---------- la casa de Tito, que crece con las casitas terminadas ---------- */
 // shellTex(): textura con el icono de Tito (shellIcon) para el escudo de la fachada de la casa; en caché por animal y color
-function shellTex(){const c=(SHELLC[S.tito&&S.tito.shell]||SHELLC.naranja)[0];return canvasTex(128,128,()=>{shellIcon(64,64,52)},'shell:'+titoKind()+':'+c)}
+function shellTex(){const c=(SHELLC[(S.tito&&S.tito.shell)!]||SHELLC.naranja)[0];return canvasTex(128,128,()=>{shellIcon(64,64,52)},'shell:'+titoKind()+':'+c)}
 // makeHouse(lvl,o): la casa de Tito, que mejora con lvl: 1 = valla y flores, 2 = segundo piso con balcón, 3 = torre con bandera,
 // 4 = estrella y arcoíris. Las ventanas se encienden de 19 h a 7 h. Añade lo comprado en la tienda (S.owned: farol, fuente,
 // casitaPerro, banco) y el cartel. Devuelve g con userData.id='casaTito' y userData.anim(shake). El parámetro o no se usa.
-function makeHouse(lvl,o={}){const g=new THREE.Group();g.userData.id='casaTito';const h=new Date().getHours(),lit=h>=19||h<7,win=lit?'#FFE08A':'#BFEAF7';
+function makeHouse(lvl: number){const g=new THREE.Group();g.userData.id='casaTito';const h=new Date().getHours(),lit=h>=19||h<7,win=lit?'#FFE08A':'#BFEAF7';
   const two=lvl>=2,H1=two?3.6:2.1;
   mk(Cyl(3.4,3.5,.25,40),'#9FD88A',{p:[0,.12,0],s:[1,1,.75],to:g,ol:.04});
   mk(Box(3.1,H1,2.4),'#FFF3D6',{p:[0,.25+H1/2,0],to:g,ol:.06});
   mk(prism(3.9,1.7,2.9),'#FF8A7A',{p:[0,.25+H1,0],to:g,ol:.06});
   mk(Box(.5,1.1,.5),'#C98A4B',{p:[.8,.25+H1+1.0,-.4],to:g,ol:.04});
-  const smoke=[];for(let i=0;i<3;i++)smoke.push(mk(Sph(.22,10,8),'#FFFFFF',{p:[.8,.25+H1+1.7,-.4],to:g,ol:.025,cs:false}));
+  const smoke: Tres.Mesh[]=[];for(let i=0;i<3;i++)smoke.push(mk(Sph(.22,10,8),'#FFFFFF',{p:[.8,.25+H1+1.7,-.4],to:g,ol:.025,cs:false}));
   g.userData.emb=plane(shellTex(),.8,.8,{p:[0,.25+H1+.65,1.46],to:g});
   mk(Box(.75,1.25,.12),'#C98A4B',{p:[0,.25+.62,1.22],to:g,ol:.04});mk(Sph(.06,8,6),K,{p:[.22,.9,1.3],ol:0,to:g});
   const wins=[[-1,1.3],[1,1.3]];if(two)wins.push([-1,2.85],[1,2.85]);
@@ -1155,7 +1171,7 @@ function makeHouse(lvl,o={}){const g=new THREE.Group();g.userData.id='casaTito';
   if(lvl>=4){const st=mk(starGeo(.55,.18),'#FFC93C',{p:[0,.25+H1+2.3,0],to:g,ol:.04});g.userData.star=st;
     ['#FF6B5E','#FFA94D','#FFD66B','#7CC86E','#5BB8E6','#9B8AD9'].forEach((c,i)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(4.6-i*.22,.12,6,40,PI),M(c));m.position.set(0,.3,-1.9);g.add(m)})}
   // own(k): ¿se ha comprado el artículo k en la tienda?
-  const own=k=>S.owned&&S.owned[k];
+  const own=(k: string)=>S.owned&&S.owned[k];
   if(own('farol'))spr(picTex('farol'),1.5,1.5,{p:[-2.7,.9,1],to:g});
   if(own('fuente'))spr(picTex('fuente'),1.3,1.3,{p:[-2.3,.75,1.9],to:g});
   if(own('casitaPerro')){spr(picTex('casitaPerro'),1.3,1.3,{p:[2.7,.75,1.2],to:g});spr(picTex('perro'),.75,.75,{p:[3.2,.45,1.8],to:g})}
@@ -1163,18 +1179,18 @@ function makeHouse(lvl,o={}){const g=new THREE.Group();g.userData.id='casaTito';
   spr(pillTex(tx('Casa de Tito'),'#FFA94D','#fff',72),3.4,.85,{p:[0,.55,2.5],to:g});
   const hit=new THREE.Mesh(Box(5,5,4),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=2.2;g.add(hit);
   // anim(shake): cada cuadro mueve el humo de la chimenea, la estrella y la bandera; shake = instante T del toque: tiembla 1,4 s
-  g.userData.anim=(shake)=>{for(let i=0;i<3;i++){const k=(T*.35+i/3)%1,s=smoke[i];s.position.set(.8+Math.sin(T+i)*.2+k*.5,.25+H1+1.7+k*1.8,-.4);s.scale.setScalar(.6+k*1.4);s.visible=k<.92}
+  g.userData.anim=(shake: number)=>{for(let i=0;i<3;i++){const k=(T*.35+i/3)%1,s=smoke[i];s.position.set(.8+Math.sin(T+i)*.2+k*.5,.25+H1+1.7+k*1.8,-.4);s.scale.setScalar(.6+k*1.4);s.visible=k<.92}
     if(g.userData.star)g.userData.star.rotation.y=Math.sin(T*1.5)*.55;
     if(g.userData.flag){const p=g.userData.flag.geometry.attributes.position;for(let i=0;i<p.count;i++){const x=p.getX(i);p.setZ(i,Math.sin(T*6-x*6)*.12*x)}p.needsUpdate=true}
-    const sk=shake?Math.sin(T*40)*.15*Math.max(0,1-(T-shake)/1.4):0;g.children[0].parent.rotation.z=sk*.15};
+    const sk=shake?Math.sin(T*40)*.15*Math.max(0,1-(T-shake)/1.4):0;g.children[0].parent!.rotation.z=sk*.15};
   return g}
 
 /* ---------- el mundo activo ---------- */
 // newWorld(o): crea un mundo 3D vacío: escena, cámara (o.fov, 40 por defecto, 16:9), fondo o.bg, niebla o.fog=[cerca,lejos] y luces
 // (cielo, ambiente y sol con sombras que cubren o.shadow). Devuelve w = {sc, cam, fov, pick:[] (cosas que se pueden tocar),
 // upd:[] (funciones de cada cuadro), kind, sun}. Cada escena 3D lo rellena y luego llama a setWorld(w).
-function newWorld(o={}){const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(o.fov||40,16/9,.1,400);
-  const w={sc,cam,fov:o.fov||40,pick:[],upd:[],kind:o.kind};
+function newWorld(o: OpcionesMundo={}){const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(o.fov||40,16/9,.1,400);
+  const w: Mundo={sc,cam,fov:o.fov||40,pick:[],upd:[],kind:o.kind};
   sc.background=new THREE.Color(o.bg||'#BFE9F8');if(o.fog)sc.fog=new THREE.Fog(o.bg||'#BFE9F8',o.fog[0],o.fog[1]);
   sc.add(new THREE.HemisphereLight(0xffffff,0xb7d39c,.44));sc.add(new THREE.AmbientLight(0xffffff,.12));
   const sun=new THREE.DirectionalLight(0xfff4e0,.48);sun.position.set(-14,30,18);sun.castShadow=true;const s=o.shadow||24;
@@ -1182,35 +1198,35 @@ function newWorld(o={}){const sc=new THREE.Scene(),cam=new THREE.PerspectiveCame
   fitCam(w);return w}
 // las piezas diminutas (pétalos, piedritas, puntitos) no proyectan sombra: no se nota y ahorra una pasada de dibujo por pieza
 // trimShadows(w): mira el tamaño real de cada pieza (radio de su geometría por la escala); Tito (w.tito) conserva siempre sus sombras
-function trimShadows(w){const s=new THREE.Vector3(),keep=new Set();if(w.tito)w.tito.traverse(o=>keep.add(o));w.sc.updateMatrixWorld(true);
-  w.sc.traverse(o=>{if(!o.isMesh||!o.castShadow||keep.has(o))return;const g=o.geometry;if(!g.boundingSphere)g.computeBoundingSphere();o.getWorldScale(s);
+function trimShadows(w: Mundo){const s=new THREE.Vector3(),keep=new Set();if(w.tito)w.tito.traverse(o=>keep.add(o));w.sc.updateMatrixWorld(true);
+  w.sc.traverse((o: Nodo)=>{if(!o.isMesh||!o.castShadow||keep.has(o))return;const g=o.geometry;if(!g.boundingSphere)g.computeBoundingSphere();o.getWorldScale(s);
     if(g.boundingSphere.radius*Math.max(s.x,s.y,s.z)<.3)o.castShadow=false})}
 // setWorld(w): hace que w sea el mundo activo W3 (libera el anterior), ajusta la cámara, reinicia la medida de FPS y quita sombras pequeñas
-function setWorld(w){if(W3&&W3!==w)disposeWorld(W3);W3=w;fitCam(w);FPS.last=0;trimShadows(w)}
+function setWorld(w: Mundo){if(W3&&W3!==w)disposeWorld(W3);W3=w;fitCam(w);FPS.last=0;trimShadows(w)}
 // también se liberan las texturas de usar y tirar (las guardadas en TXC se reutilizan) y el mapa de sombras del sol;
 // sin esto cada visita a una escena dejaba en la GPU ~11 texturas y una sombra de 2048x2048
 // disposeWorld(w): libera de la GPU las geometrías (menos las marcadas keep y SHELL), sombras y texturas de un mundo que ya no se usa.
 // tx(t): libera la textura t si no está en la caché TXC
-function disposeWorld(w){const kept=new Set(Object.values(TXC)),tx=t=>{if(t&&t.isTexture&&!kept.has(t))t.dispose()};
-  w.sc.traverse(o=>{if(o.geometry&&!o.geometry.userData.keep&&o.geometry!==(SHELL&&SHELL.g))o.geometry.dispose();
+function disposeWorld(w: Mundo){const kept=new Set<Tres.Texture>(Object.values(TXC)),tx=(t: Tres.Texture|null|undefined)=>{if(t&&t.isTexture&&!kept.has(t))t.dispose()};
+  w.sc.traverse((o: Nodo)=>{if(o.geometry&&!o.geometry.userData.keep&&o.geometry!==(SHELL&&SHELL.g))o.geometry.dispose();
     if(o.isLight&&o.shadow&&o.shadow.map){o.shadow.map.dispose();o.shadow.map=null}
-    for(const m of [].concat(o.material||[]))tx(m.map);if(o.material&&o.material.isSpriteMaterial)o.material.dispose()});tx(w.sc.background)}
+    for(const m of ([] as Tres.MeshBasicMaterial[]).concat(o.material||[]))tx(m.map);if(o.material&&o.material.isSpriteMaterial)o.material.dispose()});tx(w.sc.background as Tres.Texture|null)/* si el fondo es un color, tx no hace nada */}
 // cámara: base + pequeño paralaje con el mouse
 // camRig(w,pos,look,par): pone la cámara en pos mirando a look. w.cb = posición base; w.camT = destino actual (walkTo lo cambia para
 // acercarse); w.camL = punto al que mira ahora. par = cuánto se mueve con el ratón (paralaje)
-function camRig(w,pos,look,par=1){w.cb={pos:pos.clone(),look:look.clone(),par};w.cam.position.copy(pos);w.cam.lookAt(look);w.camT={pos:pos.clone(),look:look.clone()};w.camL=look.clone()}
+function camRig(w: Mundo,pos: Tres.Vector3,look: Tres.Vector3,par=1){w.cb={pos:pos.clone(),look:look.clone(),par};w.cam.position.copy(pos);w.cam.lookAt(look);w.camT={pos:pos.clone(),look:look.clone()};w.camL=look.clone()}
 // camTick(w,dt): cada cuadro acerca la cámara suavemente a su destino (w.camT) más el paralaje del ratón (MX,MY);
 // k=1-e^(-3*dt) hace que el suavizado vaya igual de rápido con cualquier número de cuadros por segundo
-function camTick(w,dt){const c=w.cb;if(!c)return;const k=1-Math.exp(-dt*3);
+function camTick(w: Mundo,dt: number){const c=w.cb;if(!c)return;const k=1-Math.exp(-dt*3);
   const mx=VIVO.mouseOn?(VIVO.MX-800)/800:0,my=VIVO.mouseOn?(VIVO.MY-450)/450:0;
-  const tp=w.camT.pos.clone().add(V3(mx*c.par,-my*c.par*.5,0)),tl=w.camT.look;
-  w.cam.position.lerp(tp,k);w.camL.lerp(tl,k);w.cam.lookAt(w.camL)}
+  const tp=w.camT!.pos.clone().add(V3(mx*c.par,-my*c.par*.5,0)),tl=w.camT!.look;
+  w.cam.position.lerp(tp,k);w.camL!.lerp(tl,k);w.cam.lookAt(w.camL!)}
 
 // calidad adaptable: si el aparato no llega a ~24 cuadros por segundo en 3D, se baja la resolución (nunca se sube);
 // debajo de 20 cuadros el juego entero va más lento porque el paso de tiempo está topado en 0,05 s
 // FPS = {n: cuadros contados, t0: inicio de la medida, last: último cuadro, up: ya se subió la calidad, noUp: no volver a subirla}.
 // PRK = escala de la resolución (1 = completa, mínimo 0,5); rs() redimensiona el lienzo
-const FPS={n:0,t0:0,last:0};
+const FPS: {n: number; t0: number; last: number; up?: boolean; noUp?: boolean}={n:0,t0:0,last:0};
 // fpsTick(): se llama en cada cuadro 3D. Cuenta cuadros durante 4 s y baja o sube PRK. Tras una pausa de más de 1 s (o con la
 // pestaña oculta) empieza a contar de nuevo, para no confundir la pausa con lentitud
 function fpsTick(){const now=performance.now();if(now-FPS.last>1000||document.hidden){FPS.n=0;FPS.t0=now}FPS.last=now;FPS.n++;
@@ -1226,20 +1242,20 @@ R3frame=function(dt){if(!W3||!scene||!scene.three)return;fpsTick();
 // walkTo(w,tito,to,cb,o): to = punto 3D de destino; cb = qué hacer al llegar; o.speed (9 por defecto), o.max (duración máxima, 1,1 s),
 // o.free (paseo libre: no bloquea los toques, ver busy3), o.zoom (la cámara se acerca un 35 % hacia el destino). Solo guarda w.walk
 // y hacia dónde mirar (userData.face); el movimiento lo hace walkTick en cada cuadro
-function walkTo(w,tito,to,cb,o={}){const from=tito.position.clone(),d=from.distanceTo(to),dur=clamp(d/(o.speed||9),.35,o.max||1.1);
+function walkTo(w: Mundo,tito: Tres.Group,to: Tres.Vector3,cb: (() => void) | null,o: OpcionesPaseo={}){const from=tito.position.clone(),d=from.distanceTo(to),dur=clamp(d/(o.speed||9),.35,o.max||1.1);
   if(tito.userData.rest==null)tito.userData.rest=tito.rotation.y;
   w.walk={t0:T,dur,from,to:to.clone(),cb,free:!!o.free};const dx=to.x-from.x,dz=to.z-from.z;if(Math.hypot(dx,dz)>.1)tito.userData.face=Math.atan2(-dz,dx);
-  if(o.zoom){w.camT.pos=w.cb.pos.clone().lerp(to.clone().add(o.zoom),.35);w.camT.look=w.cb.look.clone().lerp(to,.35)}}
+  if(o.zoom){w.camT!.pos=w.cb!.pos.clone().lerp(to.clone().add(o.zoom),.35);w.camT!.look=w.cb!.look.clone().lerp(to,.35)}}
 // tocar el suelo vacío (después de pickAt): Tito camina hasta ahí, solo por la cara de arriba del suelo (nunca al mar ni al borde)
 // al tocarlos, los árboles se sacuden, los arbustos se aplastan, las flores saltan y las piedras botan; luego se calman solos; en el mapa, las zonas y las casitas
 // WOBK(o): devuelve algo verdadero si el objeto o tiene alguna marca de tipo tocable (userData.tree, bush, ..., sat).
 // Para que un objeto nuevo se pueda tocar, su marca TIENE que estar en esta lista. (El comentario 'tocar el suelo vacío' de arriba
 // se ha quedado aquí suelto: describe la función que toca el suelo, que está en otra parte del archivo.)
-const WOBK=o=>o.userData.tree||o.userData.bush||o.userData.flower||o.userData.rock||o.userData.boat||o.userData.balloon||o.userData.gift||o.userData.letter||o.userData.sign||o.userData.mount||o.userData.gull||o.userData.bfly||o.userData.mush||o.userData.bus||o.userData.snowman||o.userData.pinata||o.userData.owl||o.userData.phone||o.userData.frog||o.userData.crab||o.userData.cake||o.userData.lady||o.userData.bird||o.userData.peng||o.userData.squir||o.userData.burrow||o.userData.clock||o.userData.igloo||o.userData.drum||o.userData.post||o.userData.ants||o.userData.light||o.userData.whale||o.userData.dolph||o.userData.xtree||o.userData.pump||o.userData.leafs||o.userData.kite||o.userData.hab||o.userData.tea||o.userData.jack||o.userData.can||o.userData.sled||o.userData.wpk||o.userData.ball||o.userData.guard||o.userData.cann||o.userData.goat||o.userData.palm||o.userData.sunf||o.userData.parrot||o.userData.flag||o.userData.bub||o.userData.nest||o.userData.marm||o.userData.scare||o.userData.umb||o.userData.sunb||o.userData.sandc||o.userData.abc||o.userData.orb||o.userData.cloud||o.userData.skyb||o.userData.eagle||o.userData.bball||o.userData.sleigh||o.userData.dip||o.userData.jup||o.userData.sat;
+const WOBK=(o: Tres.Object3D)=>o.userData.tree||o.userData.bush||o.userData.flower||o.userData.rock||o.userData.boat||o.userData.balloon||o.userData.gift||o.userData.letter||o.userData.sign||o.userData.mount||o.userData.gull||o.userData.bfly||o.userData.mush||o.userData.bus||o.userData.snowman||o.userData.pinata||o.userData.owl||o.userData.phone||o.userData.frog||o.userData.crab||o.userData.cake||o.userData.lady||o.userData.bird||o.userData.peng||o.userData.squir||o.userData.burrow||o.userData.clock||o.userData.igloo||o.userData.drum||o.userData.post||o.userData.ants||o.userData.light||o.userData.whale||o.userData.dolph||o.userData.xtree||o.userData.pump||o.userData.leafs||o.userData.kite||o.userData.hab||o.userData.tea||o.userData.jack||o.userData.can||o.userData.sled||o.userData.wpk||o.userData.ball||o.userData.guard||o.userData.cann||o.userData.goat||o.userData.palm||o.userData.sunf||o.userData.parrot||o.userData.flag||o.userData.bub||o.userData.nest||o.userData.marm||o.userData.scare||o.userData.umb||o.userData.sunb||o.userData.sandc||o.userData.abc||o.userData.orb||o.userData.cloud||o.userData.skyb||o.userData.eagle||o.userData.bball||o.userData.sleigh||o.userData.dip||o.userData.jup||o.userData.sat;
 // wobInit(w): se llama al terminar de montar un mundo. Busca todos los objetos con marca (WOBK), guarda su escala (s0) y altura (y0)
 // originales, los mete en w.trees y añade a w.upd la animación genérica del toque (y las reacciones en cadena de chainWob)
-function wobInit(w){w.trees=[];w.sc.traverse(o=>{if(WOBK(o)){o.userData.s0=o.scale.x;o.userData.y0=o.position.y;w.trees.push(o)}});if(!w.trees.length)return;
-  w.upd.push(()=>{for(const t of w.trees){if(t.userData.wobAt&&T>=t.userData.wobAt){t.userData.wob=T;t.userData.wobAt=0}/* reacción en cadena programada */const k=t.userData.wob;if(k==null)continue;const e=T-k,s0=t.userData.s0,u=t.userData;
+function wobInit(w: Mundo){w.trees=[];w.sc.traverse(o=>{if(WOBK(o)){o.userData.s0=o.scale.x;o.userData.y0=o.position.y;w.trees!.push(o)}});if(!w.trees.length)return;
+  w.upd.push(()=>{for(const t of w.trees!){if(t.userData.wobAt&&T>=t.userData.wobAt){t.userData.wob=T;t.userData.wobAt=0}/* reacción en cadena programada */const k=t.userData.wob;if(k==null)continue;const e=T-k,s0=t.userData.s0,u=t.userData;
     // los tipos de esta lista larga tienen su propia animación (en su w.upd): aquí solo se borra wob cuando pasa u.dur (1,6 s si no tiene).
     // Un tipo nuevo con animación propia hay que añadirlo a esta lista
     if(u.pinata){if(e>2.6)u.wob=null;continue}if(u.boat||u.gull||u.bfly||u.bus||u.crab||u.cake||u.lady||u.bird||u.peng||u.squir||u.burrow||u.clock||u.igloo||u.post||u.ants||u.light||u.whale||u.dolph||u.xtree||u.pump||u.leafs||u.kite||u.hab||u.tea||u.jack||u.can||u.sled||u.wpk||u.ball||u.guard||u.cann||u.goat||u.palm||u.sunf||u.parrot||u.flag||u.bub||u.nest||u.marm||u.scare||u.umb||u.sunb||u.sandc||u.abc||u.skyb||u.eagle||u.bball||u.sleigh||u.dip||u.jup||u.sat){if(e>(u.dur||1.6))u.wob=null;continue}// los barquitos se animan en su propio paso
@@ -1255,17 +1271,17 @@ function wobInit(w){w.trees=[];w.sc.traverse(o=>{if(WOBK(o)){o.userData.s0=o.sca
 // tras pickAt: lo que vuela (mariposas, gaviotas) va por delante de las casitas, así que se mira primero
 // flyTap(w,x,y): w.fly (se calcula una sola vez) = los objetos de esos tipos; si el rayo del toque (RC) da en alguno, llama a wobTap.
 // Devuelve true si se tocó algo. Un objeto nuevo que esté por delante de las casitas o se mueva hay que añadirlo a esta lista
-function flyTap(w,x,y){if(!w.fly)w.fly=(w.trees||[]).filter(t=>t.userData.bfly||t.userData.gull||t.userData.crab||t.userData.lady||t.userData.bird||t.userData.xtree||t.userData.pump||t.userData.kite||t.userData.hab||t.userData.sled||t.userData.wpk||t.userData.ball||t.userData.goat||t.userData.palm||t.userData.bub||t.userData.nest||t.userData.marm||t.userData.scare||t.userData.umb||t.userData.sunb||t.userData.sandc||t.userData.snowman);return !!(w.fly.length&&RC.intersectObjects(w.fly,true).length)&&wobTap(w,x,y)}
+function flyTap(w: Mundo,x: number,y: number){if(!w.fly)w.fly=(w.trees||[]).filter(t=>t.userData.bfly||t.userData.gull||t.userData.crab||t.userData.lady||t.userData.bird||t.userData.xtree||t.userData.pump||t.userData.kite||t.userData.hab||t.userData.sled||t.userData.wpk||t.userData.ball||t.userData.goat||t.userData.palm||t.userData.bub||t.userData.nest||t.userData.marm||t.userData.scare||t.userData.umb||t.userData.sunb||t.userData.sandc||t.userData.snowman);return !!(w.fly.length&&RC.intersectObjects(w.fly,true).length)&&wobTap(w,x,y)}
 // tras pickAt (que deja RC apuntando al toque): ¿se tocó un árbol?
 // wobTap(w,x,y): x,y = punto tocado en la pantalla 2D. Busca el primer objeto de w.trees que corta el rayo y sube por sus padres hasta
 // el que tiene marca (WOBK). Si no hay ninguno devuelve false. Si lo hay: lo anima (u.wob=T; ignora toques repetidos en 0,3 s), Tito lo
 // mira, la primera vez Tito dice su nombre (NAMES3) y luego cada tipo tiene su rama 'else if(u.xxx)' con sonidos, partículas y voz.
 // Devuelve true. La función sigue más abajo.
-function wobTap(w,x,y){const th=w.trees&&w.trees.length&&RC.intersectObjects(w.trees,true)[0];let t=th&&th.object;while(t&&!WOBK(t))t=t.parent;
+function wobTap(w: Mundo,x: number,y: number){const th=w.trees&&w.trees.length&&RC.intersectObjects(w.trees,true)[0];let t: Tres.Object3D|null|undefined|0=th&&th.object;while(t&&!WOBK(t))t=t.parent;
   if(!t)return false;const u=t.userData;if(u.wob!=null&&T-u.wob<.3)return true;u.wob=T;if(w.tito){const v=new THREE.Vector3();t.getWorldPosition(v);w.tito.userData.lk={p:v,t:T}}// Tito mira hacia lo que se ha tocado
   // NAMES3 = [[marca, frase, palabra, an, frase2, palabra2],...]: an=1 solo de día, an=2 solo de noche;
   // w.nmD[marca] = 1 si ya lo nombró, 2 si ya dijo también la segunda frase (frase2)
-  if(sceneName!=='ingles'){const nt=skyNow().night;for(const [k,ph,wd,an,f2,wd2] of NAMES3)if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&(w.nmD||(w.nmD={}))[k]){const sf=f2&&w.nmD[k]===1&&T-(w.nmT||0)>3&&(k!=='tree'||sceneName==='bosque')/* el viento, solo en el bosque de otoño */;numPop(x,y-30,3,sf&&wd2||wd);parts[parts.length-1].hl=1;if(sf){w.nmD[k]=2;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0)say3(f2,wd2?()=>sylClap(x,y,wd2):null)},700)}/* la segunda vez, Tito cuenta algo más de ello */break}/* si ya lo nombró, la palabra vuelve a salir escrita, sin voz */else if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&!w.nmD[k]){w.nmD[k]=1;w.nmT=T;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3(ph,()=>sylClap(x,y,wd));numPop(x,y-30,3,wd);parts[parts.length-1].hl=1;const st=SCENES[sceneName];if(st)st.hop=T}/* y Tito da un saltito al decirlo */},1100);break}}/* la primera vez que se toca cada cosa, Tito dice su nombre y sale escrito */
+  if(sceneName!=='ingles'){const nt=skyNow().night;for(const [k,ph,wd,an,f2,wd2] of NAMES3)if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&(w.nmD||(w.nmD={}))[k]){const sf=f2&&w.nmD[k]===1&&T-(w.nmT||0)>3&&(k!=='tree'||sceneName==='bosque')/* el viento, solo en el bosque de otoño */;numPop(x,y-30,3,sf&&wd2||wd);parts[parts.length-1].hl=1;if(sf){w.nmD[k]=2;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0)say3(f2,wd2?()=>sylClap(x,y,wd2):null)},700)}/* la segunda vez, Tito cuenta algo más de ello */break}/* si ya lo nombró, la palabra vuelve a salir escrita, sin voz */else if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&!w.nmD![k]){w.nmD![k]=1;w.nmT=T;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3(ph,()=>sylClap(x,y,wd));numPop(x,y-30,3,wd);parts[parts.length-1].hl=1;const st=SCENES[sceneName];if(st)st.hop=T}/* y Tito da un saltito al decirlo */},1100);break}}/* la primera vez que se toca cada cosa, Tito dice su nombre y sale escrito */
   {const nt=skyNow().night;if(nt?(u.bird||u.peng||u.squir||u.frog||u.burrow||u.crab||u.wpk||u.goat||u.sunf||u.parrot||u.scare):u.owl){for(let i=0;i<3;i++)parts.push({x:x+12+i*14,y:y-30-i*10,vx:rnd(15,30),vy:rnd(-55,-40),life:1.3,t:0,c:'#FFFFFF',r:8+i*3,rot:0,k:'z',g:-5});tone(98,.6,'sine',.05,.85,.15)}}/* si se toca un animal dormido, suelta unas zetas y ronca bajito */
   // a partir de aquí, una rama por tipo: lo que suena, sale y se dice al tocarlo (el sol dice el día; la luna, el mes)
   if(u.orb==='sol'){if(w.dayT&&!w.sunF&&T-w.dayT>3){w.sunF=w.dayT=T;setTimeout(()=>say3('El sol. Es una estrella gigante que nos da luz y calor.'),300);numPop(x,y+110,3,'SOL');parts[parts.length-1].hl=1}/* la segunda vez, el sol cuenta qué es */else if(!w.dayT||T-w.dayT>6){w.dayT=T;const d=new Date().getDay(),D=['Domingo.','Lunes.','Martes.','Miércoles.','Jueves.','Viernes.','Sábado.'][d];const h=new Date().getHours();setTimeout(()=>h<12?(sceneName==='ingles'?sayMix3(['@Good morning'],()=>say3(D)):say3('Buenos días.',()=>say3(D))):say3(D),300)/* en el Rincón del inglés, los buenos días en inglés */;numPop(x,y+110,d+1,D.slice(0,-1)+' '+new Date().getDate());parts[parts.length-1].hl=1}/* con el número del día escrito al lado *//* el sol dice qué día es hoy (y por la mañana da los buenos días) */for(let i=0;i<8;i++){const a=i/8*PI*2;parts.push({x,y,vx:Math.cos(a)*rnd(110,150),vy:Math.sin(a)*rnd(110,150),life:.9,t:0,c:pick(['#FFD447','#FFF1A8','#FFB43A']),r:rnd(8,11),rot:0,k:'s',g:40})}/* el sol suelta rayitos de estrellas */if(isBday()){if(!w.bdT||T-w.bdT>8){w.bdT=T;playTune(TUNES.cumple,170,.2)}burst(x,y,30)}/* el día de su cumpleaños, el sol toca la canción de cumpleaños */else if(u.fz){if(!w.bdT||T-w.bdT>5){w.bdT=T;playTune(TUNES.dias,180,.18)}burst(x,y,20)}/* en la zona de fiestas, una cancioncita de fiesta */else if(new Date().getHours()>=18)tone(330,.9,'sine',.07,.55,.1);/* bostezo */else if(new Date().getHours()<11){tone(620,.14,'sawtooth',.035,1.5);tone(900,.16,'sawtooth',.035,1.2,.17);tone(1050,.55,'sawtooth',.035,.6,.36)}/* por la mañana, el sol canta como un gallo: ¡quiquiriquí! */else [784,988,1175].forEach((f,i)=>setTimeout(()=>tone(f,.25,'sine',.09),i*90));chainWob(w,'cloud',.25,.2,2);/* las nubecitas se menean con el sol */chainWob(w,'abc',.3,.12,8);/* en el Rincón del inglés, las letras saltan con el sol */chainWob(w,'sunf',.4,0,1);/* en el Jardín, el girasol se alegra al ver el sol */chainWob(w,'kite',.5,0,1);/* y la cometa da una vuelta */if(sceneName==='bosque'){chainWob(w,'squir',.4,0,1);chainWob(w,'wpk',.6,0,1);chainWob(w,'bird',.5,.2,3)}/* en el Bosque, los animales saludan al sol */if(sceneName==='fiestas'){chainWob(w,'drum',.3,0,1);chainWob(w,'jack',.6,0,1)}/* en Los días especiales, el tambor suena y salta el payaso */setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300)/* Tito salta de alegría con el sol */}
@@ -1273,13 +1289,13 @@ function wobTap(w,x,y){const th=w.trees&&w.trees.length&&RC.intersectObjects(w.t
   else if(u.cloud&&isBday()){burst(x,y+10,18);[523,659,784].forEach((f,i)=>setTimeout(()=>tone(f,.2,'triangle',.07),i*100))/* el día del cumpleaños, la nube suelta confeti */}
   else if(u.cloud){const mo=new Date().getMonth(),wi=mo===11||mo<=1;/* en invierno, la nube suelta copitos de nieve en vez de gotitas */for(let i=0;i<7;i++)parts.push({x:x+rnd(-35,35),y:y+rnd(5,20),vx:rnd(-10,10)*(wi?2:1),vy:wi?rnd(10,30):rnd(20,60),life:wi?rnd(1.2,1.6):rnd(.7,1),t:0,c:wi?pick(['#FFFFFF','#EAF4FF']):pick(['#7FC4F0','#A8D8F8','#5AAEE6']),r:wi?rnd(5,7):rnd(4,6),rot:0,k:'d',g:wi?60:450});/* la nube suelta unas gotitas de lluvia */if(!wi&&w.rainbow){const v=new THREE.Vector3(1.1,0,0);t.localToWorld(v);w.rainbow.position.set(v.x,v.y-.3,v.z-1.2);w.rainT=T;[523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80))/* con una escalita de notas, una por color */}/* y sale un arcoíris detrás */for(let i=0;i<4;i++)setTimeout(()=>tone(pick(wi?[784,880,988,1046]:[1046,1175,1318,1568]),wi?.2:.12,'sine',wi?.05:.07),i*(wi?160:110)+60)}
   else if(u.sleigh){sparkles(x,y,10);for(let i=0;i<4;i++)parts.push({x:x+rnd(-30,30),y:y+10,vx:rnd(-40,40),vy:rnd(-60,-20),life:1.4,t:0,c:pick(['#E8503C','#4CAF50','#F2C14E','#5AB8F0']),r:rnd(11,14),rot:rnd(0,1),g:380});/* del trineo caen regalitos */for(let i=0;i<8;i++){tone(2093+(i%3)*300,.08,'triangle',.04,1,i*.09);noise(.04,.05,6000,i*.09)}/* cascabeles del trineo */setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300)}
-  else if(u.bball){if(t.visible){t.visible=false;{const nB=w.trees.filter(q=>q.userData.bball).length,nP=w.trees.filter(q=>q.userData.bball&&!q.visible).length;if(nP<=7){numPop(x,y,nP);sayNum(nP,nP===nB?()=>say3('¡Muy bien!'):null)}}/* cuenta los globos explotados, y ¡muy bien! al acabar */noise(.12,.25,2500);tone(180,.12,'square',.06,.5);burst(x,y-60,20)}/* el globo explota y suelta confeti */}
+  else if(u.bball){if(t.visible){t.visible=false;{const nB=w.trees!.filter(q=>q.userData.bball).length,nP=w.trees!.filter(q=>q.userData.bball&&!q.visible).length;if(nP<=7){numPop(x,y,nP);sayNum(nP,nP===nB?()=>say3('¡Muy bien!'):null)}}/* cuenta los globos explotados, y ¡muy bien! al acabar */noise(.12,.25,2500);tone(180,.12,'square',.06,.5);burst(x,y-60,20)}/* el globo explota y suelta confeti */}
   else if(u.sat){if(!w.satT||T-w.satT>4){w.satT=T;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0)say3('Saturno. Tiene unos anillos enormes.',()=>sylClap(x,y+40,'SATURNO'))},300);numPop(x,y+80,6,'Saturno');parts[parts.length-1].hl=1}[330,440,550,660].forEach((f,i)=>setTimeout(()=>tone(f,.3,'sine',.05,1.1),i*90));ringParts(x,y,2,0,'#FFE9B8')/* Saturno dice su nombre y sus anillos giran */}
 else if(u.jup){if(w.jupT&&!w.jupF&&T-w.jupT>3){w.jupF=w.jupT=T;setTimeout(()=>say3('Júpiter. Es el planeta más grande de todos.'),300);numPop(x,y+80,5,'Júpiter');parts[parts.length-1].hl=1}/* la segunda vez, Júpiter cuenta que es el más grande */else if(!w.jupT||T-w.jupT>4){w.jupT=T;say3('Júpiter.',()=>sylClap(x,y+40,'JÚPITER'));numPop(x,y+80,5,'Júpiter');parts[parts.length-1].hl=1}[392,523,659].forEach((f,i)=>setTimeout(()=>tone(f,.4,'sine',.05,1.1),i*120));for(let i=0;i<8;i++){const a=i/8*PI*2;parts.push({x,y,vx:Math.cos(a)*90,vy:Math.sin(a)*90,life:.8,t:0,c:'#FFE9B8',r:rnd(5,8),rot:0,k:'s',g:0})}/* Júpiter dice su nombre y brilla */}
 else if(u.eagle){{const st=SCENES[sceneName];if(st)st.hop=T+.08}/* Tito da un respingo */tone(1400,.35,'sawtooth',.04,.6,.02);tone(1100,.3,'sine',.05,.7,.1);/* el águila grita */for(let k=1;k<3;k++){tone(1400,.35,'sawtooth',.04/(k*2.5),.6,.02+k*.55);tone(1100,.3,'sine',.05/(k*2.5),.7,.1+k*.55)}/* y la montaña le devuelve el eco */for(let i=0;i<4;i++)parts.push({x:x+rnd(-20,20),y:y+rnd(-5,10),vx:rnd(-50,50),vy:rnd(-40,10),life:1.4,t:0,c:pick(['#8A6240','#FFFFFF','#6A4428']),r:rnd(7,10),rot:rnd(0,6),g:60})/* y suelta unas plumas */}
-  else if(u.skyb){if(!w.brdT)w.brdT=new Set();if(!w.brdT.has(t)){w.brdT.add(t);const n=w.brdT.size;if(n<=7){numPop(x,y,n);sayNum(n,n===w.trees.filter(q=>q.userData.skyb).length?()=>say3('¡Muy bien!'):null)}}/* cuenta los pajaritos distintos que se tocan */[2350,2800,2350,3100].forEach((f,i)=>setTimeout(()=>tone(f,.07,'sine',.05,1.3),i*90));/* el pajarito pía */for(let i=0;i<2;i++)parts.push({x:x+(i?14:-14),y:y-20,vx:rnd(-15,15),vy:rnd(-80,-60),life:1,t:0,c:'#FF7A9A',r:rnd(9,11),rot:0,k:'h',g:-15})}
+  else if(u.skyb){if(!w.brdT)w.brdT=new Set();if(!w.brdT.has(t)){w.brdT.add(t);const n=w.brdT.size;if(n<=7){numPop(x,y,n);sayNum(n,n===w.trees!.filter(q=>q.userData.skyb).length?()=>say3('¡Muy bien!'):null)}}/* cuenta los pajaritos distintos que se tocan */[2350,2800,2350,3100].forEach((f,i)=>setTimeout(()=>tone(f,.07,'sine',.05,1.3),i*90));/* el pajarito pía */for(let i=0;i<2;i++)parts.push({x:x+(i?14:-14),y:y-20,vx:rnd(-15,15),vy:rnd(-80,-60),life:1,t:0,c:'#FF7A9A',r:rnd(9,11),rot:0,k:'h',g:-15})}
   else if(u.orb==='luna'){if(w.monT&&!w.monF&&T-w.monT>3){w.monF=w.monT=T;setTimeout(()=>say3('La luna. Gira alrededor de la Tierra. De noche la vemos brillar.'),300);numPop(x,y+110,3,'LUNA');parts[parts.length-1].hl=1}/* la segunda vez, la luna cuenta qué es */else if(!w.monT||T-w.monT>6){w.monT=T;const m=new Date().getMonth(),M=['Enero.','Febrero.','Marzo.','Abril.','Mayo.','Junio.','Julio.','Agosto.','Septiembre.','Octubre.','Noviembre.','Diciembre.'][m];setTimeout(()=>sceneName==='ingles'?sayMix3(['@Good night'],()=>say3(M)):say3('Buenas noches.',()=>say3(M)),300);numPop(x,y+110,m+1,M.slice(0,-1));parts[parts.length-1].hl=1}/* la luna da las buenas noches y dice en qué mes estamos */for(let i=0;i<3;i++)parts.push({x:x+34+i*14,y:y-4-i*10,vx:rnd(15,30),vy:rnd(-55,-40),life:1.3,t:0,c:'#FFFFFF',r:8+i*3,rot:0,k:'z',g:-5});tone(98,.6,'sine',.05,.85,.15);/* la luna dormida ronca bajito */w.starT=T;if(sceneName==='bosque'){tone(392,.35,'sine',.09,.92,.7);tone(370,.65,'sine',.09,.9,1.15)}/* en el bosque, el búho le contesta a la luna: uh-uuuh */if(sceneName==='jardin')for(let k=0;k<2;k++)tone(150,.16,'square',.04,.75,.7+k*.3);/* en el Jardín, la rana le contesta: cro, cro */chainWob(w,'abc',.3,.12,8);/* en el Rincón del inglés, las letras saltan también con la luna */w.shootT=T+.5;setTimeout(()=>{tone(1568,.5,'sine',.05,1.5);tone(2093,.4,'sine',.03,1,.08)},600);for(let i=0;i<4;i++)parts.push({x:x+rnd(-40,40),y:y+rnd(-30,30),vx:rnd(-20,20),vy:rnd(-30,-10),life:1.1,t:0,c:'#FFF6C8',r:rnd(6,9),rot:0,k:'s',g:0})}
-  else if(u.bush){dropParts(x,y-20,4,sceneName==='montana'?['#FFFFFF','#EAF4FF']:['#7CC86E','#5DAA52'],sceneName==='montana'?'d':'c');tone(330,.18,'sine',.14,1.8);noise(.18,.06,1800)}else if(u.flower){allTap(w,t,'flower',x,y,Math.min(10,w.trees.filter(o=>o.userData.flower).length));/* las flores también se cuentan, y al tocar diez (o todas) Tito lo celebra */noteParts(x,y+20,1,0);/* cada flor suelta su nota de campanita */dropParts(x,y-15,4,['#F7B6CF','#FFE07A','#C9B6F2','#FFFFFF'],'d');if(sceneName==='cofre'&&!skyNow().night){chainWob(w,'parrot',.4,0,1);tone(900,.08,'sawtooth',.03,1.2,.45)}/* en el cofre, el loro aletea al ver saltar las flores */const f=pick([523,587,659,784,880]);tone(f,.3,'sine',.12);tone(f*2,.2,'sine',.05,1,.06)}
+  else if(u.bush){dropParts(x,y-20,4,sceneName==='montana'?['#FFFFFF','#EAF4FF']:['#7CC86E','#5DAA52'],sceneName==='montana'?'d':'c');tone(330,.18,'sine',.14,1.8);noise(.18,.06,1800)}else if(u.flower){allTap(w,t,'flower',x,y,Math.min(10,w.trees!.filter(o=>o.userData.flower).length));/* las flores también se cuentan, y al tocar diez (o todas) Tito lo celebra */noteParts(x,y+20,1,0);/* cada flor suelta su nota de campanita */dropParts(x,y-15,4,['#F7B6CF','#FFE07A','#C9B6F2','#FFFFFF'],'d');if(sceneName==='cofre'&&!skyNow().night){chainWob(w,'parrot',.4,0,1);tone(900,.08,'sawtooth',.03,1.2,.45)}/* en el cofre, el loro aletea al ver saltar las flores */const f=pick([523,587,659,784,880]);tone(f,.3,'sine',.12);tone(f*2,.2,'sine',.05,1,.06)}
 // ---- (sigue wobTap) Qué pasa al tocar cada objeto 3D: u es el userData del objeto tocado, t el objeto, (x,y) el toque en la pantalla 2D ----
 // Casi todas las ramas hacen lo mismo: partículas (parts.push, dropParts, noteParts...), sonidos (tone, noise), Tito da un salto (st.hop=T),
 // allTap (cuenta los objetos distintos de un grupo y celebra al completarlo) y chainWob (otro objeto reacciona después, en cadena)
@@ -1406,27 +1422,27 @@ else if(u.eagle){{const st=SCENES[sceneName];if(st)st.hop=T+.08}/* Tito da un re
 // tocar el mar (solo en el mapa): un chapuzón con dos ondas que se abren
 // w: el mundo 3D actual (W3). Usa el rayo RC que dejó pickAt. Devuelve true si se ha tocado el mar (pone dos aros de onda,
 // reutilizados, gotitas y sonido, y mece los barquitos con chainWob); false si no hay mar o el toque dio en otra cosa.
-function seaTap(w){if(!w.sea)return false;const h=RC.intersectObjects(w.sc.children,true).find(i=>i.object.visible!==false&&!(i.object.material&&i.object.material.visible===false));if(!h||h.object!==w.sea)return false;
+function seaTap(w: Mundo){if(!w.sea)return false;const h=RC.intersectObjects(w.sc.children,true).find(i=>i.object.visible!==false&&!((i.object as Nodo).material&&(i.object as Nodo).material.visible===false));if(!h||h.object!==w.sea)return false;
   if(!w.spl){w.spl=[0,1].map(()=>{const m=new THREE.Mesh(new THREE.TorusGeometry(1,.07,6,32),new THREE.MeshBasicMaterial({color:'#fff',transparent:true,opacity:0,depthWrite:false}));m.rotation.x=-PI/2;m.visible=false;w.sc.add(m);return m});
-    w.upd.push(()=>{const e=T-w.splT;w.spl.forEach((m,i)=>{const q=(e-i*.18)/.9;m.visible=q>0&&q<1;if(m.visible){m.scale.setScalar(.3+q*2.2);m.material.opacity=.85*(1-q)}})})}
+    w.upd.push(()=>{const e=T-w.splT!;w.spl!.forEach((m,i)=>{const q=(e-i*.18)/.9;m.visible=q>0&&q<1;if(m.visible){m.scale.setScalar(.3+q*2.2);m.material.opacity=.85*(1-q)}})})}
   w.splT=T;w.spl.forEach(m=>{m.position.set(h.point.x,-.95,h.point.z)});chainWob(w,'boat',.4,.15,3);/* el chapuzón mece los barquitos */{const [sx,sy]=proj(new THREE.Vector3(h.point.x,-.95,h.point.z));for(let i=0;i<7;i++)parts.push({x:sx+rnd(-15,15),y:sy,vx:rnd(-90,90),vy:rnd(-220,-130),life:rnd(.6,.9),t:0,c:skyNow().night?pick(['#7CF5E8','#A8FFF4','#5CE0FF']):pick(['#CDEBFF','#9ED6FF','#FFFFFF']),r:rnd(4,6),rot:0,k:'d',g:500})}/* el chapuzón salpica gotitas (de noche, gotitas que brillan) */noise(.28,.14,700);tone(520,.1,'sine',.1,1.8,.04);return true}
 // Tocar el suelo vacío: Tito pasea (walkTo con free:true) hasta el punto tocado, solo si se tocó la cara de arriba de w.ground.
 // El punto se limita al rectángulo w.gb [xmin,xmax,zmin,zmax] y se aparta de los círculos w.avoid [x,z,radio] (casitas, carteles).
-function walkGround(w){const h=w.ground&&RC.intersectObject(w.ground,false)[0];
+function walkGround(w: Mundo){const h=w.ground&&RC.intersectObject(w.ground,false)[0];
   if(!(h&&h.face&&h.face.normal.y>.7))return;const B=w.gb;let x=B?clamp(h.point.x,B[0],B[1]):h.point.x,z=B?clamp(h.point.z,B[2],B[3]):h.point.z;
   // si el punto cae detrás o dentro de una casita, Tito se queda delante (o al costado) para que no quede tapado
   for(const [cx,cz,r] of w.avoid||[])if(Math.hypot(x-cx,z-cz)<r){if(!B||cz+r<=B[3])z=cz+r;else x=cx+(x>=cx?r:-r)}
-  walkTo(w,w.tito,V3(x,w.tito.position.y,z),()=>{},{speed:7,max:2.2,free:true})}
+  walkTo(w,w.tito!,V3(x,w.tito!.position.y,z),()=>{},{speed:7,max:2.2,free:true})}
 // un paseo libre (tocar el suelo vacío) no bloquea: se puede tocar una casita, el inicio o el suelo otra vez mientras Tito camina
-const busy3=w=>!!(w.walk&&!w.walk.free);
+const busy3=(w: Mundo)=>!!(w.walk&&!w.walk.free);
 // pasitos suaves mientras pasea (sonido de pisadas, alterna dos notas);
 // al terminar un paseo libre Tito se vuelve a mirar al niño (si no, quedaba de espaldas al caminar hacia el fondo)
 // Tito caracol: al caminar deja un rastro brillante que se desvanece (24 discos reutilizables para todo el juego)
 // trailTick(w,tito,dt,walking,dust): se llama cada cuadro desde walkTick. Apaga poco a poco los discos ya puestos y, mientras Tito
 // camina (walking), pone uno nuevo cada 0,09 s (rastro del caracol) o cada 0,24 s si dust=true (polvito de los demás animales).
 // Los discos se buscan con un rayo hacia abajo (TRC) para ponerlos a la altura real del suelo.
-const TRAIL=[],TRC=new THREE.Raycaster();let trailGeo=null;
-function trailTick(w,tito,dt,walking,dust){
+const TRAIL: MallaBasica[]=[],TRC=new THREE.Raycaster();let trailGeo: Tres.BufferGeometry|null=null;
+function trailTick(w: Mundo,tito: Tres.Group,dt: number,walking: number,dust: boolean){
   if(!trailGeo){trailGeo=new THREE.CircleGeometry(.3,18);trailGeo.rotateX(-PI/2);trailGeo.userData.keep=true}
   for(const d of TRAIL)if(d.parent===w.sc&&d.visible){const u=d.userData;u.a-=dt/(u.dust?.7:2.5);if(u.a<=0)d.visible=false;else{d.material.opacity=(u.dust?.75:.6)*u.a;if(u.dust)d.scale.setScalar(u.s*(1.7-u.a))}}
   if(!walking){w.trT=0;return}if((w.trT=(w.trT||0)+dt)<(dust?.24:.09))return;w.trT=0;
@@ -1434,19 +1450,19 @@ function trailTick(w,tito,dt,walking,dust){
   if(!d){if(TRAIL.length<24){d=new THREE.Mesh(trailGeo,new THREE.MeshBasicMaterial({color:'#E4F7FF',transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));d.renderOrder=1;TRAIL.push(d)}
     else d=TRAIL.reduce((a,b)=>a.userData.a<b.userData.a?a:b)}
   // altura del suelo justo debajo (la plaza y los caminos están más altos que el pasto)
-  const P=tito.position,inT=o=>{for(;o;o=o.parent)if(o===tito)return true;return false};TRC.set(V3(P.x,P.y+4,P.z),V3(0,-1,0));TRC.camera=w.cam;
-  const h=TRC.intersectObjects(w.sc.children,true).find(h=>!h.object.isSprite&&!TRAIL.includes(h.object)&&h.point.y<P.y+.5&&!inT(h.object));
+  const P=tito.position,inT=(o: Tres.Object3D | null)=>{for(;o;o=o.parent)if(o===tito)return true;return false};TRC.set(V3(P.x,P.y+4,P.z),V3(0,-1,0));TRC.camera=w.cam;
+  const h=TRC.intersectObjects(w.sc.children,true).find(h=>!(h.object as Nodo).isSprite&&!(TRAIL as Tres.Object3D[]).includes(h.object)&&h.point.y<P.y+.5&&!inT(h.object));
   if(d.parent!==w.sc)w.sc.add(d);d.userData.dust=!!dust;d.userData.s=tito.scale.x*(dust?1.1:1);d.scale.setScalar(d.userData.s);d.material.color.set(dust?'#E6D3A8':'#E4F7FF');
   // el polvito sale un poco por detrás, donde pisó (si no, queda escondido bajo el animal)
   const L=w.trL&&w.trL.distanceTo(P)<2?w.trL:P;d.position.set(dust?(P.x+L.x)/2:P.x,(h?h.point.y:P.y)+.015,dust?(P.z+L.z)/2:P.z);w.trL=(w.trL||P.clone()).copy(P);d.visible=true;d.userData.a=1;d.material.opacity=dust?.75:.6}
 // Avanza el paseo w.walk (lo prepara walkTo) cada cuadro: mueve a Tito con suavizado, suena los pasitos (solo en paseos libres),
 // al llegar llama al callback cb (60 ms después) y gira a Tito poco a poco hacia userData.face. Devuelve 1 si está caminando, 0 si no.
-function walkTick(w,tito,dt){const k=w.walk;let wk=0;
+function walkTick(w: Mundo,tito: Tres.Group,dt: number){const k=w.walk;let wk=0;
   if(k){const e=clamp((T-k.t0)/k.dur,0,1),s=e*e*(3-2*e);tito.position.lerpVectors(k.from,k.to,s);wk=1;
     // pasos al ritmo de cada animal (v1.36): saltito blando del conejo, pasos lentos y graves de la tortuga, trote ligero del erizo; el caracol como siempre
-    if(k.free){const kd=tito.userData.kind,P=kd==='conejo'?[PI/6,[300,260],.1,.16]:kd==='tortuga'?[PI/5,[330,294],.09,.11]:kd==='erizo'?[PI/12,[700,620],.05,.08]:[.26,[520,440],.07,.12];
+    if(k.free){const kd=tito.userData.kind,P: [number, [number, number], number, number]=kd==='conejo'?[PI/6,[300,260],.1,.16]:kd==='tortuga'?[PI/5,[330,294],.09,.11]:kd==='erizo'?[PI/12,[700,620],.05,.08]:[.26,[520,440],.07,.12];
       if((k.st=(k.st||0)+dt)>=P[0]){k.st=0;w.steps=(w.steps||0)+1;tone(P[1][w.steps%2],P[2],kd==='conejo'?'triangle':'sine',P[3],.8)}}
-   if(e>=1){w.walk=null;if(k.free)tito.userData.face=tito.userData.rest;const cb=k.cb;setTimeout(()=>{try{cb()}catch(err){console.error(err)}},60)}}
+   if(e>=1){w.walk=null;if(k.free)tito.userData.face=tito.userData.rest;const cb=k.cb;setTimeout(()=>{try{cb!()}catch(err){console.error(err)}},60)}}
   const f=tito.userData.face;if(f!=null){let d=f-tito.rotation.y;while(d>PI)d-=PI*2;while(d<-PI)d+=PI*2;tito.rotation.y+=d*Math.min(1,dt*8)}
   // el caracol deja su rastro brillante; los demás animales levantan un polvito a cada paso
   trailTick(w,tito,dt,wk,tito.userData.kind!=='caracol');return wk}
@@ -1454,19 +1470,19 @@ function walkTick(w,tito,dt){const k=w.walk;let wk=0;
 // TITO (rectángulo 2D) y HOUSE_AT siguen al modelo 3D; al volver al 2D se restauran
 const TITO0={x:TITO.x,y:TITO.y,w:TITO.w},HOUSE0=[HOUSE_AT[0],HOUSE_AT[1]];
 // titoRect(o): pone el rectángulo 2D TITO (el que usa la lógica 2D para tocar a Tito y colocar su bocadillo) encima del modelo 3D o.
-function titoRect(o){const [x,y,r]=projR(o,1.6,1.4);TITO.w=r*1.6;TITO.x=x-TITO.w/2;TITO.y=y-TITO.w*.42}
+function titoRect(o: Tres.Object3D){const [x,y,r]=projR(o,1.6,1.4);TITO.w=r*1.6;TITO.x=x-TITO.w/2;TITO.y=y-TITO.w*.42}
 // restore2D(): devuelve TITO y HOUSE_AT a sus valores 2D originales (se llama al salir a una escena que no es 3D).
 function restore2D(){Object.assign(TITO,TITO0);HOUSE_AT[0]=HOUSE0[0];HOUSE_AT[1]=HOUSE0[1]}
 // llamar a la lógica original sin que el rectángulo de Tito ni la mascota capturen el toque
 // fn: el down() original de la escena 2D; self: la escena; (x,y): punto 2D. Aparta TITO y la casa fuera de la pantalla mientras dura
 // la llamada y los vuelve a poner después (solo si seguimos en una escena 3D).
-function call0(fn,self,x,y){const tx_=TITO.x,h0=HOUSE_AT[0];TITO.x=-9999;HOUSE_AT[0]=-9999;try{fn.call(self,x,y)}finally{if(sceneName&&scene&&scene.three){TITO.x=tx_;HOUSE_AT[0]=h0}}}
+function call0(fn: (this: Escena, x: number, y: number) => void,self: Escena,x: number,y: number){const tx_=TITO.x,h0=HOUSE_AT[0];TITO.x=-9999;HOUSE_AT[0]=-9999;try{fn.call(self,x,y)}finally{if(sceneName&&scene&&scene.three){TITO.x=tx_;HOUSE_AT[0]=h0}}}
 // envuelve go() (cambio de escena, core/scenes): al ir a una escena que no es 3D, restaura TITO/HOUSE_AT y el cursor normal
 const go0=go;ponGo(function(n,o){go0(n,o);if(!(scene&&scene.three)){restore2D();setCursor('pt')}});
 // cambiar de personaje (zona de adultos): Tito se rehace dentro del mismo grupo, así la escena sigue igual
 // retito(): sin parámetros; usa W3. Lo llama la zona de adultos (aplicacion/adultos.ts, vía window.__w3.retito) al cambiar el animal guía.
 function retito(){const w=W3,t=w&&w.tito;if(!t)return;const keepUD={face:t.userData.face,rest:t.userData.rest};
-  for(const c of t.children.slice()){t.remove(c);c.traverse(o=>{if(o.geometry&&!o.geometry.userData.keep)o.geometry.dispose()})}makeTito(t);Object.assign(t.userData,keepUD);
+  for(const c of t.children.slice()){t.remove(c);c.traverse((o: Nodo)=>{if(o.geometry&&!o.geometry.userData.keep)o.geometry.dispose()})}makeTito(t);Object.assign(t.userData,keepUD);
   // el emblema de la puerta de su casa también cambia al momento (antes seguía el del animal anterior hasta salir del mapa)
   const h=w.spots&&w.spots.casaTito&&w.spots.casaTito.userData.house,e=h&&h.userData.emb;if(e){e.material.map=shellTex();e.material.needsUpdate=true}}
 // window.__w3: lo que esta capa 3D ofrece al resto del juego y a las pruebas desde la consola: W (el mundo actual), retito,
@@ -1477,21 +1493,21 @@ window.__w3={get W(){return W3},retito,get PRK(){return PRK},set PRK(v){PRK=v;rs
 // MZB: copia de las posiciones 2D originales {x,y,r} de cada lugar del mapa (MZ2, escenas/zonas.ts), porque sync() las sobrescribe con las proyectadas.
 // MP(x,y): pasa un punto de la pantalla 2D del mapa (1600x900) a coordenadas [x,z] del suelo 3D (40 píxeles = 1 unidad).
 // MAPPOS: dónde va cada lugar del mapa en 3D, en píxeles 2D (se pasan con MP). id del lugar -> [x,y].
-const MZB={};for(const z of MZ2)MZB[z.id]={x:z.x,y:z.y,r:z.r};
-const MP=(x,y)=>[(x-800)/40,(y-500)/40];
-const MAPPOS={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740]};
+const MZB: Record<string, {x: number; y: number; r: number}>={};for(const z of MZ2)MZB[z.id]={x:z.x,y:z.y,r:z.r};
+const MP=(x: number,y: number): PuntoSuelo=>[(x-800)/40,(y-500)/40];
+const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740]};
 // skyNow(): según la hora del aparato devuelve {bg: color del cielo, sea: color del mar, night: 1 de noche (20:00-7:00) o 0}.
 // Atardecer 18-20 h, amanecer 7-9 h. Lo usan muchas partes para cambiar efectos de noche (luciérnagas, animales dormidos).
 function skyNow(){const h=new Date().getHours();return h>=20||h<7?{bg:'#3B4A86',sea:'#3F78B5',night:1}:h>=18?{bg:'#FFD2A6',sea:'#78C3E6',night:0}:h<9?{bg:'#FFE2EA',sea:'#86CDEA',night:0}/* amanecer */:{bg:'#BFE9F8',sea:'#7FD3F0',night:0}}
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
-function sea3(w,c){const g=new THREE.PlaneGeometry(220,160,70,50);g.rotateX(-PI/2);const m=new THREE.Mesh(g,M(c));m.position.y=-1.1;m.receiveShadow=true;w.sc.add(m);w.sea=m;
+function sea3(w: Mundo,c: string){const g=new THREE.PlaneGeometry(220,160,70,50);g.rotateX(-PI/2);const m=new THREE.Mesh(g,M(c));m.position.y=-1.1;m.receiveShadow=true;w.sc.add(m);w.sea=m;
   // olas: altura y normal calculadas a mano (derivada de la fórmula); computeVertexNormals en cada cuadro costaba ~0,6 ms
-  const p=g.attributes.position,nm=g.attributes.normal,b=Float32Array.from(p.array),A=p.array,N=nm.array;w.upd.push(()=>{for(let i=0,j=0;i<p.count;i++,j+=3){const ax=b[j]*.35+T*1.2,az=b[j+2]*.4+T*.9;
+  const p=g.attributes.position,nm=g.attributes.normal,b=Float32Array.from(p.array),A=p.array as Float32Array,N=nm.array as Float32Array;w.upd.push(()=>{for(let i=0,j=0;i<p.count;i++,j+=3){const ax=b[j]*.35+T*1.2,az=b[j+2]*.4+T*.9;
     A[j+1]=Math.sin(ax)*.12+Math.cos(az)*.12;const nx=-.042*Math.cos(ax),nz=.048*Math.sin(az),l=1/Math.sqrt(nx*nx+1+nz*nz);N[j]=nx*l;N[j+1]=l;N[j+2]=nz*l}p.needsUpdate=true;nm.needsUpdate=true})}
 // island3(w): crea la isla del mapa (forma de curvas extruida, con césped arriba y tierra al lado), su contorno y la playa.
 // La isla queda como w.ground (el suelo por donde pasea Tito).
-function island3(w){const pts=[[150,560],[100,330,180,170,420,170],[640,130,1000,130,1250,170],[1500,170,1590,330,1570,520],[1580,760,1400,880,1100,870],[840,895,520,885,330,850],[180,810,160,690,150,560]];
-  const s=new THREE.Shape(),P=(x,y)=>MP(x,y);s.moveTo(...P(...pts[0]));for(let i=1;i<pts.length;i++){const q=pts[i];s.bezierCurveTo(...P(q[0],q[1]),...P(q[2],q[3]),...P(q[4],q[5]))}
+function island3(w: Mundo){const pts=[[150,560],[100,330,180,170,420,170],[640,130,1000,130,1250,170],[1500,170,1590,330,1570,520],[1580,760,1400,880,1100,870],[840,895,520,885,330,850],[180,810,160,690,150,560]];
+  const s=new THREE.Shape(),P=(x: number,y: number)=>MP(x,y);s.moveTo(...P(pts[0][0],pts[0][1]));for(let i=1;i<pts.length;i++){const q=pts[i];s.bezierCurveTo(...P(q[0],q[1]),...P(q[2],q[3]),...P(q[4],q[5]))}
   const g=new THREE.ExtrudeGeometry(s,{depth:2.2,bevelEnabled:true,bevelThickness:.45,bevelSize:.7,bevelSegments:3,curveSegments:40});g.rotateX(PI/2);
   const m=new THREE.Mesh(g,[M('#9BDB82'),M('#D9A86C')]);m.position.y=-.45;m.receiveShadow=true;m.castShadow=false;w.sc.add(m);w.ground=m;
   const ol=new THREE.Mesh(olGeo(g),OLm(.12));ol.position.copy(m.position);w.sc.add(ol);
@@ -1500,100 +1516,100 @@ function island3(w){const pts=[[150,560],[100,330,180,170,420,170],[640,130,1000
 // SPOT3: un constructor por cada lugar del mapa (clave = id de MZ2). Cada uno recibe g (el grupo ya colocado en el mapa) y, las zonas
 // por edad, open (true si la zona está abierta; si no, se dibuja en gris y dormida con zzz). Añaden las piezas con mk/spr/plane
 // y, si se mueve algo, ponen g.userData.anim (se llama cada cuadro desde buildMap).
-const SPOT3={
+const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
   // plaza / asamblea: fuente con gotas, banderitas de colores (userData.wave) y el cartel ASAMBLEA
-  plaza(g){mk(Cyl(2.9,3,.18,40),'#F1E2C8',{p:[0,.09,0],to:g,ol:.05});mk(Cyl(2.2,2.2,.04,40),'#E8D4B0',{p:[0,.2,0],ol:0,to:g});
-    mk(Cyl(1.25,1.35,.5,32),'#FFFFFF',{p:[0,.35,0],to:g,ol:.05});const wt=mk(Cyl(1.08,1.08,.1,32),'#7FD3F0',{p:[0,.58,0],ol:0,to:g});
+  plaza(g: Tres.Group){mk(Cyl(2.9,3,.18,40),'#F1E2C8',{p:[0,.09,0],to:g,ol:.05});mk(Cyl(2.2,2.2,.04,40),'#E8D4B0',{p:[0,.2,0],ol:0,to:g});
+    mk(Cyl(1.25,1.35,.5,32),'#FFFFFF',{p:[0,.35,0],to:g,ol:.05});mk(Cyl(1.08,1.08,.1,32),'#7FD3F0',{p:[0,.58,0],ol:0,to:g});
     mk(Cyl(.2,.3,1.1,12),'#FFFFFF',{p:[0,.9,0],to:g,ol:.04});mk(Cyl(.55,.45,.18,20),'#FFFFFF',{p:[0,1.45,0],to:g,ol:.04});
-    const drops=[];for(let i=0;i<8;i++)drops.push(mk(Sph(.09,8,6),'#BFEAF7',{ol:.015,cs:false,to:g}));
+    const drops: Tres.Mesh[]=[];for(let i=0;i<8;i++)drops.push(mk(Sph(.09,8,6),'#BFEAF7',{ol:.015,cs:false,to:g}));
     g.userData.anim=()=>{drops.forEach((d,i)=>{const a=i/8*PI*2,k=(T*.9+i*.37)%1;d.position.set(Math.cos(a)*(.4+k*.6),1.55+Math.sin(k*PI)*.7-k*.6,Math.sin(a)*(.4+k*.6))})};
     DIAC.forEach((c,i)=>{const a=PI*1.05+i/6*PI*.9,x=Math.cos(a)*2.55,z=Math.sin(a)*2.55;mk(Cyl(.05,.05,1.6,6),'#FFFFFF',{p:[x,.8,z],to:g,ol:.025});
       const f=mk(new THREE.PlaneGeometry(.55,.38),new THREE.MeshToonMaterial({color:c,gradientMap:GRAD,side:THREE.DoubleSide}),{p:[x+.27,1.4,z],ol:0,to:g});f.userData.wave=i});
     spr(canvasTex(512,150,()=>{card(16,16,480,118,'#fff',8,30);DIAC.forEach((c,i)=>circ(100+i*52,44,13,c,4));text('ASAMBLEA',256,124,66,K,{f:LF})},'asamblea'),3.9,1.15,{p:[0,2.8,-.6],to:g})},
   // jardín (3 años): valla, cuatro casitas de colores, flores y la pastilla «3 años»
-  jardin(g,open){mk(Cyl(3.2,3.3,.2,36),'#B5E89E',{p:[0,.1,0],s:[1,1,.78],to:g,ol:.05});
+  jardin(g: Tres.Group){mk(Cyl(3.2,3.3,.2,36),'#B5E89E',{p:[0,.1,0],s:[1,1,.78],to:g,ol:.05});
     mk(mg(Array.from({length:16},(_,i)=>{const a=i/16*PI*2;return[Box(.14,.6,.14),[Math.cos(a)*3.05,.45,Math.sin(a)*2.35]]})),'#C98A4B',{to:g,ol:.025});
     [[-1.4,-.4,0],[.3,-.9,1],[1.6,.2,2],[-.4,.9,3]].forEach(([x,z,i])=>{const h=grp(g,[x,.2,z],.75);mk(Box(1.1,.8,.9),'#FFF3B0',{p:[0,.4,0],to:h,ol:.04});mk(Cone(.95,.75,4),FLC[i],{p:[0,1.18,0],r:[0,PI/4,0],to:h,ol:.04});mk(Box(.28,.45,.06),'#C98A4B',{p:[0,.25,.46],to:h,ol:.02})});
     for(let i=0;i<7;i++)flower3(g,-2.4+i*.8,1.75+(i%2)*.25,FLC[i%7],.7,.2);
     pillSpr(tx('3 años'),'#FF8A7A','#fff',{p:[0,2.9,0],w:3.2,to:g})},
   // bosque (4 años): árboles de varias estaciones y la pastilla «4 años»; cerrado: gris y con zzz
-  bosque(g,open){mk(Cyl(3.1,3.2,.2,30),open?'#8CCB78':'#CFC8BF',{p:[0,.1,0],s:[1,1,.8],to:g,ol:.05});
-    [[-1.7,.4,.85,'otoño'],[0,-.6,1.05,'verano'],[1.7,.3,.9,'verano'],[-.7,1.4,.7,'otoño'],[1,1.5,.7,'primavera'],[-2.2,-.9,.7,null],[2.3,-.9,.7,null]].forEach(([x,z,s,k])=>tree3(g,x,z,s,open?(k||'verano'):'gris',!k));
+  bosque(g: Tres.Group,open: boolean){mk(Cyl(3.1,3.2,.2,30),open?'#8CCB78':'#CFC8BF',{p:[0,.1,0],s:[1,1,.8],to:g,ol:.05});
+    ([[-1.7,.4,.85,'otoño'],[0,-.6,1.05,'verano'],[1.7,.3,.9,'verano'],[-.7,1.4,.7,'otoño'],[1,1.5,.7,'primavera'],[-2.2,-.9,.7,null],[2.3,-.9,.7,null]] as [number, number, number, string|null][]).forEach(([x,z,s,k])=>tree3(g,x,z,s,open?(k||'verano'):'gris',!k));
     spr(pillTex(tx('4 años'),open?'#7CC86E':'#B8B0A6','#fff',72),4,1,{p:[0,.65,3.1],to:g});if(!open)zzz(g,[2,3.2,0])},
   // montaña (5 años): dos picos nevados, flores si está abierta, piedras y la pastilla «5 años»
-  montana(g,open){const gc=open?'#A7BCD6':'#CFC8BF';mk(Cone(2.4,4.2,9),gc,{p:[-1,2.1,-.4],to:g,ol:.07});mk(Cone(2,3.4,9),gc,{p:[1.5,1.7,.2],to:g,ol:.07});
+  montana(g: Tres.Group,open: boolean){const gc=open?'#A7BCD6':'#CFC8BF';mk(Cone(2.4,4.2,9),gc,{p:[-1,2.1,-.4],to:g,ol:.07});mk(Cone(2,3.4,9),gc,{p:[1.5,1.7,.2],to:g,ol:.07});
     mk(Cone(.95,1.65,9),'#FFFFFF',{p:[-1,3.4,-.4],to:g,ol:.05});mk(Cone(.75,1.3,9),'#FFFFFF',{p:[1.5,2.8,.2],to:g,ol:.05});
     if(open)for(let i=0;i<5;i++)flower3(g,-2+i*1,2+(i%2)*.3,FLC[i+1],.75,0);rock3(g,2.8,1.4,.8);rock3(g,-3,1.2,.6);
     pillSpr(tx('5 años'),open?'#5B8DEF':'#B8B0A6','#fff',{p:[0,.6,2.9],w:3.2,to:g});if(!open)zzz(g,[2.3,4,0])},
   // canciones: carpa de rayas con bandera y notas musicales que suben
-  canciones(g){mk(Cyl(1.5,1.5,1.3,16),M('#fff',{map:stripesTex()}),{p:[0,.65,0],to:g,ol:.05});mk(Cone(1.85,1.6,16),'#FF6B5E',{p:[0,2.1,0],to:g,ol:.05});
+  canciones(g: Tres.Group){mk(Cyl(1.5,1.5,1.3,16),M('#fff',{map:stripesTex()}),{p:[0,.65,0],to:g,ol:.05});mk(Cone(1.85,1.6,16),'#FF6B5E',{p:[0,2.1,0],to:g,ol:.05});
     mk(Cyl(.03,.03,.7,6),K,{p:[0,3.1,0],ol:0,to:g});mk(new THREE.PlaneGeometry(.5,.3),new THREE.MeshToonMaterial({color:'#FFC93C',gradientMap:GRAD,side:THREE.DoubleSide}),{p:[.25,3.3,0],ol:0,to:g});
     mk(Box(.8,.95,.1),'#7A4C30',{p:[0,.48,1.47],to:g,ol:.03});
     const notes=[0,1,2].map(i=>spr(canvasTex(128,128,()=>text('♪',64,100,110,DIAC[i*2],{st:8}),'nota'+i),.9,.9,{to:g}));
     g.userData.anim=()=>notes.forEach((n,i)=>{const k=(T*.5+i/3)%1;n.position.set(-1+i+Math.sin(T*2+i)*.3,2.6+k*1.8,.5);n.material.opacity=1-k})},
   // trazos: caballete con una pizarra de trazos
-  trazos(g){const e=grp(g,[0,0,0]);for(const x of[-.7,.7])mk(Box(.12,2.6,.12),'#C98A4B',{p:[x,1.25,0],r:[-.12,0,x>0?-.12:.12],to:e,ol:.03});
+  trazos(g: Tres.Group){const e=grp(g,[0,0,0]);for(const x of[-.7,.7])mk(Box(.12,2.6,.12),'#C98A4B',{p:[x,1.25,0],r:[-.12,0,x>0?-.12:.12],to:e,ol:.03});
     mk(Box(2,1.4,.12),'#C98A4B',{p:[0,1.75,.12],r:[-.12,0,0],to:e,ol:.04});
     plane(canvasTex(256,180,()=>{ctx.fillStyle='#3E7A5A';ctx.fillRect(0,0,256,180);ctx.strokeStyle='#fff';ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();for(let x=20;x<230;x+=6)ctx.lineTo(x,60+Math.sin(x/14)*22);ctx.stroke();ctx.beginPath();ctx.arc(70,130,24,0,PI*2);ctx.stroke();text('a',160,150,60,'#FFE08A',{f:LF})},'pizarra3'),1.8,1.25,{p:[0,1.75,.19],r:[-.12,0,0],to:e});
     mk(Box(1.9,.1,.25),'#C98A4B',{p:[0,1,.28],to:e,ol:.02})},
   // rutinas: casita con el dibujo de las manos y pompas de jabón que suben
-  rutinas(g){mk(Box(1.9,1.3,1.6),'#BFEAF7',{p:[0,.65,0],to:g,ol:.05});mk(prism(2.4,1.1,2),'#5BB8E6',{p:[0,1.3,0],to:g,ol:.05});
+  rutinas(g: Tres.Group){mk(Box(1.9,1.3,1.6),'#BFEAF7',{p:[0,.65,0],to:g,ol:.05});mk(prism(2.4,1.1,2),'#5BB8E6',{p:[0,1.3,0],to:g,ol:.05});
     plane(canvasTex(160,160,()=>{circ(80,80,70,'#fff',8);pic('manos',80,80,110)},'manos3'),1,1,{p:[0,.75,.82],to:g});
     const bub=[0,1,2,3].map(i=>{const m=new THREE.Mesh(Sph(.16+i*.04,12,10),new THREE.MeshToonMaterial({color:'#E8F8FF',gradientMap:GRAD,transparent:true,opacity:.75}));g.add(m);return m});
     g.userData.anim=()=>bub.forEach((b,i)=>{const k=(T*.6+i/4)%1;b.position.set(1.1+Math.sin(T*3+i)*.2,1.2+k*2,.3);b.scale.setScalar(1-k*.3);b.visible=k<.95})},
   // álbum: libro abierto con una estrella que se balancea encima
-  album(g){const b=grp(g,[0,.2,0]);b.rotation.y=-.25;mk(Box(1.5,.25,2),'#9B8AD9',{p:[-.78,.12,0],r:[0,0,.12],to:b,ol:.04});mk(Box(1.5,.25,2),'#9B8AD9',{p:[.78,.12,0],r:[0,0,-.12],to:b,ol:.04});
+  album(g: Tres.Group){const b=grp(g,[0,.2,0]);b.rotation.y=-.25;mk(Box(1.5,.25,2),'#9B8AD9',{p:[-.78,.12,0],r:[0,0,.12],to:b,ol:.04});mk(Box(1.5,.25,2),'#9B8AD9',{p:[.78,.12,0],r:[0,0,-.12],to:b,ol:.04});
     mk(Box(1.35,.12,1.8),'#FFF6E6',{p:[-.72,.32,0],r:[0,0,.12],to:b,ol:.02});mk(Box(1.35,.12,1.8),'#FFF6E6',{p:[.72,.32,0],r:[0,0,-.12],to:b,ol:.02});
     const st=mk(starGeo(.45,.15),'#FFC93C',{p:[0,1.3,0],to:b,ol:.03});g.userData.anim=()=>{st.rotation.y=Math.sin(T*1.4)*.55;st.position.y=1.3+Math.sin(T*2)*.12}},
   // rincón del inglés: bocadillo «Hello!» y tres cubos A, B y C
-  ingles(g){mk(Cyl(.08,.08,1.8,8),'#C98A4B',{p:[0,.9,0],to:g,ol:.03});
+  ingles(g: Tres.Group){mk(Cyl(.08,.08,1.8,8),'#C98A4B',{p:[0,.9,0],to:g,ol:.03});
     spr(canvasTex(256,180,()=>{card(14,14,228,120,'#fff',8,50);ctx.beginPath();ctx.moveTo(90,128);ctx.lineTo(70,170);ctx.lineTo(125,128);ctx.closePath();fillStroke('#fff',8);ctx.fillStyle='#fff';ctx.fillRect(80,118,50,14);text('Hello!',128,95,58,'#5B8DEF',{f:LF})},'hello3'),1.9,1.33,{p:[0,2.35,0],to:g});
     ['A','B','C'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=['#FF6B5E','#FFC93C','#7CC86E'][i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l);
       const m=new THREE.Mesh(Box(.7,.7,.7),new THREE.MeshToonMaterial({map:t,gradientMap:GRAD}));m.position.set(-.85+i*.85,.35+(i===1?.0:0),.9);m.rotation.y=(i-1)*.3;m.castShadow=true;g.add(m);m.add(Object.assign(new THREE.Mesh(olGeo(m.geometry),OLm(.035)),{raycast:()=>{}}))})},
   // fiestas: tarta con velas (llamitas userData.fl), dos regalos y cuatro globos que se mecen
-  fiestas(g){const c=grp(g,[0,0,0]);mk(Cyl(1,1,.6,24),'#F58BB4',{p:[0,.3,0],to:c,ol:.04});mk(Cyl(.75,.75,.5,24),'#FFF6E6',{p:[0,.85,0],to:c,ol:.04});
+  fiestas(g: Tres.Group){const c=grp(g,[0,0,0]);mk(Cyl(1,1,.6,24),'#F58BB4',{p:[0,.3,0],to:c,ol:.04});mk(Cyl(.75,.75,.5,24),'#FFF6E6',{p:[0,.85,0],to:c,ol:.04});
     for(let i=0;i<4;i++){const a=i/4*PI*2;mk(Cyl(.05,.05,.35,6),DIAC[i],{p:[Math.cos(a)*.4,1.27,Math.sin(a)*.4],to:c,ol:.015});const fl=mk(Sph(.07,8,6),'#FFC93C',{p:[Math.cos(a)*.4,1.5,Math.sin(a)*.4],s:[1,1.6,1],ol:0,cs:false,to:c});fl.userData.fl=1}
-    [[1.6,.5,'#5B8DEF'],[-1.5,.7,'#7CC86E']].forEach(([x,z,cc])=>{const p=grp(g,[x,0,z]);mk(Box(.8,.7,.8),cc,{p:[0,.35,0],to:p,ol:.035});mk(Box(.84,.74,.18),'#FFC93C',{p:[0,.35,0],ol:.02,to:p});mk(Box(.18,.74,.84),'#FFC93C',{p:[0,.35,0],ol:.02,to:p})});
-    const bl=[['#FF6B5E',-1.2,-.8],['#FFC93C',-.4,-1.2],['#9B8AD9',.6,-1.1],['#7FD3F0',1.3,-.6]].map(([cc,x,z])=>balloon3(g,x,z,cc,2.2));
+    ([[1.6,.5,'#5B8DEF'],[-1.5,.7,'#7CC86E']] as [number, number, string][]).forEach(([x,z,cc])=>{const p=grp(g,[x,0,z]);mk(Box(.8,.7,.8),cc,{p:[0,.35,0],to:p,ol:.035});mk(Box(.84,.74,.18),'#FFC93C',{p:[0,.35,0],ol:.02,to:p});mk(Box(.18,.74,.84),'#FFC93C',{p:[0,.35,0],ol:.02,to:p})});
+    const bl=([['#FF6B5E',-1.2,-.8],['#FFC93C',-.4,-1.2],['#9B8AD9',.6,-1.1],['#7FD3F0',1.3,-.6]] as [string, number, number][]).map(([cc,x,z])=>balloon3(g,x,z,cc,2.2));
     g.userData.anim=()=>bl.forEach((b,i)=>{b.rotation.z=Math.sin(T*1.5+i)*.06;b.rotation.x=Math.cos(T*1.2+i)*.05})},
   // tienda: mostrador con toldo de rayas, monedas y dibujos; si hay monedas (S.coins), una moneda gira encima
-  tienda(g){mk(Box(2.6,1,1.1),'#FFF3D6',{p:[0,.5,.3],to:g,ol:.05});for(const x of[-1.2,1.2])for(const z of[-.3,.8])mk(Box(.13,2.3,.13),'#C98A4B',{p:[x,1.15,z],to:g,ol:.025});
+  tienda(g: Tres.Group){mk(Box(2.6,1,1.1),'#FFF3D6',{p:[0,.5,.3],to:g,ol:.05});for(const x of[-1.2,1.2])for(const z of[-.3,.8])mk(Box(.13,2.3,.13),'#C98A4B',{p:[x,1.15,z],to:g,ol:.025});
     const aw=grp(g,[0,2.35,.25]);aw.rotation.x=.25;for(let i=0;i<6;i++)mk(Box(.47,.12,1.6),i%2?'#fff':'#FF6B5E',{p:[-1.18+i*.47,0,0],to:aw,ol:.025});
     spr(pillTex(tx('Tienda'),'#7CC86E','#fff',80),3.2,.8,{p:[0,3.3,0],to:g});
     for(let i=0;i<5;i++)mk(Cyl(.2,.2,.07,16),'#FFC93C',{p:[-.7+(i%3)*.3,1.05+Math.floor(i/3)*.08,.4+(i%2)*.15],to:g,ol:.02});
     spr(picTex('manzana'),.6,.6,{p:[.5,1.3,.4],to:g});spr(picTex('pelota'),.6,.6,{p:[.95,1.3,.4],to:g});
-    if(S.coins>0){const c=mk(Cyl(.4,.4,.1,24),'#FFC93C',{p:[1.4,2.6,.6],r:[PI/2,0,0],to:g,ol:.03});g.userData.anim=()=>{c.rotation.z=T*3;c.position.y=2.9+Math.sin(T*3)*.12}}},
+    if(S.coins!>0){const c=mk(Cyl(.4,.4,.1,24),'#FFC93C',{p:[1.4,2.6,.6],r:[PI/2,0,0],to:g,ol:.03});g.userData.anim=()=>{c.rotation.z=T*3;c.position.y=2.9+Math.sin(T*3)*.12}}},
 };
 // stripesTex(): textura de rayas rojas y blancas (para la carpa de canciones)
 function stripesTex(){return canvasTex(256,64,()=>{for(let i=0;i<8;i++){ctx.fillStyle=i%2?'#FFF6E6':'#FF6B5E';ctx.fillRect(i*32,0,32,64)}},'stripes')}
 // zzz(g,p): dos «z» que suben desde el punto p del grupo g (lugar dormido). Encadena con el g.userData.anim que ya hubiera.
-function zzz(g,p){const zs=[0,1].map(i=>spr(canvasTex(96,96,()=>text('z',48,76,80,'#7A6252',{st:6,sc:'#fff'}),'z'),.6+i*.2,.6+i*.2,{to:g}));
+function zzz(g: Tres.Object3D,p: Trio){const zs=[0,1].map(i=>spr(canvasTex(96,96,()=>text('z',48,76,80,'#7A6252',{st:6,sc:'#fff'}),'z'),.6+i*.2,.6+i*.2,{to:g}));
   const a=g.userData.anim;g.userData.anim=()=>{a&&a();zs.forEach((z,i)=>{const k=(T*.4+i*.5)%1;z.position.set(p[0]+k*.6,p[1]+k*1.4,p[2]);z.material.opacity=Math.sin(k*PI)})}}
 // greyAll(g,on): on=true pinta de gris todas las piezas toon del grupo g (guardando el material en userData.m0); on=false lo deshace.
-function greyAll(g,on){g.traverse(o=>{if(o.isMesh&&o.material&&o.material.isMeshToonMaterial){if(on){o.userData.m0=o.userData.m0||o.material;o.material=M('#CFC8BF')}else if(o.userData.m0)o.material=o.userData.m0}})}
+function greyAll(g: Tres.Object3D,on: boolean){g.traverse((o: Nodo)=>{if(o.isMesh&&o.material&&o.material.isMeshToonMaterial){if(on){o.userData.m0=o.userData.m0||o.material;o.material=M('#CFC8BF')}else if(o.userData.m0)o.material=o.userData.m0}})}
 
 // buildMap(st): construye el mundo 3D del mapa y lo devuelve (setWorld lo activa). st es la escena SCENES.map, de la que lee
 // titoAt, hop, hov, unl (candado que se abre), wake (zona que despierta), lockShake, shake (casa) y petJump (mascota).
 // Orden: cielo y mar, isla, noche/estación, animales y objetos tocables (*3), barquitos, caminos, decoración, los lugares (SPOT3,
 // casa de Tito con mascota, candados), fechas especiales, Tito, la animación por cuadro (w.upd), wobInit y la cámara (camRig).
-function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',shadow:26});
+function buildMap(st: Escena){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',shadow:26});
   sea3(w,sk.sea);island3(w);
-  if(sk.night){w.sc.children.forEach(o=>{if(o.isLight)o.intensity*=.82});const moon=mk(Sph(2,20,16),'#FFF3B0',{p:[-30,22,-40],ol:.2,cs:false,rs:false});w.sc.add(moon)}
+  if(sk.night){w.sc.children.forEach((o: Nodo)=>{if(o.isLight)o.intensity!*=.82});const moon=mk(Sph(2,20,16),'#FFF3B0',{p:[-30,22,-40],ol:.2,cs:false,rs:false});w.sc.add(moon)}
   if(sk.night)fireflies(w,30,14);// de noche, luciérnagas sobre la isla
   seasonFx(w);
   // nubes y estrellas se mueven según el tiempo, no por cuadro: igual en una pantalla de 30, 60 o 120 Hz
-  for(let i=0;i<6;i++){const c=cloud3(w.sc,-34+i*14,9+(i%3)*1.5,-18+(i%2)*6,1+(i%3)*.3);w.upd.push(dt=>{c.position.x+=.3*dt;if(c.position.x>40)c.position.x=-40})}
+  for(let i=0;i<6;i++){const c=cloud3(w.sc,-34+i*14,9+(i%3)*1.5,-18+(i%2)*6,1+(i%3)*.3);w.upd.push((dt: number)=>{c.position.x+=.3*dt;if(c.position.x>40)c.position.x=-40})}
   // gaviotas que vuelan en círculos sobre la orilla de la isla
   crab3(w,-4,3,10.2,1);whale3(w,-21.8,0,.85);dolph3(w,22.9,.5,.9);lighthouse3(w,11.9,9.9,1);if(summerNow()){sunb3(w,7.2,10.1,.9);sandc3(w,9.3,10.5,1.15)}palm3(w,-11.4,10,1);hab3(w,12,2.8,-6,.9);gull3(w,18,10,7,0,1);gull3(w,16,9,8,2.2,1);gull3(w,19,11,6.5,4,-1);
   // barquitos
-  for(const [x,z,c] of[[-22,4,'#FF6B5E'],[24,-6,'#5B8DEF'],[16,14,'#FFC93C']]){const b=grp(w.sc,[x,-1,z]);mk(Box(1.6,.4,.7),c,{p:[0,.2,0],to:b,ol:.04});mk(Cyl(.04,.04,1.6,6),'#C98A4B',{p:[0,1.1,0],ol:0,to:b});mk(prism(.9,1.2,.05),'#fff',{p:[.1,.5,0],r:[0,0,0],to:b,ol:.02});
+  for(const [x,z,c] of([[-22,4,'#FF6B5E'],[24,-6,'#5B8DEF'],[16,14,'#FFC93C']] as [number, number, string][])){const b=grp(w.sc,[x,-1,z]);mk(Box(1.6,.4,.7),c,{p:[0,.2,0],to:b,ol:.04});mk(Cyl(.04,.04,1.6,6),'#C98A4B',{p:[0,1.1,0],ol:0,to:b});mk(prism(.9,1.2,.05),'#fff',{p:[.1,.5,0],r:[0,0,0],to:b,ol:.02});
     const hb=new THREE.Mesh(Box(2.6,2.4,1.6),FHIT);hb.position.y=.8;b.add(hb);b.userData.boat=1;// al tocarlo, salta dando una vuelta y toca la bocina
     w.upd.push(()=>{const k=b.userData.wob,e=k==null?9:T-k,q=Math.min(e/.8,1);b.position.y=-1+Math.sin(T*1.3+x)*.15+(e<.8?Math.sin(q*PI)*.9:0);b.rotation.z=Math.sin(T*1.1+z)*.08;b.rotation.y=e<.8?q*PI*2:0})}
   // caminos desde la plaza
   const P=MP(...MAPPOS.plaza);
-  for(const id in MAPPOS){if(id==='plaza')continue;const Q=MP(...MAPPOS[id]),c=[(P[0]+Q[0])/2+(Q[1]-P[1])*.12,(P[1]+Q[1])/2-(Q[0]-P[0])*.08];ribbon(w.sc,bez(P,c,Q,30),.9,'#FFF3D6',.03,{dash:3})}
+  for(const id in MAPPOS){if(id==='plaza')continue;const Q=MP(...MAPPOS[id]),c: PuntoSuelo=[(P[0]+Q[0])/2+(Q[1]-P[1])*.12,(P[1]+Q[1])/2-(Q[0]-P[0])*.08];ribbon(w.sc,bez(P,c,Q,30),.9,'#FFF3D6',.03,{dash:3})}
   // decoración: árboles, arbustos, flores, piedras en lugares libres
-  [[-14.5,-5,'verano'],[-12.5,7,'primavera'],[2.5,-7.2,'otoño'],[17.5,-2,'verano'],[14,8.5,'primavera'],[-4,7.8,null],[18,5.5,null],[-15.5,1.5,null],[8.5,-7.5,null],[11.5,-.5,'verano']].forEach(([x,z,k],i)=>tree3(w.sc,x,z,.75+(i%3)*.1,k||'verano',!k));
+  ([[-14.5,-5,'verano'],[-12.5,7,'primavera'],[2.5,-7.2,'otoño'],[17.5,-2,'verano'],[14,8.5,'primavera'],[-4,7.8,null],[18,5.5,null],[-15.5,1.5,null],[8.5,-7.5,null],[11.5,-.5,'verano']] as [number, number, string|null][]).forEach(([x,z,k],i)=>tree3(w.sc,x,z,.75+(i%3)*.1,k||'verano',!k));
   [[-8,-1],[3.8,1.8],[7.8,2.5],[-3,4.5],[12,4],[-13,4],[5,-3.2]].forEach(([x,z],i)=>bush3(w.sc,x,z,.8,i%2?'#7CC86E':'#6FC25A'));
   for(let i=0;i<26;i++){const a=i*2.4,r=6+(i*37%11);const x=Math.cos(a)*r*1.35+1,z=Math.sin(a)*r*.62+1;if(Math.abs(z)<8.5&&Math.abs(x)<17)flower3(w.sc,x,z,FLC[i%7],.6)}
   rock3(w.sc,-16,-2.5,1);rock3(w.sc,19,1,.9);rock3(w.sc,6,9.5,.7);
@@ -1615,7 +1631,7 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
   const tito=makeTito();tito.scale.setScalar(.75);const at=w.spots[st.titoAt||'plaza']||w.spots.plaza,ap=at.position;
   tito.position.set(ap.x+(st.titoAt&&st.titoAt!=='plaza'?1.5:2.2),0,ap.z+(st.titoAt&&st.titoAt!=='plaza'?2.6:1.6));tito.rotation.y=-.35;w.sc.add(tito);w.tito=tito;w.pick.push(tito);
   const asam=w.spots.plaza,gl=ring3(asam,[0,.25,0],3.1);
-  w.upd.push(dt=>{const wk=walkTick(w,tito,dt);tito.userData.anim(dt,{walk:wk,hop:st.hop,hov:st.hovTito});
+  w.upd.push((dt: number)=>{const wk=walkTick(w,tito,dt);tito.userData.anim(dt,{walk:wk,hop:st.hop,hov:st.hovTito});
     gl.visible=!asamHoy();gl.material.opacity=.45+.35*Math.sin(T*4);gl.scale.setScalar(1+Math.sin(T*4)*.03);
     for(const id in w.spots){const g=w.spots[id];g.userData.anim&&g.userData.anim();
       // banderitas y llamitas: se buscan una sola vez, no recorriendo todo el lugar en cada cuadro
@@ -1627,8 +1643,8 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
       const L=g.userData.lock;if(L){if(st.unl&&st.unl.id===id&&T>st.unl.t){const k=(T-st.unl.t)/1.3;if(k>1){g.remove(L);g.userData.lock=null;if(g.userData.need){g.remove(g.userData.need);g.userData.need=null}greyAll(g,false)}else{L.position.set(k*2,(g.userData.lockY||3.3)+k*k*5,0);L.rotation.z=k*3;L.scale.setScalar(1.15*(1+k*.4));if(k>.15)greyAll(g,false)}}
         else{L.position.y=(g.userData.lockY||3.3)+Math.sin(T*2+g.position.x)*.15;L.rotation.y=Math.sin(T*1.2)*.4;const sh=st.lockShake&&st.lockShake.id===id?Math.max(0,1-(T-st.lockShake.t)*2):0;L.rotation.z=Math.sin(T*40)*.3*sh}}}
     // zona que despierta (st.wake): en el momento st.wake.t recupera el color y tiembla 1,5 s
-    if(st.wake){const g=w.spots[st.wake.z];if(T>st.wake.t&&!st.wake.done){st.wake.done=1;greyAll(g,false)}if(st.wake.done&&T<st.wake.t+1.5)g.position.x=MP(...MAPPOS[st.wake.z])[0]+Math.sin(T*40)*.15*(1-(T-st.wake.t)/1.5)}
-    const h=w.spots.casaTito;h.userData.house.userData.anim(st.shake);h.userData.pet.userData.anim(st.petJump)});
+    if(st.wake){const g=w.spots![st.wake.z];if(T>st.wake.t&&!st.wake.done){st.wake.done=1;greyAll(g,false)}if(st.wake.done&&T<st.wake.t+1.5)g.position.x=MP(...MAPPOS[st.wake.z])[0]+Math.sin(T*40)*.15*(1-(T-st.wake.t)/1.5)}
+    const h=w.spots!.casaTito;h.userData.house.userData.anim(st.shake);h.userData.pet.userData.anim(st.petJump)});
   wobInit(w);
   camRig(w,V3(1.2,25,20.5),V3(1.2,0,1.4),1.6);
   return w}
@@ -1636,14 +1652,14 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
 /* ---------- escena del mapa en 3D ---------- */
 // Convierte la escena 2D del mapa (escenas/escenas2d.ts/escenas/zonas.ts) en 3D: se guardan su enter/down originales (enter0/down0) y se sustituyen.
 // three:true hace que el bucle dibuje la capa 3D (R3frame) debajo de lo que pinte draw().
-{const S0=SCENES.map,enter0=S0.enter,down0=S0.down;
+{const S0=SCENES.map,enter0=S0.enter!,down0=S0.down!;
  Object.assign(S0,{three:true,
   // enter(o): entra al mapa: limpia estados, llama al enter original, construye el mundo 3D y sincroniza las posiciones 2D
-  enter(o){this.hov=null;this.lockShake=null;this.hop=null;enter0.call(this,o);setWorld(buildMap(this));this.sync()},
+  enter(o: Libre){this.hov=null;this.lockShake=null;this.hop=null;enter0!.call(this,o);setWorld(buildMap(this));this.sync()},
   // sync(): proyecta cada lugar 3D a la pantalla y escribe x,y,r en MZ2 (para que la lógica 2D de escenas/zonas.ts acierte); también la casa y Tito
   sync(){const w=W3;if(!w||w.kind!=='map')return;
-    for(const z of MZ2){const g=w.spots[z.id];if(!g)continue;const [x,y,r]=projR(g,2.6,1.2);z.x=x;z.y=y;z.r=Math.max(60,r)}
-    const h=w.spots.casaTito,[hx,hy]=projO(h,0);HOUSE_AT[0]=hx;HOUSE_AT[1]=hy+60;titoRect(w.tito)},
+    for(const z of MZ2){const g=w.spots![z.id];if(!g)continue;const [x,y,r]=projR(g,2.6,1.2);z.x=x;z.y=y;z.r=Math.max(60,r)}
+    const h=w.spots!.casaTito,[hx,hy]=projO(h,0);HOUSE_AT[0]=hx;HOUSE_AT[1]=hy+60;titoRect(w.tito!)},
   // draw(): se llama cada cuadro encima del 3D: decide qué hay bajo el ratón (hov, hovTito), su nombre, el logo, botones y bocadillo de Tito
   draw(){this.sync();const w=W3;
     let hv_=null;let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.spot){hv_=u.spot;VIVO.hovNow='mz'+u.spot}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}else if(u&&u.id==='pipo')VIVO.hovNow='pipo'}
@@ -1655,39 +1671,39 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
     if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): toque en el mapa. Botones 2D -> lógica original; objetos que vuelan; nada -> objeto tocable, mar o pasear;
   // Tito -> salta; mascota -> lógica 2D de la mascota; lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
-  down(x,y){const w=W3;if(!w||busy3(w))return;
+  down(x: number,y: number){const w=W3;if(!w||busy3(w))return;
     if(atHome(x,y)||inCoinHUD(x,y)||dist(x,y,SEGUIR.x,SEGUIR.y)<SEGUIR.r+10)return call0(down0,this,x,y);
     const u=pickAt(x,y);if(flyTap(w,x,y))return;
     if(!u){if(wobTap(w,x,y)||seaTap(w))return;SFX.tap();if(skyNow().night)ffTap(x,y);else sparkles(x,y);walkGround(w);return}
-    if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt(false);return}
-    if(u.id==='pipo'){const [px,py]=projO(w.spots.casaTito.userData.pet,1);const h0=[HOUSE_AT[0],HOUSE_AT[1]];HOUSE_AT[0]=px-170;HOUSE_AT[1]=py+10;this.petJump=T;try{down0.call(this,px,py)}finally{HOUSE_AT[0]=h0[0];HOUSE_AT[1]=h0[1]}return}
+    if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt!(false);return}
+    if(u.id==='pipo'){const [px,py]=projO(w.spots!.casaTito.userData.pet,1);const h0=[HOUSE_AT[0],HOUSE_AT[1]];HOUSE_AT[0]=px-170;HOUSE_AT[1]=py+10;this.petJump=T;try{down0!.call(this,px,py)}finally{HOUSE_AT[0]=h0[0];HOUSE_AT[1]=h0[1]}return}
     const z=mzOf(u.spot);if(!z)return;const open=ZAGE[z.id]?zoneOpen(z.id):spotOpen(z.id);
     if(!open){this.lockShake={id:z.id,t:T};return call0(down0,this,z.x,z.y)}
-    SFX.whoosh&&SFX.whoosh();const g=w.spots[z.id],to=g.position.clone().add(V3(z.id==='casaTito'?1.2:1.4,0,z.id==='casaTito'?2.8:2.4));
-    this.titoAt=z.id;walkTo(w,w.tito,to,()=>{if(sceneName==='map')call0(down0,this,z.x,z.y)},{zoom:V3(0,9,8)})}
- });
+    SFX.whoosh&&SFX.whoosh();const g=w.spots![z.id],to=g.position.clone().add(V3(z.id==='casaTito'?1.2:1.4,0,z.id==='casaTito'?2.8:2.4));
+    this.titoAt=z.id;walkTo(w,w.tito!,to,()=>{if(sceneName==='map')call0(down0,this,z.x,z.y)},{zoom:V3(0,9,8)})}
+ } satisfies Escena);
  // Seguir: Tito camina hacia la plaza o hacia la zona del próximo tema antes de entrar
  const gs0=goSeguir;ponGoSeguir(function(){const w=W3;if(sceneName!=='map'||!w||w.kind!=='map')return gs0();
    let id='plaza';if(asamHoy()){const t=nextTema();if(!t)return gs0();id=MAINZ.includes(t.zone)?t.zone:t.zone==='fiestas'?'fiestas':t.zone==='ingles'?'ingles':t.id==='X-CAN'?'canciones':t.id==='X-RUT'?'rutinas':t.id==='X-TRZ'?'trazos':'plaza'}
-   const g=w.spots[id];SCENES.map.titoAt=id;walkTo(w,w.tito,g.position.clone().add(V3(1.4,0,2.4)),()=>{if(sceneName==='map')gs0()},{zoom:V3(0,9,8)})});
+   const g=w.spots![id];SCENES.map.titoAt=id;walkTo(w,w.tito!,g.position.clone().add(V3(1.4,0,2.4)),()=>{if(sceneName==='map')gs0()},{zoom:V3(0,9,8)})});
 }
 
 /* ================= LAS ZONAS: un camino de casitas en 3D ================= */
 // ZX(x,y): pasa un punto 2D de una zona (ZPOS, escenas/zonas.ts) a [x,z] del suelo 3D de la zona (37 píxeles = 1 unidad)
 // ZPB: copia de las posiciones 2D originales de cada casita (ZPOS[zona][idTema]); sync() sobrescribe ZPOS con las proyectadas.
 // ZSTYLE: colores de cada zona {bg: cielo, g: césped, e: borde de tierra}.
-const ZX=(x,y)=>[(x-930)/37,(y-490)/37];
-const ZPB={};for(const z in ZPOS){ZPB[z]={};for(const id in ZPOS[z])ZPB[z][id]={x:ZPOS[z][id].x,y:ZPOS[z][id].y}}
-const ZSTYLE={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},ingles:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'}};
+const ZX=(x: number,y: number): PuntoSuelo=>[(x-930)/37,(y-490)/37];
+const ZPB: Record<string, Record<string, {x: number; y: number}>>={};for(const z in ZPOS){ZPB[z]={};for(const id in ZPOS[z])ZPB[z][id]={x:ZPOS[z][id].x,y:ZPOS[z][id].y}}
+const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},ingles:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'}};
 // slab(to,w,d,c,e,y,r): losa de suelo con esquinas redondeadas (ancho w, fondo d, radio r) con césped c y borde e, a la altura y.
 // La añade a to (con contorno) y devuelve la malla (se usa como w.ground).
-function slab(to,w,d,c,e,y=0,r=3){const s=new THREE.Shape(),x=-w/2,z=-d/2;s.moveTo(x+r,z);s.lineTo(x+w-r,z);s.quadraticCurveTo(x+w,z,x+w,z+r);s.lineTo(x+w,z+d-r);s.quadraticCurveTo(x+w,z+d,x+w-r,z+d);s.lineTo(x+r,z+d);s.quadraticCurveTo(x,z+d,x,z+d-r);s.lineTo(x,z+r);s.quadraticCurveTo(x,z,x+r,z);
+function slab(to: Tres.Object3D,w: number,d: number,c: string,e: string,y=0,r=3){const s=new THREE.Shape(),x=-w/2,z=-d/2;s.moveTo(x+r,z);s.lineTo(x+w-r,z);s.quadraticCurveTo(x+w,z,x+w,z+r);s.lineTo(x+w,z+d-r);s.quadraticCurveTo(x+w,z+d,x+w-r,z+d);s.lineTo(x+r,z+d);s.quadraticCurveTo(x,z+d,x,z+d-r);s.lineTo(x,z+r);s.quadraticCurveTo(x,z,x+r,z);
   const g=new THREE.ExtrudeGeometry(s,{depth:1.6,bevelEnabled:true,bevelThickness:.3,bevelSize:.4,bevelSegments:2,curveSegments:10});g.rotateX(PI/2);const m=new THREE.Mesh(g,[M(c),M(e)]);m.position.y=y-.3;m.receiveShadow=true;to.add(m);
   const o=new THREE.Mesh(olGeo(g),OLm(.1));o.position.copy(m.position);to.add(o);return m}
 // casita3(to,t,p,o): casita de un tema t (TEMA) en la posición p=[x,z]. o = {s: escala, locked: cerrada (gris y candado), unl: se está abriendo}.
 // El Rincón de los Conceptos (t.concepts) es una mesa con figuras. Delante pone una bolita por juego (doradas las hechas) y,
 // si el tema está terminado, una estrella y flores. Devuelve el grupo (userData.tema = id del tema, para pickAt).
-function casita3(to,t,p,o){const g=grp(to,[p[0],0,p[1]],o.s||1),lk=o.locked,st=tst(t.id),n=gDone(t);g.userData.id='t:'+t.id;g.userData.tema=t.id;
+function casita3(to: Tres.Object3D,t: Tema,p: PuntoSuelo,o: Libre){const g=grp(to,[p[0],0,p[1]],o.s||1),lk=o.locked,st=tst(t.id),n=gDone(t);g.userData.id='t:'+t.id;g.userData.tema=t.id;
   if(t.concepts){mk(rbox(2.6,1.7,2,.2),lk?'#CFC8BF':'#9B8AD9',{p:[0,.85,0],to:g,ol:.06});mk(Box(2.2,.1,1.6),'#EDE7FF',{p:[0,1.72,0],to:g,ol:.03});
     mk(Sph(.38,16,12),'#FF8A7A',{p:[-.6,2.15,0],to:g,ol:.04});mk(Box(.6,.6,.6),'#5BB8E6',{p:[.25,2.08,.1],r:[0,.5,0],to:g,ol:.04});mk(Cone(.35,.7,4),'#7CC86E',{p:[.9,2.12,-.2],to:g,ol:.04});
     const s2=mk(starGeo(.42,.14),'#FFC93C',{p:[0,2.95,0],to:g,ol:.03});g.userData.spin=s2}
@@ -1698,18 +1714,18 @@ function casita3(to,t,p,o){const g=grp(to,[p[0],0,p[1]],o.s||1),lk=o.locked,st=t
   const k=t.games.length;for(let j=0;j<k;j++)mk(Sph(.17,10,8),j<n?'#FFC93C':'#EADFCF',{p:[-((k-1)*.2)+j*.4,.18,1.4],ol:.02,cs:false,to:g});
   if(st.done){const s=mk(starGeo(.4,.13),'#FFC93C',{p:[.95,2.75,.3],to:g,ol:.03});g.userData.spin=g.userData.spin||s;flower3(g,-1.3,1.1,FLC[1],.7);flower3(g,1.3,1.1,FLC[3],.7)}
   const hit=new THREE.Mesh(Box(2.9,3.4,2.6),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=1.5;g.add(hit);
-  if(lk||o.unl){g.userData.lock=lock3(g,[.75,2.85,.9],.8);if(lk)g.traverse(m=>{if(m.isMesh&&m.material&&m.material.map&&!m.material.isMeshToonMaterial){m.material=m.material.clone();m.material.color.set('#C9C2B8')}})}
+  if(lk||o.unl){g.userData.lock=lock3(g,[.75,2.85,.9],.8);if(lk)g.traverse((m: Nodo)=>{if(m.isMesh&&m.material&&m.material.map&&!m.material.isMeshToonMaterial){m.material=m.material.clone();m.material.color.set('#C9C2B8')}})}
   return g}
 // roadPts(P,o): puntos de un camino que une los puntos P=[[x,z],...]: recto en la misma fila y, al cambiar de fila, una curva
 // que sale hacia el lado (o = cuánto se abre). Devuelve la lista de puntos para ribbon().
-function roadPts(P,o){const r=[];for(let i=0;i<P.length;i++){if(!i){r.push(P[0]);continue}const a=P[i-1],b=P[i];
+function roadPts(P: PuntoSuelo[],o: number){const r: PuntoSuelo[]=[];for(let i=0;i<P.length;i++){if(!i){r.push(P[0]);continue}const a=P[i-1],b=P[i];
   if(Math.abs(a[1]-b[1])<.2){for(let k=1;k<=12;k++)r.push([lerp(a[0],b[0],k/12),a[1]])}
   else{const sd=(a[0]+b[0])/2>0?1:-1;for(let k=1;k<=24;k++){const t=k/24,u=1-t;const c1=[a[0]+sd*o,a[1]],c2=[b[0]+sd*o,b[1]];r.push([u*u*u*a[0]+3*u*u*t*c1[0]+3*u*t*t*c2[0]+t*t*t*b[0],u*u*u*a[1]+3*u*u*t*c1[1]+3*u*t*t*c2[1]+t*t*t*b[1]])}}}return r}
 // zoneDecor(w,z): pone la decoración y los objetos tocables de la zona z (jardin, bosque, montana, fiestas, ingles): animales y objetos
 // con sus funciones *3 (frog3, owl3...), árboles, flores, cosas que caen (fallPts) y las letras flotantes / bloques HELLO del inglés.
-// Aquí se añade un objeto 3D nuevo a una zona (ver doc/notes/world3d-3.md).
-function zoneDecor(w,z){const D=w.sc;
-  if(z==='jardin'){frog3(w,7.9,5.4,1.1);can3(w,4.6,6,1.25);sunf3(w,-1.6,7,1.1);scare3(w,-7.5,8.3,.95);burrow3(w,-9.4,7.3,1.2)}if(z==='jardin'&&!skyNow().night){kite3(w,8.6,5.6,-6,1.15);bee3(w,-6,-6.4,0,1.9);bee3(w,8,-6.6,2.5,1.9);/* abejas */[['#FF8FB1',-8,2],['#FFC93C',4,-3],['#9B8AD9',10,3],['#7FD3F0',-2,-6]].forEach(([c,x,zz],i)=>butterfly3(w,x,zz,c,i*1.7))}// mariposas en el jardín (de noche duermen)
+// Aquí se añade un objeto 3D nuevo a una zona (ver docs/COMO-AGREGAR.md).
+function zoneDecor(w: Mundo,z: string){const D=w.sc;
+  if(z==='jardin'){frog3(w,7.9,5.4,1.1);can3(w,4.6,6,1.25);sunf3(w,-1.6,7,1.1);scare3(w,-7.5,8.3,.95);burrow3(w,-9.4,7.3,1.2)}if(z==='jardin'&&!skyNow().night){kite3(w,8.6,5.6,-6,1.15);bee3(w,-6,-6.4,0,1.9);bee3(w,8,-6.6,2.5,1.9);/* abejas */([['#FF8FB1',-8,2],['#FFC93C',4,-3],['#9B8AD9',10,3],['#7FD3F0',-2,-6]] as [string, number, number][]).forEach(([c,x,zz],i)=>butterfly3(w,x,zz,c,i*1.7))}// mariposas en el jardín (de noche duermen)
   if(z==='jardin'||z==='ingles'){for(let i=0;i<14;i++)flower3(D,-15+i*2.3,-8.2+(i%2)*.4,FLC[i%7],.8);for(let i=0;i<9;i++)bush3(D,-15.5+i*3.9,8.6,.8);for(const x of[-17.5,17.5])for(let i=0;i<5;i++)tree3(D,x,-6+i*3,.75,i%2?'primavera':'verano')}
   if(z==='bosque'){owl3(w,7.9,5.4,1.15);leafs3(w,-1.2,6.8,1.1);nest3(w,.6,8.6,1.25);if(hallowNow())[[-4.2,8.7],[8.3,8.7],[-10.8,8.9]].forEach(([a,b])=>pump3(w,a,b,.55));wpk3(w,10.4,6.4,1.1);ants3(w,5.4,7.8,1.25);squir3(w,-9.4,7.3,1.3);fallPts(w,40,['#F28C38','#E8603C','#F2C14E','#C9772E'],{size:1.5,map:canvasTex(32,32,()=>{ctx.beginPath();ctx.ellipse(16,16,13,7,.6,0,PI*2);ctx.fillStyle='#fff';ctx.fill()},'leaf'),sp:.6,sw:1.3});/* hojas que caen */for(let i=0;i<12;i++)tree3(D,-16.5+i*3,-8.6,.85+(i%3)*.15,i%3?'verano':'otoño',i%2);for(const x of[-18,18])for(let i=0;i<5;i++)tree3(D,x,-6+i*3,.8,'verano',i%2);for(let i=0;i<8;i++)rock3(D,-14+i*4,8.7,.5);[[-16,6.5],[-12,8.9],[-5.5,9],[2,8.8],[10,9],[15.5,6.8]].forEach(([x,zz],i)=>mush3(D,x,zz,.9+(i%3)*.2))}
   if(z==='montana'){[[-15,-22,7,10],[-5,-25,8,12.5],[6,-24,7.5,11],[16,-22,7,9.5]].forEach(([x,zz,r,h])=>{mk(Cone(r,h,10),'#B9C7DA',{p:[x,h/2-.3,zz],to:D,ol:.1}).userData.mount=1;mk(Cone(r*.38,h*.38,10),'#FFFFFF',{p:[x,h-.3-h*.19,zz],to:D,ol:.07}).userData.mount=1});
@@ -1718,30 +1734,30 @@ function zoneDecor(w,z){const D=w.sc;
   if(z==='ingles'){// letras del abecedario que suben flotando despacio, como pompas
     const AB='ABCDEFGHIJ';for(let i=0;i<10;i++){const L=AB[i],q=spr(canvasTex(128,128,()=>text(L,64,104,104,DIAC[i%7],{f:LF,st:8,sc:K}),'abcf'+L),1.4,1.4,{p:[-16+i*3.5,(i*37%9),-6+(i*53%12)],to:D,op:.9});
       q.userData.abc=i+1;q.userData.dur=.6;/* al tocar una letra, crece, gira y explota con su nota, y vuelve a salir desde abajo */
-      w.upd.push(dt=>{const u=q.userData,e=u.wob==null?9:T-u.wob;if(e<.6){q.scale.setScalar(1.4*(1+e*1.4));q.material.rotation+=dt*12;q.material.opacity=.9*(1-e/.6);u.pp=1;return}
+      w.upd.push((dt: number)=>{const u=q.userData,e=u.wob==null?9:T-u.wob;if(e<.6){q.scale.setScalar(1.4*(1+e*1.4));q.material.rotation+=dt*12;q.material.opacity=.9*(1-e/.6);u.pp=1;return}
         if(u.pp){u.pp=0;q.position.y=0;q.scale.setScalar(1.4);q.material.opacity=.9}q.position.y+=dt*.45;q.position.x+=Math.sin(T+i)*dt*.3;q.material.rotation=Math.sin(T*.8+i)*.25;if(q.position.y>9)q.position.y=0})}}
   if(z==='ingles'){bus3(w,7.2);phone3(w,8.2,4.4,1);clock3(w,-1.6,4.8,.85);post3(w,3.8,5,1);tea3(w,-5.8,4.6,1.5);guard3(w,-9.6,4.8,1.3);flag3(w,6,3.4,1.1);umb3(w,.9,6.4,1)}
   if(z==='ingles'){['H','E','L','L','O'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=DIAC[i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l+i);const m=new THREE.Mesh(Box(1.2,1.2,1.2),new THREE.MeshToonMaterial({map:t,gradientMap:GRAD}));m.position.set(-4+i*2,.6,-8.2);m.rotation.y=(i%2?.2:-.2);m.castShadow=true;m.userData.letter=i+1;D.add(m)})}}
 // buildZone(z,st): construye el mundo 3D de la zona z (camino de casitas). st es la escena de la zona (titoAt, cur = tema siguiente,
 // hov, hop, unl, lockShake). Pone suelo, decoración, cielo según la hora (luna con gorro, sol con accesorios según el mes),
 // carteles de estación, camino (en amarillo lo ya recorrido), casitas, flecha al tema siguiente, Tito y la animación por cuadro.
-function buildZone(z,st){const Z=ZONES[z],P=ZPOS[z],sty=ZSTYLE[z]||ZSTYLE.jardin,w=newWorld({fov:36,bg:sty.bg,kind:'zone',shadow:22});w.z=z;
+function buildZone(z: string,st: Escena){const Z=ZONES[z],sty=ZSTYLE[z]||ZSTYLE.jardin,w=newWorld({fov:36,bg:sty.bg,kind:'zone',shadow:22});w.z=z;
   w.ground=slab(w.sc,38,20,sty.g,sty.e);w.gb=[-16,16,-8,5.5];// que Tito no se salga del cuadro
   zoneDecor(w,z);
   // de noche, las zonas también: cielo de noche, un poco menos de luz y luciérnagas en las zonas verdes (como el mapa)
   {const hr=new Date().getHours();if(!skyNow().night&&(hr>=18||hr<9))w.sc.background=new THREE.Color(sty.bg).lerp(new THREE.Color(hr>=18?'#FFC9A0':'#FFDCE6'),hr>=18?.45:.4)}/* al atardecer el cielo se pone anaranjado, y al amanecer rosado */
-  if(skyNow().night){w.sc.background=new THREE.Color('#3B4A86');w.sc.children.forEach(o=>{if(o.isLight)o.intensity*=.82});if(['jardin','bosque','ingles'].includes(z))fireflies(w,30,14);skyStars(w,1.2,-18,56,3.4);if(z!=='montana'){const G=zoneMoon(w,-12,1.95,-19);orbFace(w,G,1);skyClouds(w,'#D2D8F6');bigDipper(w);jupiter(w);saturn(w);if(xmasNow())xmasSleigh(w);{const xm=xmasNow(),dd=new Date(),hw=dd.getMonth()===9&&dd.getDate()>=25,h=new THREE.Group();h.position.set(-.2,.95,.15);h.rotation.z=.4;G.add(h);if(hw){mk(Cyl(.85,.85,.06,20),'#5A3A8A',{ol:.04,cs:false,rs:false,to:h});mk(Cone(.45,1.2,14),'#5A3A8A',{p:[0,.62,0],r:[0,0,.15],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.47,.47,.12,16),'#FF9A3C',{p:[0,.1,0],ol:0,cs:false,rs:false,to:h})}/* en Halloween, la luna también lleva sombrero de bruja */else{mk(Cone(.6,1.1,14),xm?'#E8503C':'#6C7BD9',{p:[0,.5,0],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.64,.64,.18,16),'#FFFFFF',{ol:.03,cs:false,rs:false,to:h});mk(Sph(.17,10,8),xm?'#FFFFFF':'#FFE45C',{p:[0,1.05,0],ol:.03,cs:false,rs:false,to:h});h.traverse(o=>{if(o.isMesh)o.raycast=()=>{}})}}/* la luna duerme con su gorro de dormir (en Navidad, rojo como el de Papá Noel) */
-    if(new Date().getMonth()===9)for(let i=0;i<2;i++){const b=new THREE.Group();w.sc.add(b);const W=[];mk(Sph(.16,10,8),'#6E5C96',{ol:0,cs:false,rs:false,to:b});for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.1;b.add(a);mk(Cone(.22,.5,3),'#6E5C96',{p:[sd*.26,0,0],r:[0,0,sd*PI/2],ol:0,cs:false,rs:false,to:a});W.push([a,sd])}b.traverse(o=>{if(o.isMesh)o.raycast=()=>{}});
+  if(skyNow().night){w.sc.background=new THREE.Color('#3B4A86');w.sc.children.forEach((o: Nodo)=>{if(o.isLight)o.intensity!*=.82});if(['jardin','bosque','ingles'].includes(z))fireflies(w,30,14);skyStars(w,1.2,-18,56,3.4);if(z!=='montana'){const G=zoneMoon(w,-12,1.95,-19);orbFace(w,G,1);skyClouds(w,'#D2D8F6');bigDipper(w);jupiter(w);saturn(w);if(xmasNow())xmasSleigh(w);{const xm=xmasNow(),dd=new Date(),hw=dd.getMonth()===9&&dd.getDate()>=25,h=new THREE.Group();h.position.set(-.2,.95,.15);h.rotation.z=.4;G.add(h);if(hw){mk(Cyl(.85,.85,.06,20),'#5A3A8A',{ol:.04,cs:false,rs:false,to:h});mk(Cone(.45,1.2,14),'#5A3A8A',{p:[0,.62,0],r:[0,0,.15],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.47,.47,.12,16),'#FF9A3C',{p:[0,.1,0],ol:0,cs:false,rs:false,to:h})}/* en Halloween, la luna también lleva sombrero de bruja */else{mk(Cone(.6,1.1,14),xm?'#E8503C':'#6C7BD9',{p:[0,.5,0],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.64,.64,.18,16),'#FFFFFF',{ol:.03,cs:false,rs:false,to:h});mk(Sph(.17,10,8),xm?'#FFFFFF':'#FFE45C',{p:[0,1.05,0],ol:.03,cs:false,rs:false,to:h});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}}/* la luna duerme con su gorro de dormir (en Navidad, rojo como el de Papá Noel) */
+    if(new Date().getMonth()===9)for(let i=0;i<2;i++){const b=new THREE.Group();w.sc.add(b);const W: [Tres.Group, number][]=[];mk(Sph(.16,10,8),'#6E5C96',{ol:0,cs:false,rs:false,to:b});for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.1;b.add(a);mk(Cone(.22,.5,3),'#6E5C96',{p:[sd*.26,0,0],r:[0,0,sd*PI/2],ol:0,cs:false,rs:false,to:a});W.push([a,sd])}b.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}});
       w.upd.push(()=>{const t=T*.9+i*PI;b.position.set(-12+Math.cos(t)*2.6,1.8+Math.sin(t)*1.1,-18.2+Math.sin(t)*.3);W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*12+i)*.6)})}/* en octubre, dos murciélagos dan vueltas a la luna */}}else if(z!=='montana'){const dk=new Date().getHours()>=18,mo0=new Date().getMonth(),sy=dk?1.5:1.95/* un poco bajo, para que se vea lo que lleva en la cabeza */,C=dk?['#FF8A2A','#6A2200','#FFB070']:new Date().getHours()<9?['#FFC64A','#C07A10','#FFD9A0']/* al amanecer, el sol aún algo anaranjado */:['#FFD447','#E0A020','#FFE58A'],G=zoneMoon(w,-12,sy,-19,...C);orbFace(w,G,0);const bd=isBday(),fz=z==='fiestas',hw=mo0===9&&new Date().getDate()>=25,acc=bd||fz||hw;G.userData.fz=fz;
     if(acc){const h=new THREE.Group();h.position.set(.2,1.0,.2);h.rotation.z=-.3;G.add(h);if(bd||fz){mk(Cone(.5,1.1,16),'#FF6FA8',{p:[0,.5,0],ol:.04,cs:false,rs:false,to:h});for(let k=0;k<3;k++)mk(Cyl(.47-k*.14,.47-k*.14,.06,16),['#FFE45C','#7ED957','#5AB8F0'][k],{p:[0,.12+k*.3,0],ol:0,cs:false,rs:false,to:h});mk(Sph(.16,10,8),'#FFE45C',{p:[0,1.08,0],ol:.03,cs:false,rs:false,to:h})/* el día de su cumpleaños (y en la zona de fiestas), el sol lleva gorro de fiesta */;
-        if(bd)['#FF6B6B','#FFE45C','#5AB8F0','#7ED957'].forEach((c,i)=>{const b=balloon3(w.sc,-14+i*9,-12,c,1.4);b.userData.balloon=0;b.userData.bball=1;b.traverse(o=>{if(o.isMesh)o.raycast=()=>{}});hitS(b,.6,1.75);let py=0;w.upd.push(()=>{const y=(T*.5+i*2.7)%11-4;if(y<py)b.visible=true/* el globo explotado vuelve a salir abajo */;py=y;b.position.y=y;b.position.x=-14+i*9+Math.sin(T*.8+i)*.6})})/* y suben globos por el cielo */}
-      else{mk(Cyl(.85,.85,.06,20),'#5A3A8A',{ol:.04,cs:false,rs:false,to:h});mk(Cone(.45,1.2,14),'#5A3A8A',{p:[0,.62,0],r:[0,0,-.15],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.47,.47,.12,16),'#FF9A3C',{p:[0,.1,0],ol:0,cs:false,rs:false,to:h})/* la última semana de octubre, sombrero de bruja */}h.traverse(o=>{if(o.isMesh)o.raycast=()=>{}})}
-    {const mo=new Date().getMonth();if(!acc&&(mo===11||mo<=1)){const h=new THREE.Group();h.position.set(.25,.95,.2);h.rotation.z=-.35;G.add(h);mk(Cone(.62,.95,14),'#E8503C',{p:[0,.42,0],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.66,.66,.2,16),'#FFFFFF',{ol:.03,cs:false,rs:false,to:h});mk(Sph(.18,10,8),'#FFFFFF',{p:[0,.92,0],ol:.03,cs:false,rs:false,to:h});h.traverse(o=>{if(o.isMesh)o.raycast=()=>{}})}}/* en invierno, el sol lleva gorro de lana */
-    if(!acc&&mo0>=5&&mo0<=7){const h=new THREE.Group();h.position.set(0,.2,1.12);G.add(h);for(const sd of[-1,1])mk(Cyl(.3,.3,.05,16),'#2A2A3A',{p:[sd*.38,0,0],r:[PI/2,0,0],ol:.02,cs:false,rs:false,to:h});mk(Box(.3,.06,.05),'#2A2A3A',{p:[0,.04,0],ol:0,cs:false,rs:false,to:h});h.traverse(o=>{if(o.isMesh)o.raycast=()=>{}})}/* en verano, gafas de sol */
-    if(!acc&&mo0>=2&&mo0<=4){const h=new THREE.Group();h.position.set(0,.88,.55);G.add(h);[[-.5,-.16,'#FF8FB1'],[0,.05,'#FFFFFF'],[.5,-.16,'#C9A2F2']].forEach(([x,y,c])=>{for(let k=0;k<5;k++){const a=k/5*PI*2;mk(Sph(.13,8,6),c,{p:[x+Math.cos(a)*.17,y+Math.sin(a)*.17,0],ol:.02,cs:false,rs:false,to:h})}mk(Sph(.1,8,6),'#FFB43A',{p:[x,y,.06],ol:.02,cs:false,rs:false,to:h})});h.traverse(o=>{if(o.isMesh)o.raycast=()=>{}})}/* en primavera, flores en la cabeza */
-    if(!acc&&mo0>=8&&mo0<=10){const h=new THREE.Group();h.position.set(.32,1.22,.3);h.rotation.z=.9;G.add(h);mk(Sph(.42,12,8),'#E8703C',{s:[1,.5,.25],ol:.03,cs:false,rs:false,to:h});mk(Cyl(.025,.025,.3,5),'#8A5A2E',{p:[-.38,-.04,0],r:[0,0,PI/2],ol:0,cs:false,rs:false,to:h});h.traverse(o=>{if(o.isMesh)o.raycast=()=>{}})}/* en otoño, una hoja en la cabeza */sunRays(w,-12,sy,-19,C[0],C[1]);skyClouds(w);skyBirds(w)}else if(!skyNow().night)mountEagle(w);/* en la montaña, de día, un águila *//* al atardecer, el sol está más bajo y naranja *//* de día, un sol en el mismo sitio (en la montaña no: la tapa el pico) */
+        if(bd)['#FF6B6B','#FFE45C','#5AB8F0','#7ED957'].forEach((c,i)=>{const b=balloon3(w.sc,-14+i*9,-12,c,1.4);b.userData.balloon=0;b.userData.bball=1;b.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}});hitS(b,.6,1.75);let py=0;w.upd.push(()=>{const y=(T*.5+i*2.7)%11-4;if(y<py)b.visible=true/* el globo explotado vuelve a salir abajo */;py=y;b.position.y=y;b.position.x=-14+i*9+Math.sin(T*.8+i)*.6})})/* y suben globos por el cielo */}
+      else{mk(Cyl(.85,.85,.06,20),'#5A3A8A',{ol:.04,cs:false,rs:false,to:h});mk(Cone(.45,1.2,14),'#5A3A8A',{p:[0,.62,0],r:[0,0,-.15],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.47,.47,.12,16),'#FF9A3C',{p:[0,.1,0],ol:0,cs:false,rs:false,to:h})/* la última semana de octubre, sombrero de bruja */}h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}
+    {const mo=new Date().getMonth();if(!acc&&(mo===11||mo<=1)){const h=new THREE.Group();h.position.set(.25,.95,.2);h.rotation.z=-.35;G.add(h);mk(Cone(.62,.95,14),'#E8503C',{p:[0,.42,0],ol:.04,cs:false,rs:false,to:h});mk(Cyl(.66,.66,.2,16),'#FFFFFF',{ol:.03,cs:false,rs:false,to:h});mk(Sph(.18,10,8),'#FFFFFF',{p:[0,.92,0],ol:.03,cs:false,rs:false,to:h});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}}/* en invierno, el sol lleva gorro de lana */
+    if(!acc&&mo0>=5&&mo0<=7){const h=new THREE.Group();h.position.set(0,.2,1.12);G.add(h);for(const sd of[-1,1])mk(Cyl(.3,.3,.05,16),'#2A2A3A',{p:[sd*.38,0,0],r:[PI/2,0,0],ol:.02,cs:false,rs:false,to:h});mk(Box(.3,.06,.05),'#2A2A3A',{p:[0,.04,0],ol:0,cs:false,rs:false,to:h});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}/* en verano, gafas de sol */
+    if(!acc&&mo0>=2&&mo0<=4){const h=new THREE.Group();h.position.set(0,.88,.55);G.add(h);([[-.5,-.16,'#FF8FB1'],[0,.05,'#FFFFFF'],[.5,-.16,'#C9A2F2']] as [number, number, string][]).forEach(([x,y,c])=>{for(let k=0;k<5;k++){const a=k/5*PI*2;mk(Sph(.13,8,6),c,{p:[x+Math.cos(a)*.17,y+Math.sin(a)*.17,0],ol:.02,cs:false,rs:false,to:h})}mk(Sph(.1,8,6),'#FFB43A',{p:[x,y,.06],ol:.02,cs:false,rs:false,to:h})});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}/* en primavera, flores en la cabeza */
+    if(!acc&&mo0>=8&&mo0<=10){const h=new THREE.Group();h.position.set(.32,1.22,.3);h.rotation.z=.9;G.add(h);mk(Sph(.42,12,8),'#E8703C',{s:[1,.5,.25],ol:.03,cs:false,rs:false,to:h});mk(Cyl(.025,.025,.3,5),'#8A5A2E',{p:[-.38,-.04,0],r:[0,0,PI/2],ol:0,cs:false,rs:false,to:h});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}/* en otoño, una hoja en la cabeza */sunRays(w,-12,sy,-19,C[0],C[1]);skyClouds(w);skyBirds(w)}else if(!skyNow().night)mountEagle(w);/* en la montaña, de día, un águila *//* al atardecer, el sol está más bajo y naranja *//* de día, un sol en el mismo sitio (en la montaña no: la tapa el pico) */
   for(let i=0;i<4;i++)cloud3(w.sc,-20+i*13,10+(i%2)*1.5,-14,.9);
-  const main=MAINZ.includes(z),path=z==='fiestas'?FIESTAS:main?pathOf(z):Z.temas,B=w.base={};
+  const main=MAINZ.includes(z),path=z==='fiestas'?FIESTAS:main?pathOf(z):Z.temas,B: Record<string, PuntoSuelo>=w.base={};
   for(const t of Z.temas)B[t.id]=ZX(ZPB[z][t.id].x,ZPB[z][t.id].y);
   // carteles de estación de cada fila: en el borde (x≈-17) quedaban detrás de los árboles o fuera de la pantalla;
   // ahora van detrás de la fila, entre la 1.ª y la 2.ª casita, y Tito los esquiva al pasear
@@ -1752,10 +1768,10 @@ function buildZone(z,st){const Z=ZONES[z],P=ZPOS[z],sty=ZSTYLE[z]||ZSTYLE.jardin
   w.cas={};for(const t of Z.temas){const g=casita3(w.sc,t,B[t.id],{s:main?1:1.25,locked:!temaOpen(t),unl:st.unl&&st.unl.id===t.id});w.cas[t.id]=g;w.pick.push(g)}
   w.avoid=(w.avoid||[]).concat(Object.values(w.cas).map(g=>[g.position.x,g.position.z,(main?1:1.25)*2.4]));
   const c=Z.temas.find(t=>t.concepts);if(c&&!temaOpen(c)){spr(flowerTex(FLC[0],Math.min(pathDone(z),3)+'/3'),2.3,1.15,{p:[B[c.id][0],.9,B[c.id][1]+2.4],to:w.sc})}
-  let ar=null,rg=null;if(st.cur){const p=B[st.cur.id];ar=arrow3(w.sc,[p[0],5.2,p[1]],.85);rg=ring3(w.sc,[p[0],.08,p[1]],2.1)}
+  let ar: ReturnType<typeof arrow3>|null=null,rg: ReturnType<typeof ring3>|null=null;if(st.cur){const p=B[st.cur.id];ar=arrow3(w.sc,[p[0],5.2,p[1]],.85);rg=ring3(w.sc,[p[0],.08,p[1]],2.1)}
   const tito=makeTito();tito.scale.setScalar(.62);const ta=B[(st.titoAt&&B[st.titoAt]&&st.titoAt)||(st.cur&&st.cur.id)||path[0].id];tito.position.set(ta[0]+1.9,0,ta[1]+1.2);tito.rotation.y=-.3;w.sc.add(tito);w.tito=tito;w.pick.push(tito);
-  w.upd.push(dt=>{const wk=walkTick(w,tito,dt);tito.userData.anim(dt,{walk:wk,hop:st.hop,hov:st.hovTito});
-    if(ar){ar.position.y=5.1+Math.abs(Math.sin(T*4))*.45;arrowSway(w,ar);rg.material.opacity=.45+.35*Math.sin(T*4)}
+  w.upd.push((dt: number)=>{const wk=walkTick(w,tito,dt);tito.userData.anim(dt,{walk:wk,hop:st.hop,hov:st.hovTito});
+    if(ar){ar.position.y=5.1+Math.abs(Math.sin(T*4))*.45;arrowSway(w,ar);rg!.material.opacity=.45+.35*Math.sin(T*4)}
     // cada casita: la estrella gira, crece con el ratón encima y su candado se abre o tiembla como en el mapa
     for(const id in w.cas){const g=w.cas[id];if(g.userData.spin)g.userData.spin.rotation.y=T*1.5;const hs=st.hov===id&&!busy3(w)?1.07:1,s0=main?1:1.25;g.scale.setScalar(lerp(g.scale.x,hs*s0,.2));
       const L=g.userData.lock;if(L){if(st.unl&&st.unl.id===id&&T>st.unl.t){const k=(T-st.unl.t)/1.3;if(k>1){g.remove(L);g.userData.lock=null}else{L.position.set(.75+k*1.5,2.85+k*k*5,.9);if(k>.15&&g.userData.badge)g.userData.badge.material.color.set('#fff');L.rotation.z=k*3}}
@@ -1763,12 +1779,12 @@ function buildZone(z,st){const Z=ZONES[z],P=ZPOS[z],sty=ZSTYLE[z]||ZSTYLE.jardin
   wobInit(w);
   camRig(w,V3(0,20,24.5),V3(0,0,-.9),1.4);return w}
 // Convierte en 3D las escenas de cada zona de ZONES (igual que el mapa): se guardan enter/down originales y se sustituyen.
-{for(const z in ZONES){const S0=SCENES[z],enter0=S0.enter,down0=S0.down;
+{for(const z in ZONES){const S0=SCENES[z],enter0=S0.enter!,down0=S0.down!;
   Object.assign(S0,{three:true,
     // enter(o): entra a la zona (o.from = tema del que se viene, ahí aparece Tito) y construye su mundo 3D
-    enter(o){this.hov=null;this.hop=null;this.lockShake=null;enter0.call(this,o);if(sceneName!==z)return;if(o&&o.from)this.titoAt=o.from;setWorld(buildZone(z,this));this.sync()},
+    enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;enter0!.call(this,o);if(sceneName!==z)return;if(o&&o.from)this.titoAt=o.from;setWorld(buildZone(z,this));this.sync()},
     // sync(): proyecta cada casita a la pantalla y la escribe en ZPOS (lógica 2D de escenas/zonas.ts); también Tito
-    sync(){const w=W3;if(!w||w.kind!=='zone')return;const P=ZPOS[z];for(const id in w.cas){const [x,y,r]=projR(w.cas[id],1.6,1.3);P[id].x=x;P[id].y=y}titoRect(w.tito)},
+    sync(){const w=W3;if(!w||w.kind!=='zone')return;const P=ZPOS[z];for(const id in w.cas){const [x,y]=projR(w.cas[id],1.6,1.3);P[id].x=x;P[id].y=y}titoRect(w.tito!)},
     // draw(): cada cuadro: qué casita hay bajo el ratón, cartel con el nombre de la zona y de la casita, botones y bocadillo de Tito
     draw(){this.sync();const w=W3,Z=ZONES[z];let hv_=null;
       let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.tema){hv_=u.tema;VIVO.hovNow='j:'+u.tema}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
@@ -1779,31 +1795,31 @@ function buildZone(z,st){const Z=ZONES[z],P=ZPOS[z],sty=ZSTYLE[z]||ZSTYLE.jardin
       if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
     // down(x,y): toque en la zona: botones; objetos que vuelan; nada -> objeto tocable, cielo (skyTap) o pasear; Tito -> salta;
     // casita cerrada -> tiembla el candado; casita abierta -> Tito camina hasta ella y luego se entra (down original)
-    down(x,y){const w=W3;if(!w||busy3(w))return;
+    down(x: number,y: number){const w=W3;if(!w||busy3(w))return;
       if(atHome(x,y)||inCoinHUD(x,y))return call0(down0,this,x,y);
       const u=pickAt(x,y);if(flyTap(w,x,y))return;if(!u){if(wobTap(w,x,y))return;if(y<260&&!(w.ground&&RC.intersectObject(w.ground,false)[0])){skyTap(x,y,w);return}/* tocar el cielo vacío */SFX.tap();if(skyNow().night)ffTap(x,y);else sparkles(x,y);walkGround(w);return}
-      if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt(true);return}
+      if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt!(true);return}
       const t=TEMA[u.tema];if(!t)return;const p=ZPOS[z][t.id];
       if(!temaOpen(t)){this.lockShake={id:t.id,t:T};return call0(down0,this,p.x,p.y)}
-      const g=w.cas[t.id];this.titoAt=t.id;walkTo(w,w.tito,g.position.clone().add(V3(1.9,0,1.5)),()=>{if(sceneName===z)call0(down0,this,p.x,p.y)},{zoom:V3(0,7,6)})}})}}
+      const g=w.cas![t.id];this.titoAt=t.id;walkTo(w,w.tito!,g.position.clone().add(V3(1.9,0,1.5)),()=>{if(sceneName===z)call0(down0,this,p.x,p.y)},{zoom:V3(0,7,6)})}} satisfies Escena)}}
 
 /* ================= LA CASITA DE UN TEMA: los juegos en estaciones ================= */
 // dónde se para Tito junto a la estación j: en la fila de atrás (si hay dos filas) se queda más atrás para que el cartel de la fila de delante no lo tape
 // la tortuga y el erizo llevan la cabeza baja y larga: un poco más a la izquierda para que el disco del juego no les tape la cara
 // st3Tito(n,j): desplazamiento [dx,dz] de Tito respecto a la estación j (de n juegos), según la fila y el animal.
-const st3Tito=(n,j)=>{const g={tortuga:-.7,erizo:-.45}[S.tito&&S.tito.kind]||0;return n>4&&st3Pos(n,j)[1]<0?[-2.3+g,-.5]:[-2+g,1.35]};
+const st3Tito=(n: number,j: number)=>{const g=({tortuga:-.7,erizo:-.45} as Record<string, number>)[(S.tito&&S.tito.kind)!]||0;return n>4&&st3Pos(n,j)[1]<0?[-2.3+g,-.5]:[-2+g,1.35]};
 // st3Pos(n,j): posición [x,z] de la estación del juego j de n: una fila si son 4 o menos; si no, dos filas en zigzag (3 o 4 por fila).
-function st3Pos(n,j){if(n<=4)return[(j-(n-1)/2)*4.3,.4];const per=n<=6?3:4,r=Math.floor(j/per),c=j%per,cc=r?per-1-c:c;return[(cc-(per-1)/2)*(per===3?4.8:4.2),r?3.4:-2.4]}
+function st3Pos(n: number,j: number): PuntoSuelo{if(n<=4)return[(j-(n-1)/2)*4.3,.4];const per=n<=6?3:4,r=Math.floor(j/per),c=j%per,cc=r?per-1-c:c;return[(cc-(per-1)/2)*(per===3?4.8:4.2),r?3.4:-2.4]}
 // bgSample(t): dibuja el fondo 2D del tema (t.bg) en un lienzo para usarlo de telón 3D y toma muestras de color.
 // Devuelve {tex: textura del fondo, ground: color medio del suelo, top: color de arriba (cielo)}. Cambia ctx un momento.
-function bgSample(t){const c=document.createElement('canvas');c.width=1024;c.height=576;const g=c.getContext('2d'),old=ctx;ponCtx(g);g.scale(.64,.64);try{t.bg()}catch(e){}
-  const c2=document.createElement('canvas');c2.width=64;c2.height=36;const g2=c2.getContext('2d',{willReadFrequently:true});ponCtx(g2);g2.scale(.04,.04);try{t.bg()}catch(e){}ponCtx(old);
+function bgSample(t: Tema){const c=document.createElement('canvas');c.width=1024;c.height=576;const g=c.getContext('2d')!,old=ctx;ponCtx(g);g.scale(.64,.64);try{t.bg()}catch(e){}
+  const c2=document.createElement('canvas');c2.width=64;c2.height=36;const g2=c2.getContext('2d',{willReadFrequently:true})!;ponCtx(g2);g2.scale(.04,.04);try{t.bg()}catch(e){}ponCtx(old);
   const d=g2.getImageData(28,33,8,3).data;let r=0,gg=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gg+=d[i+1];b+=d[i+2]}const n=d.length/4;const tex=new THREE.CanvasTexture(c);tex.anisotropy=4;
   const top=g2.getImageData(32,0,1,1).data;return{tex,ground:new THREE.Color(r/n/255,gg/n/255,b/n/255),top:new THREE.Color(top[0]/255,top[1]/255,top[2]/255)}}
 // buildCasita(t,st): mundo 3D de dentro de la casita del tema t: telón con el fondo del tema, suelo, camino y una estación por juego
 // (disco con el dibujo del juego y su número; candado si está cerrado), flecha al siguiente juego, animales, Tito y la animación.
 // st es SCENES.casita (titoAt, hov, hop, unl, lockShake).
-function buildCasita(t,st){const bs=bgSample(t),w=newWorld({fov:38,bg:'#'+bs.top.getHexString(),kind:'casita',shadow:16});w.t=t;
+function buildCasita(t: Tema,st: Escena){const bs=bgSample(t),w=newWorld({fov:38,bg:'#'+bs.top.getHexString(),kind:'casita',shadow:16});w.t=t;
   const back=new THREE.Mesh(new THREE.CylinderGeometry(26,26,18,48,1,true,-PI*.32,PI*.64),new THREE.MeshBasicMaterial({map:bs.tex,side:THREE.BackSide}));back.position.set(0,6,8);back.rotation.y=PI;w.sc.add(back);
   const gc='#'+bs.ground.clone().lerp(new THREE.Color('#BFE6A0'),.35).getHexString();
   w.ground=mk(Cyl(15,15.4,.6,60),gc,{p:[0,-.3,0],s:[1,1,.62],to:w.sc,ol:.1});w.gb=[-12,12,-5,5.5];
@@ -1822,65 +1838,65 @@ function buildCasita(t,st){const bs=bgSample(t),w=newWorld({fov:38,bg:'#'+bs.top
   for(let i=0;i<10;i++){const a=PI*.15+i/9*PI*.7;flower3(w.sc,Math.cos(a)*13.2,-Math.sin(a)*8+1,FLC[i%7],.8)}
   lady3(w,-10,-4.4,1.3);ball3(w,7.4,-4.6,1.3);bird3(w,10,-4.4,1.3,'#7FA8E8');
   // de noche, también dentro de la casita: fondo más oscuro y azulado, menos luz y luciérnagas en vez de mariposas
-  if(skyNow().night){back.material.color.set('#8A93C4');w.sc.background=new THREE.Color(w.sc.background).multiplyScalar(.55);w.sc.children.forEach(o=>{if(o.isLight)o.intensity*=.85});fireflies(w,26,12,1.1)}
+  if(skyNow().night){back.material.color.set('#8A93C4');w.sc.background=new THREE.Color(w.sc.background as Tres.Color).multiplyScalar(.55);w.sc.children.forEach((o: Nodo)=>{if(o.isLight)o.intensity!*=.85});fireflies(w,26,12,1.1)}
   else{butterfly3(w,-7,-6.5,'#FF8FB1',0,{s:1.1,h:3});butterfly3(w,7,-6.5,'#FFC93C',2.4,{s:1.1,h:3})}// dos mariposas junto a las flores del fondo
-  let ar=null,rg=null;if(nx>=0){const [x,z]=P[nx];ar=arrow3(w.sc,[x,4.2,z],.75);rg=ring3(w.sc,[x,.5,z],1.7)}
+  let ar: ReturnType<typeof arrow3>|null=null,rg: ReturnType<typeof ring3>|null=null;if(nx>=0){const [x,z]=P[nx];ar=arrow3(w.sc,[x,4.2,z],.75);rg=ring3(w.sc,[x,.5,z],1.7)}
   const tito=makeTito();tito.scale.setScalar(.6);const ta=P[st.titoAt!=null&&P[st.titoAt]?st.titoAt:Math.max(0,nx)];{const ti=st3Tito(n,P.indexOf(ta)),o=ti;tito.position.set(ta[0]+o[0],0,ta[1]+o[1])}tito.rotation.y=-.2;w.sc.add(tito);w.tito=tito;w.pick.push(tito);
-  w.upd.push(dt=>{const wk=walkTick(w,tito,dt);tito.userData.anim(dt,{walk:wk,hop:st.hop,hov:st.hovTito});
-    if(ar){ar.position.y=4.1+Math.abs(Math.sin(T*4))*.4;arrowSway(w,ar);rg.material.opacity=.45+.35*Math.sin(T*4)}
+  w.upd.push((dt: number)=>{const wk=walkTick(w,tito,dt);tito.userData.anim(dt,{walk:wk,hop:st.hop,hov:st.hovTito});
+    if(ar){ar.position.y=4.1+Math.abs(Math.sin(T*4))*.4;arrowSway(w,ar);rg!.material.opacity=.45+.35*Math.sin(T*4)}
     // cada estación crece con el ratón encima, su disco flota y su candado se abre o tiembla como en el mapa
-    w.st.forEach((s,j)=>{const hs=st.hov===j&&!busy3(w)?1.08:1;s.g.scale.setScalar(lerp(s.g.scale.x,hs,.2));s.sp.position.y=2.05+Math.sin(T*2+j)*.06;
+    w.st!.forEach((s,j)=>{const hs=st.hov===j&&!busy3(w)?1.08:1;s.g.scale.setScalar(lerp(s.g.scale.x,hs,.2));s.sp.position.y=2.05+Math.sin(T*2+j)*.06;
       const L=s.g.userData.lock;if(L){if(st.unl&&st.unl.j===j&&T>st.unl.t){const k=(T-st.unl.t)/1.3;if(k>1){s.g.remove(L);s.g.userData.lock=null;s.sp.material.color.set('#fff')}else{L.position.set(.75+k*1.5,1.25+k*k*5,.9);L.rotation.z=k*3;if(k>.15)s.sp.material.color.set('#fff')}}
         else{L.position.y=1.25+Math.sin(T*2+j)*.1;const sh=st.lockShake&&st.lockShake.j===j?Math.max(0,1-(T-st.lockShake.t)*2):0;L.rotation.z=Math.sin(T*40)*.3*sh}}})});
   wobInit(w);
   camRig(w,V3(0,11,15.5),V3(0,2.4,0),1.1);return w}
 // lastGame: último juego abierto {t,g}; al volver a la casita, Tito aparece junto a esa estación (se envuelve SCENES.juego.enter).
-let lastGame=null;{const je=SCENES.juego.enter;SCENES.juego.enter=function(o){lastGame={t:o.t,g:o.g};return je.call(this,o)}}
+let lastGame: {t: string, g: number}|null=null;{const je=SCENES.juego.enter;SCENES.juego.enter=function(o){lastGame={t:o.t,g:o.g};return je!.call(this,o)}}
 // Convierte en 3D la escena de la casita de un tema (escenas/escenas2d.ts)
-{const S0=SCENES.casita,enter0=S0.enter,down0=S0.down,sp0=stationPos;
+{const S0=SCENES.casita,enter0=S0.enter!,down0=S0.down!,sp0=stationPos;
  // stationPos(t,j): en 3D, la posición 2D de la estación j es la proyectada (w.st[j].p2); si no, la original sp0
  ponStationPos(function(t,j){const w=W3;if(w&&w.kind==='casita'&&w.t===t&&w.st&&w.st[j]&&scene===SCENES.casita)return w.st[j].p2;return sp0(t,j)});
  Object.assign(S0,{three:true,
   // enter(o): o.t = tema, o.g = juego del que se vuelve (Tito aparece ahí); construye el mundo 3D
-  enter(o){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(lastGame&&lastGame.t===(o&&o.t)?lastGame.g:null);enter0.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
+  enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(lastGame&&lastGame.t===(o&&o.t)?lastGame.g:null);enter0!.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
   // sync(): proyecta las estaciones a la pantalla (p2) y coloca TITO
-  sync(){const w=W3;if(!w||w.kind!=='casita')return;w.st.forEach(s=>{const [x,y]=projO(s.sp,0);s.p2=[x,y]});titoRect(w.tito)},
+  sync(){const w=W3;if(!w||w.kind!=='casita')return;w.st!.forEach((s)=>{const [x,y]=projO(s.sp,0);s.p2=[x,y]});titoRect(w.tito!)},
   // draw(): cada cuadro: estación bajo el ratón y su nombre (GNAME), cartel con el tema, botones y bocadillo de Tito
   draw(){this.sync();const t=this.t,w=W3;let hv_=null;
     let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.game!=null){hv_=u.game;VIVO.hovNow='g:'+u.game}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
     {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(V(t.n)).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(V(t.n),310+tw/2,110,54,K,{w:600})}
-    if(hv_!=null){const g=t.games[hv_],nm=GNAME[g.t]||'',p=w.st[hv_].p2;if(nm){ctx.font=`600 32px ${DF}`;const tw=ctx.measureText(nm).width;card(p[0]-tw/2-24,p[1]+120,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p[0],p[1]+158,32,K,{w:600})}}
+    if(hv_!=null){const g=t.games[hv_],nm=GNAME[g.t]||'',p=w!.st![hv_].p2;if(nm){ctx.font=`600 32px ${DF}`;const tw=ctx.measureText(nm).width;card(p[0]-tw/2-24,p[1]+120,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p[0],p[1]+158,32,K,{w:600})}}
     drawHome();drawCoinHUD();
     if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): toque en la casita: botones; objetos; Tito; estación cerrada -> candado; abierta -> Tito camina y se abre el juego
-  down(x,y){const w=W3;if(!w||busy3(w))return;const t=this.t;
+  down(x: number,y: number){const w=W3;if(!w||busy3(w))return;const t=this.t;
     if(atHome(x,y)||inCoinHUD(x,y))return call0(down0,this,x,y);
     const u=pickAt(x,y);if(flyTap(w,x,y))return;if(!u){if(wobTap(w,x,y))return;SFX.tap();if(skyNow().night)ffTap(x,y);else sparkles(x,y);walkGround(w);return}
-    if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt(true);return}
-    if(u.game==null)return;const j=u.game,p=w.st[j].p2;
+    if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt!(true);return}
+    if(u.game==null)return;const j=u.game,p=w.st![j].p2;
     if(!gameOpen(t,j)){this.lockShake={j,t:T};return call0(down0,this,p[0],p[1])}
-    const g=w.st[j].g;const o=st3Tito(t.games.length,j);walkTo(w,w.tito,g.position.clone().add(V3(o[0],0,o[1])),()=>{if(sceneName==='casita')call0(down0,this,p[0],p[1])},{zoom:V3(0,4,4.5),max:.8})}});
+    const g=w.st![j].g;const o=st3Tito(t.games.length,j);walkTo(w,w.tito!,g.position.clone().add(V3(o[0],0,o[1])),()=>{if(sceneName==='casita')call0(down0,this,p[0],p[1])},{zoom:V3(0,4,4.5),max:.8})}} satisfies Escena);
 }
 
 /* ================= EL COFRE DEL TESORO ================= */
 // gradTex(a,b,key): textura de degradado vertical de a (arriba) a b (abajo), guardada con el nombre key (para fondos)
-function gradTex(a,b,key){return canvasTex(16,256,g=>{const gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,a);gr.addColorStop(1,b);g.fillStyle=gr;g.fillRect(0,0,16,256)},key)}
+function gradTex(a: string,b: string,key: string){return canvasTex(16,256,g=>{const gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,a);gr.addColorStop(1,b);g.fillStyle=gr;g.fillRect(0,0,16,256)},key)}
 // buildCofre(st): mundo 3D del cofre del tesoro: cofre con tapa que se abre (st.op de 0 a 1), rayos de luz, estrellas, flores,
 // loro, cangrejo y Tito. st es SCENES.cofre (openT: cuándo se abrió, shakeT: sacudida al tocarlo, hov, hop).
-function buildCofre(st){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=skyNow().night;w.sc.background=nt?gradTex('#F3D9E8','#5F6FB4','cofreBgN'):gradTex('#FFE9C2','#FFD7E4','cofreBg');
+function buildCofre(st: Escena){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=skyNow().night;w.sc.background=nt?gradTex('#F3D9E8','#5F6FB4','cofreBgN'):gradTex('#FFE9C2','#FFD7E4','cofreBg');
   // de noche: cielo de anochecer, estrellas que brillan y luciérnagas
-  if(nt){w.sc.children.forEach(o=>{if(o.isLight)o.intensity*=.85});fireflies(w,16,8,1)}
+  if(nt){w.sc.children.forEach((o: Nodo)=>{if(o.isLight)o.intensity!*=.85});fireflies(w,16,8,1)}
   mk(Cyl(7,7.4,.6,48),'#BFE6A0',{p:[0,-.3,0],s:[1,1,.7],to:w.sc,ol:.1});
   for(let i=0;i<12;i++){const a=i/12*PI*2;if(Math.sin(a)>.55)continue;flower3(w.sc,Math.cos(a)*5.8,Math.sin(a)*3.8,FLC[i%7],.8)}
   // estrellas del fondo: se balancean y ladean en vez de girar enteras (de canto se veían como rayitas sueltas)
-  const stars=[];for(let i=0;i<14;i++){const s=mk(starGeo(.18+(i%3)*.08,.06),nt?M('#FFF3B0',{emissive:'#C9A000'}):'#FFF3B0',{p:[-9+i*1.4,4+(i*37%5)*.8,-6-(i%3)],ol:.02,cs:false,to:w.sc});s.userData.y0=s.position.y;stars.push(s)}
+  const stars: Tres.Mesh[]=[];for(let i=0;i<14;i++){const s=mk(starGeo(.18+(i%3)*.08,.06),nt?M('#FFF3B0',{emissive:'#C9A000'}):'#FFF3B0',{p:[-9+i*1.4,4+(i*37%5)*.8,-6-(i%3)],ol:.02,cs:false,to:w.sc});s.userData.y0=s.position.y;stars.push(s)}
   const ch=grp(w.sc,[0,0,0]);w.chest=ch;
   mk(rbox(3.2,1.7,2.2,.15),'#B5763F',{p:[0,.85,0],to:ch,ol:.07});
   for(const y of[.55,1.15])mk(Box(3.22,.07,2.22),'#8A5A3C',{p:[0,y,0],ol:0,to:ch});
   for(const x of[-1.05,1.05])mk(Box(.35,1.72,2.26),'#FFC93C',{p:[x,.86,0],to:ch,ol:.04});
   const glow=new THREE.Mesh(new THREE.PlaneGeometry(2.8,1.8),new THREE.MeshBasicMaterial({color:'#FFE08A',transparent:true,opacity:0}));glow.rotation.x=-PI/2;glow.position.y=1.72;ch.add(glow);
   const piv=grp(ch,[0,1.7,-1.1]),lg=new THREE.CylinderGeometry(1.1,1.1,3.2,24,1,false,0,PI);lg.rotateZ(PI/2);lg.rotateX(PI/2);
-  const lid=mk(lg,'#C98A4B',{p:[0,0,1.1],s:[1,.62,1],to:piv,ol:.07});for(const x of[-1.05,1.05])mk(new THREE.CylinderGeometry(1.13,1.13,.35,24,1,false,0,PI).rotateZ(PI/2).rotateX(PI/2),'#FFC93C',{p:[x,0,1.1],s:[1,.62,1],to:piv,ol:.04});
+  mk(lg,'#C98A4B',{p:[0,0,1.1],s:[1,.62,1],to:piv,ol:.07});for(const x of[-1.05,1.05])mk(new THREE.CylinderGeometry(1.13,1.13,.35,24,1,false,0,PI).rotateZ(PI/2).rotateX(PI/2),'#FFC93C',{p:[x,0,1.1],s:[1,.62,1],to:piv,ol:.04});
   mk(Box(3.2,.1,2.2),'#7A4C30',{p:[0,.02,1.1],ol:.03,to:piv});
   const lock=grp(ch,[0,1.6,1.16]);mk(rbox(.6,.7,.14,.06),'#FFC93C',{to:lock,ol:.035});mk(Cyl(.08,.08,.06,10),K,{p:[0,.08,.08],r:[PI/2,0,0],ol:0,to:lock});
   const rays=grp(w.sc,[0,1.8,-.6]);for(let i=0;i<12;i++){const m=new THREE.Mesh(new THREE.PlaneGeometry(.9,14),new THREE.MeshBasicMaterial({color:i%2?'#FFF3B0':'#FFE08A',transparent:true,opacity:0,depthWrite:false}));m.geometry.translate(0,7,0);m.rotation.z=i/12*PI*2;rays.add(m)}
@@ -1889,21 +1905,21 @@ function buildCofre(st){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=sky
   ch.userData.id='chest';w.pick.push(ch);
   // antes de abrirse el cofre "respira" para invitar a tocarlo, y crece un poco con el ratón encima
   let chS=1;
-  w.upd.push(dt=>{const op=st.op||0,sh=Math.max(0,1-(T-st.shakeT)*3)*Math.sin(T*50);ch.rotation.z=sh*.06;ch.position.x=sh*.08;
+  w.upd.push((dt: number)=>{const op=st.op||0,sh=Math.max(0,1-(T-st.shakeT)*3)*Math.sin(T*50);ch.rotation.z=sh*.06;ch.position.x=sh*.08;
     const sT=st.openT?1:(st.hov?1.07:1)*(1+Math.sin(T*3)*.025);chS+=(sT-chS)*Math.min(1,dt*10);ch.scale.setScalar(chS);
     piv.rotation.x=-op*1.95;lock.visible=op<.15;glow.material.opacity=Math.min(1,op*2)*.9;
-    rays.rotation.z=T*.4;rays.children.forEach(r=>r.material.opacity=Math.min(1,op*1.5)*.55);stars.forEach((s,i)=>{s.rotation.y=Math.sin(T*1.2+i)*.55;s.rotation.z=Math.sin(T*.8+i*1.7)*.25;s.position.y=s.userData.y0+Math.cos(T*2+i)*.06});
+    rays.rotation.z=T*.4;rays.children.forEach((r: Nodo)=>r.material.opacity=Math.min(1,op*1.5)*.55);stars.forEach((s,i)=>{s.rotation.y=Math.sin(T*1.2+i)*.55;s.rotation.z=Math.sin(T*.8+i*1.7)*.25;s.position.y=s.userData.y0+Math.cos(T*2+i)*.06});
     if(st.openT&&!prt.userData.cheer){prt.userData.cheer=1;prt.userData.wob=st.openT+.5;squawk(.5);squawk(.95);crb.userData.wob=st.openT+.8}/* el loro celebra que se abre el cofre */
     tito.userData.anim(dt,{hop:st.openT?st.openT+.2:st.hop})});
   wobInit(w);
   camRig(w,V3(0,4.6,10),V3(0,2.05,0),.5);return w}
 // Convierte en 3D la escena del cofre (escenas/tienda.ts / escenas/escenas2d.ts)
-{const S0=SCENES.cofre,enter0=S0.enter,down0=S0.down;
+{const S0=SCENES.cofre,enter0=S0.enter!,down0=S0.down!;
  Object.assign(S0,{three:true,
   // enter(o): construye el mundo del cofre
-  enter(o){this.hop=null;this.hov=false;enter0.call(this,o);if(sceneName!=='cofre')return;setWorld(buildCofre(this));titoRect(W3.tito)},
+  enter(o: Libre){this.hop=null;this.hov=false;enter0!.call(this,o);if(sceneName!=='cofre')return;setWorld(buildCofre(this));titoRect(W3!.tito!)},
   // draw(): cada cuadro: ratón sobre el cofre, apertura (this.op), el premio que sale, los toques que faltan (3 círculos) y botones
-  draw(){const w=W3;if(w&&w.kind==='cofre')titoRect(w.tito);
+  draw(){const w=W3;if(w&&w.kind==='cofre')titoRect(w.tito!);
     this.hov=false;if(!this.openT&&VIVO.mouseOn&&!VIVO.drag&&w&&w.kind==='cofre'){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.id==='chest'){this.hov=true;VIVO.hovNow='cf:cofre'}}
     if(this.openT){const k=T-this.openT;this.op=clamp(k*2.2,0,1)}
     if(this.openT){const k=T-this.openT,e=clamp((k-.25)/.8,0,1),gy=lerp(520,290,e*e*(3-2*e)),gs=back(e)*260;
@@ -1916,10 +1932,10 @@ function buildCofre(st){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=sky
     drawHome();drawCoinHUD();
     if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): antes de abrirse: el cofre (lógica original en el centro), Tito o las flores; después, lógica original
-  down(x,y){if(!this.openT){const u=pickAt(x,y);if(u&&u.id==='chest')return call0(down0,this,800,520);if(u&&u.id==='tito'){this.hop=T;return down0.call(this,x,y)}
+  down(x: number,y: number){if(!this.openT){const u=pickAt(x,y);if(u&&u.id==='chest')return call0(down0,this,800,520);if(u&&u.id==='tito'){this.hop=T;return down0!.call(this,x,y)}
       // las flores alrededor del cofre también responden (lejos del cofre, para no quitarle toques)
       if(!u&&!atHome(x,y)&&!inR(x,y,800,520,380,360)&&W3&&wobTap(W3,x,y))return}
-    return down0.call(this,x,y)}});
+    return down0!.call(this,x,y)}} satisfies Escena);
  // la casa de Tito por dentro sigue en 2D, pero en su lugar original
 }
 
@@ -1930,23 +1946,23 @@ function buildTitle(){const w=newWorld({fov:34,kind:'title',shadow:10}),nt=skyNo
   for(let i=0;i<9;i++){const a=i/9*PI*2;flower3(w.sc,Math.cos(a)*4.3,Math.sin(a)*3,FLC[i%7],.8)}
   tree3(w.sc,-3.6,-1.6,.8,'primavera');bush3(w.sc,3.5,-1.4,.9);
   const tito=makeTito();tito.position.set(-.3,0,.6);tito.rotation.y=-.25;w.sc.add(tito);w.tito=tito;
-  if(nt){w.sc.children.forEach(o=>{if(o.isLight)o.intensity*=.85});fireflies(w,14,8,1)}else butterfly3(w,-3.2,-1,'#FF8FB1',0,{s:1,h:2.6,r:1.8});fallPts(w,24,['#FFB3C7','#FFD1DC','#FFFFFF'],{size:.7,map:canvasTex(32,32,()=>{ctx.beginPath();ctx.ellipse(16,16,13,7,.6,0,PI*2);ctx.fillStyle='#fff';ctx.fill()},'leaf'),sp:.45,sw:.8,h:7,wx:18,wz:8,cx:2,cz:-1});/* pétalos */if(!nt)butterfly3(w,4.2,-.5,'#7FD3F0',3,{s:1,h:1.6,r:1.8});// mariposas en la portada
-  const qs=[];for(let i=0;i<10;i++){const s=spr(canvasTex(128,128,()=>text('?',64,108,120,LOGOC[i%LOGOC.length],{st:8,sc:'#fff'}),'q'+i),.9,.9,{p:[-8+i*1.8,1+(i*53%7)*.8,-3-(i%3)*1.5],to:w.sc,op:.8});qs.push(s)}
-  w.upd.push(dt=>{tito.userData.anim(dt,{});tito.rotation.y=-.25+Math.sin(T*.5)*.35;qs.forEach((q,i)=>{q.position.y+=dt*(.3+(i%3)*.15);if(q.position.y>8)q.position.y=-1;q.material.rotation=Math.sin(T+i)*.2;
+  if(nt){w.sc.children.forEach((o: Nodo)=>{if(o.isLight)o.intensity!*=.85});fireflies(w,14,8,1)}else butterfly3(w,-3.2,-1,'#FF8FB1',0,{s:1,h:2.6,r:1.8});fallPts(w,24,['#FFB3C7','#FFD1DC','#FFFFFF'],{size:.7,map:canvasTex(32,32,()=>{ctx.beginPath();ctx.ellipse(16,16,13,7,.6,0,PI*2);ctx.fillStyle='#fff';ctx.fill()},'leaf'),sp:.45,sw:.8,h:7,wx:18,wz:8,cx:2,cz:-1});/* pétalos */if(!nt)butterfly3(w,4.2,-.5,'#7FD3F0',3,{s:1,h:1.6,r:1.8});// mariposas en la portada
+  const qs: Tres.Sprite[]=[];for(let i=0;i<10;i++){const s=spr(canvasTex(128,128,()=>text('?',64,108,120,LOGOC[i%LOGOC.length],{st:8,sc:'#fff'}),'q'+i),.9,.9,{p:[-8+i*1.8,1+(i*53%7)*.8,-3-(i%3)*1.5],to:w.sc,op:.8});qs.push(s)}
+  w.upd.push((dt: number)=>{tito.userData.anim(dt,{});tito.rotation.y=-.25+Math.sin(T*.5)*.35;qs.forEach((q,i)=>{q.position.y+=dt*(.3+(i%3)*.15);if(q.position.y>8)q.position.y=-1;q.material.rotation=Math.sin(T+i)*.2;
     // al pasar por detrás del título y del subtítulo se desvanecen para que se lean bien
     if(W3===w){const [x,y]=projO(q),tt=x>470&&x<1270&&y>40&&y<330;q.material.opacity+=((tt?.08:.8)-q.material.opacity)*Math.min(1,dt*6)}})});
   camRig(w,V3(3.2,3.8,12.5),V3(2.6,2.1,0),.6);return w}
 // Convierte en 3D la portada: enter construye el mundo; draw pinta encima el logo, el botón de jugar y los botones de abajo
-{const S0=SCENES.title,enter0=S0.enter;
+{const S0=SCENES.title,enter0=S0.enter!;
  Object.assign(S0,{three:true,
-  enter(o){enter0.call(this,o);setWorld(buildTitle())},
+  enter(o: Libre){enter0!.call(this,o);setWorld(buildTitle())},
   draw(){drawLogo(800,200,140);
     text(V(['Tito y las preguntas escondidas','Tito y las preguntas escondidas']),800,280,44,K,{w:600,st:10,sc:'#FFF6E6'});
     {ctx.save();text('3D',1180,150,54,'#fff',{f:LF,st:12,sc:'#9B8AD9'});ctx.restore()}
     const p=hv('play',hC(1180,560,120))*(1+Math.sin(T*4)*.05);ctx.save();ctx.translate(1180,560);ctx.scale(p,p);circ(0,0,110,'#7CC86E',8);ctx.beginPath();ctx.moveTo(-30,-48);ctx.lineTo(54,0);ctx.lineTo(-30,48);ctx.closePath();fillStroke('#fff',6);ctx.restore();
     if(S.age){pill(205,830,330,80,S.name?'Juega: '+S.name:'¿Quién juega?');pill(1395,830,330,80,'Empezar de nuevo','#fff','#C0473C')}
     if(document.fullscreenEnabled&&!standalone()){const s=hv('fs',hR(1515,85,90,90));ctx.save();ctx.translate(1515,85);ctx.scale(s,s);card(-45,-45,90,90,'#fff',6,28);ctx.lineWidth=7;ctx.strokeStyle=K;ctx.lineCap='round';ctx.beginPath();for(const[a,b,c,d]of[[-25,-10,-25,-25],[-25,-25,-10,-25],[25,-25,10,-25],[25,-25,25,-10],[-25,10,-25,25],[-25,25,-10,25],[25,25,10,25],[25,25,25,10]]){ctx.moveTo(a,b);ctx.lineTo(c,d)}ctx.stroke();ctx.restore()}
-    if(VIVO.deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30)}});
+    if(VIVO.deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30)}} satisfies Escena);
 }
 // marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
 window.__w3.ok=true;

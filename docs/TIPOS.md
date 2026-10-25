@@ -6,17 +6,19 @@ Desde la fase 1 de la migración hay dos revisiones de tipos. Ninguna cambia el 
 
 `tsconfig.json`. Revisa el código TypeScript: el montaje (`vite.config.mts`, `herramientas/**/*.mts`), las pruebas de
 Vitest (`tests/unidad/**/*.ts`) y, desde la fase 2b, los módulos del juego (`src/**/*.ts`: `src/modulos.ts`, los
-dibujos de `src/dibujos/` y, desde la 2c, el núcleo de `src/nucleo/`). Modo estricto (`strict`, `noImplicitReturns`, `noUnusedLocals`...).
+dibujos de `src/dibujos/` y, desde la 2c, el núcleo de `src/nucleo/`; desde la 2o, todo el juego salvo `boot.js`). Modo estricto (`strict`, `noImplicitReturns`, `noUnusedLocals`...).
 **Tiene que terminar sin errores**: lo comprueba GitHub Actions en cada PR. Un archivo que pasa de global a módulo
 entra aquí con todos sus tipos: parámetros con tipo, listas de tuplas con `as const`, opciones con su `interface`
 (por ejemplo `Persona`, las opciones de `person()` en `pics-new.ts`, u `OpcionesSay` y `OpcionesTexto` en el núcleo).
 Los tipos compartidos del núcleo (`Estado`, `Vivo`, `Escena`, `Particula`...) están en `src/nucleo/tipos.ts`. Lo que
 el código global todavía crea sin tipos (escenas con campos propios, lo que se arrastra) usa `Libre` o un índice con
-`any`: es la frontera con el código global y se cierra cuando cada archivo pase a módulo.
+`any`: es la frontera con el código global y se cierra cuando cada archivo pase a módulo. En la capa 3D
+(`src/mundo3d/`), `userData` de Three.js y `Nodo` (material, geometría y sombra de un objeto cualquiera) también son
+`any`: cambian de tipo según el objeto.
 
 ## `npm run tipos:js`: el código del juego, con límite de avisos
 
-`tsconfig.js.json`. Revisa `src/*.js` (salvo `icons.js`) como JavaScript con tipos (`checkJs`), usando:
+`tsconfig.js.json`. Revisa `src/*.js` (salvo `icons.js`; desde la fase 2o solo queda `boot.js`) como JavaScript con tipos (`checkJs`), usando:
 
 - `src/tipos/estado.d.ts`: nombres globales para los tipos del estado guardado `S` (`Estado`...), que están en
   `src/nucleo/tipos.ts` (igual que [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md)), para usarlos con JSDoc.
@@ -25,11 +27,11 @@ el código global todavía crea sin tipos (escenas con campos propios, lo que se
 - `src/tipos/puente.d.ts`: lo que los módulos dejan en `globalThis` para el código global (`PICS`, `S`, `say`, `go`...),
   con el tipo que tiene en su módulo (ver `src/modulos.ts`). Son `const`: el código global no puede reasignarlos.
   `tests/unidad/globales.test.ts` comprueba que la lista es exactamente la del puente.
-- `@types/three` 0.128: los tipos de Three.js r128 (la variable global `THREE`).
+- `@types/three` 0.128 y `src/mundo3d/three.d.ts`: los tipos de Three.js r128 (la variable global `THREE`).
 
 El código es global y casi sin tipos, así que salen avisos (283 al empezar la fase 1, 278 tras la fase 2a, 254 tras la 2b y 254 tras la 2c: se fueron los 12 de `core.js`
 y salieron 12 nuevos porque el código global ve ahora los tipos exactos del núcleo, por ejemplo que `shuffle` devuelve
-la misma clase de lista que recibe; 254 tras la 2d, 229 tras la 2e, al salir `comps.js` y `comps2.js`, 225 tras la 2f, al salir los temas, 219 tras la 2h, al salir `extras.js`, 218 tras la 2i, al salir `ingles.js`, 206 tras la 2j, al salir `scenes.js`, 172 tras la 2k, al salir `zonas.js`, 159 tras la 2l, al salir `tienda.js`, 158 tras la 2m, al salir `repaso.js`, y 120 tras la 2n, al salir `adult.js`). `tests/tipos-js.js` los cuenta
+la misma clase de lista que recibe; 254 tras la 2d, 229 tras la 2e, al salir `comps.js` y `comps2.js`, 225 tras la 2f, al salir los temas, 219 tras la 2h, al salir `extras.js`, 218 tras la 2i, al salir `ingles.js`, 206 tras la 2j, al salir `scenes.js`, 172 tras la 2k, al salir `zonas.js`, 159 tras la 2l, al salir `tienda.js`, 158 tras la 2m, al salir `repaso.js`, 120 tras la 2n, al salir `adult.js`, y 0 tras la 2o, al salir `world3d.js`). `tests/tipos-js.js` los cuenta
 y **falla si hay más que el límite** de `tests/tipos-js-limite.txt`: ningún cambio puede añadir avisos. Si un cambio
 los baja, el script lo dice y hay que bajar el límite en el mismo PR. `node tests/tipos-js.js --lista` los muestra todos.
 

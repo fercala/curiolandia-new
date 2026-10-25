@@ -49,11 +49,12 @@ Características técnicas:
 El juego está a medio camino entre dos formas de cargar el código (fase 2 de la migración):
 
 - **Módulos TypeScript** (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`, el núcleo de
-  `src/nucleo/`, el vocabulario de `src/contenido/`, los componentes de juego de `src/juegos/` y los temas de
-  `src/temas/`). Cada archivo importa lo que usa (`import { S, save } from './guardado.ts'`). El plugin de Vite los
+  `src/nucleo/`, el vocabulario y los cuentos de `src/contenido/`, los componentes de juego de `src/juegos/`, los temas
+  de `src/temas/`, las escenas de `src/escenas/`, la zona de adultos y el bucle de `src/aplicacion/` y la capa 3D de
+  `src/mundo3d/`). Cada archivo importa lo que usa (`import { S, save } from './guardado.ts'`). El plugin de Vite los
   junta con rolldown en un `<script>` que va **antes** del código global. `src/modulos.ts` deja en `globalThis` todo
-  lo que exportan `src/dibujos/todos.ts`, `src/nucleo/indice.ts`, `src/juegos/indice.ts` y `src/temas/indice.ts` (el **puente**; sus tipos están en
-  `src/tipos/puente.d.ts`).
+  lo que exportan (el **puente**; sus tipos están en `src/tipos/puente.d.ts`): desde la fase 2o solo lo usan `boot.js`
+  y las pruebas.
   - Cada nombre del puente es una propiedad de `globalThis` con `get`: el código global lee siempre el valor actual
     del módulo, aunque cambie (`S` tras `ponS`, `ctx` tras `ponCtx`, `T`, `scene`, `go` tras `ponGo`...).
   - El código global **no puede reasignarlos** (`T = 3` da error: para eso están las funciones `pon*`) ni declarar
@@ -83,8 +84,8 @@ importar de otros módulos, nunca del código global.
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
 | 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
 | 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
-| 14 | `world3d.js` | Primer archivo global. **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
-| 15 | `boot.js` | Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
+| 14 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga el último; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **Toda la capa 3D** (módulo): portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
+| 15 | `boot.js` | Único archivo global. Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `tipos/estado.d.ts`, `tipos/globales.d.ts`, `tipos/puente.d.ts` | Tipos del estado `S`, de los temas, de lo que hay en `window` y del puente, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
@@ -119,7 +120,7 @@ Cada cuadro (unas 60 veces por segundo) `frame()` hace, en este orden:
 2. Ejecuta los temporizadores de `later()` que tocan (solo los de la escena actual).
 3. Comprueba el candado de adultos (mantener pulsado 3 s abajo a la derecha) y el límite de tiempo de juego (`S.limit`, que lleva a la escena `dormir`).
 4. Música (`musicTick`) y `scene.update(dt)`.
-5. **Si la escena es 3D** (`scene.three`), llama a `R3frame(dt)` de `world3d.js`, que anima y pinta el 3D en `#gl`.
+5. **Si la escena es 3D** (`scene.three`), llama a `R3frame(dt)` de `mundo3d/mundo3d.ts`, que anima y pinta el 3D en `#gl`.
 6. `scene.draw()` pinta lo 2D en `#cv` (encima del 3D), y luego la ayuda (`drawHelp`), las partículas (`drawParts`), avisos y monedas.
    La ayuda automática se rige por `VIVO.idle`, los segundos sin tocar: brillo a los 6 s, manita y `prompt()` a los 11 s. `VIVO.idle` no avanza mientras Tito habla y vuelve a 0 con cada `say()`, así la ayuda nunca corta una frase (desde v1.586). Por lo mismo, las frases que el juego dice solo con `later()` usan `sayQ()` en vez de `say()`: esperan a que Tito acabe la frase que esté diciendo (`whenQuiet()`). Un juego que quiere la ayuda enseguida (tras el segundo fallo) pone `idle=12` **después** de su `say()`: la manita sale ya y la consigna se repite cuando Tito acaba.
 
@@ -139,7 +140,7 @@ SCENES.miEscena = {
   hint() { return {x, y, r} }, // dónde brilla la ayuda si el niño no toca nada
   prompt() { say('...') },  // repite la consigna (al tocar a Tito, y una vez con la manita de ayuda)
   dwell(id) { ... },        // el ratón se queda quieto sobre algo: decir su nombre
-  three: true,              // solo las escenas 3D (lo pone world3d.js)
+  three: true,              // solo las escenas 3D (lo pone mundo3d/mundo3d.ts)
 };
 ```
 
@@ -178,7 +179,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 
 - `escenas/zonas.ts` reescribe el mapa y la casita de `escenas/escenas2d.ts` (la versión de `escenas/escenas2d.ts` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
 - `escenas/tienda.ts` envuelve `SCENES.juego` y `finishGame` (monedas); `escenas/repaso.ts` envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa.
-- `world3d.js` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
+- `mundo3d/mundo3d.ts` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 
 **Consecuencia práctica**: antes de cambiar una escena, busca en todos los archivos quién la envuelve (`grep -n "SCENES.casita" src/*.js`). El comportamiento final es el de la última capa.
 
@@ -218,15 +219,15 @@ Un **componente de juego** (juegos/comps.ts, juegos/comps2.ts) es una función q
 
 Los **dibujos** se buscan por nombre en `PICS` y se pintan con `pic(nombre, x, y, tamaño)`. Su nombre hablado sale de `LEX`/`LEX2` (`nucleo/idioma.ts` y `contenido/lex.ts`).
 
-## 8. La capa 3D (`world3d.js`)
+## 8. La capa 3D (`mundo3d/mundo3d.ts`)
 
-Es el archivo más grande y el más delicado. La idea clave:
+Es el archivo más grande y el más delicado (antes `world3d.js`; desde la fase 2o, un módulo con tipos estrictos). La idea clave:
 
 > **La lógica del juego sigue siendo 2D.** El 3D solo dibuja y, en cada cuadro, "le cuenta" a la lógica 2D dónde ha quedado cada cosa en la pantalla.
 
 ### Cómo engancha con lo 2D
 
-1. `world3d.js` envuelve las escenas `title`, `map`, las 5 zonas, `casita` y `cofre` con `Object.assign(SCENES.x, {three: true, enter, sync, draw, down})`, guardando sus métodos originales (`enter0`, `down0`).
+1. `mundo3d/mundo3d.ts` envuelve las escenas `title`, `map`, las 5 zonas, `casita` y `cofre` con `Object.assign(SCENES.x, {three: true, enter, sync, draw, down})`, guardando sus métodos originales (`enter0`, `down0`).
 2. **`enter`** llama al `enter` original y construye el mundo 3D (`buildMap`, `buildZone`, `buildCasita`, `buildCofre`, `buildTitle`), y lo activa con `setWorld(w)`.
 3. **Cada cuadro**, `sync()` **proyecta** las posiciones 3D a la pantalla lógica de 1600x900 (`proj`, `projR`, `projO`) y las escribe en las variables que usa la lógica 2D: `MZ2` (lugares del mapa), `ZPOS[zona][tema]` (casitas), `stationPos` (estaciones de la casita), `TITO` y `HOUSE_AT`. Así los `down`, `hint` y bocadillos originales siguen funcionando sin saber que hay 3D.
 4. **Al tocar** (`down`): `pickAt(x,y)` lanza un rayo desde la cámara (raycast) y mira qué objeto 3D hay debajo. Si es un lugar o una casita, Tito camina hasta allí (`walkTo`) y al llegar se llama al `down` 2D original (`call0`). Si no es nada importante, se prueba con los objetos decorativos (`flyTap`, `wobTap`), el cielo (`skyTap`), el mar (`seaTap`) y, si no, Tito pasea hasta ese punto (`walkGround`).
@@ -236,7 +237,11 @@ Si el navegador no tiene WebGL, el juego funciona igual en 2D.
 
 ### El mundo `w`
 
-`newWorld()` crea un objeto mundo; el activo se guarda en `W3` (en el código suele llamarse `w`):
+`newWorld()` crea un objeto mundo; el activo se guarda en `W3` (en el código suele llamarse `w`). Su tipo, `Mundo`,
+está en `mundo3d/tipos.ts` con todos sus campos (también los que añaden los juegos del cielo y del paisaje), junto a
+las opciones de las piezas (`OpcionesPieza` de `mk`, `OpcionesSprite`...) y `Nodo`, el objeto cualquiera que sale al
+recorrer la escena (`traverse`). Los tipos de Three.js son los de `@types/three` 0.128 (`import type * as Tres from 'three'`).
+
 
 | Campo | Qué es |
 |---|---|

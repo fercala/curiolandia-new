@@ -66,7 +66,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 
 ## 3. Un objeto 3D nuevo que se pueda tocar
 
-Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `src/world3d.js`.
+Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `src/mundo3d/mundo3d.ts` (con tipos: el mundo es `Mundo`, de `mundo3d/tipos.ts`).
 
 1. **Crear el modelo.** Junto a los demás constructores de objetos (`frog3`, `can3`, `kite3`...), copia uno parecido y adáptalo:
    ```js
@@ -105,7 +105,7 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
    - `bg`: un fondo de `BG` (temas/temas.ts y temas/temas4.ts tienen la lista). Para uno nuevo, añádelo en el `Object.assign(BG,{...})` de temas/temas4.ts.
    - `season` (opcional): `'otoño'`, `'invierno'`... hace que Tito lo recomiende en esa estación.
    - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, añade su línea a `src/tipos/puente.d.ts` (la prueba `globales` dice cuál falta).
-3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en escenas/zonas.ts) y cada casita para **unos 8 juegos** (`st3Pos()` en world3d.js), contando el cuento. Para más hay que ampliar esas funciones.
+3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en escenas/zonas.ts) y cada casita para **unos 8 juegos** (`st3Pos()` en mundo3d/mundo3d.ts), contando el cuento. Para más hay que ampliar esas funciones.
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
 5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y escenas/zonas.ts al camino).
 6. Apunta todas las frases nuevas para grabar.
@@ -246,7 +246,7 @@ Todo está en `temas/extras.ts` y `temas/ingles.ts`. Resumen (detalle en los com
 - **Trazo**: nivel nuevo al final de `TRZ_L()` y subir el número de niveles en `TRZ` (con su icono y nombre).
 - **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaNow()` (escenas/zonas.ts).
 - **Tema de inglés**: palabras en `EN` (`{en, es, k, a}`; `a` = edad mínima) → tema en `ING` con `en:'conjunto'` y `games:[ENG.conocer, ENG.escucha, ENG.globos]`. Las palabras en inglés las dice la voz inglesa del navegador.
-- Comprueba en world3d.js que la zona 3D tiene hueco para otra casita.
+- Comprueba en mundo3d/mundo3d.ts que la zona 3D tiene hueco para otra casita.
 
 ## 11. Una escena o una zona nueva
 
@@ -262,7 +262,7 @@ SCENES.huerto={music:'jardin',
 ```
 Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepáralo en `enter`.
 
-**Zona nueva con camino**: `ZONES` y `NEED` en escenas/zonas.ts, reglas en `temaOpen`/`spotOpen`/`spotNeed`/`lockMsg`, lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en world3d.js su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y la parte de zonas de world3d.js.
+**Zona nueva con camino**: `ZONES` y `NEED` en escenas/zonas.ts, reglas en `temaOpen`/`spotOpen`/`spotNeed`/`lockMsg`, lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en mundo3d/mundo3d.ts su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y la parte de zonas de world3d.js.
 
 ## 12. Una opción en la zona de adultos
 
