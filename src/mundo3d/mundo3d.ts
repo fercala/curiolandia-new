@@ -44,11 +44,14 @@
  *   y su animación usa e=T-wob (segundos desde el toque; 9 si nunca se tocó). userData.dur dice cuánto
  *   dura la reacción. La lista de marcas está en WOBK (más abajo).
  *
- * Ayudantes de geometría (en este primer trozo): M (material "toon" con 3 tonos), OLm + olGeo (contorno
- *   marrón de dibujo animado), mk (crea una pieza con su contorno), grp (grupo), Box/Sph/Cyl/Cone/prism/
+ * Ayudantes de geometría (desde la fase 4g en mundo3d/materiales.ts): M (material "toon" con 3 tonos), OLm + olGeo
+ *   (contorno marrón de dibujo animado), mk (crea una pieza con su contorno), grp (grupo), Box/Sph/Cyl/Cone/prism/
  *   rbox/starGeo (formas), mg (une piezas en una sola geometría), gcache (geometrías compartidas),
  *   canvasTex/picTex/pillTex (texturas dibujadas con las funciones 2D de siempre), spr/plane (sprites y
  *   planos con textura).
+ * El motor (desde la fase 4g en mundo3d/motor.ts): el dibujante R, el mundo activo W3 (newWorld, setWorld,
+ *   disposeWorld), la cámara (camRig, camTick), la calidad (PRK, FPS), la proyección (proj, projO, projR) y el
+ *   toque (RC, pickAt). montarMotor() lo crea todo al montar la capa 3D.
  *
  * Desde la fase 2o es un módulo: src/modulos.ts lo carga el último (después de aplicacion/adultos.ts) y el puente deja
  *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts, y THREE, que
@@ -59,15 +62,16 @@
  *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, DF, LF, DIAC...),
  *   los dibujos (K), temas/ (sayMix, FIESTAS), juegos/ (playTune, TUNES), escenas/zonas.ts (MZ2, ZPOS, ZONES),
  *   escenas/escenas2d.ts (TITO, HOUSE_AT, stationPos) y escenas/tienda.ts (colores del caparazón y la bufanda).
- * Todo va dentro de una función que se llama sola: si no hay WebGL, se sale y el juego sigue en 2D.
+ * Todo va dentro de una función que se llama sola: si montarMotor() dice que no hay Three.js o WebGL, se sale y el
+ *   juego sigue en 2D.
  * ========================================================================== */
 import type * as Tres from 'three';
 import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { OpcionesSay } from '../nucleo/voz.ts';
-import type { MallaBasica, Mundo, Nodo, OpcionesPaseo, OpcionesCinta, OpcionesMundo, OpcionesPieza, OpcionesPlano, OpcionesSprite, PiezaUnida, PuntoSuelo, TexturaDibujada, Trio } from './tipos.ts';
+import type { MallaBasica, Mundo, Nodo, OpcionesPaseo, OpcionesCinta, PiezaUnida, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, DIAC, FLC, IMG, LF, OX, OY, PI, S, SC, SCENES, SFX, T, TITO, V, VIVO, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, lerp, noise, parts, pic, pick, ponCtx, ponGo, rnd, say, scene, sceneName, setCursor, sparkles, speaker, temasDone, text, titoKind, tone, tx } from '../nucleo/indice.ts';
+import { DF, DIAC, FLC, IMG, LF, PI, S, SCENES, SFX, T, TITO, V, VIVO, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, fillStroke, go, hC, hR, hv, inCoinHUD, inR, lerp, noise, parts, pic, pick, ponCtx, ponGo, rnd, say, scene, sceneName, setCursor, sparkles, speaker, temasDone, text, titoKind, tone, tx } from '../nucleo/indice.ts';
 import { FIESTAS, sayMix } from '../temas/indice.ts';
 import { TUNES, playTune } from '../juegos/indice.ts';
 import { GNAME, LOGOC, TEMA, asamHoy, drawLogo, drawLogoSmall, drawStation, gDone, isBday, pill, standalone, tst } from '../escenas/escenas2d.ts';
@@ -76,141 +80,14 @@ import { SCARFC, SHELLC, drawItemPic, itemName } from '../escenas/tienda.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
 import { ahora, azar } from '../aplicacion/puertos.ts';
+import { FPS, PRK, R, RC, W3, camRig, camTick, fpsTick, montarMotor, newWorld, pickAt, ponPRK, proj, projO, projR, setWorld } from './motor.ts';
+import { Box, Cone, Cyl, M, OLm, Sph, V3, canvasTex, flowerTex, gcache, gradiente, grp, keep, mg, mk, olGeo, picTex, pillSpr, pillTex, plane, prism, rbox, spr, starGeo } from './materiales.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea más abajo (si no hay WebGL se queda en null).
 export let R3frame: ((dt: number) => void) | null = null;
 // Función que se ejecuta al momento y encierra toda la capa 3D (sus variables no salen fuera, salvo R3frame y window.__w3).
 (function(){
-if(!window.THREE)return;
-// R: el dibujante (renderer) de Three.js sobre el <canvas id="gl">. Si el aparato no tiene WebGL, se sale sin 3D.
-let R: Tres.WebGLRenderer;try{R=new THREE.WebGLRenderer({canvas:document.getElementById('gl') as HTMLCanvasElement,antialias:true,powerPreference:'high-performance'})}catch(e){return}
-if(!R.getContext())return;
-R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
-// V3(x,y,z): atajo para crear un vector 3D de Three.js.
-const V3=(x: number,y: number,z: number)=>new THREE.Vector3(x,y,z);
-// en móviles y tablets la sombra a 1024 se ve casi igual y ahorra memoria de GPU y batería
-const SHM=matchMedia('(pointer:coarse)').matches?1024:2048;
-// W3: el mundo 3D activo (escena, cámara, animaciones...). Ver la cabecera del archivo.
-let W3: Mundo|null=null;
-// fitCam(w): ajusta la cámara del mundo w al tamaño de la ventana.
-// La escena está pensada para 16:9: si la pantalla es más estrecha (móvil en vertical, tablet 4:3), se abre el
-// ángulo vertical (fov) para que lo que se ve a lo ancho sea lo mismo que en 16:9 y no se corten los lados.
-function fitCam(w: Mundo){const a=innerWidth/innerHeight,c=w.cam,f=w.fov||40,A=16/9;c.aspect=a;
-  c.fov=a<A?2*Math.atan(Math.tan(f*PI/360)*A/a)*180/PI:f;c.updateProjectionMatrix()}
-// PRK: factor de calidad (1 = nitidez completa, mínimo 0,5). Lo baja fpsTick si el aparato va lento.
-let PRK=1;
-// rs(): ajusta el tamaño del dibujo 3D a la ventana y la densidad de píxeles (topada a 1,5 en táctiles y 1,75
-// en ordenadores, multiplicada por PRK, nunca por debajo de 0,75). Se llama al cambiar el tamaño de la ventana.
-function rs(){const b=Math.min(devicePixelRatio||1,matchMedia('(pointer:coarse)').matches?1.5:1.75);R.setPixelRatio(Math.max(Math.min(b,.75),b*PRK));R.setSize(innerWidth,innerHeight,false);if(W3)fitCam(W3)}
-addEventListener('resize',rs);rs();
-
-/* ---------- proyección 3D → 1600x900 y selección con el puntero ---------- */
-// vectores de trabajo reutilizados (crear vectores nuevos en cada cuadro haría trabajar de más al recolector de basura)
-const _v=new THREE.Vector3(),_w=new THREE.Vector3(),_u=new THREE.Vector3();
-// proj(p): pasa un punto 3D del mundo (Vector3) a coordenadas de la pantalla lógica 1600x900. Devuelve [x,y].
-// project() da coordenadas de -1 a 1; se pasan a píxeles de la ventana y luego se deshace el encaje del juego
-// en la ventana (desplazamiento OX/OY y escala SC de nucleo/pantalla.ts).
-function proj(p: Tres.Vector3){_v.copy(p).project(W3!.cam);return[((_v.x+1)/2*innerWidth-OX)/SC,((1-_v.y)/2*innerHeight-OY)/SC]}
-// projO(o,dy): como proj, pero del centro de un objeto 3D o, subido dy unidades. Devuelve [x,y] en 1600x900.
-function projO(o: Tres.Object3D,dy=0){o.getWorldPosition(_w);_w.y+=dy;return proj(_w)}
-// projR(o,r,dy): proyecta el objeto o (subido dy) y además calcula cuánto mide en pantalla un radio r 3D
-// (proyectando otro punto r unidades "hacia arriba" según la cámara). Devuelve [x,y,radio] en 1600x900;
-// sirve para rellenar los círculos de toque de la lógica 2D (MZ2: x,y,r).
-function projR(o: Tres.Object3D,r: number,dy=0){o.getWorldPosition(_w);_w.y+=dy;const a=proj(_w);_u.set(0,1,0).applyQuaternion(W3!.cam.quaternion).multiplyScalar(r).add(_w);const b=proj(_u);return[a[0],a[1],Math.hypot(a[0]-b[0],a[1]-b[1])]}
-// RC: el rayo que se lanza al tocar; _m: el punto tocado en coordenadas de -1 a 1. Tras pickAt, RC sigue
-// apuntando al toque y lo reutilizan wobTap, flyTap, skyTap...
-const RC=new THREE.Raycaster(),_m=new THREE.Vector2();
-// pickAt(x,y): ¿qué objeto 3D hay bajo el punto (x,y) de 1600x900? Lanza un rayo desde la cámara contra W3.pick
-// y sube por los padres del objeto tocado hasta encontrar uno con userData.id. Devuelve ese userData
-// (por ejemplo {id:'mz:jardin',spot:'jardin'}) o null si no hay nada que se pueda tocar.
-function pickAt(x: number,y: number){if(!W3)return null;_m.set((x*SC+OX)/innerWidth*2-1,-((y*SC+OY)/innerHeight)*2+1);RC.setFromCamera(_m,W3.cam);
-  for(const h of RC.intersectObjects(W3.pick,true)){let o: Tres.Object3D|null=h.object;while(o&&!o.userData.id)o=o.parent;if(o)return o.userData}return null}
-
-/* ---------- materiales con estilo de dibujo: sombreado en 3 tonos + contorno marrón ---------- */
-// GRAD: textura de 3 píxeles (gris oscuro, gris claro, blanco) que hace que la luz se pinte en 3 escalones
-// en vez de en degradado: es lo que da el aspecto de dibujo animado (MeshToonMaterial).
-const GRAD=(()=>{const t=new THREE.DataTexture(new Uint8Array([150,150,150,255,212,212,212,255,255,255,255,255]),3,1,THREE.RGBAFormat);t.minFilter=t.magFilter=THREE.NearestFilter;t.generateMipmaps=false;t.needsUpdate=true;return t})();
-// MC: caché de materiales, para no crear dos iguales.
-const MC: Record<string, Tres.MeshToonMaterial>={};
-// M(c,o): devuelve el material toon de color c (por ejemplo '#FFC93C') con las opciones extra o de Three.js
-// ({emissive, side, transparent...}). Se guarda en MC con clave color+opciones y se reutiliza.
-function M(c: string,o?: Tres.MeshToonMaterialParameters){const k=c+(o?JSON.stringify(o):'');return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:GRAD},o||{})))}
-// OLC: caché de materiales de contorno, uno por grosor.
-const OLC: Record<number, Tres.ShaderMaterial>={};
-// OLm(w): material del contorno marrón de grosor w. Técnica del "casco invertido": se dibuja una copia de la pieza
-// hinchada w unidades a lo largo de las normales (atributo onorm) y solo por dentro (BackSide), de color marrón
-// liso; como la copia es un poco más grande y se ven sus caras de atrás, asoma como un borde alrededor de la pieza.
-function OLm(w: number){w=Math.round(w*1000)/1000;return OLC[w]||(OLC[w]=new THREE.ShaderMaterial({uniforms:{w:{value:w}},side:THREE.BackSide,
-  vertexShader:'attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}',
-  fragmentShader:'void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}'}))}
-// normales suavizadas sólo para el contorno (si no, las cajas quedan con huecos en las aristas)
-// olGeo(g): añade a la geometría g el atributo onorm que usa OLm. Junta los vértices que están en el mismo sitio
-// (redondeando a 1/500) y les da la media de sus normales, así las esquinas se hinchan juntas y no se abren.
-// Lo hace una sola vez por geometría (marca g.userData.ol). Devuelve g.
-function olGeo(g: Tres.BufferGeometry){if(g.userData.ol)return g;const p=g.attributes.position,n=g.attributes.normal,map=new Map(),o=new Float32Array(p.count*3);
-  for(let i=0;i<p.count;i++){const k=Math.round(p.getX(i)*500)+','+Math.round(p.getY(i)*500)+','+Math.round(p.getZ(i)*500);let a=map.get(k);if(!a)map.set(k,a=[]);a.push(i)}
-  for(const a of map.values()){let x=0,y=0,z=0;for(const i of a){x+=n.getX(i);y+=n.getY(i);z+=n.getZ(i)}const l=Math.hypot(x,y,z)||1;for(const i of a){o[i*3]=x/l;o[i*3+1]=y/l;o[i*3+2]=z/l}}
-  g.setAttribute('onorm',new THREE.BufferAttribute(o,3));g.userData.ol=1;return g}
-// mk(geo,c,o): crea una pieza (Mesh) con la geometría geo y el color c (texto '#rrggbb' -> material toon M(c),
-// o un material ya hecho). Opciones o: p [x,y,z] posición, r [rx,ry,rz] giro, s escala (número o [sx,sy,sz]),
-// to = grupo o escena donde se añade, cs/rs = false para no proyectar/recibir sombra, ol = grosor del contorno
-// (0 = sin contorno; por defecto .05). El contorno es una pieza hija que no se puede tocar (raycast vacío) y su
-// grosor se divide por la escala media para que se vea igual de grueso en piezas grandes y pequeñas. Devuelve la pieza.
-function mk(geo: Tres.BufferGeometry,c: string | Tres.Material,o: OpcionesPieza={}){const m=new THREE.Mesh(geo,typeof c==='string'?M(c):c);m.castShadow=o.cs!==false;m.receiveShadow=o.rs!==false;
-  if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);
-  if(o.s!=null){if(typeof o.s==='number')m.scale.setScalar(o.s);else m.scale.set(o.s[0],o.s[1],o.s[2])}
-  if(o.ol!==0){const sc=(m.scale.x+m.scale.y+m.scale.z)/3,l=new THREE.Mesh(olGeo(geo),OLm((o.ol||.05)/sc));l.castShadow=false;l.receiveShadow=false;l.raycast=()=>{};m.add(l)}
-  if(o.to)o.to.add(m);return m}
-// grp(to,p,s): crea un grupo vacío en la posición p [x,y,z] con escala s y lo añade a to. Devuelve el grupo.
-const grp=(to: Tres.Object3D,p?: Trio,s?: number)=>{const g=new THREE.Group();if(p)g.position.set(p[0],p[1],p[2]);if(s)g.scale.setScalar(s);if(to)to.add(g);return g};
-// atajos de formas básicas: caja (ancho, alto, fondo), esfera (radio, segmentos), cilindro (radio arriba, radio abajo,
-// alto, lados) y cono (radio, alto, lados). Menos segmentos = menos trabajo para el móvil.
-const Box=(w: number,h: number,d: number)=>new THREE.BoxGeometry(w,h,d),Sph=(r: number,a=20,b=14)=>new THREE.SphereGeometry(r,a,b),Cyl=(a: number,b: number,h: number,n=20)=>new THREE.CylinderGeometry(a,b,h,n),Cone=(r: number,h: number,n=20)=>new THREE.ConeGeometry(r,h,n);
-// prism(w,h,d): prisma triangular (como un tejado) de base w, altura h y fondo d, centrado en el fondo.
-function prism(w: number,h: number,d: number){const s=new THREE.Shape();s.moveTo(-w/2,0);s.lineTo(w/2,0);s.lineTo(0,h);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:false});g.translate(0,0,-d/2);return g}
-// rbox(w,h,d,r): caja con las esquinas redondeadas de radio r (para paredes, carteles, el autobús...).
-function rbox(w: number,h: number,d: number,r: number){const s=new THREE.Shape(),x=-w/2+r,y=-h/2+r,W_=w-2*r,H_=h-2*r;s.moveTo(x,-h/2);s.lineTo(x+W_,-h/2);s.quadraticCurveTo(w/2,-h/2,w/2,y);s.lineTo(w/2,y+H_);s.quadraticCurveTo(w/2,h/2,x+W_,h/2);s.lineTo(x,h/2);s.quadraticCurveTo(-w/2,h/2,-w/2,y+H_);s.lineTo(-w/2,y);s.quadraticCurveTo(-w/2,-h/2,x,-h/2);
-  const g=new THREE.ExtrudeGeometry(s,{depth:d-r,bevelEnabled:true,bevelThickness:r/2,bevelSize:r/2,bevelSegments:2,curveSegments:6});g.translate(0,0,-(d-r)/2);return g}
-// starGeo(r,d): estrella de 5 puntas de radio r y grosor d, con los bordes biselados.
-function starGeo(r: number,d: number){const s=new THREE.Shape();for(let i=0;i<10;i++){const a=PI/2+i*PI/5,q=i%2?r*.45:r;i?s.lineTo(Math.cos(a)*q,Math.sin(a)*q):s.moveTo(Math.cos(a)*q,Math.sin(a)*q)}s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:true,bevelThickness:d*.3,bevelSize:d*.3,bevelSegments:1});g.translate(0,0,-d/2);return g}
-
-// une varias piezas del mismo color en una sola geometría (menos llamadas de dibujo): [[geo,[x,y,z],[sx,sy,sz]|s,[rx,ry,rz]],...]
-const _o3=new THREE.Object3D();
-// mg(parts): parts = [[geometría, posición, escala, giro], ...]. Copia cada geometría, le aplica su posición/escala/giro
-// y las suelta todas juntas en una BufferGeometry nueva (solo posición y normal). Devuelve esa geometría.
-function mg(parts: PiezaUnida[]){const pos=[],nor=[];for(const [g0,p,sc,r] of parts){const g=g0.index?g0.toNonIndexed():g0.clone();_o3.position.set(...(p||[0,0,0]));if(sc==null)_o3.scale.set(1,1,1);else if(typeof sc==='number')_o3.scale.setScalar(sc);else _o3.scale.set(...sc);_o3.rotation.set(...(r||[0,0,0]));_o3.updateMatrix();g.applyMatrix4(_o3.matrix);
-  pos.push(...(g.attributes.position.array as Float32Array));nor.push(...(g.attributes.normal.array as Float32Array))}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3));return g}
-// GC: caché de geometrías compartidas. keep(g) las marca para que disposeWorld no las borre al cambiar de escena.
-const GC: Record<string, Tres.BufferGeometry>={};const keep=(g: Tres.BufferGeometry)=>{g.userData.keep=1;return g};
-// gcache(k,f): devuelve la geometría guardada con el nombre k; si no existe, la crea con f(), le prepara el contorno
-// (olGeo) y la guarda para siempre. Úsalo para piezas que se repiten mucho (flores, copas de árbol, nubes...).
-const gcache=(k: string,f: () => Tres.BufferGeometry)=>GC[k]||(GC[k]=keep(olGeo(f())));
-/* ---------- texturas hechas con el dibujo 2D de siempre ---------- */
-// TXC: caché de texturas dibujadas (por clave). Estas no se liberan al cambiar de escena.
-const TXC: Record<string, TexturaDibujada>={};
-// canvasTex(w,h,fn,key): crea una textura de w x h píxeles dibujándola con fn(g). Truco: cambia por un momento la
-// variable global ctx (nucleo/pantalla.ts, con ponCtx) por la del lienzo nuevo, así fn puede usar las funciones 2D de siempre (card, text,
-// flower...); mouseOn se apaga para que no se dibujen efectos de "ratón encima". Si se da key, se guarda en TXC.
-// La textura trae t.redraw() para volver a dibujarla (por ejemplo cuando termina de cargar una imagen).
-function canvasTex(w: number,h: number,fn: (g: CanvasRenderingContext2D) => void,key?: string){if(key&&TXC[key])return TXC[key];const c=document.createElement('canvas');c.width=w;c.height=h;
-  const draw=()=>{const g=c.getContext('2d')!,old=ctx;g.clearRect(0,0,w,h);ponCtx(g);const mo=VIVO.mouseOn;VIVO.mouseOn=false;try{fn(g)}catch(e){console.error(e)}VIVO.mouseOn=mo;ponCtx(old)};draw();
-  const t=new THREE.CanvasTexture(c) as TexturaDibujada;t.anisotropy=4;t.redraw=()=>{draw();t.needsUpdate=true};if(key)TXC[key]=t;return t}
-// picTex(k,px): textura cuadrada de px píxeles con la imagen IMG[k] (dibujos de src/dibujos/). Si la imagen aún
-// carga, se redibuja sola al terminar.
-function picTex(k: string,px=256){const t=canvasTex(px,px,g=>{const i=IMG[k];if(i&&i.complete)g.drawImage(i,0,0,px,px)},'pic:'+k+px);
-  if(IMG[k]&&!IMG[k].complete)IMG[k].addEventListener('load',()=>t.redraw(),{once:true});return t}
-// spr(tex,w,h,o): sprite (cartel plano que siempre mira a la cámara) con la textura tex, de w x h unidades.
-// Opciones o: p posición, to dónde añadirlo, dt=false para dibujarlo siempre por encima, op opacidad, ro orden de dibujo.
-function spr(tex: Tres.Texture,w: number,h?: number,o: OpcionesSprite={}){const m=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:o.dt!==false,opacity:o.op??1}));m.scale.set(w,h??w,1);if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.to)o.to.add(m);m.renderOrder=o.ro||0;return m}
-// plane(tex,w,h,o): plano fijo con la textura tex (no gira hacia la cámara). Opciones: p, r, to, ds (dos caras).
-function plane(tex: Tres.Texture,w: number,h: number,o: OpcionesPlano={}){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex,transparent:true,alphaTest:.02,side:o.ds?THREE.DoubleSide:THREE.FrontSide}));if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);if(o.to)o.to.add(m);return m}
-// cartel en forma de píldora: [texto, fondo, color del texto]
-// pillTex(t,bg,fg,sz): textura de 512x128 con el texto t sobre un cartel redondeado; se guarda en caché.
-function pillTex(t: string,bg='#fff',fg=K,sz=56){return canvasTex(512,128,g=>{g.font=`700 ${sz}px ${DF}`;const tw=Math.min(470,g.measureText(t).width+60);card(256-tw/2,14,tw,100,bg,8,50);text(t,256,64+sz*.36,sz,fg)},'pill:'+t+bg+fg+sz)}
-// pillSpr(t,bg,fg,o): sprite con el cartel pillTex, de o.w unidades de ancho (2,4 por defecto) y proporción 4:1.
-const pillSpr=(t: string,bg?: string,fg?: string,o: OpcionesSprite={})=>spr(pillTex(t,bg,fg),o.w||2.4,(o.w||2.4)/4,o);
-// flowerTex(c,n): textura de un cartelito con una flor de color c y el número n al lado.
-function flowerTex(c: string,n: number|string){return canvasTex(256,128,()=>{card(14,14,228,100,'#fff',8,50);flower(80,64,28,c,4);const L=String(n).length>1;text(String(n),L?168:170,L?84:92,L?52:72,K,{f:LF})},'fl:'+c+n)}
+if(!montarMotor())return;
 
 /* ---------- utilería ---------- */
 /* Patrón de los objetos de decoración de las zonas y del mapa (flower3, tree3, frog3, bus3...):
@@ -856,7 +733,7 @@ function flag3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],
     ctx.fillStyle='#fff';ctx.fillRect(108,0,40,128);ctx.fillRect(0,44,256,40);ctx.fillStyle='#D7263D';ctx.fillRect(116,0,24,128);ctx.fillRect(0,52,256,24)},'ukflag');
   // translate(.8,...) pone el borde izquierdo de la tela en el mástil; X0 guarda la x original de cada vértice: la onda crece con x,
   // así el lado del mástil no se mueve. P.needsUpdate=true avisa a Three.js de que los vértices han cambiado
-  const geo=new THREE.PlaneGeometry(1.6,.8,10,1);geo.translate(.8,0,0);const fl=new THREE.Mesh(geo,new THREE.MeshToonMaterial({map:tx,gradientMap:GRAD,side:THREE.DoubleSide}));fl.position.set(.04,3,0);g.add(fl);const P=geo.attributes.position,X0: number[]=[];for(let i=0;i<P.count;i++)X0.push(P.getX(i));
+  const geo=new THREE.PlaneGeometry(1.6,.8,10,1);geo.translate(.8,0,0);const fl=new THREE.Mesh(geo,new THREE.MeshToonMaterial({map:tx,gradientMap:gradiente(),side:THREE.DoubleSide}));fl.position.set(.04,3,0);g.add(fl);const P=geo.attributes.position,X0: number[]=[];for(let i=0;i<P.count;i++)X0.push(P.getX(i));
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,a=e<1.8?.22*(1-e/1.8)+.07:.07,sp=e<1.8?9:3.5;for(let i=0;i<P.count;i++){const x=X0[i];P.setZ(i,Math.sin(x*4-T*sp)*a*x)}P.needsUpdate=true});return g}
 // Fiestas: una máquina de pompas; las pompas suben despacio y, al tocarlas, explotan con un "plop"
 // (patrón común: ver cann3, con una diferencia) Lo tocable no es la máquina sino cada pompa: 5 grupos b con marca bub y dur 0,35 s.
@@ -1007,7 +884,7 @@ function makeTito(into?: Tres.Group){const root=into||new THREE.Group(),b=grp(ro
   mo=mk(Sph(.12,12,10),'#7A2E3A',{p:[.5,-.2,.26],s:[1,.2,1],ol:0,to:head});
   for(const z of[-1,1])mk(Sph(.1,10,8),'#FF9EAA',{p:[.38,-.05,z*.42],s:[1,.6,.4],ol:0,to:head});
   {const sg=grp(b,[.92,1.02,0]);sg.rotation.z=-.22;mk(new THREE.TorusGeometry(.47,.15,10,24),scarf,{r:[PI/2,0,0],to:sg,ol:.03})}mk(Box(.22,.5,.12),scarf,{p:[.62,.62,.38],r:[0,0,.3],to:b,ol:.03});
-  if(!SHELL)SHELL=shellGeo();sh=grp(b,[-.32,1.55,0]);mk(SHELL.g,sc[0],{to:sh,ol:.045});mk(Sph(.18,12,10),sc[0],{s:[1,1,1.4],to:sh,ol:.03});
+  if(!SHELL){SHELL=shellGeo();keep(SHELL.g)}sh=grp(b,[-.32,1.55,0]);mk(SHELL.g,sc[0],{to:sh,ol:.045});mk(Sph(.18,12,10),sc[0],{s:[1,1,1.4],to:sh,ol:.03});
   // la raya del caparazón
   {const sp=SHELL.sp,pts=[];for(let i=0;i<=120;i++){const P=sp.getPointAt(i/120),tr=SHELL.k*Math.hypot(P.x,P.y);pts.push(new THREE.Vector3(P.x,P.y,tr*SHELL.zs*.97))}
    const cv3=new THREE.CatmullRomCurve3(pts);for(const sg of[1,-1]){const m=mk(new THREE.TubeGeometry(cv3,120,.035,6,false),sc[1],{ol:0,cs:false,to:sh});m.scale.z=sg}}
@@ -1169,7 +1046,7 @@ function makeHouse(lvl: number){const g=new THREE.Group();g.userData.id='casaTit
     for(let i=0;i<8;i++)flower3(g,-2.8+i*.8,2.45+(i%2)*.2,FLC[i%7],.7,.2)}
   if(lvl>=3){const tw=grp(g,[2.05,0,-.4]);mk(Cyl(.62,.62,4.6,20),'#FFE3B0',{p:[0,2.55,0],to:tw,ol:.05});mk(Cone(.85,1.5,20),'#9B8AD9',{p:[0,5.6,0],to:tw,ol:.05});
     mk(Cyl(.03,.03,1.1,6),K,{p:[0,6.8,0],ol:0,to:tw});
-    const fg=new THREE.PlaneGeometry(.8,.45,8,1);fg.translate(.4,0,0);const flag=new THREE.Mesh(fg,new THREE.MeshToonMaterial({color:'#FF6B5E',gradientMap:GRAD,side:THREE.DoubleSide}));flag.position.set(0,7.1,0);tw.add(flag);g.userData.flag=flag;
+    const fg=new THREE.PlaneGeometry(.8,.45,8,1);fg.translate(.4,0,0);const flag=new THREE.Mesh(fg,new THREE.MeshToonMaterial({color:'#FF6B5E',gradientMap:gradiente(),side:THREE.DoubleSide}));flag.position.set(0,7.1,0);tw.add(flag);g.userData.flag=flag;
     mk(Box(.36,.5,.1),'#BFEAF7',{p:[0,2.6,.6],to:tw,ol:.03})}
   if(lvl>=4){const st=mk(starGeo(.55,.18),'#FFC93C',{p:[0,.25+H1+2.3,0],to:g,ol:.04});g.userData.star=st;
     ['#FF6B5E','#FFA94D','#FFD66B','#7CC86E','#5BB8E6','#9B8AD9'].forEach((c,i)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(4.6-i*.22,.12,6,40,PI),M(c));m.position.set(0,.3,-1.9);g.add(m)})}
@@ -1188,55 +1065,6 @@ function makeHouse(lvl: number){const g=new THREE.Group();g.userData.id='casaTit
     const sk=shake?Math.sin(T*40)*.15*Math.max(0,1-(T-shake)/1.4):0;g.children[0].parent!.rotation.z=sk*.15};
   return g}
 
-/* ---------- el mundo activo ---------- */
-// newWorld(o): crea un mundo 3D vacío: escena, cámara (o.fov, 40 por defecto, 16:9), fondo o.bg, niebla o.fog=[cerca,lejos] y luces
-// (cielo, ambiente y sol con sombras que cubren o.shadow). Devuelve w = {sc, cam, fov, pick:[] (cosas que se pueden tocar),
-// upd:[] (funciones de cada cuadro), kind, sun}. Cada escena 3D lo rellena y luego llama a setWorld(w).
-function newWorld(o: OpcionesMundo={}){const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(o.fov||40,16/9,.1,400);
-  const w: Mundo={sc,cam,fov:o.fov||40,pick:[],upd:[],kind:o.kind};
-  sc.background=new THREE.Color(o.bg||'#BFE9F8');if(o.fog)sc.fog=new THREE.Fog(o.bg||'#BFE9F8',o.fog[0],o.fog[1]);
-  sc.add(new THREE.HemisphereLight(0xffffff,0xb7d39c,.44));sc.add(new THREE.AmbientLight(0xffffff,.12));
-  const sun=new THREE.DirectionalLight(0xfff4e0,.48);sun.position.set(-14,30,18);sun.castShadow=true;const s=o.shadow||24;
-  Object.assign(sun.shadow.camera,{left:-s,right:s,top:s,bottom:-s,near:1,far:90});sun.shadow.mapSize.setScalar(SHM);sun.shadow.bias=-.0006;sun.shadow.radius=3;sc.add(sun);sc.add(sun.target);w.sun=sun;
-  fitCam(w);return w}
-// las piezas diminutas (pétalos, piedritas, puntitos) no proyectan sombra: no se nota y ahorra una pasada de dibujo por pieza
-// trimShadows(w): mira el tamaño real de cada pieza (radio de su geometría por la escala); Tito (w.tito) conserva siempre sus sombras
-function trimShadows(w: Mundo){const s=new THREE.Vector3(),keep=new Set();if(w.tito)w.tito.traverse(o=>keep.add(o));w.sc.updateMatrixWorld(true);
-  w.sc.traverse((o: Nodo)=>{if(!o.isMesh||!o.castShadow||keep.has(o))return;const g=o.geometry;if(!g.boundingSphere)g.computeBoundingSphere();o.getWorldScale(s);
-    if(g.boundingSphere.radius*Math.max(s.x,s.y,s.z)<.3)o.castShadow=false})}
-// setWorld(w): hace que w sea el mundo activo W3 (libera el anterior), ajusta la cámara, reinicia la medida de FPS y quita sombras pequeñas
-function setWorld(w: Mundo){if(W3&&W3!==w)disposeWorld(W3);W3=w;fitCam(w);FPS.last=0;trimShadows(w)}
-// también se liberan las texturas de usar y tirar (las guardadas en TXC se reutilizan) y el mapa de sombras del sol;
-// sin esto cada visita a una escena dejaba en la GPU ~11 texturas y una sombra de 2048x2048
-// disposeWorld(w): libera de la GPU las geometrías (menos las marcadas keep y SHELL), sombras y texturas de un mundo que ya no se usa.
-// tx(t): libera la textura t si no está en la caché TXC
-function disposeWorld(w: Mundo){const kept=new Set<Tres.Texture>(Object.values(TXC)),tx=(t: Tres.Texture|null|undefined)=>{if(t&&t.isTexture&&!kept.has(t))t.dispose()};
-  w.sc.traverse((o: Nodo)=>{if(o.geometry&&!o.geometry.userData.keep&&o.geometry!==(SHELL&&SHELL.g))o.geometry.dispose();
-    if(o.isLight&&o.shadow&&o.shadow.map){o.shadow.map.dispose();o.shadow.map=null}
-    for(const m of ([] as Tres.MeshBasicMaterial[]).concat(o.material||[]))tx(m.map);if(o.material&&o.material.isSpriteMaterial)o.material.dispose()});tx(w.sc.background as Tres.Texture|null)/* si el fondo es un color, tx no hace nada */}
-// cámara: base + pequeño paralaje con el mouse
-// camRig(w,pos,look,par): pone la cámara en pos mirando a look. w.cb = posición base; w.camT = destino actual (walkTo lo cambia para
-// acercarse); w.camL = punto al que mira ahora. par = cuánto se mueve con el ratón (paralaje)
-function camRig(w: Mundo,pos: Tres.Vector3,look: Tres.Vector3,par=1){w.cb={pos:pos.clone(),look:look.clone(),par};w.cam.position.copy(pos);w.cam.lookAt(look);w.camT={pos:pos.clone(),look:look.clone()};w.camL=look.clone()}
-// camTick(w,dt): cada cuadro acerca la cámara suavemente a su destino (w.camT) más el paralaje del ratón (MX,MY);
-// k=1-e^(-3*dt) hace que el suavizado vaya igual de rápido con cualquier número de cuadros por segundo
-function camTick(w: Mundo,dt: number){const c=w.cb;if(!c)return;const k=1-Math.exp(-dt*3);
-  const mx=VIVO.mouseOn?(VIVO.MX-800)/800:0,my=VIVO.mouseOn?(VIVO.MY-450)/450:0;
-  const tp=w.camT!.pos.clone().add(V3(mx*c.par,-my*c.par*.5,0)),tl=w.camT!.look;
-  w.cam.position.lerp(tp,k);w.camL!.lerp(tl,k);w.cam.lookAt(w.camL!)}
-
-// calidad adaptable: si el aparato no llega a ~24 cuadros por segundo en 3D, se baja la resolución (nunca se sube);
-// debajo de 20 cuadros el juego entero va más lento porque el paso de tiempo está topado en 0,05 s
-// FPS = {n: cuadros contados, t0: inicio de la medida, last: último cuadro, up: ya se subió la calidad, noUp: no volver a subirla}.
-// PRK = escala de la resolución (1 = completa, mínimo 0,5); rs() redimensiona el lienzo
-const FPS: {n: number; t0: number; last: number; up?: boolean; noUp?: boolean}={n:0,t0:0,last:0};
-// fpsTick(): se llama en cada cuadro 3D. Cuenta cuadros durante 4 s y baja o sube PRK. Tras una pausa de más de 1 s (o con la
-// pestaña oculta) empieza a contar de nuevo, para no confundir la pausa con lentitud
-function fpsTick(){const now=performance.now();if(now-FPS.last>1000||document.hidden){FPS.n=0;FPS.t0=now}FPS.last=now;FPS.n++;
-  if(now-FPS.t0>=4000){const fps=FPS.n*1000/(now-FPS.t0);if(fps<24&&PRK>.5){PRK=Math.max(.5,PRK*.75);if(FPS.up)FPS.noUp=true;rs()}
-    // si fue un tirón pasajero (cargando, otra app) y ahora va sobrado, la nitidez vuelve a subir; si vuelve a ir lento después de subir, se queda baja
-    else if(fps>=55&&PRK<1&&!FPS.noUp){PRK=Math.min(1,PRK/.75);FPS.up=true;rs()}
-    FPS.n=0;FPS.t0=now}}
 // R3frame(dt): el dibujo 3D de cada cuadro (lo llama el bucle de aplicacion/adultos.ts antes de dibujar lo 2D encima). Solo si hay mundo y la escena
 // es 3D (scene.three): ejecuta las funciones de W3.upd (con try/catch para que un fallo en un objeto no pare el juego), mueve la cámara y dibuja
 R3frame=function(dt){if(!W3||!scene||!scene.three)return;fpsTick();
@@ -1490,7 +1318,7 @@ function retito(){const w=W3,t=w&&w.tito;if(!t)return;const keepUD={face:t.userD
   const h=w.spots&&w.spots.casaTito&&w.spots.casaTito.userData.house,e=h&&h.userData.emb;if(e){e.material.map=shellTex();e.material.needsUpdate=true}}
 // window.__w3: lo que esta capa 3D ofrece al resto del juego y a las pruebas desde la consola: W (el mundo actual), retito,
 // PRK (resolución de dibujo: al cambiarla se llama a rs() para redimensionar), FPS, pickAt, proj, THREE y R (el renderizador). Al final se pone __w3.ok=true.
-window.__w3={get W(){return W3},retito,get PRK(){return PRK},set PRK(v){PRK=v;rs()},FPS,pickAt,proj,THREE,R};
+window.__w3={get W(){return W3},retito,get PRK(){return PRK},set PRK(v){ponPRK(v)},FPS,pickAt,proj,THREE,R};
 
 /* ================= EL MAPA: la isla de Curiolandia ================= */
 // MZB: copia de las posiciones 2D originales {x,y,r} de cada lugar del mapa (MZ2, escenas/zonas.ts), porque sync() las sobrescribe con las proyectadas.
@@ -1527,7 +1355,7 @@ const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
     const drops: Tres.Mesh[]=[];for(let i=0;i<8;i++)drops.push(mk(Sph(.09,8,6),'#BFEAF7',{ol:.015,cs:false,to:g}));
     g.userData.anim=()=>{drops.forEach((d,i)=>{const a=i/8*PI*2,k=(T*.9+i*.37)%1;d.position.set(Math.cos(a)*(.4+k*.6),1.55+Math.sin(k*PI)*.7-k*.6,Math.sin(a)*(.4+k*.6))})};
     DIAC.forEach((c,i)=>{const a=PI*1.05+i/6*PI*.9,x=Math.cos(a)*2.55,z=Math.sin(a)*2.55;mk(Cyl(.05,.05,1.6,6),'#FFFFFF',{p:[x,.8,z],to:g,ol:.025});
-      const f=mk(new THREE.PlaneGeometry(.55,.38),new THREE.MeshToonMaterial({color:c,gradientMap:GRAD,side:THREE.DoubleSide}),{p:[x+.27,1.4,z],ol:0,to:g});f.userData.wave=i});
+      const f=mk(new THREE.PlaneGeometry(.55,.38),new THREE.MeshToonMaterial({color:c,gradientMap:gradiente(),side:THREE.DoubleSide}),{p:[x+.27,1.4,z],ol:0,to:g});f.userData.wave=i});
     spr(canvasTex(512,150,()=>{card(16,16,480,118,'#fff',8,30);DIAC.forEach((c,i)=>circ(100+i*52,44,13,c,4));text('ASAMBLEA',256,124,66,K,{f:LF})},'asamblea'),3.9,1.15,{p:[0,2.8,-.6],to:g})},
   // jardín (3 años): valla, cuatro casitas de colores, flores y la pastilla «3 años»
   jardin(g: Tres.Group){mk(Cyl(3.2,3.3,.2,36),'#B5E89E',{p:[0,.1,0],s:[1,1,.78],to:g,ol:.05});
@@ -1546,7 +1374,7 @@ const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
     pillSpr(tx('5 años'),open?'#5B8DEF':'#B8B0A6','#fff',{p:[0,.6,2.9],w:3.2,to:g});if(!open)zzz(g,[2.3,4,0])},
   // canciones: carpa de rayas con bandera y notas musicales que suben
   canciones(g: Tres.Group){mk(Cyl(1.5,1.5,1.3,16),M('#fff',{map:stripesTex()}),{p:[0,.65,0],to:g,ol:.05});mk(Cone(1.85,1.6,16),'#FF6B5E',{p:[0,2.1,0],to:g,ol:.05});
-    mk(Cyl(.03,.03,.7,6),K,{p:[0,3.1,0],ol:0,to:g});mk(new THREE.PlaneGeometry(.5,.3),new THREE.MeshToonMaterial({color:'#FFC93C',gradientMap:GRAD,side:THREE.DoubleSide}),{p:[.25,3.3,0],ol:0,to:g});
+    mk(Cyl(.03,.03,.7,6),K,{p:[0,3.1,0],ol:0,to:g});mk(new THREE.PlaneGeometry(.5,.3),new THREE.MeshToonMaterial({color:'#FFC93C',gradientMap:gradiente(),side:THREE.DoubleSide}),{p:[.25,3.3,0],ol:0,to:g});
     mk(Box(.8,.95,.1),'#7A4C30',{p:[0,.48,1.47],to:g,ol:.03});
     const notes=[0,1,2].map(i=>spr(canvasTex(128,128,()=>text('♪',64,100,110,DIAC[i*2],{st:8}),'nota'+i),.9,.9,{to:g}));
     g.userData.anim=()=>notes.forEach((n,i)=>{const k=(T*.5+i/3)%1;n.position.set(-1+i+Math.sin(T*2+i)*.3,2.6+k*1.8,.5);n.material.opacity=1-k})},
@@ -1558,7 +1386,7 @@ const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
   // rutinas: casita con el dibujo de las manos y pompas de jabón que suben
   rutinas(g: Tres.Group){mk(Box(1.9,1.3,1.6),'#BFEAF7',{p:[0,.65,0],to:g,ol:.05});mk(prism(2.4,1.1,2),'#5BB8E6',{p:[0,1.3,0],to:g,ol:.05});
     plane(canvasTex(160,160,()=>{circ(80,80,70,'#fff',8);pic('manos',80,80,110)},'manos3'),1,1,{p:[0,.75,.82],to:g});
-    const bub=[0,1,2,3].map(i=>{const m=new THREE.Mesh(Sph(.16+i*.04,12,10),new THREE.MeshToonMaterial({color:'#E8F8FF',gradientMap:GRAD,transparent:true,opacity:.75}));g.add(m);return m});
+    const bub=[0,1,2,3].map(i=>{const m=new THREE.Mesh(Sph(.16+i*.04,12,10),new THREE.MeshToonMaterial({color:'#E8F8FF',gradientMap:gradiente(),transparent:true,opacity:.75}));g.add(m);return m});
     g.userData.anim=()=>bub.forEach((b,i)=>{const k=(T*.6+i/4)%1;b.position.set(1.1+Math.sin(T*3+i)*.2,1.2+k*2,.3);b.scale.setScalar(1-k*.3);b.visible=k<.95})},
   // álbum: libro abierto con una estrella que se balancea encima
   album(g: Tres.Group){const b=grp(g,[0,.2,0]);b.rotation.y=-.25;mk(Box(1.5,.25,2),'#9B8AD9',{p:[-.78,.12,0],r:[0,0,.12],to:b,ol:.04});mk(Box(1.5,.25,2),'#9B8AD9',{p:[.78,.12,0],r:[0,0,-.12],to:b,ol:.04});
@@ -1568,7 +1396,7 @@ const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
   ingles(g: Tres.Group){mk(Cyl(.08,.08,1.8,8),'#C98A4B',{p:[0,.9,0],to:g,ol:.03});
     spr(canvasTex(256,180,()=>{card(14,14,228,120,'#fff',8,50);ctx.beginPath();ctx.moveTo(90,128);ctx.lineTo(70,170);ctx.lineTo(125,128);ctx.closePath();fillStroke('#fff',8);ctx.fillStyle='#fff';ctx.fillRect(80,118,50,14);text('Hello!',128,95,58,'#5B8DEF',{f:LF})},'hello3'),1.9,1.33,{p:[0,2.35,0],to:g});
     ['A','B','C'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=['#FF6B5E','#FFC93C','#7CC86E'][i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l);
-      const m=new THREE.Mesh(Box(.7,.7,.7),new THREE.MeshToonMaterial({map:t,gradientMap:GRAD}));m.position.set(-.85+i*.85,.35+(i===1?.0:0),.9);m.rotation.y=(i-1)*.3;m.castShadow=true;g.add(m);m.add(Object.assign(new THREE.Mesh(olGeo(m.geometry),OLm(.035)),{raycast:()=>{}}))})},
+      const m=new THREE.Mesh(Box(.7,.7,.7),new THREE.MeshToonMaterial({map:t,gradientMap:gradiente()}));m.position.set(-.85+i*.85,.35+(i===1?.0:0),.9);m.rotation.y=(i-1)*.3;m.castShadow=true;g.add(m);m.add(Object.assign(new THREE.Mesh(olGeo(m.geometry),OLm(.035)),{raycast:()=>{}}))})},
   // fiestas: tarta con velas (llamitas userData.fl), dos regalos y cuatro globos que se mecen
   fiestas(g: Tres.Group){const c=grp(g,[0,0,0]);mk(Cyl(1,1,.6,24),'#F58BB4',{p:[0,.3,0],to:c,ol:.04});mk(Cyl(.75,.75,.5,24),'#FFF6E6',{p:[0,.85,0],to:c,ol:.04});
     for(let i=0;i<4;i++){const a=i/4*PI*2;mk(Cyl(.05,.05,.35,6),DIAC[i],{p:[Math.cos(a)*.4,1.27,Math.sin(a)*.4],to:c,ol:.015});const fl=mk(Sph(.07,8,6),'#FFC93C',{p:[Math.cos(a)*.4,1.5,Math.sin(a)*.4],s:[1,1.6,1],ol:0,cs:false,to:c});fl.userData.fl=1}
@@ -1740,7 +1568,7 @@ function zoneDecor(w: Mundo,z: string){const D=w.sc;
       w.upd.push((dt: number)=>{const u=q.userData,e=u.wob==null?9:T-u.wob;if(e<.6){q.scale.setScalar(1.4*(1+e*1.4));q.material.rotation+=dt*12;q.material.opacity=.9*(1-e/.6);u.pp=1;return}
         if(u.pp){u.pp=0;q.position.y=0;q.scale.setScalar(1.4);q.material.opacity=.9}q.position.y+=dt*.45;q.position.x+=Math.sin(T+i)*dt*.3;q.material.rotation=Math.sin(T*.8+i)*.25;if(q.position.y>9)q.position.y=0})}}
   if(z==='ingles'){bus3(w,7.2);phone3(w,8.2,4.4,1);clock3(w,-1.6,4.8,.85);post3(w,3.8,5,1);tea3(w,-5.8,4.6,1.5);guard3(w,-9.6,4.8,1.3);flag3(w,6,3.4,1.1);umb3(w,.9,6.4,1)}
-  if(z==='ingles'){['H','E','L','L','O'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=DIAC[i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l+i);const m=new THREE.Mesh(Box(1.2,1.2,1.2),new THREE.MeshToonMaterial({map:t,gradientMap:GRAD}));m.position.set(-4+i*2,.6,-8.2);m.rotation.y=(i%2?.2:-.2);m.castShadow=true;m.userData.letter=i+1;D.add(m)})}}
+  if(z==='ingles'){['H','E','L','L','O'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=DIAC[i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l+i);const m=new THREE.Mesh(Box(1.2,1.2,1.2),new THREE.MeshToonMaterial({map:t,gradientMap:gradiente()}));m.position.set(-4+i*2,.6,-8.2);m.rotation.y=(i%2?.2:-.2);m.castShadow=true;m.userData.letter=i+1;D.add(m)})}}
 // buildZone(z,st): construye el mundo 3D de la zona z (camino de casitas). st es la escena de la zona (titoAt, cur = tema siguiente,
 // hov, hop, unl, lockShake). Pone suelo, decoración, cielo según la hora (luna con gorro, sol con accesorios según el mes),
 // carteles de estación, camino (en amarillo lo ya recorrido), casitas, flecha al tema siguiente, Tito y la animación por cuadro.
