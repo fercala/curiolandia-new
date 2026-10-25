@@ -27,7 +27,7 @@ export let VOICE: SpeechSynthesisVoice|null=null,VOICE_EN: SpeechSynthesisVoice|
 Object.assign(VIVO,{talking:false,sayTok:0});
 // SPK_OK: ya se "desbloqueó" la voz del navegador (en iOS hay que hablar una vez dentro de un toque).
 let SPK_OK=false;
-// initAudio(): se llama en cada toque (pointerdown en adult.js). Desbloquea la voz del navegador con una frase vacía
+// initAudio(): se llama en cada toque (pointerdown en aplicacion/adultos.ts). Desbloquea la voz del navegador con una frase vacía
 // y elige voz, crea y desbloquea el reproductor de voces grabadas (VOZ_EL) y, con initSonido() (sonido.ts), crea el
 // AudioContext la primera vez (o lo reanuda si estaba parado) y aplica los volúmenes.
 export function initAudio(): void{

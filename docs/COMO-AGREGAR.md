@@ -266,7 +266,7 @@ Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepára
 
 ## 12. Una opción en la zona de adultos
 
-En `openAdult()` (adult.js), cuya cabecera lo explica con detalle:
+En `openAdult()` (aplicacion/adultos.ts), cuya cabecera lo explica con detalle:
 1. Campo nuevo en `S` con valor por defecto (en `DEF2` de escenas/tienda.ts, o leyendo `S.miAjuste || 0`).
 2. Una fila en el HTML del panel, como la de "Paisaje":
    ```js

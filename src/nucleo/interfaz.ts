@@ -30,7 +30,7 @@ export function drawRounds(done: number,of: number,y=80): void{
 }
 // Candado de la zona de adultos (abajo a la derecha): hay que mantenerlo pulsado 3 s. lockDown = se está pulsando;
 // lockHold = segundos que lleva, en tiempo real (aunque el aparato vaya a pocos cuadros por segundo); lockPrev = hora
-// del cuadro anterior. Lo gestionan pointerdown y frame() en adult.js.
+// del cuadro anterior. Lo gestionan pointerdown y frame() en aplicacion/adultos.ts.
 Object.assign(VIVO,{lockHold:0,lockDown:false,lockPrev:0});
 // drawLock(): dibuja el candado semitransparente y, mientras se pulsa, un arco que se va llenando.
 export function drawLock(): void{
@@ -65,7 +65,7 @@ export function onWrongTwice(): void{VIVO.ADAPT=Math.max(-1,VIVO.ADAPT-1);streak
 export const nRounds=(): number=>(AGE()<=3?4:5)+(VIVO.REP>=2?1:0);
 /* tiempo de juego */
 // sessionT: segundos jugados en esta sesión (para S.limit); restAsked: ya se propuso descansar; minuteAcc: segundos aún
-// no apuntados en S.days. Los usa frame() en adult.js.
+// no apuntados en S.days. Los usa frame() en aplicacion/adultos.ts.
 // La sesión sigue al recargar la página: si S.ses ({t: segundos, at: hora en ms}, se guarda cada 15 s) es de hace menos
 // de 30 min, sessionT sigue desde ahí. Así recargar no se salta el límite de tiempo («a dormir»).
 Object.assign(VIVO,{sessionT:((): number=>{const s=S.ses,ago=s&&Date.now()-s.at;return s&&isFinite(+s.t)&&typeof ago==='number'&&ago>=0&&ago<30*60e3?+s.t:0})(),restAsked:false,minuteAcc:0});

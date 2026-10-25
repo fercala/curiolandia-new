@@ -29,7 +29,7 @@ el código global todavía crea sin tipos (escenas con campos propios, lo que se
 
 El código es global y casi sin tipos, así que salen avisos (283 al empezar la fase 1, 278 tras la fase 2a, 254 tras la 2b y 254 tras la 2c: se fueron los 12 de `core.js`
 y salieron 12 nuevos porque el código global ve ahora los tipos exactos del núcleo, por ejemplo que `shuffle` devuelve
-la misma clase de lista que recibe; 254 tras la 2d, 229 tras la 2e, al salir `comps.js` y `comps2.js`, 225 tras la 2f, al salir los temas, 219 tras la 2h, al salir `extras.js`, 218 tras la 2i, al salir `ingles.js`, 206 tras la 2j, al salir `scenes.js`, 172 tras la 2k, al salir `zonas.js`, 159 tras la 2l, al salir `tienda.js`, y 158 tras la 2m, al salir `repaso.js`). `tests/tipos-js.js` los cuenta
+la misma clase de lista que recibe; 254 tras la 2d, 229 tras la 2e, al salir `comps.js` y `comps2.js`, 225 tras la 2f, al salir los temas, 219 tras la 2h, al salir `extras.js`, 218 tras la 2i, al salir `ingles.js`, 206 tras la 2j, al salir `scenes.js`, 172 tras la 2k, al salir `zonas.js`, 159 tras la 2l, al salir `tienda.js`, 158 tras la 2m, al salir `repaso.js`, y 120 tras la 2n, al salir `adult.js`). `tests/tipos-js.js` los cuenta
 y **falla si hay más que el límite** de `tests/tipos-js-limite.txt`: ningún cambio puede añadir avisos. Si un cambio
 los baja, el script lo dice y hay que bajar el límite en el mismo PR. `node tests/tipos-js.js --lista` los muestra todos.
 

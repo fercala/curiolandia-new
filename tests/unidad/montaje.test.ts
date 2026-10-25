@@ -22,10 +22,10 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: adult.js primero (core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js,
-  // scenes.js, zonas.js, tienda.js y repaso.js ya son módulos: src/nucleo/, src/contenido/, src/juegos/, src/temas/ y src/escenas/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
+  // El orden importa: world3d.js primero (core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js,
+  // scenes.js, zonas.js, tienda.js, repaso.js y adult.js ya son módulos: src/nucleo/, src/contenido/, src/juegos/, src/temas/,
+  // src/escenas/ y src/aplicacion/), y boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['adult.js', 'world3d.js'],
     ['world3d.js', 'boot.js'],
   ] as const)('%s va antes que %s', (antes, despues) => {
     expect(ARCHIVOS.indexOf(antes)).toBeLessThan(ARCHIVOS.indexOf(despues));
@@ -57,15 +57,17 @@ describe('paginaJuego', () => {
   // Ejecuta los módulos en un navegador de mentira (lo justo para que el núcleo arranque: lienzo, localStorage,
   // Image...) y mira lo que dejan para el código global (el puente de src/modulos.ts).
   const ejecutaModulos = (): Record<string, unknown> => {
-    const lienzo = { width: 0, height: 0, style: {}, getContext: () => ({}), toDataURL: () => '' };
+    // aplicacion/adultos.ts conecta al cargarse los botones de los paneles y los eventos del lienzo y del documento.
+    const lienzo = { width: 0, height: 0, style: {}, getContext: () => ({}), toDataURL: () => '', addEventListener: () => undefined };
     const global: Record<string, unknown> = {
-      document: { getElementById: () => lienzo, createElement: () => lienzo },
+      document: { getElementById: () => lienzo, createElement: () => lienzo, addEventListener: () => undefined },
       localStorage: { getItem: () => null, setItem: () => undefined },
       location: { protocol: 'file:' },
       Image: class { src = ''; complete = false; },
       addEventListener: () => undefined,
       innerWidth: 1600,
       innerHeight: 900,
+      performance,
       console,
     };
     global['window'] = global;
@@ -117,6 +119,9 @@ describe('paginaJuego', () => {
     for (const k of ['giveCoins', 'creditCoins', 'STARS', 'drawCoinHUD', 'placeHome', 'wear', 'roomsOpen']) expect(typeof global[k], k).toBe('function');
     // escenas/repaso.ts: el repaso diario (añade kg y gs a S, la escena repaso y REP_ON para las pruebas).
     expect(runInContext("[typeof S.kg, typeof S.gs, typeof SCENES.repaso.draw, REP_ON].join()", global)).toBe('object,object,function,false');
+    // aplicacion/adultos.ts: la zona de adultos, el bucle frame() que arranca boot.js, la copia de seguridad y window.__cl.
+    for (const k of ['frame', 'openAdult', 'closeAdult', 'openNameDlg', 'openResetDlg', 'doReset', 'bkEncode', 'bkDecode']) expect(typeof global[k], k).toBe('function');
+    expect(runInContext("__cl.go === undefined ? 'no' : typeof __cl.go + ' ' + (__cl.S === S)", global)).toBe('function true');
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

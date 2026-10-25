@@ -20,8 +20,8 @@
  *   -> casita con o.fin -> cofre -> vuelve a la zona ({from}).
  *
  * Desde la fase 2k es un módulo (escenas/indice.ts lo carga después de
- *   escenas2d.ts) y el puente deja lo que exporta en globalThis para adult.js y
- *   world3d.js, que aún son código global (escenas/tienda.ts y escenas/repaso.ts lo importan).
+ *   escenas2d.ts) y el puente deja lo que exporta en globalThis para world3d.js, que aún
+ *   es código global (escenas/tienda.ts, escenas/repaso.ts y aplicacion/adultos.ts lo importan).
  *
  * Reescribe cosas de escenas/escenas2d.ts al cargarse:
  *   suggestTema y stationPos (con ponSuggestTema y ponStationPos), SCENES.jardin (entera), SCENES.map y

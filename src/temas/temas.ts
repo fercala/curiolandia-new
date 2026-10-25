@@ -17,7 +17,7 @@
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan escenas/escenas2d.ts (TEMAS, TEMA,
-//   SCENES.juego llama a makeGame), escenas/zonas.ts (ZONES.jardin), adult.js, temas/extras.ts y contenido/cuentos.ts.
+//   SCENES.juego llama a makeGame), escenas/zonas.ts (ZONES.jardin), aplicacion/adultos.ts, temas/extras.ts y contenido/cuentos.ts.
 //
 // Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
 // a castellano de España cuando S.variant==='es'. Si una frase cambia mucho, se pone una lista

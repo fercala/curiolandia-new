@@ -3,9 +3,9 @@
 // Cómo encaja: se ganan monedas al acertar en los juegos (envoltura de onRight) y al terminar un juego (envoltura de
 //   finishGame); se gastan en SCENES.tienda; lo comprado se ve en Tito (titoImg, drawTitoWear) o en SCENES.casaTito.
 //   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en escenas/zonas.ts, pero usan SHOP, wear y placeHome.
-//   Los vales los configura un adulto en adult.js (S.vales) y se compran aquí (quedan apuntados en S.valesLog).
+//   Los vales los configura un adulto en aplicacion/adultos.ts (S.vales) y se compran aquí (quedan apuntados en S.valesLog).
 // Desde la fase 2l es un módulo: escenas/indice.ts lo carga después de zonas.ts, y el puente deja lo que exporta en
-//   globalThis para adult.js y world3d.js (código global) y para las pruebas (escenas/repaso.ts lo importa). Los módulos que van
+//   globalThis para world3d.js (código global) y para las pruebas (escenas/repaso.ts y aplicacion/adultos.ts lo importan). Los módulos que van
 //   antes (zonas.ts, temas/, nucleo/guardado.ts...) lo usan como global, con los tipos de src/tardias.d.ts.
 // Define: DEF2, VALES_DEF, shownCoins/coinFx/coinBanner (animación de monedas), hudAt, spendCoins, HATPOS, titoHouseIc,
 //   SHOPCAT, TIER_NEED, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
@@ -91,7 +91,7 @@ interface MonedaVuela {
 //   puesto (color del caparazón, color de la bufanda, id del sombrero, 'gafas' o '', 'monio' o '');
 //   owned: {idArtículo:1} lo comprado o regalado; vales: lista de vales (ver VALES_DEF); valesLog: vales comprados
 //   [{id, txt, d:fecha, given:0/1}]; cofres: cofres abiertos. El resto (woke, bday, bdayDone, unlockAll, seenOpen,
-//   houseSeen, petSeen) lo usan otros archivos (escenas/zonas.ts, adult.js, world3d.js).
+//   houseSeen, petSeen) lo usan otros archivos (escenas/zonas.ts, aplicacion/adultos.ts, world3d.js).
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
 const DEF2={coins:0,coinsTot:0,gift:'',woke:{},home:{},tito:{shell:'naranja',scarf:'roja',hat:'',glasses:'',bow:''},owned:{'caparazon:naranja':1,'bufanda:roja':1},vales:null,valesLog:[],bday:null,bdayDone:'',unlockAll:false,seenOpen:{},houseSeen:null,petSeen:null,cofres:0};
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.

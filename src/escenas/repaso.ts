@@ -2,7 +2,7 @@
 // Para qué sirve: apunta qué habilidades practica cada juego y cómo le va al niño en cada juego,
 // y con eso prepara cada día una lista de 3 juegos para repasar (escena SCENES.repaso).
 // Desde la fase 2m es un módulo: escenas/indice.ts lo carga el último, después de tienda.ts, y el puente deja lo que
-//   exporta en globalThis para adult.js y world3d.js (código global) y para las pruebas.
+//   exporta en globalThis para world3d.js (código global) y para las pruebas.
 // Define: NOREP, repOk, repWeak, repOld, repBuild, repToday, repAllDone, repDue, REPBTN y la escena SCENES.repaso.
 //   Añade a S los campos kg, gs y rep.
 // Exporta: REP_ON (true mientras se juega un juego del repaso; lo leen las pruebas).
