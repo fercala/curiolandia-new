@@ -38,11 +38,7 @@ export interface Juego {
   [campo: string]: any;
 }
 
-/** Lo que dibuja una cosa k centrada en (x, y) con tamaño s (thing en comps.ts). */
-export type DibujaCosa = (k: Cosa, x: number, y: number, s: number) => void;
 
-/** Crea el juego g del tema t (makeGame en temas/temas.ts; temas/extras.ts y temas/ingles.ts lo amplían con ponMakeGame). */
-export type HaceJuego = (g: Libre, t: Libre, onDone: AlTerminar) => Juego;
 
 /** Un juego de un tema (en games): tipo t, dibujo del botón, nombre y, si no es de los que crea makeGame solo, make. */
 export interface JuegoTema {

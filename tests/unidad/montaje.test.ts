@@ -86,11 +86,11 @@ describe('paginaJuego', () => {
     expect(global['ONO']).toMatchObject({ vaca: '¡Muuu!', ambulancia: '¡Niinoo, niinoo!' });
     expect(runInContext("S.variant = 'es'; tx('Agarralo con la valija')", global)).toBe('Cógelo con la maleta');
     // juegos/: los componentes y sus ayudas de texto.
-    for (const k of ['Busca', 'Arrastra', 'Memoria', 'Tracer', 'Story', 'thing', 'ponThing']) expect(typeof global[k], k).toBe('function');
+    for (const k of ['Busca', 'Arrastra', 'Memoria', 'Tracer', 'Story', 'thing']) expect(typeof global[k], k).toBe('function');
     expect(runInContext("unN(3, 'perro') + ' / ' + eseEs('mesa')", global)).toBe('tres perros / Esa es la mesa');
     // temas/: los temas de cada edad, makeGame y los fondos (temas4.ts añade los suyos a BG al cargarse).
     expect(runInContext('[T3.length, T4.length, T5.length].join()', global)).toBe('12,12,12');
-    for (const k of ['makeGame', 'ponMakeGame', 'vestir']) expect(typeof global[k], k).toBe('function');
+    for (const k of ['makeGame', 'vestir']) expect(typeof global[k], k).toBe('function');
     expect(runInContext('typeof BG.aula + typeof BG.bosque', global)).toBe('functionfunction');
     // contenido/cuentos.ts: un cuento por tema, con páginas y preguntas.
     expect(runInContext("CUENTOS['3A-T1'].pages.length > 0 && CUENTOS['3A-T1'].qs.length > 0", global)).toBe(true);

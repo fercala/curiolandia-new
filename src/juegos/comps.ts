@@ -73,7 +73,7 @@
 // eseEs, NUM, plural, plW, fem, unN, KID_PARTS, KID_C, KID_FINE, drawKid,
 // kidPartAt, layoutChoice, drawChoice, hitItem, drawBasket, dotsCard, COLORES,
 // paintPot, colorAdj y todos los componentes), y el puente de src/modulos.ts lo
-// deja en globalThis. thing cambia con ponThing (no se reasigna desde fuera).
+// deja en globalThis.
 // IMPORTA: el núcleo, src/nucleo/ (ctx, T, W, H, say, later, SFX, rec, onRight,
 // onWrongTwice, AGE, nOpts, nRounds, VIVO, scene, burst, sparkles, card, circ,
 // ell, star, text, rr, fillStroke, hv, hR, hC, back, lerp, clamp, dist, rnd, ri,
@@ -81,18 +81,18 @@
 // de src/dibujos/. Los tipos (Juego, Config, Cosa...) están en juegos/tipos.ts.
 // ============================================================================
 import type { Par } from '../nucleo/idioma.ts';
-import type { AlTerminar, Config, Cosa, DibujaCosa, Juego, Libre } from './tipos.ts';
+import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, H, IMG, LF, ONO, PI, SFX, SOUNDS, T, V, VIVO, W, W_, Wn, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, flower, hC, hR, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, parts, pic, picG, pick, playSound, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sparkles, speaker, star, text, tx, whenQuiet } from '../nucleo/indice.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
-// Dibuja una "cosa" k centrada en (x,y) con tamaño s.
-// k puede ser una clave de dibujo (texto, se pinta con pic()) o un objeto con
-// su propio método draw(x,y,s). juegos/comps2.ts la amplía para las caritas 'emo:...'.
-export let thing: DibujaCosa=function(k,x,y,s){if(typeof k==='string')pic(k,x,y,s);else k.draw(x,y,s)};
-// ponThing(f): cambia thing por otra función (juegos/comps2.ts la envuelve para dibujar caras «emo:»).
-export function ponThing(f: DibujaCosa){thing=f}
+// thing(k, x, y, s): dibuja una "cosa" k centrada en (x,y) con tamaño s.
+// k puede ser una carita de emoción ('emo:alegria': la dibuja drawFace, de escenas/escenas2d.ts, que se carga después:
+// solo al jugar, tipo en src/tardias.d.ts), una clave de dibujo (texto, se pinta con pic()) o un objeto con su propio
+// método draw(x,y,s). Desde la fase 4f es una sola función (antes juegos/comps2.ts la envolvía con ponThing para las
+// caritas).
+export function thing(k: Cosa,x: number,y: number,s: number): void{if(typeof k==='string'&&k.startsWith('emo:')){drawFace(x,y,s*.44,k.slice(4));return}if(typeof k==='string')pic(k,x,y,s);else k.draw(x,y,s)}
 // Nombre con artículo de una cosa k, para decirlo en voz alta ('el perro').
 // Si k es una clave usa W_() (nucleo/idioma.ts); si es un objeto usa su campo name.
 export const nameT=(k: Cosa)=>typeof k==='string'?W_(k):V(k.name);
