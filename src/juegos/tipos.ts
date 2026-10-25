@@ -32,7 +32,8 @@ export interface Juego {
   down?(x: number, y: number): void;
   move?(x: number, y: number): void;
   up?(x: number, y: number): void;
-  prompt?(): void;
+  /** Recuerda qué hay que hacer; la escena lo llama sin cb, y el propio componente puede pasarle qué hacer después. */
+  prompt?(cb?: () => void): void;
   hint?(): Pista | null | undefined;
   [campo: string]: any;
 }
@@ -40,7 +41,7 @@ export interface Juego {
 /** Lo que dibuja una cosa k centrada en (x, y) con tamaño s (thing en comps.ts). */
 export type DibujaCosa = (k: Cosa, x: number, y: number, s: number) => void;
 
-/** Crea el juego g del tema t (makeGame en temas/temas.ts; temas/extras.ts e ingles.js lo amplían con ponMakeGame). */
+/** Crea el juego g del tema t (makeGame en temas/temas.ts; temas/extras.ts y temas/ingles.ts lo amplían con ponMakeGame). */
 export type HaceJuego = (g: Libre, t: Libre, onDone: AlTerminar) => Juego;
 
 /** Un juego de un tema (en games): tipo t, dibujo del botón, nombre y, si no es de los que crea makeGame solo, make. */

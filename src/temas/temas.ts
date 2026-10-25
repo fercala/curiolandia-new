@@ -11,7 +11,7 @@
 //     zonas donde se sueltan las cosas en los juegos de arrastrar (Arrastra, juegos/comps.ts).
 //   - vestir(): fábrica del juego "vestir al nene".
 //   - T3 (lista de temas de 3 años), C3 (Rincón de los Conceptos de 3 años), COLS3.
-//   - makeGame(g,t,onDone): crea el juego g del tema t (temas/extras.ts e ingles.js la amplían con ponMakeGame).
+//   - makeGame(g,t,onDone): crea el juego g del tema t (temas/extras.ts y temas/ingles.ts la amplían con ponMakeGame).
 //   - GICON: icono por defecto de algunos tipos de juego.
 // Importa: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
@@ -353,7 +353,7 @@ export const C3: Tema={id:'3A-C',n:'Rincón de los Conceptos',icon:'estrella',c:
 // Si el juego trae make, lo usa. Si no, arma los genéricos con las words del tema:
 // 'conocer' (Conocer), 'busca' (Busca, "¿Dónde está...?") y 'memoria' (Memoria).
 // Devuelve el objeto del juego (con enter, draw, down, up, move...), que maneja SCENES.juego.
-// temas/extras.ts e ingles.js la envuelven para añadir 'cancion', 'cuento' y los juegos de inglés.
+// temas/extras.ts y temas/ingles.ts la envuelven para añadir 'cancion', 'cuento' y los juegos de inglés.
 export let makeGame: HaceJuego=function(g,t,onDone){
   if(g.make)return g.make(onDone,t);
   const ks=t.words.map((w: Cosa)=>w.k).filter(Boolean);
@@ -361,7 +361,7 @@ export let makeGame: HaceJuego=function(g,t,onDone){
   if(g.t==='busca')return Busca({items:ks,bg:t.bg,key:t.id},onDone);
   if(g.t==='memoria')return Memoria({pool:ks,bg:t.bg},onDone);
 }
-// ponMakeGame(f): cambia makeGame por otra función (temas/extras.ts e ingles.js la envuelven con sus juegos).
+// ponMakeGame(f): cambia makeGame por otra función (temas/extras.ts y temas/ingles.ts la envuelven con sus juegos).
 export function ponMakeGame(f: HaceJuego){makeGame=f}
 // GICON: icono por defecto de algunos tipos de juego (clave de PICS). Ojo: ahora mismo
 // ningún archivo la usa; el icono real lo decide gIcon() en scenes.js.
