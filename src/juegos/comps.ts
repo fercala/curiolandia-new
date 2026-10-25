@@ -10,13 +10,13 @@
 // ---------- INTERFAZ COMÚN DE UN COMPONENTE DE JUEGO ----------
 // CREACIÓN: cada componente es una función  Nombre(cfg, onDone)  que DEVUELVE un
 //   objeto "juego" (no se usa `new`). La llama makeGame() (temas/temas.ts, ampliada en
-//   temas/extras.ts y temas/ingles.ts) desde la escena SCENES.juego (scenes.js):
+//   temas/extras.ts y temas/ingles.ts) desde la escena SCENES.juego (escenas/escenas2d.ts):
 //       this.g = makeGame(tema.games[j], tema, onDone)
 //   - cfg: objeto de configuración propio de cada tipo (ver cabecera de cada uno).
 //     Casi todos aceptan cfg.bg (función que pinta el fondo, p. ej. t.bg = BG.aula),
 //     cfg.key (nombre de la estadística para rec()) y cfg.rounds (número de rondas).
 //   - onDone: función que el componente llama UNA vez cuando el niño termina todo
-//     el juego. La escena llama entonces a finishGame() (scenes.js).
+//     el juego. La escena llama entonces a finishGame() (escenas/escenas2d.ts).
 // CAMPOS del objeto juego que lee la escena:
 //   - total: número de estrellas/pasos del juego (las estrellitas grises de arriba
 //     a la derecha, drawRounds en nucleo/interfaz.ts). Si es 0 o falta, no se dibujan.

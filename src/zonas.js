@@ -16,10 +16,10 @@
  *   portada (title) -> mapa (map) -> [asamblea si no se ha hecho hoy]
  *   -> zona (SCENES.jardin/bosque/montana/fiestas/ingles = zoneScene(z))
  *   o botón "seguir" (goSeguir -> casita del siguiente tema, nextTema)
- *   -> casita (juegos en camino) -> juego -> finishGame (scenes.js)
+ *   -> casita (juegos en camino) -> juego -> finishGame (escenas/escenas2d.ts)
  *   -> casita con o.fin -> cofre -> vuelve a la zona ({from}).
  *
- * Reescribe cosas de scenes.js (este archivo va después en el script):
+ * Reescribe cosas de escenas/escenas2d.ts (este archivo va después en el script):
  *   suggestTema, stationPos, SCENES.jardin (entera), SCENES.map y
  *   SCENES.casita (con Object.assign), GNAME (añade tipos) y envuelve
  *   SCENES.asamblea. world3d.js después envuelve map, casita, cofre y las
@@ -36,7 +36,7 @@
  *   drawSeguir, drawZoneSpot, stLocked, GIFTS, nextGift, grantGift,
  *   drawChest, isBday.
  * Depende de:
- *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), scenes.js
+ *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), escenas/escenas2d.ts
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
  *   drawLogoSmall, inR, GNAME), temas*.js, temas/extras.ts (CAN, RUT, TRZ,
  *   FIESTAS, BG, TUNES, playTune), temas/ingles.ts (ING), tienda.js (SHOP,
@@ -123,7 +123,7 @@ function nextTema(){const z0=ageZoneOpen();
   for(const z of[z0,...MAINZ.filter(z=>z!==z0)]){if(!zoneOpen(z))continue;const t=pathOf(z).find(t=>!tst(t.id).done&&temaOpen(t));if(t)return t}
   for(const t of[CAN,RUT,...ING,TRZ,...MAINZ.map(z=>ZONES[z].temas.find(t=>t.concepts)),...FIESTAS])if(t&&!tst(t.id).done&&temaOpen(t))return t;
   return null}
-// Sustituye la suggestTema antigua de scenes.js: ahora la recomendación es la casita que toca en el camino.
+// Sustituye la suggestTema antigua de escenas/escenas2d.ts: ahora la recomendación es la casita que toca en el camino.
 ponSuggestTema(function(z){return curTema(z||ageZoneOpen())});
 // lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
 const lowName=t=>t.concepts?'el Rincón de los Conceptos':V(t.n).replace(/^./,c=>c.toLowerCase());
@@ -217,7 +217,7 @@ function zoneScene(z){const Z=ZONES[z],P=ZPOS[z],path=z==='fiestas'?FIESTAS:path
         SFX.pop();go('casita',{t:t.id,hello:true});return}}
       SFX.tap();sparkles(x,y)}};
 }
-// Crea una escena por zona; SCENES.jardin (la antigua de scenes.js) queda sustituida.
+// Crea una escena por zona; SCENES.jardin (la antigua de escenas/escenas2d.ts) queda sustituida.
 for(const z in ZONES)SCENES[z]=zoneScene(z);
 
 /* ---------- la casa de Tito y Pipo, el dinosaurio que crece ---------- */
@@ -345,7 +345,7 @@ function drawZoneSpot(z,o={}){const {x,y}=z,open=zoneOpen(z.id),s=hv('mz'+z.id,h
   const lk=!spotOpen(z.id)&&!ZAGE[z.id];
   if(o.unl&&unlockFx(x,y,z.r*.85,o.unl)){}else if(lk){lockOver(x,y,z.r*.85);card(x-46,y+z.r*.6,92,44,'#fff',5,22);flower(x-20,y+z.r*.6+22,11,FLC[0],2.5);text(String(spotNeed(z.id)),x+18,y+z.r*.6+35,30,K,{f:LF})}
   ctx.restore()}
-// MAPA v3: sustituye los métodos del mapa de scenes.js. (world3d.js lo envuelve después para el mapa 3D.)
+// MAPA v3: sustituye los métodos del mapa de escenas/escenas2d.ts. (world3d.js lo envuelve después para el mapa 3D.)
 SCENES.map=Object.assign(SCENES.map,{
 // enter(o): decide UN solo aviso al entrar, por prioridad:
 // 1) una zona que se acaba de despertar (S.woke) sin ser de su edad; 2) un sitio recién abierto (newlyOpen 'map');
@@ -415,7 +415,7 @@ SCENES.map=Object.assign(SCENES.map,{
 /* ---------- casitas de tema: los juegos también son un camino ---------- */
 // Más nombres de tipos de juego (los de extras, fiestas, cuentos...).
 Object.assign(GNAME,{cuento:'El cuento',cancion:'La canción',trazo:'Trazos',secuencia:'¿Qué va primero?',series:'¿Qué viene después?',memoria:'Memoria',velas:'Soplar las velitas',decora:'Decorar'});
-// stationPos(t, j): (sustituye la de scenes.js) posición del juego j en la casita del tema t, formando un camino:
+// stationPos(t, j): (sustituye la de escenas/escenas2d.ts) posición del juego j en la casita del tema t, formando un camino:
 // hasta 4 en una fila; hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al revés (zigzag).
 // world3d.js la vuelve a envolver con las posiciones 3D.
 ponStationPos(function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
@@ -424,7 +424,7 @@ ponStationPos(function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
 const stLocked=(t,j)=>!gameOpen(t,j);
 // CASITA v3: los juegos del tema forman un camino y se abren de uno en uno (gameOpen). Sustituye enter, prompt, hint,
-// draw y down de scenes.js.
+// draw y down de escenas/escenas2d.ts.
 Object.assign(SCENES.casita,{
 // enter(o): guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta directamente al cofre.
 // Si se ha abierto un juego nuevo (newlyOpen 'g:id') y no viene con hello, anima su candado y lo anuncia.

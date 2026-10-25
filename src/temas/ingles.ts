@@ -4,13 +4,13 @@
 // Desde la fase 2i es un módulo (temas/indice.ts lo carga después de extras.ts) y exporta: sayMix, ENC, enBlob,
 //   enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer, EnEscucha, EnGlobos, EnCuenta, ENG, ING y
 //   los tipos PalabraEn y OpcionesTarjeta. El puente de src/modulos.ts los deja en globalThis: ING se añade a TEMAS en
-//   scenes.js y a la zona 'ingles' en zonas.js, que aún son código global.
+//   escenas/escenas2d.ts y a la zona 'ingles' en zonas.js, que aún son código global.
 // Al cargarse: envuelve makeGame (temas/temas.ts, ya envuelto por temas/extras.ts) con ponMakeGame.
 // Importa: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
 //   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, V, cap), juegos/ (NUM) y temas/temas.ts
-//   (BG, makeGame). Usa drawFace e inR de scenes.js, que se carga después: solo al jugar (tipos en src/tardias.d.ts).
+//   (BG, makeGame). Usa drawFace e inR de escenas/escenas2d.ts, que se carga después: solo al jugar (tipos en src/tardias.d.ts).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
-import type { AlTerminar, Config, Juego, JuegoTema, Libre } from '../juegos/tipos.ts';
+import type { AlTerminar, Config, Juego, JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, H, LF, PI, SFX, T, V, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
@@ -52,7 +52,7 @@ export function enBlob(c: string){return (x: number,y: number,s: number)=>{ctx.s
 // Devuelve una función de dibujo (x,y,s) del número n en un círculo con n puntitos debajo (filas de 5).
 export function enNum(n: number){return (x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);circ(0,-s*.06,s*.3,DIAC[(n-1)%7],Math.max(4,s*.03));text(String(n),0,s*.06,s*.34,'#fff',{f:LF,st:Math.max(4,s*.03),sc:K});
   const per=5;for(let i=0;i<n;i++){const r=Math.floor(i/per),c=i%per,inRow=Math.min(per,n-r*per);circ((c-(inRow-1)/2)*s*.12,s*.33+r*s*.1,s*.04,'#FFC93C',Math.max(2,s*.012))}ctx.restore()}}
-// Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de scenes.js).
+// Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de escenas/escenas2d.ts).
 export const enFace=(m: string)=>(x: number,y: number,s: number)=>drawFace(x,y,s*.36,m);
 // a: edad desde la que aparece la palabra
 // Palabras de cada tema de inglés: EN[conjunto] = lista de {en (palabra en inglés), es (traducción; puede ser
@@ -200,7 +200,7 @@ export const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja'
 // Temas del Rincón del inglés (casitas de la zona 'ingles', se abren en orden). Campos: id, n (nombre), icon, c (color),
 // bg (fondo de los juegos), zone, en (conjunto de palabras de EN), tip (consejo para la familia en la zona de adultos),
 // games (lista de juegos de ENG).
-export const ING=[
+export const ING: Tema[]=[
   {id:'EN-HELLO',n:'Los saludos en inglés',icon:'mano',c:'#5BB8E6',bg:BG.aula,zone:'ingles',en:'hello',tip:'saludarse en inglés al llegar y al irse: hello, good morning, good night.',games:[ENG.conocer,ENG.escucha,ENG.globos]},
   {id:'EN-COLORS',n:'Los colores en inglés',icon:'pinturas',c:'#FF5A5A',bg:BG.colores,zone:'ingles',en:'colors',tip:'jugar a "I spy": buscar en casa cosas red, blue, yellow...',games:[ENG.conocer,ENG.escucha,ENG.globos]},
   {id:'EN-NUMBERS',n:'Los números en inglés',icon:'bloques',c:'#7CC86E',bg:BG.aula,zone:'ingles',en:'numbers',tip:'contar en inglés los escalones o los juguetes: one, two, three...',games:[ENG.conocer,ENG.cuenta,ENG.escucha]},

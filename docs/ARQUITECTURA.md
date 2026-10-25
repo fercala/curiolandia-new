@@ -58,7 +58,7 @@ El juego está a medio camino entre dos formas de cargar el código (fase 2 de l
     del módulo, aunque cambie (`S` tras `ponS`, `ctx` tras `ponCtx`, `T`, `scene`, `go` tras `ponGo`...).
   - El código global **no puede reasignarlos** (`T = 3` da error: para eso están las funciones `pon*`) ni declarar
     una global con el mismo nombre (el navegador da error al cargar; por eso `SCENES` ya no se declara en
-    `scenes.js`: está en `nucleo/escenas.ts` y los archivos le añaden escenas).
+    `escenas/escenas2d.ts`: está en `nucleo/escenas.ts` y los archivos le añaden escenas).
 - **Código global**: los `.js` de `src/` que aún no son módulos se pegan, en un orden fijo (`ARCHIVOS` en
   `herramientas/vite/curiolandia.mts`), dentro de un único `<script>` después del de los módulos. **El orden importa**:
   un archivo puede usar lo que definen los anteriores.
@@ -78,8 +78,8 @@ importar de otros módulos, nunca del código global.
 | 6 | `contenido/cuentos.ts` (antes `cuentos.js`; tipos en `contenido/tipos.ts`) | **Cuentos** (módulo, solo datos): los cuentos ilustrados de cada tema (`CUENTOS`), que lee `Story`. |
 | 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento y envuelve `makeGame`. |
 | 8 | `temas/ingles.ts` (antes `temas/ingles.ts`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
-| 9 | `scenes.js` | Primer archivo global. **Escenas 2D** originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
-| 10 | `zonas.js` | Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `scenes.js`. Cofre y regalos (`GIFTS`). |
+| 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo, el último que carga `modulos.ts`) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
+| 10 | `zonas.js` | Primer archivo global. Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
 | 11 | `tienda.js` | Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. |
 | 12 | `repaso.js` | Estadísticas por habilidad y repaso diario. |
 | 13 | `adult.js` | Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
@@ -101,7 +101,7 @@ declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo
   `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
 - **Funciones `pon*`** para cambiar una global entera desde otro archivo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
-  (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`scenes.js`),
+  (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`escenas/escenas2d.ts`),
   `ponMakeGame` (`temas/temas.ts`) y `ponGoSeguir` (`zonas.js`). Dentro del núcleo hay dos más: `ponMusica` (la música
   de la escena, la usa `go`) y `ponRopaTito` (`tienda.js` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
@@ -149,18 +149,18 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 
 | Escena | Archivo | Qué es |
 |---|---|---|
-| `title` | scenes.js (+3D) | Portada |
-| `edad`, `quien`, `intro` | scenes.js | Elegir edad, nombre y cuento de bienvenida (solo la primera vez) |
+| `title` | escenas/escenas2d.ts (+3D) | Portada |
+| `edad`, `quien`, `intro` | escenas/escenas2d.ts | Elegir edad, nombre y cuento de bienvenida (solo la primera vez) |
 | `map` | zonas.js (+3D) | La isla con todos los lugares |
 | `jardin`, `bosque`, `montana`, `fiestas`, `ingles` | zonas.js (+3D) | Zonas con su camino de casitas (se crean con `zoneScene(z)`) |
 | `casita` | zonas.js (+3D) | Dentro de un tema: las estaciones de juego |
-| `juego` | scenes.js | Ejecuta un juego (un componente de juegos/) |
+| `juego` | escenas/escenas2d.ts | Ejecuta un juego (un componente de juegos/) |
 | `cofre` | zonas.js (+3D) | Recompensa al terminar un tema |
-| `asamblea` | scenes.js + zonas.js | La rutina diaria (día, tiempo, emociones, cumpleaños) |
+| `asamblea` | escenas/escenas2d.ts + zonas.js | La rutina diaria (día, tiempo, emociones, cumpleaños) |
 | `tienda`, `casaTito` | tienda.js | Tienda (con páginas) y casa de Tito (2D) con siete habitaciones (`ROOMS`) que se abren con las casitas terminadas |
-| `album` | scenes.js | Álbum de pegatinas |
+| `album` | escenas/escenas2d.ts | Álbum de pegatinas |
 | `repaso` | repaso.js | Repaso diario |
-| `dormir` | scenes.js | Fin del tiempo de juego |
+| `dormir` | escenas/escenas2d.ts | Fin del tiempo de juego |
 
 ### Capas: cómo se "reescriben" las escenas
 
@@ -176,7 +176,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
   ponFinishGame(function (t, gi) { f0(t, gi); /* lo nuevo */ }); }
 ```
 
-- `zonas.js` reescribe el mapa y la casita de `scenes.js` (la versión de `scenes.js` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
+- `zonas.js` reescribe el mapa y la casita de `escenas/escenas2d.ts` (la versión de `escenas/escenas2d.ts` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
 - `tienda.js` envuelve `SCENES.juego` y `finishGame` (monedas); `repaso.js` envuelve `rec`, `finishGame`, la casita y el mapa.
 - `world3d.js` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 

@@ -16,7 +16,7 @@
 // Importa: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
-//   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan scenes.js (TEMAS, TEMA,
+//   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan escenas/escenas2d.ts (TEMAS, TEMA,
 //   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, temas/extras.ts y contenido/cuentos.ts.
 //
 // Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
@@ -169,7 +169,7 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //           archivo lo lee ahora mismo.
 //   bg      función de fondo (BG.xxx) que usan sus juegos.
 //   season  (opcional) 'otoño', 'invierno', 'primavera' o 'verano': Tito recomienda ese tema
-//           en esa estación (scenes.js).
+//           en esa estación (escenas/escenas2d.ts).
 //   intro   (opcional) frase con la que empieza el juego "conocer".
 //   concepts (opcional) true en el Rincón de los Conceptos: no está en el camino y se abre
 //           al terminar 3 casitas (zonas.js).
@@ -186,8 +186,8 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //             t     tipo de juego. 'conocer', 'busca' y 'memoria' se arman solos con las words
 //                   (ver makeGame); 'cancion' (con song) y 'cuento' los arma temas/extras.ts.
 //                   Cualquier otro tipo necesita make.
-//             icon  (opcional) clave de PICS para el botón del juego (gIcon en scenes.js).
-//             name  (opcional) nombre del juego que dice Tito; si falta, GNAME[t] (scenes.js).
+//             icon  (opcional) clave de PICS para el botón del juego (gIcon en escenas/escenas2d.ts).
+//             name  (opcional) nombre del juego que dice Tito; si falta, GNAME[t] (escenas/escenas2d.ts).
 //             make(onDone,t) (opcional) crea el juego: recibe la función que hay que llamar al
 //                   terminar y el propio tema, y devuelve el objeto del juego (normalmente con un
 //                   componente de juegos/comps.ts y juegos/comps2.ts: Arrastra, ChoiceGame, Cuenta, Pinta...).
@@ -364,5 +364,5 @@ export let makeGame: HaceJuego=function(g,t,onDone){
 // ponMakeGame(f): cambia makeGame por otra función (temas/extras.ts y temas/ingles.ts la envuelven con sus juegos).
 export function ponMakeGame(f: HaceJuego){makeGame=f}
 // GICON: icono por defecto de algunos tipos de juego (clave de PICS). Ojo: ahora mismo
-// ningún archivo la usa; el icono real lo decide gIcon() en scenes.js.
+// ningún archivo la usa; el icono real lo decide gIcon() en escenas/escenas2d.ts.
 export const GICON={conocer:'ojo',busca:'ojo',memoria:'regalo',sonido:'tren'};

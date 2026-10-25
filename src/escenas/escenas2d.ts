@@ -1,5 +1,5 @@
 /* =====================================================================
- * scenes.js: LAS ESCENAS 2D DEL JUEGO (versión 1) Y LA ASAMBLEA
+ * escenas/escenas2d.ts (antes scenes.js): LAS ESCENAS 2D DEL JUEGO (versión 1) Y LA ASAMBLEA
  * ---------------------------------------------------------------------
  * Para qué sirve:
  *   Define el objeto global SCENES con las pantallas por las que pasa el
@@ -25,30 +25,43 @@
  *       y la manita de ayuda cuando el niño no toca nada, y entonces llama
  *       una vez a scene.prompt() para repetir la consigna en voz alta.
  *
- * OJO: zonas.js (que va DESPUÉS en el script) reescribe varias cosas de
+ * Desde la fase 2j es un módulo: src/modulos.ts lo carga el último (usa los
+ * temas) y el puente deja lo que exporta en globalThis para zonas.js,
+ * tienda.js, repaso.js, adult.js y world3d.js, que aún son código global.
+ *
+ * OJO: zonas.js (que va DESPUÉS) reescribe varias cosas de
  * este archivo: SCENES.map (enter, prompt, hint, dwell, draw, down),
  * SCENES.casita (enter, prompt, hint, draw, down), SCENES.jardin (la
- * sustituye entera por zoneScene('jardin')), suggestTema y stationPos.
+ * sustituye entera por zoneScene('jardin')), y cambia suggestTema y
+ * stationPos con ponSuggestTema y ponStationPos (tienda.js y repaso.js
+ * envuelven finishGame con ponFinishGame).
  * Y world3d.js vuelve a envolver map, casita, cofre, title y las zonas
  * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
  *
- * Globales que define y usan otros archivos:
+ * Lo que exporta y usan otros archivos:
  *   SCENES, TEMAS, TEMA, tst, gDone, drawLogo, drawLogoSmall, pill, inR,
  *   VIVO.deferredInstall, standalone, MZ, asamHoy, suggestTema, tree,
  *   drawCasita, GNAME, gIcon, stationPos, drawStation, finishGame,
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
- *   SEASON_NEXT, dayIdx, ALBUM_KEYS.
- * Depende de:
+ *   SEASON_NEXT, dayIdx, ALBUM_KEYS (SCENES está en nucleo/escenas.ts:
+ *   aquí se le añaden las escenas).
+ * Importa:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
- *   pick, rnd, VIVO.idle...), nucleo/idioma.ts (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
- *   temas/extras.ts (CAN, RUT, TRZ, FIESTAS, playTune...), temas/ingles.ts (ING),
- *   juegos/ (makeGame), src/dibujos/ (PICS) y nucleo/imagenes.ts (pic), tienda.js / adult.js
- *   (drawTito, TITO, inTito, drawHome/atHome en core).
+ *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
+ *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight),
+ *   juegos/ (NUM) y src/dibujos/ (PICS, K). Usa openNameDlg y openResetDlg de
+ *   adult.js, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
  *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
  *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.stats (rec).
  * ===================================================================== */
+import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
+import type { Par } from '../nucleo/idioma.ts';
+import { K, PICS } from '../dibujos/todos.ts';
+import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveSticker, go, hC, hR, hv, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, temasDone, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
+import { NUM } from '../juegos/indice.ts';
+import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, dayNight, floor, makeGame } from '../temas/indice.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -60,17 +73,17 @@
 // TEMAS: lista de todos los temas en orden. TEMA: el mismo tema buscado por su id (TEMA['3A-T1']).
 // Formato de un tema (ver temas/temas.ts): {id, n: nombre, icon: dibujo, c: color, zone, games: [{t: tipo de juego, ...}],
 // words?, concepts? (true en el Rincón de los Conceptos), bg(): dibuja el fondo de su casita, intro?, season?}.
-const TEMAS=[...T3,C3,...T4,C4,...T5,C5,CAN,RUT,TRZ,...FIESTAS,...ING], TEMA={};TEMAS.forEach(t=>TEMA[t.id]=t);
+export const TEMAS: Tema[]=[...T3,C3,...T4,C4,...T5,C5,CAN,RUT,TRZ,...FIESTAS,...ING], TEMA: Record<string, Tema>={};TEMAS.forEach(t=>TEMA[t.id]=t);
 // tst(id): progreso guardado del tema con ese id, o uno vacío si aún no se ha jugado.
 // Formato: S.temas[id] = {g: {índiceJuego: veces que se ha terminado}, done: 1 si ya se terminaron todos}. No escribe en S.
-const tst=id=>S.temas[id]||{g:{},done:0};
+export const tst=(id: string): Libre=>S.temas[id]||{g:{},done:0};
 // gDone(t): cuántos juegos distintos del tema t se han terminado al menos una vez.
-const gDone=t=>t.games.filter((g,j)=>tst(t.id).g[j]).length;
+export const gDone=(t: Tema)=>t.games.filter((_g,j)=>tst(t.id).g[j]).length;
 // LOGO: el texto del logotipo; LOGOC: un color por letra.
-const LOGO='Curiolandia', LOGOC=['#FF8A7A','#FFA94D','#FFC93C','#7CC86E','#3FC1B0','#7FD3F0','#5B8DEF','#9B8AD9','#F58BB4','#FF8A7A','#FFA94D'];
+export const LOGO='Curiolandia', LOGOC=['#FF8A7A','#FFA94D','#FFC93C','#7CC86E','#3FC1B0','#7FD3F0','#5B8DEF','#9B8AD9','#F58BB4','#FF8A7A','#FFA94D'];
 // drawLogo(x, y, s): dibuja el logotipo grande de la portada centrado en (x, y), con letras de tamaño s
 // que suben, bajan y se balancean con el tiempo T. Solo dibuja.
-function drawLogo(x,y,s){
+export function drawLogo(x: number,y: number,s: number){
   ctx.font=`700 ${s}px ${DF}`; const ws=[...LOGO].map(c=>ctx.measureText(c).width), tw=ws.reduce((a,b)=>a+b,0);
   let cx=x-tw/2; [...LOGO].forEach((c,i)=>{const yy=y+Math.sin(T*3+i*.7)*s*.05; ctx.save();ctx.translate(cx+ws[i]/2,yy);ctx.rotate(Math.sin(T*2+i)*.05);
     text(c,0,0,s,LOGOC[i],{st:s*.08});ctx.restore();cx+=ws[i]});
@@ -78,15 +91,15 @@ function drawLogo(x,y,s){
 // pill(x, y, w, h, t, f, c, sz): botón redondeado ("píldora") centrado en (x, y) de w x h con el texto t.
 // f = color de fondo, c = color del texto, sz = tamaño de letra. Crece un poco al pasar el ratón (hv). Solo dibuja;
 // el toque se comprueba aparte en down().
-function pill(x,y,w,h,t,f='#fff',c=K,sz=32){const s=hv('pill'+x+y,hR(x,y,w,h));ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-w/2,-h/2,w,h,f,5,h/2);text(t,0,sz*.36,sz,c,{w:600});ctx.restore()}
+export function pill(x: number,y: number,w: number,h: number,t: string,f='#fff',c=K,sz=32){const s=hv('pill'+x+y,hR(x,y,w,h));ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-w/2,-h/2,w,h,f,5,h/2);text(t,0,sz*.36,sz,c,{w:600});ctx.restore()}
 // inR(x, y, cx, cy, w, h): true si el punto (x, y) cae dentro del rectángulo de w x h centrado en (cx, cy).
-const inR=(x,y,cx,cy,w,h)=>Math.abs(x-cx)<w/2&&Math.abs(y-cy)<h/2;
+export const inR=(x: number,y: number,cx: number,cy: number,w: number,h: number)=>Math.abs(x-cx)<w/2&&Math.abs(y-cy)<h/2;
 // deferredInstall: el aviso del navegador para instalar el juego como app (PWA). Se guarda al llegar el
 // evento 'beforeinstallprompt' para enseñarlo luego desde el botón "Instalar el juego" de la portada o la zona de adultos.
 Object.assign(VIVO,{deferredInstall:null});
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();VIVO.deferredInstall=e});
 // standalone(): true si el juego ya se está ejecutando instalado (pantalla completa o app), y entonces no se muestran los botones de instalar ni de pantalla completa.
-const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone;
+export const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||(navigator as Navigator & { standalone?: boolean }).standalone;
 
 /* ---------- PORTADA ---------- */
 // PORTADA. Primera escena. Desde aquí se va a 'edad' (si aún no hay edad), 'intro' (si no se ha visto el cuento)
@@ -154,11 +167,11 @@ SCENES.quien={music:'title',
   hint(){return{x:800,y:640,r:150}},
 // done(v): se llama al cerrar el diálogo del nombre (v = nombre escrito, o '' si se salta). Si hay nombre,
 // lo celebra diciéndolo; después va a 'intro' o al mapa.
-  done(v){if(v){SFX.tada();burst(800,400,50);say(`¡Hola, ${v}! ¡Qué lindo nombre!`,()=>later(400,()=>go(S.intro?'map':'intro',{hello:true})))}else go(S.intro?'map':'intro',{hello:true})},
+  done(v?: string){if(v){SFX.tada();burst(800,400,50);say(`¡Hola, ${v}! ¡Qué lindo nombre!`,()=>later(400,()=>go(S.intro?'map':'intro',{hello:true})))}else go(S.intro?'map':'intro',{hello:true})},
 // down(x, y): botón "Escribir el nombre" -> abre el diálogo; "Saltar" -> marca S.first.askedName para no
 // volver a preguntar y sigue; en otro sitio, solo chispas.
   down(x,y){
-    if(Math.abs(x-800)<230&&Math.abs(y-640)<75){SFX.pop();openNameDlg(v=>this.done(v));return}
+    if(Math.abs(x-800)<230&&Math.abs(y-640)<75){SFX.pop();openNameDlg((v?: string)=>this.done(v));return}
     if(Math.abs(x-800)<140&&Math.abs(y-790)<40){SFX.tap();S.first.askedName=1;save();this.done('');return}
     SFX.tap();sparkles(x,y,3)},
 // draw(): título, Tito, botón verde para escribir el nombre y "Saltar".
@@ -178,7 +191,7 @@ SCENES.intro={music:'title',
 // En la frase 1 lanza los 16 interrogantes. Cuando ya no quedan frases guarda S.intro y va al mapa.
   next(){
     // la presentación cambia con el personaje de Tito (zona de adultos); la del caracol es la de siempre
-    const lines=[({erizo:'¡Hola! Yo soy Tito, el erizo curioso. En mi mochila guardo un montón de preguntas.',tortuga:'¡Hola! Yo soy Tito, la tortuga curiosa. En mi mochila guardo un montón de preguntas.',conejo:'¡Hola! Yo soy Tito, el conejo curioso. En mi mochila guardo un montón de preguntas.'})[titoKind()]||'¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.','Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!','¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?','¿Me ayudás a encontrar las respuestas'+kid()+'? ¡Vamos a Curiolandia!'];
+    const lines=[(({erizo:'¡Hola! Yo soy Tito, el erizo curioso. En mi mochila guardo un montón de preguntas.',tortuga:'¡Hola! Yo soy Tito, la tortuga curiosa. En mi mochila guardo un montón de preguntas.',conejo:'¡Hola! Yo soy Tito, el conejo curioso. En mi mochila guardo un montón de preguntas.'} as Record<string, string>))[titoKind()]||'¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.','Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!','¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?','¿Me ayudás a encontrar las respuestas'+kid()+'? ¡Vamos a Curiolandia!'];
     if(this.ph>=lines.length){S.intro=true;save();go('map',{hello:true});return}
     this.t=0; if(this.ph===1){SFX.whoosh();for(let i=0;i<16;i++)this.qs.push({a:rnd(-2.6,-.4),v:rnd(200,520),c:pick(LOGOC),r:rnd(-1,1),t0:T+i*.06})}
     say(lines[this.ph],()=>later(700,()=>{this.ph++;this.next()}));
@@ -190,11 +203,11 @@ SCENES.intro={music:'title',
   draw(){
     sky('#BFEAF7','#FFF6E6');ctx.fillStyle='#9FDC8F';ctx.beginPath();ctx.ellipse(800,980,1100,260,0,0,PI*2);ctx.fill();
     cloud(200,160,1);cloud(1200,120,1.2);
-    for(const [x,c] of [[300,'#FF6B5E'],[1300,'#F58BB4'],[1450,'#FFC93C'],[150,'#9B8AD9']]){ctx.fillStyle='#7CC86E';ctx.fillRect(x-4,760,8,40);circ(x,750,22,c,4)}
+    for(const [x,c] of [[300,'#FF6B5E'],[1300,'#F58BB4'],[1450,'#FFC93C'],[150,'#9B8AD9']] as [number, string][]){ctx.fillStyle='#7CC86E';ctx.fillRect(x-4,760,8,40);circ(x,750,22,c,4)}
     drawTito(560,390,440,{sq:this.ph===1?Math.sin(this.t*20)*.03:0});
     for(const q of this.qs){const k=Math.max(0,T-q.t0);if(k<=0)continue;const d=Math.min(1,k/1.6);const x=720+Math.cos(q.a)*q.v*easeOut(d)*1.6,y=560+Math.sin(q.a)*q.v*easeOut(d)+Math.sin(T*3+q.r*5)*10;
       ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(T*2+q.r)*.3);text('?',0,0,90,q.c,{st:7});ctx.restore()}
-    if(this.ph===2){[['sol',1180,300],['vaca',1380,420],['nube',1180,520]].forEach(([k,x,y],i)=>pic(k,x,y+Math.sin(T*2+i)*8,150))}
+    if(this.ph===2){([['sol',1180,300],['vaca',1380,420],['nube',1180,520]] as [string, number, number][]).forEach(([k,x,y],i)=>pic(k,x,y+Math.sin(T*2+i)*8,150))}
     const s=hv('skip',hR(1500,820,120,100));ctx.save();ctx.translate(1500,820);ctx.scale(s,s);card(-60,-50,120,100,'#fff',6,34);ctx.beginPath();ctx.moveTo(-22,-25);ctx.lineTo(20,0);ctx.lineTo(-22,25);ctx.closePath();fillStroke(K,0);ctx.restore();
   },
 // down(x, y): el botón de saltar (abajo a la derecha) termina el cuento.
@@ -204,7 +217,7 @@ SCENES.intro={music:'title',
 /* ---------- MAPA DEL PUEBLO ---------- */
 // MZ: zonas del mapa ANTIGUO (v1) de scenes.js. Formato: {id, x, y, r: radio tocable, name: nombre para la voz}.
 // OJO: zonas.js sustituye el dibujo y los toques del mapa y usa MZ2 en su lugar; MZ ya solo lo usa el código viejo.
-const MZ=[
+export const MZ=[
   {id:'plaza',x:800,y:470,r:150,name:'la plaza de la asamblea'},
   {id:'jardin',x:390,y:560,r:150,name:'el Jardín de los 3 años'},
   {id:'bosque',x:1170,y:280,r:140,name:'el Bosque de los 4 años'},
@@ -212,22 +225,22 @@ const MZ=[
   {id:'album',x:1480,y:110,r:80,name:'el álbum'}
 ];
 // asamHoy(): true si hoy ya se ha hecho la asamblea (S.asam[fecha de hoy].done).
-const asamHoy=()=>S.asam[today()]&&S.asam[today()].done;
+export const asamHoy=()=>S.asam[today()]&&S.asam[today()].done;
 // suggestTema(): tema de 3 años recomendado (versión antigua): primero el de la estación actual, luego uno
 // según el mes del curso escolar (L: mes -> números de tema de T3) y si no, el primero sin terminar. Devuelve el tema o null.
 // OJO: zonas.js la sustituye por suggestTema=function(z){return curTema(...)}, que sigue el camino en orden.
-function suggestTema(){
+export let suggestTema: (z?: string) => Tema | null=function(){
   const sea=estacionDe(),st=T3.find(t=>t.season===sea);if(st&&!tst(st.id).done)return st;
   const m=new Date().getMonth(),L={8:[1],9:[4,2,3,5],10:[5,2,3,6],11:[6,7],0:[6,7],1:[7,8,9],2:[9,8,10],3:[10,9],4:[11,10],5:[12,11],6:[12],7:[12]}[m]||[1];
   for(const n of L){const t=T3[n-1];if(t&&!tst(t.id).done)return t}
   return T3.find(t=>!tst(t.id).done)||null;
 }
 // ponSuggestTema(f): cambia suggestTema por otra función (zonas.js la cambia por la de las zonas).
-function ponSuggestTema(f){suggestTema=f}
+export function ponSuggestTema(f: typeof suggestTema){suggestTema=f}
 // tree(x, y, s, season): dibuja un árbol en (x, y) a escala s según la estación: 'invierno' (ramas con nieve),
 // 'primavera' (flores), 'verano' (frutas), 'otoño' (hojas caídas) o 'gris' (zona dormida). Lo usan el mapa, las zonas
 // y la asamblea (pregunta de las estaciones).
-function tree(x,y,s,season){ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-12,-10,24,90,'#A86B43',6,6);
+export function tree(x: number,y: number,s: number,season: string){ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-12,-10,24,90,'#A86B43',6,6);
   if(season==='invierno'){ctx.lineWidth=8;ctx.strokeStyle='#A86B43';ctx.lineCap='round';for(const [a,b,c,d] of[[0,-10,-40,-70],[0,-10,40,-80],[0,-30,0,-100],[-40,-70,-60,-90],[40,-80,60,-96]]){ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke()}for(const [a,b] of[[-40,-74],[40,-84],[0,-104]])ell(a,b,18,8,'#fff',3)}
   else{const c=season==='gris'?'#C9CFC2':season==='otoño'?'#FFA94D':season==='verano'?'#5FA84E':'#8FD67F';circ(0,-80,74,c,6);
     if(season==='primavera')for(let i=0;i<7;i++)flower(Math.cos(i*.9)*44,-80+Math.sin(i*.9)*40,11,'#F58BB4',2);
@@ -243,7 +256,7 @@ SCENES.map={music:'map',
   enter(o){
     const n=temasDone();
     if(n>S.seenFl){S.seenFl=n;save();later(600,()=>{SFX.sparkle();burst(130,740,40);say(`¡Mirá${kid()}! ¡Tito tiene ${n===1?'una flor':NUM[n]+' flores'} en su caparazón!`)})}
-    else if(o.hello)later(400,()=>this.prompt(true));
+    else if(o.hello)later(400,()=>this.prompt!(true));
     if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },
 // prompt(first): saludo según la hora (si first) y consigna: asamblea si no se ha hecho hoy; si no, el jardín. (Sustituido en zonas.js.)
@@ -251,7 +264,7 @@ SCENES.map={music:'map',
     if(!asamHoy())say((first?sal+kid()+'! ':'')+'Vamos a la plaza a hacer la asamblea. Tocá la plaza.');
     else say((first?sal+kid()+'! ':'')+'Tocá el jardín para jugar.')},
 // hint(): señala la plaza (si falta la asamblea) o el jardín. (Sustituido en zonas.js.)
-  hint(){const z=MZ.find(z=>z.id===(asamHoy()?'jardin':'plaza'));return{x:z.x,y:z.y,r:z.r*.8}},
+  hint(){const z=MZ.find(z=>z.id===(asamHoy()?'jardin':'plaza'))!;return{x:z.x,y:z.y,r:z.r*.8}},
 // dwell(id): id = 'mz' + id de zona; dice su nombre. (Sustituido en zonas.js.)
   dwell(id){const z=MZ.find(z=>'mz'+z.id===id);if(z)say(cap(z.name)+(z.id==='bosque'||z.id==='montana'?'. Todavía está dormido.':'.'))},
 // draw(): mar, isla, caminos, plaza (brilla si falta la asamblea), jardín, bosque y montaña dormidos y álbum.
@@ -290,7 +303,7 @@ SCENES.map={music:'map',
 // down(x, y): casa -> portada; Tito -> consigna; plaza -> asamblea; jardín; álbum; bosque/montaña -> "dormido". (Sustituido en zonas.js.)
   down(x,y){
     if(atHome(x,y)){SFX.tap();go('title');return}
-    if(inTito(x,y)){this.prompt(false);return}
+    if(inTito(x,y)){this.prompt!(false);return}
     for(const z of MZ)if(dist(x,y,z.x,z.y)<z.r){
       if(z.id==='plaza'){SFX.pop();go('asamblea');return}
       if(z.id==='jardin'){SFX.pop();go('jardin',{hello:true});return}
@@ -300,21 +313,21 @@ SCENES.map={music:'map',
   }
 };
 // drawLogoSmall(x, y, s): versión pequeña y más quieta del logotipo (cabecera del mapa). Solo dibuja.
-function drawLogoSmall(x,y,s){ctx.font=`700 ${s}px ${DF}`;const ws=[...LOGO].map(c=>ctx.measureText(c).width),tw=ws.reduce((a,b)=>a+b,0);let cx=x-tw/2;[...LOGO].forEach((c,i)=>{text(c,cx+ws[i]/2,y+Math.sin(T*3+i*.7)*2,s,LOGOC[i],{st:s*.08});cx+=ws[i]})}
+export function drawLogoSmall(x: number,y: number,s: number){ctx.font=`700 ${s}px ${DF}`;const ws=[...LOGO].map(c=>ctx.measureText(c).width),tw=ws.reduce((a,b)=>a+b,0);let cx=x-tw/2;[...LOGO].forEach((c,i)=>{text(c,cx+ws[i]/2,y+Math.sin(T*3+i*.7)*2,s,LOGOC[i],{st:s*.08});cx+=ws[i]})}
 
 /* ---------- EL JARDÍN DE LOS 3 AÑOS ---------- */
 // JPOS: posición de cada casita en el jardín antiguo: {id de tema: {x, y, band: fila}}. Tres filas (5, 4 y 3 casitas)
 // y el Rincón de los Conceptos abajo a la derecha. Solo lo usa la escena 'jardin' de este archivo, que zonas.js sustituye
 // (allí las posiciones salen de zonePos/ZPOS).
-const JPOS=(()=>{const P={};const rows=[[1,2,3,4,5],[6,7,8,9],[10,11,12]],ys=[250,490,725];
+export const JPOS=(()=>{const P: Record<string, { x: number; y: number; band: number }>={};const rows=[[1,2,3,4,5],[6,7,8,9],[10,11,12]],ys=[250,490,725];
   rows.forEach((r,ri)=>r.forEach((n,j)=>{P['3A-T'+n]={x:ri===0?440+j*256:450+j*280,y:ys[ri],band:ri}}));P['3A-C']={x:1420,y:690,band:3};return P})();
 // BANDC: colores de las tres franjas (filas) del jardín antiguo.
-const BANDC=['#FFE2B8','#D6EEFA','#DDF3D2'];
+export const BANDC=['#FFE2B8','#D6EEFA','#DDF3D2'];
 // drawCasita(t, x, y, o): dibuja la casita del tema t en (x, y). o.s = escala, o.glow = halo amarillo (la recomendada).
 // Las casitas normales llevan tejado del color t.c y el dibujo t.icon; el Rincón de los Conceptos (t.concepts) es un
 // cuadro con formas. Debajo, un punto por juego (amarillo = terminado) y, si el tema está terminado, estrella y flores.
 // Solo dibuja. La usan las zonas (zonas.js) y world3d.js para las etiquetas.
-function drawCasita(t,x,y,o={}){
+export function drawCasita(t: Tema,x: number,y: number,o: Libre={}){
   const st=tst(t.id),done=st.done,n=gDone(t),s=o.s||1;
   ctx.save();ctx.translate(x,y);ctx.scale(s,s);
   if(o.glow){const p=(Math.sin(T*4)+1)/2;ctx.globalAlpha=.35+.35*p;circ(0,10,128+p*8,null,12,'#FFC93C');ctx.globalAlpha=1}
@@ -330,7 +343,7 @@ function drawCasita(t,x,y,o={}){
 SCENES.jardin={music:'jardin',
 // enter(o): calcula el tema recomendado y saluda (más largo la primera vez, S.first.jardin).
   enter(o){this.sug=suggestTema();
-    if(o.hello)later(400,()=>this.prompt(!S.first.jardin));S.first.jardin=1;save()},
+    if(o.hello)later(400,()=>this.prompt!(!S.first.jardin));S.first.jardin=1;save()},
 // prompt(long): presenta el jardín (si long) y recomienda la casita que brilla.
   prompt(long){const s=this.sug;say((long?'¡Bienvenido al Jardín de los 3 años! Cada casita es un tema. ':'')+(s?'Hoy te recomiendo '+V(s.n).toLowerCase().replace(/^mi /,'mi ')+'. ¡Es la casita que brilla!':'Tocá una casita para jugar.'))},
 // hint(): señala la casita recomendada.
@@ -349,7 +362,7 @@ SCENES.jardin={music:'jardin',
 // down(x, y): casa -> mapa; casita -> go('casita', {t: id del tema, hello: true}).
   down(x,y){
     if(atHome(x,y)){SFX.tap();go('map');return}
-    if(inTito(x,y)){this.prompt(true);return}
+    if(inTito(x,y)){this.prompt!(true);return}
     for(const t of TEMAS){const p=JPOS[t.id];if(inR(x,y,p.x,p.y,220,230)){SFX.pop();go('casita',{t:t.id,hello:true});return}}
     SFX.tap();sparkles(x,y);
   }
@@ -358,22 +371,22 @@ SCENES.jardin={music:'jardin',
 /* ---------- CASITA DE UN TEMA ---------- */
 // GNAME: nombre que dice Tito para cada tipo de juego (g.t), cuando el juego no trae su propio g.name.
 // zonas.js añade más tipos con Object.assign(GNAME, {...}).
-const GNAME={conocer:'Conocer',busca:'¿Dónde está?',memoria:'Memoria',sonido:'¿Quién hace este sonido?',cuerpo:'Mi cuerpo',toca:'Tocá la parte del cuerpo',puzzle:'Rompecabezas',pinta:'Pintar',clasifica:'Las canastas',
+export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde está?',memoria:'Memoria',sonido:'¿Quién hace este sonido?',cuerpo:'Mi cuerpo',toca:'Tocá la parte del cuerpo',puzzle:'Rompecabezas',pinta:'Pintar',clasifica:'Las canastas',
   burbujas:'Burbujas de colores',cae:'¡Atrapalas!',viste:'Vestir al nene',ordena:'Ordenar',mifamilia:'Armá tu familia',arma:'Hacer un muñeco de nieve',macedonia:'Ensalada de frutas',cuenta:'Contar',corral:'Dentro y fuera del corral',
   guarda:'Dentro y fuera',riega:'Regar las flores',excava:'Cavar en la arena'};
 // gIcon(g, t): dibujo de la estación del juego g del tema t: g.icon si lo trae; si no 'lupa' (conocer), 'busca',
 // 'memo' (memoria) o el icono del tema.
-const gIcon=(g,t)=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='memoria'?'memo':t.icon);
+export const gIcon=(g: JuegoTema,t: Tema): string=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='memoria'?'memo':t.icon);
 // stationPos(t, j): posición [x, y] en pantalla de la estación (círculo) del juego j dentro de la casita del tema t.
 // Hasta 4 juegos van en una fila; si hay más, en dos filas de 3. OJO: zonas.js la reescribe (camino en zigzag y hasta
 // 8 juegos) y world3d.js la vuelve a envolver con las posiciones proyectadas del 3D.
-function stationPos(t,j){const n=t.games.length;if(n<=4){return[860-(n-1)*180+j*360,560]}const r=Math.floor(j/3),c=j%3;return[540+c*360,r?700:420]}
+export let stationPos: (t: Tema, j: number) => number[]=function(t,j){const n=t.games.length;if(n<=4){return[860-(n-1)*180+j*360,560]}const r=Math.floor(j/3),c=j%3;return[540+c*360,r?700:420]}
 // ponStationPos(f): cambia stationPos por otra función (zonas.js y world3d.js la cambian por la suya).
-function ponStationPos(f){stationPos=f}
+export function ponStationPos(f: typeof stationPos){stationPos=f}
 // drawStation(t, j, x, y, o): dibuja la estación del juego j del tema t en (x, y): círculo blanco (amarillo si es el
 // primero y no está hecho), el dibujo del juego (lupa, búsqueda, cartas de memoria o el icono) y, si está terminado,
 // una estrella con "×N" veces. o.s = escala. Solo dibuja.
-function drawStation(t,j,x,y,o={}){
+export function drawStation(t: Tema,j: number,x: number,y: number,o: Libre={}){
   const g=t.games[j],done=tst(t.id).g[j],ic=gIcon(g,t),s=o.s||1;
   ctx.save();ctx.translate(x,y);ctx.scale(s,s);ell(0,130,120,24,'rgba(74,52,40,.15)',0);
   circ(0,0,128,j===0&&!done?'#FFF3B0':'#fff',8);
@@ -391,24 +404,24 @@ SCENES.casita={music:'casita',
 // enter(o): guarda en S.last el último tema visitado. Si viene de terminar el tema (o.fin) lo celebra con figurita;
 // si no, saluda. (Sustituido en zonas.js.)
   enter(o){this.t=TEMA[o.t];S.last=o.t;save();
-    if(o.fin){later(400,()=>{SFX.tada();burst(800,300,90);const fl=temasDone();giveSticker(this.t.icon);say(('¡Terminaste todos los juegos de '+(this.t.concepts?'el Rincón de los Conceptos':V(this.t.n).replace(/^./,c=>c.toLowerCase()))).replace(/ de el /,' del ')+kid()+'! ¡Le creció una flor a Tito!')})}
-    else if(o.hello)later(300,()=>this.prompt(true))},
+    if(o.fin){later(400,()=>{SFX.tada();burst(800,300,90);temasDone();giveSticker(this.t.icon);say(('¡Terminaste todos los juegos de '+(this.t.concepts?'el Rincón de los Conceptos':V(this.t.n).replace(/^./,c=>c.toLowerCase()))).replace(/ de el /,' del ')+kid()+'! ¡Le creció una flor a Tito!')})}
+    else if(o.hello)later(300,()=>this.prompt!(true))},
 // prompt(long): dice el nombre del tema (si long) y qué juego tocar. (Sustituido en zonas.js.)
-  prompt(long){const t=this.t,nx=t.games.findIndex((g,j)=>!tst(t.id).g[j]);say((long?V(t.n)+'. ':'')+(nx===0?'Empezá por el primero: ¡vamos a conocer!':nx>0?'Tocá un juego. Te falta el que no tiene estrella.':'¡Ya jugaste todos! Podés repetir el que más te guste.'))},
+  prompt(long){const t=this.t,nx=t.games.findIndex((_g: JuegoTema,j: number)=>!tst(t.id).g[j]);say((long?V(t.n)+'. ':'')+(nx===0?'Empezá por el primero: ¡vamos a conocer!':nx>0?'Tocá un juego. Te falta el que no tiene estrella.':'¡Ya jugaste todos! Podés repetir el que más te guste.'))},
 // hint(): señala el primer juego sin terminar. (Sustituido en zonas.js.)
-  hint(){const t=this.t,nx=t.games.findIndex((g,j)=>!tst(t.id).g[j]);if(nx<0)return null;const [x,y]=stationPos(t,nx);return{x,y,r:140}},
+  hint(){const t=this.t,nx=t.games.findIndex((_g: JuegoTema,j: number)=>!tst(t.id).g[j]);if(nx<0)return null;const [x,y]=stationPos(t,nx);return{x,y,r:140}},
 // dwell(id): id = 'g:' + número de juego; dice el nombre del juego (g.name o GNAME[g.t]).
   dwell(id){const j=+id.slice(2);const g=this.t.games[j];if(g)say(V(g.name||GNAME[g.t]||''))},
 // draw(): fondo del tema (t.bg), cartel con su nombre y las estaciones de los juegos. (Sustituido en zonas.js.)
   draw(){const t=this.t;t.bg();
     {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(V(t.n)).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(V(t.n),310+tw/2,110,54,K,{w:600})}
-    t.games.forEach((g,j)=>{const [x,y]=stationPos(t,j);drawStation(t,j,x,y,{s:hv('g:'+j,hC(x,y,130))})});
+    t.games.forEach((_g: JuegoTema,j: number)=>{const [x,y]=stationPos(t,j);drawStation(t,j,x,y,{s:hv('g:'+j,hC(x,y,130))})});
     drawHome();drawTito(TITO.x,TITO.y,TITO.w);
   },
 // down(x, y): casa -> jardín; estación -> go('juego', {t, g: número de juego}). (Sustituido en zonas.js.)
   down(x,y){
     if(atHome(x,y)){SFX.tap();go('jardin');return}
-    if(inTito(x,y)){this.prompt(true);return}
+    if(inTito(x,y)){this.prompt!(true);return}
     for(let j=0;j<this.t.games.length;j++){const [gx,gy]=stationPos(this.t,j);if(dist(x,y,gx,gy)<140){SFX.pop();go('juego',{t:this.t.id,g:j});return}}
     SFX.tap();sparkles(x,y);
   }
@@ -420,18 +433,18 @@ SCENES.casita={music:'casita',
 // (el tema da una flor a Tito). La primera vez que acaba ese juego regala una figurita (S.stk) de una palabra del tema
 // que aún no tenga. Celebra, dice una felicitación (cuando Tito acaba la que esté diciendo) y vuelve a go('casita', {t, fin}); fin = true si se acaba de terminar
 // el tema (entonces la casita manda al cofre).
-function finishGame(t,gi){
+export let finishGame: (t: Tema, gi: number) => void=function(t,gi){
   const st=S.temas[t.id]||(S.temas[t.id]={g:{},done:0});const first=!st.g[gi];st.g[gi]=(st.g[gi]||0)+1;
 // fin solo es true la PRIMERA vez que se completan todos los juegos del tema.
-  let fin=false;if(!st.done&&t.games.every((g,j)=>st.g[j])){st.done=1;fin=true}
+  let fin=false;if(!st.done&&t.games.every((_g,j)=>st.g[j])){st.done=1;fin=true}
   save();SFX.tada();burst(800,380,90);
 // Figurita: una palabra del tema con dibujo que aún no esté en el álbum; si no queda ninguna, el icono del juego
 // (si es un dibujo real: los nombres cortos como 'lupa'/'memo' no lo son) o el del tema.
-  if(first){const pool=(t.words||[]).map(w=>w.k).filter(k=>k&&PICS[k]&&!S.stk[k]);giveSticker(pool.length?pick(pool):(gIcon(t.games[gi],t).length>4&&PICS[gIcon(t.games[gi],t)]?gIcon(t.games[gi],t):t.icon))}
+  if(first){const pool=(t.words||[]).map((w: Libre)=>w.k).filter((k: string)=>k&&PICS[k]&&!S.stk[k]);giveSticker(pool.length?pick(pool):(gIcon(t.games[gi],t).length>4&&PICS[gIcon(t.games[gi],t)]?gIcon(t.games[gi],t):t.icon))}
   sayQ(pick(['¡Lo lograste! ¡Ganaste una estrella!','¡Muy bien'+kid()+'! ¡Una estrella más!','¡Bravo! ¡Terminaste el juego!']),()=>later(600,()=>go('casita',{t:t.id,fin})));// espera a que acabe la última felicitación del juego
 }
 // ponFinishGame(f): cambia finishGame por otra función (tienda.js y repaso.js la envuelven).
-function ponFinishGame(f){finishGame=f}
+export function ponFinishGame(f: typeof finishGame){finishGame=f}
 // JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
@@ -456,17 +469,17 @@ SCENES.juego={music:'game',
 /* ================= LA ASAMBLEA ================= */
 // EMO: emociones de la asamblea. {clave: {c: color de la carita, n: nombre (o [rioplatense, España])}}.
 // EMO_AGE: qué emociones salen según la edad. EMO_SAY: lo que dice Tito al elegir cada una. EMO_TIP: consejo extra (5 años).
-const EMO={alegria:{c:'#FFD66B',n:'alegría'},tristeza:{c:'#7FB0FF',n:'tristeza'},enojo:{c:'#FF6B5E',n:['enojo','enfado']},miedo:{c:'#9B8AD9',n:'miedo'},sorpresa:{c:'#FFA94D',n:'sorpresa'},calma:{c:'#7CC86E',n:'calma'},verguenza:{c:'#F58BB4',n:'vergüenza'}};
-const EMO_AGE={3:['alegria','tristeza','enojo'],4:['alegria','tristeza','enojo','miedo','sorpresa'],5:['alegria','tristeza','enojo','miedo','sorpresa','calma','verguenza']};
-const EMO_SAY={alegria:'¡Qué bueno! Hoy sentís alegría. ¡Yo también estoy feliz de verte!',tristeza:'Hoy sentís tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.',enojo:'Hoy sentís enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.',
+export const EMO: Record<string, { c: string; n: string | Par }>={alegria:{c:'#FFD66B',n:'alegría'},tristeza:{c:'#7FB0FF',n:'tristeza'},enojo:{c:'#FF6B5E',n:['enojo','enfado']},miedo:{c:'#9B8AD9',n:'miedo'},sorpresa:{c:'#FFA94D',n:'sorpresa'},calma:{c:'#7CC86E',n:'calma'},verguenza:{c:'#F58BB4',n:'vergüenza'}};
+export const EMO_AGE: Record<number, string[]>={3:['alegria','tristeza','enojo'],4:['alegria','tristeza','enojo','miedo','sorpresa'],5:['alegria','tristeza','enojo','miedo','sorpresa','calma','verguenza']};
+export const EMO_SAY: Record<string, string>={alegria:'¡Qué bueno! Hoy sentís alegría. ¡Yo también estoy feliz de verte!',tristeza:'Hoy sentís tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.',enojo:'Hoy sentís enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.',
   miedo:'Hoy sentís miedo. Si tenés miedo, buscá a un grande que te cuide.',sorpresa:'¡Hoy sentís sorpresa! ¡Qué emocionante!',calma:'Hoy sentís calma. ¡Qué lindo sentirse así!',verguenza:'Hoy sentís vergüenza. Nos pasa a todos. Respirá hondo y sonreí.'};
-const EMO_TIP={tristeza:' Podés contarle a alguien lo que te pasa.',enojo:' Y después contá lo que te enojó con palabras.',miedo:' Hablar de lo que da miedo lo hace más chiquito.'};
+export const EMO_TIP: Record<string, string>={tristeza:' Podés contarle a alguien lo que te pasa.',enojo:' Y después contá lo que te enojó con palabras.',miedo:' Hablar de lo que da miedo lo hace más chiquito.'};
 // drawFace(x, y, r, m): dibuja la carita de la emoción m (clave de EMO) de radio r en (x, y). Solo dibuja.
-function drawFace(x,y,r,m){const e=EMO[m];ctx.save();ctx.translate(x,y);circ(0,0,r,e.c,6);const ey=-r*.12,ex=r*.34,L=r*.07;ctx.lineCap='round';ctx.lineWidth=L;ctx.strokeStyle=K;
+export function drawFace(x: number,y: number,r: number,m: string){const e=EMO[m];ctx.save();ctx.translate(x,y);circ(0,0,r,e.c,6);const ey=-r*.12,ex=r*.34,L=r*.07;ctx.lineCap='round';ctx.lineWidth=L;ctx.strokeStyle=K;
 // eyes(rr): dos ojos de radio rr con brillo blanco.
-  const eyes=(rr)=>{circ(-ex,ey,rr,K,0);circ(ex,ey,rr,K,0);circ(-ex+rr*.35,ey-rr*.35,rr*.35,'#fff',0);circ(ex+rr*.35,ey-rr*.35,rr*.35,'#fff',0)};
+  const eyes=(rr: number)=>{circ(-ex,ey,rr,K,0);circ(ex,ey,rr,K,0);circ(-ex+rr*.35,ey-rr*.35,rr*.35,'#fff',0);circ(ex+rr*.35,ey-rr*.35,rr*.35,'#fff',0)};
 // mouth(a, b, c): boca curva; a y c = altura de las comisuras, b = altura del centro (en fracciones de r).
-  const mouth=(a,b,c)=>{ctx.beginPath();ctx.moveTo(-r*.32,r*a);ctx.quadraticCurveTo(0,r*b,r*.32,r*c);ctx.stroke()};
+  const mouth=(a: number,b: number,c: number)=>{ctx.beginPath();ctx.moveTo(-r*.32,r*a);ctx.quadraticCurveTo(0,r*b,r*.32,r*c);ctx.stroke()};
   if(m==='alegria'){eyes(r*.1);ctx.beginPath();ctx.moveTo(-r*.4,r*.2);ctx.quadraticCurveTo(0,r*.75,r*.4,r*.2);ctx.closePath();fillStroke('#C0473C',L)}
   if(m==='tristeza'){eyes(r*.09);mouth(.48,.2,.48);ell(-ex-r*.06,ey+r*.22,r*.06,r*.1,'#5BB8E6',0)}
   if(m==='enojo'){eyes(r*.09);ctx.beginPath();ctx.moveTo(-ex-r*.18,ey-r*.26);ctx.lineTo(-ex+r*.14,ey-r*.12);ctx.moveTo(ex+r*.18,ey-r*.26);ctx.lineTo(ex-r*.14,ey-r*.12);ctx.stroke();mouth(.5,.28,.5)}
@@ -477,13 +490,13 @@ function drawFace(x,y,r,m){const e=EMO[m];ctx.save();ctx.translate(x,y);circ(0,0
   ctx.restore()}
 // WX: tipos de tiempo. {clave: {k: dibujo, s: frase de Tito}}. WX_AGE: cuáles salen según la edad.
 // WX_ROPA: prendas correctas para cada tiempo (paso 'ropa' de 4 años).
-const WX={sol:{k:'sol',s:'¡Hoy hace sol!'},nublado:{k:'nublado',s:'¡Hoy está nublado!'},lluvia:{k:'lluvia',s:'¡Hoy llueve!'},viento:{k:'viento',s:'¡Hoy hay viento!'},nieve:{k:'nieve',s:'¡Hoy nieva!'},tormenta:{k:'tormenta',s:'¡Hoy hay tormenta!'},niebla:{k:'niebla',s:'¡Hoy hay niebla!'}};
-const WX_AGE={3:['sol','nublado','lluvia'],4:['sol','nublado','lluvia','viento','nieve'],5:['sol','nublado','lluvia','viento','nieve','tormenta','niebla']};
-const WX_ROPA={sol:['gorra','gafas'],nublado:['abrigo'],lluvia:['paraguas','botasAgua'],viento:['bufanda','abrigo'],nieve:['gorro','guantes'],tormenta:['paraguas','botasAgua'],niebla:['abrigo','bufanda']};
+export const WX: Record<string, { k: string; s: string }>={sol:{k:'sol',s:'¡Hoy hace sol!'},nublado:{k:'nublado',s:'¡Hoy está nublado!'},lluvia:{k:'lluvia',s:'¡Hoy llueve!'},viento:{k:'viento',s:'¡Hoy hay viento!'},nieve:{k:'nieve',s:'¡Hoy nieva!'},tormenta:{k:'tormenta',s:'¡Hoy hay tormenta!'},niebla:{k:'niebla',s:'¡Hoy hay niebla!'}};
+export const WX_AGE: Record<number, string[]>={3:['sol','nublado','lluvia'],4:['sol','nublado','lluvia','viento','nieve'],5:['sol','nublado','lluvia','viento','nieve','tormenta','niebla']};
+export const WX_ROPA: Record<string, string[]>={sol:['gorra','gafas'],nublado:['abrigo'],lluvia:['paraguas','botasAgua'],viento:['bufanda','abrigo'],nieve:['gorro','guantes'],tormenta:['paraguas','botasAgua'],niebla:['abrigo','bufanda']};
 // SEASON_NEXT: qué estación viene después de cada una (paso 'siguiente' de 5 años).
-const SEASON_NEXT={primavera:'verano',verano:'otoño',otoño:'invierno',invierno:'primavera'};
+export const SEASON_NEXT: Record<string, string>={primavera:'verano',verano:'otoño',otoño:'invierno',invierno:'primavera'};
 // dayIdx(d): día de la semana con el lunes = 0 y el domingo = 6 (Date.getDay empieza en domingo).
-const dayIdx=d=>(d.getDay()+6)%7; // lunes=0
+export const dayIdx=(d: Date)=>(d.getDay()+6)%7; // lunes=0
 
 // LA ASAMBLEA: rutina diaria de la plaza. Es una máquina de estados: this.steps es la lista de pasos según la edad
 // y this.si el paso actual (this.s = su nombre). Para cada paso X hay un método in_X() que lo prepara (opciones y
@@ -501,42 +514,42 @@ SCENES.asamblea={music:'plaza',
   next(){this.si++;this.s=this.steps[this.si];this.t0=T;this.errs=0;this.busy=false;this.opts=[];this.sel=null;this.bounce=-1;this.extra=null;const f=this['in_'+this.s];f&&f.call(this)},
 // ask(fn): pregunta del paso (fn dice la frase) a los 0,3 s y cuando Tito calle; no se dice si mientras tanto el niño ya
 // respondió (this.sel) o se pasó a otro paso. Así una respuesta rápida no queda cortada por su propia pregunta.
-  ask(fn){const si=this.si;later(300,()=>whenQuiet(()=>{if(this.si===si&&this.sel===null)fn()}))},
+  ask(fn: () => void){const si=this.si;later(300,()=>whenQuiet(()=>{if(this.si===si&&this.sel===null)fn()}))},
   // opciones genéricas: {x,y,s,draw(x,y,s),v,ok}
 // setOpts(list, y, s): coloca en fila, centradas, las opciones de un paso. Cada opción: {draw(x,y,s): la dibuja,
 // v: valor, ok: si es correcta}; se le añaden x, y, s (tamaño) e "in" (momento en que aparece, para la animación).
-  setOpts(list,y=520,s=230){const n=list.length,gap=s+24;this.opts=list.map((o,i)=>Object.assign({x:800-(n-1)*gap/2+i*gap,y,s,in:T+i*.08},o))},
+  setOpts(list: Libre[],y=520,s=230){const n=list.length,gap=s+24;this.opts=list.map((o: Libre,i: number)=>Object.assign({x:800-(n-1)*gap/2+i*gap,y,s,in:T+i*.08},o))},
 // in_hola(): paso 1, pasar lista: tocar la foto propia.
   in_hola(){this.ask(()=>say(`¡Buen día${kid()}! Empieza la asamblea. ¿Estás acá? ¡Tocá tu foto!`))},
 // in_dianoche(): (3 años) ¿es de día o de noche? Correcto según la hora real (de 7 a 20 h es de día).
-  in_dianoche(){const h=this.d.getHours(),day=h>=7&&h<20;this.setOpts([{draw:(x,y,s)=>dayNight(1).draw(x,y,s),ok:day,v:'dia'},{draw:(x,y,s)=>dayNight(0).draw(x,y,s),ok:!day,v:'noche'}],500,300);this.ask(()=>say('¿Ahora es de día o de noche?'))},
+  in_dianoche(){const h=this.d.getHours(),day=h>=7&&h<20;this.setOpts([{draw:(x: number,y: number,s: number)=>dayNight(1).draw(x,y,s),ok:day,v:'dia'},{draw:(x: number,y: number,s: number)=>dayNight(0).draw(x,y,s),ok:!day,v:'noche'}],500,300);this.ask(()=>say('¿Ahora es de día o de noche?'))},
 // in_dia(): el tren de los días (this.wag, un vagón por día). 3 años: Tito canta los días (sing) y hace saltar el
 // vagón de hoy. 4-5 años: dice qué día fue ayer y el niño busca hoy.
-  in_dia(){const a=AGE();this.wag=DIASL.map((d,i)=>({x:330+i*168,y:520,i}));
+  in_dia(){const a=AGE();this.wag=DIASL.map((_d,i)=>({x:330+i*168,y:520,i}));
     if(a<=3){this.busy=true;later(300,()=>sayQ('Cantemos los días de la semana.',()=>this.sing(()=>{this.bounce=this.ti;say('Hoy es '+DIASL[this.ti]+'. ¡Tocá el vagón de hoy, el que salta!',()=>{this.busy=false})})))}
     else{const y=DIASL[(this.ti+6)%7];this.ask(()=>say('Ayer fue '+y+'. ¿Qué día es hoy? Tocá el vagón.'))}},
 // in_manana(): (5 años) el tren con "HOY" marcado; hay que tocar mañana.
-  in_manana(){this.wag=DIASL.map((d,i)=>({x:330+i*168,y:520,i}));this.mark=this.ti;this.ask(()=>say('Hoy es '+DIASL[this.ti]+'. ¿Y mañana qué día será? Tocá el vagón de mañana.'))},
+  in_manana(){this.wag=DIASL.map((_d,i)=>({x:330+i*168,y:520,i}));this.mark=this.ti;this.ask(()=>say('Hoy es '+DIASL[this.ti]+'. ¿Y mañana qué día será? Tocá el vagón de mañana.'))},
 // in_mes(): (5 años) calendario del mes (this.cal: {n, x, y} por día, empezando en lunes); hay que tocar el número de hoy.
   in_mes(){const d=this.d,first=new Date(d.getFullYear(),d.getMonth(),1),n=new Date(d.getFullYear(),d.getMonth()+1,0).getDate(),o=dayIdx(first);
     this.cal=[];for(let i=1;i<=n;i++){const p=o+i-1;this.cal.push({n:i,x:520+(p%7)*110,y:300+Math.floor(p/7)*92})}
     this.ask(()=>say('Estamos en '+MESES[d.getMonth()]+'. Hoy es '+d.getDate()+'. Tocá el número '+d.getDate()+' en el calendario.'))},
 // in_tiempo(): ¿qué tiempo hace? Todas las opciones valen (ok: true): se apunta lo que diga el niño.
-  in_tiempo(){this.setOpts(WX_AGE[AGE()].map(w=>({draw:(x,y,s)=>pic(WX[w].k,x,y,s*.85),v:w,ok:true})),520,AGE()>=5?170:AGE()===4?200:250);this.ask(()=>say('¿Qué tiempo hace hoy? Mirá por la ventana de tu casa y tocá el dibujo.'))},
+  in_tiempo(){this.setOpts(WX_AGE[AGE()].map(w=>({draw:(x: number,y: number,s: number)=>pic(WX[w].k,x,y,s*.85),v:w,ok:true})),520,AGE()>=5?170:AGE()===4?200:250);this.ask(()=>say('¿Qué tiempo hace hoy? Mirá por la ventana de tu casa y tocá el dibujo.'))},
 // in_ropa(): (4 años) una prenda buena para el tiempo elegido y dos que no van, mezcladas.
   in_ropa(){const w=this.rec.tiempo||'sol',good=pick(WX_ROPA[w]),bad=shuffle(['gafas','gorra','guantes','gorro','paraguas','remera','bufanda'].filter(k=>!WX_ROPA[w].includes(k))).slice(0,2);
-    this.setOpts(shuffle([good,...bad]).map(k=>({draw:(x,y,s)=>pic(k,x,y,s*.8),v:k,ok:k===good})),540,250);this.ask(()=>say('Con este tiempo, ¿qué nos ponemos para salir?'))},
+    this.setOpts(shuffle([good,...bad]).map(k=>({draw:(x: number,y: number,s: number)=>pic(k,x,y,s*.8),v:k,ok:k===good})),540,250);this.ask(()=>say('Con este tiempo, ¿qué nos ponemos para salir?'))},
 // in_estacion(): (4-5 años) cuatro árboles; correcto el de la estación actual (estacionDe, según el hemisferio).
-  in_estacion(){const e=estacionDe(this.d);this.setOpts(ESTACIONES.map(s=>({draw:(x,y,sz)=>tree(x,y+sz*.25,sz/280,s),v:s,ok:s===e})),520,250);this.ask(()=>say('¿En qué estación estamos? Tocá el árbol.'))},
+  in_estacion(){const e=estacionDe(this.d);this.setOpts(ESTACIONES.map(s=>({draw:(x: number,y: number,sz: number)=>tree(x,y+sz*.25,sz/280,s),v:s,ok:s===e})),520,250);this.ask(()=>say('¿En qué estación estamos? Tocá el árbol.'))},
 // in_siguiente(): (5 años) ¿qué estación viene después? (SEASON_NEXT).
-  in_siguiente(){const e=estacionDe(this.d),n=SEASON_NEXT[e];this.setOpts(ESTACIONES.map(s=>({draw:(x,y,sz)=>tree(x,y+sz*.25,sz/280,s),v:s,ok:s===n})),520,250);this.ask(()=>say('Ahora es '+e+'. ¿Qué estación viene después?'))},
+  in_siguiente(){const e=estacionDe(this.d),n=SEASON_NEXT[e];this.setOpts(ESTACIONES.map(s=>({draw:(x: number,y: number,sz: number)=>tree(x,y+sz*.25,sz/280,s),v:s,ok:s===n})),520,250);this.ask(()=>say('Ahora es '+e+'. ¿Qué estación viene después?'))},
 // in_emocion(): ¿cómo te sientes? Caritas según la edad; todas valen.
-  in_emocion(){this.setOpts(EMO_AGE[AGE()].map(m=>({draw:(x,y,s)=>drawFace(x,y,s*.42,m),v:m,ok:true})),520,AGE()>=5?175:AGE()===4?220:260);this.ask(()=>say(tx('¿Cómo te sentís hoy? Tocá la carita.')))},
+  in_emocion(){this.setOpts(EMO_AGE[AGE()].map(m=>({draw:(x: number,y: number,s: number)=>drawFace(x,y,s*.42,m),v:m,ok:true})),520,AGE()>=5?175:AGE()===4?220:260);this.ask(()=>say(tx('¿Cómo te sentís hoy? Tocá la carita.')))},
 // in_fin(): cierra la asamblea: guarda S.asam[hoy] con done y edad, borra las más antiguas (se quedan 120 días) y,
 // si es la 3.ª asamblea de la semana (desde el lunes, wk), regala una figurita una sola vez por semana (S.first.wk).
 // Después vuelve al mapa.
   in_fin(){const r=this.rec;r.done=1;r.age=AGE();S.asam[today()]=r;
-    const ks=Object.keys(S.asam).sort();while(ks.length>120)delete S.asam[ks.shift()];
+    const ks=Object.keys(S.asam).sort();while(ks.length>120)delete S.asam[ks.shift()!];
     const wk=(()=>{const d=new Date(this.d);d.setDate(d.getDate()-dayIdx(d));return ymd(d)})();
     const n=Object.keys(S.asam).filter(k=>k>=wk&&S.asam[k].done).length;save();
     SFX.tada();burst(800,400,80);
@@ -545,16 +558,16 @@ SCENES.asamblea={music:'plaza',
     say(line,()=>later(800,()=>go('map')))},
 // sing(cb): canta los siete días uno a uno (this.singI = el que suena, para que su vagón salte) y al acabar llama a cb.
 // st() dice un día y, cuando termina, programa el siguiente.
-  sing(cb){let i=0;const st=()=>{if(i>=7){this.singI=-1;cb&&cb();return}this.singI=i;SFX.count(i);say(DIASL[i],()=>{i++;later(80,st)},{rate:1})};st()},
+  sing(cb: () => void){let i=0;const st=()=>{if(i>=7){this.singI=-1;cb&&cb();return}this.singI=i;SFX.count(i);say(DIASL[i],()=>{i++;later(80,st)},{rate:1})};st()},
 // prompt(): repite la pregunta del paso actual.
-  prompt(){const f={hola:'¡Tocá tu foto!',dianoche:'¿Ahora es de día o de noche?',dia:AGE()<=3?'Tocá el vagón que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. ¿Qué día es hoy?',manana:'¿Qué día será mañana?',mes:'Tocá el número '+this.d.getDate()+'.',tiempo:'¿Qué tiempo hace hoy?',ropa:'¿Qué nos ponemos?',estacion:'¿En qué estación estamos?',siguiente:'¿Qué estación viene después?',emocion:tx('¿Cómo te sentís hoy?')}[this.s];if(f)say(f)},
+  prompt(){const f=({hola:'¡Tocá tu foto!',dianoche:'¿Ahora es de día o de noche?',dia:AGE()<=3?'Tocá el vagón que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. ¿Qué día es hoy?',manana:'¿Qué día será mañana?',mes:'Tocá el número '+this.d.getDate()+'.',tiempo:'¿Qué tiempo hace hoy?',ropa:'¿Qué nos ponemos?',estacion:'¿En qué estación estamos?',siguiente:'¿Qué estación viene después?',emocion:tx('¿Cómo te sentís hoy?')} as Record<string, string>)[this.s];if(f)say(f)},
 // hint(): dónde señalar la ayuda en cada paso. En 'dia'/'manana' con 4-5 años no ayuda enseguida (solo tras un error o
 // mucho rato quieto). En 'tiempo' y 'emocion' no hay respuesta correcta, así que no se señala nada.
   hint(){if(this.busy)return null;const s=this.s;
     if(s==='hola')return{x:800,y:500,r:180};
     if(s==='dia'||s==='manana'){if(AGE()>=4&&this.errs<1)return VIVO.idle>14?{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}:null;return{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}}
     if(s==='mes'){const c=this.cal[this.d.getDate()-1];return{x:c.x,y:c.y,r:55}}
-    const o=this.opts.find(o=>o.ok);return o&&!['tiempo','emocion'].includes(s)?{x:o.x,y:o.y,r:o.s*.6}:null},
+    const o=this.opts.find((o: Libre)=>o.ok);return o&&!['tiempo','emocion'].includes(s)?{x:o.x,y:o.y,r:o.s*.6}:null},
 // update(): nada que actualizar cada cuadro.
   update(){},
 // draw(): la clase (ventana con el cielo según la hora y el tiempo apuntado, cartel ASAMBLEA) y lo propio del paso:
@@ -584,7 +597,7 @@ SCENES.asamblea={music:'plaza',
       ctx.save();ctx.translate(o.x+sx,o.y);ctx.scale((ap<1?back(ap):1)*hs,(ap<1?back(ap):1)*hs);card(-o.s/2,-o.s/2,o.s,o.s,this.sel===o?'#FFF3B0':'#fff',this.sel===o?10:7,36,this.sel===o?'#FFC93C':K);o.draw(0,0,o.s);ctx.restore()}
     if(this.s==='tiempo'&&this.sel&&AGE()>=5)this.drawWxCal();
     // pasos
-    this.steps.forEach((st,i)=>circ(800-(this.steps.length-1)*18+i*36,850,10,i<this.si?'#7CC86E':i===this.si?'#FFC93C':'#EADFCF',3));
+    this.steps.forEach((_st: string,i: number)=>circ(800-(this.steps.length-1)*18+i*36,850,10,i<this.si?'#7CC86E':i===this.si?'#FFC93C':'#EADFCF',3));
     drawHome();drawTito(TITO.x,TITO.y,TITO.w);
   },
 // drawWxCal(): (5 años, tras elegir el tiempo) calendario del mes con el dibujo del tiempo apuntado cada día en S.asam.
@@ -593,32 +606,32 @@ SCENES.asamblea={music:'plaza',
       card(x-26,y-26,52,52,'#FFF6E6',3,10);if(r&&r.tiempo)pic(WX[r.tiempo].k,x,y,46);else text(String(i),x,y+8,20,'#B8A890')}},
 // wrongDay(i, target): el niño tocó el vagón del día i en lugar de target: suma error, dice qué día era el tocado
 // con una pista y hace saltar el vagón correcto.
-  wrongDay(i,target){const nm=DIASL[i];this.errs++;SFX.bad();say('Ese es el '+nm+'. '+(this.s==='dia'?(AGE()<=3?'Hoy es '+DIASL[this.ti]+', el que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. Hoy es el que viene después.'):'Mañana es el que viene después de hoy.'));if(this.errs>=1)this.bounce=target},
+  wrongDay(i: number,target: number){const nm=DIASL[i];this.errs++;SFX.bad();say('Ese es el '+nm+'. '+(this.s==='dia'?(AGE()<=3?'Hoy es '+DIASL[this.ti]+', el que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. Hoy es el que viene después.'):'Mañana es el que viene después de hoy.'));if(this.errs>=1)this.bounce=target},
 // down(x, y): comprueba la respuesta del paso actual. Acierto: celebra, apunta la estadística con rec() (acierto a la
 // primera si errs == 0), guarda en this.rec y llama a next() cuando Tito termina de hablar. Fallo: sacude la opción,
 // suma error y da una pista. El paso 'tiempo' guarda ya en S.asam[hoy].
   down(x,y){
     if(atHome(x,y)){SFX.tap();go('map');return}
-    if(inTito(x,y)){this.prompt();return}
+    if(inTito(x,y)){this.prompt!();return}
     if(this.busy)return;const s=this.s;
     if(s==='hola'){if(inR(x,y,800,500,330,370)){this.busy=true;this.sel=true;SFX.tada();burst(800,500,50);say(AGE()>=5?'¡Presente! Y hoy sos el encargado de la asamblea. ¡Te ganaste la gorra!':'¡Presente! ¡Qué bueno que estás acá!',()=>later(500,()=>this.next()))}return}
-    if(s==='dia'||s==='manana'){const w=this.wag.find(w=>inR(x,y,w.x,w.y,150,170));if(!w){SFX.tap();return}const target=s==='dia'?this.ti:(this.ti+1)%7;
+    if(s==='dia'||s==='manana'){const w=this.wag.find((w: Libre)=>inR(x,y,w.x,w.y,150,170));if(!w){SFX.tap();return}const target=s==='dia'?this.ti:(this.ti+1)%7;
       if(w.i===target){this.busy=true;this.sel=w.i;this.bounce=w.i;SFX.good();burst(w.x,w.y,40);rec(s==='dia'?'dia-hoy':'dia-manana',this.errs===0);this.rec.dia=DIASL[this.ti];
         const we=this.ti>=5;say(praise()+(s==='dia'?' Hoy es '+DIASL[this.ti]+'. '+(we?'¡Es fin de semana, no hay escuela!':'Es día de escuela.'):' Mañana será '+DIASL[target]+'.'),()=>later(500,()=>this.next()))}
       else this.wrongDay(w.i,target);return}
-    if(s==='mes'){const c=this.cal.find(c=>inR(x,y,c.x,c.y,100,84));if(!c){SFX.tap();return}
+    if(s==='mes'){const c=this.cal.find((c: Libre)=>inR(x,y,c.x,c.y,100,84));if(!c){SFX.tap();return}
       if(c.n===this.d.getDate()){this.busy=true;this.sel=true;SFX.good();burst(c.x,c.y,30);rec('calendario',this.errs===0);say(praise()+' Hoy es '+DIASL[this.ti]+' '+c.n+' de '+MESES[this.d.getMonth()]+'.',()=>later(500,()=>this.next()))}
       else{this.errs++;SFX.bad();say('Ese es el '+c.n+'. Buscá el '+this.d.getDate()+'.')}return}
-    const o=this.opts.find(o=>inR(x,y,o.x,o.y,o.s+10,o.s+10));if(!o){SFX.tap();sparkles(x,y,3);return}
+    const o=this.opts.find((o: Libre)=>inR(x,y,o.x,o.y,o.s+10,o.s+10));if(!o){SFX.tap();sparkles(x,y,3);return}
 // El tiempo se guarda en S al momento para que el calendario del tiempo (drawWxCal) lo muestre ya.
     if(s==='tiempo'){this.busy=true;this.sel=o;this.rec.tiempo=o.v;S.asam[today()]=Object.assign(S.asam[today()]||{},this.rec);save();SFX.good();burst(o.x,o.y,30);say(WX[o.v].s+' Lo anotamos en el calendario del tiempo.',()=>later(AGE()>=5?1500:500,()=>this.next()));return}
     if(s==='emocion'){this.busy=true;this.sel=o;this.rec.emo=o.v;SFX.good();sparkles(o.x,o.y,10);say(EMO_SAY[o.v]+(AGE()>=5&&EMO_TIP[o.v]?EMO_TIP[o.v]:''),()=>later(500,()=>this.next()));return}
     if(o.ok){this.busy=true;this.sel=o;SFX.good();burst(o.x,o.y,30);rec('asamblea-'+s,this.errs===0);
-      const ok={dianoche:o.v==='dia'?'¡Sí! Ahora es de día.':'¡Sí! Ahora es de noche.',ropa:'¡Sí! Nos ponemos '+W_(o.v)+'.',estacion:'¡Sí! Estamos en '+o.v+'.'+({otoño:' Las hojas se caen.',invierno:' Hace frío.',primavera:' Salen las flores.',verano:' Hace calor.'}[o.v]),siguiente:'¡Sí! Después viene '+(o.v==='otoño'?'el otoño':o.v==='invierno'?'el invierno':o.v==='verano'?'el verano':'la primavera')+'.'}[s];
+      const ok=({dianoche:o.v==='dia'?'¡Sí! Ahora es de día.':'¡Sí! Ahora es de noche.',ropa:'¡Sí! Nos ponemos '+W_(o.v)+'.',estacion:'¡Sí! Estamos en '+o.v+'.'+(({otoño:' Las hojas se caen.',invierno:' Hace frío.',primavera:' Salen las flores.',verano:' Hace calor.'} as Record<string, string>)[o.v]),siguiente:'¡Sí! Después viene '+(o.v==='otoño'?'el otoño':o.v==='invierno'?'el invierno':o.v==='verano'?'el verano':'la primavera')+'.'} as Record<string, string>)[s];
       say(praise()+' '+ok,()=>later(500,()=>this.next()))}
 // Tras dos fallos se pone idle = 7 para que la ayuda (brillo) aparezca enseguida.
     else{o.shake=T;this.errs++;SFX.bad();
-      const bad={dianoche:'Mirá por la ventana. '+(o.v==='dia'?'Ahora no hay sol.':'Ahora hay luz.'),ropa:cap(W_(o.v))+' no va con este tiempo.',estacion:'Ese es el árbol '+(o.v==='otoño'?'del otoño':o.v==='invierno'?'del invierno':o.v==='verano'?'del verano':'de la primavera')+'. Probá con otro.',siguiente:'Mmm, después de '+estacionDe(this.d)+' no viene '+o.v+'.'}[s];
+      const bad=({dianoche:'Mirá por la ventana. '+(o.v==='dia'?'Ahora no hay sol.':'Ahora hay luz.'),ropa:cap(W_(o.v))+' no va con este tiempo.',estacion:'Ese es el árbol '+(o.v==='otoño'?'del otoño':o.v==='invierno'?'del invierno':o.v==='verano'?'del verano':'de la primavera')+'. Probá con otro.',siguiente:'Mmm, después de '+estacionDe(this.d)+' no viene '+o.v+'.'} as Record<string, string>)[s];
       say(bad||'Probá otra vez.');if(this.errs>=2)VIVO.idle=7}
   }
 };
@@ -626,7 +639,7 @@ SCENES.asamblea={music:'plaza',
 /* ---------- ÁLBUM ---------- */
 // ALBUM_KEYS: todas las figuritas posibles del álbum, en orden: las palabras con dibujo y el icono de cada tema, más
 // 'estrella' (premio de asambleas). Se calcula una vez al cargar.
-const ALBUM_KEYS=(()=>{const s=new Set();for(const t of TEMAS){if(t.words)t.words.forEach(w=>w.k&&PICS[w.k]&&s.add(w.k));s.add(t.icon)}s.add('estrella');return [...s].filter(k=>PICS[k])})();
+export const ALBUM_KEYS=(()=>{const s=new Set<string>();for(const t of TEMAS){if(t.words)t.words.forEach((w: Libre)=>w.k&&PICS[w.k]&&s.add(w.k));s.add(t.icon)}s.add('estrella');return [...s].filter(k=>PICS[k])})();
 // ÁLBUM DE FIGURITAS: 18 por página (per); las que se tienen (S.stk) en color, las demás en sombra.
 SCENES.album={music:'book',
 // enter(): primera página; Tito dice cuántas figuritas hay.

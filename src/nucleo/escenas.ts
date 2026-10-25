@@ -12,7 +12,7 @@ import { pick, PI, rnd } from './utilidades.ts';
 
 /* ---------- escenas, temporizadores, partículas ---------- */
 /* SISTEMA DE ESCENAS
-   Cada pantalla del juego es una "escena": un objeto guardado en SCENES[nombre] (aquí; las rellenan scenes.js, zonas.js, tienda.js,
+   Cada pantalla del juego es una "escena": un objeto guardado en SCENES[nombre] (aquí; las rellenan escenas/escenas2d.ts, zonas.js, tienda.js,
    repaso.js, world3d.js...). Lo que puede tener una escena (todo opcional salvo draw):
      enter(o)      al entrar; o son las opciones que se pasaron a go().
      update(dt)    en cada cuadro, antes de dibujar (dt = segundos desde el cuadro anterior).

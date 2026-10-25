@@ -8,9 +8,9 @@
 //   SHOP, TIER_NEED, shopItems, itemName, isWorn, wear, drawItemPic, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de
 //   la casa), roomOf, roomOpen, roomsOpen, homeRoom, homeSpot, placeHome, HSIZE, homeItems, homeAction, homeLight, roomBg,
 //   roomBtns y las escenas SCENES.tienda y SCENES.casaTito.
-// Envuelve: onRight y finishGame (nucleo/interfaz.ts y scenes.js), SCENES.juego.enter y SCENES.juego.draw (scenes.js).
+// Envuelve: onRight y finishGame (nucleo/interfaz.ts y escenas/escenas2d.ts), SCENES.juego.enter y SCENES.juego.draw (escenas/escenas2d.ts).
 // Depende de: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
-//   TITO_SVG...), nucleo/idioma.ts (V, W_), scenes.js (SCENES, finishGame), zonas.js (houseLevel, drawTitoHouse, drawPet, petStage,
+//   TITO_SVG...), nucleo/idioma.ts (V, W_), escenas/escenas2d.ts (SCENES, finishGame), zonas.js (houseLevel, drawTitoHouse, drawPet, petStage,
 //   PET_NEXT, HOUSE_NEXT, temasDone, shellIcon), juegos/comps2.ts (playTune, TUNES).
 /* ================= MONEDAS, TIENDA Y CASA DE TITO ================= */
 // Campos del estado guardado S que añade este archivo (valores por defecto):

@@ -10,7 +10,7 @@
  *  3) La COPIA DE SEGURIDAD: bkEncode/bkDecode/bkWire convierten S en un código de texto o un archivo JSON y al revés.
  * Globales que define: SKILL, esc, openAdult, closeAdult, openNameDlg, openResetDlg, doReset, toLogical, dlgOpen,
  * isPortrait, hoverTick, frame, window.__cl (para pruebas automáticas), bkEncode, bkDecode.
- * Depende de: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), scenes.js (tst, gDone,
+ * Depende de: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
  * CAN, RUT, TRZ, FIESTAS, ING), tienda.js (STARS, drawCoinFx), zonas.js (zoneOpen) y world3d.js (R3frame, __w3).
  * frame() la arranca boot.js.
@@ -27,7 +27,7 @@ const WX_E={sol:'☀️',nublado:'☁️',lluvia:'🌧️',viento:'💨',nieve:'
 // esc(texto): escapa &, <, > y comillas para meter texto sin peligro dentro del HTML del panel.
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 // installHTML(): HTML de la sección "Instalar": si ya está instalado, lo dice; si el navegador ofreció instalar
-// (deferredInstall, de scenes.js), un botón; y siempre las instrucciones para iPhone, Android y ordenador.
+// (deferredInstall, de escenas/escenas2d.ts), un botón; y siempre las instrucciones para iPhone, Android y ordenador.
 function installHTML(){
   if(standalone())return '<p class="note">El juego ya está instalado en este dispositivo.</p>';
   const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);

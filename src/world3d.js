@@ -12,7 +12,7 @@
  *   (#cv) va encima y es transparente en las escenas 3D: en él se pintan los carteles, botones y HUD.
  *
  * Cómo engancha con la lógica 2D (la idea clave del archivo):
- *   - La lógica original (scenes.js, zonas.js) trabaja en una pantalla lógica de 1600x900 y guarda las
+ *   - La lógica original (escenas/escenas2d.ts, zonas.js) trabaja en una pantalla lógica de 1600x900 y guarda las
  *     posiciones de lo que se puede tocar en globales: MZ2 (zonas del mapa: x, y, r), ZPOS[zona][tema]
  *     (casitas de cada zona), stationPos(t,j) (puestos de una casita), TITO (rectángulo de Tito) y
  *     HOUSE_AT (casa de Tito y su mascota).
@@ -54,7 +54,7 @@
  *   PRK...). Además este archivo SUSTITUYE funciones globales de otros: go, stationPos, goSeguir...
  * Depende de: el núcleo, src/nucleo/ (S, T, PI, ctx, say, sayMix, tone, noise, parts, SCENES, scene, sceneName, go,
  *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, K, DF, LF, DIAC...),
- *   zonas.js (MZ2, ZPOS, ZONES), scenes.js (TITO, HOUSE_AT, stationPos) y three.min.js.
+ *   zonas.js (MZ2, ZPOS, ZONES), escenas/escenas2d.ts (TITO, HOUSE_AT, stationPos) y three.min.js.
  * Todo va dentro de una función que se llama sola: si no hay WebGL, se sale y el juego sigue en 2D.
  * ========================================================================== */
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea más abajo (si no hay WebGL se queda en null).
@@ -1634,7 +1634,7 @@ function buildMap(st){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind:'map',s
   return w}
 
 /* ---------- escena del mapa en 3D ---------- */
-// Convierte la escena 2D del mapa (scenes.js/zonas.js) en 3D: se guardan su enter/down originales (enter0/down0) y se sustituyen.
+// Convierte la escena 2D del mapa (escenas/escenas2d.ts/zonas.js) en 3D: se guardan su enter/down originales (enter0/down0) y se sustituyen.
 // three:true hace que el bucle dibuje la capa 3D (R3frame) debajo de lo que pinte draw().
 {const S0=SCENES.map,enter0=S0.enter,down0=S0.down;
  Object.assign(S0,{three:true,
@@ -1836,7 +1836,7 @@ function buildCasita(t,st){const bs=bgSample(t),w=newWorld({fov:38,bg:'#'+bs.top
   camRig(w,V3(0,11,15.5),V3(0,2.4,0),1.1);return w}
 // lastGame: último juego abierto {t,g}; al volver a la casita, Tito aparece junto a esa estación (se envuelve SCENES.juego.enter).
 let lastGame=null;{const je=SCENES.juego.enter;SCENES.juego.enter=function(o){lastGame={t:o.t,g:o.g};return je.call(this,o)}}
-// Convierte en 3D la escena de la casita de un tema (scenes.js)
+// Convierte en 3D la escena de la casita de un tema (escenas/escenas2d.ts)
 {const S0=SCENES.casita,enter0=S0.enter,down0=S0.down,sp0=stationPos;
  // stationPos(t,j): en 3D, la posición 2D de la estación j es la proyectada (w.st[j].p2); si no, la original sp0
  ponStationPos(function(t,j){const w=W3;if(w&&w.kind==='casita'&&w.t===t&&w.st&&w.st[j]&&scene===SCENES.casita)return w.st[j].p2;return sp0(t,j)});
@@ -1897,7 +1897,7 @@ function buildCofre(st){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=sky
     tito.userData.anim(dt,{hop:st.openT?st.openT+.2:st.hop})});
   wobInit(w);
   camRig(w,V3(0,4.6,10),V3(0,2.05,0),.5);return w}
-// Convierte en 3D la escena del cofre (tienda.js / scenes.js)
+// Convierte en 3D la escena del cofre (tienda.js / escenas/escenas2d.ts)
 {const S0=SCENES.cofre,enter0=S0.enter,down0=S0.down;
  Object.assign(S0,{three:true,
   // enter(o): construye el mundo del cofre
