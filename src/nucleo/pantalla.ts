@@ -14,7 +14,7 @@ export let SC=1,OX=0,OY=0,DPR=1;
 // dificultad, tiempo de juego, avisos). Un objeto en vez de variables sueltas porque un módulo no puede reasignar una
 // variable que importa, pero sí cambiar un campo (fase 2 de docs/PLAN-MIGRACION.md). Cada grupo de campos se rellena
 // con Object.assign donde se explica (puntero.ts, voz.ts, escenas.ts, interfaz.ts, escenas/escenas2d.ts con deferredInstall y
-// tienda.js con coinBanner); el tipo con todos los campos es Vivo (tipos.ts). Empieza vacío y se completa al cargar.
+// escenas/tienda.ts con coinBanner); el tipo con todos los campos es Vivo (tipos.ts). Empieza vacío y se completa al cargar.
 export const VIVO={} as Vivo;
 // ponCtx(g): cambia el lienzo en el que dibuja todo (ctx). world3d.js dibuja así en lienzos aparte (texturas, muestras
 // de fondo) y luego deja el de antes. Es la única forma de cambiar ctx desde otro archivo.

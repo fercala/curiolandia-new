@@ -1897,7 +1897,7 @@ function buildCofre(st){const w=newWorld({fov:36,kind:'cofre',shadow:10}),nt=sky
     tito.userData.anim(dt,{hop:st.openT?st.openT+.2:st.hop})});
   wobInit(w);
   camRig(w,V3(0,4.6,10),V3(0,2.05,0),.5);return w}
-// Convierte en 3D la escena del cofre (tienda.js / escenas/escenas2d.ts)
+// Convierte en 3D la escena del cofre (escenas/tienda.ts / escenas/escenas2d.ts)
 {const S0=SCENES.cofre,enter0=S0.enter,down0=S0.down;
  Object.assign(S0,{three:true,
   // enter(o): construye el mundo del cofre

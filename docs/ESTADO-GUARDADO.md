@@ -11,7 +11,7 @@
 - **Guardar**: `save()` escribe todo `S` como JSON. **No hay guardado automático**: llama a `save()` justo después de cambiar algo que deba recordarse.
 - **Cargar**: `load()` se ejecuta una vez al arrancar. Hace `S = Object.assign(copia de DEF, lo guardado)`. Es decir: parte de los valores por defecto `DEF` y encima pone lo guardado. Solo mezcla el **primer nivel** (los objetos de dentro, como `S.tito`, se toman tal cual de lo guardado). Antes de mezclar, `sanoS(lo guardado, DEF)` quita los campos con un tipo imposible (desde v1.586): un `null` donde `DEF` tiene un valor, un objeto que no es objeto, un número donde va texto (se pasa a texto) o un texto con número donde va número (se pasa a número), y las entradas de `temas` que no son objetos. Esos campos quedan con su valor por defecto, así una partida o copia rota no rompe el juego.
 - Después de `sanoS`, `sanoHondo()` (`nucleo/guardado.ts`; viene de core.js de curiolandia-3d v1.592) arregla lo de dentro de las colecciones: `temas.X.g`, `stats`, `gs`, `home`, `kg`, `vales`, `valesLog`, `rep` y `cofreP` (ver su comentario). Se usa también cuando otra pestaña guarda (evento `storage`): esta pestaña adopta esa partida para no pisarla con datos viejos.
-- Los campos de `tienda.js` (`DEF2`) se rellenan después: `sanoS(S, DEF2)` y luego `for (k in DEF2) if (S[k] === undefined) S[k] = copia de DEF2[k]`. `repaso.js` hace lo mismo con los suyos.
+- Los campos de `escenas/tienda.ts` (`DEF2`) se rellenan después: `sanoS(S, DEF2)` y luego `for (k in DEF2) if (S[k] === undefined) S[k] = copia de DEF2[k]`. `repaso.js` hace lo mismo con los suyos.
 - Si no hay partida pero sí una de **Letrilandia** (otro juego de la familia, clave `letrilandia.v1`), se copian de ahí el nombre, la edad, el acento y el volumen.
 - **Copia de seguridad** (zona de adultos): `bkEncode()` genera un texto `CURIO1.` + JSON comprimido en base64; "Recuperar" lo vuelve a escribir en `localStorage` y recarga la página. `bkDecode()` solo acepta un objeto con `temas` que sea un objeto (no `null` ni una lista).
 
@@ -37,14 +37,14 @@
 | `first` | `{askedName, fromLetri, jardin, bosque..., wk}` | Cosas que solo pasan una vez (saludos largos, si ya se preguntó el nombre...). |
 | `seenFl` | número | Flores ya celebradas en el mapa. |
 
-### En `DEF2` (tienda.js)
+### En `DEF2` (escenas/tienda.ts)
 
 | Campo | Formato | Para qué |
 |---|---|---|
 | `coins`, `coinsTot` | números | Monedas actuales y ganadas en total. |
 | `gift` | fecha `'AAAA-MM-DD'` | Último regalo diario de monedas. |
 | `woke` | `{bosque: 1, montana: 1}` | Zonas ya "despertadas" (anunciadas). |
-| `home` | `{idArtículo: {x, y, r}}` | Dónde está cada objeto en la casa de Tito. `r` (v1.590) es la habitación (`ROOMS` en tienda.js); sin `r`, el salón (partidas de antes). |
+| `home` | `{idArtículo: {x, y, r}}` | Dónde está cada objeto en la casa de Tito. `r` (v1.590) es la habitación (`ROOMS` en escenas/tienda.ts); sin `r`, el salón (partidas de antes). |
 | `rooms` | número o ausente | (v1.590) Cuántas habitaciones de la casa ya se vieron abiertas: si hay más abiertas, al entrar en la casa Tito anuncia la nueva. Ausente = 1. |
 | `tito` | `{shell, scarf, hat, glasses, bow, kind}` | Colores y ropa de Tito; `kind` = `'caracol'`, `'erizo'`, `'tortuga'` o `'conejo'`. |
 | `owned` | `{idArtículo: 1}` | Artículos que tiene. |
@@ -80,7 +80,7 @@
 2. **No cambies los `id`** de temas (`'3A-T1'`), de artículos de la tienda ni de dibujos que estén guardados en `S.temas`, `S.owned`, `S.home`, `S.stk`...
 3. **Los juegos de un tema se guardan por posición** (`S.temas[id].g[índice]`): añade juegos nuevos **al final** de `games`. Si insertas uno en medio, las estrellas guardadas pasan a apuntar a otro juego.
 4. **Campo nuevo = valor por defecto obligatorio.** Tres formas válidas:
-   - añadirlo a `DEF2` en tienda.js (se rellena solo en las partidas viejas);
+   - añadirlo a `DEF2` en escenas/tienda.ts (se rellena solo en las partidas viejas);
    - añadirlo a `DEF` en `nucleo/guardado.ts` (y su tipo a `Estado` en `nucleo/tipos.ts`) (también se rellena al cargar);
    - o leerlo siempre con un valor de respaldo: `S.miCampo || 0`.
 5. **Subcampos nuevos dentro de un objeto** (por ejemplo `S.tito.zapatos`): `load()` no los rellena en partidas viejas. Léelos siempre con respaldo: `(S.tito.zapatos || '')`.

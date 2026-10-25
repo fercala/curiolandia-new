@@ -7,7 +7,7 @@
 //   SCENES.casita.enter y goSeguir (escenas/zonas.ts) y los métodos draw/down/dwell de SCENES.map (escenas/zonas.ts).
 // Depende de: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo), escenas/escenas2d.ts (TEMA, TEMAS, tst,
 //   finishGame, drawStation, GNAME), escenas/zonas.ts (goSeguir, asamHoy, drawRoad, lockOver, unlockFx),
-//   tienda.js (STARS, giveCoins, drawCoinHUD, inCoinHUD).
+//   escenas/tienda.ts (STARS, giveCoins, drawCoinHUD, inCoinHUD).
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.
 //   S.gs = { 'temaId#juego': {ok, err, d} }      aciertos, fallos y último día jugado ('AAAA-MM-DD' de today()).

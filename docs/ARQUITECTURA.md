@@ -77,11 +77,11 @@ importar de otros módulos, nunca del código global.
 | 5 | `temas/temas.ts`, `temas4.ts`, `temas5.ts` (antes `temas.js`, `temas4.js` y `temas5.js`; `temas/indice.ts` los junta) | **Contenido** (módulos): los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas/temas.ts` también tiene `makeGame`. |
 | 6 | `contenido/cuentos.ts` (antes `cuentos.js`; tipos en `contenido/tipos.ts`) | **Cuentos** (módulo, solo datos): los cuentos ilustrados de cada tema (`CUENTOS`), que lee `Story`. |
 | 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento y envuelve `makeGame`. |
-| 8 | `temas/ingles.ts` (antes `temas/ingles.ts`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
+| 8 | `temas/ingles.ts` (antes `ingles.js`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
 | 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo, el último que carga `modulos.ts`) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
 | 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
-| 11 | `tienda.js` | Primer archivo global. Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. |
-| 12 | `repaso.js` | Estadísticas por habilidad y repaso diario. |
+| 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`, la última de todos los módulos) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
+| 12 | `repaso.js` | Primer archivo global. Estadísticas por habilidad y repaso diario. |
 | 13 | `adult.js` | Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
 | 14 | `world3d.js` | **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
 | 15 | `boot.js` | Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
@@ -103,7 +103,7 @@ declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo
   `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
   (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`escenas/escenas2d.ts`),
   `ponMakeGame` (`temas/temas.ts`) y `ponGoSeguir` (`escenas/zonas.ts`). Dentro del núcleo hay dos más: `ponMusica` (la música
-  de la escena, la usa `go`) y `ponRopaTito` (`tienda.js` le da a `drawTito` la imagen de colores y la ropa de Tito).
+  de la escena, la usa `go`) y `ponRopaTito` (`escenas/tienda.ts` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
 `npm run test:unidad` lo comprueba (`tests/unidad/globales.test.ts`, con `herramientas/analisis/globales.mts`).
 
@@ -157,7 +157,7 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 | `juego` | escenas/escenas2d.ts | Ejecuta un juego (un componente de juegos/) |
 | `cofre` | escenas/zonas.ts (+3D) | Recompensa al terminar un tema |
 | `asamblea` | escenas/escenas2d.ts + escenas/zonas.ts | La rutina diaria (día, tiempo, emociones, cumpleaños) |
-| `tienda`, `casaTito` | tienda.js | Tienda (con páginas) y casa de Tito (2D) con siete habitaciones (`ROOMS`) que se abren con las casitas terminadas |
+| `tienda`, `casaTito` | escenas/tienda.ts | Tienda (con páginas) y casa de Tito (2D) con siete habitaciones (`ROOMS`) que se abren con las casitas terminadas |
 | `album` | escenas/escenas2d.ts | Álbum de pegatinas |
 | `repaso` | repaso.js | Repaso diario |
 | `dormir` | escenas/escenas2d.ts | Fin del tiempo de juego |
@@ -177,7 +177,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 ```
 
 - `escenas/zonas.ts` reescribe el mapa y la casita de `escenas/escenas2d.ts` (la versión de `escenas/escenas2d.ts` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
-- `tienda.js` envuelve `SCENES.juego` y `finishGame` (monedas); `repaso.js` envuelve `rec`, `finishGame`, la casita y el mapa.
+- `escenas/tienda.ts` envuelve `SCENES.juego` y `finishGame` (monedas); `repaso.js` envuelve `rec`, `finishGame`, la casita y el mapa.
 - `world3d.js` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 
 **Consecuencia práctica**: antes de cambiar una escena, busca en todos los archivos quién la envuelve (`grep -n "SCENES.casita" src/*.js`). El comportamiento final es el de la última capa.

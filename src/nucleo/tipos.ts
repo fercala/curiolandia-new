@@ -29,7 +29,7 @@ export interface Volumenes {
   fx: number;
 }
 
-/** Colores, ropa y animal de Tito (tienda.js). */
+/** Colores, ropa y animal de Tito (escenas/tienda.ts). */
 export interface Tito {
   shell?: string;
   scarf?: string;
@@ -39,7 +39,7 @@ export interface Tito {
   kind?: 'caracol' | 'erizo' | 'tortuga' | 'conejo';
 }
 
-/** Un vale de la familia (tienda.js, VALES_DEF): texto, dibujo, precio en monedas y si se ofrece; en valesLog,
+/** Un vale de la familia (escenas/tienda.ts, VALES_DEF): texto, dibujo, precio en monedas y si se ofrece; en valesLog,
  *  además, cuándo se compró y si ya se dio. */
 export interface Vale {
   id: string;
@@ -61,7 +61,7 @@ export interface Repaso {
   seen?: number | boolean;
 }
 
-/** El estado guardado completo: DEF (guardado.ts) + DEF2 (tienda.js) + repaso.js + campos sueltos. */
+/** El estado guardado completo: DEF (guardado.ts) + DEF2 (escenas/tienda.ts) + repaso.js + campos sueltos. */
 export interface Estado {
   // DEF (guardado.ts)
   age: number;
@@ -79,7 +79,7 @@ export interface Estado {
   intro: boolean;
   first: Record<string, number | boolean | string>;
   seenFl: number;
-  // DEF2 (tienda.js)
+  // DEF2 (escenas/tienda.ts)
   coins?: number;
   coinsTot?: number;
   gift?: FechaDia;
@@ -164,7 +164,7 @@ export interface Pista {
 
 /**
  * VIVO (pantalla.ts): estado de la partida en curso que no se guarda y que cambian varios archivos. Cada campo está
- * explicado donde se rellena (puntero.ts, voz.ts, escenas.ts, interfaz.ts, escenas/escenas2d.ts y tienda.js).
+ * explicado donde se rellena (puntero.ts, voz.ts, escenas.ts, interfaz.ts, escenas/escenas2d.ts y escenas/tienda.ts).
  */
 export interface Vivo {
   /** Puntero en la pantalla lógica de 1600x900; -9 si no hay. */
@@ -205,7 +205,7 @@ export interface Vivo {
   toast: AvisoPegatina | null;
   /** Aviso del navegador para instalar la app, guardado para usarlo después (escenas/escenas2d.ts). */
   deferredInstall: Libre | null;
-  /** Cartel de monedas ganadas, o null (tienda.js). */
+  /** Cartel de monedas ganadas, o null (escenas/tienda.ts). */
   coinBanner: Libre | null;
 }
 
