@@ -17,7 +17,7 @@
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan scenes.js (TEMAS, TEMA,
-//   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, extras.js y cuentos.js.
+//   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, extras.js y contenido/cuentos.ts.
 //
 // Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
 // a castellano de España cuando S.variant==='es'. Si una frase cambia mucho, se pone una lista
@@ -51,7 +51,7 @@ export function grass(y: number,c='#9FDC8F'){ctx.fillStyle=c;ctx.beginPath();ctx
 export function fallingDeco(cols: string[],n=10,sp=30){for(let i=0;i<n;i++){const x=(i*173+T*sp*(i%3+1))%1700-50,y=(i*97+T*sp*1.4)%1000-50;ctx.save();ctx.translate(x,y);ctx.rotate(T+i);ctx.globalAlpha=.35;ell(0,0,16,9,cols[i%cols.length],0);ctx.restore()}ctx.globalAlpha=1}
 // BG: fondos de los temas, por nombre. BG.aula, BG.cuerpo... Cada uno es una función
 // sin parámetros (ver arriba). Un tema lo usa como bg:BG.aula, y los cuentos por su nombre
-// (bg:'aula' en cuentos.js). temas/temas4.ts añade más con Object.assign(BG,{...}).
+// (bg:'aula' en contenido/cuentos.ts). temas/temas4.ts añade más con Object.assign(BG,{...}).
 export const BG: Record<string, () => void>={
   aula(){sky('#FFF3D6','#FCE7C8');floor(700,'#E9C99A');card(1020,36,500,120,'#3E6B4E',8,12);text('A  B  C  1  2  3',1270,118,52,'#fff',{f:LF});for(let i=0;i<6;i++){ctx.save();ctx.translate(330+i*120,60);ctx.rotate(Math.sin(T+i)*.05);ctx.beginPath();ctx.moveTo(-40,0);ctx.lineTo(40,0);ctx.lineTo(0,56);ctx.closePath();fillStroke(DIAC[i],4);ctx.restore()}},
   cuerpo(){sky('#FFE9EC','#FFD7DC');floor(760,'#F5C1C9');for(let i=0;i<10;i++)circ((i*211)%1600,(i*137)%700+40,18,'rgba(255,255,255,.5)',0)},

@@ -2,7 +2,7 @@
 // en su módulo. Al pasar a módulo cada archivo que lo usa, lo importará en vez de leerlo de aquí.
 // Son `const` aunque en su módulo algunos cambien (S, ctx, T, scene, go...): el código global los lee siempre al día,
 // pero no puede reasignarlos. tests/unidad/globales.test.ts comprueba que esta lista es exactamente la del puente: al
-// exportar algo nuevo en src/nucleo/, src/juegos/, src/temas/ o src/dibujos/todos.ts, añade aquí su línea (la prueba dice cuál falta).
+// exportar algo nuevo en src/nucleo/, src/juegos/, src/temas/, src/contenido/cuentos.ts o src/dibujos/todos.ts, añade aquí su línea (la prueba dice cuál falta).
 declare const GLASSES_SVG: typeof import('../dibujos/pics-base.ts').GLASSES_SVG;
 declare const HAND_SVG: typeof import('../dibujos/pics-base.ts').HAND_SVG;
 declare const K: typeof import('../dibujos/pics-base.ts').K;
@@ -323,3 +323,4 @@ declare const trunk: typeof import('../temas/temas5.ts').trunk;
 declare const bookOf: typeof import('../temas/temas5.ts').bookOf;
 declare const T5: typeof import('../temas/temas5.ts').T5;
 declare const C5: typeof import('../temas/temas5.ts').C5;
+declare const CUENTOS: typeof import('../contenido/cuentos.ts').CUENTOS;

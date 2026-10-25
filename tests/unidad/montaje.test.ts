@@ -22,10 +22,10 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: cuentos.js primero (core.js, lex.js, comps.js, comps2.js y los temas ya son módulos:
+  // El orden importa: extras.js primero (core.js, lex.js, comps.js, comps2.js, los temas y cuentos.js ya son módulos:
   // src/nucleo/, src/contenido/, src/juegos/ y src/temas/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['cuentos.js', 'scenes.js'],
+    ['extras.js', 'scenes.js'],
     ['scenes.js', 'zonas.js'],
     ['adult.js', 'world3d.js'],
     ['world3d.js', 'boot.js'],
@@ -98,6 +98,8 @@ describe('paginaJuego', () => {
     expect(runInContext('[T3.length, T4.length, T5.length].join()', global)).toBe('12,12,12');
     for (const k of ['makeGame', 'ponMakeGame', 'vestir']) expect(typeof global[k], k).toBe('function');
     expect(runInContext('typeof BG.aula + typeof BG.bosque', global)).toBe('functionfunction');
+    // contenido/cuentos.ts: un cuento por tema, con páginas y preguntas.
+    expect(runInContext("CUENTOS['3A-T1'].pages.length > 0 && CUENTOS['3A-T1'].qs.length > 0", global)).toBe(true);
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {
