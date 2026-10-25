@@ -39,7 +39,7 @@
  * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
  *
  * Lo que exporta y usan otros archivos:
- *   SCENES, TEMAS, TEMA, tst, gDone, drawLogo, drawLogoSmall, pill,
+ *   SCENES, TEMAS, TEMA, CATALOGO, tst, gDone, drawLogo, drawLogoSmall, pill,
  *   VIVO.deferredInstall, standalone, MZ, asamHoy, suggestTema, tree,
  *   drawCasita, GNAME, gIcon, stationPos, drawStation, finishGame,
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
@@ -70,6 +70,7 @@ import { repeticion } from '../dominio/dificultad.ts';
 import { ahora } from '../aplicacion/puertos.ts';
 // terminarJuego: lo que cambia en la partida al terminar un juego (caso de uso, desde la fase 4b); lo usa finishGame.
 import { terminarJuego } from '../aplicacion/terminarJuego.ts';
+import type { CatalogoDeTemas } from '../aplicacion/repasoDelDia.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -82,6 +83,8 @@ import { terminarJuego } from '../aplicacion/terminarJuego.ts';
 // Formato de un tema (ver temas/temas.ts): {id, n: nombre, icon: dibujo, c: color, zone, games: [{t: tipo de juego, ...}],
 // words?, concepts? (true en el Rincón de los Conceptos), bg(): dibuja el fondo de su casita, intro?, season?}.
 export const TEMAS: Tema[]=[...T3,C3,...T4,C4,...T5,C5,CAN,RUT,TRZ,...FIESTAS,...ING], TEMA: Record<string, Tema>={};TEMAS.forEach(t=>TEMA[t.id]=t);
+// CATALOGO: TEMAS y TEMA juntos, como los piden los casos de uso del repaso (aplicacion/repasoDelDia.ts, desde la fase 4c).
+export const CATALOGO: CatalogoDeTemas={lista:TEMAS,tema:(id: string)=>TEMA[id]};
 // tst(id): progreso guardado del tema con ese id, o uno vacío si aún no se ha jugado.
 // Formato: S.temas[id] = {g: {índiceJuego: veces que se ha terminado}, done: 1 si ya se terminaron todos}. No escribe en S.
 export const tst=(id: string): Libre=>S.temas[id]||{g:{},done:0};

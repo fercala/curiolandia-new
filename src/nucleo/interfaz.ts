@@ -1,10 +1,11 @@
 // interfaz.ts: lo común a todas las pantallas y al juego: botón de volver, estrellas de rondas, candado de adultos,
 // ayudas automáticas, dificultad adaptativa, tiempo de juego, pegatinas y calendario.
-//   HOME, drawHome, atHome, drawRounds, drawLock, drawHelp; nOpts, onRight, alEmpezarJuego, onWrongTwice, nRounds;
+//   HOME, drawHome, atHome, drawRounds, drawLock, drawHelp; nOpts, onRight, alEmpezarJuego, onWrongTwice, nRounds, rec;
 //   giveSticker, drawSticker, drawToast; DIAS, DIASL, DIAC, MESES, ESTACIONES, estacionDe.
 //   VIVO.lockHold/lockDown/lockPrev, VIVO.ADAPT/REP, VIVO.sessionT/restAsked/minuteAcc y VIVO.toast.
 // Las reglas de la dificultad (nOpts, nRounds, onRight, onWrongTwice) están en dominio/dificultad.ts, y las de la
-// moneda de cada acierto (onRight), en dominio/monedas.ts; las monedas en pantalla, en monedas.ts.
+// moneda de cada acierto (onRight), en dominio/monedas.ts; las monedas en pantalla, en monedas.ts. Lo que apunta rec,
+// en el caso de uso aplicacion/repasoDelDia.ts (apuntarResultado).
 import { K } from '../dibujos/todos.ts';
 import { card, circ, fillStroke, hand, rr, star, text } from './dibujo.ts';
 import { scene, sceneName } from './escenas.ts';
@@ -12,6 +13,8 @@ import { AGE, S, save } from './guardado.ts';
 import type { Adaptacion } from '../dominio/dificultad.ts';
 import { SIN_ADAPTAR, opciones, rondas, trasAcierto, trasDosFallos } from '../dominio/dificultad.ts';
 import { monedasPorAcierto } from '../dominio/monedas.ts';
+// apuntarResultado: el caso de uso que dice qué apunta rec (desde la fase 4c).
+import { apuntarResultado } from '../aplicacion/repasoDelDia.ts';
 import { V } from './idioma.ts';
 import { pic, picG } from './imagenes.ts';
 import { giveCoins } from './monedas.ts';
@@ -82,6 +85,15 @@ export function onRight(first: unknown): void{
 // alEmpezarJuego(): pone a cero las monedas de acierto del juego; lo llama la escena 'juego' (escenas/escenas2d.ts) al
 // entrar en cada juego.
 export function alEmpezarJuego(): void{monedasDeAcierto=0}
+// rec(habilidad, acierto): apunta un acierto (ok verdadero) o un fallo de esa habilidad y guarda. Con el caso de uso
+// apuntarResultado (aplicacion/repasoDelDia.ts): en S.stats[habilidad] y, si se está jugando un juego (escena 'juego'),
+// también en ese juego (S.gs['temaId#número']) y en los juegos recientes de la habilidad (S.kg), que usa el repaso del
+// día. Desde la fase 4c es una sola función (antes estaba en guardado.ts y escenas/repaso.ts la envolvía con ponRec,
+// que ya no existe, para apuntar lo del juego).
+export function rec(k: string,ok: unknown): void{
+  const juego=sceneName==='juego'&&scene!.t&&scene!.gi!=null?scene!.t.id+'#'+scene!.gi:null;
+  Object.assign(S,apuntarResultado(S,k,juego,ok));save();
+}
 // onWrongTwice(): avisar de que se falló dos veces; baja la dificultad (trasDosFallos).
 export function onWrongTwice(): void{adaptar(trasDosFallos(adaptacion()))}
 // nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición (rondas).

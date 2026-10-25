@@ -1,35 +1,33 @@
 // ARCHIVO: escenas/repaso.ts (antes repaso.js) — el repaso diario con Tito (botón de la lupa en el mapa).
 // Para qué sirve: apunta qué habilidades practica cada juego y cómo le va al niño en cada juego,
 // y con eso prepara cada día una lista de 3 juegos para repasar (escena SCENES.repaso).
-// Desde la fase 2m es un módulo: escenas/indice.ts lo carga el último, después de tienda.ts, y el puente deja lo que
-//   exporta en globalThis para las pruebas.
-// Define: DATOS, repWeak, repOld, repBuild, repToday, repAllDone, repDue, REPBTN y la escena SCENES.repaso.
-//   Añade a S los campos kg, gs y rep. Las reglas (qué juegos cuestan, cuáles son los más antiguos, cómo se elige el
-//   repaso, cuándo toca) están desde la fase 3d en dominio/repaso.ts; aquí se les pasan los datos de S (DATOS).
-// Exporta: nada. REP_ON (true mientras se juega un juego del repaso; lo leen las pruebas) está desde la fase 4b en el
-//   núcleo (nucleo/escenas.ts): aquí se cambia con ponRepOn.
-// Envuelve (cambia el comportamiento de) funciones de otros archivos: rec y go (src/nucleo/), SCENES.casita.enter y
-//   goSeguir (escenas/zonas.ts) y los métodos draw/down/dwell de SCENES.map (escenas/zonas.ts). Desde la fase 4b ya no
-//   envuelve finishGame: la fecha del juego y el repaso hecho los apunta el caso de uso aplicacion/terminarJuego.ts.
-// Importa: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo, REP_ON y ponRepOn, y las monedas:
-//   giveCoins, creditCoins, drawCoinHUD, inCoinHUD), escenas/escenas2d.ts (TEMA, TEMAS, tst, drawStation, GNAME,
-//   asamHoy), escenas/zonas.ts (goSeguir, drawRoad, lockOver, unlockFx, arrowAt), STARS del núcleo, temas/ (floor),
-//   MONEDAS de dominio/monedas.ts y las reglas de dominio/repaso.ts.
+// Desde la fase 2m es un módulo: escenas/indice.ts lo carga el último, después de tienda.ts.
+// Define: repToday y la escena SCENES.repaso. Añade a S los campos kg, gs y rep (valores por defecto).
+// Exporta: nada. Desde la fase 4c no envuelve nada: lo que se apunta de cada acierto o fallo lo hace rec
+//   (nucleo/interfaz.ts), la lupa del mapa, el paso por el repaso del botón verde (goSeguir) y la vuelta al repaso
+//   desde la casita están en escenas/zonas.ts (repDue, repAllDone), y go (nucleo/escenas.ts) olvida el repaso al salir
+//   de él; todo con el caso de uso aplicacion/repasoDelDia.ts, que usa las reglas de dominio/repaso.ts. REP_ON (true
+//   mientras se juega un juego del repaso; lo leen las pruebas) está desde la fase 4b en el núcleo (nucleo/escenas.ts):
+//   aquí se pone con ponRepOn. La fecha del juego y el repaso hecho los apunta, al terminar, el caso de uso
+//   aplicacion/terminarJuego.ts.
+// Importa: el núcleo, src/nucleo/ (S, DEF, save, say, today, later, SFX, dibujo, ponRepOn y las monedas: giveCoins,
+//   creditCoins, drawCoinHUD, inCoinHUD), escenas/escenas2d.ts (TEMA, CATALOGO, drawStation, GNAME), escenas/zonas.ts
+//   (goSeguir, repAllDone, drawRoad, lockOver, unlockFx, arrowAt), temas/ (floor), MONEDAS de dominio/monedas.ts y
+//   repasoCaducado y nuevoRepaso de aplicacion/repasoDelDia.ts.
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.
 //   S.gs = { 'temaId#juego': {ok, err, d} }      aciertos, fallos y último día jugado ('AAAA-MM-DD' de today()).
 //   S.rep = {d, list, done, weak, paid, seen}    el repaso del día d: list = 3 ids 'temaId#juego',
 //           done = {id:1} los ya hechos, weak = cuántos salieron por "cuesta", paid = premio ya dado,
 //           seen = el botón verde ya pasó hoy por el repaso.
-import type { Escena, Libre, Repaso } from '../nucleo/tipos.ts';
+import type { Libre, Repaso } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DEF, DF, LF, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, atHome, burst, card, circ, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, giveCoins, giveSticker, go, hC, hv, inCoinHUD, inTito, kid, later, pic, ponGo, ponRec, ponRepOn, rec, save, say, sayQ, scene, sceneName, sky, sparkles, text, today } from '../nucleo/indice.ts';
+import { DEF, DF, LF, S, SCENES, SFX, T, TITO, V, atHome, burst, card, circ, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, giveCoins, giveSticker, go, hC, hv, inCoinHUD, inTito, kid, later, pic, ponRepOn, save, say, sayQ, sky, sparkles, text, today } from '../nucleo/indice.ts';
 import { floor } from '../temas/indice.ts';
-import { GNAME, TEMA, TEMAS, asamHoy, drawStation, tst } from './escenas2d.ts';
-import { arrowAt, drawRoad, goSeguir, lockOver, ponGoSeguir, unlockFx } from './zonas.ts';
+import { CATALOGO, GNAME, TEMA, drawStation } from './escenas2d.ts';
+import { arrowAt, drawRoad, goSeguir, lockOver, repAllDone, unlockFx } from './zonas.ts';
 import { MONEDAS } from '../dominio/monedas.ts';
-import type { DatosRepaso } from '../dominio/repaso.ts';
-import { caducado, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, terminado, toca } from '../dominio/repaso.ts';
+import { nuevoRepaso, repasoCaducado } from '../aplicacion/repasoDelDia.ts';
 
 /* ================= REPASO INTELIGENTE ================= */
 // Cada habilidad recuerda en qué juegos aparece (S.kg) y cada juego cómo le fue (S.gs).
@@ -37,31 +35,17 @@ import { caducado, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, term
 // Valores por defecto de los campos nuevos y arreglo de partidas antiguas que no los tienen.
 Object.assign(DEF,{kg:{},gs:{},rep:null});
 {const s: Libre=S;for(const k of['kg','gs'])if(!s[k]||typeof s[k]!=='object')s[k]={}}
-// Envuelve rec(habilidad, acierto) de nucleo/guardado.ts: además de las estadísticas normales, si estamos en un juego
-// apunta en S.kg que esa habilidad sale en este juego (sin repetir, máximo 6) y suma el acierto/fallo en S.gs.
-{const r0=rec;ponRec(function(k: string,ok: unknown){r0(k,ok);if(sceneName==='juego'&&scene!.t&&scene!.gi!=null){const id=scene!.t.id+'#'+scene!.gi;
-  S.kg![k]=conJuegoReciente(S.kg![k]||[],id);
-  const g=S.gs![id]||(S.gs![id]={ok:0,err:0,d:''});ok?g.ok++:g.err++;save()}})}
-// REP_ON (true mientras se juega un juego lanzado desde el repaso) está desde la fase 4b en el núcleo
-// (nucleo/escenas.ts): aquí se cambia con ponRepOn. La fecha del juego (S.gs[id].d) y el juego del repaso hecho los
-// apunta finishGame (escenas/escenas2d.ts), con el caso de uso aplicacion/terminarJuego.ts.
-// DATOS: lo que miran las reglas del repaso (dominio/repaso.ts), leído de S en el momento de cada pregunta.
-const DATOS: DatosRepaso={get stats(){return S.stats},get kg(){return S.kg!},get gs(){return S.gs!},get temas(){return TEMAS},tema:(id: string)=>TEMA[id],jugados:(id: string)=>tst(id).g};
-// repWeak(): los juegos «que cuestan», sin repetir (queCuestan): primero el más reciente de cada habilidad con 4+
-// intentos y menos del 70 % de aciertos (de peor a mejor); después, los juegos con 3+ intentos y menos del 70 %.
-const repWeak=(): string[]=>queCuestan(DATOS);
-// repOld(): todos los juegos repasables, del que hace más tiempo que no se juega al más reciente (masAntiguos).
-const repOld=(): string[]=>masAntiguos(DATOS);
-// Prepara el repaso de hoy (3 juegos como máximo) y lo guarda en S.rep: hasta 3 juegos que cuestan; si faltan, los
-// más antiguos de temas distintos; si aún faltan, cualquier antiguo (elegirRepaso).
-function repBuild(){const {list,weak}=elegirRepaso(repWeak(),repOld());S.rep={d:today(),list,done:{},weak,paid:0,seen:0};save()}
-// Devuelve el repaso de hoy (S.rep). Lo vuelve a preparar si es de otro día, si no tenía juegos "que cuestan" pero
-// ahora los hay (y aún no se ha hecho ninguno), o si estaba vacío y ya hay juegos (caducado).
-function repToday(): Repaso{if(caducado(S.rep,today(),DATOS))repBuild();return S.rep!}
-// ¿Están hechos todos los juegos del repaso de hoy? (terminado)
-const repAllDone=()=>terminado(S.rep,today());
-// ¿Toca repasar? Con 6+ estrellas, si hoy no se ha terminado y hay algo que cuesta (sale el "!" rojo; toca).
-const repDue=()=>toca(STARS(),S.rep,today(),DATOS);
+// Lo que se apunta de cada acierto o fallo (S.stats, S.kg, S.gs) lo hace rec (nucleo/interfaz.ts) con el caso de uso
+// aplicacion/repasoDelDia.ts (apuntarResultado), y lo de terminar un juego (la fecha en S.gs y el juego del repaso
+// hecho), finishGame con el caso de uso aplicacion/terminarJuego.ts. REP_ON (true mientras se juega un juego lanzado
+// desde el repaso) está en el núcleo (nucleo/escenas.ts): aquí se pone con ponRepOn. La lupa del mapa, goSeguir y la
+// vuelta al repaso desde la casita están en escenas/zonas.ts (repDue, repAllDone). Desde la fase 4c este archivo ya no
+// envuelve nada.
+// repToday(): el repaso de hoy (S.rep). Si hay que prepararlo otra vez (es de otro día, no tenía juegos «que cuestan»
+// pero ahora los hay y aún no se ha hecho ninguno, o estaba vacío y ya hay juegos: repasoCaducado), lo prepara
+// (nuevoRepaso: hasta 3 que cuestan; si faltan, los más antiguos de temas distintos; si aún faltan, cualquier antiguo),
+// lo pone en S.rep y guarda.
+function repToday(): Repaso{if(repasoCaducado(S,CATALOGO,today())){S.rep=nuevoRepaso(S,CATALOGO,today());save()}return S.rep!}
 
 // Escena del repaso: hasta 3 estaciones numeradas en un caminito; se abren en orden.
 // Al terminar todas, premio (pegatina de la lupa y 5 monedas) y flecha verde para seguir el camino.
@@ -111,21 +95,3 @@ SCENES.repaso={music:'casita',
       const [tid,g]=this.L[j].split('#');SFX.pop();this.prevNx=nx;ponRepOn(true);go('juego',{t:tid,g:+g});return}}
     SFX.tap();sparkles(x,y)}
 };
-// al volver de un juego del repaso (o al tocar la casita desde el juego) se vuelve al repaso
-{const e0=SCENES.casita.enter;SCENES.casita.enter=function(this: Escena,o: Libre){if(REP_ON&&!o.fin){ponRepOn(false);go('repaso',{back:1});return}ponRepOn(false);return e0!.call(this,o)}}
-// Si desde un juego del repaso se va a otro sitio que no sea la vuelta normal (un atajo de la zona de adultos al mapa,
-// a una zona o a otro tema con hello), se olvida el repaso: si no, la siguiente casita que se abriera saltaría al repaso.
-{const g0=go;ponGo(function(n,o={}){if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))ponRepOn(false);return g0(n,o)})}
-// el botón verde pasa una vez por día por el repaso, si hay algo que cuesta
-{const g0=goSeguir;ponGoSeguir(function(){if(asamHoy()&&repDue()&&!(S.rep&&S.rep.d===today()&&S.rep.seen)){go('repaso',{seguir:1});return}g0()})}
-// botón del repaso en el mapa, arriba
-const REPBTN={x:1215,y:66};
-// Envuelve draw/down/dwell del mapa para dibujar el botón del repaso, abrirlo al tocarlo y decir su nombre.
-{const M=SCENES.map,d0=M.draw,dn0=M.down,dw0=M.dwell;
-  // Dibuja el mapa original y encima el botón de la lupa: "!" rojo si toca repasar, punto verde si ya se hizo hoy.
-  M.draw=function(){d0.call(this);const s=hv('repaso',hC(REPBTN.x,REPBTN.y,50)),due=repDue();ctx.save();ctx.translate(REPBTN.x,REPBTN.y);ctx.scale(s,s);circ(0,0,46,'#fff',6);pic('lupa',0,0,64);
-    if(due){const p=1+.12*Math.sin(T*5);circ(32,-32,16*p,'#FF6B5E',4);text('!',32,-22,22,'#fff',{f:LF})}else if(repAllDone()){circ(32,-32,16,'#7CC86E',4)}ctx.restore()};
-  // Si se toca la lupa abre el repaso; si no, el comportamiento normal del mapa.
-  M.down=function(this: Escena,x: number,y: number){if(dist(x,y,REPBTN.x,REPBTN.y)<52){SFX.pop();go('repaso',{hello:true});return}return dn0!.call(this,x,y)};
-  // Dedo encima de la lupa: dice "El repaso con Tito."; si no, lo normal.
-  M.dwell=function(id){if(id==='repaso'){say('El repaso con Tito.');return}return dw0&&dw0.call(this,id)}}

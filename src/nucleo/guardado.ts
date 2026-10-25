@@ -1,6 +1,7 @@
 // guardado.ts: el estado guardado S (la partida) y cómo se carga, se arregla y se guarda.
-//   KEY, DEF, S, ponS(), sanoS(), sanoHondo(), save(), rec(), ponRec(), ymd(), today(), AGE().
-// S cambia (ponS, al borrar todo): desde fuera de este módulo solo se lee y se cambian sus campos. rec cambia con ponRec.
+//   KEY, DEF, S, ponS(), sanoS(), sanoHondo(), save(), ymd(), today(), AGE(). (rec, que apunta aciertos y fallos, está
+//   desde la fase 4c en interfaz.ts.)
+// S cambia (ponS, al borrar todo): desde fuera de este módulo solo se lee y se cambian sus campos.
 // Al cargar el módulo se lee la partida (load) y se escucha el guardado de otras pestañas (evento storage).
 // Importa edadDe de dominio/dificultad.ts (AGE) y la versión y las migraciones de la partida de dominio/partida.ts.
 import type { Estado, Volumenes } from './tipos.ts';
@@ -26,7 +27,7 @@ import { ahora, alGuardarFuera, escribirGuardado, leerGuardado } from '../aplica
  *   vol      {voz, mus, fx}: volúmenes de 0 a 1 de la voz, la música y los efectos.
  *   limit    minutos de juego por sesión (0 = sin límite; 10, 15 o 20). Al llegar, Tito se va a dormir (escena 'dormir').
  *   temas    {idTema: {g: {númeroDeJuego: veces jugado}, done: 0/1}}: progreso de cada tema (escenas/escenas2d.ts).
- *   stats    {habilidad: {ok, err}}: aciertos y fallos por habilidad (rec()); se ven en la zona de adultos.
+ *   stats    {habilidad: {ok, err}}: aciertos y fallos por habilidad (rec(), en interfaz.ts); se ven en la zona de adultos.
  *   days     {'AAAA-MM-DD': minutos}: tiempo jugado cada día (se guardan los últimos 30; lo apunta frame() en aplicacion/adultos.ts).
  *   asam     {'AAAA-MM-DD': {done, age, dia, tiempo, emo}}: la asamblea de cada día (escenas/escenas2d.ts).
  *   stk      {dibujo: cantidad}: pegatinas (figuritas) del álbum (giveSticker()).
@@ -141,10 +142,5 @@ alGuardarFuera((clave,texto)=>{if(clave!==KEY||!texto)return;let d: unknown;try{
 export const ymd=(d: Date): string=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 // today(): la fecha de hoy como 'AAAA-MM-DD'.
 export const today=(): string=>ymd(ahora());
-// rec(habilidad, acierto): suma un acierto (ok verdadero) o un fallo en S.stats[habilidad] y guarda.
-// escenas/repaso.ts la envuelve para apuntar además el resultado por juego (S.gs, S.kg).
-export let rec=(k: string,ok: unknown): void=>{const s=S.stats[k]||(S.stats[k]={ok:0,err:0});if(ok)s.ok++;else s.err++;save()};
-// ponRec(f): cambia rec por otra función (escenas/repaso.ts la envuelve para apuntar también los fallos de cada juego).
-export function ponRec(f: typeof rec): void{rec=f}
 // AGE(): edad elegida (3, 4 o 5); si aún no se eligió, 3 (edadDe, en dominio/dificultad.ts).
 export const AGE=(): number=>edadDe(S.age);

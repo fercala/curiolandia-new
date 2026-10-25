@@ -16,7 +16,8 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   adaptadores del navegador en `src/infraestructura/`. **Fase 4 (escenas sin capas y casos de uso) en marcha**
   ([docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md) tiene sus partes): desde la 4a las monedas en pantalla tienen su módulo (desde
   la 4b, `src/nucleo/monedas.ts`) y `STARS` e `inR` están en el núcleo; desde la 4b, terminar un juego (`finishGame`) es
-  una sola función con su caso de uso, `src/aplicacion/terminarJuego.ts`, el primero de `src/aplicacion/`. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
+  una sola función con su caso de uso, `src/aplicacion/terminarJuego.ts`, el primero de `src/aplicacion/`, y desde la
+  4c el repaso del día no envuelve nada (caso de uso `src/aplicacion/repasoDelDia.ts`). El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.

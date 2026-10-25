@@ -4,12 +4,13 @@
  * lo que cuesta, después lo que hace más tiempo que no se juega.
  * Es DOMINIO, como el resto de src/dominio/: no sabe nada de pantalla ni de S y no cambia nada. Recibe lo que mira
  * (DatosRepaso: estadísticas, juegos por habilidad, resultados por juego, los temas y lo jugado) y devuelve listas
- * nuevas. escenas/repaso.ts le pasa los datos de verdad, guarda lo que devuelve en S y dibuja la escena del repaso;
- * conFecha y conHecho (fase 4b) las usa el caso de uso aplicacion/terminarJuego.ts al terminar un juego.
+ * nuevas. Desde la fase 4c las usa el caso de uso aplicacion/repasoDelDia.ts (preparar el repaso, si toca, apuntar
+ * cada acierto o fallo con conIntento y conJuegoReciente), al que las escenas pasan los datos de verdad; conFecha y
+ * conHecho (fase 4b), el caso de uso aplicacion/terminarJuego.ts al terminar un juego.
  * Un juego se nombra 'temaId#número' (por ejemplo '3A-T1#2'). Pruebas: tests/unidad/repaso.test.ts.
  * Exporta: NOREP, REPASO (los números de las reglas), los tipos Resultado, TemaRepasable, DatosRepaso y RepasoDelDia, y
- * las reglas repasable, queCuestan, masAntiguos, elegirRepaso, caducado, terminado, toca, conJuegoReciente, conFecha y
- * conHecho.
+ * las reglas repasable, queCuestan, masAntiguos, elegirRepaso, caducado, terminado, toca, conJuegoReciente, conFecha,
+ * conHecho y conIntento.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de REPASO son las reglas mismas, cada uno con su nombre. */
@@ -168,4 +169,10 @@ export function conFecha(r: Resultado | undefined, hoy: string): { ok: number; e
 // R. No cambia R: devuelve uno nuevo.
 export function conHecho<R extends RepasoDelDia>(R: R, id: string): R {
   return R.list.includes(id) ? { ...R, done: { ...R.done, [id]: 1 } } : R;
+}
+
+// conIntento(r, ok): el resultado r (de una habilidad, S.stats, o de un juego, S.gs) con un intento más: un acierto si
+// ok, si no un fallo. Lo demás que tuviera r (la fecha d de S.gs) se queda igual. No cambia r: devuelve uno nuevo.
+export function conIntento<R extends Resultado>(r: R, ok: unknown): R {
+  return ok ? { ...r, ok: r.ok + 1 } : { ...r, err: r.err + 1 };
 }
