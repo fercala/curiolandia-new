@@ -39,7 +39,7 @@
  * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
  *
  * Lo que exporta y usan otros archivos:
- *   SCENES, TEMAS, TEMA, tst, gDone, drawLogo, drawLogoSmall, pill, inR,
+ *   SCENES, TEMAS, TEMA, tst, gDone, drawLogo, drawLogoSmall, pill,
  *   VIVO.deferredInstall, standalone, MZ, asamHoy, suggestTema, tree,
  *   drawCasita, GNAME, gIcon, stationPos, drawStation, finishGame,
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
@@ -59,7 +59,7 @@
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K, PICS } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveSticker, go, hC, hR, hv, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, temasDone, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, temasDone, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
@@ -95,8 +95,6 @@ export function drawLogo(x: number,y: number,s: number){
 // f = color de fondo, c = color del texto, sz = tamaño de letra. Crece un poco al pasar el ratón (hv). Solo dibuja;
 // el toque se comprueba aparte en down().
 export function pill(x: number,y: number,w: number,h: number,t: string,f='#fff',c=K,sz=32){const s=hv('pill'+x+y,hR(x,y,w,h));ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-w/2,-h/2,w,h,f,5,h/2);text(t,0,sz*.36,sz,c,{w:600});ctx.restore()}
-// inR(x, y, cx, cy, w, h): true si el punto (x, y) cae dentro del rectángulo de w x h centrado en (cx, cy).
-export const inR=(x: number,y: number,cx: number,cy: number,w: number,h: number)=>Math.abs(x-cx)<w/2&&Math.abs(y-cy)<h/2;
 // deferredInstall: el aviso del navegador para instalar el juego como app (PWA). Se guarda al llegar el
 // evento 'beforeinstallprompt' para enseñarlo luego desde el botón "Instalar el juego" de la portada o la zona de adultos.
 Object.assign(VIVO,{deferredInstall:null});

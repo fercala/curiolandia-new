@@ -8,9 +8,6 @@
 /** Fondos de los temas (temas/temas.ts y temas4.ts): BG.aula(), BG.conceptos()... pintan el fondo entero. */
 declare const BG: Record<string, () => void>;
 
-/** true si (x, y) está dentro del rectángulo de centro (cx, cy) y tamaño w x h (escenas/escenas2d.ts). */
-declare function inR(x: number, y: number, cx: number, cy: number, w: number, h: number): boolean;
-
 /** Dibuja la carita de la emoción m (clave de EMO) en (x, y) con radio r (escenas/escenas2d.ts). */
 declare function drawFace(x: number, y: number, r: number, m: string): void;
 
@@ -25,13 +22,9 @@ declare const EMO: Record<string, { c: string; n: string | readonly string[] }>;
 declare const openNameDlg: typeof import('./aplicacion/adultos.ts').openNameDlg;
 declare const openResetDlg: typeof import('./aplicacion/adultos.ts').openResetDlg;
 
-// De escenas/tienda.ts (el último módulo, después de escenas/zonas.ts): monedas, artículos de la tienda y casa de Tito,
+// De escenas/tienda.ts (después de escenas/zonas.ts): artículos de la tienda y casa de Tito (las monedas, desde la fase
+// 4a, están en escenas/monedas.ts, que va antes, y STARS y inR en el núcleo),
 // con el tipo que tienen allí (ver sus comentarios).
-declare const creditCoins: typeof import('./escenas/tienda.ts').creditCoins;
-declare const STARS: typeof import('./escenas/tienda.ts').STARS;
-declare const drawCoinHUD: typeof import('./escenas/tienda.ts').drawCoinHUD;
-declare const inCoinHUD: typeof import('./escenas/tienda.ts').inCoinHUD;
-declare const giveCoins: typeof import('./escenas/tienda.ts').giveCoins;
 declare const SHELLC: typeof import('./escenas/tienda.ts').SHELLC;
 declare const SHOP: typeof import('./escenas/tienda.ts').SHOP;
 declare const itemName: typeof import('./escenas/tienda.ts').itemName;

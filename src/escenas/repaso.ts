@@ -12,7 +12,7 @@
 //   (escenas/zonas.ts).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo), escenas/escenas2d.ts (TEMA, TEMAS,
 //   tst, finishGame, drawStation, GNAME, asamHoy), escenas/zonas.ts (goSeguir, drawRoad, lockOver, unlockFx, arrowAt),
-//   escenas/tienda.ts (STARS, giveCoins, creditCoins, drawCoinHUD, inCoinHUD), temas/ (floor), MONEDAS de
+//   escenas/monedas.ts (giveCoins, creditCoins, drawCoinHUD, inCoinHUD), STARS del núcleo, temas/ (floor), MONEDAS de
 //   dominio/monedas.ts y las reglas de dominio/repaso.ts.
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.
@@ -22,14 +22,14 @@
 //           seen = el botón verde ya pasó hoy por el repaso.
 import type { Escena, Libre, Repaso } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DEF, DF, LF, S, SCENES, SFX, T, TITO, V, atHome, burst, card, circ, ctx, dist, drawHome, drawTito, fillStroke, giveSticker, go, hC, hv, inTito, kid, later, pic, ponGo, ponRec, rec, save, say, sayQ, scene, sceneName, sky, sparkles, text, today } from '../nucleo/indice.ts';
+import { DEF, DF, LF, S, SCENES, SFX, STARS, T, TITO, V, atHome, burst, card, circ, ctx, dist, drawHome, drawTito, fillStroke, giveSticker, go, hC, hv, inTito, kid, later, pic, ponGo, ponRec, rec, save, say, sayQ, scene, sceneName, sky, sparkles, text, today } from '../nucleo/indice.ts';
 import { floor } from '../temas/indice.ts';
 import { GNAME, TEMA, TEMAS, asamHoy, drawStation, finishGame, ponFinishGame, tst } from './escenas2d.ts';
 import { arrowAt, drawRoad, goSeguir, lockOver, ponGoSeguir, unlockFx } from './zonas.ts';
-import { STARS, creditCoins, drawCoinHUD, giveCoins, inCoinHUD } from './tienda.ts';
 import { MONEDAS } from '../dominio/monedas.ts';
 import type { DatosRepaso } from '../dominio/repaso.ts';
 import { caducado, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, terminado, toca } from '../dominio/repaso.ts';
+import { creditCoins, drawCoinHUD, giveCoins, inCoinHUD } from './monedas.ts';
 
 /* ================= REPASO INTELIGENTE ================= */
 // Cada habilidad recuerda en qué juegos aparece (S.kg) y cada juego cómo le fue (S.gs).

@@ -4,7 +4,7 @@
  * tienda se abren, el siguiente regalo del cofre y si hoy es su cumpleaños.
  * Es DOMINIO, como dominio/apertura.ts: no sabe nada de pantalla ni de S y no escribe nada. Recibe lo que mira (el
  * progreso de los temas, lo que ya tiene el niño, la fecha) y devuelve la respuesta. Los archivos de siempre conservan
- * sus nombres y les pasan S: temasDone (nucleo/tito.ts), STARS y roomOpen (escenas/tienda.ts), houseLevel, petStage,
+ * sus nombres y les pasan S: temasDone y STARS (nucleo/tito.ts), roomOpen (escenas/tienda.ts), houseLevel, petStage,
  * nextGift e isBday (escenas/zonas.ts). Pruebas: tests/unidad/progreso.test.ts.
  * Exporta: HOUSE_NEXT, PET_NEXT, TIER_NEED y GIFTS (los números y el orden de las reglas), el tipo TemaGuardado y las
  * reglas estrellas, temasTerminados, nivelCasa, etapaPipo, habitacionAbierta, nivelAbierto, siguienteRegalo y esCumple.
