@@ -101,7 +101,8 @@ const R = L.registro('informe-b');
     await p.evaluate(() => { __cl.S.age = 5; __cl.go('juego', { t: __cl.TEMAS.find(t => t.games.some(g => g.t === 'gira')).id, g: 1 }) }); await p.waitForTimeout(1200);
     const nom = await p.evaluate(() => __cl.scene.t.games[1].t); 
     const src = await p.evaluate(() => String(__cl.scene.g.draw));
-    const m = src.match(/card\((\d+),(\d+),(\d+),(\d+),'#fff',6,48\)/); if (!m) return 'no encuentro el cartel en ' + nom;
+    // Desde la fase 2e Gira es de un módulo y el montaje (rolldown) reescribe su código con espacios y comillas dobles.
+    const m = src.match(/card\(\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*['"]#fff['"],\s*6,\s*48\s*\)/); if (!m) return 'no encuentro el cartel en ' + nom;
     const [x, y, w, h] = m.slice(1).map(Number), tot = await p.evaluate(() => __cl.scene.g.total);
     const rw = tot * 66 + 30, rx = 1560 - rw, ry = 36, rh = 88;// drawRounds (core.js)
     const tapa = (ax, ay, aw, ah) => x < ax + aw && ax < x + w && y < ay + ah && ay < y + h;
