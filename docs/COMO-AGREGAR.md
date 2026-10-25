@@ -94,7 +94,7 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
 ## 4. Un tema nuevo
 
 1. **Dibujos y nombres**: comprueba que existen en `PICS` todas las claves (icono, palabras). Si falta alguno, ver receta 8. Los nombres hablados van en `LEX` (`trompeta:'la trompeta'`).
-2. **Añade el tema al final** de `T3` (temas.js), `T4` (temas4.js) o `T5` (temas5.js):
+2. **Añade el tema al final** de `T3` (temas/temas.ts), `T4` (temas/temas4.ts) o `T5` (temas/temas5.ts):
    ```js
    {id:'4A-T13',n:'Los instrumentos',icon:'guitarra',c:'#9B8AD9',trim:3,bg:BG.fiesta,
     words:[{k:'guitarra',say:'La guitarra. Tiene seis cuerdas.'},{k:'tambor'},{k:'piano'}],
@@ -102,8 +102,9 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
     games:[{t:'conocer'},{t:'busca'},{t:'memoria'}]}
    ```
    - `id` único y **definitivo** (es la clave del progreso guardado).
-   - `bg`: un fondo de `BG` (temas.js y temas4.js tienen la lista). Para uno nuevo, añádelo en el `Object.assign(BG,{...})` de temas4.js.
+   - `bg`: un fondo de `BG` (temas/temas.ts y temas/temas4.ts tienen la lista). Para uno nuevo, añádelo en el `Object.assign(BG,{...})` de temas/temas4.ts.
    - `season` (opcional): `'otoño'`, `'invierno'`... hace que Tito lo recomiende en esa estación.
+   - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, añade su línea a `src/tipos/puente.d.ts` (la prueba `globales` dice cuál falta).
 3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en zonas.js) y cada casita para **unos 8 juegos** (`st3Pos()` en world3d.js), contando el cuento. Para más hay que ampliar esas funciones.
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
 5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (scenes.js lo añade a `TEMAS` y zonas.js al camino).

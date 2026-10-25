@@ -22,10 +22,10 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: temas.js primero (core.js, lex.js, comps.js y comps2.js ya son módulos: src/nucleo/,
-  // src/contenido/ y src/juegos/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
+  // El orden importa: cuentos.js primero (core.js, lex.js, comps.js, comps2.js y los temas ya son módulos:
+  // src/nucleo/, src/contenido/, src/juegos/ y src/temas/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['temas.js', 'scenes.js'],
+    ['cuentos.js', 'scenes.js'],
     ['scenes.js', 'zonas.js'],
     ['adult.js', 'world3d.js'],
     ['world3d.js', 'boot.js'],
@@ -76,7 +76,7 @@ describe('paginaJuego', () => {
     return global;
   };
 
-  test('los módulos dejan los dibujos, el núcleo y los componentes al código global', () => {
+  test('los módulos dejan los dibujos, el núcleo, los componentes y los temas al código global', () => {
     const global = ejecutaModulos();
     const pics: unknown = global['PICS'];
     expect(typeof pics === 'object' && pics !== null ? Object.keys(pics).length : 0).toBeGreaterThan(300);
@@ -94,6 +94,10 @@ describe('paginaJuego', () => {
     // juegos/: los componentes y sus ayudas de texto.
     for (const k of ['Busca', 'Arrastra', 'Memoria', 'Tracer', 'Story', 'thing', 'ponThing']) expect(typeof global[k], k).toBe('function');
     expect(runInContext("unN(3, 'perro') + ' / ' + eseEs('mesa')", global)).toBe('tres perros / Esa es la mesa');
+    // temas/: los temas de cada edad, makeGame y los fondos (temas4.ts añade los suyos a BG al cargarse).
+    expect(runInContext('[T3.length, T4.length, T5.length].join()', global)).toBe('12,12,12');
+    for (const k of ['makeGame', 'ponMakeGame', 'vestir']) expect(typeof global[k], k).toBe('function');
+    expect(runInContext('typeof BG.aula + typeof BG.bosque', global)).toBe('functionfunction');
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

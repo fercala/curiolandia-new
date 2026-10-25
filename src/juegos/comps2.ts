@@ -22,9 +22,9 @@
 // IMPORTA: juegos/comps.ts (thing, ponThing, ChoiceGame, Arrastra, layoutChoice,
 // drawChoice, hitItem, nameT, eseEs, NUM), el núcleo, src/nucleo/ (dibujo, voz,
 // SFX, tone, AC, DIAC, ala, sky, hand, V, Wn, tx, svgImg...) y PICS y K de
-// src/dibujos/. Usa también drawFace, inR (scenes.js) y BG (temas.js), que son
+// src/dibujos/. Usa también drawFace, inR (scenes.js) y BG (temas/temas.ts), que son
 // código global que se carga después: solo se usan al jugar, cuando ya existen
-// (sus tipos, en juegos/clasicas.d.ts). Los datos de Story y Song (CUENTOS,
+// (sus tipos, en src/tardias.d.ts). Los datos de Story y Song (CUENTOS,
 // SONGS) llegan como parámetro.
 // ============================================================================
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';

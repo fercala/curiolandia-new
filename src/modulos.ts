@@ -6,11 +6,13 @@
 // Los import se evalúan en el orden en que están escritos: primero los dibujos (dibujos/todos.ts, que los carga en su
 // orden), luego el núcleo (nucleo/indice.ts, lo que antes era core.js) y después el contenido que lo amplía
 // (contenido/lex.ts, antes lex.js: no exporta nada, solo añade palabras y sonidos al núcleo). Por último, los
-// componentes de juego (juegos/indice.ts, antes comps.js y comps2.js).
+// componentes de juego (juegos/indice.ts, antes comps.js y comps2.js) y los temas que los usan (temas/indice.ts,
+// antes temas.js, temas4.js y temas5.js).
 import * as dibujos from './dibujos/todos.ts';
 import * as nucleo from './nucleo/indice.ts';
 import './contenido/lex.ts';
 import * as juegos from './juegos/indice.ts';
+import * as temas from './temas/indice.ts';
 
 // puente(m): deja cada cosa que exporta el módulo m en globalThis con su mismo nombre, para el código global.
 // Es una propiedad con get que lee siempre el valor actual del módulo: así S, ctx, T, scene, go... están al día aunque
@@ -33,3 +35,4 @@ function puente(m: Readonly<Record<string, unknown>>): void {
 puente(dibujos);
 puente(nucleo);
 puente(juegos);
+puente(temas);

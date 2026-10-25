@@ -58,7 +58,7 @@
 // Los temas de extras.js, fiestas e inglés ya traen su propia zone ('extras', 'fiestas', 'ingles').
 [...T3,C3].forEach(t=>t.zone='jardin');[...T4,C4].forEach(t=>t.zone='bosque');[...T5,C5].forEach(t=>t.zone='montana');
 // TEMAS: lista de todos los temas en orden. TEMA: el mismo tema buscado por su id (TEMA['3A-T1']).
-// Formato de un tema (ver temas.js): {id, n: nombre, icon: dibujo, c: color, zone, games: [{t: tipo de juego, ...}],
+// Formato de un tema (ver temas/temas.ts): {id, n: nombre, icon: dibujo, c: color, zone, games: [{t: tipo de juego, ...}],
 // words?, concepts? (true en el Rincón de los Conceptos), bg(): dibuja el fondo de su casita, intro?, season?}.
 const TEMAS=[...T3,C3,...T4,C4,...T5,C5,CAN,RUT,TRZ,...FIESTAS,...ING], TEMA={};TEMAS.forEach(t=>TEMA[t.id]=t);
 // tst(id): progreso guardado del tema con ese id, o uno vacío si aún no se ha jugado.

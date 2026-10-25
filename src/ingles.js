@@ -3,9 +3,9 @@
 //   EnGlobos, EnCuenta) y los 4 temas del rincón (ING), y engancha esos juegos en makeGame.
 // Define (globales): sayMix, ENC, enBlob, enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer,
 //   EnEscucha, EnGlobos, EnCuenta, ENG, ING. ING se añade a TEMAS en scenes.js y a la zona 'ingles' en zonas.js.
-// Envuelve: makeGame (temas.js / extras.js).
+// Envuelve: makeGame (temas/temas.ts / extras.js).
 // Depende de: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight, onWrongTwice, praise,
-//   SFX, later, shuffle, pick), temas.js (NUM, DIAC, BG, nRounds, nOpts, drawFace), nucleo/idioma.ts y nucleo/voz.ts (V, cap).
+//   SFX, later, shuffle, pick), temas/temas.ts (NUM, DIAC, BG, nRounds, nOpts, drawFace), nucleo/idioma.ts y nucleo/voz.ts (V, cap).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
 /* ================= EL RINCÓN DEL INGLÉS ================= */
 // Las palabras en inglés las dice una voz en inglés (say con {en:1}); las explicaciones, Tito en castellano.
@@ -21,7 +21,7 @@ function enBlob(c){return (x,y,s)=>{ctx.save();ctx.translate(x,y);const r=s*.34;
 // Devuelve una función de dibujo (x,y,s) del número n en un círculo con n puntitos debajo (filas de 5).
 function enNum(n){return (x,y,s)=>{ctx.save();ctx.translate(x,y);circ(0,-s*.06,s*.3,DIAC[(n-1)%7],Math.max(4,s*.03));text(String(n),0,s*.06,s*.34,'#fff',{f:LF,st:Math.max(4,s*.03),sc:K});
   const per=5,rows=Math.ceil(n/per);for(let i=0;i<n;i++){const r=Math.floor(i/per),c=i%per,inRow=Math.min(per,n-r*per);circ((c-(inRow-1)/2)*s*.12,s*.33+r*s*.1,s*.04,'#FFC93C',Math.max(2,s*.012))}ctx.restore()}}
-// Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de temas.js).
+// Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de scenes.js).
 const enFace=m=>(x,y,s)=>drawFace(x,y,s*.36,m);
 // a: edad desde la que aparece la palabra
 // Palabras de cada tema de inglés: EN[conjunto] = lista de {en (palabra en inglés), es (traducción; puede ser
