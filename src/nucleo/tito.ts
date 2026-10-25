@@ -1,4 +1,4 @@
-// tito.ts: Tito en las escenas 2D (en el mapa 3D lo dibuja mundo3d/mundo3d.ts).
+// tito.ts: Tito en las escenas 2D (en el mapa 3D lo dibuja mundo3d/personajes.ts).
 //   TITO, temasDone(), STARS(), FLPOS, FLC, titoKind(), TITO_EYES, TITO_2D, drawTito(), inTito(), ponRopaTito().
 // La ropa y los colores comprados en la tienda los pone escenas/tienda.ts con ponRopaTito (si no, Tito sale con su dibujo de
 // siempre y sin ropa). Las reglas de temasDone y STARS están en dominio/progreso.ts (temasTerminados y estrellas).
@@ -45,7 +45,7 @@ let titoImgF: (()=>HTMLImageElement)|null=null,ropaF: ((k: number)=>void)|null=n
 // ponRopaTito(img, ropa): escenas/tienda.ts dice cómo vestir a Tito: img() da su imagen con los colores comprados y ropa(k) le
 // dibuja la ropa encima (k = escala del dibujo de 240x200). Antes era una dependencia hacia delante de core.js.
 export function ponRopaTito(img: ()=>HTMLImageElement,ropa: (k: number)=>void): void{titoImgF=img;ropaF=ropa}
-// drawTito(x,y,ancho,o): dibuja a Tito en 2D (en el mapa 3D lo dibuja mundo3d/mundo3d.ts) con su balanceo, parpadeo, la boca
+// drawTito(x,y,ancho,o): dibuja a Tito en 2D (en el mapa 3D lo dibuja mundo3d/personajes.ts) con su balanceo, parpadeo, la boca
 // que se abre mientras talking es true, las flores del caparazón y la ropa de la tienda (ropaF, de ponRopaTito).
 // Opciones o: flip (mira a la izquierda), sq (aplastado, para saltar), sleep (ojos cerrados), mouth:false (sin boca),
 // bubble:false (sin bocadillo de altavoz), flowers (número fijo de flores), plain (sin ropa).

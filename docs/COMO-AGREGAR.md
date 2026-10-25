@@ -67,12 +67,12 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 
 ## 3. Un objeto 3D nuevo que se pueda tocar
 
-Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `src/mundo3d/mundo3d.ts` (con tipos: el mundo es `Mundo`, de `mundo3d/tipos.ts`).
+Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en la capa 3D, `src/mundo3d/` (con tipos: el mundo es `Mundo`, de `mundo3d/tipos.ts`): el modelo en `objetos.ts`, dónde se pone en `zonas3d.ts` (o `mapa3d.ts`, `casita3d.ts`, `cofre3d.ts`), cómo se toca en `interaccion.ts` y su nombre en `cielo.ts`.
 
-1. **Crear el modelo.** Junto a los demás constructores de objetos (`frog3`, `can3`, `kite3`...), copia uno parecido y adáptalo:
+1. **Crear el modelo.** En `mundo3d/objetos.ts`, junto a los demás constructores de objetos (`frog3`, `can3`, `kite3`...), copia uno parecido y adáptalo (con `export`, para que lo usen los otros módulos):
    ```js
    // Caracolito del jardín: al tocarlo da un saltito (dur 0,8 s)
-   function snail3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.snail=1;g.userData.dur=.8;
+   export function snail3(w,x,z,s){const g=grp(w.sc,[x,0,z],s);g.userData.snail=1;g.userData.dur=.8;
      mk(Sph(.4,14,10),'#F2B85A',{p:[0,.4,0],to:g,ol:.03});  // mk(geometría, color, {p: posición, s: escala, r: giro, to: padre, ol: grosor del contorno})
      hitS(g,.8,.4);                                         // bola de toque invisible, más grande que el dibujo (dedos pequeños)
      w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/.8,1);  // e = segundos desde el toque
@@ -80,8 +80,8 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
      return g}
    ```
    Usa `grp`, `mk`, `Sph/Cyl/Box/Cone`, y `gcache` para piezas que se repiten. Colores de la paleta (`FLC`, `DIAC`).
-2. **Colocarlo.** En `zoneDecor(w,z)`, dentro del `if(z==='jardin'){...}`, añade `snail3(w,-4,6.5,1.1)`. Coordenadas del suelo: x de -16 a 16, z de -8 a 9 (z positiva = hacia delante). En el mapa se coloca en `buildMap`, en la casita en `buildCasita` y en el cofre en `buildCofre`. Si solo sale de día: `if(!skyNow().night)`. Si Tito no debe pisarlo: `(w.avoid=w.avoid||[]).push([x,z,radio])`.
-3. **Hacerlo tocable.** Añade `||o.userData.snail` a `WOBK`. Si se mueve o está delante de las casitas, añádelo también a la lista de `flyTap`.
+2. **Colocarlo.** En `zoneDecor(w,z)` (`mundo3d/zonas3d.ts`, que lo importa de `objetos.ts`), dentro del `if(z==='jardin'){...}`, añade `snail3(w,-4,6.5,1.1)`. Coordenadas del suelo: x de -16 a 16, z de -8 a 9 (z positiva = hacia delante). En el mapa se coloca en `buildMap`, en la casita en `buildCasita` y en el cofre en `buildCofre`. Si solo sale de día: `if(!skyNow().night)`. Si Tito no debe pisarlo: `(w.avoid=w.avoid||[]).push([x,z,radio])`.
+3. **Hacerlo tocable.** Añade `||o.userData.snail` a `WOBK` (`mundo3d/interaccion.ts`). Si se mueve o está delante de las casitas, añádelo también a la lista de `flyTap`.
 4. **Que use su propia animación.** Añade `||u.snail` a la lista larga de `wobInit` (la que acaba en `...||u.sat){if(e>(u.dur||1.6))u.wob=null;continue}`). Si no, además se balanceará como un árbol.
 5. **Su reacción.** En `wobTap`, añade una rama antes del `else` final, con un comentario:
    ```js
@@ -89,7 +89,7 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
    else if(u.snail){dropParts(x,y-20,4,['#FFF3B0','#FFFFFF'],'d');tone(660,.12,'sine',.08,1.4)}
    ```
    Herramientas: `parts.push(...)`, `dropParts`, `noteParts`, `sparkles`, `tone`, `noise`, `chainWob(w,'frog',.6,0,1)` (hace reaccionar a otro objeto), `allTap(w,t,'grupo',x,y,N)` (cuenta en voz alta los objetos distintos tocados), `SCENES[sceneName].hop=T` (Tito salta).
-6. **Que Tito lo nombre** (opcional). Añade una fila a `NAMES3`: `['snail','El caracol.','CARACOL',1]` (1 = de noche duerme y no se nombra) y la palabra a `SYL3`: `CARACOL:'CA RA COL'`. **Gana la primera clave de `NAMES3` que tenga el objeto**: ponla antes de cualquier otra marca que también lleve. La frase debe existir grabada o apuntarse para grabar.
+6. **Que Tito lo nombre** (opcional). Añade una fila a `NAMES3` (`mundo3d/cielo.ts`): `['snail','El caracol.','CARACOL',1]` (1 = de noche duerme y no se nombra) y la palabra a `SYL3`: `CARACOL:'CA RA COL'`. **Gana la primera clave de `NAMES3` que tenga el objeto**: ponla antes de cualquier otra marca que también lleve. La frase debe existir grabada o apuntarse para grabar.
 7. **Probar** de día y de noche, en el móvil también.
 
 ## 4. Un tema nuevo
@@ -106,7 +106,7 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
    - `bg`: un fondo de `BG` (temas/temas.ts y temas/temas4.ts tienen la lista). Para uno nuevo, añádelo en el `Object.assign(BG,{...})` de temas/temas4.ts.
    - `season` (opcional): `'otoño'`, `'invierno'`... hace que Tito lo recomiende en esa estación.
    - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, el puente lo deja también en `globalThis` (la prueba `globales` avisa si otro módulo ya exporta ese nombre).
-3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en escenas/zonas.ts) y cada casita para **unos 8 juegos** (`st3Pos()` en mundo3d/mundo3d.ts), contando el cuento. Para más hay que ampliar esas funciones.
+3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en escenas/zonas.ts) y cada casita para **unos 8 juegos** (`st3Pos()` en mundo3d/casita3d.ts), contando el cuento. Para más hay que ampliar esas funciones.
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
 5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y escenas/zonas.ts al camino).
 6. Apunta todas las frases nuevas para grabar.
@@ -247,7 +247,7 @@ Todo está en `temas/extras.ts` y `temas/ingles.ts`. Resumen (detalle en los com
 - **Trazo**: nivel nuevo al final de `TRZ_L()` y subir el número de niveles en `TRZ` (con su icono y nombre).
 - **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaNow()` (escenas/zonas.ts).
 - **Tema de inglés**: palabras en `EN` (`{en, es, k, a}`; `a` = edad mínima) → tema en `ING` con `en:'conjunto'` y `games:[ENG.conocer, ENG.escucha, ENG.globos]`. Las palabras en inglés las dice la voz inglesa del navegador.
-- Comprueba en mundo3d/mundo3d.ts que la zona 3D tiene hueco para otra casita.
+- Comprueba en mundo3d/zonas3d.ts que la zona 3D tiene hueco para otra casita.
 
 ## 11. Una escena o una zona nueva
 

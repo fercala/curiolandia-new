@@ -3,7 +3,7 @@
  * de mundo3d/mundo3d.ts). Materiales con estilo de dibujo animado (M: sombreado en 3 tonos; OLm y olGeo: el contorno
  * marrón), piezas (mk, grp) y formas (Box, Sph, Cyl, Cone, prism, rbox, starGeo), piezas unidas (mg), geometrías
  * compartidas (gcache, keep, GC) y texturas dibujadas con las funciones 2D de siempre (canvasTex, picTex, pillTex,
- * flowerTex, con su caché TXC) y sus carteles (spr, plane, pillSpr). V3 es un atajo para crear vectores.
+ * flowerTex y, desde la fase 4h, gradTex, el degradado de los fondos; con su caché TXC) y sus carteles (spr, plane, pillSpr). V3 es un atajo para crear vectores.
  * Usa THREE (global, de three.min.js) solo dentro de las funciones: así el módulo se carga igual sin Three.js (el
  * juego va en 2D) y no crea nada hasta que la capa 3D se monta (mundo3d/motor.ts, montarMotor).
  * Exporta todo lo de arriba. Importa: K (src/dibujos/) y del núcleo, src/nucleo/, el lienzo y el dibujo 2D (ctx, ponCtx,
@@ -106,3 +106,5 @@ export function pillTex(t: string,bg='#fff',fg=K,sz=56){return canvasTex(512,128
 export const pillSpr=(t: string,bg?: string,fg?: string,o: OpcionesSprite={})=>spr(pillTex(t,bg,fg),o.w||2.4,(o.w||2.4)/4,o);
 // flowerTex(c,n): textura de un cartelito con una flor de color c y el número n al lado.
 export function flowerTex(c: string,n: number|string){return canvasTex(256,128,()=>{card(14,14,228,100,'#fff',8,50);flower(80,64,28,c,4);const L=String(n).length>1;text(String(n),L?168:170,L?84:92,L?52:72,K,{f:LF})},'fl:'+c+n)}
+// gradTex(a,b,key): textura de degradado vertical de a (arriba) a b (abajo), guardada con el nombre key (para fondos)
+export function gradTex(a: string,b: string,key: string){return canvasTex(16,256,g=>{const gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,a);gr.addColorStop(1,b);g.fillStyle=gr;g.fillRect(0,0,16,256)},key)}

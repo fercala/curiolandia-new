@@ -27,7 +27,7 @@
  *
  * Desde la fase 2j es un módulo: src/modulos.ts lo carga el último (usa los
  * temas) y el puente deja lo que exporta en globalThis para las pruebas (escenas/zonas.ts, escenas/tienda.ts,
- * escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan).
+ * escenas/repaso.ts, aplicacion/adultos.ts y los módulos de mundo3d/ lo importan).
  *
  * Ya nadie reescribe lo de este archivo: el mapa, el jardín (y las demás
  * zonas), la casita, suggestTema y stationPos se definen una sola vez en
@@ -36,7 +36,7 @@
  * con el caso de uso aplicacion/terminarJuego.ts. La asamblea, con su paso
  * de cumpleaños y las monedas del día, y GNAME, con todos los tipos de
  * juego, están enteros aquí desde la fase 4e (antes escenas/zonas.ts los
- * completaba). Solo mundo3d/mundo3d.ts envuelve title (y map, casita, cofre
+ * completaba). Solo la capa 3D (mundo3d/) envuelve title (y map, casita, cofre
  * y las zonas, de zonas.ts) para la capa 3D.
  *
  * Lo que exporta y usan otros archivos:
@@ -118,7 +118,7 @@ export const standalone=()=>matchMedia('(display-mode: standalone)').matches||ma
 /* ---------- PORTADA ---------- */
 // PORTADA. Primera escena. Desde aquí se va a 'edad' (si aún no hay edad), 'intro' (si no se ha visto el cuento)
 // o al mapa. También tiene los botones de pantalla completa, instalar, "¿Quién juega?" y "Empezar de nuevo".
-// (mundo3d/mundo3d.ts la envuelve para dibujar la portada en 3D.)
+// (mundo3d/portada3d.ts la envuelve para dibujar la portada en 3D.)
 SCENES.title={music:null,
 // enter(): crea 14 signos de interrogación de colores (this.q) que flotan hacia arriba por el fondo.
   enter(){this.q=Array.from({length:14},(_,i)=>({x:rnd(100,1500),y:rnd(120,820),v:rnd(10,30),ph:rnd(0,6),c:LOGOC[i%LOGOC.length]}))},
@@ -251,7 +251,7 @@ export function drawLogoSmall(x: number,y: number,s: number){ctx.font=`700 ${s}p
 // drawCasita(t, x, y, o): dibuja la casita del tema t en (x, y). o.s = escala, o.glow = halo amarillo (la recomendada).
 // Las casitas normales llevan tejado del color t.c y el dibujo t.icon; el Rincón de los Conceptos (t.concepts) es un
 // cuadro con formas. Debajo, un punto por juego (amarillo = terminado) y, si el tema está terminado, estrella y flores.
-// Solo dibuja. La usan las zonas (escenas/zonas.ts) y mundo3d/mundo3d.ts para las etiquetas.
+// Solo dibuja. La usan las zonas (escenas/zonas.ts) y la capa 3D (mundo3d/) para las etiquetas.
 export function drawCasita(t: Tema,x: number,y: number,o: Libre={}){
   const st=tst(t.id),done=st.done,n=gDone(t),s=o.s||1;
   ctx.save();ctx.translate(x,y);ctx.scale(s,s);
@@ -309,7 +309,7 @@ export function finishGame(t: Tema,gi: number): void{
 // JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
-// mundo3d/mundo3d.ts envuelve enter (recordar el último juego). Las monedas del juego (las de cada acierto, que da
+// mundo3d/casita3d.ts envuelve enter (recordar el último juego). Las monedas del juego (las de cada acierto, que da
 // onRight, y el marcador) están aquí desde la fase 4b; antes las añadía escenas/tienda.ts envolviendo enter y draw.
 SCENES.juego={music:'game',
 // enter(o): pone a cero las monedas de acierto del juego (alEmpezarJuego; como mucho 5 por juego). REP = veces que ya se
@@ -362,7 +362,7 @@ export const SEASON_NEXT: Record<string, string>={primavera:'verano',verano:'oto
 // dayIdx(d): día de la semana con el lunes = 0 y el domingo = 6 (Date.getDay empieza en domingo).
 export const dayIdx=(d: Date)=>(d.getDay()+6)%7; // lunes=0
 // isBday(d): true si d (hoy por defecto) es el cumpleaños guardado en S.bday ({m: mes 0-11, d: día}). Desde la fase 4e
-// está aquí, con la asamblea (antes en escenas/zonas.ts); la usa también mundo3d/mundo3d.ts (la nube del confeti).
+// está aquí, con la asamblea (antes en escenas/zonas.ts); la usa también la capa 3D (mundo3d/interaccion.ts y mundo3d/zonas3d.ts: la nube del confeti).
 export const isBday=(d=ahora())=>esCumple(S.bday,d.getMonth(),d.getDate());
 
 // LA ASAMBLEA: rutina diaria de la plaza. Es una máquina de estados: this.steps es la lista de pasos según la edad

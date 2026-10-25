@@ -162,7 +162,7 @@ export function openAdult(){
 // Voz del navegador: S.vozNav guarda la elegida ('' = automática); se aplica con pickVoice y se oye un saludo de prueba.
   q('#a-vnav').onchange=e=>{S.vozNav=(e.target as HTMLInputElement).value;save();pickVoice();vozProbar()};
   q('#a-vprueba').onclick=()=>{pickVoice();vozProbar()};
-// Paisaje: S.quiet3=1 hace callar los comentarios de Tito en el mundo 3D (say3 en mundo3d/mundo3d.ts).
+// Paisaje: S.quiet3=1 hace callar los comentarios de Tito en el mundo 3D (say3 en mundo3d/cielo.ts).
   el.querySelectorAll<HTMLInputElement>('[name=a-q3]').forEach(r=>r.onchange=()=>{S.quiet3=r.value==='q'?1:0;save()});
 // Hemisferio, límite de tiempo y volúmenes (los volúmenes se aplican al momento con setVol).
   el.querySelectorAll<HTMLInputElement>('[name=a-hemi]').forEach(r=>r.onchange=()=>{S.hemi=r.value as Estado['hemi'];save()});

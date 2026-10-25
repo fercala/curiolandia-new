@@ -48,7 +48,7 @@ async function abrir(b, port, o = {}) {
   if (o.antes) await p.addInitScript(o.antes);
   await p.goto(`http://localhost:${port}/index.html`);
   await p.waitForTimeout(o.espera || 2000);
-  // __cl.go guarda el go() de antes de que mundo3d/mundo3d.ts lo envuelva: sin el envoltorio, al saltar de una escena 3D a un
+  // __cl.go guarda el go() de antes de que la capa 3D lo envuelva (mundo3d/interaccion.ts): sin el envoltorio, al saltar de una escena 3D a un
   // juego no se restaura el rectángulo 2D de Tito (TITO) y los toques donde estaba Tito en 3D se toman por toques a Tito.
   await p.evaluate(() => { if (window.__cl) __cl.go = (n, o) => go(n, o) }).catch(() => { });
   return p;

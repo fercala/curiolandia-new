@@ -6,7 +6,7 @@
 //   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en escenas/zonas.ts, pero usan SHOP, wear y placeHome.
 //   Los vales los configura un adulto en aplicacion/adultos.ts (S.vales) y se compran aquí (quedan apuntados en S.valesLog).
 // Desde la fase 2l es un módulo: escenas/indice.ts lo carga después de zonas.ts, y el puente deja lo que exporta en
-//   globalThis para las pruebas (escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan). Los módulos que van
+//   globalThis para las pruebas (escenas/repaso.ts, aplicacion/adultos.ts y los módulos de mundo3d/ lo importan). Los módulos que van
 //   antes (zonas.ts, temas/, nucleo/guardado.ts...) lo usan como global, con los tipos de src/tardias.d.ts.
 // Define: DEF2, VALES_DEF, HATPOS, titoHouseIc,
 //   SHOPCAT, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
@@ -86,7 +86,7 @@ type Flecha = [number, number, number];
 //   puesto (color del caparazón, color de la bufanda, id del sombrero, 'gafas' o '', 'monio' o '');
 //   owned: {idArtículo:1} lo comprado o regalado; vales: lista de vales (ver VALES_DEF); valesLog: vales comprados
 //   [{id, txt, d:fecha, given:0/1}]; cofres: cofres abiertos. El resto (woke, bday, bdayDone, unlockAll, seenOpen,
-//   houseSeen, petSeen) lo usan otros archivos (escenas/zonas.ts, aplicacion/adultos.ts, mundo3d/mundo3d.ts).
+//   houseSeen, petSeen) lo usan otros archivos (escenas/, dominio/apertura.ts y aplicacion/adultos.ts).
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
 const DEF2={coins:0,coinsTot:0,gift:'',woke:{},home:{},tito:{shell:'naranja',scarf:'roja',hat:'',glasses:'',bow:''},owned:{'caparazon:naranja':1,'bufanda:roja':1},vales:null,valesLog:[],bday:null,bdayDone:'',unlockAll:false,seenOpen:{},houseSeen:null,petSeen:null,cofres:0};
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.

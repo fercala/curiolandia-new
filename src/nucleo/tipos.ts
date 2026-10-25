@@ -253,7 +253,7 @@ declare global {
     __said?: string[];
     /** Puerta para las pruebas automáticas (aplicacion/adultos.ts; docs/CONTRATO-PRUEBAS.md). */
     __cl: PuertaPruebas;
-    /** Lo que la capa 3D ofrece al resto del juego (mundo3d/mundo3d.ts). */
+    /** Lo que la capa 3D ofrece al resto del juego (lo pone montarInteraccion, en mundo3d/interaccion.ts). */
     __w3: { ok?: boolean; retito?: () => void; [dato: string]: unknown };
   }
 }
