@@ -11,7 +11,8 @@
 //   (escenas/zonas.ts).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo), escenas/escenas2d.ts (TEMA, TEMAS,
 //   tst, finishGame, drawStation, GNAME, asamHoy), escenas/zonas.ts (goSeguir, drawRoad, lockOver, unlockFx, arrowAt),
-//   escenas/tienda.ts (STARS, giveCoins, creditCoins, drawCoinHUD, inCoinHUD) y temas/ (floor).
+//   escenas/tienda.ts (STARS, giveCoins, creditCoins, drawCoinHUD, inCoinHUD), temas/ (floor) y MONEDAS de
+//   dominio/monedas.ts.
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.
 //   S.gs = { 'temaId#juego': {ok, err, d} }      aciertos, fallos y último día jugado ('AAAA-MM-DD' de today()).
@@ -25,6 +26,7 @@ import { floor } from '../temas/indice.ts';
 import { GNAME, TEMA, TEMAS, asamHoy, drawStation, finishGame, ponFinishGame, tst } from './escenas2d.ts';
 import { arrowAt, drawRoad, goSeguir, lockOver, ponGoSeguir, unlockFx } from './zonas.ts';
 import { STARS, creditCoins, drawCoinHUD, giveCoins, inCoinHUD } from './tienda.ts';
+import { MONEDAS } from '../dominio/monedas.ts';
 
 /* ================= REPASO INTELIGENTE ================= */
 // Cada habilidad recuerda en qué juegos aparece (S.kg) y cada juego cómo le fue (S.gs).
@@ -79,7 +81,7 @@ SCENES.repaso={music:'casita',
   // (anima la apertura del siguiente). Si está todo hecho y sin cobrar, da el premio.
   enter(o){const R=repToday();this.L=R.list;this.unl=null;REP_ON=false;if(o.seguir){R.seen=1;save()}
     // el premio (pegatina y 5 monedas) se guarda a la vez que R.paid; la celebración solo lo enseña (salir no lo pierde)
-    if(repAllDone()&&!R.paid){R.paid=1;S.stk.lupa=(S.stk.lupa||0)+1;creditCoins(5);save();later(500,()=>{SFX.tada();burst(800,350,90);giveSticker('lupa',true);say('¡Terminaste el repaso de hoy'+kid()+'! Tito te regala cinco monedas.',()=>{giveCoins(5,800,420,undefined,true);later(900,()=>sayQ('Tocá la flecha verde para seguir el camino.'))})});return}
+    if(repAllDone()&&!R.paid){R.paid=1;S.stk.lupa=(S.stk.lupa||0)+1;creditCoins(MONEDAS.repaso);save();later(500,()=>{SFX.tada();burst(800,350,90);giveSticker('lupa',true);say('¡Terminaste el repaso de hoy'+kid()+'! Tito te regala cinco monedas.',()=>{giveCoins(5,800,420,undefined,true);later(900,()=>sayQ('Tocá la flecha verde para seguir el camino.'))})});return}
     const nx=this.next();
     if(o.back&&nx>=0&&nx!==this.prevNx){this.unl={j:nx,t:T+.8};later(800,()=>{SFX.sparkle();const [x,y]=this.pos(nx);burst(x,y,30)});later(300,()=>sayQ('¡Muy bien! Ahora el número '+(nx+1)+'.'));return}
     later(300,()=>this.prompt!(!o.back))},

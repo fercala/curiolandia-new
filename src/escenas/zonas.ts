@@ -47,7 +47,8 @@
  *   drawLogoSmall, inR, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
  *   bunting), juegos/ (NUM, TUNES, playTune), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
- *   siguienteRegalo, esCumple) y el tipo Articulo de escenas/tienda.ts. Usa de escenas/tienda.ts, que va después y
+ *   siguienteRegalo, esCumple) y de dominio/monedas.ts (MONEDAS, ganar, monedasDelCofre), y el tipo Articulo de
+ *   escenas/tienda.ts. Usa de escenas/tienda.ts, que va después y
  *   solo al jugar o dibujar (tipos en src/tardias.d.ts): (SHOP,
  *   SHELLC, STARS, giveCoins, wear, placeHome, itemName, drawItemPic,
  *   drawCoinHUD, inCoinHUD, VIVO.coinBanner, VIVO.toast...).
@@ -62,6 +63,7 @@ import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
+import { MONEDAS, ganar, monedasDelCofre } from '../dominio/monedas.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, esCumple, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
@@ -387,7 +389,7 @@ SCENES.map=Object.assign(SCENES.map,<Partial<Escena>>{
 // La animación (fx) y la frase se lanzan juntas a los 0,6 s, cuando ya se ve el mapa.
     if(msg){later(600,()=>{if(this.wake){SFX.tada();const z=mzOf(this.wake.z);burst(z.x,z.y,70);this.wake.t=T}if(fx)fx();say(msg)})}
     // regalo diario: las monedas se abonan a la vez que se marca el día (si se sale antes de verlas, no se pierden)
-    else if(S.gift!==today()){S.gift=today();creditCoins(3);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>giveCoins(3,TITO.x+150,TITO.y+40,undefined,true))}
+    else if(S.gift!==today()){S.gift=today();creditCoins(MONEDAS.regaloDelDia);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>giveCoins(3,TITO.x+150,TITO.y+40,undefined,true))}
     else if(o.hello)later(400,()=>this.prompt!(true));
     if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },
@@ -520,7 +522,7 @@ SCENES.cofre={music:'casita',
     const n=lowName(this.t);later(400,()=>{SFX.tada();burst(800,300,70);say(('¡Terminaste todos los juegos de '+n).replace(/ de el /,' del ')+kid()+'! ¡Ganaste un cofre del tesoro! Tocalo tres veces para abrirlo.')})},
 // reward(): entrega el premio una sola vez (this.rewarded): regalo, figurita (S.stk) y monedas (S.coins). Se llama al
 // abrirse o al salir con la casa sin abrirlo, para que nunca se pierda. Quita el pendiente de S.cofreP (giveCoins guarda).
-  reward(){if(this.rewarded)return;this.rewarded=true;if(S.cofreP)delete S.cofreP[this.t.id];const it=this.gift;if(it)grantGift(it);giveSticker(this.t.icon);giveCoins(it?10:20,800,560);
+  reward(){if(this.rewarded)return;this.rewarded=true;if(S.cofreP)delete S.cofreP[this.t.id];const it=this.gift;if(it)grantGift(it);giveSticker(this.t.icon);giveCoins(monedasDelCofre(!!it),800,560);
     // los carteles de figurita y monedas van a la derecha: en el centro tapaban el regalo y su nombre
     if(VIVO.toast){VIVO.toast.x=1290;VIVO.toast.y=300}if(VIVO.coinBanner){VIVO.coinBanner.x=1300;VIVO.coinBanner.y=540}},
 // next(): vuelve a la zona del tema con {from: id} (la zona felicita si ya no queda camino).
@@ -566,7 +568,7 @@ SCENES.cofre={music:'casita',
 // el siguiente regalo (o 20 monedas si no quedan), la pegatina del tema y 10 monedas, como reward(). Se ven en la casa de Tito.
 export function cofrePend(){const P=S.cofreP;if(!P||typeof P!=='object'){delete S.cofreP;return}
   for(const id of Object.keys(P)){delete P[id];const t=TEMA[id];if(!t)continue;const it=nextGift();if(it)grantGift(it);
-    S.stk[t.icon]=(S.stk[t.icon]||0)+1;const n=it?10:20;S.coins=(S.coins||0)+n;S.coinsTot=(S.coinsTot||0)+n}
+    S.stk[t.icon]=(S.stk[t.icon]||0)+1;Object.assign(S,ganar(S,monedasDelCofre(!!it)))}
   save()}
 /* ---------- cumpleaños en la asamblea ---------- */
 // isBday(d): true si d (hoy por defecto) es el cumpleaños guardado en S.bday ({m: mes 0-11, d: día}).
@@ -590,13 +592,13 @@ export const isBday=(d=new Date())=>esCumple(S.bday,d.getMonth(),d.getDate());
  A.down=function(x,y){if(this.s==='cumple'&&!atHome(x,y)&&!inTito(x,y)){if(this.busy)return;const v=this.vs.find((v: Libre)=>v.on&&Math.abs(x-v.x)<55&&y<v.y+80&&y>v.y-110);if(!v){SFX.tap();return}
      v.on=0;this.vc++;SFX.whoosh();SFX.count(this.vc);say(cap(NUM[this.vc]||String(this.vc)));
      // la pegatina y las monedas se guardan junto con S.bdayDone; la celebración solo las enseña (salir no las pierde)
-     if(this.vs.every((v: Libre)=>!v.on)){this.busy=true;this.sel=true;S.bdayDone=today();S.stk.tarta=(S.stk.tarta||0)+1;creditCoins(10);save();later(700,()=>{SFX.tada();burst(800,400,90);burst(400,300,40);burst(1200,300,40);playTune(TUNES.cumple);giveSticker('tarta',true);
-       say('¡Que los cumplas feliz! Tito te regala diez monedas.',()=>{giveCoins(10,800,400,'cofre',true);later(1200,()=>this.next())})})}return}
+     if(this.vs.every((v: Libre)=>!v.on)){this.busy=true;this.sel=true;S.bdayDone=today();S.stk.tarta=(S.stk.tarta||0)+1;creditCoins(MONEDAS.cumple);save();later(700,()=>{SFX.tada();burst(800,400,90);burst(400,300,40);burst(1200,300,40);playTune(TUNES.cumple);giveSticker('tarta',true);
+       say('¡Que los cumplas feliz! Tito te regala diez monedas.',()=>{giveCoins(MONEDAS.cumple,800,400,'cofre',true);later(1200,()=>this.next())})})}return}
    return down0!.call(this,x,y)};
 // A.hint: en 'cumple' señala la siguiente vela encendida.
  A.hint=function(){if(this.s==='cumple'){const v=this.vs&&this.vs.find((v: Libre)=>v.on);return v&&!this.busy?{x:v.x,y:v.y-30,r:60}:null}return hint0!.call(this)};
 // A.prompt: consigna del paso 'cumple'.
  A.prompt=function(){if(this.s==='cumple'){say('Tocá las velitas para soplarlas.');return}prompt0!.call(this)};
 // A.in_fin: la primera asamblea terminada de cada día regala además 5 monedas.
- A.in_fin=function(){const first=!(S.asam[today()]&&S.asam[today()].done);fin0.call(this);if(first)later(400,()=>giveCoins(5,800,420))};
+ A.in_fin=function(){const first=!(S.asam[today()]&&S.asam[today()].done);fin0.call(this);if(first)later(400,()=>giveCoins(MONEDAS.asamblea,800,420))};
 }

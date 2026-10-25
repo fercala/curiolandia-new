@@ -82,6 +82,7 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 | 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
 | — | `dominio/apertura.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de apertura** (dominio, desde la fase 3a): qué zonas, casitas, juegos y sitios del mapa están abiertos y qué casita toca. Sin dibujo y sin `S`: recibe la partida y el mapa. Pruebas en `tests/unidad/apertura.test.ts`. |
 | — | `dominio/progreso.ts` (la importa `nucleo/tito.ts`, así que se carga con el núcleo) | **Reglas de progreso y premios** (dominio, desde la fase 3b): estrellas, temas terminados, casa de Tito (`HOUSE_NEXT`), Pipo (`PET_NEXT`), habitaciones, niveles de la tienda (`TIER_NEED`), regalo del cofre (`GIFTS`) y cumpleaños. Pruebas en `tests/unidad/progreso.test.ts`. |
+| — | `dominio/monedas.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de las monedas** (dominio, desde la fase 3c): cuántas da cada cosa (`MONEDAS`), los aciertos (como mucho 5 por juego) y cómo se suman y se gastan (`ganar` y `gastar` devuelven el monedero nuevo). Pruebas en `tests/unidad/monedas.test.ts`. |
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
 | 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
 | 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
@@ -94,8 +95,8 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 Three.js, sonido, voz ni `localStorage`, y no leen `S`: cada regla recibe lo que necesita (por ejemplo, la partida y el
 mapa) y devuelve la respuesta, sin escribir nada. Las escenas las usan a través de sus funciones de siempre y Vitest las
 prueba en milisegundos, con partidas inventadas (ver la arquitectura objetivo en [PLAN-MIGRACION.md](PLAN-MIGRACION.md)).
-Desde la 3a están las reglas de apertura (`dominio/apertura.ts`) y desde la 3b las de progreso y premios
-(`dominio/progreso.ts`).
+Desde la 3a están las reglas de apertura (`dominio/apertura.ts`), desde la 3b las de progreso y premios
+(`dominio/progreso.ts`) y desde la 3c las de las monedas (`dominio/monedas.ts`).
 
 Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 
@@ -306,7 +307,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 - **Estrellas**: una por juego terminado (`S.temas[id].g`). Se ven en las casitas. Las reglas de esta lista (estrellas,
   flores, casa, Pipo, cofre, habitaciones y niveles de la tienda) están en `dominio/progreso.ts` desde la fase 3b.
 - **Flores**: una por tema terminado. Abren zonas (6 flores en una zona despiertan la siguiente) y hacen crecer la casa de Tito (`HOUSE_NEXT`).
-- **Monedas** (`S.coins`): 1 por acierto a la primera (máx. 5 por juego), 3 al terminar un juego (2 si se repite), regalos diarios y del cofre. Se gastan en la tienda.
+- **Monedas** (`S.coins`): 1 por acierto a la primera (máx. 5 por juego), 3 al terminar un juego (2 si se repite), regalos diarios y del cofre. Se gastan en la tienda. Cuántas da cada cosa está en `MONEDAS` (`dominio/monedas.ts`, desde la fase 3c); la animación, en `escenas/tienda.ts`.
 - **Cofre**: al terminar un tema, el siguiente regalo de `GIFTS` (lista fija en dominio/progreso.ts).
 - **Pipo**: la mascota crece con las estrellas (`PET_NEXT`).
 - **Vales**: premios reales que configura la familia en la zona de adultos.
