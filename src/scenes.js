@@ -43,7 +43,7 @@
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle...), nucleo/idioma.ts (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
  *   extras.js (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
- *   comps*.js (makeGame), src/dibujos/ (PICS) y nucleo/imagenes.ts (pic), tienda.js / adult.js
+ *   juegos/ (makeGame), src/dibujos/ (PICS) y nucleo/imagenes.ts (pic), tienda.js / adult.js
  *   (drawTito, TITO, inTito, drawHome/atHome en core).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
  *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
@@ -432,7 +432,7 @@ function finishGame(t,gi){
 }
 // ponFinishGame(f): cambia finishGame por otra función (tienda.js y repaso.js la envuelven).
 function ponFinishGame(f){finishGame=f}
-// JUEGO: escena "contenedor". makeGame (comps*.js) crea el juego concreto a partir de su descripción
+// JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
 // tienda.js y world3d.js envuelven enter/draw (monedas del juego, recordar el último juego).

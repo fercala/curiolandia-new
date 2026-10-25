@@ -15,8 +15,8 @@
 //     (320 px). Por eso los dibujos son módulos (src/modulos.ts) y se cargan antes que el código global.
 //   - Para pintarlo en el canvas: pic('gato', x, y, tamaño) (nucleo/imagenes.ts), que busca IMG['gato'] por su
 //     nombre y lo dibuja centrado en (x,y). Si la clave no existe, no pinta nada (no da error).
-//     thing(k,x,y,s) (comps.js) acepta además cosas dibujadas {draw} y caritas 'emo:...'.
-//     Variantes: greyOf/picG (en gris, nucleo/imagenes.ts y comps2.js) y shadowOf/picS (sombra, comps2.js).
+//     thing(k,x,y,s) (juegos/comps.ts) acepta además cosas dibujadas {draw} y caritas 'emo:...'.
+//     Variantes: greyOf/picG (en gris, nucleo/imagenes.ts y juegos/comps2.ts) y shadowOf/picS (sombra, juegos/comps2.ts).
 //   - El NOMBRE que dice Tito no está aquí: está en LEX / LEX2 (nucleo/idioma.ts o contenido/lex.ts) y se lee con W_(clave).
 //     Si falta, Tito diría la clave tal cual ("botasAgua").
 // Lo que exporta este módulo: K (color del contorno), sw(), eye(), smile() (ayudas para escribir SVG),

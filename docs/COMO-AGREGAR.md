@@ -157,16 +157,16 @@ games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tu
 | `Song` | Canción y tocar en orden | `lines, tune, mode` |
 | `Story` | Cuento ilustrado y preguntas | un `CUENTOS[id]` |
 
-La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/comps.js` y `src/comps2.js`. La mejor forma de aprender es copiar un juego parecido de otro tema.
+La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/juegos/comps.ts` y `src/juegos/comps2.ts`. La mejor forma de aprender es copiar un juego parecido de otro tema.
 
 Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRounds()` (número de rondas) y `VIVO.REP` (veces que ya se ha jugado) se ajustan solos según la edad y los aciertos.
 
 ## 6. Un tipo de juego nuevo (componente)
 
-1. En `src/comps2.js` crea una función con esta forma (la interfaz completa está explicada en la cabecera de `comps.js`):
-   ```js
+1. En `src/juegos/comps2.ts` crea una función exportada con esta forma (la interfaz completa está explicada en la cabecera de `juegos/comps.ts`; los tipos `Config`, `AlTerminar` y `Juego`, en `juegos/tipos.ts`). Importa del núcleo lo que uses y añade su línea a `src/tipos/puente.d.ts` (la prueba `globales` dice cuál falta) para que los temas, que aún son código global, la vean:
+   ```ts
    // MiTipo: <qué hace>. cfg: {bg, key, rounds, ...}. Llama a onDone() una vez al terminar.
-   function MiTipo(cfg, onDone){
+   export function MiTipo(cfg: Config, onDone: AlTerminar): Juego{
      const R = cfg.rounds || nRounds();
      return {
        total: R, done: 0, i: 0, errs: 0, busy: false, fin: false,
@@ -179,7 +179,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
          if (this.busy) return;
          if (/* acierto */ true) {
            SFX.good(); rec(cfg.key || 'mitipo', this.errs === 0); onRight(this.errs === 0);
-           this.done++; scene.starPop = T; this.busy = true;
+           this.done++; scene!.starPop = T; this.busy = true;
            say(praise(), () => later(400, () => { this.busy = false; this.i++;
              if (this.i >= R) { if (!this.fin) { this.fin = true; onDone() } } else this.load() }));
          } else {
@@ -240,7 +240,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 
 Todo está en `extras.js` e `ingles.js`. Resumen (detalle en los comentarios de cada archivo):
 
-- **Canción**: melodía en `TUNES` (comps2.js) → letra en `SONGS` (extras.js) → juego `{t:'cancion', song:'nombre', icon, name}` en `CAN.games`.
+- **Canción**: melodía en `TUNES` (juegos/comps2.ts) → letra en `SONGS` (extras.js) → juego `{t:'cancion', song:'nombre', icon, name}` en `CAN.games`.
 - **Rutina**: viñetas en `RP` con `panel(...)` → juego con `Secuencia` en `RUT.games`.
 - **Trazo**: nivel nuevo al final de `TRZ_L()` y subir el número de niveles en `TRZ` (con su icono y nombre).
 - **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaNow()` (zonas.js).

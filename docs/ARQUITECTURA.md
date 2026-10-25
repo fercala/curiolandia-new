@@ -49,9 +49,9 @@ Características técnicas:
 El juego está a medio camino entre dos formas de cargar el código (fase 2 de la migración):
 
 - **Módulos TypeScript** (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`, el núcleo de
-  `src/nucleo/` y el vocabulario de `src/contenido/`). Cada archivo importa lo que usa (`import { S, save } from './guardado.ts'`). El plugin de Vite los
+  `src/nucleo/`, el vocabulario de `src/contenido/` y los componentes de juego de `src/juegos/`). Cada archivo importa lo que usa (`import { S, save } from './guardado.ts'`). El plugin de Vite los
   junta con rolldown en un `<script>` que va **antes** del código global. `src/modulos.ts` deja en `globalThis` todo
-  lo que exportan `src/dibujos/todos.ts` y `src/nucleo/indice.ts` (el **puente**; sus tipos están en
+  lo que exportan `src/dibujos/todos.ts`, `src/nucleo/indice.ts` y `src/juegos/indice.ts` (el **puente**; sus tipos están en
   `src/tipos/puente.d.ts`).
   - Cada nombre del puente es una propiedad de `globalThis` con `get`: el código global lee siempre el valor actual
     del módulo, aunque cambie (`S` tras `ponS`, `ctx` tras `ponCtx`, `T`, `scene`, `go` tras `ponGo`...).
@@ -72,8 +72,8 @@ importar de otros módulos, nunca del código global.
 | 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts`; `dibujos/todos.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. `todos.ts` los carga en su orden: quien necesita `PICS` completo importa de ahí. |
 | 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`, `rec`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas), `voz` (`say`, `sayQ`, voces) e `interfaz` (botón de volver, rondas, ayudas, dificultad, pegatinas, calendario). |
 | 3 | `contenido/lex.ts` (antes `lex.js`) | **Vocabulario** (módulo, se carga después del núcleo): nombres de las cosas (`LEX`, `LEX2`), sonidos de animales (`SOUNDS`, `ONO`) y más cambios del español rioplatense al de España (`_tuRe`). Solo añade cosas al núcleo; no exporta nada. |
-| 4 | `comps.js`, `comps2.js` | Primer archivo global. **Componentes de juego**: el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
-| 5 | `temas.js`, `temas4.js`, `temas5.js` | **Contenido**: los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas.js` también tiene `makeGame`. |
+| 4 | `juegos/comps.ts`, `juegos/comps2.ts` (antes `comps.js` y `comps2.js`; `juegos/indice.ts` los junta) | **Componentes de juego** (módulos): el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
+| 5 | `temas.js`, `temas4.js`, `temas5.js` | Primer archivo global. **Contenido**: los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas.js` también tiene `makeGame`. |
 | 6 | `cuentos.js` | Los cuentos ilustrados de cada tema (`CUENTOS`). |
 | 7 | `extras.js` | Canciones (`CAN`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). |
 | 8 | `ingles.js` | El Rincón del inglés (`EN`, `ING`, juegos `EnConocer`, `EnEscucha`...). |
@@ -100,7 +100,7 @@ declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo
   `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
 - **Funciones `pon*`** para cambiar una global entera desde otro archivo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
-  (núcleo), `ponThing` (`comps.js`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`scenes.js`),
+  (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`scenes.js`),
   `ponMakeGame` (`temas.js`) y `ponGoSeguir` (`zonas.js`). Dentro del núcleo hay dos más: `ponMusica` (la música
   de la escena, la usa `go`) y `ponRopaTito` (`tienda.js` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
@@ -153,7 +153,7 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 | `map` | zonas.js (+3D) | La isla con todos los lugares |
 | `jardin`, `bosque`, `montana`, `fiestas`, `ingles` | zonas.js (+3D) | Zonas con su camino de casitas (se crean con `zoneScene(z)`) |
 | `casita` | zonas.js (+3D) | Dentro de un tema: las estaciones de juego |
-| `juego` | scenes.js | Ejecuta un juego (un componente de comps*.js) |
+| `juego` | scenes.js | Ejecuta un juego (un componente de juegos/) |
 | `cofre` | zonas.js (+3D) | Recompensa al terminar un tema |
 | `asamblea` | scenes.js + zonas.js | La rutina diaria (día, tiempo, emociones, cumpleaños) |
 | `tienda`, `casaTito` | tienda.js | Tienda (con páginas) y casa de Tito (2D) con siete habitaciones (`ROOMS`) que se abren con las casitas terminadas |
@@ -213,7 +213,7 @@ Un **tema** es un objeto en `T3`, `T4`, `T5` (o `CAN`, `RUT`, `TRZ`, `FIESTAS`, 
 
 `makeGame(juego, tema, alAcabar)` (temas.js, ampliado por extras.js e ingles.js) convierte cada entrada de `games` en un componente de juego.
 
-Un **componente de juego** (comps.js, comps2.js) es una función que recibe una configuración y devuelve un objeto con `enter`, `draw`, `down/move/up`, `hint`, `prompt`, `total` y `done`. Cuando el niño termina, llama a `onDone()`. La lista completa de componentes y su configuración está en la cabecera de `comps.js` y en [COMO-AGREGAR.md](COMO-AGREGAR.md#5-un-juego-nuevo-dentro-de-un-tema).
+Un **componente de juego** (juegos/comps.ts, juegos/comps2.ts) es una función que recibe una configuración y devuelve un objeto con `enter`, `draw`, `down/move/up`, `hint`, `prompt`, `total` y `done`. Cuando el niño termina, llama a `onDone()`. La lista completa de componentes y su configuración está en la cabecera de `juegos/comps.ts` y en [COMO-AGREGAR.md](COMO-AGREGAR.md#5-un-juego-nuevo-dentro-de-un-tema).
 
 Los **dibujos** se buscan por nombre en `PICS` y se pintan con `pic(nombre, x, y, tamaño)`. Su nombre hablado sale de `LEX`/`LEX2` (`nucleo/idioma.ts` y `contenido/lex.ts`).
 

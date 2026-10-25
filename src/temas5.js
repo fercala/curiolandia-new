@@ -10,7 +10,7 @@
 //     NOVIVOS, MIX, FORMQ, FCOL, FILA, ORD, PESO.
 //   - T5 (temas de 5 años) y C5 (rincón de 5 años).
 // Depende de: el núcleo, src/nucleo/ (dibujo, say, V, AGE, nRounds, nOpts, MESES, NUM, estacionDe...), temas.js y
-// temas4.js (BG, fondos, shape2, zoneIcon, palm, fern, plateN...), comps.js / comps2.js (componentes
+// temas4.js (BG, fondos, shape2, zoneIcon, palm, fern, plateN...), juegos/comps.ts y juegos/comps2.ts (componentes
 // de juego: Arrastra, ChoiceGame, Secuencia, Une, Series, Gira, Cruce, Apaga, Lens...) y PICS.
 // Recuerda: no cambies ninguna frase que se diga con say() (tienen MP3 grabado).
 /* ================= TEMAS DE 5 AÑOS: LA MONTAÑA ================= */

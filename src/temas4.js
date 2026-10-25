@@ -13,7 +13,7 @@
 //     OFICIOS, ADIV, SALVAJES, DOMESTICOS, PLANT_PARTS, COLS4. Añade 4 colores a COLORES.
 //   - T4 (temas de 4 años), C4 (rincón de 4 años) y z_x().
 // Depende de: el núcleo, src/nucleo/ (dibujo, say, V, AGE, nRounds, nOpts, DIASL, ESTACIONES, NUM, EMO...), temas.js
-// (BG, floor, grass, swatch, sizeSlot, vestir), comps.js / comps2.js (los componentes de juego) y PICS.
+// (BG, floor, grass, swatch, sizeSlot, vestir), juegos/comps.ts y juegos/comps2.ts (los componentes de juego) y PICS.
 // Recuerda: no cambies ninguna frase que se diga con say() (tienen MP3 grabado).
 /* ================= FONDOS NUEVOS ================= */
 // Guirnalda de banderines de fiesta a lo ancho de la pantalla, colgada a la altura y.
@@ -74,7 +74,7 @@ const SENTQ=[['campana','oreja','¿Con qué escuchamos la campana?'],['tambor','
   ['limon','boca','¿Con qué sentimos que el limón es ácido?'],['cactus','mano','¿Con qué sentimos que el cactus pincha?'],['peluche','mano','¿Con qué sentimos que el peluche es suave?'],['arcoiris','ojo','¿Con qué vemos los colores del arcoíris?'],['estrella','ojo','¿Con qué vemos las estrellas?']];
 // Datos de "Las emociones":
 // EMO4 = [emoción, [adjetivo rioplatense, adjetivo España], frase de "conocer"]. Las caritas se
-//   nombran 'emo:alegria'... y las dibuja drawFace() (comps2.js cambia thing() para ello).
+//   nombran 'emo:alegria'... y las dibuja drawFace() (juegos/comps2.ts cambia thing() para ello).
 // EMOADJ = adjetivo de cada emoción para las preguntas "¿Quién está ...?".
 // SITS = situaciones [dibujo, emoción correcta, pregunta].
 const EMO4=[['alegria',['contento','contento'],'Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.'],['tristeza',['triste','triste'],'Triste. Cuando perdemos algo o extrañamos a alguien, sentimos tristeza.'],['enojo',['enojado','enfadado'],['Enojado. Cuando algo nos parece injusto, nos enojamos.','Enfadado. Cuando algo nos parece injusto, nos enfadamos.']],['miedo',['con miedo','con miedo'],'Con miedo. Cuando algo nos asusta, sentimos miedo.'],['sorpresa',['sorprendido','sorprendido'],'Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.']];
@@ -95,7 +95,7 @@ const plantDraw=(hl)=>{ctx.fillStyle='#A86B43';ctx.fillRect(540,620,720,200);ctx
   ctx.strokeStyle='#5FA84E';ctx.lineWidth=22;ctx.beginPath();ctx.moveTo(900,630);ctx.quadraticCurveTo(910,450,900,300);ctx.stroke();
   for(const [x,y,r] of[[830,470,-.5],[975,400,.5],[835,360,-.4]]){ctx.save();ctx.translate(x,y);ctx.rotate(r);ell(0,0,70,30,'#7CC86E',5);ctx.restore()}
   flower(900,260,58,'#F58BB4',5);ctx.beginPath();ctx.moveTo(945,520);ctx.lineTo(1000,560);ctx.lineWidth=6;ctx.strokeStyle='#5FA84E';ctx.stroke();circ(1005,585,34,'#FF5A5A',5);ell(1012,552,10,6,'#7CC86E',3)};
-// PLANT_PARTS: partes de la planta que se pueden tocar en TocaPartes (comps2.js):
+// PLANT_PARTS: partes de la planta que se pueden tocar en TocaPartes (juegos/comps2.ts):
 // {id, n = nombre, x, y, r = círculo que se puede tocar, say = explicación (opcional)}.
 // Una misma parte puede tener varios círculos (por eso hay varios 'tallo' y 'hojas').
 const PLANT_PARTS=[{id:'raiz',n:'la raíz',x:900,y:720,r:90,say:'Toma el agua de la tierra.'},{id:'tallo',n:'el tallo',x:902,y:540,r:40,say:'Sostiene la planta.'},{id:'tallo',n:'el tallo',x:906,y:420,r:30},{id:'hojas',n:'las hojas',x:830,y:470,r:62,say:'Toman la luz del sol.'},{id:'hojas',n:'las hojas',x:975,y:400,r:62},{id:'hojas',n:'las hojas',x:835,y:360,r:55},
@@ -131,7 +131,7 @@ Object.assign(COLORES,{gris:{c:'#9AA5B4',n:'gris'},blanco:{c:'#FFFFFF',n:'blanco
 //   4A-T8 La calle y la ciudad · 4A-T9 Animales domésticos y salvajes · 4A-T10 Las plantas ·
 //   4A-T11 Los transportes por tierra, mar y aire · 4A-T12 Los bichitos y el verano
 // Aquí casi todos los juegos llevan name (el nombre que dice Tito) y usan también componentes
-// de comps2.js: Secuencia, Une, Series, Lens, TocaPartes, Llena, Semaforo.
+// de juegos/comps2.ts: Secuencia, Une, Series, Lens, TocaPartes, Llena, Semaforo.
 // {t:'cancion', song:'dias'} es una canción de extras.js (SONGS.dias).
 // ---------------------------------------------------------------------------
 const T4=[
