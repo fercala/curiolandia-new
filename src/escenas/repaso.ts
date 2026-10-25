@@ -3,16 +3,17 @@
 // y con eso prepara cada día una lista de 3 juegos para repasar (escena SCENES.repaso).
 // Desde la fase 2m es un módulo: escenas/indice.ts lo carga el último, después de tienda.ts, y el puente deja lo que
 //   exporta en globalThis para las pruebas.
-// Define: NOREP, repOk, repWeak, repOld, repBuild, repToday, repAllDone, repDue, REPBTN y la escena SCENES.repaso.
-//   Añade a S los campos kg, gs y rep.
+// Define: DATOS, repWeak, repOld, repBuild, repToday, repAllDone, repDue, REPBTN y la escena SCENES.repaso.
+//   Añade a S los campos kg, gs y rep. Las reglas (qué juegos cuestan, cuáles son los más antiguos, cómo se elige el
+//   repaso, cuándo toca) están desde la fase 3d en dominio/repaso.ts; aquí se les pasan los datos de S (DATOS).
 // Exporta: REP_ON (true mientras se juega un juego del repaso; lo leen las pruebas).
 // Envuelve (cambia el comportamiento de) funciones de otros archivos: rec y go (src/nucleo/), finishGame
 //   (escenas/escenas2d.ts), SCENES.casita.enter y goSeguir (escenas/zonas.ts) y los métodos draw/down/dwell de SCENES.map
 //   (escenas/zonas.ts).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo), escenas/escenas2d.ts (TEMA, TEMAS,
 //   tst, finishGame, drawStation, GNAME, asamHoy), escenas/zonas.ts (goSeguir, drawRoad, lockOver, unlockFx, arrowAt),
-//   escenas/tienda.ts (STARS, giveCoins, creditCoins, drawCoinHUD, inCoinHUD), temas/ (floor) y MONEDAS de
-//   dominio/monedas.ts.
+//   escenas/tienda.ts (STARS, giveCoins, creditCoins, drawCoinHUD, inCoinHUD), temas/ (floor), MONEDAS de
+//   dominio/monedas.ts y las reglas de dominio/repaso.ts.
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.
 //   S.gs = { 'temaId#juego': {ok, err, d} }      aciertos, fallos y último día jugado ('AAAA-MM-DD' de today()).
@@ -27,6 +28,8 @@ import { GNAME, TEMA, TEMAS, asamHoy, drawStation, finishGame, ponFinishGame, ts
 import { arrowAt, drawRoad, goSeguir, lockOver, ponGoSeguir, unlockFx } from './zonas.ts';
 import { STARS, creditCoins, drawCoinHUD, giveCoins, inCoinHUD } from './tienda.ts';
 import { MONEDAS } from '../dominio/monedas.ts';
+import type { DatosRepaso } from '../dominio/repaso.ts';
+import { caducado, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, terminado, toca } from '../dominio/repaso.ts';
 
 /* ================= REPASO INTELIGENTE ================= */
 // Cada habilidad recuerda en qué juegos aparece (S.kg) y cada juego cómo le fue (S.gs).
@@ -36,43 +39,31 @@ Object.assign(DEF,{kg:{},gs:{},rep:null});
 {const s: Libre=S;for(const k of['kg','gs'])if(!s[k]||typeof s[k]!=='object')s[k]={}}
 // Envuelve rec(habilidad, acierto) de nucleo/guardado.ts: además de las estadísticas normales, si estamos en un juego
 // apunta en S.kg que esa habilidad sale en este juego (sin repetir, máximo 6) y suma el acierto/fallo en S.gs.
-{const r0=rec;ponRec(function(k: string,ok: unknown){r0(k,ok);if(sceneName==='juego'&&scene!.t&&scene!.gi!=null){const id=scene!.t.id+'#'+scene!.gi,m=S.kg![k]||(S.kg![k]=[]);
-  if(m[0]!==id){const i=m.indexOf(id);if(i>=0)m.splice(i,1);m.unshift(id);if(m.length>6)m.pop()}
+{const r0=rec;ponRec(function(k: string,ok: unknown){r0(k,ok);if(sceneName==='juego'&&scene!.t&&scene!.gi!=null){const id=scene!.t.id+'#'+scene!.gi;
+  S.kg![k]=conJuegoReciente(S.kg![k]||[],id);
   const g=S.gs![id]||(S.gs![id]={ok:0,err:0,d:''});ok?g.ok++:g.err++;save()}})}
 // true mientras se juega un juego lanzado desde el repaso (para volver al repaso al terminar).
 export let REP_ON=false;
 // Envuelve finishGame(tema, nº de juego): guarda la fecha en que se jugó (S.gs[id].d) y,
 // si el juego venía del repaso de hoy, lo marca como hecho. Después llama al finishGame original.
 {const f0=finishGame;ponFinishGame(function(t,gi){const id=t.id+'#'+gi,g=S.gs![id]||(S.gs![id]={ok:0,err:0,d:''});g.d=today();if(REP_ON&&S.rep&&S.rep.list.includes(id))S.rep.done[id]=1;save();f0(t,gi)})}
-// Tipos de juego que no sirven para repasar (no tienen acierto/fallo o son solo de mirar/escuchar).
-const NOREP=['conocer','enConocer','cuento','cancion','trazo','decora','mifamilia','velas'];
-// repOk(id): ¿se puede usar el juego id ('temaId#juego') en el repaso? Tiene que existir,
-// no ser de un tipo de NOREP y estar ya jugado al menos una vez.
-const repOk=(id: string)=>{const [tid,j]=id.split('#'),t=TEMA[tid],g=t&&t.games[+j];return !!(g&&!NOREP.includes(g.t)&&tst(tid).g[j])};
-// Lista de juegos "que cuestan": primero, por cada habilidad con 4+ intentos y menos de 70% de aciertos
-// (de peor a mejor), el juego más reciente donde salió; después, juegos con 3+ intentos y menos de 70%.
-// Devuelve un array de ids 'temaId#juego' sin repetir.
-function repWeak(): string[]{const out: string[]=[];
-  const sk=Object.keys(S.stats).map(k=>{const s=S.stats[k],n=s.ok+s.err;return{k,n,r:n?s.ok/n:1}}).filter(o=>o.n>=4&&o.r<.7).sort((a,b)=>a.r-b.r);
-  for(const o of sk)for(const id of(S.kg![o.k]||[]))if(repOk(id)&&!out.includes(id)){out.push(id);break}
-  Object.keys(S.gs!).map(id=>{const g=S.gs![id],n=g.ok+g.err;return{id,n,r:n?g.ok/n:1}}).filter(o=>o.n>=3&&o.r<.7&&repOk(o.id)).sort((a,b)=>a.r-b.r).forEach(o=>{if(!out.includes(o.id))out.push(o.id)});
-  return out}
-// Todos los juegos repasables ordenados del que hace más tiempo que no se juega al más reciente.
-function repOld(): string[]{const L: {id: string,d: string}[]=[];for(const t of TEMAS){const g=tst(t.id).g;for(const j in g){const id=t.id+'#'+j;if(repOk(id))L.push({id,d:(S.gs![id]&&S.gs![id].d)||''})}}
-  return L.sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0).map(o=>o.id)}
-// Prepara el repaso de hoy (3 juegos como máximo) y lo guarda en S.rep:
-// hasta 3 juegos que cuestan; si faltan, los más antiguos de temas distintos; si aún faltan, cualquier antiguo.
-function repBuild(){const w=repWeak().slice(0,3),L=[...w],old=repOld(),tm=(id: string)=>id.split('#')[0];
-  for(const id of old)if(L.length<3&&!L.includes(id)&&!L.some(x=>tm(x)===tm(id)))L.push(id);
-  for(const id of old)if(L.length<3&&!L.includes(id))L.push(id);
-  S.rep={d:today(),list:L,done:{},weak:w.length,paid:0,seen:0};save()}
-// Devuelve el repaso de hoy (S.rep). Lo vuelve a preparar si es de otro día, si no tenía juegos
-// "que cuestan" pero ahora los hay (y aún no se ha hecho ninguno), o si estaba vacío y ya hay juegos.
-function repToday(): Repaso{const R=S.rep;if(!R||R.d!==today()||(!R.weak&&!Object.keys(R.done).length&&repWeak().length)||(!R.list.length&&repOld().length))repBuild();return S.rep!}
-// ¿Están hechos todos los juegos del repaso de hoy?
-const repAllDone=()=>!!(S.rep&&S.rep.d===today()&&S.rep.list.length&&S.rep.list.every(id=>S.rep!.done[id]));
-// ¿Toca repasar? Con 6+ estrellas, si hoy no se ha terminado y hay algo que cuesta (sale el "!" rojo).
-const repDue=()=>STARS()>=6&&!repAllDone()&&repWeak().length>0;
+// DATOS: lo que miran las reglas del repaso (dominio/repaso.ts), leído de S en el momento de cada pregunta.
+const DATOS: DatosRepaso={get stats(){return S.stats},get kg(){return S.kg!},get gs(){return S.gs!},get temas(){return TEMAS},tema:(id: string)=>TEMA[id],jugados:(id: string)=>tst(id).g};
+// repWeak(): los juegos «que cuestan», sin repetir (queCuestan): primero el más reciente de cada habilidad con 4+
+// intentos y menos del 70 % de aciertos (de peor a mejor); después, los juegos con 3+ intentos y menos del 70 %.
+const repWeak=(): string[]=>queCuestan(DATOS);
+// repOld(): todos los juegos repasables, del que hace más tiempo que no se juega al más reciente (masAntiguos).
+const repOld=(): string[]=>masAntiguos(DATOS);
+// Prepara el repaso de hoy (3 juegos como máximo) y lo guarda en S.rep: hasta 3 juegos que cuestan; si faltan, los
+// más antiguos de temas distintos; si aún faltan, cualquier antiguo (elegirRepaso).
+function repBuild(){const {list,weak}=elegirRepaso(repWeak(),repOld());S.rep={d:today(),list,done:{},weak,paid:0,seen:0};save()}
+// Devuelve el repaso de hoy (S.rep). Lo vuelve a preparar si es de otro día, si no tenía juegos "que cuestan" pero
+// ahora los hay (y aún no se ha hecho ninguno), o si estaba vacío y ya hay juegos (caducado).
+function repToday(): Repaso{if(caducado(S.rep,today(),DATOS))repBuild();return S.rep!}
+// ¿Están hechos todos los juegos del repaso de hoy? (terminado)
+const repAllDone=()=>terminado(S.rep,today());
+// ¿Toca repasar? Con 6+ estrellas, si hoy no se ha terminado y hay algo que cuesta (sale el "!" rojo; toca).
+const repDue=()=>toca(STARS(),S.rep,today(),DATOS);
 
 // Escena del repaso: hasta 3 estaciones numeradas en un caminito; se abren en orden.
 // Al terminar todas, premio (pegatina de la lupa y 5 monedas) y flecha verde para seguir el camino.

@@ -60,9 +60,9 @@
 
 | Campo | Formato | Para qué |
 |---|---|---|
-| `kg` | `{habilidad: [ids de juego]}` | En qué juegos sale cada habilidad (últimos 6). |
+| `kg` | `{habilidad: [ids de juego]}` | En qué juegos sale cada habilidad (últimos 6, el más reciente primero; `conJuegoReciente` en dominio/repaso.ts). |
 | `gs` | `{'idTema#índice': {ok, err, d}}` | Aciertos, fallos y fecha de cada juego. |
-| `rep` | `{d, list, done, weak, paid, seen}` | El repaso del día. |
+| `rep` | `{d, list, done, weak, paid, seen}` | El repaso del día. Cómo se eligen los juegos y cuándo se rehace: dominio/repaso.ts. |
 
 ### Sueltos (sin valor en `DEF`; se leen con `S.x || valor`)
 
