@@ -61,7 +61,7 @@
 // TIEMPOS: later(ms, fn) (nucleo/escenas.ts) programa algo para dentro de ms milisegundos;
 //   si se cambia de escena antes, ya no se ejecuta.
 // VOZ: say(texto, alAcabar) habla y luego llama a alAcabar. V(x) elige la variante
-//   de idioma si x es una lista ['rioplatense','España'] (lex.js). NO cambies el
+//   de idioma si x es una lista ['rioplatense','España'] (nucleo/idioma.ts). NO cambies el
 //   texto de ninguna frase: cada frase tiene su MP3 grabado.
 //
 // ---------- QUÉ HAY EN ESTE ARCHIVO ----------
@@ -77,7 +77,7 @@
 // onWrongTwice, AGE, nOpts, nRounds, REP, idle, drag, scene, MX/MY, mouseOn,
 // burst, sparkles, parts, card, circ, ell, star, text, rr, fillStroke, hv, hR,
 // hC, back, lerp, clamp, dist, rnd, ri, pick, shuffle, cap, praise, SOUNDS,
-// playSound, ONO, IMG...), lex.js (W_, Wn, V, tx) y los dibujos de src/dibujos/ (con pic y picG de nucleo/imagenes.ts).
+// playSound, ONO, IMG...), nucleo/idioma.ts (W_, Wn, V, tx) y los dibujos de src/dibujos/ (con pic y picG de nucleo/imagenes.ts).
 // ============================================================================
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
 // Dibuja una "cosa" k centrada en (x,y) con tamaño s.
@@ -87,7 +87,7 @@ function thing(k,x,y,s){if(typeof k==='string')pic(k,x,y,s);else k.draw(x,y,s)}
 // ponThing(f): cambia thing por otra función (comps2.js la envuelve para dibujar caras «emo:»).
 function ponThing(f){thing=f}
 // Nombre con artículo de una cosa k, para decirlo en voz alta ('el perro').
-// Si k es una clave usa W_() (lex.js); si es un objeto usa su campo name.
+// Si k es una clave usa W_() (nucleo/idioma.ts); si es un objeto usa su campo name.
 const nameT=k=>typeof k==='string'?W_(k):V(k.name);
 // true si el nombre de la cosa k va en plural ('los ojos', 'las uvas').
 const isPl=k=>/^(los|las) /.test(nameT(k));

@@ -10,7 +10,7 @@
 //   roomBtns y las escenas SCENES.tienda y SCENES.casaTito.
 // Envuelve: onRight y finishGame (nucleo/interfaz.ts y scenes.js), SCENES.juego.enter y SCENES.juego.draw (scenes.js).
 // Depende de: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
-//   TITO_SVG...), lex.js (V, W_), scenes.js (SCENES, finishGame), zonas.js (houseLevel, drawTitoHouse, drawPet, petStage,
+//   TITO_SVG...), nucleo/idioma.ts (V, W_), scenes.js (SCENES, finishGame), zonas.js (houseLevel, drawTitoHouse, drawPet, petStage,
 //   PET_NEXT, HOUSE_NEXT, temasDone, shellIcon), comps2.js (playTune, TUNES).
 /* ================= MONEDAS, TIENDA Y CASA DE TITO ================= */
 // Campos del estado guardado S que añade este archivo (valores por defecto):

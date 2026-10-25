@@ -1,13 +1,13 @@
 // idioma.ts: rioplatense y castellano de España, y los nombres de los dibujos.
 //   - TU, _tuRe, tx(), V(): el texto del juego se escribe en rioplatense y tx() lo pasa a España si S.variant==='es'.
 //   - LEX, LEX2, W_, Wn, art, dela, ala: el nombre con artículo de cada dibujo, para que Tito lo diga.
-// lex.js (código global) añade más pares a _tuRe y más nombres a LEX.
+// contenido/lex.ts añade más pares a _tuRe y más nombres a LEX y LEX2.
 import { S } from './guardado.ts';
 
 /* ---------- variante del español: el texto se escribe en rioplatense y se adapta ---------- */
 // TU: lista de pares [rioplatense, España]. Los textos del juego se escriben en rioplatense y tx() los pasa a
 // castellano de España cuando S.variant==='es'. El ORDEN importa: primero las expresiones largas ('las bananas')
-// y luego las cortas ('banana'), para no cambiar media expresión. lex.js añade más pares al final.
+// y luego las cortas ('banana'), para no cambiar media expresión. contenido/lex.ts añade más pares al final.
 // Para añadir una palabra: ['palabra rioplatense','palabra de España'], en minúsculas.
 export const TU: readonly (readonly [string,string])[]=[['las bananas','los plátanos'],['la banana','el plátano'],['una banana','un plátano'],['banana','plátano'],['bananas','plátanos'],
  ['los anteojos de sol','las gafas de sol'],['unos anteojos de sol','unas gafas de sol'],['anteojos de sol','gafas de sol'],['los anteojos','las gafas'],['anteojos','gafas'],
@@ -45,7 +45,7 @@ export const V=(x: string|Par): string=>Array.isArray(x)?(S.variant==='es'?x[1]:
 
 /* ---------- nombres de los dibujos (rioplatense; tx() los pasa a España) ---------- */
 // LEX: nombre con artículo de cada dibujo, en rioplatense (tx() lo pasa a España). Formato {claveDelDibujo: 'el nombre'}.
-// lex.js añade muchos más. Para un dibujo nuevo, añade aquí o en lex.js su clave con su nombre.
+// contenido/lex.ts añade muchos más. Para un dibujo nuevo, añade aquí o en contenido/lex.ts su clave con su nombre.
 export const LEX: Record<string,string>={gato:'el gato',pato:'el pato',sol:'el sol',luna:'la luna',mesa:'la mesa',fresa:'la frutilla',casa:'la casa',bota:'la bota',pelota:'la pelota',mono:'el mono',pan:'el pan',manzana:'la manzana',
  mariposa:'la mariposa',leon:'el león',abeja:'la abeja',avion:'el avión',arbol:'el árbol',elefante:'el elefante',estrella:'la estrella',oso:'el oso',ojo:'los ojos',oveja:'la oveja',uva:'las uvas',pez:'el pez',
  corazon:'el corazón',caracol:'el caracol',lapiz:'el lápiz',tortuga:'la tortuga',tomate:'el tomate',nube:'la nube',nariz:'la nariz',nido:'el nido',dinosaurio:'el dinosaurio',foca:'la foca',flor:'la flor',

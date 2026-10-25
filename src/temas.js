@@ -18,7 +18,7 @@
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan scenes.js (TEMAS, TEMA,
 //   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, extras.js y cuentos.js.
 //
-// Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y lex.js) los pasa
+// Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
 // a castellano de España cuando S.variant==='es'. Si una frase cambia mucho, se pone una lista
 // [rioplatense, España] y V() elige. ¡No cambies ninguna frase que se diga con say()! Cada una
 // tiene su MP3 grabado (voz/manifest.json), y el MP3 se busca por el texto exacto.

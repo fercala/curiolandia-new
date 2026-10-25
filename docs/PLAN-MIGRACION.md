@@ -2,7 +2,7 @@
 
 Escrito el 23 y 24 de octubre de 2026 con Fernando. Es la versión del repo del documento de trabajo
 [Curiolandia 3D: migración a arquitectura limpia](https://claude.ai/artifact/6sp7FQAvERP6wEPG83Qc2W).
-**Estado: fases 0 y 1 publicadas; fase 2 en marcha (24 de octubre de 2026): 2a (VIVO y `pon*`) y 2b (los dibujos) publicadas; 2c en marcha: `core.js` ya es módulos (`src/nucleo/`), con un puente vivo que el código global no puede reasignar.** Código importado de `curiolandia-3d` en el commit `dd5fc61` (v1.592).
+**Estado: fases 0 y 1 publicadas; fase 2 en marcha (24 de octubre de 2026): 2a (VIVO y `pon*`) y 2b (los dibujos) publicadas; 2c (el núcleo, `src/nucleo/`, con un puente vivo que el código global no puede reasignar) publicada; 2d en marcha: `lex.js` ya es `src/contenido/lex.ts`.** Código importado de `curiolandia-3d` en el commit `dd5fc61` (v1.592).
 
 ## 1. Resumen
 

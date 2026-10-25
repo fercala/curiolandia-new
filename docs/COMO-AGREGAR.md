@@ -222,7 +222,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
    Son módulos TypeScript estrictos: una función de ayuda nueva lleva el tipo de sus parámetros (`(x: number, c: string) =>`)
    y `npm run tipos` tiene que pasar.
 2. Comprueba que el nombre no existe ya: `grep -n "trompeta:" src/dibujos/*.ts` (si existe, gana el del módulo que va después en los `import` de `src/modulos.ts`).
-3. Añade su nombre hablado a `LEX` en lex.js: `trompeta:'la trompeta'`.
+3. Añade su nombre hablado a `LEX` en `src/contenido/lex.ts`: `trompeta:'la trompeta'`.
 4. Úsalo por su nombre: `pic('trompeta', x, y, tamaño)` o en `words`, `items`...
 
 ## 9. Un artículo de la tienda o un regalo del cofre
