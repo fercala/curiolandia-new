@@ -20,7 +20,7 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 
 ## Rarezas sin efecto visible (limpieza)
 
-- **Código antiguo en scenes.js** que ya no se usa: mapa v1 (`MZ` y sus métodos), escena `jardin` v1, `JPOS`, `BANDC`, las versiones antiguas de `suggestTema` y `stationPos` y casi toda la casita v1 (zonas.js y world3d.js las sustituyen).
+- **Código antiguo en escenas/escenas2d.ts** que ya no se usa: mapa v1 (`MZ` y sus métodos), escena `jardin` v1, `JPOS`, `BANDC`, las versiones antiguas de `suggestTema` y `stationPos` y casi toda la casita v1 (zonas.js y world3d.js las sustituyen).
 - Multiplicaciones por 0 que no hacen nada (restos de ajustes): `umb3`, `scare3`, `flower()`, `SPOT3.ingles`, `Sonido`, `Cuenta`, `SONGS.colores`...
 - `V([a, b])` con las dos variantes iguales (título de la portada, una pregunta de `F-libro`, `Secuencia`).
 - Comentarios del código original colocados encima de la función equivocada (están señalados con una nota en los comentarios nuevos).

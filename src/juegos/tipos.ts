@@ -21,7 +21,7 @@ export type AlTerminar = () => void;
 export type Cosa = any;
 
 /**
- * El objeto que devuelve un componente y que usa la escena del juego (SCENES.juego en scenes.js): los métodos que la
+ * El objeto que devuelve un componente y que usa la escena del juego (SCENES.juego en escenas/escenas2d.ts): los métodos que la
  * escena llama si existen. Las estrellas (total y done, que el componente sube con this.done++) y el resto de campos
  * son propios de cada componente y van por el índice libre.
  */
@@ -62,7 +62,7 @@ export interface Tema {
   n: string | Par;
   icon: string;
   c: string;
-  trim: number;
+  trim?: number;
   bg: () => void;
   words?: Cosa[];
   games: JuegoTema[];

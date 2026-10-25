@@ -48,7 +48,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 - Las líneas son muy largas (el código está escrito de forma compacta). Usa la búsqueda del editor o `grep -n "nombreFuncion" src/*.js` para encontrar las cosas.
 - Si algo "no hace caso" a tu cambio, probablemente otro archivo posterior lo envuelve o lo sobrescribe (ver "Capas" en ARQUITECTURA.md). Busca el nombre en todos los archivos.
 - No reasignes desde un archivo una variable o función global que declara otro (`x = ...`): usa `VIVO.x` o su función `pon*` (ARQUITECTURA.md, «Leer sí, reasignar no»). Si hace falta una nueva, añade el campo a `VIVO` y al tipo `Vivo`, o una función `pon*` junto a la global. `npm run test:unidad` falla si no.
-- Hay código antiguo que ya no se usa (sobre todo en `scenes.js`: el mapa, el jardín y la casita v1). Está marcado en los comentarios.
+- Hay código antiguo que ya no se usa (sobre todo en `escenas/escenas2d.ts`: el mapa, el jardín y la casita v1). Está marcado en los comentarios.
 
 ## 2. Reglas que no se pueden saltar
 
@@ -107,7 +107,7 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en `s
    - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, añade su línea a `src/tipos/puente.d.ts` (la prueba `globales` dice cuál falta).
 3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en zonas.js) y cada casita para **unos 8 juegos** (`st3Pos()` en world3d.js), contando el cuento. Para más hay que ampliar esas funciones.
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
-5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (scenes.js lo añade a `TEMAS` y zonas.js al camino).
+5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y zonas.js al camino).
 6. Apunta todas las frases nuevas para grabar.
 
 ## 5. Un juego nuevo dentro de un tema
@@ -262,7 +262,7 @@ SCENES.huerto={music:'jardin',
 ```
 Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepáralo en `enter`.
 
-**Zona nueva con camino**: `ZONES` y `NEED` en zonas.js, reglas en `temaOpen`/`spotOpen`/`spotNeed`/`lockMsg`, lugar en `MZ2`, temas en `TEMAS` (scenes.js); en world3d.js su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de zonas.js y la parte de zonas de world3d.js.
+**Zona nueva con camino**: `ZONES` y `NEED` en zonas.js, reglas en `temaOpen`/`spotOpen`/`spotNeed`/`lockMsg`, lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en world3d.js su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de zonas.js y la parte de zonas de world3d.js.
 
 ## 12. Una opción en la zona de adultos
 

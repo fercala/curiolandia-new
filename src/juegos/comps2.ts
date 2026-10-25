@@ -22,7 +22,7 @@
 // IMPORTA: juegos/comps.ts (thing, ponThing, ChoiceGame, Arrastra, layoutChoice,
 // drawChoice, hitItem, nameT, eseEs, NUM), el núcleo, src/nucleo/ (dibujo, voz,
 // SFX, tone, AC, DIAC, ala, sky, hand, V, Wn, tx, svgImg...) y PICS y K de
-// src/dibujos/. Usa también drawFace, inR (scenes.js) y BG (temas/temas.ts), que son
+// src/dibujos/. Usa también drawFace, inR (escenas/escenas2d.ts) y BG (temas/temas.ts), que son
 // código global que se carga después: solo se usan al jugar, cuando ya existen
 // (sus tipos, en src/tardias.d.ts). Los datos de Story y Song (CUENTOS,
 // SONGS) llegan como parámetro; el tipo de un cuento está en contenido/tipos.ts.
@@ -45,7 +45,7 @@ export function picS(n: string,x: number,y: number,s: number){const i=shadowOf(n
 // guardamos la thing() original de juegos/comps.ts para llamarla desde la nueva
 export const _thing0=thing;
 // Nueva thing(): si k es 'emo:alegria' (etc.) dibuja la carita de esa emoción
-// con drawFace (scenes.js); si no, hace lo de siempre.
+// con drawFace (escenas/escenas2d.ts); si no, hace lo de siempre.
 ponThing(function(k: Cosa,x: number,y: number,s: number){if(typeof k==='string'&&k.startsWith('emo:')){drawFace(x,y,s*.44,k.slice(4));return}_thing0(k,x,y,s)});
 // Como thing(), pero si flip es verdadero dibuja la cosa reflejada (mirando
 // al otro lado).
@@ -406,7 +406,7 @@ export function Gira(cfg: Config, onDone: AlTerminar): Juego{
       ctx.save();ctx.translate(C.x+Math.cos(a)*(C.r+50),C.y+Math.sin(a)*(C.r+50));ctx.rotate(a+PI/2);pic('nene',0,0,120);ctx.restore();
       // sombra de la noche (lado derecho)
       ctx.save();ctx.beginPath();ctx.arc(C.x,C.y,C.r+110,-PI/2,PI/2);ctx.closePath();ctx.fillStyle='rgba(10,14,40,.55)';ctx.fill();ctx.restore();
-      // cartel del estado debajo de las estrellas de rondas y del cartel «Nivel» (scenes.js), que antes lo tapaban
+      // cartel del estado debajo de las estrellas de rondas y del cartel «Nivel» (escenas/escenas2d.ts), que antes lo tapaban
       const st=this.state();card(1260,214,300,96,'#fff',6,48);if(st==='dia'){pic('sol',1320,262,80);text('DÍA',1440,278,46,K,{f:LF})}else if(st==='noche'){pic('luna',1320,262,80);text('NOCHE',1450,278,42,K,{f:LF})}else text('...',1410,278,46,K)},
     // Toque cerca de la Tierra: empieza a girar; this.on guarda el ángulo del dedo.
     down(x,y){if(this.ok)return;if(dist(x,y,C.x,C.y)<C.r+120){this.on=Math.atan2(y-C.y,x-C.x);SFX.whoosh();setCursor('grab');VIVO.drag={it:this,gira:1}}},

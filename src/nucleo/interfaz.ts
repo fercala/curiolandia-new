@@ -49,7 +49,7 @@ export function drawHelp(): void{
 }
 /* adaptativo */
 // Dificultad adaptativa (no se guarda en S): ADAPT va de -1 (más fácil) a 1 (más difícil); streak cuenta aciertos a la
-// primera seguidos; REP = veces que ya se jugó este juego (0 a 2; lo pone la escena 'juego' de scenes.js).
+// primera seguidos; REP = veces que ya se jugó este juego (0 a 2; lo pone la escena 'juego' de escenas/escenas2d.ts).
 let streak=0;
 Object.assign(VIVO,{ADAPT:0,REP:0});
 // nOpts(): cuántas opciones enseñar en un juego (de 2 a 4): 2 a los 3 años y 3 a los 4 y 5, más ADAPT, y +1 al repetir.

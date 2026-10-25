@@ -73,11 +73,11 @@ export interface Estado {
   temas: Record<string, ProgresoTema>;
   stats: Record<string, Cuenta>;
   days: Record<FechaDia, number>;
-  asam: Record<FechaDia, { done?: number | boolean; age?: number; dia?: unknown; tiempo?: unknown; emo?: unknown }>;
+  asam: Record<FechaDia, { done?: number | boolean; age?: number; dia?: unknown; tiempo?: string; emo?: string }>;
   stk: Record<string, number>;
   album: unknown[];
   intro: boolean;
-  first: Record<string, number | boolean>;
+  first: Record<string, number | boolean | string>;
   seenFl: number;
   // DEF2 (tienda.js)
   coins?: number;
@@ -164,7 +164,7 @@ export interface Pista {
 
 /**
  * VIVO (pantalla.ts): estado de la partida en curso que no se guarda y que cambian varios archivos. Cada campo está
- * explicado donde se rellena (puntero.ts, voz.ts, escenas.ts, interfaz.ts, scenes.js y tienda.js).
+ * explicado donde se rellena (puntero.ts, voz.ts, escenas.ts, interfaz.ts, escenas/escenas2d.ts y tienda.js).
  */
 export interface Vivo {
   /** Puntero en la pantalla lógica de 1600x900; -9 si no hay. */
@@ -203,7 +203,7 @@ export interface Vivo {
   minuteAcc: number;
   /** Aviso de pegatina nueva, o null. */
   toast: AvisoPegatina | null;
-  /** Aviso del navegador para instalar la app, guardado para usarlo después (scenes.js). */
+  /** Aviso del navegador para instalar la app, guardado para usarlo después (escenas/escenas2d.ts). */
   deferredInstall: Libre | null;
   /** Cartel de monedas ganadas, o null (tienda.js). */
   coinBanner: Libre | null;
@@ -214,7 +214,8 @@ export interface Vivo {
  * del código global guarda sus propios campos (this.t, this.items...): de ahí el índice libre.
  */
 export interface Escena {
-  music?: string;
+  /** Clave de música de la escena; null = sin música. */
+  music?: string | null;
   three?: boolean;
   /** Momento T del último acierto, para el «pop» de la última estrella de drawRounds. */
   starPop?: number;

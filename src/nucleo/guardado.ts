@@ -18,10 +18,10 @@ import type { Estado, Volumenes } from './tipos.ts';
  *   hemi     'N' o 'S': hemisferio, para calcular la estación del año (estacionDe).
  *   vol      {voz, mus, fx}: volúmenes de 0 a 1 de la voz, la música y los efectos.
  *   limit    minutos de juego por sesión (0 = sin límite; 10, 15 o 20). Al llegar, Tito se va a dormir (escena 'dormir').
- *   temas    {idTema: {g: {númeroDeJuego: veces jugado}, done: 0/1}}: progreso de cada tema (scenes.js).
+ *   temas    {idTema: {g: {númeroDeJuego: veces jugado}, done: 0/1}}: progreso de cada tema (escenas/escenas2d.ts).
  *   stats    {habilidad: {ok, err}}: aciertos y fallos por habilidad (rec()); se ven en la zona de adultos.
  *   days     {'AAAA-MM-DD': minutos}: tiempo jugado cada día (se guardan los últimos 30; lo apunta frame() en adult.js).
- *   asam     {'AAAA-MM-DD': {done, age, dia, tiempo, emo}}: la asamblea de cada día (scenes.js).
+ *   asam     {'AAAA-MM-DD': {done, age, dia, tiempo, emo}}: la asamblea de cada día (escenas/escenas2d.ts).
  *   stk      {dibujo: cantidad}: pegatinas (figuritas) del álbum (giveSticker()).
  *   album    lista vacía que no usa ningún archivo (se conserva por compatibilidad).
  *   intro    true cuando ya se vio el cuento de bienvenida.

@@ -2,7 +2,7 @@
 // en su módulo. Al pasar a módulo cada archivo que lo usa, lo importará en vez de leerlo de aquí.
 // Son `const` aunque en su módulo algunos cambien (S, ctx, T, scene, go...): el código global los lee siempre al día,
 // pero no puede reasignarlos. tests/unidad/globales.test.ts comprueba que esta lista es exactamente la del puente: al
-// exportar algo nuevo en src/nucleo/, src/juegos/, src/temas/, src/contenido/cuentos.ts o src/dibujos/todos.ts, añade aquí su línea (la prueba dice cuál falta).
+// exportar algo nuevo en src/nucleo/, src/juegos/, src/temas/, src/contenido/cuentos.ts, src/escenas/escenas2d.ts o src/dibujos/todos.ts, añade aquí su línea (la prueba dice cuál falta).
 declare const GLASSES_SVG: typeof import('../dibujos/pics-base.ts').GLASSES_SVG;
 declare const HAND_SVG: typeof import('../dibujos/pics-base.ts').HAND_SVG;
 declare const K: typeof import('../dibujos/pics-base.ts').K;
@@ -357,3 +357,40 @@ declare const EnCuenta: typeof import('../temas/ingles.ts').EnCuenta;
 declare const ENG: typeof import('../temas/ingles.ts').ENG;
 declare const ING: typeof import('../temas/ingles.ts').ING;
 declare const CUENTOS: typeof import('../contenido/cuentos.ts').CUENTOS;
+declare const TEMAS: typeof import('../escenas/escenas2d.ts').TEMAS;
+declare const TEMA: typeof import('../escenas/escenas2d.ts').TEMA;
+declare const tst: typeof import('../escenas/escenas2d.ts').tst;
+declare const gDone: typeof import('../escenas/escenas2d.ts').gDone;
+declare const LOGO: typeof import('../escenas/escenas2d.ts').LOGO;
+declare const LOGOC: typeof import('../escenas/escenas2d.ts').LOGOC;
+declare const drawLogo: typeof import('../escenas/escenas2d.ts').drawLogo;
+declare const pill: typeof import('../escenas/escenas2d.ts').pill;
+declare const inR: typeof import('../escenas/escenas2d.ts').inR;
+declare const standalone: typeof import('../escenas/escenas2d.ts').standalone;
+declare const MZ: typeof import('../escenas/escenas2d.ts').MZ;
+declare const asamHoy: typeof import('../escenas/escenas2d.ts').asamHoy;
+declare const suggestTema: typeof import('../escenas/escenas2d.ts').suggestTema;
+declare const ponSuggestTema: typeof import('../escenas/escenas2d.ts').ponSuggestTema;
+declare const tree: typeof import('../escenas/escenas2d.ts').tree;
+declare const drawLogoSmall: typeof import('../escenas/escenas2d.ts').drawLogoSmall;
+declare const JPOS: typeof import('../escenas/escenas2d.ts').JPOS;
+declare const BANDC: typeof import('../escenas/escenas2d.ts').BANDC;
+declare const drawCasita: typeof import('../escenas/escenas2d.ts').drawCasita;
+declare const GNAME: typeof import('../escenas/escenas2d.ts').GNAME;
+declare const gIcon: typeof import('../escenas/escenas2d.ts').gIcon;
+declare const stationPos: typeof import('../escenas/escenas2d.ts').stationPos;
+declare const ponStationPos: typeof import('../escenas/escenas2d.ts').ponStationPos;
+declare const drawStation: typeof import('../escenas/escenas2d.ts').drawStation;
+declare const finishGame: typeof import('../escenas/escenas2d.ts').finishGame;
+declare const ponFinishGame: typeof import('../escenas/escenas2d.ts').ponFinishGame;
+declare const EMO: typeof import('../escenas/escenas2d.ts').EMO;
+declare const EMO_AGE: typeof import('../escenas/escenas2d.ts').EMO_AGE;
+declare const EMO_SAY: typeof import('../escenas/escenas2d.ts').EMO_SAY;
+declare const EMO_TIP: typeof import('../escenas/escenas2d.ts').EMO_TIP;
+declare const drawFace: typeof import('../escenas/escenas2d.ts').drawFace;
+declare const WX: typeof import('../escenas/escenas2d.ts').WX;
+declare const WX_AGE: typeof import('../escenas/escenas2d.ts').WX_AGE;
+declare const WX_ROPA: typeof import('../escenas/escenas2d.ts').WX_ROPA;
+declare const SEASON_NEXT: typeof import('../escenas/escenas2d.ts').SEASON_NEXT;
+declare const dayIdx: typeof import('../escenas/escenas2d.ts').dayIdx;
+declare const ALBUM_KEYS: typeof import('../escenas/escenas2d.ts').ALBUM_KEYS;
