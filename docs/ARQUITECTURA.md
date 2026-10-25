@@ -84,6 +84,7 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 | — | `dominio/progreso.ts` (la importa `nucleo/tito.ts`, así que se carga con el núcleo) | **Reglas de progreso y premios** (dominio, desde la fase 3b): estrellas, temas terminados, casa de Tito (`HOUSE_NEXT`), Pipo (`PET_NEXT`), habitaciones, niveles de la tienda (`TIER_NEED`), regalo del cofre (`GIFTS`) y cumpleaños. Pruebas en `tests/unidad/progreso.test.ts`. |
 | — | `dominio/monedas.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de las monedas** (dominio, desde la fase 3c): cuántas da cada cosa (`MONEDAS`), los aciertos (como mucho 5 por juego) y cómo se suman y se gastan (`ganar` y `gastar` devuelven el monedero nuevo). Pruebas en `tests/unidad/monedas.test.ts`. |
 | — | `dominio/repaso.ts` (la importa `escenas/repaso.ts`, así que se carga justo antes que ella) | **Reglas del repaso diario** (dominio, desde la fase 3d): qué juegos se pueden repasar (`NOREP`), cuáles cuestan (menos del 70 % de aciertos), cuáles hace más que no se juegan, cómo se eligen los 3 del día, cuándo se rehace el repaso, cuándo está terminado y cuándo toca (`REPASO`), y los últimos 6 juegos de cada habilidad. Pruebas en `tests/unidad/repaso.test.ts`. |
+| — | `dominio/dificultad.ts` (la importa `nucleo/guardado.ts`, así que se carga con el núcleo) | **Reglas de la dificultad** (dominio, desde la fase 3e): la edad que cuenta (`AGE`), cuántas opciones (`nOpts`) y rondas (`nRounds`) tiene un juego según la edad y las repeticiones (`VIVO.REP`), y la dificultad adaptativa (`VIVO.ADAPT`: sube con 4 aciertos seguidos a la primera y baja al fallar dos veces). Pruebas en `tests/unidad/dificultad.test.ts`. |
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
 | 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Las reglas del repaso, en `dominio/repaso.ts`. Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
 | 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
@@ -97,8 +98,8 @@ Three.js, sonido, voz ni `localStorage`, y no leen `S`: cada regla recibe lo que
 mapa) y devuelve la respuesta, sin escribir nada. Las escenas las usan a través de sus funciones de siempre y Vitest las
 prueba en milisegundos, con partidas inventadas (ver la arquitectura objetivo en [PLAN-MIGRACION.md](PLAN-MIGRACION.md)).
 Desde la 3a están las reglas de apertura (`dominio/apertura.ts`), desde la 3b las de progreso y premios
-(`dominio/progreso.ts`), desde la 3c las de las monedas (`dominio/monedas.ts`) y desde la 3d las del repaso diario
-(`dominio/repaso.ts`).
+(`dominio/progreso.ts`), desde la 3c las de las monedas (`dominio/monedas.ts`), desde la 3d las del repaso diario
+(`dominio/repaso.ts`) y desde la 3e las de la dificultad (`dominio/dificultad.ts`).
 
 Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 
@@ -109,7 +110,7 @@ como error). Para lo que varios archivos cambian hay dos vías:
 - **`VIVO`** (`nucleo/pantalla.ts`): el estado de la partida en curso que no se guarda. Son el puntero (`VIVO.MX`, `VIVO.MY`,
   `VIVO.mouseOn`, `VIVO.hovNow`...), la voz (`VIVO.talking`, `VIVO.sayTok`) y la escena (`VIVO.fade`, `VIVO.timers`,
   `VIVO.idle`, `VIVO.hintSaid`, `VIVO.drag`). También el candado (`VIVO.lockHold`...), la dificultad (`VIVO.ADAPT`,
-  `VIVO.REP`), el tiempo de juego (`VIVO.sessionT`, `VIVO.restAsked`, `VIVO.minuteAcc`) y los avisos (`VIVO.toast`,
+  `VIVO.REP`; sus reglas, en `dominio/dificultad.ts`), el tiempo de juego (`VIVO.sessionT`, `VIVO.restAsked`, `VIVO.minuteAcc`) y los avisos (`VIVO.toast`,
   `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
 - **Funciones `pon*`** para cambiar desde otro archivo una variable entera de un módulo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`

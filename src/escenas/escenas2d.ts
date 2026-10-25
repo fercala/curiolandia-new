@@ -50,7 +50,7 @@
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
  *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight),
- *   juegos/ (NUM) y src/dibujos/ (PICS, K). Usa openNameDlg y openResetDlg de
+ *   juegos/ (NUM), src/dibujos/ (PICS, K) y repeticion de dominio/dificultad.ts (VIVO.REP). Usa openNameDlg y openResetDlg de
  *   aplicacion/adultos.ts, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
  *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
@@ -62,6 +62,7 @@ import { K, PICS } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveSticker, go, hC, hR, hv, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, temasDone, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, dayNight, floor, makeGame } from '../temas/indice.ts';
+import { repeticion } from '../dominio/dificultad.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -452,7 +453,7 @@ export function ponFinishGame(f: typeof finishGame){finishGame=f}
 SCENES.juego={music:'game',
 // enter(o): REP = veces que ya se ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
 // Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces.
-  enter(o){this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=Math.min(2,tst(o.t).g[o.g]||0);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
+  enter(o){this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=repeticion(tst(o.t).g[o.g]);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
 // update(dt): pasa el tiempo al juego.
   update(dt){this.g.update&&this.g.update(dt)},
 // draw(): dibuja el juego, la casa, las estrellas de rondas (g.done de g.total), el cartel "Nivel N" al repetir y Tito.

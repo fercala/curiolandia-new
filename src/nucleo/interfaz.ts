@@ -3,11 +3,14 @@
 //   HOME, drawHome, atHome, drawRounds, drawLock, drawHelp; nOpts, onRight, ponOnRight, onWrongTwice, nRounds;
 //   giveSticker, drawSticker, drawToast; DIAS, DIASL, DIAC, MESES, ESTACIONES, estacionDe.
 //   VIVO.lockHold/lockDown/lockPrev, VIVO.ADAPT/REP, VIVO.sessionT/restAsked/minuteAcc y VIVO.toast.
-// onRight cambia (ponOnRight): desde fuera de este módulo solo se lee.
+// onRight cambia (ponOnRight): desde fuera de este módulo solo se lee. Las reglas de la dificultad (nOpts, nRounds,
+// onRight, onWrongTwice) están en dominio/dificultad.ts.
 import { K } from '../dibujos/todos.ts';
 import { card, circ, fillStroke, hand, rr, star, text } from './dibujo.ts';
 import { scene } from './escenas.ts';
 import { AGE, S, save } from './guardado.ts';
+import type { Adaptacion } from '../dominio/dificultad.ts';
+import { SIN_ADAPTAR, opciones, rondas, trasAcierto, trasDosFallos } from '../dominio/dificultad.ts';
 import { V } from './idioma.ts';
 import { pic, picG } from './imagenes.ts';
 import { ctx, T, VIVO } from './pantalla.ts';
@@ -50,19 +53,25 @@ export function drawHelp(): void{
 /* adaptativo */
 // Dificultad adaptativa (no se guarda en S): ADAPT va de -1 (más fácil) a 1 (más difícil); streak cuenta aciertos a la
 // primera seguidos; REP = veces que ya se jugó este juego (0 a 2; lo pone la escena 'juego' de escenas/escenas2d.ts).
-let streak=0;
-Object.assign(VIVO,{ADAPT:0,REP:0});
-// nOpts(): cuántas opciones enseñar en un juego (de 2 a 4): 2 a los 3 años y 3 a los 4 y 5, más ADAPT, y +1 al repetir.
-export function nOpts(): number{return clamp((({3:2,4:3,5:3} as Record<number,number>)[AGE()] as number)+VIVO.ADAPT+(VIVO.REP>=1?1:0),2,4)}
-// onRight(aLaPrimera): avisar de un acierto; 4 aciertos seguidos a la primera suben la dificultad.
+// Las reglas (cuántas opciones y rondas, cuándo sube o baja) están desde la fase 3e en dominio/dificultad.ts.
+let streak=SIN_ADAPTAR.racha;
+Object.assign(VIVO,{ADAPT:SIN_ADAPTAR.adapt,REP:0});
+// adaptacion(): la dificultad adaptativa de ahora (VIVO.ADAPT y streak), para pasársela a las reglas.
+const adaptacion=(): Adaptacion=>({adapt:VIVO.ADAPT,racha:streak});
+// adaptar(a): guarda la dificultad adaptativa nueva que devuelven las reglas en VIVO.ADAPT y streak.
+function adaptar(a: Adaptacion): void{VIVO.ADAPT=a.adapt;streak=a.racha}
+// nOpts(): cuántas opciones enseñar en un juego (de 2 a 4): 2 a los 3 años y 3 a los 4 y 5, más ADAPT, y +1 al repetir
+// (opciones).
+export function nOpts(): number{return opciones(AGE(),VIVO.ADAPT,VIVO.REP)}
+// onRight(aLaPrimera): avisar de un acierto; 4 aciertos seguidos a la primera suben la dificultad (trasAcierto).
 // Es let y no function porque escenas/tienda.ts la envuelve con ponOnRight.
-export let onRight=(first: unknown): void=>{if(first){streak++;if(streak>=4){VIVO.ADAPT=Math.min(1,VIVO.ADAPT+1);streak=0}}};
+export let onRight=(first: unknown): void=>adaptar(trasAcierto(adaptacion(),first));
 // ponOnRight(f): cambia onRight por otra función (escenas/tienda.ts la envuelve para dar monedas al acertar).
 export function ponOnRight(f: typeof onRight): void{onRight=f}
-// onWrongTwice(): avisar de que se falló dos veces; baja la dificultad.
-export function onWrongTwice(): void{VIVO.ADAPT=Math.max(-1,VIVO.ADAPT-1);streak=0}
-// nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición.
-export const nRounds=(): number=>(AGE()<=3?4:5)+(VIVO.REP>=2?1:0);
+// onWrongTwice(): avisar de que se falló dos veces; baja la dificultad (trasDosFallos).
+export function onWrongTwice(): void{adaptar(trasDosFallos(adaptacion()))}
+// nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición (rondas).
+export const nRounds=(): number=>rondas(AGE(),VIVO.REP);
 /* tiempo de juego */
 // sessionT: segundos jugados en esta sesión (para S.limit); restAsked: ya se propuso descansar; minuteAcc: segundos aún
 // no apuntados en S.days. Los usa frame() en aplicacion/adultos.ts.
