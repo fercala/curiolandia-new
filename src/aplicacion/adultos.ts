@@ -14,7 +14,8 @@
  * Exporta: openAdult, closeAdult, openNameDlg, openResetDlg, doReset, frame, bkEncode y bkDecode.
  * Importa: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
- * CAN, RUT, TRZ, FIESTAS, ING), escenas/tienda.ts (STARS, drawCoinFx) y escenas/zonas.ts (zoneOpen). Usa de mundo3d/mundo3d.ts, que va después, R3frame y
+ * CAN, RUT, TRZ, FIESTAS, ING), escenas/tienda.ts (STARS, drawCoinFx), escenas/zonas.ts (zoneOpen) y esPartida de
+ * dominio/partida.ts (la copia de seguridad). Usa de mundo3d/mundo3d.ts, que va después, R3frame y
  * window.__w3 (tipos en src/tardias.d.ts y nucleo/tipos.ts).
  * frame() la pone en marcha aplicacion/arranque.ts.
  */
@@ -25,6 +26,7 @@ import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ } from '../temas/in
 import { TEMA, TEMAS, dayIdx, gDone, standalone, suggestTema, tst } from '../escenas/escenas2d.ts';
 import { zoneOpen } from '../escenas/zonas.ts';
 import { STARS, drawCoinFx } from '../escenas/tienda.ts';
+import { esPartida } from '../dominio/partida.ts';
 
 // SKILL: nombre legible de cada habilidad de S.stats para la tabla "Cómo le va" ({clave: 'texto'}). Si una clave
 // no está, se muestra la clave con espacios. Al crear un juego con una habilidad nueva, añade aquí su nombre.
@@ -310,16 +312,18 @@ export async function bkEncode(){const j=JSON.stringify(S);
   if(typeof CompressionStream==='function'){try{const st=new Blob([j]).stream().pipeThrough(new CompressionStream('gzip'));return 'CURIO1.'+bk64(new Uint8Array(await new Response(st).arrayBuffer()))}catch(e){}}
   return 'CURIO0.'+bk64(new TextEncoder().encode(j))}
 // bkDecode(código): al revés que bkEncode. Acepta también el JSON tal cual (archivo descargado). Comprueba que parece una
-// partida (tiene temas, y es un objeto: ni null ni una lista) y devuelve el objeto; si no, lanza Error('formato') o Error('navegador').
+// partida (esPartida, de dominio/partida.ts: un objeto, ni null ni una lista, y con temas, que también lo es) y devuelve
+// el objeto; si no, lanza Error('formato') o Error('navegador'). La versión no se mira aquí: load() la pone al día.
 export async function bkDecode(code: string): Promise<Libre>{code=String(code||'').trim();let j: string;
   if(code.startsWith('{'))j=code;
   else{code=code.replace(/\s+/g,'');const m=code.match(/^CURIO([01])\.([A-Za-z0-9+/=]+)$/);if(!m)throw new Error('formato');const u=bkUn64(m[2]);
     if(m[1]==='1'){if(typeof DecompressionStream!=='function')throw new Error('navegador');j=await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('gzip'))).text()}
     else j=new TextDecoder().decode(u)}
-  const d=JSON.parse(j);if(!d||typeof d!=='object'||Array.isArray(d)||!d.temas||typeof d.temas!=='object'||Array.isArray(d.temas))throw new Error('formato');return d}
+  const d: unknown=JSON.parse(j);if(!esPartida(d)||!esPartida(d['temas']))throw new Error('formato');return d}
 // bkWire(q): conecta los botones de la sección "Copia de seguridad": ver código, copiarlo, descargar archivo .json,
 // recuperar desde código o archivo. Al recuperar, enseña un resumen y, si se confirma, escribe la copia directamente en
-// localStorage y recarga la página (load() de nucleo/guardado.ts la mezcla con DEF como cualquier partida guardada).
+// localStorage y recarga la página (load() de nucleo/guardado.ts la pone al día y la mezcla con DEF como cualquier
+// partida guardada).
 function bkWire(q: (s: string)=>HTMLInputElement){const msg=(h: string)=>{q('#a-bk-msg').innerHTML=h},ta=q('#a-bk-txt');
   q('#a-bk-code').onclick=async()=>{ta.value=await bkEncode();ta.select();msg('Este código tiene todo el progreso. Copialo y guardalo, por ejemplo mandándotelo por mensaje.')};
   q('#a-bk-copy').onclick=async()=>{if(!ta.value.startsWith('CURIO'))ta.value=await bkEncode();ta.select();let ok=false;try{await navigator.clipboard.writeText(ta.value);ok=true}catch(e){try{ok=document.execCommand('copy')}catch(e2){}}

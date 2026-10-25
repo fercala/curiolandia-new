@@ -2,9 +2,11 @@
 //   KEY, DEF, S, ponS(), sanoS(), sanoHondo(), save(), rec(), ponRec(), ymd(), today(), AGE().
 // S cambia (ponS, al borrar todo): desde fuera de este módulo solo se lee y se cambian sus campos. rec cambia con ponRec.
 // Al cargar el módulo se lee la partida (load) y se escucha el guardado de otras pestañas (evento storage).
-// Importa edadDe de dominio/dificultad.ts (AGE).
+// Importa edadDe de dominio/dificultad.ts (AGE) y la versión y las migraciones de la partida de dominio/partida.ts.
 import type { Estado, Volumenes } from './tipos.ts';
 import { edadDe } from '../dominio/dificultad.ts';
+import type { PartidaCruda } from '../dominio/partida.ts';
+import { VERSION_PARTIDA, esPartida, migrar } from '../dominio/partida.ts';
 
 /*
  * ESTADO GUARDADO S
@@ -29,6 +31,8 @@ import { edadDe } from '../dominio/dificultad.ts';
  *   intro    true cuando ya se vio el cuento de bienvenida.
  *   first    marcas de "primera vez": fromLetri (datos traídos de Letrilandia), askedName (ya se preguntó el nombre).
  *   seenFl   cuántas flores del caparazón de Tito ya se celebraron (para avisar solo de las nuevas).
+ *   ver      versión del formato de la partida (VERSION_PARTIDA, en dominio/partida.ts; desde la fase 3f). Las partidas
+ *            de antes no la llevan: al cargarlas, migrar() las pone al día y la apunta.
  *
  * Campos que añaden otros archivos al arrancar (si faltan en la partida, les ponen su valor por defecto):
  *   escenas/tienda.ts (DEF2): coins, coinsTot, gift, woke, home, tito {shell, scarf, hat, glasses, bow y kind}, owned,
@@ -40,7 +44,8 @@ import { edadDe } from '../dominio/dificultad.ts';
  * (ni su nombre, ni su tipo, ni lo que significan sus valores) ni la clave KEY. Para algo nuevo, añade un campo
  * nuevo y recuerda que en las partidas viejas NO estará: dale un valor por defecto (en DEF, en DEF2 de escenas/tienda.ts
  * o con "S.x||valor" al leerlo). Ojo: al cargar, Object.assign solo mezcla el primer nivel: dentro de un objeto
- * (salvo vol) no se añaden valores por defecto que falten.
+ * (salvo vol) no se añaden valores por defecto que falten. Si un formato tiene que cambiar sí o sí, se sube
+ * VERSION_PARTIDA y se añade su paso a MIGRACIONES (dominio/partida.ts; receta en docs/ESTADO-GUARDADO.md).
  */
 // KEY: clave de guardado de esta versión. KEY_VIEJA es la de curiolandia-3d, que se publica en el mismo dominio
 // (fercala.github.io) y por eso comparte localStorage: su partida se copia una sola vez (ver load()) y nunca se escribe.
@@ -48,14 +53,15 @@ import { edadDe } from '../dominio/dificultad.ts';
 export const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curiolandia-new.copiada';
 // DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (aplicacion/adultos.ts) también parte de aquí.
 // variant '' (aún sin elegir) y hemi 'N' llevan su tipo de Estado para que S (copia de DEF) sea un Estado.
-export const DEF={age:0,name:'',variant:'' as Estado['variant'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0};
+export const DEF={age:0,name:'',variant:'' as Estado['variant'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0,ver:VERSION_PARTIDA};
 // S empieza siendo una copia de DEF (JSON.parse(JSON.stringify(...)) hace una copia profunda) y load() la completa.
 export let S: Estado=JSON.parse(JSON.stringify(DEF)) as Estado;
 // ponS(nuevo): cambia la partida entera por otra (borrar todo en aplicacion/adultos.ts). Es la única forma de cambiar S desde otro
 // archivo; para cambiar un campo basta con S.campo = valor.
 export function ponS(nuevo: Estado): void{S=nuevo}
-// Una partida leída de localStorage (o de otra pestaña) antes de arreglarla: cualquier campo puede traer cualquier cosa.
-type Crudo=Record<string,unknown>;
+// Una partida leída de localStorage (o de otra pestaña) antes de arreglarla: cualquier campo puede traer cualquier cosa
+// (PartidaCruda, de dominio/partida.ts).
+type Crudo=PartidaCruda;
 // sanoS(d, def): arregla en el sitio los campos de una partida guardada d que no tienen el tipo de su valor por defecto
 // en def, para que una partida o copia rota no rompa el juego. Solo mira los campos que def tiene con un valor no null:
 //   - null o undefined: se borra (queda el valor por defecto);
@@ -93,7 +99,8 @@ export function sanoHondo<D extends object>(partida: D): D{const d=partida as Cr
   return partida}
 // conVol(d): la partida d (ya arreglada) lista para mezclar encima de S, con sus volúmenes completados con los de DEF.
 const conVol=(d: Crudo): Partial<Estado>=>Object.assign({},d,{vol:Object.assign({},DEF.vol,(d['vol']||{}) as Partial<Volumenes>)});
-// load(): se ejecuta una sola vez, al arrancar. Lee la partida guardada y la mezcla encima de DEF: lo que falte en una
+// load(): se ejecuta una sola vez, al arrancar. Lee la partida guardada, la pone al día (migrar, de dominio/partida.ts:
+// aplica las migraciones desde su versión y apunta la nueva en ver) y la mezcla encima de DEF: lo que falte en una
 // partida vieja queda con su valor por defecto; vol se mezcla aparte para no perder volúmenes nuevos. Antes, sanoS() quita
 // los campos con un tipo imposible (null, un nombre que no es texto...), que también quedan con su valor por defecto, y
 // sanoHondo() arregla lo que hay dentro de las colecciones (temas, home, vales...).
@@ -105,7 +112,7 @@ const conVol=(d: Crudo): Partial<Estado>=>Object.assign({},d,{vol:Object.assign(
 (function load(): void{
   let d: unknown=null; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
   if(!d)try{if(!localStorage.getItem(KEY_COPIA)){d=JSON.parse(localStorage.getItem(KEY_VIEJA)||'null');if(d)localStorage.setItem(KEY_COPIA,'1')}}catch(e){d=null}
-  if(d&&typeof d==='object'&&!Array.isArray(d)){const c=d as Crudo;sanoS(c,DEF);sanoHondo(c);if(c['vol'])sanoS(c['vol'] as Crudo,DEF.vol);S=Object.assign(S,conVol(c));return}
+  if(esPartida(d)){const c=migrar(d);sanoS(c,DEF);sanoHondo(c);if(c['vol'])sanoS(c['vol'] as Crudo,DEF.vol);S=Object.assign(S,conVol(c));return}
   // primera vez: si Letrilandia ya se jugó en este dispositivo, traemos nombre, edad, acento y volúmenes
   try{const l=JSON.parse(localStorage.getItem('letrilandia.v1')||'null') as {name?: string;age?: number;accent?: string;vol?: Partial<Volumenes>}|null;
     if(l){if(l.name)S.name=l.name;if(l.age)S.age=l.age;if(l.accent)S.variant=l.accent==='es'?'es':'ar';if(l.vol)S.vol=Object.assign({},DEF.vol,l.vol);S.first['fromLetri']=1}}catch(e){}
@@ -121,10 +128,10 @@ S.voz='nav';
 // no pasa nada: el juego sigue, pero sin guardar.
 export function save(): void{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 // Dos pestañas con el juego: cuando la otra guarda, el navegador avisa aquí (evento storage) y esta pestaña adopta
-// esa partida (pasada por sanoS/sanoHondo, como al cargar). Así su próximo save() no pisa con datos viejos lo que se
+// esa partida (puesta al día con migrar y pasada por sanoS/sanoHondo, como al cargar). Así su próximo save() no pisa con datos viejos lo que se
 // jugó en la otra (por ejemplo, cambiar el volumen aquí borraba una actividad terminada allí).
 addEventListener('storage',e=>{if(e.key!==KEY||!e.newValue)return;let d: unknown;try{d=JSON.parse(e.newValue)}catch(er){return}
-  if(!d||typeof d!=='object'||Array.isArray(d))return;const c=d as Crudo;sanoS(c,DEF);sanoHondo(c);Object.assign(S,conVol(c))});
+  if(!esPartida(d))return;const c=migrar(d);sanoS(c,DEF);sanoHondo(c);Object.assign(S,conVol(c))});
 // ymd(fecha): devuelve 'AAAA-MM-DD' (hora local). Es el formato de las claves de S.days, S.asam, S.gift...
 export const ymd=(d: Date): string=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 // today(): la fecha de hoy como 'AAAA-MM-DD'.
