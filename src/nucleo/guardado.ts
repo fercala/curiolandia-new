@@ -31,7 +31,7 @@ import type { Estado, Volumenes } from './tipos.ts';
  * Campos que añaden otros archivos al arrancar (si faltan en la partida, les ponen su valor por defecto):
  *   escenas/tienda.ts (DEF2): coins, coinsTot, gift, woke, home, tito {shell, scarf, hat, glasses, bow y kind}, owned,
  *                     vales, valesLog, bday, bdayDone, unlockAll, seenOpen, houseSeen, petSeen, cofres.
- *   repaso.js: kg {habilidad: [juegos donde sale]}, gs {'idTema#juego': {ok, err, d}} y rep (el repaso del día).
+ *   escenas/repaso.ts: kg {habilidad: [juegos donde sale]}, gs {'idTema#juego': {ok, err, d}} y rep (el repaso del día).
  *   Sueltos (pueden no existir): voz ('' o 'fer'), quiet3 (1 = Tito no comenta el paisaje 3D), last (último tema abierto).
  *
  * REGLA DE ORO: hay partidas guardadas en los móviles. Nunca cambies de forma incompatible un campo que ya existe
@@ -128,9 +128,9 @@ export const ymd=(d: Date): string=>d.getFullYear()+'-'+String(d.getMonth()+1).p
 // today(): la fecha de hoy como 'AAAA-MM-DD'.
 export const today=(): string=>ymd(new Date());
 // rec(habilidad, acierto): suma un acierto (ok verdadero) o un fallo en S.stats[habilidad] y guarda.
-// repaso.js la envuelve para apuntar además el resultado por juego (S.gs, S.kg).
+// escenas/repaso.ts la envuelve para apuntar además el resultado por juego (S.gs, S.kg).
 export let rec=(k: string,ok: unknown): void=>{const s=S.stats[k]||(S.stats[k]={ok:0,err:0});if(ok)s.ok++;else s.err++;save()};
-// ponRec(f): cambia rec por otra función (repaso.js la envuelve para apuntar también los fallos de cada juego).
+// ponRec(f): cambia rec por otra función (escenas/repaso.ts la envuelve para apuntar también los fallos de cada juego).
 export function ponRec(f: typeof rec): void{rec=f}
 // AGE(): edad elegida (3, 4 o 5); si aún no se eligió, 3.
 export const AGE=(): number=>S.age||3;

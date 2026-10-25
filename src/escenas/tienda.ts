@@ -4,8 +4,8 @@
 //   finishGame); se gastan en SCENES.tienda; lo comprado se ve en Tito (titoImg, drawTitoWear) o en SCENES.casaTito.
 //   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en escenas/zonas.ts, pero usan SHOP, wear y placeHome.
 //   Los vales los configura un adulto en adult.js (S.vales) y se compran aquí (quedan apuntados en S.valesLog).
-// Desde la fase 2l es un módulo: escenas/indice.ts lo carga el último, después de zonas.ts, y el puente deja lo que
-//   exporta en globalThis para repaso.js, adult.js y world3d.js (código global) y para las pruebas. Los módulos que van
+// Desde la fase 2l es un módulo: escenas/indice.ts lo carga después de zonas.ts, y el puente deja lo que exporta en
+//   globalThis para adult.js y world3d.js (código global) y para las pruebas (escenas/repaso.ts lo importa). Los módulos que van
 //   antes (zonas.ts, temas/, nucleo/guardado.ts...) lo usan como global, con los tipos de src/tardias.d.ts.
 // Define: DEF2, VALES_DEF, shownCoins/coinFx/coinBanner (animación de monedas), hudAt, spendCoins, HATPOS, titoHouseIc,
 //   SHOPCAT, TIER_NEED, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,

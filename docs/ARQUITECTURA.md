@@ -80,9 +80,9 @@ importar de otros módulos, nunca del código global.
 | 8 | `temas/ingles.ts` (antes `ingles.js`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
 | 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo, el último que carga `modulos.ts`) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
 | 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
-| 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`, la última de todos los módulos) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
-| 12 | `repaso.js` | Primer archivo global. Estadísticas por habilidad y repaso diario. |
-| 13 | `adult.js` | Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
+| 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
+| 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`, la última de todos los módulos) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
+| 13 | `adult.js` | Primer archivo global. Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
 | 14 | `world3d.js` | **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
 | 15 | `boot.js` | Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `tipos/estado.d.ts`, `tipos/globales.d.ts`, `tipos/puente.d.ts` | Tipos del estado `S`, de los temas, de lo que hay en `window` y del puente, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
@@ -159,7 +159,7 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 | `asamblea` | escenas/escenas2d.ts + escenas/zonas.ts | La rutina diaria (día, tiempo, emociones, cumpleaños) |
 | `tienda`, `casaTito` | escenas/tienda.ts | Tienda (con páginas) y casa de Tito (2D) con siete habitaciones (`ROOMS`) que se abren con las casitas terminadas |
 | `album` | escenas/escenas2d.ts | Álbum de pegatinas |
-| `repaso` | repaso.js | Repaso diario |
+| `repaso` | escenas/repaso.ts | Repaso diario |
 | `dormir` | escenas/escenas2d.ts | Fin del tiempo de juego |
 
 ### Capas: cómo se "reescriben" las escenas
@@ -177,7 +177,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 ```
 
 - `escenas/zonas.ts` reescribe el mapa y la casita de `escenas/escenas2d.ts` (la versión de `escenas/escenas2d.ts` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
-- `escenas/tienda.ts` envuelve `SCENES.juego` y `finishGame` (monedas); `repaso.js` envuelve `rec`, `finishGame`, la casita y el mapa.
+- `escenas/tienda.ts` envuelve `SCENES.juego` y `finishGame` (monedas); `escenas/repaso.ts` envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa.
 - `world3d.js` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 
 **Consecuencia práctica**: antes de cambiar una escena, busca en todos los archivos quién la envuelve (`grep -n "SCENES.casita" src/*.js`). El comportamiento final es el de la última capa.

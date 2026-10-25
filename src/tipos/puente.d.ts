@@ -471,3 +471,4 @@ declare const placeHome: typeof import('../escenas/tienda.ts').placeHome;
 declare const HSIZE: typeof import('../escenas/tienda.ts').HSIZE;
 declare const homeItems: typeof import('../escenas/tienda.ts').homeItems;
 declare const roomBtns: typeof import('../escenas/tienda.ts').roomBtns;
+declare const REP_ON: typeof import('../escenas/repaso.ts').REP_ON;

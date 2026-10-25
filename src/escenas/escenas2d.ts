@@ -26,14 +26,14 @@
  *       una vez a scene.prompt() para repetir la consigna en voz alta.
  *
  * Desde la fase 2j es un módulo: src/modulos.ts lo carga el último (usa los
- * temas) y el puente deja lo que exporta en globalThis para repaso.js, adult.js y
- * world3d.js, que aún son código global (escenas/zonas.ts y escenas/tienda.ts lo importan).
+ * temas) y el puente deja lo que exporta en globalThis para adult.js y world3d.js,
+ * que aún son código global (escenas/zonas.ts, escenas/tienda.ts y escenas/repaso.ts lo importan).
  *
  * OJO: escenas/zonas.ts (que va DESPUÉS) reescribe varias cosas de
  * este archivo: SCENES.map (enter, prompt, hint, dwell, draw, down),
  * SCENES.casita (enter, prompt, hint, draw, down), SCENES.jardin (la
  * sustituye entera por zoneScene('jardin')), y cambia suggestTema y
- * stationPos con ponSuggestTema y ponStationPos (escenas/tienda.ts y repaso.js
+ * stationPos con ponSuggestTema y ponStationPos (escenas/tienda.ts y escenas/repaso.ts
  * envuelven finishGame con ponFinishGame).
  * Y world3d.js vuelve a envolver map, casita, cofre, title y las zonas
  * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
@@ -399,7 +399,7 @@ export function drawStation(t: Tema,j: number,x: number,y: number,o: Libre={}){
 }
 // CASITA DE UN TEMA: las estaciones de sus juegos. Se entra con go('casita', {t: id del tema, hello?, fin?}).
 // OJO: escenas/zonas.ts reescribe enter, prompt, hint, draw y down (juegos en camino con candados, y si o.fin va al cofre);
-// de aquí sigue valiendo dwell. Luego world3d.js y repaso.js la vuelven a envolver.
+// de aquí sigue valiendo dwell. Luego world3d.js y escenas/repaso.ts la vuelven a envolver.
 SCENES.casita={music:'casita',
 // enter(o): guarda en S.last el último tema visitado. Si viene de terminar el tema (o.fin) lo celebra con figurita;
 // si no, saluda. (Sustituido en escenas/zonas.ts.)
@@ -443,7 +443,7 @@ export let finishGame: (t: Tema, gi: number) => void=function(t,gi){
   if(first){const pool=(t.words||[]).map((w: Libre)=>w.k).filter((k: string)=>k&&PICS[k]&&!S.stk[k]);giveSticker(pool.length?pick(pool):(gIcon(t.games[gi],t).length>4&&PICS[gIcon(t.games[gi],t)]?gIcon(t.games[gi],t):t.icon))}
   sayQ(pick(['¡Lo lograste! ¡Ganaste una estrella!','¡Muy bien'+kid()+'! ¡Una estrella más!','¡Bravo! ¡Terminaste el juego!']),()=>later(600,()=>go('casita',{t:t.id,fin})));// espera a que acabe la última felicitación del juego
 }
-// ponFinishGame(f): cambia finishGame por otra función (escenas/tienda.ts y repaso.js la envuelven).
+// ponFinishGame(f): cambia finishGame por otra función (escenas/tienda.ts y escenas/repaso.ts la envuelven).
 export function ponFinishGame(f: typeof finishGame){finishGame=f}
 // JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con

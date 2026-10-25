@@ -192,7 +192,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
    }
    ```
 2. Reglas: `done` debe llegar a `total`; `onDone()` una sola vez; usa `later` y no `setTimeout`; para arrastrar usa `VIVO.drag` (ver `Arrastra`).
-3. Si no se debe usar en el repaso diario (no tiene aciertos y fallos), añade su `t` a `NOREP` en repaso.js.
+3. Si no se debe usar en el repaso diario (no tiene aciertos y fallos), añade su `t` a `NOREP` en escenas/repaso.ts.
 4. Úsalo en un tema con `make:(d,t)=>MiTipo({...}, d)` y ponle nombre en `GNAME` (escenas/zonas.ts) o con `name`.
 
 ## 7. Un cuento
