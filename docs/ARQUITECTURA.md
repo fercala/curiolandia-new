@@ -75,8 +75,8 @@ importar de otros módulos, nunca del código global.
 | 3 | `contenido/lex.ts` (antes `lex.js`) | **Vocabulario** (módulo, se carga después del núcleo): nombres de las cosas (`LEX`, `LEX2`), sonidos de animales (`SOUNDS`, `ONO`) y más cambios del español rioplatense al de España (`_tuRe`). Solo añade cosas al núcleo; no exporta nada. |
 | 4 | `juegos/comps.ts`, `juegos/comps2.ts` (antes `comps.js` y `comps2.js`; `juegos/indice.ts` los junta) | **Componentes de juego** (módulos): el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
 | 5 | `temas/temas.ts`, `temas4.ts`, `temas5.ts` (antes `temas.js`, `temas4.js` y `temas5.js`; `temas/indice.ts` los junta) | **Contenido** (módulos): los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas/temas.ts` también tiene `makeGame`. |
-| 6 | `cuentos.js` | Primer archivo global. Los cuentos ilustrados de cada tema (`CUENTOS`). |
-| 7 | `extras.js` | Canciones (`CAN`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). |
+| 6 | `contenido/cuentos.ts` (antes `cuentos.js`; tipos en `contenido/tipos.ts`) | **Cuentos** (módulo, solo datos): los cuentos ilustrados de cada tema (`CUENTOS`), que lee `Story`. |
+| 7 | `extras.js` | Primer archivo global. Canciones (`CAN`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). |
 | 8 | `ingles.js` | El Rincón del inglés (`EN`, `ING`, juegos `EnConocer`, `EnEscucha`...). |
 | 9 | `scenes.js` | **Escenas 2D** originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
 | 10 | `zonas.js` | Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `scenes.js`. Cofre y regalos (`GIFTS`). |

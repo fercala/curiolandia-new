@@ -1,8 +1,9 @@
 /* ================= CUENTOS: un cuento ilustrado por tema, narrado por Tito ================= */
 // ==========================================================================
-// cuentos.js: un cuento ilustrado por cada tema de 3, 4 y 5 años, narrado por Tito.
+// contenido/cuentos.ts (antes cuentos.js): un cuento ilustrado por cada tema de 3, 4 y 5 años, narrado por Tito.
 // ==========================================================================
-// Solo DATOS: no tiene funciones. Define la global CUENTOS.
+// Solo DATOS: no tiene funciones. Desde la fase 2g es un módulo que exporta CUENTOS; el puente de src/modulos.ts
+// la deja en globalThis para extras.js, que aún es código global. Sus tipos están en contenido/tipos.ts.
 // Quién lo usa: extras.js recorre T3, T4 y T5 y, si CUENTOS[tema.id] existe, añade al FINAL de
 // los juegos del tema {t:'cuento', icon:'libro', name:'El cuento'}; al abrir ese juego llama a
 // Story(CUENTOS[tema.id], {}, onDone) (juegos/comps2.ts), que pasa las páginas y luego hace las preguntas.
@@ -28,7 +29,8 @@
 // ¡No cambies ningún texto de say, title, q ni okSay: todos tienen MP3 grabado!
 // Las frases nuevas se escriben en castellano de España y se apuntan para grabarlas.
 // ==========================================================================
-const CUENTOS={
+import type { Cuento } from './tipos.ts';
+export const CUENTOS: Readonly<Record<string, Cuento>>={
 
 /* ---------------- 3 AÑOS: EL JARDÍN ---------------- */
 '3A-T1':{title:'La mochila de Teo',
@@ -72,7 +74,7 @@ const CUENTOS={
      say:'Con el rojo pintó una frutilla y un tomate. Con el azul, ¡una ballena enorme!'},
     {bg:'colores',items:[['sol',480,320,170],['banana',500,610,170],['rana',880,580,220],['hoja',1250,520,190]],
      say:'Con el amarillo pintó el sol y una banana. Con el verde, una rana y una hoja.'},
-    {bg:'colores',items:[['nene',560,540,330],['rana',960,450,220,1],['hoja',1260,640,150]],
+    {bg:'colores',items:[['nene',560,540,330],['rana',960,450,220,true],['hoja',1260,640,150]],
      say:'¡Sorpresa! La rana verde saltó del papel, ¡croac!, y se fue a pasear. ¡Nico se rió un montón!'}
   ],
   qs:[
@@ -614,7 +616,7 @@ const CUENTOS={
      say:['Primero llegaron al desierto: arena y mucho calor. Allí vivía el camello, que aguanta muchos días sin tomar agua.','Primero llegaron al desierto: arena y mucho calor. Allí vivía el camello, que aguanta muchos días sin beber agua.']},
     {bg:'mar',items:[['ballena',720,440,340],['pulpo',1200,600,240]],
      say:'Después volaron sobre el mar. Una ballena les tiró un chorro de agua, ¡fsss!, y un pulpo los saludó con sus ocho brazos.'},
-    {bg:'polo',items:[['pinguino',640,560,300],['pinguino',940,580,250,1],['hielo',1250,640,190]],
+    {bg:'polo',items:[['pinguino',640,560,300],['pinguino',940,580,250,true],['hielo',1250,640,190]],
      say:'En el Polo Sur todo era hielo. Allí vivían los pingüinos, abrigados con plumas y una capa de grasa. ¡Ni se enteraban del frío!'},
     {bg:'bosque',items:[['arbol',600,470,340],['buho',620,380,140],['lobo',1050,560,300],['luna',1330,270,160]],
      say:'Ya de noche, pasaron por el bosque. Un búho de ojos enormes veía todo en la oscuridad, y un lobo le aullaba a la luna: ¡auuu!'},

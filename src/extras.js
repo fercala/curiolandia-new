@@ -10,7 +10,7 @@
 //   costumeZone, freeDeco, FIESTAS. Añade palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento.
 // Envuelve: makeGame (temas/temas.ts) para los tipos 'cuento' y 'cancion'.
 // Depende de: temas/ (temas.ts, temas4.ts y temas5.ts) (T3, T4, T5, BG, DIASL, MESES, ESTS, COLORES, swatch, dayCard, monthCard,
-//   makeGame), juegos/comps.ts y juegos/comps2.ts (componentes, Song, panel, germ, pathPts), cuentos.js (CUENTOS, Story), el núcleo (src/nucleo/).
+//   makeGame), juegos/comps.ts y juegos/comps2.ts (componentes, Song, panel, germ, pathPts), contenido/cuentos.ts (CUENTOS), Story, el núcleo (src/nucleo/).
 /* ================= CANCIONES ================= */
 // Letra de la canción de los días (lunes a domingo). Un elemento lista es [rioplatense, España].
 const DLYR=[['Lunes, empieza la semana.','Lunes, empieza la semana.'],'Martes, jugamos con ganas.','Miércoles, ¡ya estamos en la mitad!','Jueves, ¡qué bien se está!',['Viernes, último día de escuela.','Viernes, último día de cole.'],'Sábado, ¡a jugar y a pasear!','Domingo, en familia a descansar.'];
@@ -179,7 +179,7 @@ Object.assign(LEX,{bloques:'los bloques',trenJuguete:'el trencito'});
 // Añade a cada tema por edad (T3, T4, T5) que tenga cuento en CUENTOS un juego "El cuento" al final (si no lo tiene ya).
 /* ---------- cuentos y canciones como juegos ---------- */
 for(const t of[...T3,...T4,...T5])if(typeof CUENTOS!=='undefined'&&CUENTOS[t.id]&&!t.games.some(g=>g.t==='cuento'))t.games.push({t:'cuento',icon:'libro',name:'El cuento'});
-// Envuelve makeGame(g, t, onDone): los juegos 'cuento' abren el cuento del tema (Story, cuentos.js) y los 'cancion'
+// Envuelve makeGame(g, t, onDone): los juegos 'cuento' abren el cuento del tema (Story, con CUENTOS de contenido/cuentos.ts) y los 'cancion'
 // crean el componente Song con la canción g.song; los demás tipos siguen igual.
 const _makeGame0=makeGame;
 ponMakeGame(function(g,t,onDone){

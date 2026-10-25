@@ -25,10 +25,11 @@
 // src/dibujos/. Usa también drawFace, inR (scenes.js) y BG (temas/temas.ts), que son
 // código global que se carga después: solo se usan al jugar, cuando ya existen
 // (sus tipos, en src/tardias.d.ts). Los datos de Story y Song (CUENTOS,
-// SONGS) llegan como parámetro.
+// SONGS) llegan como parámetro; el tipo de un cuento está en contenido/tipos.ts.
 // ============================================================================
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
+import type { Cuento, PaginaCuento } from '../contenido/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import { AC, AGE, DIAC, H, LF, PI, SFX, T, V, VIVO, W, Wn, ala, back, burst, cap, card, circ, clamp, ctx, dist, fillStroke, hC, hR, hand, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sky, sparkles, star, svgImg, text, tone, tx } from '../nucleo/indice.ts';
 import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, nameT, ponThing, thing } from './comps.ts';
@@ -622,10 +623,10 @@ export function Song(cfg: Config, onDone: AlTerminar): Juego{
 // COMPONENTE Story (cuento ilustrado con preguntas). Fase 'read': pasa las
 // páginas leyéndolas (solas o con la flecha). Fase 'quiz': preguntas con
 // tarjetas como ChoiceGame. Una estrella por pregunta acertada.
-// data (de CUENTOS en cuentos.js): {title, pages: [{bg: nombre de BG, say:
+// data (de CUENTOS en contenido/cuentos.ts; tipo Cuento de contenido/tipos.ts): {title, pages: [{bg: nombre de BG, say:
 // texto, items: [[clave, x, y, tamaño, reflejar]]}], qs: [{q: pregunta,
 // opts: claves, ok: la correcta, okSay}]}. cfg no se usa.
-export function Story(data: Libre,_cfg: Config,onDone: AlTerminar): Juego{
+export function Story(data: Cuento,_cfg: Config,onDone: AlTerminar): Juego{
   const P=data.pages,Q=data.qs||[];
   return {total:Q.length,done:0,ph:'read',pi:0,
     // Empieza por la primera página.
@@ -645,7 +646,7 @@ export function Story(data: Libre,_cfg: Config,onDone: AlTerminar): Juego{
     hint(){if(this.ph==='quiz'){const it=this.items.find((i: Libre)=>i.ok&&!i.win);return it?{x:it.x,y:it.y,r:it.s*.6}:null}return this.said?{x:1470,y:470,r:70}:null},
     // Dibuja el fondo de la página p y sus dibujos balanceándose; yo y sc
     // desplazan y escalan en vertical respecto al centro.
-    drawPage(p: Libre,yo=0,sc=1){(BG[p.bg]||BG.conceptos)();for(const it of p.items||[]){const [k,x,y,s,f]=it;const b=Math.sin(T*2+x*.01)*5;picF(k,x,(y-470)*sc+470+yo+b,s*sc,f)}},
+    drawPage(p: PaginaCuento,yo=0,sc=1){(BG[p.bg]||BG.conceptos)();for(const it of p.items||[]){const [k,x,y,s,f]=it;const b=Math.sin(T*2+x*.01)*5;picF(k,x,(y-470)*sc+470+yo+b,s*sc,f)}},
     // Lectura: página (con fundido al entrar), puntitos de página, flecha y
     // título. Preguntas: fondo tenue, cartel con libro y '?', y las opciones.
     draw(){if(this.ph==='read'){const p=P[this.pi],k=clamp((T-this.pT)*3,0,1);ctx.globalAlpha=1;this.drawPage(p);if(k<1){ctx.fillStyle=`rgba(255,246,230,${1-k})`;ctx.fillRect(0,0,W,H)}

@@ -197,7 +197,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 
 ## 7. Un cuento
 
-1. Añade una entrada en `CUENTOS` (cuentos.js) con la clave del `id` del tema:
+1. Añade una entrada en `CUENTOS` (`src/contenido/cuentos.ts`, con el tipo `Cuento` de `contenido/tipos.ts`) con la clave del `id` del tema:
    ```js
    '4A-T13':{title:'La orquesta de Tito',
      pages:[
@@ -205,7 +205,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
        {bg:'fiesta',items:[['nene',560,540,330],['tambor',920,620,200]],say:'Después tocó el tambor: ¡pum, pum!'}],
      qs:[{q:'¿Qué encontró Pablo?',ok:'guitarra',opts:['guitarra','pelota'],okSay:'¡La guitarra!'}]},
    ```
-   `bg` es un nombre de `BG`; `items` son `[dibujo, x, y, tamaño]` en la pantalla de 1600x900; `ok` y `opts` son dibujos.
+   `bg` es un nombre de `BG`; `items` son `[dibujo, x, y, tamaño]` en la pantalla de 1600x900 (con un quinto valor `true`, el dibujo mira al otro lado); `ok` y `opts` son dibujos.
 2. Se añade solo como último juego del tema (solo en `T3`, `T4`, `T5`).
 3. **Frases que hay que grabar** (el componente `Story` las junta así):
    - primera página: `'Escucha el cuento: ' + título + '. ' + say` (una sola frase);
