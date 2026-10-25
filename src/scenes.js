@@ -42,7 +42,7 @@
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle...), nucleo/idioma.ts (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
- *   extras.js (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
+ *   temas/extras.ts (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
  *   juegos/ (makeGame), src/dibujos/ (PICS) y nucleo/imagenes.ts (pic), tienda.js / adult.js
  *   (drawTito, TITO, inTito, drawHome/atHome en core).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
@@ -55,7 +55,7 @@
 // Cada escena: {music: clave de música o null, enter(o), update(dt), draw(), down(x,y), move(x,y), up(x,y),
 // hint() -> {x,y,r} o null, prompt() (repite la consigna), dwell(id) (dice el nombre de lo que hay bajo el ratón)}.
 // Cada tema guarda en t.zone a qué zona del mapa pertenece (3 años -> jardín, 4 -> bosque, 5 -> montaña).
-// Los temas de extras.js, fiestas e inglés ya traen su propia zone ('extras', 'fiestas', 'ingles').
+// Los temas de temas/extras.ts, fiestas e inglés ya traen su propia zone ('extras', 'fiestas', 'ingles').
 [...T3,C3].forEach(t=>t.zone='jardin');[...T4,C4].forEach(t=>t.zone='bosque');[...T5,C5].forEach(t=>t.zone='montana');
 // TEMAS: lista de todos los temas en orden. TEMA: el mismo tema buscado por su id (TEMA['3A-T1']).
 // Formato de un tema (ver temas/temas.ts): {id, n: nombre, icon: dibujo, c: color, zone, games: [{t: tipo de juego, ...}],

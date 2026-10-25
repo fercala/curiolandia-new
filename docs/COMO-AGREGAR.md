@@ -122,7 +122,7 @@ En la lista `games` del tema:
   ```
   `d` es la función que avisa de que el juego ha terminado: pásala siempre como segundo argumento. `t` (el campo) debe ser único dentro del tema.
 
-**Cuidado con el progreso guardado:** se guarda por posición. Añade el juego **al final**. Pero si el tema tiene cuento en `CUENTOS`, `extras.js` añade el cuento al final automáticamente, y tu juego nuevo le quitaría su posición. En ese caso escribe el cuento a mano como último juego actual y pon el tuyo detrás:
+**Cuidado con el progreso guardado:** se guarda por posición. Añade el juego **al final**. Pero si el tema tiene cuento en `CUENTOS`, `temas/extras.ts` añade el cuento al final automáticamente, y tu juego nuevo le quitaría su posición. En ese caso escribe el cuento a mano como último juego actual y pon el tuyo detrás:
 ```js
 games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tuJuego', ...} ]
 ```
@@ -239,9 +239,9 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 
 ## 10. Canciones, rutinas, trazos, fiestas e inglés
 
-Todo está en `extras.js` e `ingles.js`. Resumen (detalle en los comentarios de cada archivo):
+Todo está en `temas/extras.ts` e `ingles.js`. Resumen (detalle en los comentarios de cada archivo):
 
-- **Canción**: melodía en `TUNES` (juegos/comps2.ts) → letra en `SONGS` (extras.js) → juego `{t:'cancion', song:'nombre', icon, name}` en `CAN.games`.
+- **Canción**: melodía en `TUNES` (juegos/comps2.ts) → letra en `SONGS` (temas/extras.ts) → juego `{t:'cancion', song:'nombre', icon, name}` en `CAN.games`.
 - **Rutina**: viñetas en `RP` con `panel(...)` → juego con `Secuencia` en `RUT.games`.
 - **Trazo**: nivel nuevo al final de `TRZ_L()` y subir el número de niveles en `TRZ` (con su icono y nombre).
 - **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaNow()` (zonas.js).

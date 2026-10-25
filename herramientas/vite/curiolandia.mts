@@ -15,7 +15,6 @@ import type { Plugin, ResolvedConfig } from 'vite';
 // (antes pics-*.js, al principio), core.js, lex.js, comps.js, comps2.js y los temas ya son módulos: src/dibujos/,
 // src/nucleo/, src/contenido/, src/juegos/ y src/temas/.
 export const ARCHIVOS = [
-  'extras.js',
   'ingles.js', 'scenes.js', 'zonas.js', 'tienda.js', 'repaso.js', 'adult.js', 'world3d.js', 'boot.js',
 ] as const;
 

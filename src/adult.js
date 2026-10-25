@@ -11,7 +11,7 @@
  * Globales que define: SKILL, esc, openAdult, closeAdult, openNameDlg, openResetDlg, doReset, toLogical, dlgOpen,
  * isPortrait, hoverTick, frame, window.__cl (para pruebas automáticas), bkEncode, bkDecode.
  * Depende de: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), scenes.js (tst, gDone,
- * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas*.js/extras.js/ingles.js (T3, C3, T4, C4, T5, C5,
+ * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts)/ingles.js (T3, C3, T4, C4, T5, C5,
  * CAN, RUT, TRZ, FIESTAS, ING), tienda.js (STARS, drawCoinFx), zonas.js (zoneOpen) y world3d.js (R3frame, __w3).
  * frame() la arranca boot.js.
  */

@@ -13,7 +13,7 @@
 // grifos), Frota (frotar para limpiar), Llena (meter N cosas), Velas (soplar
 // velas), Gira (girar la Tierra), Semaforo, Cruce (derecha/izquierda), Tracer
 // (seguir un trazo), Song (canción) y Story (cuento con preguntas; lo crea
-// extras.js para {t:'cuento'}).
+// temas/extras.ts para {t:'cuento'}).
 // MÓDULO (desde la fase 2e): exporta además IMGS, shadowOf, picS, picF, numCard,
 // arrowBtn, refCard, panel, germ, pathPts, NOTE, TUNES, playTune y sceneTokBump
 // (el puente de src/modulos.ts los deja en globalThis para el código global).
@@ -582,7 +582,7 @@ export function playTune(t: Cosa,bpm=150,v=.28){if(!AC)return;let d=0;const b=60
 // orden de la canción (mode 'orden') o la que pide Tito (mode 'pedido').
 // cfg.lines: [{say: verso, k o draw: dibujo, n: nombre que pide, n2: lo que se
 // dice al acertar}]; tune (nombre en TUNES), intro, ask2, okAll, cols, s, key, bg.
-// Lo crea extras.js para {t:'cancion'} con los datos de SONGS.
+// Lo crea temas/extras.ts para {t:'cancion'} con los datos de SONGS.
 export function Song(cfg: Config, onDone: AlTerminar): Juego{
   const L=cfg.lines,n=L.length,cols=cfg.cols||Math.min(n,7),rows=Math.ceil(n/cols),s=Math.min(cfg.s||190,1200/cols-24,560/rows-30);
   L.forEach((l: Libre,i: number)=>{const r=Math.floor(i/cols),c=i%cols,inRow=Math.min(cols,n-r*cols);l.x=900-(inRow-1)*(s+24)/2+c*(s+24);l.y=470-(rows-1)*(s+40)/2+r*(s+40);l.s=s;l.jump=-9});
