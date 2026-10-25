@@ -8,14 +8,14 @@
 // (contenido/lex.ts, antes lex.js: no exporta nada, solo añade palabras y sonidos al núcleo). Por último, los
 // componentes de juego (juegos/indice.ts, antes comps.js y comps2.js) y los temas que los usan (temas/indice.ts,
 // antes temas.js, temas4.js y temas5.js). Luego los cuentos (contenido/cuentos.ts, antes cuentos.js: solo datos) y, al
-// final, las escenas 2D (escenas/escenas2d.ts, antes scenes.js), que usan los temas.
+// final, las escenas (escenas/indice.ts: escenas2d.ts y zonas.ts, antes scenes.js y escenas/zonas.ts), que usan los temas.
 import * as dibujos from './dibujos/todos.ts';
 import * as nucleo from './nucleo/indice.ts';
 import './contenido/lex.ts';
 import * as juegos from './juegos/indice.ts';
 import * as temas from './temas/indice.ts';
 import * as cuentos from './contenido/cuentos.ts';
-import * as escenas from './escenas/escenas2d.ts';
+import * as escenas from './escenas/indice.ts';
 
 // puente(m): deja cada cosa que exporta el módulo m en globalThis con su mismo nombre, para el código global.
 // Es una propiedad con get que lee siempre el valor actual del módulo: así S, ctx, T, scene, go... están al día aunque

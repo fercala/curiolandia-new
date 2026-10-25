@@ -17,7 +17,7 @@
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan escenas/escenas2d.ts (TEMAS, TEMA,
-//   SCENES.juego llama a makeGame), zonas.js (ZONES.jardin), adult.js, temas/extras.ts y contenido/cuentos.ts.
+//   SCENES.juego llama a makeGame), escenas/zonas.ts (ZONES.jardin), adult.js, temas/extras.ts y contenido/cuentos.ts.
 //
 // Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
 // a castellano de España cuando S.variant==='es'. Si una frase cambia mucho, se pone una lista
@@ -172,7 +172,7 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //           en esa estación (escenas/escenas2d.ts).
 //   intro   (opcional) frase con la que empieza el juego "conocer".
 //   concepts (opcional) true en el Rincón de los Conceptos: no está en el camino y se abre
-//           al terminar 3 casitas (zonas.js).
+//           al terminar 3 casitas (escenas/zonas.ts).
 //   words   las palabras del tema. Cada una es {k, say, label, ex} o una cosa dibujada:
 //             k     clave del dibujo en PICS (y de su nombre en LEX/LEX2);
 //             say   (opcional) frase de Tito al tocarla en "conocer" (texto o [rio, España]);

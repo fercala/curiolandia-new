@@ -22,10 +22,10 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: zonas.js primero (core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js y
-  // scenes.js ya son módulos: src/nucleo/, src/contenido/, src/juegos/, src/temas/ y src/escenas/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
+  // El orden importa: tienda.js primero (core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js,
+  // scenes.js y zonas.js ya son módulos: src/nucleo/, src/contenido/, src/juegos/, src/temas/ y src/escenas/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['zonas.js', 'tienda.js'],
+    ['tienda.js', 'repaso.js'],
     ['adult.js', 'world3d.js'],
     ['world3d.js', 'boot.js'],
   ] as const)('%s va antes que %s', (antes, despues) => {
@@ -109,6 +109,10 @@ describe('paginaJuego', () => {
     expect(runInContext("['title', 'edad', 'juego', 'asamblea', 'album', 'dormir'].every((n) => typeof SCENES[n].draw === 'function')", global)).toBe(true);
     expect(runInContext("TEMAS.length === Object.keys(TEMA).length && TEMA['EN-HELLO'] === ING[0]", global)).toBe(true);
     for (const k of ['finishGame', 'ponFinishGame', 'suggestTema', 'stationPos', 'drawFace', 'tree', 'inR']) expect(typeof global[k], k).toBe('function');
+    // escenas/zonas.ts: las zonas, sus escenas y las reglas del camino (cambia SCENES.map y suggestTema al cargarse).
+    expect(runInContext("Object.keys(ZONES).join() + ' ' + ['jardin', 'bosque', 'montana', 'fiestas', 'ingles', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,ingles true');
+    expect(runInContext("S.age = 3; [zoneOpen('jardin'), temaOpen(T3[0]), curTema('jardin') === T3[0], suggestTema() === T3[0]].join()", global)).toBe('true,true,true,true');
+    for (const k of ['goSeguir', 'ponGoSeguir', 'zoneScene', 'grantGift', 'isBday']) expect(typeof global[k], k).toBe('function');
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

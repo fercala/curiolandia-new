@@ -4,9 +4,9 @@
 // Define (globales usadas en otros archivos): REP_ON, NOREP, repOk, repWeak, repOld, repBuild, repToday,
 //   repAllDone, repDue, REPBTN y la escena SCENES.repaso. Añade a S los campos kg, gs y rep.
 // Envuelve (cambia el comportamiento de) funciones de otros archivos: rec (nucleo/guardado.ts), finishGame (escenas/escenas2d.ts),
-//   SCENES.casita.enter y goSeguir (zonas.js) y los métodos draw/down/dwell de SCENES.map (zonas.js).
+//   SCENES.casita.enter y goSeguir (escenas/zonas.ts) y los métodos draw/down/dwell de SCENES.map (escenas/zonas.ts).
 // Depende de: el núcleo, src/nucleo/ (S, DEF, save, say, rec, today, later, SFX, dibujo), escenas/escenas2d.ts (TEMA, TEMAS, tst,
-//   finishGame, drawStation, GNAME), zonas.js (goSeguir, asamHoy, drawRoad, lockOver, unlockFx),
+//   finishGame, drawStation, GNAME), escenas/zonas.ts (goSeguir, asamHoy, drawRoad, lockOver, unlockFx),
 //   tienda.js (STARS, giveCoins, drawCoinHUD, inCoinHUD).
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.

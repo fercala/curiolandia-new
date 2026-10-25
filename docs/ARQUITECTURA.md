@@ -79,8 +79,8 @@ importar de otros módulos, nunca del código global.
 | 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento y envuelve `makeGame`. |
 | 8 | `temas/ingles.ts` (antes `temas/ingles.ts`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
 | 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo, el último que carga `modulos.ts`) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
-| 10 | `zonas.js` | Primer archivo global. Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
-| 11 | `tienda.js` | Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. |
+| 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
+| 11 | `tienda.js` | Primer archivo global. Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. |
 | 12 | `repaso.js` | Estadísticas por habilidad y repaso diario. |
 | 13 | `adult.js` | Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
 | 14 | `world3d.js` | **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
@@ -102,7 +102,7 @@ declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo
 - **Funciones `pon*`** para cambiar una global entera desde otro archivo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
   (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`escenas/escenas2d.ts`),
-  `ponMakeGame` (`temas/temas.ts`) y `ponGoSeguir` (`zonas.js`). Dentro del núcleo hay dos más: `ponMusica` (la música
+  `ponMakeGame` (`temas/temas.ts`) y `ponGoSeguir` (`escenas/zonas.ts`). Dentro del núcleo hay dos más: `ponMusica` (la música
   de la escena, la usa `go`) y `ponRopaTito` (`tienda.js` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
 `npm run test:unidad` lo comprueba (`tests/unidad/globales.test.ts`, con `herramientas/analisis/globales.mts`).
@@ -151,12 +151,12 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 |---|---|---|
 | `title` | escenas/escenas2d.ts (+3D) | Portada |
 | `edad`, `quien`, `intro` | escenas/escenas2d.ts | Elegir edad, nombre y cuento de bienvenida (solo la primera vez) |
-| `map` | zonas.js (+3D) | La isla con todos los lugares |
-| `jardin`, `bosque`, `montana`, `fiestas`, `ingles` | zonas.js (+3D) | Zonas con su camino de casitas (se crean con `zoneScene(z)`) |
-| `casita` | zonas.js (+3D) | Dentro de un tema: las estaciones de juego |
+| `map` | escenas/zonas.ts (+3D) | La isla con todos los lugares |
+| `jardin`, `bosque`, `montana`, `fiestas`, `ingles` | escenas/zonas.ts (+3D) | Zonas con su camino de casitas (se crean con `zoneScene(z)`) |
+| `casita` | escenas/zonas.ts (+3D) | Dentro de un tema: las estaciones de juego |
 | `juego` | escenas/escenas2d.ts | Ejecuta un juego (un componente de juegos/) |
-| `cofre` | zonas.js (+3D) | Recompensa al terminar un tema |
-| `asamblea` | escenas/escenas2d.ts + zonas.js | La rutina diaria (día, tiempo, emociones, cumpleaños) |
+| `cofre` | escenas/zonas.ts (+3D) | Recompensa al terminar un tema |
+| `asamblea` | escenas/escenas2d.ts + escenas/zonas.ts | La rutina diaria (día, tiempo, emociones, cumpleaños) |
 | `tienda`, `casaTito` | tienda.js | Tienda (con páginas) y casa de Tito (2D) con siete habitaciones (`ROOMS`) que se abren con las casitas terminadas |
 | `album` | escenas/escenas2d.ts | Álbum de pegatinas |
 | `repaso` | repaso.js | Repaso diario |
@@ -176,7 +176,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
   ponFinishGame(function (t, gi) { f0(t, gi); /* lo nuevo */ }); }
 ```
 
-- `zonas.js` reescribe el mapa y la casita de `escenas/escenas2d.ts` (la versión de `escenas/escenas2d.ts` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
+- `escenas/zonas.ts` reescribe el mapa y la casita de `escenas/escenas2d.ts` (la versión de `escenas/escenas2d.ts` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
 - `tienda.js` envuelve `SCENES.juego` y `finishGame` (monedas); `repaso.js` envuelve `rec`, `finishGame`, la casita y el mapa.
 - `world3d.js` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 
@@ -191,7 +191,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 5. **Juego**: `SCENES.juego` crea el componente con `makeGame(...)`. Al terminar, `finishGame` suma la estrella, da monedas y vuelve a la casita.
 6. Cuando se terminan todos los juegos del tema → **cofre** (regalo de `GIFTS`, pegatina y monedas) → vuelta a la zona con la siguiente casita abierta.
 
-Las reglas de apertura están en `zonas.js` (`zoneOpen`, `temaOpen`, `gameOpen`, `NEED`). En la zona de adultos se puede poner el **modo libre** (`S.unlockAll`), que lo abre todo.
+Las reglas de apertura están en `escenas/zonas.ts` (`zoneOpen`, `temaOpen`, `gameOpen`, `NEED`). En la zona de adultos se puede poner el **modo libre** (`S.unlockAll`), que lo abre todo.
 
 ## 7. Temas y juegos
 
@@ -295,7 +295,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 - **Estrellas**: una por juego terminado (`S.temas[id].g`). Se ven en las casitas.
 - **Flores**: una por tema terminado. Abren zonas (6 flores en una zona despiertan la siguiente) y hacen crecer la casa de Tito (`HOUSE_NEXT`).
 - **Monedas** (`S.coins`): 1 por acierto a la primera (máx. 5 por juego), 3 al terminar un juego (2 si se repite), regalos diarios y del cofre. Se gastan en la tienda.
-- **Cofre**: al terminar un tema, el siguiente regalo de `GIFTS` (lista fija en zonas.js).
+- **Cofre**: al terminar un tema, el siguiente regalo de `GIFTS` (lista fija en escenas/zonas.ts).
 - **Pipo**: la mascota crece con las estrellas (`PET_NEXT`).
 - **Vales**: premios reales que configura la familia en la zona de adultos.
 - Diseño: nada de cajas sorpresa aleatorias ni rachas que se pierden; el tiempo de juego lo limita la familia.

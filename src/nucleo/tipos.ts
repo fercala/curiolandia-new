@@ -93,7 +93,7 @@ export interface Estado {
   bday?: { d: number; m: number } | null;
   bdayDone?: FechaDia;
   unlockAll?: boolean;
-  seenOpen?: Record<string, string[]>;
+  seenOpen?: Record<string, (string | number)[]>;
   houseSeen?: number;
   petSeen?: number;
   cofres?: number;
@@ -239,5 +239,7 @@ declare global {
     __fast?: number;
     /** Frases que dice Tito en modo rápido. */
     __said?: string[];
+    /** Lo que la capa 3D ofrece al resto del juego (world3d.js). */
+    __w3: { ok?: boolean; retito?: () => void; [dato: string]: unknown };
   }
 }
