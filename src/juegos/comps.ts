@@ -10,7 +10,7 @@
 // ---------- INTERFAZ COMÚN DE UN COMPONENTE DE JUEGO ----------
 // CREACIÓN: cada componente es una función  Nombre(cfg, onDone)  que DEVUELVE un
 //   objeto "juego" (no se usa `new`). La llama makeGame() (temas/temas.ts, ampliada en
-//   temas/extras.ts e ingles.js) desde la escena SCENES.juego (scenes.js):
+//   temas/extras.ts y temas/ingles.ts) desde la escena SCENES.juego (scenes.js):
 //       this.g = makeGame(tema.games[j], tema, onDone)
 //   - cfg: objeto de configuración propio de cada tipo (ver cabecera de cada uno).
 //     Casi todos aceptan cfg.bg (función que pinta el fondo, p. ej. t.bg = BG.aula),

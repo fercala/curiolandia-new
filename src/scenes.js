@@ -42,7 +42,7 @@
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle...), nucleo/idioma.ts (tx, V), temas*.js (T3/T4/T5, C3/C4/C5),
- *   temas/extras.ts (CAN, RUT, TRZ, FIESTAS, playTune...), ingles.js (ING),
+ *   temas/extras.ts (CAN, RUT, TRZ, FIESTAS, playTune...), temas/ingles.ts (ING),
  *   juegos/ (makeGame), src/dibujos/ (PICS) y nucleo/imagenes.ts (pic), tienda.js / adult.js
  *   (drawTito, TITO, inTito, drawHome/atHome en core).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),

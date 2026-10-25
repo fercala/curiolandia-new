@@ -39,7 +39,7 @@
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), scenes.js
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
  *   drawLogoSmall, inR, GNAME), temas*.js, temas/extras.ts (CAN, RUT, TRZ,
- *   FIESTAS, BG, TUNES, playTune), ingles.js (ING), tienda.js (SHOP,
+ *   FIESTAS, BG, TUNES, playTune), temas/ingles.ts (ING), tienda.js (SHOP,
  *   SHELLC, STARS, giveCoins, wear, placeHome, itemName, drawItemPic,
  *   drawCoinHUD, inCoinHUD, VIVO.coinBanner, VIVO.toast...).
  * Partes de S que toca: S.temas (solo lee), S.unlockAll (modo libre de la

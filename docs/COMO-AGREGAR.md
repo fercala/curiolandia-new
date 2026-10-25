@@ -239,7 +239,7 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 
 ## 10. Canciones, rutinas, trazos, fiestas e inglés
 
-Todo está en `temas/extras.ts` e `ingles.js`. Resumen (detalle en los comentarios de cada archivo):
+Todo está en `temas/extras.ts` y `temas/ingles.ts`. Resumen (detalle en los comentarios de cada archivo):
 
 - **Canción**: melodía en `TUNES` (juegos/comps2.ts) → letra en `SONGS` (temas/extras.ts) → juego `{t:'cancion', song:'nombre', icon, name}` en `CAN.games`.
 - **Rutina**: viñetas en `RP` con `panel(...)` → juego con `Secuencia` en `RUT.games`.

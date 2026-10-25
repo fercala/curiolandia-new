@@ -22,10 +22,9 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: ingles.js primero (core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js y extras.js ya son módulos:
+  // El orden importa: scenes.js primero (core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js e ingles.js ya son módulos:
   // src/nucleo/, src/contenido/, src/juegos/ y src/temas/), y world3d.js y boot.js al final (ver docs/ARQUITECTURA.md).
   test.each([
-    ['ingles.js', 'scenes.js'],
     ['scenes.js', 'zonas.js'],
     ['adult.js', 'world3d.js'],
     ['world3d.js', 'boot.js'],
@@ -103,6 +102,9 @@ describe('paginaJuego', () => {
     // temas/extras.ts: los temas extra, el fondo de los trazos y «El cuento» al final de los temas con cuento.
     expect(runInContext('[RUT.id, TRZ.id, CAN.id, FIESTAS.length, typeof BG.trazo].join()', global)).toBe('X-RUT,X-TRZ,X-CAN,4,function');
     expect(runInContext("T3.find((t) => t.id === '3A-T1').games.at(-1).t", global)).toBe('cuento');
+    // temas/ingles.ts: el Rincón del inglés y sus juegos.
+    expect(runInContext("ING.map((t) => t.id).join() + ' ' + EN.numbers[2].en", global)).toBe('EN-HELLO,EN-COLORS,EN-NUMBERS,EN-ANIMALS Three');
+    for (const k of ['EnConocer', 'EnEscucha', 'EnGlobos', 'EnCuenta', 'sayMix']) expect(typeof global[k], k).toBe('function');
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {
