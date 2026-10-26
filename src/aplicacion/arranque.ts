@@ -23,7 +23,8 @@ export function arrancar(): void {
 }
 
 // empezar(): con las fuentes cargadas, o a los 2,5 s si no llegan (un fallo al cargarlas tampoco para el juego), va a
-// la portada y pide el primer cuadro del bucle de dibujo. go se lee al llamarlo: es el de la capa 3D, que lo envuelve.
+// la portada y pide el primer cuadro del bucle de dibujo. go se lee al llamarlo (hasta la fase 4k
+// la capa 3D lo envolvía; ahora solo lo envuelven las pruebas).
 async function empezar(): Promise<void> {
   const fuentes = Promise.all([document.fonts.load('700 100px Andika'), document.fonts.load('700 100px Fredoka')]);
   const espera = new Promise<void>((listo) => setTimeout(listo, ESPERA_FUENTES));

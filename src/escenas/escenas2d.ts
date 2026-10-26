@@ -36,8 +36,9 @@
  * con el caso de uso aplicacion/terminarJuego.ts. La asamblea, con su paso
  * de cumpleaños y las monedas del día, y GNAME, con todos los tipos de
  * juego, están enteros aquí desde la fase 4e (antes escenas/zonas.ts los
- * completaba). Solo la capa 3D (mundo3d/) envuelve title (y map, casita, cofre
- * y las zonas, de zonas.ts) para la capa 3D.
+ * completaba). La capa 3D (mundo3d/) pone su propia versión de title (y de
+ * map, casita, cofre y las zonas, de zonas.ts), hecha a partir de esta (desde
+ * las fases 4i y 4j; antes las envolvía).
  *
  * Lo que exporta y usan otros archivos:
  *   SCENES, TEMAS, TEMA, CATALOGO, tst, gDone, drawLogo, drawLogoSmall, pill,
@@ -118,7 +119,7 @@ export const standalone=()=>matchMedia('(display-mode: standalone)').matches||ma
 /* ---------- PORTADA ---------- */
 // PORTADA. Primera escena. Desde aquí se va a 'edad' (si aún no hay edad), 'intro' (si no se ha visto el cuento)
 // o al mapa. También tiene los botones de pantalla completa, instalar, "¿Quién juega?" y "Empezar de nuevo".
-// (mundo3d/portada3d.ts la envuelve para dibujar la portada en 3D.)
+// (mundo3d/portada3d.ts pone una portada 3D hecha a partir de esta; hasta la fase 4i la envolvía.)
 SCENES.title={music:null,
 // enter(): crea 14 signos de interrogación de colores (this.q) que flotan hacia arriba por el fondo.
   enter(){this.q=Array.from({length:14},(_,i)=>({x:rnd(100,1500),y:rnd(120,820),v:rnd(10,30),ph:rnd(0,6),c:LOGOC[i%LOGOC.length]}))},
@@ -309,7 +310,8 @@ export function finishGame(t: Tema,gi: number): void{
 // JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
-// mundo3d/casita3d.ts envuelve enter (recordar el último juego). Las monedas del juego (las de cada acierto, que da
+// enter apunta el último juego (ultimoJuego, para la casita 3D; hasta la fase 4i, mundo3d/casita3d.ts envolvía enter
+// para hacerlo). Las monedas del juego (las de cada acierto, que da
 // onRight, y el marcador) están aquí desde la fase 4b; antes las añadía escenas/tienda.ts envolviendo enter y draw.
 // ultimoJuego: el último juego que se abrió ({t: id del tema, g: número de juego}), o null. Lo apunta enter de la escena
 // juego; lo lee la casita 3D (mundo3d/casita3d.ts) para que, al volver, Tito aparezca junto a ese puesto. Desde la
