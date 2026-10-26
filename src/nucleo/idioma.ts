@@ -9,7 +9,7 @@ import { S } from './guardado.ts';
 // castellano de España cuando S.variant==='es'. El ORDEN importa: primero las expresiones largas ('las bananas')
 // y luego las cortas ('banana'), para no cambiar media expresión. contenido/lex.ts añade más pares al final.
 // Para añadir una palabra: ['palabra rioplatense','palabra de España'], en minúsculas.
-export const TU: readonly (readonly [string,string])[]=[['las bananas','los plátanos'],['la banana','el plátano'],['una banana','un plátano'],['banana','plátano'],['bananas','plátanos'],
+const TU: readonly (readonly [string,string])[]=[['las bananas','los plátanos'],['la banana','el plátano'],['una banana','un plátano'],['banana','plátano'],['bananas','plátanos'],
  ['los anteojos de sol','las gafas de sol'],['unos anteojos de sol','unas gafas de sol'],['anteojos de sol','gafas de sol'],['los anteojos','las gafas'],['anteojos','gafas'],
  ['los autos','los coches'],['el auto','el coche'],['un auto','un coche'],['autos','coches'],['auto','coche'],['el colectivo','el autobús'],['colectivo','autobús'],
  ['la heladera','la nevera'],['heladera','nevera'],['la pileta','la piscina'],['pileta','piscina'],['la campera','la chaqueta'],['campera','chaqueta'],
@@ -67,7 +67,7 @@ export const W_=(k: string): string=>{const d=LEX2[k];return d?V(d):tx(LEX[k]||k
 // Wn(k): nombre sin artículo ('gato').
 export const Wn=(k: string): string=>W_(k).replace(/^(el|la|los|las) /,'');           // sin artículo
 // art(k): solo el artículo ('el', 'la', 'los', 'las' o '').
-export const art=(k: string): string=>{const m=W_(k).match(/^(el|la|los|las) /);return m?m[1]:''};
+const art=(k: string): string=>{const m=W_(k).match(/^(el|la|los|las) /);return m?m[1]:''};
 // dela(k): 'del gato', 'de la luna' (contrae de + el).
 export const dela=(k: string): string=>{const a=art(k);return a==='el'?'del '+Wn(k):(a?'de '+W_(k):'de '+W_(k))};
 // ala(k): 'al gato', 'a la luna' (contrae a + el).

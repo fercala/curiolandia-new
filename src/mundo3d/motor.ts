@@ -4,9 +4,10 @@
  * proyección del 3D a la pantalla lógica de 1600x900 (proj, projO, projR) y el toque con rayos (RC, pickAt).
  * Nada se crea al cargar el módulo: lo crea montarMotor(), que mundo3d/mundo3d.ts llama al montar la capa 3D y que
  * devuelve false si no hay Three.js o el aparato no tiene WebGL (entonces el juego sigue en 2D).
- * Exporta: R, W3, PRK y ponPRK, FPS, RC, montarMotor, fitCam, rs, proj, projO, projR, pickAt, newWorld, trimShadows,
- * setWorld, disposeWorld, camRig, camTick y fpsTick. Importa: del núcleo, src/nucleo/, PI, VIVO (MX, MY, mouseOn) y
- * OX, OY y SC (de 1600x900 a píxeles), y de mundo3d/materiales.ts V3 y la caché de texturas TXC.
+ * Exporta: R, W3, PRK y ponPRK, FPS, RC, montarMotor, rs, proj, projO, projR, pickAt, newWorld,
+ * setWorld, camRig, camTick y fpsTick. Importa: del núcleo, src/nucleo/, PI, VIVO (MX, MY, mouseOn) y
+ * OX, OY y SC (de 1600x900 a píxeles), y de mundo3d/materiales.ts V3 y la caché de texturas TXC. fitCam, trimShadows
+ * y disposeWorld son internas (desde la fase 4n).
  */
 import type * as Tres from 'three';
 import type { Mundo, Nodo, OpcionesMundo } from './tipos.ts';
@@ -23,7 +24,7 @@ export let W3: Mundo|null=null;
 // fitCam(w): ajusta la cámara del mundo w al tamaño de la ventana.
 // La escena está pensada para 16:9: si la pantalla es más estrecha (móvil en vertical, tablet 4:3), se abre el
 // ángulo vertical (fov) para que lo que se ve a lo ancho sea lo mismo que en 16:9 y no se corten los lados.
-export function fitCam(w: Mundo){const a=innerWidth/innerHeight,c=w.cam,f=w.fov||40,A=16/9;c.aspect=a;
+function fitCam(w: Mundo){const a=innerWidth/innerHeight,c=w.cam,f=w.fov||40,A=16/9;c.aspect=a;
   c.fov=a<A?2*Math.atan(Math.tan(f*PI/360)*A/a)*180/PI:f;c.updateProjectionMatrix()}
 // PRK: factor de calidad (1 = nitidez completa, mínimo 0,5). Lo baja fpsTick si el aparato va lento.
 export let PRK=1;
@@ -81,7 +82,7 @@ export function newWorld(o: OpcionesMundo={}){const sc=new THREE.Scene(),cam=new
   fitCam(w);return w}
 // las piezas diminutas (pétalos, piedritas, puntitos) no proyectan sombra: no se nota y ahorra una pasada de dibujo por pieza
 // trimShadows(w): mira el tamaño real de cada pieza (radio de su geometría por la escala); Tito (w.tito) conserva siempre sus sombras
-export function trimShadows(w: Mundo){const s=new THREE.Vector3(),keep=new Set();if(w.tito)w.tito.traverse(o=>keep.add(o));w.sc.updateMatrixWorld(true);
+function trimShadows(w: Mundo){const s=new THREE.Vector3(),keep=new Set();if(w.tito)w.tito.traverse(o=>keep.add(o));w.sc.updateMatrixWorld(true);
   w.sc.traverse((o: Nodo)=>{if(!o.isMesh||!o.castShadow||keep.has(o))return;const g=o.geometry;if(!g.boundingSphere)g.computeBoundingSphere();o.getWorldScale(s);
     if(g.boundingSphere.radius*Math.max(s.x,s.y,s.z)<.3)o.castShadow=false})}
 // setWorld(w): hace que w sea el mundo activo W3 (libera el anterior), ajusta la cámara, reinicia la medida de FPS y quita sombras pequeñas
@@ -91,7 +92,7 @@ export function setWorld(w: Mundo){if(W3&&W3!==w)disposeWorld(W3);W3=w;fitCam(w)
 // disposeWorld(w): libera de la GPU las geometrías (menos las marcadas keep, como las de gcache y el caparazón de Tito, SHELL),
 // sombras y texturas de un mundo que ya no se usa.
 // tx(t): libera la textura t si no está en la caché TXC
-export function disposeWorld(w: Mundo){const kept=new Set<Tres.Texture>(Object.values(TXC)),tx=(t: Tres.Texture|null|undefined)=>{if(t&&t.isTexture&&!kept.has(t))t.dispose()};
+function disposeWorld(w: Mundo){const kept=new Set<Tres.Texture>(Object.values(TXC)),tx=(t: Tres.Texture|null|undefined)=>{if(t&&t.isTexture&&!kept.has(t))t.dispose()};
   w.sc.traverse((o: Nodo)=>{if(o.geometry&&!o.geometry.userData.keep)o.geometry.dispose();
     if(o.isLight&&o.shadow&&o.shadow.map){o.shadow.map.dispose();o.shadow.map=null}
     for(const m of ([] as Tres.MeshBasicMaterial[]).concat(o.material||[]))tx(m.map);if(o.material&&o.material.isSpriteMaterial)o.material.dispose()});tx(w.sc.background as Tres.Texture|null)/* si el fondo es un color, tx no hace nada */}

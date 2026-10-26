@@ -245,7 +245,7 @@ Todo está en `temas/extras.ts` y `temas/ingles.ts`. Resumen (detalle en los com
 - **Canción**: melodía en `TUNES` (juegos/comps2.ts) → letra en `SONGS` (temas/extras.ts) → juego `{t:'cancion', song:'nombre', icon, name}` en `CAN.games`.
 - **Rutina**: viñetas en `RP` con `panel(...)` → juego con `Secuencia` en `RUT.games`.
 - **Trazo**: nivel nuevo al final de `TRZ_L()` y subir el número de niveles en `TRZ` (con su icono y nombre).
-- **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaNow()` (escenas/zonas.ts).
+- **Fiesta**: objeto nuevo al final de `FIESTAS` con `zone:'fiestas'`. Si debe abrirse sola en su época, añade el mes en `fiestaDelMes()` (dominio/apertura.ts).
 - **Tema de inglés**: palabras en `EN` (`{en, es, k, a}`; `a` = edad mínima) → tema en `ING` con `en:'conjunto'` y `games:[ENG.conocer, ENG.escucha, ENG.globos]`. Las palabras en inglés las dice la voz inglesa del navegador.
 - Comprueba en mundo3d/zonas3d.ts que la zona 3D tiene hueco para otra casita.
 

@@ -36,7 +36,7 @@ export const temasDone=(): number=>temasTerminados(S.temas);
 // escenas/tienda.ts), así que zonas.ts y repaso.ts lo importan del núcleo.
 export const STARS=(): number=>estrellas(S.temas);
 // FLPOS: sitio de cada flor del caparazón como [ángulo, distancia] desde el centro de las flores (15 como mucho). FLC: sus colores.
-export const FLPOS: readonly (readonly [number,number])[]=[[-2.4,58],[-1.9,60],[-1.4,62],[-.9,61],[-.4,60],[-2.9,56],[2.6,52],[-2.15,38],[-1.6,40],[-1.05,40],[-.5,38],[-2.65,36],[2.9,40],[-1.9,22],[-1.2,22]];
+const FLPOS: readonly (readonly [number,number])[]=[[-2.4,58],[-1.9,60],[-1.4,62],[-.9,61],[-.4,60],[-2.9,56],[2.6,52],[-2.15,38],[-1.6,40],[-1.05,40],[-.5,38],[-2.65,36],[2.9,40],[-1.9,22],[-1.2,22]];
 export const FLC=['#FF8A7A','#F58BB4','#FFC93C','#9B8AD9','#7FD3F0','#FF6B5E','#FFA94D'];
 // personaje de Tito (zona de adultos): 'caracol' (por defecto), 'erizo', 'tortuga' o 'conejo'; ojos [x,y,r], boca y centro de las flores en el dibujo 2D de 240x200
 // titoKind(): forma elegida para Tito (S.tito.kind); cualquier valor desconocido cuenta como 'caracol'.

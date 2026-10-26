@@ -11,8 +11,9 @@
 // Define: DEF2, VALES_DEF, HATPOS, titoHouseIc,
 //   SHOPCAT, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
 //   homeAction, homeLight, roomBg y las escenas SCENES.tienda y SCENES.casaTito.
-// Exporta (lo usan otros archivos o las pruebas): SHELLC, SCARFC, titoImg, drawTitoWear, SHOP, itemName, wear, drawItemPic, roomOf, roomOpen, roomsOpen, homeRoom,
-//   placeHome, HSIZE, homeItems y roomBtns, y los tipos Articulo y Vale.
+// Exporta (lo usan otros archivos o las pruebas): SHELLC, SCARFC, SHOP, itemName, wear, drawItemPic, roomOf, roomOpen, roomsOpen, homeRoom,
+//   placeHome, HSIZE, homeItems y roomBtns, y los tipos Articulo y Vale. titoImg y drawTitoWear (Tito con su ropa) son
+//   internas desde la fase 4n: se pasan al núcleo con ponRopaTito.
 // Envuelve: nada desde la fase 4b (antes onRight, finishGame y SCENES.juego, para las monedas: ahora las da el juego).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
 //   TITO_EYES..., STARS, inR y las monedas: spendCoins, drawCoinHUD, inCoinHUD), los dibujos de Tito
@@ -116,7 +117,7 @@ export const SCARFC: Record<string,string>={roja:'#FF6B5E',azul:'#5B8DEF',amaril
 const TITOIMG: Record<string,HTMLImageElement>={};
 // Devuelve la imagen de Tito con los colores elegidos en S.tito. Crea (una sola vez) un SVG cambiando los
 // colores originales por los de SHELLC/SCARFC; mientras la imagen nueva no ha cargado devuelve la de siempre.
-export function titoImg(){const t: Tito=S.tito||{},sh=SHELLC[t.shell!]?t.shell!:'naranja',sc=SCARFC[t.scarf!]?t.scarf!:'roja',tk=titoKind(),er=tk==='erizo',key=(tk==='caracol'?'':tk+'|')+sh+'|'+sc;if(key==='naranja|roja')return IMG.tito;
+function titoImg(){const t: Tito=S.tito||{},sh=SHELLC[t.shell!]?t.shell!:'naranja',sc=SCARFC[t.scarf!]?t.scarf!:'roja',tk=titoKind(),er=tk==='erizo',key=(tk==='caracol'?'':tk+'|')+sh+'|'+sc;if(key==='naranja|roja')return IMG.tito;
   // el erizo lleva el color de la tienda en las púas (con el naranja de siempre, púas marrones); la tortuga en el caparazón y el conejo en la mochila
   if(!TITOIMG[key])TITOIMG[key]=er?svgImg(ERIZO_SVG.replace('fill="#B07A4F"','fill="'+(sh==='naranja'?'#B07A4F':SHELLC[sh][0])+'"').replace('stroke="#7A5030"','stroke="'+(sh==='naranja'?'#7A5030':SHELLC[sh][1])+'"').replace('fill="#FF6B5E"','fill="'+SCARFC[sc]+'"'),'0 0 240 200',480)
     :svgImg(({caracol:TITO_SVG,tortuga:TORTUGA_SVG,conejo:CONEJO_SVG} as Record<string,string>)[tk].replace('fill="#FFA94D"','fill="'+SHELLC[sh][0]+'"').replace('stroke="#D9762A"','stroke="'+SHELLC[sh][1]+'"').replace('fill="#FF6B5E"','fill="'+SCARFC[sc]+'"'),'0 0 240 200',480);
@@ -125,7 +126,7 @@ export function titoImg(){const t: Tito=S.tito||{},sh=SHELLC[t.shell!]?t.shell!:
 const HATPOS: Record<string,[number,number,number]>={gorroFiesta:[198,28,86],gorra:[204,44,84],gorro:[198,40,84],gorroNavidad:[202,32,92],sombreroCopa:[198,34,78],sombreroPirata:[198,38,100],corona:[198,42,72]};
 // Dibuja encima de Tito lo que lleva puesto (moño, sombrero, gafas). k = escala del dibujo de Tito.
 // Las posiciones dependen del animal (titoKind); TITO_EYES da dónde están los ojos.
-export function drawTitoWear(k: number){const t=S.tito||{};
+function drawTitoWear(k: number){const t=S.tito||{};
   const tk=titoKind(),E=TITO_EYES[tk],BW=({caracol:[126,42],erizo:[104,66],tortuga:[100,70],conejo:[66,104]} as Record<string,[number,number]>)[tk],HY=({caracol:0,erizo:4,tortuga:10,conejo:4} as Record<string,number>)[tk];
   if(t.bow)pic('monio',BW[0]*k,BW[1]*k,56*k);
   // en el caracol el sombrero tapa los ojos (están en las antenas) y se vuelven a dibujar encima; en los demás no hace falta

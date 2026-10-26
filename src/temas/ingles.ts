@@ -47,15 +47,15 @@ export interface OpcionesTarjeta {
 // empiezan por '@' se dicen en inglés (más despacio). Los vacíos se saltan. cb: se llama al terminar el último trozo.
 export function sayMix(parts: readonly string[],cb?: (() => void) | null){const P=parts.filter(Boolean);const step=(i: number)=>{if(i>=P.length){cb&&cb();return}const p=P[i],en=p[0]==='@';say(en?p.slice(1):p,()=>step(i+1),en?{en:1,rate:.8}:{})};step(0)}
 // Colores de la lista de colores en inglés: nombre inglés en minúsculas → color.
-export const ENC: Record<string,string>={red:'#FF5A5A',blue:'#5B8DEF',yellow:'#FFD66B',green:'#7CC86E',orange:'#FFA94D',pink:'#F58BB4',purple:'#9B8AD9',brown:'#A86B43',black:'#3B3330',white:'#FFFFFF'};
+const ENC: Record<string,string>={red:'#FF5A5A',blue:'#5B8DEF',yellow:'#FFD66B',green:'#7CC86E',orange:'#FFA94D',pink:'#F58BB4',purple:'#9B8AD9',brown:'#A86B43',black:'#3B3330',white:'#FFFFFF'};
 // Devuelve una función de dibujo (x,y,s) de una mancha de pintura del color c (para las tarjetas de colores).
-export function enBlob(c: string){return (x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);const r=s*.34;ctx.beginPath();for(let i=0;i<=24;i++){const a=i/24*PI*2,q=r*(1+.12*Math.sin(a*5));ctx.lineTo(Math.cos(a)*q,Math.sin(a)*q)}ctx.closePath();fillStroke(c,Math.max(4,s*.03));
+function enBlob(c: string){return (x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);const r=s*.34;ctx.beginPath();for(let i=0;i<=24;i++){const a=i/24*PI*2,q=r*(1+.12*Math.sin(a*5));ctx.lineTo(Math.cos(a)*q,Math.sin(a)*q)}ctx.closePath();fillStroke(c,Math.max(4,s*.03));
   for(const [a,b,q] of[[.95,-.6,.12],[-.9,.7,.09],[.7,.85,.07]])circ(a*r,b*r,q*s,c,Math.max(3,s*.02));ctx.restore()}}
 // Devuelve una función de dibujo (x,y,s) del número n en un círculo con n puntitos debajo (filas de 5).
-export function enNum(n: number){return (x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);circ(0,-s*.06,s*.3,DIAC[(n-1)%7],Math.max(4,s*.03));text(String(n),0,s*.06,s*.34,'#fff',{f:LF,st:Math.max(4,s*.03),sc:K});
+function enNum(n: number){return (x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);circ(0,-s*.06,s*.3,DIAC[(n-1)%7],Math.max(4,s*.03));text(String(n),0,s*.06,s*.34,'#fff',{f:LF,st:Math.max(4,s*.03),sc:K});
   const per=5;for(let i=0;i<n;i++){const r=Math.floor(i/per),c=i%per,inRow=Math.min(per,n-r*per);circ((c-(inRow-1)/2)*s*.12,s*.33+r*s*.1,s*.04,'#FFC93C',Math.max(2,s*.012))}ctx.restore()}}
 // Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de escenas/escenas2d.ts).
-export const enFace=(m: string)=>(x: number,y: number,s: number)=>drawFace(x,y,s*.36,m);
+const enFace=(m: string)=>(x: number,y: number,s: number)=>drawFace(x,y,s*.36,m);
 // a: edad desde la que aparece la palabra
 // Palabras de cada tema de inglés: EN[conjunto] = lista de {en (palabra en inglés), es (traducción; puede ser
 // [rioplatense, España]), a (edad mínima: 3, 4 o 5), y para dibujarla k (id de dibujo de PICS) o draw(x,y,s)}.
@@ -71,18 +71,18 @@ export const EN: Record<string, PalabraEn[]>={
 // Palabras del conjunto set que tocan a la edad del niño (AGE()).
 export const enItems=(set: string)=>EN[set].filter(i=>i.a<=Math.max(3,AGE()));
 // Traducción al castellano de la palabra (elige la variante de España o Argentina con V).
-export const enEs=(it: PalabraEn)=>V(it.es);
+const enEs=(it: PalabraEn)=>V(it.es);
 // Dibuja la palabra it centrada en (x,y) con tamaño s (su draw propio o su dibujo pic).
-export function enDraw(it: PalabraEn,x: number,y: number,s: number){if(it.draw)it.draw(x,y,s);else pic(it.k!,x,y,s)}
+function enDraw(it: PalabraEn,x: number,y: number,s: number){if(it.draw)it.draw(x,y,s);else pic(it.k!,x,y,s)}
 // Dibuja una tarjeta cuadrada de lado s con la palabra it. Opciones o: s (escala), shake (instante en que empezó
 // a temblar), glow (brillo amarillo), bg (color de fondo), label (escribe la palabra en inglés debajo), star (estrella de ya vista).
-export function enCard(it: PalabraEn,x: number,y: number,s: number,o: OpcionesTarjeta={}){const hs=o.s||1,sh=o.shake?Math.sin((T-o.shake)*40)*10*Math.max(0,1-(T-o.shake)*2.5):0;ctx.save();ctx.translate(x+sh,y);ctx.scale(hs,hs);
+function enCard(it: PalabraEn,x: number,y: number,s: number,o: OpcionesTarjeta={}){const hs=o.s||1,sh=o.shake?Math.sin((T-o.shake)*40)*10*Math.max(0,1-(T-o.shake)*2.5):0;ctx.save();ctx.translate(x+sh,y);ctx.scale(hs,hs);
   if(o.glow){ctx.globalAlpha=.5;circ(0,0,s*.62,'#FFE08A',0);ctx.globalAlpha=1}card(-s/2,-s/2,s,s,o.bg||'#fff',7,36);enDraw(it,0,o.label?-s*.07:0,s*(o.label?.66:.8));
   if(o.label){ctx.font=`600 ${Math.round(s*.13)}px ${DF}`;text(it.en,0,s*.42,Math.min(s*.13,s*.85/Math.max(1,ctx.measureText(it.en).width/(s*.13))),K,{w:600})}
   if(o.star)star(s/2-18,-s/2+18,22,'#FFC93C',3.5);ctx.restore()}
 // Reparte las tarjetas en una cuadrícula centrada en la zona (cx, top, w, h): elige columnas según cuántas hay
 // y pone a cada elemento x, y, s (tamaño) e in (cuándo aparece, escalonado).
-export function enGrid(items: Libre[],top=180,h=660,w=1220,cx=900){const n=items.length,cols=n<=3?n:n===4?4:n<=6?3:n<=8?4:5,rows=Math.ceil(n/cols),s=Math.min(w/cols-34,h/rows-34,290);
+function enGrid(items: Libre[],top=180,h=660,w=1220,cx=900){const n=items.length,cols=n<=3?n:n===4?4:n<=6?3:n<=8?4:5,rows=Math.ceil(n/cols),s=Math.min(w/cols-34,h/rows-34,290);
   items.forEach((it,i)=>{const r=Math.floor(i/cols),c=i%cols,inRow=Math.min(cols,n-r*cols);it.x=cx-(inRow-1)*(s+34)/2+c*(s+34);it.y=top+((h-rows*(s+34))/2)+(s+34)/2+r*(s+34);it.s=s;it.in=T+i*.08})}
 
 // 1) Escuchá y repetí: tocar cada dibujo para oír la palabra en inglés
@@ -198,7 +198,7 @@ export function EnCuenta(cfg: Config,onDone: AlTerminar): Juego{const max=AGE()<
         later(900,()=>sayMix(['@'+EN.numbers[this.n-1].en+'!',cap(NUM[this.n])+'. ¡Hay '+NUM[this.n]+'!'],()=>later(500,()=>{this.i++;if(this.i>=R)onDone();else this.round()})))}}}}
 
 // Juegos del inglés para usar en los temas: t (tipo de juego que reconoce makeGame), icon y name (nombre en el camino).
-export const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja',name:'Escuchá y repetí'},escucha:{t:'enEscucha',icon:'busca',name:'¿Dónde está?'},globos:{t:'enGlobos',icon:'globo',name:'Reventá los globos'},cuenta:{t:'enCuenta',icon:'manzana',name:'Contar en inglés'}};
+const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja',name:'Escuchá y repetí'},escucha:{t:'enEscucha',icon:'busca',name:'¿Dónde está?'},globos:{t:'enGlobos',icon:'globo',name:'Reventá los globos'},cuenta:{t:'enCuenta',icon:'manzana',name:'Contar en inglés'}};
 // Temas del Rincón del inglés (casitas de la zona 'ingles', se abren en orden). Campos: id, n (nombre), icon, c (color),
 // bg (fondo de los juegos), zone, en (conjunto de palabras de EN), tip (consejo para la familia en la zona de adultos),
 // games (lista de juegos de ENG).

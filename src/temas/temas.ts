@@ -11,7 +11,6 @@
 //     zonas donde se sueltan las cosas en los juegos de arrastrar (Arrastra, juegos/comps.ts).
 //   - vestir(): fábrica del juego "vestir al nene".
 //   - T3 (lista de temas de 3 años), C3 (Rincón de los Conceptos de 3 años), COLS3.
-//   - GICON: icono por defecto de algunos tipos de juego.
 // Importa: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
@@ -49,7 +48,7 @@ export function grass(y: number,c='#9FDC8F'){ctx.fillStyle=c;ctx.beginPath();ctx
 // cols = lista de colores que se reparten entre las hojas; sp = velocidad.
 // La posición sale de (i*número + T*velocidad) % tamaño: así cada hoja tiene su sitio
 // y vuelve a entrar por arriba al salir por abajo, sin guardar estado.
-export function fallingDeco(cols: string[],n=10,sp=30){for(let i=0;i<n;i++){const x=(i*173+T*sp*(i%3+1))%1700-50,y=(i*97+T*sp*1.4)%1000-50;ctx.save();ctx.translate(x,y);ctx.rotate(T+i);ctx.globalAlpha=.35;ell(0,0,16,9,cols[i%cols.length],0);ctx.restore()}ctx.globalAlpha=1}
+function fallingDeco(cols: string[],n=10,sp=30){for(let i=0;i<n;i++){const x=(i*173+T*sp*(i%3+1))%1700-50,y=(i*97+T*sp*1.4)%1000-50;ctx.save();ctx.translate(x,y);ctx.rotate(T+i);ctx.globalAlpha=.35;ell(0,0,16,9,cols[i%cols.length],0);ctx.restore()}ctx.globalAlpha=1}
 // BG: fondos de los temas, por nombre. BG.aula, BG.cuerpo... Cada uno es una función
 // sin parámetros (ver arriba). Un tema lo usa como bg:BG.aula, y los cuentos por su nombre
 // (bg:'aula' en contenido/cuentos.ts). temas/temas4.ts añade más con Object.assign(BG,{...}).
@@ -82,10 +81,10 @@ export const BG: Record<string, () => void>={
 export const swatch=(c: string)=>({name:COLORES[c].n,draw:(x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);ctx.beginPath();for(let i=0;i<=24;i++){const a=i/24*PI*2,r=s*.36*(1+.12*Math.sin(i*2.3));ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath();fillStroke(COLORES[c].c,6);circ(-s*.1,-s*.1,s*.06,'rgba(255,255,255,.6)',0);ctx.restore()}});
 // Forma geométrica para 3 años: f = 'circulo' o 'cuadrado' (cualquier otro valor
 // dibuja un cuadrado), c = color de relleno. Devuelve una cosa dibujada {name, draw}.
-export const shape=(f: string,c: string)=>({name:f==='circulo'?'el círculo':'el cuadrado',draw:(x: number,y: number,s: number)=>{if(f==='circulo')circ(x,y,s*.38,c,6);else card(x-s*.36,y-s*.36,s*.72,s*.72,c,6,8)}});
+const shape=(f: string,c: string)=>({name:f==='circulo'?'el círculo':'el cuadrado',draw:(x: number,y: number,s: number)=>{if(f==='circulo')circ(x,y,s*.38,c,6);else card(x-s*.36,y-s*.36,s*.72,s*.72,c,6,8)}});
 // Pieza del muñeco de nieve: id = 'base', 'medio', 'cabeza', 'sombrero' o 'nariz'.
 // Devuelve {name, id, draw}. draw dibuja la pieza a escala s/170 (170 es el tamaño de referencia).
-export const snowPart=(id: string)=>({name:({base:'la bola grande',medio:'la bola mediana',cabeza:'la cabeza',sombrero:'el sombrero',nariz:'la nariz de zanahoria'} as Record<string,string>)[id],id,
+const snowPart=(id: string)=>({name:({base:'la bola grande',medio:'la bola mediana',cabeza:'la cabeza',sombrero:'el sombrero',nariz:'la nariz de zanahoria'} as Record<string,string>)[id],id,
   draw:(x: number,y: number,s: number)=>{const k=s/170;ctx.save();ctx.translate(x,y);ctx.scale(k,k);
     if(id==='base')circ(0,0,80,'#fff',7);if(id==='medio')circ(0,0,62,'#fff',7);
     if(id==='cabeza'){circ(0,0,48,'#fff',7);circ(-16,-6,6,K,0);circ(16,-6,6,K,0);ctx.beginPath();ctx.arc(0,10,16,.2*PI,.8*PI);ctx.lineWidth=5;ctx.strokeStyle=K;ctx.stroke()}
@@ -94,7 +93,7 @@ export const snowPart=(id: string)=>({name:({base:'la bola grande',medio:'la bol
     ctx.restore()}});
 // Plato con n galletas (de 1 a 10; las posiciones están en la lista P).
 // name = 'muchas galletas' si n>4, si no 'pocas galletas'. Para el juego "Mucho y poco".
-export const plateOf=(n: number)=>({name:n>4?'muchas galletas':'pocas galletas',draw:(x: number,y: number,s: number)=>{pic('plato',x,y+s*.14,s*1.05);const P=[[0,0],[-.2,.02],[.2,.02],[-.1,-.1],[.1,-.1],[0,-.2],[-.3,-.06],[.3,-.06],[-.2,-.2],[.2,-.2]];for(let i=0;i<n;i++)pic('galleta',x+P[i][0]*s,y+P[i][1]*s,s*.26)}});
+const plateOf=(n: number)=>({name:n>4?'muchas galletas':'pocas galletas',draw:(x: number,y: number,s: number)=>{pic('plato',x,y+s*.14,s*1.05);const P=[[0,0],[-.2,.02],[.2,.02],[-.1,-.1],[.1,-.1],[0,-.2],[-.3,-.06],[.3,-.06],[-.2,-.2],[.2,-.2]];for(let i=0;i<n;i++)pic('galleta',x+P[i][0]*s,y+P[i][1]*s,s*.26)}});
 // Cuadro de paisaje de día (d verdadero: sol y nube) o de noche (d falso: luna y
 // estrellas). Devuelve {name, draw}. Para el juego "Día y noche".
 export const dayNight=(d: number)=>({name:d?'de día':'de noche',draw:(x: number,y: number,s: number)=>{ctx.save();rr(x-s/2+8,y-s/2+8,s-16,s-16,30);ctx.clip();ctx.fillStyle=d?'#9ED9F5':'#2E3F7A';ctx.fillRect(x-s/2,y-s/2,s,s);
@@ -114,21 +113,21 @@ export const dayNight=(d: number)=>({name:d?'de día':'de noche',draw:(x: number
 /* ---------- zonas dibujadas ---------- */
 // Zona con forma de habitación: tarjeta de color c con el dibujo icon (clave de PICS)
 // en una esquina. nm = [nombre, 'en ...'] para las frases de Tito. Usada en "Mi casa".
-export const roomZone=(id: string,x: number,y: number,w: Cosa,h: number,c: string,icon: Cosa,nm: string)=>({id,x,y,w,h,nm,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=34}card(x-w/2,y-h/2,w,h,c,7,26);ctx.restore();ctx.save();ctx.beginPath();ctx.moveTo(x-w/2,y+h*.25);ctx.lineTo(x+w/2,y+h*.25);ctx.lineWidth=5;ctx.strokeStyle='rgba(74,52,40,.25)';ctx.stroke();ctx.restore();card(x-w/2+14,y-h/2+14,90,90,'#fff',5,22);pic(icon,x-w/2+59,y-h/2+59,76)},
+const roomZone=(id: string,x: number,y: number,w: Cosa,h: number,c: string,icon: Cosa,nm: string)=>({id,x,y,w,h,nm,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=34}card(x-w/2,y-h/2,w,h,c,7,26);ctx.restore();ctx.save();ctx.beginPath();ctx.moveTo(x-w/2,y+h*.25);ctx.lineTo(x+w/2,y+h*.25);ctx.lineWidth=5;ctx.strokeStyle='rgba(74,52,40,.25)';ctx.stroke();ctx.restore();card(x-w/2+14,y-h/2+14,90,90,'#fff',5,22);pic(icon,x-w/2+59,y-h/2+59,76)},
   slot:(n: number)=>[x-w*.12+(n%3)*w*.24,y+h*.06+Math.floor(n/3)*-60],ps:.62});
 // Zonas fijas: dentro de la mochila / fuera, en la mesa (juego "guarda" de Mi escuela).
-export const mochilaZone={id:'dentro',x:600,y:450,w:380,h:420,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}pic('mochila',600,450,470);ctx.restore();ell(600,330,120,30,'#2E4E9A',5)},slot:(n: number)=>[540+(n%3)*60,440+Math.floor(n/3)*50],ps:.55};
-export const mesaZone={id:'fuera',x:1210,y:440,w:480,h:260,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=34}card(970,460,480,40,'#C98A4B',7,10);ctx.restore();card(1000,500,30,150,'#A86B43',6,6);card(1390,500,30,150,'#A86B43',6,6)},slot:(n: number)=>[1060+n*110,400],ps:.7};
+const mochilaZone={id:'dentro',x:600,y:450,w:380,h:420,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}pic('mochila',600,450,470);ctx.restore();ell(600,330,120,30,'#2E4E9A',5)},slot:(n: number)=>[540+(n%3)*60,440+Math.floor(n/3)*50],ps:.55};
+const mesaZone={id:'fuera',x:1210,y:440,w:480,h:260,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=34}card(970,460,480,40,'#C98A4B',7,10);ctx.restore();card(1000,500,30,150,'#A86B43',6,6);card(1390,500,30,150,'#A86B43',6,6)},slot:(n: number)=>[1060+n*110,400],ps:.7};
 // Zonas fijas: dentro del corral / fuera, en el prado (juego "corral" de la granja).
-export const corralZone={id:'dentro',x:600,y:470,w:520,h:330,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}card(340,305,520,330,'#E8D49A',0,30);ctx.restore();ctx.strokeStyle='#A86B43';ctx.lineWidth=12;ctx.lineCap='round';for(let i=0;i<=8;i++){ctx.beginPath();ctx.moveTo(340+i*65,280);ctx.lineTo(340+i*65,650);ctx.stroke()}
+const corralZone={id:'dentro',x:600,y:470,w:520,h:330,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}card(340,305,520,330,'#E8D49A',0,30);ctx.restore();ctx.strokeStyle='#A86B43';ctx.lineWidth=12;ctx.lineCap='round';for(let i=0;i<=8;i++){ctx.beginPath();ctx.moveTo(340+i*65,280);ctx.lineTo(340+i*65,650);ctx.stroke()}
   ctx.lineWidth=10;for(const yy of[320,600]){ctx.beginPath();ctx.moveTo(330,yy);ctx.lineTo(870,yy);ctx.stroke()}ctx.lineWidth=5;ctx.strokeStyle=K;ctx.strokeRect(340,305,520,330)},slot:(n: number)=>[430+(n%3)*170,420+Math.floor(n/3)*130],ps:.75};
-export const pradoZone={id:'fuera',x:1230,y:470,w:520,h:330,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}card(970,305,520,330,'rgba(124,200,110,.35)',5,30);ctx.restore();for(let i=0;i<6;i++)flower(1010+i*85,610,10,FLC[i],2)},slot:(n: number)=>[1070+(n%3)*160,420+Math.floor(n/3)*130],ps:.75};
+const pradoZone={id:'fuera',x:1230,y:470,w:520,h:330,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}card(970,305,520,330,'rgba(124,200,110,.35)',5,30);ctx.restore();for(let i=0;i<6;i++)flower(1010+i*85,610,10,FLC[i],2)},slot:(n: number)=>[1070+(n%3)*160,420+Math.floor(n/3)*130],ps:.75};
 // Zona "el nene": dibuja al niño con la ropa que lleva puesta. wear = objeto {clave:1}
 // con la ropa ya colocada (lo rellena vestir()). ps:.01 porque la ropa no se ve como cosa suelta.
-export const kidZone=(wear: Libre)=>({id:'kid',x:1000,y:560,w:420,h:700,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}drawKid(1000,880,1.15,{wear});ctx.restore()},slot:()=>[1000,500],ps:.01});
+const kidZone=(wear: Libre)=>({id:'kid',x:1000,y:560,w:420,h:700,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}drawKid(1000,880,1.15,{wear});ctx.restore()},slot:()=>[1000,500],ps:.01});
 // Zona libre con dibujo propio: draw(x,y,w,h) pinta el fondo de la zona.
 // Las cosas soltadas se reparten en filas de 5. Usada en "Armá tu familia" (la casa).
-export const panelZone=(id: string,x: number,y: number,w: number,h: number,draw: (x: number, y: number, w: number, h: number) => void)=>({id,x,y,w,h,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=36}draw(x,y,w,h);ctx.restore()},slot:(n: number)=>[x-w*.38+(n%5)*w*.19,y+(Math.floor(n/5)%2?-40:110)],ps:1.15});
+const panelZone=(id: string,x: number,y: number,w: number,h: number,draw: (x: number, y: number, w: number, h: number) => void)=>({id,x,y,w,h,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=36}draw(x,y,w,h);ctx.restore()},slot:(n: number)=>[x-w*.38+(n%5)*w*.19,y+(Math.floor(n/5)%2?-40:110)],ps:1.15});
 // Hueco punteado cuadrado de lado s en (x,430), para ordenar por tamaño
 // (de pequeño a grande). Lo usan los juegos "ordena" de 3 y 4 años.
 export const sizeSlot=(id: string,x: number,s: number)=>({id,x,y:430,w:s,h:s,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=30}ctx.setLineDash([14,12]);rr(x-s/2,430-s/2,s,s,24);fillStroke('rgba(255,255,255,.7)',6,hl?'#FFC93C':'#B8A890');ctx.setLineDash([]);ctx.restore()},slot:()=>[x,430],ps:s/170});
@@ -320,7 +319,7 @@ export const T3: Tema[]=[
 ];
 // COLS3: [clave de PICS, color] de cosas de un color claro. La usan "pinta", "clasifica"
 // y "burbujas" de Los colores (color = clave de COLORES).
-export const COLS3=[['fresa','rojo'],['tomate','rojo'],['manzana','rojo'],['sol','amarillo'],['banana','amarillo'],['pato','amarillo'],['ballena','azul'],['gota','azul'],['pajaro','azul'],['rana','verde'],['hoja','verde'],['pera','verde']];
+const COLS3=[['fresa','rojo'],['tomate','rojo'],['manzana','rojo'],['sol','amarillo'],['banana','amarillo'],['pato','amarillo'],['ballena','azul'],['gota','azul'],['pajaro','azul'],['rana','verde'],['hoja','verde'],['pera','verde']];
 
 /* ---------- Rincón de los Conceptos (3 años) ---------- */
 // C3: Rincón de los Conceptos de 3 años (grande/pequeño, arriba/abajo, contar, formas,
@@ -349,6 +348,3 @@ export const C3: Tema={id:'3A-C',n:'Rincón de los Conceptos',icon:'estrella',c:
     gen(i: number){const Q=shuffle([['¿Cuándo sale el sol?',1],['¿Cuándo salen las estrellas y la luna?',0],['¿Cuándo dormimos?',0],['¿Cuándo vamos a la escuela?',1],['¿Cuándo jugamos en el parque?',1],['¿Cuándo está oscuro?',0]]);const q=Q[i%Q.length];const D=dayNight(1),N=dayNight(0);
       return {words:[D,N],ok:[q[1]?D:N],ask:q[0],okSay:()=>q[1]?'¡De día!':'¡De noche!',badSay:()=>q[1]?'Ese es de noche. Mirá el otro.':'Ese es de día. Mirá el otro.'}}},d)}]};
 
-// GICON: icono por defecto de algunos tipos de juego (clave de PICS). Ojo: ahora mismo
-// ningún archivo la usa; el icono real lo decide gIcon() en escenas/escenas2d.ts.
-export const GICON={conocer:'ojo',busca:'ojo',memoria:'regalo',sonido:'tren'};

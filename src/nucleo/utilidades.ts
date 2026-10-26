@@ -17,7 +17,7 @@ export const inR=(x: number,y: number,cx: number,cy: number,w: number,h: number)
 export const easeOut=(t: number): number=>1-Math.pow(1-t,3), back=(t: number): number=>{const c=1.7;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
 export const PI=Math.PI;
 // hex2('#RRGGBB'): devuelve [r,g,b] con números de 0 a 255.
-export function hex2(c: string): [number,number,number]{c=c.replace('#','');return [parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)]}
+function hex2(c: string): [number,number,number]{c=c.replace('#','');return [parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)]}
 // _cc: caché de los colores ya calculados por col() (para no recalcularlos en cada cuadro).
 const _cc: Record<string,string>={};
 // col(color, s): devuelve el color apagado hacia su gris ('rgb(...)'); s=1 lo deja igual y s=0 lo deja gris del todo.

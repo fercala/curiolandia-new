@@ -18,7 +18,7 @@ for(const k in PICS) IMG[k]=svgImg(PICS[k] as string,'-62 -62 124 124',320);
 IMG['tito']=svgImg(TITO_SVG,'0 0 240 200',480);IMG['erizo']=svgImg(ERIZO_SVG,'0 0 240 200',480);IMG['tortuga']=svgImg(TORTUGA_SVG,'0 0 240 200',480);IMG['conejo']=svgImg(CONEJO_SVG,'0 0 240 200',480); IMG['lupi']=svgImg(LUPI_SVG,'0 0 200 230',420); IMG['glasses']=svgImg(GLASSES_SVG,'0 0 200 230',420); IMG['hand']=svgImg(HAND_SVG,'0 0 80 110',160);
 // greyOf(dibujo): versión "sin colorear" del dibujo (rellenos crema y bordes claros; lo que es tinta K se mantiene).
 // Se crea la primera vez y se guarda en IMGG.
-export function greyOf(k: string): HTMLImageElement|undefined{const p=PICS[k];if(!IMGG[k]&&p)IMGG[k]=svgImg(p.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,(m: string,a: string,c: string)=>c.toUpperCase()===K.toUpperCase()?m:(a==='fill'?'fill="#FBF8F2"':'stroke="#D8D0C4"')),'-62 -62 124 124',320);return IMGG[k]}
+function greyOf(k: string): HTMLImageElement|undefined{const p=PICS[k];if(!IMGG[k]&&p)IMGG[k]=svgImg(p.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,(m: string,a: string,c: string)=>c.toUpperCase()===K.toUpperCase()?m:(a==='fill'?'fill="#FBF8F2"':'stroke="#D8D0C4"')),'-62 -62 124 124',320);return IMGG[k]}
 // pic(dibujo, x, y, tamaño, alfa): dibuja IMG[dibujo] centrado en (x,y). Si aún no ha cargado, no dibuja nada.
 export function pic(n: string,x: number,y: number,s: number,a=1): void{const i=IMG[n]; if(!i||!i.complete)return; ctx.globalAlpha*=a; ctx.drawImage(i,x-s/2,y-s/2,s,s); ctx.globalAlpha/=a}
 // picG(dibujo, x, y, tamaño): igual que pic() pero con la versión en gris.

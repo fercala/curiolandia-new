@@ -108,12 +108,12 @@ export const NUM=['cero','uno','dos','tres','cuatro','cinco','seis','siete','och
 // Plural de la palabra de la clave k sin artículo ('perros', 'lápices').
 // Usa una lista de excepciones (PLX) y, si la palabra tiene complemento
 // ('caja de lápices'), solo pone en plural la primera parte.
-export function plural(k: Cosa){const PLX: Record<string,string>={lapiz:'lápices',pez:'peces',avion:'aviones',leon:'leones',corazon:'corazones',tobogan:'toboganes',uva:'uvas',gafas:'anteojos'};
+function plural(k: Cosa){const PLX: Record<string,string>={lapiz:'lápices',pez:'peces',avion:'aviones',leon:'leones',corazon:'corazones',tobogan:'toboganes',uva:'uvas',gafas:'anteojos'};
   if(PLX[k])return tx(PLX[k]); const w=Wn(k),i=w.search(/ (de|del|para|con) /);
   if(i>0)return plW(w.slice(0,i))+w.slice(i); return plW(w)}
 // Regla sencilla del plural en castellano para una palabra w: vocal → +s,
 // z → ces, y si no, quita la tilde final y añade 'es' ('camión' → 'camiones').
-export function plW(w: Cosa){if(/[aeiouáéó]$/i.test(w))return w+'s'; if(/z$/.test(w))return w.slice(0,-1)+'ces';
+function plW(w: Cosa){if(/[aeiouáéó]$/i.test(w))return w+'s'; if(/z$/.test(w))return w.slice(0,-1)+'ces';
   return w.replace(/ón$/,'on').replace(/ín$/,'in').replace(/án$/,'an')+'es'}
 // true si la cosa k es femenina (su nombre empieza por 'la' o 'las').
 export const fem=(k: Cosa)=>/^(la|las) /.test(nameT(k));
@@ -124,17 +124,17 @@ export const unN=(n: number,k: Cosa)=>n===1?(fem(k)?'una ':'un ')+Wn(k):NUM[n]+'
 // Partes del cuerpo del niño dibujado. Formato: {id, n}; id = nombre interno
 // (lo usan kidPartAt y KID_C), n = nombre con artículo para decirlo
 // (texto o lista ['rioplatense','España'] que resuelve V()).
-export const KID_PARTS: {id: string; n: string | Par}[]=[
+const KID_PARTS: {id: string; n: string | Par}[]=[
   {id:'ojos',n:'los ojos'},{id:'nariz',n:'la nariz'},{id:'boca',n:'la boca'},{id:'orejas',n:'las orejas'},{id:'pelo',n:'el pelo'},{id:'cabeza',n:'la cabeza'},
   {id:'manos',n:'las manos'},{id:'brazos',n:'los brazos'},{id:'barriga',n:['la panza','la barriga']},{id:'piernas',n:'las piernas'},{id:'pies',n:'los pies'}];
 // Distancia del punto (px,py) al segmento que va de (ax,ay) a (bx,by).
 // Proyecta el punto sobre el segmento (t entre 0 y 1) y mide hasta ahí.
-export function segD(px: number,py: number,ax: number,ay: number,bx: number,by: number){const dx=bx-ax,dy=by-ay,t=clamp(((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy),0,1);return dist(px,py,ax+dx*t,ay+dy*t)}
+function segD(px: number,py: number,ax: number,ay: number,bx: number,by: number){const dx=bx-ax,dy=by-ay,t=clamp(((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy),0,1);return dist(px,py,ax+dx*t,ay+dy*t)}
 // Dice qué parte del cuerpo hay en el punto tocado (px,py) cuando el niño está
 // dibujado en (x,y) con escala s (como drawKid). Devuelve un id de KID_PARTS
 // o null. Pasa el punto a las coordenadas del dibujo (u,v) y usa |u| porque el
 // niño es simétrico. El orden importa: primero las partes pequeñas de la cara.
-export function kidPartAt(px: number,py: number,x: number,y: number,s: number){
+function kidPartAt(px: number,py: number,x: number,y: number,s: number){
   const u=(px-x)/s,v=(py-y)/s,ax=Math.abs(u);
   if(dist(ax,v,32,-495)<30)return 'ojos'; if(dist(u,v,0,-466)<22)return 'nariz'; if(dist(u,v,0,-436)<28)return 'boca';
   if(dist(ax,v,98,-485)<34)return 'orejas';
@@ -145,7 +145,7 @@ export function kidPartAt(px: number,py: number,x: number,y: number,s: number){
 }
 // Centro de cada parte del cuerpo en coordenadas del dibujo del niño (escala 1,
 // origen entre los pies). Se usa para colocar la ayuda (hint) sobre la parte.
-export const KID_C: Record<string,[number,number]>={ojos:[32,-495],nariz:[0,-466],boca:[0,-436],orejas:[98,-485],pelo:[0,-570],cabeza:[60,-520],manos:[158,-200],brazos:[110,-300],barriga:[0,-310],piernas:[44,-130],pies:[54,-16]};
+const KID_C: Record<string,[number,number]>={ojos:[32,-495],nariz:[0,-466],boca:[0,-436],orejas:[98,-485],pelo:[0,-570],cabeza:[60,-520],manos:[158,-200],brazos:[110,-300],barriga:[0,-310],piernas:[44,-130],pies:[54,-16]};
 // Dibuja el niño de pie con los pies en (x,y) y escala s (mide unos 600*s de alto).
 // o: {skin, hair, shirt, pants} colores; wear: objeto con la ropa puesta
 // ({gorro:1, botas:1, abrigo:1...}, juego de vestirse); hl: id de la parte que
@@ -336,11 +336,11 @@ export function Conocer(cfg: Config, onDone: AlTerminar): Juego{
 /* ---------- el cuerpo: tocar partes ---------- */
 // Partes "finas" del cuerpo (para 5 años, cfg.fine en Cuerpo): mismo formato
 // que KID_PARTS. La línea siguiente añade sus centros a KID_C.
-export const KID_FINE: {id: string; n: string | Par}[]=[{id:'cuello',n:'el cuello'},{id:'hombros',n:'los hombros'},{id:'codos',n:'los codos'},{id:'rodillas',n:'las rodillas'},{id:'tobillos',n:'los tobillos'}];
+const KID_FINE: {id: string; n: string | Par}[]=[{id:'cuello',n:'el cuello'},{id:'hombros',n:'los hombros'},{id:'codos',n:'los codos'},{id:'rodillas',n:'las rodillas'},{id:'tobillos',n:'los tobillos'}];
 Object.assign(KID_C,{cuello:[0,-410],hombros:[76,-372],codos:[112,-293],rodillas:[43,-100],tobillos:[43,-36]});
 // Como kidPartAt pero mira primero las partes finas (cuello, hombros, codos,
 // rodillas, tobillos); si no toca ninguna, usa kidPartAt.
-export function kidFineAt(px: number,py: number,x: number,y: number,s: number){const u=(px-x)/s,v=(py-y)/s,ax=Math.abs(u);
+function kidFineAt(px: number,py: number,x: number,y: number,s: number){const u=(px-x)/s,v=(py-y)/s,ax=Math.abs(u);
   if(ax<26&&v>-430&&v<-388)return 'cuello';if(dist(ax,v,76,-372)<28)return 'hombros';if(dist(ax,v,112,-293)<28)return 'codos';if(dist(ax,v,43,-100)<30)return 'rodillas';if(dist(ax,v,43,-36)<22)return 'tobillos';return kidPartAt(px,py,x,y,s)}
 // COMPONENTE Cuerpo: el niño dibujado en grande.
 // cfg.mode='free': tocar partes libremente y Tito dice su nombre (una estrella
@@ -386,7 +386,7 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego{
 // Dibuja una cesta (zona de soltar por defecto de Arrastra): trapecio relleno
 // con el color z.c y rayas. z: {x,y,w,h,c}; hl: brillo dorado cuando se está
 // soltando algo encima; icon(x,y,s): dibujo opcional en una tarjeta encima.
-export function drawBasket(z: Libre,hl?: boolean,icon?: (x: number, y: number, s: number) => void){
+function drawBasket(z: Libre,hl?: boolean,icon?: (x: number, y: number, s: number) => void){
   const {x,y,w,h}=z;ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=30}
   ctx.beginPath();ctx.moveTo(x-w/2,y-h/2+20);ctx.lineTo(x+w/2,y-h/2+20);ctx.lineTo(x+w/2-24,y+h/2);ctx.lineTo(x-w/2+24,y+h/2);ctx.closePath();fillStroke(z.c||'#E8B46A',7);ctx.restore();
   ctx.save();ctx.beginPath();ctx.moveTo(x-w/2,y-h/2+20);ctx.lineTo(x+w/2,y-h/2+20);ctx.lineTo(x+w/2-24,y+h/2);ctx.lineTo(x-w/2+24,y+h/2);ctx.closePath();ctx.clip();
@@ -600,7 +600,7 @@ export function Memoria(cfg: Config, onDone: AlTerminar): Juego{
 /* ---------- contar ---------- */
 // Dibuja una tarjeta con n puntos azules como en un dado (1 a 6) en (x,y) con
 // lado s; si dig, también el número debajo.
-export function dotsCard(n: number,x: number,y: number,s: number,dig?: boolean){card(x-s/2,y-s/2,s,s,'#fff',6,30);const P={1:[[0,0]],2:[[-1,-1],[1,1]],3:[[-1,-1],[0,0],[1,1]],4:[[-1,-1],[1,-1],[-1,1],[1,1]],5:[[-1,-1],[1,-1],[0,0],[-1,1],[1,1]],6:[[-1,-1],[1,-1],[-1,0],[1,0],[-1,1],[1,1]]}[n]||[];
+function dotsCard(n: number,x: number,y: number,s: number,dig?: boolean){card(x-s/2,y-s/2,s,s,'#fff',6,30);const P={1:[[0,0]],2:[[-1,-1],[1,1]],3:[[-1,-1],[0,0],[1,1]],4:[[-1,-1],[1,-1],[-1,1],[1,1]],5:[[-1,-1],[1,-1],[0,0],[-1,1],[1,1]],6:[[-1,-1],[1,-1],[-1,0],[1,0],[-1,1],[1,1]]}[n]||[];
   for(const [a,b] of P)circ(x+a*s*.22,y+b*s*.22-(dig?s*.1:0),s*.08,'#5B8DEF',0);if(dig)text(String(n),x,y+s*.42,s*.3,K,{f:LF})}
 // COMPONENTE Cuenta: primero se toca cada objeto para contarlo (Tito dice
 // "uno, dos..."); luego se elige el número en tarjetas de puntos.
@@ -791,7 +791,7 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego{
 // lista ['rioplatense','España'])}. Lo usan Pinta, el tema de los colores...
 export const COLORES: Record<string,{c: string; n: string | Par}>={rojo:{c:'#FF5A5A',n:'rojo'},azul:{c:'#5B8DEF',n:'azul'},amarillo:{c:'#FFD66B',n:'amarillo'},verde:{c:'#7CC86E',n:'verde'},naranja:{c:'#FFA94D',n:'naranja'},rosa:{c:'#F58BB4',n:'rosa'},violeta:{c:'#9B8AD9',n:['violeta','morado']},marron:{c:'#A86B43',n:'marrón'}};
 // Dibuja un bote de pintura del color c en (x,y), tamaño s; sel = elegido (brilla).
-export function paintPot(x: number,y: number,s: number,c: string,sel?: boolean){ctx.save();ctx.translate(x,y);if(sel){ctx.shadowColor=c;ctx.shadowBlur=30}card(-s*.38,-s*.2,s*.76,s*.62,'#fff',6,18);ctx.shadowBlur=0;ctx.beginPath();ctx.ellipse(0,-s*.2,s*.38,s*.14,0,0,PI*2);fillStroke(c,6);ctx.beginPath();ctx.moveTo(-s*.2,-s*.15);ctx.quadraticCurveTo(-s*.18,s*.12,-s*.1,s*.05);ctx.quadraticCurveTo(-s*.05,-s*.1,0,-s*.15);ctx.fillStyle=c;ctx.fill();ctx.restore()}
+function paintPot(x: number,y: number,s: number,c: string,sel?: boolean){ctx.save();ctx.translate(x,y);if(sel){ctx.shadowColor=c;ctx.shadowBlur=30}card(-s*.38,-s*.2,s*.76,s*.62,'#fff',6,18);ctx.shadowBlur=0;ctx.beginPath();ctx.ellipse(0,-s*.2,s*.38,s*.14,0,0,PI*2);fillStroke(c,6);ctx.beginPath();ctx.moveTo(-s*.2,-s*.15);ctx.quadraticCurveTo(-s*.18,s*.12,-s*.1,s*.05);ctx.quadraticCurveTo(-s*.05,-s*.1,0,-s*.15);ctx.fillStyle=c;ctx.fill();ctx.restore()}
 // Nombre del color c concordado con la cosa k: 'rojo'→'roja' si k es femenina,
 // y en plural si k lo es ('rojas', 'marrones').
 export function colorAdj(c: string,k: Cosa){let w=V(COLORES[c].n);const f=fem(k),p=isPl(k);if(/o$/.test(w)&&f)w=w.slice(0,-1)+'a';if(p)w=/[aeiou]$/.test(w)?w+'s':w.replace('ó','o')+'es';return w}

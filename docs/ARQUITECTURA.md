@@ -60,7 +60,9 @@ ciclo de imports): lo poco que usa de él, solo al jugar o al dibujar, cuando ya
 `src/tardias.d.ts` y lo encuentra por su nombre gracias al puente.
 
 `src/modulos.ts` deja en `globalThis` todo lo que exportan los módulos (el **puente**), para esos usos tardíos y para
-las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md)).
+las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md)). Desde la
+fase 4n, un módulo solo exporta lo que usan otros archivos o las pruebas: lo que solo usa él va sin `export` (antes,
+cuando todo era global, se exportaba todo).
   - Cada nombre del puente es una propiedad de `globalThis` con `get`: se lee siempre el valor actual del módulo,
     aunque cambie (`S` tras `ponS`, `ctx` tras `ponCtx`, `T`, `scene`, `go` tras `ponGo`...).
   - **No se puede reasignar** desde fuera (`T = 3` da error: para eso están las funciones `pon*`) ni declarar otra
