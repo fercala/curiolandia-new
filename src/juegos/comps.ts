@@ -43,8 +43,8 @@
 //     (estadísticas de la zona de adultos). Se suele llamar solo en el primer
 //     intento de cada pregunta.
 //   - onRight(primeraVez) (nucleo/interfaz.ts): acierto. Si fue a la primera, sube la racha
-//     y la dificultad adaptativa (ADAPT). escenas/tienda.ts la envuelve para dar 1 MONEDA
-//     por cada acierto a la primera, como mucho 5 monedas por partida.
+//     y la dificultad adaptativa (ADAPT), y da 1 MONEDA por cada acierto a la primera, como
+//     mucho 5 monedas por partida (desde la fase 4b; antes escenas/tienda.ts la envolvía).
 //   - onWrongTwice() (nucleo/interfaz.ts): dos fallos seguidos; baja la dificultad (ADAPT).
 //     Algunos componentes también ponen idle=12 para que salga la ayuda ya.
 //   - Sonidos y efectos: SFX.good()/SFX.bad(), burst(), sparkles() (nucleo/sonido.ts y nucleo/escenas.ts).

@@ -53,7 +53,8 @@
  *   drawLogoSmall, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
  *   bunting), juegos/ (NUM), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
- *   siguienteRegalo) y de dominio/monedas.ts (MONEDAS, ganar, monedasDelCofre), y el tipo Articulo de
+ *   siguienteRegalo) y de dominio/monedas.ts (MONEDAS, ganar); los casos de uso del cofre (ganarCofre, abrirCofre,
+ *   sinPendiente) de aplicacion/abrirCofre.ts (desde la fase 4l), y el tipo Articulo de
  *   escenas/tienda.ts, y del núcleo inR, STARS, REP_ON y ponRepOn y las monedas (creditCoins, giveCoins, drawCoinHUD,
  *   inCoinHUD; desde la fase 4a en su módulo, nucleo/monedas.ts desde la 4b). Desde la fase 4c, el caso de uso del
  *   repaso del día (aplicacion/repasoDelDia.ts: tocaRepasar, repasoTerminado, seguirPorElRepaso), con CATALOGO de
@@ -69,7 +70,8 @@ import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
-import { MONEDAS, ganar, monedasDelCofre } from '../dominio/monedas.ts';
+import { MONEDAS, ganar } from '../dominio/monedas.ts';
+import { abrirCofre, ganarCofre, sinPendiente } from '../aplicacion/abrirCofre.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
@@ -408,7 +410,7 @@ export function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z
   if(o.unl&&unlockFx(x,y,z.r*.85,o.unl)){}else if(lk){lockOver(x,y,z.r*.85);card(x-46,y+z.r*.6,92,44,'#fff',5,22);flower(x-20,y+z.r*.6+22,11,FLC[0],2.5);text(String(spotNeed(z.id)),x+18,y+z.r*.6+35,30,K,{f:LF})}
   ctx.restore()}
 // MAPA v3: la escena del mapa. Desde la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le
-// sustituía los métodos). mundo3d/mapa3d.ts la envuelve después para el mapa 3D.
+// sustituía los métodos). mundo3d/mapa3d.ts pone un mapa 3D hecho a partir de este (hasta la fase 4j lo envolvía).
 SCENES.map={music:'map',
 // enter(o): decide UN solo aviso al entrar, por prioridad:
 // 1) una zona que se acaba de despertar (S.woke) sin ser de su edad; 2) un sitio recién abierto (newlyOpen 'map');
@@ -499,7 +501,7 @@ export function stationPos(t: Tema,j: number): number[]{const p=disposicion().pu
 export const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
 // CASITA v3: la escena de la casita de un tema: los juegos forman un camino y se abren de uno en uno (gameOpen). Desde
 // la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le sustituía enter, prompt, hint, draw y
-// down). mundo3d/casita3d.ts la envuelve después para la casita 3D.
+// down). mundo3d/casita3d.ts pone una casita 3D hecha a partir de esta (hasta la fase 4i la envolvía).
 SCENES.casita={music:'casita',
 // dwell(id): id = 'g:' + número de juego; dice el nombre del juego (g.name o GNAME[g.t]).
   dwell(id){const j=+id.slice(2);const g=this.t.games[j];if(g)say(V(g.name||GNAME[g.t]||''))},
@@ -570,17 +572,21 @@ export function drawChest(x: number,y: number,s: number,op: number,sh: number){c
 
 // EL COFRE DEL TESORO: premio por terminar un tema. Se llega con go('cofre', {t: id}) desde la casita con o.fin.
 // Hay que tocarlo 3 veces; al abrirse da el siguiente regalo de GIFTS (o 20 monedas si ya no quedan), la figurita del tema
-// y 10 monedas. Luego se puede ir a la casa de Tito a verlo o seguir el camino. (mundo3d/cofre3d.ts lo envuelve para el 3D.)
+// y 10 monedas. Luego se puede ir a la casa de Tito a verlo o seguir el camino. (mundo3d/cofre3d.ts pone un
+// cofre 3D hecho a partir de este; hasta la fase 4i lo envolvía.)
 // Mientras el cofre está sin abrir, S.cofreP[id del tema] = 1 (premio pendiente): si se cierra o recarga la página antes
 // de abrirlo, cofrePend() lo entrega al arrancar, para que el premio del tema nunca se pierda.
 SCENES.cofre={music:'casita',
 // enter(o): prepara el cofre cerrado, elige el regalo, suma S.cofres, apunta el premio pendiente (S.cofreP) y lo anuncia.
+// Lo de la partida lo dice el caso de uso ganarCofre (aplicacion/abrirCofre.ts, desde la fase 4l).
   enter(o: Libre){VIVO.coinBanner=null;VIVO.toast=null;this.t=TEMA[o.t];this.taps=0;this.op=0;this.openT=0;this.shakeT=-9;this.rewarded=false;this.gift=nextGift();this.busy=false;
-    S.cofres=(S.cofres||0)+1;S.cofreP=Object.assign({},S.cofreP,{[this.t.id]:1});save();
+    Object.assign(S,ganarCofre(S,this.t.id));save();
     const n=lowName(this.t);later(400,()=>{SFX.tada();burst(800,300,70);say(('¡Terminaste todos los juegos de '+n).replace(/ de el /,' del ')+kid()+'! ¡Ganaste un cofre del tesoro! Tocalo tres veces para abrirlo.')})},
 // reward(): entrega el premio una sola vez (this.rewarded): regalo, figurita (S.stk) y monedas (S.coins). Se llama al
 // abrirse o al salir con la casa sin abrirlo, para que nunca se pierda. Quita el pendiente de S.cofreP (giveCoins guarda).
-  reward(){if(this.rewarded)return;this.rewarded=true;if(S.cofreP)delete S.cofreP[this.t.id];const it=this.gift;if(it)grantGift(it);giveSticker(this.t.icon);giveCoins(monedasDelCofre(!!it),800,560);
+// Lo de la partida (pendiente y figurita) y cuántas monedas da lo dice el caso de uso abrirCofre (aplicacion/abrirCofre.ts,
+// desde la fase 4l); aquí se ponen en S, se da el regalo (grantGift) y se enseñan la figurita y las monedas.
+  reward(){if(this.rewarded)return;this.rewarded=true;const it=this.gift,r=abrirCofre(S,this.t.id,this.t.icon,!!it);Object.assign(S,r.partida);if(it)grantGift(it);giveSticker(this.t.icon,true);giveCoins(r.monedas,800,560);
     // los carteles de figurita y monedas van a la derecha: en el centro tapaban el regalo y su nombre
     if(VIVO.toast){VIVO.toast.x=1290;VIVO.toast.y=300}if(VIVO.coinBanner){VIVO.coinBanner.x=1300;VIVO.coinBanner.y=540}},
 // next(): vuelve a la zona del tema con {from: id} (la zona felicita si ya no queda camino).
@@ -623,8 +629,10 @@ SCENES.cofre={music:'casita',
     SFX.tap();sparkles(x,y,3)}
 };
 // cofrePend(): al arrancar (aplicacion/arranque.ts), entrega sin animación los cofres que quedaron sin abrir (S.cofreP), uno por tema:
-// el siguiente regalo (o 20 monedas si no quedan), la pegatina del tema y 10 monedas, como reward(). Se ven en la casa de Tito.
+// el siguiente regalo (o 20 monedas si no quedan), la pegatina del tema y 10 monedas, como reward(): desde la fase 4l, con
+// el mismo caso de uso, abrirCofre (aplicacion/abrirCofre.ts). Se ven en la casa de Tito. Un pendiente de un tema que ya
+// no existe solo se quita.
 export function cofrePend(){const P=S.cofreP;if(!P||typeof P!=='object'){delete S.cofreP;return}
-  for(const id of Object.keys(P)){delete P[id];const t=TEMA[id];if(!t)continue;const it=nextGift();if(it)grantGift(it);
-    S.stk[t.icon]=(S.stk[t.icon]||0)+1;Object.assign(S,ganar(S,monedasDelCofre(!!it)))}
+  for(const id of Object.keys(P)){const t=TEMA[id];if(!t){S.cofreP=sinPendiente(S.cofreP,id);continue}const it=nextGift(),r=abrirCofre(S,id,t.icon,!!it);
+    Object.assign(S,r.partida);if(it)grantGift(it);Object.assign(S,ganar(S,r.monedas))}
   save()}
