@@ -1,7 +1,7 @@
 {
-  // Revisión de tipos del código JavaScript del juego (src/*.js) con los tipos de src/tipos/. Todavía no es estricta:
-  // el código es global y sin tipos, así que salen muchos avisos. `npm run tipos:js` los cuenta y falla solo si hay
-  // más que el límite apuntado en tests/tipos-js-limite.txt (ver docs/TIPOS.md). Cada fase debería bajarlo.
+  // Revisión de tipos del código JavaScript del juego (src/*.js) con los tipos de src/tipos/ y la global THREE de
+  // src/mundo3d/three.d.ts. No es estricta: era para el código global sin tipos (desde la fase 2o solo queda boot.js).
+  // `npm run tipos:js` cuenta los avisos y falla si hay más que el límite de tests/tipos-js-limite.txt (ver docs/TIPOS.md).
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
@@ -13,6 +13,6 @@
     "skipLibCheck": true,
     "types": ["three"]
   },
-  "include": ["src/*.js", "src/tipos/*.d.ts"],
+  "include": ["src/*.js", "src/tipos/*.d.ts", "src/mundo3d/three.d.ts"],
   "exclude": ["src/icons.js"]
 }

@@ -8,7 +8,7 @@
 //   makeGame de temas/temas.ts a partir de words del tema.
 // Desde la fase 2h es un módulo (temas/indice.ts lo carga después de temas5.ts) y exporta: DLYR, SONGS, bubbles,
 //   drops, RP, RUT, lineP, polyP, TRZ_L, TRZ, CAN, COSTUME, HATS, costumeZone, freeDeco, FIESTAS. El puente de
-//   src/modulos.ts los deja en globalThis para el código global que queda (world3d.js).
+//   src/modulos.ts los deja en globalThis para las pruebas.
 // Al cargarse: añade BG.trazo, palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento, y envuelve makeGame
 //   (temas/temas.ts, con ponMakeGame) para los tipos 'cuento' y 'cancion'.
 // Importa: temas.ts, temas4.ts y temas5.ts (T3, T4, T5, BG, ESTS, swatch, dayCard, monthCard, makeGame), juegos/

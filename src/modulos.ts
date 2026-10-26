@@ -9,8 +9,9 @@
 // componentes de juego (juegos/indice.ts, antes comps.js y comps2.js) y los temas que los usan (temas/indice.ts,
 // antes temas.js, temas4.js y temas5.js). Luego los cuentos (contenido/cuentos.ts, antes cuentos.js: solo datos) y, al
 // final, las escenas (escenas/indice.ts: escenas2d.ts, zonas.ts, tienda.ts y repaso.ts, antes scenes.js, zonas.js,
-// tienda.js y repaso.js), que usan los temas. La última es la aplicación (aplicacion/adultos.ts, antes adult.js): la
-// zona de adultos, la entrada y el bucle de dibujo, que usan todo lo anterior.
+// tienda.js y repaso.js), que usan los temas. Después va la aplicación (aplicacion/adultos.ts, antes adult.js): la
+// zona de adultos, la entrada y el bucle de dibujo, que usan todo lo anterior. La última es la capa 3D
+// (mundo3d/mundo3d.ts, antes world3d.js), que envuelve las escenas del mapa, las zonas, la casita y el cofre.
 import * as dibujos from './dibujos/todos.ts';
 import * as nucleo from './nucleo/indice.ts';
 import './contenido/lex.ts';
@@ -19,6 +20,7 @@ import * as temas from './temas/indice.ts';
 import * as cuentos from './contenido/cuentos.ts';
 import * as escenas from './escenas/indice.ts';
 import * as aplicacion from './aplicacion/adultos.ts';
+import * as mundo3d from './mundo3d/mundo3d.ts';
 
 // puente(m): deja cada cosa que exporta el módulo m en globalThis con su mismo nombre, para el código global.
 // Es una propiedad con get que lee siempre el valor actual del módulo: así S, ctx, T, scene, go... están al día aunque
@@ -45,3 +47,4 @@ puente(temas);
 puente(cuentos);
 puente(escenas);
 puente(aplicacion);
+puente(mundo3d);

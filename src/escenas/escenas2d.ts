@@ -26,8 +26,8 @@
  *       una vez a scene.prompt() para repetir la consigna en voz alta.
  *
  * Desde la fase 2j es un módulo: src/modulos.ts lo carga el último (usa los
- * temas) y el puente deja lo que exporta en globalThis para world3d.js, que aún es código global
- * (escenas/zonas.ts, escenas/tienda.ts, escenas/repaso.ts y aplicacion/adultos.ts lo importan).
+ * temas) y el puente deja lo que exporta en globalThis para las pruebas (escenas/zonas.ts, escenas/tienda.ts,
+ * escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan).
  *
  * OJO: escenas/zonas.ts (que va DESPUÉS) reescribe varias cosas de
  * este archivo: SCENES.map (enter, prompt, hint, dwell, draw, down),
@@ -35,7 +35,7 @@
  * sustituye entera por zoneScene('jardin')), y cambia suggestTema y
  * stationPos con ponSuggestTema y ponStationPos (escenas/tienda.ts y escenas/repaso.ts
  * envuelven finishGame con ponFinishGame).
- * Y world3d.js vuelve a envolver map, casita, cofre, title y las zonas
+ * Y mundo3d/mundo3d.ts vuelve a envolver map, casita, cofre, title y las zonas
  * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
  *
  * Lo que exporta y usan otros archivos:
@@ -104,7 +104,7 @@ export const standalone=()=>matchMedia('(display-mode: standalone)').matches||ma
 /* ---------- PORTADA ---------- */
 // PORTADA. Primera escena. Desde aquí se va a 'edad' (si aún no hay edad), 'intro' (si no se ha visto el cuento)
 // o al mapa. También tiene los botones de pantalla completa, instalar, "¿Quién juega?" y "Empezar de nuevo".
-// (world3d.js la envuelve para dibujar la portada en 3D.)
+// (mundo3d/mundo3d.ts la envuelve para dibujar la portada en 3D.)
 SCENES.title={music:null,
 // enter(): crea 14 signos de interrogación de colores (this.q) que flotan hacia arriba por el fondo.
   enter(){this.q=Array.from({length:14},(_,i)=>({x:rnd(100,1500),y:rnd(120,820),v:rnd(10,30),ph:rnd(0,6),c:LOGOC[i%LOGOC.length]}))},
@@ -248,7 +248,7 @@ export function tree(x: number,y: number,s: number,season: string){ctx.save();ct
     if(season==='otoño')for(let i=0;i<4;i++){ell(-60+i*40,60+Math.sin(i)*6,12,6,i%2?'#FF6B5E':'#C98A4B',2)}}
   ctx.restore()}
 // MAPA DEL PUEBLO (versión 1). escenas/zonas.ts reescribe enter, prompt, hint, dwell, draw y down con Object.assign
-// (mapa v3 con MZ2, botón "seguir el camino", casa de Tito...), y world3d.js lo vuelve a envolver para el 3D.
+// (mapa v3 con MZ2, botón "seguir el camino", casa de Tito...), y mundo3d/mundo3d.ts lo vuelve a envolver para el 3D.
 // Lo que queda de aquí: el objeto SCENES.map y su música.
 SCENES.map={music:'map',
 // enter(o): si hay temas terminados nuevos (flores) lo celebra y actualiza S.seenFl; si no, saluda (o.hello).
@@ -326,7 +326,7 @@ export const BANDC=['#FFE2B8','#D6EEFA','#DDF3D2'];
 // drawCasita(t, x, y, o): dibuja la casita del tema t en (x, y). o.s = escala, o.glow = halo amarillo (la recomendada).
 // Las casitas normales llevan tejado del color t.c y el dibujo t.icon; el Rincón de los Conceptos (t.concepts) es un
 // cuadro con formas. Debajo, un punto por juego (amarillo = terminado) y, si el tema está terminado, estrella y flores.
-// Solo dibuja. La usan las zonas (escenas/zonas.ts) y world3d.js para las etiquetas.
+// Solo dibuja. La usan las zonas (escenas/zonas.ts) y mundo3d/mundo3d.ts para las etiquetas.
 export function drawCasita(t: Tema,x: number,y: number,o: Libre={}){
   const st=tst(t.id),done=st.done,n=gDone(t),s=o.s||1;
   ctx.save();ctx.translate(x,y);ctx.scale(s,s);
@@ -379,9 +379,9 @@ export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde es
 export const gIcon=(g: JuegoTema,t: Tema): string=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='memoria'?'memo':t.icon);
 // stationPos(t, j): posición [x, y] en pantalla de la estación (círculo) del juego j dentro de la casita del tema t.
 // Hasta 4 juegos van en una fila; si hay más, en dos filas de 3. OJO: escenas/zonas.ts la reescribe (camino en zigzag y hasta
-// 8 juegos) y world3d.js la vuelve a envolver con las posiciones proyectadas del 3D.
+// 8 juegos) y mundo3d/mundo3d.ts la vuelve a envolver con las posiciones proyectadas del 3D.
 export let stationPos: (t: Tema, j: number) => number[]=function(t,j){const n=t.games.length;if(n<=4){return[860-(n-1)*180+j*360,560]}const r=Math.floor(j/3),c=j%3;return[540+c*360,r?700:420]}
-// ponStationPos(f): cambia stationPos por otra función (escenas/zonas.ts y world3d.js la cambian por la suya).
+// ponStationPos(f): cambia stationPos por otra función (escenas/zonas.ts y mundo3d/mundo3d.ts la cambian por la suya).
 export function ponStationPos(f: typeof stationPos){stationPos=f}
 // drawStation(t, j, x, y, o): dibuja la estación del juego j del tema t en (x, y): círculo blanco (amarillo si es el
 // primero y no está hecho), el dibujo del juego (lupa, búsqueda, cartas de memoria o el icono) y, si está terminado,
@@ -399,7 +399,7 @@ export function drawStation(t: Tema,j: number,x: number,y: number,o: Libre={}){
 }
 // CASITA DE UN TEMA: las estaciones de sus juegos. Se entra con go('casita', {t: id del tema, hello?, fin?}).
 // OJO: escenas/zonas.ts reescribe enter, prompt, hint, draw y down (juegos en camino con candados, y si o.fin va al cofre);
-// de aquí sigue valiendo dwell. Luego world3d.js y escenas/repaso.ts la vuelven a envolver.
+// de aquí sigue valiendo dwell. Luego mundo3d/mundo3d.ts y escenas/repaso.ts la vuelven a envolver.
 SCENES.casita={music:'casita',
 // enter(o): guarda en S.last el último tema visitado. Si viene de terminar el tema (o.fin) lo celebra con figurita;
 // si no, saluda. (Sustituido en escenas/zonas.ts.)
@@ -448,7 +448,7 @@ export function ponFinishGame(f: typeof finishGame){finishGame=f}
 // JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
-// escenas/tienda.ts y world3d.js envuelven enter/draw (monedas del juego, recordar el último juego).
+// escenas/tienda.ts y mundo3d/mundo3d.ts envuelven enter/draw (monedas del juego, recordar el último juego).
 SCENES.juego={music:'game',
 // enter(o): REP = veces que ya se ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
 // Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces.

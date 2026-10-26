@@ -250,7 +250,7 @@ declare global {
     __said?: string[];
     /** Puerta para las pruebas automáticas (aplicacion/adultos.ts; docs/CONTRATO-PRUEBAS.md). */
     __cl: PuertaPruebas;
-    /** Lo que la capa 3D ofrece al resto del juego (world3d.js). */
+    /** Lo que la capa 3D ofrece al resto del juego (mundo3d/mundo3d.ts). */
     __w3: { ok?: boolean; retito?: () => void; [dato: string]: unknown };
   }
 }

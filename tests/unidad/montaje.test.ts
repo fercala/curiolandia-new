@@ -22,13 +22,11 @@ describe('ARCHIVOS', () => {
     expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
   });
 
-  // El orden importa: world3d.js primero (core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js,
-  // scenes.js, zonas.js, tienda.js, repaso.js y adult.js ya son módulos: src/nucleo/, src/contenido/, src/juegos/, src/temas/,
-  // src/escenas/ y src/aplicacion/), y boot.js al final (ver docs/ARQUITECTURA.md).
-  test.each([
-    ['world3d.js', 'boot.js'],
-  ] as const)('%s va antes que %s', (antes, despues) => {
-    expect(ARCHIVOS.indexOf(antes)).toBeLessThan(ARCHIVOS.indexOf(despues));
+  // Desde la fase 2o solo queda boot.js, el arranque: todo lo demás (core.js, lex.js, comps.js, comps2.js, los temas,
+  // cuentos.js, extras.js, ingles.js, scenes.js, zonas.js, tienda.js, repaso.js, adult.js y world3d.js) ya son módulos que
+  // van antes (ver docs/ARQUITECTURA.md).
+  test('solo queda boot.js, el arranque', () => {
+    expect([...ARCHIVOS]).toEqual(['boot.js']);
   });
 });
 
@@ -122,6 +120,8 @@ describe('paginaJuego', () => {
     // aplicacion/adultos.ts: la zona de adultos, el bucle frame() que arranca boot.js, la copia de seguridad y window.__cl.
     for (const k of ['frame', 'openAdult', 'closeAdult', 'openNameDlg', 'openResetDlg', 'doReset', 'bkEncode', 'bkDecode']) expect(typeof global[k], k).toBe('function');
     expect(runInContext("__cl.go === undefined ? 'no' : typeof __cl.go + ' ' + (__cl.S === S)", global)).toBe('function true');
+    // mundo3d/mundo3d.ts: sin Three.js (aquí no hay WebGL) la capa 3D no se monta: R3frame sigue en null y el juego va en 2D.
+    expect(runInContext("R3frame === null && window.__w3 === undefined && SCENES.map.three === undefined", global)).toBe(true);
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

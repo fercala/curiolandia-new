@@ -9,12 +9,12 @@
  *     ejecuta en cada cuadro (temporizadores, tiempo de juego, música, 3D, dibujo de la escena, ayudas, partículas...).
  *  3) La COPIA DE SEGURIDAD: bkEncode/bkDecode/bkWire convierten S en un código de texto o un archivo JSON y al revés.
  * Desde la fase 2n es un módulo: src/modulos.ts lo carga el último, después de las escenas, y el puente deja lo que
- * exporta en globalThis para world3d.js y boot.js (código global) y para las pruebas.
+ * exporta en globalThis para boot.js (código global) y para las pruebas.
  * Define: SKILL, esc, toLogical, dlgOpen, isPortrait, hoverTick, window.__cl (para pruebas automáticas) y bkWire.
  * Exporta: openAdult, closeAdult, openNameDlg, openResetDlg, doReset, frame, bkEncode y bkDecode.
  * Importa: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
- * CAN, RUT, TRZ, FIESTAS, ING), escenas/tienda.ts (STARS, drawCoinFx) y escenas/zonas.ts (zoneOpen). Usa de world3d.js, que va después, R3frame y
+ * CAN, RUT, TRZ, FIESTAS, ING), escenas/tienda.ts (STARS, drawCoinFx) y escenas/zonas.ts (zoneOpen). Usa de mundo3d/mundo3d.ts, que va después, R3frame y
  * window.__w3 (tipos en src/tardias.d.ts y nucleo/tipos.ts).
  * frame() la arranca boot.js.
  */
@@ -158,7 +158,7 @@ export function openAdult(){
 // Voz del navegador: S.vozNav guarda la elegida ('' = automática); se aplica con pickVoice y se oye un saludo de prueba.
   q('#a-vnav').onchange=e=>{S.vozNav=(e.target as HTMLInputElement).value;save();pickVoice();vozProbar()};
   q('#a-vprueba').onclick=()=>{pickVoice();vozProbar()};
-// Paisaje: S.quiet3=1 hace callar los comentarios de Tito en el mundo 3D (say3 en world3d.js).
+// Paisaje: S.quiet3=1 hace callar los comentarios de Tito en el mundo 3D (say3 en mundo3d/mundo3d.ts).
   el.querySelectorAll<HTMLInputElement>('[name=a-q3]').forEach(r=>r.onchange=()=>{S.quiet3=r.value==='q'?1:0;save()});
 // Hemisferio, límite de tiempo y volúmenes (los volúmenes se aplican al momento con setVol).
   el.querySelectorAll<HTMLInputElement>('[name=a-hemi]').forEach(r=>r.onchange=()=>{S.hemi=r.value as Estado['hemi'];save()});
@@ -255,7 +255,7 @@ function hoverTick(dt: number){
    Pasos: 1) calcula rdt (tiempo real, máx. 1 s) y dt (máx. 0,05 s para que una pausa no dé un salto) y avanza T, idle (solo mientras Tito calla) y el velo fade;
    2) ejecuta los temporizadores de later() que vencen (solo si siguen en su escena); 3) candado: 3 s reales pulsado abre la
    zona de adultos; 4) cuenta el tiempo jugado (S.days cada 15 s, límite S.limit -> escena 'dormir');
-   5) música y scene.update(dt); 6) fondo: si la escena es 3D (scene.three), world3d.js la pinta con R3frame(dt);
+   5) música y scene.update(dt); 6) fondo: si la escena es 3D (scene.three), mundo3d/mundo3d.ts la pinta con R3frame(dt);
    7) dibuja la escena 2D encima, ayudas, partículas, aviso de pegatina y monedas, y el candado, recortado a 1600x900;
    8) velo de transición; 9) rellena las bandas laterales en pantallas alargadas; 10) aviso de girar el móvil.
    Cada paso va en try/catch: un fallo de una escena se ve en la consola pero no para el juego. */
