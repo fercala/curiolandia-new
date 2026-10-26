@@ -20,7 +20,7 @@ import type { Estado, Volumenes } from './tipos.ts';
  *   limit    minutos de juego por sesión (0 = sin límite; 10, 15 o 20). Al llegar, Tito se va a dormir (escena 'dormir').
  *   temas    {idTema: {g: {númeroDeJuego: veces jugado}, done: 0/1}}: progreso de cada tema (escenas/escenas2d.ts).
  *   stats    {habilidad: {ok, err}}: aciertos y fallos por habilidad (rec()); se ven en la zona de adultos.
- *   days     {'AAAA-MM-DD': minutos}: tiempo jugado cada día (se guardan los últimos 30; lo apunta frame() en adult.js).
+ *   days     {'AAAA-MM-DD': minutos}: tiempo jugado cada día (se guardan los últimos 30; lo apunta frame() en aplicacion/adultos.ts).
  *   asam     {'AAAA-MM-DD': {done, age, dia, tiempo, emo}}: la asamblea de cada día (escenas/escenas2d.ts).
  *   stk      {dibujo: cantidad}: pegatinas (figuritas) del álbum (giveSticker()).
  *   album    lista vacía que no usa ningún archivo (se conserva por compatibilidad).
@@ -44,12 +44,12 @@ import type { Estado, Volumenes } from './tipos.ts';
 // (fercala.github.io) y por eso comparte localStorage: su partida se copia una sola vez (ver load()) y nunca se escribe.
 // KEY_COPIA marca que esa copia ya se hizo (solo si había partida vieja), para no volver a traerla nunca más.
 export const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curiolandia-new.copiada';
-// DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (adult.js) también parte de aquí.
+// DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (aplicacion/adultos.ts) también parte de aquí.
 // variant '' (aún sin elegir) y hemi 'N' llevan su tipo de Estado para que S (copia de DEF) sea un Estado.
 export const DEF={age:0,name:'',variant:'' as Estado['variant'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0};
 // S empieza siendo una copia de DEF (JSON.parse(JSON.stringify(...)) hace una copia profunda) y load() la completa.
 export let S: Estado=JSON.parse(JSON.stringify(DEF)) as Estado;
-// ponS(nuevo): cambia la partida entera por otra (borrar todo en adult.js). Es la única forma de cambiar S desde otro
+// ponS(nuevo): cambia la partida entera por otra (borrar todo en aplicacion/adultos.ts). Es la única forma de cambiar S desde otro
 // archivo; para cambiar un campo basta con S.campo = valor.
 export function ponS(nuevo: Estado): void{S=nuevo}
 // Una partida leída de localStorage (o de otra pestaña) antes de arreglarla: cualquier campo puede traer cualquier cosa.

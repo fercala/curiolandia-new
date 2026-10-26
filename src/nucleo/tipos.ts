@@ -119,7 +119,7 @@ export interface Temporizador {
   t: number;
   fn: () => void;
   tok: number;
-  /** Ya se ejecutó (frame() en adult.js lo marca y lo quita de la lista). */
+  /** Ya se ejecutó (frame() en aplicacion/adultos.ts lo marca y lo quita de la lista). */
   done?: boolean | number;
 }
 
@@ -233,12 +233,23 @@ export interface Escena {
   [campo: string]: any;
 }
 
+/** window.__cl: lo que las pruebas automáticas leen y hacen en el juego (aplicacion/adultos.ts). */
+export interface PuertaPruebas {
+  go(nombre: string, opciones?: Libre): void;
+  readonly S: Estado;
+  readonly scene: Escena | null;
+  readonly name: string;
+  [dato: string]: unknown;
+}
+
 declare global {
   interface Window {
     /** Modo rápido de las pruebas: say() no habla (voz.ts). */
     __fast?: number;
     /** Frases que dice Tito en modo rápido. */
     __said?: string[];
+    /** Puerta para las pruebas automáticas (aplicacion/adultos.ts; docs/CONTRATO-PRUEBAS.md). */
+    __cl: PuertaPruebas;
     /** Lo que la capa 3D ofrece al resto del juego (world3d.js). */
     __w3: { ok?: boolean; retito?: () => void; [dato: string]: unknown };
   }

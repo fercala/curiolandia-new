@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
 <!-- Estilos: html/body sin márgenes ni desplazamiento (el juego ocupa toda la pantalla); #gl y #cv, los lienzos;
-     #adult, el panel de la zona de adultos (adult.js: .row filas, .opt opciones, .note notas, .tm temas, .cal asambleas,
+     #adult, el panel de la zona de adultos (aplicacion/adultos.ts: .row filas, .opt opciones, .note notas, .tm temas, .cal asambleas,
      .pill etiquetas de la tabla de habilidades); #nameDlg y #resetDlg, los diálogos del nombre y de empezar de nuevo. -->
 <style>
 :root{--paper:#FFF6E6;--ink:#4A3428;--lav:#9B8AD9;color-scheme:light}
@@ -56,9 +56,9 @@ html,body{margin:0;height:100%;background:#2E2420;overflow:hidden;overscroll-beh
 <canvas id="cv"></canvas>
 <!-- Three.js r128, la librería 3D (en la web publicada se usa la copia local three.min.js). -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- Diálogo para escribir el nombre de quien juega (openNameDlg en adult.js). -->
+<!-- Diálogo para escribir el nombre de quien juega (openNameDlg en aplicacion/adultos.ts). -->
 <div id="nameDlg" hidden><div class="panel"><h2>¿Cómo se llama quien juega?</h2><p style="margin:0;font-size:15px;color:#7A6252">Tito lo va a decir en voz alta. Se puede dejar vacío.</p><input id="nm-in" maxlength="20" autocomplete="off" placeholder="Nombre"><div class="row"><button id="nm-ok" type="button">Listo</button><button id="nm-x" type="button">Cancelar</button></div></div></div>
-<!-- Diálogo para empezar de nuevo (openResetDlg y doReset en adult.js). -->
+<!-- Diálogo para empezar de nuevo (openResetDlg y doReset en aplicacion/adultos.ts). -->
 <div id="resetDlg" class="dlg" hidden><div class="panel"><h2>¿Empezar de nuevo?</h2><p style="margin:0">Se borra todo el progreso: temas, estrellas, figuritas, asambleas, el nombre y la edad. Se conservan el idioma, el volumen y el límite de tiempo.</p><div class="row"><button id="rs-yes" type="button" style="background:#E2574C;color:#fff">Sí, borrar todo</button><button id="rs-no" type="button">No</button></div></div></div>
-<!-- Zona de adultos: openAdult() (adult.js) rellena .body con todo el contenido cada vez que se abre. -->
+<!-- Zona de adultos: openAdult() (aplicacion/adultos.ts) rellena .body con todo el contenido cada vez que se abre. -->
 <div id="adult" hidden><div class="panel"><header><h2>Zona de adultos</h2><button id="a-close">Volver al juego</button></header><div class="body"></div></div></div>

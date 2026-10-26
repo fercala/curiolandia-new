@@ -81,9 +81,9 @@ importar de otros módulos, nunca del código global.
 | 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo, el último que carga `modulos.ts`) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
 | 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
-| 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`, la última de todos los módulos) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
-| 13 | `adult.js` | Primer archivo global. Zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado) y el bucle de dibujo `frame()`**. |
-| 14 | `world3d.js` | **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
+| 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
+| 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
+| 14 | `world3d.js` | Primer archivo global. **Toda la capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
 | 15 | `boot.js` | Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `tipos/estado.d.ts`, `tipos/globales.d.ts`, `tipos/puente.d.ts` | Tipos del estado `S`, de los temas, de lo que hay en `window` y del puente, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
@@ -109,9 +109,9 @@ declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo
 
 ## 3. La pantalla lógica de 1600x900
 
-Todo el juego trabaja en una pantalla imaginaria de **1600 x 900 píxeles**. `nucleo/pantalla.ts` escala el lienzo al tamaño real de la ventana y `adult.js` convierte cada toque a esas coordenadas (`toLogical`). Así nunca tienes que pensar en el tamaño del móvil: si dibujas algo en `x=800, y=450`, siempre sale en el centro.
+Todo el juego trabaja en una pantalla imaginaria de **1600 x 900 píxeles**. `nucleo/pantalla.ts` escala el lienzo al tamaño real de la ventana y `aplicacion/adultos.ts` convierte cada toque a esas coordenadas (`toLogical`). Así nunca tienes que pensar en el tamaño del móvil: si dibujas algo en `x=800, y=450`, siempre sale en el centro.
 
-## 4. El bucle principal (`frame` en `adult.js`)
+## 4. El bucle principal (`frame` en `aplicacion/adultos.ts`)
 
 Cada cuadro (unas 60 veces por segundo) `frame()` hace, en este orden:
 
@@ -230,7 +230,7 @@ Es el archivo más grande y el más delicado. La idea clave:
 2. **`enter`** llama al `enter` original y construye el mundo 3D (`buildMap`, `buildZone`, `buildCasita`, `buildCofre`, `buildTitle`), y lo activa con `setWorld(w)`.
 3. **Cada cuadro**, `sync()` **proyecta** las posiciones 3D a la pantalla lógica de 1600x900 (`proj`, `projR`, `projO`) y las escribe en las variables que usa la lógica 2D: `MZ2` (lugares del mapa), `ZPOS[zona][tema]` (casitas), `stationPos` (estaciones de la casita), `TITO` y `HOUSE_AT`. Así los `down`, `hint` y bocadillos originales siguen funcionando sin saber que hay 3D.
 4. **Al tocar** (`down`): `pickAt(x,y)` lanza un rayo desde la cámara (raycast) y mira qué objeto 3D hay debajo. Si es un lugar o una casita, Tito camina hasta allí (`walkTo`) y al llegar se llama al `down` 2D original (`call0`). Si no es nada importante, se prueba con los objetos decorativos (`flyTap`, `wobTap`), el cielo (`skyTap`), el mar (`seaTap`) y, si no, Tito pasea hasta ese punto (`walkGround`).
-5. `R3frame(dt)` (llamado desde `frame()` de adult.js) ejecuta las animaciones del mundo (`w.upd`), mueve la cámara y pinta con el renderer `R`.
+5. `R3frame(dt)` (llamado desde `frame()` de aplicacion/adultos.ts) ejecuta las animaciones del mundo (`w.upd`), mueve la cámara y pinta con el renderer `R`.
 
 Si el navegador no tiene WebGL, el juego funciona igual en 2D.
 
@@ -302,7 +302,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 ## 13. Zona de adultos
 
-Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAdult` en adult.js). Es un panel HTML (no canvas) con: modo de juego (camino o libre), edad, nombre, cumpleaños, idioma y voz, volumen, límite de tiempo, animal de Tito, paisaje (que Tito comente o no), vales, estadísticas, copia de seguridad y borrar progreso.
+Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAdult` en aplicacion/adultos.ts). Es un panel HTML (no canvas) con: modo de juego (camino o libre), edad, nombre, cumpleaños, idioma y voz, volumen, límite de tiempo, animal de Tito, paisaje (que Tito comente o no), vales, estadísticas, copia de seguridad y borrar progreso.
 
 ## 14. Montar y publicar
 

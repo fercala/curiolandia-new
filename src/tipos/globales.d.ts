@@ -10,18 +10,8 @@ type Tema = import('../juegos/tipos.ts').Tema;
 type Libre = import('../nucleo/tipos.ts').Libre;
 type Vivo = import('../nucleo/tipos.ts').Vivo;
 
-/** Lo que las pruebas automáticas leen del juego (adult.js; ver docs/CONTRATO-PRUEBAS.md). */
-interface PuertaPruebas {
-  go(nombre: string, opciones?: object): void;
-  readonly S: Estado;
-  readonly scene: unknown;
-  readonly name: string;
-  [dato: string]: unknown;
-}
-
+// window.__cl (la puerta de las pruebas, tipo PuertaPruebas) está en src/nucleo/tipos.ts, con window.__w3.
 interface Window {
-  /** Puerta para las pruebas automáticas (adult.js). */
-  __cl: PuertaPruebas;
   /** Voces de mentira de las pruebas. */
   __voces?: SpeechSynthesisVoice[];
 }

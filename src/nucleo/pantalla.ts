@@ -2,7 +2,7 @@
 // (src/nucleo/, lo que antes era core.js): lo que define lo usan todos los demás.
 //   - W y H (pantalla lógica), LF y DF (fuentes), cv y ctx (el lienzo 2D), SC/OX/OY/DPR (escala y márgenes), resize().
 //   - VIVO: estado de la partida en curso que no se guarda y que cambian varios archivos.
-//   - T: segundos desde el arranque (para animar); lo avanza frame() en adult.js con ponT().
+//   - T: segundos desde el arranque (para animar); lo avanza frame() en aplicacion/adultos.ts con ponT().
 // ctx, SC, OX, OY, DPR y T cambian: desde fuera de este módulo solo se leen; ctx se cambia con ponCtx y T con ponT.
 import type { Vivo } from './tipos.ts';
 
@@ -29,7 +29,7 @@ export function resize(): void{
   SC=Math.min(w/W,h/H); OX=(w-W*SC)/2; OY=(h-H*SC)/2;
 }
 addEventListener('resize',resize); resize();
-// T: segundos de juego desde el arranque, para animar (lo avanza frame() en adult.js).
+// T: segundos de juego desde el arranque, para animar (lo avanza frame() en aplicacion/adultos.ts).
 export let T=0;
-// ponT(t): cambia el reloj de juego T (en segundos). Lo avanza frame() en adult.js en cada cuadro.
+// ponT(t): cambia el reloj de juego T (en segundos). Lo avanza frame() en aplicacion/adultos.ts en cada cuadro.
 export function ponT(t: number): void{T=t}

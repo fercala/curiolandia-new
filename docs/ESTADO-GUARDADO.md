@@ -85,7 +85,7 @@
    - o leerlo siempre con un valor de respaldo: `S.miCampo || 0`.
 5. **Subcampos nuevos dentro de un objeto** (por ejemplo `S.tito.zapatos`): `load()` no los rellena en partidas viejas. Léelos siempre con respaldo: `(S.tito.zapatos || '')`.
 6. Llama a `save()` después de cambiar algo.
-7. Si el campo debe sobrevivir a "Borrar todo el progreso" (zona de adultos), añádelo a la lista `keep` de `doReset()` en adult.js.
+7. Si el campo debe sobrevivir a "Borrar todo el progreso" (zona de adultos), añádelo a la lista `keep` de `doReset()` en aplicacion/adultos.ts.
 
 ## 4. Cómo probar con una partida concreta
 

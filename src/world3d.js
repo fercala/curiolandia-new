@@ -21,13 +21,13 @@
  *     siguen funcionando sin saber que hay 3D (dibujan el cartel encima del objeto 3D, etc.).
  *   - Las escenas 3D (SCENES.title, map, las zonas, casita, cofre) se "envuelven" más abajo con
  *     Object.assign(S0,{three:true, enter, draw, down...}): guardan el método original (enter0, down0) y lo
- *     llaman desde el nuevo. scene.three=true le dice al bucle de dibujo (adult.js) que llame a R3frame.
+ *     llaman desde el nuevo. scene.three=true le dice al bucle de dibujo (aplicacion/adultos.ts) que llame a R3frame.
  *   - down(x,y): primero pickAt(x,y) lanza un rayo (raycast) desde la cámara por el punto tocado y
  *     devuelve el userData del objeto con userData.id (zona, casita, 'tito'...). Si no hay nada, se
  *     prueban los objetos animados (flyTap, wobTap), el cielo (skyTap), el mar o el suelo (walkGround).
  *     Si se tocó un lugar, walkTo() hace que Tito camine hasta allí y al llegar se llama a la lógica 2D
  *     original con call0() (que aparta TITO y HOUSE_AT para que no "roben" el toque).
- *   - R3frame(dt): lo llama el bucle principal (adult.js) en cada cuadro si la escena es 3D. Ejecuta las
+ *   - R3frame(dt): lo llama el bucle principal (aplicacion/adultos.ts) en cada cuadro si la escena es 3D. Ejecuta las
  *     funciones de W3.upd (animaciones), mueve la cámara (camTick) y dibuja la escena con R.render.
  *
  * El mundo activo: W3 (en las funciones se le llama `w`). Lo crea newWorld() y lo activa setWorld():
@@ -50,7 +50,7 @@
  *   canvasTex/picTex/pillTex (texturas dibujadas con las funciones 2D de siempre), spr/plane (sprites y
  *   planos con textura).
  *
- * Globales que usan otros archivos: R3frame (adult.js), window.__w3 (pruebas y zona de adultos: retito,
+ * Globales que usan otros archivos: R3frame (aplicacion/adultos.ts), window.__w3 (pruebas y zona de adultos: retito,
  *   PRK...). Además este archivo SUSTITUYE funciones globales de otros: go, stationPos, goSeguir...
  * Depende de: el núcleo, src/nucleo/ (S, T, PI, ctx, say, sayMix, tone, noise, parts, SCENES, scene, sceneName, go,
  *   OX/OY/SC para pasar de 1600x900 a píxeles, VIVO (MX, MY, mouseOn...), IMG, card, text, flower, K, DF, LF, DIAC...),
@@ -1218,7 +1218,7 @@ function fpsTick(){const now=performance.now();if(now-FPS.last>1000||document.hi
     // si fue un tirón pasajero (cargando, otra app) y ahora va sobrado, la nitidez vuelve a subir; si vuelve a ir lento después de subir, se queda baja
     else if(fps>=55&&PRK<1&&!FPS.noUp){PRK=Math.min(1,PRK/.75);FPS.up=true;rs()}
     FPS.n=0;FPS.t0=now}}
-// R3frame(dt): el dibujo 3D de cada cuadro (lo llama el bucle de adult.js antes de dibujar lo 2D encima). Solo si hay mundo y la escena
+// R3frame(dt): el dibujo 3D de cada cuadro (lo llama el bucle de aplicacion/adultos.ts antes de dibujar lo 2D encima). Solo si hay mundo y la escena
 // es 3D (scene.three): ejecuta las funciones de W3.upd (con try/catch para que un fallo en un objeto no pare el juego), mueve la cámara y dibuja
 R3frame=function(dt){if(!W3||!scene||!scene.three)return;fpsTick();
   for(const f of W3.upd)try{f(dt)}catch(e){console.error(e)}camTick(W3,dt);R.render(W3.sc,W3.cam)};
@@ -1464,7 +1464,7 @@ function call0(fn,self,x,y){const tx_=TITO.x,h0=HOUSE_AT[0];TITO.x=-9999;HOUSE_A
 // envuelve go() (cambio de escena, core/scenes): al ir a una escena que no es 3D, restaura TITO/HOUSE_AT y el cursor normal
 const go0=go;ponGo(function(n,o){go0(n,o);if(!(scene&&scene.three)){restore2D();setCursor('pt')}});
 // cambiar de personaje (zona de adultos): Tito se rehace dentro del mismo grupo, así la escena sigue igual
-// retito(): sin parámetros; usa W3. Lo llama la zona de adultos (adult.js, vía window.__w3.retito) al cambiar el animal guía.
+// retito(): sin parámetros; usa W3. Lo llama la zona de adultos (aplicacion/adultos.ts, vía window.__w3.retito) al cambiar el animal guía.
 function retito(){const w=W3,t=w&&w.tito;if(!t)return;const keepUD={face:t.userData.face,rest:t.userData.rest};
   for(const c of t.children.slice()){t.remove(c);c.traverse(o=>{if(o.geometry&&!o.geometry.userData.keep)o.geometry.dispose()})}makeTito(t);Object.assign(t.userData,keepUD);
   // el emblema de la puerta de su casa también cambia al momento (antes seguía el del animal anterior hasta salir del mapa)

@@ -12,11 +12,11 @@
  * Qué es una escena:
  *   Un objeto SCENES.nombre = { music, enter, update, draw, down, move,
  *   up, hint, prompt, dwell, ... }. Todos los métodos son opcionales salvo
- *   draw. Quien los llama (el núcleo, src/nucleo/, y adult.js):
+ *   draw. Quien los llama (el núcleo, src/nucleo/, y aplicacion/adultos.ts):
  *     - go(nombre, o)  (nucleo/escenas.ts) cambia de escena: borra temporizadores
  *       later(), partículas y la voz, pone la música scene.music y llama a
  *       scene.enter(o). "o" lleva los datos del viaje ({t, g, hello, fin...}).
- *     - El bucle de adult.js llama cada cuadro a scene.update(dt) y
+ *     - El bucle de aplicacion/adultos.ts llama cada cuadro a scene.update(dt) y
  *       scene.draw(), y a scene.dwell(id) cuando el ratón se queda quieto
  *       ~1 s sobre una zona registrada con hv(id, ...).
  *     - Los punteros llaman a scene.down/move/up(x, y) en coordenadas
@@ -26,8 +26,8 @@
  *       una vez a scene.prompt() para repetir la consigna en voz alta.
  *
  * Desde la fase 2j es un módulo: src/modulos.ts lo carga el último (usa los
- * temas) y el puente deja lo que exporta en globalThis para adult.js y world3d.js,
- * que aún son código global (escenas/zonas.ts, escenas/tienda.ts y escenas/repaso.ts lo importan).
+ * temas) y el puente deja lo que exporta en globalThis para world3d.js, que aún es código global
+ * (escenas/zonas.ts, escenas/tienda.ts, escenas/repaso.ts y aplicacion/adultos.ts lo importan).
  *
  * OJO: escenas/zonas.ts (que va DESPUÉS) reescribe varias cosas de
  * este archivo: SCENES.map (enter, prompt, hint, dwell, draw, down),
@@ -51,7 +51,7 @@
  *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
  *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight),
  *   juegos/ (NUM) y src/dibujos/ (PICS, K). Usa openNameDlg y openResetDlg de
- *   adult.js, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
+ *   aplicacion/adultos.ts, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
  *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
  *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.stats (rec).
@@ -661,7 +661,7 @@ SCENES.album={music:'book',
 };
 
 /* ---------- A DORMIR (límite de tiempo) ---------- */
-// A DORMIR: se muestra cuando se acaba el tiempo de juego fijado por el adulto (S.limit, ver adult.js).
+// A DORMIR: se muestra cuando se acaba el tiempo de juego fijado por el adulto (S.limit, ver aplicacion/adultos.ts).
 // Tito duerme bajo la luna. No tiene down(): no se puede seguir jugando desde aquí.
 SCENES.dormir={music:null,
 // enter(): Tito se despide.
