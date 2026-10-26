@@ -25,12 +25,14 @@
  *   escenas2d.ts) y el puente deja lo que exporta en globalThis para las pruebas (escenas/tienda.ts,
  *   escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan).
  *
- * Reescribe cosas de escenas/escenas2d.ts al cargarse:
- *   suggestTema y stationPos (con ponSuggestTema y ponStationPos), SCENES.jardin (entera), SCENES.map y
- *   SCENES.casita (con Object.assign), GNAME (añade tipos) y envuelve
- *   SCENES.asamblea. mundo3d/mundo3d.ts después envuelve map, casita, cofre y las
- *   zonas, y sobrescribe cada cuadro las x/y de ZPOS, MZ2, TITO y
- *   HOUSE_AT con las posiciones 3D proyectadas.
+ * Define una sola vez (desde la fase 4d; antes reescribía las de una
+ *   versión 1 de escenas/escenas2d.ts) las escenas del mapa (SCENES.map),
+ *   de las zonas (SCENES.jardin y las demás) y de la casita (SCENES.casita),
+ *   y suggestTema y stationPos. De escenas/escenas2d.ts aún cambia GNAME
+ *   (añade tipos) y envuelve SCENES.asamblea. mundo3d/mundo3d.ts después
+ *   envuelve map, casita, cofre y las zonas, cambia stationPos (ponStationPos)
+ *   y sobrescribe cada cuadro las x/y de ZPOS, MZ2, TITO y HOUSE_AT con las
+ *   posiciones 3D proyectadas.
  *
  * Lo que exporta y usan otros archivos (además de los tipos Zona y PosCasita):
  *   ZAGE, ZONES, MAINZ, zoneOf, flowersIn, pathOf, pathDone, mainDone,
@@ -39,7 +41,8 @@
  *   unlockFx, arrowAt, zonePos, ZPOS, newlyOpen, zoneScene, HOUSE_AT,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
  *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
- *   drawSeguir, drawZoneSpot, stLocked, GIFTS, nextGift, grantGift,
+ *   drawSeguir, drawZoneSpot, suggestTema, stationPos, ponStationPos,
+ *   stLocked, GIFTS, nextGift, grantGift,
  *   drawChest, isBday.
  * Importa:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), escenas/escenas2d.ts
@@ -71,7 +74,7 @@ import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, ponRepOn, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
 import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting } from '../temas/indice.ts';
-import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, ponStationPos, ponSuggestTema, stationPos, tree, tst } from './escenas2d.ts';
+import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, tree, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
 import { repasoTerminado, seguirPorElRepaso, tocaRepasar } from '../aplicacion/repasoDelDia.ts';
@@ -147,8 +150,10 @@ export const curTema=(z: string): Tema | null=>temaQueToca(PARTIDA,MAPA,z);
 // nextTema(): siguiente tema para el botón "seguir el camino" del mapa: primero la zona de su edad, luego las otras
 // zonas principales abiertas y después los extras (ver siguienteTema en dominio/apertura.ts). null si no queda nada.
 export const nextTema=(): Tema | null=>siguienteTema(PARTIDA,MAPA);
-// Sustituye la suggestTema antigua de escenas/escenas2d.ts: ahora la recomendación es la casita que toca en el camino.
-ponSuggestTema(function(z){return curTema(z||ageZoneOpen())});
+// suggestTema(z): el tema que Tito recomienda: la casita que toca en el camino de la zona z (o, sin z, de la zona de
+// su edad abierta). La usa la zona de adultos (aplicacion/adultos.ts). Desde la fase 4d está solo aquí (antes había
+// otra en escenas/escenas2d.ts, que esta sustituía con ponSuggestTema).
+export function suggestTema(z?: string): Tema | null{return curTema(z||ageZoneOpen())}
 // lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
 export const lowName=(t: Tema)=>t.concepts?'el Rincón de los Conceptos':V(t.n).replace(/^./,c=>c.toLowerCase());
 // lockMsg(t): frase que dice Tito al tocar una casita cerrada, explicando qué hace falta para abrirla.
@@ -385,8 +390,9 @@ export function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z
   const lk=!spotOpen(z.id)&&!ZAGE[z.id];
   if(o.unl&&unlockFx(x,y,z.r*.85,o.unl)){}else if(lk){lockOver(x,y,z.r*.85);card(x-46,y+z.r*.6,92,44,'#fff',5,22);flower(x-20,y+z.r*.6+22,11,FLC[0],2.5);text(String(spotNeed(z.id)),x+18,y+z.r*.6+35,30,K,{f:LF})}
   ctx.restore()}
-// MAPA v3: sustituye los métodos del mapa de escenas/escenas2d.ts. (mundo3d/mundo3d.ts lo envuelve después para el mapa 3D.)
-SCENES.map=Object.assign(SCENES.map,<Partial<Escena>>{
+// MAPA v3: la escena del mapa. Desde la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le
+// sustituía los métodos). mundo3d/mundo3d.ts la envuelve después para el mapa 3D.
+SCENES.map={music:'map',
 // enter(o): decide UN solo aviso al entrar, por prioridad:
 // 1) una zona que se acaba de despertar (S.woke) sin ser de su edad; 2) un sitio recién abierto (newlyOpen 'map');
 // 3) la casa de Tito ha crecido (S.houseSeen); 4) Pipo ha cambiado de etapa (S.petSeen); 5) flores nuevas (S.seenFl);
@@ -454,22 +460,27 @@ SCENES.map=Object.assign(SCENES.map,<Partial<Escena>>{
       if(z.id==='plaza')go('asamblea');else if(z.t)go('casita',{t:z.t,hello:true});else go(z.id,{hello:true});return}
     SFX.tap();sparkles(x,y);
   }
-});
+};
 
 /* ---------- casitas de tema: los juegos también son un camino ---------- */
 // Más nombres de tipos de juego (los de extras, fiestas, cuentos...).
 Object.assign(GNAME,{cuento:'El cuento',cancion:'La canción',trazo:'Trazos',secuencia:'¿Qué va primero?',series:'¿Qué viene después?',memoria:'Memoria',velas:'Soplar las velitas',decora:'Decorar'});
-// stationPos(t, j): (sustituye la de escenas/escenas2d.ts) posición del juego j en la casita del tema t, formando un camino:
-// hasta 4 en una fila; hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al revés (zigzag).
-// mundo3d/mundo3d.ts la vuelve a envolver con las posiciones 3D.
-ponStationPos(function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
+// stationPos(t, j): posición [x, y] del juego j en la casita del tema t, formando un camino: hasta 4 en una fila;
+// hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al revés (zigzag). Desde la fase 4d está solo
+// aquí (antes había otra en escenas/escenas2d.ts). mundo3d/mundo3d.ts la envuelve con las posiciones 3D (ponStationPos).
+export let stationPos: (t: Tema, j: number) => number[]=function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
   if(n<=6){const r=Math.floor(j/3),c=j%3;return[540+(r?2-c:c)*360,r?700:420]}
-  const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]});
+  const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]};
+// ponStationPos(f): cambia stationPos (solo para mundo3d/mundo3d.ts, que pone las posiciones 3D proyectadas).
+export function ponStationPos(f: typeof stationPos): void{stationPos=f}
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
 export const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
-// CASITA v3: los juegos del tema forman un camino y se abren de uno en uno (gameOpen). Sustituye enter, prompt, hint,
-// draw y down de escenas/escenas2d.ts.
-Object.assign(SCENES.casita,<Partial<Escena>>{
+// CASITA v3: la escena de la casita de un tema: los juegos forman un camino y se abren de uno en uno (gameOpen). Desde
+// la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le sustituía enter, prompt, hint, draw y
+// down). mundo3d/mundo3d.ts la envuelve después para la casita 3D.
+SCENES.casita={music:'casita',
+// dwell(id): id = 'g:' + número de juego; dice el nombre del juego (g.name o GNAME[g.t]).
+  dwell(id){const j=+id.slice(2);const g=this.t.games[j];if(g)say(V(g.name||GNAME[g.t]||''))},
 // enter(o): si se vuelve de un juego del repaso (REP_ON) sin haber terminado el tema, vuelve al repaso (go('repaso',
 // {back: 1})); en todo caso el repaso deja de estar en marcha (ponRepOn(false); desde la fase 4c aquí, antes en una
 // envoltura de escenas/repaso.ts). Guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta
@@ -506,7 +517,7 @@ Object.assign(SCENES.casita,<Partial<Escena>>{
       if(stLocked(t,j)){SFX.boing();const nx=nextGameOf(t);say('Este todavía está cerrado. Primero terminá el número '+((nx<0?j-1:nx)+1)+'.');return}
       SFX.pop();go('juego',{t:t.id,g:j});return}}
     SFX.tap();sparkles(x,y)}
-});
+};
 
 /* ---------- el cofre del tesoro: premio al terminar una casita ---------- */
 // GIFTS: regalos del cofre, en orden fijo (sorpresa para el nene, pero sin azar): ids de artículos de SHOP

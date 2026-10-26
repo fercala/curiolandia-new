@@ -1,11 +1,11 @@
 /* =====================================================================
- * escenas/escenas2d.ts (antes scenes.js): LAS ESCENAS 2D DEL JUEGO (versión 1) Y LA ASAMBLEA
+ * escenas/escenas2d.ts (antes scenes.js): LAS ESCENAS 2D DEL JUEGO Y LA ASAMBLEA
  * ---------------------------------------------------------------------
  * Para qué sirve:
  *   Define el objeto global SCENES con las pantallas por las que pasa el
  *   niño: portada (title), edad, ¿quién juega? (quien), cuento de
- *   introducción (intro), mapa del pueblo (map), jardín (jardin), casita
- *   de un tema (casita), juego (juego), asamblea, álbum y "a dormir".
+ *   introducción (intro), juego (juego), asamblea, álbum y "a dormir"
+ *   (el mapa, las zonas y la casita de un tema están en escenas/zonas.ts).
  *   Además junta todos los temas en TEMAS / TEMA y da las funciones de
  *   progreso tst() y gDone().
  *
@@ -29,19 +29,19 @@
  * temas) y el puente deja lo que exporta en globalThis para las pruebas (escenas/zonas.ts, escenas/tienda.ts,
  * escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan).
  *
- * OJO: escenas/zonas.ts (que va DESPUÉS) reescribe varias cosas de
- * este archivo: SCENES.map (enter, prompt, hint, dwell, draw, down),
- * SCENES.casita (enter, prompt, hint, draw, down), SCENES.jardin (la
- * sustituye entera por zoneScene('jardin')), y cambia suggestTema y
- * stationPos con ponSuggestTema y ponStationPos. finishGame ya no se envuelve:
- * desde la fase 4b es una sola función, con el caso de uso aplicacion/terminarJuego.ts.
- * Y mundo3d/mundo3d.ts vuelve a envolver map, casita, cofre, title y las zonas
- * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
+ * Ya nadie reescribe lo de este archivo: el mapa, el jardín (y las demás
+ * zonas), la casita, suggestTema y stationPos se definen una sola vez en
+ * escenas/zonas.ts desde la fase 4d (antes había aquí una versión 1 que
+ * zonas.ts reescribía), y finishGame es una sola función desde la fase 4b,
+ * con el caso de uso aplicacion/terminarJuego.ts. Lo que sí hace
+ * escenas/zonas.ts es añadir tipos a GNAME y el paso de cumpleaños a la
+ * asamblea, y mundo3d/mundo3d.ts envuelve title (y map, casita, cofre y las
+ * zonas, de zonas.ts) para la capa 3D.
  *
  * Lo que exporta y usan otros archivos:
  *   SCENES, TEMAS, TEMA, CATALOGO, tst, gDone, drawLogo, drawLogoSmall, pill,
- *   VIVO.deferredInstall, standalone, MZ, asamHoy, suggestTema, tree,
- *   drawCasita, GNAME, gIcon, stationPos, drawStation, finishGame,
+ *   VIVO.deferredInstall, standalone, asamHoy, tree,
+ *   drawCasita, GNAME, gIcon, drawStation, finishGame,
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
  *   SEASON_NEXT, dayIdx, ALBUM_KEYS (SCENES está en nucleo/escenas.ts:
  *   aquí se le añaden las escenas).
@@ -50,20 +50,19 @@
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
  *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight),
- *   juegos/ (NUM), src/dibujos/ (PICS, K), repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
+ *   src/dibujos/ (PICS, K), repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
  *   terminarJuego de aplicacion/terminarJuego.ts (finishGame); del núcleo, también REP_ON y las monedas
  *   (giveCoins, drawCoinHUD, alEmpezarJuego). Usa openNameDlg y openResetDlg de
  *   aplicacion/adultos.ts, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
- * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
- *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
+ * Partes de S que toca: S.age, S.name, S.first (askedName, wk),
+ *   S.intro, S.temas[id] ({g:{índice: veces}, done}),
  *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.stats (rec) y, al
  *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K, PICS } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, temasDone, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
-import { NUM } from '../juegos/indice.ts';
+import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
@@ -223,29 +222,13 @@ SCENES.intro={music:'title',
   down(x,y){if(x>1420&&y>750){S.intro=true;save();go('map',{hello:true})}}
 };
 
-/* ---------- MAPA DEL PUEBLO ---------- */
-// MZ: zonas del mapa ANTIGUO (v1) de scenes.js. Formato: {id, x, y, r: radio tocable, name: nombre para la voz}.
-// OJO: escenas/zonas.ts sustituye el dibujo y los toques del mapa y usa MZ2 en su lugar; MZ ya solo lo usa el código viejo.
-export const MZ=[
-  {id:'plaza',x:800,y:470,r:150,name:'la plaza de la asamblea'},
-  {id:'jardin',x:390,y:560,r:150,name:'el Jardín de los 3 años'},
-  {id:'bosque',x:1170,y:280,r:140,name:'el Bosque de los 4 años'},
-  {id:'montana',x:1310,y:620,r:150,name:'la Montaña de los 5 años'},
-  {id:'album',x:1480,y:110,r:80,name:'el álbum'}
-];
+/* ---------- PIEZAS DEL MAPA, DE LAS ZONAS Y DE LA CASITA ---------- */
+// Las escenas del mapa (map), de las zonas (jardin, bosque...) y de la casita (casita) están desde la fase 4d en
+// escenas/zonas.ts, definidas una sola vez, con suggestTema y stationPos: antes había aquí una versión 1 (el mapa con
+// MZ, el jardín con JPOS y BANDC, la casita en filas) que zonas.ts reescribía y que ya no se usaba. Aquí quedan las
+// piezas que usan ellas y otras escenas: asamHoy, tree, drawLogoSmall, drawCasita, GNAME, gIcon y drawStation.
 // asamHoy(): true si hoy ya se ha hecho la asamblea (S.asam[fecha de hoy].done).
 export const asamHoy=()=>S.asam[today()]&&S.asam[today()].done;
-// suggestTema(): tema de 3 años recomendado (versión antigua): primero el de la estación actual, luego uno
-// según el mes del curso escolar (L: mes -> números de tema de T3) y si no, el primero sin terminar. Devuelve el tema o null.
-// OJO: escenas/zonas.ts la sustituye por suggestTema=function(z){return curTema(...)}, que sigue el camino en orden.
-export let suggestTema: (z?: string) => Tema | null=function(){
-  const sea=estacionDe(),st=T3.find(t=>t.season===sea);if(st&&!tst(st.id).done)return st;
-  const m=ahora().getMonth(),L={8:[1],9:[4,2,3,5],10:[5,2,3,6],11:[6,7],0:[6,7],1:[7,8,9],2:[9,8,10],3:[10,9],4:[11,10],5:[12,11],6:[12],7:[12]}[m]||[1];
-  for(const n of L){const t=T3[n-1];if(t&&!tst(t.id).done)return t}
-  return T3.find(t=>!tst(t.id).done)||null;
-}
-// ponSuggestTema(f): cambia suggestTema por otra función (escenas/zonas.ts la cambia por la de las zonas).
-export function ponSuggestTema(f: typeof suggestTema){suggestTema=f}
 // tree(x, y, s, season): dibuja un árbol en (x, y) a escala s según la estación: 'invierno' (ramas con nieve),
 // 'primavera' (flores), 'verano' (frutas), 'otoño' (hojas caídas) o 'gris' (zona dormida). Lo usan el mapa, las zonas
 // y la asamblea (pregunta de las estaciones).
@@ -256,82 +239,9 @@ export function tree(x: number,y: number,s: number,season: string){ctx.save();ct
     if(season==='verano')for(let i=0;i<5;i++)circ(Math.cos(i*1.3)*40,-80+Math.sin(i*1.3)*36,10,'#FF5A5A',3);
     if(season==='otoño')for(let i=0;i<4;i++){ell(-60+i*40,60+Math.sin(i)*6,12,6,i%2?'#FF6B5E':'#C98A4B',2)}}
   ctx.restore()}
-// MAPA DEL PUEBLO (versión 1). escenas/zonas.ts reescribe enter, prompt, hint, dwell, draw y down con Object.assign
-// (mapa v3 con MZ2, botón "seguir el camino", casa de Tito...), y mundo3d/mundo3d.ts lo vuelve a envolver para el 3D.
-// Lo que queda de aquí: el objeto SCENES.map y su música.
-SCENES.map={music:'map',
-// enter(o): si hay temas terminados nuevos (flores) lo celebra y actualiza S.seenFl; si no, saluda (o.hello).
-// Tras 15 minutos de sesión propone descansar una vez. (Sustituido en escenas/zonas.ts.)
-  enter(o){
-    const n=temasDone();
-    if(n>S.seenFl){S.seenFl=n;save();later(600,()=>{SFX.sparkle();burst(130,740,40);say(`¡Mirá${kid()}! ¡Tito tiene ${n===1?'una flor':NUM[n]+' flores'} en su caparazón!`)})}
-    else if(o.hello)later(400,()=>this.prompt!(true));
-    if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
-  },
-// prompt(first): saludo según la hora (si first) y consigna: asamblea si no se ha hecho hoy; si no, el jardín. (Sustituido en escenas/zonas.ts.)
-  prompt(first){const h=ahora().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
-    if(!asamHoy())say((first?sal+kid()+'! ':'')+'Vamos a la plaza a hacer la asamblea. Tocá la plaza.');
-    else say((first?sal+kid()+'! ':'')+'Tocá el jardín para jugar.')},
-// hint(): señala la plaza (si falta la asamblea) o el jardín. (Sustituido en escenas/zonas.ts.)
-  hint(){const z=MZ.find(z=>z.id===(asamHoy()?'jardin':'plaza'))!;return{x:z.x,y:z.y,r:z.r*.8}},
-// dwell(id): id = 'mz' + id de zona; dice su nombre. (Sustituido en escenas/zonas.ts.)
-  dwell(id){const z=MZ.find(z=>'mz'+z.id===id);if(z)say(cap(z.name)+(z.id==='bosque'||z.id==='montana'?'. Todavía está dormido.':'.'))},
-// draw(): mar, isla, caminos, plaza (brilla si falta la asamblea), jardín, bosque y montaña dormidos y álbum.
-// (Sustituido en escenas/zonas.ts.)
-  draw(){
-    ctx.fillStyle='#7FD3F0';ctx.fillRect(0,0,W,H);
-    for(let i=0;i<14;i++){const x=(i*233)%1600,y=60+(i*137)%800;ctx.beginPath();ctx.moveTo(x+Math.sin(T+i)*10,y);ctx.quadraticCurveTo(x+20,y-14,x+40,y);ctx.quadraticCurveTo(x+60,y+14,x+80,y);ctx.lineWidth=6;ctx.strokeStyle='#B9E9F8';ctx.lineCap='round';ctx.stroke()}
-    ctx.beginPath();ctx.moveTo(150,560);ctx.bezierCurveTo(110,330,330,190,560,210);ctx.bezierCurveTo(760,120,1060,140,1250,170);ctx.bezierCurveTo(1460,180,1560,340,1520,520);ctx.bezierCurveTo(1540,740,1340,830,1080,800);ctx.bezierCurveTo(840,860,560,850,380,810);ctx.bezierCurveTo(200,790,160,690,150,560);ctx.closePath();fillStroke('#BFE6A0',8);
-    // caminos
-    ctx.lineCap='round';for(const [a,b,c,d,e,f] of[[390,560,560,520,800,470],[800,470,980,380,1170,280],[800,470,1030,560,1310,620]]){ctx.beginPath();ctx.moveTo(a,b);ctx.quadraticCurveTo(c,d,e,f);ctx.lineWidth=40;ctx.strokeStyle='#FFF3D6';ctx.stroke();ctx.lineWidth=10;ctx.setLineDash([4,30]);ctx.strokeStyle='#E4CFA0';ctx.stroke();ctx.setLineDash([])}
-    // plaza
-    const zP=MZ[0],sP=hv('mzplaza',hC(zP.x,zP.y,zP.r));ctx.save();ctx.translate(zP.x,zP.y);ctx.scale(sP,sP);
-    if(!asamHoy()){const p=(Math.sin(T*4)+1)/2;ctx.globalAlpha=.4+.3*p;circ(0,0,150+p*10,null,12,'#FFC93C');ctx.globalAlpha=1}
-    circ(0,0,130,'#F1E2C8',7);circ(0,0,56,'#7FD3F0',6);circ(0,0,20,'#fff',4);for(let i=0;i<6;i++){const a=T*2+i;circ(Math.cos(a)*30,-10+Math.sin(a)*8-Math.abs(Math.sin(T*4+i))*14,5,'#BFEAF7',0)}
-    card(-120,-170,240,90,'#fff',6,16);DIAC.forEach((c,i)=>{circ(-90+i*30,-140,11,c,3)});text('ASAMBLEA',0,-95,30,K,{f:LF});ctx.restore();
-    // jardín
-    const zJ=MZ[1],sJ=hv('mzjardin',hC(zJ.x,zJ.y,zJ.r));ctx.save();ctx.translate(zJ.x,zJ.y);ctx.scale(sJ,sJ);
-    ell(0,10,170,120,'#9FDC8F',7);for(let i=0;i<12;i++){const a=i/12*PI*2;ctx.fillStyle='#C98A4B';ctx.fillRect(Math.cos(a)*160-4,10+Math.sin(a)*110-26,8,30)}
-    [[-70,-20],[20,-40],[90,10],[-30,50]].forEach(([a,b],i)=>{card(a-30,b-20,60,46,'#FFF3B0',4,6);ctx.beginPath();ctx.moveTo(a-38,b-20);ctx.lineTo(a,b-52);ctx.lineTo(a+38,b-20);ctx.closePath();fillStroke(FLC[i],4)});
-    for(let i=0;i<6;i++)flower(-120+i*48,82+(i%2)*10,9,FLC[i],2);
-    card(-60,-150,120,54,'#FF8A7A',5,27);text(tx('3 años'),0,-113,30,'#fff');ctx.restore();
-    // bosque (dormido)
-    const zB=MZ[2];hv('mzbosque',hC(zB.x,zB.y,zB.r));hv('mzmontana',hC(MZ[3].x,MZ[3].y,MZ[3].r));ctx.save();ctx.globalAlpha=.8;for(const [a,b,s] of[[-80,20,.7],[0,-10,.85],[80,25,.7],[-30,60,.6],[50,70,.6]])tree(zB.x+a,zB.y+b,s,'gris');ctx.restore();
-    card(zB.x-60,zB.y-150,120,54,'#B8B0A6',5,27);text(tx('4 años'),zB.x,zB.y-113,30,'#fff');
-    // montaña (dormida)
-    const zM=MZ[3];ctx.beginPath();ctx.moveTo(zM.x-170,zM.y+90);ctx.lineTo(zM.x-40,zM.y-110);ctx.lineTo(zM.x+20,zM.y-30);ctx.lineTo(zM.x+80,zM.y-120);ctx.lineTo(zM.x+180,zM.y+90);ctx.closePath();fillStroke('#CFC8BF',7);
-    ctx.beginPath();ctx.moveTo(zM.x-72,zM.y-62);ctx.lineTo(zM.x-40,zM.y-110);ctx.lineTo(zM.x-10,zM.y-66);ctx.closePath();fillStroke('#fff',5);
-    card(zM.x-60,zM.y+100,120,54,'#B8B0A6',5,27);text(tx('5 años'),zM.x,zM.y+137,30,'#fff');
-    for(const [x,y] of[[zB.x+110,zB.y-60],[zM.x+120,zM.y-120]]){ctx.globalAlpha=.55+.3*Math.sin(T*2+x);text('z',x,y+Math.sin(T+x)*6,34,'#7A6252');text('z',x+22,y-26+Math.sin(T+x)*6,26,'#7A6252');ctx.globalAlpha=1}
-    // álbum
-    const zA=MZ[4],sA=hv('mzalbum',hC(zA.x,zA.y,zA.r));ctx.save();ctx.translate(zA.x,zA.y);ctx.scale(sA,sA);ctx.rotate(-.08);card(-60,-50,120,100,'#9B8AD9',6,14);card(-48,-40,96,80,'#FFF6E6',4,10);star(0,0,26,'#FFC93C',4);ctx.restore();
-    // título
-    card(560,22,480,88,'#fff',6,44);drawLogoSmall(800,86,56);
-    drawHome();drawTito(TITO.x,TITO.y,TITO.w);
-  },
-// down(x, y): casa -> portada; Tito -> consigna; plaza -> asamblea; jardín; álbum; bosque/montaña -> "dormido". (Sustituido en escenas/zonas.ts.)
-  down(x,y){
-    if(atHome(x,y)){SFX.tap();go('title');return}
-    if(inTito(x,y)){this.prompt!(false);return}
-    for(const z of MZ)if(dist(x,y,z.x,z.y)<z.r){
-      if(z.id==='plaza'){SFX.pop();go('asamblea');return}
-      if(z.id==='jardin'){SFX.pop();go('jardin',{hello:true});return}
-      if(z.id==='album'){SFX.pop();go('album');return}
-      SFX.boing();say(cap(z.name)+' todavía está dormido. ¡Muy pronto lo vamos a despertar! Mientras tanto, jugamos en el jardín.');return}
-    SFX.tap();sparkles(x,y);
-  }
-};
 // drawLogoSmall(x, y, s): versión pequeña y más quieta del logotipo (cabecera del mapa). Solo dibuja.
 export function drawLogoSmall(x: number,y: number,s: number){ctx.font=`700 ${s}px ${DF}`;const ws=[...LOGO].map(c=>ctx.measureText(c).width),tw=ws.reduce((a,b)=>a+b,0);let cx=x-tw/2;[...LOGO].forEach((c,i)=>{text(c,cx+ws[i]/2,y+Math.sin(T*3+i*.7)*2,s,LOGOC[i],{st:s*.08});cx+=ws[i]})}
 
-/* ---------- EL JARDÍN DE LOS 3 AÑOS ---------- */
-// JPOS: posición de cada casita en el jardín antiguo: {id de tema: {x, y, band: fila}}. Tres filas (5, 4 y 3 casitas)
-// y el Rincón de los Conceptos abajo a la derecha. Solo lo usa la escena 'jardin' de este archivo, que escenas/zonas.ts sustituye
-// (allí las posiciones salen de zonePos/ZPOS).
-export const JPOS=(()=>{const P: Record<string, { x: number; y: number; band: number }>={};const rows=[[1,2,3,4,5],[6,7,8,9],[10,11,12]],ys=[250,490,725];
-  rows.forEach((r,ri)=>r.forEach((n,j)=>{P['3A-T'+n]={x:ri===0?440+j*256:450+j*280,y:ys[ri],band:ri}}));P['3A-C']={x:1420,y:690,band:3};return P})();
-// BANDC: colores de las tres franjas (filas) del jardín antiguo.
-export const BANDC=['#FFE2B8','#D6EEFA','#DDF3D2'];
 // drawCasita(t, x, y, o): dibuja la casita del tema t en (x, y). o.s = escala, o.glow = halo amarillo (la recomendada).
 // Las casitas normales llevan tejado del color t.c y el dibujo t.icon; el Rincón de los Conceptos (t.concepts) es un
 // cuadro con formas. Debajo, un punto por juego (amarillo = terminado) y, si el tema está terminado, estrella y flores.
@@ -347,37 +257,7 @@ export function drawCasita(t: Tema,x: number,y: number,o: Libre={}){
   if(done){star(90,-96,30,'#FFC93C',4);flower(-100,70,14,FLC[1],2.5);flower(100,70,14,FLC[3],2.5)}
   ctx.restore();
 }
-// EL JARDÍN DE LOS 3 AÑOS (versión 1). OJO: escenas/zonas.ts hace SCENES.jardin = zoneScene('jardin'), así que este objeto
-// ya no se usa (código antiguo). Ver zoneScene en escenas/zonas.ts.
-SCENES.jardin={music:'jardin',
-// enter(o): calcula el tema recomendado y saluda (más largo la primera vez, S.first.jardin).
-  enter(o){this.sug=suggestTema();
-    if(o.hello)later(400,()=>this.prompt!(!S.first.jardin));S.first.jardin=1;save()},
-// prompt(long): presenta el jardín (si long) y recomienda la casita que brilla.
-  prompt(long){const s=this.sug;say((long?'¡Bienvenido al Jardín de los 3 años! Cada casita es un tema. ':'')+(s?'Hoy te recomiendo '+V(s.n).toLowerCase().replace(/^mi /,'mi ')+'. ¡Es la casita que brilla!':'Tocá una casita para jugar.'))},
-// hint(): señala la casita recomendada.
-  hint(){const s=this.sug;if(!s)return null;const p=JPOS[s.id];return{x:p.x,y:p.y,r:110}},
-// dwell(id): id = 'j:' + id de tema; dice el nombre del tema.
-  dwell(id){const t=TEMA[id.slice(2)];if(t)say(V(t.n)+'.')},
-// draw(): franjas, iconos de estación y todas las casitas en JPOS.
-  draw(){
-    sky('#E9F7FC','#F4FBEA');
-    [250,490,725].forEach((y,i)=>{card(250,y-112,i===0?1330:i===1?1120:840,224,BANDC[i],0,60)});
-    card(1300,580,240,230,'#EDE7FF',0,50);
-    ['hojaNaranja','copo','flor'].forEach((k,i)=>{const y=[250,490,725][i];circ(292,y,40,'#fff',5);pic(k,292,y,62)});
-    for(const t of TEMAS){const p=JPOS[t.id];const s=hv('j:'+t.id,hR(p.x,p.y,220,220));drawCasita(t,p.x,p.y,{s,glow:this.sug===t})}
-    drawHome();drawTito(TITO.x,TITO.y,TITO.w);
-  },
-// down(x, y): casa -> mapa; casita -> go('casita', {t: id del tema, hello: true}).
-  down(x,y){
-    if(atHome(x,y)){SFX.tap();go('map');return}
-    if(inTito(x,y)){this.prompt!(true);return}
-    for(const t of TEMAS){const p=JPOS[t.id];if(inR(x,y,p.x,p.y,220,230)){SFX.pop();go('casita',{t:t.id,hello:true});return}}
-    SFX.tap();sparkles(x,y);
-  }
-};
-
-/* ---------- CASITA DE UN TEMA ---------- */
+/* ---------- ESTACIONES DE LA CASITA ---------- */
 // GNAME: nombre que dice Tito para cada tipo de juego (g.t), cuando el juego no trae su propio g.name.
 // escenas/zonas.ts añade más tipos con Object.assign(GNAME, {...}).
 export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde está?',memoria:'Memoria',sonido:'¿Quién hace este sonido?',cuerpo:'Mi cuerpo',toca:'Tocá la parte del cuerpo',puzzle:'Rompecabezas',pinta:'Pintar',clasifica:'Las canastas',
@@ -386,12 +266,6 @@ export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde es
 // gIcon(g, t): dibujo de la estación del juego g del tema t: g.icon si lo trae; si no 'lupa' (conocer), 'busca',
 // 'memo' (memoria) o el icono del tema.
 export const gIcon=(g: JuegoTema,t: Tema): string=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='memoria'?'memo':t.icon);
-// stationPos(t, j): posición [x, y] en pantalla de la estación (círculo) del juego j dentro de la casita del tema t.
-// Hasta 4 juegos van en una fila; si hay más, en dos filas de 3. OJO: escenas/zonas.ts la reescribe (camino en zigzag y hasta
-// 8 juegos) y mundo3d/mundo3d.ts la vuelve a envolver con las posiciones proyectadas del 3D.
-export let stationPos: (t: Tema, j: number) => number[]=function(t,j){const n=t.games.length;if(n<=4){return[860-(n-1)*180+j*360,560]}const r=Math.floor(j/3),c=j%3;return[540+c*360,r?700:420]}
-// ponStationPos(f): cambia stationPos por otra función (escenas/zonas.ts y mundo3d/mundo3d.ts la cambian por la suya).
-export function ponStationPos(f: typeof stationPos){stationPos=f}
 // drawStation(t, j, x, y, o): dibuja la estación del juego j del tema t en (x, y): círculo blanco (amarillo si es el
 // primero y no está hecho), el dibujo del juego (lupa, búsqueda, cartas de memoria o el icono) y, si está terminado,
 // una estrella con "×N" veces. o.s = escala. Solo dibuja.
@@ -406,36 +280,6 @@ export function drawStation(t: Tema,j: number,x: number,y: number,o: Libre={}){
   if(done){star(92,-92,32,'#FFC93C',4);if(done>1){text('×'+done,92,-40,26,K)}}
   ctx.restore();
 }
-// CASITA DE UN TEMA: las estaciones de sus juegos. Se entra con go('casita', {t: id del tema, hello?, fin?}).
-// OJO: escenas/zonas.ts reescribe enter, prompt, hint, draw y down (juegos en camino con candados, y si o.fin va al cofre);
-// de aquí sigue valiendo dwell. Luego mundo3d/mundo3d.ts y escenas/repaso.ts la vuelven a envolver.
-SCENES.casita={music:'casita',
-// enter(o): guarda en S.last el último tema visitado. Si viene de terminar el tema (o.fin) lo celebra con figurita;
-// si no, saluda. (Sustituido en escenas/zonas.ts.)
-  enter(o){this.t=TEMA[o.t];S.last=o.t;save();
-    if(o.fin){later(400,()=>{SFX.tada();burst(800,300,90);temasDone();giveSticker(this.t.icon);say(('¡Terminaste todos los juegos de '+(this.t.concepts?'el Rincón de los Conceptos':V(this.t.n).replace(/^./,c=>c.toLowerCase()))).replace(/ de el /,' del ')+kid()+'! ¡Le creció una flor a Tito!')})}
-    else if(o.hello)later(300,()=>this.prompt!(true))},
-// prompt(long): dice el nombre del tema (si long) y qué juego tocar. (Sustituido en escenas/zonas.ts.)
-  prompt(long){const t=this.t,nx=t.games.findIndex((_g: JuegoTema,j: number)=>!tst(t.id).g[j]);say((long?V(t.n)+'. ':'')+(nx===0?'Empezá por el primero: ¡vamos a conocer!':nx>0?'Tocá un juego. Te falta el que no tiene estrella.':'¡Ya jugaste todos! Podés repetir el que más te guste.'))},
-// hint(): señala el primer juego sin terminar. (Sustituido en escenas/zonas.ts.)
-  hint(){const t=this.t,nx=t.games.findIndex((_g: JuegoTema,j: number)=>!tst(t.id).g[j]);if(nx<0)return null;const [x,y]=stationPos(t,nx);return{x,y,r:140}},
-// dwell(id): id = 'g:' + número de juego; dice el nombre del juego (g.name o GNAME[g.t]).
-  dwell(id){const j=+id.slice(2);const g=this.t.games[j];if(g)say(V(g.name||GNAME[g.t]||''))},
-// draw(): fondo del tema (t.bg), cartel con su nombre y las estaciones de los juegos. (Sustituido en escenas/zonas.ts.)
-  draw(){const t=this.t;t.bg();
-    {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(V(t.n)).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(V(t.n),310+tw/2,110,54,K,{w:600})}
-    t.games.forEach((_g: JuegoTema,j: number)=>{const [x,y]=stationPos(t,j);drawStation(t,j,x,y,{s:hv('g:'+j,hC(x,y,130))})});
-    drawHome();drawTito(TITO.x,TITO.y,TITO.w);
-  },
-// down(x, y): casa -> jardín; estación -> go('juego', {t, g: número de juego}). (Sustituido en escenas/zonas.ts.)
-  down(x,y){
-    if(atHome(x,y)){SFX.tap();go('jardin');return}
-    if(inTito(x,y)){this.prompt!(true);return}
-    for(let j=0;j<this.t.games.length;j++){const [gx,gy]=stationPos(this.t,j);if(dist(x,y,gx,gy)<140){SFX.pop();go('juego',{t:this.t.id,g:j});return}}
-    SFX.tap();sparkles(x,y);
-  }
-};
-
 /* ---------- JUEGO ---------- */
 // finishGame(t, gi): se llama cuando el niño acaba el juego gi del tema t (desde SCENES.juego). Desde la fase 4b es
 // una sola función, sin envolturas: lo que cambia en S lo decide el caso de uso terminarJuego

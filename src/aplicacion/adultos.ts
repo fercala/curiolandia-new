@@ -23,8 +23,8 @@ import type { Tema } from '../juegos/tipos.ts';
 import type { Estado, Libre, Tito, Vale, Volumenes } from '../nucleo/tipos.ts';
 import { AC, DEF, DIASL, DPR, H, HOME, KEY, MESES, OX, OY, S, SC, SCENES, SFX, STARS, T, V, VIVO, VOICE, W, card, ctx, cv, dist, drawCoinFx, drawHelp, drawLock, drawParts, drawToast, go, initAudio, musicTick, pickVoice, ponS, ponT, save, say, scene, sceneArg, sceneName, sceneTok, setVol, text, today, tx, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ } from '../temas/indice.ts';
-import { TEMA, TEMAS, dayIdx, gDone, standalone, suggestTema, tst } from '../escenas/escenas2d.ts';
-import { zoneOpen } from '../escenas/zonas.ts';
+import { TEMA, TEMAS, dayIdx, gDone, standalone, tst } from '../escenas/escenas2d.ts';
+import { suggestTema, zoneOpen } from '../escenas/zonas.ts';
 import { esPartida } from '../dominio/partida.ts';
 // ahora() y escribirGuardado(): la fecha y la hora y el guardado (puertos de aplicacion/puertos.ts, desde las fases 3g
 // y 3h; antes new Date() y localStorage).
