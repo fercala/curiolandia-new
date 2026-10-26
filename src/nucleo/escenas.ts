@@ -39,27 +39,31 @@ export function later(ms: number,fn: ()=>void): void{VIVO.timers.push({t:ms/1000
 // whenQuiet(fn, max): llama a fn en cuanto Tito calla (talking false), o como mucho a los max segundos (8) por si la
 // voz se queda colgada. Va con later(), así que si se cambia de escena mientras espera, fn no se llama.
 export function whenQuiet(fn: ()=>void,max=8): void{const t0=T,chk=(): void=>{if(!VIVO.talking||T-t0>max)fn();else later(100,chk)};chk()}
+// REP_ON: true mientras se juega un juego lanzado desde el repaso del día (SCENES.repaso, en escenas/repaso.ts): al
+// terminarlo, finishGame (escenas/escenas2d.ts) lo marca hecho en el repaso y la casita vuelve al repaso. Desde la fase
+// 4b está aquí (antes en escenas/repaso.ts, que se carga después de finishGame); lo cambian escenas/repaso.ts y la
+// casita (escenas/zonas.ts) con ponRepOn, go lo apaga al salir del repaso y lo leen también las pruebas.
+export let REP_ON=false;
+// ponRepOn(v): pone REP_ON a v (escenas/repaso.ts: true al lanzar un juego del repaso; la casita, false al volver).
+export function ponRepOn(v: boolean): void{REP_ON=v}
 // go(nombre, o): cambia a la escena SCENES[nombre]. Anula temporizadores, partículas, arrastre y voz de la escena anterior,
 // pone el velo de transición (fade=1), elige la música (scene.music) y llama a enter(o) de la nueva escena.
 // Si SCENES[nombre] no existe, avisa en la consola y no cambia de escena.
+// Si se está jugando un juego del repaso (REP_ON) y se va a otro sitio que no sea la vuelta normal (un atajo de la
+// zona de adultos al mapa, a una zona o a otro tema con hello), se olvida el repaso: si no, la siguiente casita que se
+// abriera saltaría al repaso. (Desde la fase 4c está aquí; antes escenas/repaso.ts envolvía go para hacerlo.)
 // Ejemplos: go('map',{hello:true}) vuelve al mapa saludando; go('casita',{t:idTema}) abre un tema.
-// Es let y no function porque las capas la envuelven con ponGo.
+// Es let y no function porque mundo3d/mundo3d.ts la envuelve con ponGo.
 export let go=(n: string,o: Libre={}): void=>{
+  if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))REP_ON=false;
   const e=SCENES[n];
   if(!e){console.warn('go: no existe la escena',n);return}// nombre mal escrito: se queda en la escena actual en vez de romperse
   sceneTok++; VIVO.timers=[]; parts=[]; VIVO.idle=0; VIVO.hintSaid=false; VIVO.drag=null; setCursor('pt');
   try{speechSynthesis.cancel()}catch(e){} VIVO.talking=false;
   sceneName=n; sceneArg=o; scene=e; VIVO.fade=1; ponMusica(e.music||null); if(e.enter)e.enter(o);
 };
-// REP_ON: true mientras se juega un juego lanzado desde el repaso del día (SCENES.repaso, en escenas/repaso.ts): al
-// terminarlo, finishGame (escenas/escenas2d.ts) lo marca hecho en el repaso y la casita vuelve al repaso. Desde la fase
-// 4b está aquí (antes en escenas/repaso.ts, que se carga después de finishGame); lo cambia escenas/repaso.ts con
-// ponRepOn y lo leen también las pruebas.
-export let REP_ON=false;
-// ponRepOn(v): pone REP_ON a v (escenas/repaso.ts: true al lanzar un juego del repaso; false al volver al repaso o salir).
-export function ponRepOn(v: boolean): void{REP_ON=v}
-// ponGo(f): cambia go por otra función. Las capas la envuelven: escenas/repaso.ts (deja el repaso al salir) y mundo3d/mundo3d.ts
-// (vuelve a 2D al ir a una escena sin 3D). La envoltura llama a la de antes, que guarda antes de llamar a ponGo.
+// ponGo(f): cambia go por otra función. La envuelve mundo3d/mundo3d.ts (vuelve a 2D al ir a una escena sin 3D); hasta la
+// fase 4c también escenas/repaso.ts. La envoltura llama a la de antes, que guarda antes de llamar a ponGo.
 export function ponGo(f: typeof go): void{go=f}
 /* PARTÍCULAS. parts es una lista de objetos {x, y, vx, vy (velocidad en px/s), life (segundos que dura), t (edad),
    c (color), r (tamaño), rot (giro), g (gravedad; 900 si no se da; 0 = flota), k (tipo)}.

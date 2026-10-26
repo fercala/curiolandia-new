@@ -28,7 +28,7 @@
 | `vol` | `{voz, mus, fx}` de 0 a 1 | Volúmenes. |
 | `limit` | minutos: `0`, `10`, `15`, `20` | Límite de tiempo de juego al día (0 = sin límite). |
 | `temas` | `{idTema: {g: {índiceJuego: veces}, done: 0/1}}` | **El progreso.** Cuántas veces se ha terminado cada juego de cada tema y si el tema está terminado. Lo cambia `finishGame` con el caso de uso `terminarJuego` (`aplicacion/terminarJuego.ts`, desde la fase 4b; regla `trasTerminarJuego` de dominio/progreso.ts). |
-| `stats` | `{habilidad: {ok, err}}` | Aciertos y fallos por habilidad (`rec()`), para la tabla de adultos y el repaso. |
+| `stats` | `{habilidad: {ok, err}}` | Aciertos y fallos por habilidad (`rec()`, en `nucleo/interfaz.ts` desde la fase 4c), para la tabla de adultos y el repaso. |
 | `days` | `{'AAAA-MM-DD': minutos}` | Minutos jugados por día (últimos 30). |
 | `asam` | `{'AAAA-MM-DD': {done, age, dia, tiempo, emo}}` | Asambleas hechas (máx. 120 días). |
 | `stk` | `{claveDibujo: cantidad}` | Pegatinas del álbum. |
@@ -61,9 +61,9 @@
 
 | Campo | Formato | Para qué |
 |---|---|---|
-| `kg` | `{habilidad: [ids de juego]}` | En qué juegos sale cada habilidad (últimos 6, el más reciente primero; `conJuegoReciente` en dominio/repaso.ts). |
-| `gs` | `{'idTema#índice': {ok, err, d}}` | Aciertos, fallos y fecha de cada juego. Los aciertos y fallos, `rec`; la fecha (`d`), al terminar el juego, `terminarJuego` (desde la fase 4b; regla `conFecha`). |
-| `rep` | `{d, list, done, weak, paid, seen}` | El repaso del día. Cómo se eligen los juegos y cuándo se rehace: dominio/repaso.ts. Un juego lanzado desde el repaso (`REP_ON`) queda en `done` al terminarlo (`terminarJuego`, regla `conHecho`). |
+| `kg` | `{habilidad: [ids de juego]}` | En qué juegos sale cada habilidad (últimos 6, el más reciente primero; `conJuegoReciente` en dominio/repaso.ts). Lo apunta `rec` en cada acierto o fallo dentro de un juego (caso de uso `apuntarResultado`, desde la fase 4c). |
+| `gs` | `{'idTema#índice': {ok, err, d}}` | Aciertos, fallos y fecha de cada juego. Los aciertos y fallos, `rec` (`apuntarResultado`, desde la fase 4c; regla `conIntento`); la fecha (`d`), al terminar el juego, `terminarJuego` (desde la fase 4b; regla `conFecha`). |
+| `rep` | `{d, list, done, weak, paid, seen}` | El repaso del día. Cómo se eligen los juegos y cuándo se rehace: dominio/repaso.ts; lo prepara la escena del repaso con el caso de uso `repasoDelDia` (`repasoCaducado`, `nuevoRepaso`, desde la fase 4c). Un juego lanzado desde el repaso (`REP_ON`) queda en `done` al terminarlo (`terminarJuego`, regla `conHecho`). |
 
 ### Sueltos (sin valor en `DEF`; se leen con `S.x || valor`)
 

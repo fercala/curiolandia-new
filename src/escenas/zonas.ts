@@ -38,7 +38,7 @@
  *   ageZoneOpen, curTema, nextTema, lowName, lockMsg, drawRoad, lockOver,
  *   unlockFx, arrowAt, zonePos, ZPOS, newlyOpen, zoneScene, HOUSE_AT,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
- *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, goSeguir,
+ *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
  *   drawSeguir, drawZoneSpot, stLocked, GIFTS, nextGift, grantGift,
  *   drawChest, isBday.
  * Importa:
@@ -48,8 +48,10 @@
  *   bunting), juegos/ (NUM, TUNES, playTune), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
  *   siguienteRegalo, esCumple) y de dominio/monedas.ts (MONEDAS, ganar, monedasDelCofre), y el tipo Articulo de
- *   escenas/tienda.ts, y del núcleo inR, STARS y las monedas (creditCoins, giveCoins, drawCoinHUD, inCoinHUD; desde la
- *   fase 4a en su módulo, nucleo/monedas.ts desde la 4b). Usa de escenas/tienda.ts, que va después y solo al jugar o dibujar (tipos en
+ *   escenas/tienda.ts, y del núcleo inR, STARS, REP_ON y ponRepOn y las monedas (creditCoins, giveCoins, drawCoinHUD,
+ *   inCoinHUD; desde la fase 4a en su módulo, nucleo/monedas.ts desde la 4b). Desde la fase 4c, el caso de uso del
+ *   repaso del día (aplicacion/repasoDelDia.ts: tocaRepasar, repasoTerminado, seguirPorElRepaso), con CATALOGO de
+ *   escenas/escenas2d.ts: el mapa dibuja la lupa del repaso, goSeguir pasa por el repaso y la casita vuelve a él. Usa de escenas/tienda.ts, que va después y solo al jugar o dibujar (tipos en
  *   src/tardias.d.ts): SHOP, SHELLC, wear, placeHome, itemName, drawItemPic.
  * Partes de S que toca: S.temas (solo lee), S.unlockAll (modo libre de la
  *   zona de adultos), S.seenOpen (lo último visto abierto, para animar
@@ -66,12 +68,13 @@ import { MONEDAS, ganar, monedasDelCofre } from '../dominio/monedas.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, esCumple, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, ponRepOn, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
 import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting } from '../temas/indice.ts';
-import { GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, ponStationPos, ponSuggestTema, stationPos, tree, tst } from './escenas2d.ts';
+import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, ponStationPos, ponSuggestTema, stationPos, tree, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
+import { repasoTerminado, seguirPorElRepaso, tocaRepasar } from '../aplicacion/repasoDelDia.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -331,11 +334,24 @@ export const spotOpen=(id: string)=>sitioAbierto(PARTIDA,MAPA,id);
 // spotNeed(id): casitas necesarias para abrir el sitio id (el número del cartel de su candado), o undefined si no tiene.
 // Como antes, el tipo es number: solo se pregunta por sitios cerrados que no son zonas, y esos siempre lo tienen.
 export const spotNeed=(id: string)=>sitioNecesita(id) as number;
-// goSeguir(): acción del botón "seguir el camino": si no se ha hecho la asamblea hoy, va a la asamblea; si no, a la
-// casita de nextTema(). Si no queda nada, lo dice.
-export let goSeguir: () => void=function(){if(!asamHoy()){go('asamblea');return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
-// ponGoSeguir(f): cambia goSeguir por otra función (escenas/repaso.ts y mundo3d/mundo3d.ts la envuelven).
+// repDue(): ¿toca repasar? (en la lupa del mapa sale el «!» rojo; tocaRepasar). repAllDone(): ¿está hecho el repaso
+// de hoy? (punto verde en la lupa; repasoTerminado). Son el caso de uso aplicacion/repasoDelDia.ts con la partida (S),
+// los temas (CATALOGO), hoy y las estrellas. Hasta la fase 4c estaban en escenas/repaso.ts, que va después.
+export const repDue=(): boolean=>tocaRepasar(S,CATALOGO,today(),STARS()), repAllDone=(): boolean=>repasoTerminado(S,today());
+// goSeguir(): acción del botón "seguir el camino": si no se ha hecho la asamblea hoy, va a la asamblea; si toca pasar
+// por el repaso (una vez al día, si toca repasar: seguirPorElRepaso), al repaso; si no, a la casita de nextTema(). Si
+// no queda nada, lo dice. (Lo del repaso está aquí desde la fase 4c; antes escenas/repaso.ts envolvía goSeguir.)
+export let goSeguir: () => void=function(){if(!asamHoy()){go('asamblea');return}if(seguirPorElRepaso(S,CATALOGO,today(),STARS())){go('repaso',{seguir:1});return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
+// ponGoSeguir(f): cambia goSeguir por otra función (mundo3d/mundo3d.ts la envuelve; hasta la fase 4c, también
+// escenas/repaso.ts).
 export function ponGoSeguir(f: typeof goSeguir){goSeguir=f}
+// REPBTN: dónde está el botón del repaso (la lupa) en el mapa, arriba.
+const REPBTN={x:1215,y:66};
+// drawRepBtn(): dibuja el botón del repaso en el mapa (la lupa): con un «!» rojo que late si toca repasar (repDue) y un
+// punto verde si el repaso de hoy ya está hecho (repAllDone). Desde la fase 4c es parte del mapa (antes,
+// escenas/repaso.ts envolvía su draw).
+function drawRepBtn(){const s=hv('repaso',hC(REPBTN.x,REPBTN.y,50)),due=repDue();ctx.save();ctx.translate(REPBTN.x,REPBTN.y);ctx.scale(s,s);circ(0,0,46,'#fff',6);pic('lupa',0,0,64);
+  if(due){const p=1+.12*Math.sin(T*5);circ(32,-32,16*p,'#FF6B5E',4);text('!',32,-22,22,'#fff',{f:LF})}else if(repAllDone()){circ(32,-32,16,'#7CC86E',4)}ctx.restore()}
 // drawSeguir(): dibuja el botón verde de seguir, que late con un halo amarillo.
 export function drawSeguir(){const p=(Math.sin(T*4)+1)/2,s=hv('seguir',hC(SEGUIR.x,SEGUIR.y,SEGUIR.r+8));ctx.save();ctx.translate(SEGUIR.x,SEGUIR.y);ctx.scale(s*(1+p*.05),s*(1+p*.05));
   ctx.globalAlpha=.35+.3*p;circ(0,0,SEGUIR.r+12,null,10,'#FFC93C');ctx.globalAlpha=1;circ(0,0,SEGUIR.r,'#7CC86E',7);ctx.beginPath();ctx.moveTo(-18,-28);ctx.lineTo(30,0);ctx.lineTo(-18,28);ctx.closePath();fillStroke('#fff',5);ctx.restore()}
@@ -402,10 +418,12 @@ SCENES.map=Object.assign(SCENES.map,<Partial<Escena>>{
     else say((first?sal+kid()+'! ':'')+'Tocá el botón verde para seguir el camino. También podés ir a la tienda o a la casa de Tito.')},
 // hint(): señala la plaza o el botón de seguir.
   hint(){if(!asamHoy()){const z=mzOf('plaza');return{x:z.x,y:z.y,r:z.r*.8}}return{x:SEGUIR.x,y:SEGUIR.y,r:SEGUIR.r+10}},
-// dwell(id): dice el nombre del sitio bajo el ratón ('mz' + id) y si está cerrado o dormido.
-  dwell(id: string){if(id==='seguir'){say('Seguir el camino.');return}const z=MZ2.find(z=>'mz'+z.id===id);if(z)say(cap(z.name)+(!spotOpen(z.id)?(ZAGE[z.id]?'. Todavía '+(z.id==='montana'?'está dormida.':'está dormido.'):'. Todavía está cerrado.'):'.'))},
+// dwell(id): dice el nombre del sitio bajo el ratón ('mz' + id) y si está cerrado o dormido; la lupa, «El repaso con
+// Tito».
+  dwell(id: string){if(id==='repaso'){say('El repaso con Tito.');return}if(id==='seguir'){say('Seguir el camino.');return}const z=MZ2.find(z=>'mz'+z.id===id);if(z)say(cap(z.name)+(!spotOpen(z.id)?(ZAGE[z.id]?'. Todavía '+(z.id==='montana'?'está dormida.':'está dormido.'):'. Todavía está cerrado.'):'.'))},
 // draw(): mar, isla, caminos desde la plaza a cada sitio (curvas ligeramente torcidas), los sitios (drawZoneSpot),
-// logotipo, botón de seguir, casa, monedas y Tito. (En 3D mundo3d/mundo3d.ts dibuja otra cosa.)
+// logotipo, botón de seguir, casa, monedas, Tito y, encima, el botón del repaso (drawRepBtn). (En 3D
+// mundo3d/mundo3d.ts dibuja otra cosa.)
   draw(){
     ctx.fillStyle='#7FD3F0';ctx.fillRect(0,0,W,H);
     for(let i=0;i<14;i++){const x=(i*233)%1600,y=60+(i*137)%800;ctx.beginPath();ctx.moveTo(x+Math.sin(T+i)*10,y);ctx.quadraticCurveTo(x+20,y-14,x+40,y);ctx.quadraticCurveTo(x+60,y+14,x+80,y);ctx.lineWidth=6;ctx.strokeStyle='#B9E9F8';ctx.lineCap='round';ctx.stroke()}
@@ -416,10 +434,12 @@ SCENES.map=Object.assign(SCENES.map,<Partial<Escena>>{
     card(560,22,480,88,'#fff',6,44);drawLogoSmall(800,86,56);
     drawSeguir();
     drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w);
+    drawRepBtn();
   },
-// down(x, y): casa -> portada; Tito; monedas -> tienda; botón seguir; Pipo (dice cuánto falta para que nazca); y si
-// no, el sitio más cercano bajo el dedo: dormido o cerrado -> explica qué falta; abierto -> va a él.
+// down(x, y): la lupa -> el repaso; casa -> portada; Tito; monedas -> tienda; botón seguir; Pipo (dice cuánto falta
+// para que nazca); y si no, el sitio más cercano bajo el dedo: dormido o cerrado -> explica qué falta; abierto -> va a él.
   down(x: number,y: number){
+    if(dist(x,y,REPBTN.x,REPBTN.y)<52){SFX.pop();go('repaso',{hello:true});return}
     if(atHome(x,y)){SFX.tap();go('title');return}
     if(inTito(x,y)){this.prompt!(false);return}
     if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
@@ -450,9 +470,13 @@ export const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
 // CASITA v3: los juegos del tema forman un camino y se abren de uno en uno (gameOpen). Sustituye enter, prompt, hint,
 // draw y down de escenas/escenas2d.ts.
 Object.assign(SCENES.casita,<Partial<Escena>>{
-// enter(o): guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta directamente al cofre.
-// Si se ha abierto un juego nuevo (newlyOpen 'g:id') y no viene con hello, anima su candado y lo anuncia.
-  enter(o: Libre){this.t=TEMA[o.t];S.last=o.t;save();this.unl=null;
+// enter(o): si se vuelve de un juego del repaso (REP_ON) sin haber terminado el tema, vuelve al repaso (go('repaso',
+// {back: 1})); en todo caso el repaso deja de estar en marcha (ponRepOn(false); desde la fase 4c aquí, antes en una
+// envoltura de escenas/repaso.ts). Guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta
+// directamente al cofre. Si se ha abierto un juego nuevo (newlyOpen 'g:id') y no viene con hello, anima su candado y
+// lo anuncia.
+  enter(o: Libre){if(REP_ON&&!o.fin){ponRepOn(false);go('repaso',{back:1});return}ponRepOn(false);
+    this.t=TEMA[o.t];S.last=o.t;save();this.unl=null;
     if(o.fin){go('cofre',{t:o.t});return}
     const t: Tema=this.t,nw=newlyOpen('g:'+t.id,t.games.map((_g: JuegoTema,j: number)=>j).filter((j: number)=>gameOpen(t,j)));
     if(nw.length&&!o.hello){const j=nw[0];this.unl={j,t:T+.8};later(800,()=>{SFX.sparkle();const [x,y]=stationPos(t,j);burst(x,y,30)});later(300,()=>sayQ('¡Se abrió el juego número '+(j+1)+'! Tocalo para seguir.'))}

@@ -1,15 +1,15 @@
 // Pruebas de las reglas del repaso diario (src/dominio/repaso.ts, fase 3d): qué juegos se pueden repasar, cuáles
 // cuestan, cuáles hace más tiempo que no se juegan, cómo se eligen los 3 del día, cuándo hay que volver a armarlo,
 // cuándo está terminado y cuándo toca, los juegos recientes de cada habilidad y, desde la fase 4b, lo que se apunta al
-// terminar un juego (la fecha y el juego del repaso hecho). Sin navegador: cada prueba inventa los temas, lo jugado y
-// los resultados.
+// terminar un juego (la fecha y el juego del repaso hecho) y, desde la 4c, cómo suma cada intento. Sin navegador: cada
+// prueba inventa los temas, lo jugado y los resultados.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (aciertos, fallos, estrellas):
    leerlos tal cual en la prueba es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
 import type { DatosRepaso, TemaRepasable } from '../../src/dominio/repaso.ts';
 import {
-  NOREP, REPASO, caducado, conFecha, conHecho, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, repasable,
-  terminado, toca,
+  NOREP, REPASO, caducado, conFecha, conHecho, conIntento, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan,
+  repasable, terminado, toca,
 } from '../../src/dominio/repaso.ts';
 
 const HOY = '2026-10-25';
@@ -139,5 +139,15 @@ describe('al terminar un juego', () => {
     expect(conHecho(R, 'B#1')).toEqual({ ...R, done: { 'A#0': 1, 'B#1': 1 } });
     expect(R.done).toEqual({ 'A#0': 1 });
     expect(conHecho(R, 'C#0')).toBe(R);
+  });
+});
+
+// Fase 4c: cada acierto o fallo suma un intento.
+describe('apuntar un intento', () => {
+  test('conIntento suma un acierto o un fallo, conserva lo demás y no cambia el resultado que recibe', () => {
+    const r = { ok: 3, err: 1, d: '2026-10-01' };
+    expect(conIntento(r, true)).toEqual({ ok: 4, err: 1, d: '2026-10-01' });
+    expect(conIntento(r, 0)).toEqual({ ok: 3, err: 2, d: '2026-10-01' });
+    expect(r).toEqual({ ok: 3, err: 1, d: '2026-10-01' });
   });
 });
