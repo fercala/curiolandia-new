@@ -83,12 +83,8 @@ import { esCumple } from '../dominio/progreso.ts';
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
 // Cada escena: {music: clave de música o null, enter(o), update(dt), draw(), down(x,y), move(x,y), up(x,y),
 // hint() -> {x,y,r} o null, prompt() (repite la consigna), dwell(id) (dice el nombre de lo que hay bajo el ratón)}.
-// Cada tema guarda en t.zone a qué zona del mapa pertenece (3 años -> jardín, 4 -> bosque, 5 -> montaña).
-// Los temas de temas/extras.ts, fiestas e inglés ya traen su propia zone ('extras', 'fiestas', 'ingles').
-[...T3,C3].forEach(t=>t.zone='jardin');[...T4,C4].forEach(t=>t.zone='bosque');[...T5,C5].forEach(t=>t.zone='montana');
 // TEMAS: lista de todos los temas en orden. TEMA: el mismo tema buscado por su id (TEMA['3A-T1']).
-// Formato de un tema (ver temas/temas.ts): {id, n: nombre, icon: dibujo, c: color, zone, games: [{t: tipo de juego, ...}],
-// words?, concepts? (true en el Rincón de los Conceptos), bg(): dibuja el fondo de su casita, intro?, season?}.
+// Formato de un tema: el tipo Tema de juegos/tipos.ts, con un comentario por campo. Cada tema trae su zone (fase 5a).
 export const TEMAS: Tema[]=[...T3,C3,...T4,C4,...T5,C5,CAN,RUT,TRZ,...FIESTAS,...ING], TEMA: Record<string, Tema>={};TEMAS.forEach(t=>TEMA[t.id]=t);
 // CATALOGO: TEMAS y TEMA juntos, como los piden los casos de uso del repaso (aplicacion/repasoDelDia.ts, desde la fase 4c).
 export const CATALOGO: CatalogoDeTemas={lista:TEMAS,tema:(id: string)=>TEMA[id]};

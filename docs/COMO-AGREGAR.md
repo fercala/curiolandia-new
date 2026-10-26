@@ -97,15 +97,16 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en la
 1. **Dibujos y nombres**: comprueba que existen en `PICS` todas las claves (icono, palabras). Si falta alguno, ver receta 8. Los nombres hablados van en `LEX` (`trompeta:'la trompeta'`).
 2. **Añade el tema al final** de `T3` (temas/temas.ts), `T4` (temas/temas4.ts) o `T5` (temas/temas5.ts):
    ```js
-   {id:'4A-T13',n:'Los instrumentos',icon:'guitarra',c:'#9B8AD9',trim:3,bg:BG.fiesta,
+   {id:'4A-T13',zone:'bosque',n:'Los instrumentos',icon:'guitarra',c:'#9B8AD9',trim:3,bg:BG.fiesta,
     words:[{k:'guitarra',say:'La guitarra. Tiene seis cuerdas.'},{k:'tambor'},{k:'piano'}],
     intro:'Estos son los instrumentos. Toca cada uno para conocerlo.',
     games:[{t:'conocer'},{t:'busca'},{t:'memoria'}]}
    ```
    - `id` único y **definitivo** (es la clave del progreso guardado).
    - `bg`: un fondo de `BG` (temas/temas.ts y temas/temas4.ts tienen la lista). Para uno nuevo, añádelo en el `Object.assign(BG,{...})` de temas/temas4.ts.
-   - `season` (opcional): `'otoño'`, `'invierno'`... hace que Tito lo recomiende en esa estación.
-   - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, el puente lo deja también en `globalThis` (la prueba `globales` avisa si otro módulo ya exporta ese nombre).
+   - `zone`: la zona de su lista (`'jardin'` en `T3`, `'bosque'` en `T4`, `'montana'` en `T5`). Es obligatoria desde la fase 5a.
+   - `season` (opcional): `'otoño'`, `'invierno'`... Es informativo: el código no lo lee.
+   - Los temas son módulos TypeScript (formato: `Tema` y `JuegoTema` en `src/juegos/tipos.ts`, con un comentario por campo; desde la fase 5a son tipos cerrados, así que un campo mal escrito o que falta lo avisa `npm run tipos`). Si el juego usa un componente o una ayuda que el archivo aún no importa, añádelo a su `import` (`npm run tipos` lo avisa); si exportas algo nuevo, el puente lo deja también en `globalThis` (la prueba `globales` avisa si otro módulo ya exporta ese nombre).
 3. **Límites**: cada camino tiene sitio para **12 casitas** (`zonePos()` en escenas/zonas.ts) y cada casita para **unos 8 juegos** (`st3Pos()` en mundo3d/casita3d.ts), contando el cuento. Para más hay que ampliar esas funciones.
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
 5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y escenas/zonas.ts al camino).
