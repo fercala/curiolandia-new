@@ -23,14 +23,14 @@
  *
  * Desde la fase 2k es un módulo (escenas/indice.ts lo carga después de
  *   escenas2d.ts) y el puente deja lo que exporta en globalThis para las pruebas (escenas/tienda.ts,
- *   escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan).
+ *   escenas/repaso.ts, aplicacion/adultos.ts y los módulos de mundo3d/ lo importan).
  *
  * Define una sola vez (desde la fase 4d; antes reescribía las de una
  *   versión 1 de escenas/escenas2d.ts) las escenas del mapa (SCENES.map),
  *   de las zonas (SCENES.jardin y las demás) y de la casita (SCENES.casita),
  *   y suggestTema y stationPos. No cambia nada de escenas/escenas2d.ts (hasta
  *   la fase 4e añadía tipos a GNAME y envolvía la asamblea con el paso de
- *   cumpleaños, que ahora están allí). mundo3d/mundo3d.ts después
+ *   cumpleaños, que ahora están allí). La capa 3D (mundo3d/) después
  *   envuelve map, casita, cofre y las zonas, cambia stationPos (ponStationPos)
  *   y sobrescribe cada cuadro las x/y de ZPOS, MZ2, TITO y HOUSE_AT con las
  *   posiciones 3D proyectadas.
@@ -196,7 +196,7 @@ export function zonePos(z: string){const P: Record<string, PosCasita>={},L=ZONES
   rows.forEach((r,ri)=>r.forEach((n,j)=>{const t=path[n];if(t)P[t.id]={x:ri===0?440+j*256:ri===1?1290-j*280:450+j*280,y:ys[ri],band:ri,s:1}}));
 // El Rincón de los Conceptos no forma parte del camino: va aparte, abajo a la derecha.
   const c=L.find(t=>t.concepts);if(c)P[c.id]={x:1420,y:690,band:3,s:1};return P}
-// ZPOS[zona][idTema]: posiciones de las casitas. mundo3d/mundo3d.ts las sobrescribe cada cuadro con las casitas 3D proyectadas.
+// ZPOS[zona][idTema]: posiciones de las casitas. mundo3d/zonas3d.ts las sobrescribe cada cuadro con las casitas 3D proyectadas.
 export const ZPOS: Record<string, Record<string, PosCasita>>={};for(const z in ZONES)ZPOS[z]=zonePos(z);
 // ¿se abrió algo nuevo desde la última vez? (para la animación del candado)
 // newlyOpen(key, ids): compara la lista ids de cosas abiertas ahora con la guardada en S.seenOpen[key] la última vez,
@@ -250,7 +250,7 @@ export function zoneScene(z: string): Escena{const Z=ZONES[z],P=ZPOS[z],path=z==
 for(const z in ZONES)SCENES[z]=zoneScene(z);
 
 /* ---------- la casa de Tito y Pipo, el dinosaurio que crece ---------- */
-// HOUSE_AT: [x, y] del suelo de la casa de Tito en el mapa (mundo3d/mundo3d.ts lo actualiza con la proyección 3D).
+// HOUSE_AT: [x, y] del suelo de la casa de Tito en el mapa (mundo3d/mapa3d.ts lo actualiza con la proyección 3D).
 // houseLevel(): nivel de la casa (0-4) según los temas terminados; HOUSE_NEXT: temas necesarios para cada nivel;
 // HOUSE_SAY: frase al subir a cada nivel.
 export const HOUSE_AT=[1040,800];
@@ -314,7 +314,7 @@ export function drawTitoHouse(x: number,gy: number,lvl: number,o: Libre={}){cons
 /* ---------- el mapa ---------- */
 // MZ2: los sitios del mapa v3. Formato: {id, x, y, r: radio tocable, name: nombre para la voz, t?: id del tema al que
 // lleva directamente (canciones, trazos, rutinas)}. Al tocarlo: plaza -> asamblea; con t -> su casita; si no ->
-// go(id) (una zona de ZONES, 'album', 'tienda' o 'casaTito'). mundo3d/mundo3d.ts actualiza x/y con la proyección 3D.
+// go(id) (una zona de ZONES, 'album', 'tienda' o 'casaTito'). mundo3d/mapa3d.ts actualiza x/y con la proyección 3D.
 export const MZ2=[
   {id:'plaza',x:790,y:500,r:125,name:'la plaza de la asamblea'},
   {id:'jardin',x:390,y:590,r:140,name:'el Jardín de los 3 años'},
@@ -347,7 +347,7 @@ export const repDue=(): boolean=>tocaRepasar(S,CATALOGO,today(),STARS()), repAll
 // por el repaso (una vez al día, si toca repasar: seguirPorElRepaso), al repaso; si no, a la casita de nextTema(). Si
 // no queda nada, lo dice. (Lo del repaso está aquí desde la fase 4c; antes escenas/repaso.ts envolvía goSeguir.)
 export let goSeguir: () => void=function(){if(!asamHoy()){go('asamblea');return}if(seguirPorElRepaso(S,CATALOGO,today(),STARS())){go('repaso',{seguir:1});return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
-// ponGoSeguir(f): cambia goSeguir por otra función (mundo3d/mundo3d.ts la envuelve; hasta la fase 4c, también
+// ponGoSeguir(f): cambia goSeguir por otra función (mundo3d/mapa3d.ts la envuelve; hasta la fase 4c, también
 // escenas/repaso.ts).
 export function ponGoSeguir(f: typeof goSeguir){goSeguir=f}
 // REPBTN: dónde está el botón del repaso (la lupa) en el mapa, arriba.
@@ -391,7 +391,7 @@ export function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z
   if(o.unl&&unlockFx(x,y,z.r*.85,o.unl)){}else if(lk){lockOver(x,y,z.r*.85);card(x-46,y+z.r*.6,92,44,'#fff',5,22);flower(x-20,y+z.r*.6+22,11,FLC[0],2.5);text(String(spotNeed(z.id)),x+18,y+z.r*.6+35,30,K,{f:LF})}
   ctx.restore()}
 // MAPA v3: la escena del mapa. Desde la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le
-// sustituía los métodos). mundo3d/mundo3d.ts la envuelve después para el mapa 3D.
+// sustituía los métodos). mundo3d/mapa3d.ts la envuelve después para el mapa 3D.
 SCENES.map={music:'map',
 // enter(o): decide UN solo aviso al entrar, por prioridad:
 // 1) una zona que se acaba de despertar (S.woke) sin ser de su edad; 2) un sitio recién abierto (newlyOpen 'map');
@@ -416,7 +416,8 @@ SCENES.map={music:'map',
     else if(o.hello)later(400,()=>this.prompt!(true));
     if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },
-// ageZone(): zona que corresponde a la edad (la usa mundo3d/mundo3d.ts para colocar a Tito).
+// ageZone(): zona que corresponde a la edad (ageZoneOpen). Hoy no la llama nadie (la capa 3D ya no la usa para colocar a
+// Tito).
   ageZone(){return ageZoneOpen()},
 // prompt(first): saludo según la hora (si first) y consigna: asamblea si falta hoy; si no, el botón de seguir.
   prompt(first?: boolean){const h=ahora().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
@@ -429,7 +430,7 @@ SCENES.map={music:'map',
   dwell(id: string){if(id==='repaso'){say('El repaso con Tito.');return}if(id==='seguir'){say('Seguir el camino.');return}const z=MZ2.find(z=>'mz'+z.id===id);if(z)say(cap(z.name)+(!spotOpen(z.id)?(ZAGE[z.id]?'. Todavía '+(z.id==='montana'?'está dormida.':'está dormido.'):'. Todavía está cerrado.'):'.'))},
 // draw(): mar, isla, caminos desde la plaza a cada sitio (curvas ligeramente torcidas), los sitios (drawZoneSpot),
 // logotipo, botón de seguir, casa, monedas, Tito y, encima, el botón del repaso (drawRepBtn). (En 3D
-// mundo3d/mundo3d.ts dibuja otra cosa.)
+// mundo3d/mapa3d.ts dibuja otra cosa.)
   draw(){
     ctx.fillStyle='#7FD3F0';ctx.fillRect(0,0,W,H);
     for(let i=0;i<14;i++){const x=(i*233)%1600,y=60+(i*137)%800;ctx.beginPath();ctx.moveTo(x+Math.sin(T+i)*10,y);ctx.quadraticCurveTo(x+20,y-14,x+40,y);ctx.quadraticCurveTo(x+60,y+14,x+80,y);ctx.lineWidth=6;ctx.strokeStyle='#B9E9F8';ctx.lineCap='round';ctx.stroke()}
@@ -465,17 +466,17 @@ SCENES.map={music:'map',
 /* ---------- casitas de tema: los juegos también son un camino ---------- */
 // stationPos(t, j): posición [x, y] del juego j en la casita del tema t, formando un camino: hasta 4 en una fila;
 // hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al revés (zigzag). Desde la fase 4d está solo
-// aquí (antes había otra en escenas/escenas2d.ts). mundo3d/mundo3d.ts la envuelve con las posiciones 3D (ponStationPos).
+// aquí (antes había otra en escenas/escenas2d.ts). mundo3d/casita3d.ts la envuelve con las posiciones 3D (ponStationPos).
 export let stationPos: (t: Tema, j: number) => number[]=function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
   if(n<=6){const r=Math.floor(j/3),c=j%3;return[540+(r?2-c:c)*360,r?700:420]}
   const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]};
-// ponStationPos(f): cambia stationPos (solo para mundo3d/mundo3d.ts, que pone las posiciones 3D proyectadas).
+// ponStationPos(f): cambia stationPos (solo para mundo3d/casita3d.ts, que pone las posiciones 3D proyectadas).
 export function ponStationPos(f: typeof stationPos): void{stationPos=f}
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
 export const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
 // CASITA v3: la escena de la casita de un tema: los juegos forman un camino y se abren de uno en uno (gameOpen). Desde
 // la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le sustituía enter, prompt, hint, draw y
-// down). mundo3d/mundo3d.ts la envuelve después para la casita 3D.
+// down). mundo3d/casita3d.ts la envuelve después para la casita 3D.
 SCENES.casita={music:'casita',
 // dwell(id): id = 'g:' + número de juego; dice el nombre del juego (g.name o GNAME[g.t]).
   dwell(id){const j=+id.slice(2);const g=this.t.games[j];if(g)say(V(g.name||GNAME[g.t]||''))},
@@ -546,7 +547,7 @@ export function drawChest(x: number,y: number,s: number,op: number,sh: number){c
 
 // EL COFRE DEL TESORO: premio por terminar un tema. Se llega con go('cofre', {t: id}) desde la casita con o.fin.
 // Hay que tocarlo 3 veces; al abrirse da el siguiente regalo de GIFTS (o 20 monedas si ya no quedan), la figurita del tema
-// y 10 monedas. Luego se puede ir a la casa de Tito a verlo o seguir el camino. (mundo3d/mundo3d.ts lo envuelve para el 3D.)
+// y 10 monedas. Luego se puede ir a la casa de Tito a verlo o seguir el camino. (mundo3d/cofre3d.ts lo envuelve para el 3D.)
 // Mientras el cofre está sin abrir, S.cofreP[id del tema] = 1 (premio pendiente): si se cierra o recarga la página antes
 // de abrirlo, cofrePend() lo entrega al arrancar, para que el premio del tema nunca se pierda.
 SCENES.cofre={music:'casita',

@@ -94,7 +94,7 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2`. Desde la fase 4b no envuelve nada: las monedas de los juegos las dan `onRight` y `finishGame`. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
 | 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Las reglas del repaso, en `dominio/repaso.ts`, y lo que se hace con ellas, en el caso de uso `aplicacion/repasoDelDia.ts`. Desde la fase 4c no envuelve nada: `rec` (núcleo) apunta lo de cada juego, `go` (núcleo) olvida el repaso al salir de él, y el mapa, `goSeguir` y la casita (`escenas/zonas.ts`) traen lo suyo; desde la 4b, la fecha del juego y el repaso hecho los apunta `terminarJuego`, y `REP_ON` está en el núcleo (lo pone con `ponRepOn`). |
 | 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
-| 14 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga después de la aplicación; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **Toda la capa 3D** (módulo): portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. Desde la fase 4g, el motor (`mundo3d/motor.ts`: dibujante, mundo activo, cámara, calidad, proyección y toque) y los materiales y las piezas (`mundo3d/materiales.ts`) están en sus propios módulos, que no crean nada hasta que se monta el 3D. |
+| 14 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga después de la aplicación; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **La capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. `mundo3d.ts` es la entrada: si hay Three.js y WebGL, monta el motor y cada escena 3D (y exporta `R3frame`). Cada parte está en su módulo de `mundo3d/` (fases 4g y 4h, ver el apartado 8): `motor.ts`, `materiales.ts`, `decorado.ts`, `cielo.ts`, `objetos.ts`, `personajes.ts`, `interaccion.ts`, `mapa3d.ts`, `zonas3d.ts`, `casita3d.ts`, `cofre3d.ts` y `portada3d.ts`. Ninguno crea nada al cargarse. |
 | 15 | `aplicacion/arranque.ts` (antes `boot.js`, el último archivo global; `modulos.ts` llama a `arrancar()` al final) | **Arranque** (módulo): entrega los cofres que quedaron sin abrir, espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `tardias.d.ts` | Tipos de lo que un módulo usa de otro que se carga después (lo encuentra por el puente). No cambia el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
@@ -138,8 +138,8 @@ como error). Para lo que varios archivos cambian hay dos vías:
   `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
 - **Funciones `pon*`** para cambiar desde otro archivo una variable entera de un módulo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo), `ponRepOn` (`REP_ON`, si se juega un juego del repaso; desde la fase 4b) y las de las
-  funciones que envuelve la capa 3D (`mundo3d/mundo3d.ts`, la única que aún envuelve): `ponGo` (núcleo) y `ponStationPos` y
-  `ponGoSeguir` (`escenas/zonas.ts`). Hasta la fase 4f también había `ponThing` y `ponMakeGame`. Dentro del núcleo hay dos más: `ponMusica` (la música
+  funciones que envuelve la capa 3D (`mundo3d/`, la única que aún envuelve): `ponGo` (núcleo; lo usa `mundo3d/interaccion.ts`) y
+  `ponStationPos` y `ponGoSeguir` (`escenas/zonas.ts`; los usan `mundo3d/casita3d.ts` y `mundo3d/mapa3d.ts`). Hasta la fase 4f también había `ponThing` y `ponMakeGame`. Dentro del núcleo hay dos más: `ponMusica` (la música
   de la escena, la usa `go`) y `ponRopaTito` (`escenas/tienda.ts` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
 ## 3. La pantalla lógica de 1600x900
@@ -174,7 +174,7 @@ SCENES.miEscena = {
   hint() { return {x, y, r} }, // dónde brilla la ayuda si el niño no toca nada
   prompt() { say('...') },  // repite la consigna (al tocar a Tito, y una vez con la manita de ayuda)
   dwell(id) { ... },        // el ratón se queda quieto sobre algo: decir su nombre
-  three: true,              // solo las escenas 3D (lo pone mundo3d/mundo3d.ts)
+  three: true,              // solo las escenas 3D (lo ponen las funciones montar* de mundo3d/)
 };
 ```
 
@@ -199,7 +199,7 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 
 ### Capas: cómo se "reescriben" las escenas
 
-El juego empezó en 2D y creció por capas. Cada archivo posterior **envolvía** métodos de escenas anteriores en lugar de reescribirlas desde cero. La fase 4 las va juntando (cada escena y cada función, definida una sola vez); desde la fase 4f solo queda una capa que envuelve: `mundo3d/mundo3d.ts`, con este patrón:
+El juego empezó en 2D y creció por capas. Cada archivo posterior **envolvía** métodos de escenas anteriores en lugar de reescribirlas desde cero. La fase 4 las va juntando (cada escena y cada función, definida una sola vez); desde la fase 4f solo queda una capa que envuelve: la capa 3D (`mundo3d/`; desde la fase 4h, cada escena en su módulo), con este patrón:
 
 ```js
 // Patrón para envolver un método sin perder el original
@@ -213,7 +213,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envolvía**
 
 - Desde la fase 4d, el mapa, las zonas y la casita se definen una sola vez, en `escenas/zonas.ts` (antes `escenas/escenas2d.ts` tenía una versión 1 que `zonas.ts` reescribía y que ya no se usaba). Desde la fase 4e, la asamblea (con el paso de cumpleaños y las monedas del día) y `GNAME` también están enteros en `escenas/escenas2d.ts` (antes `zonas.ts` los completaba): ya ningún archivo de escenas envuelve a otro.
 - Desde la fase 4c, `escenas/repaso.ts` ya no envuelve nada (antes `rec`, `go`, `goSeguir`, la casita y el mapa: ahora cada uno trae lo suyo del repaso, con el caso de uso `repasoDelDia`). Desde la fase 4b, terminar un juego ya no se envuelve: `finishGame` (`escenas/escenas2d.ts`) es una sola función, con su caso de uso `terminarJuego`, y la moneda de cada acierto la da `onRight` (núcleo); `escenas/tienda.ts` ya no envuelve nada.
-- `mundo3d/mundo3d.ts` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
+- La capa 3D envuelve `map` (`mundo3d/mapa3d.ts`), las zonas (`mundo3d/zonas3d.ts`), `casita` (`mundo3d/casita3d.ts`), `cofre` (`mundo3d/cofre3d.ts`) y `title` (`mundo3d/portada3d.ts`) para pintarlos en 3D.
 
 **Consecuencia práctica**: antes de cambiar una escena, busca en todos los archivos quién la envuelve (`grep -rn "SCENES.casita" src/`). El comportamiento final es el de la última capa.
 
@@ -253,21 +253,38 @@ Un **componente de juego** (juegos/comps.ts, juegos/comps2.ts) es una función q
 
 Los **dibujos** se buscan por nombre en `PICS` y se pintan con `pic(nombre, x, y, tamaño)`. Su nombre hablado sale de `LEX`/`LEX2` (`nucleo/idioma.ts` y `contenido/lex.ts`).
 
-## 8. La capa 3D (`mundo3d/mundo3d.ts`)
+## 8. La capa 3D (`mundo3d/`)
 
-Es el archivo más grande y el más delicado (antes `world3d.js`; desde la fase 2o, un módulo con tipos estrictos). La idea clave:
+Es la parte más grande y la más delicada (antes era un solo archivo, `world3d.js`; desde la fase 2o, un módulo con tipos estrictos, `mundo3d/mundo3d.ts`, y desde las fases 4g y 4h, partida en módulos). La idea clave:
 
 > **La lógica del juego sigue siendo 2D.** El 3D solo dibuja y, en cada cuadro, "le cuenta" a la lógica 2D dónde ha quedado cada cosa en la pantalla.
 
 ### Cómo engancha con lo 2D
 
-1. `mundo3d/mundo3d.ts` envuelve las escenas `title`, `map`, las 5 zonas, `casita` y `cofre` con `Object.assign(SCENES.x, {three: true, enter, sync, draw, down})`, guardando sus métodos originales (`enter0`, `down0`).
+1. Al montar la capa 3D, cada módulo de escena (`montarPortada3D`, `montarMapa3D`, `montarZonas3D`, `montarCasita3D`, `montarCofre3D`) envuelve su escena (`title`, `map`, las 5 zonas, `casita` y `cofre`) con `Object.assign(SCENES.x, {three: true, enter, sync, draw, down})`, guardando sus métodos originales (`enter0`, `down0`).
 2. **`enter`** llama al `enter` original y construye el mundo 3D (`buildMap`, `buildZone`, `buildCasita`, `buildCofre`, `buildTitle`), y lo activa con `setWorld(w)`.
 3. **Cada cuadro**, `sync()` **proyecta** las posiciones 3D a la pantalla lógica de 1600x900 (`proj`, `projR`, `projO`) y las escribe en las variables que usa la lógica 2D: `MZ2` (lugares del mapa), `ZPOS[zona][tema]` (casitas), `stationPos` (estaciones de la casita), `TITO` y `HOUSE_AT`. Así los `down`, `hint` y bocadillos originales siguen funcionando sin saber que hay 3D.
 4. **Al tocar** (`down`): `pickAt(x,y)` lanza un rayo desde la cámara (raycast) y mira qué objeto 3D hay debajo. Si es un lugar o una casita, Tito camina hasta allí (`walkTo`) y al llegar se llama al `down` 2D original (`call0`). Si no es nada importante, se prueba con los objetos decorativos (`flyTap`, `wobTap`), el cielo (`skyTap`), el mar (`seaTap`) y, si no, Tito pasea hasta ese punto (`walkGround`).
 5. `R3frame(dt)` (llamado desde `frame()` de aplicacion/adultos.ts) ejecuta las animaciones del mundo (`w.upd`), mueve la cámara y pinta con el renderer `R`.
 
 Desde la fase 4g el motor está en `mundo3d/motor.ts` (`R`, `W3`, `newWorld`, `setWorld`, `proj`, `pickAt`...) y los materiales y piezas en `mundo3d/materiales.ts` (`M`, `mk`, `grp`, `canvasTex`...). Ninguno de los dos crea nada al cargarse: `montarMotor()` crea el dibujante y lo demás al montar el 3D, y devuelve `false` si no hay Three.js o WebGL. Para comprobar sin navegador que un cambio no altera el 3D, el mundo 3D se puede construir en Node con el Three.js de verdad y un dibujante de mentira (ver `docs/CAMBIOS.md`, fase 4g).
+
+Desde la fase 4h, lo demás también está en su módulo. `mundo3d/mundo3d.ts` solo es la entrada: llama a `montarMotor()` y, si hay 3D, crea `R3frame` y llama a las funciones `montar*` en este orden:
+
+| Módulo | Qué tiene | Al montar |
+|---|---|---|
+| `decorado.ts` | flores, árboles, arbustos, piedras, candados, flechas, aros, cintas y caminos (`bez`), mariposas, gaviotas, luciérnagas, estrellas, lo que cae (`fallPts`) | — |
+| `cielo.ts` | `skyNow` (día y noche), la voz del paisaje (`say3`, `sayNum`, `NAMES3`, `SYL3`, `sylClap`), el cielo que se toca (`skyTap`, Júpiter, Saturno, el Carro, el sol y la luna con cara, el águila, el trineo, pájaros y nubes) | — |
+| `objetos.ts` | los animales y cosas tocables de las zonas (`frog3`, `kite3`, `cann3`...: su patrón está explicado antes de `cann3`), las fechas (`xmasNow`, `summerNow`...), `hitS`, `allTap`, `chainWob` | — |
+| `personajes.ts` | Tito (`makeTito`), Pipo (`makePipo`) y la casa de Tito (`makeHouse`), y lo que pasa al tocar a Tito | — |
+| `interaccion.ts` | caminar (`walkTo`, `walkTick`, `walkGround`), tocar objetos (`WOBK`, `wobInit`, `wobTap`, `flyTap`, `seaTap`) y el puente con lo 2D (`titoRect`, `call0`, `restore2D`); `retito` | `montarInteraccion`: envuelve `go` y deja `window.__w3` |
+| `mapa3d.ts` | la isla (`sea3`, `island3`, `SPOT3`, `buildMap`) | `montarMapa3D`: la escena `map` (y `goSeguir`) |
+| `zonas3d.ts` | las zonas (`casita3`, `roadPts`, `zoneDecor`, `buildZone`) | `montarZonas3D`: las 5 zonas |
+| `casita3d.ts` | la casita de un tema (`st3Pos`, `st3Tito`, `buildCasita`) | `montarCasita3D`: `juego.enter` (último juego), `stationPos` y la escena `casita` |
+| `cofre3d.ts` | el cofre (`buildCofre`) | `montarCofre3D`: la escena `cofre` |
+| `portada3d.ts` | la portada (`buildTitle`) | `montarPortada3D`: la escena `title` |
+
+Los módulos se importan entre sí (por ejemplo, `interaccion.ts` usa los objetos de `objetos.ts` y estos, `say3` de `cielo.ts`): no pasa nada porque al cargarse solo definen funciones y datos, y todo lo de Three.js se crea dentro de las funciones (`fhit()`, el material invisible de los toques, y el rayo del rastro de Tito se crean la primera vez que se usan).
 
 Si el navegador no tiene WebGL, el juego funciona igual en 2D.
 
@@ -297,9 +314,11 @@ Todos siguen el mismo patrón (funciones `xxx3(w, x, z, escala)`: `frog3`, `kite
 1. Se crea un grupo con `grp(...)` y piezas con `mk(geometría, color, opciones)`.
 2. Se marca con `g.userData.<tipo> = 1` y, si hace falta, `g.userData.dur` (duración de la animación).
 3. Su animación se añade a `w.upd`: mira `g.userData.wob` (el instante en que se tocó) y anima durante `dur` segundos.
-4. La marca se añade a `WOBK` para que `wobInit` lo meta en `w.trees` y se pueda tocar.
-5. En `wobTap` hay una rama `else if (u.<tipo>) {...}` con su sonido, partículas y frase.
-6. Si Tito debe decir su nombre, va en `NAMES3` (frase grabada, palabra escrita) y sus sílabas en `SYL3`.
+4. La marca se añade a `WOBK` (`mundo3d/interaccion.ts`) para que `wobInit` lo meta en `w.trees` y se pueda tocar.
+5. En `wobTap` (también en `interaccion.ts`) hay una rama `else if (u.<tipo>) {...}` con su sonido, partículas y frase.
+6. Si Tito debe decir su nombre, va en `NAMES3` (frase grabada, palabra escrita) y sus sílabas en `SYL3` (los dos en `mundo3d/cielo.ts`).
+
+Los objetos están en `mundo3d/objetos.ts` (y los de decoración más sencillos, en `mundo3d/decorado.ts`).
 
 La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nuevo-que-se-pueda-tocar).
 
@@ -313,7 +332,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 ### Día, noche y estaciones
 
-`skyNow()` decide el cielo por la hora del dispositivo: noche de 20 h a 7 h, atardecer de 18 h a 20 h, amanecer hasta las 9 h. De noche salen la luna, estrellas, Júpiter, Saturno, búho, luciérnagas, y los animales duermen. Hay decoración por época: `summerNow()` (sombrilla y castillo de arena), `hallowNow()` (calabazas), Navidad, etc.
+`skyNow()` (`mundo3d/cielo.ts`) decide el cielo por la hora del dispositivo: noche de 20 h a 7 h, atardecer de 18 h a 20 h, amanecer hasta las 9 h. De noche salen la luna, estrellas, Júpiter, Saturno, búho, luciérnagas, y los animales duermen. Hay decoración por época: `summerNow()` (sombrilla y castillo de arena), `hallowNow()` (calabazas), Navidad, etc.
 
 ## 9. Estado guardado `S`
 

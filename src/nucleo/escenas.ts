@@ -16,7 +16,7 @@ import { azar } from '../aplicacion/puertos.ts';
 /* ---------- escenas, temporizadores, partículas ---------- */
 /* SISTEMA DE ESCENAS
    Cada pantalla del juego es una "escena": un objeto guardado en SCENES[nombre] (aquí; las rellenan escenas/escenas2d.ts, escenas/zonas.ts, escenas/tienda.ts,
-   escenas/repaso.ts, mundo3d/mundo3d.ts...). Lo que puede tener una escena (todo opcional salvo draw):
+   escenas/repaso.ts, los de mundo3d/...). Lo que puede tener una escena (todo opcional salvo draw):
      enter(o)      al entrar; o son las opciones que se pasaron a go().
      update(dt)    en cada cuadro, antes de dibujar (dt = segundos desde el cuadro anterior).
      draw()        dibuja la escena en la pantalla lógica de 1600x900.
@@ -24,7 +24,7 @@ import { azar } from '../aplicacion/puertos.ts';
      hint()        devuelve {x,y,r} (o un path) de lo que hay que tocar, para la ayuda si el niño no hace nada.
      prompt()      repite la consigna cuando aparece la manita de ayuda.
      dwell(id)     el ratón se quedó quieto sobre el elemento id (suele decir su nombre).
-     music         clave de MUSIC; three: true si la escena se dibuja en 3D (mundo3d/mundo3d.ts); starPop (ver drawRounds).
+     music         clave de MUSIC; three: true si la escena se dibuja en 3D (la capa 3D, mundo3d/); starPop (ver drawRounds).
    Variables: scene (escena actual), sceneName (su nombre), sceneArg (opciones de go), sceneTok (sube con cada cambio
    de escena y anula temporizadores y callbacks de la anterior), T (segundos desde el arranque; para animar),
    fade (velo de transición, de 1 a 0), timers (de later), parts (partículas), idle (segundos sin tocar; activa
@@ -53,7 +53,7 @@ export function ponRepOn(v: boolean): void{REP_ON=v}
 // zona de adultos al mapa, a una zona o a otro tema con hello), se olvida el repaso: si no, la siguiente casita que se
 // abriera saltaría al repaso. (Desde la fase 4c está aquí; antes escenas/repaso.ts envolvía go para hacerlo.)
 // Ejemplos: go('map',{hello:true}) vuelve al mapa saludando; go('casita',{t:idTema}) abre un tema.
-// Es let y no function porque mundo3d/mundo3d.ts la envuelve con ponGo.
+// Es let y no function porque la capa 3D la envuelve con ponGo (mundo3d/interaccion.ts).
 export let go=(n: string,o: Libre={}): void=>{
   if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))REP_ON=false;
   const e=SCENES[n];
@@ -62,7 +62,7 @@ export let go=(n: string,o: Libre={}): void=>{
   try{speechSynthesis.cancel()}catch(e){} VIVO.talking=false;
   sceneName=n; sceneArg=o; scene=e; VIVO.fade=1; ponMusica(e.music||null); if(e.enter)e.enter(o);
 };
-// ponGo(f): cambia go por otra función. La envuelve mundo3d/mundo3d.ts (vuelve a 2D al ir a una escena sin 3D); hasta la
+// ponGo(f): cambia go por otra función. La envuelve mundo3d/interaccion.ts (vuelve a 2D al ir a una escena sin 3D); hasta la
 // fase 4c también escenas/repaso.ts. La envoltura llama a la de antes, que guarda antes de llamar a ponGo.
 export function ponGo(f: typeof go): void{go=f}
 /* PARTÍCULAS. parts es una lista de objetos {x, y, vx, vy (velocidad en px/s), life (segundos que dura), t (edad),

@@ -12,7 +12,7 @@
 // final, las escenas (escenas/indice.ts: escenas2d.ts, zonas.ts, tienda.ts y repaso.ts, antes scenes.js, zonas.js,
 // tienda.js y repaso.js), que usan los temas. Después va la aplicación (aplicacion/adultos.ts, antes adult.js): la
 // zona de adultos, la entrada y el bucle de dibujo, que usan todo lo anterior. La capa 3D (mundo3d/mundo3d.ts, antes
-// world3d.js) envuelve las escenas del mapa, las zonas, la casita y el cofre. Con todo cargado y el puente puesto,
+// world3d.js, que monta los demás módulos de mundo3d/) envuelve las escenas del mapa, las zonas, la casita y el cofre. Con todo cargado y el puente puesto,
 // arrancar() (aplicacion/arranque.ts, antes boot.js) pone el juego en marcha.
 import './infraestructura/conectar.ts';
 import * as puertos from './aplicacion/puertos.ts';

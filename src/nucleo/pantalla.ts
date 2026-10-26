@@ -16,7 +16,7 @@ export let SC=1,OX=0,OY=0,DPR=1;
 // con Object.assign donde se explica (puntero.ts, voz.ts, escenas.ts, interfaz.ts, escenas/escenas2d.ts con deferredInstall y
 // escenas/tienda.ts con coinBanner); el tipo con todos los campos es Vivo (tipos.ts). Empieza vacío y se completa al cargar.
 export const VIVO={} as Vivo;
-// ponCtx(g): cambia el lienzo en el que dibuja todo (ctx). mundo3d/mundo3d.ts dibuja así en lienzos aparte (texturas, muestras
+// ponCtx(g): cambia el lienzo en el que dibuja todo (ctx). La capa 3D (mundo3d/materiales.ts y mundo3d/casita3d.ts) dibuja así en lienzos aparte (texturas, muestras
 // de fondo) y luego deja el de antes. Es la única forma de cambiar ctx desde otro archivo.
 export function ponCtx(g: CanvasRenderingContext2D): void{ctx=g}
 // resize(): ajusta el lienzo al tamaño de la ventana. El juego siempre "piensa" en una pantalla de 1600x900 (W x H):
