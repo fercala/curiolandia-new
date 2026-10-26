@@ -17,7 +17,8 @@
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
 //   TITO_EYES...), los dibujos de Tito (TITO_SVG...), escenas/escenas2d.ts (finishGame, inR), escenas/zonas.ts (houseLevel,
 //   drawTitoHouse, drawPet, petStage, PET_NEXT, HOUSE_NEXT, shellIcon, arrowAt), temas/ (floor, bunting), juegos/
-//   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (estrellas, TIER_NEED, nivelAbierto, habitacionAbierta).
+//   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (estrellas, TIER_NEED, nivelAbierto, habitacionAbierta)
+//   y de dominio/monedas.ts (ganar, gastar, alcanza, monedasPorAcierto, monedasAlTerminar).
 import type { Escena, Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
 import { DEF, FLC, H, IMG, LF, PI, S, SCENES, SFX, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inTito, later, lerp, noise, onRight, pic, pick, playSound, ponOnRight, ponRopaTito, rnd, sanoS, save, say, sayQ, sceneName, sceneTok, setCursor, sky, sparkles, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
@@ -26,6 +27,7 @@ import { bunting, floor } from '../temas/indice.ts';
 import { finishGame, inR, ponFinishGame } from './escenas2d.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
 import { TIER_NEED, estrellas, habitacionAbierta, nivelAbierto } from '../dominio/progreso.ts';
+import { alcanza, ganar, gastar, monedasAlTerminar, monedasPorAcierto } from '../dominio/monedas.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -120,7 +122,7 @@ let coinPend=0,coinPendTok=-1;
 // creditCoins(n): suma n monedas a S.coins y S.coinsTot YA (sin guardar ni animar: guarda quien llama, junto con la
 // marca de "premio dado", para que salir o recargar durante la celebración no las pierda). Luego la animación se hace con
 // giveCoins(n, x, y, icono, true), que ya no las vuelve a sumar.
-export function creditCoins(n: number){if(!(n>0))return;S.coins=(S.coins||0)+n;S.coinsTot=(S.coinsTot||0)+n;coinPend+=n;coinPendTok=sceneTok}
+export function creditCoins(n: number){if(!(n>0))return;Object.assign(S,ganar(S,n));coinPend+=n;coinPendTok=sceneTok}
 // Posición del marcador de monedas (cambia en los juegos para no tapar otros botones).
 let HUDX=1450,HUDY=64;
 // Coloca el marcador de monedas: a la izquierda en los juegos, arriba a la derecha en el resto.
@@ -136,10 +138,10 @@ export const inCoinHUD=(x: number,y: number)=>{hudAt();return inR(x,y,HUDX+10,HU
 // Da n monedas: las suma a S.coins y S.coinsTot y guarda. Lanza hasta 10 monedas animadas desde (x,y)
 // hacia el marcador (la última lleva el resto) y, si son 3 o más o se pasa icon, muestra el cartel "+n" con ese dibujo.
 // ya = true: las monedas ya se sumaron antes con creditCoins; solo se anima (y se descuentan de coinPend).
-export function giveCoins(n: number,x: number,y: number,icon?: string,ya?: boolean){if(!(n>0))return;if(ya)coinPend=Math.max(0,coinPend-n);else{S.coins=(S.coins||0)+n;S.coinsTot=(S.coinsTot||0)+n;save()}const m=Math.min(n,10);
+export function giveCoins(n: number,x: number,y: number,icon?: string,ya?: boolean){if(!(n>0))return;if(ya)coinPend=Math.max(0,coinPend-n);else{Object.assign(S,ganar(S,n));save()}const m=Math.min(n,10);
   for(let i=0;i<m;i++)coinFx.push({x:x+rnd(-36,36),y:y+rnd(-36,36),t:T+i*.09,v:i<m-1?1:n-(m-1)});if(n>=3||icon)VIVO.coinBanner={n,t:T,icon}}
 // Gasta n monedas (sin comprobar si hay suficientes) y anima monedas que salen del marcador hacia (x,y).
-function spendCoins(n: number,x: number,y: number){S.coins!-=n;save();shownCoins-=n;coinBumpT=T;for(let i=0;i<Math.min(n,8);i++)coinFx.push({x,y,t:T+i*.06,spend:1})}
+function spendCoins(n: number,x: number,y: number){Object.assign(S,gastar(S,n));save();shownCoins-=n;coinBumpT=T;for(let i=0;i<Math.min(n,8);i++)coinFx.push({x,y,t:T+i*.06,spend:1})}
 // Dibuja y avanza las monedas que vuelan y el cartel "+N". Cada moneda tarda 0,75 s; cuando llega
 // suma su valor al número visible y suena. Se llama en cada cuadro desde el bucle de dibujo.
 export function drawCoinFx(){hudAt();
@@ -153,13 +155,13 @@ export function drawCoinFx(){hudAt();
   // Cartel "+N": entra con rebote (0-0,3 s), se queda y se desvanece entre 2,2 y 2,6 s.
   if(VIVO.coinBanner){const k=T-VIVO.coinBanner.t;if(k>2.6){VIVO.coinBanner=null;return}const a=k<.3?back(k/.3):k>2.2?1-(k-2.2)/.4:1;ctx.save();ctx.globalAlpha=clamp(a,0,1);ctx.translate(VIVO.coinBanner.x||800,VIVO.coinBanner.y||470);ctx.scale(clamp(a,0,1.2),clamp(a,0,1.2));
     card(-250,-90,500,180,'#FFF6D6',7,50);pic(VIVO.coinBanner.icon||'monedas',-140,0,150);text('+'+VIVO.coinBanner.n,60,26,92,'#D9962A',{f:LF,st:8,sc:'#fff'});ctx.restore()}}
-// Envuelve onRight: el primer acierto de cada ronda en un juego da 1 moneda (máximo 5 por juego).
-{const or0=onRight;ponOnRight(function(first: unknown){or0(first);if(first&&sceneName==='juego'&&gameCoins<5){gameCoins++;giveCoins(1,VIVO.MX||800,VIVO.MY||450)}})}
+// Envuelve onRight: el primer acierto de cada ronda en un juego da 1 moneda (máximo 5 por juego; monedasPorAcierto).
+{const or0=onRight;ponOnRight(function(first: unknown){or0(first);const n=sceneName==='juego'?monedasPorAcierto(first,gameCoins):0;if(n){gameCoins++;giveCoins(n,VIVO.MX||800,VIVO.MY||450)}})}
 // Envuelve la entrada a un juego para poner a cero el contador gameCoins.
 {const e0=SCENES.juego.enter;SCENES.juego.enter=function(this: Escena,o: Libre){gameCoins=0;e0!.call(this,o)}}
-// Envuelve finishGame: terminar un juego da 3 monedas la primera vez y 2 si se repite.
+// Envuelve finishGame: terminar un juego da 3 monedas la primera vez y 2 si se repite (monedasAlTerminar).
 {const f0=finishGame;ponFinishGame(function(t,gi){const st=S.temas[t.id],first=!(st&&st.g[gi]);f0(t,gi);
-  giveCoins(first?3:2,800,420)})}
+  giveCoins(monedasAlTerminar(first),800,420)})}
 
 /* ---------- Tito con ropa y colores ---------- */
 // Colores del caparazón (o púas, caparazón de tortuga, mochila del conejo): nombre → [relleno, borde].
@@ -331,7 +333,7 @@ SCENES.tienda={music:'casita',
     if(S.owned![it.id]&&!it.vale){
       if(it.slot){const on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();sparkles(TITO.x+150,TITO.y+40,12);say(on?'¡Tito se puso '+itemName(it)+'!':V(['Tito se sacó ','Tito se quitó '])+itemName(it)+'.');return}
       SFX.pop();say(cap(itemName(it))+' ya es tuyo. Está en la casa de Tito.');return}
-    if(S.coins!<it.p){SFX.boing();const f=it.p-S.coins!;say(cap(itemName(it))+' cuesta '+it.p+' monedas. Te '+(f===1?'falta una':'faltan '+f)+'. ¡Jugando ganás más!');return}
+    if(!alcanza(S.coins!,it.p)){SFX.boing();const f=it.p-S.coins!;say(cap(itemName(it))+' cuesta '+it.p+' monedas. Te '+(f===1?'falta una':'faltan '+f)+'. ¡Jugando ganás más!');return}
     SFX.pop();this.conf=it;this.confT=T;say('¿Querés comprar '+itemName(it)+' por '+it.p+' monedas? Tocá el verde para comprar.')},
   // Compra el artículo: gasta las monedas, celebra y lo da. Un vale se apunta en S.valesLog (para que el adulto lo
   // canjee); la ropa se pone a Tito; lo demás se coloca en la casa y hace saltar el botón de la casa. Si es un vale que
