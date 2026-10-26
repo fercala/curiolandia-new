@@ -3,7 +3,7 @@
 // contenido/cuentos.ts (antes cuentos.js): un cuento ilustrado por cada tema de 3, 4 y 5 años, narrado por Tito.
 // ==========================================================================
 // Solo DATOS: no tiene funciones. Desde la fase 2g es un módulo que exporta CUENTOS; el puente de src/modulos.ts
-// la deja en globalThis para el código global. Sus tipos están en contenido/tipos.ts.
+// la deja en globalThis. Sus tipos están en contenido/tipos.ts.
 // Quién lo usa: temas/extras.ts recorre T3, T4 y T5 y, si CUENTOS[tema.id] existe, añade al FINAL de
 // los juegos del tema {t:'cuento', icon:'libro', name:'El cuento'}; al abrir ese juego llama a
 // Story(CUENTOS[tema.id], {}, onDone) (juegos/comps2.ts), que pasa las páginas y luego hace las preguntas.

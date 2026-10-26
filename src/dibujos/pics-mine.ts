@@ -5,7 +5,7 @@
 // Añade dibujos a PICS con Object.assign(PICS,{clave:`...svg...`}). Formato de un dibujo (SVG con
 // centro en 0,0 dentro de -62..62) y cómo se busca por su nombre con pic(clave,...): ver la cabecera
 // de pics-base.ts.
-// Es el último archivo de dibujos en ARCHIVOS (herramientas/vite/curiolandia.mts), así que si repite una clave, gana el de aquí.
+// Es el último archivo de dibujos que carga dibujos/todos.ts, así que si repite una clave, gana el de aquí.
 // ==========================================================================
 /* ---------- íconos propios de la v2 ---------- */
 import { K, PICS, sw } from './pics-base.ts';

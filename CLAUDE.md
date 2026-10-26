@@ -4,12 +4,14 @@ Migración de Curiolandia 3D (juego de temas de Educación Infantil, 3 a 5 años
 con arquitectura limpia. Se habla y se documenta en castellano.
 
 ## Antes de nada
-- **Estado: fase 2 (de globales a módulos), 24 de octubre de 2026.** Las fases 0 y 1 están publicadas. Desde la 2a, un
-  archivo no reasigna las globales de otro: usa `VIVO` o las funciones `pon*`. Desde la 2b, los archivos pasan a módulos
-  TypeScript (`src/modulos.ts`; ya están los dibujos de `src/dibujos/` y, desde la 2c, el núcleo de `src/nucleo/`, antes
-  `core.js`, desde la 2d el vocabulario de `src/contenido/`, antes `lex.js`, desde la 2e los componentes de juego de `src/juegos/`, antes `comps.js` y `comps2.js`, desde la 2f los temas de `src/temas/`, antes `temas*.js`, desde la 2g los cuentos de `src/contenido/cuentos.ts`, antes `cuentos.js`, desde la 2h los temas extra de `src/temas/extras.ts`, antes `extras.js`, desde la 2i el Rincón del inglés de `src/temas/ingles.ts`, antes `ingles.js`, desde la 2j las escenas 2D de `src/escenas/escenas2d.ts`, antes `scenes.js`, desde la 2k las zonas y el camino de `src/escenas/zonas.ts`, antes `zonas.js`, desde la 2l la tienda y la casa de Tito de `src/escenas/tienda.ts`, antes `tienda.js`, desde la 2m el repaso diario de `src/escenas/repaso.ts`, antes `repaso.js`, desde la 2n la zona de adultos, la entrada y el bucle de dibujo de `src/aplicacion/adultos.ts`, antes `adult.js`, y desde la 2o la capa 3D de `src/mundo3d/mundo3d.ts`, antes `world3d.js`) y solo sigue global `boot.js`. El puente deja lo de los módulos en `globalThis` siempre al día y de solo lectura
-  ([docs/ARQUITECTURA.md](docs/ARQUITECTURA.md)). El código es el de
-  `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas; [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
+- **Estado: fase 2 (de globales a módulos) completa con la 2p, 25 de octubre de 2026.** Las fases 0 y 1 están
+  publicadas. Todo el juego son módulos TypeScript (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`,
+  el núcleo de `src/nucleo/`, antes `core.js`, `src/contenido/`, `src/juegos/`, `src/temas/`, las escenas de
+  `src/escenas/`, `src/aplicacion/` y la capa 3D de `src/mundo3d/`, antes `world3d.js`): ya no queda código global. Lo
+  que varios archivos cambian va en `VIVO` o se cambia con las funciones `pon*`. El puente deja lo de los módulos en
+  `globalThis` siempre al día y de solo lectura, para las pruebas y para `src/tardias.d.ts`. La siguiente es la fase 3
+  (dominio y puertos). El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
+  [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.
 
@@ -19,8 +21,7 @@ npm ci && npx playwright install chromium   # la primera vez (también activa lo
 npm run dev                  # servidor de desarrollo: recarga al guardar
 npm run build                # dist/ con la web completa (Vite + herramientas/vite/curiolandia.mts)
 npm run test:comentarios     # comentarios de cabecera (docs/POLITICA-DOCUMENTACION.md)
-npm run tipos                # TypeScript estricto (montaje y pruebas .ts)
-npm run tipos:js             # avisos de tipos de src/*.js: no pueden subir del límite (docs/TIPOS.md)
+npm run tipos                # TypeScript estricto (el juego, el montaje y las pruebas .ts)
 npm run test:unidad          # Vitest (tests/unidad)
 npm run test:humo            # escenas de día y de noche sin errores
 npm run test:pr              # lo que pasa GitHub Actions en cada PR (unos minutos)

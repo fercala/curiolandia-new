@@ -36,8 +36,8 @@ export function tx(s: string): string{
   for(const [re,b] of _tuRe)s=s.replace(re,(_m: string,p: string,w: string)=>p+(w[0]!==w[0].toLowerCase()?b[0].toUpperCase()+b.slice(1):b));
   return s;
 }
-// Una frase que cambia demasiado entre variantes: [rioplatense, España]. El código global escribe las parejas como
-// listas sueltas (string[]), así que V acepta cualquier lista y usa sus dos primeros elementos.
+// Una frase que cambia demasiado entre variantes: [rioplatense, España]. Los temas y las escenas escriben las parejas
+// como listas sueltas (string[]), así que V acepta cualquier lista y usa sus dos primeros elementos.
 export type Par=readonly string[];
 // V(x): si x es una lista [rioplatense, España], elige según S.variant; si es un texto, le pasa tx().
 // Se usa cuando la frase cambia demasiado entre variantes para que baste con tx().

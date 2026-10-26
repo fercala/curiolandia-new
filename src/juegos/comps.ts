@@ -73,8 +73,7 @@
 // eseEs, NUM, plural, plW, fem, unN, KID_PARTS, KID_C, KID_FINE, drawKid,
 // kidPartAt, layoutChoice, drawChoice, hitItem, drawBasket, dotsCard, COLORES,
 // paintPot, colorAdj y todos los componentes), y el puente de src/modulos.ts lo
-// deja en globalThis para los temas y escenas, que aún son código global. thing
-// cambia con ponThing (no se reasigna desde fuera).
+// deja en globalThis. thing cambia con ponThing (no se reasigna desde fuera).
 // IMPORTA: el núcleo, src/nucleo/ (ctx, T, W, H, say, later, SFX, rec, onRight,
 // onWrongTwice, AGE, nOpts, nRounds, VIVO, scene, burst, sparkles, card, circ,
 // ell, star, text, rr, fillStroke, hv, hR, hC, back, lerp, clamp, dist, rnd, ri,

@@ -1,32 +1,24 @@
-// Pruebas del montaje (herramientas/vite/curiolandia.mts): que la página lleve los módulos y después todo el código
-// global en el orden de ARCHIVOS, sin depender de internet (ni Google Fonts ni cdnjs), que los módulos dejen al código
-// global lo que necesita (el puente de src/modulos.ts) y que el service worker use la caché propia con la versión de
-// package.json. Las reglas del juego llegan en la fase 3.
+// Pruebas del montaje (herramientas/vite/curiolandia.mts): que la página lleve el juego entero (los módulos) en un solo
+// <script>, sin código global (desde la fase 2p) ni depender de internet (ni Google Fonts ni cdnjs), que los módulos
+// dejen en globalThis lo del puente de src/modulos.ts y pongan el juego en marcha, y que el service worker use la caché
+// propia con la versión de package.json. Las reglas del juego llegan en la fase 3.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createContext, runInContext } from 'node:vm';
 import { beforeAll, describe, expect, test } from 'vitest';
-import {
-  ARCHIVOS, PREFIJO_CACHE, codigoJuego, codigoModulos, nombreCache, paginaJuego, serviceWorker,
-} from '../../herramientas/vite/curiolandia.mts';
+import { PREFIJO_CACHE, codigoModulos, nombreCache, paginaJuego, serviceWorker } from '../../herramientas/vite/curiolandia.mts';
 
 const RAIZ = join(import.meta.dirname, '..', '..');
 const SRC = join(RAIZ, 'src');
 // icons.js es una herramienta aparte (genera iconos con Node), no parte del juego.
 const FUERA_DEL_JUEGO: readonly string[] = ['icons.js'];
 
-describe('ARCHIVOS', () => {
-  test('tiene todos los .js del juego de src/, sin repetir ni faltar ninguno', () => {
-    const enSrc = readdirSync(SRC).filter((f) => f.endsWith('.js') && !FUERA_DEL_JUEGO.includes(f)).sort();
-    expect([...ARCHIVOS].sort()).toEqual(enSrc);
-    expect(new Set(ARCHIVOS).size).toBe(ARCHIVOS.length);
-  });
-
-  // Desde la fase 2o solo queda boot.js, el arranque: todo lo demás (core.js, lex.js, comps.js, comps2.js, los temas,
-  // cuentos.js, extras.js, ingles.js, scenes.js, zonas.js, tienda.js, repaso.js, adult.js y world3d.js) ya son módulos que
-  // van antes (ver docs/ARQUITECTURA.md).
-  test('solo queda boot.js, el arranque', () => {
-    expect([...ARCHIVOS]).toEqual(['boot.js']);
+describe('src/', () => {
+  // Desde la fase 2p no queda código global: boot.js, el último, es aplicacion/arranque.ts. Los demás (core.js, lex.js,
+  // comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js, scenes.js, zonas.js, tienda.js, repaso.js,
+  // adult.js y world3d.js) ya eran módulos (ver docs/ARQUITECTURA.md).
+  test('no quedan .js del juego: todo son módulos', () => {
+    expect(readdirSync(SRC).filter((f) => f.endsWith('.js') && !FUERA_DEL_JUEGO.includes(f))).toEqual([]);
   });
 });
 
@@ -38,27 +30,27 @@ describe('paginaJuego', () => {
     pagina.modulos = await codigoModulos(SRC);
   });
 
-  test('lleva el código de todos los archivos globales, en orden', () => {
-    const { publicada } = pagina;
-    const posiciones = ARCHIVOS.map((f) => publicada.indexOf(readFileSync(join(SRC, f), 'utf8')));
-    expect(posiciones.every((p) => p >= 0)).toBe(true);
-    expect([...posiciones].sort((a, b) => a - b)).toEqual(posiciones);
-    expect(publicada).toContain(codigoJuego(SRC));
-  });
-
-  test('los módulos van antes que el código global, en un <script> normal', () => {
+  test('lleva el juego en un solo <script> normal, sin código global', () => {
     const { publicada, modulos } = pagina;
     expect(publicada.indexOf(`<script>\n${modulos}</script>`)).toBeGreaterThan(0);
-    expect(publicada.indexOf(modulos)).toBeLessThan(publicada.indexOf(codigoJuego(SRC)));
+    // Los otros <script> son three.min.js (head.html) y el registro del service worker, en una línea.
+    expect(publicada.match(/<script>\n/g)).toHaveLength(1);
   });
 
+  // Las fuentes que pide el arranque (aplicacion/arranque.ts): aquí no llegan nunca, así que el juego no va a la
+  // portada (sin lienzo de verdad no se puede dibujar).
+  const fuentesPedidas: string[] = [];
   // Ejecuta los módulos en un navegador de mentira (lo justo para que el núcleo arranque: lienzo, localStorage,
-  // Image...) y mira lo que dejan para el código global (el puente de src/modulos.ts).
+  // Image, fuentes...) y mira lo que dejan en globalThis (el puente de src/modulos.ts).
   const ejecutaModulos = (): Record<string, unknown> => {
     // aplicacion/adultos.ts conecta al cargarse los botones de los paneles y los eventos del lienzo y del documento.
     const lienzo = { width: 0, height: 0, style: {}, getContext: () => ({}), toDataURL: () => '', addEventListener: () => undefined };
     const global: Record<string, unknown> = {
-      document: { getElementById: () => lienzo, createElement: () => lienzo, addEventListener: () => undefined },
+      document: {
+        getElementById: () => lienzo, createElement: () => lienzo, addEventListener: () => undefined,
+        fonts: { load: (f: string) => { fuentesPedidas.push(f); return new Promise(() => undefined); } },
+      },
+      setTimeout: () => 0,
       localStorage: { getItem: () => null, setItem: () => undefined },
       location: { protocol: 'file:' },
       Image: class { src = ''; complete = false; },
@@ -74,7 +66,7 @@ describe('paginaJuego', () => {
     return global;
   };
 
-  test('los módulos dejan los dibujos, el núcleo, los componentes y los temas al código global', () => {
+  test('los módulos dejan en globalThis los dibujos, el núcleo, los componentes, los temas y lo demás', () => {
     const global = ejecutaModulos();
     const pics: unknown = global['PICS'];
     expect(typeof pics === 'object' && pics !== null ? Object.keys(pics).length : 0).toBeGreaterThan(300);
@@ -117,11 +109,18 @@ describe('paginaJuego', () => {
     for (const k of ['giveCoins', 'creditCoins', 'STARS', 'drawCoinHUD', 'placeHome', 'wear', 'roomsOpen']) expect(typeof global[k], k).toBe('function');
     // escenas/repaso.ts: el repaso diario (añade kg y gs a S, la escena repaso y REP_ON para las pruebas).
     expect(runInContext("[typeof S.kg, typeof S.gs, typeof SCENES.repaso.draw, REP_ON].join()", global)).toBe('object,object,function,false');
-    // aplicacion/adultos.ts: la zona de adultos, el bucle frame() que arranca boot.js, la copia de seguridad y window.__cl.
+    // aplicacion/adultos.ts: la zona de adultos, el bucle frame() (lo pone en marcha aplicacion/arranque.ts), la copia de
+    // seguridad y window.__cl.
     for (const k of ['frame', 'openAdult', 'closeAdult', 'openNameDlg', 'openResetDlg', 'doReset', 'bkEncode', 'bkDecode']) expect(typeof global[k], k).toBe('function');
     expect(runInContext("__cl.go === undefined ? 'no' : typeof __cl.go + ' ' + (__cl.S === S)", global)).toBe('function true');
     // mundo3d/mundo3d.ts: sin Three.js (aquí no hay WebGL) la capa 3D no se monta: R3frame sigue en null y el juego va en 2D.
     expect(runInContext("R3frame === null && window.__w3 === undefined && SCENES.map.three === undefined", global)).toBe(true);
+  });
+
+  test('al cargar, arranca el juego: espera a las fuentes Andika y Fredoka', () => {
+    fuentesPedidas.length = 0;
+    ejecutaModulos();
+    expect(fuentesPedidas).toEqual(['700 100px Andika', '700 100px Fredoka']);
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

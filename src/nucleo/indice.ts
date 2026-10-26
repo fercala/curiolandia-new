@@ -1,6 +1,6 @@
 // indice.ts: todo el núcleo (lo que antes era core.js) en el orden en que se evalúa, que es el de las secciones del
 // core.js de antes salvo escenas, que va antes que voz (say necesita sceneTok). src/modulos.ts lo deja entero en
-// globalThis para el código global (el «puente»): cada nombre exportado aquí es una global de solo lectura.
+// globalThis (el «puente», para las pruebas y src/tardias.d.ts): cada nombre exportado aquí es una global de solo lectura.
 export * from './pantalla.ts';
 export * from './utilidades.ts';
 export * from './guardado.ts';

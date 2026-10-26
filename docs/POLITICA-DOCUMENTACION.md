@@ -22,7 +22,7 @@ El objetivo es que cualquier programador, también uno que empieza, pueda abrir 
    function zoneOpen(z){...}
    ```
 2. **Comentarios dentro de la función cuando la lógica es compleja**: cálculos 3D, reglas de qué está abierto, temporizadores, cosas que se hacen en un orden concreto por algún motivo. Explica **por qué**, no repitas lo que ya dice el código.
-3. **Cabecera del archivo** (`/* ... */` o `//` al principio de cada `.js`): si el cambio añade globales que usan otros archivos, nuevas dependencias o una parte nueva del archivo, actualízala.
+3. **Cabecera del archivo** (`/* ... */` o `//` al principio de cada `.ts` o `.js`): si el cambio añade exportaciones que usan otros archivos, nuevas dependencias o una parte nueva del archivo, actualízala.
 4. **Los comentarios tienen que decir la verdad.** Si cambias lo que hace una función, cambia su comentario en el mismo commit. Si borras código, borra sus comentarios. Un comentario equivocado es peor que ninguno.
 5. Los métodos de objetos (por ejemplo `draw()`, `tap()` de una escena o los componentes de juegos) siguen la misma regla aunque la comprobación automática no los mire.
 
@@ -30,7 +30,7 @@ El objetivo es que cualquier programador, también uno que empieza, pueda abrir 
 
 | Si cambias... | Actualiza |
 |---|---|
-| Cómo está organizado el código: un archivo nuevo, el orden de `ARCHIVOS` (herramientas/vite/curiolandia.mts), una capa o envoltura nueva, el flujo del niño, la capa 3D | [ARQUITECTURA.md](ARQUITECTURA.md) |
+| Cómo está organizado el código: un archivo nuevo, el orden de los módulos (`src/modulos.ts` y los `indice.ts`), una capa o envoltura nueva, el flujo del niño, la capa 3D | [ARQUITECTURA.md](ARQUITECTURA.md) |
 | La forma de añadir algo (objeto 3D, tema, juego, componente, cuento, dibujo, tienda, escena, zona de adultos) o el proceso de montar, probar y publicar | [COMO-AGREGAR.md](COMO-AGREGAR.md) (su receta) |
 | Un campo nuevo o distinto del estado guardado `S` | [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md) (tabla de campos, con su valor por defecto) |
 | Diálogos nuevos o cambiados de `say()` | `dialogos/pendientes.txt` (una por línea, texto exacto) y una fila nueva en el catálogo `dialogos/todos.csv`. Ver [dialogos/LEEME.md](../dialogos/LEEME.md) |
@@ -63,7 +63,7 @@ Antes de cada commit:
    ```sh
    python3 tests/comentarios.py
    ```
-   Revisa que cada `.js` de `src/` tenga cabecera de archivo y que cada función escrita al principio de una línea tenga un comentario encima. Tiene que terminar con `TODO BIEN`. GitHub Actions la pasa en cada PR (`npm run test:comentarios`); los ganchos de commit llegan en la fase 1 de la migración.
+   Revisa que cada `.js`, `.ts` y `.mts` de `src/` y de `herramientas/` tenga cabecera de archivo y que cada función escrita al principio de una línea tenga un comentario encima. Tiene que terminar con `TODO BIEN`. GitHub Actions la pasa en cada PR (`npm run test:comentarios`); los ganchos de commit llegan en la fase 1 de la migración.
 2. **Repaso a mano con la lista** (la misma está en la plantilla de los pull requests, `.github/pull_request_template.md`):
    - [ ] Cada función nueva o cambiada tiene su comentario de cabecera, y es correcto.
    - [ ] La lógica complicada lleva comentarios dentro.

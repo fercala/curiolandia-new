@@ -1,11 +1,12 @@
-// tipos.ts: los tipos del núcleo (src/nucleo/), que también usa el código global con JSDoc a través de
-// src/tipos/estado.d.ts y src/tipos/globales.d.ts. Solo tipos: este módulo no tiene código.
+// tipos.ts: los tipos del núcleo (src/nucleo/), que usan también los demás módulos del juego. Solo tipos: este módulo
+// no tiene código.
 //   - El estado guardado S (Estado y sus partes). docs/ESTADO-GUARDADO.md manda: si cambia un campo, se cambia allí
 //     y aquí. Solo describen lo que ya hay: no cambian nada del juego ni de las partidas guardadas.
 //   - VIVO (Vivo): el estado de la partida en curso que no se guarda.
 //   - Escena, partículas, temporizadores y avisos.
-// Libre y los campos con `any` son la frontera con el código global, que todavía no tiene tipos: cada escena y cada
-// cosa que se arrastra lleva sus propios campos. Se irán cerrando a medida que los archivos pasen a módulos.
+// Libre y los campos con `any` son la frontera con el código que viene del juego viejo (era global y sin tipos): cada
+// escena y cada cosa que se arrastra lleva sus propios campos. Se irán cerrando en las fases 3 y 4 de
+// docs/PLAN-MIGRACION.md, al ordenar las reglas y las escenas.
 
 /** Fecha local en formato 'AAAA-MM-DD' (ymd() en guardado.ts). */
 export type FechaDia = string;
@@ -110,8 +111,8 @@ export interface Estado {
   ses?: { t: number; at: number } | null;
 }
 
-/** Un objeto de forma libre (lo que se arrastra, avisos...): sus campos dependen de quién lo crea en el código global. */
-// any: frontera con el código global sin tipos (ver la cabecera).
+/** Un objeto de forma libre (lo que se arrastra, avisos...): sus campos dependen de quién lo crea. */
+// any: frontera con el código del juego viejo, sin tipos (ver la cabecera).
 export type Libre = { [campo: string]: any };
 
 /** Lo que se programa con later(): cuándo (segundos que faltan), qué hacer y en qué escena (sceneTok) se pidió. */
@@ -211,7 +212,7 @@ export interface Vivo {
 
 /**
  * Una escena (ver SISTEMA DE ESCENAS en escenas.ts). Todo es opcional salvo draw. Además de lo de aquí, cada escena
- * del código global guarda sus propios campos (this.t, this.items...): de ahí el índice libre.
+ * guarda sus propios campos (this.t, this.items...): de ahí el índice libre.
  */
 export interface Escena {
   /** Clave de música de la escena; null = sin música. */
@@ -229,7 +230,7 @@ export interface Escena {
   /** Repite la consigna; entera (en algunas escenas) la dice con la presentación. */
   prompt?(entera?: boolean): void;
   dwell?(id: string): void;
-  // any: frontera con el código global sin tipos (ver la cabecera).
+  // any: frontera con el código del juego viejo, sin tipos (ver la cabecera).
   [campo: string]: any;
 }
 

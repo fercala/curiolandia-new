@@ -1,7 +1,7 @@
 // juegos/tipos.ts: los tipos que comparten los componentes de juego (comps.ts y comps2.ts).
 // Un componente es una función Nombre(cfg, onDone) que devuelve un objeto Juego (ver la cabecera de comps.ts).
 // Los campos propios de cada componente (rondas, tarjetas, fichas...) y su cfg aún son de forma libre: son la frontera
-// con los temas, que todavía son código global sin tipos.
+// con los temas, que vienen del juego viejo (eran globales y sin tipos).
 import type { Par } from '../nucleo/idioma.ts';
 import type { Libre, Pista } from '../nucleo/tipos.ts';
 
@@ -15,7 +15,7 @@ export type AlTerminar = () => void;
 
 /**
  * Una «cosa» que se dibuja: una clave de dibujo de PICS (texto) o un objeto con nombre y su propio draw(x, y, s). Viene
- * de los temas, que aún son código global sin tipos, y el código la usa también como índice (SOUNDS[k], ONO[k]...), así
+ * de los temas, que vienen del juego viejo sin tipos, y el código la usa también como índice (SOUNDS[k], ONO[k]...), así
  * que de momento es libre, como Libre. Se le dará un tipo cerrado cuando los temas sean datos (fase 5 del plan).
  */
 export type Cosa = any;

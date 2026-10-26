@@ -1,23 +1,13 @@
-// Plugin de Vite que monta Curiolandia en una sola página: src/head.html, un <script> con los módulos TypeScript
-// (src/modulos.ts y lo que importa, juntos con rolldown) y otro <script> clásico con los .js de src/ que aún son
-// globales, pegados en el orden de ARCHIVOS (como hacía src/build.sh). Cambia las fuentes de Google y Three.js de cdnjs
-// por las copias locales de public/ y, al montar para publicar, añade el service worker (sw.js, con la caché
-// curiolandia-new-v<versión de package.json>).
-// Fase 2 de la migración: los archivos pasan de globales a módulos de uno en uno, empezando por el principio de
-// ARCHIVOS. Los módulos van antes que el código global y le dejan lo que necesita en globalThis (ver src/modulos.ts).
+// Plugin de Vite que monta Curiolandia en una sola página: src/head.html y un <script> con el juego (src/modulos.ts y
+// todo lo que importa, juntos con rolldown). Cambia las fuentes de Google y Three.js de cdnjs por las copias locales de
+// public/ y, al montar para publicar, añade el service worker (sw.js, con la caché curiolandia-new-v<versión de
+// package.json>).
+// Hasta la fase 2p de la migración la página llevaba además un <script> con los .js de src/ que aún eran globales,
+// pegados en un orden fijo (ARCHIVOS, el de src/build.sh); ahora todo el juego son módulos.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { build } from 'rolldown';
 import type { Plugin, ResolvedConfig } from 'vite';
-
-// Orden en que se pegan los .js de src/ que aún son globales (el mismo que tenía src/build.sh). Un archivo puede usar
-// lo que definen los de antes, así que no se reordena sin leer docs/ARQUITECTURA.md («El orden importa»). Los dibujos
-// (antes pics-*.js, al principio), core.js, lex.js, comps.js, comps2.js, los temas, cuentos.js, extras.js, ingles.js,
-// scenes.js, zonas.js, tienda.js, repaso.js, adult.js y world3d.js ya son módulos: src/dibujos/, src/nucleo/,
-// src/contenido/, src/juegos/, src/temas/, src/escenas/, src/aplicacion/ y src/mundo3d/. Solo queda boot.js.
-export const ARCHIVOS = [
-  'boot.js',
-] as const;
 
 // Prefijo de las cachés del service worker. Es propio de este juego: en fercala.github.io hay otros (curiolandia-3d
 // usa 'curiolandia3d-') y el service worker solo borra las cachés viejas que empiezan por él.
@@ -58,7 +48,7 @@ const PRECONNECT = /<link rel="preconnect"[^>]*>\n?/g;
 const GOOGLE_FONTS = /<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com[^>]*>/g;
 
 export interface OpcionesPagina {
-  // Carpeta con head.html y los .js.
+  // Carpeta con head.html y src/modulos.ts.
   readonly src: string;
   // true al montar para publicar: añade el registro del service worker. false en el servidor de desarrollo: sin
   // service worker (para que la caché no sirva una versión vieja mientras se trabaja) y con el cliente de Vite.
@@ -68,14 +58,10 @@ export interface OpcionesPagina {
 // Entrada de los módulos, dentro de src/.
 export const ENTRADA_MODULOS = 'modulos.ts';
 
-// codigoJuego(src): todos los .js de src/ pegados en el orden de ARCHIVOS, cada uno en su línea.
-export function codigoJuego(src: string): string {
-  return ARCHIVOS.map((nombre) => readFileSync(join(src, nombre), 'utf8')).join('');
-}
-
 // codigoModulos(src): src/modulos.ts y todo lo que importa, juntos en una función que se ejecuta al cargar (formato
-// iife: un <script> normal, que corre antes que el código global; un <script type="module"> correría después). Quita
-// los tipos de TypeScript y los comentarios; no minimiza. Falla si el código lleva «</script», que cerraría la etiqueta.
+// iife: un <script> normal, que corre en cuanto el navegador lo lee, como el código global de antes; un <script
+// type="module"> esperaría a que se leyera toda la página). Quita los tipos de TypeScript y los comentarios; no
+// minimiza. Falla si el código lleva «</script», que cerraría la etiqueta.
 export async function codigoModulos(src: string): Promise<string> {
   const salida = await build({ input: join(src, ENTRADA_MODULOS), write: false, output: { format: 'iife' } });
   const trozos = salida.output.filter((o) => o.type === 'chunk');
@@ -85,7 +71,7 @@ export async function codigoModulos(src: string): Promise<string> {
   return trozo.code;
 }
 
-// paginaJuego(o): la página completa del juego: cabecera, los módulos y después el código global.
+// paginaJuego(o): la página completa del juego: cabecera, head.html y el <script> con los módulos.
 export async function paginaJuego(o: OpcionesPagina): Promise<string> {
   const cabeza = readFileSync(join(o.src, 'head.html'), 'utf8')
     .replace(PRECONNECT, '')
@@ -94,7 +80,7 @@ export async function paginaJuego(o: OpcionesPagina): Promise<string> {
   const registro = o.conServiceWorker ? REGISTRO_SW : '';
   const cliente = o.conServiceWorker ? '' : CLIENTE_VITE;
   const modulos = await codigoModulos(o.src);
-  return `${CABECERA}${cliente}\n${cabeza}<script>\n${modulos}</script>\n<script>\n${codigoJuego(o.src)}</script>\n${registro}</html>\n`;
+  return `${CABECERA}${cliente}\n${cabeza}<script>\n${modulos}</script>\n${registro}</html>\n`;
 }
 
 // serviceWorker(cache): el sw.js. Al instalarse guarda los archivos básicos en la caché; al activarse borra solo las

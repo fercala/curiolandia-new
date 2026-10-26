@@ -1,5 +1,5 @@
 /*
- * icons.js: herramienta aparte, NO forma parte del juego (no está en ARCHIVOS de herramientas/vite/curiolandia.mts). Es un script de Node que genera
+ * icons.js: herramienta aparte, NO forma parte del juego (src/modulos.ts no lo importa). Es un script de Node que genera
  * los iconos de la web (icon-192.png, icon-512.png, icon-maskable-512.png y apple-touch-icon.png) en public/,
  * dibujando a Tito (TITO_SVG de src/dibujos/pics-new.ts) sobre fondo amarillo con un navegador Chromium sin ventana
  * (Playwright). Uso, desde la raíz del repo: node src/icons.js. Hace falta solo si cambia el dibujo de Tito.

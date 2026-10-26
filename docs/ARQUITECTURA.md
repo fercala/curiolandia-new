@@ -20,7 +20,7 @@ Otras guías:
 Curiolandia 3D es un juego web para niños de Educación Infantil (3, 4 y 5 años). Tito (un caracol; también puede ser erizo, tortuga o conejo) guía al niño por una isla con zonas por edad. Cada zona tiene un camino de **casitas**, cada casita es un **tema** (la familia, los animales, el otoño...) y dentro de cada tema hay varios **juegos** cortos. Al terminar un tema se abre un **cofre** con un regalo para Tito. Las monedas que se ganan se gastan en una **tienda**.
 
 Características técnicas:
-- **HTML + JavaScript y TypeScript**, sin frameworks. Vite monta la página: junta los módulos TypeScript y pega el código global (ver «Archivos de `src/`»).
+- **HTML + JavaScript y TypeScript**, sin frameworks. Vite monta la página: junta los módulos TypeScript en un solo `<script>` (ver «Archivos de `src/`»).
 - **Three.js r128** para la capa 3D (el archivo `three.min.js` va incluido).
 - **Funciona sin conexión** (es una PWA con service worker) y se puede instalar en el móvil.
 - **Voz del navegador** (`speechSynthesis`) para todo lo que dice Tito; no hay voces grabadas.
@@ -46,31 +46,30 @@ Características técnicas:
 
 ### Archivos de `src/`
 
-El juego está a medio camino entre dos formas de cargar el código (fase 2 de la migración):
+Desde la fase 2p de la migración todo el juego son **módulos TypeScript**: `src/modulos.ts` y lo que importa (los
+dibujos de `src/dibujos/`, el núcleo de `src/nucleo/`, el vocabulario y los cuentos de `src/contenido/`, los componentes
+de juego de `src/juegos/`, los temas de `src/temas/`, las escenas de `src/escenas/`, la zona de adultos, el bucle y el
+arranque de `src/aplicacion/` y la capa 3D de `src/mundo3d/`). Cada archivo importa lo que usa
+(`import { S, save } from './guardado.ts'`). El plugin de Vite los junta con rolldown en un único `<script>`. Hasta la
+fase 2p había además otro `<script>` con el **código global**: los `.js` que aún no eran módulos, pegados en un orden fijo.
 
-- **Módulos TypeScript** (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`, el núcleo de
-  `src/nucleo/`, el vocabulario y los cuentos de `src/contenido/`, los componentes de juego de `src/juegos/`, los temas
-  de `src/temas/`, las escenas de `src/escenas/`, la zona de adultos y el bucle de `src/aplicacion/` y la capa 3D de
-  `src/mundo3d/`). Cada archivo importa lo que usa (`import { S, save } from './guardado.ts'`). El plugin de Vite los
-  junta con rolldown en un `<script>` que va **antes** del código global. `src/modulos.ts` deja en `globalThis` todo
-  lo que exportan (el **puente**; sus tipos están en `src/tipos/puente.d.ts`): desde la fase 2o solo lo usan `boot.js`
-  y las pruebas.
-  - Cada nombre del puente es una propiedad de `globalThis` con `get`: el código global lee siempre el valor actual
-    del módulo, aunque cambie (`S` tras `ponS`, `ctx` tras `ponCtx`, `T`, `scene`, `go` tras `ponGo`...).
-  - El código global **no puede reasignarlos** (`T = 3` da error: para eso están las funciones `pon*`) ni declarar
-    una global con el mismo nombre (el navegador da error al cargar; por eso `SCENES` ya no se declara en
-    `escenas/escenas2d.ts`: está en `nucleo/escenas.ts` y los archivos le añaden escenas).
-- **Código global**: los `.js` de `src/` que aún no son módulos se pegan, en un orden fijo (`ARCHIVOS` en
-  `herramientas/vite/curiolandia.mts`), dentro de un único `<script>` después del de los módulos. **El orden importa**:
-  un archivo puede usar lo que definen los anteriores.
+**El orden importa**: los módulos se evalúan en el orden de los `import` de `src/modulos.ts` (y, dentro de cada carpeta,
+en el de su `indice.ts`), que es el de la tabla. Un módulo que va antes no puede importar de uno que va después (sería un
+ciclo de imports): lo poco que usa de él, solo al jugar o al dibujar, cuando ya está todo cargado, está declarado en
+`src/tardias.d.ts` y lo encuentra por su nombre gracias al puente.
 
-Los archivos pasan de globales a módulos de uno en uno, desde el principio de `ARCHIVOS`: un módulo solo puede
-importar de otros módulos, nunca del código global.
+`src/modulos.ts` deja en `globalThis` todo lo que exportan los módulos (el **puente**), para esos usos tardíos y para
+las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md)).
+  - Cada nombre del puente es una propiedad de `globalThis` con `get`: se lee siempre el valor actual del módulo,
+    aunque cambie (`S` tras `ponS`, `ctx` tras `ponCtx`, `T`, `scene`, `go` tras `ponGo`...).
+  - **No se puede reasignar** desde fuera (`T = 3` da error: para eso están las funciones `pon*`) ni declarar otra
+    global con el mismo nombre (el navegador da error al cargar). Dos módulos que exportaran el mismo nombre también
+    darían error: `tests/unidad/globales.test.ts` lo comprueba antes (con `herramientas/analisis/globales.mts`).
 
 | Orden | Archivo | Qué contiene |
 |---|---|---|
 | — | `head.html` | Cabecera HTML: estilos, los dos lienzos (`#gl` para el 3D y `#cv` para el 2D, encima), la carga de Three.js y los paneles HTML (nombre, reinicio, zona de adultos). |
-| — | `modulos.ts` | Entrada de los módulos: los importa en orden y deja el puente en `globalThis`. |
+| — | `modulos.ts` | Entrada del juego: importa los módulos en orden, deja el puente en `globalThis` y llama a `arrancar()`. |
 | 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts`; `dibujos/todos.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. `todos.ts` los carga en su orden: quien necesita `PICS` completo importa de ahí. |
 | 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`, `rec`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas), `voz` (`say`, `sayQ`, voces) e `interfaz` (botón de volver, rondas, ayudas, dificultad, pegatinas, calendario). |
 | 3 | `contenido/lex.ts` (antes `lex.js`) | **Vocabulario** (módulo, se carga después del núcleo): nombres de las cosas (`LEX`, `LEX2`), sonidos de animales (`SOUNDS`, `ONO`) y más cambios del español rioplatense al de España (`_tuRe`). Solo añade cosas al núcleo; no exporta nada. |
@@ -79,34 +78,32 @@ importar de otros módulos, nunca del código global.
 | 6 | `contenido/cuentos.ts` (antes `cuentos.js`; tipos en `contenido/tipos.ts`) | **Cuentos** (módulo, solo datos): los cuentos ilustrados de cada tema (`CUENTOS`), que lee `Story`. |
 | 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento y envuelve `makeGame`. |
 | 8 | `temas/ingles.ts` (antes `ingles.js`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
-| 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo, el último que carga `modulos.ts`) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
+| 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo; `escenas/indice.ts` la carga la primera) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
 | 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
 | 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
 | 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
-| 14 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga el último; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **Toda la capa 3D** (módulo): portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
-| 15 | `boot.js` | Único archivo global. Arranque: espera a las fuentes, va a la portada y empieza el bucle. |
-| — | `tipos/estado.d.ts`, `tipos/globales.d.ts`, `tipos/puente.d.ts` | Tipos del estado `S`, de los temas, de lo que hay en `window` y del puente, para `npm run tipos:js` ([TIPOS.md](TIPOS.md)). No cambian el juego. |
+| 14 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga después de la aplicación; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **Toda la capa 3D** (módulo): portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
+| 15 | `aplicacion/arranque.ts` (antes `boot.js`, el último archivo global; `modulos.ts` llama a `arrancar()` al final) | **Arranque** (módulo): entrega los cofres que quedaron sin abrir, espera a las fuentes, va a la portada y empieza el bucle. |
+| — | `tardias.d.ts` | Tipos de lo que un módulo usa de otro que se carga después (lo encuentra por el puente). No cambia el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
-Como el código global va en el mismo `<script>`, **todas sus variables globales se comparten**, y además ve las del puente. Por ejemplo, `S` (de `nucleo/guardado.ts`) se usa en todos los archivos.
+Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 
-**Leer sí, reasignar no** (desde la fase 2 de la migración). Un archivo puede leer las globales de otro y cambiar los
-campos de sus objetos (`S.coins++`, `SCENES.map.draw = ...`), pero no reasignar una variable o función global que
-declara otro archivo, porque al pasar a módulos eso no se podrá hacer. Para lo que varios archivos cambian hay dos vías:
+**Leer sí, reasignar no.** Un módulo puede leer lo que importa y cambiar los campos de sus objetos (`S.coins++`,
+`SCENES.map.draw = ...`), pero no reasignarlo: JavaScript no deja reasignar un `import` (y `npm run tipos` lo marca
+como error). Para lo que varios archivos cambian hay dos vías:
 
 - **`VIVO`** (`nucleo/pantalla.ts`): el estado de la partida en curso que no se guarda. Son el puntero (`VIVO.MX`, `VIVO.MY`,
   `VIVO.mouseOn`, `VIVO.hovNow`...), la voz (`VIVO.talking`, `VIVO.sayTok`) y la escena (`VIVO.fade`, `VIVO.timers`,
   `VIVO.idle`, `VIVO.hintSaid`, `VIVO.drag`). También el candado (`VIVO.lockHold`...), la dificultad (`VIVO.ADAPT`,
   `VIVO.REP`), el tiempo de juego (`VIVO.sessionT`, `VIVO.restAsked`, `VIVO.minuteAcc`) y los avisos (`VIVO.toast`,
   `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
-- **Funciones `pon*`** para cambiar una global entera desde otro archivo: `ponS` (partida nueva), `ponT` (reloj),
+- **Funciones `pon*`** para cambiar desde otro archivo una variable entera de un módulo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
   (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`escenas/escenas2d.ts`),
   `ponMakeGame` (`temas/temas.ts`) y `ponGoSeguir` (`escenas/zonas.ts`). Dentro del núcleo hay dos más: `ponMusica` (la música
   de la escena, la usa `go`) y `ponRopaTito` (`escenas/tienda.ts` le da a `drawTito` la imagen de colores y la ropa de Tito).
-
-`npm run test:unidad` lo comprueba (`tests/unidad/globales.test.ts`, con `herramientas/analisis/globales.mts`).
 
 ## 3. La pantalla lógica de 1600x900
 
@@ -128,7 +125,7 @@ Los toques llegan por eventos del navegador: `pointerdown` → `scene.down(x,y)`
 
 ## 5. Escenas
 
-Una **escena** es una pantalla del juego. Todas viven en el objeto global `SCENES`:
+Una **escena** es una pantalla del juego. Todas viven en el objeto `SCENES` (`nucleo/escenas.ts`):
 
 ```js
 SCENES.miEscena = {
@@ -172,7 +169,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 { const A = SCENES.asamblea, enter0 = A.enter;
   A.enter = function (o) { enter0.call(this, o); /* lo nuevo */ }; }
 
-// Patrón para envolver una función global de otro archivo: con su pon* (ver «Leer sí, reasignar no»)
+// Patrón para envolver una función de otro módulo: con su pon* (ver «Leer sí, reasignar no»)
 { const f0 = finishGame;
   ponFinishGame(function (t, gi) { f0(t, gi); /* lo nuevo */ }); }
 ```
@@ -181,7 +178,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 - `escenas/tienda.ts` envuelve `SCENES.juego` y `finishGame` (monedas); `escenas/repaso.ts` envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa.
 - `mundo3d/mundo3d.ts` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 
-**Consecuencia práctica**: antes de cambiar una escena, busca en todos los archivos quién la envuelve (`grep -n "SCENES.casita" src/*.js`). El comportamiento final es el de la última capa.
+**Consecuencia práctica**: antes de cambiar una escena, busca en todos los archivos quién la envuelve (`grep -rn "SCENES.casita" src/`). El comportamiento final es el de la última capa.
 
 ## 6. El flujo del niño
 
@@ -312,7 +309,7 @@ Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAd
 ## 14. Montar y publicar
 
 ```
-src/head.html + src/modulos.ts (rolldown) + src/*.js (orden de ARCHIVOS) + public/ ──Vite + herramientas/vite/curiolandia.mts──> dist/
+src/head.html + src/modulos.ts (rolldown) + public/ ──Vite + herramientas/vite/curiolandia.mts──> dist/
   (index.html, sw.js, manifest.webmanifest, three.min.js, fuentes, iconos)
 main ──GitHub Actions (.github/workflows/web.yml)──> pruebas ──> dist/ en GitHub Pages
 ```
