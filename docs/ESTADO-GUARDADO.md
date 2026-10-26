@@ -9,8 +9,8 @@
 - **Clave** en `localStorage`: `'curiolandia-new.v1'` (constante `KEY` en `nucleo/guardado.ts`). No se cambia nunca.
 - **Partida de curiolandia-3d:** las dos webs están en `fercala.github.io` y comparten `localStorage`. Si no hay partida propia, `load()` copia **una sola vez** la de `'curiolandia.v1'` (`KEY_VIEJA`) y lo apunta en `'curiolandia-new.copiada'` (`KEY_COPIA`). La vieja nunca se escribe ni se borra, así el juego viejo sigue igual. Lo prueba `tests/regresion/guardado-viejo.js`.
 - **Guardar**: `save()` escribe todo `S` como JSON. **No hay guardado automático**: llama a `save()` justo después de cambiar algo que deba recordarse.
-- **Cargar**: `load()` se ejecuta una vez al arrancar. Hace `S = Object.assign(copia de DEF, lo guardado)`. Es decir: parte de los valores por defecto `DEF` y encima pone lo guardado. Solo mezcla el **primer nivel** (los objetos de dentro, como `S.tito`, se toman tal cual de lo guardado). Antes de mezclar, `sanoS(lo guardado, DEF)` quita los campos con un tipo imposible (desde v1.586): un `null` donde `DEF` tiene un valor, un objeto que no es objeto, un número donde va texto (se pasa a texto) o un texto con número donde va número (se pasa a número), y las entradas de `temas` que no son objetos. Esos campos quedan con su valor por defecto, así una partida o copia rota no rompe el juego.
-- Después de `sanoS`, `sanoHondo()` (`nucleo/guardado.ts`; viene de core.js de curiolandia-3d v1.592) arregla lo de dentro de las colecciones: `temas.X.g`, `stats`, `gs`, `home`, `kg`, `vales`, `valesLog`, `rep` y `cofreP` (ver su comentario). Se usa también cuando otra pestaña guarda (evento `storage`): esta pestaña adopta esa partida para no pisarla con datos viejos.
+- **Cargar**: `load()` se ejecuta una vez al arrancar. Primero pone al día lo guardado con `migrar()` (`dominio/partida.ts`, desde la fase 3f; ver la sección 3). Después hace `S = Object.assign(copia de DEF, lo guardado)`. Es decir: parte de los valores por defecto `DEF` y encima pone lo guardado. Solo mezcla el **primer nivel** (los objetos de dentro, como `S.tito`, se toman tal cual de lo guardado). Antes de mezclar, `sanoS(lo guardado, DEF)` quita los campos con un tipo imposible (desde v1.586): un `null` donde `DEF` tiene un valor, un objeto que no es objeto, un número donde va texto (se pasa a texto) o un texto con número donde va número (se pasa a número), y las entradas de `temas` que no son objetos. Esos campos quedan con su valor por defecto, así una partida o copia rota no rompe el juego.
+- Después de `sanoS`, `sanoHondo()` (`nucleo/guardado.ts`; viene de core.js de curiolandia-3d v1.592) arregla lo de dentro de las colecciones: `temas.X.g`, `stats`, `gs`, `home`, `kg`, `vales`, `valesLog`, `rep` y `cofreP` (ver su comentario). Se usa también cuando otra pestaña guarda (evento `storage`): esta pestaña adopta esa partida (también pasada por `migrar()`) para no pisarla con datos viejos.
 - Los campos de `escenas/tienda.ts` (`DEF2`) se rellenan después: `sanoS(S, DEF2)` y luego `for (k in DEF2) if (S[k] === undefined) S[k] = copia de DEF2[k]`. `escenas/repaso.ts` hace lo mismo con los suyos.
 - Si no hay partida pero sí una de **Letrilandia** (otro juego de la familia, clave `letrilandia.v1`), se copian de ahí el nombre, la edad, el acento y el volumen.
 - **Copia de seguridad** (zona de adultos): `bkEncode()` genera un texto `CURIO1.` + JSON comprimido en base64; "Recuperar" lo vuelve a escribir en `localStorage` y recarga la página. `bkDecode()` solo acepta un objeto con `temas` que sea un objeto (no `null` ni una lista).
@@ -36,6 +36,7 @@
 | `intro` | `true/false` | Si ya vio el cuento de bienvenida. |
 | `first` | `{askedName, fromLetri, jardin, bosque..., wk}` | Cosas que solo pasan una vez (saludos largos, si ya se preguntó el nombre...). |
 | `seenFl` | número | Flores ya celebradas en el mapa. |
+| `ver` | número entero (hoy `1`) | Versión del formato de la partida (`VERSION_PARTIDA`, desde la fase 3f). Las partidas de antes, también las de curiolandia-3d, no la llevan: cuentan como versión 0 y `migrar()` las pone al día al cargarlas. Una partida de una versión más nueva se deja como está. |
 
 ### En `DEF2` (escenas/tienda.ts)
 
@@ -86,6 +87,13 @@
 5. **Subcampos nuevos dentro de un objeto** (por ejemplo `S.tito.zapatos`): `load()` no los rellena en partidas viejas. Léelos siempre con respaldo: `(S.tito.zapatos || '')`.
 6. Llama a `save()` después de cambiar algo.
 7. Si el campo debe sobrevivir a "Borrar todo el progreso" (zona de adultos), añádelo a la lista `keep` de `doReset()` en aplicacion/adultos.ts.
+8. **Si un formato tiene que cambiar sí o sí** (desde la fase 3f), se hace con una **migración**, nunca a mano en el código que lee el campo:
+   1. Sube `VERSION_PARTIDA` en `src/dominio/partida.ts` (de 1 a 2, por ejemplo).
+   2. Añade a `MIGRACIONES` el paso de la versión anterior: `1: (d) => ({ ...d, nuevo: convertir(d['viejo']) })`. Recibe la partida tal como venga (quizá rota, sin el campo o con otro tipo): no puede fallar con nada, y devuelve una partida nueva sin cambiar la que recibe. `migrar()` apunta la versión.
+   3. Cambia `DEF` (o `DEF2`) y el tipo `Estado` al formato nuevo: después de migrar, `sanoS` y `sanoHondo` arreglan lo que siga roto.
+   4. Pruébalo en `tests/unidad/partida.test.ts` con una partida de la versión anterior (y con una rota). La prueba de que no falta ningún paso ya está.
+   5. Un paso ya publicado no se cambia nunca: hay móviles que ya lo han aplicado. Si estaba mal, se arregla con otro paso.
+   6. Ojo: curiolandia-3d no entiende las migraciones. Una copia de seguridad de este juego con un formato nuevo no sirve en el juego viejo.
 
 ## 4. Cómo probar con una partida concreta
 

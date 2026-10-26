@@ -1,12 +1,14 @@
 // Pruebas del montaje (herramientas/vite/curiolandia.mts): que la página lleve el juego entero (los módulos) en un solo
 // <script>, sin código global (desde la fase 2p) ni depender de internet (ni Google Fonts ni cdnjs), que los módulos
 // dejen en globalThis lo del puente de src/modulos.ts y pongan el juego en marcha, y que el service worker use la caché
-// propia con la versión de package.json. Las reglas del juego llegan en la fase 3.
+// propia con la versión de package.json, y que la partida lleve su versión (fase 3f). Las reglas del juego (fase 3)
+// tienen sus propias pruebas en tests/unidad/.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createContext, runInContext } from 'node:vm';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { PREFIJO_CACHE, codigoModulos, nombreCache, paginaJuego, serviceWorker } from '../../herramientas/vite/curiolandia.mts';
+import { VERSION_PARTIDA } from '../../src/dominio/partida.ts';
 
 const RAIZ = join(import.meta.dirname, '..', '..');
 const SRC = join(RAIZ, 'src');
@@ -41,8 +43,9 @@ describe('paginaJuego', () => {
   // portada (sin lienzo de verdad no se puede dibujar).
   const fuentesPedidas: string[] = [];
   // Ejecuta los módulos en un navegador de mentira (lo justo para que el núcleo arranque: lienzo, localStorage,
-  // Image, fuentes...) y mira lo que dejan en globalThis (el puente de src/modulos.ts).
-  const ejecutaModulos = (): Record<string, unknown> => {
+  // Image, fuentes...) y mira lo que dejan en globalThis (el puente de src/modulos.ts). guardado es lo que hay en
+  // localStorage (por clave); sin nada, el juego empieza una partida nueva.
+  const ejecutaModulos = (guardado: Readonly<Record<string, string>> = {}): Record<string, unknown> => {
     // aplicacion/adultos.ts conecta al cargarse los botones de los paneles y los eventos del lienzo y del documento.
     const lienzo = { width: 0, height: 0, style: {}, getContext: () => ({}), toDataURL: () => '', addEventListener: () => undefined };
     const global: Record<string, unknown> = {
@@ -51,7 +54,7 @@ describe('paginaJuego', () => {
         fonts: { load: (f: string) => { fuentesPedidas.push(f); return new Promise(() => undefined); } },
       },
       setTimeout: () => 0,
-      localStorage: { getItem: () => null, setItem: () => undefined },
+      localStorage: { getItem: (k: string) => guardado[k] ?? null, setItem: () => undefined },
       location: { protocol: 'file:' },
       Image: class { src = ''; complete = false; },
       addEventListener: () => undefined,
@@ -121,6 +124,15 @@ describe('paginaJuego', () => {
     fuentesPedidas.length = 0;
     ejecutaModulos();
     expect(fuentesPedidas).toEqual(['700 100px Andika', '700 100px Fredoka']);
+  });
+
+  // Desde la fase 3f la partida lleva su versión (dominio/partida.ts): una nueva empieza en la actual y una de
+  // curiolandia-3d (sin versión) se pone al día al cargarla, sin perder nada.
+  test('la partida lleva su versión: la nueva, la actual; la de curiolandia-3d se pone al día al cargar', () => {
+    expect(ejecutaModulos()['S']).toMatchObject({ ver: VERSION_PARTIDA, age: 0 });
+    const vieja = { name: 'Leo', coins: 7, temas: { '3A-T1': { g: { 0: 1 }, done: 0 } } };
+    const S = ejecutaModulos({ 'curiolandia.v1': JSON.stringify(vieja) })['S'];
+    expect(S).toMatchObject({ ...vieja, ver: VERSION_PARTIDA, voz: 'nav' });
   });
 
   test('el puente da siempre el valor actual y no deja reasignar', () => {

@@ -80,6 +80,8 @@ export interface Estado {
   intro: boolean;
   first: Record<string, number | boolean | string>;
   seenFl: number;
+  /** Versión del formato de la partida (dominio/partida.ts, desde la fase 3f). */
+  ver: number;
   // DEF2 (escenas/tienda.ts)
   coins?: number;
   coinsTot?: number;
