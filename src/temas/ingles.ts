@@ -7,15 +7,14 @@
 //   escenas/escenas2d.ts y a la zona 'ingles' en escenas/zonas.ts.
 // Hasta la fase 4f, al cargarse envolvía makeGame (temas/temas.ts, ya envuelta por temas/extras.ts) con ponMakeGame.
 // Importa: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
-//   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, V, cap), juegos/ (NUM) y temas/temas.ts
-//   (BG). Usa drawFace de escenas/escenas2d.ts, que se carga después: solo al jugar (tipos en src/tardias.d.ts).
+//   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, V, cap), juegos/ (NUM, BG y,
+//   desde la fase 4o, drawFace: antes era de escenas/escenas2d.ts y se usaba como global tardía).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
 import type { AlTerminar, Config, Juego, JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, H, LF, PI, SFX, T, V, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, inR, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
-import { NUM } from '../juegos/indice.ts';
-import { BG } from './temas.ts';
+import { BG, NUM, drawFace } from '../juegos/indice.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 
@@ -54,7 +53,7 @@ function enBlob(c: string){return (x: number,y: number,s: number)=>{ctx.save();c
 // Devuelve una función de dibujo (x,y,s) del número n en un círculo con n puntitos debajo (filas de 5).
 function enNum(n: number){return (x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);circ(0,-s*.06,s*.3,DIAC[(n-1)%7],Math.max(4,s*.03));text(String(n),0,s*.06,s*.34,'#fff',{f:LF,st:Math.max(4,s*.03),sc:K});
   const per=5;for(let i=0;i<n;i++){const r=Math.floor(i/per),c=i%per,inRow=Math.min(per,n-r*per);circ((c-(inRow-1)/2)*s*.12,s*.33+r*s*.1,s*.04,'#FFC93C',Math.max(2,s*.012))}ctx.restore()}}
-// Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de escenas/escenas2d.ts).
+// Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de juegos/caras.ts).
 const enFace=(m: string)=>(x: number,y: number,s: number)=>drawFace(x,y,s*.36,m);
 // a: edad desde la que aparece la palabra
 // Palabras de cada tema de inglés: EN[conjunto] = lista de {en (palabra en inglés), es (traducción; puede ser

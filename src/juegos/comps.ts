@@ -84,12 +84,12 @@ import type { Par } from '../nucleo/idioma.ts';
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, H, IMG, LF, ONO, PI, SFX, SOUNDS, T, V, VIVO, W, W_, Wn, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, flower, hC, hR, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, parts, pic, picG, pick, playSound, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sparkles, speaker, star, text, tx, whenQuiet } from '../nucleo/indice.ts';
+import { drawFace } from './caras.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
 // thing(k, x, y, s): dibuja una "cosa" k centrada en (x,y) con tamaño s.
-// k puede ser una carita de emoción ('emo:alegria': la dibuja drawFace, de escenas/escenas2d.ts, que se carga después:
-// solo al jugar, tipo en src/tardias.d.ts), una clave de dibujo (texto, se pinta con pic()) o un objeto con su propio
+// k puede ser una carita de emoción ('emo:alegria': la dibuja drawFace, de juegos/caras.ts), una clave de dibujo (texto, se pinta con pic()) o un objeto con su propio
 // método draw(x,y,s). Desde la fase 4f es una sola función (antes juegos/comps2.ts la envolvía con ponThing para las
 // caritas).
 export function thing(k: Cosa,x: number,y: number,s: number): void{if(typeof k==='string'&&k.startsWith('emo:')){drawFace(x,y,s*.44,k.slice(4));return}if(typeof k==='string')pic(k,x,y,s);else k.draw(x,y,s)}

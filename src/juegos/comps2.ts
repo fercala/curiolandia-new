@@ -22,9 +22,8 @@
 // IMPORTA: juegos/comps.ts (thing, ChoiceGame, Arrastra, layoutChoice,
 // drawChoice, hitItem, nameT, eseEs, NUM), el núcleo, src/nucleo/ (dibujo, voz,
 // SFX, tone, AC, DIAC, ala, sky, hand, V, Wn, tx, svgImg...) y PICS y K de
-// src/dibujos/. Usa también drawFace (escenas/escenas2d.ts; Song y Story) y BG (temas/temas.ts), que se
-// cargan después: solo se usan al jugar, cuando ya existen
-// (sus tipos, en src/tardias.d.ts). Los datos de Story y Song (CUENTOS,
+// src/dibujos/. Usa también BG (juegos/fondos.ts desde la fase 4o; los fondos se los añaden los temas al
+// cargarse). Los datos de Story y Song (CUENTOS,
 // SONGS) llegan como parámetro; el tipo de un cuento está en contenido/tipos.ts.
 // ============================================================================
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
@@ -32,6 +31,7 @@ import type { Par } from '../nucleo/idioma.ts';
 import type { Cuento, PaginaCuento } from '../contenido/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import { AC, AGE, DIAC, H, LF, PI, SFX, T, V, VIVO, W, Wn, ala, back, burst, cap, card, circ, clamp, ctx, dist, fillStroke, hC, hR, hand, hv, inR, later, lerp, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sky, sparkles, star, svgImg, text, tone, tx } from '../nucleo/indice.ts';
+import { BG } from './fondos.ts';
 import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, nameT, thing } from './comps.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';

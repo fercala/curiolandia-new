@@ -13,15 +13,15 @@
 //   - Listas de datos de los juegos: DSAY, ESTS, SENT, SENTQ, EMO4, EMOADJ, SITS, FRUTAS, VERDURAS,
 //     OFICIOS, ADIV, SALVAJES, DOMESTICOS, PLANT_PARTS, COLS4. Añade 4 colores a COLORES.
 //   - T4 (temas de 4 años), C4 (rincón de 4 años) y z_x().
-// Importa: el núcleo, src/nucleo/ (dibujo, say, V, AGE, nRounds, nOpts, DIASL, ESTACIONES, NUM, EMO...), temas/temas.ts
-// (BG, floor, grass, swatch, sizeSlot, vestir), juegos/comps.ts y juegos/comps2.ts (los componentes de juego) y PICS.
+// Importa: el núcleo, src/nucleo/ (dibujo, say, V, AGE, nRounds, nOpts, DIASL, ESTACIONES, tree...), juegos/ (NUM, BG,
+// y EMO y drawFace, de juegos/caras.ts desde la fase 4o), temas/temas.ts (floor, grass, swatch, sizeSlot, vestir), juegos/comps.ts y juegos/comps2.ts (los componentes de juego) y PICS.
 // Recuerda: no cambies ninguna frase que se diga con say() (tienen MP3 grabado).
 import type { AlTerminar, Cosa, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DIAC, DIASL, ESTACIONES, LF, PI, SFX, T, V, W, W_, cap, card, circ, cloud, ctx, dela, dist, ell, fillStroke, flower, nOpts, nRounds, pic, pick, ri, rnd, rr, shuffle, sky, star, text } from '../nucleo/indice.ts';
-import { Arrastra, Atrapa, COLORES, ChoiceGame, Cuenta, Cuerpo, Lens, Llena, NUM, Pinta, Puzzle, Riega, Secuencia, Semaforo, Series, Sonido, TocaPartes, Une, eseEs, nameT, picS, refCard, thing, unN } from '../juegos/indice.ts';
-import { BG, floor, grass, sizeSlot, swatch, vestir } from './temas.ts';
+import { AGE, DIAC, DIASL, ESTACIONES, LF, PI, SFX, T, V, W, W_, cap, card, circ, cloud, ctx, dela, dist, ell, fillStroke, flower, nOpts, nRounds, pic, pick, ri, rnd, rr, shuffle, sky, star, text, tree } from '../nucleo/indice.ts';
+import { Arrastra, Atrapa, BG, COLORES, ChoiceGame, Cuenta, Cuerpo, EMO, Lens, Llena, NUM, Pinta, Puzzle, Riega, Secuencia, Semaforo, Series, Sonido, TocaPartes, Une, drawFace, eseEs, nameT, picS, refCard, thing, unN } from '../juegos/indice.ts';
+import { floor, grass, sizeSlot, swatch, vestir } from './temas.ts';
 /* ================= FONDOS NUEVOS ================= */
 // Guirnalda de banderines de fiesta a lo ancho de la pantalla, colgada a la altura y.
 // n = número de banderines (colores de DIAC).
@@ -32,7 +32,7 @@ export function fern(x: number,y: number,s: number,c='#5FA84E'){ctx.save();ctx.t
 function acacia(x: number,y: number,s: number){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineCap='round';ctx.lineWidth=18;ctx.strokeStyle='#8A5A3C';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,-120);ctx.lineTo(-50,-180);ctx.moveTo(0,-120);ctx.lineTo(60,-185);ctx.stroke();ell(0,-200,170,40,'#7CB342',5);ctx.restore()}
 // Palmera (tronco curvo y 6 hojas) con la base en (x,y) y escala s.
 export function palm(x: number,y: number,s: number){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.beginPath();ctx.moveTo(-8,0);ctx.quadraticCurveTo(20,-100,10,-200);ctx.lineTo(26,-200);ctx.quadraticCurveTo(36,-100,10,0);ctx.closePath();fillStroke('#C98A4B',5);for(let i=0;i<6;i++){ctx.save();ctx.translate(18,-205);ctx.rotate(-PI+i*PI/5);ell(60,0,64,16,'#5FA84E',4);ctx.restore()}ctx.restore()}
-// Fondos nuevos que se añaden al objeto BG de temas/temas.ts. Mismo formato: funciones sin
+// Fondos nuevos que se añaden al objeto BG (juegos/fondos.ts). Mismo formato: funciones sin
 // parámetros que pintan la pantalla entera en cada cuadro (pueden animarse con T).
 Object.assign(BG,{
   semana(){sky('#FFF3D6','#FCE7C8');floor(720,'#E9C99A');bunting(30)},
@@ -81,7 +81,7 @@ const SENTQ=[['campana','oreja','¿Con qué escuchamos la campana?'],['tambor','
   ['limon','boca','¿Con qué sentimos que el limón es ácido?'],['cactus','mano','¿Con qué sentimos que el cactus pincha?'],['peluche','mano','¿Con qué sentimos que el peluche es suave?'],['arcoiris','ojo','¿Con qué vemos los colores del arcoíris?'],['estrella','ojo','¿Con qué vemos las estrellas?']];
 // Datos de "Las emociones":
 // EMO4 = [emoción, [adjetivo rioplatense, adjetivo España], frase de "conocer"]. Las caritas se
-//   nombran 'emo:alegria'... y las dibuja drawFace() (juegos/comps2.ts cambia thing() para ello).
+//   nombran 'emo:alegria'... y las dibuja drawFace() (juegos/caras.ts), desde thing() (juegos/comps.ts).
 // EMOADJ = adjetivo de cada emoción para las preguntas "¿Quién está ...?".
 // SITS = situaciones [dibujo, emoción correcta, pregunta].
 const EMO4: [string, string | Par, string | Par][]=[['alegria',['contento','contento'],'Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.'],['tristeza',['triste','triste'],'Triste. Cuando perdemos algo o extrañamos a alguien, sentimos tristeza.'],['enojo',['enojado','enfadado'],['Enojado. Cuando algo nos parece injusto, nos enojamos.','Enfadado. Cuando algo nos parece injusto, nos enfadamos.']],['miedo',['con miedo','con miedo'],'Con miedo. Cuando algo nos asusta, sentimos miedo.'],['sorpresa',['sorprendido','sorprendido'],'Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.']];

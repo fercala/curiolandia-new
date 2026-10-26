@@ -1,21 +1,9 @@
-// tardias.d.ts: lo que un módulo usa de algo que se carga DESPUÉS que él: los fondos BG de temas/temas.ts (en
-// juegos/comps2.ts: los temas usan los componentes, así que van detrás), lo de escenas/escenas2d.ts (antes scenes.js),
-// que usa los temas y por eso va detrás de ellos, lo de escenas/tienda.ts, que va detrás de escenas/zonas.ts, los diálogos
+// tardias.d.ts: lo que un módulo usa de algo que se carga DESPUÉS que él: lo de escenas/tienda.ts, que va detrás de escenas/zonas.ts, los diálogos
 // de aplicacion/adultos.ts y R3frame de mundo3d/mundo3d.ts. Solo se usan al jugar o al dibujar, cuando ya está
 // todo cargado, y el nombre suelto se encuentra en el ámbito global (lo de los módulos llega por el puente). Importarlos
 // crearía un ciclo de imports: un módulo que va antes no puede importar de uno que va después.
-
-/** Fondos de los temas (temas/temas.ts y temas4.ts): BG.aula(), BG.conceptos()... pintan el fondo entero. */
-declare const BG: Record<string, () => void>;
-
-/** Dibuja la carita de la emoción m (clave de EMO) en (x, y) con radio r (escenas/escenas2d.ts). */
-declare function drawFace(x: number, y: number, r: number, m: string): void;
-
-/** Dibuja un árbol en (x, y) con escala s y el aspecto de la estación season (escenas/escenas2d.ts). */
-declare function tree(x: number, y: number, s: number, season: string): void;
-
-/** Las emociones de la asamblea (escenas/escenas2d.ts): color c y nombre n (texto o par rioplatense/España). */
-declare const EMO: Record<string, { c: string; n: string | readonly string[] }>;
+// Desde la fase 4o, BG (juegos/fondos.ts), EMO y drawFace (juegos/caras.ts) y tree (nucleo/dibujo.ts) ya no están
+// aquí: se cargan antes de quien las usa y se importan.
 
 // De aplicacion/adultos.ts (antes adult.js, el último módulo), con el tipo que tienen allí: los diálogos del nombre y
 // de empezar de nuevo.

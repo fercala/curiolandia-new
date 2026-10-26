@@ -7,7 +7,7 @@
 // Quién lo usa: temas/extras.ts recorre T3, T4 y T5 y, si CUENTOS[tema.id] existe, añade al FINAL de
 // los juegos del tema {t:'cuento', icon:'libro', name:'El cuento'}; al abrir ese juego llama a
 // Story(CUENTOS[tema.id], {}, onDone) (juegos/comps2.ts), que pasa las páginas y luego hace las preguntas.
-// Depende de: BG (temas/temas.ts / temas/temas4.ts) para los fondos y PICS (src/dibujos/) para los dibujos.
+// Depende de: BG (juegos/fondos.ts, con los fondos que le añaden temas/temas.ts y temas/temas4.ts) y PICS (src/dibujos/) para los dibujos.
 //
 // FORMATO: CUENTOS['id del tema'] = {title, pages, qs}
 //   title   título del cuento: texto o [rioplatense, España].
