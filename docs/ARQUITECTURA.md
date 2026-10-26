@@ -71,7 +71,7 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 |---|---|---|
 | — | `head.html` | Cabecera HTML: estilos, los dos lienzos (`#gl` para el 3D y `#cv` para el 2D, encima), la carga de Three.js y los paneles HTML (nombre, reinicio, zona de adultos). |
 | — | `modulos.ts` | Entrada del juego: importa los módulos en orden, deja el puente en `globalThis` y llama a `arrancar()`. |
-| 0 | `infraestructura/conectar.ts`, `infraestructura/navegador.ts` y `aplicacion/puertos.ts` (`modulos.ts` importa `conectar.ts` el primero) | **Puertos Reloj y Azar** (desde la fase 3g): el juego pide la fecha y la hora con `ahora()` y los números al azar con `azar()` (`aplicacion/puertos.ts`), nunca con `new Date()`, `Date.now()` ni `Math.random()`. Los adaptadores de verdad, los del navegador, están en `infraestructura/navegador.ts` (los únicos que usan `Date` y `Math.random`) y `conectar.ts` los conecta antes de que se cargue nada más. Una prueba puede poner otros con `ponPuertos` (un reloj parado, un azar fijo). Pruebas en `tests/unidad/puertos.test.ts`. |
+| 0 | `infraestructura/conectar.ts`, `infraestructura/navegador.ts` y `aplicacion/puertos.ts` (`modulos.ts` importa `conectar.ts` el primero) | **Puertos Reloj, Azar y Guardado** (desde las fases 3g y 3h): el juego pide la fecha y la hora con `ahora()`, los números al azar con `azar()` y lo guardado con `leerGuardado()`, `escribirGuardado()` y `alGuardarFuera()` (`aplicacion/puertos.ts`), nunca con `new Date()`, `Date.now()`, `Math.random()` ni `localStorage`. Los adaptadores de verdad, los del navegador, están en `infraestructura/navegador.ts` (los únicos que usan `Date`, `Math.random` y `localStorage`) y `conectar.ts` los conecta antes de que se cargue nada más. Una prueba puede poner otros con `ponPuertos` (un reloj parado, un azar fijo, un guardado en memoria). Pruebas en `tests/unidad/puertos.test.ts`. |
 | 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts`; `dibujos/todos.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. `todos.ts` los carga en su orden: quien necesita `PICS` completo importa de ahí. |
 | 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`, `rec`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas), `voz` (`say`, `sayQ`, voces) e `interfaz` (botón de volver, rondas, ayudas, dificultad, pegatinas, calendario). |
 | 3 | `contenido/lex.ts` (antes `lex.js`) | **Vocabulario** (módulo, se carga después del núcleo): nombres de las cosas (`LEX`, `LEX2`), sonidos de animales (`SOUNDS`, `ONO`) y más cambios del español rioplatense al de España (`_tuRe`). Solo añade cosas al núcleo; no exporta nada. |
@@ -106,10 +106,12 @@ Desde la 3a están las reglas de apertura (`dominio/apertura.ts`), desde la 3b l
 versión y `dominio/partida.ts` la pone al día al cargarla (migraciones).
 
 **Puertos y adaptadores** (desde la fase 3g): lo que el juego necesita de fuera se pide a un puerto
-(`aplicacion/puertos.ts`) y no al navegador directamente. Hoy son el **reloj** (`ahora()`) y el **azar** (`azar()`); sus
-adaptadores, los del navegador, están en `src/infraestructura/`. Así una prueba puede fijar la fecha o el azar con
-`ponPuertos` sin navegador, y `tests/unidad/puertos.test.ts` comprueba que nadie más usa `new Date()`, `Date.now()` ni
-`Math.random()`.
+(`aplicacion/puertos.ts`) y no al navegador directamente. Hoy son el **reloj** (`ahora()`), el **azar** (`azar()`) y, desde la 3h, el
+**guardado** (`leerGuardado()`, `escribirGuardado()` y `alGuardarFuera()`, para lo que guarda otra pestaña); sus
+adaptadores, los del navegador, están en `src/infraestructura/`. Así una prueba puede fijar la fecha o el azar, o
+guardar en memoria, con `ponPuertos` sin navegador, y `tests/unidad/puertos.test.ts` comprueba que nadie más usa
+`new Date()`, `Date.now()`, `Math.random()` ni `localStorage`. Una base de datos en la nube sería otro adaptador del
+puerto Guardado.
 
 Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 
@@ -301,7 +303,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 ## 9. Estado guardado `S`
 
-`S` es un objeto con todo el progreso. Se guarda en `localStorage` con `save()` (no hay guardado automático: hay que llamar a `save()` después de cambiarlo). **Hay partidas guardadas en móviles reales**, así que nunca se puede cambiar el formato de un campo existente sin una migración (desde la fase 3f, `S.ver` y `dominio/partida.ts`). Todos los campos y las reglas están en [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md).
+`S` es un objeto con todo el progreso. Se guarda con `save()` en el puerto Guardado (en el navegador, `localStorage`; desde la fase 3h) (no hay guardado automático: hay que llamar a `save()` después de cambiarlo). **Hay partidas guardadas en móviles reales**, así que nunca se puede cambiar el formato de un campo existente sin una migración (desde la fase 3f, `S.ver` y `dominio/partida.ts`). Todos los campos y las reglas están en [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md).
 
 ## 10. Voz e idioma
 

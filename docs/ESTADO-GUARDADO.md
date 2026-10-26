@@ -1,6 +1,6 @@
 # El estado guardado `S`
 
-`S` es el objeto global con todo lo que el juego recuerda: edad, nombre, progreso, monedas, ropa de Tito, ajustes de la familia... Está definido en `src/nucleo/guardado.ts` (sus tipos, en `src/nucleo/tipos.ts`) y se guarda en el `localStorage` del navegador.
+`S` es el objeto global con todo lo que el juego recuerda: edad, nombre, progreso, monedas, ropa de Tito, ajustes de la familia... Está definido en `src/nucleo/guardado.ts` (sus tipos, en `src/nucleo/tipos.ts`) y se guarda en el `localStorage` del navegador, a través del puerto Guardado (`leerGuardado` y `escribirGuardado` de `src/aplicacion/puertos.ts`, desde la fase 3h; el adaptador está en `src/infraestructura/navegador.ts`).
 
 > **Importante:** hay niños jugando con partidas guardadas en sus móviles. Si cambias el formato de `S` de forma incompatible, esas partidas se rompen o se pierden. Lee la sección 3 antes de tocar nada.
 
@@ -13,7 +13,7 @@
 - Después de `sanoS`, `sanoHondo()` (`nucleo/guardado.ts`; viene de core.js de curiolandia-3d v1.592) arregla lo de dentro de las colecciones: `temas.X.g`, `stats`, `gs`, `home`, `kg`, `vales`, `valesLog`, `rep` y `cofreP` (ver su comentario). Se usa también cuando otra pestaña guarda (evento `storage`): esta pestaña adopta esa partida (también pasada por `migrar()`) para no pisarla con datos viejos.
 - Los campos de `escenas/tienda.ts` (`DEF2`) se rellenan después: `sanoS(S, DEF2)` y luego `for (k in DEF2) if (S[k] === undefined) S[k] = copia de DEF2[k]`. `escenas/repaso.ts` hace lo mismo con los suyos.
 - Si no hay partida pero sí una de **Letrilandia** (otro juego de la familia, clave `letrilandia.v1`), se copian de ahí el nombre, la edad, el acento y el volumen.
-- **Copia de seguridad** (zona de adultos): `bkEncode()` genera un texto `CURIO1.` + JSON comprimido en base64; "Recuperar" lo vuelve a escribir en `localStorage` y recarga la página. `bkDecode()` solo acepta un objeto con `temas` que sea un objeto (no `null` ni una lista).
+- **Copia de seguridad** (zona de adultos): `bkEncode()` genera un texto `CURIO1.` + JSON comprimido en base64; "Recuperar" lo vuelve a escribir en `localStorage` (con `escribirGuardado`) y recarga la página. `bkDecode()` solo acepta un objeto con `temas` que sea un objeto (no `null` ni una lista).
 
 ## 2. Los campos
 

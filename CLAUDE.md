@@ -4,18 +4,17 @@ Migración de Curiolandia 3D (juego de temas de Educación Infantil, 3 a 5 años
 con arquitectura limpia. Se habla y se documenta en castellano.
 
 ## Antes de nada
-- **Estado: fase 2 (de globales a módulos) completa con la 2p, 25 de octubre de 2026.** Las fases 0 y 1 están
-  publicadas. Todo el juego son módulos TypeScript (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`,
+- **Estado: fase 3 (dominio y puertos) completa con la 3h, 25 de octubre de 2026.** Las fases 0 y 1 están publicadas.
+  Desde la 2p todo el juego son módulos TypeScript (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`,
   el núcleo de `src/nucleo/`, antes `core.js`, `src/contenido/`, `src/juegos/`, `src/temas/`, las escenas de
   `src/escenas/`, `src/aplicacion/` y la capa 3D de `src/mundo3d/`, antes `world3d.js`): ya no queda código global. Lo
   que varios archivos cambian va en `VIVO` o se cambia con las funciones `pon*`. El puente deja lo de los módulos en
-  `globalThis` siempre al día y de solo lectura, para las pruebas y para `src/tardias.d.ts`. **Fase 3 (dominio y puertos) en marcha:**
-  desde la 3a, las reglas de apertura están en `src/dominio/apertura.ts`, desde la 3b las de progreso y premios en
-  `src/dominio/progreso.ts`, desde la 3c las de las monedas en `src/dominio/monedas.ts` y desde la 3d las del repaso
-  diario en `src/dominio/repaso.ts` y desde la 3e las de la dificultad en `src/dominio/dificultad.ts`, sin dibujo ni
-  `S`, con pruebas de Vitest; desde la 3f la partida lleva su versión (`S.ver`) y sus migraciones están en
-  `src/dominio/partida.ts`; desde la 3g la hora y el azar se piden a sus puertos (`ahora()` y `azar()`,
-  `src/aplicacion/puertos.ts`), con los adaptadores del navegador en `src/infraestructura/`. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
+  `globalThis` siempre al día y de solo lectura, para las pruebas y para `src/tardias.d.ts`. Desde la fase 3, las
+  reglas del juego (apertura, progreso y premios, monedas, repaso diario, dificultad, y la versión y las migraciones de
+  la partida, `S.ver`) están en `src/dominio/`, sin dibujo ni `S`, con pruebas de Vitest; y la hora, el azar y lo
+  guardado se piden a sus puertos (`ahora()`, `azar()`, `leerGuardado()`... en `src/aplicacion/puertos.ts`), con los
+  adaptadores del navegador en `src/infraestructura/`. Lo siguiente es la fase 4: escenas sin capas y casos de uso. El
+  código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.

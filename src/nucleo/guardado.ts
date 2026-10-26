@@ -7,15 +7,16 @@ import type { Estado, Volumenes } from './tipos.ts';
 import { edadDe } from '../dominio/dificultad.ts';
 import type { PartidaCruda } from '../dominio/partida.ts';
 import { VERSION_PARTIDA, esPartida, migrar } from '../dominio/partida.ts';
-// ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
-import { ahora } from '../aplicacion/puertos.ts';
+// ahora() y lo guardado (leerGuardado, escribirGuardado, alGuardarFuera): puertos de aplicacion/puertos.ts, desde las
+// fases 3g y 3h; antes new Date() y localStorage.
+import { ahora, alGuardarFuera, escribirGuardado, leerGuardado } from '../aplicacion/puertos.ts';
 
 /*
  * ESTADO GUARDADO S
  * -----------------
- * S es un único objeto con TODO el progreso y los ajustes del niño. Se guarda entero, como JSON, en el localStorage
- * del navegador con la clave KEY ('curiolandia-new.v1') cada vez que se llama a save(). No hay guardado automático:
- * después de cambiar algo de S hay que llamar a save().
+ * S es un único objeto con TODO el progreso y los ajustes del niño. Se guarda entero, como JSON, en el puerto Guardado
+ * (aplicacion/puertos.ts; en el navegador, localStorage) con la clave KEY ('curiolandia-new.v1') cada vez que se llama
+ * a save(). No hay guardado automático: después de cambiar algo de S hay que llamar a save().
  *
  * Campos que crea DEF (aquí):
  *   age      3, 4 o 5 (0 = aún no elegida; AGE() devuelve entonces 3).
@@ -110,13 +111,14 @@ const conVol=(d: Crudo): Partial<Estado>=>Object.assign({},d,{vol:Object.assign(
 // KEY_COPIA y la trata como una partida guardada más (el siguiente save() la escribe ya en KEY). La vieja no se toca.
 // Una vieja rota (JSON mal escrito) se ignora sin marcar la copia: el juego empieza una partida nueva.
 // Si tampoco hay esa, intenta traer nombre, edad, acento y volumen de Letrilandia (otro juego que guarda en
-// 'letrilandia.v1' en el mismo dominio). Los try/catch evitan fallos si el navegador bloquea localStorage.
+// 'letrilandia.v1' en el mismo dominio). Lee y escribe con el puerto Guardado (leerGuardado, escribirGuardado), que
+// nunca da error aunque el navegador bloquee localStorage; los try/catch que quedan son para un JSON mal escrito.
 (function load(): void{
-  let d: unknown=null; try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
-  if(!d)try{if(!localStorage.getItem(KEY_COPIA)){d=JSON.parse(localStorage.getItem(KEY_VIEJA)||'null');if(d)localStorage.setItem(KEY_COPIA,'1')}}catch(e){d=null}
+  let d: unknown=null; try{d=JSON.parse(leerGuardado(KEY)||'null')}catch(e){}
+  if(!d&&!leerGuardado(KEY_COPIA))try{d=JSON.parse(leerGuardado(KEY_VIEJA)||'null');if(d)escribirGuardado(KEY_COPIA,'1')}catch(e){d=null}
   if(esPartida(d)){const c=migrar(d);sanoS(c,DEF);sanoHondo(c);if(c['vol'])sanoS(c['vol'] as Crudo,DEF.vol);S=Object.assign(S,conVol(c));return}
   // primera vez: si Letrilandia ya se jugó en este dispositivo, traemos nombre, edad, acento y volúmenes
-  try{const l=JSON.parse(localStorage.getItem('letrilandia.v1')||'null') as {name?: string;age?: number;accent?: string;vol?: Partial<Volumenes>}|null;
+  try{const l=JSON.parse(leerGuardado('letrilandia.v1')||'null') as {name?: string;age?: number;accent?: string;vol?: Partial<Volumenes>}|null;
     if(l){if(l.name)S.name=l.name;if(l.age)S.age=l.age;if(l.accent)S.variant=l.accent==='es'?'es':'ar';if(l.vol)S.vol=Object.assign({},DEF.vol,l.vol);S.first['fromLetri']=1}}catch(e){}
 })();
 // Por defecto (partida nueva), castellano de España: es el acento de las voces grabadas (voz/, voz-fer/); con
@@ -126,13 +128,14 @@ if(!S.variant)S.variant='es';
 // Esta versión no lleva voces grabadas (ni voz/ ni voz-fer/): todo lo dice la voz del navegador. Una partida copiada
 // de curiolandia-3d puede traer S.voz '' o 'fer'; se pasa a 'nav' para que vozLoad() no busque manifiestos.
 S.voz='nav';
-// save(): guarda S entero en localStorage. Llámala después de cada cambio de S. Si falla (modo privado, sin espacio)
-// no pasa nada: el juego sigue, pero sin guardar.
-export function save(): void{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-// Dos pestañas con el juego: cuando la otra guarda, el navegador avisa aquí (evento storage) y esta pestaña adopta
+// save(): guarda S entero (con escribirGuardado: en el navegador, en localStorage). Llámala después de cada cambio de S.
+// Si falla (modo privado, sin espacio) no pasa nada: el juego sigue, pero sin guardar.
+export function save(): void{try{escribirGuardado(KEY,JSON.stringify(S))}catch(e){}}
+// Dos pestañas con el juego: cuando la otra guarda, el puerto Guardado avisa aquí (alGuardarFuera; en el navegador, el
+// evento storage) y esta pestaña adopta
 // esa partida (puesta al día con migrar y pasada por sanoS/sanoHondo, como al cargar). Así su próximo save() no pisa con datos viejos lo que se
 // jugó en la otra (por ejemplo, cambiar el volumen aquí borraba una actividad terminada allí).
-addEventListener('storage',e=>{if(e.key!==KEY||!e.newValue)return;let d: unknown;try{d=JSON.parse(e.newValue)}catch(er){return}
+alGuardarFuera((clave,texto)=>{if(clave!==KEY||!texto)return;let d: unknown;try{d=JSON.parse(texto)}catch(er){return}
   if(!esPartida(d))return;const c=migrar(d);sanoS(c,DEF);sanoHondo(c);Object.assign(S,conVol(c))});
 // ymd(fecha): devuelve 'AAAA-MM-DD' (hora local). Es el formato de las claves de S.days, S.asam, S.gift...
 export const ymd=(d: Date): string=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
