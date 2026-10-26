@@ -33,8 +33,8 @@
  * este archivo: SCENES.map (enter, prompt, hint, dwell, draw, down),
  * SCENES.casita (enter, prompt, hint, draw, down), SCENES.jardin (la
  * sustituye entera por zoneScene('jardin')), y cambia suggestTema y
- * stationPos con ponSuggestTema y ponStationPos (escenas/tienda.ts y escenas/repaso.ts
- * envuelven finishGame con ponFinishGame).
+ * stationPos con ponSuggestTema y ponStationPos. finishGame ya no se envuelve:
+ * desde la fase 4b es una sola función, con el caso de uso aplicacion/terminarJuego.ts.
  * Y mundo3d/mundo3d.ts vuelve a envolver map, casita, cofre, title y las zonas
  * para la capa 3D. Lo que hay aquí de esas escenas es la base 2D.
  *
@@ -50,21 +50,26 @@
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
  *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight),
- *   juegos/ (NUM), src/dibujos/ (PICS, K) y repeticion de dominio/dificultad.ts (VIVO.REP). Usa openNameDlg y openResetDlg de
+ *   juegos/ (NUM), src/dibujos/ (PICS, K), repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
+ *   terminarJuego de aplicacion/terminarJuego.ts (finishGame); del núcleo, también REP_ON y las monedas
+ *   (giveCoins, drawCoinHUD, alEmpezarJuego). Usa openNameDlg y openResetDlg de
  *   aplicacion/adultos.ts, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
  * Partes de S que toca: S.age, S.name, S.first (askedName, jardin, wk),
  *   S.intro, S.seenFl, S.last, S.temas[id] ({g:{índice: veces}, done}),
- *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.stats (rec).
+ *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.stats (rec) y, al
+ *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K, PICS } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, temasDone, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, H, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, temasDone, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
+// terminarJuego: lo que cambia en la partida al terminar un juego (caso de uso, desde la fase 4b); lo usa finishGame.
+import { terminarJuego } from '../aplicacion/terminarJuego.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -429,35 +434,39 @@ SCENES.casita={music:'casita',
 };
 
 /* ---------- JUEGO ---------- */
-// finishGame(t, gi): se llama cuando el niño acaba el juego gi del tema t (desde SCENES.juego).
-// Efectos en S: suma 1 a S.temas[t.id].g[gi] (veces jugado) y, si con esto ya están todos los juegos, pone done = 1
-// (el tema da una flor a Tito). La primera vez que acaba ese juego regala una figurita (S.stk) de una palabra del tema
-// que aún no tenga. Celebra, dice una felicitación (cuando Tito acaba la que esté diciendo) y vuelve a go('casita', {t, fin}); fin = true si se acaba de terminar
-// el tema (entonces la casita manda al cofre).
-export let finishGame: (t: Tema, gi: number) => void=function(t,gi){
-  const st=S.temas[t.id]||(S.temas[t.id]={g:{},done:0});const first=!st.g[gi];st.g[gi]=(st.g[gi]||0)+1;
-// fin solo es true la PRIMERA vez que se completan todos los juegos del tema.
-  let fin=false;if(!st.done&&t.games.every((_g,j)=>st.g[j])){st.done=1;fin=true}
+// finishGame(t, gi): se llama cuando el niño acaba el juego gi del tema t (desde SCENES.juego). Desde la fase 4b es
+// una sola función, sin envolturas: lo que cambia en S lo decide el caso de uso terminarJuego
+// (aplicacion/terminarJuego.ts): suma 1 a S.temas[t.id].g[gi] (veces jugado) y, si con esto ya están todos los juegos,
+// pone done = 1 (el tema da una flor a Tito); apunta hoy en S.gs['tema#juego'].d y, si el juego venía del repaso de
+// hoy (REP_ON), lo marca hecho en S.rep.done. Aquí se ponen esos campos en S, se guarda y se celebra: la primera vez
+// que acaba ese juego regala una figurita (S.stk) de una palabra del tema que aún no tenga, dice una felicitación
+// (cuando Tito acaba la que esté diciendo), da las monedas (3 la primera vez y 2 si se repite; antes lo hacía
+// escenas/tienda.ts) y vuelve a go('casita', {t, fin}); fin = true solo la PRIMERA vez que se completan todos los juegos
+// del tema (entonces la casita manda al cofre).
+export function finishGame(t: Tema,gi: number): void{
+  const r=terminarJuego(S,t,gi,{hoy:today(),delRepaso:REP_ON});Object.assign(S,r.partida);
   save();SFX.tada();burst(800,380,90);
 // Figurita: una palabra del tema con dibujo que aún no esté en el álbum; si no queda ninguna, el icono del juego
 // (si es un dibujo real: los nombres cortos como 'lupa'/'memo' no lo son) o el del tema.
-  if(first){const pool=(t.words||[]).map((w: Libre)=>w.k).filter((k: string)=>k&&PICS[k]&&!S.stk[k]);giveSticker(pool.length?pick(pool):(gIcon(t.games[gi],t).length>4&&PICS[gIcon(t.games[gi],t)]?gIcon(t.games[gi],t):t.icon))}
-  sayQ(pick(['¡Lo lograste! ¡Ganaste una estrella!','¡Muy bien'+kid()+'! ¡Una estrella más!','¡Bravo! ¡Terminaste el juego!']),()=>later(600,()=>go('casita',{t:t.id,fin})));// espera a que acabe la última felicitación del juego
+  if(r.primera){const pool=(t.words||[]).map((w: Libre)=>w.k).filter((k: string)=>k&&PICS[k]&&!S.stk[k]);giveSticker(pool.length?pick(pool):(gIcon(t.games[gi],t).length>4&&PICS[gIcon(t.games[gi],t)]?gIcon(t.games[gi],t):t.icon))}
+  sayQ(pick(['¡Lo lograste! ¡Ganaste una estrella!','¡Muy bien'+kid()+'! ¡Una estrella más!','¡Bravo! ¡Terminaste el juego!']),()=>later(600,()=>go('casita',{t:t.id,fin:r.fin})));// espera a que acabe la última felicitación del juego
+  giveCoins(r.monedas,800,420);
 }
-// ponFinishGame(f): cambia finishGame por otra función (escenas/tienda.ts y escenas/repaso.ts la envuelven).
-export function ponFinishGame(f: typeof finishGame){finishGame=f}
 // JUEGO: escena "contenedor". makeGame (juegos/) crea el juego concreto a partir de su descripción
 // (t.games[g], con g.t = tipo) y esta escena le pasa update/draw/down/move/up/hint/prompt. Se entra con
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
-// escenas/tienda.ts y mundo3d/mundo3d.ts envuelven enter/draw (monedas del juego, recordar el último juego).
+// mundo3d/mundo3d.ts envuelve enter (recordar el último juego). Las monedas del juego (las de cada acierto, que da
+// onRight, y el marcador) están aquí desde la fase 4b; antes las añadía escenas/tienda.ts envolviendo enter y draw.
 SCENES.juego={music:'game',
-// enter(o): REP = veces que ya se ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
+// enter(o): pone a cero las monedas de acierto del juego (alEmpezarJuego; como mucho 5 por juego). REP = veces que ya se
+// ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
 // Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces.
-  enter(o){this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=repeticion(tst(o.t).g[o.g]);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
+  enter(o){alEmpezarJuego();this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=repeticion(tst(o.t).g[o.g]);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
 // update(dt): pasa el tiempo al juego.
   update(dt){this.g.update&&this.g.update(dt)},
-// draw(): dibuja el juego, la casa, las estrellas de rondas (g.done de g.total), el cartel "Nivel N" al repetir y Tito.
-  draw(){this.g.draw();drawHome();if(this.g.total)drawRounds(Math.min(this.g.done,this.g.total),this.g.total);if(VIVO.REP>0){card(1400,140,160,56,'#9B8AD9',5,28);text('Nivel '+(VIVO.REP+1),1480,180,30,'#fff')}drawTito(TITO.x,TITO.y,TITO.w)},
+// draw(): dibuja el juego, la casa, las estrellas de rondas (g.done de g.total), el cartel "Nivel N" al repetir, Tito y,
+// encima de todo, el marcador de monedas (drawCoinHUD).
+  draw(){this.g.draw();drawHome();if(this.g.total)drawRounds(Math.min(this.g.done,this.g.total),this.g.total);if(VIVO.REP>0){card(1400,140,160,56,'#9B8AD9',5,28);text('Nivel '+(VIVO.REP+1),1480,180,30,'#fff')}drawTito(TITO.x,TITO.y,TITO.w);drawCoinHUD()},
 // down(x, y): casa -> vuelve a la casita sin terminar; si ya terminó, solo chispas; Tito -> repite la consigna del juego;
 // si no, se lo pasa al juego.
   down(x,y){if(atHome(x,y)){SFX.tap();go('casita',{t:this.t.id});return}if(this.fin){sparkles(x,y,4);return}if(inTito(x,y)){this.g.prompt&&this.g.prompt();return}this.g.down&&this.g.down(x,y)},

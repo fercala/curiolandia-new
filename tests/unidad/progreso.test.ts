@@ -1,12 +1,13 @@
 // Pruebas de las reglas de progreso y premios (src/dominio/progreso.ts, fase 3b): estrellas, temas terminados, casa de
-// Tito, Pipo, habitaciones, niveles de la tienda, regalo del cofre y cumpleaños. Sin navegador: cada prueba inventa el
-// progreso de los temas o lo que ya tiene el niño.
+// Tito, Pipo, habitaciones, niveles de la tienda, regalo del cofre y cumpleaños; y, desde la fase 4b, cómo queda el
+// progreso de un tema al terminar uno de sus juegos. Sin navegador: cada prueba inventa el progreso de los temas o lo que
+// ya tiene el niño.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (temas, estrellas, meses):
    leerlos tal cual en la prueba es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
 import {
   GIFTS, HOUSE_NEXT, PET_NEXT, esCumple, estrellas, etapaPipo, habitacionAbierta, nivelAbierto, nivelCasa,
-  siguienteRegalo, temasTerminados,
+  siguienteRegalo, temasTerminados, trasTerminarJuego,
 } from '../../src/dominio/progreso.ts';
 
 describe('estrellas y temas terminados', () => {
@@ -59,5 +60,27 @@ describe('cumpleaños', () => {
     expect(esCumple({ m: 1, d: 29 }, 1, 29)).toBe(true);
     expect(esCumple({ m: 1, d: 29 }, 2, 1)).toBe(false);
     expect(esCumple(null, 1, 29)).toBe(false);
+  });
+});
+
+// Fase 4b: cómo queda el progreso de un tema al terminar uno de sus juegos.
+describe('terminar un juego del tema', () => {
+  test('la primera vez cuenta 1 y es la primera; al repetir, suma y ya no lo es', () => {
+    const una = trasTerminarJuego(undefined, 1, 3);
+    expect(una).toEqual({ tema: { g: { 1: 1 }, done: 0 }, primera: true, fin: false });
+    expect(trasTerminarJuego(una.tema, 1, 3)).toEqual({ tema: { g: { 1: 2 }, done: 0 }, primera: false, fin: false });
+  });
+
+  test('con el último juego que faltaba el tema queda terminado y fin es true, solo esa vez', () => {
+    const ultimo = trasTerminarJuego({ g: { 0: 2, 2: 1 } }, 1, 3);
+    expect(ultimo).toEqual({ tema: { g: { 0: 2, 1: 1, 2: 1 }, done: 1 }, primera: true, fin: true });
+    expect(trasTerminarJuego(ultimo.tema, 0, 3)).toEqual({ tema: { g: { 0: 3, 1: 1, 2: 1 }, done: 1 }, primera: false, fin: false });
+  });
+
+  test('no cambia el progreso que recibe y conserva lo demás que tuviera', () => {
+    const st = { g: { 0: 1 }, done: 0, otro: 'x' };
+    const copia = structuredClone(st);
+    expect(trasTerminarJuego(st, 0, 2).tema).toEqual({ g: { 0: 2 }, done: 0, otro: 'x' });
+    expect(st).toEqual(copia);
   });
 });

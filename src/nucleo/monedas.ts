@@ -1,14 +1,23 @@
-// ARCHIVO: escenas/monedas.ts — las monedas en pantalla: el marcador (drawCoinHUD, inCoinHUD), las monedas que vuelan
+// ARCHIVO: nucleo/monedas.ts — las monedas en pantalla: el marcador (drawCoinHUD, inCoinHUD), las monedas que vuelan
 //   y el cartel "+N" (drawCoinFx), abonar (creditCoins), dar (giveCoins) y gastar (spendCoins) monedas.
-// Desde la fase 4a de docs/PLAN-MIGRACION.md es un módulo aparte (antes estaba dentro de escenas/tienda.ts):
-//   escenas/indice.ts lo carga el primero de las escenas, así que escenas2d.ts, zonas.ts, tienda.ts y repaso.ts lo
-//   importan en vez de usarlo como global (src/tardias.d.ts ya no lo declara). Las reglas (cuántas monedas da cada cosa,
-//   ganar y gastar) están en dominio/monedas.ts; aquí solo se suman a S y se animan.
+// Desde la fase 4a de docs/PLAN-MIGRACION.md es un módulo aparte (antes estaba dentro de escenas/tienda.ts), y desde la
+//   4b está en el núcleo (en la 4a estaba en escenas/monedas.ts): onRight (nucleo/interfaz.ts) da aquí la moneda de
+//   cada acierto, sin que escenas/tienda.ts la envuelva. Las escenas, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo
+//   importan del núcleo (src/tardias.d.ts ya no lo declara). Las reglas (cuántas monedas da cada cosa, ganar y gastar)
+//   están en dominio/monedas.ts; aquí solo se suman a S y se animan.
 // Exporta: creditCoins, drawCoinHUD, inCoinHUD, giveCoins, spendCoins y drawCoinFx.
-// Importa: el núcleo, src/nucleo/ (S, save, T, ctx, VIVO, sceneName, sceneTok, pic, card, text, hv, hR, inR, tone,
-//   lerp, back, clamp, rnd, PI), K de los dibujos y ganar y gastar de dominio/monedas.ts.
+// Importa: del núcleo, pantalla.ts (LF, T, ctx, VIVO), utilidades.ts (inR, lerp, back, clamp, rnd, PI), guardado.ts
+//   (S, save), escenas.ts (sceneName, sceneTok), imagenes.ts (pic), dibujo.ts (card, text), puntero.ts (hv, hR) y
+//   sonido.ts (tone); K de los dibujos y ganar y gastar de dominio/monedas.ts.
 import { K } from '../dibujos/todos.ts';
-import { LF, PI, S, T, VIVO, back, card, clamp, ctx, hR, hv, inR, lerp, pic, rnd, save, sceneName, sceneTok, text, tone } from '../nucleo/indice.ts';
+import { card, text } from './dibujo.ts';
+import { sceneName, sceneTok } from './escenas.ts';
+import { S, save } from './guardado.ts';
+import { pic } from './imagenes.ts';
+import { ctx, LF, T, VIVO } from './pantalla.ts';
+import { hR, hv } from './puntero.ts';
+import { tone } from './sonido.ts';
+import { back, clamp, inR, lerp, PI, rnd } from './utilidades.ts';
 import { ganar, gastar } from '../dominio/monedas.ts';
 
 /** Una moneda que vuela (coinFx): de (x, y) al marcador, o al revés si spend; v monedas que suma al llegar. */

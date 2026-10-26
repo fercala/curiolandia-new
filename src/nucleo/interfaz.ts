@@ -1,18 +1,20 @@
 // interfaz.ts: lo común a todas las pantallas y al juego: botón de volver, estrellas de rondas, candado de adultos,
 // ayudas automáticas, dificultad adaptativa, tiempo de juego, pegatinas y calendario.
-//   HOME, drawHome, atHome, drawRounds, drawLock, drawHelp; nOpts, onRight, ponOnRight, onWrongTwice, nRounds;
+//   HOME, drawHome, atHome, drawRounds, drawLock, drawHelp; nOpts, onRight, alEmpezarJuego, onWrongTwice, nRounds;
 //   giveSticker, drawSticker, drawToast; DIAS, DIASL, DIAC, MESES, ESTACIONES, estacionDe.
 //   VIVO.lockHold/lockDown/lockPrev, VIVO.ADAPT/REP, VIVO.sessionT/restAsked/minuteAcc y VIVO.toast.
-// onRight cambia (ponOnRight): desde fuera de este módulo solo se lee. Las reglas de la dificultad (nOpts, nRounds,
-// onRight, onWrongTwice) están en dominio/dificultad.ts.
+// Las reglas de la dificultad (nOpts, nRounds, onRight, onWrongTwice) están en dominio/dificultad.ts, y las de la
+// moneda de cada acierto (onRight), en dominio/monedas.ts; las monedas en pantalla, en monedas.ts.
 import { K } from '../dibujos/todos.ts';
 import { card, circ, fillStroke, hand, rr, star, text } from './dibujo.ts';
-import { scene } from './escenas.ts';
+import { scene, sceneName } from './escenas.ts';
 import { AGE, S, save } from './guardado.ts';
 import type { Adaptacion } from '../dominio/dificultad.ts';
 import { SIN_ADAPTAR, opciones, rondas, trasAcierto, trasDosFallos } from '../dominio/dificultad.ts';
+import { monedasPorAcierto } from '../dominio/monedas.ts';
 import { V } from './idioma.ts';
 import { pic, picG } from './imagenes.ts';
+import { giveCoins } from './monedas.ts';
 import { ctx, T, VIVO } from './pantalla.ts';
 import { hC, hv } from './puntero.ts';
 import { SFX } from './sonido.ts';
@@ -65,11 +67,21 @@ function adaptar(a: Adaptacion): void{VIVO.ADAPT=a.adapt;streak=a.racha}
 // nOpts(): cuántas opciones enseñar en un juego (de 2 a 4): 2 a los 3 años y 3 a los 4 y 5, más ADAPT, y +1 al repetir
 // (opciones).
 export function nOpts(): number{return opciones(AGE(),VIVO.ADAPT,VIVO.REP)}
-// onRight(aLaPrimera): avisar de un acierto; 4 aciertos seguidos a la primera suben la dificultad (trasAcierto).
-// Es let y no function porque escenas/tienda.ts la envuelve con ponOnRight.
-export let onRight=(first: unknown): void=>adaptar(trasAcierto(adaptacion(),first));
-// ponOnRight(f): cambia onRight por otra función (escenas/tienda.ts la envuelve para dar monedas al acertar).
-export function ponOnRight(f: typeof onRight): void{onRight=f}
+// monedasDeAcierto: cuántas monedas de acierto se han dado en el juego de ahora (como mucho 5; alEmpezarJuego las pone
+// a 0). Hasta la fase 4b era gameCoins, en escenas/tienda.ts.
+let monedasDeAcierto=0;
+// onRight(aLaPrimera): avisar de un acierto. 4 aciertos seguidos a la primera suben la dificultad (trasAcierto) y, en un
+// juego (escena 'juego'), el primer acierto de cada ronda da 1 moneda que vuela desde el puntero (monedasPorAcierto:
+// solo a la primera y como mucho 5 por juego). Desde la fase 4b es una sola función: antes escenas/tienda.ts la
+// envolvía (con ponOnRight, que ya no existe) para dar la moneda.
+export function onRight(first: unknown): void{
+  adaptar(trasAcierto(adaptacion(),first));
+  const n=sceneName==='juego'?monedasPorAcierto(first,monedasDeAcierto):0;
+  if(n){monedasDeAcierto++;giveCoins(n,VIVO.MX||800,VIVO.MY||450)}
+}
+// alEmpezarJuego(): pone a cero las monedas de acierto del juego; lo llama la escena 'juego' (escenas/escenas2d.ts) al
+// entrar en cada juego.
+export function alEmpezarJuego(): void{monedasDeAcierto=0}
 // onWrongTwice(): avisar de que se falló dos veces; baja la dificultad (trasDosFallos).
 export function onWrongTwice(): void{adaptar(trasDosFallos(adaptacion()))}
 // nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición (rondas).

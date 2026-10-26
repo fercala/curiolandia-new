@@ -73,27 +73,27 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 | — | `modulos.ts` | Entrada del juego: importa los módulos en orden, deja el puente en `globalThis` y llama a `arrancar()`. |
 | 0 | `infraestructura/conectar.ts`, `infraestructura/navegador.ts` y `aplicacion/puertos.ts` (`modulos.ts` importa `conectar.ts` el primero) | **Puertos Reloj, Azar y Guardado** (desde las fases 3g y 3h): el juego pide la fecha y la hora con `ahora()`, los números al azar con `azar()` y lo guardado con `leerGuardado()`, `escribirGuardado()` y `alGuardarFuera()` (`aplicacion/puertos.ts`), nunca con `new Date()`, `Date.now()`, `Math.random()` ni `localStorage`. Los adaptadores de verdad, los del navegador, están en `infraestructura/navegador.ts` (los únicos que usan `Date`, `Math.random` y `localStorage`) y `conectar.ts` los conecta antes de que se cargue nada más. Una prueba puede poner otros con `ponPuertos` (un reloj parado, un azar fijo, un guardado en memoria). Pruebas en `tests/unidad/puertos.test.ts`. |
 | 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts`; `dibujos/todos.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. `todos.ts` los carga en su orden: quien necesita `PICS` completo importa de ahí. |
-| 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`, `rec`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas), `voz` (`say`, `sayQ`, voces) e `interfaz` (botón de volver, rondas, ayudas, dificultad, pegatinas, calendario). |
+| 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`, `rec`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas, `REP_ON`), `voz` (`say`, `sayQ`, voces), `monedas` (desde la fase 4b, antes en las escenas: el marcador `drawCoinHUD` e `inCoinHUD`, las monedas que vuelan y el cartel "+N" `drawCoinFx`, abonar `creditCoins`, dar `giveCoins` y gastar `spendCoins`) e `interfaz` (botón de volver, rondas, ayudas, dificultad y la moneda de cada acierto en `onRight`, pegatinas, calendario). |
 | 3 | `contenido/lex.ts` (antes `lex.js`) | **Vocabulario** (módulo, se carga después del núcleo): nombres de las cosas (`LEX`, `LEX2`), sonidos de animales (`SOUNDS`, `ONO`) y más cambios del español rioplatense al de España (`_tuRe`). Solo añade cosas al núcleo; no exporta nada. |
 | 4 | `juegos/comps.ts`, `juegos/comps2.ts` (antes `comps.js` y `comps2.js`; `juegos/indice.ts` los junta) | **Componentes de juego** (módulos): el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
 | 5 | `temas/temas.ts`, `temas4.ts`, `temas5.ts` (antes `temas.js`, `temas4.js` y `temas5.js`; `temas/indice.ts` los junta) | **Contenido** (módulos): los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas/temas.ts` también tiene `makeGame`. |
 | 6 | `contenido/cuentos.ts` (antes `cuentos.js`; tipos en `contenido/tipos.ts`) | **Cuentos** (módulo, solo datos): los cuentos ilustrados de cada tema (`CUENTOS`), que lee `Story`. |
 | 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento y envuelve `makeGame`. |
 | 8 | `temas/ingles.ts` (antes `ingles.js`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
-| 9 | `escenas/monedas.ts` (desde la fase 4a; antes dentro de `tienda.js`; `escenas/indice.ts` la carga la primera) | **Monedas en pantalla** (módulo): el marcador (`drawCoinHUD`, `inCoinHUD`), las monedas que vuelan y el cartel "+N" (`drawCoinFx`), abonar (`creditCoins`), dar (`giveCoins`) y gastar (`spendCoins`). Las demás escenas lo importan. |
-| 10 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo; `escenas/indice.ts` la carga después de `monedas.ts`) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
-| 11 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
+| 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo; `escenas/indice.ts` la carga la primera) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame` (terminar un juego: desde la fase 4b, una sola función, con el caso de uso `terminarJuego`). |
+| — | `aplicacion/terminarJuego.ts` (la importa `escenas/escenas2d.ts`, así que se carga justo antes que ella) | **Caso de uso «terminar un juego»** (aplicación, desde la fase 4b): lo que cambia en la partida al acabar un juego (progreso del tema, último día jugado, repaso del día hecho) y lo que hay que celebrar (primera vez, tema terminado, monedas). Usa las reglas del dominio y no cambia la partida que recibe: devuelve los campos nuevos. Pruebas en `tests/unidad/terminarJuego.test.ts`. |
+| 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
 | — | `dominio/apertura.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de apertura** (dominio, desde la fase 3a): qué zonas, casitas, juegos y sitios del mapa están abiertos y qué casita toca. Sin dibujo y sin `S`: recibe la partida y el mapa. Pruebas en `tests/unidad/apertura.test.ts`. |
 | — | `dominio/progreso.ts` (la importa `nucleo/tito.ts`, así que se carga con el núcleo) | **Reglas de progreso y premios** (dominio, desde la fase 3b): estrellas, temas terminados, casa de Tito (`HOUSE_NEXT`), Pipo (`PET_NEXT`), habitaciones, niveles de la tienda (`TIER_NEED`), regalo del cofre (`GIFTS`) y cumpleaños. Pruebas en `tests/unidad/progreso.test.ts`. |
 | — | `dominio/monedas.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de las monedas** (dominio, desde la fase 3c): cuántas da cada cosa (`MONEDAS`), los aciertos (como mucho 5 por juego) y cómo se suman y se gastan (`ganar` y `gastar` devuelven el monedero nuevo). Pruebas en `tests/unidad/monedas.test.ts`. |
 | — | `dominio/repaso.ts` (la importa `escenas/repaso.ts`, así que se carga justo antes que ella) | **Reglas del repaso diario** (dominio, desde la fase 3d): qué juegos se pueden repasar (`NOREP`), cuáles cuestan (menos del 70 % de aciertos), cuáles hace más que no se juegan, cómo se eligen los 3 del día, cuándo se rehace el repaso, cuándo está terminado y cuándo toca (`REPASO`), y los últimos 6 juegos de cada habilidad. Pruebas en `tests/unidad/repaso.test.ts`. |
 | — | `dominio/dificultad.ts` (la importa `nucleo/guardado.ts`, así que se carga con el núcleo) | **Reglas de la dificultad** (dominio, desde la fase 3e): la edad que cuenta (`AGE`), cuántas opciones (`nOpts`) y rondas (`nRounds`) tiene un juego según la edad y las repeticiones (`VIVO.REP`), y la dificultad adaptativa (`VIVO.ADAPT`: sube con 4 aciertos seguidos a la primera y baja al fallar dos veces). Pruebas en `tests/unidad/dificultad.test.ts`. |
 | — | `dominio/partida.ts` (la importa `nucleo/guardado.ts`, así que se carga con el núcleo) | **Versión y migraciones de la partida** (dominio, desde la fase 3f): `VERSION_PARTIDA` (la de `S.ver`), los pasos que ponen al día una partida vieja (`MIGRACIONES`) y `migrar`, que `load()` y el evento `storage` usan antes de arreglar la partida (`sanoS`, `sanoHondo`). También `esPartida` (lo usa también la copia de seguridad). Pruebas en `tests/unidad/partida.test.ts`. |
-| 12 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
-| 13 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Las reglas del repaso, en `dominio/repaso.ts`. Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
-| 14 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
-| 15 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga después de la aplicación; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **Toda la capa 3D** (módulo): portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
-| 16 | `aplicacion/arranque.ts` (antes `boot.js`, el último archivo global; `modulos.ts` llama a `arrancar()` al final) | **Arranque** (módulo): entrega los cofres que quedaron sin abrir, espera a las fuentes, va a la portada y empieza el bucle. |
+| 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2`. Desde la fase 4b no envuelve nada: las monedas de los juegos las dan `onRight` y `finishGame`. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
+| 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Las reglas del repaso, en `dominio/repaso.ts`. Envuelve `rec`, `go`, `goSeguir`, la casita y el mapa; desde la fase 4b ya no envuelve `finishGame` (la fecha del juego y el repaso hecho los apunta `terminarJuego`) y `REP_ON` está en el núcleo (lo cambia con `ponRepOn`). |
+| 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
+| 14 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga después de la aplicación; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **Toda la capa 3D** (módulo): portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. |
+| 15 | `aplicacion/arranque.ts` (antes `boot.js`, el último archivo global; `modulos.ts` llama a `arrancar()` al final) | **Arranque** (módulo): entrega los cofres que quedaron sin abrir, espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `tardias.d.ts` | Tipos de lo que un módulo usa de otro que se carga después (lo encuentra por el puente). No cambia el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
@@ -105,6 +105,13 @@ Desde la 3a están las reglas de apertura (`dominio/apertura.ts`), desde la 3b l
 (`dominio/progreso.ts`), desde la 3c las de las monedas (`dominio/monedas.ts`), desde la 3d las del repaso diario
 (`dominio/repaso.ts`) y desde la 3e las de la dificultad (`dominio/dificultad.ts`). Desde la 3f, la partida lleva su
 versión y `dominio/partida.ts` la pone al día al cargarla (migraciones).
+
+**Casos de uso** (`src/aplicacion/`, desde la fase 4b): lo que pasa en la partida cuando el niño hace algo, en un solo
+sitio. Un caso de uso junta las reglas del dominio que hacen falta, recibe la partida (en el juego, `S`) y devuelve los
+campos nuevos y lo que la escena tiene que celebrar; no cambia la partida que recibe, no dibuja, no habla y no guarda.
+La escena pone los campos en `S`, guarda y celebra. El primero es `terminarJuego` (`aplicacion/terminarJuego.ts`), que
+usa `finishGame`; los demás (abrir el cofre, comprar, el regalo del día...) llegan con el resto de la fase 4. Vitest
+los prueba igual que el dominio (`tests/unidad/terminarJuego.test.ts`).
 
 **Puertos y adaptadores** (desde la fase 3g): lo que el juego necesita de fuera se pide a un puerto
 (`aplicacion/puertos.ts`) y no al navegador directamente. Hoy son el **reloj** (`ahora()`), el **azar** (`azar()`) y, desde la 3h, el
@@ -126,8 +133,9 @@ como error). Para lo que varios archivos cambian hay dos vías:
   `VIVO.REP`; sus reglas, en `dominio/dificultad.ts`), el tiempo de juego (`VIVO.sessionT`, `VIVO.restAsked`, `VIVO.minuteAcc`) y los avisos (`VIVO.toast`,
   `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
 - **Funciones `pon*`** para cambiar desde otro archivo una variable entera de un módulo: `ponS` (partida nueva), `ponT` (reloj),
-  `ponCtx` (lienzo de dibujo) y las de las funciones que envuelven las capas: `ponGo`, `ponRec`, `ponOnRight`
-  (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`, `ponStationPos`, `ponFinishGame` (`escenas/escenas2d.ts`),
+  `ponCtx` (lienzo de dibujo), `ponRepOn` (`REP_ON`, si se juega un juego del repaso; desde la fase 4b) y las de las
+  funciones que envuelven las capas: `ponGo`, `ponRec` (núcleo), `ponThing` (`juegos/comps.ts`), `ponSuggestTema`,
+  `ponStationPos` (`escenas/escenas2d.ts`),
   `ponMakeGame` (`temas/temas.ts`) y `ponGoSeguir` (`escenas/zonas.ts`). Dentro del núcleo hay dos más: `ponMusica` (la música
   de la escena, la usa `go`) y `ponRopaTito` (`escenas/tienda.ts` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
@@ -196,12 +204,12 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
   A.enter = function (o) { enter0.call(this, o); /* lo nuevo */ }; }
 
 // Patrón para envolver una función de otro módulo: con su pon* (ver «Leer sí, reasignar no»)
-{ const f0 = finishGame;
-  ponFinishGame(function (t, gi) { f0(t, gi); /* lo nuevo */ }); }
+{ const g0 = go;
+  ponGo(function (n, o) { /* lo nuevo */ return g0(n, o); }); }
 ```
 
 - `escenas/zonas.ts` reescribe el mapa y la casita de `escenas/escenas2d.ts` (la versión de `escenas/escenas2d.ts` del mapa, del jardín y de la casita **ya no se usa**: es código antiguo).
-- `escenas/tienda.ts` envuelve `SCENES.juego` y `finishGame` (monedas); `escenas/repaso.ts` envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa.
+- `escenas/repaso.ts` envuelve `rec`, `go`, `goSeguir`, la casita y el mapa. Desde la fase 4b, terminar un juego ya no se envuelve: `finishGame` (`escenas/escenas2d.ts`) es una sola función, con su caso de uso `terminarJuego`, y la moneda de cada acierto la da `onRight` (núcleo); `escenas/tienda.ts` ya no envuelve nada.
 - `mundo3d/mundo3d.ts` envuelve `map`, las zonas, `casita`, `cofre` y `title` para pintarlos en 3D.
 
 **Consecuencia práctica**: antes de cambiar una escena, busca en todos los archivos quién la envuelve (`grep -rn "SCENES.casita" src/`). El comportamiento final es el de la última capa.
@@ -212,7 +220,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 2. **Mapa**: si no ha hecho la asamblea hoy, el botón verde "seguir" lleva a la **asamblea**; si ya la hizo, lleva a la casita del siguiente tema (`nextTema()`). También puede tocar una zona, la tienda, la casa de Tito o el álbum.
 3. **Zona**: camino de casitas. Solo se abre la siguiente cuando se termina la anterior.
 4. **Casita** (tema): estaciones de juego; también se abren en orden.
-5. **Juego**: `SCENES.juego` crea el componente con `makeGame(...)`. Al terminar, `finishGame` suma la estrella, da monedas y vuelve a la casita.
+5. **Juego**: `SCENES.juego` crea el componente con `makeGame(...)`. Al terminar, `finishGame` suma la estrella, da monedas y vuelve a la casita (lo que cambia en `S` lo decide el caso de uso `terminarJuego`).
 6. Cuando se terminan todos los juegos del tema → **cofre** (regalo de `GIFTS`, pegatina y monedas) → vuelta a la zona con la siguiente casita abierta.
 
 Las reglas de apertura están, desde la fase 3a, en `dominio/apertura.ts` (`zonaAbierta`, `temaAbierto`, `juegoAbierto`, `sitioAbierto`, `temaQueToca`, `siguienteTema`, `NEED`, `ZAGE`), con sus pruebas en `tests/unidad/apertura.test.ts`. `escenas/zonas.ts` les pasa la partida de verdad (`PARTIDA`: `S`, la edad y la fecha) y el mapa (`MAPA`, de `ZONES`) y conserva los nombres de antes (`zoneOpen`, `temaOpen`, `gameOpen`, `spotOpen`, `curTema`, `nextTema`...), que son los que usan las escenas y la capa 3D. En la zona de adultos se puede poner el **modo libre** (`S.unlockAll`), que lo abre todo.
@@ -323,7 +331,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 - **Estrellas**: una por juego terminado (`S.temas[id].g`). Se ven en las casitas. Las reglas de esta lista (estrellas,
   flores, casa, Pipo, cofre, habitaciones y niveles de la tienda) están en `dominio/progreso.ts` desde la fase 3b.
 - **Flores**: una por tema terminado. Abren zonas (6 flores en una zona despiertan la siguiente) y hacen crecer la casa de Tito (`HOUSE_NEXT`).
-- **Monedas** (`S.coins`): 1 por acierto a la primera (máx. 5 por juego), 3 al terminar un juego (2 si se repite), regalos diarios y del cofre. Se gastan en la tienda. Cuántas da cada cosa está en `MONEDAS` (`dominio/monedas.ts`, desde la fase 3c); la animación, en `escenas/monedas.ts` (desde la fase 4a).
+- **Monedas** (`S.coins`): 1 por acierto a la primera (máx. 5 por juego), 3 al terminar un juego (2 si se repite), regalos diarios y del cofre. Se gastan en la tienda. Cuántas da cada cosa está en `MONEDAS` (`dominio/monedas.ts`, desde la fase 3c); la animación, en `nucleo/monedas.ts` (desde la fase 4a en su propio módulo y desde la 4b en el núcleo).
 - **Cofre**: al terminar un tema, el siguiente regalo de `GIFTS` (lista fija en dominio/progreso.ts).
 - **Pipo**: la mascota crece con las estrellas (`PET_NEXT`).
 - **Vales**: premios reales que configura la familia en la zona de adultos.

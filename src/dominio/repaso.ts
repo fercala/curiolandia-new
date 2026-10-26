@@ -4,10 +4,12 @@
  * lo que cuesta, después lo que hace más tiempo que no se juega.
  * Es DOMINIO, como el resto de src/dominio/: no sabe nada de pantalla ni de S y no cambia nada. Recibe lo que mira
  * (DatosRepaso: estadísticas, juegos por habilidad, resultados por juego, los temas y lo jugado) y devuelve listas
- * nuevas. escenas/repaso.ts le pasa los datos de verdad, guarda lo que devuelve en S y dibuja la escena del repaso.
+ * nuevas. escenas/repaso.ts le pasa los datos de verdad, guarda lo que devuelve en S y dibuja la escena del repaso;
+ * conFecha y conHecho (fase 4b) las usa el caso de uso aplicacion/terminarJuego.ts al terminar un juego.
  * Un juego se nombra 'temaId#número' (por ejemplo '3A-T1#2'). Pruebas: tests/unidad/repaso.test.ts.
  * Exporta: NOREP, REPASO (los números de las reglas), los tipos Resultado, TemaRepasable, DatosRepaso y RepasoDelDia, y
- * las reglas repasable, queCuestan, masAntiguos, elegirRepaso, caducado, terminado, toca y conJuegoReciente.
+ * las reglas repasable, queCuestan, masAntiguos, elegirRepaso, caducado, terminado, toca, conJuegoReciente, conFecha y
+ * conHecho.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de REPASO son las reglas mismas, cada uno con su nombre. */
@@ -154,4 +156,16 @@ export function conJuegoReciente(lista: readonly string[], id: string): string[]
   const i = lista.indexOf(id);
   const sin = i >= 0 ? [...lista.slice(0, i), ...lista.slice(i + 1)] : lista;
   return [id, ...sin].slice(0, REPASO.recientes);
+}
+
+// conFecha(r, hoy): el resultado de un juego (S.gs[id]; nada si aún no tenía) con el último día jugado (d) puesto a
+// hoy; si no tenía, empieza sin aciertos ni fallos. No cambia r: devuelve uno nuevo.
+export function conFecha(r: Resultado | undefined, hoy: string): { ok: number; err: number; d: string } {
+  return { ...(r ?? { ok: 0, err: 0 }), d: hoy };
+}
+
+// conHecho(R, id): el repaso del día R con el juego id hecho (done[id] = 1), si está en su lista; si no está, el mismo
+// R. No cambia R: devuelve uno nuevo.
+export function conHecho<R extends RepasoDelDia>(R: R, id: string): R {
+  return R.list.includes(id) ? { ...R, done: { ...R.done, [id]: 1 } } : R;
 }

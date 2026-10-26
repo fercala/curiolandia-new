@@ -67,7 +67,7 @@ import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { OpcionesSay } from '../nucleo/voz.ts';
 import type { MallaBasica, Mundo, Nodo, OpcionesPaseo, OpcionesCinta, OpcionesMundo, OpcionesPieza, OpcionesPlano, OpcionesSprite, PiezaUnida, PuntoSuelo, TexturaDibujada, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, DIAC, FLC, IMG, LF, OX, OY, PI, S, SC, SCENES, SFX, T, TITO, V, VIVO, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, fillStroke, flower, go, hC, hR, hv, inR, lerp, noise, parts, pic, pick, ponCtx, ponGo, rnd, say, scene, sceneName, setCursor, sparkles, speaker, temasDone, text, titoKind, tone, tx } from '../nucleo/indice.ts';
+import { DF, DIAC, FLC, IMG, LF, OX, OY, PI, S, SC, SCENES, SFX, T, TITO, V, VIVO, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, lerp, noise, parts, pic, pick, ponCtx, ponGo, rnd, say, scene, sceneName, setCursor, sparkles, speaker, temasDone, text, titoKind, tone, tx } from '../nucleo/indice.ts';
 import { FIESTAS, sayMix } from '../temas/indice.ts';
 import { TUNES, playTune } from '../juegos/indice.ts';
 import { GNAME, LOGOC, TEMA, asamHoy, drawLogo, drawLogoSmall, drawStation, gDone, pill, ponStationPos, standalone, stationPos, tst } from '../escenas/escenas2d.ts';
@@ -76,7 +76,6 @@ import { SCARFC, SHELLC, drawItemPic, itemName } from '../escenas/tienda.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
 import { ahora, azar } from '../aplicacion/puertos.ts';
-import { drawCoinHUD, inCoinHUD } from '../escenas/monedas.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea más abajo (si no hay WebGL se queda en null).
 export let R3frame: ((dt: number) => void) | null = null;

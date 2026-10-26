@@ -103,7 +103,7 @@ describe('paginaJuego', () => {
     // escenas/escenas2d.ts: las escenas 2D en SCENES y la lista de todos los temas.
     expect(runInContext("['title', 'edad', 'juego', 'asamblea', 'album', 'dormir'].every((n) => typeof SCENES[n].draw === 'function')", global)).toBe(true);
     expect(runInContext("TEMAS.length === Object.keys(TEMA).length && TEMA['EN-HELLO'] === ING[0]", global)).toBe(true);
-    for (const k of ['finishGame', 'ponFinishGame', 'suggestTema', 'stationPos', 'drawFace', 'tree', 'inR']) expect(typeof global[k], k).toBe('function');
+    for (const k of ['finishGame', 'suggestTema', 'stationPos', 'drawFace', 'tree', 'inR']) expect(typeof global[k], k).toBe('function');
     // escenas/zonas.ts: las zonas, sus escenas y las reglas del camino (cambia SCENES.map y suggestTema al cargarse).
     expect(runInContext("Object.keys(ZONES).join() + ' ' + ['jardin', 'bosque', 'montana', 'fiestas', 'ingles', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,ingles true');
     expect(runInContext("S.age = 3; [zoneOpen('jardin'), temaOpen(T3[0]), curTema('jardin') === T3[0], suggestTema() === T3[0]].join()", global)).toBe('true,true,true,true');

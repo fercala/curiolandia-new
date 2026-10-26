@@ -1,7 +1,8 @@
 // escenas.ts: las escenas (pantallas) del juego, los temporizadores de escena y las partículas.
-//   SCENES, scene, sceneName, sceneArg, sceneTok, go(), ponGo(), later(), whenQuiet(), parts, burst(), sparkles(),
-//   heart(), drawParts(); VIVO.fade, VIVO.timers, VIVO.idle, VIVO.hintSaid, VIVO.drag.
-// scene, sceneName, sceneArg, sceneTok, parts y go cambian: desde fuera de este módulo solo se leen (go cambia con ponGo).
+//   SCENES, scene, sceneName, sceneArg, sceneTok, go(), ponGo(), REP_ON, ponRepOn(), later(), whenQuiet(), parts,
+//   burst(), sparkles(), heart(), drawParts(); VIVO.fade, VIVO.timers, VIVO.idle, VIVO.hintSaid, VIVO.drag.
+// scene, sceneName, sceneArg, sceneTok, parts, go y REP_ON cambian: desde fuera de este módulo solo se leen (go cambia
+// con ponGo y REP_ON con ponRepOn).
 // sayQ (decir algo cuando Tito calle) está en voz.ts, porque usa say().
 import { star, circ } from './dibujo.ts';
 import { ctx, DF, T, VIVO } from './pantalla.ts';
@@ -50,6 +51,13 @@ export let go=(n: string,o: Libre={}): void=>{
   try{speechSynthesis.cancel()}catch(e){} VIVO.talking=false;
   sceneName=n; sceneArg=o; scene=e; VIVO.fade=1; ponMusica(e.music||null); if(e.enter)e.enter(o);
 };
+// REP_ON: true mientras se juega un juego lanzado desde el repaso del día (SCENES.repaso, en escenas/repaso.ts): al
+// terminarlo, finishGame (escenas/escenas2d.ts) lo marca hecho en el repaso y la casita vuelve al repaso. Desde la fase
+// 4b está aquí (antes en escenas/repaso.ts, que se carga después de finishGame); lo cambia escenas/repaso.ts con
+// ponRepOn y lo leen también las pruebas.
+export let REP_ON=false;
+// ponRepOn(v): pone REP_ON a v (escenas/repaso.ts: true al lanzar un juego del repaso; false al volver al repaso o salir).
+export function ponRepOn(v: boolean): void{REP_ON=v}
 // ponGo(f): cambia go por otra función. Las capas la envuelven: escenas/repaso.ts (deja el repaso al salir) y mundo3d/mundo3d.ts
 // (vuelve a 2D al ir a una escena sin 3D). La envoltura llama a la de antes, que guarda antes de llamar a ponGo.
 export function ponGo(f: typeof go): void{go=f}

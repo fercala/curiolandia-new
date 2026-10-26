@@ -1,13 +1,16 @@
 /*
  * dominio/progreso.ts: las reglas de lo que el niño va consiguiendo al jugar (fase 3b de docs/PLAN-MIGRACION.md):
  * estrellas y temas terminados, cómo crecen la casa de Tito y Pipo, qué habitaciones de la casa y qué niveles de la
- * tienda se abren, el siguiente regalo del cofre y si hoy es su cumpleaños.
+ * tienda se abren, el siguiente regalo del cofre y si hoy es su cumpleaños; y, desde la fase 4b, cómo queda el progreso
+ * de un tema al terminar uno de sus juegos.
  * Es DOMINIO, como dominio/apertura.ts: no sabe nada de pantalla ni de S y no escribe nada. Recibe lo que mira (el
  * progreso de los temas, lo que ya tiene el niño, la fecha) y devuelve la respuesta. Los archivos de siempre conservan
  * sus nombres y les pasan S: temasDone y STARS (nucleo/tito.ts), roomOpen (escenas/tienda.ts), houseLevel, petStage,
- * nextGift e isBday (escenas/zonas.ts). Pruebas: tests/unidad/progreso.test.ts.
- * Exporta: HOUSE_NEXT, PET_NEXT, TIER_NEED y GIFTS (los números y el orden de las reglas), el tipo TemaGuardado y las
- * reglas estrellas, temasTerminados, nivelCasa, etapaPipo, habitacionAbierta, nivelAbierto, siguienteRegalo y esCumple.
+ * nextGift e isBday (escenas/zonas.ts); trasTerminarJuego la usa el caso de uso aplicacion/terminarJuego.ts.
+ * Pruebas: tests/unidad/progreso.test.ts.
+ * Exporta: HOUSE_NEXT, PET_NEXT, TIER_NEED y GIFTS (los números y el orden de las reglas), los tipos TemaGuardado,
+ * ProgresoDeTema y TemaTrasJuego y las reglas estrellas, temasTerminados, nivelCasa, etapaPipo, habitacionAbierta,
+ * nivelAbierto, siguienteRegalo, esCumple y trasTerminarJuego.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de este archivo son las reglas mismas, en tablas con
@@ -80,4 +83,32 @@ export function siguienteRegalo<A extends { readonly id: string }>(catalogo: rea
 // si no hay cumpleaños guardado.
 export function esCumple(cumple: { readonly m: number; readonly d: number } | null | undefined, mes: number, dia: number): boolean {
   return !!cumple && cumple.m === mes && cumple.d === dia;
+}
+
+/** Progreso de un tema tal como se guarda (S.temas[id]): veces que se ha terminado cada juego (g, por número) y si el
+ * tema está terminado (done). */
+export interface ProgresoDeTema {
+  g: Record<number, number>;
+  done?: number | boolean;
+}
+
+/** Lo que pasa en un tema al terminar uno de sus juegos (trasTerminarJuego). */
+export interface TemaTrasJuego {
+  /** El progreso nuevo del tema (lo que se guarda en S.temas[id]). */
+  readonly tema: ProgresoDeTema;
+  /** true si era la primera vez que se terminaba ese juego (da figurita y más monedas). */
+  readonly primera: boolean;
+  /** true si con este juego se acaba de terminar el tema: la casita manda al cofre. Solo la primera vez. */
+  readonly fin: boolean;
+}
+
+// trasTerminarJuego(st, juego, juegos): el progreso del tema st (S.temas[id]; nada si aún no se ha jugado) después de
+// terminar su juego número juego, de los juegos que tiene el tema: suma 1 a las veces de ese juego (g[juego]). Si con
+// esto ya están todos terminados y el tema aún no lo estaba, done pasa a 1 y fin es true; si ya estaba terminado, fin
+// es false (el cofre solo se abre una vez). Lo demás que tuviera st se queda igual. No cambia st: devuelve uno nuevo.
+export function trasTerminarJuego(st: Readonly<ProgresoDeTema> | null | undefined, juego: number, juegos: number): TemaTrasJuego {
+  const antes = st ?? { g: {}, done: 0 };
+  const g = { ...antes.g, [juego]: (antes.g[juego] || 0) + 1 };
+  const fin = !antes.done && Array.from({ length: juegos }, (_x, j) => j).every((j) => g[j]);
+  return { tema: fin ? { ...antes, g, done: 1 } : { ...antes, g }, primera: !antes.g[juego], fin };
 }
