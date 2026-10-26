@@ -31,16 +31,17 @@
  *   y suggestTema y stationPos. No cambia nada de escenas/escenas2d.ts (hasta
  *   la fase 4e añadía tipos a GNAME y envolvía la asamblea con el paso de
  *   cumpleaños, que ahora están allí). La capa 3D (mundo3d/) después
- *   envuelve map y las zonas, pone su disposición (escenas/disposicion.ts:
- *   stationPos le pregunta a ella; antes, ponStationPos), cambia casita y cofre por los suyos
- *   y sobrescribe cada cuadro las x/y de ZPOS, MZ2, TITO y HOUSE_AT con las
- *   posiciones 3D proyectadas.
+ *   pone su versión del mapa, las zonas, la casita y el cofre (desde las
+ *   fases 4i y 4j; antes los envolvía) y su disposición (escenas/disposicion.ts:
+ *   stationPos, mzOf y casitaPos le preguntan dónde está cada cosa; antes
+ *   escribía lo proyectado en ZPOS y MZ2), y sobrescribe cada cuadro las x/y
+ *   de TITO y HOUSE_AT con las posiciones 3D proyectadas.
  *
  * Lo que exporta y usan otros archivos (además de los tipos Zona y PosCasita):
  *   ZAGE, ZONES, MAINZ, zoneOf, flowersIn, pathOf, pathDone, mainDone,
  *   zoneOpen, NEED, fiestaNow, started, temaOpen, gameOpen, nextGameOf,
  *   ageZoneOpen, curTema, nextTema, lowName, lockMsg, drawRoad, lockOver,
- *   unlockFx, arrowAt, zonePos, ZPOS, newlyOpen, zoneScene, HOUSE_AT,
+ *   unlockFx, arrowAt, zonePos, ZPOS, casitaPos, newlyOpen, zoneScene, HOUSE_AT,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
  *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
  *   drawSeguir, drawZoneSpot, suggestTema, stationPos,
@@ -198,8 +199,12 @@ export function zonePos(z: string){const P: Record<string, PosCasita>={},L=ZONES
   rows.forEach((r,ri)=>r.forEach((n,j)=>{const t=path[n];if(t)P[t.id]={x:ri===0?440+j*256:ri===1?1290-j*280:450+j*280,y:ys[ri],band:ri,s:1}}));
 // El Rincón de los Conceptos no forma parte del camino: va aparte, abajo a la derecha.
   const c=L.find(t=>t.concepts);if(c)P[c.id]={x:1420,y:690,band:3,s:1};return P}
-// ZPOS[zona][idTema]: posiciones de las casitas. mundo3d/zonas3d.ts las sobrescribe cada cuadro con las casitas 3D proyectadas.
+// ZPOS[zona][idTema]: posiciones 2D de las casitas. Dónde está cada una en la pantalla se pregunta con casitaPos, que en
+// 3D da la proyectada (desde la fase 4j; antes mundo3d/zonas3d.ts las sobrescribía aquí cada cuadro).
 export const ZPOS: Record<string, Record<string, PosCasita>>={};for(const z in ZONES)ZPOS[z]=zonePos(z);
+// casitaPos(z, id): la casita del tema id en la zona z, donde está en la pantalla: si la disposición de la vista lo sabe
+// (disposicion().casita: en 3D, la proyectada), con esa x, y; si no, la de ZPOS (2D). Desde la fase 4j.
+export function casitaPos(z: string,id: string): PosCasita{const p=disposicion().casita?.(z,id),c=ZPOS[z][id];return p?{...c,...p}:c}
 // ¿se abrió algo nuevo desde la última vez? (para la animación del candado)
 // newlyOpen(key, ids): compara la lista ids de cosas abiertas ahora con la guardada en S.seenOpen[key] la última vez,
 // guarda la nueva y devuelve las que se han abierto desde entonces (para animar el candado). La primera vez (sin lista
@@ -208,14 +213,15 @@ export function newlyOpen<C extends string | number>(key: string,ids: C[]): C[]{
 
 // zoneScene(z): crea la escena de una zona de ZONES (jardín, bosque, montaña, fiestas, inglés). Muestra el camino de
 // casitas: abiertas, cerradas con candado, la que toca (curTema) con brillo y flecha, y el contador x/3 del Rincón.
-export function zoneScene(z: string): Escena{const Z=ZONES[z],P=ZPOS[z],path=z==='fiestas'?FIESTAS:pathOf(z);
+// P(id): dónde está la casita id en la pantalla (casitaPos; desde la fase 4j, antes ZPOS[z] directamente).
+export function zoneScene(z: string): Escena{const Z=ZONES[z],P=(id: string)=>casitaPos(z,id),path=z==='fiestas'?FIESTAS:pathOf(z);
   return {music:z==='fiestas'?'plaza':'jardin',
 // enter(o): calcula la casita actual. Prioridad del mensaje: 1) casita recién abierta (newlyOpen, anima su candado);
 // 2) si viene del cofre (o.from) y ya no queda nada, felicita por terminar el camino; 3) saludo (o.hello).
 // Marca S.first[z] para que el saludo largo solo salga la primera vez.
     enter(o: Libre){this.cur=curTema(z);this.unl=null;
       const nw=newlyOpen('z:'+z,Z.temas.filter(temaOpen).map(t=>t.id));
-      if(nw.length){const t=TEMA[nw[0]];this.unl={id:t.id,t:T+1};later(1000,()=>{SFX.sparkle();const p=P[t.id];burst(p.x,p.y,40)});
+      if(nw.length){const t=TEMA[nw[0]];this.unl={id:t.id,t:T+1};later(1000,()=>{SFX.sparkle();const p=P(t.id);burst(p.x,p.y,40)});
         later(500,()=>sayQ('¡Mirá! ¡Se abrió '+(t.concepts?'el Rincón de los Conceptos':'una casita nueva: '+lowName(t))+'! Tocala para jugar.'))}
       else if(o.from&&!this.cur)later(400,()=>sayQ('¡Terminaste todo el camino'+kid()+'! ¡Increíble! Podés repetir la casita que quieras.'))
       else if(o.hello)later(400,()=>this.prompt!(!S.first[z]));
@@ -223,7 +229,7 @@ export function zoneScene(z: string): Escena{const Z=ZONES[z],P=ZPOS[z],path=z==
 // prompt(long): saludo de la zona (si long) y qué casita tocar.
     prompt(long?: boolean){const c=this.cur;say((long?Z.hello:'')+(c?'Tocá la casita que brilla: '+lowName(c)+'.':'¡Terminaste todo el camino! Podés repetir la casita que quieras.'))},
 // hint(): señala la casita que toca.
-    hint(){const c=this.cur;if(!c)return null;const p=P[c.id];return{x:p.x,y:p.y,r:110*p.s}},
+    hint(){const c=this.cur;if(!c)return null;const p=P(c.id);return{x:p.x,y:p.y,r:110*p.s}},
 // dwell(id): id = 'j:' + id de tema; dice su nombre.
     dwell(id: string){const t=TEMA[id.slice(2)];if(t)say(V(t.n)+'.')},
 // draw(): fondo y franjas, el camino (amarillo hasta la casita actual), las casitas (solo las abiertas reaccionan al
@@ -232,18 +238,18 @@ export function zoneScene(z: string): Escena{const Z=ZONES[z],P=ZPOS[z],path=z==
       if(Z.bands){[250,490,725].forEach((y,i)=>{card(250,y-112,i===0?1330:i===1?1120:840,224,Z.bands![i],0,60)});card(1300,580,240,230,Z.cbox,0,50);
         ['hojaNaranja','copo','flor'].forEach((k,i)=>{const y=[250,490,725][i];circ(292,y,40,'#fff',5);pic(k,292,y,62)})}
       else{card(330,250,1140,480,'rgba(255,255,255,.55)',0,60)}
-      const pts=path.map(t=>[P[t.id].x,P[t.id].y]),ci=this.cur?path.indexOf(this.cur):path.length-1;drawRoad(pts,ci<0?0:ci);
-      for(const t of Z.temas){const p=P[t.id],acc=temaOpen(t),s=acc?hv('j:'+t.id,hR(p.x,p.y,220*p.s,220*p.s)):1;
+      const pts=path.map(t=>[P(t.id).x,P(t.id).y]),ci=this.cur?path.indexOf(this.cur):path.length-1;drawRoad(pts,ci<0?0:ci);
+      for(const t of Z.temas){const p=P(t.id),acc=temaOpen(t),s=acc?hv('j:'+t.id,hR(p.x,p.y,220*p.s,220*p.s)):1;
         drawCasita(t,p.x,p.y,{s:s*p.s,glow:this.cur===t});
         const un=this.unl&&this.unl.id===t.id&&unlockFx(p.x,p.y-10,118*p.s,this.unl.t);
         if(!un&&!acc)lockOver(p.x,p.y-10,118*p.s);
         if(this.cur===t&&!(this.unl&&this.unl.id===t.id&&T<this.unl.t+.4))arrowAt(p.x,p.y-150*p.s)}
-      const c=Z.temas.find(t=>t.concepts);if(c&&!temaOpen(c)){const p=P[c.id];card(p.x-70,p.y+104,140,50,'#fff',5,25);flower(p.x-36,p.y+129,12,FLC[0],2.5);text(Math.min(pathDone(z),3)+'/3',p.x+20,p.y+142,32,K,{f:LF})}
+      const c=Z.temas.find(t=>t.concepts);if(c&&!temaOpen(c)){const p=P(c.id);card(p.x-70,p.y+104,140,50,'#fff',5,25);flower(p.x-36,p.y+129,12,FLC[0],2.5);text(Math.min(pathDone(z),3)+'/3',p.x+20,p.y+142,32,K,{f:LF})}
       drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w)},
 // down(x, y): casa -> mapa; Tito -> consigna; monedas -> tienda; casita cerrada -> lockMsg; casita abierta ->
 // go('casita', {t: id, hello: true}).
     down(x: number,y: number){if(atHome(x,y)){SFX.tap();go('map');return}if(inTito(x,y)){this.prompt!(true);return}if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
-      for(const t of Z.temas){const p=P[t.id];if(inR(x,y,p.x,p.y,220*p.s,230*p.s)){
+      for(const t of Z.temas){const p=P(t.id);if(inR(x,y,p.x,p.y,220*p.s,230*p.s)){
         if(!temaOpen(t)){SFX.boing();say(lockMsg(t));return}
         SFX.pop();go('casita',{t:t.id,hello:true});return}}
       SFX.tap();sparkles(x,y)}};
@@ -316,7 +322,8 @@ export function drawTitoHouse(x: number,gy: number,lvl: number,o: Libre={}){cons
 /* ---------- el mapa ---------- */
 // MZ2: los sitios del mapa v3. Formato: {id, x, y, r: radio tocable, name: nombre para la voz, t?: id del tema al que
 // lleva directamente (canciones, trazos, rutinas)}. Al tocarlo: plaza -> asamblea; con t -> su casita; si no ->
-// go(id) (una zona de ZONES, 'album', 'tienda' o 'casaTito'). mundo3d/mapa3d.ts actualiza x/y con la proyección 3D.
+// go(id) (una zona de ZONES, 'album', 'tienda' o 'casaTito'). Son las posiciones 2D: dónde está cada sitio en la
+// pantalla se pregunta con mzOf o lugar, que en 3D dan las proyectadas (desde la fase 4j; antes se escribían aquí).
 export const MZ2=[
   {id:'plaza',x:790,y:500,r:125,name:'la plaza de la asamblea'},
   {id:'jardin',x:390,y:590,r:140,name:'el Jardín de los 3 años'},
@@ -333,8 +340,13 @@ export const MZ2=[
 ];
 // SEGUIR: el botón verde "seguir el camino" del mapa (x, y, r).
 export const SEGUIR={x:340,y:812,r:64};
-// mzOf(id): el sitio de MZ2 con ese id.
-export const mzOf=(id: string)=>MZ2.find(z=>z.id===id)!;
+// lugar(z): el sitio z de MZ2 donde está en la pantalla según la vista: si la disposición de la vista lo sabe
+// (disposicion().lugar, escenas/disposicion.ts: en 3D, el sitio proyectado), con su x, y, r; si no, tal cual (2D).
+// Desde la fase 4j; antes mundo3d/mapa3d.ts escribía las posiciones proyectadas en MZ2.
+function lugar(z: typeof MZ2[number]): typeof MZ2[number]{const p=disposicion().lugar?.(z.id);return p?{...z,...p}:z}
+// mzOf(id): el sitio de MZ2 con ese id, donde está en la pantalla (lugar); undefined si no hay ninguno con ese id (el
+// tipo no lo dice, como antes: quien puede pedir un id que no está lo mira, como el down del mapa 3D).
+export const mzOf=(id: string)=>{const z=MZ2.find(z=>z.id===id);return (z&&lugar(z))!};
 // spotOpen(id): ¿está abierto el sitio id del mapa? Canciones/rutinas/trazos según temaOpen de su tema; fiestas e inglés
 // según NEED; bosque y montaña según zoneOpen; el resto (plaza, jardín, álbum, tienda, casa) siempre (sitioAbierto).
 export const spotOpen=(id: string)=>sitioAbierto(PARTIDA,MAPA,id);
@@ -347,11 +359,10 @@ export const spotNeed=(id: string)=>sitioNecesita(id) as number;
 export const repDue=(): boolean=>tocaRepasar(S,CATALOGO,today(),STARS()), repAllDone=(): boolean=>repasoTerminado(S,today());
 // goSeguir(): acción del botón "seguir el camino": si no se ha hecho la asamblea hoy, va a la asamblea; si toca pasar
 // por el repaso (una vez al día, si toca repasar: seguirPorElRepaso), al repaso; si no, a la casita de nextTema(). Si
-// no queda nada, lo dice. (Lo del repaso está aquí desde la fase 4c; antes escenas/repaso.ts envolvía goSeguir.)
-export let goSeguir: () => void=function(){if(!asamHoy()){go('asamblea');return}if(seguirPorElRepaso(S,CATALOGO,today(),STARS())){go('repaso',{seguir:1});return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
-// ponGoSeguir(f): cambia goSeguir por otra función (mundo3d/mapa3d.ts la envuelve; hasta la fase 4c, también
-// escenas/repaso.ts).
-export function ponGoSeguir(f: typeof goSeguir){goSeguir=f}
+// no queda nada, lo dice. (Lo del repaso está aquí desde la fase 4c; antes escenas/repaso.ts envolvía goSeguir.) Desde
+// la fase 4j es una función normal: el botón del mapa llama a seguir() de la escena, que en 3D hace caminar a Tito
+// antes (mundo3d/mapa3d.ts; antes envolvía goSeguir con ponGoSeguir, que ya no está).
+export function goSeguir(): void{if(!asamHoy()){go('asamblea');return}if(seguirPorElRepaso(S,CATALOGO,today(),STARS())){go('repaso',{seguir:1});return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
 // REPBTN: dónde está el botón del repaso (la lupa) en el mapa, arriba.
 const REPBTN={x:1215,y:66};
 // drawRepBtn(): dibuja el botón del repaso en el mapa (la lupa): con un «!» rojo que late si toca repasar (repDue) y un
@@ -404,7 +415,7 @@ SCENES.map={music:'map',
     let msg=null,fx=null;
     for(const z of['bosque','montana'])if(zoneOpen(z)&&!S.woke![z]){S.woke![z]=1;save();if(ZAGE[z]>AGE()&&!S.unlockAll){this.wake={z,t:T+1};msg='¡Mirá'+kid()+'! ¡Se despertó '+mzOf(z).name+'! Ahora podés jugar ahí también.';break}}
     const nw=newlyOpen('map',MZ2.filter(z=>spotNeed(z.id)&&spotOpen(z.id)).map(z=>z.id));
-    if(!msg&&nw.length){const z=mzOf(nw[0]);this.unl={id:z.id,t:T+1};msg='¡Mirá'+kid()+'! ¡Se '+(/^l[ao]s /.test(z.name)?'abrieron ':'abrió ')+z.name+'! Tocá para jugar.';fx=()=>{SFX.sparkle();burst(z.x,z.y,50)}}
+    if(!msg&&nw.length){const z=mzOf(nw[0]);this.unl={id:z.id,t:T+1};msg='¡Mirá'+kid()+'! ¡Se '+(/^l[ao]s /.test(z.name)?'abrieron ':'abrió ')+z.name+'! Tocá para jugar.';fx=()=>{SFX.sparkle();const q=mzOf(z.id);burst(q.x,q.y,50)}}/* dónde está el sitio cuando salen las chispas (en 3D se mueve) */
     const hl=houseLevel();if(S.houseSeen==null)S.houseSeen=hl;
     if(!msg&&hl>S.houseSeen){S.houseSeen=hl;save();msg=HOUSE_SAY[hl];fx=()=>{this.shake=T;SFX.tada();burst(HOUSE_AT[0],HOUSE_AT[1]-150,80)}}
     const ps=petStage();
@@ -425,6 +436,9 @@ SCENES.map={music:'map',
   prompt(first?: boolean){const h=ahora().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
     if(!asamHoy())say((first?sal+kid()+'! ':'')+'Vamos a la plaza a hacer la asamblea. Tocá la plaza.');
     else say((first?sal+kid()+'! ':'')+'Tocá el botón verde para seguir el camino. También podés ir a la tienda o a la casa de Tito.')},
+// seguir(): el botón verde «seguir el camino» (goSeguir). Desde la fase 4j es un método para que el mapa 3D ponga el
+// suyo (Tito camina antes hasta el sitio).
+  seguir(){goSeguir()},
 // hint(): señala la plaza o el botón de seguir.
   hint(){if(!asamHoy()){const z=mzOf('plaza');return{x:z.x,y:z.y,r:z.r*.8}}return{x:SEGUIR.x,y:SEGUIR.y,r:SEGUIR.r+10}},
 // dwell(id): dice el nombre del sitio bajo el ratón ('mz' + id) y si está cerrado o dormido; la lupa, «El repaso con
@@ -438,8 +452,8 @@ SCENES.map={music:'map',
     for(let i=0;i<14;i++){const x=(i*233)%1600,y=60+(i*137)%800;ctx.beginPath();ctx.moveTo(x+Math.sin(T+i)*10,y);ctx.quadraticCurveTo(x+20,y-14,x+40,y);ctx.quadraticCurveTo(x+60,y+14,x+80,y);ctx.lineWidth=6;ctx.strokeStyle='#B9E9F8';ctx.lineCap='round';ctx.stroke()}
     ctx.beginPath();ctx.moveTo(150,560);ctx.bezierCurveTo(100,330,180,170,420,170);ctx.bezierCurveTo(640,130,1000,130,1250,170);ctx.bezierCurveTo(1500,170,1590,330,1570,520);ctx.bezierCurveTo(1580,760,1400,880,1100,870);ctx.bezierCurveTo(840,895,520,885,330,850);ctx.bezierCurveTo(180,810,160,690,150,560);ctx.closePath();fillStroke('#BFE6A0',8);
     const P=mzOf('plaza');ctx.lineCap='round';
-    for(const z of MZ2){if(z.id==='plaza')continue;ctx.beginPath();ctx.moveTo(P.x,P.y);ctx.quadraticCurveTo((P.x+z.x)/2+(z.y-P.y)*.12,(P.y+z.y)/2-(z.x-P.x)*.08,z.x,z.y);ctx.lineWidth=34;ctx.strokeStyle='#FFF3D6';ctx.stroke();ctx.lineWidth=8;ctx.setLineDash([4,28]);ctx.strokeStyle='#E4CFA0';ctx.stroke();ctx.setLineDash([])}
-    for(const z of MZ2)drawZoneSpot(z,{glow:z.id==='plaza'?!asamHoy():false,wake:this.wake&&this.wake.z===z.id?this.wake.t:0,unl:this.unl&&this.unl.id===z.id?this.unl.t:0,shake:this.shake,petJump:this.petJump});
+    for(const z of MZ2.map(lugar)){if(z.id==='plaza')continue;ctx.beginPath();ctx.moveTo(P.x,P.y);ctx.quadraticCurveTo((P.x+z.x)/2+(z.y-P.y)*.12,(P.y+z.y)/2-(z.x-P.x)*.08,z.x,z.y);ctx.lineWidth=34;ctx.strokeStyle='#FFF3D6';ctx.stroke();ctx.lineWidth=8;ctx.setLineDash([4,28]);ctx.strokeStyle='#E4CFA0';ctx.stroke();ctx.setLineDash([])}
+    for(const z of MZ2.map(lugar))drawZoneSpot(z,{glow:z.id==='plaza'?!asamHoy():false,wake:this.wake&&this.wake.z===z.id?this.wake.t:0,unl:this.unl&&this.unl.id===z.id?this.unl.t:0,shake:this.shake,petJump:this.petJump});
     card(560,22,480,88,'#fff',6,44);drawLogoSmall(800,86,56);
     drawSeguir();
     drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w);
@@ -452,9 +466,9 @@ SCENES.map={music:'map',
     if(atHome(x,y)){SFX.tap();go('title');return}
     if(inTito(x,y)){this.prompt!(false);return}
     if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
-    if(dist(x,y,SEGUIR.x,SEGUIR.y)<SEGUIR.r+10){SFX.pop();goSeguir();return}
+    if(dist(x,y,SEGUIR.x,SEGUIR.y)<SEGUIR.r+10){SFX.pop();this.seguir!();return}
     if(dist(x,y,HOUSE_AT[0]+170,HOUSE_AT[1]-10)<55){this.petJump=T;SFX.boing();const ps=petStage();say(ps===0?'Es un huevo misterioso. Le '+((PET_NEXT[0]-STARS())===1?'falta un juego':'faltan '+(PET_NEXT[0]-STARS())+' juegos')+' para abrirse.':'¡Hola! Soy Pipo, el dinosaurio de Tito.');return}
-    const z=MZ2.filter(z=>dist(x,y,z.x,z.y)<z.r).sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
+    const z=MZ2.map(lugar).filter(z=>dist(x,y,z.x,z.y)<z.r).sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
 // El sitio más cercano al dedo gana si se tocan dos a la vez (círculos que se solapan).
     if(z){
       if(ZAGE[z.id]&&!zoneOpen(z.id)){SFX.boing();const prev=z.id==='bosque'?'jardin':'bosque',f=flowersIn(prev);say(cap(z.name)+' todavía está '+(z.id==='montana'?'dormida':'dormido')+'. Se despierta cuando Tito tenga seis flores '+(prev==='jardin'?'del jardín':'del bosque')+(f?'. ¡Ya tiene '+(f===1?'una':NUM[f]||f)+'!':'.'));return}
@@ -470,7 +484,7 @@ SCENES.map={music:'map',
 // (disposicion(), de escenas/disposicion.ts: en 3D, los puestos proyectados). Si no lo sabe, la de la vista 2D,
 // formando un camino: hasta 4 en una fila; hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al
 // revés (zigzag). Desde la fase 4d está solo aquí (antes había otra en escenas/escenas2d.ts).
-export function stationPos(t: Tema,j: number): number[]{const p=disposicion()?.puesto(t,j);if(p)return p;
+export function stationPos(t: Tema,j: number): number[]{const p=disposicion().puesto?.(t,j);if(p)return p;
   const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
   if(n<=6){const r=Math.floor(j/3),c=j%3;return[540+(r?2-c:c)*360,r?700:420]}
   const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]}

@@ -3,8 +3,9 @@
  * (slab), las casitas de tema (casita3), el camino (roadPts, que usa también la casita), lo que adorna cada zona
  * (zoneDecor: aquí se añade un objeto 3D nuevo a una zona, ver docs/COMO-AGREGAR.md) y buildZone, que monta el mundo.
  * Las posiciones 2D de las casitas (ZPOS, escenas/zonas.ts) se pasan al suelo con ZX; ZSTYLE da los colores de cada zona.
- * montarZonas3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) guarda en ZPB las posiciones 2D originales y
- * convierte en 3D la escena de cada zona de ZONES (como el mapa: cada cuadro proyecta las casitas a ZPOS).
+ * montarZonas3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de las casitas
+ * (escenas/disposicion.ts: lo que proyecta sync() cada cuadro, en ZP3) y pone en SCENES la zona 3D de cada zona de
+ * ZONES, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía y escribía lo proyectado en ZPOS).
  * Exporta: roadPts y montarZonas3D. Importa: del núcleo, temas/, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja
  * y lee cada zona; ahora() (aplicacion/puertos.ts); el motor, las piezas y lo de los demás módulos de mundo3d/.
  */
@@ -16,7 +17,8 @@ import { K } from '../dibujos/todos.ts';
 import { DF, DIAC, FLC, LF, PI, SCENES, SFX, T, TITO, V, VIVO, atHome, cap, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text } from '../nucleo/indice.ts';
 import { FIESTAS } from '../temas/indice.ts';
 import { TEMA, gDone, isBday, tst } from '../escenas/escenas2d.ts';
-import { MAINZ, ZONES, ZPOS, pathDone, pathOf, temaOpen } from '../escenas/zonas.ts';
+import { MAINZ, ZONES, ZPOS, casitaPos, pathDone, pathOf, temaOpen } from '../escenas/zonas.ts';
+import { ponDisposicion } from '../escenas/disposicion.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
 import { ahora } from '../aplicacion/puertos.ts';
@@ -30,11 +32,12 @@ import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 
 /* ================= LAS ZONAS: un camino de casitas en 3D ================= */
 // ZX(x,y): pasa un punto 2D de una zona (ZPOS, escenas/zonas.ts) a [x,z] del suelo 3D de la zona (37 píxeles = 1 unidad)
-// ZPB: copia de las posiciones 2D originales de cada casita (ZPOS[zona][idTema]); sync() sobrescribe ZPOS con las proyectadas.
-// La llena montarZonas3D.
+// ZP3[zona][idTema]: dónde ha quedado en la pantalla cada casita {x,y}, lo último que proyectó sync(). Es la disposición
+// de las casitas (escenas/disposicion.ts: casitaPos la pregunta). Desde la fase 4j; antes sync() escribía en ZPOS y una
+// copia, ZPB, guardaba las posiciones 2D (ahora ZPOS no cambia).
 // ZSTYLE: colores de cada zona {bg: cielo, g: césped, e: borde de tierra}.
 const ZX=(x: number,y: number): PuntoSuelo=>[(x-930)/37,(y-490)/37];
-const ZPB: Record<string, Record<string, {x: number; y: number}>>={};
+const ZP3: Record<string, Record<string, {x: number; y: number}>>={};
 const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},ingles:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'}};
 // slab(to,w,d,c,e,y,r): losa de suelo con esquinas redondeadas (ancho w, fondo d, radio r) con césped c y borde e, a la altura y.
 // La añade a to (con contorno) y devuelve la malla (se usa como w.ground).
@@ -99,7 +102,7 @@ function buildZone(z: string,st: Escena){const Z=ZONES[z],sty=ZSTYLE[z]||ZSTYLE.
     if(!acc&&mo0>=8&&mo0<=10){const h=new THREE.Group();h.position.set(.32,1.22,.3);h.rotation.z=.9;G.add(h);mk(Sph(.42,12,8),'#E8703C',{s:[1,.5,.25],ol:.03,cs:false,rs:false,to:h});mk(Cyl(.025,.025,.3,5),'#8A5A2E',{p:[-.38,-.04,0],r:[0,0,PI/2],ol:0,cs:false,rs:false,to:h});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}/* en otoño, una hoja en la cabeza */sunRays(w,-12,sy,-19,C[0],C[1]);skyClouds(w);skyBirds(w)}else if(!skyNow().night)mountEagle(w);/* en la montaña, de día, un águila *//* al atardecer, el sol está más bajo y naranja *//* de día, un sol en el mismo sitio (en la montaña no: la tapa el pico) */
   for(let i=0;i<4;i++)cloud3(w.sc,-20+i*13,10+(i%2)*1.5,-14,.9);
   const main=MAINZ.includes(z),path=z==='fiestas'?FIESTAS:main?pathOf(z):Z.temas,B: Record<string, PuntoSuelo>=w.base={};
-  for(const t of Z.temas)B[t.id]=ZX(ZPB[z][t.id].x,ZPB[z][t.id].y);
+  for(const t of Z.temas)B[t.id]=ZX(ZPOS[z][t.id].x,ZPOS[z][t.id].y);
   // carteles de estación de cada fila: en el borde (x≈-17) quedaban detrás de los árboles o fuera de la pantalla;
   // ahora van detrás de la fila, entre la 1.ª y la 2.ª casita, y Tito los esquiva al pasear
   if(main){['hojaNaranja','copo','flor'].forEach((k,i)=>{const zz=ZX(292,[250,490,725][i])[1]-1.8,x=-10.2;const g=grp(w.sc,[x,0,zz]);g.userData.sign=1;g.userData.sk=i;(w.avoid=w.avoid||[]).push([x,zz,.8]);mk(Cyl(.07,.07,1.4,6),'#C98A4B',{p:[0,.7,0],to:g,ol:.025});spr(canvasTex(160,160,()=>{circ(80,80,68,'#fff',8);pic(k,80,80,104)},'season'+k),1.4,1.4,{p:[0,1.75,0],to:g})})}
@@ -119,32 +122,35 @@ function buildZone(z: string,st: Escena){const Z=ZONES[z],sty=ZSTYLE[z]||ZSTYLE.
         else{L.position.y=2.85+Math.sin(T*2+g.position.x)*.1;const sh=st.lockShake&&st.lockShake.id===id?Math.max(0,1-(T-st.lockShake.t)*2):0;L.rotation.z=Math.sin(T*40)*.3*sh}}}});
   wobInit(w);
   camRig(w,V3(0,20,24.5),V3(0,0,-.9),1.4);return w}
-// montarZonas3D(): convierte en 3D las escenas de las zonas. La llama mundo3d/mundo3d.ts al montar la capa 3D.
+// montarZonas3D(): pone cada zona de ZONES en 3D en lugar de la 2D (SCENES[z]) y la disposición de las casitas (las
+// proyectadas). La llama mundo3d/mundo3d.ts al montar la capa 3D. Desde la fase 4j cada zona 3D es otra escena, no una
+// envoltura: copia de la zona 2D (zona2D, de escenas/zonas.ts, que no se toca) la lógica (prompt, hint...) y pone su
+// enter, sync, draw y down, que llaman a los del 2D cuando hace falta la lógica de siempre.
 export function montarZonas3D(): void{
-// primero, la copia de las posiciones 2D originales de las casitas (antes de que sync() las cambie)
-for(const z in ZPOS){ZPB[z]={};for(const id in ZPOS[z])ZPB[z][id]={x:ZPOS[z][id].x,y:ZPOS[z][id].y}}
-// Convierte en 3D las escenas de cada zona de ZONES (igual que el mapa): se guardan enter/down originales y se sustituyen.
-for(const z in ZONES){const S0=SCENES[z],enter0=S0.enter!,down0=S0.down!;
-  Object.assign(S0,{three:true,
+// casita(z,id): la casita id de la zona z, donde la dejó la última proyección (ZP3); null si aún no se ha proyectado
+ponDisposicion({casita:(z,id)=>ZP3[z]?.[id]||null});
+for(const z in ZONES){const zona2D=SCENES[z];
+  SCENES[z]={...zona2D,three:true,
     // enter(o): entra a la zona (o.from = tema del que se viene, ahí aparece Tito) y construye su mundo 3D
-    enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;enter0!.call(this,o);if(sceneName!==z)return;if(o&&o.from)this.titoAt=o.from;setWorld(buildZone(z,this));this.sync()},
-    // sync(): proyecta cada casita a la pantalla y la escribe en ZPOS (lógica 2D de escenas/zonas.ts); también Tito
-    sync(){const w=W3;if(!w||w.kind!=='zone')return;const P=ZPOS[z];for(const id in w.cas){const [x,y]=projR(w.cas[id],1.6,1.3);P[id].x=x;P[id].y=y}titoRect(w.tito!)},
+    enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;zona2D.enter!.call(this,o);if(sceneName!==z)return;if(o&&o.from)this.titoAt=o.from;setWorld(buildZone(z,this));this.sync()},
+    // sync(): proyecta cada casita a la pantalla y la apunta en ZP3 (la disposición: así casitaPos y la lógica 2D de
+    // escenas/zonas.ts aciertan); también Tito
+    sync(){const w=W3;if(!w||w.kind!=='zone')return;const P=ZP3[z]||(ZP3[z]={});for(const id in w.cas){const [x,y]=projR(w.cas[id],1.6,1.3);P[id]={x,y}}titoRect(w.tito!)},
     // draw(): cada cuadro: qué casita hay bajo el ratón, cartel con el nombre de la zona y de la casita, botones y bocadillo de Tito
     draw(){this.sync();const w=W3,Z=ZONES[z];let hv_=null;
       let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.tema){hv_=u.tema;VIVO.hovNow='j:'+u.tema}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
       {const nm=cap(Z.name);ctx.font=`600 44px ${DF}`;const tw=Math.min(900,ctx.measureText(nm).width);card(800-tw/2-40,26,tw+80,80,'rgba(255,255,255,.92)',6,40);text(nm,800,82,44,K,{w:600})}
       // nombre de la casita bajo el ratón; en la fila de arriba no se monta sobre el cartel de la zona
-      if(hv_){const t=TEMA[hv_],p=ZPOS[z][hv_];ctx.font=`600 32px ${DF}`;const nm=t.concepts?'Rincón de los Conceptos':V(t.n),tw=ctx.measureText(nm).width,cy=Math.max(p.y-178,116);card(p.x-tw/2-24,cy,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p.x,cy+38,32,K,{w:600})}
+      if(hv_){const t=TEMA[hv_],p=casitaPos(z,hv_);ctx.font=`600 32px ${DF}`;const nm=t.concepts?'Rincón de los Conceptos':V(t.n),tw=ctx.measureText(nm).width,cy=Math.max(p.y-178,116);card(p.x-tw/2-24,cy,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p.x,cy+38,32,K,{w:600})}
       drawHome();drawCoinHUD();
       if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
     // down(x,y): toque en la zona: botones; objetos que vuelan; nada -> objeto tocable, cielo (skyTap) o pasear; Tito -> salta;
     // casita cerrada -> tiembla el candado; casita abierta -> Tito camina hasta ella y luego se entra (down original)
     down(x: number,y: number){const w=W3;if(!w||busy3(w))return;
-      if(atHome(x,y)||inCoinHUD(x,y))return call0(down0,this,x,y);
+      if(atHome(x,y)||inCoinHUD(x,y))return call0(zona2D.down!,this,x,y);
       const u=pickAt(x,y);if(flyTap(w,x,y))return;if(!u){if(wobTap(w,x,y))return;if(y<260&&!(w.ground&&RC.intersectObject(w.ground,false)[0])){skyTap(x,y,w);return}/* tocar el cielo vacío */SFX.tap();if(skyNow().night)ffTap(x,y);else sparkles(x,y);walkGround(w);return}
       if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt!(true);return}
-      const t=TEMA[u.tema];if(!t)return;const p=ZPOS[z][t.id];
-      if(!temaOpen(t)){this.lockShake={id:t.id,t:T};return call0(down0,this,p.x,p.y)}
-      const g=w.cas![t.id];this.titoAt=t.id;walkTo(w,w.tito!,g.position.clone().add(V3(1.9,0,1.5)),()=>{if(sceneName===z)call0(down0,this,p.x,p.y)},{zoom:V3(0,7,6)})}} satisfies Escena)}
+      const t=TEMA[u.tema];if(!t)return;const p=casitaPos(z,t.id);
+      if(!temaOpen(t)){this.lockShake={id:t.id,t:T};return call0(zona2D.down!,this,p.x,p.y)}
+      const g=w.cas![t.id];this.titoAt=t.id;walkTo(w,w.tito!,g.position.clone().add(V3(1.9,0,1.5)),()=>{if(sceneName===z){const q=casitaPos(z,t.id);call0(zona2D.down!,this,q.x,q.y)}}/* al llegar, la casita donde está entonces (la cámara se ha movido) */,{zoom:V3(0,7,6)})}} satisfies Escena}
 }
