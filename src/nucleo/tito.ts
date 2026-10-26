@@ -1,5 +1,5 @@
 // tito.ts: Tito en las escenas 2D (en el mapa 3D lo dibuja mundo3d/personajes.ts).
-//   TITO, titoPos() (desde la fase 4k: dónde está Tito según la vista, nucleo/disposicion.ts), temasDone(), STARS(), FLPOS, FLC, titoKind(), TITO_EYES, TITO_2D, drawTito(), inTito(), ponRopaTito().
+//   TITO, titoPos() (desde la fase 4k: dónde está Tito según la vista, nucleo/disposicion.ts), temasDone(), STARS(), FLPOS, FLC, titoKind(), TITO_EYES, TITO_2D, drawTito(), inTito(), ponRopaTito(), SHELLC y SCARFC (fase 4q).
 // La ropa y los colores comprados en la tienda los pone escenas/tienda.ts con ponRopaTito (si no, Tito sale con su dibujo de
 // siempre y sin ropa). Las reglas de temasDone y STARS están en dominio/progreso.ts (temasTerminados y estrellas).
 import { K } from '../dibujos/todos.ts';
@@ -74,3 +74,9 @@ export function drawTito(x: number,y: number,w: number,o: OpcionesTito={}): void
 }
 // inTito(x,y): ¿el punto toca a Tito? (rectángulo aproximado alrededor de Tito donde está en la pantalla, titoPos).
 export const inTito=(x: number,y: number): boolean=>{const t=titoPos();return x>t.x&&x<t.x+t.w&&y>t.y-40&&y<t.y+t.w*.85};
+// Colores de Tito (desde la fase 4q aquí; antes en escenas/tienda.ts, que los vende; también los usan el icono del
+// caparazón de escenas/zonas.ts y Tito 3D, en mundo3d/personajes.ts).
+// Colores del caparazón (o púas, caparazón de tortuga, mochila del conejo): nombre → [relleno, borde].
+export const SHELLC: Record<string,[string,string]>={naranja:['#FFA94D','#D9762A'],azul:['#7FB0FF','#4A6FD0'],rosa:['#F58BB4','#C95A8A'],verde:['#7FD8C8','#3E9E8E'],violeta:['#B9A6F0','#7A62C9'],dorado:['#FFD34E','#C9962A']};
+// Colores de la bufanda: nombre → color.
+export const SCARFC: Record<string,string>={roja:'#FF6B5E',azul:'#5B8DEF',amarilla:'#FFC93C',violeta:'#9B8AD9'};

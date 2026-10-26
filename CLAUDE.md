@@ -9,7 +9,7 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   el núcleo de `src/nucleo/`, antes `core.js`, `src/contenido/`, `src/juegos/`, `src/temas/`, las escenas de
   `src/escenas/`, `src/aplicacion/` y la capa 3D de `src/mundo3d/`, antes `world3d.js`): ya no queda código global. Lo
   que varios archivos cambian va en `VIVO` o se cambia con las funciones `pon*`. El puente deja lo de los módulos en
-  `globalThis` siempre al día y de solo lectura, para las pruebas y para `src/tardias.d.ts`. Desde la fase 3, las
+  `globalThis` siempre al día y de solo lectura, para las pruebas. Desde la fase 3, las
   reglas del juego (apertura, progreso y premios, monedas, repaso diario, dificultad, y la versión y las migraciones de
   la partida, `S.ver`) están en `src/dominio/`, sin dibujo ni `S`, con pruebas de Vitest; y la hora, el azar y lo
   guardado se piden a sus puertos (`ahora()`, `azar()`, `leerGuardado()`... en `src/aplicacion/puertos.ts`), con los

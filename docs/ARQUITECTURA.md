@@ -56,10 +56,11 @@ fase 2p había además otro `<script>` con el **código global**: los `.js` que 
 
 **El orden importa**: los módulos se evalúan en el orden de los `import` de `src/modulos.ts` (y, dentro de cada carpeta,
 en el de su `indice.ts`), que es el de la tabla. Un módulo que va antes no puede importar de uno que va después (sería un
-ciclo de imports): lo poco que usa de él, solo al jugar o al dibujar, cuando ya está todo cargado, está declarado en
-`src/tardias.d.ts` y lo encuentra por su nombre gracias al puente.
+ciclo de imports). Hasta la fase 4q, lo poco que usaba de él estaba declarado en `src/tardias.d.ts` y lo encontraba
+por su nombre gracias al puente; ya no queda nada así: cada módulo importa lo que usa, y lo que necesitan varios está
+en un módulo que se carga antes que todos ellos.
 
-`src/modulos.ts` deja en `globalThis` todo lo que exportan los módulos (el **puente**), para esos usos tardíos y para
+`src/modulos.ts` deja en `globalThis` todo lo que exportan los módulos (el **puente**), para
 las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md)). Desde la
 fase 4n, un módulo solo exporta lo que usan otros archivos o las pruebas: lo que solo usa él va sin `export` (antes,
 cuando todo era global, se exportaba todo).
@@ -98,11 +99,11 @@ cuando todo era global, se exportaba todo).
 | — | `dominio/dificultad.ts` (la importa `nucleo/guardado.ts`, así que se carga con el núcleo) | **Reglas de la dificultad** (dominio, desde la fase 3e): la edad que cuenta (`AGE`), cuántas opciones (`nOpts`) y rondas (`nRounds`) tiene un juego según la edad y las repeticiones (`VIVO.REP`), y la dificultad adaptativa (`VIVO.ADAPT`: sube con 4 aciertos seguidos a la primera y baja al fallar dos veces). Pruebas en `tests/unidad/dificultad.test.ts`. |
 | — | `dominio/partida.ts` (la importa `nucleo/guardado.ts`, así que se carga con el núcleo) | **Versión y migraciones de la partida** (dominio, desde la fase 3f): `VERSION_PARTIDA` (la de `S.ver`), los pasos que ponen al día una partida vieja (`MIGRACIONES`) y `migrar`, que `load()` y el evento `storage` usan antes de arreglar la partida (`sanoS`, `sanoHondo`). También `esPartida` (lo usa también la copia de seguridad). Pruebas en `tests/unidad/partida.test.ts`. |
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2`. Desde la fase 4b no envuelve nada: las monedas de los juegos las dan `onRight` y `finishGame`. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
+| 11 | `escenas/cofre.ts` (desde la fase 4q; `escenas/indice.ts` la carga después de `tienda.ts`) | **El cofre del tesoro** (módulo): la escena del cofre, los regalos (`GIFTS`, `nextGift`, `grantGift`) y `cofrePend` (los cofres que quedaron sin abrir, al arrancar). Hasta la fase 4q estaba al final de `escenas/zonas.ts`. |
 | 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Las reglas del repaso, en `dominio/repaso.ts`, y lo que se hace con ellas, en el caso de uso `aplicacion/repasoDelDia.ts`. Desde la fase 4c no envuelve nada: `rec` (núcleo) apunta lo de cada juego, `go` (núcleo) olvida el repaso al salir de él, y el mapa, `goSeguir` y la casita (`escenas/zonas.ts`) traen lo suyo; desde la 4b, la fecha del juego y el repaso hecho los apunta `terminarJuego`, y `REP_ON` está en el núcleo (lo pone con `ponRepOn`). |
 | 13 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga después de las escenas y, desde la fase 4p, antes de la aplicación; tipos en `mundo3d/tipos.ts` y `THREE` en `mundo3d/three.d.ts`) | **La capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. `mundo3d.ts` es la entrada: si hay Three.js y WebGL, monta el motor y cada escena 3D (y exporta `R3frame`). Cada parte está en su módulo de `mundo3d/` (fases 4g y 4h, ver el apartado 8): `motor.ts`, `materiales.ts`, `decorado.ts`, `cielo.ts`, `objetos.ts`, `personajes.ts`, `interaccion.ts`, `mapa3d.ts`, `zonas3d.ts`, `casita3d.ts`, `cofre3d.ts` y `portada3d.ts`. Ninguno crea nada al cargarse. |
 | 14 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga después de las escenas y, desde la fase 4p, de la capa 3D, porque el bucle usa `R3frame`; los diálogos del nombre y de empezar de nuevo están en `aplicacion/dialogos.ts`, que importan las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
 | 15 | `aplicacion/arranque.ts` (antes `boot.js`, el último archivo global; `modulos.ts` llama a `arrancar()` al final) | **Arranque** (módulo): entrega los cofres que quedaron sin abrir, espera a las fuentes, va a la portada y empieza el bucle. |
-| — | `tardias.d.ts` | Tipos de lo que un módulo usa de otro que se carga después (lo encuentra por el puente). No cambia el juego. Se va vaciando desde la fase 4o: desde la 4p solo quedan seis nombres de la tienda. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
 
 **Dominio** (`src/dominio/`, desde la fase 3): las reglas del juego, en TypeScript puro. No saben nada de lienzos,

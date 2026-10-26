@@ -3,11 +3,13 @@
 // Cómo encaja: se ganan monedas al acertar en los juegos (onRight, en nucleo/interfaz.ts) y al terminar un juego
 //   (finishGame, en escenas/escenas2d.ts); se gastan en SCENES.tienda; lo comprado se ve en Tito (titoImg,
 //   drawTitoWear) o en SCENES.casaTito.
-//   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en escenas/zonas.ts, pero usan SHOP, wear y placeHome.
+//   Los regalos del cofre (GIFTS, nextGift, grantGift) NO están aquí sino en escenas/cofre.ts (desde la fase 4q; antes
+//   en escenas/zonas.ts), que se carga después e importa SHOP, wear y placeHome.
 //   Los vales los configura un adulto en aplicacion/adultos.ts (S.vales) y se compran aquí (quedan apuntados en S.valesLog).
 // Desde la fase 2l es un módulo: escenas/indice.ts lo carga después de zonas.ts, y el puente deja lo que exporta en
-//   globalThis para las pruebas (escenas/repaso.ts, aplicacion/adultos.ts y los módulos de mundo3d/ lo importan). Los módulos que van
-//   antes (zonas.ts, temas/, nucleo/guardado.ts...) lo usan como global, con los tipos de src/tardias.d.ts.
+//   globalThis para las pruebas (escenas/repaso.ts, aplicacion/adultos.ts y los módulos de mundo3d/ lo importan, y desde la fase 4q
+//   también escenas/cofre.ts). Hasta la fase 4q, escenas/zonas.ts, que va antes, usaba parte de lo de aquí como global
+//   tardía; ahora el cofre está en escenas/cofre.ts y los colores de Tito, SHELLC y SCARFC, en el núcleo (nucleo/tito.ts).
 // Define: DEF2, VALES_DEF, HATPOS, titoHouseIc,
 //   SHOPCAT, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
 //   homeAction, homeLight, roomBg y las escenas SCENES.tienda y SCENES.casaTito.
@@ -23,7 +25,7 @@
 //   y de dominio/monedas.ts (alcanza).
 import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCENES, SFX, STARS, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, SFX, SHELLC, STARS, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
@@ -109,10 +111,7 @@ if(!S.vales)S.vales=JSON.parse(JSON.stringify(VALES_DEF));
 // terminar un juego, finishGame (escenas/escenas2d.ts): este archivo ya no envuelve ninguna de las dos.
 
 /* ---------- Tito con ropa y colores ---------- */
-// Colores del caparazón (o púas, caparazón de tortuga, mochila del conejo): nombre → [relleno, borde].
-export const SHELLC: Record<string,[string,string]>={naranja:['#FFA94D','#D9762A'],azul:['#7FB0FF','#4A6FD0'],rosa:['#F58BB4','#C95A8A'],verde:['#7FD8C8','#3E9E8E'],violeta:['#B9A6F0','#7A62C9'],dorado:['#FFD34E','#C9962A']};
-// Colores de la bufanda: nombre → color.
-export const SCARFC: Record<string,string>={roja:'#FF6B5E',azul:'#5B8DEF',amarilla:'#FFC93C',violeta:'#9B8AD9'};
+// SHELLC y SCARFC (los colores del caparazón y de la bufanda) están desde la fase 4q en el núcleo (nucleo/tito.ts).
 // Caché de imágenes de Tito ya coloreadas, por clave "animal|caparazón|bufanda".
 const TITOIMG: Record<string,HTMLImageElement>={};
 // Devuelve la imagen de Tito con los colores elegidos en S.tito. Crea (una sola vez) un SVG cambiando los

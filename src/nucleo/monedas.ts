@@ -3,7 +3,7 @@
 // Desde la fase 4a de docs/PLAN-MIGRACION.md es un módulo aparte (antes estaba dentro de escenas/tienda.ts), y desde la
 //   4b está en el núcleo (en la 4a estaba en escenas/monedas.ts): onRight (nucleo/interfaz.ts) da aquí la moneda de
 //   cada acierto, sin que escenas/tienda.ts la envuelva. Las escenas, aplicacion/adultos.ts y la capa 3D (mundo3d/) lo
-//   importan del núcleo (src/tardias.d.ts ya no lo declara). Las reglas (cuántas monedas da cada cosa, ganar y gastar)
+//   importan del núcleo. Las reglas (cuántas monedas da cada cosa, ganar y gastar)
 //   están en dominio/monedas.ts; aquí solo se suman a S y se animan.
 // Exporta: creditCoins, drawCoinHUD, inCoinHUD, giveCoins, spendCoins y drawCoinFx.
 // Importa: del núcleo, pantalla.ts (LF, T, ctx, VIVO), utilidades.ts (inR, lerp, back, clamp, rnd, PI), guardado.ts
