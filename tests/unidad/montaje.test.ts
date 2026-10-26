@@ -107,7 +107,7 @@ describe('paginaJuego', () => {
     // escenas/zonas.ts: las zonas, sus escenas (con el mapa y la casita, desde la fase 4d solo aquí) y las reglas del camino.
     expect(runInContext("Object.keys(ZONES).join() + ' ' + ['map', 'casita', 'jardin', 'bosque', 'montana', 'fiestas', 'ingles', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,ingles true');
     expect(runInContext("S.age = 3; [zoneOpen('jardin'), temaOpen(T3[0]), curTema('jardin') === T3[0], suggestTema() === T3[0]].join()", global)).toBe('true,true,true,true');
-    for (const k of ['goSeguir', 'ponGoSeguir', 'suggestTema', 'stationPos', 'zoneScene', 'grantGift']) expect(typeof global[k], k).toBe('function');
+    for (const k of ['goSeguir', 'suggestTema', 'stationPos', 'zoneScene', 'grantGift']) expect(typeof global[k], k).toBe('function');
     // escenas/tienda.ts: monedas, tienda y casa de Tito (añade los campos de DEF2 a S y las escenas tienda y casaTito).
     expect(runInContext("[S.coins, S.tito.shell, S.vales.length, SHOP.length > 50, typeof SCENES.tienda.draw, typeof SCENES.casaTito.draw].join()", global)).toBe('0,naranja,6,true,function,function');
     for (const k of ['giveCoins', 'creditCoins', 'STARS', 'drawCoinHUD', 'placeHome', 'wear', 'roomsOpen']) expect(typeof global[k], k).toBe('function');

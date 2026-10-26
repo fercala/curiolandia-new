@@ -2,10 +2,10 @@
  * mundo3d/mapa3d.ts: el mapa en 3D, la isla de Curiolandia (desde la fase 4h; antes, en mundo3d/mundo3d.ts): el mar
  * (sea3), la isla (island3), cada lugar del mapa (SPOT3, colocados con MAPPOS y MP), la casa de Tito con Pipo, los
  * lugares dormidos (zzz) o aún cerrados (greyAll) y buildMap, que monta el mundo entero.
- * montarMapa3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) guarda en MZB las posiciones 2D de los lugares (MZ2)
- * y convierte la escena del mapa (SCENES.map) en 3D: guarda su enter/down originales y pone los nuevos (enter, sync,
- * draw, down...), que cada cuadro proyectan los lugares 3D a MZ2 para que la lógica 2D de escenas/zonas.ts acierte.
- * También envuelve goSeguir (ponGoSeguir): Tito camina hasta el lugar antes de entrar.
+ * montarMapa3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de los lugares
+ * (escenas/disposicion.ts: lo que proyecta sync() cada cuadro, en MZP, para que mzOf y la lógica 2D de escenas/zonas.ts
+ * acierten) y pone en SCENES.map el mapa 3D, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía,
+ * escribía lo proyectado en MZ2 y envolvía goSeguir). Su seguir() hace que Tito camine hasta el lugar antes de entrar.
  * Exporta: montarMapa3D. Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa;
  * ahora() (aplicacion/puertos.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
@@ -16,7 +16,8 @@ import type { Mundo, Nodo, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, DIAC, FLC, LF, PI, S, SCENES, SFX, T, TITO, VIVO, atHome, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, fillStroke, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, tx } from '../nucleo/indice.ts';
 import { asamHoy, drawLogoSmall } from '../escenas/escenas2d.ts';
-import { HOUSE_AT, MAINZ, MZ2, SEGUIR, ZAGE, drawSeguir, goSeguir, houseLevel, mzOf, nextTema, petStage, ponGoSeguir, spotNeed, spotOpen, zoneOpen } from '../escenas/zonas.ts';
+import { HOUSE_AT, MAINZ, MZ2, SEGUIR, ZAGE, drawSeguir, goSeguir, houseLevel, mzOf, nextTema, petStage, spotNeed, spotOpen, zoneOpen } from '../escenas/zonas.ts';
+import { ponDisposicion } from '../escenas/disposicion.ts';
 import { W3, camRig, newWorld, pickAt, projO, projR, setWorld } from './motor.ts';
 import { Box, Cone, Cyl, M, OLm, Sph, V3, canvasTex, flowerTex, gradiente, grp, mg, mk, olGeo, picTex, pillSpr, pillTex, plane, prism, spr, starGeo } from './materiales.ts';
 import { bez, bush3, fhit, fireflies, flower3, gull3, lock3, ribbon, ring3, rock3, tree3 } from './decorado.ts';
@@ -26,11 +27,12 @@ import { ffTap, makeHouse, makePipo, makeTito, titoHearts, titoTapSfx } from './
 import { skyNow } from './cielo.ts';
 
 /* ================= EL MAPA: la isla de Curiolandia ================= */
-// MZB: copia de las posiciones 2D originales {x,y,r} de cada lugar del mapa (MZ2, escenas/zonas.ts), porque sync() las sobrescribe con las proyectadas.
-// La llena montarMapa3D.
+// MZP: dónde ha quedado en la pantalla cada lugar del mapa {x,y,r} (id de MZ2 -> lo proyectado), lo último que proyectó
+// sync(). Es la disposición de los lugares (escenas/disposicion.ts: mzOf la pregunta). Desde la fase 4j; antes sync()
+// escribía en MZ2 y una copia, MZB, guardaba las posiciones 2D.
 // MP(x,y): pasa un punto de la pantalla 2D del mapa (1600x900) a coordenadas [x,z] del suelo 3D (40 píxeles = 1 unidad).
 // MAPPOS: dónde va cada lugar del mapa en 3D, en píxeles 2D (se pasan con MP). id del lugar -> [x,y].
-const MZB: Record<string, {x: number; y: number; r: number}>={};
+const MZP: Record<string, {x: number; y: number; r: number}>={};
 const MP=(x: number,y: number): PuntoSuelo=>[(x-800)/40,(y-500)/40];
 const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740]};
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
@@ -182,19 +184,22 @@ function buildMap(st: Escena){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind
   wobInit(w);
   camRig(w,V3(1.2,25,20.5),V3(1.2,0,1.4),1.6);
   return w}
-// montarMapa3D(): convierte en 3D la escena del mapa. La llama mundo3d/mundo3d.ts al montar la capa 3D.
+// montarMapa3D(): pone el mapa en 3D en lugar del 2D (SCENES.map) y la disposición de los lugares (los proyectados). La
+// llama mundo3d/mundo3d.ts al montar la capa 3D. Desde la fase 4j es otra escena, no una envoltura: copia del mapa 2D
+// (mapa2D, de escenas/zonas.ts, que no se toca) la lógica (prompt, hint...) y pone su enter, sync, draw, down y seguir,
+// que llaman a los del 2D cuando hace falta la lógica de siempre. three:true hace que el bucle dibuje la capa 3D (R3frame)
+// debajo de lo que pinte draw().
 export function montarMapa3D(): void{
-// primero, la copia de las posiciones 2D originales de los lugares (antes de que sync() las cambie)
-for(const z of MZ2)MZB[z.id]={x:z.x,y:z.y,r:z.r};
-// Convierte la escena 2D del mapa (escenas/escenas2d.ts/escenas/zonas.ts) en 3D: se guardan su enter/down originales (enter0/down0) y se sustituyen.
-// three:true hace que el bucle dibuje la capa 3D (R3frame) debajo de lo que pinte draw().
-const S0=SCENES.map,enter0=S0.enter!,down0=S0.down!;
- Object.assign(S0,{three:true,
+const mapa2D=SCENES.map;
+ // lugar(id): el lugar id del mapa, donde lo dejó la última proyección (MZP); null si aún no se ha proyectado
+ ponDisposicion({lugar:id=>MZP[id]||null});
+ SCENES.map={...mapa2D,three:true,
   // enter(o): entra al mapa: limpia estados, llama al enter original, construye el mundo 3D y sincroniza las posiciones 2D
-  enter(o: Libre){this.hov=null;this.lockShake=null;this.hop=null;enter0!.call(this,o);setWorld(buildMap(this));this.sync()},
-  // sync(): proyecta cada lugar 3D a la pantalla y escribe x,y,r en MZ2 (para que la lógica 2D de escenas/zonas.ts acierte); también la casa y Tito
+  enter(o: Libre){this.hov=null;this.lockShake=null;this.hop=null;mapa2D.enter!.call(this,o);setWorld(buildMap(this));this.sync()},
+  // sync(): proyecta cada lugar 3D a la pantalla y lo apunta en MZP (la disposición: así mzOf y la lógica 2D de
+  // escenas/zonas.ts aciertan); también la casa y Tito
   sync(){const w=W3;if(!w||w.kind!=='map')return;
-    for(const z of MZ2){const g=w.spots![z.id];if(!g)continue;const [x,y,r]=projR(g,2.6,1.2);z.x=x;z.y=y;z.r=Math.max(60,r)}
+    for(const z of MZ2){const g=w.spots![z.id];if(!g)continue;const [x,y,r]=projR(g,2.6,1.2);MZP[z.id]={x,y,r:Math.max(60,r)}}
     const h=w.spots!.casaTito,[hx,hy]=projO(h,0);HOUSE_AT[0]=hx;HOUSE_AT[1]=hy+60;titoRect(w.tito!)},
   // draw(): se llama cada cuadro encima del 3D: decide qué hay bajo el ratón (hov, hovTito), su nombre, el logo, botones y bocadillo de Tito
   draw(){this.sync();const w=W3;
@@ -208,18 +213,18 @@ const S0=SCENES.map,enter0=S0.enter!,down0=S0.down!;
   // down(x,y): toque en el mapa. Botones 2D -> lógica original; objetos que vuelan; nada -> objeto tocable, mar o pasear;
   // Tito -> salta; mascota -> lógica 2D de la mascota; lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
   down(x: number,y: number){const w=W3;if(!w||busy3(w))return;
-    if(atHome(x,y)||inCoinHUD(x,y)||dist(x,y,SEGUIR.x,SEGUIR.y)<SEGUIR.r+10)return call0(down0,this,x,y);
+    if(atHome(x,y)||inCoinHUD(x,y)||dist(x,y,SEGUIR.x,SEGUIR.y)<SEGUIR.r+10)return call0(mapa2D.down!,this,x,y);
     const u=pickAt(x,y);if(flyTap(w,x,y))return;
     if(!u){if(wobTap(w,x,y)||seaTap(w))return;SFX.tap();if(skyNow().night)ffTap(x,y);else sparkles(x,y);walkGround(w);return}
     if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt!(false);return}
-    if(u.id==='pipo'){const [px,py]=projO(w.spots!.casaTito.userData.pet,1);const h0=[HOUSE_AT[0],HOUSE_AT[1]];HOUSE_AT[0]=px-170;HOUSE_AT[1]=py+10;this.petJump=T;try{down0!.call(this,px,py)}finally{HOUSE_AT[0]=h0[0];HOUSE_AT[1]=h0[1]}return}
+    if(u.id==='pipo'){const [px,py]=projO(w.spots!.casaTito.userData.pet,1);const h0=[HOUSE_AT[0],HOUSE_AT[1]];HOUSE_AT[0]=px-170;HOUSE_AT[1]=py+10;this.petJump=T;try{mapa2D.down!.call(this,px,py)}finally{HOUSE_AT[0]=h0[0];HOUSE_AT[1]=h0[1]}return}
     const z=mzOf(u.spot);if(!z)return;const open=ZAGE[z.id]?zoneOpen(z.id):spotOpen(z.id);
-    if(!open){this.lockShake={id:z.id,t:T};return call0(down0,this,z.x,z.y)}
+    if(!open){this.lockShake={id:z.id,t:T};return call0(mapa2D.down!,this,z.x,z.y)}
     SFX.whoosh&&SFX.whoosh();const g=w.spots![z.id],to=g.position.clone().add(V3(z.id==='casaTito'?1.2:1.4,0,z.id==='casaTito'?2.8:2.4));
-    this.titoAt=z.id;walkTo(w,w.tito!,to,()=>{if(sceneName==='map')call0(down0,this,z.x,z.y)},{zoom:V3(0,9,8)})}
- } satisfies Escena);
- // Seguir: Tito camina hacia la plaza o hacia la zona del próximo tema antes de entrar
- const gs0=goSeguir;ponGoSeguir(function(){const w=W3;if(sceneName!=='map'||!w||w.kind!=='map')return gs0();
-   let id='plaza';if(asamHoy()){const t=nextTema();if(!t)return gs0();id=MAINZ.includes(t.zone)?t.zone:t.zone==='fiestas'?'fiestas':t.zone==='ingles'?'ingles':t.id==='X-CAN'?'canciones':t.id==='X-RUT'?'rutinas':t.id==='X-TRZ'?'trazos':'plaza'}
-   const g=w.spots![id];SCENES.map.titoAt=id;walkTo(w,w.tito!,g.position.clone().add(V3(1.4,0,2.4)),()=>{if(sceneName==='map')gs0()},{zoom:V3(0,9,8)})});
+    this.titoAt=z.id;walkTo(w,w.tito!,to,()=>{if(sceneName==='map'){const q=mzOf(z.id);call0(mapa2D.down!,this,q.x,q.y)}},{zoom:V3(0,9,8)})},/* al llegar, el lugar donde está entonces (la cámara se ha movido) */
+  // seguir(): el botón verde: Tito camina hacia la plaza o hacia la zona del próximo tema y luego se sigue (goSeguir)
+  seguir(){const w=W3;if(sceneName!=='map'||!w||w.kind!=='map')return goSeguir();
+   let id='plaza';if(asamHoy()){const t=nextTema();if(!t)return goSeguir();id=MAINZ.includes(t.zone)?t.zone:t.zone==='fiestas'?'fiestas':t.zone==='ingles'?'ingles':t.id==='X-CAN'?'canciones':t.id==='X-RUT'?'rutinas':t.id==='X-TRZ'?'trazos':'plaza'}
+   const g=w.spots![id];this.titoAt=id;walkTo(w,w.tito!,g.position.clone().add(V3(1.4,0,2.4)),()=>{if(sceneName==='map')goSeguir()},{zoom:V3(0,9,8)})}
+ } satisfies Escena;
 }

@@ -2,7 +2,8 @@
 // La portada, el mapa (la isla), las zonas, las casitas de tema y el cofre se dibujan con Three.js en #gl.
 // Los juegos, la asamblea, la tienda, el álbum y la casa por dentro siguen en el lienzo 2D (#cv), que va encima.
 // Para no reescribir la lógica de siempre, en cada cuadro se proyectan las posiciones 3D a coordenadas 1600x900
-// (MZ2, ZPOS, stationPos, TITO, HOUSE_AT) y los enter/down/hint originales trabajan sobre esas posiciones.
+// (los sitios del mapa, las casitas, los puestos, TITO, HOUSE_AT) y los enter/down/hint originales trabajan sobre esas
+// posiciones (desde las fases 4i y 4j, casi todas a través de la disposición, escenas/disposicion.ts).
 /* ============================================================================
  * mundo3d/mundo3d.ts (antes world3d.js) — LA CAPA 3D DE CURIOLANDIA: la entrada, que la monta
  * ----------------------------------------------------------------------------
@@ -21,9 +22,8 @@
  *     siguen funcionando sin saber que hay 3D (dibujan el cartel encima del objeto 3D, etc.).
  *   - Las escenas 3D (SCENES.title, map, las zonas, casita, cofre) se ponen en sus módulos (montarMapa3D...). Desde la
  *     fase 4i, la portada, el cofre y la casita 3D son otra escena hecha a partir de la 2D, que no se toca
- *     (SCENES.cofre={...cofre2D,three:true,enter,draw,down}): llaman a los métodos 2D por su nombre. El mapa y las zonas
- *     aún se "envuelven" con Object.assign(S0,{three:true, enter, draw, down...}): guardan el método original (enter0,
- *     down0) y lo llaman desde el nuevo. scene.three=true le dice al bucle de dibujo (aplicacion/adultos.ts) que llame a R3frame.
+ *     (SCENES.cofre={...cofre2D,three:true,enter,draw,down}): llaman a los métodos 2D por su nombre. Desde la fase 4j,
+ *     el mapa y las zonas también (antes se "envolvían" con Object.assign(S0,{three:true,...}), guardando enter0/down0). scene.three=true le dice al bucle de dibujo (aplicacion/adultos.ts) que llame a R3frame.
  *   - down(x,y): primero pickAt(x,y) lanza un rayo (raycast) desde la cámara por el punto tocado y
  *     devuelve el userData del objeto con userData.id (zona, casita, 'tito'...). Si no hay nada, se
  *     prueban los objetos animados (flyTap, wobTap), el cielo (skyTap), el mar o el suelo (walkGround).
@@ -67,8 +67,10 @@
  *   llega como global desde three.min.js, en mundo3d/three.d.ts.
  * Exporta: R3frame (lo llama frame(), en aplicacion/adultos.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y cambia funciones de otros con su pon*: go (ponGo, en
- *   mundo3d/interaccion.ts) y goSeguir (ponGoSeguir, en mundo3d/mapa3d.ts), y pone la disposición de la vista 3D
- *   (ponDisposicion, de escenas/disposicion.ts, en mundo3d/casita3d.ts: desde la fase 4i, en vez de cambiar stationPos).
+ *   mundo3d/interaccion.ts), y pone la disposición de la vista 3D (ponDisposicion, de escenas/disposicion.ts: los puestos
+ *   de la casita, desde la fase 4i, en mundo3d/casita3d.ts, y los sitios del mapa y las casitas de las zonas, desde la
+ *   4j, en mapa3d.ts y zonas3d.ts; antes cambiaba stationPos con ponStationPos, goSeguir con ponGoSeguir y escribía lo
+ *   proyectado en MZ2 y ZPOS).
  * Importa: de mundo3d/motor.ts montarMotor y lo que usa R3frame (R, W3, camTick, fpsTick), scene (src/nucleo/) y las
  *   funciones montar* de cada módulo.
  * Todo va dentro de una función que se llama sola: si montarMotor() dice que no hay Three.js o WebGL, se sale y el
