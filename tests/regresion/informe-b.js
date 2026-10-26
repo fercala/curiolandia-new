@@ -21,26 +21,40 @@ const R = L.registro('informe-b');
   });
 
   await caso('B2', 'Memoria apunta como fallo una pareja errada cuando la pareja ya se había visto', async p => {
-    // Rejilla de 6 cartas a los 3 años (3 columnas x 2 filas, como en juegos/comps.ts). Turno 1: cartas 0 y 1 (nuevas: explorar,
-    // no es fallo). Turno 2: carta 2 y carta 0. Si la 2 es igual que la 1 (ya vista) y no se empareja, es fallo.
+    // Rejilla de 6 cartas a los 3 años (3 columnas x 2 filas, como en juegos/comps.ts). Destapa las cartas en orden,
+    // recuerda qué hay en cada una y, en cuanto destapa una carta cuya pareja ya vio, levanta a propósito otra carta vista
+    // que no es su pareja: eso es fallo (+1). Levantar una carta nueva con otra cuya pareja nadie ha visto es explorar (+0).
+    // Solo hay una forma de no llegar al caso: que las dos primeras parejas salgan juntas por suerte (0-1 y 2-3, 1 de cada
+    // 15 partidas). Entonces se empieza otra partida (cartas nuevas), hasta 4: fallar las 4 es 1 entre 50.000.
     const s = 220, xs = [0, 1, 2].map(i => 900 - 250 + i * 250), ys = [470 - 125, 470 + 125], pos = [];
     for (const y of ys) for (const x of xs) pos.push({ x, y });
+    const err = () => p.evaluate(() => (__cl.S.stats.memoria || {}).err || 0);
+    const ver = async i => { const k = await p.evaluate(([x, y]) => { const g = __cl.scene.g; g.down(x, y); const o = g.open[g.open.length - 1]; return o ? o.k : null }, [pos[i].x, pos[i].y]); await p.waitForTimeout(1700); return k };
     let probado = false;
-    for (let intento = 0; intento < 12 && !probado; intento++) {
+    for (let partida = 0; partida < 4 && !probado; partida++) {
       await p.evaluate(() => __cl.go('juego', { t: '3A-T1', g: 3 })); await p.waitForTimeout(800);
-      if (intento === 0) { const tipo = await p.evaluate(() => __cl.scene.t.games[3].t); if (tipo !== 'memoria') return 'el juego 3A-T1#3 no es memoria: ' + tipo }
-      const err = () => p.evaluate(() => (__cl.S.stats.memoria || {}).err || 0);
-      const ver = async i => { const k = await p.evaluate(([x, y]) => { const g = __cl.scene.g; g.down(x, y); const o = g.open[g.open.length - 1]; return o ? o.k : null }, [pos[i].x, pos[i].y]); await p.waitForTimeout(1700); return k };
-      const e0 = await err(), k0 = await ver(0), k1 = await ver(1);
-      if (k0 === k1) continue;
-      if (await err() !== e0) return 'destapar dos cartas nuevas distintas ya cuenta como fallo';
-      const k2 = await ver(2); await ver(0);
-      if (k2 === k0) continue;
-      const d = await err() - e0;
-      if (k2 === k1) { if (d !== 1) return 'una pareja errada sabiendo dónde estaba la pareja no cuenta como fallo'; probado = true }
-      else if (d !== 0) return 'una pareja errada con una carta nueva cuenta como fallo';
+      const tipo = await p.evaluate(() => __cl.scene.t.games[3].t); if (tipo !== 'memoria') return 'el juego 3A-T1#3 no es memoria: ' + tipo;
+      const vistas = {}, hechas = new Set();
+      const sueltas = () => Object.keys(vistas).map(Number).filter(n => !hechas.has(n));
+      for (let i = 0; i < 6 && !probado; i++) {
+        if (hechas.has(i) || i in vistas) continue;
+        const e0 = await err(), k = vistas[i] = await ver(i);
+        const pareja = sueltas().find(n => n !== i && vistas[n] === k);
+        const otra = sueltas().find(n => n !== i && n !== pareja);
+        if (otra !== undefined) {
+          await ver(otra); const d = await err() - e0;
+          if (pareja !== undefined) { if (d !== 1) return 'una pareja errada sabiendo dónde estaba la pareja no cuenta como fallo'; probado = true }
+          else if (d !== 0) return 'una pareja errada con una carta nueva cuenta como fallo';
+        } else if (pareja !== undefined) { await ver(pareja); hechas.add(i); hechas.add(pareja) }
+        else if (i + 1 < 6) {
+          const k2 = vistas[i + 1] = await ver(i + 1);
+          if (await err() !== e0) return 'destapar dos cartas nuevas ya cuenta como fallo';
+          if (k2 === k) { hechas.add(i); hechas.add(i + 1) }
+          i++;
+        }
+      }
     }
-    if (!probado) return 'no salió el caso a probar en 12 intentos';
+    if (!probado) return 'no salió el caso a probar';
   });
 
   await caso('B2b', 'Memoria da una moneda por cada pareja encontrada (v1.588)', async p => {
