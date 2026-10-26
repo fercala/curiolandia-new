@@ -5,7 +5,7 @@
 // Es sobre todo un archivo de DATOS. Desde la fase 2f es un módulo: exporta todo esto y el puente de src/modulos.ts
 // lo deja en globalThis:
 //   - floor(), grass(), fallingDeco(): ayudas para pintar fondos (también las usan temas4/temas5/extras).
-//   - BG: objeto con las funciones de fondo de cada tema (temas/temas4.ts le añade más).
+//   - Los fondos de BG (juegos/fondos.ts desde la fase 4o): los de cada tema (temas/temas4.ts y extras.ts añaden más).
 //   - swatch(), shape(), snowPart(), plateOf(), dayNight(): "cosas dibujadas" para los juegos.
 //   - roomZone(), mochilaZone, mesaZone, corralZone, pradoZone, kidZone(), panelZone(), sizeSlot():
 //     zonas donde se sueltan las cosas en los juegos de arrastrar (Arrastra, juegos/comps.ts).
@@ -27,7 +27,7 @@ import type { AlTerminar, Cosa, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DIAC, FLC, H, LEX, LEX2, LF, PI, SFX, T, V, W, W_, cap, card, circ, cloud, ctx, ell, fillStroke, flower, nRounds, pic, pick, ri, rr, say, shuffle, sky, star, text } from '../nucleo/indice.ts';
-import { Arrastra, Atrapa, COLORES, ChoiceGame, Conocer, Cuenta, Cuerpo, Excava, Pinta, Puzzle, Riega, Sonido, colorAdj, drawKid, isPl, nameT } from '../juegos/indice.ts';
+import { Arrastra, Atrapa, BG, COLORES, ChoiceGame, Conocer, Cuenta, Cuerpo, Excava, Pinta, Puzzle, Riega, Sonido, colorAdj, drawKid, isPl, nameT } from '../juegos/indice.ts';
 // Palabras nuevas para nombrar dibujos (W_(), nameT()): LEX = 'k' -> nombre con artículo;
 // LEX2 = 'k' -> [rioplatense, España].
 Object.assign(LEX,{lancha:'la lancha',helicoptero:'el helicóptero'});
@@ -51,8 +51,9 @@ export function grass(y: number,c='#9FDC8F'){ctx.fillStyle=c;ctx.beginPath();ctx
 function fallingDeco(cols: string[],n=10,sp=30){for(let i=0;i<n;i++){const x=(i*173+T*sp*(i%3+1))%1700-50,y=(i*97+T*sp*1.4)%1000-50;ctx.save();ctx.translate(x,y);ctx.rotate(T+i);ctx.globalAlpha=.35;ell(0,0,16,9,cols[i%cols.length],0);ctx.restore()}ctx.globalAlpha=1}
 // BG: fondos de los temas, por nombre. BG.aula, BG.cuerpo... Cada uno es una función
 // sin parámetros (ver arriba). Un tema lo usa como bg:BG.aula, y los cuentos por su nombre
-// (bg:'aula' en contenido/cuentos.ts). temas/temas4.ts añade más con Object.assign(BG,{...}).
-export const BG: Record<string, () => void>={
+// (bg:'aula' en contenido/cuentos.ts). Desde la fase 4o, BG es de juegos/fondos.ts (el cuento la usa y va antes que
+// los temas): aquí se le añaden estos y temas/temas4.ts y extras.ts añaden más con Object.assign(BG,{...}).
+Object.assign(BG,{
   aula(){sky('#FFF3D6','#FCE7C8');floor(700,'#E9C99A');card(1020,36,500,120,'#3E6B4E',8,12);text('A  B  C  1  2  3',1270,118,52,'#fff',{f:LF});for(let i=0;i<6;i++){ctx.save();ctx.translate(330+i*120,60);ctx.rotate(Math.sin(T+i)*.05);ctx.beginPath();ctx.moveTo(-40,0);ctx.lineTo(40,0);ctx.lineTo(0,56);ctx.closePath();fillStroke(DIAC[i],4);ctx.restore()}},
   cuerpo(){sky('#FFE9EC','#FFD7DC');floor(760,'#F5C1C9');for(let i=0;i<10;i++)circ((i*211)%1600,(i*137)%700+40,18,'rgba(255,255,255,.5)',0)},
   colores(){sky('#FFFFFF','#FFF4E2');floor(740,'#F1E2C8');[['#FF5A5A',300,90],['#5B8DEF',1500,120],['#FFD66B',1420,640],['#7CC86E',260,600]].forEach(([c,x,y]: any[])=>{ctx.globalAlpha=.25;circ(x,y,80,c,0);circ(x+60,y+40,40,c,0);ctx.globalAlpha=1})},
@@ -66,7 +67,7 @@ export const BG: Record<string, () => void>={
   ciudad(){sky('#D5F0FA','#EAF6FB');for(let i=0;i<8;i++){const x=i*210,h=160+(i*67)%140;card(x+10,560-h,170,h+20,['#F7C7DA','#FFE08A','#BFE6B5','#CFE0FF'][i%4],6,10)}floor(560,'#9AA5B4');ctx.fillStyle='#fff';for(let x=0;x<W;x+=120)ctx.fillRect(x,700,60,10);floor(800,'#B9D99A')},
   playa(){sky('#BFEAF7','#E9F7FC');ctx.fillStyle='#7FD3F0';ctx.fillRect(0,220,W,140);for(let i=0;i<8;i++){ctx.beginPath();const x=i*210+(T*20%210);ctx.moveTo(x,280);ctx.quadraticCurveTo(x+25,265,x+50,280);ctx.lineWidth=5;ctx.strokeStyle='#B9E9F8';ctx.stroke()}floor(350,'#FFE6A8');circ(1460,110,60,'#FFD66B',6)},
   conceptos(){sky('#F3ECFF','#FFF6E6');floor(740,'#E4D3B8');for(let i=0;i<6;i++){ctx.globalAlpha=.25;const x=(i*277)%1600,y=(i*151)%600+40;i%2?circ(x,y,40,DIAC[i],0):(rr(x-36,y-36,72,72,10),fillStroke(DIAC[i],0));ctx.globalAlpha=1}}
-};
+});
 
 // ---------------------------------------------------------------------------
 // "COSAS" DIBUJADAS. En los juegos, una cosa puede ser:

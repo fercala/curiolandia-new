@@ -17,9 +17,9 @@
 import type { AlTerminar, Cosa, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, LEX, LF, MESES, PI, T, V, W_, cap, card, circ, ctx, dela, ell, estacionDe, fillStroke, nOpts, nRounds, pic, pick, ri, rr, shuffle, text, tx } from '../nucleo/indice.ts';
-import { Apaga, Arrastra, COLORES, ChoiceGame, Cruce, Cuenta, Excava, Gira, Lens, NUM, Puzzle, Riega, Secuencia, Series, Une, drawKid, eseEs, fem, nameT, numCard, picF, picS, refCard, thing, unN } from '../juegos/indice.ts';
-import { BG, sizeSlot, swatch, vestir } from './temas.ts';
+import { AGE, LEX, LF, MESES, PI, T, V, W_, cap, card, circ, ctx, dela, ell, estacionDe, fillStroke, nOpts, nRounds, pic, pick, ri, rr, shuffle, text, tree, tx } from '../nucleo/indice.ts';
+import { Apaga, Arrastra, BG, COLORES, ChoiceGame, Cruce, Cuenta, Excava, Gira, Lens, NUM, Puzzle, Riega, Secuencia, Series, Une, drawKid, eseEs, fem, nameT, numCard, picF, picS, refCard, thing, unN } from '../juegos/indice.ts';
+import { sizeSlot, swatch, vestir } from './temas.ts';
 import { ESTS, fern, palm, shape2, zoneIcon } from './temas4.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';

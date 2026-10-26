@@ -42,9 +42,9 @@
  *
  * Lo que exporta y usan otros archivos:
  *   SCENES, TEMAS, TEMA, CATALOGO, tst, gDone, drawLogo, drawLogoSmall, pill,
- *   VIVO.deferredInstall, standalone, asamHoy, tree,
+ *   VIVO.deferredInstall, standalone, asamHoy,
  *   drawCasita, GNAME, gIcon, drawStation, finishGame, ultimoJuego (desde la fase 4i),
- *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
+ *   EMO_AGE/EMO_SAY/EMO_TIP (EMO y drawFace, desde la fase 4o en juegos/caras.ts, y tree, en nucleo/dibujo.ts), WX/WX_AGE/WX_ROPA,
  *   SEASON_NEXT, dayIdx, isBday, ALBUM_KEYS (SCENES está en nucleo/escenas.ts:
  *   aquí se le añaden las escenas).
  * Importa:
@@ -65,9 +65,8 @@
  *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
-import type { Par } from '../nucleo/idioma.ts';
 import { K, PICS } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tree, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
@@ -76,7 +75,7 @@ import { ahora } from '../aplicacion/puertos.ts';
 import { terminarJuego } from '../aplicacion/terminarJuego.ts';
 import { premioDelCumple, terminarAsamblea } from '../aplicacion/premiosDelDia.ts';
 import type { CatalogoDeTemas } from '../aplicacion/repasoDelDia.ts';
-import { NUM, TUNES, playTune } from '../juegos/indice.ts';
+import { NUM, TUNES, drawFace, playTune } from '../juegos/indice.ts';
 import { esCumple } from '../dominio/progreso.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
@@ -234,19 +233,9 @@ SCENES.intro={music:'title',
 // Las escenas del mapa (map), de las zonas (jardin, bosque...) y de la casita (casita) están desde la fase 4d en
 // escenas/zonas.ts, definidas una sola vez, con suggestTema y stationPos: antes había aquí una versión 1 (el mapa con
 // MZ, el jardín con JPOS y BANDC, la casita en filas) que zonas.ts reescribía y que ya no se usaba. Aquí quedan las
-// piezas que usan ellas y otras escenas: asamHoy, tree, drawLogoSmall, drawCasita, GNAME, gIcon y drawStation.
+// piezas que usan ellas y otras escenas: asamHoy, drawLogoSmall, drawCasita, GNAME, gIcon y drawStation.
 // asamHoy(): true si hoy ya se ha hecho la asamblea (S.asam[fecha de hoy].done).
 export const asamHoy=()=>S.asam[today()]&&S.asam[today()].done;
-// tree(x, y, s, season): dibuja un árbol en (x, y) a escala s según la estación: 'invierno' (ramas con nieve),
-// 'primavera' (flores), 'verano' (frutas), 'otoño' (hojas caídas) o 'gris' (zona dormida). Lo usan el mapa, las zonas
-// y la asamblea (pregunta de las estaciones).
-export function tree(x: number,y: number,s: number,season: string){ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-12,-10,24,90,'#A86B43',6,6);
-  if(season==='invierno'){ctx.lineWidth=8;ctx.strokeStyle='#A86B43';ctx.lineCap='round';for(const [a,b,c,d] of[[0,-10,-40,-70],[0,-10,40,-80],[0,-30,0,-100],[-40,-70,-60,-90],[40,-80,60,-96]]){ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke()}for(const [a,b] of[[-40,-74],[40,-84],[0,-104]])ell(a,b,18,8,'#fff',3)}
-  else{const c=season==='gris'?'#C9CFC2':season==='otoño'?'#FFA94D':season==='verano'?'#5FA84E':'#8FD67F';circ(0,-80,74,c,6);
-    if(season==='primavera')for(let i=0;i<7;i++)flower(Math.cos(i*.9)*44,-80+Math.sin(i*.9)*40,11,'#F58BB4',2);
-    if(season==='verano')for(let i=0;i<5;i++)circ(Math.cos(i*1.3)*40,-80+Math.sin(i*1.3)*36,10,'#FF5A5A',3);
-    if(season==='otoño')for(let i=0;i<4;i++){ell(-60+i*40,60+Math.sin(i)*6,12,6,i%2?'#FF6B5E':'#C98A4B',2)}}
-  ctx.restore()}
 // drawLogoSmall(x, y, s): versión pequeña y más quieta del logotipo (cabecera del mapa). Solo dibuja.
 export function drawLogoSmall(x: number,y: number,s: number){ctx.font=`700 ${s}px ${DF}`;const ws=[...LOGO].map(c=>ctx.measureText(c).width),tw=ws.reduce((a,b)=>a+b,0);let cx=x-tw/2;[...LOGO].forEach((c,i)=>{text(c,cx+ws[i]/2,y+Math.sin(T*3+i*.7)*2,s,LOGOC[i],{st:s*.08});cx+=ws[i]})}
 
@@ -338,27 +327,12 @@ SCENES.juego={music:'game',
 };
 
 /* ================= LA ASAMBLEA ================= */
-// EMO: emociones de la asamblea. {clave: {c: color de la carita, n: nombre (o [rioplatense, España])}}.
+// EMO (las emociones) y drawFace (su carita) están desde la fase 4o en juegos/caras.ts.
 // EMO_AGE: qué emociones salen según la edad. EMO_SAY: lo que dice Tito al elegir cada una. EMO_TIP: consejo extra (5 años).
-export const EMO: Record<string, { c: string; n: string | Par }>={alegria:{c:'#FFD66B',n:'alegría'},tristeza:{c:'#7FB0FF',n:'tristeza'},enojo:{c:'#FF6B5E',n:['enojo','enfado']},miedo:{c:'#9B8AD9',n:'miedo'},sorpresa:{c:'#FFA94D',n:'sorpresa'},calma:{c:'#7CC86E',n:'calma'},verguenza:{c:'#F58BB4',n:'vergüenza'}};
 const EMO_AGE: Record<number, string[]>={3:['alegria','tristeza','enojo'],4:['alegria','tristeza','enojo','miedo','sorpresa'],5:['alegria','tristeza','enojo','miedo','sorpresa','calma','verguenza']};
 const EMO_SAY: Record<string, string>={alegria:'¡Qué bueno! Hoy sentís alegría. ¡Yo también estoy feliz de verte!',tristeza:'Hoy sentís tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.',enojo:'Hoy sentís enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.',
   miedo:'Hoy sentís miedo. Si tenés miedo, buscá a un grande que te cuide.',sorpresa:'¡Hoy sentís sorpresa! ¡Qué emocionante!',calma:'Hoy sentís calma. ¡Qué lindo sentirse así!',verguenza:'Hoy sentís vergüenza. Nos pasa a todos. Respirá hondo y sonreí.'};
 const EMO_TIP: Record<string, string>={tristeza:' Podés contarle a alguien lo que te pasa.',enojo:' Y después contá lo que te enojó con palabras.',miedo:' Hablar de lo que da miedo lo hace más chiquito.'};
-// drawFace(x, y, r, m): dibuja la carita de la emoción m (clave de EMO) de radio r en (x, y). Solo dibuja.
-export function drawFace(x: number,y: number,r: number,m: string){const e=EMO[m];ctx.save();ctx.translate(x,y);circ(0,0,r,e.c,6);const ey=-r*.12,ex=r*.34,L=r*.07;ctx.lineCap='round';ctx.lineWidth=L;ctx.strokeStyle=K;
-// eyes(rr): dos ojos de radio rr con brillo blanco.
-  const eyes=(rr: number)=>{circ(-ex,ey,rr,K,0);circ(ex,ey,rr,K,0);circ(-ex+rr*.35,ey-rr*.35,rr*.35,'#fff',0);circ(ex+rr*.35,ey-rr*.35,rr*.35,'#fff',0)};
-// mouth(a, b, c): boca curva; a y c = altura de las comisuras, b = altura del centro (en fracciones de r).
-  const mouth=(a: number,b: number,c: number)=>{ctx.beginPath();ctx.moveTo(-r*.32,r*a);ctx.quadraticCurveTo(0,r*b,r*.32,r*c);ctx.stroke()};
-  if(m==='alegria'){eyes(r*.1);ctx.beginPath();ctx.moveTo(-r*.4,r*.2);ctx.quadraticCurveTo(0,r*.75,r*.4,r*.2);ctx.closePath();fillStroke('#C0473C',L)}
-  if(m==='tristeza'){eyes(r*.09);mouth(.48,.2,.48);ell(-ex-r*.06,ey+r*.22,r*.06,r*.1,'#5BB8E6',0)}
-  if(m==='enojo'){eyes(r*.09);ctx.beginPath();ctx.moveTo(-ex-r*.18,ey-r*.26);ctx.lineTo(-ex+r*.14,ey-r*.12);ctx.moveTo(ex+r*.18,ey-r*.26);ctx.lineTo(ex-r*.14,ey-r*.12);ctx.stroke();mouth(.5,.28,.5)}
-  if(m==='miedo'){circ(-ex,ey,r*.16,'#fff',L*.6);circ(ex,ey,r*.16,'#fff',L*.6);circ(-ex,ey,r*.07,K,0);circ(ex,ey,r*.07,K,0);ctx.beginPath();ctx.moveTo(-r*.3,r*.42);for(let i=1;i<=6;i++)ctx.lineTo(-r*.3+i*r*.1,r*.42+(i%2?-1:1)*r*.06);ctx.stroke()}
-  if(m==='sorpresa'){eyes(r*.11);ctx.beginPath();ctx.arc(-ex,ey-r*.24,r*.14,PI*1.15,PI*1.85);ctx.stroke();ctx.beginPath();ctx.arc(ex,ey-r*.24,r*.14,PI*1.15,PI*1.85);ctx.stroke();ell(0,r*.4,r*.13,r*.17,'#C0473C',L)}
-  if(m==='calma'){for(const s of[-1,1]){ctx.beginPath();ctx.arc(s*ex,ey,r*.1,PI*.1,PI*.9);ctx.stroke()}mouth(.3,.5,.3)}
-  if(m==='verguenza'){eyes(r*.08);circ(-r*.5,r*.18,r*.13,'#FF5A8A',0);circ(r*.5,r*.18,r*.13,'#FF5A8A',0);ctx.beginPath();ctx.moveTo(-r*.16,r*.42);ctx.quadraticCurveTo(0,r*.5,r*.16,r*.42);ctx.stroke()}
-  ctx.restore()}
 // WX: tipos de tiempo. {clave: {k: dibujo, s: frase de Tito}}. WX_AGE: cuáles salen según la edad.
 // WX_ROPA: prendas correctas para cada tiempo (paso 'ropa' de 4 años).
 export const WX: Record<string, { k: string; s: string }>={sol:{k:'sol',s:'¡Hoy hace sol!'},nublado:{k:'nublado',s:'¡Hoy está nublado!'},lluvia:{k:'lluvia',s:'¡Hoy llueve!'},viento:{k:'viento',s:'¡Hoy hay viento!'},nieve:{k:'nieve',s:'¡Hoy nieva!'},tormenta:{k:'tormenta',s:'¡Hoy hay tormenta!'},niebla:{k:'niebla',s:'¡Hoy hay niebla!'}};

@@ -11,15 +11,15 @@
 //   src/modulos.ts los deja en globalThis para las pruebas.
 // Al cargarse: añade BG.trazo, palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento. Los juegos 'cuento' y
 //   'cancion' los crea makeGame (temas/hacerJuego.ts; hasta la fase 4f, este archivo la envolvía con ponMakeGame).
-// Importa: temas.ts, temas4.ts y temas5.ts (T3, T4, T5, BG, ESTS, swatch, dayCard, monthCard), juegos/
-//   (componentes, COLORES, panel, germ, pathPts), contenido/cuentos.ts (CUENTOS) y el núcleo (src/nucleo/:
-//   DIASL, MESES...). Usa tree() de escenas/escenas2d.ts, que se carga después: solo al jugar (tipo en src/tardias.d.ts).
+// Importa: temas.ts, temas4.ts y temas5.ts (T3, T4, T5, ESTS, swatch, dayCard, monthCard), juegos/
+//   (componentes, COLORES, panel, germ, pathPts, BG), contenido/cuentos.ts (CUENTOS) y el núcleo (src/nucleo/:
+//   DIASL, MESES, tree...). tree() está en el núcleo desde la fase 4o (antes era de escenas/escenas2d.ts, global tardía).
 import type { Config, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
-import { AGE, DIAC, DIASL, LEX, LEX2, MESES, PI, S, V, cap, card, circ, clamp, cloud, ctx, ell, fillStroke, lerp, nOpts, pic, shuffle, sky, star } from '../nucleo/indice.ts';
-import { Arrastra, Atrapa, COLORES, ChoiceGame, Cuenta, Frota, Puzzle, Secuencia, Tracer, Velas, drawKid, eseEs, germ, nameT, panel, pathPts } from '../juegos/indice.ts';
+import { AGE, DIAC, DIASL, LEX, LEX2, MESES, PI, S, V, cap, card, circ, clamp, cloud, ctx, ell, fillStroke, lerp, nOpts, pic, shuffle, sky, star, tree } from '../nucleo/indice.ts';
+import { Arrastra, Atrapa, BG, COLORES, ChoiceGame, Cuenta, Frota, Puzzle, Secuencia, Tracer, Velas, drawKid, eseEs, germ, nameT, panel, pathPts } from '../juegos/indice.ts';
 import { CUENTOS } from '../contenido/cuentos.ts';
-import { BG, T3, swatch } from './temas.ts';
+import { T3, swatch } from './temas.ts';
 import { ESTS, T4, dayCard } from './temas4.ts';
 import { T5, monthCard } from './temas5.ts';
 /* ================= CANCIONES ================= */

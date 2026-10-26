@@ -1,5 +1,5 @@
 // dibujo.ts: lo básico para dibujar en el lienzo (ctx) de la pantalla lógica de 1600x900.
-//   rr, fillStroke, card, circ, ell, text, star, hand, speaker, sky, cloud, flower.
+//   rr, fillStroke, card, circ, ell, text, star, hand, speaker, sky, cloud, flower y, desde la fase 4o, tree (un árbol según la estación).
 import { K } from '../dibujos/todos.ts';
 import { IMG } from './imagenes.ts';
 import { ctx, DF, H, T, W } from './pantalla.ts';
@@ -45,3 +45,13 @@ export function cloud(x: number,y: number,s: number,c='#fff'): void{ctx.fillStyl
 // flower(x,y,radio,color,grosor): flor de 5 pétalos con centro amarillo (las del caparazón de Tito).
 // Nota: T*.0 vale siempre 0, así que la flor no gira.
 export function flower(x: number,y: number,r: number,c: string,lw=3): void{for(let i=0;i<5;i++){const a=i*PI*2/5+T*.0;circ(x+Math.cos(a)*r*.62,y+Math.sin(a)*r*.62,r*.5,c,lw)}circ(x,y,r*.42,'#FFD66B',lw)}
+// tree(x, y, s, season): dibuja un árbol en (x, y) a escala s según la estación: 'invierno' (ramas con nieve),
+// 'primavera' (flores), 'verano' (frutas), 'otoño' (hojas caídas) o 'gris' (zona dormida). Lo usan el mapa, las zonas,
+// la asamblea (pregunta de las estaciones), los temas y el mundo 3D. Hasta la fase 4o estaba en escenas/escenas2d.ts.
+export function tree(x: number,y: number,s: number,season: string){ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-12,-10,24,90,'#A86B43',6,6);
+  if(season==='invierno'){ctx.lineWidth=8;ctx.strokeStyle='#A86B43';ctx.lineCap='round';for(const [a,b,c,d] of[[0,-10,-40,-70],[0,-10,40,-80],[0,-30,0,-100],[-40,-70,-60,-90],[40,-80,60,-96]]){ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke()}for(const [a,b] of[[-40,-74],[40,-84],[0,-104]])ell(a,b,18,8,'#fff',3)}
+  else{const c=season==='gris'?'#C9CFC2':season==='otoño'?'#FFA94D':season==='verano'?'#5FA84E':'#8FD67F';circ(0,-80,74,c,6);
+    if(season==='primavera')for(let i=0;i<7;i++)flower(Math.cos(i*.9)*44,-80+Math.sin(i*.9)*40,11,'#F58BB4',2);
+    if(season==='verano')for(let i=0;i<5;i++)circ(Math.cos(i*1.3)*40,-80+Math.sin(i*1.3)*36,10,'#FF5A5A',3);
+    if(season==='otoño')for(let i=0;i<4;i++){ell(-60+i*40,60+Math.sin(i)*6,12,6,i%2?'#FF6B5E':'#C98A4B',2)}}
+  ctx.restore()}
