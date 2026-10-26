@@ -6,10 +6,11 @@
 // tienen sus propias pruebas en tests/unidad/.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { createContext, runInContext } from 'node:vm';
+import { runInContext } from 'node:vm';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { PREFIJO_CACHE, codigoModulos, nombreCache, paginaJuego, serviceWorker } from '../../herramientas/vite/curiolandia.mts';
 import { VERSION_PARTIDA } from '../../src/dominio/partida.ts';
+import { ejecutaModulos as ejecutaEnVm } from './juegoEnVm.ts';
 
 const RAIZ = join(import.meta.dirname, '..', '..');
 const SRC = join(RAIZ, 'src');
@@ -43,32 +44,10 @@ describe('paginaJuego', () => {
   // Las fuentes que pide el arranque (aplicacion/arranque.ts): aquí no llegan nunca, así que el juego no va a la
   // portada (sin lienzo de verdad no se puede dibujar).
   const fuentesPedidas: string[] = [];
-  // Ejecuta los módulos en un navegador de mentira (lo justo para que el núcleo arranque: lienzo, localStorage,
-  // Image, fuentes...) y mira lo que dejan en globalThis (el puente de src/modulos.ts). guardado es lo que hay en
-  // localStorage (por clave); sin nada, el juego empieza una partida nueva.
-  const ejecutaModulos = (guardado: Readonly<Record<string, string>> = {}): Record<string, unknown> => {
-    // aplicacion/adultos.ts conecta al cargarse los botones de los paneles y los eventos del lienzo y del documento.
-    const lienzo = { width: 0, height: 0, style: {}, getContext: () => ({}), toDataURL: () => '', addEventListener: () => undefined };
-    const global: Record<string, unknown> = {
-      document: {
-        getElementById: () => lienzo, createElement: () => lienzo, addEventListener: () => undefined,
-        fonts: { load: (f: string) => { fuentesPedidas.push(f); return new Promise(() => undefined); } },
-      },
-      setTimeout: () => 0,
-      localStorage: { getItem: (k: string) => guardado[k] ?? null, setItem: () => undefined },
-      location: { protocol: 'file:' },
-      Image: class { src = ''; complete = false; },
-      addEventListener: () => undefined,
-      innerWidth: 1600,
-      innerHeight: 900,
-      performance,
-      console,
-    };
-    global['window'] = global;
-    createContext(global);
-    runInContext(pagina.modulos, global);
-    return global;
-  };
+  // Ejecuta los módulos en un navegador de mentira (tests/unidad/juegoEnVm.ts) y devuelve su globalThis (el puente de
+  // src/modulos.ts). guardado es lo que hay en localStorage (por clave); sin nada, el juego empieza una partida nueva.
+  const ejecutaModulos = (guardado: Readonly<Record<string, string>> = {}): Record<string, unknown> =>
+    ejecutaEnVm(pagina.modulos, { guardado, alPedirFuente: (f) => fuentesPedidas.push(f) });
 
   test('los módulos dejan en globalThis los dibujos, el núcleo, los componentes, los temas y lo demás', () => {
     const global = ejecutaModulos();

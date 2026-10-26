@@ -111,6 +111,7 @@ Ejemplo: un caracolito en el Jardín que da un saltito al tocarlo. Todo va en la
 4. **No metas un tema en medio del camino** de una zona publicada: cambiaría qué casitas están abiertas para los niños que ya juegan.
 5. Se abre solo cuando se termina el anterior: no hay que registrarlo en ningún otro sitio (escenas/escenas2d.ts lo añade a `TEMAS` y escenas/zonas.ts al camino).
 6. Apunta todas las frases nuevas para grabar.
+7. `npm run test:unidad` comprueba el contenido (`tests/unidad/contenido.test.ts`): que el id no se repita, que la zona sea la de su lista, que existan todos los dibujos y el fondo y que cada juego se pueda crear. Si falla, el mensaje dice qué tema y qué campo.
 
 ## 5. Un juego nuevo dentro de un tema
 
