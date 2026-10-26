@@ -1,8 +1,9 @@
 /*
  * mundo3d/portada3d.ts: la portada en 3D (desde la fase 4h; antes, en mundo3d/mundo3d.ts): buildTitle monta la isla
  * pequeña con flores, un árbol, Tito, mariposas o luciérnagas, pétalos y los «?» que suben.
- * montarPortada3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) convierte en 3D la portada (SCENES.title): enter
- * monta el mundo y draw pinta encima el logo, el botón de jugar y los botones de abajo.
+ * montarPortada3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone en SCENES.title la portada 3D, otra escena
+ * hecha a partir de la 2D (desde la fase 4i; antes la envolvía): enter monta el mundo y draw pinta encima el logo, el
+ * botón de jugar y los botones de abajo.
  * Exporta: montarPortada3D. Importa: del núcleo y de escenas/escenas2d.ts lo que dibuja la portada; el motor, las
  * piezas y lo de los demás módulos de mundo3d/.
  */
@@ -31,17 +32,21 @@ function buildTitle(){const w=newWorld({fov:34,kind:'title',shadow:10}),nt=skyNo
     // al pasar por detrás del título y del subtítulo se desvanecen para que se lean bien
     if(W3===w){const [x,y]=projO(q),tt=x>470&&x<1270&&y>40&&y<330;q.material.opacity+=((tt?.08:.8)-q.material.opacity)*Math.min(1,dt*6)}})});
   camRig(w,V3(3.2,3.8,12.5),V3(2.6,2.1,0),.6);return w}
-// montarPortada3D(): convierte en 3D la portada. La llama mundo3d/mundo3d.ts al montar la capa 3D.
+// montarPortada3D(): pone la portada en 3D en lugar de la 2D (SCENES.title). La llama mundo3d/mundo3d.ts al montar la
+// capa 3D. Desde la fase 4i, la portada 3D es otra escena, no una envoltura: copia de la 2D (portada2D, que no se toca)
+// lo que es igual (update, down: los toques van a los mismos sitios) y pone su enter (el de la 2D y luego el mundo) y
+// su draw (encima del mundo, el logo, el botón de jugar y los botones de abajo).
 export function montarPortada3D(): void{
-// Convierte en 3D la portada: enter construye el mundo; draw pinta encima el logo, el botón de jugar y los botones de abajo
-const S0=SCENES.title,enter0=S0.enter!;
- Object.assign(S0,{three:true,
-  enter(o: Libre){enter0!.call(this,o);setWorld(buildTitle())},
+const portada2D=SCENES.title;
+ SCENES.title={...portada2D,three:true,
+  // enter(o): prepara la portada como la 2D y monta el mundo 3D
+  enter(o: Libre){portada2D.enter!.call(this,o);setWorld(buildTitle())},
+  // draw(): encima del mundo, el logo, el subtítulo, «3D», el botón de jugar y los de abajo, pantalla completa e instalar
   draw(){drawLogo(800,200,140);
     text(V(['Tito y las preguntas escondidas','Tito y las preguntas escondidas']),800,280,44,K,{w:600,st:10,sc:'#FFF6E6'});
     {ctx.save();text('3D',1180,150,54,'#fff',{f:LF,st:12,sc:'#9B8AD9'});ctx.restore()}
     const p=hv('play',hC(1180,560,120))*(1+Math.sin(T*4)*.05);ctx.save();ctx.translate(1180,560);ctx.scale(p,p);circ(0,0,110,'#7CC86E',8);ctx.beginPath();ctx.moveTo(-30,-48);ctx.lineTo(54,0);ctx.lineTo(-30,48);ctx.closePath();fillStroke('#fff',6);ctx.restore();
     if(S.age){pill(205,830,330,80,S.name?'Juega: '+S.name:'¿Quién juega?');pill(1395,830,330,80,'Empezar de nuevo','#fff','#C0473C')}
     if(document.fullscreenEnabled&&!standalone()){const s=hv('fs',hR(1515,85,90,90));ctx.save();ctx.translate(1515,85);ctx.scale(s,s);card(-45,-45,90,90,'#fff',6,28);ctx.lineWidth=7;ctx.strokeStyle=K;ctx.lineCap='round';ctx.beginPath();for(const[a,b,c,d]of[[-25,-10,-25,-25],[-25,-25,-10,-25],[25,-25,10,-25],[25,-25,25,-10],[-25,10,-25,25],[-25,25,-10,25],[25,25,10,25],[25,25,25,10]]){ctx.moveTo(a,b);ctx.lineTo(c,d)}ctx.stroke();ctx.restore()}
-    if(VIVO.deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30)}} satisfies Escena);
+    if(VIVO.deferredInstall&&!standalone())pill(185,85,300,74,'Instalar el juego','#FFE08A',K,30)}} satisfies Escena;
 }

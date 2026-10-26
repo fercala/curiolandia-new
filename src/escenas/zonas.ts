@@ -31,7 +31,8 @@
  *   y suggestTema y stationPos. No cambia nada de escenas/escenas2d.ts (hasta
  *   la fase 4e añadía tipos a GNAME y envolvía la asamblea con el paso de
  *   cumpleaños, que ahora están allí). La capa 3D (mundo3d/) después
- *   envuelve map, casita, cofre y las zonas, cambia stationPos (ponStationPos)
+ *   envuelve map y las zonas, pone su disposición (escenas/disposicion.ts:
+ *   stationPos le pregunta a ella; antes, ponStationPos), cambia casita y cofre por los suyos
  *   y sobrescribe cada cuadro las x/y de ZPOS, MZ2, TITO y HOUSE_AT con las
  *   posiciones 3D proyectadas.
  *
@@ -42,7 +43,7 @@
  *   unlockFx, arrowAt, zonePos, ZPOS, newlyOpen, zoneScene, HOUSE_AT,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
  *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
- *   drawSeguir, drawZoneSpot, suggestTema, stationPos, ponStationPos,
+ *   drawSeguir, drawZoneSpot, suggestTema, stationPos,
  *   stLocked, GIFTS, nextGift, grantGift,
  *   drawChest.
  * Importa:
@@ -78,6 +79,7 @@ import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation,
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
 import { repasoTerminado, seguirPorElRepaso, tocaRepasar } from '../aplicacion/repasoDelDia.ts';
+import { disposicion } from './disposicion.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -464,14 +466,14 @@ SCENES.map={music:'map',
 };
 
 /* ---------- casitas de tema: los juegos también son un camino ---------- */
-// stationPos(t, j): posición [x, y] del juego j en la casita del tema t, formando un camino: hasta 4 en una fila;
-// hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al revés (zigzag). Desde la fase 4d está solo
-// aquí (antes había otra en escenas/escenas2d.ts). mundo3d/casita3d.ts la envuelve con las posiciones 3D (ponStationPos).
-export let stationPos: (t: Tema, j: number) => number[]=function(t,j){const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
+// stationPos(t, j): posición [x, y] del juego j en la casita del tema t. Desde la fase 4i pregunta primero a la vista
+// (disposicion(), de escenas/disposicion.ts: en 3D, los puestos proyectados). Si no lo sabe, la de la vista 2D,
+// formando un camino: hasta 4 en una fila; hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al
+// revés (zigzag). Desde la fase 4d está solo aquí (antes había otra en escenas/escenas2d.ts).
+export function stationPos(t: Tema,j: number): number[]{const p=disposicion()?.puesto(t,j);if(p)return p;
+  const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
   if(n<=6){const r=Math.floor(j/3),c=j%3;return[540+(r?2-c:c)*360,r?700:420]}
-  const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]};
-// ponStationPos(f): cambia stationPos (solo para mundo3d/casita3d.ts, que pone las posiciones 3D proyectadas).
-export function ponStationPos(f: typeof stationPos): void{stationPos=f}
+  const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]}
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
 export const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
 // CASITA v3: la escena de la casita de un tema: los juegos forman un camino y se abren de uno en uno (gameOpen). Desde

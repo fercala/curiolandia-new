@@ -42,7 +42,7 @@
  * Lo que exporta y usan otros archivos:
  *   SCENES, TEMAS, TEMA, CATALOGO, tst, gDone, drawLogo, drawLogoSmall, pill,
  *   VIVO.deferredInstall, standalone, asamHoy, tree,
- *   drawCasita, GNAME, gIcon, drawStation, finishGame,
+ *   drawCasita, GNAME, gIcon, drawStation, finishGame, ultimoJuego (desde la fase 4i),
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
  *   SEASON_NEXT, dayIdx, isBday, ALBUM_KEYS (SCENES está en nucleo/escenas.ts:
  *   aquí se le añaden las escenas).
@@ -311,11 +311,15 @@ export function finishGame(t: Tema,gi: number): void{
 // go('juego', {t: id del tema, g: número de juego}). Cuando el juego llama a su callback de fin, se ejecuta finishGame.
 // mundo3d/casita3d.ts envuelve enter (recordar el último juego). Las monedas del juego (las de cada acierto, que da
 // onRight, y el marcador) están aquí desde la fase 4b; antes las añadía escenas/tienda.ts envolviendo enter y draw.
+// ultimoJuego: el último juego que se abrió ({t: id del tema, g: número de juego}), o null. Lo apunta enter de la escena
+// juego; lo lee la casita 3D (mundo3d/casita3d.ts) para que, al volver, Tito aparezca junto a ese puesto. Desde la
+// fase 4i (antes, mundo3d/casita3d.ts envolvía este enter para apuntarlo).
+export let ultimoJuego: {t: string, g: number}|null=null;
 SCENES.juego={music:'game',
 // enter(o): pone a cero las monedas de acierto del juego (alEmpezarJuego; como mucho 5 por juego). REP = veces que ya se
 // ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
-// Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces.
-  enter(o){alEmpezarJuego();this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=repeticion(tst(o.t).g[o.g]);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
+// Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces. Apunta ultimoJuego.
+  enter(o){ultimoJuego={t:o.t,g:o.g};alEmpezarJuego();this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=repeticion(tst(o.t).g[o.g]);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
 // update(dt): pasa el tiempo al juego.
   update(dt){this.g.update&&this.g.update(dt)},
 // draw(): dibuja el juego, la casa, las estrellas de rondas (g.done de g.total), el cartel "Nivel N" al repetir, Tito y,

@@ -19,9 +19,11 @@
  *   - En cada cuadro, el método sync()/draw() de cada escena 3D proyecta los objetos 3D a 1600x900 con
  *     proj/projO/projR y escribe el resultado en esas globales. Así los enter/down/hint/draw originales
  *     siguen funcionando sin saber que hay 3D (dibujan el cartel encima del objeto 3D, etc.).
- *   - Las escenas 3D (SCENES.title, map, las zonas, casita, cofre) se "envuelven" en sus módulos (montarMapa3D...) con
- *     Object.assign(S0,{three:true, enter, draw, down...}): guardan el método original (enter0, down0) y lo
- *     llaman desde el nuevo. scene.three=true le dice al bucle de dibujo (aplicacion/adultos.ts) que llame a R3frame.
+ *   - Las escenas 3D (SCENES.title, map, las zonas, casita, cofre) se ponen en sus módulos (montarMapa3D...). Desde la
+ *     fase 4i, la portada, el cofre y la casita 3D son otra escena hecha a partir de la 2D, que no se toca
+ *     (SCENES.cofre={...cofre2D,three:true,enter,draw,down}): llaman a los métodos 2D por su nombre. El mapa y las zonas
+ *     aún se "envuelven" con Object.assign(S0,{three:true, enter, draw, down...}): guardan el método original (enter0,
+ *     down0) y lo llaman desde el nuevo. scene.three=true le dice al bucle de dibujo (aplicacion/adultos.ts) que llame a R3frame.
  *   - down(x,y): primero pickAt(x,y) lanza un rayo (raycast) desde la cámara por el punto tocado y
  *     devuelve el userData del objeto con userData.id (zona, casita, 'tito'...). Si no hay nada, se
  *     prueban los objetos animados (flyTap, wobTap), el cielo (skyTap), el mar o el suelo (walkGround).
@@ -65,8 +67,8 @@
  *   llega como global desde three.min.js, en mundo3d/three.d.ts.
  * Exporta: R3frame (lo llama frame(), en aplicacion/adultos.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y cambia funciones de otros con su pon*: go (ponGo, en
- *   mundo3d/interaccion.ts), stationPos (ponStationPos, en mundo3d/casita3d.ts) y goSeguir (ponGoSeguir, en
- *   mundo3d/mapa3d.ts).
+ *   mundo3d/interaccion.ts) y goSeguir (ponGoSeguir, en mundo3d/mapa3d.ts), y pone la disposición de la vista 3D
+ *   (ponDisposicion, de escenas/disposicion.ts, en mundo3d/casita3d.ts: desde la fase 4i, en vez de cambiar stationPos).
  * Importa: de mundo3d/motor.ts montarMotor y lo que usa R3frame (R, W3, camTick, fpsTick), scene (src/nucleo/) y las
  *   funciones montar* de cada módulo.
  * Todo va dentro de una función que se llama sola: si montarMotor() dice que no hay Three.js o WebGL, se sale y el

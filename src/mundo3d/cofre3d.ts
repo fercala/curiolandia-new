@@ -1,8 +1,8 @@
 /*
  * mundo3d/cofre3d.ts: el cofre del tesoro en 3D (desde la fase 4h; antes, en mundo3d/mundo3d.ts): buildCofre monta el
  * mundo (el cofre con su tapa, rayos de luz, estrellas, flores, el loro, el cangrejo y Tito).
- * montarCofre3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) convierte en 3D la escena del cofre (SCENES.cofre):
- * dibuja encima el premio que sale y los toques que faltan, y el toque abre el cofre con la lógica de siempre.
+ * montarCofre3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone en SCENES.cofre el cofre 3D, otra escena
+ * hecha a partir de la 2D (desde la fase 4i; antes la envolvía): dibuja encima el premio que sale y los toques que faltan, y el toque abre el cofre con la lógica de siempre.
  * Exporta: montarCofre3D. Importa: del núcleo y de escenas/ lo que dibuja y lee el cofre; el motor, las piezas (también
  * gradTex) y lo de los demás módulos de mundo3d/.
  */
@@ -54,13 +54,15 @@ function buildCofre(st: Escena){const w=newWorld({fov:36,kind:'cofre',shadow:10}
     tito.userData.anim(dt,{hop:st.openT?st.openT+.2:st.hop})});
   wobInit(w);
   camRig(w,V3(0,4.6,10),V3(0,2.05,0),.5);return w}
-// montarCofre3D(): convierte en 3D la escena del cofre del tesoro. La llama mundo3d/mundo3d.ts al montar la capa 3D.
+// montarCofre3D(): pone el cofre del tesoro en 3D en lugar del 2D (SCENES.cofre). La llama mundo3d/mundo3d.ts al montar
+// la capa 3D. Desde la fase 4i es otra escena, no una envoltura: copia del cofre 2D (cofre2D, de escenas/zonas.ts, que
+// no se toca) la lógica (reward, next, prompt, hint, dwell) y pone su enter, su draw y su down, que llaman a los del 2D
+// cuando hace falta la lógica de siempre.
 export function montarCofre3D(): void{
-// Convierte en 3D la escena del cofre (escenas/tienda.ts / escenas/escenas2d.ts)
-const S0=SCENES.cofre,enter0=S0.enter!,down0=S0.down!;
- Object.assign(S0,{three:true,
+const cofre2D=SCENES.cofre;
+ SCENES.cofre={...cofre2D,three:true,
   // enter(o): construye el mundo del cofre
-  enter(o: Libre){this.hop=null;this.hov=false;enter0!.call(this,o);if(sceneName!=='cofre')return;setWorld(buildCofre(this));titoRect(W3!.tito!)},
+  enter(o: Libre){this.hop=null;this.hov=false;cofre2D.enter!.call(this,o);if(sceneName!=='cofre')return;setWorld(buildCofre(this));titoRect(W3!.tito!)},
   // draw(): cada cuadro: ratón sobre el cofre, apertura (this.op), el premio que sale, los toques que faltan (3 círculos) y botones
   draw(){const w=W3;if(w&&w.kind==='cofre')titoRect(w.tito!);
     this.hov=false;if(!this.openT&&VIVO.mouseOn&&!VIVO.drag&&w&&w.kind==='cofre'){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.id==='chest'){this.hov=true;VIVO.hovNow='cf:cofre'}}
@@ -75,9 +77,9 @@ const S0=SCENES.cofre,enter0=S0.enter!,down0=S0.down!;
     drawHome();drawCoinHUD();
     if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): antes de abrirse: el cofre (lógica original en el centro), Tito o las flores; después, lógica original
-  down(x: number,y: number){if(!this.openT){const u=pickAt(x,y);if(u&&u.id==='chest')return call0(down0,this,800,520);if(u&&u.id==='tito'){this.hop=T;return down0!.call(this,x,y)}
+  down(x: number,y: number){if(!this.openT){const u=pickAt(x,y);if(u&&u.id==='chest')return call0(cofre2D.down!,this,800,520);if(u&&u.id==='tito'){this.hop=T;return cofre2D.down!.call(this,x,y)}
       // las flores alrededor del cofre también responden (lejos del cofre, para no quitarle toques)
       if(!u&&!atHome(x,y)&&!inR(x,y,800,520,380,360)&&W3&&wobTap(W3,x,y))return}
-    return down0!.call(this,x,y)}} satisfies Escena);
+    return cofre2D.down!.call(this,x,y)}} satisfies Escena;
  // la casa de Tito por dentro sigue en 2D, pero en su lugar original
 }
