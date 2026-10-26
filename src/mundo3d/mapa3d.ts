@@ -3,7 +3,7 @@
  * (sea3), la isla (island3), cada lugar del mapa (SPOT3, colocados con MAPPOS y MP), la casa de Tito con Pipo, los
  * lugares dormidos (zzz) o aún cerrados (greyAll) y buildMap, que monta el mundo entero.
  * montarMapa3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de los lugares
- * (escenas/disposicion.ts: lo que proyecta sync() cada cuadro, en MZP, para que mzOf y la lógica 2D de escenas/zonas.ts
+ * (nucleo/disposicion.ts: lo que proyecta sync() cada cuadro, en MZP, para que mzOf y la lógica 2D de escenas/zonas.ts
  * acierten) y pone en SCENES.map el mapa 3D, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía,
  * escribía lo proyectado en MZ2 y envolvía goSeguir). Su seguir() hace que Tito camine hasta el lugar antes de entrar.
  * Exporta: montarMapa3D. Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa;
@@ -14,21 +14,21 @@ import type * as Tres from 'three';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, DIAC, FLC, LF, PI, S, SCENES, SFX, T, TITO, VIVO, atHome, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, fillStroke, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, tx } from '../nucleo/indice.ts';
+import { DF, DIAC, FLC, LF, PI, S, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, fillStroke, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, tx, titoPos } from '../nucleo/indice.ts';
 import { asamHoy, drawLogoSmall } from '../escenas/escenas2d.ts';
-import { HOUSE_AT, MAINZ, MZ2, SEGUIR, ZAGE, drawSeguir, goSeguir, houseLevel, mzOf, nextTema, petStage, spotNeed, spotOpen, zoneOpen } from '../escenas/zonas.ts';
-import { ponDisposicion } from '../escenas/disposicion.ts';
+import { MAINZ, MZ2, SEGUIR, ZAGE, drawSeguir, goSeguir, houseLevel, mzOf, nextTema, petStage, spotNeed, spotOpen, zoneOpen } from '../escenas/zonas.ts';
+import { ponDisposicion } from '../nucleo/disposicion.ts';
 import { W3, camRig, newWorld, pickAt, projO, projR, setWorld } from './motor.ts';
 import { Box, Cone, Cyl, M, OLm, Sph, V3, canvasTex, flowerTex, gradiente, grp, mg, mk, olGeo, picTex, pillSpr, pillTex, plane, prism, spr, starGeo } from './materiales.ts';
 import { bez, bush3, fhit, fireflies, flower3, gull3, lock3, ribbon, ring3, rock3, tree3 } from './decorado.ts';
-import { busy3, call0, flyTap, seaTap, titoRect, walkGround, walkTick, walkTo, wobInit, wobTap } from './interaccion.ts';
+import { busy3, call0, flyTap, ponCasaP, seaTap, titoRect, walkGround, walkTick, walkTo, wobInit, wobTap } from './interaccion.ts';
 import { balloon3, cloud3, crab3, dolph3, hab3, hallowNow, lighthouse3, palm3, pump3, sandc3, seasonFx, snowman3, summerNow, sunb3, whale3, winterNow, xmasNow, xtree3 } from './objetos.ts';
 import { ffTap, makeHouse, makePipo, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 import { skyNow } from './cielo.ts';
 
 /* ================= EL MAPA: la isla de Curiolandia ================= */
 // MZP: dónde ha quedado en la pantalla cada lugar del mapa {x,y,r} (id de MZ2 -> lo proyectado), lo último que proyectó
-// sync(). Es la disposición de los lugares (escenas/disposicion.ts: mzOf la pregunta). Desde la fase 4j; antes sync()
+// sync(). Es la disposición de los lugares (nucleo/disposicion.ts: mzOf la pregunta). Desde la fase 4j; antes sync()
 // escribía en MZ2 y una copia, MZB, guardaba las posiciones 2D.
 // MP(x,y): pasa un punto de la pantalla 2D del mapa (1600x900) a coordenadas [x,z] del suelo 3D (40 píxeles = 1 unidad).
 // MAPPOS: dónde va cada lugar del mapa en 3D, en píxeles 2D (se pasan con MP). id del lugar -> [x,y].
@@ -200,7 +200,7 @@ const mapa2D=SCENES.map;
   // escenas/zonas.ts aciertan); también la casa y Tito
   sync(){const w=W3;if(!w||w.kind!=='map')return;
     for(const z of MZ2){const g=w.spots![z.id];if(!g)continue;const [x,y,r]=projR(g,2.6,1.2);MZP[z.id]={x,y,r:Math.max(60,r)}}
-    const h=w.spots!.casaTito,[hx,hy]=projO(h,0);HOUSE_AT[0]=hx;HOUSE_AT[1]=hy+60;titoRect(w.tito!)},
+    const h=w.spots!.casaTito,[hx,hy]=projO(h,0);ponCasaP(hx,hy+60);titoRect(w.tito!)},
   // draw(): se llama cada cuadro encima del 3D: decide qué hay bajo el ratón (hov, hovTito), su nombre, el logo, botones y bocadillo de Tito
   draw(){this.sync();const w=W3;
     let hv_=null;let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.spot){hv_=u.spot;VIVO.hovNow='mz'+u.spot}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}else if(u&&u.id==='pipo')VIVO.hovNow='pipo'}
@@ -209,7 +209,7 @@ const mapa2D=SCENES.map;
     if(hv_){const z=mzOf(hv_);ctx.font=`600 34px ${DF}`;const t=cap(z.name),tw=ctx.measureText(t).width;const cy=Math.max(z.y-z.r-70,118);card(z.x-tw/2-26,cy,tw+52,58,'rgba(255,255,255,.92)',5,29);text(t,z.x,cy+41,34,K,{w:600})}
     card(560,22,480,88,'#fff',6,44);drawLogoSmall(800,86,56);
     drawSeguir();drawHome();drawCoinHUD();
-    if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+    if(VIVO.talking){const tp=titoPos(),bx=tp.x+tp.w*.85,by=tp.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): toque en el mapa. Botones 2D -> lógica original; objetos que vuelan; nada -> objeto tocable, mar o pasear;
   // Tito -> salta; mascota -> lógica 2D de la mascota; lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
   down(x: number,y: number){const w=W3;if(!w||busy3(w))return;
@@ -217,7 +217,7 @@ const mapa2D=SCENES.map;
     const u=pickAt(x,y);if(flyTap(w,x,y))return;
     if(!u){if(wobTap(w,x,y)||seaTap(w))return;SFX.tap();if(skyNow().night)ffTap(x,y);else sparkles(x,y);walkGround(w);return}
     if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt!(false);return}
-    if(u.id==='pipo'){const [px,py]=projO(w.spots!.casaTito.userData.pet,1);const h0=[HOUSE_AT[0],HOUSE_AT[1]];HOUSE_AT[0]=px-170;HOUSE_AT[1]=py+10;this.petJump=T;try{mapa2D.down!.call(this,px,py)}finally{HOUSE_AT[0]=h0[0];HOUSE_AT[1]=h0[1]}return}
+    if(u.id==='pipo'){this.petJump=T;mapa2D.tocarPipo!.call(this);return}
     const z=mzOf(u.spot);if(!z)return;const open=ZAGE[z.id]?zoneOpen(z.id):spotOpen(z.id);
     if(!open){this.lockShake={id:z.id,t:T};return call0(mapa2D.down!,this,z.x,z.y)}
     SFX.whoosh&&SFX.whoosh();const g=w.spots![z.id],to=g.position.clone().add(V3(z.id==='casaTito'?1.2:1.4,0,z.id==='casaTito'?2.8:2.4));

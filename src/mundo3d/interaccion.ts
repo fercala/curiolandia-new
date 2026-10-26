@@ -2,13 +2,14 @@
  * mundo3d/interaccion.ts: cómo se juega con el mundo 3D (desde la fase 4h; antes, en mundo3d/mundo3d.ts): Tito camina
  * (walkTo, walkTick, walkGround, busy3) dejando su rastro (trailTick); los objetos con marca reaccionan al tocarlos
  * (WOBK, wobInit, wobTap, con lo que suena y dice Tito; flyTap para lo que vuela o va delante; seaTap para el mar); y
- * el puente con la lógica 2D: titoRect pone el rectángulo TITO encima del Tito 3D, call0 llama al down() original sin
- * que TITO ni la casa roben el toque y restore2D lo devuelve todo al salir del 3D. retito rehace a Tito al cambiar de
- * animal en la zona de adultos.
- * montarInteraccion() (la llama mundo3d/mundo3d.ts al montar la capa 3D) envuelve go() con ponGo y deja window.__w3.
- * Exporta: lo de arriba (walkTo, wobInit, wobTap, flyTap, seaTap, walkGround, busy3, walkTick, titoRect, call0) y
- * montarInteraccion. Importa: del núcleo T, PI, SCENES, TITO, go y ponGo, scene, sceneName, setCursor, tone, noise,
- * parts, burst, sparkles, pick, rnd, clamp; TUNES y playTune (juegos/); isBday (escenas/escenas2d.ts); HOUSE_AT
+ * el puente con la lógica 2D: titoRect pone el rectángulo de Tito encima del Tito 3D y ponCasaP apunta la casa del
+ * mapa (la disposición de los dos, desde la fase 4k; antes se escribían en TITO y HOUSE_AT), y call0 llama al down()
+ * original sin que Tito ni la casa roben el toque. retito rehace a Tito al cambiar de animal en la zona de adultos.
+ * montarInteraccion() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de Tito y de su casa y
+ * deja window.__w3 (hasta la fase 4k también envolvía go con ponGo).
+ * Exporta: lo de arriba (walkTo, wobInit, wobTap, flyTap, seaTap, walkGround, busy3, walkTick, titoRect, ponCasaP,
+ * call0) y montarInteraccion. Importa: del núcleo T, PI, SCENES, TITO, scene, sceneName, tone, noise, parts, burst,
+ * sparkles, pick, rnd, clamp; ponDisposicion (nucleo/disposicion.ts); TUNES y playTune (juegos/); isBday (escenas/escenas2d.ts); HOUSE_AT
  * (escenas/zonas.ts); ahora() y azar() (aplicacion/puertos.ts); de mundo3d/motor.ts W3, R, RC, PRK, FPS, pickAt, proj y
  * projR; V3 (mundo3d/materiales.ts); la voz del paisaje (mundo3d/cielo.ts), lo de tocar de mundo3d/objetos.ts y los
  * personajes (mundo3d/personajes.ts).
@@ -16,7 +17,8 @@
 import type * as Tres from 'three';
 import type { Escena } from '../nucleo/tipos.ts';
 import type { MallaBasica, Mundo, Nodo, OpcionesPaseo } from './tipos.ts';
-import { PI, SCENES, T, TITO, burst, clamp, go, noise, parts, pick, ponGo, rnd, scene, sceneName, setCursor, sparkles, tone } from '../nucleo/indice.ts';
+import { PI, SCENES, T, TITO, burst, clamp, noise, parts, pick, rnd, scene, sceneName, sparkles, tone } from '../nucleo/indice.ts';
+import { ponDisposicion } from '../nucleo/disposicion.ts';
 import { TUNES, playTune } from '../juegos/indice.ts';
 import { isBday } from '../escenas/escenas2d.ts';
 import { HOUSE_AT } from '../escenas/zonas.ts';
@@ -257,27 +259,39 @@ export function walkTick(w: Mundo,tito: Tres.Group,dt: number){const k=w.walk;le
   // el caracol deja su rastro brillante; los demás animales levantan un polvito a cada paso
   trailTick(w,tito,dt,wk,tito.userData.kind!=='caracol');return wk}
 
-// TITO (rectángulo 2D) y HOUSE_AT siguen al modelo 3D; al volver al 2D se restauran
-const TITO0={x:TITO.x,y:TITO.y,w:TITO.w},HOUSE0=[HOUSE_AT[0],HOUSE_AT[1]];
-// titoRect(o): pone el rectángulo 2D TITO (el que usa la lógica 2D para tocar a Tito y colocar su bocadillo) encima del modelo 3D o.
-export function titoRect(o: Tres.Object3D){const [x,y,r]=projR(o,1.6,1.4);TITO.w=r*1.6;TITO.x=x-TITO.w/2;TITO.y=y-TITO.w*.42}
-// restore2D(): devuelve TITO y HOUSE_AT a sus valores 2D originales (se llama al salir a una escena que no es 3D).
-function restore2D(){Object.assign(TITO,TITO0);HOUSE_AT[0]=HOUSE0[0];HOUSE_AT[1]=HOUSE0[1]}
+// TITOP: el rectángulo de Tito {x,y,w} proyectado del modelo 3D (lo último que puso titoRect); CASAP: [x,y] de la casa de
+// Tito proyectada en el mapa (lo pone el mapa 3D con ponCasaP). Son la disposición de Tito y de su casa
+// (nucleo/disposicion.ts: titoPos e inTito, casaPos), que vale mientras la escena es 3D: en una escena 2D, la
+// disposición no las sabe y valen TITO y HOUSE_AT. Desde la fase 4k; antes se escribían en TITO y HOUSE_AT, y al ir a
+// una escena 2D se volvían a poner los valores 2D (restore2D, envolviendo go).
+let TITOP: {x: number, y: number, w: number}|null=null,CASAP: number[]|null=null;
+// ocultos: true mientras call0 pasa un toque a la lógica 2D: entonces Tito y su casa están fuera de la pantalla (x=-9999).
+let ocultos=false;
+// titoRect(o): pone el rectángulo de Tito (TITOP, el que usa la lógica 2D para tocar a Tito y colocar su bocadillo, con
+// titoPos) encima del modelo 3D o.
+export function titoRect(o: Tres.Object3D){const [x,y,r]=projR(o,1.6,1.4),w=r*1.6;TITOP={x:x-w/2,y:y-w*.42,w}}
+// ponCasaP(x,y): la casa de Tito proyectada en el mapa 3D (CASAP; la pone mundo3d/mapa3d.ts en cada sync).
+export function ponCasaP(x: number,y: number): void{CASAP=[x,y]}
 // llamar a la lógica original sin que el rectángulo de Tito ni la mascota capturen el toque
-// fn: el down() original de la escena 2D; self: la escena; (x,y): punto 2D. Aparta TITO y la casa fuera de la pantalla mientras dura
-// la llamada y los vuelve a poner después (solo si seguimos en una escena 3D).
-export function call0(fn: (this: Escena, x: number, y: number) => void,self: Escena,x: number,y: number){const tx_=TITO.x,h0=HOUSE_AT[0];TITO.x=-9999;HOUSE_AT[0]=-9999;try{fn.call(self,x,y)}finally{if(sceneName&&scene&&scene.three){TITO.x=tx_;HOUSE_AT[0]=h0}}}
+// fn: el down() original de la escena 2D; self: la escena; (x,y): punto 2D. Mientras dura la llamada, la disposición
+// pone a Tito y a la casa fuera de la pantalla (ocultos), porque esos toques ya los ha mirado la escena 3D con su rayo.
+export function call0(fn: (this: Escena, x: number, y: number) => void,self: Escena,x: number,y: number){ocultos=true;try{fn.call(self,x,y)}finally{ocultos=false}}
 // cambiar de personaje (zona de adultos): Tito se rehace dentro del mismo grupo, así la escena sigue igual
 // retito(): sin parámetros; usa W3. Lo llama la zona de adultos (aplicacion/adultos.ts, vía window.__w3.retito) al cambiar el animal guía.
 function retito(){const w=W3,t=w&&w.tito;if(!t)return;const keepUD={face:t.userData.face,rest:t.userData.rest};
   for(const c of t.children.slice()){t.remove(c);c.traverse((o: Nodo)=>{if(o.geometry&&!o.geometry.userData.keep)o.geometry.dispose()})}makeTito(t);Object.assign(t.userData,keepUD);
   // el emblema de la puerta de su casa también cambia al momento (antes seguía el del animal anterior hasta salir del mapa)
   const h=w.spots&&w.spots.casaTito&&w.spots.casaTito.userData.house,e=h&&h.userData.emb;if(e){e.material.map=shellTex();e.material.needsUpdate=true}}
-// montarInteraccion(): lo que la capa 3D cambia del resto del juego al montarse: envuelve go() y deja window.__w3. La
-// llama mundo3d/mundo3d.ts después de montarMotor (antes de montar las escenas 3D).
+// montarInteraccion(): lo que la capa 3D pone al montarse: la disposición de Tito y de su casa y window.__w3. La llama
+// mundo3d/mundo3d.ts después de montarMotor (antes de montar las escenas 3D). Desde la fase 4k ya no envuelve go: lo
+// único que hacía, volver a poner TITO y HOUSE_AT en 2D al salir del 3D, ya no hace falta (la disposición solo vale en
+// las escenas 3D).
 export function montarInteraccion(): void{
-// envuelve go() (cambio de escena, core/scenes): al ir a una escena que no es 3D, restaura TITO/HOUSE_AT y el cursor normal
-const go0=go;ponGo(function(n,o){go0(n,o);if(!(scene&&scene.three)){restore2D();setCursor('pt')}});
+// tito(), casa(): en una escena 3D, Tito y su casa proyectados (fuera de la pantalla mientras call0 pasa un toque; antes
+// de proyectarse, los 2D); en una 2D, null (valen TITO y HOUSE_AT)
+ponDisposicion({
+  tito(){if(!(scene&&scene.three))return null;const t=TITOP||TITO;return ocultos?{...t,x:-9999}:t},
+  casa(){if(!(scene&&scene.three))return null;const c=CASAP||HOUSE_AT;return ocultos?[-9999,c[1]]:c}});
 // window.__w3: lo que esta capa 3D ofrece al resto del juego y a las pruebas desde la consola: W (el mundo actual), retito,
 // PRK (resolución de dibujo: al cambiarla se llama a rs() para redimensionar), FPS, pickAt, proj, THREE y R (el renderizador). Al final se pone __w3.ok=true.
 window.__w3={get W(){return W3},retito,get PRK(){return PRK},set PRK(v){ponPRK(v)},FPS,pickAt,proj,THREE,R};

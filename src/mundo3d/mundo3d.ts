@@ -3,7 +3,7 @@
 // Los juegos, la asamblea, la tienda, el álbum y la casa por dentro siguen en el lienzo 2D (#cv), que va encima.
 // Para no reescribir la lógica de siempre, en cada cuadro se proyectan las posiciones 3D a coordenadas 1600x900
 // (los sitios del mapa, las casitas, los puestos, TITO, HOUSE_AT) y los enter/down/hint originales trabajan sobre esas
-// posiciones (desde las fases 4i y 4j, casi todas a través de la disposición, escenas/disposicion.ts).
+// posiciones (desde las fases 4i y 4j, casi todas a través de la disposición, nucleo/disposicion.ts).
 /* ============================================================================
  * mundo3d/mundo3d.ts (antes world3d.js) — LA CAPA 3D DE CURIOLANDIA: la entrada, que la monta
  * ----------------------------------------------------------------------------
@@ -13,13 +13,13 @@
  *   (#cv) va encima y es transparente en las escenas 3D: en él se pintan los carteles, botones y HUD.
  *
  * Cómo engancha con la lógica 2D (la idea clave del archivo):
- *   - La lógica original (escenas/escenas2d.ts, escenas/zonas.ts) trabaja en una pantalla lógica de 1600x900 y guarda las
- *     posiciones de lo que se puede tocar en globales: MZ2 (zonas del mapa: x, y, r), ZPOS[zona][tema]
- *     (casitas de cada zona), stationPos(t,j) (puestos de una casita), TITO (rectángulo de Tito) y
- *     HOUSE_AT (casa de Tito y su mascota).
+ *   - La lógica original (escenas/escenas2d.ts, escenas/zonas.ts) trabaja en una pantalla lógica de 1600x900 y tiene
+ *     las posiciones 2D de lo que se puede tocar: MZ2 (zonas del mapa: x, y, r), ZPOS[zona][tema] (casitas de cada
+ *     zona), los puestos de una casita, TITO (rectángulo de Tito) y HOUSE_AT (casa de Tito y su mascota).
  *   - En cada cuadro, el método sync()/draw() de cada escena 3D proyecta los objetos 3D a 1600x900 con
- *     proj/projO/projR y escribe el resultado en esas globales. Así los enter/down/hint/draw originales
- *     siguen funcionando sin saber que hay 3D (dibujan el cartel encima del objeto 3D, etc.).
+ *     proj/projO/projR y lo pone en la disposición (nucleo/disposicion.ts, desde las fases 4i a 4k; antes lo escribía
+ *     en esas globales). La lógica pregunta ahí (mzOf, casitaPos, stationPos, titoPos, inTito, casaPos), así que los
+ *     enter/down/hint/draw originales siguen funcionando sin saber que hay 3D (dibujan el cartel encima del objeto 3D...).
  *   - Las escenas 3D (SCENES.title, map, las zonas, casita, cofre) se ponen en sus módulos (montarMapa3D...). Desde la
  *     fase 4i, la portada, el cofre y la casita 3D son otra escena hecha a partir de la 2D, que no se toca
  *     (SCENES.cofre={...cofre2D,three:true,enter,draw,down}): llaman a los métodos 2D por su nombre. Desde la fase 4j,
@@ -28,7 +28,8 @@
  *     devuelve el userData del objeto con userData.id (zona, casita, 'tito'...). Si no hay nada, se
  *     prueban los objetos animados (flyTap, wobTap), el cielo (skyTap), el mar o el suelo (walkGround).
  *     Si se tocó un lugar, walkTo() hace que Tito camine hasta allí y al llegar se llama a la lógica 2D
- *     original con call0() (que aparta TITO y HOUSE_AT para que no "roben" el toque).
+ *     original con call0() (mientras dura, la disposición pone a Tito y la casa fuera de la pantalla para que no "roben" el
+ *     toque).
  *   - R3frame(dt): lo llama el bucle principal (aplicacion/adultos.ts) en cada cuadro si la escena es 3D. Ejecuta las
  *     funciones de W3.upd (animaciones), mueve la cámara (camTick) y dibuja la escena con R.render.
  *
@@ -66,11 +67,11 @@
  *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts, y THREE, que
  *   llega como global desde three.min.js, en mundo3d/three.d.ts.
  * Exporta: R3frame (lo llama frame(), en aplicacion/adultos.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
- *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y cambia funciones de otros con su pon*: go (ponGo, en
- *   mundo3d/interaccion.ts), y pone la disposición de la vista 3D (ponDisposicion, de escenas/disposicion.ts: los puestos
- *   de la casita, desde la fase 4i, en mundo3d/casita3d.ts, y los sitios del mapa y las casitas de las zonas, desde la
- *   4j, en mapa3d.ts y zonas3d.ts; antes cambiaba stationPos con ponStationPos, goSeguir con ponGoSeguir y escribía lo
- *   proyectado en MZ2 y ZPOS).
+ *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y pone la disposición de la vista 3D (ponDisposicion, de
+ *   nucleo/disposicion.ts: los puestos de la casita, desde la fase 4i, en mundo3d/casita3d.ts; los sitios del mapa y las
+ *   casitas de las zonas, desde la 4j, en mapa3d.ts y zonas3d.ts; Tito y su casa, desde la 4k, en interaccion.ts). Ya no
+ *   cambia funciones de otros: hasta las fases 4i a 4k cambiaba stationPos con ponStationPos, goSeguir con ponGoSeguir
+ *   y go con ponGo, y escribía lo proyectado en MZ2, ZPOS, TITO y HOUSE_AT.
  * Importa: de mundo3d/motor.ts montarMotor y lo que usa R3frame (R, W3, camTick, fpsTick), scene (src/nucleo/) y las
  *   funciones montar* de cada módulo.
  * Todo va dentro de una función que se llama sola: si montarMotor() dice que no hay Three.js o WebGL, se sale y el
