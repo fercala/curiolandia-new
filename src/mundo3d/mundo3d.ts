@@ -63,7 +63,8 @@
  *   tocar objetos con wobTap y el puente con la lógica 2D: titoRect, call0) y una por cada escena 3D: mapa3d.ts,
  *   zonas3d.ts, casita3d.ts, cofre3d.ts y portada3d.ts. Ninguno crea nada de Three.js al cargarse: cada escena se
  *   convierte en 3D con su función montar* (montarMapa3D...) y este archivo las llama en orden.
- * Desde la fase 2o es un módulo: src/modulos.ts lo carga el último (después de aplicacion/adultos.ts) y el puente deja
+ * Desde la fase 2o es un módulo: src/modulos.ts lo carga después de las escenas y, desde la fase 4p, antes de
+ *   aplicacion/adultos.ts, que importa R3frame (antes iba después y R3frame era una global tardía); el puente deja
  *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts, y THREE, que
  *   llega como global desde three.min.js, en mundo3d/three.d.ts.
  * Exporta: R3frame (lo llama frame(), en aplicacion/adultos.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y

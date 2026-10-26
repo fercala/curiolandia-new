@@ -56,8 +56,8 @@
  *   esCumple de dominio/progreso.ts (isBday), repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
  *   terminarJuego de aplicacion/terminarJuego.ts (finishGame) y, desde la fase 4m, premioDelCumple y terminarAsamblea de
  *   aplicacion/premiosDelDia.ts; del núcleo, también REP_ON y las monedas
- *   (giveCoins, creditCoins, drawCoinHUD, alEmpezarJuego). Usa openNameDlg y openResetDlg de
- *   aplicacion/adultos.ts, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
+ *   (giveCoins, creditCoins, drawCoinHUD, alEmpezarJuego). Desde la fase 4p, openNameDlg y openResetDlg de
+ *   aplicacion/dialogos.ts (antes de aplicacion/adultos.ts, que se carga después: eran globales tardías).
  * Partes de S que toca: S.age, S.name, S.first (askedName, wk),
  *   S.intro, S.temas[id] ({g:{índice: veces}, done}),
  *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.bdayDone (cumpleaños
@@ -71,6 +71,7 @@ import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting, dayNight,
 import { repeticion } from '../dominio/dificultad.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
+import { openNameDlg, openResetDlg } from '../aplicacion/dialogos.ts';
 // terminarJuego: lo que cambia en la partida al terminar un juego (caso de uso, desde la fase 4b); lo usa finishGame.
 import { terminarJuego } from '../aplicacion/terminarJuego.ts';
 import { premioDelCumple, terminarAsamblea } from '../aplicacion/premiosDelDia.ts';
