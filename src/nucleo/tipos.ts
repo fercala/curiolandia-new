@@ -51,17 +51,17 @@ export interface Vale {
   given?: boolean | number;
 }
 
-/** El repaso del día (repaso.js). */
+/** El repaso del día (escenas/repaso.ts). */
 export interface Repaso {
   d?: FechaDia;
   list: string[];
   done: Record<string, number>;
-  weak?: string[];
+  weak?: number;
   paid?: number | boolean;
   seen?: number | boolean;
 }
 
-/** El estado guardado completo: DEF (guardado.ts) + DEF2 (escenas/tienda.ts) + repaso.js + campos sueltos. */
+/** El estado guardado completo: DEF (guardado.ts) + DEF2 (escenas/tienda.ts) + escenas/repaso.ts + campos sueltos. */
 export interface Estado {
   // DEF (guardado.ts)
   age: number;
@@ -98,7 +98,7 @@ export interface Estado {
   petSeen?: number;
   cofres?: number;
   cofreP?: Record<string, number>;
-  // repaso.js
+  // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;
   rep?: Repaso;

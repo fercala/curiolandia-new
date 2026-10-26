@@ -20,8 +20,8 @@
  *   -> casita con o.fin -> cofre -> vuelve a la zona ({from}).
  *
  * Desde la fase 2k es un módulo (escenas/indice.ts lo carga después de
- *   escenas2d.ts) y el puente deja lo que exporta en globalThis para repaso.js,
- *   adult.js y world3d.js, que aún son código global (escenas/tienda.ts lo importa).
+ *   escenas2d.ts) y el puente deja lo que exporta en globalThis para adult.js y
+ *   world3d.js, que aún son código global (escenas/tienda.ts y escenas/repaso.ts lo importan).
  *
  * Reescribe cosas de escenas/escenas2d.ts al cargarse:
  *   suggestTema y stationPos (con ponSuggestTema y ponStationPos), SCENES.jardin (entera), SCENES.map y
@@ -341,7 +341,7 @@ export const spotNeed=(id: string)=>({canciones:NEED['X-CAN'],rutinas:NEED['X-RU
 // goSeguir(): acción del botón "seguir el camino": si no se ha hecho la asamblea hoy, va a la asamblea; si no, a la
 // casita de nextTema(). Si no queda nada, lo dice.
 export let goSeguir: () => void=function(){if(!asamHoy()){go('asamblea');return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Podés repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
-// ponGoSeguir(f): cambia goSeguir por otra función (repaso.js y world3d.js la envuelven).
+// ponGoSeguir(f): cambia goSeguir por otra función (escenas/repaso.ts y world3d.js la envuelven).
 export function ponGoSeguir(f: typeof goSeguir){goSeguir=f}
 // drawSeguir(): dibuja el botón verde de seguir, que late con un halo amarillo.
 export function drawSeguir(){const p=(Math.sin(T*4)+1)/2,s=hv('seguir',hC(SEGUIR.x,SEGUIR.y,SEGUIR.r+8));ctx.save();ctx.translate(SEGUIR.x,SEGUIR.y);ctx.scale(s*(1+p*.05),s*(1+p*.05));
