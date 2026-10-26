@@ -53,8 +53,9 @@
  *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
  *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight, bunting),
  *   juegos/ (NUM, TUNES, playTune: la canción del cumpleaños), src/dibujos/ (PICS, K),
- *   esCumple de dominio/progreso.ts (isBday), MONEDAS de dominio/monedas.ts, repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
- *   terminarJuego de aplicacion/terminarJuego.ts (finishGame); del núcleo, también REP_ON y las monedas
+ *   esCumple de dominio/progreso.ts (isBday), repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
+ *   terminarJuego de aplicacion/terminarJuego.ts (finishGame) y, desde la fase 4m, premioDelCumple y terminarAsamblea de
+ *   aplicacion/premiosDelDia.ts; del núcleo, también REP_ON y las monedas
  *   (giveCoins, creditCoins, drawCoinHUD, alEmpezarJuego). Usa openNameDlg y openResetDlg de
  *   aplicacion/adultos.ts, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
  * Partes de S que toca: S.age, S.name, S.first (askedName, wk),
@@ -73,10 +74,10 @@ import { repeticion } from '../dominio/dificultad.ts';
 import { ahora } from '../aplicacion/puertos.ts';
 // terminarJuego: lo que cambia en la partida al terminar un juego (caso de uso, desde la fase 4b); lo usa finishGame.
 import { terminarJuego } from '../aplicacion/terminarJuego.ts';
+import { premioDelCumple, terminarAsamblea } from '../aplicacion/premiosDelDia.ts';
 import type { CatalogoDeTemas } from '../aplicacion/repasoDelDia.ts';
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
 import { esCumple } from '../dominio/progreso.ts';
-import { MONEDAS } from '../dominio/monedas.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -426,15 +427,15 @@ SCENES.asamblea={music:'plaza',
   in_emocion(){this.setOpts(EMO_AGE[AGE()].map(m=>({draw:(x: number,y: number,s: number)=>drawFace(x,y,s*.42,m),v:m,ok:true})),520,AGE()>=5?175:AGE()===4?220:260);this.ask(()=>say(tx('¿Cómo te sentís hoy? Tocá la carita.')))},
 // in_fin(): cierra la asamblea: guarda S.asam[hoy] con done y edad, borra las más antiguas (se quedan 120 días) y,
 // si es la 3.ª asamblea de la semana (desde el lunes, wk), regala una figurita una sola vez por semana (S.first.wk).
-// Después vuelve al mapa. La primera asamblea terminada de cada día regala además 5 monedas (MONEDAS.asamblea).
-  in_fin(){const first=!(S.asam[today()]&&S.asam[today()].done);const r=this.rec;r.done=1;r.age=AGE();S.asam[today()]=r;
-    const ks=Object.keys(S.asam).sort();while(ks.length>120)delete S.asam[ks.shift()!];
-    const wk=(()=>{const d=new Date(this.d);d.setDate(d.getDate()-dayIdx(d));return ymd(d)})();
-    const n=Object.keys(S.asam).filter(k=>k>=wk&&S.asam[k].done).length;save();
+// Después vuelve al mapa. La primera asamblea terminada de cada día regala además 5 monedas (MONEDAS.asamblea). Lo que cambia
+// en la partida lo decide el caso de uso terminarAsamblea (aplicacion/premiosDelDia.ts); aquí, la pantalla.
+  in_fin(){const wk=(()=>{const d=new Date(this.d);d.setDate(d.getDate()-dayIdx(d));return ymd(d)})();
+    // lo que cambia en la partida lo decide el caso de uso terminarAsamblea (aplicacion/premiosDelDia.ts)
+    const fin=terminarAsamblea(S,today(),wk,this.rec,AGE());this.rec=fin.hoy;Object.assign(S,fin.partida);save();
     SFX.tada();burst(800,400,80);
     let line='¡Terminamos la asamblea'+kid()+'! ¡Ahora a jugar!';
-    if(n>=3&&!(S.first.wk===wk)){S.first.wk=wk;save();giveSticker('estrella');line='¡Tres asambleas esta semana! ¡Ganaste una figurita! Ahora, ¡a jugar!'}
-    say(line,()=>later(800,()=>go('map')));if(first)later(400,()=>giveCoins(MONEDAS.asamblea,800,420))},
+    if(fin.figurita){giveSticker('estrella');line='¡Tres asambleas esta semana! ¡Ganaste una figurita! Ahora, ¡a jugar!'}
+    say(line,()=>later(800,()=>go('map')));if(fin.monedas)later(400,()=>giveCoins(fin.monedas,800,420))},
 // sing(cb): canta los siete días uno a uno (this.singI = el que suena, para que su vagón salte) y al acabar llama a cb.
 // st() dice un día y, cuando termina, programa el siguiente.
   sing(cb: () => void){let i=0;const st=()=>{if(i>=7){this.singI=-1;cb&&cb();return}this.singI=i;SFX.count(i);say(DIASL[i],()=>{i++;later(80,st)},{rate:1})};st()},
@@ -497,12 +498,13 @@ SCENES.asamblea={music:'plaza',
 // con una pista y hace saltar el vagón correcto.
   wrongDay(i: number,target: number){const nm=DIASL[i];this.errs++;SFX.bad();say('Ese es el '+nm+'. '+(this.s==='dia'?(AGE()<=3?'Hoy es '+DIASL[this.ti]+', el que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. Hoy es el que viene después.'):'Mañana es el que viene después de hoy.'));if(this.errs>=1)this.bounce=target},
 // soplaVela(x, y): (paso 'cumple') tocar una vela la apaga y cuenta en voz alta; con todas apagadas guarda
-// S.bdayDone, da la figurita de la tarta y 10 monedas (MONEDAS.cumple) y pasa al siguiente paso.
+// S.bdayDone, da la figurita de la tarta y 10 monedas (MONEDAS.cumple; caso de uso premioDelCumple, de
+// aplicacion/premiosDelDia.ts) y pasa al siguiente paso.
   soplaVela(x: number,y: number){if(this.busy)return;const v=this.vs.find((v: Libre)=>v.on&&Math.abs(x-v.x)<55&&y<v.y+80&&y>v.y-110);if(!v){SFX.tap();return}
     v.on=0;this.vc++;SFX.whoosh();SFX.count(this.vc);say(cap(NUM[this.vc]||String(this.vc)));
     // la pegatina y las monedas se guardan junto con S.bdayDone; la celebración solo las enseña (salir no las pierde)
-    if(this.vs.every((v: Libre)=>!v.on)){this.busy=true;this.sel=true;S.bdayDone=today();S.stk.tarta=(S.stk.tarta||0)+1;creditCoins(MONEDAS.cumple);save();later(700,()=>{SFX.tada();burst(800,400,90);burst(400,300,40);burst(1200,300,40);playTune(TUNES.cumple);giveSticker('tarta',true);
-      say('¡Que los cumplas feliz! Tito te regala diez monedas.',()=>{giveCoins(MONEDAS.cumple,800,400,'cofre',true);later(1200,()=>this.next())})})}},
+    if(this.vs.every((v: Libre)=>!v.on)){this.busy=true;this.sel=true;const pc=premioDelCumple(S,today());Object.assign(S,pc.partida);creditCoins(pc.monedas);save();later(700,()=>{SFX.tada();burst(800,400,90);burst(400,300,40);burst(1200,300,40);playTune(TUNES.cumple);giveSticker('tarta',true);
+      say('¡Que los cumplas feliz! Tito te regala diez monedas.',()=>{giveCoins(pc.monedas,800,400,'cofre',true);later(1200,()=>this.next())})})}},
 // down(x, y): comprueba la respuesta del paso actual. Acierto: celebra, apunta la estadística con rec() (acierto a la
 // primera si errs == 0), guarda en this.rec y llama a next() cuando Tito termina de hablar. Fallo: sacude la opción,
 // suma error y da una pista. El paso 'tiempo' guarda ya en S.asam[hoy]. En 'cumple', soplar (soplaVela).

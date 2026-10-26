@@ -28,6 +28,7 @@ import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
 import { TIER_NEED, habitacionAbierta, nivelAbierto } from '../dominio/progreso.ts';
 import { alcanza } from '../dominio/monedas.ts';
+import { comprar } from '../aplicacion/comprar.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 
@@ -278,15 +279,16 @@ SCENES.tienda={music:'casita',
       SFX.pop();say(cap(itemName(it))+' ya es tuyo. Está en la casa de Tito.');return}
     if(!alcanza(S.coins!,it.p)){SFX.boing();const f=it.p-S.coins!;say(cap(itemName(it))+' cuesta '+it.p+' monedas. Te '+(f===1?'falta una':'faltan '+f)+'. ¡Jugando ganás más!');return}
     SFX.pop();this.conf=it;this.confT=T;say('¿Querés comprar '+itemName(it)+' por '+it.p+' monedas? Tocá el verde para comprar.')},
-  // Compra el artículo: gasta las monedas, celebra y lo da. Un vale se apunta en S.valesLog (para que el adulto lo
-  // canjee); la ropa se pone a Tito; lo demás se coloca en la casa y hace saltar el botón de la casa. Si es un vale que
-  // el adulto desactivó mientras la confirmación estaba abierta, no se compra (suena boing y no se cobra).
+  // Compra el artículo con el caso de uso comprar (aplicacion/comprar.ts): gasta las monedas, celebra y lo da. Un vale
+  // se apunta en S.valesLog (para que el adulto lo canjee); la ropa se pone a Tito; lo demás se coloca en la casa y hace
+  // saltar el botón de la casa. Si es un vale que el adulto desactivó mientras la confirmación estaba abierta, no se
+  // compra (suena boing y no se cobra).
   buy(it: Articulo){this.conf=null;
-    // un vale que un adulto desactivó (o borró) mientras se preguntaba si comprarlo ya no se vende
-    if(it.vale&&!(S.vales||[]).some(v=>v&&v.id===it.vale!.id&&v.on)){SFX.boing();return}
-    spendCoins(it.p,800,400);SFX.tada();burst(800,420,60);
-    if(it.vale){S.valesLog!.push({id:it.vale.id,txt:it.vale.txt,d:today(),given:0});save();say('¡Compraste el vale! '+it.vale.txt+'. Mostráselo a un adulto de tu familia para canjearlo.');return}
-    S.owned![it.id]=1;if(it.slot)wear(it,true);else placeHome(it.id);save();
+    // lo que cambia en la partida lo decide el caso de uso comprar (aplicacion/comprar.ts); aquí, la pantalla
+    const c=comprar(S,it,today());if(c.tipo==='desactivado'){SFX.boing();return}
+    spendCoins(it.p,800,400);SFX.tada();burst(800,420,60);Object.assign(S,c.partida);
+    if(c.tipo==='vale'){save();say('¡Compraste el vale! '+it.vale!.txt+'. Mostráselo a un adulto de tu familia para canjearlo.');return}
+    if(it.slot)wear(it,true);else placeHome(it.id);save();
     if(!it.slot){this.newHome=T;this.newId=it.id}
     say(it.slot?'¡Es tuyo! ¡Mirá qué lindo le queda a Tito!':'¡Es tuyo! Ya está en la casa de Tito. Tocá la casita de arriba para verlo.')}
 };
