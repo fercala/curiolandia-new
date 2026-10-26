@@ -1,5 +1,5 @@
 // Sabe qué exporta cada módulo del juego (exportadas): el puente de src/modulos.ts lo deja en globalThis con su nombre,
-// para las pruebas y para los módulos que usan algo de uno que se carga después (src/tardias.d.ts). Lo usa
+// para las pruebas (hasta la fase 4q, también para los módulos que usaban algo de uno que se carga después). Lo usa
 // tests/unidad/globales.test.ts para comprobar que dos módulos no exportan el mismo nombre (el puente daría error al
 // cargar).
 // Hasta la fase 2p también buscaba las globales que un archivo global reasignaba de otro (antes de pasarlo a módulo no

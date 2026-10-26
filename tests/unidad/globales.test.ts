@@ -1,9 +1,9 @@
 // Prueba del puente de src/modulos.ts: deja en globalThis, con su nombre, lo que exportan los módulos del juego (para
-// las pruebas y para los módulos que usan algo de uno que se carga después, ver src/tardias.d.ts). Comprueba que pasa
-// por él cada entrada y que dos módulos no exportan el mismo nombre: el puente daría error al cargar la página. Ver
+// las pruebas; hasta la fase 4q, también para los módulos que usaban algo de uno que se carga después). Comprueba que pasa
+// por él cada entrada, que no quedan globales tardías (fase 4q) y que dos módulos no exportan el mismo nombre: el puente daría error al cargar la página. Ver
 // herramientas/analisis/globales.mts. Hasta la fase 2p también comprobaba que ningún archivo global reasignara lo de
 // otro (antes de pasarlo a módulo) y que src/tipos/puente.d.ts diera tipo a todo lo del puente.
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { exportadas } from '../../herramientas/analisis/globales.mts';
@@ -28,6 +28,13 @@ describe('globales', () => {
     const modulos = readFileSync(join(SRC, 'modulos.ts'), 'utf8');
     const imports = modulos.split('\n').filter((l) => l.startsWith('import '));
     expect(imports[0]).toBe("import './infraestructura/conectar.ts';");
+  });
+
+  // Desde la fase 4q ningún módulo usa algo de otro que se carga después (src/tardias.d.ts se borró): el único .d.ts
+  // del juego es el de THREE, que llega como global desde three.min.js.
+  test('no quedan globales tardías: el único .d.ts es el de THREE', () => {
+    const dts = readdirSync(SRC, { recursive: true, encoding: 'utf8' }).filter((f) => f.endsWith('.d.ts')).map((f) => f.split('\\').join('/'));
+    expect(dts).toEqual(['mundo3d/three.d.ts']);
   });
 
   test('el juego arranca al final, con el puente ya puesto', () => {

@@ -29,8 +29,9 @@ import * as aplicacion from './aplicacion/adultos.ts';
 import { arrancar } from './aplicacion/arranque.ts';
 
 // puente(m): deja cada cosa que exporta el módulo m en globalThis con su mismo nombre. Lo leen por su nombre suelto
-// las pruebas (window.__cl y lo que miran con page.evaluate, ver docs/CONTRATO-PRUEBAS.md) y los módulos que usan algo
-// de un módulo que se carga después (src/tardias.d.ts): importarlo crearía un ciclo de imports.
+// las pruebas (window.__cl y lo que miran con page.evaluate, ver docs/CONTRATO-PRUEBAS.md). Hasta la fase 4q también
+// lo usaban los módulos que necesitaban algo de uno que se carga después (src/tardias.d.ts, ya borrado): ahora cada
+// módulo importa lo que usa.
 // Es una propiedad con get que lee siempre el valor actual del módulo: así S, ctx, T, scene, go... están al día aunque
 // el módulo los cambie (con ponS, ponCtx, ponT, go, ponGo...). El set da error: desde fuera no se puede reasignar lo
 // de un módulo (para eso están las funciones pon*). Y como no es configurable, dos módulos que exportaran el mismo

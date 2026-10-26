@@ -6,10 +6,10 @@
  * Después va a la portada (go('title')) y arranca el bucle de dibujo frame() de aplicacion/adultos.ts, que ya se repite
  * solo con requestAnimationFrame.
  * Desde la fase 2p es un módulo: era el último archivo global, así que ya no queda código global.
- * Exporta: arrancar. Importa: go (el núcleo, src/nucleo/), cofrePend (escenas/zonas.ts) y frame (aplicacion/adultos.ts).
+ * Exporta: arrancar. Importa: go (el núcleo, src/nucleo/), cofrePend (escenas/cofre.ts) y frame (aplicacion/adultos.ts).
  */
 import { go } from '../nucleo/indice.ts';
-import { cofrePend } from '../escenas/zonas.ts';
+import { cofrePend } from '../escenas/cofre.ts';
 import { frame } from './adultos.ts';
 
 // Lo que se espera como mucho a las fuentes, en milisegundos.

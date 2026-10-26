@@ -14,9 +14,8 @@ import type * as Tres from 'three';
 import type { Libre } from '../nucleo/tipos.ts';
 import type { Nodo, PiezaUnida, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { FLC, IMG, PI, S, SFX, T, VIVO, noise, parts, pick, rnd, temasDone, titoKind, tone, tx } from '../nucleo/indice.ts';
+import { FLC, IMG, PI, S, SCARFC, SFX, SHELLC, T, VIVO, noise, parts, pick, rnd, temasDone, titoKind, tone, tx } from '../nucleo/indice.ts';
 import { shellIcon } from '../escenas/zonas.ts';
-import { SCARFC, SHELLC } from '../escenas/tienda.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
 import { ahora } from '../aplicacion/puertos.ts';
