@@ -2,9 +2,10 @@
  * mundo3d/casita3d.ts: la casita de un tema en 3D, con un puesto para cada juego (desde la fase 4h; antes, en
  * mundo3d/mundo3d.ts): dónde va cada puesto (st3Pos) y dónde se para Tito junto a él (st3Tito), el telón con el fondo
  * del tema (bgSample) y buildCasita, que monta el mundo.
- * montarCasita3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) envuelve SCENES.juego.enter para recordar el último
- * juego abierto (lastGame: al volver, Tito aparece en su puesto), cambia stationPos (ponStationPos) para que la lógica
- * 2D use los puestos proyectados y convierte en 3D la escena de la casita (SCENES.casita).
+ * montarCasita3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de la casita 3D
+ * (escenas/disposicion.ts: stationPos devuelve los puestos proyectados) y pone en SCENES.casita la casita 3D, otra escena
+ * hecha a partir de la 2D (desde la fase 4i; antes envolvía la casita, SCENES.juego.enter para apuntar el último juego,
+ * que ahora es ultimoJuego de escenas/escenas2d.ts, y stationPos con ponStationPos).
  * Exporta: montarCasita3D. Importa: del núcleo y de escenas/ lo que dibuja y lee la casita; el motor, las piezas y lo de
  * los demás módulos de mundo3d/ (también roadPts de mundo3d/zonas3d.ts).
  */
@@ -14,8 +15,9 @@ import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, FLC, LF, PI, S, SCENES, SFX, T, TITO, V, VIVO, atHome, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, ponCtx, scene, sceneName, sparkles, speaker, text } from '../nucleo/indice.ts';
-import { GNAME, drawStation, tst } from '../escenas/escenas2d.ts';
-import { gameOpen, nextGameOf, ponStationPos, stationPos } from '../escenas/zonas.ts';
+import { GNAME, drawStation, tst, ultimoJuego } from '../escenas/escenas2d.ts';
+import { gameOpen, nextGameOf } from '../escenas/zonas.ts';
+import { ponDisposicion } from '../escenas/disposicion.ts';
 import { W3, camRig, newWorld, pickAt, projO, setWorld } from './motor.ts';
 import { Box, Cyl, V3, canvasTex, grp, mk, spr } from './materiales.ts';
 import { arrow3, arrowSway, butterfly3, fireflies, flower3, lock3, ribbon, ring3 } from './decorado.ts';
@@ -72,20 +74,17 @@ function buildCasita(t: Tema,st: Escena){const bs=bgSample(t),w=newWorld({fov:38
         else{L.position.y=1.25+Math.sin(T*2+j)*.1;const sh=st.lockShake&&st.lockShake.j===j?Math.max(0,1-(T-st.lockShake.t)*2):0;L.rotation.z=Math.sin(T*40)*.3*sh}}})});
   wobInit(w);
   camRig(w,V3(0,11,15.5),V3(0,2.4,0),1.1);return w}
-// lastGame: último juego abierto {t,g}; al volver a la casita, Tito aparece junto a esa estación (lo apunta montarCasita3D,
-// que envuelve SCENES.juego.enter).
-let lastGame: {t: string, g: number}|null=null;
-// montarCasita3D(): convierte en 3D la escena de la casita de un tema. La llama mundo3d/mundo3d.ts al montar la capa 3D.
+// montarCasita3D(): pone la casita de un tema en 3D en lugar de la 2D (SCENES.casita) y su disposición (dónde están los
+// puestos en la pantalla: los proyectados). La llama mundo3d/mundo3d.ts al montar la capa 3D. Desde la fase 4i es otra
+// escena, no una envoltura: copia de la casita 2D (casita2D, de escenas/zonas.ts, que no se toca) la lógica (prompt,
+// hint...) y pone su enter, sync, draw y down, que llaman a los del 2D cuando hace falta la lógica de siempre.
 export function montarCasita3D(): void{
-// recordar el último juego abierto (lastGame) envolviendo SCENES.juego.enter
-const je=SCENES.juego.enter;SCENES.juego.enter=function(o){lastGame={t:o.t,g:o.g};return je!.call(this,o)}
-// Convierte en 3D la escena de la casita de un tema (escenas/escenas2d.ts)
-const S0=SCENES.casita,enter0=S0.enter!,down0=S0.down!,sp0=stationPos;
- // stationPos(t,j): en 3D, la posición 2D de la estación j es la proyectada (w.st[j].p2); si no, la original sp0
- ponStationPos(function(t,j){const w=W3;if(w&&w.kind==='casita'&&w.t===t&&w.st&&w.st[j]&&scene===SCENES.casita)return w.st[j].p2;return sp0(t,j)});
- Object.assign(S0,{three:true,
+const casita2D=SCENES.casita;
+ // puesto(t,j): en la casita 3D, el puesto j es el proyectado (w.st[j].p2); si no, null y vale el 2D (stationPos)
+ ponDisposicion({puesto(t,j){const w=W3;if(w&&w.kind==='casita'&&w.t===t&&w.st&&w.st[j]&&scene===SCENES.casita)return w.st[j].p2!;return null}});
+ SCENES.casita={...casita2D,three:true,
   // enter(o): o.t = tema, o.g = juego del que se vuelve (Tito aparece ahí); construye el mundo 3D
-  enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(lastGame&&lastGame.t===(o&&o.t)?lastGame.g:null);enter0!.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
+  enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(ultimoJuego&&ultimoJuego.t===(o&&o.t)?ultimoJuego.g:null);casita2D.enter!.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
   // sync(): proyecta las estaciones a la pantalla (p2) y coloca TITO
   sync(){const w=W3;if(!w||w.kind!=='casita')return;w.st!.forEach((s)=>{const [x,y]=projO(s.sp,0);s.p2=[x,y]});titoRect(w.tito!)},
   // draw(): cada cuadro: estación bajo el ratón y su nombre (GNAME), cartel con el tema, botones y bocadillo de Tito
@@ -97,10 +96,10 @@ const S0=SCENES.casita,enter0=S0.enter!,down0=S0.down!,sp0=stationPos;
     if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): toque en la casita: botones; objetos; Tito; estación cerrada -> candado; abierta -> Tito camina y se abre el juego
   down(x: number,y: number){const w=W3;if(!w||busy3(w))return;const t=this.t;
-    if(atHome(x,y)||inCoinHUD(x,y))return call0(down0,this,x,y);
+    if(atHome(x,y)||inCoinHUD(x,y))return call0(casita2D.down!,this,x,y);
     const u=pickAt(x,y);if(flyTap(w,x,y))return;if(!u){if(wobTap(w,x,y))return;SFX.tap();if(skyNow().night)ffTap(x,y);else sparkles(x,y);walkGround(w);return}
     if(u.id==='tito'){this.hop=T;titoTapSfx();titoHearts(x,y);this.prompt!(true);return}
     if(u.game==null)return;const j=u.game,p=w.st![j].p2;
-    if(!gameOpen(t,j)){this.lockShake={j,t:T};return call0(down0,this,p[0],p[1])}
-    const g=w.st![j].g;const o=st3Tito(t.games.length,j);walkTo(w,w.tito!,g.position.clone().add(V3(o[0],0,o[1])),()=>{if(sceneName==='casita')call0(down0,this,p[0],p[1])},{zoom:V3(0,4,4.5),max:.8})}} satisfies Escena);
+    if(!gameOpen(t,j)){this.lockShake={j,t:T};return call0(casita2D.down!,this,p[0],p[1])}
+    const g=w.st![j].g;const o=st3Tito(t.games.length,j);walkTo(w,w.tito!,g.position.clone().add(V3(o[0],0,o[1])),()=>{if(sceneName==='casita')call0(casita2D.down!,this,p[0],p[1])},{zoom:V3(0,4,4.5),max:.8})}} satisfies Escena;
 }
