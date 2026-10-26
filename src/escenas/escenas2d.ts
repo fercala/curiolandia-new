@@ -33,43 +33,49 @@
  * zonas), la casita, suggestTema y stationPos se definen una sola vez en
  * escenas/zonas.ts desde la fase 4d (antes había aquí una versión 1 que
  * zonas.ts reescribía), y finishGame es una sola función desde la fase 4b,
- * con el caso de uso aplicacion/terminarJuego.ts. Lo que sí hace
- * escenas/zonas.ts es añadir tipos a GNAME y el paso de cumpleaños a la
- * asamblea, y mundo3d/mundo3d.ts envuelve title (y map, casita, cofre y las
- * zonas, de zonas.ts) para la capa 3D.
+ * con el caso de uso aplicacion/terminarJuego.ts. La asamblea, con su paso
+ * de cumpleaños y las monedas del día, y GNAME, con todos los tipos de
+ * juego, están enteros aquí desde la fase 4e (antes escenas/zonas.ts los
+ * completaba). Solo mundo3d/mundo3d.ts envuelve title (y map, casita, cofre
+ * y las zonas, de zonas.ts) para la capa 3D.
  *
  * Lo que exporta y usan otros archivos:
  *   SCENES, TEMAS, TEMA, CATALOGO, tst, gDone, drawLogo, drawLogoSmall, pill,
  *   VIVO.deferredInstall, standalone, asamHoy, tree,
  *   drawCasita, GNAME, gIcon, drawStation, finishGame,
  *   EMO/EMO_AGE/EMO_SAY/EMO_TIP, drawFace, WX/WX_AGE/WX_ROPA,
- *   SEASON_NEXT, dayIdx, ALBUM_KEYS (SCENES está en nucleo/escenas.ts:
+ *   SEASON_NEXT, dayIdx, isBday, ALBUM_KEYS (SCENES está en nucleo/escenas.ts:
  *   aquí se le añaden las escenas).
  * Importa:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
  *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
- *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight),
- *   src/dibujos/ (PICS, K), repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
+ *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight, bunting),
+ *   juegos/ (NUM, TUNES, playTune: la canción del cumpleaños), src/dibujos/ (PICS, K),
+ *   esCumple de dominio/progreso.ts (isBday), MONEDAS de dominio/monedas.ts, repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
  *   terminarJuego de aplicacion/terminarJuego.ts (finishGame); del núcleo, también REP_ON y las monedas
- *   (giveCoins, drawCoinHUD, alEmpezarJuego). Usa openNameDlg y openResetDlg de
+ *   (giveCoins, creditCoins, drawCoinHUD, alEmpezarJuego). Usa openNameDlg y openResetDlg de
  *   aplicacion/adultos.ts, que se carga después: solo al tocar (tipos en src/tardias.d.ts).
  * Partes de S que toca: S.age, S.name, S.first (askedName, wk),
  *   S.intro, S.temas[id] ({g:{índice: veces}, done}),
- *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.stats (rec) y, al
+ *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.bdayDone (cumpleaños
+ *   ya celebrado; lee S.bday), S.stats (rec) y, al
  *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K, PICS } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
-import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, dayNight, floor, makeGame } from '../temas/indice.ts';
+import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
+import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
 // terminarJuego: lo que cambia en la partida al terminar un juego (caso de uso, desde la fase 4b); lo usa finishGame.
 import { terminarJuego } from '../aplicacion/terminarJuego.ts';
 import type { CatalogoDeTemas } from '../aplicacion/repasoDelDia.ts';
+import { NUM, TUNES, playTune } from '../juegos/indice.ts';
+import { esCumple } from '../dominio/progreso.ts';
+import { MONEDAS } from '../dominio/monedas.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -259,10 +265,11 @@ export function drawCasita(t: Tema,x: number,y: number,o: Libre={}){
 }
 /* ---------- ESTACIONES DE LA CASITA ---------- */
 // GNAME: nombre que dice Tito para cada tipo de juego (g.t), cuando el juego no trae su propio g.name.
-// escenas/zonas.ts añade más tipos con Object.assign(GNAME, {...}).
+// Desde la fase 4d están aquí todos (antes escenas/zonas.ts añadía los de los temas extra, las fiestas y los cuentos).
 export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde está?',memoria:'Memoria',sonido:'¿Quién hace este sonido?',cuerpo:'Mi cuerpo',toca:'Tocá la parte del cuerpo',puzzle:'Rompecabezas',pinta:'Pintar',clasifica:'Las canastas',
   burbujas:'Burbujas de colores',cae:'¡Atrapalas!',viste:'Vestir al nene',ordena:'Ordenar',mifamilia:'Armá tu familia',arma:'Hacer un muñeco de nieve',macedonia:'Ensalada de frutas',cuenta:'Contar',corral:'Dentro y fuera del corral',
-  guarda:'Dentro y fuera',riega:'Regar las flores',excava:'Cavar en la arena'};
+  guarda:'Dentro y fuera',riega:'Regar las flores',excava:'Cavar en la arena',
+  cuento:'El cuento',cancion:'La canción',trazo:'Trazos',secuencia:'¿Qué va primero?',series:'¿Qué viene después?',velas:'Soplar las velitas',decora:'Decorar'};
 // gIcon(g, t): dibujo de la estación del juego g del tema t: g.icon si lo trae; si no 'lupa' (conocer), 'busca',
 // 'memo' (memoria) o el icono del tema.
 export const gIcon=(g: JuegoTema,t: Tema): string=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='memoria'?'memo':t.icon);
@@ -354,18 +361,24 @@ export const WX_ROPA: Record<string, string[]>={sol:['gorra','gafas'],nublado:['
 export const SEASON_NEXT: Record<string, string>={primavera:'verano',verano:'otoño',otoño:'invierno',invierno:'primavera'};
 // dayIdx(d): día de la semana con el lunes = 0 y el domingo = 6 (Date.getDay empieza en domingo).
 export const dayIdx=(d: Date)=>(d.getDay()+6)%7; // lunes=0
+// isBday(d): true si d (hoy por defecto) es el cumpleaños guardado en S.bday ({m: mes 0-11, d: día}). Desde la fase 4e
+// está aquí, con la asamblea (antes en escenas/zonas.ts); la usa también mundo3d/mundo3d.ts (la nube del confeti).
+export const isBday=(d=ahora())=>esCumple(S.bday,d.getMonth(),d.getDate());
 
 // LA ASAMBLEA: rutina diaria de la plaza. Es una máquina de estados: this.steps es la lista de pasos según la edad
 // y this.si el paso actual (this.s = su nombre). Para cada paso X hay un método in_X() que lo prepara (opciones y
 // pregunta); down() comprueba la respuesta y, si es buena, llama a next() para pasar al siguiente.
 // Lo que se responde se guarda en this.rec y al final en S.asam[fecha de hoy] = {done, age, tiempo, emo, dia}.
-// escenas/zonas.ts añade el paso 'cumple' (cumpleaños) envolviendo enter/draw/down/hint/prompt/in_fin.
+// El día del cumpleaños (isBday) hay además un paso 'cumple': soplar tantas velas como años, una vez (S.bdayDone).
+// Desde la fase 4e todo está aquí (antes escenas/zonas.ts añadía el cumpleaños y las monedas del día envolviendo
+// enter, draw, down, hint, prompt e in_fin).
 SCENES.asamblea={music:'plaza',
 // enter(): fecha de hoy (this.d), día de la semana (this.ti), lo ya guardado hoy (this.rec) y la lista de pasos:
 // 3 años: hola, día/noche, día, tiempo, emoción. 4 años: + ropa y estación. 5 años: + mañana, mes, estación siguiente.
+// Si hoy es su cumpleaños y aún no se ha celebrado, mete el paso 'cumple' justo después de 'hola'.
   enter(){const a=AGE();this.d=ahora();this.ti=dayIdx(this.d);this.rec=S.asam[today()]||{};
     this.steps=['hola',a<=3?'dianoche':null,'dia',a>=5?'manana':null,a>=5?'mes':null,'tiempo',a===4?'ropa':null,a>=4?'estacion':null,a>=5?'siguiente':null,'emocion','fin'].filter(Boolean);
-    this.si=-1;this.next()},
+    this.si=-1;this.next();if(isBday()&&S.bdayDone!==today())this.steps.splice(1,0,'cumple')},
 // next(): pasa al siguiente paso: reinicia errores, opciones y selección y llama a in_<paso>() si existe.
 // busy = true bloquea los toques mientras Tito habla.
   next(){this.si++;this.s=this.steps[this.si];this.t0=T;this.errs=0;this.busy=false;this.opts=[];this.sel=null;this.bounce=-1;this.extra=null;const f=this['in_'+this.s];f&&f.call(this)},
@@ -378,6 +391,9 @@ SCENES.asamblea={music:'plaza',
   setOpts(list: Libre[],y=520,s=230){const n=list.length,gap=s+24;this.opts=list.map((o: Libre,i: number)=>Object.assign({x:800-(n-1)*gap/2+i*gap,y,s,in:T+i*.08},o))},
 // in_hola(): paso 1, pasar lista: tocar la foto propia.
   in_hola(){this.ask(()=>say(`¡Buen día${kid()}! Empieza la asamblea. ¿Estás acá? ¡Tocá tu foto!`))},
+// in_cumple(): crea una vela por año (this.vs, máximo 7), toca la canción y pide soplarlas.
+  in_cumple(){const n=clamp(S.age||AGE(),1,7);this.vs=Array.from({length:n},(_,j)=>({x:800-(n-1)*55+j*110,y:340,on:1}));this.vc=0;
+    later(300,()=>{playTune(TUNES.cumple);say('¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños'+kid()+'! Soplá las velitas: tocá cada una.')})},
 // in_dianoche(): (3 años) ¿es de día o de noche? Correcto según la hora real (de 7 a 20 h es de día).
   in_dianoche(){const h=this.d.getHours(),day=h>=7&&h<20;this.setOpts([{draw:(x: number,y: number,s: number)=>dayNight(1).draw(x,y,s),ok:day,v:'dia'},{draw:(x: number,y: number,s: number)=>dayNight(0).draw(x,y,s),ok:!day,v:'noche'}],500,300);this.ask(()=>say('¿Ahora es de día o de noche?'))},
 // in_dia(): el tren de los días (this.wag, un vagón por día). 3 años: Tito canta los días (sing) y hace saltar el
@@ -404,23 +420,25 @@ SCENES.asamblea={music:'plaza',
   in_emocion(){this.setOpts(EMO_AGE[AGE()].map(m=>({draw:(x: number,y: number,s: number)=>drawFace(x,y,s*.42,m),v:m,ok:true})),520,AGE()>=5?175:AGE()===4?220:260);this.ask(()=>say(tx('¿Cómo te sentís hoy? Tocá la carita.')))},
 // in_fin(): cierra la asamblea: guarda S.asam[hoy] con done y edad, borra las más antiguas (se quedan 120 días) y,
 // si es la 3.ª asamblea de la semana (desde el lunes, wk), regala una figurita una sola vez por semana (S.first.wk).
-// Después vuelve al mapa.
-  in_fin(){const r=this.rec;r.done=1;r.age=AGE();S.asam[today()]=r;
+// Después vuelve al mapa. La primera asamblea terminada de cada día regala además 5 monedas (MONEDAS.asamblea).
+  in_fin(){const first=!(S.asam[today()]&&S.asam[today()].done);const r=this.rec;r.done=1;r.age=AGE();S.asam[today()]=r;
     const ks=Object.keys(S.asam).sort();while(ks.length>120)delete S.asam[ks.shift()!];
     const wk=(()=>{const d=new Date(this.d);d.setDate(d.getDate()-dayIdx(d));return ymd(d)})();
     const n=Object.keys(S.asam).filter(k=>k>=wk&&S.asam[k].done).length;save();
     SFX.tada();burst(800,400,80);
     let line='¡Terminamos la asamblea'+kid()+'! ¡Ahora a jugar!';
     if(n>=3&&!(S.first.wk===wk)){S.first.wk=wk;save();giveSticker('estrella');line='¡Tres asambleas esta semana! ¡Ganaste una figurita! Ahora, ¡a jugar!'}
-    say(line,()=>later(800,()=>go('map')))},
+    say(line,()=>later(800,()=>go('map')));if(first)later(400,()=>giveCoins(MONEDAS.asamblea,800,420))},
 // sing(cb): canta los siete días uno a uno (this.singI = el que suena, para que su vagón salte) y al acabar llama a cb.
 // st() dice un día y, cuando termina, programa el siguiente.
   sing(cb: () => void){let i=0;const st=()=>{if(i>=7){this.singI=-1;cb&&cb();return}this.singI=i;SFX.count(i);say(DIASL[i],()=>{i++;later(80,st)},{rate:1})};st()},
 // prompt(): repite la pregunta del paso actual.
-  prompt(){const f=({hola:'¡Tocá tu foto!',dianoche:'¿Ahora es de día o de noche?',dia:AGE()<=3?'Tocá el vagón que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. ¿Qué día es hoy?',manana:'¿Qué día será mañana?',mes:'Tocá el número '+this.d.getDate()+'.',tiempo:'¿Qué tiempo hace hoy?',ropa:'¿Qué nos ponemos?',estacion:'¿En qué estación estamos?',siguiente:'¿Qué estación viene después?',emocion:tx('¿Cómo te sentís hoy?')} as Record<string, string>)[this.s];if(f)say(f)},
+  prompt(){if(this.s==='cumple'){say('Tocá las velitas para soplarlas.');return}const f=({hola:'¡Tocá tu foto!',dianoche:'¿Ahora es de día o de noche?',dia:AGE()<=3?'Tocá el vagón que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. ¿Qué día es hoy?',manana:'¿Qué día será mañana?',mes:'Tocá el número '+this.d.getDate()+'.',tiempo:'¿Qué tiempo hace hoy?',ropa:'¿Qué nos ponemos?',estacion:'¿En qué estación estamos?',siguiente:'¿Qué estación viene después?',emocion:tx('¿Cómo te sentís hoy?')} as Record<string, string>)[this.s];if(f)say(f)},
 // hint(): dónde señalar la ayuda en cada paso. En 'dia'/'manana' con 4-5 años no ayuda enseguida (solo tras un error o
-// mucho rato quieto). En 'tiempo' y 'emocion' no hay respuesta correcta, así que no se señala nada.
-  hint(){if(this.busy)return null;const s=this.s;
+// mucho rato quieto). En 'tiempo' y 'emocion' no hay respuesta correcta, así que no se señala nada. En 'cumple',
+// la siguiente vela encendida.
+  hint(){if(this.s==='cumple'){const v=this.vs&&this.vs.find((v: Libre)=>v.on);return v&&!this.busy?{x:v.x,y:v.y-30,r:60}:null}
+    if(this.busy)return null;const s=this.s;
     if(s==='hola')return{x:800,y:500,r:180};
     if(s==='dia'||s==='manana'){if(AGE()>=4&&this.errs<1)return VIVO.idle>14?{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}:null;return{x:this.wag[s==='dia'?this.ti:(this.ti+1)%7].x,y:520,r:90}}
     if(s==='mes'){const c=this.cal[this.d.getDate()-1];return{x:c.x,y:c.y,r:55}}
@@ -429,7 +447,7 @@ SCENES.asamblea={music:'plaza',
   update(){},
 // draw(): la clase (ventana con el cielo según la hora y el tiempo apuntado, cartel ASAMBLEA) y lo propio del paso:
 // foto de "presente", tren de los días, calendario, u opciones genéricas (this.opts) con animación de entrada (back) y
-// temblor al fallar (o.shake). Abajo, puntos de progreso de los pasos.
+// temblor al fallar (o.shake). Abajo, puntos de progreso de los pasos. Encima de todo, lo del cumpleaños (drawCumple).
   draw(){
     sky('#FFF3D6','#FCE3C0');floor(760,'#E9C99A');
     // ventana con el tiempo real no se conoce: se ve el cielo según la hora
@@ -456,7 +474,15 @@ SCENES.asamblea={music:'plaza',
     // pasos
     this.steps.forEach((_st: string,i: number)=>circ(800-(this.steps.length-1)*18+i*36,850,10,i<this.si?'#7CC86E':i===this.si?'#FFC93C':'#EADFCF',3));
     drawHome();drawTito(TITO.x,TITO.y,TITO.w);
+    this.drawCumple();
   },
+// drawCumple(): en el paso 'cumple', la tarta con las velas (la llama de las encendidas se mueve) y, al soplarlas
+// todas, «¡FELIZ CUMPLE!»; en el paso 'mes', una tarta en el día del cumpleaños (S.bday) si es de este mes.
+  drawCumple(){
+    if(this.s==='cumple'){bunting(170,12);card(460,430,680,260,'#F58BB4',8,40);card(500,370,600,90,'#FFF6E6',7,30);for(let i=0;i<8;i++)circ(520+i*80,460,22,'#FF5A5A',4);card(400,670,800,40,'#E4D3B8',6,20);
+      for(const v of this.vs){card(v.x-14,v.y-10,28,80,DIAC[(v.x/110|0)%7],5,8);if(v.on){const f=1+Math.sin(T*14+v.x)*.12;ctx.save();ctx.translate(v.x,v.y-30);ctx.scale(f,1/f);ctx.beginPath();ctx.moveTo(0,-34);ctx.quadraticCurveTo(22,0,0,14);ctx.quadraticCurveTo(-22,0,0,-34);fillStroke('#FFC93C',4);ctx.restore()}}
+      if(this.sel){text('¡FELIZ CUMPLE!',800,790,64,'#F58BB4',{f:LF,st:8,sc:'#fff'})}}
+    if(this.s==='mes'&&S.bday&&S.bday.m===this.d.getMonth()&&this.cal){const c=this.cal[S.bday.d-1];if(c){pic('tarta',c.x+30,c.y-30,62)}}},
 // drawWxCal(): (5 años, tras elegir el tiempo) calendario del mes con el dibujo del tiempo apuntado cada día en S.asam.
   drawWxCal(){const d=this.d,n=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();card(300,180,1000,200,'#fff',6,24);text(tx('Calendario del tiempo de ')+MESES[d.getMonth()],800,220,28,K);
     for(let i=1;i<=n;i++){const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`,r=S.asam[k]||(k===today()?this.rec:null),x=330+((i-1)%16)*60,y=270+Math.floor((i-1)/16)*80;
@@ -464,10 +490,18 @@ SCENES.asamblea={music:'plaza',
 // wrongDay(i, target): el niño tocó el vagón del día i en lugar de target: suma error, dice qué día era el tocado
 // con una pista y hace saltar el vagón correcto.
   wrongDay(i: number,target: number){const nm=DIASL[i];this.errs++;SFX.bad();say('Ese es el '+nm+'. '+(this.s==='dia'?(AGE()<=3?'Hoy es '+DIASL[this.ti]+', el que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. Hoy es el que viene después.'):'Mañana es el que viene después de hoy.'));if(this.errs>=1)this.bounce=target},
+// soplaVela(x, y): (paso 'cumple') tocar una vela la apaga y cuenta en voz alta; con todas apagadas guarda
+// S.bdayDone, da la figurita de la tarta y 10 monedas (MONEDAS.cumple) y pasa al siguiente paso.
+  soplaVela(x: number,y: number){if(this.busy)return;const v=this.vs.find((v: Libre)=>v.on&&Math.abs(x-v.x)<55&&y<v.y+80&&y>v.y-110);if(!v){SFX.tap();return}
+    v.on=0;this.vc++;SFX.whoosh();SFX.count(this.vc);say(cap(NUM[this.vc]||String(this.vc)));
+    // la pegatina y las monedas se guardan junto con S.bdayDone; la celebración solo las enseña (salir no las pierde)
+    if(this.vs.every((v: Libre)=>!v.on)){this.busy=true;this.sel=true;S.bdayDone=today();S.stk.tarta=(S.stk.tarta||0)+1;creditCoins(MONEDAS.cumple);save();later(700,()=>{SFX.tada();burst(800,400,90);burst(400,300,40);burst(1200,300,40);playTune(TUNES.cumple);giveSticker('tarta',true);
+      say('¡Que los cumplas feliz! Tito te regala diez monedas.',()=>{giveCoins(MONEDAS.cumple,800,400,'cofre',true);later(1200,()=>this.next())})})}},
 // down(x, y): comprueba la respuesta del paso actual. Acierto: celebra, apunta la estadística con rec() (acierto a la
 // primera si errs == 0), guarda en this.rec y llama a next() cuando Tito termina de hablar. Fallo: sacude la opción,
-// suma error y da una pista. El paso 'tiempo' guarda ya en S.asam[hoy].
+// suma error y da una pista. El paso 'tiempo' guarda ya en S.asam[hoy]. En 'cumple', soplar (soplaVela).
   down(x,y){
+    if(this.s==='cumple'&&!atHome(x,y)&&!inTito(x,y)){this.soplaVela(x,y);return}
     if(atHome(x,y)){SFX.tap();go('map');return}
     if(inTito(x,y)){this.prompt!();return}
     if(this.busy)return;const s=this.s;
