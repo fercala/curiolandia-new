@@ -1,7 +1,7 @@
 // interfaz.ts: lo común a todas las pantallas y al juego: botón de volver, estrellas de rondas, candado de adultos,
 // ayudas automáticas, dificultad adaptativa, tiempo de juego, pegatinas y calendario.
 //   HOME, drawHome, atHome, drawRounds, drawLock, drawHelp; nOpts, onRight, alEmpezarJuego, onWrongTwice, nRounds, rec;
-//   giveSticker, drawSticker, drawToast; DIAS, DIASL, DIAC, MESES, ESTACIONES, estacionDe.
+//   giveSticker, drawSticker, drawToast; DIASL, DIAC, MESES, ESTACIONES, estacionDe.
 //   VIVO.lockHold/lockDown/lockPrev, VIVO.ADAPT/REP, VIVO.sessionT/restAsked/minuteAcc y VIVO.toast.
 // Las reglas de la dificultad (nOpts, nRounds, onRight, onWrongTwice) están en dominio/dificultad.ts, y las de la
 // moneda de cada acierto (onRight), en dominio/monedas.ts; las monedas en pantalla, en monedas.ts. Lo que apunta rec,
@@ -120,8 +120,7 @@ export function drawToast(): void{const toast=VIVO.toast;if(!toast)return;const 
   card(-230,-80,460,160,'#FFF6E6',6,40);drawSticker(toast.k,-140,0,130,Math.sin(T*4)*.1);text(V(['¡Figurita nueva!','¡Pegatina nueva!']),60,14,38,K);ctx.restore()}
 
 /* ---------- calendario ---------- */
-// Calendario: DIAS empieza en domingo (como getDay()); DIASL en lunes; DIAC es el color de cada día (desde el lunes).
-export const DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+// Calendario: DIASL empieza en lunes; DIAC es el color de cada día (desde el lunes).
 export const DIASL=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 export const DIAC=['#FF8A7A','#FFA94D','#FFD66B','#7CC86E','#5BB8E6','#9B8AD9','#F58BB4'];
 export const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];

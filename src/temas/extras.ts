@@ -24,7 +24,7 @@ import { ESTS, T4, dayCard } from './temas4.ts';
 import { T5, monthCard } from './temas5.ts';
 /* ================= CANCIONES ================= */
 // Letra de la canción de los días (lunes a domingo). Un elemento lista es [rioplatense, España].
-export const DLYR=[['Lunes, empieza la semana.','Lunes, empieza la semana.'],'Martes, jugamos con ganas.','Miércoles, ¡ya estamos en la mitad!','Jueves, ¡qué bien se está!',['Viernes, último día de escuela.','Viernes, último día de cole.'],'Sábado, ¡a jugar y a pasear!','Domingo, en familia a descansar.'];
+const DLYR=[['Lunes, empieza la semana.','Lunes, empieza la semana.'],'Martes, jugamos con ganas.','Miércoles, ¡ya estamos en la mitad!','Jueves, ¡qué bien se está!',['Viernes, último día de escuela.','Viernes, último día de cole.'],'Sábado, ¡a jugar y a pasear!','Domingo, en familia a descansar.'];
 // Canciones: SONGS[id]() devuelve la configuración para el componente Song (juegos/comps2.ts):
 //   tune: melodía de TUNES; cols / s: columnas y tamaño de las tarjetas; mode: 'orden' (tocar en orden, por defecto)
 //   o 'pedido' (tocar la que dice Tito); intro, ask2, okAll: frases de inicio, de la segunda parte y del final;
@@ -54,7 +54,7 @@ export const drops=(x: number,y: number,s: number)=>{for(let j=0;j<3;j++)ell(x-s
 // Viñetas de las rutinas para el juego Secuencia. panel(nombre, partes, extra) (juegos/comps2.ts): nombre es lo que dice
 // Tito (texto o [rioplatense, España]); partes = [[dibujo, dx, dy, tamaño], ...] relativos al tamaño de la viñeta;
 // extra(x,y,s) dibuja algo más encima.
-export const RP={
+const RP={
   mojar:panel(['mojamos las manos','mojamos las manos'],[['grifo',-.08,-.16,.58],['manos',.04,.24,.46]],(x,y,s)=>drops(x-s*.18,y-s*.02,s)),
   jabon:panel('el jabón',[['jabon',0,0,.7]]),
   frotar:panel('frotamos',[['manos',0,.02,.66]],(x,y,s)=>bubbles(x,y-s*.05,s)),
@@ -94,16 +94,16 @@ export const RUT: Tema={id:'X-RUT',n:'Rutinas y hábitos',icon:'manos',c:'#5BB8E
 // Los trazos usan el componente Tracer (juegos/comps2.ts): el niño lleva con el dedo un personaje por un camino de puntos.
 /* ================= TRAZOS ================= */
 // Puntos de una línea recta de (x0,y0) a (x1,y1), con n tramos (pathPts está en juegos/comps2.ts).
-export const lineP=(x0: number,y0: number,x1: number,y1: number,n=60)=>pathPts(t=>[lerp(x0,x1,t),lerp(y0,y1,t)],n);
+const lineP=(x0: number,y0: number,x1: number,y1: number,n=60)=>pathPts(t=>[lerp(x0,x1,t),lerp(y0,y1,t)],n);
 // Puntos de una línea quebrada que pasa por los puntos P (n por tramo); se usa para el zigzag.
-export const polyP=(P: number[][],n=24)=>{const out: number[][]=[];for(let i=0;i<P.length-1;i++)for(let j=0;j<(i===P.length-2?n+1:n);j++){const t=j/n;out.push([lerp(P[i][0],P[i+1][0],t),lerp(P[i][1],P[i+1][1],t)])}return out};
+const polyP=(P: number[][],n=24)=>{const out: number[][]=[];for(let i=0;i<P.length-1;i++)for(let j=0;j<(i===P.length-2?n+1:n);j++){const t=j/n;out.push([lerp(P[i][0],P[i+1][0],t),lerp(P[i][1],P[i+1][1],t)])}return out};
 // Fondo de los trazos: papel claro con renglones azules.
 BG.trazo=()=>{sky('#FFFDF6','#FFF6E6');ctx.strokeStyle='rgba(91,141,239,.12)';ctx.lineWidth=3;for(let y=180;y<880;y+=60){ctx.beginPath();ctx.moveTo(280,y);ctx.lineTo(1560,y);ctx.stroke()}};
 // Los 8 niveles de trazos (en el orden del camino). Es una función para que dependa de la edad (con 3 años, menos
 // caminos o más sencillos). Cada nivel: {n (nombre), icon, bg (fondo opcional), paths: [{pts (puntos del camino),
 // who (dibujo que se arrastra), ws (su tamaño), end (dibujo de la meta), ex/ey/es (desplazamiento o tamaño de la meta),
 // c (color del camino), say (frase al empezar ese camino), ok (frase final opcional)}]}.
-export const TRZ_L=()=>{const a3=AGE()<=3;return [
+const TRZ_L=()=>{const a3=AGE()<=3;return [
   {n:'Líneas acostadas',icon:'abeja',paths:(a3?[360,620]:[300,500,700]).map((y,j)=>({pts:lineP(430,y,1290,y),who:'abeja',end:'flor',ex:80,c:DIAC[j],say:j?'¡Otra abeja! Llevala a su flor.':'La abeja quiere llegar a la flor. Empezá en el punto verde y seguí el camino.'}))},
   {n:'Líneas paradas',icon:'gota',bg:()=>{BG.trazo();for(const x of[500,900,1300])cloud(x-70,170,.8,'#CFE0FF')},paths:(a3?[650,1150]:[500,900,1300]).map((x,j)=>({pts:lineP(x,240,x,700),who:'gota',ws:90,end:'maceta',ey:80,c:'#5BB8E6',say:j?'Otra gota. ¡De arriba para abajo!':'¡Hagamos llover! Llevá la gota desde la nube hasta la maceta, de arriba para abajo.'}))},
   {n:'Líneas inclinadas',icon:'tobogan',paths:[[460,230,1180,720],[1340,230,620,720],[460,720,1180,230]].slice(0,a3?2:3).map(([a,b,c,e],j)=>({pts:lineP(a,b,c,e),who:'pelota',ws:100,end:'perro',ex:j===1?-60:60,c:DIAC[j+3],say:j?'¡Otra vez! Llevá la pelota hasta el perro.':'La pelota baja por el tobogán. Llevala hasta el perro.'}))},
@@ -131,12 +131,12 @@ export const CAN: Tema={id:'X-CAN',n:'Las canciones',icon:'notas',c:'#F58BB4',tr
 
 /* ================= DÍAS ESPECIALES ================= */
 // Disfraces del carnaval: dónde se dibuja cada prenda sobre el niño (drawKid): id → [dx, dy, tamaño].
-export const COSTUME: Record<string, [number, number, number]>={antifaz:[0,-495,230],narizPayaso:[0,-462,70],sombreroPirata:[0,-596,250],corona:[0,-600,190],sombreroCopa:[0,-626,230],gorroFiesta:[0,-626,190],varita:[196,-262,190],capa:[0,-300,430]};
+const COSTUME: Record<string, [number, number, number]>={antifaz:[0,-495,230],narizPayaso:[0,-462,70],sombreroPirata:[0,-596,250],corona:[0,-600,190],sombreroCopa:[0,-626,230],gorroFiesta:[0,-626,190],varita:[196,-262,190],capa:[0,-300,430]};
 // Prendas que van en la cabeza: solo se puede llevar una a la vez.
-export const HATS=['sombreroPirata','corona','sombreroCopa','gorroFiesta'];
+const HATS=['sombreroPirata','corona','sombreroCopa','gorroFiesta'];
 // Zona del juego Arrastra "Disfrazarse": dibuja al niño con lo que lleva puesto (objeto wear, que se rellena en
 // onPlace al soltar cada prenda). slot y ps muy pequeño hacen que la prenda soltada casi no se vea (se dibuja en su sitio).
-export const costumeZone=(wear: Libre)=>({id:'kid',x:1000,y:560,w:440,h:720,draw:(_z: Libre,hl: boolean)=>{const X=(a: number)=>1000+a*1.15,Y=(b: number)=>880+b*1.15;ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}
+const costumeZone=(wear: Libre)=>({id:'kid',x:1000,y:560,w:440,h:720,draw:(_z: Libre,hl: boolean)=>{const X=(a: number)=>1000+a*1.15,Y=(b: number)=>880+b*1.15;ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}
   if(wear.capa){const [a,b,s]=COSTUME.capa;pic('capa',X(a),Y(b),s*1.15)}drawKid(1000,880,1.15,{});ctx.restore();
   for(const k of['antifaz','narizPayaso','varita'])if(wear[k]){const [a,b,s]=COSTUME[k];pic(k,X(a),Y(b),s*1.15)}
   if(wear.hat){const [a,b,s]=COSTUME[wear.hat];pic(wear.hat,X(a),Y(b),s*1.15)}},slot:()=>[1000,500],ps:.01});

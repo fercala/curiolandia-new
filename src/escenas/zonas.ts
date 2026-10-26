@@ -38,8 +38,8 @@
  *   HOUSE_AT).
  *
  * Lo que exporta y usan otros archivos (además de los tipos Zona y PosCasita):
- *   ZAGE, ZONES, MAINZ, zoneOf, flowersIn, pathOf, pathDone, mainDone,
- *   zoneOpen, NEED, fiestaNow, started, temaOpen, gameOpen, nextGameOf,
+ *   ZAGE, ZONES, MAINZ, flowersIn, pathOf, pathDone, mainDone,
+ *   zoneOpen, NEED, started, temaOpen, gameOpen, nextGameOf,
  *   ageZoneOpen, curTema, nextTema, lowName, lockMsg, drawRoad, lockOver,
  *   unlockFx, arrowAt, zonePos, ZPOS, casitaPos, newlyOpen, zoneScene, HOUSE_AT, casaPos,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
@@ -75,7 +75,7 @@ import { ganar } from '../dominio/monedas.ts';
 import { abrirCofre, ganarCofre, sinPendiente } from '../aplicacion/abrirCofre.ts';
 import { regaloDelDia } from '../aplicacion/premiosDelDia.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
-import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
+import { MAINZ, NEED, ZAGE, camino, empezado, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, ponRepOn, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, titoPos, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
@@ -123,21 +123,17 @@ export const ZONES: Record<string, Zona>={
 const PARTIDA: Partida={get libre(){return !!S.unlockAll},get edad(){return AGE()},mes:()=>ahora().getMonth(),progreso:(id: string)=>tst(id) as Progreso};
 // MAPA: los temas de cada zona de ZONES, en el orden del camino, y los temas sueltos del mapa, para las reglas.
 const MAPA: Mapa<Tema>={zonas:Object.fromEntries(Object.entries(ZONES).map(([z,Z])=>[z,Z.temas])),can:CAN,rut:RUT,trz:TRZ};
-// zoneOf(t): zona del tema t ('jardin' si no tiene).
-export const zoneOf=(t: Tema): string=>t.zone||'jardin';
 // flowersIn(z): temas terminados en la zona z (cada tema terminado es una flor de Tito). Cuenta también el Rincón de los Conceptos.
-export const flowersIn=(z: string)=>flores(PARTIDA,MAPA,z);
+const flowersIn=(z: string)=>flores(PARTIDA,MAPA,z);
 // pathOf(z): los temas del camino de la zona z, en orden, sin el Rincón de los Conceptos.
 export const pathOf=(z: string)=>camino(MAPA,z);
 // pathDone(z): cuántas casitas del camino de la zona z están terminadas.
 export const pathDone=(z: string)=>terminadasEnCamino(PARTIDA,MAPA,z);
 // mainDone(): casitas del camino terminadas sumando las tres zonas principales. Es lo que miran los NEED de extras, fiestas e inglés.
-export const mainDone=()=>terminadasPrincipales(PARTIDA,MAPA);
+const mainDone=()=>terminadasPrincipales(PARTIDA,MAPA);
 // zoneOpen(z): ¿está abierta la zona z? Por edad, en modo libre o con 6 flores en la anterior (zonaAbierta, en
 // dominio/apertura.ts). No escribe en S.
 export const zoneOpen=(z: string): boolean=>zonaAbierta(PARTIDA,MAPA,z);
-// fiestaNow(): id de la fiesta del mes actual (diciembre-enero Navidad, febrero-marzo Carnaval, abril Día del Libro) o null.
-export const fiestaNow=()=>fiestaDelMes(ahora().getMonth());
 // started(t): true si el tema t ya está terminado o tiene algún juego jugado (lo empezado nunca se vuelve a cerrar).
 export const started=(t: Tema)=>empezado(PARTIDA,t);
 // temaOpen(t): ¿se puede entrar en la casita del tema t? Las reglas, en orden, están en temaAbierto
@@ -150,7 +146,7 @@ export const gameOpen=(t: Tema,j: number)=>juegoAbierto(PARTIDA,t,j);
 // nextGameOf(t): número del siguiente juego que toca (abierto y sin terminar) del tema t, o -1 si ya están todos.
 export const nextGameOf=(t: Tema)=>siguienteJuego(PARTIDA,t);
 // ageZoneOpen(): la zona de la edad del niño si está abierta; si no, el jardín.
-export const ageZoneOpen=()=>zonaDeLaEdad(PARTIDA,MAPA);
+const ageZoneOpen=()=>zonaDeLaEdad(PARTIDA,MAPA);
 // curTema(z): la casita que toca ahora en la zona z (la que brilla y lleva flecha): la primera del camino abierta y sin
 // terminar; si no queda, el Rincón de los Conceptos si está abierto y sin terminar; si no, null (camino terminado).
 export const curTema=(z: string): Tema | null=>temaQueToca(PARTIDA,MAPA,z);
@@ -162,9 +158,9 @@ export const nextTema=(): Tema | null=>siguienteTema(PARTIDA,MAPA);
 // otra en escenas/escenas2d.ts, que esta sustituía con ponSuggestTema).
 export function suggestTema(z?: string): Tema | null{return curTema(z||ageZoneOpen())}
 // lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
-export const lowName=(t: Tema)=>t.concepts?'el Rincón de los Conceptos':V(t.n).replace(/^./,c=>c.toLowerCase());
+const lowName=(t: Tema)=>t.concepts?'el Rincón de los Conceptos':V(t.n).replace(/^./,c=>c.toLowerCase());
 // lockMsg(t): frase que dice Tito al tocar una casita cerrada, explicando qué hace falta para abrirla.
-export function lockMsg(t: Tema){const z=t.zone;
+function lockMsg(t: Tema){const z=t.zone;
   if(t.concepts)return 'El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste '+(NUM[pathDone(z)]||pathDone(z))+'!';
   if(z==='fiestas'&&mainDone()<NEED.fiestas)return 'Los días especiales se abren cuando termines cuatro casitas del camino.';
   if(z==='ingles'&&mainDone()<NEED.ingles)return 'El Rincón del inglés se abre cuando termines dos casitas del camino.';
@@ -174,7 +170,7 @@ export function lockMsg(t: Tema){const z=t.zone;
 /* ---------- dibujos del camino ---------- */
 // roadPath(pts, o): traza (sin pintar) el camino que une los puntos pts. Si dos puntos están a la misma altura, línea
 // recta; si cambia de fila, una curva que sale hacia el lado de la pantalla donde están (izquierda o derecha, o = cuánto).
-export function roadPath(pts: number[][],o: number){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];
+function roadPath(pts: number[][],o: number){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];
   if(Math.abs(a[1]-b[1])<6)ctx.lineTo(b[0],b[1]);else{const sd=(a[0]+b[0])/2>800?1:-1;ctx.bezierCurveTo(a[0]+sd*o,a[1],b[0]+sd*o,b[1],b[0],b[1])}}}
 // drawRoad(pts, upto, o): pinta el camino: borde, relleno claro, el tramo recorrido hasta el punto upto en amarillo
 // y una línea de puntos encima. Lo usan las zonas y las casitas.
@@ -197,7 +193,7 @@ export function arrowAt(x: number,y: number){const b=Math.abs(Math.sin(T*4))*16;
 // Zonas principales: camino en zigzag de 3 filas (5, 4 y 3 casitas; la fila del medio va de derecha a izquierda) y el
 // Rincón de los Conceptos abajo a la derecha. Fiestas e inglés: una sola fila centrada y más grandes (s = 1.25).
 // Admite hasta 12 casitas en el camino: un tema número 13 no tendría posición.
-export function zonePos(z: string){const P: Record<string, PosCasita>={},L=ZONES[z].temas;
+function zonePos(z: string){const P: Record<string, PosCasita>={},L=ZONES[z].temas;
   if(!MAINZ.includes(z)){L.forEach((t,i)=>P[t.id]={x:900-(L.length-1)*170+i*340,y:500,s:1.25});return P}
   const path=pathOf(z),rows=[[0,1,2,3,4],[5,6,7,8],[9,10,11]],ys=[250,490,725];
   rows.forEach((r,ri)=>r.forEach((n,j)=>{const t=path[n];if(t)P[t.id]={x:ri===0?440+j*256:ri===1?1290-j*280:450+j*280,y:ys[ri],band:ri,s:1}}));
@@ -269,18 +265,18 @@ for(const z in ZONES)SCENES[z]=zoneScene(z);
 export const HOUSE_AT=[1040,800];
 // casaPos(): [x, y] de la casa de Tito en la pantalla según la vista: lo que diga la disposición (nucleo/disposicion.ts:
 // en el mapa 3D, la proyectada) o HOUSE_AT (2D). Desde la fase 4k.
-export function casaPos(): number[]{return disposicion().casa?.()||HOUSE_AT}
+function casaPos(): number[]{return disposicion().casa?.()||HOUSE_AT}
 // houseLevel(): nivel de la casa de Tito según temasDone(): 0 (menos de 2), 1 (2-4), 2 (5-8), 3 (9-13), 4 (14 o más).
 // La regla (nivelCasa) y HOUSE_NEXT están en dominio/progreso.ts; HOUSE_NEXT se exporta también desde aquí.
 export const houseLevel=()=>nivelCasa(temasDone());
 export { HOUSE_NEXT };
-export const HOUSE_SAY=['','¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.','¡La casa de Tito creció! Ahora tiene un piso más, con balcón.','¡La casa de Tito creció! Ahora tiene una torre con bandera.','¡La casa de Tito es un castillo! Tiene estrella y arcoíris.'];
+const HOUSE_SAY=['','¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.','¡La casa de Tito creció! Ahora tiene un piso más, con balcón.','¡La casa de Tito creció! Ahora tiene una torre con bandera.','¡La casa de Tito es un castillo! Tiene estrella y arcoíris.'];
 // petStage(): etapa de Pipo (0 huevo, 1 eclosión, 2-4 dinosaurio que crece) según las estrellas ganadas (STARS(), en
 // nucleo/tito.ts). PET_NEXT: estrellas necesarias para cada etapa; PET_SAY: frase de cada etapa.
 // La regla (etapaPipo) y PET_NEXT están en dominio/progreso.ts; PET_NEXT se exporta también desde aquí.
 export const petStage=()=>etapaPipo(STARS());
 export { PET_NEXT };
-export const PET_SAY=['¡Mirá! En el jardín de Tito apareció un huevo misterioso. ¡Si jugás, se va a abrir!','¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!','¡Pipo salió del cascarón y ya camina!','¡Pipo está creciendo un montón!','¡Pipo es un dinosaurio grandote! ¡Y tiene corona!'];
+const PET_SAY=['¡Mirá! En el jardín de Tito apareció un huevo misterioso. ¡Si jugás, se va a abrir!','¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!','¡Pipo salió del cascarón y ya camina!','¡Pipo está creciendo un montón!','¡Pipo es un dinosaurio grandote! ¡Y tiene corona!'];
 // drawPet(x, y, s, o): dibuja a Pipo en su etapa (o.st, o la actual) con los pies en (x, y) y tamaño s. o.jump = instante
 // de un salto (bota y se amortigua). El huevo tiembla de vez en cuando. Solo dibuja.
 export function drawPet(x: number,y: number,s: number,o: Libre={}){const st=o.st??petStage(),j=o.jump?Math.max(0,1-(T-o.jump)*1.6)*Math.abs(Math.sin((T-o.jump)*10))*-s*.35:0;ctx.save();ctx.translate(x,y+j);
@@ -385,7 +381,7 @@ export function drawSeguir(){const p=(Math.sin(T*4)+1)/2,s=hv('seguir',hC(SEGUIR
 // o.glow = halo; o.wake = instante en que se despertó (tiembla); o.unl = instante de la animación de desbloqueo;
 // o.shake / o.petJump para la casa y Pipo. Los sitios cerrados (no bosque/montaña, que salen "dormidos" en gris con
 // zetas) llevan candado y el número de casitas que faltan.
-export function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z.id),s=hv('mz'+z.id,hC(x,y,z.r));ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.translate(-x,-y);
+function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z.id),s=hv('mz'+z.id,hC(x,y,z.r));ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.translate(-x,-y);
   if(o.glow){const p=(Math.sin(T*4)+1)/2;ctx.globalAlpha=.4+.3*p;circ(x,y,z.r+10+p*10,null,12,'#FFC93C');ctx.globalAlpha=1}
   const wk=o.wake?Math.max(0,1-(T-o.wake)/1.5):0;if(wk){ctx.translate(Math.sin(T*40)*8*wk,0)}
   if(z.id==='plaza'){circ(x,y,115,'#F1E2C8',7);circ(x,y,50,'#7FD3F0',6);circ(x,y,18,'#fff',4);for(let i=0;i<6;i++){const a=T*2+i;circ(x+Math.cos(a)*28,y-10+Math.sin(a)*8-Math.abs(Math.sin(T*4+i))*14,5,'#BFEAF7',0)}
@@ -501,7 +497,7 @@ export function stationPos(t: Tema,j: number): number[]{const p=disposicion().pu
   if(n<=6){const r=Math.floor(j/3),c=j%3;return[540+(r?2-c:c)*360,r?700:420]}
   const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]}
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
-export const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
+const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
 // CASITA v3: la escena de la casita de un tema: los juegos forman un camino y se abren de uno en uno (gameOpen). Desde
 // la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le sustituía enter, prompt, hint, draw y
 // down). mundo3d/casita3d.ts pone una casita 3D hecha a partir de esta (hasta la fase 4i la envolvía).
@@ -561,7 +557,7 @@ export function grantGift(it: Articulo){S.owned![it.id]=1;if(it.slot)wear(it,tru
 // drawChest(x, y, s, op, sh): dibuja el cofre a escala s, desplazado sh en horizontal (temblor). op = cuánto está abierto
 // (0 cerrado, 1 abierto): con op > 0 salen rayos de luz y brillo dentro; la tapa se aplasta en vertical (escala Y) hasta
 // casi desaparecer y, pasada la mitad, reaparece abierta por dentro. Con op < 0,15 se ve la cerradura.
-export function drawChest(x: number,y: number,s: number,op: number,sh: number){ctx.save();ctx.translate(x+sh,y);ctx.scale(s,s);
+function drawChest(x: number,y: number,s: number,op: number,sh: number){ctx.save();ctx.translate(x+sh,y);ctx.scale(s,s);
   if(op>0){ctx.save();ctx.globalAlpha=Math.min(1,op*1.5)*.85;for(let i=0;i<12;i++){const a=T*.6+i/12*PI*2;ctx.beginPath();ctx.moveTo(0,-40);ctx.lineTo(Math.cos(a-.12)*520,-40+Math.sin(a-.12)*520);ctx.lineTo(Math.cos(a+.12)*520,-40+Math.sin(a+.12)*520);ctx.closePath();ctx.fillStyle=i%2?'#FFF3B0':'#FFE08A';ctx.fill()}ctx.restore()}
   ell(0,138,190,26,'rgba(74,52,40,.18)',0);
   card(-150,-30,300,160,'#B5763F',8,18);for(const yy of[20,70])card(-146,yy,292,6,'#8A5A3C',0,3);

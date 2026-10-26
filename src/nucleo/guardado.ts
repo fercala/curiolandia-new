@@ -90,7 +90,7 @@ export function sanoS<D extends object>(partida: D,defecto: object): D{const d=p
 //   - kg.X que no es una lista → se borra; cofreP que no es un objeto → se borra;
 //   - vales y valesLog: se quitan las entradas que no son objetos con id; si vales queda vacía se borra (vuelven los de fábrica);
 //   - rep sin list (lista) o done (objeto) → se borra (se vuelve a armar el repaso de hoy).
-export function sanoHondo<D extends object>(partida: D): D{const d=partida as Crudo,ob=(v: unknown): v is Crudo=>!!v&&typeof v==='object'&&!Array.isArray(v),num=(v: unknown): boolean=>typeof v==='number'&&isFinite(v);
+function sanoHondo<D extends object>(partida: D): D{const d=partida as Crudo,ob=(v: unknown): v is Crudo=>!!v&&typeof v==='object'&&!Array.isArray(v),num=(v: unknown): boolean=>typeof v==='number'&&isFinite(v);
   const temas=d['temas'];if(ob(temas))for(const t in temas){const x=temas[t];if(ob(x)&&!ob(x['g']))x['g']={}}
   for(const k of['stats','gs']){const c=d[k];if(ob(c))for(const i in c){const e=c[i];if(!ob(e)){delete c[i];continue}for(const f of['ok','err'])if(!num(e[f]))e[f]=0}}
   const home=d['home'];if(ob(home))for(const i in home){const p=home[i];if(!ob(p)||!num(p['x'])||!num(p['y']))delete home[i]}

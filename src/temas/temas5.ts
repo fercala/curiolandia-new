@@ -3,7 +3,8 @@
 // ==========================================================================
 // Archivo de DATOS, con el mismo formato de tema y de juego que temas/temas.ts (mira allí la
 // explicación completa de cada campo: id, n, icon, c, trim, bg, season, intro, words, games).
-// Desde la fase 2f es un módulo. Exporta (y el puente lo deja en globalThis):
+// Desde la fase 2f es un módulo. Define (desde la fase 4n solo exporta lo que usan otros archivos, y el puente lo
+// deja en globalThis):
 //   - Cosas dibujadas y ayudas: seasonOfMonth(), monthCard(), numObj(), thermo(), binDraw(), binOf(),
 //     fern2(), capullo, hojaHuevos, rowOf(), trunk(), bookOf().
 //   - Listas de datos de los juegos: SEAS_IC, SEAS_C, MSAY, BINS, BINSAY, habZ, pVivo, pNoVivo, NECES,
@@ -25,67 +26,67 @@ import { azar } from '../aplicacion/puertos.ts';
 /* ================= TEMAS DE 5 AÑOS: LA MONTAÑA ================= */
 // Estación del año del mes m (0 = enero ... 11 = diciembre), mirando el día 15 de ese mes
 // con estacionDe() (nucleo/interfaz.ts, que tiene en cuenta el hemisferio).
-export const seasonOfMonth=(m: number)=>estacionDe(new Date(2026,m,15));
+const seasonOfMonth=(m: number)=>estacionDe(new Date(2026,m,15));
 // SEAS_IC = dibujo y SEAS_C = color de fondo de cada estación, para las tarjetas de los meses.
-export const SEAS_IC: Record<string,string>={otoño:'hojaNaranja',invierno:'copo',primavera:'flor',verano:'sol'},SEAS_C: Record<string,string>={otoño:'#FFD6A0',invierno:'#D6EEFA',primavera:'#FBD3E4',verano:'#FFF0A8'};
+const SEAS_IC: Record<string,string>={otoño:'hojaNaranja',invierno:'copo',primavera:'flor',verano:'sol'},SEAS_C: Record<string,string>={otoño:'#FFD6A0',invierno:'#D6EEFA',primavera:'#FBD3E4',verano:'#FFF0A8'};
 // Hoja de calendario del mes i (0..11, nombres en MESES), con el color y el dibujo de su estación.
 // Devuelve una cosa dibujada {name, m, draw}.
 export const monthCard=(i: number)=>({name:MESES[i],m:i,draw:(x: number,y: number,s: number)=>{const e=seasonOfMonth(i);card(x-s*.46,y-s*.34,s*.92,s*.7,SEAS_C[e],5,s*.1);card(x-s*.46,y-s*.34,s*.92,s*.16,'#FF8A7A',5,s*.06);
   circ(x-s*.26,y-s*.34,s*.04,'#fff',3);circ(x+s*.26,y-s*.34,s*.04,'#fff',3);pic(SEAS_IC[e],x-s*.27,y+s*.12,s*.28);const nm=MESES[i].toUpperCase();text(nm,x+s*.1,y+s*.18,s*(nm.length>7?.105:nm.length>5?.13:.15),K,{f:LF})}});
 // Tarjeta con el número n: {name (el número en palabras, NUM), n, draw}. Para sumar y restar.
-export const numObj=(n: number)=>({name:NUM[n],n,draw:(x: number,y: number,s: number)=>numCard(n,x,y,s*.92)});
+const numObj=(n: number)=>({name:NUM[n],n,draw:(x: number,y: number,s: number)=>numCard(n,x,y,s*.92)});
 // MSAY: frase de Tito para cada mes (de enero a diciembre), en "conocer".
-export const MSAY=['Enero. Es el primer mes del año.','Febrero. Es el mes más cortito.','Marzo.','Abril.','Mayo.','Junio.','Julio.','Agosto.','Septiembre.','Octubre.','Noviembre.','Diciembre. Es el último mes del año.'];
+const MSAY=['Enero. Es el primer mes del año.','Febrero. Es el mes más cortito.','Marzo.','Abril.','Mayo.','Junio.','Julio.','Agosto.','Septiembre.','Octubre.','Noviembre.','Diciembre. Es el último mes del año.'];
 // Termómetro con el nivel lv (0 a 1): por encima de .5 es "alto" (con sol) y si no "bajo" (con copo).
 // Devuelve {name, lv, draw}.
-export const thermo=(lv: number)=>({name:lv>.5?'el termómetro alto':'el termómetro bajo',lv,draw:(x: number,y: number,s: number)=>{card(x-s*.1,y-s*.42,s*.2,s*.7,'#fff',6,s*.1);circ(x,y+s*.3,s*.14,'#FF5A5A',6);card(x-s*.05,y+s*.24-s*.62*lv,s*.1,s*.62*lv+s*.04,'#FF5A5A',0,s*.05);
+const thermo=(lv: number)=>({name:lv>.5?'el termómetro alto':'el termómetro bajo',lv,draw:(x: number,y: number,s: number)=>{card(x-s*.1,y-s*.42,s*.2,s*.7,'#fff',6,s*.1);circ(x,y+s*.3,s*.14,'#FF5A5A',6);card(x-s*.05,y+s*.24-s*.62*lv,s*.1,s*.62*lv+s*.04,'#FF5A5A',0,s*.05);
   for(let j=0;j<5;j++){ctx.beginPath();ctx.moveTo(x+s*.1,y-s*.34+j*s*.12);ctx.lineTo(x+s*.18,y-s*.34+j*s*.12);ctx.lineWidth=4;ctx.strokeStyle=K;ctx.stroke()}
   pic(lv>.5?'sol':'copo',x+s*.32,y-s*.24,s*.26)}});
 // Devuelve la función draw(z,hl) de una zona con forma de contenedor de reciclaje de color c;
 // lb(x,y,s) pinta la etiqueta (qué se tira en él). Se ilumina cuando hl es verdadero.
-export const binDraw=(c: string,lb: (x: number, y: number, s: number) => void)=>(z: Libre,hl: boolean)=>{const {x,y}=z;ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=36}ctx.beginPath();ctx.moveTo(x-110,y-90);ctx.lineTo(x+110,y-90);ctx.lineTo(x+92,y+130);ctx.lineTo(x-92,y+130);ctx.closePath();fillStroke(c,7);ctx.restore();
+const binDraw=(c: string,lb: (x: number, y: number, s: number) => void)=>(z: Libre,hl: boolean)=>{const {x,y}=z;ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=36}ctx.beginPath();ctx.moveTo(x-110,y-90);ctx.lineTo(x+110,y-90);ctx.lineTo(x+92,y+130);ctx.lineTo(x-92,y+130);ctx.closePath();fillStroke(c,7);ctx.restore();
   card(x-124,y-128,248,44,c,7,14);card(x-40,y-150,80,26,c,6,10);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=8;for(const dx of[-50,0,50]){ctx.beginPath();ctx.moveTo(x+dx,y-60);ctx.lineTo(x+dx*.85,y+100);ctx.stroke()}
   card(x-62,y-50,124,124,'#fff',5,24);lb(x,y+12,104)};
 // BINS: contenedores de reciclaje por color: {c = color, n = nombre, it = claves de PICS que van en
 // él, lb = etiqueta}. BINSAY = frase que explica cada contenedor.
-export const BINS: Record<string,Libre>={amarillo:{c:'#FFD34E',n:'el contenedor amarillo',it:['botellaPlastico','lata','brik'],lb:(x: number,y: number,s: number)=>{pic('botellaPlastico',x-s*.2,y,s*.7);pic('lata',x+s*.22,y+s*.08,s*.55)}},
+const BINS: Record<string,Libre>={amarillo:{c:'#FFD34E',n:'el contenedor amarillo',it:['botellaPlastico','lata','brik'],lb:(x: number,y: number,s: number)=>{pic('botellaPlastico',x-s*.2,y,s*.7);pic('lata',x+s*.22,y+s*.08,s*.55)}},
   azul:{c:'#5B8DEF',n:'el contenedor azul',it:['periodico','cajaCarton'],lb:(x: number,y: number,s: number)=>pic('periodico',x,y,s*.9)},
   verde:{c:'#5FA84E',n:'el contenedor verde',it:['botellaVidrio','frasco'],lb:(x: number,y: number,s: number)=>pic('botellaVidrio',x,y,s*.9)},
   marron:{c:'#A86B43',n:'el contenedor marrón',it:['cascara','restoManzana'],lb:(x: number,y: number,s: number)=>pic('restoManzana',x,y,s*.9)}};
-export const BINSAY: Record<string,string>={amarillo:'En el amarillo van los envases: botellas de plástico, latas y cartones de leche.',azul:'En el azul va el papel y el cartón.',verde:'En el verde va el vidrio.',marron:'En el marrón van los restos de comida.'};
+const BINSAY: Record<string,string>={amarillo:'En el amarillo van los envases: botellas de plástico, latas y cartones de leche.',azul:'En el azul va el papel y el cartón.',verde:'En el verde va el vidrio.',marron:'En el marrón van los restos de comida.'};
 // Devuelve el color del contenedor (clave de BINS) donde va el dibujo k, o undefined.
-export const binOf=(k: Cosa)=>Object.keys(BINS).find(b=>BINS[b].it.includes(k));
+const binOf=(k: Cosa)=>Object.keys(BINS).find(b=>BINS[b].it.includes(k));
 // Helecho como icon(x,y,s) de una zona (adapta fern() de temas/temas4.ts).
-export const fern2=(x: number,y: number,s: number)=>fern(x,y+s*.3,s/150,'#7CC86E');
+const fern2=(x: number,y: number,s: number)=>fern(x,y+s*.3,s/150,'#7CC86E');
 // habZ: hábitats para "¿Dónde vive?": {c = color, ic = icono, nm = nombre, it = animales que viven ahí}.
-export const habZ: Record<string,Libre>={mar:{c:'#9ED9F5',ic:zoneIcon('ballena'),nm:'el mar',it:['pulpo','ballena','pez','estrellaMar']},polo:{c:'#E3F2FA',ic:zoneIcon('iglu'),nm:'el polo',it:['pinguino','osoPolar','foca','morsa']},
+const habZ: Record<string,Libre>={mar:{c:'#9ED9F5',ic:zoneIcon('ballena'),nm:'el mar',it:['pulpo','ballena','pez','estrellaMar']},polo:{c:'#E3F2FA',ic:zoneIcon('iglu'),nm:'el polo',it:['pinguino','osoPolar','foca','morsa']},
   selva:{c:'#C9EBB5',ic:(x: number,y: number,s: number)=>palm(x-10,y+s*.45,s*.0042),nm:'la selva',it:['mono','tigre','cocodrilo','jirafa']},bosque:{c:'#DDF3D2',ic:(x: number,y: number,s: number)=>tree(x,y+s*.38,s/260,'verano'),nm:'el bosque',it:['buho','lobo','ardilla','erizo']},
   desierto:{c:'#FFE8B0',ic:zoneIcon('cactus'),nm:'el desierto',it:['camello']}};
 // capullo y hojaHuevos: cosas dibujadas {name, draw} para el ciclo de la mariposa.
 export const capullo={name:'el capullo',draw:(x: number,y: number,s: number)=>{card(x-s*.46,y-s*.46,s*.92,s*.92,'#FFFBF2',0,s*.12);ctx.beginPath();ctx.moveTo(x-s*.4,y-s*.3);ctx.lineTo(x+s*.4,y-s*.36);ctx.lineWidth=s*.05;ctx.strokeStyle='#A86B43';ctx.lineCap='round';ctx.stroke();ell(x,y+s*.02,s*.12,s*.28,'#C9B06B',5);for(let j=-2;j<=2;j++){ctx.beginPath();ctx.moveTo(x-s*.1,y+j*s*.09);ctx.quadraticCurveTo(x,y+j*s*.09+s*.03,x+s*.1,y+j*s*.09);ctx.lineWidth=3;ctx.strokeStyle='rgba(74,52,40,.4)';ctx.stroke()}}};
-export const hojaHuevos={name:'los huevitos en la hoja',draw:(x: number,y: number,s: number)=>{card(x-s*.46,y-s*.46,s*.92,s*.92,'#FFFBF2',0,s*.12);ctx.save();ctx.translate(x,y);ctx.rotate(-.4);ell(0,0,s*.38,s*.2,'#7CC86E',5);ctx.beginPath();ctx.moveTo(-s*.36,0);ctx.lineTo(s*.36,0);ctx.lineWidth=4;ctx.strokeStyle='#5FA84E';ctx.stroke();for(let j=0;j<5;j++)circ(-s*.18+j*s*.09,-s*.06+(j%2)*s*.1,s*.035,'#FFF3B0',3);ctx.restore()}};
+const hojaHuevos={name:'los huevitos en la hoja',draw:(x: number,y: number,s: number)=>{card(x-s*.46,y-s*.46,s*.92,s*.92,'#FFFBF2',0,s*.12);ctx.save();ctx.translate(x,y);ctx.rotate(-.4);ell(0,0,s*.38,s*.2,'#7CC86E',5);ctx.beginPath();ctx.moveTo(-s*.36,0);ctx.lineTo(s*.36,0);ctx.lineWidth=4;ctx.strokeStyle='#5FA84E';ctx.stroke();for(let j=0;j<5;j++)circ(-s*.18+j*s*.09,-s*.06+(j%2)*s*.1,s*.035,'#FFF3B0',3);ctx.restore()}};
 // Datos de "Los seres vivos": pVivo / pNoVivo = cosas vivas / no vivas;
 // NECES = [ser vivo, [lo que necesita], [pregunta, respuesta]]; NOVIVOS = opciones falsas.
-export const pVivo=['perro','flor','pez','mariposa','arbol','pajaro','plantita','gato','nene'],pNoVivo=['piedra','pelota','auto','silla','lapiz','robot','reloj','zapato'];
-export const NECES=[['plantita',['gota','sol'],['¿Qué necesita la planta para vivir?','La planta necesita agua y sol.']],['perro',['plato','gota'],['¿Qué necesita el perro para vivir?','El perro necesita comida y agua.']],['pez',['gota','plato'],['¿Qué necesita el pez para vivir?','El pez necesita agua limpia y comida.']],['nene',['plato','cama'],['¿Qué necesitamos las personas para vivir?','Necesitamos comer y dormir.']]];
-export const NOVIVOS=['pelota','tele','robot','auto','trenJuguete','guitarra'];
+const pVivo=['perro','flor','pez','mariposa','arbol','pajaro','plantita','gato','nene'],pNoVivo=['piedra','pelota','auto','silla','lapiz','robot','reloj','zapato'];
+const NECES=[['plantita',['gota','sol'],['¿Qué necesita la planta para vivir?','La planta necesita agua y sol.']],['perro',['plato','gota'],['¿Qué necesita el perro para vivir?','El perro necesita comida y agua.']],['pez',['gota','plato'],['¿Qué necesita el pez para vivir?','El pez necesita agua limpia y comida.']],['nene',['plato','cama'],['¿Qué necesitamos las personas para vivir?','Necesitamos comer y dormir.']]];
+const NOVIVOS=['pelota','tele','robot','auto','trenJuguete','guitarra'];
 // MIX: mezclas de colores [color 1, color 2, resultado] (claves de COLORES).
-export const MIX=[['rojo','amarillo','naranja'],['azul','amarillo','verde'],['rojo','azul','violeta'],['rojo','blanco','rosa'],['blanco','negro','gris']];
+const MIX=[['rojo','amarillo','naranja'],['azul','amarillo','verde'],['rojo','azul','violeta'],['rojo','blanco','rosa'],['blanco','negro','gris']];
 // FORMQ: preguntas de formas [dibujo, forma correcta, pregunta]. FCOL: color de cada forma.
-export const FORMQ=[['huevo','ovalo','¿Qué forma tiene el huevo?'],['cometa','rombo','¿Qué forma tiene el barrilete?'],['pelota','circulo','¿Qué forma tiene la pelota?'],['reloj','circulo','¿Qué forma tiene el reloj?'],['libro','rectangulo','¿Qué forma tiene el libro?'],['gorroFiesta','triangulo','¿Qué forma tiene el gorro de fiesta?'],['cuadro','cuadrado','¿Qué forma tiene el cuadro?'],['sandia','ovalo','¿Qué forma tiene la sandía?']];
-export const FCOL: Record<string,string>={circulo:'#FF8A7A',cuadrado:'#5BB8E6',triangulo:'#FFD66B',rectangulo:'#7CC86E',ovalo:'#F58BB4',rombo:'#9B8AD9'};
+const FORMQ=[['huevo','ovalo','¿Qué forma tiene el huevo?'],['cometa','rombo','¿Qué forma tiene el barrilete?'],['pelota','circulo','¿Qué forma tiene la pelota?'],['reloj','circulo','¿Qué forma tiene el reloj?'],['libro','rectangulo','¿Qué forma tiene el libro?'],['gorroFiesta','triangulo','¿Qué forma tiene el gorro de fiesta?'],['cuadro','cuadrado','¿Qué forma tiene el cuadro?'],['sandia','ovalo','¿Qué forma tiene la sandía?']];
+const FCOL: Record<string,string>={circulo:'#FF8A7A',cuadrado:'#5BB8E6',triangulo:'#FFD66B',rectangulo:'#7CC86E',ovalo:'#F58BB4',rombo:'#9B8AD9'};
 // Pinta una fila de cosas ks centrada en (x,y), cada una de tamaño s y separadas gap.
 // Si se pasa fx(k,x,y,s,j), la usa para pintar cada una en vez de thing().
-export function rowOf(ks: Cosa[],x: number,y: number,s: number,gap=18,fx?: (k: Cosa, x: number, y: number, s: number, j: number) => void){const n=ks.length;ks.forEach((k: Cosa,j: number)=>{const xx=x-(n-1)*(s+gap)/2+j*(s+gap);fx?fx(k,xx,y,s,j):thing(k,xx,y,s)})}
+function rowOf(ks: Cosa[],x: number,y: number,s: number,gap=18,fx?: (k: Cosa, x: number, y: number, s: number, j: number) => void){const n=ks.length;ks.forEach((k: Cosa,j: number)=>{const xx=x-(n-1)*(s+gap)/2+j*(s+gap);fx?fx(k,xx,y,s,j):thing(k,xx,y,s)})}
 // FILA: animales para "Primero y último"; ORD: ordinales ("el primero"...);
 // PESO: parejas [pesado, ligero] para "Pesado y liviano".
-export const FILA=['pato','perro','gato','conejo','oveja','cerdo','vaca','caballo','gallina','oso'];
-export const ORD=['el primero','el segundo','el tercero','el cuarto','el quinto'];
-export const PESO=[['elefante','pluma'],['camion','globo'],['piedra','hojaNaranja'],['sandia','uva'],['oso','pajaro'],['ballena','pez']];
+const FILA=['pato','perro','gato','conejo','oveja','cerdo','vaca','caballo','gallina','oso'];
+const ORD=['el primero','el segundo','el tercero','el cuarto','el quinto'];
+const PESO=[['elefante','pluma'],['camion','globo'],['piedra','hojaNaranja'],['sandia','uva'],['oso','pajaro'],['ballena','pez']];
 // Tronco grueso (w>.5) o delgado: {name, draw}. Para "grueso y delgado".
-export const trunk=(w: Cosa,c='#A86B43')=>({name:w>.5?'el tronco grueso':'el tronco delgado',draw:(x: number,y: number,s: number)=>{const ww=s*(w>.5?.42:.12);card(x-ww/2,y-s*.36,ww,s*.72,c,6,ww*.2);ell(x,y-s*.36,ww/2,s*.05,'#E9D1A6',5)}});
+const trunk=(w: Cosa,c='#A86B43')=>({name:w>.5?'el tronco grueso':'el tronco delgado',draw:(x: number,y: number,s: number)=>{const ww=s*(w>.5?.42:.12);card(x-ww/2,y-s*.36,ww,s*.72,c,6,ww*.2);ell(x,y-s*.36,ww/2,s*.05,'#E9D1A6',5)}});
 // Libro grueso (w>.5) o delgado: {name, draw}. Para "grueso y delgado".
-export const bookOf=(w: Cosa)=>({name:w>.5?'el libro grueso':'el libro delgado',draw:(x: number,y: number,s: number)=>{const h=s*(w>.5?.34:.07);card(x-s*.36,y-h/2,s*.72,h,'#FFF6E6',5,6);card(x-s*.4,y-h/2-s*.04,s*.8,s*.06,'#5B8DEF',5,6);card(x-s*.4,y+h/2-s*.02,s*.8,s*.06,'#5B8DEF',5,6)}});
+const bookOf=(w: Cosa)=>({name:w>.5?'el libro grueso':'el libro delgado',draw:(x: number,y: number,s: number)=>{const h=s*(w>.5?.34:.07);card(x-s*.36,y-h/2,s*.72,h,'#FFF6E6',5,6);card(x-s*.4,y-h/2-s*.04,s*.8,s*.06,'#5B8DEF',5,6);card(x-s*.4,y+h/2-s*.02,s*.8,s*.06,'#5B8DEF',5,6)}});
 // Nombre del dibujo 'hoja' (para W_ y nameT).
 Object.assign(LEX,{hoja:'la hoja'});
 

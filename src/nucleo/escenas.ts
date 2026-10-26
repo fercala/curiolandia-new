@@ -79,7 +79,7 @@ export function burst(x: number,y: number,n=24,cols: readonly string[]=['#FFC93C
   for(let i=0;i<n;i++){const a=rnd(0,PI*2),v=rnd(200,620);parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-200,life:rnd(.8,1.5),t:0,c:pick(cols),r:rnd(7,15),rot:rnd(0,6),k:azar()<.35?'s':'c'})}
 }
 // heart(x,y,radio,color): corazón relleno (partículas de tipo 'h').
-export function heart(x: number,y: number,r: number,f: string): void{/* corazoncito para las partículas */ctx.beginPath();ctx.moveTo(x,y+r*.9);ctx.bezierCurveTo(x-r*1.4,y,x-r*.7,y-r*1.1,x,y-r*.35);ctx.bezierCurveTo(x+r*.7,y-r*1.1,x+r*1.4,y,x,y+r*.9);ctx.fillStyle=f;ctx.fill()}
+function heart(x: number,y: number,r: number,f: string): void{/* corazoncito para las partículas */ctx.beginPath();ctx.moveTo(x,y+r*.9);ctx.bezierCurveTo(x-r*1.4,y,x-r*.7,y-r*1.1,x,y-r*.35);ctx.bezierCurveTo(x+r*.7,y-r*1.1,x+r*1.4,y,x,y+r*.9);ctx.fillStyle=f;ctx.fill()}
 // sparkles(x,y,n): unos pocos brillos (estrellas) que suben flotando, sin gravedad.
 export function sparkles(x: number,y: number,n=6): void{for(let i=0;i<n;i++)parts.push({x:x+rnd(-20,20),y:y+rnd(-20,20),vx:rnd(-80,80),vy:rnd(-160,-40),life:rnd(.4,.8),t:0,c:pick(['#FFC93C','#FFF3B0','#F58BB4']),r:rnd(6,11),rot:0,k:'s',g:0})}
 // drawParts(dt): mueve cada partícula (velocidad y gravedad), la dibuja según su tipo k, la vuelve transparente al

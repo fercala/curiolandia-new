@@ -110,16 +110,16 @@ function vozPieces(s: string): string[]|null{const voz=VOZ;if(!voz||!/\d/.test(s
   return fs}
 // como speechSynthesis.cancel(): cortar una frase también la da por terminada
 // vozStop(): para el MP3 que suena y llama a su "fin" (así quien esperaba el final de la frase sigue).
-export function vozStop(): void{const f=VOZ_FIN;VOZ_FIN=null;if(VOZ_EL){VOZ_EL.onended=VOZ_EL.onerror=null;try{VOZ_EL.pause()}catch(e){}}if(f)f()}
+function vozStop(): void{const f=VOZ_FIN;VOZ_FIN=null;if(VOZ_EL){VOZ_EL.onended=VOZ_EL.onerror=null;try{VOZ_EL.pause()}catch(e){}}if(f)f()}
 // Truco: se envuelve speechSynthesis.cancel() para que, al cortar la voz (por ejemplo en go()), también se corte el MP3.
 if('speechSynthesis' in window){try{const c0=speechSynthesis.cancel.bind(speechSynthesis);speechSynthesis.cancel=()=>{vozStop();c0()}}catch(e){}}
 // vozGet(archivo): promesa con la URL (blob) del mp3, descargándolo una sola vez (se guarda la promesa en VOZ_BL, así la
 // precarga y la reproducción piden el mismo archivo una sola vez). Si falla, se borra para poder reintentar.
-export function vozGet(f: string): Promise<string>{f=VOZ_DIR+f;const ya=VOZ_BL[f];return ya||(VOZ_BL[f]=fetch(f).then(r=>{if(!r.ok)throw new Error(f);return r.blob()}).then(b=>URL.createObjectURL(b)).catch((e: unknown)=>{delete VOZ_BL[f];throw e}))}
+function vozGet(f: string): Promise<string>{f=VOZ_DIR+f;const ya=VOZ_BL[f];return ya||(VOZ_BL[f]=fetch(f).then(r=>{if(!r.ok)throw new Error(f);return r.blob()}).then(b=>URL.createObjectURL(b)).catch((e: unknown)=>{delete VOZ_BL[f];throw e}))}
 // vozPlay(archivos, tok, fin, fallo): reproduce los mp3 uno tras otro con el mismo <audio>. Los descarga todos a la vez
 // (precarga) y los guarda como blob en VOZ_BL. Si entretanto empezó otra frase (tok!==sayTok), no suena.
 // Al acabar el último llama a fin(); si algo falla llama a fallo() (say() usa entonces la voz del navegador).
-export function vozPlay(fs: readonly string[],tok: number,fin: ()=>void,fail: ()=>void): void{
+function vozPlay(fs: readonly string[],tok: number,fin: ()=>void,fail: ()=>void): void{
   const a=VOZ_EL||(VOZ_EL=new Audio()),get=vozGet;
   const step=(n: number): void=>{if(n>=fs.length){VOZ_FIN=null;fin();return}get(fs[n] as string).then(u=>{if(tok!==VIVO.sayTok)return;if(n===0)vozStop();a.src=u;a.playbackRate=VOZ_RATE;a.preservesPitch=true;a.volume=Math.min(1,S.vol.voz);VOZ_FIN=fin;
     a.onended=()=>step(n+1);a.onerror=()=>{VOZ_FIN=null;fail()};const p=a.play();if(p)p.catch(()=>{VOZ_FIN=null;fail()})}).catch(()=>{VOZ_FIN=null;fail()})};
@@ -128,7 +128,7 @@ export function vozPlay(fs: readonly string[],tok: number,fin: ()=>void,fail: ()
 // sayTTS(texto, tok, luego): dice un trozo con la voz del navegador y después llama a luego() (una sola vez; también si
 // se corta). Si la frase ya no es la actual (tok!==sayTok), no habla. Lo usa vozSeq para el nombre del niño y para las oraciones sin grabar de una frase mezclada.
 // Sin voz del navegador, o si no avisa del final a tiempo, sigue igualmente.
-export function sayTTS(tt: string,tok: number,next: ()=>void): void{let go=false;const nx=(): void=>{if(go)return;go=true;next()};
+function sayTTS(tt: string,tok: number,next: ()=>void): void{let go=false;const nx=(): void=>{if(go)return;go=true;next()};
   if(!('speechSynthesis' in window)||tok!==VIVO.sayTok){nx();return}
   try{const u=new SpeechSynthesisUtterance(tt);if(VOICE){u.voice=VOICE;u.lang=VOICE.lang}else u.lang=S.variant==='es'?'es-ES':'es-AR';
     u.rate=.9;u.pitch=1.1;u.volume=S.vol.voz;u.onend=nx;u.onerror=nx;speechSynthesis.speak(u)}catch(e){nx();return}
@@ -136,7 +136,7 @@ export function sayTTS(tt: string,tok: number,next: ()=>void): void{let go=false
 // vozSeq(plan, tok, fin, fallo): dice un plan de vozFile (mp3 y trozos {t}) en orden: los mp3 seguidos se juntan en un
 // solo vozPlay y los {t} los dice sayTTS. Precarga todos los mp3 al empezar. Al acabar llama a fin(); si falla un mp3,
 // a fallo() (say() dice entonces la frase entera con la voz del navegador).
-export function vozSeq(plan: readonly TrozoVoz[],tok: number,fin: ()=>void,fail: ()=>void): void{plan.forEach(f=>{if(typeof f==='string')vozGet(f).catch(()=>{})});
+function vozSeq(plan: readonly TrozoVoz[],tok: number,fin: ()=>void,fail: ()=>void): void{plan.forEach(f=>{if(typeof f==='string')vozGet(f).catch(()=>{})});
   const step=(i: number): void=>{if(tok!==VIVO.sayTok||i>=plan.length){fin();return}// cortada por otra frase: también se da por terminada
     const p=plan[i];if(typeof p!=='string'&&p){sayTTS(p.t,tok,()=>step(i+1));return}
     let j=i;while(j<plan.length&&typeof plan[j]==='string')j++;// i..j-1: mp3 seguidos
@@ -190,7 +190,7 @@ export function sayQ(t: string,cb?: (()=>void)|null,o?: OpcionesSay): void{whenQ
 // kid(): ', nombre' si se sabe el nombre del niño (para añadirlo a una frase); si no, ''.
 export const kid=(): string=>S.name?(', '+S.name):'';
 // PRAISE: felicitaciones (tienen MP3: no cambies el texto).
-export const PRAISE=['¡Muy bien!','¡Genial!','¡Bravo!','¡Excelente!','¡Eso es!','¡Qué bien!','¡Súper!','¡Lo encontraste!'];
+const PRAISE=['¡Muy bien!','¡Genial!','¡Bravo!','¡Excelente!','¡Eso es!','¡Qué bien!','¡Súper!','¡Lo encontraste!'];
 // praise(): una felicitación al azar; la mitad de las veces le añade el nombre del niño.
 export const praise=(): string=>{const p=pick(PRAISE);return S.name&&azar()<.5?p.slice(0,-1)+', '+S.name+'!':p};
 // cap(texto): pone en mayúscula la primera letra.

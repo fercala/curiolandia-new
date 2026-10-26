@@ -274,7 +274,7 @@ export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde es
   cuento:'El cuento',cancion:'La canción',trazo:'Trazos',secuencia:'¿Qué va primero?',series:'¿Qué viene después?',velas:'Soplar las velitas',decora:'Decorar'};
 // gIcon(g, t): dibujo de la estación del juego g del tema t: g.icon si lo trae; si no 'lupa' (conocer), 'busca',
 // 'memo' (memoria) o el icono del tema.
-export const gIcon=(g: JuegoTema,t: Tema): string=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='memoria'?'memo':t.icon);
+const gIcon=(g: JuegoTema,t: Tema): string=>g.icon||(g.t==='conocer'?'lupa':g.t==='busca'?'busca':g.t==='memoria'?'memo':t.icon);
 // drawStation(t, j, x, y, o): dibuja la estación del juego j del tema t en (x, y): círculo blanco (amarillo si es el
 // primero y no está hecho), el dibujo del juego (lupa, búsqueda, cartas de memoria o el icono) y, si está terminado,
 // una estrella con "×N" veces. o.s = escala. Solo dibuja.
@@ -341,10 +341,10 @@ SCENES.juego={music:'game',
 // EMO: emociones de la asamblea. {clave: {c: color de la carita, n: nombre (o [rioplatense, España])}}.
 // EMO_AGE: qué emociones salen según la edad. EMO_SAY: lo que dice Tito al elegir cada una. EMO_TIP: consejo extra (5 años).
 export const EMO: Record<string, { c: string; n: string | Par }>={alegria:{c:'#FFD66B',n:'alegría'},tristeza:{c:'#7FB0FF',n:'tristeza'},enojo:{c:'#FF6B5E',n:['enojo','enfado']},miedo:{c:'#9B8AD9',n:'miedo'},sorpresa:{c:'#FFA94D',n:'sorpresa'},calma:{c:'#7CC86E',n:'calma'},verguenza:{c:'#F58BB4',n:'vergüenza'}};
-export const EMO_AGE: Record<number, string[]>={3:['alegria','tristeza','enojo'],4:['alegria','tristeza','enojo','miedo','sorpresa'],5:['alegria','tristeza','enojo','miedo','sorpresa','calma','verguenza']};
-export const EMO_SAY: Record<string, string>={alegria:'¡Qué bueno! Hoy sentís alegría. ¡Yo también estoy feliz de verte!',tristeza:'Hoy sentís tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.',enojo:'Hoy sentís enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.',
+const EMO_AGE: Record<number, string[]>={3:['alegria','tristeza','enojo'],4:['alegria','tristeza','enojo','miedo','sorpresa'],5:['alegria','tristeza','enojo','miedo','sorpresa','calma','verguenza']};
+const EMO_SAY: Record<string, string>={alegria:'¡Qué bueno! Hoy sentís alegría. ¡Yo también estoy feliz de verte!',tristeza:'Hoy sentís tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.',enojo:'Hoy sentís enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.',
   miedo:'Hoy sentís miedo. Si tenés miedo, buscá a un grande que te cuide.',sorpresa:'¡Hoy sentís sorpresa! ¡Qué emocionante!',calma:'Hoy sentís calma. ¡Qué lindo sentirse así!',verguenza:'Hoy sentís vergüenza. Nos pasa a todos. Respirá hondo y sonreí.'};
-export const EMO_TIP: Record<string, string>={tristeza:' Podés contarle a alguien lo que te pasa.',enojo:' Y después contá lo que te enojó con palabras.',miedo:' Hablar de lo que da miedo lo hace más chiquito.'};
+const EMO_TIP: Record<string, string>={tristeza:' Podés contarle a alguien lo que te pasa.',enojo:' Y después contá lo que te enojó con palabras.',miedo:' Hablar de lo que da miedo lo hace más chiquito.'};
 // drawFace(x, y, r, m): dibuja la carita de la emoción m (clave de EMO) de radio r en (x, y). Solo dibuja.
 export function drawFace(x: number,y: number,r: number,m: string){const e=EMO[m];ctx.save();ctx.translate(x,y);circ(0,0,r,e.c,6);const ey=-r*.12,ex=r*.34,L=r*.07;ctx.lineCap='round';ctx.lineWidth=L;ctx.strokeStyle=K;
 // eyes(rr): dos ojos de radio rr con brillo blanco.
@@ -362,10 +362,10 @@ export function drawFace(x: number,y: number,r: number,m: string){const e=EMO[m]
 // WX: tipos de tiempo. {clave: {k: dibujo, s: frase de Tito}}. WX_AGE: cuáles salen según la edad.
 // WX_ROPA: prendas correctas para cada tiempo (paso 'ropa' de 4 años).
 export const WX: Record<string, { k: string; s: string }>={sol:{k:'sol',s:'¡Hoy hace sol!'},nublado:{k:'nublado',s:'¡Hoy está nublado!'},lluvia:{k:'lluvia',s:'¡Hoy llueve!'},viento:{k:'viento',s:'¡Hoy hay viento!'},nieve:{k:'nieve',s:'¡Hoy nieva!'},tormenta:{k:'tormenta',s:'¡Hoy hay tormenta!'},niebla:{k:'niebla',s:'¡Hoy hay niebla!'}};
-export const WX_AGE: Record<number, string[]>={3:['sol','nublado','lluvia'],4:['sol','nublado','lluvia','viento','nieve'],5:['sol','nublado','lluvia','viento','nieve','tormenta','niebla']};
-export const WX_ROPA: Record<string, string[]>={sol:['gorra','gafas'],nublado:['abrigo'],lluvia:['paraguas','botasAgua'],viento:['bufanda','abrigo'],nieve:['gorro','guantes'],tormenta:['paraguas','botasAgua'],niebla:['abrigo','bufanda']};
+const WX_AGE: Record<number, string[]>={3:['sol','nublado','lluvia'],4:['sol','nublado','lluvia','viento','nieve'],5:['sol','nublado','lluvia','viento','nieve','tormenta','niebla']};
+const WX_ROPA: Record<string, string[]>={sol:['gorra','gafas'],nublado:['abrigo'],lluvia:['paraguas','botasAgua'],viento:['bufanda','abrigo'],nieve:['gorro','guantes'],tormenta:['paraguas','botasAgua'],niebla:['abrigo','bufanda']};
 // SEASON_NEXT: qué estación viene después de cada una (paso 'siguiente' de 5 años).
-export const SEASON_NEXT: Record<string, string>={primavera:'verano',verano:'otoño',otoño:'invierno',invierno:'primavera'};
+const SEASON_NEXT: Record<string, string>={primavera:'verano',verano:'otoño',otoño:'invierno',invierno:'primavera'};
 // dayIdx(d): día de la semana con el lunes = 0 y el domingo = 6 (Date.getDay empieza en domingo).
 export const dayIdx=(d: Date)=>(d.getDay()+6)%7; // lunes=0
 // isBday(d): true si d (hoy por defecto) es el cumpleaños guardado en S.bday ({m: mes 0-11, d: día}). Desde la fase 4e
@@ -538,7 +538,7 @@ SCENES.asamblea={music:'plaza',
 /* ---------- ÁLBUM ---------- */
 // ALBUM_KEYS: todas las figuritas posibles del álbum, en orden: las palabras con dibujo y el icono de cada tema, más
 // 'estrella' (premio de asambleas). Se calcula una vez al cargar.
-export const ALBUM_KEYS=(()=>{const s=new Set<string>();for(const t of TEMAS){if(t.words)t.words.forEach((w: Libre)=>w.k&&PICS[w.k]&&s.add(w.k));s.add(t.icon)}s.add('estrella');return [...s].filter(k=>PICS[k])})();
+const ALBUM_KEYS=(()=>{const s=new Set<string>();for(const t of TEMAS){if(t.words)t.words.forEach((w: Libre)=>w.k&&PICS[w.k]&&s.add(w.k));s.add(t.icon)}s.add('estrella');return [...s].filter(k=>PICS[k])})();
 // ÁLBUM DE FIGURITAS: 18 por página (per); las que se tienen (S.stk) en color, las demás en sombra.
 SCENES.album={music:'book',
 // enter(): primera página; Tito dice cuántas figuritas hay.

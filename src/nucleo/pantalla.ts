@@ -22,7 +22,7 @@ export function ponCtx(g: CanvasRenderingContext2D): void{ctx=g}
 // resize(): ajusta el lienzo al tamaño de la ventana. El juego siempre "piensa" en una pantalla de 1600x900 (W x H):
 // SC es la escala para que quepa entera, OX/OY el margen (bandas) para centrarla y DPR la densidad de píxeles
 // (como mucho 2, para no gastar de más en móviles). Se llama al cargar y cada vez que cambia el tamaño.
-export function resize(): void{
+function resize(): void{
   DPR=Math.min(window.devicePixelRatio||1,2);
   const w=innerWidth,h=innerHeight; cv.width=Math.round(w*DPR); cv.height=Math.round(h*DPR);
   cv.style.width=w+'px'; cv.style.height=h+'px';

@@ -131,12 +131,12 @@ export function playSound(k: string): void{const f=SOUNDS[k];if(f)try{f()}catch(
 /* música suave generativa */
 // MUSIC: música de fondo; cada escena elige una con su campo music. s = escala (semitonos sobre la nota base),
 // b = nota base (número MIDI: 60 es el do central), sp = segundos entre notas.
-export const MUSIC: Record<string,Musica>={
+const MUSIC: Record<string,Musica>={
   title:{s:[0,2,4,7,9],b:64,sp:.5},map:{s:[0,2,4,7,9],b:60,sp:.5},plaza:{s:[0,4,5,7,9],b:62,sp:.46},jardin:{s:[0,2,4,7,9],b:65,sp:.44},
   casita:{s:[0,2,4,5,7,9],b:62,sp:.48},game:{s:[0,2,4,5,7,9],b:60,sp:.48},book:{s:[0,3,5,7,10],b:57,sp:.6}
 };
 // musKey: música que suena (null = ninguna); musNext: momento (en el reloj de audio) de la siguiente nota; musStep: número de nota.
-export let musKey: string|null=null;let musNext=0,musStep=0;
+let musKey: string|null=null;let musNext=0,musStep=0;
 // ponMusica(k): pone la música k de MUSIC (null = ninguna). La llama go() (escenas.ts) con la de cada escena.
 export function ponMusica(k: string|null): void{musKey=k}
 // musicTick(): se llama en cada cuadro desde frame(). Programa con 0,3 s de antelación las notas que tocan (así el ritmo no

@@ -7,8 +7,9 @@
  * dificultad nueva. nucleo/guardado.ts (AGE), nucleo/interfaz.ts (nOpts, nRounds, onRight, onWrongTwice, que guardan la
  * dificultad adaptativa en VIVO.ADAPT y en su racha) y escenas/escenas2d.ts (VIVO.REP al entrar en un juego) las usan.
  * Pruebas: tests/unidad/dificultad.test.ts.
- * Exporta: EDAD_POR_DEFECTO, DIFICULTAD (los números de las reglas), el tipo Adaptacion, SIN_ADAPTAR y las reglas
- * edadDe, repeticion, opciones, rondas, trasAcierto y trasDosFallos.
+ * Exporta: EDAD_POR_DEFECTO, el tipo Adaptacion, SIN_ADAPTAR y las reglas
+ * edadDe, repeticion, opciones, rondas, trasAcierto y trasDosFallos. DIFICULTAD (los números de las reglas) es interna
+ * desde la fase 4n.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de DIFICULTAD son las reglas mismas, cada uno con su
@@ -18,7 +19,7 @@
 export const EDAD_POR_DEFECTO = 3;
 
 // DIFICULTAD: los números de las reglas de la dificultad.
-export const DIFICULTAD = {
+const DIFICULTAD = {
   /** Hasta esta edad, los juegos son de «pequeños»: menos opciones y menos rondas. */
   edadPequenos: 3,
   /** Opciones de cada pregunta: de pequeños... */

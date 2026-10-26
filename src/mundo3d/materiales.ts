@@ -76,7 +76,7 @@ let _o3: Tres.Object3D|null=null;
 export function mg(parts: PiezaUnida[]){const o3=_o3||(_o3=new THREE.Object3D()),pos=[],nor=[];for(const [g0,p,sc,r] of parts){const g=g0.index?g0.toNonIndexed():g0.clone();o3.position.set(...(p||[0,0,0]));if(sc==null)o3.scale.set(1,1,1);else if(typeof sc==='number')o3.scale.setScalar(sc);else o3.scale.set(...sc);o3.rotation.set(...(r||[0,0,0]));o3.updateMatrix();g.applyMatrix4(o3.matrix);
   pos.push(...(g.attributes.position.array as Float32Array));nor.push(...(g.attributes.normal.array as Float32Array))}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3));return g}
 // GC: caché de geometrías compartidas. keep(g) las marca para que disposeWorld no las borre al cambiar de escena.
-export const GC: Record<string, Tres.BufferGeometry>={};export const keep=(g: Tres.BufferGeometry)=>{g.userData.keep=1;return g};
+const GC: Record<string, Tres.BufferGeometry>={};export const keep=(g: Tres.BufferGeometry)=>{g.userData.keep=1;return g};
 // gcache(k,f): devuelve la geometría guardada con el nombre k; si no existe, la crea con f(), le prepara el contorno
 // (olGeo) y la guarda para siempre. Úsalo para piezas que se repiten mucho (flores, copas de árbol, nubes...).
 export const gcache=(k: string,f: () => Tres.BufferGeometry)=>GC[k]||(GC[k]=keep(olGeo(f())));

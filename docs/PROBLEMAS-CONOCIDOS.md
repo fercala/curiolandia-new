@@ -24,7 +24,7 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 - `V([a, b])` con las dos variantes iguales (título de la portada, una pregunta de `F-libro`, `Secuencia`).
 - Comentarios del código original colocados encima de la función equivocada (están señalados con una nota en los comentarios nuevos).
 - `GNAME` recibe `memoria` dos veces; `TU` y contenido/lex.ts tienen pares repetidos o que no cambian nada.
-- Campos y variables sin uso: `S.album`, `trim` de los temas, `GICON`.
+- Campos y variables sin uso: `S.album`, `trim` de los temas (`GICON`, que tampoco se usaba, se borró en la fase 4n).
 - Siete piezas 3D piden media esfera o un cilindro abierto (la cúpula de la cabina de `phone3`, las hojas de nenúfar
   de `frog3`, `squir3`, el montón de `leafs3`, la tapa de `tea3`, el nido de `nest3` y la cáscara de `makePipo`), pero
   `Sph` y `Cyl` solo pasan a Three.js el radio y los segmentos, así que se ven enteras. La fase 2o quitó esos

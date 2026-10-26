@@ -37,10 +37,10 @@ import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, na
 import { azar } from '../aplicacion/puertos.ts';
 // siluetas para "¿de quién es esta sombra?"
 // caché de siluetas ya creadas: clave de dibujo → imagen
-export const IMGS: Record<string,HTMLImageElement>={};
+const IMGS: Record<string,HTMLImageElement>={};
 // Devuelve (y guarda en IMGS) la silueta del dibujo k: el mismo SVG de PICS[k]
 // con todos los colores cambiados por un azul oscuro. Se crea una sola vez.
-export function shadowOf(k: Cosa){if(!IMGS[k]&&PICS[k])IMGS[k]=svgImg(PICS[k].replace(/(fill|stroke)="#[0-9A-Fa-f]{6}"/g,(_m: string,a: string)=>a+'="#3B3F58"'),'-62 -62 124 124',320);return IMGS[k]}
+function shadowOf(k: Cosa){if(!IMGS[k]&&PICS[k])IMGS[k]=svgImg(PICS[k].replace(/(fill|stroke)="#[0-9A-Fa-f]{6}"/g,(_m: string,a: string)=>a+'="#3B3F58"'),'-62 -62 124 124',320);return IMGS[k]}
 // Dibuja la silueta del dibujo n centrada en (x,y) con tamaño s (si ya cargó).
 export function picS(n: string,x: number,y: number,s: number){const i=shadowOf(n);if(!i||!i.complete)return;ctx.drawImage(i,x-s/2,y-s/2,s,s)}
 // Como thing(), pero si flip es verdadero dibuja la cosa reflejada (mirando
@@ -53,7 +53,7 @@ export function numCard(n: number,x: number,y: number,s: number,o: Libre={}){car
   if(o.dots!==false&&n>0){const r=s*.045,rows=Math.ceil(n/5);for(let i=0;i<n;i++){const c=i%5,rw=Math.floor(i/5),nc=rw<rows-1?5:n-rw*5;circ(x-(nc-1)*r*1.5+c*r*3,y+s*.3+rw*r*2.6-(rows-1)*r*1.3,r,'#5B8DEF',0)}}}
 // Botón redondo de color c con una flecha blanca; dir 1 = derecha, -1 = izquierda;
 // s = escala (para el efecto de pasar el ratón).
-export function arrowBtn(x: number,y: number,dir: number,c: string,s=1){ctx.save();ctx.translate(x,y);ctx.scale(s*dir,s);circ(0,0,90,c,7);ctx.beginPath();ctx.moveTo(-40,-14);ctx.lineTo(8,-14);ctx.lineTo(8,-42);ctx.lineTo(50,0);ctx.lineTo(8,42);ctx.lineTo(8,14);ctx.lineTo(-40,14);ctx.closePath();fillStroke('#fff',6);ctx.restore()}
+function arrowBtn(x: number,y: number,dir: number,c: string,s=1){ctx.save();ctx.translate(x,y);ctx.scale(s*dir,s);circ(0,0,90,c,7);ctx.beginPath();ctx.moveTo(-40,-14);ctx.lineTo(8,-14);ctx.lineTo(8,-42);ctx.lineTo(50,0);ctx.lineTo(8,42);ctx.lineTo(8,14);ctx.lineTo(-40,14);ctx.closePath();fillStroke('#fff',6);ctx.restore()}
 // cartel de pregunta con un dibujo de referencia arriba
 // Tarjeta blanca de w x h centrada en (x,y); f(x,y) dibuja lo de dentro.
 export function refCard(x: number,y: number,w: Cosa,h: number,f?: (x: number, y: number) => void){card(x-w/2,y-h/2,w,h,'#fff',7,36);f&&f(x,y)}
@@ -668,4 +668,4 @@ export function Story(data: Cuento,_cfg: Config,onDone: AlTerminar): Juego{
 // para saltar de página sin que el callback viejo dispare
 // Invalida la frase en curso: al subir sayTok, el callback de say() de la
 // página anterior ya no se ejecuta (así no pasa dos páginas de golpe).
-export function sceneTokBump(){VIVO.sayTok++;VIVO.talking=false}
+function sceneTokBump(){VIVO.sayTok++;VIVO.talking=false}
