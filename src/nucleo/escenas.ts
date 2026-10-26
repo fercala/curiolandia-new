@@ -53,7 +53,8 @@ export function ponRepOn(v: boolean): void{REP_ON=v}
 // zona de adultos al mapa, a una zona o a otro tema con hello), se olvida el repaso: si no, la siguiente casita que se
 // abriera saltaría al repaso. (Desde la fase 4c está aquí; antes escenas/repaso.ts envolvía go para hacerlo.)
 // Ejemplos: go('map',{hello:true}) vuelve al mapa saludando; go('casita',{t:idTema}) abre un tema.
-// Es let y no function porque la capa 3D la envuelve con ponGo (mundo3d/interaccion.ts).
+// Es let y no function porque las pruebas la envuelven con ponGo (tests/regresion/camino.js; hasta la fase 4k también la
+// capa 3D, mundo3d/interaccion.ts).
 export let go=(n: string,o: Libre={}): void=>{
   if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))REP_ON=false;
   const e=SCENES[n];
@@ -62,8 +63,9 @@ export let go=(n: string,o: Libre={}): void=>{
   try{speechSynthesis.cancel()}catch(e){} VIVO.talking=false;
   sceneName=n; sceneArg=o; scene=e; VIVO.fade=1; ponMusica(e.music||null); if(e.enter)e.enter(o);
 };
-// ponGo(f): cambia go por otra función. La envuelve mundo3d/interaccion.ts (vuelve a 2D al ir a una escena sin 3D); hasta la
-// fase 4c también escenas/repaso.ts. La envoltura llama a la de antes, que guarda antes de llamar a ponGo.
+// ponGo(f): cambia go por otra función. Solo la usan las pruebas (tests/regresion/camino.js, para apuntar las escenas; ver
+// docs/CONTRATO-PRUEBAS.md); el juego ya no envuelve go (hasta la fase 4k, mundo3d/interaccion.ts, y hasta la 4c,
+// escenas/repaso.ts). La envoltura llama a la de antes, que guarda antes de llamar a ponGo.
 export function ponGo(f: typeof go): void{go=f}
 /* PARTÍCULAS. parts es una lista de objetos {x, y, vx, vy (velocidad en px/s), life (segundos que dura), t (edad),
    c (color), r (tamaño), rot (giro), g (gravedad; 900 si no se da; 0 = flota), k (tipo)}.

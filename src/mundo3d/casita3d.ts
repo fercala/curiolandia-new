@@ -3,7 +3,7 @@
  * mundo3d/mundo3d.ts): dónde va cada puesto (st3Pos) y dónde se para Tito junto a él (st3Tito), el telón con el fondo
  * del tema (bgSample) y buildCasita, que monta el mundo.
  * montarCasita3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de la casita 3D
- * (escenas/disposicion.ts: stationPos devuelve los puestos proyectados) y pone en SCENES.casita la casita 3D, otra escena
+ * (nucleo/disposicion.ts: stationPos devuelve los puestos proyectados) y pone en SCENES.casita la casita 3D, otra escena
  * hecha a partir de la 2D (desde la fase 4i; antes envolvía la casita, SCENES.juego.enter para apuntar el último juego,
  * que ahora es ultimoJuego de escenas/escenas2d.ts, y stationPos con ponStationPos).
  * Exporta: montarCasita3D. Importa: del núcleo y de escenas/ lo que dibuja y lee la casita; el motor, las piezas y lo de
@@ -14,10 +14,10 @@ import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, FLC, LF, PI, S, SCENES, SFX, T, TITO, V, VIVO, atHome, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, ponCtx, scene, sceneName, sparkles, speaker, text } from '../nucleo/indice.ts';
+import { DF, FLC, LF, PI, S, SCENES, SFX, T, V, VIVO, atHome, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, ponCtx, scene, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { GNAME, drawStation, tst, ultimoJuego } from '../escenas/escenas2d.ts';
 import { gameOpen, nextGameOf } from '../escenas/zonas.ts';
-import { ponDisposicion } from '../escenas/disposicion.ts';
+import { ponDisposicion } from '../nucleo/disposicion.ts';
 import { W3, camRig, newWorld, pickAt, projO, setWorld } from './motor.ts';
 import { Box, Cyl, V3, canvasTex, grp, mk, spr } from './materiales.ts';
 import { arrow3, arrowSway, butterfly3, fireflies, flower3, lock3, ribbon, ring3 } from './decorado.ts';
@@ -85,7 +85,7 @@ const casita2D=SCENES.casita;
  SCENES.casita={...casita2D,three:true,
   // enter(o): o.t = tema, o.g = juego del que se vuelve (Tito aparece ahí); construye el mundo 3D
   enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(ultimoJuego&&ultimoJuego.t===(o&&o.t)?ultimoJuego.g:null);casita2D.enter!.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
-  // sync(): proyecta las estaciones a la pantalla (p2) y coloca TITO
+  // sync(): proyecta las estaciones a la pantalla (p2) y coloca a Tito (titoRect)
   sync(){const w=W3;if(!w||w.kind!=='casita')return;w.st!.forEach((s)=>{const [x,y]=projO(s.sp,0);s.p2=[x,y]});titoRect(w.tito!)},
   // draw(): cada cuadro: estación bajo el ratón y su nombre (GNAME), cartel con el tema, botones y bocadillo de Tito
   draw(){this.sync();const t=this.t,w=W3;let hv_=null;
@@ -93,7 +93,7 @@ const casita2D=SCENES.casita;
     {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(V(t.n)).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(V(t.n),310+tw/2,110,54,K,{w:600})}
     if(hv_!=null){const g=t.games[hv_],nm=GNAME[g.t]||'',p=w!.st![hv_].p2;if(nm){ctx.font=`600 32px ${DF}`;const tw=ctx.measureText(nm).width;card(p[0]-tw/2-24,p[1]+120,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p[0],p[1]+158,32,K,{w:600})}}
     drawHome();drawCoinHUD();
-    if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+    if(VIVO.talking){const tp=titoPos(),bx=tp.x+tp.w*.85,by=tp.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): toque en la casita: botones; objetos; Tito; estación cerrada -> candado; abierta -> Tito camina y se abre el juego
   down(x: number,y: number){const w=W3;if(!w||busy3(w))return;const t=this.t;
     if(atHome(x,y)||inCoinHUD(x,y))return call0(casita2D.down!,this,x,y);

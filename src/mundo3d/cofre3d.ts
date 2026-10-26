@@ -10,7 +10,7 @@ import type * as Tres from 'three';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Nodo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, FLC, PI, SCENES, T, TITO, VIVO, atHome, back, cap, card, circ, clamp, ctx, drawCoinHUD, drawHome, fillStroke, hC, hv, inR, lerp, pic, sceneName, speaker, text } from '../nucleo/indice.ts';
+import { DF, FLC, PI, SCENES, T, VIVO, atHome, back, cap, card, circ, clamp, ctx, drawCoinHUD, drawHome, fillStroke, hC, hv, inR, lerp, pic, sceneName, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { drawTitoHouse, houseLevel } from '../escenas/zonas.ts';
 import { drawItemPic, itemName } from '../escenas/tienda.ts';
 import { W3, camRig, newWorld, pickAt, setWorld } from './motor.ts';
@@ -75,7 +75,7 @@ const cofre2D=SCENES.cofre;
       {const s=hv('cf:casa',hC(600,800,74));ctx.save();ctx.translate(600,800);ctx.scale(s,s);circ(0,0,72,'#fff',7);ctx.save();ctx.scale(.3,.3);drawTitoHouse(0,90,houseLevel());ctx.restore();ctx.restore()}
       {const p=(Math.sin(T*4)+1)/2,s=hv('cf:seguir',hC(1000,800,74));ctx.save();ctx.translate(1000,800);ctx.scale(s*(1+p*.05),s*(1+p*.05));ctx.globalAlpha=.35+.3*p;circ(0,0,84,null,10,'#FFC93C');ctx.globalAlpha=1;circ(0,0,72,'#7CC86E',7);ctx.beginPath();ctx.moveTo(-20,-32);ctx.lineTo(34,0);ctx.lineTo(-20,32);ctx.closePath();fillStroke('#fff',5);ctx.restore()}}
     drawHome();drawCoinHUD();
-    if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+    if(VIVO.talking){const tp=titoPos(),bx=tp.x+tp.w*.85,by=tp.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
   // down(x,y): antes de abrirse: el cofre (lógica original en el centro), Tito o las flores; después, lógica original
   down(x: number,y: number){if(!this.openT){const u=pickAt(x,y);if(u&&u.id==='chest')return call0(cofre2D.down!,this,800,520);if(u&&u.id==='tito'){this.hop=T;return cofre2D.down!.call(this,x,y)}
       // las flores alrededor del cofre también responden (lejos del cofre, para no quitarle toques)

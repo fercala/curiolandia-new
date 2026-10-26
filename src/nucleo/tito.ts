@@ -1,5 +1,5 @@
 // tito.ts: Tito en las escenas 2D (en el mapa 3D lo dibuja mundo3d/personajes.ts).
-//   TITO, temasDone(), STARS(), FLPOS, FLC, titoKind(), TITO_EYES, TITO_2D, drawTito(), inTito(), ponRopaTito().
+//   TITO, titoPos() (desde la fase 4k: dónde está Tito según la vista, nucleo/disposicion.ts), temasDone(), STARS(), FLPOS, FLC, titoKind(), TITO_EYES, TITO_2D, drawTito(), inTito(), ponRopaTito().
 // La ropa y los colores comprados en la tienda los pone escenas/tienda.ts con ponRopaTito (si no, Tito sale con su dibujo de
 // siempre y sin ropa). Las reglas de temasDone y STARS están en dominio/progreso.ts (temasTerminados y estrellas).
 import { K } from '../dibujos/todos.ts';
@@ -8,6 +8,7 @@ import { card, circ, ell, flower, speaker } from './dibujo.ts';
 import { S } from './guardado.ts';
 import { IMG } from './imagenes.ts';
 import { ctx, T, VIVO } from './pantalla.ts';
+import { disposicion } from './disposicion.ts';
 
 /** Una de las cuatro formas de Tito. */
 export type FormaTito='caracol'|'erizo'|'tortuga'|'conejo';
@@ -22,8 +23,12 @@ export interface OpcionesTito {
   plain?: boolean;
 }
 /* ---------- Tito ---------- */
-// TITO: posición y ancho de Tito en las escenas 2D (abajo a la izquierda).
+// TITO: posición y ancho de Tito en las escenas 2D (abajo a la izquierda). Dónde está de verdad en la pantalla se
+// pregunta con titoPos (en 3D, el Tito proyectado; desde la fase 4k, antes la capa 3D escribía aquí).
 export const TITO={x:14,y:700,w:226};
+// titoPos(): el rectángulo de Tito {x, y, w} en la pantalla según la vista: lo que diga la disposición
+// (nucleo/disposicion.ts: en una escena 3D, el Tito proyectado) o, si no lo sabe, TITO (2D). Desde la fase 4k.
+export function titoPos(): {x: number, y: number, w: number}{return disposicion().tito?.()||TITO}
 // temasDone(): cuántos temas están completos; es el número de flores del caparazón de Tito (temasTerminados).
 export const temasDone=(): number=>temasTerminados(S.temas);
 // STARS(): número de estrellas: total de juegos terminados en todos los temas (S.temas[id].g; regla estrellas de
@@ -67,5 +72,5 @@ export function drawTito(x: number,y: number,w: number,o: OpcionesTito={}): void
   ctx.restore();
   if(VIVO.talking&&o.bubble!==false&&!o.flip){const bx=x+w*.92,by=y-30;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}
 }
-// inTito(x,y): ¿el punto toca a Tito? (rectángulo aproximado alrededor de TITO).
-export const inTito=(x: number,y: number): boolean=>x>TITO.x&&x<TITO.x+TITO.w&&y>TITO.y-40&&y<TITO.y+TITO.w*.85;
+// inTito(x,y): ¿el punto toca a Tito? (rectángulo aproximado alrededor de Tito donde está en la pantalla, titoPos).
+export const inTito=(x: number,y: number): boolean=>{const t=titoPos();return x>t.x&&x<t.x+t.w&&y>t.y-40&&y<t.y+t.w*.85};

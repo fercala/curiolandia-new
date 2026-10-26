@@ -46,7 +46,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 ### Cómo orientarte en el código
 - Todo el código está comentado: cada archivo tiene una cabecera que explica qué hace y cada función tiene un comentario encima.
 - Las líneas son muy largas (el código está escrito de forma compacta). Usa la búsqueda del editor o `grep -rn "nombreFuncion" src/` para encontrar las cosas.
-- Si algo "no hace caso" a tu cambio, probablemente otro archivo posterior lo envuelve o lo sobrescribe (ver "Capas" en ARQUITECTURA.md). Busca el nombre en todos los archivos.
+- Si algo "no hace caso" a tu cambio en el mapa, una zona, la casita, el cofre o la portada, probablemente lo has cambiado solo en la escena 2D y el juego usa la 3D (`mundo3d/`), o al revés: desde la fase 4k ya nada se envuelve, pero esas escenas tienen dos implementaciones (ver "Capas" en ARQUITECTURA.md). Busca el nombre en todos los archivos.
 - No se puede reasignar lo que se importa de otro módulo (`x = ...`): usa `VIVO.x` o su función `pon*` (ARQUITECTURA.md, «Leer sí, reasignar no»). Si hace falta una nueva, añade el campo a `VIVO` y al tipo `Vivo`, o una función `pon*` junto a la variable. `npm run tipos` lo marca como error.
 - Hay código antiguo que ya no se usa (sobre todo en `escenas/escenas2d.ts`: el mapa, el jardín y la casita v1). Está marcado en los comentarios.
 
@@ -263,7 +263,7 @@ SCENES.huerto={music:'jardin',
 ```
 Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepáralo en `enter`.
 
-**Zona nueva con camino**: `ZONES` en escenas/zonas.ts; `ZAGE`, `MAINZ`, `NEED` y las reglas (`temaAbierto`, `sitioAbierto`, `sitioNecesita`, `siguienteTema`) en dominio/apertura.ts, con su caso en tests/unidad/apertura.test.ts; el mensaje del candado en `lockMsg` (escenas/zonas.ts), lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en mundo3d/mundo3d.ts su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y la parte de zonas de world3d.js.
+**Zona nueva con camino**: `ZONES` en escenas/zonas.ts; `ZAGE`, `MAINZ`, `NEED` y las reglas (`temaAbierto`, `sitioAbierto`, `sitioNecesita`, `siguienteTema`) en dominio/apertura.ts, con su caso en tests/unidad/apertura.test.ts; el mensaje del candado en `lockMsg` (escenas/zonas.ts), lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); su estilo en `ZSTYLE` y su decoración en `zoneDecor` (mundo3d/zonas3d.ts), y su lugar en el mapa 3D en `MAPPOS` y `SPOT3` (mundo3d/mapa3d.ts). Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y de mundo3d/zonas3d.ts.
 
 ## 12. Una opción en la zona de adultos
 

@@ -32,16 +32,16 @@
  *   la fase 4e añadía tipos a GNAME y envolvía la asamblea con el paso de
  *   cumpleaños, que ahora están allí). La capa 3D (mundo3d/) después
  *   pone su versión del mapa, las zonas, la casita y el cofre (desde las
- *   fases 4i y 4j; antes los envolvía) y su disposición (escenas/disposicion.ts:
- *   stationPos, mzOf y casitaPos le preguntan dónde está cada cosa; antes
- *   escribía lo proyectado en ZPOS y MZ2), y sobrescribe cada cuadro las x/y
- *   de TITO y HOUSE_AT con las posiciones 3D proyectadas.
+ *   fases 4i y 4j; antes los envolvía) y su disposición (nucleo/disposicion.ts:
+ *   stationPos, mzOf, casitaPos, casaPos e inTito le preguntan dónde está cada
+ *   cosa; hasta las fases 4j y 4k escribía lo proyectado en ZPOS, MZ2, TITO y
+ *   HOUSE_AT).
  *
  * Lo que exporta y usan otros archivos (además de los tipos Zona y PosCasita):
  *   ZAGE, ZONES, MAINZ, zoneOf, flowersIn, pathOf, pathDone, mainDone,
  *   zoneOpen, NEED, fiestaNow, started, temaOpen, gameOpen, nextGameOf,
  *   ageZoneOpen, curTema, nextTema, lowName, lockMsg, drawRoad, lockOver,
- *   unlockFx, arrowAt, zonePos, ZPOS, casitaPos, newlyOpen, zoneScene, HOUSE_AT,
+ *   unlockFx, arrowAt, zonePos, ZPOS, casitaPos, newlyOpen, zoneScene, HOUSE_AT, casaPos,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
  *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
  *   drawSeguir, drawZoneSpot, suggestTema, stationPos,
@@ -73,14 +73,14 @@ import { MONEDAS, ganar, monedasDelCofre } from '../dominio/monedas.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, ponRepOn, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, lerp, pic, ponRepOn, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, titoPos, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ } from '../temas/indice.ts';
 import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, tree, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
 import { repasoTerminado, seguirPorElRepaso, tocaRepasar } from '../aplicacion/repasoDelDia.ts';
-import { disposicion } from './disposicion.ts';
+import { disposicion } from '../nucleo/disposicion.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -258,10 +258,14 @@ export function zoneScene(z: string): Escena{const Z=ZONES[z],P=(id: string)=>ca
 for(const z in ZONES)SCENES[z]=zoneScene(z);
 
 /* ---------- la casa de Tito y Pipo, el dinosaurio que crece ---------- */
-// HOUSE_AT: [x, y] del suelo de la casa de Tito en el mapa (mundo3d/mapa3d.ts lo actualiza con la proyección 3D).
+// HOUSE_AT: [x, y] del suelo de la casa de Tito en el mapa 2D. Dónde está en la pantalla se pregunta con casaPos (en 3D,
+// la proyectada; desde la fase 4k, antes mundo3d/mapa3d.ts la escribía aquí).
 // houseLevel(): nivel de la casa (0-4) según los temas terminados; HOUSE_NEXT: temas necesarios para cada nivel;
 // HOUSE_SAY: frase al subir a cada nivel.
 export const HOUSE_AT=[1040,800];
+// casaPos(): [x, y] de la casa de Tito en la pantalla según la vista: lo que diga la disposición (nucleo/disposicion.ts:
+// en el mapa 3D, la proyectada) o HOUSE_AT (2D). Desde la fase 4k.
+export function casaPos(): number[]{return disposicion().casa?.()||HOUSE_AT}
 // houseLevel(): nivel de la casa de Tito según temasDone(): 0 (menos de 2), 1 (2-4), 2 (5-8), 3 (9-13), 4 (14 o más).
 // La regla (nivelCasa) y HOUSE_NEXT están en dominio/progreso.ts; HOUSE_NEXT se exporta también desde aquí.
 export const houseLevel=()=>nivelCasa(temasDone());
@@ -341,7 +345,7 @@ export const MZ2=[
 // SEGUIR: el botón verde "seguir el camino" del mapa (x, y, r).
 export const SEGUIR={x:340,y:812,r:64};
 // lugar(z): el sitio z de MZ2 donde está en la pantalla según la vista: si la disposición de la vista lo sabe
-// (disposicion().lugar, escenas/disposicion.ts: en 3D, el sitio proyectado), con su x, y, r; si no, tal cual (2D).
+// (disposicion().lugar, nucleo/disposicion.ts: en 3D, el sitio proyectado), con su x, y, r; si no, tal cual (2D).
 // Desde la fase 4j; antes mundo3d/mapa3d.ts escribía las posiciones proyectadas en MZ2.
 function lugar(z: typeof MZ2[number]): typeof MZ2[number]{const p=disposicion().lugar?.(z.id);return p?{...z,...p}:z}
 // mzOf(id): el sitio de MZ2 con ese id, donde está en la pantalla (lugar); undefined si no hay ninguno con ese id (el
@@ -399,7 +403,7 @@ export function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z
   if(z.id==='ingles'){ctx.save();ctx.translate(x,y);const b=Math.sin(T*2)*3;card(-70,-58+b,140,84,'#fff',6,30);ctx.beginPath();ctx.moveTo(-24,24+b);ctx.lineTo(-40,52+b);ctx.lineTo(0,24+b);ctx.closePath();fillStroke('#fff',6);card(-26,18+b,40,10,'#fff',0,0);
     text('Hello!',0,-4+b,36,'#5B8DEF',{f:LF});card(-54,40,108,40,'#FF6B5E',5,20);text('ABC',0,70,26,'#fff',{f:LF});ctx.restore()}
   if(z.id==='tienda'){pic('tienda',x,y,180);if(S.coins!>0){pic('moneda',x+62,y-60,50+Math.sin(T*4)*4)}}
-  if(z.id==='casaTito'){drawTitoHouse(HOUSE_AT[0],HOUSE_AT[1],houseLevel(),{shake:o.shake});drawPet(HOUSE_AT[0]+170,HOUSE_AT[1]+40,96,{jump:o.petJump})}
+  if(z.id==='casaTito'){const h=casaPos();drawTitoHouse(h[0],h[1],houseLevel(),{shake:o.shake});drawPet(h[0]+170,h[1]+40,96,{jump:o.petJump})}
   const lk=!spotOpen(z.id)&&!ZAGE[z.id];
   if(o.unl&&unlockFx(x,y,z.r*.85,o.unl)){}else if(lk){lockOver(x,y,z.r*.85);card(x-46,y+z.r*.6,92,44,'#fff',5,22);flower(x-20,y+z.r*.6+22,11,FLC[0],2.5);text(String(spotNeed(z.id)),x+18,y+z.r*.6+35,30,K,{f:LF})}
   ctx.restore()}
@@ -417,15 +421,15 @@ SCENES.map={music:'map',
     const nw=newlyOpen('map',MZ2.filter(z=>spotNeed(z.id)&&spotOpen(z.id)).map(z=>z.id));
     if(!msg&&nw.length){const z=mzOf(nw[0]);this.unl={id:z.id,t:T+1};msg='¡Mirá'+kid()+'! ¡Se '+(/^l[ao]s /.test(z.name)?'abrieron ':'abrió ')+z.name+'! Tocá para jugar.';fx=()=>{SFX.sparkle();const q=mzOf(z.id);burst(q.x,q.y,50)}}/* dónde está el sitio cuando salen las chispas (en 3D se mueve) */
     const hl=houseLevel();if(S.houseSeen==null)S.houseSeen=hl;
-    if(!msg&&hl>S.houseSeen){S.houseSeen=hl;save();msg=HOUSE_SAY[hl];fx=()=>{this.shake=T;SFX.tada();burst(HOUSE_AT[0],HOUSE_AT[1]-150,80)}}
+    if(!msg&&hl>S.houseSeen){S.houseSeen=hl;save();msg=HOUSE_SAY[hl];fx=()=>{this.shake=T;SFX.tada();const h=casaPos();burst(h[0],h[1]-150,80)}}
     const ps=petStage();
-    if(!msg&&(S.petSeen==null||ps>S.petSeen)){S.petSeen=ps;save();msg=PET_SAY[ps];fx=()=>{this.petJump=T;SFX.sparkle();burst(HOUSE_AT[0]+170,HOUSE_AT[1],40)}}
+    if(!msg&&(S.petSeen==null||ps>S.petSeen)){S.petSeen=ps;save();msg=PET_SAY[ps];fx=()=>{this.petJump=T;SFX.sparkle();const h=casaPos();burst(h[0]+170,h[1],40)}}
     const n=temasDone();
     if(!msg&&n>S.seenFl){S.seenFl=n;save();msg=`¡Mirá${kid()}! ¡Tito tiene ${n===1?'una flor':(n<=10?NUM[n]:n)+' flores'} en su caparazón!`;fx=()=>{SFX.sparkle();burst(130,740,40)}}
 // La animación (fx) y la frase se lanzan juntas a los 0,6 s, cuando ya se ve el mapa.
     if(msg){later(600,()=>{if(this.wake){SFX.tada();const z=mzOf(this.wake.z);burst(z.x,z.y,70);this.wake.t=T}if(fx)fx();say(msg)})}
     // regalo diario: las monedas se abonan a la vez que se marca el día (si se sale antes de verlas, no se pierden)
-    else if(S.gift!==today()){S.gift=today();creditCoins(MONEDAS.regaloDelDia);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>giveCoins(3,TITO.x+150,TITO.y+40,undefined,true))}
+    else if(S.gift!==today()){S.gift=today();creditCoins(MONEDAS.regaloDelDia);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>{const tp=titoPos();giveCoins(3,tp.x+150,tp.y+40,undefined,true)})}/* las monedas salen de Tito, donde esté (en 3D, el proyectado) */
     else if(o.hello)later(400,()=>this.prompt!(true));
     if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },
@@ -436,6 +440,9 @@ SCENES.map={music:'map',
   prompt(first?: boolean){const h=ahora().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
     if(!asamHoy())say((first?sal+kid()+'! ':'')+'Vamos a la plaza a hacer la asamblea. Tocá la plaza.');
     else say((first?sal+kid()+'! ':'')+'Tocá el botón verde para seguir el camino. También podés ir a la tienda o a la casa de Tito.')},
+// tocarPipo(): Pipo salta y dice cuánto le falta para nacer o saluda. Desde la fase 4k es un método aparte (lo llama
+// down y también el mapa 3D cuando se toca a Pipo; antes el 3D movía la casa para que el toque cayera en Pipo).
+  tocarPipo(){this.petJump=T;SFX.boing();const ps=petStage();say(ps===0?'Es un huevo misterioso. Le '+((PET_NEXT[0]-STARS())===1?'falta un juego':'faltan '+(PET_NEXT[0]-STARS())+' juegos')+' para abrirse.':'¡Hola! Soy Pipo, el dinosaurio de Tito.')},
 // seguir(): el botón verde «seguir el camino» (goSeguir). Desde la fase 4j es un método para que el mapa 3D ponga el
 // suyo (Tito camina antes hasta el sitio).
   seguir(){goSeguir()},
@@ -467,7 +474,7 @@ SCENES.map={music:'map',
     if(inTito(x,y)){this.prompt!(false);return}
     if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
     if(dist(x,y,SEGUIR.x,SEGUIR.y)<SEGUIR.r+10){SFX.pop();this.seguir!();return}
-    if(dist(x,y,HOUSE_AT[0]+170,HOUSE_AT[1]-10)<55){this.petJump=T;SFX.boing();const ps=petStage();say(ps===0?'Es un huevo misterioso. Le '+((PET_NEXT[0]-STARS())===1?'falta un juego':'faltan '+(PET_NEXT[0]-STARS())+' juegos')+' para abrirse.':'¡Hola! Soy Pipo, el dinosaurio de Tito.');return}
+    {const h=casaPos();if(dist(x,y,h[0]+170,h[1]-10)<55){this.tocarPipo!();return}}
     const z=MZ2.map(lugar).filter(z=>dist(x,y,z.x,z.y)<z.r).sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
 // El sitio más cercano al dedo gana si se tocan dos a la vez (círculos que se solapan).
     if(z){
@@ -481,7 +488,7 @@ SCENES.map={music:'map',
 
 /* ---------- casitas de tema: los juegos también son un camino ---------- */
 // stationPos(t, j): posición [x, y] del juego j en la casita del tema t. Desde la fase 4i pregunta primero a la vista
-// (disposicion(), de escenas/disposicion.ts: en 3D, los puestos proyectados). Si no lo sabe, la de la vista 2D,
+// (disposicion(), de nucleo/disposicion.ts: en 3D, los puestos proyectados). Si no lo sabe, la de la vista 2D,
 // formando un camino: hasta 4 en una fila; hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al
 // revés (zigzag). Desde la fase 4d está solo aquí (antes había otra en escenas/escenas2d.ts).
 export function stationPos(t: Tema,j: number): number[]{const p=disposicion().puesto?.(t,j);if(p)return p;

@@ -4,7 +4,7 @@
  * (zoneDecor: aquí se añade un objeto 3D nuevo a una zona, ver docs/COMO-AGREGAR.md) y buildZone, que monta el mundo.
  * Las posiciones 2D de las casitas (ZPOS, escenas/zonas.ts) se pasan al suelo con ZX; ZSTYLE da los colores de cada zona.
  * montarZonas3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de las casitas
- * (escenas/disposicion.ts: lo que proyecta sync() cada cuadro, en ZP3) y pone en SCENES la zona 3D de cada zona de
+ * (nucleo/disposicion.ts: lo que proyecta sync() cada cuadro, en ZP3) y pone en SCENES la zona 3D de cada zona de
  * ZONES, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía y escribía lo proyectado en ZPOS).
  * Exporta: roadPts y montarZonas3D. Importa: del núcleo, temas/, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja
  * y lee cada zona; ahora() (aplicacion/puertos.ts); el motor, las piezas y lo de los demás módulos de mundo3d/.
@@ -14,11 +14,11 @@ import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, DIAC, FLC, LF, PI, SCENES, SFX, T, TITO, V, VIVO, atHome, cap, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text } from '../nucleo/indice.ts';
+import { DF, DIAC, FLC, LF, PI, SCENES, SFX, T, V, VIVO, atHome, cap, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { FIESTAS } from '../temas/indice.ts';
 import { TEMA, gDone, isBday, tst } from '../escenas/escenas2d.ts';
 import { MAINZ, ZONES, ZPOS, casitaPos, pathDone, pathOf, temaOpen } from '../escenas/zonas.ts';
-import { ponDisposicion } from '../escenas/disposicion.ts';
+import { ponDisposicion } from '../nucleo/disposicion.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
 import { ahora } from '../aplicacion/puertos.ts';
@@ -33,7 +33,7 @@ import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 /* ================= LAS ZONAS: un camino de casitas en 3D ================= */
 // ZX(x,y): pasa un punto 2D de una zona (ZPOS, escenas/zonas.ts) a [x,z] del suelo 3D de la zona (37 píxeles = 1 unidad)
 // ZP3[zona][idTema]: dónde ha quedado en la pantalla cada casita {x,y}, lo último que proyectó sync(). Es la disposición
-// de las casitas (escenas/disposicion.ts: casitaPos la pregunta). Desde la fase 4j; antes sync() escribía en ZPOS y una
+// de las casitas (nucleo/disposicion.ts: casitaPos la pregunta). Desde la fase 4j; antes sync() escribía en ZPOS y una
 // copia, ZPB, guardaba las posiciones 2D (ahora ZPOS no cambia).
 // ZSTYLE: colores de cada zona {bg: cielo, g: césped, e: borde de tierra}.
 const ZX=(x: number,y: number): PuntoSuelo=>[(x-930)/37,(y-490)/37];
@@ -143,7 +143,7 @@ for(const z in ZONES){const zona2D=SCENES[z];
       // nombre de la casita bajo el ratón; en la fila de arriba no se monta sobre el cartel de la zona
       if(hv_){const t=TEMA[hv_],p=casitaPos(z,hv_);ctx.font=`600 32px ${DF}`;const nm=t.concepts?'Rincón de los Conceptos':V(t.n),tw=ctx.measureText(nm).width,cy=Math.max(p.y-178,116);card(p.x-tw/2-24,cy,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p.x,cy+38,32,K,{w:600})}
       drawHome();drawCoinHUD();
-      if(VIVO.talking){const bx=TITO.x+TITO.w*.85,by=TITO.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
+      if(VIVO.talking){const tp=titoPos(),bx=tp.x+tp.w*.85,by=tp.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
     // down(x,y): toque en la zona: botones; objetos que vuelan; nada -> objeto tocable, cielo (skyTap) o pasear; Tito -> salta;
     // casita cerrada -> tiembla el candado; casita abierta -> Tito camina hasta ella y luego se entra (down original)
     down(x: number,y: number){const w=W3;if(!w||busy3(w))return;
