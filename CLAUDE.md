@@ -9,8 +9,8 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   el núcleo de `src/nucleo/`, antes `core.js`, `src/contenido/`, `src/juegos/`, `src/temas/`, las escenas de
   `src/escenas/`, `src/aplicacion/` y la capa 3D de `src/mundo3d/`, antes `world3d.js`): ya no queda código global. Lo
   que varios archivos cambian va en `VIVO` o se cambia con las funciones `pon*`. El puente deja lo de los módulos en
-  `globalThis` siempre al día y de solo lectura, para las pruebas y para `src/tardias.d.ts`. La siguiente es la fase 3
-  (dominio y puertos). El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
+  `globalThis` siempre al día y de solo lectura, para las pruebas y para `src/tardias.d.ts`. **Fase 3 (dominio y puertos) en marcha:**
+  desde la 3a, las reglas de apertura están en `src/dominio/apertura.ts`, sin dibujo ni `S`, con pruebas de Vitest. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.

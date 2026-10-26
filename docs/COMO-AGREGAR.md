@@ -262,7 +262,7 @@ SCENES.huerto={music:'jardin',
 ```
 Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepáralo en `enter`.
 
-**Zona nueva con camino**: `ZONES` y `NEED` en escenas/zonas.ts, reglas en `temaOpen`/`spotOpen`/`spotNeed`/`lockMsg`, lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en mundo3d/mundo3d.ts su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y la parte de zonas de world3d.js.
+**Zona nueva con camino**: `ZONES` en escenas/zonas.ts; `ZAGE`, `MAINZ`, `NEED` y las reglas (`temaAbierto`, `sitioAbierto`, `sitioNecesita`, `siguienteTema`) en dominio/apertura.ts, con su caso en tests/unidad/apertura.test.ts; el mensaje del candado en `lockMsg` (escenas/zonas.ts), lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); en mundo3d/mundo3d.ts su estilo en `ZSTYLE`, su lugar en el mapa 3D (`MAPPOS` y `SPOT3`) y su decoración en `zoneDecor`. Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y la parte de zonas de world3d.js.
 
 ## 12. Una opción en la zona de adultos
 

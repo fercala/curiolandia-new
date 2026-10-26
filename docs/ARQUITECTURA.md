@@ -80,6 +80,7 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 | 8 | `temas/ingles.ts` (antes `ingles.js`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
 | 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo; `escenas/indice.ts` la carga la primera) originales: portada, edad, intro, asamblea, casita, juego, álbum, dormir. Lista total de temas `TEMAS` y `finishGame`. |
 | 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Mapa, zonas y **reglas de apertura** (qué tema o zona está abierto). Reescribe parte de las escenas de `escenas/escenas2d.ts`. Cofre y regalos (`GIFTS`). |
+| — | `dominio/apertura.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de apertura** (dominio, desde la fase 3a): qué zonas, casitas, juegos y sitios del mapa están abiertos y qué casita toca. Sin dibujo y sin `S`: recibe la partida y el mapa. Pruebas en `tests/unidad/apertura.test.ts`. |
 | 11 | `escenas/tienda.ts` (antes `tienda.js`; `escenas/indice.ts` la carga después de `zonas.ts`) | **Tienda y casa de Tito** (módulo). Monedas, tienda, ropa y colores de Tito, casa de Tito, vales. Añade a `S` los campos de `DEF2` y envuelve `onRight`, `finishGame` y `SCENES.juego` para dar monedas. Tipos `Articulo` (lo que vende la tienda) y `Ranura`. |
 | 12 | `escenas/repaso.ts` (antes `repaso.js`; `escenas/indice.ts` la carga después de `tienda.ts`) | **Repaso** (módulo). Estadísticas por juego y habilidad (`S.gs`, `S.kg`) y repaso diario (`S.rep`, escena `repaso`, botón de la lupa del mapa). Envuelve `rec`, `go`, `finishGame`, `goSeguir`, la casita y el mapa. |
 | 13 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga la última, después de las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad, **entrada (ratón/dedo/teclado), el bucle de dibujo `frame()`** y `window.__cl` para las pruebas. |
@@ -87,6 +88,12 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 | 15 | `aplicacion/arranque.ts` (antes `boot.js`, el último archivo global; `modulos.ts` llama a `arrancar()` al final) | **Arranque** (módulo): entrega los cofres que quedaron sin abrir, espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `tardias.d.ts` | Tipos de lo que un módulo usa de otro que se carga después (lo encuentra por el puente). No cambia el juego. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
+
+**Dominio** (`src/dominio/`, desde la fase 3): las reglas del juego, en TypeScript puro. No saben nada de lienzos,
+Three.js, sonido, voz ni `localStorage`, y no leen `S`: cada regla recibe lo que necesita (por ejemplo, la partida y el
+mapa) y devuelve la respuesta, sin escribir nada. Las escenas las usan a través de sus funciones de siempre y Vitest las
+prueba en milisegundos, con partidas inventadas (ver la arquitectura objetivo en [PLAN-MIGRACION.md](PLAN-MIGRACION.md)).
+Desde la 3a están las reglas de apertura (`dominio/apertura.ts`).
 
 Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 
@@ -189,7 +196,7 @@ El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** 
 5. **Juego**: `SCENES.juego` crea el componente con `makeGame(...)`. Al terminar, `finishGame` suma la estrella, da monedas y vuelve a la casita.
 6. Cuando se terminan todos los juegos del tema → **cofre** (regalo de `GIFTS`, pegatina y monedas) → vuelta a la zona con la siguiente casita abierta.
 
-Las reglas de apertura están en `escenas/zonas.ts` (`zoneOpen`, `temaOpen`, `gameOpen`, `NEED`). En la zona de adultos se puede poner el **modo libre** (`S.unlockAll`), que lo abre todo.
+Las reglas de apertura están, desde la fase 3a, en `dominio/apertura.ts` (`zonaAbierta`, `temaAbierto`, `juegoAbierto`, `sitioAbierto`, `temaQueToca`, `siguienteTema`, `NEED`, `ZAGE`), con sus pruebas en `tests/unidad/apertura.test.ts`. `escenas/zonas.ts` les pasa la partida de verdad (`PARTIDA`: `S`, la edad y la fecha) y el mapa (`MAPA`, de `ZONES`) y conserva los nombres de antes (`zoneOpen`, `temaOpen`, `gameOpen`, `spotOpen`, `curTema`, `nextTema`...), que son los que usan las escenas y la capa 3D. En la zona de adultos se puede poner el **modo libre** (`S.unlockAll`), que lo abre todo.
 
 ## 7. Temas y juegos
 
