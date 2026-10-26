@@ -16,7 +16,8 @@ export type AlTerminar = () => void;
 /**
  * Una «cosa» que se dibuja: una clave de dibujo de PICS (texto) o un objeto con nombre y su propio draw(x, y, s). Viene
  * de los temas, que vienen del juego viejo sin tipos, y el código la usa también como índice (SOUNDS[k], ONO[k]...), así
- * que de momento es libre, como Libre. Se le dará un tipo cerrado cuando los temas sean datos (fase 5 del plan).
+ * que de momento es libre, como Libre. Las palabras de los temas tienen su tipo, Palabra, desde la fase 5c; lo que
+ * reciben los componentes sigue siendo Cosa hasta que sus cfg tengan tipo.
  */
 export type Cosa = any;
 
@@ -39,6 +40,29 @@ export interface Juego {
 }
 
 
+
+/**
+ * Una palabra de un tema (Tema.words), que enseñan 'conocer' y 'busca' y que dan las pegatinas. Es un dibujo de PICS (k)
+ * o una cosa dibujada a mano (name y draw: swatch(), dayCard(), monthCard()...). Desde la fase 5c tiene su tipo.
+ */
+export interface Palabra {
+  /** Clave del dibujo en PICS (y de su nombre en LEX/LEX2). Falta en las dibujadas a mano. */
+  k?: string;
+  /** Lo que dice Tito al tocarla en 'conocer'; si falta, su nombre ("La mochila."). */
+  say?: string | Par;
+  /** Palabra escrita en grande en la ficha; si falta, el nombre sin artículo. */
+  label?: string | Par;
+  /** Claves de PICS que se enseñan debajo como ejemplos (los colores). */
+  ex?: string[];
+  /** Nombre con artículo de las dibujadas a mano (las de k lo sacan de LEX). */
+  name?: string | Par;
+  /** Pinta la dibujada a mano centrada en (x, y) dentro de un cuadrado de lado s. */
+  draw?: (x: number, y: number, s: number) => void;
+  /** Los días de la semana (dayCard, temas/temas4.ts): 0 = lunes. */
+  day?: number;
+  /** Los meses (monthCard, temas/temas5.ts): 0 = enero. */
+  m?: number;
+}
 
 /** Un juego de un tema (en games): tipo t, dibujo del botón, nombre y, si no es de los que crea makeGame solo, make. */
 export interface JuegoTema {
@@ -71,8 +95,8 @@ export interface Tema {
   trim?: number;
   /** Pinta el fondo del tema (una función de BG, juegos/fondos.ts). */
   bg: () => void;
-  /** Las palabras del tema, que enseñan 'conocer' y 'busca': {k: clave de PICS, say?, label?...} o cosas dibujadas. */
-  words?: Cosa[];
+  /** Las palabras del tema, que enseñan 'conocer' y 'busca' (ver Palabra). */
+  words?: Palabra[];
   /** Los juegos de la casita, en orden. */
   games: JuegoTema[];
   /**

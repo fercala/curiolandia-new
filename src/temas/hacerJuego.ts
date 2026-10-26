@@ -13,7 +13,7 @@
  * Importa: los componentes Conocer, Busca, Memoria, Story y Song de juegos/, CUENTOS de contenido/cuentos.ts, SONGS
  * de temas/extras.ts y los juegos de inglés y enItems de temas/ingles.ts.
  */
-import type { AlTerminar, Cosa, Juego, Libre } from '../juegos/tipos.ts';
+import type { AlTerminar, Juego, Libre, Palabra } from '../juegos/tipos.ts';
 import { Busca, Conocer, Memoria, Song, Story } from '../juegos/indice.ts';
 import { CUENTOS } from '../contenido/cuentos.ts';
 import { SONGS } from './extras.ts';
@@ -35,7 +35,7 @@ function juegoDeIngles(g: Libre, t: Libre, onDone: AlTerminar): Juego | undefine
 // t (t.words): Conocer, Busca o Memoria; undefined si no es ninguno de ellos.
 function juegoDePalabras(g: Libre, t: Libre, onDone: AlTerminar): Juego | undefined {
   if (g.make) return g.make(onDone, t);
-  const ks = t.words.map((w: Cosa) => w.k).filter(Boolean);
+  const ks = t.words.map((w: Palabra) => w.k).filter(Boolean);
   if (g.t === 'conocer') return Conocer({ items: t.words, bg: t.bg, intro: t.intro }, onDone);
   if (g.t === 'busca') return Busca({ items: ks, bg: t.bg, key: t.id }, onDone);
   if (g.t === 'memoria') return Memoria({ pool: ks, bg: t.bg }, onDone);
