@@ -2,7 +2,9 @@
 //   KEY, DEF, S, ponS(), sanoS(), sanoHondo(), save(), rec(), ponRec(), ymd(), today(), AGE().
 // S cambia (ponS, al borrar todo): desde fuera de este módulo solo se lee y se cambian sus campos. rec cambia con ponRec.
 // Al cargar el módulo se lee la partida (load) y se escucha el guardado de otras pestañas (evento storage).
+// Importa edadDe de dominio/dificultad.ts (AGE).
 import type { Estado, Volumenes } from './tipos.ts';
+import { edadDe } from '../dominio/dificultad.ts';
 
 /*
  * ESTADO GUARDADO S
@@ -132,5 +134,5 @@ export const today=(): string=>ymd(new Date());
 export let rec=(k: string,ok: unknown): void=>{const s=S.stats[k]||(S.stats[k]={ok:0,err:0});if(ok)s.ok++;else s.err++;save()};
 // ponRec(f): cambia rec por otra función (escenas/repaso.ts la envuelve para apuntar también los fallos de cada juego).
 export function ponRec(f: typeof rec): void{rec=f}
-// AGE(): edad elegida (3, 4 o 5); si aún no se eligió, 3.
-export const AGE=(): number=>S.age||3;
+// AGE(): edad elegida (3, 4 o 5); si aún no se eligió, 3 (edadDe, en dominio/dificultad.ts).
+export const AGE=(): number=>edadDe(S.age);

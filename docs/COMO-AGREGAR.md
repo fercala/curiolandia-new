@@ -160,7 +160,7 @@ games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tu
 
 La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/juegos/comps.ts` y `src/juegos/comps2.ts`. La mejor forma de aprender es copiar un juego parecido de otro tema.
 
-Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRounds()` (número de rondas) y `VIVO.REP` (veces que ya se ha jugado) se ajustan solos según la edad y los aciertos.
+Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRounds()` (número de rondas) y `VIVO.REP` (veces que ya se ha jugado) se ajustan solos según la edad y los aciertos. Las reglas (cuántas opciones y rondas, cuándo sube o baja la dificultad) están en `dominio/dificultad.ts`.
 
 ## 6. Un tipo de juego nuevo (componente)
 
