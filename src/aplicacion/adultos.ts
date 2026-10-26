@@ -4,24 +4,26 @@
  *  1) La ZONA DE ADULTOS: un panel HTML (#adult, definido en head.html) que se abre manteniendo pulsado 3 s el candado
  *     de abajo a la derecha. Tiene ajustes (modo de juego, perfil, personaje de Tito, idioma y voz, volúmenes, límite de
  *     tiempo, vales), el progreso (temas, habilidades, asambleas, minutos por día), copia de seguridad, instalación y atajos.
- *     Funciones: openAdult(), closeAdult(), installHTML(), vozGuiaHTML() (cómo instalar voces mejores); diálogos del nombre (openNameDlg) y de borrar (openResetDlg, doReset).
+ *     Funciones: openAdult(), closeAdult(), installHTML(), vozGuiaHTML() (cómo instalar voces mejores). Los diálogos del nombre
+ *     (openNameDlg) y de borrar (openResetDlg, doReset) están desde la fase 4p en aplicacion/dialogos.ts.
  *  2) El BUCLE DEL JUEGO y la ENTRADA: eventos del dedo/ratón/teclado que llaman a scene.down/move/up, y frame(), que se
  *     ejecuta en cada cuadro (temporizadores, tiempo de juego, música, 3D, dibujo de la escena, ayudas, partículas...).
  *  3) La COPIA DE SEGURIDAD: bkEncode/bkDecode/bkWire convierten S en un código de texto o un archivo JSON y al revés.
- * Desde la fase 2n es un módulo: src/modulos.ts lo carga el último, después de las escenas, y el puente deja lo que
+ * Desde la fase 2n es un módulo: src/modulos.ts lo carga el último, después de las escenas y (desde la fase 4p) de la capa 3D, y el puente deja lo que
  * exporta en globalThis para las pruebas. aplicacion/arranque.ts importa frame.
  * Define: SKILL, esc, toLogical, dlgOpen, isPortrait, hoverTick, window.__cl (para pruebas automáticas) y bkWire.
- * Exporta: openAdult, closeAdult, openNameDlg, openResetDlg, doReset, frame, bkEncode y bkDecode.
+ * Exporta: openAdult, closeAdult, frame, bkEncode y bkDecode, y vuelve a exportar openNameDlg, openResetDlg y doReset
+ * (de aplicacion/dialogos.ts) para el puente.
  * Importa: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
  * CAN, RUT, TRZ, FIESTAS, ING), drawCoinFx (nucleo/monedas.ts), escenas/zonas.ts (zoneOpen) y esPartida de
- * dominio/partida.ts (la copia de seguridad). Usa de mundo3d/mundo3d.ts, que va después, R3frame y
- * window.__w3 (tipos en src/tardias.d.ts y nucleo/tipos.ts).
+ * dominio/partida.ts (la copia de seguridad), R3frame de mundo3d/mundo3d.ts (desde la fase 4p; la capa 3D se carga
+ * antes) y doReset de aplicacion/dialogos.ts. Usa window.__w3 (tipos en nucleo/tipos.ts).
  * frame() la pone en marcha aplicacion/arranque.ts.
  */
 import type { Tema } from '../juegos/tipos.ts';
 import type { Estado, Libre, Tito, Vale, Volumenes } from '../nucleo/tipos.ts';
-import { AC, DEF, DIASL, DPR, H, HOME, KEY, MESES, OX, OY, S, SC, SCENES, SFX, STARS, T, V, VIVO, VOICE, W, card, ctx, cv, dist, drawCoinFx, drawHelp, drawLock, drawParts, drawToast, go, initAudio, musicTick, pickVoice, ponS, ponT, save, say, scene, sceneArg, sceneName, sceneTok, setVol, text, today, tx, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
+import { AC, DIASL, DPR, H, HOME, KEY, MESES, OX, OY, S, SC, SCENES, SFX, STARS, T, V, VIVO, VOICE, W, card, ctx, cv, dist, drawCoinFx, drawHelp, drawLock, drawParts, drawToast, go, initAudio, musicTick, pickVoice, ponT, save, say, scene, sceneArg, sceneName, sceneTok, setVol, text, today, tx, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ } from '../temas/indice.ts';
 import { TEMA, TEMAS, dayIdx, gDone, standalone, tst } from '../escenas/escenas2d.ts';
 import { suggestTema, zoneOpen } from '../escenas/zonas.ts';
@@ -29,6 +31,13 @@ import { esPartida } from '../dominio/partida.ts';
 // ahora() y escribirGuardado(): la fecha y la hora y el guardado (puertos de aplicacion/puertos.ts, desde las fases 3g
 // y 3h; antes new Date() y localStorage).
 import { ahora, escribirGuardado } from './puertos.ts';
+import { doReset } from './dialogos.ts';
+// R3frame: el dibujo de cada cuadro de la capa 3D (null sin WebGL). Desde la fase 4p se importa: la capa 3D se carga
+// antes que este archivo (antes era al revés y R3frame se usaba como global tardía).
+import { R3frame } from '../mundo3d/mundo3d.ts';
+// Los diálogos del nombre y de empezar de nuevo están desde la fase 4p en aplicacion/dialogos.ts; se exportan también
+// desde aquí para que el puente los siga dejando en globalThis (las pruebas llaman a doReset, openNameDlg...).
+export { doReset, openNameDlg, openResetDlg } from './dialogos.ts';
 
 // SKILL: nombre legible de cada habilidad de S.stats para la tabla "Cómo le va" ({clave: 'texto'}). Si una clave
 // no está, se muestra la clave con espacios. Al crear un juego con una habilidad nueva, añade aquí su nombre.
@@ -196,25 +205,7 @@ export function closeAdult(){document.getElementById('adult')!.hidden=true;VIVO.
 // Botón "Volver al juego".
 document.getElementById('a-close')!.onclick=()=>closeAdult();
 
-/* ---------- nombre y reinicio ---------- */
-// nameAfter: qué hacer cuando se cierra el diálogo del nombre (recibe el nombre escrito, o '' si se canceló).
-let nameAfter: ((nombre: string)=>void)|null=null;
-// openNameDlg(after): abre el diálogo #nameDlg (head.html) para escribir el nombre; after(nombre) se llama al cerrarlo.
-export function openNameDlg(after?: (nombre: string)=>void){nameAfter=after||null;const d=document.getElementById('nameDlg')!,i=(document.getElementById('nm-in') as HTMLInputElement);d.hidden=false;i.value=S.name||'';setTimeout(()=>i.focus(),50)}
-// "Listo": guarda el nombre (si no está vacío), marca que ya se preguntó (S.first.askedName) y sigue con nameAfter.
-document.getElementById('nm-ok')!.onclick=()=>{const v=(document.getElementById('nm-in') as HTMLInputElement).value.trim().slice(0,20);document.getElementById('nameDlg')!.hidden=true;S.first.askedName=1;if(v)S.name=v;save();const a=nameAfter;nameAfter=null;if(a)a(v)};
-// "Cancelar": cierra sin nombre, pero también marca que ya se preguntó para no volver a preguntar.
-document.getElementById('nm-x')!.onclick=()=>{document.getElementById('nameDlg')!.hidden=true;if(nameAfter){S.first.askedName=1;save();const a=nameAfter;nameAfter=null;a('')}};
-// Intro en el campo del nombre = pulsar "Listo".
-(document.getElementById('nm-in') as HTMLInputElement).onkeydown=e=>{if(e.key==='Enter')document.getElementById('nm-ok')!.click()};
-// openResetDlg(): abre el diálogo #resetDlg para empezar de nuevo.
-export function openResetDlg(){document.getElementById('resetDlg')!.hidden=false}
-// doReset(): borra el progreso: S vuelve a DEF, conservando solo los ajustes de keep (idioma, voz, hemisferio, volumen,
-// límite, vales y cumpleaños), guarda y vuelve a la portada. Ver la nota de posibles fallos en doc/notes/core.md.
-export function doReset(){const keep={variant:S.variant,voz:S.voz,vozNav:S.vozNav,hemi:S.hemi,vol:S.vol,limit:S.limit,vales:S.vales,bday:S.bday};ponS(Object.assign(JSON.parse(JSON.stringify(DEF)),keep));VIVO.ADAPT=0;save();go('title')}
-// Botones del diálogo de empezar de nuevo.
-document.getElementById('rs-yes')!.onclick=()=>{document.getElementById('resetDlg')!.hidden=true;doReset()};
-document.getElementById('rs-no')!.onclick=()=>{document.getElementById('resetDlg')!.hidden=true};
+/* ---------- nombre y reinicio: desde la fase 4p, en aplicacion/dialogos.ts ---------- */
 
 /* ================= BUCLE E INPUT ================= */
 // portraitOk: en un móvil en vertical se pide girarlo; con un toque se puede seguir igualmente (y ya no se vuelve a pedir).

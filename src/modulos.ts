@@ -10,10 +10,10 @@
 // componentes de juego (juegos/indice.ts, antes comps.js y comps2.js) y los temas que los usan (temas/indice.ts,
 // antes temas.js, temas4.js y temas5.js). Luego los cuentos (contenido/cuentos.ts, antes cuentos.js: solo datos) y, al
 // final, las escenas (escenas/indice.ts: escenas2d.ts, zonas.ts, tienda.ts y repaso.ts, antes scenes.js, zonas.js,
-// tienda.js y repaso.js), que usan los temas. Después va la aplicación (aplicacion/adultos.ts, antes adult.js): la
-// zona de adultos, la entrada y el bucle de dibujo, que usan todo lo anterior. La capa 3D (mundo3d/mundo3d.ts, antes
-// world3d.js, que monta los demás módulos de mundo3d/) pone sus versiones 3D de la portada, el mapa, las zonas, la casita
-// y el cofre. Con todo cargado y el puente puesto,
+// tienda.js y repaso.js), que usan los temas. Después, la capa 3D (mundo3d/mundo3d.ts, antes world3d.js, que monta los
+// demás módulos de mundo3d/): pone sus versiones 3D de la portada, el mapa, las zonas, la casita y el cofre. Y luego la
+// aplicación (aplicacion/adultos.ts, antes adult.js): la zona de adultos, la entrada y el bucle de dibujo, que usan todo
+// lo anterior (el bucle dibuja la capa 3D con R3frame; hasta la fase 4p la capa 3D iba después). Con todo cargado y el puente puesto,
 // arrancar() (aplicacion/arranque.ts, antes boot.js) pone el juego en marcha.
 import './infraestructura/conectar.ts';
 import * as puertos from './aplicacion/puertos.ts';
@@ -24,8 +24,8 @@ import * as juegos from './juegos/indice.ts';
 import * as temas from './temas/indice.ts';
 import * as cuentos from './contenido/cuentos.ts';
 import * as escenas from './escenas/indice.ts';
-import * as aplicacion from './aplicacion/adultos.ts';
 import * as mundo3d from './mundo3d/mundo3d.ts';
+import * as aplicacion from './aplicacion/adultos.ts';
 import { arrancar } from './aplicacion/arranque.ts';
 
 // puente(m): deja cada cosa que exporta el módulo m en globalThis con su mismo nombre. Lo leen por su nombre suelto
