@@ -7,29 +7,30 @@
 // Desde la fase 2l es un módulo: escenas/indice.ts lo carga después de zonas.ts, y el puente deja lo que exporta en
 //   globalThis para las pruebas (escenas/repaso.ts, aplicacion/adultos.ts y mundo3d/mundo3d.ts lo importan). Los módulos que van
 //   antes (zonas.ts, temas/, nucleo/guardado.ts...) lo usan como global, con los tipos de src/tardias.d.ts.
-// Define: DEF2, VALES_DEF, shownCoins/coinFx/coinBanner (animación de monedas), hudAt, spendCoins, HATPOS, titoHouseIc,
+// Define: DEF2, VALES_DEF, gameCoins (monedas de acierto del juego actual), HATPOS, titoHouseIc,
 //   SHOPCAT, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot,
 //   homeAction, homeLight, roomBg y las escenas SCENES.tienda y SCENES.casaTito.
-// Exporta (lo usan otros archivos o las pruebas): creditCoins, STARS, drawCoinHUD, inCoinHUD, giveCoins, drawCoinFx,
-//   SHELLC, SCARFC, titoImg, drawTitoWear, SHOP, itemName, wear, drawItemPic, roomOf, roomOpen, roomsOpen, homeRoom,
+// Exporta (lo usan otros archivos o las pruebas): SHELLC, SCARFC, titoImg, drawTitoWear, SHOP, itemName, wear, drawItemPic, roomOf, roomOpen, roomsOpen, homeRoom,
 //   placeHome, HSIZE, homeItems y roomBtns, y los tipos Articulo y Vale.
 // Envuelve: onRight y finishGame (nucleo/interfaz.ts y escenas/escenas2d.ts), SCENES.juego.enter y SCENES.juego.draw (escenas/escenas2d.ts).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
-//   TITO_EYES...), los dibujos de Tito (TITO_SVG...), escenas/escenas2d.ts (finishGame, inR), escenas/zonas.ts (houseLevel,
+//   TITO_EYES..., STARS, inR), los dibujos de Tito (TITO_SVG...), escenas/monedas.ts (giveCoins, spendCoins, drawCoinHUD,
+//   inCoinHUD; desde la fase 4a las monedas están allí), escenas/escenas2d.ts (finishGame), escenas/zonas.ts (houseLevel,
 //   drawTitoHouse, drawPet, petStage, PET_NEXT, HOUSE_NEXT, shellIcon, arrowAt), temas/ (floor, bunting), juegos/
 //   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (estrellas, TIER_NEED, nivelAbierto, habitacionAbierta)
 //   y de dominio/monedas.ts (ganar, gastar, alcanza, monedasPorAcierto, monedasAlTerminar).
 import type { Escena, Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCENES, SFX, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inTito, later, lerp, noise, onRight, pic, pick, playSound, ponOnRight, ponRopaTito, rnd, sanoS, save, say, sayQ, sceneName, sceneTok, setCursor, sky, sparkles, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import { DEF, FLC, H, IMG, LF, PI, S, SCENES, SFX, STARS, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inR, inTito, later, noise, onRight, pic, pick, playSound, ponOnRight, ponRopaTito, rnd, sanoS, save, say, sayQ, sceneName, setCursor, sky, sparkles, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
-import { finishGame, inR, ponFinishGame } from './escenas2d.ts';
+import { finishGame, ponFinishGame } from './escenas2d.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
-import { TIER_NEED, estrellas, habitacionAbierta, nivelAbierto } from '../dominio/progreso.ts';
-import { alcanza, ganar, gastar, monedasAlTerminar, monedasPorAcierto } from '../dominio/monedas.ts';
+import { TIER_NEED, habitacionAbierta, nivelAbierto } from '../dominio/progreso.ts';
+import { alcanza, monedasAlTerminar, monedasPorAcierto } from '../dominio/monedas.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
+import { drawCoinHUD, giveCoins, inCoinHUD, spendCoins } from './monedas.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -78,16 +79,6 @@ interface Pestana {
 /** Una flecha de página: [x, y, dirección -1 o 1]. */
 type Flecha = [number, number, number];
 
-/** Una moneda que vuela (coinFx): de (x, y) al marcador, o al revés si spend; v monedas que suma al llegar. */
-interface MonedaVuela {
-  x: number;
-  y: number;
-  t: number;
-  v?: number;
-  spend?: number;
-  done?: number;
-}
-
 /* ================= MONEDAS, TIENDA Y CASA DE TITO ================= */
 // Campos del estado guardado S que añade este archivo (valores por defecto):
 //   coins: monedas que tiene ahora; coinsTot: monedas ganadas en total; gift: (antiguo) regalo pendiente;
@@ -112,51 +103,9 @@ const VALES_DEF: Vale[]=[{id:'v1',txt:'Un cuento extra antes de dormir',ic:'libr
   {id:'v4',txt:'Cocinar algo rico juntos',ic:'olla',p:60,on:0},{id:'v5',txt:'Elegir la película del fin de semana',ic:'tele',p:60,on:0},{id:'v6',txt:'Un abrazo de oso gigante',ic:'oso',p:10,on:0}];
 if(!S.vales)S.vales=JSON.parse(JSON.stringify(VALES_DEF));
 
-/* ---------- monedas ---------- */
-// Animación de monedas: shownCoins es el número que se ve (va subiendo cuando cada moneda llega al marcador),
-// coinFx las monedas que vuelan, coinBanner el cartel "+N", coinBumpT cuándo saltó el marcador por última vez,
-// gameCoins cuántas monedas de acierto se han dado en el juego actual (máximo 5 por juego).
-let shownCoins=S.coins!,coinFx: MonedaVuela[]=[],coinBumpT=-9,gameCoins=0;
-Object.assign(VIVO,{coinBanner:null});
-// coinPend: monedas ya sumadas a S.coins (creditCoins) cuya animación aún no ha salido; el marcador no las enseña hasta
-// que llegan volando. coinPendTok: escena en la que se abonaron (si se sale antes, el marcador ya las cuenta).
-let coinPend=0,coinPendTok=-1;
-// creditCoins(n): suma n monedas a S.coins y S.coinsTot YA (sin guardar ni animar: guarda quien llama, junto con la
-// marca de "premio dado", para que salir o recargar durante la celebración no las pierda). Luego la animación se hace con
-// giveCoins(n, x, y, icono, true), que ya no las vuelve a sumar.
-export function creditCoins(n: number){if(!(n>0))return;Object.assign(S,ganar(S,n));coinPend+=n;coinPendTok=sceneTok}
-// Posición del marcador de monedas (cambia en los juegos para no tapar otros botones).
-let HUDX=1450,HUDY=64;
-// Coloca el marcador de monedas: a la izquierda en los juegos, arriba a la derecha en el resto.
-const hudAt=()=>{if(sceneName==='juego'){HUDX=300;HUDY=74}else{HUDX=1450;HUDY=64}};
-// Número de estrellas: total de juegos terminados en todos los temas (S.temas[id].g; regla estrellas de
-// dominio/progreso.ts). Abre artículos de la tienda.
-export const STARS=()=>estrellas(S.temas);
-// Dibuja el marcador de monedas (tarjeta amarilla con la moneda y el número); la moneda da un saltito al cambiar.
-export function drawCoinHUD(){hudAt();const b=1+.3*Math.max(0,1-(T-coinBumpT)*4),s=hv('coins',hR(HUDX+10,HUDY,220,84));ctx.save();ctx.translate(HUDX,HUDY);ctx.scale(s,s);card(-96,-38,216,76,'#FFF6D6',6,38);
-  ctx.save();ctx.translate(-50,0);ctx.scale(b,b);pic('moneda',0,0,70);ctx.restore();text(String(Math.max(0,Math.round(shownCoins))),40,16,44,K,{f:LF});ctx.restore()}
-// ¿El toque (x,y) está sobre el marcador de monedas?
-export const inCoinHUD=(x: number,y: number)=>{hudAt();return inR(x,y,HUDX+10,HUDY,220,84)};
-// Da n monedas: las suma a S.coins y S.coinsTot y guarda. Lanza hasta 10 monedas animadas desde (x,y)
-// hacia el marcador (la última lleva el resto) y, si son 3 o más o se pasa icon, muestra el cartel "+n" con ese dibujo.
-// ya = true: las monedas ya se sumaron antes con creditCoins; solo se anima (y se descuentan de coinPend).
-export function giveCoins(n: number,x: number,y: number,icon?: string,ya?: boolean){if(!(n>0))return;if(ya)coinPend=Math.max(0,coinPend-n);else{Object.assign(S,ganar(S,n));save()}const m=Math.min(n,10);
-  for(let i=0;i<m;i++)coinFx.push({x:x+rnd(-36,36),y:y+rnd(-36,36),t:T+i*.09,v:i<m-1?1:n-(m-1)});if(n>=3||icon)VIVO.coinBanner={n,t:T,icon}}
-// Gasta n monedas (sin comprobar si hay suficientes) y anima monedas que salen del marcador hacia (x,y).
-function spendCoins(n: number,x: number,y: number){Object.assign(S,gastar(S,n));save();shownCoins-=n;coinBumpT=T;for(let i=0;i<Math.min(n,8);i++)coinFx.push({x,y,t:T+i*.06,spend:1})}
-// Dibuja y avanza las monedas que vuelan y el cartel "+N". Cada moneda tarda 0,75 s; cuando llega
-// suma su valor al número visible y suena. Se llama en cada cuadro desde el bucle de dibujo.
-export function drawCoinFx(){hudAt();
-  for(const c of coinFx){const k=(T-c.t)/.75;if(k<0)continue;
-    if(k>=1){if(!c.done){c.done=1;if(!c.spend){shownCoins+=c.v!;coinBumpT=T;try{tone(1568,.08,'square',.06);tone(2093,.14,'triangle',.12,0,.05)}catch(e){}}}continue}
-    // e = curva suave (smoothstep) de 0 a 1; la moneda sube en arco (seno) mientras va de a hacia b.
-    const e=k*k*(3-2*k),a=c.spend?[HUDX-50,HUDY]:[c.x,c.y],b=c.spend?[c.x,c.y]:[HUDX-50,HUDY];
-    pic('moneda',lerp(a[0],b[0],e),lerp(a[1],b[1],e)-Math.sin(k*PI)*130,62*(1-k*.25))}
-  // sin monedas volando, el marcador enseña S.coins menos las abonadas que aún esperan su animación en esta escena
-  coinFx=coinFx.filter(c=>!c.done);if(coinPend&&coinPendTok!==sceneTok)coinPend=0;if(!coinFx.length)shownCoins=S.coins!-coinPend;
-  // Cartel "+N": entra con rebote (0-0,3 s), se queda y se desvanece entre 2,2 y 2,6 s.
-  if(VIVO.coinBanner){const k=T-VIVO.coinBanner.t;if(k>2.6){VIVO.coinBanner=null;return}const a=k<.3?back(k/.3):k>2.2?1-(k-2.2)/.4:1;ctx.save();ctx.globalAlpha=clamp(a,0,1);ctx.translate(VIVO.coinBanner.x||800,VIVO.coinBanner.y||470);ctx.scale(clamp(a,0,1.2),clamp(a,0,1.2));
-    card(-250,-90,500,180,'#FFF6D6',7,50);pic(VIVO.coinBanner.icon||'monedas',-140,0,150);text('+'+VIVO.coinBanner.n,60,26,92,'#D9962A',{f:LF,st:8,sc:'#fff'});ctx.restore()}}
+// gameCoins: cuántas monedas de acierto se han dado en el juego actual (máximo 5 por juego; ver la envoltura de onRight).
+// Las monedas (marcador, animación, creditCoins, giveCoins...) están desde la fase 4a en escenas/monedas.ts.
+let gameCoins=0;
 // Envuelve onRight: el primer acierto de cada ronda en un juego da 1 moneda (máximo 5 por juego; monedasPorAcierto).
 {const or0=onRight;ponOnRight(function(first: unknown){or0(first);const n=sceneName==='juego'?monedasPorAcierto(first,gameCoins):0;if(n){gameCoins++;giveCoins(n,VIVO.MX||800,VIVO.MY||450)}})}
 // Envuelve la entrada a un juego para poner a cero el contador gameCoins.

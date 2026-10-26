@@ -44,14 +44,13 @@
  * Importa:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), escenas/escenas2d.ts
  *   (SCENES, TEMA, tst, drawCasita, drawStation, tree, asamHoy,
- *   drawLogoSmall, inR, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
+ *   drawLogoSmall, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
  *   bunting), juegos/ (NUM, TUNES, playTune), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
  *   siguienteRegalo, esCumple) y de dominio/monedas.ts (MONEDAS, ganar, monedasDelCofre), y el tipo Articulo de
- *   escenas/tienda.ts. Usa de escenas/tienda.ts, que va después y
- *   solo al jugar o dibujar (tipos en src/tardias.d.ts): (SHOP,
- *   SHELLC, STARS, giveCoins, wear, placeHome, itemName, drawItemPic,
- *   drawCoinHUD, inCoinHUD, VIVO.coinBanner, VIVO.toast...).
+ *   escenas/tienda.ts, las monedas de escenas/monedas.ts (creditCoins, giveCoins, drawCoinHUD, inCoinHUD; desde la
+ *   fase 4a) e inR y STARS del núcleo. Usa de escenas/tienda.ts, que va después y solo al jugar o dibujar (tipos en
+ *   src/tardias.d.ts): SHOP, SHELLC, wear, placeHome, itemName, drawItemPic.
  * Partes de S que toca: S.temas (solo lee), S.unlockAll (modo libre de la
  *   zona de adultos), S.seenOpen (lo último visto abierto, para animar
  *   candados), S.woke (zonas ya despertadas), S.first[zona], S.last,
@@ -67,12 +66,13 @@ import { MONEDAS, ganar, monedasDelCofre } from '../dominio/monedas.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, esCumple, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, ell, fillStroke, flower, giveSticker, go, hC, hR, hv, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, STARS, T, TITO, V, VIVO, W, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawHome, drawTito, ell, fillStroke, flower, giveSticker, go, hC, hR, hv, inR, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, temasDone, text, titoKind, today, tone, tx } from '../nucleo/indice.ts';
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
 import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting } from '../temas/indice.ts';
-import { GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, inR, ponStationPos, ponSuggestTema, stationPos, tree, tst } from './escenas2d.ts';
+import { GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, ponStationPos, ponSuggestTema, stationPos, tree, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
+import { creditCoins, drawCoinHUD, giveCoins, inCoinHUD } from './monedas.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -253,7 +253,7 @@ export const houseLevel=()=>nivelCasa(temasDone());
 export { HOUSE_NEXT };
 export const HOUSE_SAY=['','¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.','¡La casa de Tito creció! Ahora tiene un piso más, con balcón.','¡La casa de Tito creció! Ahora tiene una torre con bandera.','¡La casa de Tito es un castillo! Tiene estrella y arcoíris.'];
 // petStage(): etapa de Pipo (0 huevo, 1 eclosión, 2-4 dinosaurio que crece) según las estrellas ganadas (STARS(), en
-// escenas/tienda.ts). PET_NEXT: estrellas necesarias para cada etapa; PET_SAY: frase de cada etapa.
+// nucleo/tito.ts). PET_NEXT: estrellas necesarias para cada etapa; PET_SAY: frase de cada etapa.
 // La regla (etapaPipo) y PET_NEXT están en dominio/progreso.ts; PET_NEXT se exporta también desde aquí.
 export const petStage=()=>etapaPipo(STARS());
 export { PET_NEXT };

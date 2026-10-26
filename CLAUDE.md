@@ -13,8 +13,9 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   reglas del juego (apertura, progreso y premios, monedas, repaso diario, dificultad, y la versión y las migraciones de
   la partida, `S.ver`) están en `src/dominio/`, sin dibujo ni `S`, con pruebas de Vitest; y la hora, el azar y lo
   guardado se piden a sus puertos (`ahora()`, `azar()`, `leerGuardado()`... en `src/aplicacion/puertos.ts`), con los
-  adaptadores del navegador en `src/infraestructura/`. Lo siguiente es la fase 4: escenas sin capas y casos de uso. El
-  código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
+  adaptadores del navegador en `src/infraestructura/`. **Fase 4 (escenas sin capas y casos de uso) en marcha**
+  ([docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md) tiene sus partes): desde la 4a las monedas en pantalla están en
+  `src/escenas/monedas.ts`, y `STARS` e `inR` en el núcleo. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.
