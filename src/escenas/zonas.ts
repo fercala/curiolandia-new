@@ -53,8 +53,9 @@
  *   drawLogoSmall, GNAME), temas/ (T3..., CAN, RUT, TRZ, FIESTAS, ING, BG,
  *   bunting), juegos/ (NUM), las reglas de dominio/apertura.ts (ZAGE, MAINZ, NEED y las
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
- *   siguienteRegalo) y de dominio/monedas.ts (MONEDAS, ganar); los casos de uso del cofre (ganarCofre, abrirCofre,
- *   sinPendiente) de aplicacion/abrirCofre.ts (desde la fase 4l), y el tipo Articulo de
+ *   siguienteRegalo) y de dominio/monedas.ts (ganar); los casos de uso del cofre (ganarCofre, abrirCofre,
+ *   sinPendiente) de aplicacion/abrirCofre.ts (desde la fase 4l) y el del regalo del día (regaloDelDia) de
+ *   aplicacion/premiosDelDia.ts (desde la 4m), y el tipo Articulo de
  *   escenas/tienda.ts, y del núcleo inR, STARS, REP_ON y ponRepOn y las monedas (creditCoins, giveCoins, drawCoinHUD,
  *   inCoinHUD; desde la fase 4a en su módulo, nucleo/monedas.ts desde la 4b). Desde la fase 4c, el caso de uso del
  *   repaso del día (aplicacion/repasoDelDia.ts: tocaRepasar, repasoTerminado, seguirPorElRepaso), con CATALOGO de
@@ -70,8 +71,9 @@ import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
-import { MONEDAS, ganar } from '../dominio/monedas.ts';
+import { ganar } from '../dominio/monedas.ts';
 import { abrirCofre, ganarCofre, sinPendiente } from '../aplicacion/abrirCofre.ts';
+import { regaloDelDia } from '../aplicacion/premiosDelDia.ts';
 import { GIFTS, HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa, siguienteRegalo } from '../dominio/progreso.ts';
 import { MAINZ, NEED, ZAGE, camino, empezado, fiestaDelMes, flores, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
@@ -429,9 +431,10 @@ SCENES.map={music:'map',
     const n=temasDone();
     if(!msg&&n>S.seenFl){S.seenFl=n;save();msg=`¡Mirá${kid()}! ¡Tito tiene ${n===1?'una flor':(n<=10?NUM[n]:n)+' flores'} en su caparazón!`;fx=()=>{SFX.sparkle();burst(130,740,40)}}
 // La animación (fx) y la frase se lanzan juntas a los 0,6 s, cuando ya se ve el mapa.
+    const regalo=regaloDelDia(S,today());// caso de uso (aplicacion/premiosDelDia.ts): null si hoy ya se dio
     if(msg){later(600,()=>{if(this.wake){SFX.tada();const z=mzOf(this.wake.z);burst(z.x,z.y,70);this.wake.t=T}if(fx)fx();say(msg)})}
     // regalo diario: las monedas se abonan a la vez que se marca el día (si se sale antes de verlas, no se pierden)
-    else if(S.gift!==today()){S.gift=today();creditCoins(MONEDAS.regaloDelDia);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>{const tp=titoPos();giveCoins(3,tp.x+150,tp.y+40,undefined,true)})}/* las monedas salen de Tito, donde esté (en 3D, el proyectado) */
+    else if(regalo){Object.assign(S,regalo.partida);creditCoins(regalo.monedas);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>{const tp=titoPos();giveCoins(regalo.monedas,tp.x+150,tp.y+40,undefined,true)})}/* las monedas salen de Tito, donde esté (en 3D, el proyectado) */
     else if(o.hello)later(400,()=>this.prompt!(true));
     if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },

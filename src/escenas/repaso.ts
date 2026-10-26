@@ -12,8 +12,9 @@
 //   aplicacion/terminarJuego.ts.
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, today, later, SFX, dibujo, ponRepOn y las monedas: giveCoins,
 //   creditCoins, drawCoinHUD, inCoinHUD), escenas/escenas2d.ts (TEMA, CATALOGO, drawStation, GNAME), escenas/zonas.ts
-//   (goSeguir, repAllDone, drawRoad, lockOver, unlockFx, arrowAt), temas/ (floor), MONEDAS de dominio/monedas.ts y
-//   repasoCaducado y nuevoRepaso de aplicacion/repasoDelDia.ts.
+//   (goSeguir, repAllDone, drawRoad, lockOver, unlockFx, arrowAt), temas/ (floor),
+//   repasoCaducado y nuevoRepaso de aplicacion/repasoDelDia.ts y premioDelRepaso de aplicacion/premiosDelDia.ts
+//   (desde la fase 4m: la figurita de la lupa y las monedas del premio).
 // Formato del estado guardado:
 //   S.kg = { habilidad: ['temaId#juego', ...] }  últimos 6 juegos (el más reciente primero) donde salió esa habilidad.
 //   S.gs = { 'temaId#juego': {ok, err, d} }      aciertos, fallos y último día jugado ('AAAA-MM-DD' de today()).
@@ -26,8 +27,8 @@ import { DEF, DF, LF, S, SCENES, SFX, T, TITO, V, atHome, burst, card, circ, cre
 import { floor } from '../temas/indice.ts';
 import { CATALOGO, GNAME, TEMA, drawStation } from './escenas2d.ts';
 import { arrowAt, drawRoad, goSeguir, lockOver, repAllDone, unlockFx } from './zonas.ts';
-import { MONEDAS } from '../dominio/monedas.ts';
 import { nuevoRepaso, repasoCaducado } from '../aplicacion/repasoDelDia.ts';
+import { premioDelRepaso } from '../aplicacion/premiosDelDia.ts';
 
 /* ================= REPASO INTELIGENTE ================= */
 // Cada habilidad recuerda en qué juegos aparece (S.kg) y cada juego cómo le fue (S.gs).
@@ -54,7 +55,7 @@ SCENES.repaso={music:'casita',
   // (anima la apertura del siguiente). Si está todo hecho y sin cobrar, da el premio.
   enter(o){const R=repToday();this.L=R.list;this.unl=null;ponRepOn(false);if(o.seguir){R.seen=1;save()}
     // el premio (pegatina y 5 monedas) se guarda a la vez que R.paid; la celebración solo lo enseña (salir no lo pierde)
-    if(repAllDone()&&!R.paid){R.paid=1;S.stk.lupa=(S.stk.lupa||0)+1;creditCoins(MONEDAS.repaso);save();later(500,()=>{SFX.tada();burst(800,350,90);giveSticker('lupa',true);say('¡Terminaste el repaso de hoy'+kid()+'! Tito te regala cinco monedas.',()=>{giveCoins(5,800,420,undefined,true);later(900,()=>sayQ('Tocá la flecha verde para seguir el camino.'))})});return}
+    if(repAllDone()&&!R.paid){R.paid=1;const pr=premioDelRepaso(S);Object.assign(S,pr.partida);creditCoins(pr.monedas);save();later(500,()=>{SFX.tada();burst(800,350,90);giveSticker('lupa',true);say('¡Terminaste el repaso de hoy'+kid()+'! Tito te regala cinco monedas.',()=>{giveCoins(pr.monedas,800,420,undefined,true);later(900,()=>sayQ('Tocá la flecha verde para seguir el camino.'))})});return}
     const nx=this.next();
     if(o.back&&nx>=0&&nx!==this.prevNx){this.unl={j:nx,t:T+.8};later(800,()=>{SFX.sparkle();const [x,y]=this.pos(nx);burst(x,y,30)});later(300,()=>sayQ('¡Muy bien! Ahora el número '+(nx+1)+'.'));return}
     later(300,()=>this.prompt!(!o.back))},
