@@ -71,6 +71,8 @@ import { AGE, DF, DIAC, FLC, H, LF, PI, S, SCENES, SFX, T, TITO, V, VIVO, W, atH
 import { NUM, TUNES, playTune } from '../juegos/indice.ts';
 import { BG, C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting } from '../temas/indice.ts';
 import { GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, inR, ponStationPos, ponSuggestTema, stationPos, tree, tst } from './escenas2d.ts';
+// ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
+import { ahora } from '../aplicacion/puertos.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -106,7 +108,7 @@ export const ZONES: Record<string, Zona>={
 };
 // PARTIDA: la partida de verdad, como la ven las reglas de dominio/apertura.ts. Lee S, la edad y la fecha en el
 // momento de cada pregunta (S cambia entero con ponS al empezar de nuevo o cargar una copia).
-const PARTIDA: Partida={get libre(){return !!S.unlockAll},get edad(){return AGE()},mes:()=>new Date().getMonth(),progreso:(id: string)=>tst(id) as Progreso};
+const PARTIDA: Partida={get libre(){return !!S.unlockAll},get edad(){return AGE()},mes:()=>ahora().getMonth(),progreso:(id: string)=>tst(id) as Progreso};
 // MAPA: los temas de cada zona de ZONES, en el orden del camino, y los temas sueltos del mapa, para las reglas.
 const MAPA: Mapa<Tema>={zonas:Object.fromEntries(Object.entries(ZONES).map(([z,Z])=>[z,Z.temas])),can:CAN,rut:RUT,trz:TRZ};
 // zoneOf(t): zona del tema t ('jardin' si no tiene).
@@ -123,7 +125,7 @@ export const mainDone=()=>terminadasPrincipales(PARTIDA,MAPA);
 // dominio/apertura.ts). No escribe en S.
 export const zoneOpen=(z: string): boolean=>zonaAbierta(PARTIDA,MAPA,z);
 // fiestaNow(): id de la fiesta del mes actual (diciembre-enero Navidad, febrero-marzo Carnaval, abril Día del Libro) o null.
-export const fiestaNow=()=>fiestaDelMes(new Date().getMonth());
+export const fiestaNow=()=>fiestaDelMes(ahora().getMonth());
 // started(t): true si el tema t ya está terminado o tiene algún juego jugado (lo empezado nunca se vuelve a cerrar).
 export const started=(t: Tema)=>empezado(PARTIDA,t);
 // temaOpen(t): ¿se puede entrar en la casita del tema t? Las reglas, en orden, están en temaAbierto
@@ -288,7 +290,7 @@ export function drawTitoHouse(x: number,gy: number,lvl: number,o: Libre={}){cons
   card(-95,top,190,-top,'#FFF3D6',7,10);
   ctx.beginPath();ctx.moveTo(-120,top+4);ctx.lineTo(0,top-94);ctx.lineTo(120,top+4);ctx.closePath();fillStroke('#FF8A7A',7);
   shellIcon(0,top-36,24);if(lvl>=4)star(0,top-110,28,'#FFC93C',4);
-  const h=new Date().getHours(),lit=h>=19||h<7;
+  const h=ahora().getHours(),lit=h>=19||h<7;
   for(const [wx,wy] of[[-58,-86],[58,-86],...(two?[[-58,-176],[58,-176]]:[])]){card(wx-19,wy-17,38,34,lit?'#FFE08A':'#BFEAF7',5,6);ctx.beginPath();ctx.moveTo(wx,wy-17);ctx.lineTo(wx,wy+17);ctx.moveTo(wx-19,wy);ctx.lineTo(wx+19,wy);ctx.lineWidth=3;ctx.strokeStyle=K;ctx.stroke()}
   if(two){card(-48,-150,96,14,'#C98A4B',4,5);for(let i=0;i<3;i++)flower(-30+i*30,-158,9,FLC[i+2],2)}
   card(-22,-72,44,72,'#C98A4B',5,16);circ(12,-34,4,K,0);
@@ -396,7 +398,7 @@ SCENES.map=Object.assign(SCENES.map,<Partial<Escena>>{
 // ageZone(): zona que corresponde a la edad (la usa mundo3d/mundo3d.ts para colocar a Tito).
   ageZone(){return ageZoneOpen()},
 // prompt(first): saludo según la hora (si first) y consigna: asamblea si falta hoy; si no, el botón de seguir.
-  prompt(first?: boolean){const h=new Date().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
+  prompt(first?: boolean){const h=ahora().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
     if(!asamHoy())say((first?sal+kid()+'! ':'')+'Vamos a la plaza a hacer la asamblea. Tocá la plaza.');
     else say((first?sal+kid()+'! ':'')+'Tocá el botón verde para seguir el camino. También podés ir a la tienda o a la casa de Tito.')},
 // hint(): señala la plaza o el botón de seguir.
@@ -574,7 +576,7 @@ export function cofrePend(){const P=S.cofreP;if(!P||typeof P!=='object'){delete 
 // isBday(d): true si d (hoy por defecto) es el cumpleaños guardado en S.bday ({m: mes 0-11, d: día}).
 // El bloque siguiente envuelve SCENES.asamblea: guarda los métodos originales (enter0, draw0...) y los llama desde los
 // nuevos, para añadir el paso 'cumple' (soplar tantas velas como años) una vez el día del cumpleaños (S.bdayDone).
-export const isBday=(d=new Date())=>esCumple(S.bday,d.getMonth(),d.getDate());
+export const isBday=(d=ahora())=>esCumple(S.bday,d.getMonth(),d.getDate());
 {const A=SCENES.asamblea,enter0=A.enter,draw0=A.draw,down0=A.down,hint0=A.hint,prompt0=A.prompt,fin0=A.in_fin;
 // A.enter: si hoy es su cumpleaños y aún no se ha celebrado, mete el paso 'cumple' justo después de 'hola'.
  A.enter=function(o){enter0!.call(this,o);if(isBday()&&S.bdayDone!==today())this.steps.splice(1,0,'cumple')};

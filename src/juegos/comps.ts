@@ -84,6 +84,8 @@ import type { Par } from '../nucleo/idioma.ts';
 import type { AlTerminar, Config, Cosa, DibujaCosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, H, IMG, LF, ONO, PI, SFX, SOUNDS, T, V, VIVO, W, W_, Wn, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, flower, hC, hR, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, parts, pic, picG, pick, playSound, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sparkles, speaker, star, text, tx, whenQuiet } from '../nucleo/indice.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
 // Dibuja una "cosa" k centrada en (x,y) con tamaño s.
 // k puede ser una clave de dibujo (texto, se pinta con pic()) o un objeto con
@@ -460,7 +462,7 @@ export function Arrastra(cfg: Config, onDone: AlTerminar): Juego{
       if(this.busy)return;
       const it=this.items.filter((i: Libre)=>!i.placed&&!i.hidden&&dist(x,y,i.x,i.y)<i.s*.56+14).sort((a: Libre,b: Libre)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
       if(!it){SFX.tap();sparkles(x,y,3);return}
-      VIVO.drag={it,dx:x-it.x,dy:y-it.y};setCursor('grab');SFX.pop();if(!this.r.steps&&cfg.sayPick!==false&&Math.random()<.6)say(cap(nameT(it.k))+'.')},
+      VIVO.drag={it,dx:x-it.x,dy:y-it.y};setCursor('grab');SFX.pop();if(!this.r.steps&&cfg.sayPick!==false&&azar()<.6)say(cap(nameT(it.k))+'.')},
     // Mueve la cosa arrastrada con el dedo (sin salir de la pantalla).
     move(x,y){if(VIVO.drag&&VIVO.drag.it&&this.items.includes(VIVO.drag.it)){VIVO.drag.it.x=clamp(x-VIVO.drag.dx,60,1540);VIVO.drag.it.y=clamp(y-VIVO.drag.dy,60,860)}},
     // Soltar: busca la zona. Sin zona, la cosa se queda donde está si se alejó de
@@ -523,7 +525,7 @@ export function Atrapa(cfg: Config, onDone: AlTerminar): Juego{
       if(this.fin)return; this.spawn-=dt; const slow=(AGE()<=3?.65:.85)*(1+.2*VIVO.REP), up=cfg.dir!=='down';
       if(this.spawn<=0&&this.bs.length<6){this.spawn=rnd(.8,1.3)/slow;const t=this.tgt();
         const hasT=this.bs.filter((b: Libre)=>t.is(b.k)&&!b.pop).length;const pool=cfg.pool;
-        const k=(hasT<1||Math.random()<.45)?pick(pool.filter(t.is)):pick(pool.filter((q: Libre)=>!t.is(q)));
+        const k=(hasT<1||azar()<.45)?pick(pool.filter(t.is)):pick(pool.filter((q: Libre)=>!t.is(q)));
         this.bs.push({k,x:rnd(380,1440),y:up?990:-110,v:rnd(70,105)*slow,ph:rnd(0,6),r:88,jig:-9,pop:0,rot:rnd(-.4,.4)})}
       for(const b of this.bs){if(b.pop)continue;b.y+=(up?-1:1)*b.v*dt;b.x+=Math.sin(T*1.5+b.ph)*(up?30:60)*dt;if(b.vx){b.x+=b.vx*dt;b.vx*=.95}}
       this.bs=this.bs.filter((b: Libre)=>(up?b.y>-120:b.y<1020)&&!(b.pop&&T-b.pop>.3));
@@ -550,7 +552,7 @@ export function Atrapa(cfg: Config, onDone: AlTerminar): Juego{
       const t=this.tgt();
       if(t.is(b.k)){b.pop=T;SFX.pop();SFX.good();burst(b.x,b.y,22);rec(cfg.key||'atrapa',true);this.done++;scene!.starPop=T;this.got++;
         if(this.got>=per){this.got=0;this.ti++;if(this.ti>=cfg.targets.length){this.fin=true;later(600,onDone)}else later(700,()=>this.announce())}
-        else if(Math.random()<.5)say(praise());}
+        else if(azar()<.5)say(praise());}
       else{b.jig=T;b.vx=(b.x<x?-1:1)*-260;SFX.boing();rec(cfg.key||'atrapa',false);say(eseEs(b.k)+'. '+V(t.ask))}
     }
   };
@@ -706,7 +708,7 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego{
   // TRUCO: la arena es un lienzo aparte (a media resolución, sc=0,5) que se pinta
   // encima de las cosas. Cavar borra agujeros en él (destination-out).
   const sc=.5,cnv=document.createElement('canvas');cnv.width=A.w*sc;cnv.height=A.h*sc;const g=cnv.getContext('2d')!;
-  g.fillStyle=cfg.cover||'#F3D9A0';g.fillRect(0,0,cnv.width,cnv.height);g.fillStyle=cfg.cover2||'#E8C47E';for(let i=0;i<500;i++){g.beginPath();g.arc(Math.random()*cnv.width,Math.random()*cnv.height,rnd(1,3),0,PI*2);g.fill()}
+  g.fillStyle=cfg.cover||'#F3D9A0';g.fillRect(0,0,cnv.width,cnv.height);g.fillStyle=cfg.cover2||'#E8C47E';for(let i=0;i<500;i++){g.beginPath();g.arc(azar()*cnv.width,azar()*cnv.height,rnd(1,3),0,PI*2);g.fill()}
   const pos=shuffle([[.17,.28],[.5,.25],[.83,.28],[.17,.74],[.5,.72],[.83,.74]]);
   const objs=list.map((k,i)=>({k,x:A.x+A.w*pos[i][0],y:A.y+A.h*pos[i][1],found:0}));
   const digs: number[][]=[];
@@ -722,7 +724,7 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego{
     // agujero (digs), la cosa queda descubierta: estrella, se limpia del todo su
     // zona y Tito la nombra. Al encontrar todas, onDone.
     dig(x: number,y: number){if(x<A.x||x>A.x+A.w||y<A.y||y>A.y+A.h)return;g.globalCompositeOperation='destination-out';g.beginPath();g.arc((x-A.x)*sc,(y-A.y)*sc,58*sc,0,PI*2);g.fill();g.globalCompositeOperation='source-over';
-      digs.push([x,y]);if(Math.random()<.4){SFX.dig();parts.push({x,y,vx:rnd(-120,120),vy:rnd(-300,-120),life:.6,t:0,c:'#E8C47E',r:rnd(5,9),k:'d'})}
+      digs.push([x,y]);if(azar()<.4){SFX.dig();parts.push({x,y,vx:rnd(-120,120),vy:rnd(-300,-120),life:.6,t:0,c:'#E8C47E',r:rnd(5,9),k:'d'})}
       for(const o of objs){if(o.found||dist(x,y,o.x,o.y)>150)continue;let c=0,n=0;for(let a=0;a<12;a++)for(const rr of[25,60,95]){n++;const px=o.x+Math.cos(a*PI/6)*rr,py=o.y+Math.sin(a*PI/6)*rr;if(digs.some(([dx,dy])=>dist(px,py,dx,dy)<58))c++}
         if(c/n>.5){o.found=T;SFX.good();burst(o.x,o.y,26);this.done++;scene!.starPop=T;rec('excava',true);
           g.globalCompositeOperation='destination-out';g.beginPath();g.arc((o.x-A.x)*sc,(o.y-A.y)*sc,120*sc,0,PI*2);g.fill();g.globalCompositeOperation='source-over';
@@ -759,7 +761,7 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego{
     // cada unidad de agua es una etapa (p.st). En la etapa 3 sale la flor: estrella
     // y frase; con todas, onDone.
     update(dt){const held=VIVO.drag&&VIVO.drag.it===can;if(!held){can.x=lerp(can.x,can.hx,dt*6);can.y=lerp(can.y,can.hy,dt*6)}
-      if(held)for(const p of pots){if(p.st>=3)continue;if(Math.abs(can.x-60-p.x)<120&&can.y<p.y-80&&can.y>p.y-520){p.w+=dt*.75;if(Math.random()<dt*25)parts.push({x:can.x-95,y:can.y-30,vx:rnd(-40,10),vy:rnd(40,120),life:.7,t:0,c:'#5BB8E6',r:rnd(5,8),k:'d',g:900});if(Math.random()<dt*3)SFX.drip();
+      if(held)for(const p of pots){if(p.st>=3)continue;if(Math.abs(can.x-60-p.x)<120&&can.y<p.y-80&&can.y>p.y-520){p.w+=dt*.75;if(azar()<dt*25)parts.push({x:can.x-95,y:can.y-30,vx:rnd(-40,10),vy:rnd(40,120),life:.7,t:0,c:'#5BB8E6',r:rnd(5,8),k:'d',g:900});if(azar()<dt*3)SFX.drip();
         const st=Math.min(3,Math.floor(p.w));if(st>p.st){p.st=st;SFX.grow();sparkles(p.x,p.y-100,8);if(st===3){this.done++;scene!.starPop=T;burst(p.x,p.y-220,30);rec('riega',true);say(this.done>=n?'¡Todas las flores crecieron!':pick(['¡Salió una flor!','¡Mirá qué linda flor!','¡Creció!']),()=>{if(this.done>=n&&!this.fin){this.fin=1;later(400,onDone)}})}}}}},
     // Dibuja tallos, hojas, capullos y flores según la etapa de cada maceta, las
     // macetas, y la regadera (inclinada mientras se arrastra).

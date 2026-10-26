@@ -1,10 +1,13 @@
-// utilidades.ts: azar, números, curvas de animación y colores. Funciones puras: no dependen de nada del juego.
+// utilidades.ts: azar, números, curvas de animación y colores. No dependen de nada del juego; el azar sale del puerto
+// azar() (aplicacion/puertos.ts).
 //   rnd, ri, pick, shuffle, clamp, lerp, dist, easeOut, back, PI, hex2, col.
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 
 // Azar: rnd(a,b) número decimal entre a y b; ri(a,b) entero entre a y b (los dos incluidos); pick(lista) un elemento al azar.
-export const rnd=(a: number,b: number): number=>a+Math.random()*(b-a), ri=(a: number,b: number): number=>Math.floor(rnd(a,b+1)), pick=<X>(a: readonly X[]): X=>a[Math.floor(Math.random()*a.length)];
+export const rnd=(a: number,b: number): number=>a+azar()*(b-a), ri=(a: number,b: number): number=>Math.floor(rnd(a,b+1)), pick=<X>(a: readonly X[]): X=>a[Math.floor(azar()*a.length)];
 // shuffle(lista): devuelve una COPIA desordenada (algoritmo de Fisher-Yates); no toca la lista original.
-export const shuffle=<X>(a: readonly X[]): X[]=>{const r=a.slice();for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r};
+export const shuffle=<X>(a: readonly X[]): X[]=>{const r=a.slice();for(let i=r.length-1;i>0;i--){const j=Math.floor(azar()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r};
 // clamp(v,a,b) limita v entre a y b; lerp(a,b,t) mezcla lineal (t=0 da a, t=1 da b); dist(x1,y1,x2,y2) distancia entre dos puntos.
 export const clamp=(v: number,a: number,b: number): number=>Math.max(a,Math.min(b,v)), lerp=(a: number,b: number,t: number): number=>a+(b-a)*t, dist=(a: number,b: number,c: number,d: number): number=>Math.hypot(a-c,b-d);
 // Curvas de animación para t de 0 a 1: easeOut frena al final; back se pasa un poco de 1 y vuelve (efecto de rebote al aparecer).

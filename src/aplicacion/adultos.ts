@@ -27,6 +27,8 @@ import { TEMA, TEMAS, dayIdx, gDone, standalone, suggestTema, tst } from '../esc
 import { zoneOpen } from '../escenas/zonas.ts';
 import { STARS, drawCoinFx } from '../escenas/tienda.ts';
 import { esPartida } from '../dominio/partida.ts';
+// ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
+import { ahora } from './puertos.ts';
 
 // SKILL: nombre legible de cada habilidad de S.stats para la tabla "Cómo le va" ({clave: 'texto'}). Si una clave
 // no está, se muestra la clave con espacios. Al crear un juego con una habilidad nueva, añade aquí su nombre.
@@ -271,7 +273,7 @@ export function frame(now: number){
 // no sume la pausa), no con dt: en un móvil lento (10 cuadros por segundo) dt con tope contaba la mitad del tiempo.
   if(document.getElementById('adult')!.hidden&&sceneName!=='title'&&sceneName!=='dormir'){VIVO.sessionT+=rdt;VIVO.minuteAcc+=rdt;
     if(VIVO.minuteAcc>=15){const d=today();S.days[d]=(S.days[d]||0)+VIVO.minuteAcc/60;VIVO.minuteAcc=0;
-      const ks=Object.keys(S.days).sort();while(ks.length>30)delete S.days[ks.shift()!];S.ses={t:Math.round(VIVO.sessionT),at:Date.now()};save()}
+      const ks=Object.keys(S.days).sort();while(ks.length>30)delete S.days[ks.shift()!];S.ses={t:Math.round(VIVO.sessionT),at:ahora().getTime()};save()}
     if(S.limit&&VIVO.sessionT>=S.limit*60)go('dormir')}
   try{musicTick();scene!.update&&scene!.update(dt)}catch(e){console.error(e)}
 // Fondo: en las escenas 3D, el lienzo 2D se deja transparente y R3frame dibuja el mundo en el lienzo #gl de debajo.

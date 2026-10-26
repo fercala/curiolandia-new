@@ -17,6 +17,8 @@ import { ctx, T, VIVO } from './pantalla.ts';
 import { hC, hv } from './puntero.ts';
 import { SFX } from './sonido.ts';
 import { back, clamp, dist, lerp, PI } from './utilidades.ts';
+// ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
+import { ahora } from '../aplicacion/puertos.ts';
 
 /* ---------- HUD ---------- */
 // HOME: botón de la casita (volver) arriba a la izquierda: centro y radio.
@@ -77,7 +79,7 @@ export const nRounds=(): number=>rondas(AGE(),VIVO.REP);
 // no apuntados en S.days. Los usa frame() en aplicacion/adultos.ts.
 // La sesión sigue al recargar la página: si S.ses ({t: segundos, at: hora en ms}, se guarda cada 15 s) es de hace menos
 // de 30 min, sessionT sigue desde ahí. Así recargar no se salta el límite de tiempo («a dormir»).
-Object.assign(VIVO,{sessionT:((): number=>{const s=S.ses,ago=s&&Date.now()-s.at;return s&&isFinite(+s.t)&&typeof ago==='number'&&ago>=0&&ago<30*60e3?+s.t:0})(),restAsked:false,minuteAcc:0});
+Object.assign(VIVO,{sessionT:((): number=>{const s=S.ses,ago=s&&ahora().getTime()-s.at;return s&&isFinite(+s.t)&&typeof ago==='number'&&ago>=0&&ago<30*60e3?+s.t:0})(),restAsked:false,minuteAcc:0});
 
 /* ---------- pegatinas ---------- */
 // toast: aviso de "¡Pegatina nueva!" que se ve unos segundos: {k: dibujo, t: momento T en que salió, x, y opcionales}.
@@ -102,7 +104,7 @@ export const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','ag
 export const ESTACIONES=['primavera','verano','otoño','invierno'];
 // estacionDe(fecha): estación ('primavera', 'verano', 'otoño' o 'invierno') según la fecha (cambia hacia el día 21
 // de marzo, junio, septiembre y diciembre) y el hemisferio S.hemi (en el sur se invierte).
-export function estacionDe(d=new Date()): string{
+export function estacionDe(d=ahora()): string{
   const m=d.getMonth()+1,dd=d.getDate(),v=m*100+dd;
   let e=v>=1221||v<321?'invierno':v<621?'primavera':v<923?'verano':'otoño';
   if(S.hemi==='S')e=({invierno:'verano',verano:'invierno',primavera:'otoño',otoño:'primavera'} as Record<string,string>)[e] as string;

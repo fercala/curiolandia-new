@@ -33,6 +33,8 @@ import type { Cuento, PaginaCuento } from '../contenido/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import { AC, AGE, DIAC, H, LF, PI, SFX, T, V, VIVO, W, Wn, ala, back, burst, cap, card, circ, clamp, ctx, dist, fillStroke, hC, hR, hand, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sky, sparkles, star, svgImg, text, tone, tx } from '../nucleo/indice.ts';
 import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, nameT, ponThing, thing } from './comps.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 // siluetas para "¿de quién es esta sombra?"
 // caché de siluetas ya creadas: clave de dibujo → imagen
 export const IMGS: Record<string,HTMLImageElement>={};
@@ -128,7 +130,7 @@ export function Une(cfg: Config, onDone: AlTerminar): Juego{
     // Toque: en una tarjeta izquierda empieza la línea; en una derecha con una
     // izquierda elegida, comprueba la pareja; si no, Tito dice el nombre.
     down(x,y){if(this.busy)return;const l=this.at(this.L,x,y);
-      if(l&&!l.ok){this.sel=l;this.mx=x;this.my=y;this.dragging=true;VIVO.drag={it:l,une:1};setCursor('grab');SFX.pop();if(Math.random()<.5)say(cap(nameT(l.k))+'.');return}
+      if(l&&!l.ok){this.sel=l;this.mx=x;this.my=y;this.dragging=true;VIVO.drag={it:l,une:1};setCursor('grab');SFX.pop();if(azar()<.5)say(cap(nameT(l.k))+'.');return}
       const r=this.at(this.R,x,y);if(r&&!r.ok&&this.sel){this.check(this.sel,r);return}
       if(r&&!r.ok){SFX.tap();say(cap(nameT(r.k))+'.');return}SFX.tap()},
     // Mueve el extremo de la línea que se arrastra.
@@ -291,9 +293,9 @@ export function Frota(cfg: Config, onDone: AlTerminar): Juego{
     // Frota en (x,y): resta vida a las manchas cercanas (0,12 por llamada) y echa
     // burbujas (máx. 60). Al llegar a 0 la mancha desaparece y suma estrella; con
     // todas, frase final y onDone.
-    rub(x: number,y: number){for(const s of spots){if(s.h<=0||dist(x,y,s.x,s.y)>s.r+40)continue;s.h-=.12;if(Math.random()<.5)SFX.dig();
+    rub(x: number,y: number){for(const s of spots){if(s.h<=0||dist(x,y,s.x,s.y)>s.r+40)continue;s.h-=.12;if(azar()<.5)SFX.dig();
         if(s.h<=0){s.h=0;SFX.pop();sparkles(s.x,s.y,10);this.done++;scene!.starPop=T;rec(cfg.key||'frota',true);
-          if(this.done>=spots.length&&!this.fin){this.fin=1;later(300,()=>{SFX.good();burst(800,420,50);say(V(cfg.okAll),()=>later(400,onDone))})}else if(Math.random()<.4)say(pick(['¡Chau!','¡Limpito!','¡Otro menos!']))}}
+          if(this.done>=spots.length&&!this.fin){this.fin=1;later(300,()=>{SFX.good();burst(800,420,50);say(V(cfg.okAll),()=>later(400,onDone))})}else if(azar()<.4)say(pick(['¡Chau!','¡Limpito!','¡Otro menos!']))}}
       if(bub.length<60)bub.push({x:x+rnd(-30,30),y:y+rnd(-30,30),r:rnd(8,20),t:T})},
     // Dibuja la base, las manchas (más pequeñas y transparentes según su vida),
     // las burbujas que suben (se borran a los 2 s) y la herramienta.
@@ -472,7 +474,7 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego{
     // Carga la primera ronda.
     enter(){this.load()},
     // Ronda: lugar de la izquierda (L), de la derecha (Rr) y adónde ir (go: -1/1).
-    load(){const ps=shuffle(places);this.L=ps[0];this.Rr=ps[1];this.go=Math.random()<.5?-1:1;this.car={t:0,dir:0};this.errs=0;this.lock=false;
+    load(){const ps=shuffle(places);this.L=ps[0];this.Rr=ps[1];this.go=azar()<.5?-1:1;this.car={t:0,dir:0};this.errs=0;this.lock=false;
       later(300,()=>sayQ('Vamos '+V(ala(this.go<0?this.L:this.Rr))+'. ¿Doblamos a la derecha o a la izquierda?'))},
     // Repite adónde queremos ir.
     prompt(){say('Queremos ir '+V(ala(this.go<0?this.L:this.Rr))+'. ¿Derecha o izquierda?')},

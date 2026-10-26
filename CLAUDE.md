@@ -14,7 +14,8 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   `src/dominio/progreso.ts`, desde la 3c las de las monedas en `src/dominio/monedas.ts` y desde la 3d las del repaso
   diario en `src/dominio/repaso.ts` y desde la 3e las de la dificultad en `src/dominio/dificultad.ts`, sin dibujo ni
   `S`, con pruebas de Vitest; desde la 3f la partida lleva su versión (`S.ver`) y sus migraciones están en
-  `src/dominio/partida.ts`. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
+  `src/dominio/partida.ts`; desde la 3g la hora y el azar se piden a sus puertos (`ahora()` y `azar()`,
+  `src/aplicacion/puertos.ts`), con los adaptadores del navegador en `src/infraestructura/`. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.

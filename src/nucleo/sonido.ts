@@ -3,6 +3,8 @@
 //   ponMusica(), musicTick().
 // La voz (say, voces grabadas) está en voz.ts; initAudio() (voz.ts) desbloquea la voz y llama a initSonido().
 import { S } from './guardado.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 
 /** Opciones de syn() (ver su comentario). */
 export interface OpcionesSyn {
@@ -53,7 +55,7 @@ export function tone(f: number,d=.15,type: OscillatorType='sine',v=.5,slide=0,de
 // (q alto = filtro más estrecho, sonido más "afinado"). Sirve para golpes, soplidos, chapoteos, pasos... Se apaga poco a poco.
 export function noise(d=.2,v=.3,f=1200,delay=0,q=1): void{
   if(!AC)return; const t=AC.currentTime+delay, n=Math.floor(AC.sampleRate*d), b=AC.createBuffer(1,n,AC.sampleRate), da=b.getChannelData(0);
-  for(let i=0;i<n;i++)da[i]=Math.random()*2-1; const s=AC.createBufferSource(); s.buffer=b;
+  for(let i=0;i<n;i++)da[i]=azar()*2-1; const s=AC.createBufferSource(); s.buffer=b;
   const fl=AC.createBiquadFilter(); fl.type='bandpass'; fl.frequency.value=f; fl.Q.value=q; const g=AC.createGain();
   g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.001,t+d); s.connect(fl); fl.connect(g); g.connect(FX as GainNode); s.start(t);
 }
@@ -86,7 +88,7 @@ export const SFX={
   munch:()=>{for(let i=0;i<4;i++)noise(.07,.35,500+i*150,i*.12)},
   boing:()=>tone(220,.35,'sine',.4,2.2),
   drip:()=>{tone(1400,.08,'sine',.25,.5);tone(900,.1,'sine',.15,.6,.08)},
-  dig:()=>noise(.12,.25,500+Math.random()*400,0,.7),
+  dig:()=>noise(.12,.25,500+azar()*400,0,.7),
   snap:()=>{tone(500,.06,'square',.12,1.5);tone(800,.08,'triangle',.25,0,.05)},
   grow:()=>[392,494,587,784].forEach((f,i)=>tone(f,.18,'sine',.2,1.02,i*.07)),
   splash:()=>{noise(.3,.3,1500,0,.5);tone(700,.15,'sine',.15,.5)},
@@ -110,7 +112,7 @@ export const SOUNDS: Record<string,()=>void>={
   autobus:()=>{syn({f:220,d:.6,type:'square',lp:900,v:.25});syn({f:277,d:.6,type:'square',lp:900,v:.2})},
   tren:()=>{[0,.22,.44,.66].forEach(dl=>noise(.16,.35,1600,dl,.8));syn({f:880,d:.7,type:'triangle',v:.2,delay:.95});syn({f:1100,d:.7,type:'triangle',v:.16,delay:.95})},
 // avion: ruido largo cuyo filtro sube de 300 a 2400 Hz (como un avión que se acerca y pasa).
-  avion:()=>{if(!AC)return;const t=AC.currentTime,n=AC.sampleRate*1.6,b=AC.createBuffer(1,n,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;const s=AC.createBufferSource();s.buffer=b;const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.setValueAtTime(300,t);f.frequency.exponentialRampToValueAtTime(2400,t+1.5);const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.4,t+.8);g.gain.linearRampToValueAtTime(0,t+1.6);s.connect(f);f.connect(g);g.connect(FX as GainNode);s.start(t)},
+  avion:()=>{if(!AC)return;const t=AC.currentTime,n=AC.sampleRate*1.6,b=AC.createBuffer(1,n,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=azar()*2-1;const s=AC.createBufferSource();s.buffer=b;const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.setValueAtTime(300,t);f.frequency.exponentialRampToValueAtTime(2400,t+1.5);const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.4,t+.8);g.gain.linearRampToValueAtTime(0,t+1.6);s.connect(f);f.connect(g);g.connect(FX as GainNode);s.start(t)},
   barco:()=>{syn({f:98,d:1.2,type:'sawtooth',lp:500,v:.45,att:.1});syn({f:147,d:1.2,type:'sawtooth',lp:500,v:.25,att:.1})},
   bici:()=>{[0,.3].forEach(dl=>{tone(2100,.6,'sine',.25,0,dl);tone(2620,.5,'sine',.12,0,dl)})},
   moto:()=>{syn({f:70,fm:150,f2:110,d:1.1,type:'sawtooth',lp:700,vib:28,vibA:12,v:.4})},
@@ -147,7 +149,7 @@ export function musicTick(): void{
     const d=musNext-AC.currentTime, st=musStep%16;
 // nota de la escala para este paso: cada 16 pasos cambia el punto de partida y en el paso 4 de cada 8 sube una octava.
     const deg=(m.s[(st*3+((musStep/16|0)%4)*2)%m.s.length] as number)+(st%8===4?12:0);
-    if(st%2===0||Math.random()<.35) tone(440*Math.pow(2,(m.b+deg-69)/12),m.sp*1.6,'triangle',.25,0,d,MUS);
+    if(st%2===0||azar()<.35) tone(440*Math.pow(2,(m.b+deg-69)/12),m.sp*1.6,'triangle',.25,0,d,MUS);
     if(st%8===0) tone(440*Math.pow(2,(m.b-12+(m.s[(musStep/8|0)%3] as number)-69)/12),m.sp*6,'sine',.3,0,d,MUS);
     musNext+=m.sp; musStep++;
   }

@@ -49,7 +49,8 @@ Características técnicas:
 Desde la fase 2p de la migración todo el juego son **módulos TypeScript**: `src/modulos.ts` y lo que importa (los
 dibujos de `src/dibujos/`, el núcleo de `src/nucleo/`, el vocabulario y los cuentos de `src/contenido/`, los componentes
 de juego de `src/juegos/`, los temas de `src/temas/`, las escenas de `src/escenas/`, la zona de adultos, el bucle y el
-arranque de `src/aplicacion/` y la capa 3D de `src/mundo3d/`). Cada archivo importa lo que usa
+arranque de `src/aplicacion/`, la capa 3D de `src/mundo3d/` y, desde la fase 3, las reglas de `src/dominio/`, los
+puertos de `src/aplicacion/puertos.ts` y sus adaptadores de `src/infraestructura/`). Cada archivo importa lo que usa
 (`import { S, save } from './guardado.ts'`). El plugin de Vite los junta con rolldown en un único `<script>`. Hasta la
 fase 2p había además otro `<script>` con el **código global**: los `.js` que aún no eran módulos, pegados en un orden fijo.
 
@@ -70,6 +71,7 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 |---|---|---|
 | — | `head.html` | Cabecera HTML: estilos, los dos lienzos (`#gl` para el 3D y `#cv` para el 2D, encima), la carga de Three.js y los paneles HTML (nombre, reinicio, zona de adultos). |
 | — | `modulos.ts` | Entrada del juego: importa los módulos en orden, deja el puente en `globalThis` y llama a `arrancar()`. |
+| 0 | `infraestructura/conectar.ts`, `infraestructura/navegador.ts` y `aplicacion/puertos.ts` (`modulos.ts` importa `conectar.ts` el primero) | **Puertos Reloj y Azar** (desde la fase 3g): el juego pide la fecha y la hora con `ahora()` y los números al azar con `azar()` (`aplicacion/puertos.ts`), nunca con `new Date()`, `Date.now()` ni `Math.random()`. Los adaptadores de verdad, los del navegador, están en `infraestructura/navegador.ts` (los únicos que usan `Date` y `Math.random`) y `conectar.ts` los conecta antes de que se cargue nada más. Una prueba puede poner otros con `ponPuertos` (un reloj parado, un azar fijo). Pruebas en `tests/unidad/puertos.test.ts`. |
 | 1 | `dibujos/pics-base.ts`, `pics-new.ts`, `pics-a.ts` ... `pics-e.ts`, `pics-mine.ts`; `dibujos/todos.ts` | **Dibujos** (módulos). Cada dibujo es un SVG con un nombre (`'perro'`, `'manzana'`...) dentro del objeto `PICS`. `todos.ts` los carga en su orden: quien necesita `PICS` completo importa de ahí. |
 | 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`, `rec`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas), `voz` (`say`, `sayQ`, voces) e `interfaz` (botón de volver, rondas, ayudas, dificultad, pegatinas, calendario). |
 | 3 | `contenido/lex.ts` (antes `lex.js`) | **Vocabulario** (módulo, se carga después del núcleo): nombres de las cosas (`LEX`, `LEX2`), sonidos de animales (`SOUNDS`, `ONO`) y más cambios del español rioplatense al de España (`_tuRe`). Solo añade cosas al núcleo; no exporta nada. |
@@ -102,6 +104,12 @@ Desde la 3a están las reglas de apertura (`dominio/apertura.ts`), desde la 3b l
 (`dominio/progreso.ts`), desde la 3c las de las monedas (`dominio/monedas.ts`), desde la 3d las del repaso diario
 (`dominio/repaso.ts`) y desde la 3e las de la dificultad (`dominio/dificultad.ts`). Desde la 3f, la partida lleva su
 versión y `dominio/partida.ts` la pone al día al cargarla (migraciones).
+
+**Puertos y adaptadores** (desde la fase 3g): lo que el juego necesita de fuera se pide a un puerto
+(`aplicacion/puertos.ts`) y no al navegador directamente. Hoy son el **reloj** (`ahora()`) y el **azar** (`azar()`); sus
+adaptadores, los del navegador, están en `src/infraestructura/`. Así una prueba puede fijar la fecha o el azar con
+`ponPuertos` sin navegador, y `tests/unidad/puertos.test.ts` comprueba que nadie más usa `new Date()`, `Date.now()` ni
+`Math.random()`.
 
 Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 

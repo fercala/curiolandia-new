@@ -60,7 +60,8 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 6. **Piensa en niños de 3 a 5 años**: zonas de toque grandes, nada de leer (todo se dice en voz), refuerzo positivo, nada de castigos ni prisas.
 7. **Usa `later()`**, no `setTimeout`, dentro de las escenas y los juegos. Una frase que el juego dice solo, sin que el niño toque (una consigna con `later()`), va con `sayQ()`: espera a que Tito acabe lo que esté diciendo. Si es una pregunta, comprueba antes que el niño no la haya respondido ya. Tras un segundo fallo, pon `idle=12` **después** del `say()`.
 8. **Un premio se guarda antes de celebrarlo**: si marcas algo como cobrado (`S.gift`, `R.paid`...), suma las monedas y la pegatina en ese mismo momento (`creditCoins(n)` y `S.stk[k]++`, luego `save()`; cuántas monedas da cada cosa está en `MONEDAS`, en `dominio/monedas.ts`), y deja para la animación `giveCoins(n, x, y, icono, true)` y `giveSticker(k, true)`, que ya no suman. `later()` se anula al cambiar de escena: lo que va dentro se puede perder.
-9. **Documenta cada cambio**: sin comentarios ni documentación al día no se publica. → [POLITICA-DOCUMENTACION.md](POLITICA-DOCUMENTACION.md)
+9. **La hora y el azar, de sus puertos**: `ahora()` en vez de `new Date()` o `Date.now()`, y `azar()` (o `rnd`, `ri`, `pick`, `shuffle`) en vez de `Math.random()`. Están en `aplicacion/puertos.ts` (desde la fase 3g); una prueba comprueba que no se usan los del navegador fuera de `src/infraestructura/`.
+10. **Documenta cada cambio**: sin comentarios ni documentación al día no se publica. → [POLITICA-DOCUMENTACION.md](POLITICA-DOCUMENTACION.md)
 
 ---
 

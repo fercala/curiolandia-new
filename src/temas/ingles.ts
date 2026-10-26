@@ -16,6 +16,8 @@ import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, H, LF, PI, SFX, T, V, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { BG, makeGame, ponMakeGame } from './temas.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 
 /** Una palabra en inglés de EN: en (en inglés), es (traducción; texto o [rioplatense, España]), a (edad mínima) y su
  * dibujo: k (clave de PICS) o draw(x, y, s). Los colores llevan además col y los números n. */
@@ -151,7 +153,7 @@ export function EnGlobos(cfg: Config,onDone: AlTerminar): Juego{const pool: Pala
     // Lanza un globo nuevo desde abajo en un carril libre. tn cuenta cuántos globos "de relleno" pueden salir
     // antes de forzar uno correcto (así siempre aparecen correctos a menudo).
     spawn(){const lanes=[340,560,780,1000,1220,1440].filter(x=>!this.bs.some((b: Libre)=>Math.abs(b.x-x)<60&&b.y>620));if(!lanes.length)return;
-      const isT=this.tn<=0||Math.random()<.45,it=isT?this.t:pick(pool.filter((p)=>p!==this.t))||this.t;if(it===this.t)this.tn=2;else this.tn--;
+      const isT=this.tn<=0||azar()<.45,it=isT?this.t:pick(pool.filter((p)=>p!==this.t))||this.t;if(it===this.t)this.tn=2;else this.tn--;
       this.bs.push({x:pick(lanes),y:980,it,ph:rnd(0,6),c:it.col||pick(['#FF8A7A','#7FD3F0','#FFD66B','#B9A6F0','#9FDC8F','#F58BB4'])})},
     // Cada cuadro: saca un globo cada 1,15 s, sube los globos con un vaivén y quita los que salen o ya explotaron.
     update(dt: number){if(this.fin)return;this.nx-=dt;if(this.nx<=0){this.spawn();this.nx=1.15}

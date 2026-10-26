@@ -7,6 +7,8 @@ import type { Estado, Volumenes } from './tipos.ts';
 import { edadDe } from '../dominio/dificultad.ts';
 import type { PartidaCruda } from '../dominio/partida.ts';
 import { VERSION_PARTIDA, esPartida, migrar } from '../dominio/partida.ts';
+// ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
+import { ahora } from '../aplicacion/puertos.ts';
 
 /*
  * ESTADO GUARDADO S
@@ -135,7 +137,7 @@ addEventListener('storage',e=>{if(e.key!==KEY||!e.newValue)return;let d: unknown
 // ymd(fecha): devuelve 'AAAA-MM-DD' (hora local). Es el formato de las claves de S.days, S.asam, S.gift...
 export const ymd=(d: Date): string=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 // today(): la fecha de hoy como 'AAAA-MM-DD'.
-export const today=(): string=>ymd(new Date());
+export const today=(): string=>ymd(ahora());
 // rec(habilidad, acierto): suma un acierto (ok verdadero) o un fallo en S.stats[habilidad] y guarda.
 // escenas/repaso.ts la envuelve para apuntar además el resultado por juego (S.gs, S.kg).
 export let rec=(k: string,ok: unknown): void=>{const s=S.stats[k]||(S.stats[k]={ok:0,err:0});if(ok)s.ok++;else s.err++;save()};

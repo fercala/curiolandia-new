@@ -20,6 +20,8 @@ import { AGE, LEX, LF, MESES, PI, T, V, W_, cap, card, circ, ctx, dela, ell, est
 import { Apaga, Arrastra, COLORES, ChoiceGame, Cruce, Cuenta, Excava, Gira, Lens, NUM, Puzzle, Riega, Secuencia, Series, Une, drawKid, eseEs, fem, nameT, numCard, picF, picS, refCard, thing, unN } from '../juegos/indice.ts';
 import { BG, sizeSlot, swatch, vestir } from './temas.ts';
 import { ESTS, fern, palm, shape2, zoneIcon } from './temas4.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 /* ================= TEMAS DE 5 AÑOS: LA MONTAÑA ================= */
 // Estación del año del mes m (0 = enero ... 11 = diciembre), mirando el día 15 de ese mes
 // con estacionDe() (nucleo/interfaz.ts, que tiene en cuenta el hemisferio).
@@ -288,5 +290,5 @@ export const C5: Tema={id:'5A-C',n:'Rincón de los Conceptos',icon:'formas',c:'#
       return {row,words:row.slice(0,Math.max(2,nOpts())).includes(k)?row.slice(0,Math.max(2,nOpts())):[k,...row.filter(x=>x!==k).slice(0,1)],ok:[k],ask,okSay:()=>'¡Sí! '+cap(nameT(k))+'.',badSay:(w: Cosa)=>eseEs(w)+'. '+ask}}},d)},
   {t:'pesado',icon:'pluma',name:'Pesado, liviano, grueso y delgado',make:(d: AlTerminar,t: Libre)=>ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'pesado-grueso',y:520,big:true,
     gen(i: number){const q=i%4;if(q<2){const p=pick(PESO),A=p[0],B=p[1],ok=q===0?A:B,adj=q===0?'más pesado':V(['más liviano','más ligero']);return {words:[A,B],ok:[ok],ask:'¿Qué es '+adj+'?',okSay:()=>'¡Sí! '+cap(nameT(ok))+' es '+adj+'.',badSay:(w: Cosa)=>cap(nameT(w))+' no es '+adj+'. ¿Qué es '+adj+'?'}}
-      const mk=Math.random()<.5?trunk:bookOf,A=mk(.9),B=mk(.1),ok=q===2?A:B,adj=q===2?'más grueso':V(['más finito','más delgado']);return {words:[A,B],ok:[ok],ask:'¿Cuál es '+adj+'?',okSay:()=>'¡Sí! Ese es '+adj+'.',badSay:()=>'Mirá bien el ancho de cada uno. ¿Cuál es '+adj+'?'}}},d)},
+      const mk=azar()<.5?trunk:bookOf,A=mk(.9),B=mk(.1),ok=q===2?A:B,adj=q===2?'más grueso':V(['más finito','más delgado']);return {words:[A,B],ok:[ok],ask:'¿Cuál es '+adj+'?',okSay:()=>'¡Sí! Ese es '+adj+'.',badSay:()=>'Mirá bien el ancho de cada uno. ¿Cuál es '+adj+'?'}}},d)},
   {t:'series',icon:'estrella',name:'Series difíciles',make:(d: AlTerminar,t: Libre)=>Series({pool:shuffle(['circulo','triangulo','cuadrado','rombo','ovalo']).map(f=>shape2(f,FCOL[f])),bg:t.bg},d)}]};

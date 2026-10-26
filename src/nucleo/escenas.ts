@@ -9,6 +9,8 @@ import { setCursor } from './puntero.ts';
 import { ponMusica } from './sonido.ts';
 import type { Escena, Libre, Particula } from './tipos.ts';
 import { pick, PI, rnd } from './utilidades.ts';
+// azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
+import { azar } from '../aplicacion/puertos.ts';
 
 /* ---------- escenas, temporizadores, partículas ---------- */
 /* SISTEMA DE ESCENAS
@@ -60,7 +62,7 @@ export function ponGo(f: typeof go): void{go=f}
    go() vacía la lista. */
 // burst(x,y,n,colores): explosión de n confetis y estrellas desde (x,y), para aciertos y premios.
 export function burst(x: number,y: number,n=24,cols: readonly string[]=['#FFC93C','#F58BB4','#7CC86E','#5B8DEF','#FF8A7A','#9B8AD9']): void{
-  for(let i=0;i<n;i++){const a=rnd(0,PI*2),v=rnd(200,620);parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-200,life:rnd(.8,1.5),t:0,c:pick(cols),r:rnd(7,15),rot:rnd(0,6),k:Math.random()<.35?'s':'c'})}
+  for(let i=0;i<n;i++){const a=rnd(0,PI*2),v=rnd(200,620);parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-200,life:rnd(.8,1.5),t:0,c:pick(cols),r:rnd(7,15),rot:rnd(0,6),k:azar()<.35?'s':'c'})}
 }
 // heart(x,y,radio,color): corazón relleno (partículas de tipo 'h').
 export function heart(x: number,y: number,r: number,f: string): void{/* corazoncito para las partículas */ctx.beginPath();ctx.moveTo(x,y+r*.9);ctx.bezierCurveTo(x-r*1.4,y,x-r*.7,y-r*1.1,x,y-r*.35);ctx.bezierCurveTo(x+r*.7,y-r*1.1,x+r*1.4,y,x,y+r*.9);ctx.fillStyle=f;ctx.fill()}
