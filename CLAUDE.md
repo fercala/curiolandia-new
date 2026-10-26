@@ -19,7 +19,8 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   una sola función con su caso de uso, `src/aplicacion/terminarJuego.ts`, el primero de `src/aplicacion/`, y desde la
   4c el repaso del día no envuelve nada (caso de uso `src/aplicacion/repasoDelDia.ts`); desde la 4d, el mapa, las zonas y
   la casita se definen una sola vez, en `src/escenas/zonas.ts`, y desde la 4e la asamblea (con el cumpleaños), en
-  `src/escenas/escenas2d.ts`. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
+  `src/escenas/escenas2d.ts`; desde la 4f, `makeGame` (`src/temas/hacerJuego.ts`) y `thing` no se envuelven: solo envuelve
+  la capa 3D. El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.

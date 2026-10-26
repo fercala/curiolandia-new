@@ -1,21 +1,21 @@
 // temas/ingles.ts (antes ingles.js): el Rincón del inglés (zona 'ingles' del mapa).
 // Para qué sirve: define las palabras en inglés (EN), los 4 tipos de juego en inglés (EnConocer, EnEscucha,
-//   EnGlobos, EnCuenta) y los 4 temas del rincón (ING), y engancha esos juegos en makeGame.
+//   EnGlobos, EnCuenta) y los 4 temas del rincón (ING). Esos juegos los crea makeGame (temas/hacerJuego.ts).
 // Desde la fase 2i es un módulo (temas/indice.ts lo carga después de extras.ts) y exporta: sayMix, ENC, enBlob,
 //   enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer, EnEscucha, EnGlobos, EnCuenta, ENG, ING y
 //   los tipos PalabraEn y OpcionesTarjeta. El puente de src/modulos.ts los deja en globalThis. ING se añade a TEMAS en
 //   escenas/escenas2d.ts y a la zona 'ingles' en escenas/zonas.ts.
-// Al cargarse: envuelve makeGame (temas/temas.ts, ya envuelto por temas/extras.ts) con ponMakeGame.
+// Hasta la fase 4f, al cargarse envolvía makeGame (temas/temas.ts, ya envuelta por temas/extras.ts) con ponMakeGame.
 // Importa: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
 //   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, V, cap), juegos/ (NUM) y temas/temas.ts
-//   (BG, makeGame). Usa drawFace de escenas/escenas2d.ts, que se carga después: solo al jugar (tipos en src/tardias.d.ts).
+//   (BG). Usa drawFace de escenas/escenas2d.ts, que se carga después: solo al jugar (tipos en src/tardias.d.ts).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
 import type { AlTerminar, Config, Juego, JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, H, LF, PI, SFX, T, V, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, inR, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
-import { BG, makeGame, ponMakeGame } from './temas.ts';
+import { BG } from './temas.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 
@@ -208,11 +208,4 @@ export const ING: Tema[]=[
   {id:'EN-NUMBERS',n:'Los números en inglés',icon:'bloques',c:'#7CC86E',bg:BG.aula,zone:'ingles',en:'numbers',tip:'contar en inglés los escalones o los juguetes: one, two, three...',games:[ENG.conocer,ENG.cuenta,ENG.escucha]},
   {id:'EN-ANIMALS',n:'Los animales en inglés',icon:'perro',c:'#FFA94D',bg:BG.granja,zone:'ingles',en:'animals',tip:'mirar un libro de animales y nombrarlos en inglés.',games:[ENG.conocer,ENG.escucha,ENG.globos]}
 ];
-// Envuelve makeGame: si el tema tiene en y el juego es de tipo en*, crea el juego de inglés con las palabras de su edad.
-{const mg0=makeGame;ponMakeGame(function(g,t,onDone){
-  if(t.en&&g.t.startsWith('en')){const items=enItems(t.en),bg=t.bg;
-    if(g.t==='enConocer')return EnConocer({items,bg},onDone);
-    if(g.t==='enEscucha')return EnEscucha({items,bg,key:'ingles-'+t.en},onDone);
-    if(g.t==='enGlobos')return EnGlobos({items,bg,key:'ingles-'+t.en},onDone);
-    if(g.t==='enCuenta')return EnCuenta({bg},onDone)}
-  return mg0(g,t,onDone)})}
+// Los juegos de inglés (tipo en..., en un tema con en) los crea makeGame (temas/hacerJuego.ts), con las palabras de su edad.

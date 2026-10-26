@@ -5,21 +5,21 @@
 //   de la zona 'extras', FIESTAS es la zona 'fiestas'); aplicacion/adultos.ts los lista en la zona de adultos.
 //   Los juegos con make:(d,t)=>... crean su componente directamente (Secuencia, Frota, Arrastra, Tracer, Velas,
 //   Cuenta, Atrapa, ChoiceGame, Puzzle de juegos/comps.ts y juegos/comps2.ts); los que solo llevan t (busca, memoria...) los crea
-//   makeGame de temas/temas.ts a partir de words del tema.
+//   makeGame (temas/hacerJuego.ts) a partir de words del tema.
 // Desde la fase 2h es un módulo (temas/indice.ts lo carga después de temas5.ts) y exporta: DLYR, SONGS, bubbles,
 //   drops, RP, RUT, lineP, polyP, TRZ_L, TRZ, CAN, COSTUME, HATS, costumeZone, freeDeco, FIESTAS. El puente de
 //   src/modulos.ts los deja en globalThis para las pruebas.
-// Al cargarse: añade BG.trazo, palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento, y envuelve makeGame
-//   (temas/temas.ts, con ponMakeGame) para los tipos 'cuento' y 'cancion'.
-// Importa: temas.ts, temas4.ts y temas5.ts (T3, T4, T5, BG, ESTS, swatch, dayCard, monthCard, makeGame), juegos/
-//   (componentes, COLORES, Song, Story, panel, germ, pathPts), contenido/cuentos.ts (CUENTOS) y el núcleo (src/nucleo/:
+// Al cargarse: añade BG.trazo, palabras a LEX/LEX2 y juegos "El cuento" a los temas con cuento. Los juegos 'cuento' y
+//   'cancion' los crea makeGame (temas/hacerJuego.ts; hasta la fase 4f, este archivo la envolvía con ponMakeGame).
+// Importa: temas.ts, temas4.ts y temas5.ts (T3, T4, T5, BG, ESTS, swatch, dayCard, monthCard), juegos/
+//   (componentes, COLORES, panel, germ, pathPts), contenido/cuentos.ts (CUENTOS) y el núcleo (src/nucleo/:
 //   DIASL, MESES...). Usa tree() de escenas/escenas2d.ts, que se carga después: solo al jugar (tipo en src/tardias.d.ts).
 import type { Config, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { AGE, DIAC, DIASL, LEX, LEX2, MESES, PI, S, V, cap, card, circ, clamp, cloud, ctx, ell, fillStroke, lerp, nOpts, pic, shuffle, sky, star } from '../nucleo/indice.ts';
-import { Arrastra, Atrapa, COLORES, ChoiceGame, Cuenta, Frota, Puzzle, Secuencia, Song, Story, Tracer, Velas, drawKid, eseEs, germ, nameT, panel, pathPts } from '../juegos/indice.ts';
+import { Arrastra, Atrapa, COLORES, ChoiceGame, Cuenta, Frota, Puzzle, Secuencia, Tracer, Velas, drawKid, eseEs, germ, nameT, panel, pathPts } from '../juegos/indice.ts';
 import { CUENTOS } from '../contenido/cuentos.ts';
-import { BG, T3, makeGame, ponMakeGame, swatch } from './temas.ts';
+import { BG, T3, swatch } from './temas.ts';
 import { ESTS, T4, dayCard } from './temas4.ts';
 import { T5, monthCard } from './temas5.ts';
 /* ================= CANCIONES ================= */
@@ -190,11 +190,4 @@ Object.assign(LEX,{bloques:'los bloques',trenJuguete:'el trencito'});
 // Añade a cada tema por edad (T3, T4, T5) que tenga cuento en CUENTOS un juego "El cuento" al final (si no lo tiene ya).
 /* ---------- cuentos y canciones como juegos ---------- */
 for(const t of[...T3,...T4,...T5])if(CUENTOS[t.id]&&!t.games.some(g=>g.t==='cuento'))t.games.push({t:'cuento',icon:'libro',name:'El cuento'});
-// Envuelve makeGame(g, t, onDone): los juegos 'cuento' abren el cuento del tema (Story, con CUENTOS de contenido/cuentos.ts) y los 'cancion'
-// crean el componente Song con la canción g.song; los demás tipos siguen igual.
-const _makeGame0=makeGame;
-ponMakeGame(function(g,t,onDone){
-  if(g.t==='cuento')return Story(CUENTOS[t.id],{},onDone);
-  if(g.t==='cancion')return Song(Object.assign({bg:t.bg,key:'cancion'},SONGS[g.song]()),onDone);
-  return _makeGame0(g,t,onDone);
-});
+// Los juegos 'cuento' (el cuento del tema, Story) y 'cancion' (Song, con SONGS) los crea makeGame (temas/hacerJuego.ts).

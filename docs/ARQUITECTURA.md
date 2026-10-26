@@ -76,10 +76,11 @@ las pruebas (`window.__cl` y lo que leen con `page.evaluate`, ver [CONTRATO-PRUE
 | 2 | `nucleo/*.ts` (antes `core.js`) | **El núcleo** (módulos), en este orden (`nucleo/indice.ts`): `tipos` (tipos de `S`, `VIVO`, escenas...), `pantalla` (lienzo, escala, `VIVO`, reloj `T`), `utilidades` (azar, `clamp`, colores), `guardado` (`S`, `save`), `idioma` (`tx`, `V`, `LEX`, `W_`), `imagenes` (`IMG`, `pic`), `dibujo` (`card`, `circ`, `text`...), `puntero` (`hv`, `hR`, `hC`, cursores), `tito` (Tito en 2D), `sonido` (`tone`, `noise`, `SFX`, música), `escenas` (`SCENES`, `go`, `later`, partículas, `REP_ON`), `voz` (`say`, `sayQ`, voces), `monedas` (desde la fase 4b, antes en las escenas: el marcador `drawCoinHUD` e `inCoinHUD`, las monedas que vuelan y el cartel "+N" `drawCoinFx`, abonar `creditCoins`, dar `giveCoins` y gastar `spendCoins`) e `interfaz` (botón de volver, rondas, ayudas, dificultad y la moneda de cada acierto en `onRight`, `rec` para apuntar aciertos y fallos, desde la fase 4c; pegatinas, calendario). |
 | 3 | `contenido/lex.ts` (antes `lex.js`) | **Vocabulario** (módulo, se carga después del núcleo): nombres de las cosas (`LEX`, `LEX2`), sonidos de animales (`SOUNDS`, `ONO`) y más cambios del español rioplatense al de España (`_tuRe`). Solo añade cosas al núcleo; no exporta nada. |
 | 4 | `juegos/comps.ts`, `juegos/comps2.ts` (antes `comps.js` y `comps2.js`; `juegos/indice.ts` los junta) | **Componentes de juego** (módulos): el "motor" de cada tipo de juego (`Busca`, `Arrastra`, `Memoria`, `Cuenta`, `Secuencia`, `Tracer`, `Song`, `Story`...). |
-| 5 | `temas/temas.ts`, `temas4.ts`, `temas5.ts` (antes `temas.js`, `temas4.js` y `temas5.js`; `temas/indice.ts` los junta) | **Contenido** (módulos): los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. `temas/temas.ts` también tiene `makeGame`. |
+| 5 | `temas/temas.ts`, `temas4.ts`, `temas5.ts` (antes `temas.js`, `temas4.js` y `temas5.js`; `temas/indice.ts` los junta) | **Contenido** (módulos): los temas de 3, 4 y 5 años (`T3`, `T4`, `T5`) con sus juegos. |
 | 6 | `contenido/cuentos.ts` (antes `cuentos.js`; tipos en `contenido/tipos.ts`) | **Cuentos** (módulo, solo datos): los cuentos ilustrados de cada tema (`CUENTOS`), que lee `Story`. |
-| 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento y envuelve `makeGame`. |
-| 8 | `temas/ingles.ts` (antes `ingles.js`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. Envuelve `makeGame`. |
+| 7 | `temas/extras.ts` (antes `extras.js`; va en `temas/indice.ts` después de `temas5.ts`) | **Temas extra** (módulo): canciones (`CAN`, `SONGS`), rutinas (`RUT`), trazos (`TRZ`) y días especiales (`FIESTAS`). Añade «El cuento» a los temas con cuento. |
+| 8 | `temas/ingles.ts` (antes `ingles.js`; va en `temas/indice.ts` después de `extras.ts`) | **Rincón del inglés** (módulo): palabras (`EN`, tipo `PalabraEn`), temas (`ING`) y juegos `EnConocer`, `EnEscucha`, `EnGlobos` y `EnCuenta`. |
+| — | `temas/hacerJuego.ts` (va en `temas/indice.ts` después de `ingles.ts`) | **La fábrica de juegos** (módulo, desde la fase 4f): `makeGame` convierte cada juego de un tema en su componente (los de inglés, el cuento, la canción y los que se arman con las palabras del tema). Antes estaba en `temas/temas.ts` y la envolvían `extras.ts` e `ingles.ts`. |
 | 9 | `escenas/escenas2d.ts` (antes `scenes.js`) | **Escenas 2D** (módulo; `escenas/indice.ts` la carga la primera) originales: portada, edad, intro, asamblea, juego, álbum, dormir (el mapa, las zonas y la casita, desde la fase 4d solo en `escenas/zonas.ts`). Lista total de temas `TEMAS` y `finishGame` (terminar un juego: desde la fase 4b, una sola función, con el caso de uso `terminarJuego`). |
 | — | `aplicacion/terminarJuego.ts` (la importa `escenas/escenas2d.ts`, así que se carga justo antes que ella) | **Caso de uso «terminar un juego»** (aplicación, desde la fase 4b): lo que cambia en la partida al acabar un juego (progreso del tema, último día jugado, repaso del día hecho) y lo que hay que celebrar (primera vez, tema terminado, monedas). Usa las reglas del dominio y no cambia la partida que recibe: devuelve los campos nuevos. Pruebas en `tests/unidad/terminarJuego.test.ts`. |
 | 10 | `escenas/zonas.ts` (antes `zonas.js`; `escenas/indice.ts` la carga después de `escenas2d.ts`) | **Zonas y camino** (módulo). Escenas del mapa, de las zonas y de la casita (desde la fase 4d definidas solo aquí, con `suggestTema` y `stationPos`; antes reescribía una versión 1 de `escenas/escenas2d.ts`) y **reglas de apertura** (qué tema o zona está abierto). Cofre y regalos (`GIFTS`). Desde la fase 4c, también lo del repaso que se ve en el camino: la lupa del mapa (`repDue`, `repAllDone`), el paso por el repaso del botón verde (`goSeguir`) y la vuelta al repaso desde la casita. |
@@ -137,8 +138,8 @@ como error). Para lo que varios archivos cambian hay dos vías:
   `VIVO.coinBanner`, `VIVO.deferredInstall`). El tipo con todos los campos es `Vivo`, en `src/nucleo/tipos.ts`.
 - **Funciones `pon*`** para cambiar desde otro archivo una variable entera de un módulo: `ponS` (partida nueva), `ponT` (reloj),
   `ponCtx` (lienzo de dibujo), `ponRepOn` (`REP_ON`, si se juega un juego del repaso; desde la fase 4b) y las de las
-  funciones que envuelven las capas: `ponGo` (núcleo), `ponThing` (`juegos/comps.ts`), `ponMakeGame` (`temas/temas.ts`)
-  y `ponStationPos` y `ponGoSeguir` (`escenas/zonas.ts`; las dos solo para `mundo3d/mundo3d.ts`). Dentro del núcleo hay dos más: `ponMusica` (la música
+  funciones que envuelve la capa 3D (`mundo3d/mundo3d.ts`, la única que aún envuelve): `ponGo` (núcleo) y `ponStationPos` y
+  `ponGoSeguir` (`escenas/zonas.ts`). Hasta la fase 4f también había `ponThing` y `ponMakeGame`. Dentro del núcleo hay dos más: `ponMusica` (la música
   de la escena, la usa `go`) y `ponRopaTito` (`escenas/tienda.ts` le da a `drawTito` la imagen de colores y la ropa de Tito).
 
 ## 3. La pantalla lógica de 1600x900
@@ -198,11 +199,11 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 
 ### Capas: cómo se "reescriben" las escenas
 
-El juego empezó en 2D y creció por capas. Cada archivo posterior **envuelve** métodos de escenas anteriores en lugar de reescribirlas desde cero:
+El juego empezó en 2D y creció por capas. Cada archivo posterior **envolvía** métodos de escenas anteriores en lugar de reescribirlas desde cero. La fase 4 las va juntando (cada escena y cada función, definida una sola vez); desde la fase 4f solo queda una capa que envuelve: `mundo3d/mundo3d.ts`, con este patrón:
 
 ```js
 // Patrón para envolver un método sin perder el original
-{ const A = SCENES.asamblea, enter0 = A.enter;
+{ const A = SCENES.map, enter0 = A.enter;
   A.enter = function (o) { enter0.call(this, o); /* lo nuevo */ }; }
 
 // Patrón para envolver una función de otro módulo: con su pon* (ver «Leer sí, reasignar no»)
@@ -246,7 +247,7 @@ Un **tema** es un objeto en `T3`, `T4`, `T5` (o `CAN`, `RUT`, `TRZ`, `FIESTAS`, 
   ] }
 ```
 
-`makeGame(juego, tema, alAcabar)` (temas/temas.ts, ampliado por temas/extras.ts y temas/ingles.ts) convierte cada entrada de `games` en un componente de juego.
+`makeGame(juego, tema, alAcabar)` (temas/hacerJuego.ts, desde la fase 4f; antes en temas/temas.ts, ampliado por temas/extras.ts y temas/ingles.ts) convierte cada entrada de `games` en un componente de juego.
 
 Un **componente de juego** (juegos/comps.ts, juegos/comps2.ts) es una función que recibe una configuración y devuelve un objeto con `enter`, `draw`, `down/move/up`, `hint`, `prompt`, `total` y `done`. Cuando el niño termina, llama a `onDone()`. La lista completa de componentes y su configuración está en la cabecera de `juegos/comps.ts` y en [COMO-AGREGAR.md](COMO-AGREGAR.md#5-un-juego-nuevo-dentro-de-un-tema).
 

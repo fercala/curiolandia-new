@@ -11,23 +11,24 @@
 //     zonas donde se sueltan las cosas en los juegos de arrastrar (Arrastra, juegos/comps.ts).
 //   - vestir(): fábrica del juego "vestir al nene".
 //   - T3 (lista de temas de 3 años), C3 (Rincón de los Conceptos de 3 años), COLS3.
-//   - makeGame(g,t,onDone): crea el juego g del tema t (temas/extras.ts y temas/ingles.ts la amplían con ponMakeGame).
 //   - GICON: icono por defecto de algunos tipos de juego.
 // Importa: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
 //   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan escenas/escenas2d.ts (TEMAS, TEMA,
-//   SCENES.juego llama a makeGame), escenas/zonas.ts (ZONES.jardin), aplicacion/adultos.ts, temas/extras.ts y contenido/cuentos.ts.
+//   SCENES.juego), escenas/zonas.ts (ZONES.jardin), aplicacion/adultos.ts, temas/extras.ts y contenido/cuentos.ts.
+//
+// makeGame, que convierte cada juego de un tema en su componente, está desde la fase 4f en temas/hacerJuego.ts.
 //
 // Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
 // a castellano de España cuando S.variant==='es'. Si una frase cambia mucho, se pone una lista
 // [rioplatense, España] y V() elige. ¡No cambies ninguna frase que se diga con say()! Cada una
 // tiene su MP3 grabado (voz/manifest.json), y el MP3 se busca por el texto exacto.
-import type { AlTerminar, Cosa, HaceJuego, Libre, Tema } from '../juegos/tipos.ts';
+import type { AlTerminar, Cosa, Libre, Tema } from '../juegos/tipos.ts';
 import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DIAC, FLC, H, LEX, LEX2, LF, PI, SFX, T, V, W, W_, cap, card, circ, cloud, ctx, ell, fillStroke, flower, nRounds, pic, pick, ri, rr, say, shuffle, sky, star, text } from '../nucleo/indice.ts';
-import { Arrastra, Atrapa, Busca, COLORES, ChoiceGame, Conocer, Cuenta, Cuerpo, Excava, Memoria, Pinta, Puzzle, Riega, Sonido, colorAdj, drawKid, isPl, nameT } from '../juegos/indice.ts';
+import { Arrastra, Atrapa, COLORES, ChoiceGame, Conocer, Cuenta, Cuerpo, Excava, Pinta, Puzzle, Riega, Sonido, colorAdj, drawKid, isPl, nameT } from '../juegos/indice.ts';
 // Palabras nuevas para nombrar dibujos (W_(), nameT()): LEX = 'k' -> nombre con artículo;
 // LEX2 = 'k' -> [rioplatense, España].
 Object.assign(LEX,{lancha:'la lancha',helicoptero:'el helicóptero'});
@@ -348,21 +349,6 @@ export const C3: Tema={id:'3A-C',n:'Rincón de los Conceptos',icon:'estrella',c:
     gen(i: number){const Q=shuffle([['¿Cuándo sale el sol?',1],['¿Cuándo salen las estrellas y la luna?',0],['¿Cuándo dormimos?',0],['¿Cuándo vamos a la escuela?',1],['¿Cuándo jugamos en el parque?',1],['¿Cuándo está oscuro?',0]]);const q=Q[i%Q.length];const D=dayNight(1),N=dayNight(0);
       return {words:[D,N],ok:[q[1]?D:N],ask:q[0],okSay:()=>q[1]?'¡De día!':'¡De noche!',badSay:()=>q[1]?'Ese es de noche. Mirá el otro.':'Ese es de día. Mirá el otro.'}}},d)}]};
 
-/* juegos genéricos que se arman con las palabras del tema */
-// Crea el juego g del tema t. onDone = función a la que llama el juego al terminar.
-// Si el juego trae make, lo usa. Si no, arma los genéricos con las words del tema:
-// 'conocer' (Conocer), 'busca' (Busca, "¿Dónde está...?") y 'memoria' (Memoria).
-// Devuelve el objeto del juego (con enter, draw, down, up, move...), que maneja SCENES.juego.
-// temas/extras.ts y temas/ingles.ts la envuelven para añadir 'cancion', 'cuento' y los juegos de inglés.
-export let makeGame: HaceJuego=function(g,t,onDone){
-  if(g.make)return g.make(onDone,t);
-  const ks=t.words.map((w: Cosa)=>w.k).filter(Boolean);
-  if(g.t==='conocer')return Conocer({items:t.words,bg:t.bg,intro:t.intro},onDone);
-  if(g.t==='busca')return Busca({items:ks,bg:t.bg,key:t.id},onDone);
-  if(g.t==='memoria')return Memoria({pool:ks,bg:t.bg},onDone);
-}
-// ponMakeGame(f): cambia makeGame por otra función (temas/extras.ts y temas/ingles.ts la envuelven con sus juegos).
-export function ponMakeGame(f: HaceJuego){makeGame=f}
 // GICON: icono por defecto de algunos tipos de juego (clave de PICS). Ojo: ahora mismo
 // ningún archivo la usa; el icono real lo decide gIcon() en escenas/escenas2d.ts.
 export const GICON={conocer:'ojo',busca:'ojo',memoria:'regalo',sonido:'tren'};

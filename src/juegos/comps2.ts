@@ -17,12 +17,12 @@
 // MÓDULO (desde la fase 2e): exporta además IMGS, shadowOf, picS, picF, numCard,
 // arrowBtn, refCard, panel, germ, pathPts, NOTE, TUNES, playTune y sceneTokBump
 // (el puente de src/modulos.ts los deja en globalThis).
-// Al cargarse cambia thing() (juegos/comps.ts) con ponThing para dibujar caritas
-// 'emo:...'.
-// IMPORTA: juegos/comps.ts (thing, ponThing, ChoiceGame, Arrastra, layoutChoice,
+// Hasta la fase 4f, al cargarse cambiaba thing() (juegos/comps.ts) con ponThing para
+// dibujar caritas 'emo:...'; ahora lo hace la propia thing().
+// IMPORTA: juegos/comps.ts (thing, ChoiceGame, Arrastra, layoutChoice,
 // drawChoice, hitItem, nameT, eseEs, NUM), el núcleo, src/nucleo/ (dibujo, voz,
 // SFX, tone, AC, DIAC, ala, sky, hand, V, Wn, tx, svgImg...) y PICS y K de
-// src/dibujos/. Usa también drawFace (escenas/escenas2d.ts) y BG (temas/temas.ts), que se
+// src/dibujos/. Usa también drawFace (escenas/escenas2d.ts; Song y Story) y BG (temas/temas.ts), que se
 // cargan después: solo se usan al jugar, cuando ya existen
 // (sus tipos, en src/tardias.d.ts). Los datos de Story y Song (CUENTOS,
 // SONGS) llegan como parámetro; el tipo de un cuento está en contenido/tipos.ts.
@@ -32,7 +32,7 @@ import type { Par } from '../nucleo/idioma.ts';
 import type { Cuento, PaginaCuento } from '../contenido/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import { AC, AGE, DIAC, H, LF, PI, SFX, T, V, VIVO, W, Wn, ala, back, burst, cap, card, circ, clamp, ctx, dist, fillStroke, hC, hR, hand, hv, inR, later, lerp, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sky, sparkles, star, svgImg, text, tone, tx } from '../nucleo/indice.ts';
-import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, nameT, ponThing, thing } from './comps.ts';
+import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, nameT, thing } from './comps.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 // siluetas para "¿de quién es esta sombra?"
@@ -43,12 +43,6 @@ export const IMGS: Record<string,HTMLImageElement>={};
 export function shadowOf(k: Cosa){if(!IMGS[k]&&PICS[k])IMGS[k]=svgImg(PICS[k].replace(/(fill|stroke)="#[0-9A-Fa-f]{6}"/g,(_m: string,a: string)=>a+'="#3B3F58"'),'-62 -62 124 124',320);return IMGS[k]}
 // Dibuja la silueta del dibujo n centrada en (x,y) con tamaño s (si ya cargó).
 export function picS(n: string,x: number,y: number,s: number){const i=shadowOf(n);if(!i||!i.complete)return;ctx.drawImage(i,x-s/2,y-s/2,s,s)}
-// una "cosa" puede ser una carita de emoción: 'emo:alegria'
-// guardamos la thing() original de juegos/comps.ts para llamarla desde la nueva
-export const _thing0=thing;
-// Nueva thing(): si k es 'emo:alegria' (etc.) dibuja la carita de esa emoción
-// con drawFace (escenas/escenas2d.ts); si no, hace lo de siempre.
-ponThing(function(k: Cosa,x: number,y: number,s: number){if(typeof k==='string'&&k.startsWith('emo:')){drawFace(x,y,s*.44,k.slice(4));return}_thing0(k,x,y,s)});
 // Como thing(), pero si flip es verdadero dibuja la cosa reflejada (mirando
 // al otro lado).
 export function picF(k: Cosa,x: number,y: number,s: number,flip?: boolean){if(!flip){thing(k,x,y,s);return}ctx.save();ctx.translate(x,y);ctx.scale(-1,1);thing(k,0,0,s);ctx.restore()}
