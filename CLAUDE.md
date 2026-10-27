@@ -4,7 +4,7 @@ Migración de Curiolandia 3D (juego de temas de Educación Infantil, 3 a 5 años
 con arquitectura limpia. Se habla y se documenta en castellano.
 
 ## Antes de nada
-- **Estado: fase 3 (dominio y puertos) completa con la 3h, 25 de octubre de 2026.** Las fases 0 y 1 están publicadas.
+- **Estado: fase 4 (escenas sin capas) terminada el 26 de octubre de 2026; fase 5 (contenido como datos) en marcha.** Las fases 0 y 1 están publicadas.
   Desde la 2p todo el juego son módulos TypeScript (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`,
   el núcleo de `src/nucleo/`, antes `core.js`, `src/contenido/`, `src/juegos/`, `src/temas/`, las escenas de
   `src/escenas/`, `src/aplicacion/` y la capa 3D de `src/mundo3d/`, antes `world3d.js`): ya no queda código global. Lo
@@ -13,8 +13,8 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   reglas del juego (apertura, progreso y premios, monedas, repaso diario, dificultad, y la versión y las migraciones de
   la partida, `S.ver`) están en `src/dominio/`, sin dibujo ni `S`, con pruebas de Vitest; y la hora, el azar y lo
   guardado se piden a sus puertos (`ahora()`, `azar()`, `leerGuardado()`... en `src/aplicacion/puertos.ts`), con los
-  adaptadores del navegador en `src/infraestructura/`. **Fase 4 (escenas sin capas y casos de uso) en marcha**
-  ([docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md) tiene sus partes): desde la 4a las monedas en pantalla tienen su módulo (desde
+  adaptadores del navegador en `src/infraestructura/`. **Fase 4 (escenas sin capas y casos de uso), terminada**
+  ([docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md) tiene sus partes, y las de la fase 5): desde la 4a las monedas en pantalla tienen su módulo (desde
   la 4b, `src/nucleo/monedas.ts`) y `STARS` e `inR` están en el núcleo; desde la 4b, terminar un juego (`finishGame`) es
   una sola función con su caso de uso, `src/aplicacion/terminarJuego.ts`, el primero de `src/aplicacion/`, y desde la
   4c el repaso del día no envuelve nada (caso de uso `src/aplicacion/repasoDelDia.ts`); desde la 4d, el mapa, las zonas y

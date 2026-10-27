@@ -42,25 +42,56 @@ export interface Juego {
 
 /** Un juego de un tema (en games): tipo t, dibujo del botón, nombre y, si no es de los que crea makeGame solo, make. */
 export interface JuegoTema {
+  /** Tipo de juego: 'conocer', 'busca', 'memoria'... (makeGame en temas/hacerJuego.ts) o uno propio con make. */
   t: string;
+  /** Dibujo (clave de PICS) del botón del juego en la casita; si falta, el del tipo. */
   icon?: string;
+  /** Nombre del botón; si falta, el del tipo (GNAME en escenas/escenas2d.ts). */
   name?: string | Par;
+  /** Crea el juego cuando no basta con el tipo: recibe qué hacer al terminar y el tema. */
   make?: (onDone: AlTerminar, t: Tema) => Juego;
-  [campo: string]: any;
+  /** Solo en los juegos 'cancion': clave de SONGS (temas/extras.ts). */
+  song?: string;
 }
 
 /**
- * Un tema (T3, T4, T5 y los Rincones C3, C4, C5 en temas/): id, nombre, dibujo, colores, fondo, palabras y juegos. El
- * resto de campos (zone, intro, season, tip...) depende del tema.
+ * Un tema (T3, T4, T5 y los Rincones C3, C4, C5 en temas/, y los de extras.ts e ingles.ts): una casita del mapa. Desde la
+ * fase 5a el tipo está cerrado: un campo nuevo se añade aquí, con su comentario.
  */
 export interface Tema {
+  /** Identificador único: '3A-T1', '4A-C', 'X-CAN', 'F-cumple', 'EN-HELLO'... Es la clave de su progreso en la partida (S.temas[id]). */
   id: string;
+  /** Nombre del tema, o el par [rioplatense, España]. */
   n: string | Par;
+  /** Dibujo (clave de PICS) del tejado de la casita. */
   icon: string;
+  /** Color de la casita. */
   c: string;
+  /** Trimestre del curso (0 = sin trimestre). Informativo: el código no lo lee. */
   trim?: number;
+  /** Pinta el fondo del tema (una función de BG, juegos/fondos.ts). */
   bg: () => void;
+  /** Las palabras del tema, que enseñan 'conocer' y 'busca': {k: clave de PICS, say?, label?...} o cosas dibujadas. */
   words?: Cosa[];
+  /** Los juegos de la casita, en orden. */
   games: JuegoTema[];
-  [campo: string]: any;
+  /**
+   * Zona del mapa: 'jardin', 'bosque' y 'montana' (los del camino de 3, 4 y 5 años), 'extras', 'fiestas' o 'ingles'.
+   * Desde la fase 5a cada tema la trae escrita; antes la ponía escenas/escenas2d.ts al cargar.
+   */
+  zone: string;
+  /** Estación del tema ('otoño', 'invierno'...). Informativo: el código no lo lee. */
+  season?: string;
+  /** true en el Rincón de los Conceptos de cada zona, que se abre de otra manera (dominio/apertura.ts). */
+  concepts?: boolean;
+  /** Lo que dice Tito al empezar el juego 'conocer' (y al repetir la consigna de la casita si no hay words). */
+  intro?: string | Par;
+  /** Idea para seguir en casa que da la zona de adultos (aplicacion/adultos.ts). */
+  tip?: string;
+  /** Solo en el Rincón del inglés: grupo de palabras en inglés (enItems en temas/ingles.ts). */
+  en?: string;
+  /** Los trazos: sus juegos se abren en orden. Informativo: todos los temas abren sus juegos en orden (juegoAbierto, dominio/apertura.ts). */
+  seq?: boolean;
+  /** Los días especiales. Informativo: lo que cuenta es zone 'fiestas'. */
+  fiesta?: boolean;
 }
