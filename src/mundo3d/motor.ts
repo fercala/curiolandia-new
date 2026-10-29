@@ -9,13 +9,13 @@
  * OX, OY y SC (de 1600x900 a píxeles), y de mundo3d/materiales.ts V3 y la caché de texturas TXC. fitCam, trimShadows
  * y disposeWorld son internas (desde la fase 4n).
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { Mundo, Nodo, OpcionesMundo } from './tipos.ts';
 import { OX, OY, PI, SC, VIVO } from '../nucleo/indice.ts';
 import { TXC, V3 } from './materiales.ts';
 
 // R: el dibujante (renderer) de Three.js sobre el <canvas id="gl">. Lo crea montarMotor.
-export let R!: Tres.WebGLRenderer;
+export let R!: THREE.WebGLRenderer;
 // SHM: tamaño del mapa de sombras. En móviles y tablets la sombra a 1024 se ve casi igual y ahorra memoria de GPU y
 // batería (lo decide montarMotor).
 let SHM=2048;
@@ -36,7 +36,7 @@ export function ponPRK(v: number): void{PRK=v;rs()}
 // montarMotor(): crea el dibujante R (si no hay Three.js o el aparato no tiene WebGL, devuelve false y no hay 3D),
 // activa las sombras suaves, decide el tamaño de las sombras (SHM), crea los vectores y el rayo de trabajo, ajusta el
 // tamaño del dibujo (rs) y lo vuelve a ajustar cada vez que cambia el tamaño de la ventana. Devuelve true si hay 3D.
-export function montarMotor(): boolean{if(!window.THREE)return false;
+export function montarMotor(): boolean{
   try{R=new THREE.WebGLRenderer({canvas:document.getElementById('gl') as HTMLCanvasElement,antialias:true,powerPreference:'high-performance'})}catch(e){return false}
   if(!R.getContext())return false;
   R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -48,26 +48,26 @@ export function montarMotor(): boolean{if(!window.THREE)return false;
 /* ---------- proyección 3D → 1600x900 y selección con el puntero ---------- */
 // vectores de trabajo reutilizados (crear vectores nuevos en cada cuadro haría trabajar de más al recolector de basura).
 // Los crea montarMotor.
-let _v!: Tres.Vector3,_w!: Tres.Vector3,_u!: Tres.Vector3;
+let _v!: THREE.Vector3,_w!: THREE.Vector3,_u!: THREE.Vector3;
 // proj(p): pasa un punto 3D del mundo (Vector3) a coordenadas de la pantalla lógica 1600x900. Devuelve [x,y].
 // project() da coordenadas de -1 a 1; se pasan a píxeles de la ventana y luego se deshace el encaje del juego
 // en la ventana (desplazamiento OX/OY y escala SC de nucleo/pantalla.ts).
-export function proj(p: Tres.Vector3){_v.copy(p).project(W3!.cam);return[((_v.x+1)/2*innerWidth-OX)/SC,((1-_v.y)/2*innerHeight-OY)/SC]}
+export function proj(p: THREE.Vector3){_v.copy(p).project(W3!.cam);return[((_v.x+1)/2*innerWidth-OX)/SC,((1-_v.y)/2*innerHeight-OY)/SC]}
 // projO(o,dy): como proj, pero del centro de un objeto 3D o, subido dy unidades. Devuelve [x,y] en 1600x900.
-export function projO(o: Tres.Object3D,dy=0){o.getWorldPosition(_w);_w.y+=dy;return proj(_w)}
+export function projO(o: THREE.Object3D,dy=0){o.getWorldPosition(_w);_w.y+=dy;return proj(_w)}
 // projR(o,r,dy): proyecta el objeto o (subido dy) y además calcula cuánto mide en pantalla un radio r 3D
 // (proyectando otro punto r unidades "hacia arriba" según la cámara). Devuelve [x,y,radio] en 1600x900;
 // sirve para rellenar los círculos de toque de la lógica 2D (MZ2: x,y,r).
-export function projR(o: Tres.Object3D,r: number,dy=0){o.getWorldPosition(_w);_w.y+=dy;const a=proj(_w);_u.set(0,1,0).applyQuaternion(W3!.cam.quaternion).multiplyScalar(r).add(_w);const b=proj(_u);return[a[0],a[1],Math.hypot(a[0]-b[0],a[1]-b[1])]}
+export function projR(o: THREE.Object3D,r: number,dy=0){o.getWorldPosition(_w);_w.y+=dy;const a=proj(_w);_u.set(0,1,0).applyQuaternion(W3!.cam.quaternion).multiplyScalar(r).add(_w);const b=proj(_u);return[a[0],a[1],Math.hypot(a[0]-b[0],a[1]-b[1])]}
 // RC: el rayo que se lanza al tocar; _m: el punto tocado en coordenadas de -1 a 1. Tras pickAt, RC sigue
 // apuntando al toque y lo reutilizan wobTap, flyTap, skyTap...
 // Los crea montarMotor.
-export let RC!: Tres.Raycaster;let _m!: Tres.Vector2;
+export let RC!: THREE.Raycaster;let _m!: THREE.Vector2;
 // pickAt(x,y): ¿qué objeto 3D hay bajo el punto (x,y) de 1600x900? Lanza un rayo desde la cámara contra W3.pick
 // y sube por los padres del objeto tocado hasta encontrar uno con userData.id. Devuelve ese userData
 // (por ejemplo {id:'mz:jardin',spot:'jardin'}) o null si no hay nada que se pueda tocar.
 export function pickAt(x: number,y: number){if(!W3)return null;_m.set((x*SC+OX)/innerWidth*2-1,-((y*SC+OY)/innerHeight)*2+1);RC.setFromCamera(_m,W3.cam);
-  for(const h of RC.intersectObjects(W3.pick,true)){let o: Tres.Object3D|null=h.object;while(o&&!o.userData.id)o=o.parent;if(o)return o.userData}return null}
+  for(const h of RC.intersectObjects(W3.pick,true)){let o: THREE.Object3D|null=h.object;while(o&&!o.userData.id)o=o.parent;if(o)return o.userData}return null}
 
 /* ---------- el mundo activo ---------- */
 // newWorld(o): crea un mundo 3D vacío: escena, cámara (o.fov, 40 por defecto, 16:9), fondo o.bg, niebla o.fog=[cerca,lejos] y luces
@@ -92,14 +92,14 @@ export function setWorld(w: Mundo){if(W3&&W3!==w)disposeWorld(W3);W3=w;fitCam(w)
 // disposeWorld(w): libera de la GPU las geometrías (menos las marcadas keep, como las de gcache y el caparazón de Tito, SHELL),
 // sombras y texturas de un mundo que ya no se usa.
 // tx(t): libera la textura t si no está en la caché TXC
-function disposeWorld(w: Mundo){const kept=new Set<Tres.Texture>(Object.values(TXC)),tx=(t: Tres.Texture|null|undefined)=>{if(t&&t.isTexture&&!kept.has(t))t.dispose()};
+function disposeWorld(w: Mundo){const kept=new Set<THREE.Texture>(Object.values(TXC)),tx=(t: THREE.Texture|null|undefined)=>{if(t&&t.isTexture&&!kept.has(t))t.dispose()};
   w.sc.traverse((o: Nodo)=>{if(o.geometry&&!o.geometry.userData.keep)o.geometry.dispose();
     if(o.isLight&&o.shadow&&o.shadow.map){o.shadow.map.dispose();o.shadow.map=null}
-    for(const m of ([] as Tres.MeshBasicMaterial[]).concat(o.material||[]))tx(m.map);if(o.material&&o.material.isSpriteMaterial)o.material.dispose()});tx(w.sc.background as Tres.Texture|null)/* si el fondo es un color, tx no hace nada */}
+    for(const m of ([] as THREE.MeshBasicMaterial[]).concat(o.material||[]))tx(m.map);if(o.material&&o.material.isSpriteMaterial)o.material.dispose()});tx(w.sc.background as THREE.Texture|null)/* si el fondo es un color, tx no hace nada */}
 // cámara: base + pequeño paralaje con el mouse
 // camRig(w,pos,look,par): pone la cámara en pos mirando a look. w.cb = posición base; w.camT = destino actual (walkTo lo cambia para
 // acercarse); w.camL = punto al que mira ahora. par = cuánto se mueve con el ratón (paralaje)
-export function camRig(w: Mundo,pos: Tres.Vector3,look: Tres.Vector3,par=1){w.cb={pos:pos.clone(),look:look.clone(),par};w.cam.position.copy(pos);w.cam.lookAt(look);w.camT={pos:pos.clone(),look:look.clone()};w.camL=look.clone()}
+export function camRig(w: Mundo,pos: THREE.Vector3,look: THREE.Vector3,par=1){w.cb={pos:pos.clone(),look:look.clone(),par};w.cam.position.copy(pos);w.cam.lookAt(look);w.camT={pos:pos.clone(),look:look.clone()};w.camL=look.clone()}
 // camTick(w,dt): cada cuadro acerca la cámara suavemente a su destino (w.camT) más el paralaje del ratón (MX,MY);
 // k=1-e^(-3*dt) hace que el suavizado vaya igual de rápido con cualquier número de cuadros por segundo
 export function camTick(w: Mundo,dt: number){const c=w.cb;if(!c)return;const k=1-Math.exp(-dt*3);

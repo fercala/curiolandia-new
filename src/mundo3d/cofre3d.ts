@@ -6,7 +6,7 @@
  * Exporta: montarCofre3D. Importa: del núcleo y de escenas/ lo que dibuja y lee el cofre; el motor, las piezas (también
  * gradTex) y lo de los demás módulos de mundo3d/.
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Nodo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
@@ -30,7 +30,7 @@ function buildCofre(st: Escena){const w=newWorld({fov:36,kind:'cofre',shadow:10}
   mk(Cyl(7,7.4,.6,48),'#BFE6A0',{p:[0,-.3,0],s:[1,1,.7],to:w.sc,ol:.1});
   for(let i=0;i<12;i++){const a=i/12*PI*2;if(Math.sin(a)>.55)continue;flower3(w.sc,Math.cos(a)*5.8,Math.sin(a)*3.8,FLC[i%7],.8)}
   // estrellas del fondo: se balancean y ladean en vez de girar enteras (de canto se veían como rayitas sueltas)
-  const stars: Tres.Mesh[]=[];for(let i=0;i<14;i++){const s=mk(starGeo(.18+(i%3)*.08,.06),nt?M('#FFF3B0',{emissive:'#C9A000'}):'#FFF3B0',{p:[-9+i*1.4,4+(i*37%5)*.8,-6-(i%3)],ol:.02,cs:false,to:w.sc});s.userData.y0=s.position.y;stars.push(s)}
+  const stars: THREE.Mesh[]=[];for(let i=0;i<14;i++){const s=mk(starGeo(.18+(i%3)*.08,.06),nt?M('#FFF3B0',{emissive:'#C9A000'}):'#FFF3B0',{p:[-9+i*1.4,4+(i*37%5)*.8,-6-(i%3)],ol:.02,cs:false,to:w.sc});s.userData.y0=s.position.y;stars.push(s)}
   const ch=grp(w.sc,[0,0,0]);w.chest=ch;
   mk(rbox(3.2,1.7,2.2,.15),'#B5763F',{p:[0,.85,0],to:ch,ol:.07});
   for(const y of[.55,1.15])mk(Box(3.22,.07,2.22),'#8A5A3C',{p:[0,y,0],ol:0,to:ch});

@@ -14,7 +14,7 @@
  * projR; V3 (mundo3d/materiales.ts); la voz del paisaje (mundo3d/cielo.ts), lo de tocar de mundo3d/objetos.ts y los
  * personajes (mundo3d/personajes.ts).
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { Escena } from '../nucleo/tipos.ts';
 import type { MallaBasica, Mundo, Nodo, OpcionesPaseo } from './tipos.ts';
 import { PI, SCENES, T, TITO, burst, clamp, noise, parts, pick, rnd, scene, sceneName, sparkles, tone } from '../nucleo/indice.ts';
@@ -35,14 +35,14 @@ import { ffTap, makeTito, noteParts, ringParts, shellTex } from './personajes.ts
 // walkTo(w,tito,to,cb,o): to = punto 3D de destino; cb = qué hacer al llegar; o.speed (9 por defecto), o.max (duración máxima, 1,1 s),
 // o.free (paseo libre: no bloquea los toques, ver busy3), o.zoom (la cámara se acerca un 35 % hacia el destino). Solo guarda w.walk
 // y hacia dónde mirar (userData.face); el movimiento lo hace walkTick en cada cuadro
-export function walkTo(w: Mundo,tito: Tres.Group,to: Tres.Vector3,cb: (() => void) | null,o: OpcionesPaseo={}){const from=tito.position.clone(),d=from.distanceTo(to),dur=clamp(d/(o.speed||9),.35,o.max||1.1);
+export function walkTo(w: Mundo,tito: THREE.Group,to: THREE.Vector3,cb: (() => void) | null,o: OpcionesPaseo={}){const from=tito.position.clone(),d=from.distanceTo(to),dur=clamp(d/(o.speed||9),.35,o.max||1.1);
   if(tito.userData.rest==null)tito.userData.rest=tito.rotation.y;
   w.walk={t0:T,dur,from,to:to.clone(),cb,free:!!o.free};const dx=to.x-from.x,dz=to.z-from.z;if(Math.hypot(dx,dz)>.1)tito.userData.face=Math.atan2(-dz,dx);
   if(o.zoom){w.camT!.pos=w.cb!.pos.clone().lerp(to.clone().add(o.zoom),.35);w.camT!.look=w.cb!.look.clone().lerp(to,.35)}}
 // al tocarlos, los árboles se sacuden, los arbustos se aplastan, las flores saltan y las piedras botan; luego se calman solos; en el mapa, las zonas y las casitas
 // WOBK(o): devuelve algo verdadero si el objeto o tiene alguna marca de tipo tocable (userData.tree, bush, ..., sat).
 // Para que un objeto nuevo se pueda tocar, su marca TIENE que estar en esta lista.
-const WOBK=(o: Tres.Object3D)=>o.userData.tree||o.userData.bush||o.userData.flower||o.userData.rock||o.userData.boat||o.userData.balloon||o.userData.gift||o.userData.letter||o.userData.sign||o.userData.mount||o.userData.gull||o.userData.bfly||o.userData.mush||o.userData.bus||o.userData.snowman||o.userData.pinata||o.userData.owl||o.userData.phone||o.userData.frog||o.userData.crab||o.userData.cake||o.userData.lady||o.userData.bird||o.userData.peng||o.userData.squir||o.userData.burrow||o.userData.clock||o.userData.igloo||o.userData.drum||o.userData.post||o.userData.ants||o.userData.light||o.userData.whale||o.userData.dolph||o.userData.xtree||o.userData.pump||o.userData.leafs||o.userData.kite||o.userData.hab||o.userData.tea||o.userData.jack||o.userData.can||o.userData.sled||o.userData.wpk||o.userData.ball||o.userData.guard||o.userData.cann||o.userData.goat||o.userData.palm||o.userData.sunf||o.userData.parrot||o.userData.flag||o.userData.bub||o.userData.nest||o.userData.marm||o.userData.scare||o.userData.umb||o.userData.sunb||o.userData.sandc||o.userData.abc||o.userData.orb||o.userData.cloud||o.userData.skyb||o.userData.eagle||o.userData.bball||o.userData.sleigh||o.userData.dip||o.userData.jup||o.userData.sat;
+const WOBK=(o: THREE.Object3D)=>o.userData.tree||o.userData.bush||o.userData.flower||o.userData.rock||o.userData.boat||o.userData.balloon||o.userData.gift||o.userData.letter||o.userData.sign||o.userData.mount||o.userData.gull||o.userData.bfly||o.userData.mush||o.userData.bus||o.userData.snowman||o.userData.pinata||o.userData.owl||o.userData.phone||o.userData.frog||o.userData.crab||o.userData.cake||o.userData.lady||o.userData.bird||o.userData.peng||o.userData.squir||o.userData.burrow||o.userData.clock||o.userData.igloo||o.userData.drum||o.userData.post||o.userData.ants||o.userData.light||o.userData.whale||o.userData.dolph||o.userData.xtree||o.userData.pump||o.userData.leafs||o.userData.kite||o.userData.hab||o.userData.tea||o.userData.jack||o.userData.can||o.userData.sled||o.userData.wpk||o.userData.ball||o.userData.guard||o.userData.cann||o.userData.goat||o.userData.palm||o.userData.sunf||o.userData.parrot||o.userData.flag||o.userData.bub||o.userData.nest||o.userData.marm||o.userData.scare||o.userData.umb||o.userData.sunb||o.userData.sandc||o.userData.abc||o.userData.orb||o.userData.cloud||o.userData.skyb||o.userData.eagle||o.userData.bball||o.userData.sleigh||o.userData.dip||o.userData.jup||o.userData.sat;
 // wobInit(w): se llama al terminar de montar un mundo. Busca todos los objetos con marca (WOBK), guarda su escala (s0) y altura (y0)
 // originales, los mete en w.trees y añade a w.upd la animación genérica del toque (y las reacciones en cadena de chainWob)
 export function wobInit(w: Mundo){w.trees=[];w.sc.traverse(o=>{if(WOBK(o)){o.userData.s0=o.scale.x;o.userData.y0=o.position.y;w.trees!.push(o)}});if(!w.trees.length)return;
@@ -68,7 +68,7 @@ export function flyTap(w: Mundo,x: number,y: number){if(!w.fly)w.fly=(w.trees||[
 // el que tiene marca (WOBK). Si no hay ninguno devuelve false. Si lo hay: lo anima (u.wob=T; ignora toques repetidos en 0,3 s), Tito lo
 // mira, la primera vez Tito dice su nombre (NAMES3) y luego cada tipo tiene su rama 'else if(u.xxx)' con sonidos, partículas y voz.
 // Devuelve true.
-export function wobTap(w: Mundo,x: number,y: number){const th=w.trees&&w.trees.length&&RC.intersectObjects(w.trees,true)[0];let t: Tres.Object3D|null|undefined|0=th&&th.object;while(t&&!WOBK(t))t=t.parent;
+export function wobTap(w: Mundo,x: number,y: number){const th=w.trees&&w.trees.length&&RC.intersectObjects(w.trees,true)[0];let t: THREE.Object3D|null|undefined|0=th&&th.object;while(t&&!WOBK(t))t=t.parent;
   if(!t)return false;const u=t.userData;if(u.wob!=null&&T-u.wob<.3)return true;u.wob=T;if(w.tito){const v=new THREE.Vector3();t.getWorldPosition(v);w.tito.userData.lk={p:v,t:T}}// Tito mira hacia lo que se ha tocado
   // NAMES3 = [[marca, frase, palabra, an, frase2, palabra2],...]: an=1 solo de día, an=2 solo de noche;
   // w.nmD[marca] = 1 si ya lo nombró, 2 si ya dijo también la segunda frase (frase2)
@@ -232,8 +232,8 @@ export const busy3=(w: Mundo)=>!!(w.walk&&!w.walk.free);
 // trailTick(w,tito,dt,walking,dust): se llama cada cuadro desde walkTick. Apaga poco a poco los discos ya puestos y, mientras Tito
 // camina (walking), pone uno nuevo cada 0,09 s (rastro del caracol) o cada 0,24 s si dust=true (polvito de los demás animales).
 // Los discos se buscan con un rayo hacia abajo (TRC) para ponerlos a la altura real del suelo.
-const TRAIL: MallaBasica[]=[];let TRC: Tres.Raycaster|null=null,trailGeo: Tres.BufferGeometry|null=null;
-function trailTick(w: Mundo,tito: Tres.Group,dt: number,walking: number,dust: boolean){
+const TRAIL: MallaBasica[]=[];let TRC: THREE.Raycaster|null=null,trailGeo: THREE.BufferGeometry|null=null;
+function trailTick(w: Mundo,tito: THREE.Group,dt: number,walking: number,dust: boolean){
   if(!trailGeo){trailGeo=new THREE.CircleGeometry(.3,18);trailGeo.rotateX(-PI/2);trailGeo.userData.keep=true}
   if(!TRC)TRC=new THREE.Raycaster();
   for(const d of TRAIL)if(d.parent===w.sc&&d.visible){const u=d.userData;u.a-=dt/(u.dust?.7:2.5);if(u.a<=0)d.visible=false;else{d.material.opacity=(u.dust?.75:.6)*u.a;if(u.dust)d.scale.setScalar(u.s*(1.7-u.a))}}
@@ -242,14 +242,14 @@ function trailTick(w: Mundo,tito: Tres.Group,dt: number,walking: number,dust: bo
   if(!d){if(TRAIL.length<24){d=new THREE.Mesh(trailGeo,new THREE.MeshBasicMaterial({color:'#E4F7FF',transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));d.renderOrder=1;TRAIL.push(d)}
     else d=TRAIL.reduce((a,b)=>a.userData.a<b.userData.a?a:b)}
   // altura del suelo justo debajo (la plaza y los caminos están más altos que el pasto)
-  const P=tito.position,inT=(o: Tres.Object3D | null)=>{for(;o;o=o.parent)if(o===tito)return true;return false};TRC.set(V3(P.x,P.y+4,P.z),V3(0,-1,0));TRC.camera=w.cam;
-  const h=TRC.intersectObjects(w.sc.children,true).find(h=>!(h.object as Nodo).isSprite&&!(TRAIL as Tres.Object3D[]).includes(h.object)&&h.point.y<P.y+.5&&!inT(h.object));
+  const P=tito.position,inT=(o: THREE.Object3D | null)=>{for(;o;o=o.parent)if(o===tito)return true;return false};TRC.set(V3(P.x,P.y+4,P.z),V3(0,-1,0));TRC.camera=w.cam;
+  const h=TRC.intersectObjects(w.sc.children,true).find(h=>!(h.object as Nodo).isSprite&&!(TRAIL as THREE.Object3D[]).includes(h.object)&&h.point.y<P.y+.5&&!inT(h.object));
   if(d.parent!==w.sc)w.sc.add(d);d.userData.dust=!!dust;d.userData.s=tito.scale.x*(dust?1.1:1);d.scale.setScalar(d.userData.s);d.material.color.set(dust?'#E6D3A8':'#E4F7FF');
   // el polvito sale un poco por detrás, donde pisó (si no, queda escondido bajo el animal)
   const L=w.trL&&w.trL.distanceTo(P)<2?w.trL:P;d.position.set(dust?(P.x+L.x)/2:P.x,(h?h.point.y:P.y)+.015,dust?(P.z+L.z)/2:P.z);w.trL=(w.trL||P.clone()).copy(P);d.visible=true;d.userData.a=1;d.material.opacity=dust?.75:.6}
 // Avanza el paseo w.walk (lo prepara walkTo) cada cuadro: mueve a Tito con suavizado, suena los pasitos (solo en paseos libres),
 // al llegar llama al callback cb (60 ms después) y gira a Tito poco a poco hacia userData.face. Devuelve 1 si está caminando, 0 si no.
-export function walkTick(w: Mundo,tito: Tres.Group,dt: number){const k=w.walk;let wk=0;
+export function walkTick(w: Mundo,tito: THREE.Group,dt: number){const k=w.walk;let wk=0;
   if(k){const e=clamp((T-k.t0)/k.dur,0,1),s=e*e*(3-2*e);tito.position.lerpVectors(k.from,k.to,s);wk=1;
     // pasos al ritmo de cada animal (v1.36): saltito blando del conejo, pasos lentos y graves de la tortuga, trote ligero del erizo; el caracol como siempre
     if(k.free){const kd=tito.userData.kind,P: [number, [number, number], number, number]=kd==='conejo'?[PI/6,[300,260],.1,.16]:kd==='tortuga'?[PI/5,[330,294],.09,.11]:kd==='erizo'?[PI/12,[700,620],.05,.08]:[.26,[520,440],.07,.12];
@@ -269,7 +269,7 @@ let TITOP: {x: number, y: number, w: number}|null=null,CASAP: number[]|null=null
 let ocultos=false;
 // titoRect(o): pone el rectángulo de Tito (TITOP, el que usa la lógica 2D para tocar a Tito y colocar su bocadillo, con
 // titoPos) encima del modelo 3D o.
-export function titoRect(o: Tres.Object3D){const [x,y,r]=projR(o,1.6,1.4),w=r*1.6;TITOP={x:x-w/2,y:y-w*.42,w}}
+export function titoRect(o: THREE.Object3D){const [x,y,r]=projR(o,1.6,1.4),w=r*1.6;TITOP={x:x-w/2,y:y-w*.42,w}}
 // ponCasaP(x,y): la casa de Tito proyectada en el mapa 3D (CASAP; la pone mundo3d/mapa3d.ts en cada sync).
 export function ponCasaP(x: number,y: number): void{CASAP=[x,y]}
 // llamar a la lógica original sin que el rectángulo de Tito ni la mascota capturen el toque

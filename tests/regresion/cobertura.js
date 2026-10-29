@@ -78,7 +78,7 @@ const checkpoint=()=>fs.writeFileSync(path.join(L.SAL,name+'.json'),JSON.stringi
  await test('pwa-sin-conexion','La PWA cargada y cacheada debe arrancar de nuevo sin conexión',async p=>{
   await p.evaluate(async()=>{await navigator.serviceWorker.register('./sw.js');await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(new Error('El worker no se activó en el servidor de pruebas')),12000))])});await p.reload();await p.waitForFunction(()=>!!navigator.serviceWorker.controller&&window.__cl&&sceneName==='title');
   await p.context().setOffline(true);await p.reload({waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__cl&&sceneName==='title');
-  const result=await p.evaluate(()=>({scene:sceneName,worker:!!navigator.serviceWorker.controller,three:typeof THREE!=='undefined'}));await p.context().setOffline(false);return{fail:result.scene!=='title'||!result.worker||!result.three,...result};
+  const result=await p.evaluate(()=>({scene:sceneName,worker:!!navigator.serviceWorker.controller,three:!!(window.__w3&&window.__w3.ok)}));await p.context().setOffline(false);return{fail:result.scene!=='title'||!result.worker||!result.three,...result};
  });
  const prepareVoucher=async p=>{
   await p.evaluate(()=>{S.coins=100;S.first.tienda=1;__cl.go('tienda',{})});await p.waitForFunction(()=>VIVO.fade<.5);

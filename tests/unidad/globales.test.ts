@@ -30,11 +30,11 @@ describe('globales', () => {
     expect(imports[0]).toBe("import './infraestructura/conectar.ts';");
   });
 
-  // Desde la fase 4q ningún módulo usa algo de otro que se carga después (src/tardias.d.ts se borró): el único .d.ts
-  // del juego es el de THREE, que llega como global desde three.min.js.
-  test('no quedan globales tardías: el único .d.ts es el de THREE', () => {
+  // Desde la fase 4q ningún módulo usa algo de otro que se carga después (src/tardias.d.ts se borró) y desde la 6a
+  // THREE se importa del paquete three (mundo3d/three.d.ts se borró): el juego no tiene ningún .d.ts.
+  test('no quedan globales tardías: no hay ningún .d.ts', () => {
     const dts = readdirSync(SRC, { recursive: true, encoding: 'utf8' }).filter((f) => f.endsWith('.d.ts')).map((f) => f.split('\\').join('/'));
-    expect(dts).toEqual(['mundo3d/three.d.ts']);
+    expect(dts).toEqual([]);
   });
 
   test('el juego arranca al final, con el puente ya puesto', () => {

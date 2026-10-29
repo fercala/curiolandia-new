@@ -9,7 +9,7 @@
  * Exporta: montarCasita3D. Importa: del núcleo y de escenas/ lo que dibuja y lee la casita; el motor, las piezas y lo de
  * los demás módulos de mundo3d/ (también roadPts de mundo3d/zonas3d.ts).
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Nodo, PuntoSuelo } from './tipos.ts';
@@ -62,7 +62,7 @@ function buildCasita(t: Tema,st: Escena){const bs=bgSample(t),w=newWorld({fov:38
   for(let i=0;i<10;i++){const a=PI*.15+i/9*PI*.7;flower3(w.sc,Math.cos(a)*13.2,-Math.sin(a)*8+1,FLC[i%7],.8)}
   lady3(w,-10,-4.4,1.3);ball3(w,7.4,-4.6,1.3);bird3(w,10,-4.4,1.3,'#7FA8E8');
   // de noche, también dentro de la casita: fondo más oscuro y azulado, menos luz y luciérnagas en vez de mariposas
-  if(skyNow().night){back.material.color.set('#8A93C4');w.sc.background=new THREE.Color(w.sc.background as Tres.Color).multiplyScalar(.55);w.sc.children.forEach((o: Nodo)=>{if(o.isLight)o.intensity!*=.85});fireflies(w,26,12,1.1)}
+  if(skyNow().night){back.material.color.set('#8A93C4');w.sc.background=new THREE.Color(w.sc.background as THREE.Color).multiplyScalar(.55);w.sc.children.forEach((o: Nodo)=>{if(o.isLight)o.intensity!*=.85});fireflies(w,26,12,1.1)}
   else{butterfly3(w,-7,-6.5,'#FF8FB1',0,{s:1.1,h:3});butterfly3(w,7,-6.5,'#FFC93C',2.4,{s:1.1,h:3})}// dos mariposas junto a las flores del fondo
   let ar: ReturnType<typeof arrow3>|null=null,rg: ReturnType<typeof ring3>|null=null;if(nx>=0){const [x,z]=P[nx];ar=arrow3(w.sc,[x,4.2,z],.75);rg=ring3(w.sc,[x,.5,z],1.7)}
   const tito=makeTito();tito.scale.setScalar(.6);const ta=P[st.titoAt!=null&&P[st.titoAt]?st.titoAt:Math.max(0,nx)];{const ti=st3Tito(n,P.indexOf(ta)),o=ti;tito.position.set(ta[0]+o[0],0,ta[1]+o[1])}tito.rotation.y=-.2;w.sc.add(tito);w.tito=tito;w.pick.push(tito);
