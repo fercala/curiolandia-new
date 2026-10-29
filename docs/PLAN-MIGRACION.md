@@ -138,7 +138,7 @@ Las fases 0 a 3 dan casi todo el beneficio; se puede parar después de cualquier
    - 5d y siguientes: **solo castellano de España** (decidido por Fernando el 29 de octubre de 2026: se conserva solo la versión de España y se quita la rioplatense).
    - 5d. Quitar la elección de la variante en la zona de adultos: `S.variant` siempre `'es'` (migración de la partida 1 → 2 para las que eligieron rioplatense), la voz se busca primero en `es-ES` y la inglesa en `en-GB`. *(Hecha.)*
    - 5e. Las frases dobles `[rioplatense, España]` se quedan solo con la de España. *(Hecha: unas 220 listas, halladas con el tipo `Par` vaciado (TypeScript señala cada una) y con el juego simulado para las que no tienen tipo (`LEX2`, `Libre`). El tipo `Par` ya no existe y `V(x)` es solo `tx(x)`; `tx()` deja igual todos los textos de España que quedaron.)*
-   - 5f. Los textos del código, escritos ya en castellano de España; fuera `tx()` y su tabla `TU`.
+   - 5f. Los textos del código, escritos ya en castellano de España; fuera `tx()` y su tabla `TU`. *(Hecha: unos 390 textos reescritos con el propio `tx()` (salvo las claves de dibujo como `'banana'` o `'auto'`); fuera `tx()`, `TU`, los pares de `contenido/lex.ts`, `V()` y `LEX2` (sus nombres pasan a `LEX`). Se arreglan de paso «a tú» → «a ti» y «de a uno» → «de uno en uno», y la zona de adultos, que `tx()` no tocaba, queda también en castellano de España.)*
    - 5g. El catálogo de frases con identificador, solo en castellano de España, del que sale `dialogos/todos.csv`.
 6. **Opcional.** Three.js de r128 a una versión actual desde `npm` (revisar toon y contornos). Preact o Lit para la zona de adultos si crece.
 

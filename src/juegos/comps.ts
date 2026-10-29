@@ -60,9 +60,8 @@
 //   2..4) y nRounds() (cuántas rondas, 4..6) vienen de nucleo/interfaz.ts.
 // TIEMPOS: later(ms, fn) (nucleo/escenas.ts) programa algo para dentro de ms milisegundos;
 //   si se cambia de escena antes, ya no se ejecuta.
-// VOZ: say(texto, alAcabar) habla y luego llama a alAcabar. V(x) elige la variante
-//   de idioma si x es una lista ['rioplatense','España'] (nucleo/idioma.ts). NO cambies el
-//   texto de ninguna frase: cada frase tiene su MP3 grabado.
+// VOZ: say(texto, alAcabar) habla y luego llama a alAcabar. Los textos van en castellano de
+//   España; cada frase nueva o cambiada se apunta en dialogos/ (dialogos/LEEME.md).
 //
 // ---------- QUÉ HAY EN ESTE ARCHIVO ----------
 // Ayudas de texto (thing, nameT, esta, eseEs, plural, unN...), el niño dibujado
@@ -77,12 +76,12 @@
 // IMPORTA: el núcleo, src/nucleo/ (ctx, T, W, H, say, later, SFX, rec, onRight,
 // onWrongTwice, AGE, nOpts, nRounds, VIVO, scene, burst, sparkles, card, circ,
 // ell, star, text, rr, fillStroke, hv, hR, hC, back, lerp, clamp, dist, rnd, ri,
-// pick, shuffle, cap, praise, SOUNDS, playSound, ONO, IMG, W_, Wn, V, tx...) y K
+// pick, shuffle, cap, praise, SOUNDS, playSound, ONO, IMG, W_, Wn...) y K
 // de src/dibujos/. Los tipos (Juego, Config, Cosa...) están en juegos/tipos.ts.
 // ============================================================================
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, H, IMG, LF, ONO, PI, SFX, SOUNDS, T, V, VIVO, W, W_, Wn, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, flower, hC, hR, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, parts, pic, picG, pick, playSound, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sparkles, speaker, star, text, tx, whenQuiet } from '../nucleo/indice.ts';
+import { AGE, H, IMG, LF, ONO, PI, SFX, SOUNDS, T, VIVO, W, W_, Wn, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, flower, hC, hR, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, parts, pic, picG, pick, playSound, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sparkles, speaker, star, text, whenQuiet } from '../nucleo/indice.ts';
 import { drawFace } from './caras.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
@@ -94,7 +93,7 @@ import { azar } from '../aplicacion/puertos.ts';
 export function thing(k: Cosa,x: number,y: number,s: number): void{if(typeof k==='string'&&k.startsWith('emo:')){drawFace(x,y,s*.44,k.slice(4));return}if(typeof k==='string')pic(k,x,y,s);else k.draw(x,y,s)}
 // Nombre con artículo de una cosa k, para decirlo en voz alta ('el perro').
 // Si k es una clave usa W_() (nucleo/idioma.ts); si es un objeto usa su campo name.
-export const nameT=(k: Cosa)=>typeof k==='string'?W_(k):V(k.name);
+export const nameT=(k: Cosa): string=>typeof k==='string'?W_(k):k.name;
 // true si el nombre de la cosa k va en plural ('los ojos', 'las uvas').
 export const isPl=(k: Cosa)=>/^(los|las) /.test(nameT(k));
 // Pregunta "¿Dónde está el perro?" / "¿Dónde están los ojos?" para la cosa k.
@@ -107,8 +106,8 @@ export const NUM=['cero','uno','dos','tres','cuatro','cinco','seis','siete','och
 // Plural de la palabra de la clave k sin artículo ('perros', 'lápices').
 // Usa una lista de excepciones (PLX) y, si la palabra tiene complemento
 // ('caja de lápices'), solo pone en plural la primera parte.
-function plural(k: Cosa){const PLX: Record<string,string>={lapiz:'lápices',pez:'peces',avion:'aviones',leon:'leones',corazon:'corazones',tobogan:'toboganes',uva:'uvas',gafas:'anteojos'};
-  if(PLX[k])return tx(PLX[k]); const w=Wn(k),i=w.search(/ (de|del|para|con) /);
+function plural(k: Cosa){const PLX: Record<string,string>={lapiz:'lápices',pez:'peces',avion:'aviones',leon:'leones',corazon:'corazones',tobogan:'toboganes',uva:'uvas',gafas:'gafas'};
+  if(PLX[k])return PLX[k]; const w=Wn(k),i=w.search(/ (de|del|para|con) /);
   if(i>0)return plW(w.slice(0,i))+w.slice(i); return plW(w)}
 // Regla sencilla del plural en castellano para una palabra w: vocal → +s,
 // z → ces, y si no, quita la tilde final y añade 'es' ('camión' → 'camiones').
@@ -121,8 +120,7 @@ export const unN=(n: number,k: Cosa)=>n===1?(fem(k)?'una ':'un ')+Wn(k):NUM[n]+'
 
 /* ---------- el nene dibujado (para el cuerpo y para vestir) ---------- */
 // Partes del cuerpo del niño dibujado. Formato: {id, n}; id = nombre interno
-// (lo usan kidPartAt y KID_C), n = nombre con artículo para decirlo
-// (texto o lista ['rioplatense','España'] que resuelve V()).
+// (lo usan kidPartAt y KID_C), n = nombre con artículo para decirlo.
 const KID_PARTS: {id: string; n: string}[]=[
   {id:'ojos',n:'los ojos'},{id:'nariz',n:'la nariz'},{id:'boca',n:'la boca'},{id:'orejas',n:'las orejas'},{id:'pelo',n:'el pelo'},{id:'cabeza',n:'la cabeza'},
   {id:'manos',n:'las manos'},{id:'brazos',n:'los brazos'},{id:'barriga',n:'la barriga'},{id:'piernas',n:'las piernas'},{id:'pies',n:'los pies'}];
@@ -277,7 +275,7 @@ export function Sonido(cfg: Config, onDone: AlTerminar): Juego{
     // Ronda i: el animal o vehículo que suena y los distractores (al menos 1).
     gen(i: number){const t=order[i%order.length];const n=Math.min(nOpts()+(AGE()<=3?0:0),pool.length);const others=shuffle(pool.filter((w: Cosa)=>w!==t)).slice(0,Math.max(1,n-1));
       return {words:[t,...others],ok:[t],ask:'¿Quién hace '+ONO[t].replace(/[¡!]/g,'').toLowerCase()+'?',snd:()=>playSound(t),
-        okSay:(w: Cosa)=>praise()+' '+cap(nameT(w))+' hace '+ONO[w],badSay:(w: Cosa)=>cap(nameT(w))+' hace '+ONO[w].replace(/[¡!]/g,'').toLowerCase()+'. Escuchá otra vez.'}}},onDone);
+        okSay:(w: Cosa)=>praise()+' '+cap(nameT(w))+' hace '+ONO[w],badSay:(w: Cosa)=>cap(nameT(w))+' hace '+ONO[w].replace(/[¡!]/g,'').toLowerCase()+'. Escucha otra vez.'}}},onDone);
 }
 
 /* ---------- conocer: tarjetas con voz ---------- */
@@ -298,15 +296,15 @@ export function Conocer(cfg: Config, onDone: AlTerminar): Juego{
   items.forEach((it: Libre,i: number)=>{const r=Math.floor(i/cols),c=i%cols,inRow=Math.min(cols,n-r*cols);it.x=900-(inRow-1)*(s+34)/2+c*(s+34);it.y=180+((660-rows*(s+34))/2)+(s+34)/2+r*(s+34);it.s=s;it.in=T+i*.08});
   return {total:n,done:0,open:null,
     // Dice la frase de bienvenida.
-    enter(){later(300,()=>sayQ(cfg.intro||'Tocá cada dibujo para conocerlo.'))},
+    enter(){later(300,()=>sayQ(cfg.intro||'Toca cada dibujo para conocerlo.'))},
     // Recuerda qué hacer (cerrar la tarjeta o tocar una sin estrella).
-    prompt(){say(this.open?'Tocá para cerrar.':'Tocá un dibujo que todavía no tenga estrella.')},
+    prompt(){say(this.open?'Toca para cerrar.':'Toca un dibujo que todavía no tenga estrella.')},
     // Ayuda: la tarjeta abierta (para cerrarla) o la primera que no se ha visto.
     hint(){if(this.open)return{x:900,y:450,r:200};const it=items.find((i: Libre)=>!i.seen);return it?{x:it.x,y:it.y,r:s*.6}:null},
     // Abre la tarjeta it en grande: sonido, frase y, si es nueva, estrella.
     // spoke guarda cuándo terminó la frase (update la cierra 2,2 s después).
     show(it: Libre){this.open=it;this.ot=T;SFX.pop();if(it.snd||SOUNDS[it.k])later(250,()=>(it.snd||(()=>playSound(it.k)))());
-      const line=it.say?V(it.say):(cap(nameT(it.k||it))+'.');
+      const line=it.say?it.say:(cap(nameT(it.k||it))+'.');
       later(it.snd||SOUNDS[it.k]?900:200,()=>say(line,()=>{this.spoke=T}));
       if(!it.seen){it.seen=T;this.done++;scene!.starPop=T}},
     // Cierra la tarjeta abierta; si ya se vieron todas, termina el juego.
@@ -322,7 +320,7 @@ export function Conocer(cfg: Config, onDone: AlTerminar): Juego{
       if(this.open){const it=this.open,k=clamp((T-this.ot)*4,0,1);ctx.fillStyle=`rgba(46,36,32,${.45*k})`;ctx.fillRect(0,0,W,H);
         ctx.save();ctx.translate(900,430);ctx.scale(back(k),back(k));card(-260,-280,520,560,'#FFF6E6',8,50);
         if(it.draw)it.draw(0,-40,380);else thing(it.k,0,-40,380);
-        const lb=(it.label?V(it.label):Wn(it.k||'')).toUpperCase();text(lb,0,230,lb.length>12?50:64,K,{f:LF});
+        const lb=(it.label?it.label:Wn(it.k||'')).toUpperCase();text(lb,0,230,lb.length>12?50:64,K,{f:LF});
         if(it.ex)it.ex.forEach((e: Cosa,j: number)=>{card(-250+j*180,300,140,140,'#fff',5,28);pic(e,-180+j*180,370,115)});
         ctx.restore()}
     },
@@ -354,11 +352,11 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego{
   const kx=1000,ky=870,ks=1.3;
   return {total:R,done:0,i:0,seen:{},hl:null,hlT:0,
     // Empieza: en modo libre dice la bienvenida; si no, la primera pregunta.
-    enter(){if(free)later(300,()=>sayQ(cfg.intro||'Este es mi cuerpo. Tocá cada parte y te digo cómo se llama.'));else this.ask()},
+    enter(){if(free)later(300,()=>sayQ(cfg.intro||'Este es mi cuerpo. Toca cada parte y te digo cómo se llama.'));else this.ask()},
     // Elige la parte objetivo de esta ronda y la pide en voz alta.
-    ask(){this.t=order[this.i%order.length];this.errs=0;later(300,()=>sayQ('Tocá '+V(this.t.n)+'.'))},
+    ask(){this.t=order[this.i%order.length];this.errs=0;later(300,()=>sayQ('Toca '+this.t.n+'.'))},
     // Repite la consigna.
-    prompt(){if(free)say('Tocá una parte del cuerpo.');else say('Tocá '+V(this.t.n)+'.')},
+    prompt(){if(free)say('Toca una parte del cuerpo.');else say('Toca '+this.t.n+'.')},
     // Ayuda: centro de la parte objetivo (o de la primera no tocada en modo libre),
     // pasado de coordenadas del dibujo a pantalla con kx, ky y ks.
     hint(){if(free){const p=parts.find(p=>!this.seen[p.id]);if(!p)return null;const [a,b]=KID_C[p.id];return{x:kx+a*ks,y:ky+b*ks,r:60}}
@@ -367,17 +365,17 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego{
     // Las partes finas se marcan además con dos círculos (izquierda y derecha).
     draw(){cfg.bg();drawKid(kx,ky,ks,{hl:T-this.hlT<1.4?this.hl:null,skin:cfg.skin,hair:cfg.hair});
       if(VIVO.mouseOn&&!this.busy){const p=partAt(VIVO.MX,VIVO.MY,kx,ky,ks);if(p)hv('k'+p,true)}
-      if(this.hl&&T-this.hlT<1.4){const p=ALL.find(q=>q.id===this.hl)!;if(KID_FINE.includes(p)){const [a,b]=KID_C[p.id];ctx.globalAlpha=.55;circ(kx+a*ks,ky+b*ks,46,null,10,'#FFC93C');circ(kx-a*ks,ky+b*ks,46,null,10,'#FFC93C');ctx.globalAlpha=1}text(Wn(V(p.n)).toUpperCase(),520,360,72,K,{f:LF})}},
+      if(this.hl&&T-this.hlT<1.4){const p=ALL.find(q=>q.id===this.hl)!;if(KID_FINE.includes(p)){const [a,b]=KID_C[p.id];ctx.globalAlpha=.55;circ(kx+a*ks,ky+b*ks,46,null,10,'#FFC93C');circ(kx-a*ks,ky+b*ks,46,null,10,'#FFC93C');ctx.globalAlpha=1}text(Wn(p.n).toUpperCase(),520,360,72,K,{f:LF})}},
     // Toque: averigua la parte tocada. Modo libre: dice su nombre y suma estrella
     // si es nueva. Modo pregunta: acierto → estrella y siguiente; fallo → dice qué
     // parte tocó y repite la pregunta; al 2º fallo baja la dificultad y fuerza la ayuda.
     down(x,y){const id=partAt(x,y,kx,ky,ks);if(!id){SFX.tap();sparkles(x,y,3);return}
       const p=ALL.find(q=>q.id===id)!;this.hl=id;this.hlT=T;
-      if(free){SFX.pop();sparkles(x,y,5);say(cap(V(p.n))+'.');if(!this.seen[id]&&parts.includes(p)){this.seen[id]=1;this.done++;scene!.starPop=T;if(this.done>=R)later(1500,onDone)}return}
+      if(free){SFX.pop();sparkles(x,y,5);say(cap(p.n)+'.');if(!this.seen[id]&&parts.includes(p)){this.seen[id]=1;this.done++;scene!.starPop=T;if(this.done>=R)later(1500,onDone)}return}
       if(this.busy)return;
       if(id===this.t.id){this.busy=true;SFX.good();burst(x,y,24);rec('cuerpo',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;
-        say(praise()+' '+cap(V(p.n))+'.',()=>later(400,()=>{this.busy=false;this.i++;if(this.i>=R)onDone();else this.ask()}))}
-      else{SFX.bad();this.errs++;if(this.errs===1)rec('cuerpo',false);say(cap(V(p.n)).replace(/^(.)/,c=>c)+'. Buscá '+V(this.t.n)+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=12}}}
+        say(praise()+' '+cap(p.n)+'.',()=>later(400,()=>{this.busy=false;this.i++;if(this.i>=R)onDone();else this.ask()}))}
+      else{SFX.bad();this.errs++;if(this.errs===1)rec('cuerpo',false);say(cap(p.n).replace(/^(.)/,c=>c)+'. Busca '+this.t.n+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=12}}}
   };
 }
 
@@ -422,13 +420,13 @@ export function Arrastra(cfg: Config, onDone: AlTerminar): Juego{
       shuffle<Libre>(its).forEach((it,j)=>{it.hx=it.x=it.x??(tray.x0+gap*(j+.5));it.hy=it.y=it.y??tray.y;it.in=T+j*.07;it.placed=0});
       this.items=its;
       if(r.preset)for(const j of r.preset){const it=its.find((i: Libre)=>i.zone==='s'+j),zz=it&&this.zones.find((q: Libre)=>q.id===it.zone);if(!zz)continue;const p=zz.slot(0,it);it.placed=T;it.zid=zz.id;it.px=it.x=p[0];it.py=it.y=p[1];it.ps=zz.ps||.8}
-      const i0=this.i;later(300,()=>whenQuiet(()=>{if(this.i===i0)say(V(r.ask),()=>{if(r.steps)this.askStep()})}))},
+      const i0=this.i;later(300,()=>whenQuiet(()=>{if(this.i===i0)say(r.ask,()=>{if(r.steps)this.askStep()})}))},
     // Paso actual (modo steps) o null.
     cur(){return this.r.steps?this.r.steps[this.step]:null},
     // Dice el paso actual.
-    askStep(){const s=this.cur();if(s)say(V(s.say))},
+    askStep(){const s=this.cur();if(s)say(s.say)},
     // Repite el paso actual o la consigna.
-    prompt(){const s=this.cur();say(V(s?s.say:this.r.ask))},
+    prompt(){const s=this.cur();say(s?s.say:this.r.ask)},
     // Ayuda: la cosa que toca mover y hacia su zona (dx,dy para la manita).
     // En modo libre, tras colocar 2 cosas señala el botón ✓.
     hint(){if(VIVO.drag)return null;let it: Libre|undefined,z: Libre|undefined;const s=this.cur();
@@ -475,7 +473,7 @@ export function Arrastra(cfg: Config, onDone: AlTerminar): Juego{
       let ok=s?(it.k===s.k&&z.id===s.zone):this.r.free?true:(it.zone===z.id);
       if(ok){this.place(it,z)}
       else{SFX.bad();it.shake=T;this.errs++;if(this.errs===1)rec(cfg.key||'arrastra',false);
-        const why=s?(it.k!==s.k?eseEs(it.k)+'. '+V(s.say):(cfg.wrongZone?cfg.wrongZone(it,z,s):V(s.say))):(cfg.why?cfg.why(it,z):(it.zone==='no'?cap(nameT(it.k))+' no va.':'Mmm, '+nameT(it.k)+' no va ahí. Probá en otro lugar.'));
+        const why=s?(it.k!==s.k?eseEs(it.k)+'. '+s.say:(cfg.wrongZone?cfg.wrongZone(it,z,s):s.say)):(cfg.why?cfg.why(it,z):(it.zone==='no'?cap(nameT(it.k))+' no va.':'Mmm, '+nameT(it.k)+' no va ahí. Prueba en otro lugar.'));
         say(why);if(this.errs>=2){onWrongTwice();VIVO.idle=12}}
     },
     // Coloca la cosa it en la zona z (en su hueco slot o en filas de 3), suma
@@ -488,12 +486,12 @@ export function Arrastra(cfg: Config, onDone: AlTerminar): Juego{
       this.r.onPlace&&this.r.onPlace(it,z,this);
       const s=this.cur();
       if(s){SFX.good();this.done++;scene!.starPop=T;this.step++;this.busy=true;
-        say(V(s.ok||praise()),()=>later(300,()=>{this.busy=false;if(this.step>=this.r.steps.length){this.i++;if(this.i>=R)onDone();else this.load()}else this.askStep()}));return}
+        say(s.ok||praise(),()=>later(300,()=>{this.busy=false;if(this.step>=this.r.steps.length){this.i++;if(this.i>=R)onDone();else this.load()}else this.askStep()}));return}
       if(this.r.free){say(cap(nameT(it.k))+'.');return}
       const left=this.items.filter((i: Libre)=>!i.placed&&i.zone&&i.zone!=='no').length;
       if(cfg.placeSay)say(cfg.placeSay(it,z));
       if(!left){SFX.good();this.done++;scene!.starPop=T;this.busy=true;burst(900,420,40);
-        later(cfg.placeSay?1300:200,()=>sayQ(this.r.okAll?V(this.r.okAll):praise(),()=>later(400,()=>{this.busy=false;this.i++;if(this.i>=R)onDone();else this.load()})))}
+        later(cfg.placeSay?1300:200,()=>sayQ(this.r.okAll?this.r.okAll:praise(),()=>later(400,()=>{this.busy=false;this.i++;if(this.i>=R)onDone();else this.load()})))}
     }
   };
 }
@@ -513,9 +511,9 @@ export function Atrapa(cfg: Config, onDone: AlTerminar): Juego{
     // Objetivo actual.
     tgt(){return cfg.targets[Math.min(this.ti,cfg.targets.length-1)]},
     // Dice la consigna del objetivo actual.
-    announce(){say(V(this.tgt().ask))},
+    announce(){say(this.tgt().ask)},
     // Repite la consigna.
-    prompt(){say(V(this.tgt().ask))},
+    prompt(){say(this.tgt().ask)},
     // Cada cuadro: crea burbujas nuevas (máx. 6 a la vez; si no hay ninguna buena
     // en pantalla, la nueva es buena seguro; si no, 45 % de que lo sea), las mueve
     // haciendo eses y borra las que salieron o ya explotaron. Más lentas a los 3
@@ -539,7 +537,7 @@ export function Atrapa(cfg: Config, onDone: AlTerminar): Juego{
         if(cfg.style==='plain'){ctx.rotate(Math.sin(T*2+b.ph)*.35+b.rot);thing(b.k,0,0,b.r*1.9)}
         else{const rc=cfg.ring?cfg.ring(b.k):'#5B8DEF';circ(0,0,b.r,'rgba(255,255,255,.6)',8,rc);thing(b.k,0,4,b.r*1.35);ctx.beginPath();ctx.arc(0,0,b.r*.75,PI*1.1,PI*1.45);ctx.lineWidth=10;ctx.strokeStyle='rgba(255,255,255,.95)';ctx.lineCap='round';ctx.stroke()}
         ctx.restore()}
-      const t=this.tgt();if(t.icon){card(660,24,480,118,'#fff',6,56);text(tx(t.label||''),860,103,48,K);t.icon(1040,83,96)}
+      const t=this.tgt();if(t.icon){card(660,24,480,118,'#fff',6,56);text(t.label||'',860,103,48,K);t.icon(1040,83,96)}
     },
     // Ayuda: la burbuja buena más alta que esté bien dentro de la pantalla.
     hint(){const t=this.tgt();const b=this.bs.filter((b: Libre)=>t.is(b.k)&&!b.pop&&b.y<820&&b.y>150&&b.x>250&&b.x<1450).sort((a: Libre,b: Libre)=>a.y-b.y)[0];return b?{x:b.x,y:b.y,r:95}:null},
@@ -552,7 +550,7 @@ export function Atrapa(cfg: Config, onDone: AlTerminar): Juego{
       if(t.is(b.k)){b.pop=T;SFX.pop();SFX.good();burst(b.x,b.y,22);rec(cfg.key||'atrapa',true);this.done++;scene!.starPop=T;this.got++;
         if(this.got>=per){this.got=0;this.ti++;if(this.ti>=cfg.targets.length){this.fin=true;later(600,onDone)}else later(700,()=>this.announce())}
         else if(azar()<.5)say(praise());}
-      else{b.jig=T;b.vx=(b.x<x?-1:1)*-260;SFX.boing();rec(cfg.key||'atrapa',false);say(eseEs(b.k)+'. '+V(t.ask))}
+      else{b.jig=T;b.vx=(b.x<x?-1:1)*-260;SFX.boing();rec(cfg.key||'atrapa',false);say(eseEs(b.k)+'. '+t.ask)}
     }
   };
 }
@@ -568,9 +566,9 @@ export function Memoria(cfg: Config, onDone: AlTerminar): Juego{
   cards.forEach((c,i)=>{c.x=900-(cols-1)*(s+30)/2+(i%cols)*(s+30);c.y=470-(rows-1)*(s+30)/2+Math.floor(i/cols)*(s+30)});
   return {total:np,done:0,open:[],
     // Dice la explicación.
-    enter(){later(300,()=>sayQ(cfg.intro||'Juego de memoria. Tocá dos tarjetas y buscá las que son iguales.'))},
+    enter(){later(300,()=>sayQ(cfg.intro||'Juego de memoria. Toca dos tarjetas y busca las que son iguales.'))},
     // Repite la consigna.
-    prompt(){say('Buscá dos tarjetas iguales.')},
+    prompt(){say('Busca dos tarjetas iguales.')},
     // Ayuda: si hay una carta levantada, su pareja; si no, una carta sin pareja
     // pero solo tras 14 s sin tocar (para no destripar el juego).
     hint(){const a=this.open[0];if(a){const b=cards.find(c=>c!==a&&c.k===a.k)!;return{x:b.x,y:b.y,r:s*.6}}const c=cards.find(c=>!c.ok);return c&&VIVO.idle>14?{x:c.x,y:c.y,r:s*.6}:null},
@@ -619,16 +617,16 @@ export function Cuenta(cfg: Config, onDone: AlTerminar): Juego{
       const sz=n<=3?220:n<=5?180:140,cols=Math.min(n,5),rows=Math.ceil(n/cols);
       this.objs=Array.from({length:n},(_,j)=>({x:900-(Math.min(cols,n-Math.floor(j/cols)*cols)-1)*(sz+20)/2+(j%cols)*(sz+20),y:370-(rows-1)*(sz+10)/2+Math.floor(j/cols)*(sz+10),s:sz,c:0,in:T+j*.08}));
       if(cfg.one){this.objs=[{x:900,y:380,s:380,c:0,in:T,one:1}]}
-      this.opts=null;later(300,()=>sayQ(cfg.one?cfg.ask(this):'Vamos a contar '+plural(this.k)+'. Tocá cada '+(fem(this.k)?'una.':'uno.')))},
+      this.opts=null;later(300,()=>sayQ(cfg.one?cfg.ask(this):'Vamos a contar '+plural(this.k)+'. Toca cada '+(fem(this.k)?'una.':'uno.')))},
     // Repite la consigna de la fase actual.
-    prompt(){say(this.phase==='count'?(cfg.one?cfg.ask(this):'Tocá cada uno para contar.'):'¿Cuántos hay?')},
+    prompt(){say(this.phase==='count'?(cfg.one?cfg.ask(this):'Toca cada uno para contar.'):'¿Cuántos hay?')},
     // Ayuda: el siguiente objeto sin contar, o la tarjeta con el número correcto.
     hint(){if(this.phase==='count'){if(cfg.one)return null;const o=this.objs.find((o: Libre)=>!o.c);return o?{x:o.x,y:o.y,r:o.s*.55}:null}const o=this.opts&&this.opts.find((o: Libre)=>o.n===this.n);return o?{x:o.x,y:o.y,r:110}:null},
     // Fase 'choose': prepara tarjetas de número (la correcta y otras al azar) y
     // pregunta cuántos hay.
     askHow(){this.phase='choose';const ns=[this.n];const n=Math.min(nOpts()+1,3);while(ns.length<n){const v=ri(1,Math.max(3,mx));if(!ns.includes(v))ns.push(v)}
       this.opts=shuffle(ns).map((v,j,a)=>({n:v,x:900-(a.length-1)*130+j*260,y:740,in:T+j*.1}));
-      say(cfg.one?cfg.how(this):'¿'+(fem(this.k)?'Cuántas ':'Cuántos ')+plural(this.k)+' hay? Tocá el número.')},
+      say(cfg.one?cfg.how(this):'¿'+(fem(this.k)?'Cuántas ':'Cuántos ')+plural(this.k)+' hay? Toca el número.')},
     // Dibuja los objetos (los contados con su número en verde) y las tarjetas.
     draw(){cfg.bg();
       if(cfg.one){const o=this.objs[0];cfg.drawOne(this,o)}
@@ -663,9 +661,9 @@ export function Puzzle(cfg: Config, onDone: AlTerminar): Juego{
     load(){this.k=cfg.list[this.i];const pw=B.s/cols,ph=B.s/rows;this.pw=pw;this.ph=ph;this.placed=0;
       const spots=shuffle([[340,250],[340,480],[340,710],[620,790],[1300,790],[1450,250],[1450,480],[1450,710],[960,800]]);
       this.ps=[];for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const sp=spots[this.ps.length];this.ps.push({c,r,tx:B.x-B.s/2+pw*(c+.5),ty:B.y-B.s/2+ph*(r+.5),x:sp[0],y:sp[1],hx:sp[0],hy:sp[1],ok:0,rot:rnd(-.2,.2)})}
-      later(300,()=>sayQ(this.i?'¡Otro rompecabezas! ¿Qué será?':'Armá el rompecabezas. Arrastrá cada pieza a su lugar.'))},
+      later(300,()=>sayQ(this.i?'¡Otro rompecabezas! ¿Qué será?':'Arma el rompecabezas. Arrastra cada pieza a su lugar.'))},
     // Repite la consigna.
-    prompt(){say('Arrastrá una pieza al cuadro.')},
+    prompt(){say('Arrastra una pieza al cuadro.')},
     // Ayuda: una pieza suelta y hacia dónde va.
     hint(){const p=this.ps.find((p: Libre)=>!p.ok);return p&&!VIVO.drag?{x:p.x,y:p.y,r:90,dx:p.tx-p.x,dy:p.ty-p.y}:null},
     // Dibuja la pieza p en (x,y): recorta de la imagen IMG[k] su trozo
@@ -713,9 +711,9 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego{
   const digs: number[][]=[];
   return {total:objs.length,done:0,
     // Dice la explicación.
-    enter(){later(300,()=>sayQ(cfg.intro||'Hay cosas escondidas en la arena. Frotá con el dedo para descubrirlas.'))},
+    enter(){later(300,()=>sayQ(cfg.intro||'Hay cosas escondidas en la arena. Frota con el dedo para descubrirlas.'))},
     // Repite la consigna.
-    prompt(){say('Frotá la arena para encontrar lo que está escondido.')},
+    prompt(){say('Frota la arena para encontrar lo que está escondido.')},
     // Ayuda: la primera cosa sin descubrir (la manita se mueve a los lados).
     hint(){const o=objs.find(o=>!o.found);return o?{x:o.x,y:o.y,r:110,dx:60}:null},
     // Cava un agujero en (x,y) y comprueba cada cosa cercana: mira 36 puntos a su
@@ -750,9 +748,9 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego{
   const can={x:1400,y:330,hx:1400,hy:330};
   return {total:n,done:0,
     // Dice la explicación.
-    enter(){later(300,()=>sayQ(cfg.intro||'Las semillas tienen sed. Agarrá la regadera y llevala arriba de cada maceta.'))},
+    enter(){later(300,()=>sayQ(cfg.intro||'Las semillas tienen sed. Coge la regadera y llévala arriba de cada maceta.'))},
     // Repite la consigna.
-    prompt(){say('Llevá la regadera arriba de una maceta para regarla.')},
+    prompt(){say('Lleva la regadera arriba de una maceta para regarla.')},
     // Ayuda: señala la regadera y la lleva hasta encima de una maceta sin flor.
     hint(){const p=pots.find(p=>p.st<3);return p&&!VIVO.drag?{x:can.x,y:can.y,r:110,dx:p.x-can.x,dy:p.y-200-can.y}:null},
     // Cada cuadro: si no se sujeta, la regadera vuelve a su sitio. Si se sujeta
@@ -761,7 +759,7 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego{
     // y frase; con todas, onDone.
     update(dt){const held=VIVO.drag&&VIVO.drag.it===can;if(!held){can.x=lerp(can.x,can.hx,dt*6);can.y=lerp(can.y,can.hy,dt*6)}
       if(held)for(const p of pots){if(p.st>=3)continue;if(Math.abs(can.x-60-p.x)<120&&can.y<p.y-80&&can.y>p.y-520){p.w+=dt*.75;if(azar()<dt*25)parts.push({x:can.x-95,y:can.y-30,vx:rnd(-40,10),vy:rnd(40,120),life:.7,t:0,c:'#5BB8E6',r:rnd(5,8),k:'d',g:900});if(azar()<dt*3)SFX.drip();
-        const st=Math.min(3,Math.floor(p.w));if(st>p.st){p.st=st;SFX.grow();sparkles(p.x,p.y-100,8);if(st===3){this.done++;scene!.starPop=T;burst(p.x,p.y-220,30);rec('riega',true);say(this.done>=n?'¡Todas las flores crecieron!':pick(['¡Salió una flor!','¡Mirá qué linda flor!','¡Creció!']),()=>{if(this.done>=n&&!this.fin){this.fin=1;later(400,onDone)}})}}}}},
+        const st=Math.min(3,Math.floor(p.w));if(st>p.st){p.st=st;SFX.grow();sparkles(p.x,p.y-100,8);if(st===3){this.done++;scene!.starPop=T;burst(p.x,p.y-220,30);rec('riega',true);say(this.done>=n?'¡Todas las flores crecieron!':pick(['¡Salió una flor!','¡Mira qué bonita flor!','¡Creció!']),()=>{if(this.done>=n&&!this.fin){this.fin=1;later(400,onDone)}})}}}}},
     // Dibuja tallos, hojas, capullos y flores según la etapa de cada maceta, las
     // macetas, y la regadera (inclinada mientras se arrastra).
     draw(){cfg.bg();
@@ -777,7 +775,7 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego{
     // Toque: coge la regadera; si se toca una maceta, recuerda que hay que
     // coger primero la regadera.
     down(x,y){if(dist(x,y,can.x,can.y)<130){VIVO.drag={it:can,dx:x-can.x,dy:y-can.y};setCursor('grab');SFX.pop();return}
-      const p=pots.find(p=>dist(x,y,p.x,p.y-40)<110);if(p&&p.st<3){say('Primero agarrá la regadera.');return}SFX.tap()},
+      const p=pots.find(p=>dist(x,y,p.x,p.y-40)<110);if(p&&p.st<3){say('Primero coge la regadera.');return}SFX.tap()},
     // Mueve la regadera arrastrada.
     move(x,y){if(VIVO.drag&&VIVO.drag.it===can){can.x=clamp(x-VIVO.drag.dx,100,1500);can.y=clamp(y-VIVO.drag.dy,120,800)}},
     // Suelta la regadera.
@@ -786,14 +784,13 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego{
 }
 
 /* ---------- pintar con el color correcto ---------- */
-// Colores del juego: clave → {c: color en hexadecimal, n: nombre (texto o
-// lista ['rioplatense','España'])}. Lo usan Pinta, el tema de los colores...
+// Colores del juego: clave → {c: color en hexadecimal, n: nombre}. Lo usan Pinta, el tema de los colores...
 export const COLORES: Record<string,{c: string; n: string}>={rojo:{c:'#FF5A5A',n:'rojo'},azul:{c:'#5B8DEF',n:'azul'},amarillo:{c:'#FFD66B',n:'amarillo'},verde:{c:'#7CC86E',n:'verde'},naranja:{c:'#FFA94D',n:'naranja'},rosa:{c:'#F58BB4',n:'rosa'},violeta:{c:'#9B8AD9',n:'morado'},marron:{c:'#A86B43',n:'marrón'}};
 // Dibuja un bote de pintura del color c en (x,y), tamaño s; sel = elegido (brilla).
 function paintPot(x: number,y: number,s: number,c: string,sel?: boolean){ctx.save();ctx.translate(x,y);if(sel){ctx.shadowColor=c;ctx.shadowBlur=30}card(-s*.38,-s*.2,s*.76,s*.62,'#fff',6,18);ctx.shadowBlur=0;ctx.beginPath();ctx.ellipse(0,-s*.2,s*.38,s*.14,0,0,PI*2);fillStroke(c,6);ctx.beginPath();ctx.moveTo(-s*.2,-s*.15);ctx.quadraticCurveTo(-s*.18,s*.12,-s*.1,s*.05);ctx.quadraticCurveTo(-s*.05,-s*.1,0,-s*.15);ctx.fillStyle=c;ctx.fill();ctx.restore()}
 // Nombre del color c concordado con la cosa k: 'rojo'→'roja' si k es femenina,
 // y en plural si k lo es ('rojas', 'marrones').
-export function colorAdj(c: string,k: Cosa){let w=V(COLORES[c].n);const f=fem(k),p=isPl(k);if(/o$/.test(w)&&f)w=w.slice(0,-1)+'a';if(p)w=/[aeiou]$/.test(w)?w+'s':w.replace('ó','o')+'es';return w}
+export function colorAdj(c: string,k: Cosa){let w=COLORES[c].n;const f=fem(k),p=isPl(k);if(/o$/.test(w)&&f)w=w.slice(0,-1)+'a';if(p)w=/[aeiou]$/.test(w)?w+'s':w.replace('ó','o')+'es';return w}
 // COMPONENTE Pinta: dibujos en gris que hay que pintar de su color: primero se
 // toca el bote del color y después el dibujo. cfg.items: [[clave, color]]
 // (color = clave de COLORES); rounds (2), bg. Por ronda salen 3 o 4 dibujos
@@ -816,9 +813,9 @@ export function Pinta(cfg: Config, onDone: AlTerminar): Juego{
     cur(){return this.objs.find((o: Libre)=>!o.done)},
     // Pide el dibujo actual: a los 3 años o la primera vez dice el color; si no,
     // pregunta de qué color es.
-    ask(){const o=this.cur();if(!o)return;if(AGE()<=3||VIVO.REP===0)say('Vamos a pintar '+nameT(o.k)+' de '+V(COLORES[o.c].n)+'. Tocá el '+V(COLORES[o.c].n)+'.');else say('¿De qué color es '+nameT(o.k)+'? Tocá ese color y después '+nameT(o.k)+'.')},
+    ask(){const o=this.cur();if(!o)return;if(AGE()<=3||VIVO.REP===0)say('Vamos a pintar '+nameT(o.k)+' de '+COLORES[o.c].n+'. Toca el '+COLORES[o.c].n+'.');else say('¿De qué color es '+nameT(o.k)+'? Toca ese color y después '+nameT(o.k)+'.')},
     // Repite: si no tiene el color bueno, "toca el ..."; si lo tiene, "toca el dibujo".
-    prompt(){const o=this.cur();if(!o)return;if(!this.brush||this.brush!==o.c)say('Tocá el '+V(COLORES[o.c].n)+'.');else say('Ahora tocá '+nameT(o.k)+' para pintarla.'.replace('pintarla',fem(o.k)?'pintarla':'pintarlo'))},
+    prompt(){const o=this.cur();if(!o)return;if(!this.brush||this.brush!==o.c)say('Toca el '+COLORES[o.c].n+'.');else say('Ahora toca '+nameT(o.k)+' para pintarla.'.replace('pintarla',fem(o.k)?'pintarla':'pintarlo'))},
     // Ayuda: el bote correcto o, con el color ya cogido, el dibujo.
     hint(){const o=this.cur();if(!o)return null;if(this.brush!==o.c){const p=this.pal.find((p: Libre)=>p.c===o.c);return{x:p.x,y:p.y,r:90}}return{x:o.x,y:o.y,r:150}},
     // Dibuja los dibujos (en gris o ya pintados; el actual con marco que parpadea),
@@ -831,13 +828,13 @@ export function Pinta(cfg: Config, onDone: AlTerminar): Juego{
     // Toque: en un bote, coge ese color. En un dibujo: si no hay color o no es el
     // dibujo actual, avisa; si el color es el bueno lo pinta (estrella); si no, fallo.
     down(x,y){if(this.busy)return;const p=this.pal.find((p: Libre)=>dist(x,y,p.x,p.y)<95);
-      if(p){this.brush=p.c;SFX.drip();say(cap(V(COLORES[p.c].n))+'.');const o=this.cur();if(o&&p.c===o.c)later(700,()=>{if(this.brush===o.c&&this.cur()===o)say('Ahora tocá '+nameT(o.k)+'.')});return}
+      if(p){this.brush=p.c;SFX.drip();say(cap(COLORES[p.c].n)+'.');const o=this.cur();if(o&&p.c===o.c)later(700,()=>{if(this.brush===o.c&&this.cur()===o)say('Ahora toca '+nameT(o.k)+'.')});return}
       const o=this.objs.find((o: Libre)=>!o.done&&Math.abs(x-o.x)<o.s/2+10&&Math.abs(y-o.y)<o.s/2+10);if(!o){SFX.tap();return}
-      if(!this.brush){say('Primero tocá un color.');return}
+      if(!this.brush){say('Primero toca un color.');return}
       const t=this.cur();
       if(o!==t){say('Primero pintamos '+nameT(t.k)+'.');return}
       if(this.brush===o.c){o.done=T;SFX.splash();burst(o.x,o.y,30,[COLORES[o.c].c,'#fff']);rec('colores',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;this.errs=0;this.busy=true;
         say(praise()+' '+cap(nameT(o.k))+(isPl(o.k)?' son ':' es ')+colorAdj(o.c,o.k)+'.',()=>later(300,()=>{this.busy=false;if(!this.cur()){this.i++;if(this.i>=R)onDone();else this.load()}else this.ask()}))}
-      else{SFX.bad();this.errs++;rec('colores',false);say('Mmm, '+nameT(o.k)+' no es '+V(COLORES[this.brush].n)+'. Tocá el '+V(COLORES[o.c].n)+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=7}}}
+      else{SFX.bad();this.errs++;rec('colores',false);say('Mmm, '+nameT(o.k)+' no es '+COLORES[this.brush].n+'. Toca el '+COLORES[o.c].n+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=7}}}
   };
 }

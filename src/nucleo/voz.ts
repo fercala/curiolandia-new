@@ -7,14 +7,13 @@
 // Al cargar el módulo elige voz, carga el manifiesto de voces (si toca) y envuelve speechSynthesis.cancel.
 import { whenQuiet, sceneTok } from './escenas.ts';
 import { S } from './guardado.ts';
-import { tx } from './idioma.ts';
 import { VIVO } from './pantalla.ts';
 import { AC, initSonido, MUS } from './sonido.ts';
 import { pick } from './utilidades.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 
-/** Opciones de say(): en (inglés, voz VOICE_EN, sin tx ni MP3), rate (velocidad) y pitch (tono). */
+/** Opciones de say(): en (inglés, voz VOICE_EN, sin MP3), rate (velocidad) y pitch (tono). */
 export interface OpcionesSay {
   en?: boolean | number;
   rate?: number;
@@ -61,7 +60,7 @@ export function pickVoice(): void{
 }
 // vozProbar(): dice un saludo con la voz del navegador elegida (VOICE), aunque S.voz sea la grabada, para comparar voces
 // en la zona de adultos. Corta lo que estuviera sonando. Usa una frase que ya existe (no hay frase nueva).
-export function vozProbar(): void{try{speechSynthesis.cancel()}catch(e){}const tok=++VIVO.sayTok;sayTTS(tx('¡Hola! Soy Tito. ¿Jugamos? Tocá la plaza.'),tok,()=>{})}
+export function vozProbar(): void{try{speechSynthesis.cancel()}catch(e){}const tok=++VIVO.sayTok;sayTTS('¡Hola! Soy Tito. ¿Jugamos? Toca la plaza.',tok,()=>{})}
 // Algunos navegadores cargan las voces tarde: se vuelve a elegir cuando avisan de que cambiaron.
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
 /* ---------- voces grabadas: solo en la web (carpeta voz/ con manifest.json); si una frase no tiene audio, habla el navegador ---------- */
@@ -143,19 +142,18 @@ function vozSeq(plan: readonly TrozoVoz[],tok: number,fin: ()=>void,fail: ()=>vo
     vozPlay(plan.slice(i,j) as string[],tok,()=>step(j),fail)};
   step(0)}
 /* say(texto, cb, o): Tito dice una frase. Es LA función de voz del juego.
-   - texto: se pasa por tx() (salvo en inglés, o.en). Con el texto final se busca un MP3 grabado (voz/manifest.json o
+   - texto: en castellano de España (o en inglés, con o.en). Con él se busca un MP3 grabado (voz/manifest.json o
      voz-fer/); si lo hay suena el MP3 y, si no, habla la voz del navegador (speechSynthesis).
      Si solo una parte está grabada, se mezclan: lo grabado con MP3 y el resto (datos que cambian, como fechas o
      monedas) con la voz del navegador (vozFile/vozSeq). Si lleva el nombre del niño (", nombre"), el nombre lo dice
      antes la voz del navegador y luego suena lo grabado sin el nombre.
    - cb: se llama al terminar la frase, pero solo si no se ha cambiado de escena mientras tanto (sceneTok).
-   - o: en (inglés, voz VOICE_EN, sin tx ni MP3), rate (velocidad), pitch (tono).
+   - o: en (inglés, voz VOICE_EN, sin MP3), rate (velocidad), pitch (tono).
    Cada frase nueva corta la anterior (sayTok). Mientras habla, talking=true y la música baja. Hay temporizadores de
    seguridad por si el navegador nunca avisa del final. window.__fast es para las pruebas automáticas (no habla).
    REGLA: no cambies el texto de ninguna frase que ya exista: el MP3 se busca por el texto exacto y se perdería.
    Las frases nuevas se escriben en castellano de España y se apuntan para grabarlas. */
 export function say(t: string,cb?: (()=>void)|null,o: OpcionesSay={}): void{
-  if(!o.en)t=tx(t);
   const tok=++VIVO.sayTok, my=sceneTok; let done=false;
   VIVO.idle=0;// la ayuda cuenta desde que Tito calla (quien quiera la ayuda enseguida pone idle=12 después de say)
   const fin=(): void=>{if(done)return;done=true;if(tok===VIVO.sayTok)VIVO.talking=false;if(MUS&&AC)MUS.gain.setTargetAtTime(S.vol.mus*.22,AC.currentTime,.2);if(cb&&my===sceneTok)cb()};

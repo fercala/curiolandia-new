@@ -7,12 +7,12 @@
 //   escenas/escenas2d.ts y a la zona 'ingles' en escenas/zonas.ts.
 // Hasta la fase 4f, al cargarse envolvía makeGame (temas/temas.ts, ya envuelta por temas/extras.ts) con ponMakeGame.
 // Importa: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
-//   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, V, cap), juegos/ (NUM, BG y,
+//   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, cap), juegos/ (NUM, BG y,
 //   desde la fase 4o, drawFace: antes era de escenas/escenas2d.ts y se usaba como global tardía).
-// Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
+// Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa (el texto en inglés tal cual).
 import type { AlTerminar, Config, Juego, JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, H, LF, PI, SFX, T, V, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, inR, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, H, LF, PI, SFX, T, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, inR, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
 import { BG, NUM, drawFace } from '../juegos/indice.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
@@ -68,8 +68,8 @@ export const EN: Record<string, PalabraEn[]>={
 };
 // Palabras del conjunto set que tocan a la edad del niño (AGE()).
 export const enItems=(set: string)=>EN[set].filter(i=>i.a<=Math.max(3,AGE()));
-// Traducción al castellano de la palabra (V la pasa por tx()).
-const enEs=(it: PalabraEn)=>V(it.es);
+// Traducción al castellano de la palabra.
+const enEs=(it: PalabraEn)=>it.es;
 // Dibuja la palabra it centrada en (x,y) con tamaño s (su draw propio o su dibujo pic).
 function enDraw(it: PalabraEn,x: number,y: number,s: number){if(it.draw)it.draw(x,y,s);else pic(it.k!,x,y,s)}
 // Dibuja una tarjeta cuadrada de lado s con la palabra it. Opciones o: s (escala), shake (instante en que empezó
@@ -90,9 +90,9 @@ function enGrid(items: Libre[],top=180,h=660,w=1220,cx=900){const n=items.length
 export function EnConocer(cfg: Config,onDone: AlTerminar): Juego{const items: (PalabraEn & Libre)[]=cfg.items.map((o: PalabraEn)=>Object.assign({},o));enGrid(items);const n=items.length;
   return {total:n,done:0,open:null,
     // Al empezar: explica el juego.
-    enter(){later(300,()=>sayQ(cfg.intro||'Tocá cada dibujo y escuchá cómo se dice en inglés. ¡Repetilo en voz alta!'))},
+    enter(){later(300,()=>sayQ(cfg.intro||'Toca cada dibujo y escucha cómo se dice en inglés. ¡Repítelo en voz alta!'))},
     // Recuerda qué hacer.
-    prompt(){say(this.open?'Tocá para cerrar.':'Tocá un dibujo que todavía no tenga estrella.')},
+    prompt(){say(this.open?'Toca para cerrar.':'Toca un dibujo que todavía no tenga estrella.')},
     // Pista: la tarjeta abierta (cuando ya habló) o la primera sin ver.
     hint(){if(this.open)return this.spoke?{x:900,y:450,r:200}:null;const it=items.find(i=>!i.seen);return it?{x:it.x,y:it.y,r:it.s*.6}:null},
     // Abre la tarjeta it en grande, dice la palabra y, si es nueva, suma una estrella.
@@ -121,7 +121,7 @@ export function EnEscucha(cfg: Config,onDone: AlTerminar): Juego{const pool: Pal
       this.t=t;this.items=shuffle([t,...others]).map((o)=>({it:o,ok:o===t}));enGrid(this.items,240,560,1200);this.errs=0;this.busy=false;this.lock=true;
       later(400,()=>this.prompt!(()=>{this.lock=false}));later(2800,()=>{this.lock=false})},
     // Dice "Tocá" + la palabra en inglés.
-    prompt(cb?: () => void){sayMix(['Tocá','@'+this.t.en],cb)},
+    prompt(cb?: () => void){sayMix(['Toca','@'+this.t.en],cb)},
     // Pista: la tarjeta correcta (cuando ya ha terminado de hablar).
     hint(){const c=this.items.find((c: Libre)=>c.ok&&!c.win);return c&&!this.lock?{x:c.x,y:c.y,r:c.s*.6}:null},
     // Dibuja el botón de volver a escuchar y las tarjetas (la correcta late y muestra la palabra).
@@ -134,7 +134,7 @@ export function EnEscucha(cfg: Config,onDone: AlTerminar): Juego{const pool: Pal
       if(this.lock&&!c.ok){sayMix(['@'+c.it.en]);return}
       if(c.ok){this.busy=true;c.win=T;SFX.good();burst(c.x,c.y,30);rec(cfg.key||'ingles',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;
         sayMix(['@'+c.it.en+'!',praise()],()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else this.round()}))}
-      else{SFX.bad();c.shake=T;if(this.errs===0)rec(cfg.key||'ingles',false);this.errs++;sayMix(['Ese es','@'+c.it.en,'. Buscá','@'+this.t.en]);
+      else{SFX.bad();c.shake=T;if(this.errs===0)rec(cfg.key||'ingles',false);this.errs++;sayMix(['Ese es','@'+c.it.en,'. Busca','@'+this.t.en]);
         if(this.errs===2){onWrongTwice();c.gone=T}}}}}
 
 // 3) Los globos: reventar los globos de la palabra que dice Tito
@@ -147,7 +147,7 @@ export function EnGlobos(cfg: Config,onDone: AlTerminar): Juego{const pool: Pala
     // Elige una palabra objetivo nueva (distinta de la anterior si se puede).
     pickT(){const prev=this.t;const L=pool.filter((p)=>p!==prev);this.t=pick(L.length?L:pool);this.tn=0},
     // Dice qué globos hay que reventar.
-    prompt(){sayMix(['Reventá los globos de','@'+this.t.en])},
+    prompt(){sayMix(['Revienta los globos de','@'+this.t.en])},
     // Lanza un globo nuevo desde abajo en un carril libre. tn cuenta cuántos globos "de relleno" pueden salir
     // antes de forzar uno correcto (así siempre aparecen correctos a menudo).
     spawn(){const lanes=[340,560,780,1000,1220,1440].filter(x=>!this.bs.some((b: Libre)=>Math.abs(b.x-x)<60&&b.y>620));if(!lanes.length)return;
@@ -180,9 +180,9 @@ export function EnCuenta(cfg: Config,onDone: AlTerminar): Juego{const max=AGE()<
     // Prepara una ronda: cuántas cosas (distinto de la anterior), qué dibujo, y las coloca en una o dos filas.
     round(){const prev=this.n;let n;do{n=Math.floor(rnd(2,max+1))}while(n===prev);this.n=n;this.c=0;this.k=ks[this.i%ks.length];this.busy=false;
       const per=n<=5?n:Math.ceil(n/2),s=Math.min(200,1100/per-30);this.os=Array.from({length:n},(_,j)=>{const r=j<per?0:1,c=r?j-per:j,inRow=r?n-per:per;return{x:900-(inRow-1)*(s+30)/2+c*(s+30),y:(n<=5?470:360)+r*(s+60),s,on:0}});
-      later(400,()=>sayQ(this.i===0?'¡Contamos en inglés! Tocá cada dibujo, de a uno.':'Otra vez: tocá cada dibujo y contamos.'))},
+      later(400,()=>sayQ(this.i===0?'¡Contamos en inglés! Toca cada dibujo, de uno en uno.':'Otra vez: toca cada dibujo y contamos.'))},
     // Recuerda qué hacer.
-    prompt(){say('Tocá cada dibujo y contamos en inglés.')},
+    prompt(){say('Toca cada dibujo y contamos en inglés.')},
     // Pista: la primera cosa sin contar.
     hint(){const o=this.os.find((o: Libre)=>!o.on);return o&&!this.busy?{x:o.x,y:o.y,r:o.s*.6}:null},
     // Dibuja las cosas (las contadas con su número) y, al terminar la ronda, el total en cifra y en inglés.
@@ -196,7 +196,7 @@ export function EnCuenta(cfg: Config,onDone: AlTerminar): Juego{const max=AGE()<
         later(900,()=>sayMix(['@'+EN.numbers[this.n-1].en+'!',cap(NUM[this.n])+'. ¡Hay '+NUM[this.n]+'!'],()=>later(500,()=>{this.i++;if(this.i>=R)onDone();else this.round()})))}}}}
 
 // Juegos del inglés para usar en los temas: t (tipo de juego que reconoce makeGame), icon y name (nombre en el camino).
-const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja',name:'Escuchá y repetí'},escucha:{t:'enEscucha',icon:'busca',name:'¿Dónde está?'},globos:{t:'enGlobos',icon:'globo',name:'Reventá los globos'},cuenta:{t:'enCuenta',icon:'manzana',name:'Contar en inglés'}};
+const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja',name:'Escucha y repite'},escucha:{t:'enEscucha',icon:'busca',name:'¿Dónde está?'},globos:{t:'enGlobos',icon:'globo',name:'Revienta los globos'},cuenta:{t:'enCuenta',icon:'manzana',name:'Contar en inglés'}};
 // Temas del Rincón del inglés (casitas de la zona 'ingles', se abren en orden). Campos: id, n (nombre), icon, c (color),
 // bg (fondo de los juegos), zone, en (conjunto de palabras de EN), tip (consejo para la familia en la zona de adultos),
 // games (lista de juegos de ENG).

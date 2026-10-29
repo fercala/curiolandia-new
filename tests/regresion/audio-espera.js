@@ -13,7 +13,7 @@ const espia = require('./espia');
   const p = await L.abrir(b, srv.port, { hora: 11, fecha: '2026-10-21', rapido: false, antes: espia, espera: 3000 });
   await p.evaluate(() => { const S = __cl.S; S.intro = true; S.name = 'Lucía'; S.variant = 'es'; S.voz = ''; S.unlockAll = true; S.first.askedName = 1; save(); vozLoad() });
   await p.waitForTimeout(1500);
-  await p.evaluate(() => { window.__dichos = []; const s0 = say; say = function (t, cb, o = {}) { __dichos.push({ t: __now(), texto: o.en ? t : tx(t), escena: sceneName, ctx: window.__ctx || '' }); return s0(t, cb, o) } });
+  await p.evaluate(() => { window.__dichos = []; const s0 = say; say = function (t, cb, o = {}) { __dichos.push({ t: __now(), texto: t, escena: sceneName, ctx: window.__ctx || '' }); return s0(t, cb, o) } });
   const jobs = (await p.evaluate(() => { const j = []; for (const t of __cl.TEMAS) t.games.forEach((g, i) => j.push([t.id, i])); return j })).filter((j, i) => i % +NW === +W && j[0].includes(filtro));
   const cortes = [], fallos = [];
   for (const [tid, gi] of jobs) {

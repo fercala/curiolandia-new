@@ -14,7 +14,7 @@
  * Define: SKILL, esc, toLogical, dlgOpen, isPortrait, hoverTick, window.__cl (para pruebas automáticas) y bkWire.
  * Exporta: openAdult, closeAdult, frame, bkEncode y bkDecode, y vuelve a exportar openNameDlg, openResetDlg y doReset
  * (de aplicacion/dialogos.ts) para el puente.
- * Importa: el núcleo, src/nucleo/ (S, save, go, say, tx, V, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
+ * Importa: el núcleo, src/nucleo/ (S, save, go, say, SCENES, T, timers, parts, MX/MY, lockDown...), escenas/escenas2d.ts (tst, gDone,
  * TEMAS, TEMA, suggestTema, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4, T5, C5,
  * CAN, RUT, TRZ, FIESTAS, ING), drawCoinFx (nucleo/monedas.ts), escenas/zonas.ts (zoneOpen) y esPartida de
  * dominio/partida.ts (la copia de seguridad), R3frame de mundo3d/mundo3d.ts (desde la fase 4p; la capa 3D se carga
@@ -23,7 +23,7 @@
  */
 import type { Tema } from '../juegos/tipos.ts';
 import type { Estado, Libre, Tito, Vale, Volumenes } from '../nucleo/tipos.ts';
-import { AC, DIASL, DPR, H, HOME, KEY, MESES, OX, OY, S, SC, SCENES, SFX, STARS, T, V, VIVO, VOICE, W, card, ctx, cv, dist, drawCoinFx, drawHelp, drawLock, drawParts, drawToast, go, initAudio, musicTick, pickVoice, ponT, save, say, scene, sceneArg, sceneName, sceneTok, setVol, text, today, tx, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
+import { AC, DIASL, DPR, H, HOME, KEY, MESES, OX, OY, S, SC, SCENES, SFX, STARS, T, VIVO, VOICE, W, card, ctx, cv, dist, drawCoinFx, drawHelp, drawLock, drawParts, drawToast, go, initAudio, musicTick, pickVoice, ponT, save, say, scene, sceneArg, sceneName, sceneTok, setVol, text, today, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ } from '../temas/indice.ts';
 import { TEMA, TEMAS, dayIdx, gDone, standalone, tst } from '../escenas/escenas2d.ts';
 import { suggestTema, zoneOpen } from '../escenas/zonas.ts';
@@ -56,7 +56,7 @@ function installHTML(){
   if(standalone())return '<p class="note">El juego ya está instalado en este dispositivo.</p>';
   const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
   return (VIVO.deferredInstall?'<p><button id="a-install" style="background:#FFE08A">Instalar Curiolandia</button></p>':'')+
-   `<ul><li><b>iPhone o iPad (Safari):</b> tocá el botón Compartir (el cuadrado con la flecha) y elegí «Agregar a inicio».</li>
+   `<ul><li><b>iPhone o iPad (Safari):</b> toca el botón Compartir (el cuadrado con la flecha) y elige «Agregar a inicio».</li>
    <li><b>Android (Chrome):</b> menú ⋮ → «Instalar aplicación» o «Agregar a la pantalla principal».</li>
    <li><b>Computadora (Chrome o Edge):</b> el ícono de instalar en la barra de direcciones.</li></ul>
    <p class="note">Una vez instalado, se abre a pantalla completa y funciona sin internet. ${ios?'En iPhone la voz depende de las voces en español instaladas en Ajustes → Accesibilidad → Contenido leído.':''}</p>`}
@@ -89,7 +89,7 @@ export function openAdult(){
   VIVO.lockDown=false;VIVO.lockHold=0;try{speechSynthesis.cancel()}catch(e){}
   const el=document.getElementById('adult')!;el.hidden=false;
 // tmOf(listaDeTemas): HTML con una tarjeta por tema: nombre, juegos hechos/total, barra de progreso y si está completo.
-  const tmOf=(L: Tema[])=>L.map(t=>{const n=gDone(t),N=t.games.length;return `<div class="tm ${tst(t.id).done?'done':''}"><b>${esc(V(t.n))}</b>${n}/${N} juegos${tst(t.id).done?' · completo 🌼':''}<div class="bar"><i style="width:${Math.round(n/N*100)}%"></i></div></div>`}).join('');
+  const tmOf=(L: Tema[])=>L.map(t=>{const n=gDone(t),N=t.games.length;return `<div class="tm ${tst(t.id).done?'done':''}"><b>${esc(t.n)}</b>${n}/${N} juegos${tst(t.id).done?' · completo 🌼':''}<div class="bar"><i style="width:${Math.round(n/N*100)}%"></i></div></div>`}).join('');
 // tm: secciones de progreso por zona (cada una con sus temas).
   const tm=([['Jardín de 3 años',[...T3,C3]],['Bosque de 4 años',[...T4,C4]],['Montaña de 5 años',[...T5,C5]],['Canciones, rutinas y trazos',[CAN,RUT,TRZ]],['Días especiales',FIESTAS],['Rincón del inglés',ING]] as [string,Tema[]][]).map(([h,L])=>`<section><h3>${h}</h3><div class="temas">${tmOf(L)}</div></section>`).join('');
 // vales: una fila por vale (casilla de activo, texto y precio en monedas) para editarlos.
@@ -115,14 +115,14 @@ export function openAdult(){
 // Ir a (atajos) y Empezar de cero. Es una plantilla de texto: no se pueden poner comentarios dentro.
   el.querySelector('.body')!.innerHTML=`
   <section><h3>Modo de juego</h3>
-   <div class="row">${[['camino','<b>Camino</b> (recomendado): todo se abre de a uno'],['libre','<b>Libre</b> (todo abierto)']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-mode" value="${k}" ${(k==='libre')===!!S.unlockAll?'checked':''}> ${l}</label>`).join('')}</div>
+   <div class="row">${[['camino','<b>Camino</b> (recomendado): todo se abre de uno en uno'],['libre','<b>Libre</b> (todo abierto)']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-mode" value="${k}" ${(k==='libre')===!!S.unlockAll?'checked':''}> ${l}</label>`).join('')}</div>
    <p class="note"><b>Camino:</b> los temas son un camino y se abren de a uno; dentro de cada tema, los juegos también se abren en orden. El botón verde del mapa lleva siempre al que sigue y lo ya jugado se puede repetir. El Bosque de 4 años y la Montaña de 5 años se abren con la edad elegida o al juntar 6 flores en la zona anterior. Las canciones se abren al terminar 1 tema del camino; las rutinas y el Rincón del inglés, al terminar 2; los trazos, 3, y los días especiales, 4.</p>
    <p class="note"><b>Libre:</b> se puede elegir cualquier tema, cualquier juego y cualquier zona, también las de 4 y 5 años, sin importar la edad. Se puede cambiar en cualquier momento y no se pierde nada de lo jugado.</p></section>
   <section><h3>Perfil</h3>
    <label>Nombre de quien juega <input id="a-name" maxlength="20" value="${esc(S.name||'')}" placeholder="Opcional"></label>
    <div class="row"><span>Edad</span>${[3,4,5].map(n=>`<label class="opt"><input type="radio" name="a-age" value="${n}" ${S.age===n?'checked':''}> ${n} años</label>`).join('')}</div>
    <div class="row"><span>Cumpleaños</span><select id="a-bd">${['—',...Array.from({length:31},(_,i)=>i+1)].map((d,i)=>`<option value="${i}" ${S.bday&&S.bday.d===i?'selected':''}>${d}</option>`).join('')}</select><select id="a-bm">${['—',...MESES].map((m,i)=>`<option value="${i}" ${S.bday&&S.bday.m===i-1?'selected':''}>${m}</option>`).join('')}</select></div>
-   <p class="note">El día del cumpleaños, la Asamblea lo celebra con una torta y velitas.</p></section>
+   <p class="note">El día del cumpleaños, la Asamblea lo celebra con una tarta y velitas.</p></section>
   <section><h3>Personaje de Tito</h3>
    <div class="row">${[['caracol','🐌 Caracol'],['erizo','🦔 Erizo'],['tortuga','🐢 Tortuga'],['conejo','🐰 Conejo']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-kind" value="${k}" ${((S.tito&&S.tito.kind)||'caracol')===k?'checked':''}> ${l}</label>`).join('')}</div>
    <p class="note">Tito sigue llamándose Tito. La ropa y los colores de la tienda le quedan igual (en el erizo el color va en las púas, en la tortuga en el caparazón y en el conejo en la mochila).</p></section>
@@ -143,18 +143,18 @@ export function openAdult(){
    <p class="note">Gana 1 moneda por cada acierto a la primera (hasta 5 por juego), 3 al terminar un juego nuevo, 2 al repetirlo, 10 en el cofre del tesoro al completar un tema (que además trae un regalo sorpresa para Tito o su casa), 3 de regalo al entrar cada día y 5 al terminar la Asamblea. Con las monedas compra ropa y colores para Tito, cosas para su casa, juguetes y mascotas. Las cosas más especiales se abren con estrellas (una por cada juego terminado). La casa de Tito crece en el mapa al terminar 2, 5, 9 y 14 temas; por dentro tiene siete habitaciones que se abren al terminar 1, 3, 5, 8, 11 y 14 temas (dormitorio, cocina, baño, cuarto de juegos, jardín y torre de las estrellas), y las cosas se llevan de una a otra arrastrándolas hasta el botón de la habitación; y Pipo, su dinosaurio, nace y crece con las estrellas (4, 15, 35 y 70). Lleva abiertos <b>${S.cofres||0}</b> cofres. No hay compras con dinero real ni premios al azar.</p>
    <h4>Vales para canjear en la vida real</h4><p class="note">Los vales marcados aparecen en la tienda. Cuando compre uno, aparece abajo para que se lo den.</p>${vales}
    ${pend?`<h4>Vales por entregar</h4>${pend}`:''}</section>
-  ${sug?`<section><h3>Lo que sigue</h3><p class="tip">Próximo tema del camino: <b>${esc(V(sug.n))}</b>. Para seguir fuera de la pantalla: ${esc(tx(sug.tip||'nombrar juntos las cosas del tema que encuentren en casa o en la calle.'))}</p></section>`:''}
+  ${sug?`<section><h3>Lo que sigue</h3><p class="tip">Próximo tema del camino: <b>${esc(sug.n)}</b>. Para seguir fuera de la pantalla: ${esc(sug.tip||'nombrar juntos las cosas del tema que encuentren en casa o en la calle.')}</p></section>`:''}
   <section><h3>Asambleas</h3><p class="note">El tiempo que eligió y cómo se sentía cada día.</p><div class="cal">${cal}</div></section>
   <section><h3>Cómo le va</h3><p class="note">Con esto Tito arma cada día un <b>repaso</b> de 3 juegos: primero los de lo que le cuesta y, si no hay, los que jugó hace más tiempo. El botón verde del mapa pasa una vez por día por el repaso cuando hay algo que cuesta; también se abre con la lupa de arriba del mapa.</p>${sk?`<table><thead><tr><th>Habilidad</th><th>Aciertos</th><th>Intentos</th><th></th></tr></thead><tbody>${sk}</tbody></table>`:'<p class="note">Todavía no hay datos.</p>'}</section>
   <section><h3>Copia de seguridad</h3>
-   <p class="note">Guarda todo el progreso (el camino, las monedas, la casa de Tito, las figuritas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia cada tanto.</p>
+   <p class="note">Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia cada tanto.</p>
    <div class="row"><button id="a-bk-dl">⬇️ Descargar copia</button><button id="a-bk-code">🔑 Ver código de copia</button><label class="opt" style="cursor:pointer">📂 Cargar archivo de copia<input type="file" id="a-bk-file" accept=".json,.txt,application/json,text/plain" hidden></label></div>
-   <textarea id="a-bk-txt" rows="3" style="width:100%;box-sizing:border-box;font:13px/1.3 monospace;border:2px solid var(--ink);border-radius:12px;padding:8px;background:#fff" placeholder="Acá aparece el código para copiar, o pegá acá un código para recuperar una copia."></textarea>
+   <textarea id="a-bk-txt" rows="3" style="width:100%;box-sizing:border-box;font:13px/1.3 monospace;border:2px solid var(--ink);border-radius:12px;padding:8px;background:#fff" placeholder="Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia."></textarea>
    <div class="row"><button id="a-bk-copy">📋 Copiar código</button><button id="a-bk-load">♻️ Recuperar con este código</button></div>
    <div id="a-bk-msg" class="note"></div></section>
   <section><h3>Instalar en el celular o la tablet</h3>${installHTML()}</section>
   <section><h3>Ir a</h3><div class="row"><button data-go="map">Mapa</button><button data-go="asamblea">Asamblea</button><button data-go="jardin">Jardín de 3 años</button><button data-go="bosque">Bosque de 4 años</button><button data-go="montana">Montaña de 5 años</button><button data-go="fiestas">Días especiales</button><button data-go="tienda">Tienda</button><button data-go="casaTito">Casa de Tito</button><button data-go="album">Álbum</button><button data-go="intro">Ver el cuento del inicio</button></div>
-   <div class="row"><select id="a-tema">${TEMAS.map(t=>`<option value="${t.id}">${esc(V(t.n))}</option>`).join('')}</select><button id="a-gotema">Ir al tema</button></div></section>
+   <div class="row"><select id="a-tema">${TEMAS.map(t=>`<option value="${t.id}">${esc(t.n)}</option>`).join('')}</select><button id="a-gotema">Ir al tema</button></div></section>
   <section><h3>Empezar de cero</h3><button id="a-reset" class="danger">Borrar todo el progreso</button><span id="a-confirm" hidden> ¿Seguro? <button id="a-yes" class="danger">Sí, borrar</button> <button id="a-no">No</button></span></section>`;
 // q(selector): busca un elemento dentro del panel. A partir de aquí se conecta cada control con S.
   const q=(s: string)=>el.querySelector<HTMLInputElement>(s)!;
@@ -282,7 +282,7 @@ export function frame(now: number){
     ctx.fillStyle='rgba(46,36,32,.08)';if(x0>0){ctx.fillRect(0,0,x0,cv.height);ctx.fillRect(x0+gw,0,rw,cv.height)}if(y0>0){ctx.fillRect(0,0,cv.width,y0);ctx.fillRect(0,y0+gh,cv.width,rh)}
     ctx.restore()}catch(e){}}
   // fuera del recorte de la franja del juego: el velo oscuro tapa toda la pantalla (antes solo la franja del juego y en vertical se veía el 3D arriba y abajo)
-  if(isPortrait()&&!portraitOk){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle='rgba(46,36,32,.88)';ctx.fillRect(0,0,cv.width,cv.height);ctx.restore();ctx.save();ctx.translate(800,400);ctx.rotate(Math.sin(T*2)*.8-.8);card(-90,-160,180,320,'#fff',10,30);ctx.restore();text(V('Gira el móvil'),800,700,90,'#fff');text(V('(toca para seguir igual)'),800,790,44,'#FCEBD0')}
+  if(isPortrait()&&!portraitOk){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle='rgba(46,36,32,.88)';ctx.fillRect(0,0,cv.width,cv.height);ctx.restore();ctx.save();ctx.translate(800,400);ctx.rotate(Math.sin(T*2)*.8-.8);card(-90,-160,180,320,'#fff',10,30);ctx.restore();text('Gira el móvil',800,700,90,'#fff');text('(toca para seguir igual)',800,790,44,'#FCEBD0')}
   requestAnimationFrame(frame);
 }
 // window.__cl: puerta para las pruebas automáticas (y para depurar desde la consola): ir a escenas, leer S y la escena,
@@ -322,7 +322,7 @@ function bkWire(q: (s: string)=>HTMLInputElement){const msg=(h: string)=>{q('#a-
     msg('Si no se descargó nada, usá el código de copia.')};
 // ask(texto): intenta leer una copia y pide confirmación antes de reemplazar el progreso. Todo lo que viene de la copia
 // y se enseña va escapado (esc) o pasado a número: una copia editada no puede meter HTML en el panel.
-  const ask=async(src: string)=>{let d: Libre;try{d=await bkDecode(src)}catch(e){msg((e as Error).message==='navegador'?'Este navegador no puede abrir ese código. Probá con el archivo de copia.':'❌ Eso no parece una copia de Curiolandia. Revisá que el código esté completo.');return}
+  const ask=async(src: string)=>{let d: Libre;try{d=await bkDecode(src)}catch(e){msg((e as Error).message==='navegador'?'Este navegador no puede abrir ese código. Prueba con el archivo de copia.':'❌ Eso no parece una copia de Curiolandia. Revisá que el código esté completo.');return}
     const nT=Object.values<Libre>(d.temas||{}).filter(t=>t&&t.done).length,nG=Object.values<Libre>(d.temas||{}).reduce((a: number,t)=>a+Object.keys((t&&t.g)||{}).length,0);
     msg(`Copia encontrada${d.name?' de <b>'+esc(d.name)+'</b>':''}: ${nT} temas terminados, ${nG} juegos jugados y ${Math.max(0,Math.floor(+d.coins)||0)} monedas. <b>Reemplaza el progreso actual de este dispositivo.</b> <button id="a-bk-ok" class="danger">Sí, recuperar esta copia</button>`);
     q('#a-bk-ok').onclick=()=>{if(!escribirGuardado(KEY,JSON.stringify(d))){msg('❌ No se pudo guardar en este navegador.');return}location.reload()}};

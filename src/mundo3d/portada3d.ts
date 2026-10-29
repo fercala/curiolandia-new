@@ -11,7 +11,7 @@ import type * as Tres from 'three';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Nodo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { FLC, LF, PI, S, SCENES, T, V, VIVO, card, circ, ctx, fillStroke, hC, hR, hv, text } from '../nucleo/indice.ts';
+import { FLC, LF, PI, S, SCENES, T, VIVO, card, circ, ctx, fillStroke, hC, hR, hv, text } from '../nucleo/indice.ts';
 import { LOGOC, drawLogo, pill, standalone } from '../escenas/escenas2d.ts';
 import { W3, camRig, newWorld, projO, setWorld } from './motor.ts';
 import { Cyl, V3, canvasTex, gradTex, mk, spr } from './materiales.ts';
@@ -43,7 +43,7 @@ const portada2D=SCENES.title;
   enter(o: Libre){portada2D.enter!.call(this,o);setWorld(buildTitle())},
   // draw(): encima del mundo, el logo, el subtítulo, «3D», el botón de jugar y los de abajo, pantalla completa e instalar
   draw(){drawLogo(800,200,140);
-    text(V('Tito y las preguntas escondidas'),800,280,44,K,{w:600,st:10,sc:'#FFF6E6'});
+    text('Tito y las preguntas escondidas',800,280,44,K,{w:600,st:10,sc:'#FFF6E6'});
     {ctx.save();text('3D',1180,150,54,'#fff',{f:LF,st:12,sc:'#9B8AD9'});ctx.restore()}
     const p=hv('play',hC(1180,560,120))*(1+Math.sin(T*4)*.05);ctx.save();ctx.translate(1180,560);ctx.scale(p,p);circ(0,0,110,'#7CC86E',8);ctx.beginPath();ctx.moveTo(-30,-48);ctx.lineTo(54,0);ctx.lineTo(-30,48);ctx.closePath();fillStroke('#fff',6);ctx.restore();
     if(S.age){pill(205,830,330,80,S.name?'Juega: '+S.name:'¿Quién juega?');pill(1395,830,330,80,'Empezar de nuevo','#fff','#C0473C')}

@@ -14,7 +14,7 @@ import type * as Tres from 'three';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, DIAC, FLC, LF, PI, S, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, fillStroke, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, tx, titoPos } from '../nucleo/indice.ts';
+import { DF, DIAC, FLC, LF, PI, S, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, fillStroke, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { asamHoy, drawLogoSmall } from '../escenas/escenas2d.ts';
 import { MAINZ, MZ2, SEGUIR, ZAGE, drawSeguir, goSeguir, houseLevel, mzOf, nextTema, petStage, spotNeed, spotOpen, zoneOpen } from '../escenas/zonas.ts';
 import { ponDisposicion } from '../nucleo/disposicion.ts';
@@ -67,16 +67,16 @@ const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
     mk(mg(Array.from({length:16},(_,i)=>{const a=i/16*PI*2;return[Box(.14,.6,.14),[Math.cos(a)*3.05,.45,Math.sin(a)*2.35]]})),'#C98A4B',{to:g,ol:.025});
     [[-1.4,-.4,0],[.3,-.9,1],[1.6,.2,2],[-.4,.9,3]].forEach(([x,z,i])=>{const h=grp(g,[x,.2,z],.75);mk(Box(1.1,.8,.9),'#FFF3B0',{p:[0,.4,0],to:h,ol:.04});mk(Cone(.95,.75,4),FLC[i],{p:[0,1.18,0],r:[0,PI/4,0],to:h,ol:.04});mk(Box(.28,.45,.06),'#C98A4B',{p:[0,.25,.46],to:h,ol:.02})});
     for(let i=0;i<7;i++)flower3(g,-2.4+i*.8,1.75+(i%2)*.25,FLC[i%7],.7,.2);
-    pillSpr(tx('3 años'),'#FF8A7A','#fff',{p:[0,2.9,0],w:3.2,to:g})},
+    pillSpr('3 años','#FF8A7A','#fff',{p:[0,2.9,0],w:3.2,to:g})},
   // bosque (4 años): árboles de varias estaciones y la pastilla «4 años»; cerrado: gris y con zzz
   bosque(g: Tres.Group,open: boolean){mk(Cyl(3.1,3.2,.2,30),open?'#8CCB78':'#CFC8BF',{p:[0,.1,0],s:[1,1,.8],to:g,ol:.05});
     ([[-1.7,.4,.85,'otoño'],[0,-.6,1.05,'verano'],[1.7,.3,.9,'verano'],[-.7,1.4,.7,'otoño'],[1,1.5,.7,'primavera'],[-2.2,-.9,.7,null],[2.3,-.9,.7,null]] as [number, number, number, string|null][]).forEach(([x,z,s,k])=>tree3(g,x,z,s,open?(k||'verano'):'gris',!k));
-    spr(pillTex(tx('4 años'),open?'#7CC86E':'#B8B0A6','#fff',72),4,1,{p:[0,.65,3.1],to:g});if(!open)zzz(g,[2,3.2,0])},
+    spr(pillTex('4 años',open?'#7CC86E':'#B8B0A6','#fff',72),4,1,{p:[0,.65,3.1],to:g});if(!open)zzz(g,[2,3.2,0])},
   // montaña (5 años): dos picos nevados, flores si está abierta, piedras y la pastilla «5 años»
   montana(g: Tres.Group,open: boolean){const gc=open?'#A7BCD6':'#CFC8BF';mk(Cone(2.4,4.2,9),gc,{p:[-1,2.1,-.4],to:g,ol:.07});mk(Cone(2,3.4,9),gc,{p:[1.5,1.7,.2],to:g,ol:.07});
     mk(Cone(.95,1.65,9),'#FFFFFF',{p:[-1,3.4,-.4],to:g,ol:.05});mk(Cone(.75,1.3,9),'#FFFFFF',{p:[1.5,2.8,.2],to:g,ol:.05});
     if(open)for(let i=0;i<5;i++)flower3(g,-2+i*1,2+(i%2)*.3,FLC[i+1],.75,0);rock3(g,2.8,1.4,.8);rock3(g,-3,1.2,.6);
-    pillSpr(tx('5 años'),open?'#5B8DEF':'#B8B0A6','#fff',{p:[0,.6,2.9],w:3.2,to:g});if(!open)zzz(g,[2.3,4,0])},
+    pillSpr('5 años',open?'#5B8DEF':'#B8B0A6','#fff',{p:[0,.6,2.9],w:3.2,to:g});if(!open)zzz(g,[2.3,4,0])},
   // canciones: carpa de rayas con bandera y notas musicales que suben
   canciones(g: Tres.Group){mk(Cyl(1.5,1.5,1.3,16),M('#fff',{map:stripesTex()}),{p:[0,.65,0],to:g,ol:.05});mk(Cone(1.85,1.6,16),'#FF6B5E',{p:[0,2.1,0],to:g,ol:.05});
     mk(Cyl(.03,.03,.7,6),K,{p:[0,3.1,0],ol:0,to:g});mk(new THREE.PlaneGeometry(.5,.3),new THREE.MeshToonMaterial({color:'#FFC93C',gradientMap:gradiente(),side:THREE.DoubleSide}),{p:[.25,3.3,0],ol:0,to:g});
@@ -111,7 +111,7 @@ const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
   // tienda: mostrador con toldo de rayas, monedas y dibujos; si hay monedas (S.coins), una moneda gira encima
   tienda(g: Tres.Group){mk(Box(2.6,1,1.1),'#FFF3D6',{p:[0,.5,.3],to:g,ol:.05});for(const x of[-1.2,1.2])for(const z of[-.3,.8])mk(Box(.13,2.3,.13),'#C98A4B',{p:[x,1.15,z],to:g,ol:.025});
     const aw=grp(g,[0,2.35,.25]);aw.rotation.x=.25;for(let i=0;i<6;i++)mk(Box(.47,.12,1.6),i%2?'#fff':'#FF6B5E',{p:[-1.18+i*.47,0,0],to:aw,ol:.025});
-    spr(pillTex(tx('Tienda'),'#7CC86E','#fff',80),3.2,.8,{p:[0,3.3,0],to:g});
+    spr(pillTex('Tienda','#7CC86E','#fff',80),3.2,.8,{p:[0,3.3,0],to:g});
     for(let i=0;i<5;i++)mk(Cyl(.2,.2,.07,16),'#FFC93C',{p:[-.7+(i%3)*.3,1.05+Math.floor(i/3)*.08,.4+(i%2)*.15],to:g,ol:.02});
     spr(picTex('manzana'),.6,.6,{p:[.5,1.3,.4],to:g});spr(picTex('pelota'),.6,.6,{p:[.95,1.3,.4],to:g});
     if(S.coins!>0){const c=mk(Cyl(.4,.4,.1,24),'#FFC93C',{p:[1.4,2.6,.6],r:[PI/2,0,0],to:g,ol:.03});g.userData.anim=()=>{c.rotation.z=T*3;c.position.y=2.9+Math.sin(T*3)*.12}}},

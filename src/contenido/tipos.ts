@@ -1,5 +1,5 @@
 // contenido/tipos.ts: los tipos de los cuentos de contenido/cuentos.ts (fase 2g). Story (juegos/comps2.ts) los lee.
-// Los textos están en rioplatense o ya en castellano de España; V() (nucleo/idioma.ts) los pasa por tx().
+// Los textos están en castellano de España.
 
 /** Un dibujo de una página: [clave de PICS o 'emo:…', x, y, tamaño, volteado]. x,y = centro en la pantalla de 1600x900. */
 export type DibujoCuento = readonly [clave: string, x: number, y: number, s: number, volteado?: boolean];

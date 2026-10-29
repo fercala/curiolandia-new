@@ -50,7 +50,7 @@
  * Importa:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, ctx, text, card, circ, hv,
  *   hR, hC, burst, sparkles, giveSticker, AGE, today, rec, kid, praise,
- *   pick, rnd, VIVO.idle, tx, V, pic, drawTito, TITO, inTito, drawHome, atHome...),
+ *   pick, rnd, VIVO.idle, pic, drawTito, TITO, inTito, drawHome, atHome...),
  *   temas/ (T3/T4/T5, C3/C4/C5, CAN, RUT, TRZ, FIESTAS, ING, makeGame, dayNight, bunting),
  *   juegos/ (NUM, TUNES, playTune: la canción del cumpleaños), src/dibujos/ (PICS, K),
  *   esCumple de dominio/progreso.ts (isBday), repeticion de dominio/dificultad.ts (VIVO.REP) y el caso de uso
@@ -66,7 +66,7 @@
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, V, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tree, tx, whenQuiet, ymd } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tree, whenQuiet, ymd } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TRZ, bunting, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
@@ -128,7 +128,7 @@ SCENES.title={music:null,
     sky('#FFF6E6','#FCE3C0');
     for(const f of this.q){ctx.globalAlpha=.3;text('?',f.x+Math.sin(T+f.ph)*20,f.y,90,f.c);ctx.globalAlpha=1}
     drawLogo(800,230,150);
-    text(V('Tito y las preguntas escondidas'),800,310,46,K,{w:600});
+    text('Tito y las preguntas escondidas',800,310,46,K,{w:600});
     drawTito(470,420,380,{bubble:false});
     const p=hv('play',hC(1080,560,120))*(1+Math.sin(T*4)*.05); ctx.save();ctx.translate(1080,560);ctx.scale(p,p);circ(0,0,110,'#7CC86E',8);ctx.beginPath();ctx.moveTo(-30,-48);ctx.lineTo(54,0);ctx.lineTo(-30,48);ctx.closePath();fillStroke('#fff',6);ctx.restore();
     if(S.age){pill(205,830,330,80,S.name?'Juega: '+S.name:'¿Quién juega?');pill(1395,830,330,80,'Empezar de nuevo','#fff','#C0473C')}
@@ -154,12 +154,12 @@ SCENES.title={music:null,
 // saltado antes) o a 'intro'/mapa. La edad decide qué zona se abre sola y qué pasos tiene la asamblea.
 SCENES.edad={music:'title',
 // enter(): Tito pide que un adulto toque la edad.
-  enter(){say('¡Hola! Para empezar, un grande tiene que tocar la edad de quien va a jugar.')},
+  enter(){say('¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.')},
 // draw(): título y tres globos (3, 4, 5 años) que se mecen; cada globo crece al pasar el ratón.
   draw(){
     sky('#FFF6E6','#FCE3C0');
     text('¿Cuántos años tiene quien va a jugar?',800,170,56,K,{w:600});
-    text(tx('(Lo elige un adulto. Se puede cambiar después.)'),800,230,30,'#7A6252',{w:500});
+    text('(Lo elige un adulto. Se puede cambiar después.)',800,230,30,'#7A6252',{w:500});
     [3,4,5].forEach((n,i)=>{const x=480+i*320,y=520,b=Math.sin(T*2+i)*8,s=hv('age'+n,hC(x,y,140));
       ctx.beginPath();ctx.moveTo(x,y+130+b);ctx.quadraticCurveTo(x+20,y+200,x-10,y+260);ctx.lineWidth=4;ctx.strokeStyle=K;ctx.stroke();
       ctx.save();ctx.translate(x,y+b);ctx.scale(s,s);ell(0,0,120,140,['#FF8A7A','#7CC86E','#5B8DEF'][i],7);text(String(n),0,30,140,'#fff',{f:LF,st:10});text('años',0,84,36,'#fff',{w:600});ctx.restore()});
@@ -172,14 +172,14 @@ SCENES.edad={music:'title',
 // ¿QUIÉN JUEGA? Pide el nombre del niño (lo escribe un adulto en el diálogo openNameDlg). Se puede saltar.
 SCENES.quien={music:'title',
 // enter(): Tito se presenta y pide el nombre.
-  enter(){later(300,()=>sayQ('¡Hola! Yo soy Tito. ¿Cómo te llamás? Pedile a un grande que escriba tu nombre.'))},
+  enter(){later(300,()=>sayQ('¡Hola! Yo soy Tito. ¿Cómo te llamas? Pídele a un mayor que escriba tu nombre.'))},
 // prompt(): repite la consigna (la llama drawHelp cuando el niño no hace nada).
-  prompt(){say('Pedile a un grande que escriba tu nombre.')},
+  prompt(){say('Pídele a un mayor que escriba tu nombre.')},
 // hint(): la ayuda señala el botón "Escribir el nombre".
   hint(){return{x:800,y:640,r:150}},
 // done(v): se llama al cerrar el diálogo del nombre (v = nombre escrito, o '' si se salta). Si hay nombre,
 // lo celebra diciéndolo; después va a 'intro' o al mapa.
-  done(v?: string){if(v){SFX.tada();burst(800,400,50);say(`¡Hola, ${v}! ¡Qué lindo nombre!`,()=>later(400,()=>go(S.intro?'map':'intro',{hello:true})))}else go(S.intro?'map':'intro',{hello:true})},
+  done(v?: string){if(v){SFX.tada();burst(800,400,50);say(`¡Hola, ${v}! ¡Qué bonito nombre!`,()=>later(400,()=>go(S.intro?'map':'intro',{hello:true})))}else go(S.intro?'map':'intro',{hello:true})},
 // down(x, y): botón "Escribir el nombre" -> abre el diálogo; "Saltar" -> marca S.first.askedName para no
 // volver a preguntar y sigue; en otro sitio, solo chispas.
   down(x,y){
@@ -187,7 +187,7 @@ SCENES.quien={music:'title',
     if(Math.abs(x-800)<140&&Math.abs(y-790)<40){SFX.tap();S.first.askedName=1;save();this.done('');return}
     SFX.tap();sparkles(x,y,3)},
 // draw(): título, Tito, botón verde para escribir el nombre y "Saltar".
-  draw(){sky('#FFF6E6','#FCE3C0');text(tx('¿Cómo te llamás?'),800,170,72,K,{w:600});
+  draw(){sky('#FFF6E6','#FCE3C0');text('¿Cómo te llamas?',800,170,72,K,{w:600});
     drawTito(640,250,320,{bubble:false});
     pill(800,640,460,150,'Escribir el nombre','#7CC86E','#fff',48);
     text('Saltar',800,800,34,'#7A6252')}
@@ -203,7 +203,7 @@ SCENES.intro={music:'title',
 // En la frase 1 lanza los 16 interrogantes. Cuando ya no quedan frases guarda S.intro y va al mapa.
   next(){
     // la presentación cambia con el personaje de Tito (zona de adultos); la del caracol es la de siempre
-    const lines=[(({erizo:'¡Hola! Yo soy Tito, el erizo curioso. En mi mochila guardo un montón de preguntas.',tortuga:'¡Hola! Yo soy Tito, la tortuga curiosa. En mi mochila guardo un montón de preguntas.',conejo:'¡Hola! Yo soy Tito, el conejo curioso. En mi mochila guardo un montón de preguntas.'} as Record<string, string>))[titoKind()]||'¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.','Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!','¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?','¿Me ayudás a encontrar las respuestas'+kid()+'? ¡Vamos a Curiolandia!'];
+    const lines=[(({erizo:'¡Hola! Yo soy Tito, el erizo curioso. En mi mochila guardo un montón de preguntas.',tortuga:'¡Hola! Yo soy Tito, la tortuga curiosa. En mi mochila guardo un montón de preguntas.',conejo:'¡Hola! Yo soy Tito, el conejo curioso. En mi mochila guardo un montón de preguntas.'} as Record<string, string>))[titoKind()]||'¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.','Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!','¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?','¿Me ayudas a encontrar las respuestas'+kid()+'? ¡Vamos a Curiolandia!'];
     if(this.ph>=lines.length){S.intro=true;save();go('map',{hello:true});return}
     this.t=0; if(this.ph===1){SFX.whoosh();for(let i=0;i<16;i++)this.qs.push({a:rnd(-2.6,-.4),v:rnd(200,520),c:pick(LOGOC),r:rnd(-1,1),t0:T+i*.06})}
     say(lines[this.ph],()=>later(700,()=>{this.ph++;this.next()}));
@@ -254,8 +254,8 @@ export function drawCasita(t: Tema,x: number,y: number,o: Libre={}){
 /* ---------- ESTACIONES DE LA CASITA ---------- */
 // GNAME: nombre que dice Tito para cada tipo de juego (g.t), cuando el juego no trae su propio g.name.
 // Desde la fase 4d están aquí todos (antes escenas/zonas.ts añadía los de los temas extra, las fiestas y los cuentos).
-export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde está?',memoria:'Memoria',sonido:'¿Quién hace este sonido?',cuerpo:'Mi cuerpo',toca:'Tocá la parte del cuerpo',puzzle:'Rompecabezas',pinta:'Pintar',clasifica:'Las canastas',
-  burbujas:'Burbujas de colores',cae:'¡Atrapalas!',viste:'Vestir al nene',ordena:'Ordenar',mifamilia:'Armá tu familia',arma:'Hacer un muñeco de nieve',macedonia:'Ensalada de frutas',cuenta:'Contar',corral:'Dentro y fuera del corral',
+export const GNAME: Record<string, string>={conocer:'Conocer',busca:'¿Dónde está?',memoria:'Memoria',sonido:'¿Quién hace este sonido?',cuerpo:'Mi cuerpo',toca:'Toca la parte del cuerpo',puzzle:'Rompecabezas',pinta:'Pintar',clasifica:'Las canastas',
+  burbujas:'Burbujas de colores',cae:'¡Atrápalas!',viste:'Vestir al niño',ordena:'Ordenar',mifamilia:'Arma tu familia',arma:'Hacer un muñeco de nieve',macedonia:'Ensalada de frutas',cuenta:'Contar',corral:'Dentro y fuera del corral',
   guarda:'Dentro y fuera',riega:'Regar las flores',excava:'Cavar en la arena',
   cuento:'El cuento',cancion:'La canción',trazo:'Trazos',secuencia:'¿Qué va primero?',series:'¿Qué viene después?',velas:'Soplar las velitas',decora:'Decorar'};
 // gIcon(g, t): dibujo de la estación del juego g del tema t: g.icon si lo trae; si no 'lupa' (conocer), 'busca',
@@ -327,9 +327,9 @@ SCENES.juego={music:'game',
 // EMO (las emociones) y drawFace (su carita) están desde la fase 4o en juegos/caras.ts.
 // EMO_AGE: qué emociones salen según la edad. EMO_SAY: lo que dice Tito al elegir cada una. EMO_TIP: consejo extra (5 años).
 const EMO_AGE: Record<number, string[]>={3:['alegria','tristeza','enojo'],4:['alegria','tristeza','enojo','miedo','sorpresa'],5:['alegria','tristeza','enojo','miedo','sorpresa','calma','verguenza']};
-const EMO_SAY: Record<string, string>={alegria:'¡Qué bueno! Hoy sentís alegría. ¡Yo también estoy feliz de verte!',tristeza:'Hoy sentís tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.',enojo:'Hoy sentís enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.',
-  miedo:'Hoy sentís miedo. Si tenés miedo, buscá a un grande que te cuide.',sorpresa:'¡Hoy sentís sorpresa! ¡Qué emocionante!',calma:'Hoy sentís calma. ¡Qué lindo sentirse así!',verguenza:'Hoy sentís vergüenza. Nos pasa a todos. Respirá hondo y sonreí.'};
-const EMO_TIP: Record<string, string>={tristeza:' Podés contarle a alguien lo que te pasa.',enojo:' Y después contá lo que te enojó con palabras.',miedo:' Hablar de lo que da miedo lo hace más chiquito.'};
+const EMO_SAY: Record<string, string>={alegria:'¡Qué bueno! Hoy sientes alegría. ¡Yo también estoy feliz de verte!',tristeza:'Hoy sientes tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.',enojo:'Hoy sientes enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.',
+  miedo:'Hoy sientes miedo. Si tienes miedo, busca a un mayor que te cuide.',sorpresa:'¡Hoy sientes sorpresa! ¡Qué emocionante!',calma:'Hoy sientes calma. ¡Qué bonito sentirse así!',verguenza:'Hoy sientes vergüenza. Nos pasa a todos. Respira hondo y sonríe.'};
+const EMO_TIP: Record<string, string>={tristeza:' Puedes contarle a alguien lo que te pasa.',enojo:' Y después cuenta lo que te enojó con palabras.',miedo:' Hablar de lo que da miedo lo hace más pequeñito.'};
 // WX: tipos de tiempo. {clave: {k: dibujo, s: frase de Tito}}. WX_AGE: cuáles salen según la edad.
 // WX_ROPA: prendas correctas para cada tiempo (paso 'ropa' de 4 años).
 export const WX: Record<string, { k: string; s: string }>={sol:{k:'sol',s:'¡Hoy hace sol!'},nublado:{k:'nublado',s:'¡Hoy está nublado!'},lluvia:{k:'lluvia',s:'¡Hoy llueve!'},viento:{k:'viento',s:'¡Hoy hay viento!'},nieve:{k:'nieve',s:'¡Hoy nieva!'},tormenta:{k:'tormenta',s:'¡Hoy hay tormenta!'},niebla:{k:'niebla',s:'¡Hoy hay niebla!'}};
@@ -368,34 +368,34 @@ SCENES.asamblea={music:'plaza',
 // v: valor, ok: si es correcta}; se le añaden x, y, s (tamaño) e "in" (momento en que aparece, para la animación).
   setOpts(list: Libre[],y=520,s=230){const n=list.length,gap=s+24;this.opts=list.map((o: Libre,i: number)=>Object.assign({x:800-(n-1)*gap/2+i*gap,y,s,in:T+i*.08},o))},
 // in_hola(): paso 1, pasar lista: tocar la foto propia.
-  in_hola(){this.ask(()=>say(`¡Buen día${kid()}! Empieza la asamblea. ¿Estás acá? ¡Tocá tu foto!`))},
+  in_hola(){this.ask(()=>say(`¡Buen día${kid()}! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!`))},
 // in_cumple(): crea una vela por año (this.vs, máximo 7), toca la canción y pide soplarlas.
   in_cumple(){const n=clamp(S.age||AGE(),1,7);this.vs=Array.from({length:n},(_,j)=>({x:800-(n-1)*55+j*110,y:340,on:1}));this.vc=0;
-    later(300,()=>{playTune(TUNES.cumple);say('¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños'+kid()+'! Soplá las velitas: tocá cada una.')})},
+    later(300,()=>{playTune(TUNES.cumple);say('¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños'+kid()+'! Sopla las velitas: toca cada una.')})},
 // in_dianoche(): (3 años) ¿es de día o de noche? Correcto según la hora real (de 7 a 20 h es de día).
   in_dianoche(){const h=this.d.getHours(),day=h>=7&&h<20;this.setOpts([{draw:(x: number,y: number,s: number)=>dayNight(1).draw(x,y,s),ok:day,v:'dia'},{draw:(x: number,y: number,s: number)=>dayNight(0).draw(x,y,s),ok:!day,v:'noche'}],500,300);this.ask(()=>say('¿Ahora es de día o de noche?'))},
 // in_dia(): el tren de los días (this.wag, un vagón por día). 3 años: Tito canta los días (sing) y hace saltar el
 // vagón de hoy. 4-5 años: dice qué día fue ayer y el niño busca hoy.
   in_dia(){const a=AGE();this.wag=DIASL.map((_d,i)=>({x:330+i*168,y:520,i}));
-    if(a<=3){this.busy=true;later(300,()=>sayQ('Cantemos los días de la semana.',()=>this.sing(()=>{this.bounce=this.ti;say('Hoy es '+DIASL[this.ti]+'. ¡Tocá el vagón de hoy, el que salta!',()=>{this.busy=false})})))}
-    else{const y=DIASL[(this.ti+6)%7];this.ask(()=>say('Ayer fue '+y+'. ¿Qué día es hoy? Tocá el vagón.'))}},
+    if(a<=3){this.busy=true;later(300,()=>sayQ('Cantemos los días de la semana.',()=>this.sing(()=>{this.bounce=this.ti;say('Hoy es '+DIASL[this.ti]+'. ¡Toca el vagón de hoy, el que salta!',()=>{this.busy=false})})))}
+    else{const y=DIASL[(this.ti+6)%7];this.ask(()=>say('Ayer fue '+y+'. ¿Qué día es hoy? Toca el vagón.'))}},
 // in_manana(): (5 años) el tren con "HOY" marcado; hay que tocar mañana.
-  in_manana(){this.wag=DIASL.map((_d,i)=>({x:330+i*168,y:520,i}));this.mark=this.ti;this.ask(()=>say('Hoy es '+DIASL[this.ti]+'. ¿Y mañana qué día será? Tocá el vagón de mañana.'))},
+  in_manana(){this.wag=DIASL.map((_d,i)=>({x:330+i*168,y:520,i}));this.mark=this.ti;this.ask(()=>say('Hoy es '+DIASL[this.ti]+'. ¿Y mañana qué día será? Toca el vagón de mañana.'))},
 // in_mes(): (5 años) calendario del mes (this.cal: {n, x, y} por día, empezando en lunes); hay que tocar el número de hoy.
   in_mes(){const d=this.d,first=new Date(d.getFullYear(),d.getMonth(),1),n=new Date(d.getFullYear(),d.getMonth()+1,0).getDate(),o=dayIdx(first);
     this.cal=[];for(let i=1;i<=n;i++){const p=o+i-1;this.cal.push({n:i,x:520+(p%7)*110,y:300+Math.floor(p/7)*92})}
-    this.ask(()=>say('Estamos en '+MESES[d.getMonth()]+'. Hoy es '+d.getDate()+'. Tocá el número '+d.getDate()+' en el calendario.'))},
+    this.ask(()=>say('Estamos en '+MESES[d.getMonth()]+'. Hoy es '+d.getDate()+'. Toca el número '+d.getDate()+' en el calendario.'))},
 // in_tiempo(): ¿qué tiempo hace? Todas las opciones valen (ok: true): se apunta lo que diga el niño.
-  in_tiempo(){this.setOpts(WX_AGE[AGE()].map(w=>({draw:(x: number,y: number,s: number)=>pic(WX[w].k,x,y,s*.85),v:w,ok:true})),520,AGE()>=5?170:AGE()===4?200:250);this.ask(()=>say('¿Qué tiempo hace hoy? Mirá por la ventana de tu casa y tocá el dibujo.'))},
+  in_tiempo(){this.setOpts(WX_AGE[AGE()].map(w=>({draw:(x: number,y: number,s: number)=>pic(WX[w].k,x,y,s*.85),v:w,ok:true})),520,AGE()>=5?170:AGE()===4?200:250);this.ask(()=>say('¿Qué tiempo hace hoy? Mira por la ventana de tu casa y toca el dibujo.'))},
 // in_ropa(): (4 años) una prenda buena para el tiempo elegido y dos que no van, mezcladas.
   in_ropa(){const w=this.rec.tiempo||'sol',good=pick(WX_ROPA[w]),bad=shuffle(['gafas','gorra','guantes','gorro','paraguas','remera','bufanda'].filter(k=>!WX_ROPA[w].includes(k))).slice(0,2);
     this.setOpts(shuffle([good,...bad]).map(k=>({draw:(x: number,y: number,s: number)=>pic(k,x,y,s*.8),v:k,ok:k===good})),540,250);this.ask(()=>say('Con este tiempo, ¿qué nos ponemos para salir?'))},
 // in_estacion(): (4-5 años) cuatro árboles; correcto el de la estación actual (estacionDe, según el hemisferio).
-  in_estacion(){const e=estacionDe(this.d);this.setOpts(ESTACIONES.map(s=>({draw:(x: number,y: number,sz: number)=>tree(x,y+sz*.25,sz/280,s),v:s,ok:s===e})),520,250);this.ask(()=>say('¿En qué estación estamos? Tocá el árbol.'))},
+  in_estacion(){const e=estacionDe(this.d);this.setOpts(ESTACIONES.map(s=>({draw:(x: number,y: number,sz: number)=>tree(x,y+sz*.25,sz/280,s),v:s,ok:s===e})),520,250);this.ask(()=>say('¿En qué estación estamos? Toca el árbol.'))},
 // in_siguiente(): (5 años) ¿qué estación viene después? (SEASON_NEXT).
   in_siguiente(){const e=estacionDe(this.d),n=SEASON_NEXT[e];this.setOpts(ESTACIONES.map(s=>({draw:(x: number,y: number,sz: number)=>tree(x,y+sz*.25,sz/280,s),v:s,ok:s===n})),520,250);this.ask(()=>say('Ahora es '+e+'. ¿Qué estación viene después?'))},
 // in_emocion(): ¿cómo te sientes? Caritas según la edad; todas valen.
-  in_emocion(){this.setOpts(EMO_AGE[AGE()].map(m=>({draw:(x: number,y: number,s: number)=>drawFace(x,y,s*.42,m),v:m,ok:true})),520,AGE()>=5?175:AGE()===4?220:260);this.ask(()=>say(tx('¿Cómo te sentís hoy? Tocá la carita.')))},
+  in_emocion(){this.setOpts(EMO_AGE[AGE()].map(m=>({draw:(x: number,y: number,s: number)=>drawFace(x,y,s*.42,m),v:m,ok:true})),520,AGE()>=5?175:AGE()===4?220:260);this.ask(()=>say('¿Cómo te sientes hoy? Toca la carita.'))},
 // in_fin(): cierra la asamblea: guarda S.asam[hoy] con done y edad, borra las más antiguas (se quedan 120 días) y,
 // si es la 3.ª asamblea de la semana (desde el lunes, wk), regala una figurita una sola vez por semana (S.first.wk).
 // Después vuelve al mapa. La primera asamblea terminada de cada día regala además 5 monedas (MONEDAS.asamblea). Lo que cambia
@@ -405,13 +405,13 @@ SCENES.asamblea={music:'plaza',
     const fin=terminarAsamblea(S,today(),wk,this.rec,AGE());this.rec=fin.hoy;Object.assign(S,fin.partida);save();
     SFX.tada();burst(800,400,80);
     let line='¡Terminamos la asamblea'+kid()+'! ¡Ahora a jugar!';
-    if(fin.figurita){giveSticker('estrella');line='¡Tres asambleas esta semana! ¡Ganaste una figurita! Ahora, ¡a jugar!'}
+    if(fin.figurita){giveSticker('estrella');line='¡Tres asambleas esta semana! ¡Ganaste una pegatina! Ahora, ¡a jugar!'}
     say(line,()=>later(800,()=>go('map')));if(fin.monedas)later(400,()=>giveCoins(fin.monedas,800,420))},
 // sing(cb): canta los siete días uno a uno (this.singI = el que suena, para que su vagón salte) y al acabar llama a cb.
 // st() dice un día y, cuando termina, programa el siguiente.
   sing(cb: () => void){let i=0;const st=()=>{if(i>=7){this.singI=-1;cb&&cb();return}this.singI=i;SFX.count(i);say(DIASL[i],()=>{i++;later(80,st)},{rate:1})};st()},
 // prompt(): repite la pregunta del paso actual.
-  prompt(){if(this.s==='cumple'){say('Tocá las velitas para soplarlas.');return}const f=({hola:'¡Tocá tu foto!',dianoche:'¿Ahora es de día o de noche?',dia:AGE()<=3?'Tocá el vagón que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. ¿Qué día es hoy?',manana:'¿Qué día será mañana?',mes:'Tocá el número '+this.d.getDate()+'.',tiempo:'¿Qué tiempo hace hoy?',ropa:'¿Qué nos ponemos?',estacion:'¿En qué estación estamos?',siguiente:'¿Qué estación viene después?',emocion:tx('¿Cómo te sentís hoy?')} as Record<string, string>)[this.s];if(f)say(f)},
+  prompt(){if(this.s==='cumple'){say('Toca las velitas para soplarlas.');return}const f=({hola:'¡Toca tu foto!',dianoche:'¿Ahora es de día o de noche?',dia:AGE()<=3?'Toca el vagón que salta.':'Ayer fue '+DIASL[(this.ti+6)%7]+'. ¿Qué día es hoy?',manana:'¿Qué día será mañana?',mes:'Toca el número '+this.d.getDate()+'.',tiempo:'¿Qué tiempo hace hoy?',ropa:'¿Qué nos ponemos?',estacion:'¿En qué estación estamos?',siguiente:'¿Qué estación viene después?',emocion:'¿Cómo te sientes hoy?'} as Record<string, string>)[this.s];if(f)say(f)},
 // hint(): dónde señalar la ayuda en cada paso. En 'dia'/'manana' con 4-5 años no ayuda enseguida (solo tras un error o
 // mucho rato quieto). En 'tiempo' y 'emocion' no hay respuesta correcta, así que no se señala nada. En 'cumple',
 // la siguiente vela encendida.
@@ -462,7 +462,7 @@ SCENES.asamblea={music:'plaza',
       if(this.sel){text('¡FELIZ CUMPLE!',800,790,64,'#F58BB4',{f:LF,st:8,sc:'#fff'})}}
     if(this.s==='mes'&&S.bday&&S.bday.m===this.d.getMonth()&&this.cal){const c=this.cal[S.bday.d-1];if(c){pic('tarta',c.x+30,c.y-30,62)}}},
 // drawWxCal(): (5 años, tras elegir el tiempo) calendario del mes con el dibujo del tiempo apuntado cada día en S.asam.
-  drawWxCal(){const d=this.d,n=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();card(300,180,1000,200,'#fff',6,24);text(tx('Calendario del tiempo de ')+MESES[d.getMonth()],800,220,28,K);
+  drawWxCal(){const d=this.d,n=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();card(300,180,1000,200,'#fff',6,24);text('Calendario del tiempo de '+MESES[d.getMonth()],800,220,28,K);
     for(let i=1;i<=n;i++){const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`,r=S.asam[k]||(k===today()?this.rec:null),x=330+((i-1)%16)*60,y=270+Math.floor((i-1)/16)*80;
       card(x-26,y-26,52,52,'#FFF6E6',3,10);if(r&&r.tiempo)pic(WX[r.tiempo].k,x,y,46);else text(String(i),x,y+8,20,'#B8A890')}},
 // wrongDay(i, target): el niño tocó el vagón del día i en lugar de target: suma error, dice qué día era el tocado
@@ -484,14 +484,14 @@ SCENES.asamblea={music:'plaza',
     if(atHome(x,y)){SFX.tap();go('map');return}
     if(inTito(x,y)){this.prompt!();return}
     if(this.busy)return;const s=this.s;
-    if(s==='hola'){if(inR(x,y,800,500,330,370)){this.busy=true;this.sel=true;SFX.tada();burst(800,500,50);say(AGE()>=5?'¡Presente! Y hoy sos el encargado de la asamblea. ¡Te ganaste la gorra!':'¡Presente! ¡Qué bueno que estás acá!',()=>later(500,()=>this.next()))}return}
+    if(s==='hola'){if(inR(x,y,800,500,330,370)){this.busy=true;this.sel=true;SFX.tada();burst(800,500,50);say(AGE()>=5?'¡Presente! Y hoy eres el encargado de la asamblea. ¡Te ganaste la gorra!':'¡Presente! ¡Qué bueno que estás aquí!',()=>later(500,()=>this.next()))}return}
     if(s==='dia'||s==='manana'){const w=this.wag.find((w: Libre)=>inR(x,y,w.x,w.y,150,170));if(!w){SFX.tap();return}const target=s==='dia'?this.ti:(this.ti+1)%7;
       if(w.i===target){this.busy=true;this.sel=w.i;this.bounce=w.i;SFX.good();burst(w.x,w.y,40);rec(s==='dia'?'dia-hoy':'dia-manana',this.errs===0);this.rec.dia=DIASL[this.ti];
         const we=this.ti>=5;say(praise()+(s==='dia'?' Hoy es '+DIASL[this.ti]+'. '+(we?'¡Es fin de semana, no hay escuela!':'Es día de escuela.'):' Mañana será '+DIASL[target]+'.'),()=>later(500,()=>this.next()))}
       else this.wrongDay(w.i,target);return}
     if(s==='mes'){const c=this.cal.find((c: Libre)=>inR(x,y,c.x,c.y,100,84));if(!c){SFX.tap();return}
       if(c.n===this.d.getDate()){this.busy=true;this.sel=true;SFX.good();burst(c.x,c.y,30);rec('calendario',this.errs===0);say(praise()+' Hoy es '+DIASL[this.ti]+' '+c.n+' de '+MESES[this.d.getMonth()]+'.',()=>later(500,()=>this.next()))}
-      else{this.errs++;SFX.bad();say('Ese es el '+c.n+'. Buscá el '+this.d.getDate()+'.')}return}
+      else{this.errs++;SFX.bad();say('Ese es el '+c.n+'. Busca el '+this.d.getDate()+'.')}return}
     const o=this.opts.find((o: Libre)=>inR(x,y,o.x,o.y,o.s+10,o.s+10));if(!o){SFX.tap();sparkles(x,y,3);return}
 // El tiempo se guarda en S al momento para que el calendario del tiempo (drawWxCal) lo muestre ya.
     if(s==='tiempo'){this.busy=true;this.sel=o;this.rec.tiempo=o.v;S.asam[today()]=Object.assign(S.asam[today()]||{},this.rec);save();SFX.good();burst(o.x,o.y,30);say(WX[o.v].s+' Lo anotamos en el calendario del tiempo.',()=>later(AGE()>=5?1500:500,()=>this.next()));return}
@@ -501,8 +501,8 @@ SCENES.asamblea={music:'plaza',
       say(praise()+' '+ok,()=>later(500,()=>this.next()))}
 // Tras dos fallos se pone idle = 7 para que la ayuda (brillo) aparezca enseguida.
     else{o.shake=T;this.errs++;SFX.bad();
-      const bad=({dianoche:'Mirá por la ventana. '+(o.v==='dia'?'Ahora no hay sol.':'Ahora hay luz.'),ropa:cap(W_(o.v))+' no va con este tiempo.',estacion:'Ese es el árbol '+(o.v==='otoño'?'del otoño':o.v==='invierno'?'del invierno':o.v==='verano'?'del verano':'de la primavera')+'. Probá con otro.',siguiente:'Mmm, después de '+estacionDe(this.d)+' no viene '+o.v+'.'} as Record<string, string>)[s];
-      say(bad||'Probá otra vez.');if(this.errs>=2)VIVO.idle=7}
+      const bad=({dianoche:'Mira por la ventana. '+(o.v==='dia'?'Ahora no hay sol.':'Ahora hay luz.'),ropa:cap(W_(o.v))+' no va con este tiempo.',estacion:'Ese es el árbol '+(o.v==='otoño'?'del otoño':o.v==='invierno'?'del invierno':o.v==='verano'?'del verano':'de la primavera')+'. Prueba con otro.',siguiente:'Mmm, después de '+estacionDe(this.d)+' no viene '+o.v+'.'} as Record<string, string>)[s];
+      say(bad||'Prueba otra vez.');if(this.errs>=2)VIVO.idle=7}
   }
 };
 
@@ -513,11 +513,11 @@ const ALBUM_KEYS=(()=>{const s=new Set<string>();for(const t of TEMAS){if(t.word
 // ÁLBUM DE FIGURITAS: 18 por página (per); las que se tienen (S.stk) en color, las demás en sombra.
 SCENES.album={music:'book',
 // enter(): primera página; Tito dice cuántas figuritas hay.
-  enter(){this.pg=0;const n=Object.keys(S.stk).length;later(300,()=>sayQ(n?V('Este es tu álbum. Tienes ')+n+(n===1?V(' pegatina.'):V(' pegatinas.')):V('Todavía no tienes pegatinas. ¡Las ganas terminando juegos!')))},
+  enter(){this.pg=0;const n=Object.keys(S.stk).length;later(300,()=>sayQ(n?'Este es tu álbum. Tienes '+n+(n===1?' pegatina.':' pegatinas.'):'Todavía no tienes pegatinas. ¡Las ganas terminando juegos!'))},
 // per: figuritas por página (6 x 3).
   per:18,
 // draw(): la página actual, número de página y flechas de anterior/siguiente.
-  draw(){sky('#EDE7FF','#FFF6E6');card(240,40,1300,800,'#FFFBF2',8,40);text(V('Mi álbum de pegatinas'),890,110,52,K,{w:600});
+  draw(){sky('#EDE7FF','#FFF6E6');card(240,40,1300,800,'#FFFBF2',8,40);text('Mi álbum de pegatinas',890,110,52,K,{w:600});
     const ks=ALBUM_KEYS.slice(this.pg*this.per,(this.pg+1)*this.per);
     ks.forEach((k,i)=>{const x=390+(i%6)*200,y=250+Math.floor(i/6)*200,has=S.stk[k];const hs=has?hv('a'+k,hC(x,y,80)):1;ctx.save();ctx.translate(x,y);ctx.scale(hs,hs);if(has)drawSticker(k,0,0,160,Math.sin(i)*.08);else{circ(0,0,80,'#F1E9DC',4,'#E4D3B8');ctx.globalAlpha=.18;picG(k,0,0,130);ctx.globalAlpha=1}ctx.restore()});
     const pages=Math.ceil(ALBUM_KEYS.length/this.per);text((this.pg+1)+' / '+pages,890,820,30,'#7A6252');
@@ -527,7 +527,7 @@ SCENES.album={music:'book',
 // down(x, y): casa -> mapa; flechas cambian de página; tocar una figurita dice su nombre (o que aún no se tiene).
   down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}const pages=Math.ceil(ALBUM_KEYS.length/this.per);
     if(dist(x,y,170,450)<70&&this.pg>0){this.pg--;SFX.whoosh();return}if(dist(x,y,1530,450)<70&&this.pg<pages-1){this.pg++;SFX.whoosh();return}
-    const ks=ALBUM_KEYS.slice(this.pg*this.per,(this.pg+1)*this.per);ks.forEach((k,i)=>{const px=390+(i%6)*200,py=250+Math.floor(i/6)*200;if(dist(x,y,px,py)<85){if(S.stk[k]){SFX.pop();sparkles(px,py,6);say(cap(W_(k))+'.')}else{SFX.tap();say('Esta todavía no la tenés.')}}})}
+    const ks=ALBUM_KEYS.slice(this.pg*this.per,(this.pg+1)*this.per);ks.forEach((k,i)=>{const px=390+(i%6)*200,py=250+Math.floor(i/6)*200;if(dist(x,y,px,py)<85){if(S.stk[k]){SFX.pop();sparkles(px,py,6);say(cap(W_(k))+'.')}else{SFX.tap();say('Esta todavía no la tienes.')}}})}
 };
 
 /* ---------- A DORMIR (límite de tiempo) ---------- */
@@ -535,7 +535,7 @@ SCENES.album={music:'book',
 // Tito duerme bajo la luna. No tiene down(): no se puede seguir jugando desde aquí.
 SCENES.dormir={music:null,
 // enter(): Tito se despide.
-  enter(){later(300,()=>sayQ(`¡Qué lindo jugamos${kid()}! Ahora Tito se va a descansar. ¡Hasta mañana!`))},
+  enter(){later(300,()=>sayQ(`¡Qué bonito jugamos${kid()}! Ahora Tito se va a descansar. ¡Hasta mañana!`))},
 // draw(): cielo de noche con estrellas que parpadean, luna, Tito dormido y "z" que suben.
   draw(){sky('#2E3F7A','#5B6FB0');for(let i=0;i<30;i++){ctx.globalAlpha=.5+.5*Math.sin(T*2+i);star((i*197)%1600,(i*131)%560,6+i%3*3,'#FFE08A',0)}ctx.globalAlpha=1;
     pic('luna',1300,180,200);drawTito(600,430,400,{sleep:true,bubble:false});

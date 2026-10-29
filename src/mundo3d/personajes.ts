@@ -6,7 +6,7 @@
  * ringParts y noteParts (partículas en la pantalla 2D).
  * Usa THREE solo dentro de las funciones (también la curva Spiral, que se define dentro de shellGeo).
  * Exporta: makeTito, makePipo, makeHouse, shellTex, titoTapSfx, titoHearts, ffTap, ringParts y noteParts. Importa: del
- * núcleo S, T, PI, IMG, SFX, VIVO, FLC, tone, noise, parts, pick, rnd, tx, temasDone y titoKind; K (src/dibujos/);
+ * núcleo S, T, PI, IMG, SFX, VIVO, FLC, tone, noise, parts, pick, rnd, temasDone y titoKind; K (src/dibujos/);
  * shellIcon (escenas/zonas.ts); SHELLC y SCARFC (escenas/tienda.ts); ahora() (aplicacion/puertos.ts); piezas de
  * mundo3d/materiales.ts y flower3 (mundo3d/decorado.ts).
  */
@@ -14,7 +14,7 @@ import type * as Tres from 'three';
 import type { Libre } from '../nucleo/tipos.ts';
 import type { Nodo, PiezaUnida, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { FLC, IMG, PI, S, SCARFC, SFX, SHELLC, T, VIVO, noise, parts, pick, rnd, temasDone, titoKind, tone, tx } from '../nucleo/indice.ts';
+import { FLC, IMG, PI, S, SCARFC, SFX, SHELLC, T, VIVO, noise, parts, pick, rnd, temasDone, titoKind, tone } from '../nucleo/indice.ts';
 import { shellIcon } from '../escenas/zonas.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
@@ -247,7 +247,7 @@ export function makeHouse(lvl: number){const g=new THREE.Group();g.userData.id='
   if(own('fuente'))spr(picTex('fuente'),1.3,1.3,{p:[-2.3,.75,1.9],to:g});
   if(own('casitaPerro')){spr(picTex('casitaPerro'),1.3,1.3,{p:[2.7,.75,1.2],to:g});spr(picTex('perro'),.75,.75,{p:[3.2,.45,1.8],to:g})}
   if(own('banco'))spr(picTex('banco'),1.1,1.1,{p:[-1.5,.55,2.2],to:g});
-  spr(pillTex(tx('Casa de Tito'),'#FFA94D','#fff',72),3.4,.85,{p:[0,.55,2.5],to:g});
+  spr(pillTex('Casa de Tito','#FFA94D','#fff',72),3.4,.85,{p:[0,.55,2.5],to:g});
   const hit=new THREE.Mesh(Box(5,5,4),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=2.2;g.add(hit);
   // anim(shake): cada cuadro mueve el humo de la chimenea, la estrella y la bandera; shake = instante T del toque: tiembla 1,4 s
   g.userData.anim=(shake: number)=>{for(let i=0;i<3;i++){const k=(T*.35+i/3)%1,s=smoke[i];s.position.set(.8+Math.sin(T+i)*.2+k*.5,.25+H1+1.7+k*1.8,-.4);s.scale.setScalar(.6+k*1.4);s.visible=k<.92}
