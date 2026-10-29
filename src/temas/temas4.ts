@@ -13,12 +13,12 @@
 //   - Listas de datos de los juegos: DSAY, ESTS, SENT, SENTQ, EMO4, EMOADJ, SITS, FRUTAS, VERDURAS,
 //     OFICIOS, ADIV, SALVAJES, DOMESTICOS, PLANT_PARTS, COLS4. Añade 4 colores a COLORES.
 //   - T4 (temas de 4 años), C4 (rincón de 4 años) y z_x().
-// Importa: el núcleo, src/nucleo/ (dibujo, say, V, AGE, nRounds, nOpts, DIASL, ESTACIONES, tree...), juegos/ (NUM, BG,
+// Importa: el núcleo, src/nucleo/ (dibujo, say, AGE, nRounds, nOpts, DIASL, ESTACIONES, tree...), juegos/ (NUM, BG,
 // y EMO y drawFace, de juegos/caras.ts desde la fase 4o), temas/temas.ts (floor, grass, swatch, sizeSlot, vestir), juegos/comps.ts y juegos/comps2.ts (los componentes de juego) y PICS.
 // Recuerda: no cambies ninguna frase que se diga con say() (tienen MP3 grabado).
 import type { AlTerminar, Cosa, Libre, Tema } from '../juegos/tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DIAC, DIASL, ESTACIONES, LF, PI, SFX, T, V, W, W_, cap, card, circ, cloud, ctx, dela, dist, ell, fillStroke, flower, nOpts, nRounds, pic, pick, ri, rnd, rr, shuffle, sky, star, text, tree } from '../nucleo/indice.ts';
+import { AGE, DIAC, DIASL, ESTACIONES, LF, PI, SFX, T, W, W_, cap, card, circ, cloud, ctx, dela, dist, ell, fillStroke, flower, nOpts, nRounds, pic, pick, ri, rnd, rr, shuffle, sky, star, text, tree } from '../nucleo/indice.ts';
 import { Arrastra, Atrapa, BG, COLORES, ChoiceGame, Cuenta, Cuerpo, EMO, Lens, Llena, NUM, Pinta, Puzzle, Riega, Secuencia, Semaforo, Series, Sonido, TocaPartes, Une, drawFace, eseEs, nameT, picS, refCard, thing, unN } from '../juegos/indice.ts';
 import { floor, grass, sizeSlot, swatch, vestir } from './temas.ts';
 /* ================= FONDOS NUEVOS ================= */
@@ -58,7 +58,7 @@ Object.assign(BG,{
 // Devuelve una cosa dibujada {name, day, draw}; el sábado y el domingo llevan estrella.
 export const dayCard=(i: number)=>({name:'el '+DIASL[i],day:i,draw:(x: number,y: number,s: number)=>{card(x-s*.44,y-s*.34,s*.88,s*.62,DIAC[i],6,s*.1);card(x-s*.36,y-s*.26,s*.72,s*.32,'#fff',4,s*.06);const nm=DIASL[i].toUpperCase();text(nm,x,y-s*.03,s*(nm.length>7?.12:.15),K,{f:LF});circ(x-s*.24,y+s*.3,s*.08,'#5B5F6B',4);circ(x+s*.24,y+s*.3,s*.08,'#5B5F6B',4);if(i>=5)star(x+s*.3,y-s*.36,s*.08,'#FFC93C',3)}});
 // DSAY: frase de Tito para cada día de la semana (de lunes a domingo), en "conocer".
-const DSAY=['El lunes. Es el primer día de la semana. ¡Volvemos a la escuela!','El martes. Viene después del lunes.','El miércoles. Estamos en la mitad de la semana.','El jueves. ¡Ya falta poquito para el fin de semana!','El viernes. Es el último día de escuela de la semana.','El sábado. ¡Es fin de semana! No hay escuela.','El domingo. Descansamos y estamos en familia.'];
+const DSAY=['El lunes. Es el primer día de la semana. ¡Volvemos al cole!','El martes. Viene después del lunes.','El miércoles. Estamos en la mitad de la semana.','El jueves. ¡Ya falta poquito para el fin de semana!','El viernes. Es el último día de escuela de la semana.','El sábado. ¡Es fin de semana! No hay escuela.','El domingo. Descansamos y estamos en familia.'];
 // Locomotora con humo animado, centrada en (x,y) con escala s (juego "El tren de los días").
 function locomotive(x: number,y: number,s: number){ctx.save();ctx.translate(x,y);ctx.scale(s,s);card(-80,-70,150,120,'#FF6B5E',7,20);card(-60,-130,60,70,'#5B5F6B',6,8);card(20,-40,60,50,'#BFEAF7',5,8);circ(-50,62,24,'#5B5F6B',6);circ(30,62,24,'#5B5F6B',6);for(let i=0;i<3;i++){ctx.globalAlpha=.5;circ(-30+i*10,-150-i*34-((T*30)%34),16+i*6,'#fff',3,'#B8B0A6')}ctx.globalAlpha=1;ctx.restore()}
 // ESTS: nombre con artículo de cada estación (clave = nombre de ESTACIONES).
@@ -79,13 +79,13 @@ const SENT: Record<string,string>={ojo:'Con los ojos vemos.',oreja:'Con las orej
 const SENTQ=[['campana','oreja','¿Con qué escuchamos la campana?'],['tambor','oreja','¿Con qué oímos el tambor?'],['perfume','nariz','¿Con qué olemos el perfume?'],['flor','nariz','¿Con qué olemos la flor?'],['helado','boca','¿Con qué sentimos que el helado es dulce?'],
   ['limon','boca','¿Con qué sentimos que el limón es ácido?'],['cactus','mano','¿Con qué sentimos que el cactus pincha?'],['peluche','mano','¿Con qué sentimos que el peluche es suave?'],['arcoiris','ojo','¿Con qué vemos los colores del arcoíris?'],['estrella','ojo','¿Con qué vemos las estrellas?']];
 // Datos de "Las emociones":
-// EMO4 = [emoción, [adjetivo rioplatense, adjetivo España], frase de "conocer"]. Las caritas se
+// EMO4 = [emoción, adjetivo, frase de "conocer"]. Las caritas se
 //   nombran 'emo:alegria'... y las dibuja drawFace() (juegos/caras.ts), desde thing() (juegos/comps.ts).
 // EMOADJ = adjetivo de cada emoción para las preguntas "¿Quién está ...?".
 // SITS = situaciones [dibujo, emoción correcta, pregunta].
 const EMO4: [string, string, string][]=[['alegria','contento','Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.'],['tristeza','triste','Triste. Cuando perdemos algo o extrañamos a alguien, sentimos tristeza.'],['enojo','enfadado','Enfadado. Cuando algo nos parece injusto, nos enfadamos.'],['miedo','con miedo','Con miedo. Cuando algo nos asusta, sentimos miedo.'],['sorpresa','sorprendido','Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.']];
 const EMOADJ: Record<string,string>={alegria:'contento',tristeza:'triste',enojo:'enfadado',miedo:'con miedo',sorpresa:'sorprendido',calma:'tranquilo',verguenza:'con vergüenza'};
-const SITS=[['heladoCaido','tristeza','Al nene se le cayó el helado al piso. ¿Cómo se siente?'],['regalo','alegria','La nena recibió un regalo que quería mucho. ¿Cómo se siente?'],['tormenta','miedo','Hay una tormenta con truenos muy fuertes. ¿Cómo se siente el nene?'],['torreRota','enojo','Alguien le tiró la torre que había hecho con mucho trabajo. ¿Cómo se siente?'],['cajaSorpresa','sorpresa','¡Abrió la caja y saltó un payaso! ¿Cómo se siente?']];
+const SITS=[['heladoCaido','tristeza','Al niño se le cayó el helado al piso. ¿Cómo se siente?'],['regalo','alegria','La niña recibió un regalo que quería mucho. ¿Cómo se siente?'],['tormenta','miedo','Hay una tormenta con truenos muy fuertes. ¿Cómo se siente el niño?'],['torreRota','enojo','Alguien le tiró la torre que había hecho con mucho trabajo. ¿Cómo se siente?'],['cajaSorpresa','sorpresa','¡Abrió la caja y saltó un payaso! ¿Cómo se siente?']];
 // FRUTAS y VERDURAS: claves de PICS para el juego "Fruta o verdura".
 const FRUTAS=['manzana','banana','pera','fresa','uva','naranja','pina','kiwi','sandia'],VERDURAS=['zanahoria','lechuga','patata','brocoli','pimiento','berenjena'];
 // Datos de "Los oficios": OFICIOS = parejas [persona, herramienta] para el juego de unir;
@@ -105,7 +105,7 @@ const plantDraw=(_hl: boolean)=>{ctx.fillStyle='#A86B43';ctx.fillRect(540,620,72
 // {id, n = nombre, x, y, r = círculo que se puede tocar, say = explicación (opcional)}.
 // Una misma parte puede tener varios círculos (por eso hay varios 'tallo' y 'hojas').
 const PLANT_PARTS=[{id:'raiz',n:'la raíz',x:900,y:720,r:90,say:'Toma el agua de la tierra.'},{id:'tallo',n:'el tallo',x:902,y:540,r:40,say:'Sostiene la planta.'},{id:'tallo',n:'el tallo',x:906,y:420,r:30},{id:'hojas',n:'las hojas',x:830,y:470,r:62,say:'Toman la luz del sol.'},{id:'hojas',n:'las hojas',x:975,y:400,r:62},{id:'hojas',n:'las hojas',x:835,y:360,r:55},
-  {id:'flor',n:'la flor',x:900,y:260,r:80,say:'¡Qué linda!'},{id:'fruto',n:'el fruto',x:1005,y:585,r:45,say:'Adentro tiene las semillas.'}];
+  {id:'flor',n:'la flor',x:900,y:260,r:80,say:'¡Qué bonita!'},{id:'fruto',n:'el fruto',x:1005,y:585,r:45,say:'Adentro tiene las semillas.'}];
 // Torre de n bloques de colores: {name:'la torre alta'/'la torre baja', draw}. Para "Alto y bajo".
 const towerOf=(n: number)=>({name:n>3?'la torre alta':'la torre baja',draw:(x: number,y: number,s: number)=>{for(let i=0;i<n;i++)card(x-s*.22,y+s*.42-(i+1)*s*.15,s*.44,s*.14,DIAC[i%7],4,6)}});
 // Lápiz de largo l (fracción de 0 a 1) y color c: {name:'el lápiz largo'/'corto', draw}.
@@ -142,12 +142,12 @@ Object.assign(COLORES,{gris:{c:'#9AA5B4',n:'gris'},blanco:{c:'#FFFFFF',n:'blanco
 // ---------------------------------------------------------------------------
 export const T4: Tema[]=[
 {id:'4A-T1',zone:'bosque',n:'Los días de la semana',icon:'calendario',c:'#FF8A7A',trim:1,bg:BG.semana,
- words:DIASL.map((d,i)=>Object.assign(dayCard(i),{label:d,say:DSAY[i]})),intro:'La semana tiene siete días. Tocá cada vagón para conocerlo.',
+ words:DIASL.map((d,i)=>Object.assign(dayCard(i),{label:d,say:DSAY[i]})),intro:'La semana tiene siete días. Toca cada vagón para conocerlo.',
  games:[{t:'conocer',icon:'calendario'},
   {t:'tren',icon:'tren',name:'El tren de los días',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'dias-orden',bg:t.bg,sayPick:true,
-    why:(_it: Libre,_z: Libre)=>'Ese lugar es para otro día. Mirá el color del vagón.',placeSay:(it: Libre)=>cap(nameT(it.k))+'.',
+    why:(_it: Libre,_z: Libre)=>'Ese lugar es para otro día. Mira el color del vagón.',placeSay:(it: Libre)=>cap(nameT(it.k))+'.',
     gen(_i: number){const m=AGE()<=3?2:AGE()===4?3:4,miss=shuffle([0,1,2,3,4,5,6]).slice(0,m),X=(j: number)=>390+j*168;
-      return {ask:'Al tren de los días le faltan vagones. Llevá cada día a su lugar, en orden.',
+      return {ask:'Al tren de los días le faltan vagones. Lleva cada día a su lugar, en orden.',
         drawExtra:()=>{ctx.beginPath();ctx.moveTo(120,470);ctx.lineTo(1520,470);ctx.lineWidth=10;ctx.strokeStyle=K;ctx.stroke();locomotive(220,380,1);for(let j=0;j<7;j++)if(!miss.includes(j))dayCard(j).draw(X(j),380,170)},
         zones:miss.map(j=>({id:'d'+j,x:X(j),y:380,w:150,h:120,draw:(z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=30}ctx.setLineDash([12,10]);rr(z.x-75,z.y-58,150,106,16);fillStroke('rgba(255,255,255,.7)',6,DIAC[j]);ctx.setLineDash([]);ctx.restore();text('?',z.x,z.y+20,60,DIAC[j],{f:LF})},slot:()=>[X(j),380],ps:1})),
         items:miss.map(j=>({k:dayCard(j),zone:'d'+j,s:170})),tray:{x0:420,x1:1400,y:700},okAll:'¡El tren está completo! Lunes, martes, miércoles, jueves, viernes, sábado y domingo.'}}},d)},
@@ -155,19 +155,19 @@ export const T4: Tema[]=[
     ref(r: Libre){r.seq.forEach((j: number,q: number)=>{const x=900-(r.seq.length-1)*95+q*190;if(q===r.blank){ctx.setLineDash([12,10]);rr(x-75,300-58,150,106,16);fillStroke('#FFF3B0',6,'#FFC93C');ctx.setLineDash([]);text('?',x,320,60,'#FFA94D',{f:LF})}else dayCard(j).draw(x,300,170)})},
     gen(){const st=ri(0,AGE()>=5?6:2),len=AGE()<=3?3:4,seq=Array.from({length:len},(_,q)=>(st+q)%7),blank=ri(1,len-1),ans=seq[blank];
       const others=shuffle([0,1,2,3,4,5,6].filter(x=>x!==ans)).slice(0,Math.max(1,nOpts()-1));const read=seq.map((j,q)=>q===blank?'mmm...':DIASL[j]).join(', ');
-      const A=dayCard(ans);return {seq,blank,words:[A,...others.map(dayCard)],ok:[A],ask:cap(read)+(/\.\.\.$/.test(read)?' ':'. ')+'¿Qué día falta?',okSay:()=>'¡Sí! Falta el '+DIASL[ans]+'.',badSay:(w: Cosa)=>'Ese es '+V(w.name)+'. '+cap(read)+(/\.\.\.$/.test(read)?'':'.')}},
+      const A=dayCard(ans);return {seq,blank,words:[A,...others.map(dayCard)],ok:[A],ask:cap(read)+(/\.\.\.$/.test(read)?' ':'. ')+'¿Qué día falta?',okSay:()=>'¡Sí! Falta el '+DIASL[ans]+'.',badSay:(w: Cosa)=>'Ese es '+w.name+'. '+cap(read)+(/\.\.\.$/.test(read)?'':'.')}},
     },d)},
   {t:'finde',icon:'parque',name:'Escuela o fin de semana',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'dias-finde',bg:t.bg,
-    why:(it: Libre,z: Libre)=>z.id==='escuela'?'El '+DIASL[it.k.day]+' no hay escuela. ¡Es fin de semana!':'El '+DIASL[it.k.day]+' es día de escuela.',placeSay:(it: Libre,z: Libre)=>'El '+DIASL[it.k.day]+(z.id==='escuela'?' vamos a la escuela.':' es fin de semana.'),
+    why:(it: Libre,z: Libre)=>z.id==='escuela'?'El '+DIASL[it.k.day]+' no hay escuela. ¡Es fin de semana!':'El '+DIASL[it.k.day]+' es día de escuela.',placeSay:(it: Libre,z: Libre)=>'El '+DIASL[it.k.day]+(z.id==='escuela'?' vamos al cole.':' es fin de semana.'),
     gen(i: number){const ds=shuffle([0,1,2,3,4]).slice(0,2).concat(i?[6]:[5]);if(AGE()>=5)ds.push(shuffle([0,1,2,3,4].filter(x=>!ds.includes(x)))[0]);
-      return {ask:'Los días de escuela van con la escuela. Los días del fin de semana van con el parque.',zones:[{id:'escuela',x:560,y:420,w:380,h:220,c:'#FFE3B0',icon:zoneIcon('escuela')},{id:'finde',x:1240,y:420,w:380,h:220,c:'#BFE6B5',icon:zoneIcon('parque')}],
+      return {ask:'Los días de escuela van con el cole. Los días del fin de semana van con el parque.',zones:[{id:'escuela',x:560,y:420,w:380,h:220,c:'#FFE3B0',icon:zoneIcon('escuela')},{id:'finde',x:1240,y:420,w:380,h:220,c:'#BFE6B5',icon:zoneIcon('parque')}],
         items:ds.map(j=>({k:dayCard(j),zone:j<5?'escuela':'finde',s:170})),tray:{x0:420,x1:1400,y:770}}}},d)},
   {t:'cancion',icon:'notas',song:'dias'}]},
 {id:'4A-T2',zone:'bosque',n:'Mi cuerpo y los sentidos',icon:'oreja',c:'#F58BB4',trim:1,bg:BG.cuerpo,
  words:[{k:'ojo',say:'Los ojos. Con los ojos vemos los colores y las formas.'},{k:'oreja',say:'Las orejas. Con las orejas oímos los sonidos.'},{k:'nariz',say:'La nariz. Con la nariz olemos las flores y la comida.'},{k:'boca',say:'La boca. Con la boca saboreamos lo dulce, lo salado y lo ácido.'},{k:'mano',say:'Las manos. Con las manos tocamos: suave, áspero, frío y caliente.'}],
- intro:'Tenemos cinco sentidos. Tocá cada uno para conocerlo.',
+ intro:'Tenemos cinco sentidos. Toca cada uno para conocerlo.',
  games:[{t:'conocer'},
-  {t:'toca',icon:'nene',name:'Tocá la parte del cuerpo',make:(d: AlTerminar,t: Libre)=>Cuerpo({mode:'ask',fine:true,bg:t.bg,rounds:6,only:['cuello','hombros','codos','rodillas','tobillos','cabeza','manos','pies','barriga','orejas']},d)},
+  {t:'toca',icon:'nene',name:'Toca la parte del cuerpo',make:(d: AlTerminar,t: Libre)=>Cuerpo({mode:'ask',fine:true,bg:t.bg,rounds:6,only:['cuello','hombros','codos','rodillas','tobillos','cabeza','manos','pies','barriga','orejas']},d)},
   {t:'sentidos',icon:'nariz',name:'¿Con qué lo sabemos?',make:(d: AlTerminar,t: Libre)=>{const Q=shuffle(SENTQ);return ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'sentidos',y:660,
     ref(r: Libre){refCard(900,290,300,280,()=>pic(r.st,900,290,230))},
     gen(i: number){const q=Q[i%Q.length],others=shuffle(['ojo','oreja','nariz','boca','mano'].filter(k=>k!==q[1])).slice(0,nOpts());return {st:q[0],words:[q[1],...others],ok:[q[1]],ask:q[2],okSay:()=>SENT[q[1]],badSay:(w: Cosa)=>SENT[w]+' '+q[2]}}},d)}},
@@ -176,22 +176,22 @@ export const T4: Tema[]=[
  words:[{k:'castana',say:'La castaña. Se come asada en otoño.'},{k:'nuez',say:'La nuez. Tiene una cáscara muy dura.'},{k:'granada',say:'La granada. Adentro tiene muchas semillitas rojas.'},{k:'uva',say:'Las uvas. Se cosechan al empezar el otoño.'},{k:'calabaza',say:'La calabaza. Es grande y naranja.'},
   {k:'seta',say:'La seta. Sale en el bosque cuando llueve.'},{k:'bellota',say:'La bellota. Es el fruto del roble. ¡A las ardillas les encanta!'},{k:'erizo',say:'El erizo. Se esconde entre las hojas secas.'},{k:'ardilla',say:'La ardilla. Guarda comida para el invierno.'}],
  games:[{t:'conocer'},
-  {t:'cae',icon:'hojaRoja',make:(d: AlTerminar,t: Libre)=>Atrapa({dir:'down',style:'plain',targets:[{ask:'¡Se caen los frutos del otoño! Atrapá las bellotas.',is:(k: Cosa)=>k==='bellota'},{ask:'¡Ahora atrapá las castañas!',is:(k: Cosa)=>k==='castana'},{ask:'¡Y ahora las nueces!',is:(k: Cosa)=>k==='nuez'}].slice(0,AGE()<=3?2:3),pool:['bellota','castana','nuez','hojaNaranja','hojaRoja','hojaMarron'],bg:t.bg,key:'otono'},d)},
+  {t:'cae',icon:'hojaRoja',make:(d: AlTerminar,t: Libre)=>Atrapa({dir:'down',style:'plain',targets:[{ask:'¡Se caen los frutos del otoño! Atrapa las bellotas.',is:(k: Cosa)=>k==='bellota'},{ask:'¡Ahora atrapa las castañas!',is:(k: Cosa)=>k==='castana'},{ask:'¡Y ahora las nueces!',is:(k: Cosa)=>k==='nuez'}].slice(0,AGE()<=3?2:3),pool:['bellota','castana','nuez','hojaNaranja','hojaRoja','hojaMarron'],bg:t.bg,key:'otono'},d)},
   {t:'despensa',icon:'ardilla',name:'La despensa de la ardilla',make:(d: AlTerminar,t: Libre)=>Llena({pool:['bellota','nuez','castana'],bg:t.bg,zone:{x:560,y:470,r:170},
     drawZone:(hl: boolean,_c: string)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=40}card(400,180,320,600,'#A86B43',7,60);ctx.restore();ell(560,470,120,140,'#5A3A26',6);pic('ardilla',300,700,200)},
-    ask:(n: number)=>'La ardilla necesita '+NUM[n]+' frutos para el invierno. Llevá '+NUM[n]+' a su casita del árbol.',okSay:(n: number)=>'¡La ardilla tiene '+NUM[n]+' frutos! Gracias.'},d)},
+    ask:(n: number)=>'La ardilla necesita '+NUM[n]+' frutos para el invierno. Lleva '+NUM[n]+' a su casita del árbol.',okSay:(n: number)=>'¡La ardilla tiene '+NUM[n]+' frutos! Gracias.'},d)},
   {t:'memoria'}]},
 {id:'4A-T4',zone:'bosque',n:'Las emociones',icon:'emociones',c:'#FFC93C',trim:1,bg:BG.familia,
- words:EMO4.map(([e,lb,say])=>({k:'emo:'+e,label:lb,say})),intro:'Todos sentimos emociones. Tocá cada carita.',
+ words:EMO4.map(([e,lb,say])=>({k:'emo:'+e,label:lb,say})),intro:'Todos sentimos emociones. Toca cada carita.',
  games:[{t:'conocer'},
   {t:'caritas',icon:'emociones',name:'¿Cómo se siente?',make:(d: AlTerminar,t: Libre)=>ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'emociones',y:520,big:true,
-    gen(i: number){const all=EMO4.map(e=>e[0]),e=all[i%all.length],others=shuffle(all.filter(x=>x!==e)).slice(0,nOpts()-1);return {words:['emo:'+e,...others.map(x=>'emo:'+x)],ok:['emo:'+e],ask:'¿Quién está '+V(EMOADJ[e])+'? Tocá la carita.',okSay:()=>'¡Sí! Esa carita está '+V(EMOADJ[e])+'.',badSay:(w: Cosa)=>'Esa carita está '+V(EMOADJ[w.slice(4)])+'. Buscá la que está '+V(EMOADJ[e])+'.'}}},d)},
+    gen(i: number){const all=EMO4.map(e=>e[0]),e=all[i%all.length],others=shuffle(all.filter(x=>x!==e)).slice(0,nOpts()-1);return {words:['emo:'+e,...others.map(x=>'emo:'+x)],ok:['emo:'+e],ask:'¿Quién está '+EMOADJ[e]+'? Toca la carita.',okSay:()=>'¡Sí! Esa carita está '+EMOADJ[e]+'.',badSay:(w: Cosa)=>'Esa carita está '+EMOADJ[w.slice(4)]+'. Busca la que está '+EMOADJ[e]+'.'}}},d)},
   {t:'situaciones',icon:'heladoCaido',name:'¿Qué le pasa?',make:(d: AlTerminar,t: Libre)=>{const Q=shuffle(SITS);return ChoiceGame({rounds:Math.min(5,nRounds()),bg:t.bg,key:()=>'emociones',y:680,
     ref(r: Libre){refCard(900,300,320,300,()=>pic(r.st,900,300,250))},
-    gen(i: number){const q=Q[i%Q.length],others=shuffle(EMO4.map(e=>e[0]).filter(e=>e!==q[1])).slice(0,nOpts()-1);return {st:q[0],words:['emo:'+q[1],...others.map(e=>'emo:'+e)],ok:['emo:'+q[1]],ask:q[2],okSay:()=>'¡Sí! Se siente '+V(EMOADJ[q[1]])+'.',badSay:()=>'Mmm, pensá cómo te sentirías vos. '+q[2]}}},d)}},
+    gen(i: number){const q=Q[i%Q.length],others=shuffle(EMO4.map(e=>e[0]).filter(e=>e!==q[1])).slice(0,nOpts()-1);return {st:q[0],words:['emo:'+q[1],...others.map(e=>'emo:'+e)],ok:['emo:'+q[1]],ask:q[2],okSay:()=>'¡Sí! Se siente '+EMOADJ[q[1]]+'.',badSay:()=>'Mmm, piensa cómo te sentirías tú. '+q[2]}}},d)}},
   {t:'frascos',icon:'frasco',name:'Cada emoción en su frasco',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'emociones',bg:t.bg,
-    why:(_it: Libre,z: Libre)=>'Ese frasco es de '+V(EMO[z.id].n)+'.',placeSay:(_it: Libre,z: Libre)=>cap(V(EMO[z.id].n))+'.',
-    gen(_i: number){const es=shuffle(EMO4.map(e=>e[0])).slice(0,AGE()<=3?2:3);return {ask:'Cada emoción tiene su color. Llevá cada carita a su frasco.',
+    why:(_it: Libre,z: Libre)=>'Ese frasco es de '+EMO[z.id].n+'.',placeSay:(_it: Libre,z: Libre)=>cap(EMO[z.id].n)+'.',
+    gen(_i: number){const es=shuffle(EMO4.map(e=>e[0])).slice(0,AGE()<=3?2:3);return {ask:'Cada emoción tiene su color. Lleva cada carita a su frasco.',
       zones:es.map((e,j,a)=>({id:e,x:900-(a.length-1)*250+j*500,y:400,w:260,h:300,draw:(z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=36}card(z.x-120,z.y-140,240,300,'rgba(255,255,255,.8)',7,50);ctx.restore();card(z.x-70,z.y-170,140,40,'#C98A4B',6,10);
         ctx.save();rr(z.x-112,z.y-60,224,212,46);ctx.clip();ctx.fillStyle=EMO[e].c;ctx.globalAlpha=.55;ctx.fillRect(z.x-120,z.y-60,240,220);ctx.restore();ctx.globalAlpha=1;drawFace(z.x,z.y-100,30,e)},slot:(n: number)=>[z_x(es,j)+(n%2?50:-50),400+Math.floor(n/2)*-40],ps:.6})),
       items:es.flatMap(e=>[e,e]).map(e=>({k:'emo:'+e,zone:e,s:140})),tray:{x0:420,x1:1400,y:770}}}},d)}]},
@@ -204,16 +204,16 @@ export const T4: Tema[]=[
     gen(){const f=shuffle(FRUTAS).slice(0,2),v=shuffle(VERDURAS).slice(0,2);return {ask:'Las frutas van en la canasta de las frutas. Las verduras, en la de las verduras.',zones:[{id:'fruta',x:560,y:430,w:380,h:220,c:'#FFD6A0',icon:zoneIcon('macedonia')},{id:'verdura',x:1240,y:430,w:380,h:220,c:'#C9EBB5',icon:zoneIcon('brocoli')}],
       items:[...f.map(k=>({k,zone:'fruta'})),...v.map(k=>({k,zone:'verdura'}))],tray:{x0:420,x1:1400,y:780}}}},d)},
   {t:'sopa',icon:'olla',name:'Una sopa de verduras',make:(d: AlTerminar,_t: Libre)=>Arrastra({rounds:1,total:AGE()<=3?3:4,key:'pedidos',bg:BG.cocina,sayPick:false,
-    gen(){const v=['zanahoria','patata','brocoli','pimiento','lechuga','tomate'],st=shuffle(v).slice(0,AGE()<=3?3:4);return {ask:'¡Hagamos una sopa de verduras! Escuchá qué verdura va en la olla.',
+    gen(){const v=['zanahoria','patata','brocoli','pimiento','lechuga','tomate'],st=shuffle(v).slice(0,AGE()<=3?3:4);return {ask:'¡Hagamos una sopa de verduras! Escucha qué verdura va en la olla.',
       zones:[{id:'olla',x:900,y:430,w:400,h:300,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=36}pic('olla',900,440,420);ctx.restore()},slot:(n: number)=>[800+(n%3)*100,380-Math.floor(n/3)*20],ps:.5}],
-      items:v.map(k=>({k,s:150})),tray:{x0:380,x1:1500,y:780},steps:st.map(k=>({k,zone:'olla',say:'Poné '+W_(k)+' en la olla.',ok:pick(['¡Mmm, qué rico!','¡Muy bien!','¡Eso es!'])})),onPlace:()=>SFX.splash()}}},d)},
+      items:v.map(k=>({k,s:150})),tray:{x0:380,x1:1500,y:780},steps:st.map(k=>({k,zone:'olla',say:'Pon '+W_(k)+' en la olla.',ok:pick(['¡Mmm, qué rico!','¡Muy bien!','¡Eso es!'])})),onPlace:()=>SFX.splash()}}},d)},
   {t:'comidas',icon:'desayuno',name:'Las comidas del día',make:(d: AlTerminar,t: Libre)=>Secuencia({bg:t.bg,key:'comidas',panels:['desayuno','almuerzo','merienda','cena'].slice(0,AGE()<=3?3:4),first:true,
-    ask:'Ordená las comidas del día. ¿Cuál comemos primero, cuando nos levantamos?',okAll:V('¡Muy bien! Desayuno, comida, merienda y cena.')},d)}]},
+    ask:'Ordena las comidas del día. ¿Cuál comemos primero, cuando nos levantamos?',okAll:'¡Muy bien! Desayuno, comida, merienda y cena.'},d)}]},
 {id:'4A-T6',zone:'bosque',n:'El invierno y el polo',icon:'pinguino',c:'#7FD3F0',trim:2,bg:BG.polo,season:'invierno',
  words:[{k:'nieve',say:'La nieve. Es agua congelada que cae del cielo.'},{k:'hielo',say:'El hielo. Es agua muy fría que se puso dura.'},{k:'pinguino',say:'El pingüino. Es un pájaro que no vuela, ¡pero nada muy bien!'},{k:'osoPolar',say:'El oso polar. Tiene pelo blanco y grueso para no tener frío.'},
   {k:'foca',say:'La foca. Nada en el agua helada.'},{k:'morsa',say:'La morsa. Tiene dos colmillos largos.'},{k:'iglu',say:'El iglú. Es una casa hecha con bloques de nieve.'}],
  games:[{t:'conocer'},
-  {t:'viste',icon:'gorro',make:vestir(['abrigo','gorro','bufanda','guantes','botasAgua'],['gafas','remera','gorra'],'¡Hace muchísimo frío! Vestí al nene para jugar en la nieve.',(k: Cosa)=>(({gafas:'Los anteojos de sol no abrigan.',remera:'Con remera tenemos frío.',gorra:'La gorra es para el sol. Para el frío, el gorro de lana.'} as Record<string,string>)[k]||'Eso no va.'))},
+  {t:'viste',icon:'gorro',make:vestir(['abrigo','gorro','bufanda','guantes','botasAgua'],['gafas','remera','gorra'],'¡Hace muchísimo frío! Viste al niño para jugar en la nieve.',(k: Cosa)=>(({gafas:'Las gafas de sol no abrigan.',remera:'Con camiseta tenemos frío.',gorra:'La gorra es para el sol. Para el frío, el gorro de lana.'} as Record<string,string>)[k]||'Eso no va.'))},
   {t:'saltos',icon:'pinguino',name:'Contar pingüinos',make:(d: AlTerminar,t: Libre)=>Cuenta({pool:['pinguino','foca','copo'],bg:t.bg},d)},
   {t:'clasifica',icon:'osoPolar',name:'¿Frío o calor?',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'frio-calor',bg:t.bg,
     why:(it: Libre,z: Libre)=>z.id==='frio'?cap(nameT(it.k))+' vive donde hace calor.':cap(nameT(it.k))+' vive donde hace frío.',
@@ -223,18 +223,18 @@ export const T4: Tema[]=[
  words:[{k:'bombera',say:'La bombera. Apaga incendios con la manguera.'},{k:'medico',say:'El médico. Nos cura cuando estamos enfermos.'},{k:'policia',say:'La policía. Cuida la calle y nos ayuda.'},{k:'maestra',say:'La maestra. Nos enseña en el cole.'},{k:'panadero',say:'El panadero. Hace el pan muy temprano.'},
   {k:'cocinera',say:'La cocinera. Prepara comidas ricas.'},{k:'cartero',say:'El cartero. Lleva las cartas a las casas.'},{k:'granjera',say:'La granjera. Cuida los animales y el campo.'},{k:'peluquero',say:'El peluquero. Nos corta el pelo.'}],
  games:[{t:'conocer'},
-  {t:'herramientas',icon:'manguera',name:'¿Con qué trabaja?',make:(d: AlTerminar,t: Libre)=>Une({pairs:OFICIOS,bg:t.bg,key:'oficios',ask:'Uní a cada persona con lo que usa para trabajar. Arrastrá de una a la otra.',okSay:(a: Libre,b: Libre)=>cap(nameT(a))+' usa '+nameT(b)+'.',why:(a: Libre,b: Libre)=>'Mmm, '+nameT(a)+' no usa '+nameT(b)+'.'},d)},
+  {t:'herramientas',icon:'manguera',name:'¿Con qué trabaja?',make:(d: AlTerminar,t: Libre)=>Une({pairs:OFICIOS,bg:t.bg,key:'oficios',ask:'Une a cada persona con lo que usa para trabajar. Arrastra de una a la otra.',okSay:(a: Libre,b: Libre)=>cap(nameT(a))+' usa '+nameT(b)+'.',why:(a: Libre,b: Libre)=>'Mmm, '+nameT(a)+' no usa '+nameT(b)+'.'},d)},
   {t:'quien',icon:'policia',name:'¿Quién soy?',make:(d: AlTerminar,t: Libre)=>{const Q=shuffle(ADIV);return ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'oficios',y:560,big:true,
     gen(i: number){const q=Q[i%Q.length],others=shuffle(ADIV.map(a=>a[0]).filter(k=>k!==q[0])).slice(0,nOpts()-1);return {words:[q[0],...others],ok:[q[0]],ask:q[1],okSay:()=>'¡Sí! Soy '+nameT(q[0])+'.',badSay:(w: Cosa)=>eseEs(w)+'. '+q[1]}}},d)}},
   {t:'busca'}]},
 {id:'4A-T8',zone:'bosque',n:'La calle y la ciudad',icon:'semaforo',c:'#5B8DEF',trim:2,bg:BG.calle,
- words:[{k:'semaforo',say:'El semáforo. Rojo para frenar y verde para pasar.'},{k:'pasoCebra',say:'El paso de cebra. Por acá cruzamos la calle.'},{k:'tienda',say:'La tienda. Ahí compramos cosas.'},{k:'parque',say:'El parque. Para jugar al aire libre.'},{k:'hospital',say:'El hospital. Ahí curan a las personas.'},{k:'escuela',say:'El cole. Ahí aprendemos y jugamos.'},{k:'autobus',say:'El autobús. Lleva a mucha gente por la ciudad.'}],
+ words:[{k:'semaforo',say:'El semáforo. Rojo para frenar y verde para pasar.'},{k:'pasoCebra',say:'El paso de cebra. Por aquí cruzamos la calle.'},{k:'tienda',say:'La tienda. Ahí compramos cosas.'},{k:'parque',say:'El parque. Para jugar al aire libre.'},{k:'hospital',say:'El hospital. Ahí curan a las personas.'},{k:'escuela',say:'El cole. Ahí aprendemos y jugamos.'},{k:'autobus',say:'El autobús. Lleva a mucha gente por la ciudad.'}],
  games:[{t:'conocer'},{t:'semaforo',icon:'semaforo',name:'¿Cruzamos?',make:(d: AlTerminar,_t: Libre)=>Semaforo({},d)},
   {t:'lugares',icon:'hospital',name:'Cada cosa en su lugar',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'ciudad',bg:t.bg,
-    why:(it: Libre,z: Libre)=>cap(nameT(it.k))+' no va '+V(z.nm)+'.',placeSay:(it: Libre,z: Libre)=>cap(nameT(it.k))+' va '+V(z.nm)+'.',
+    why:(it: Libre,z: Libre)=>cap(nameT(it.k))+' no va '+z.nm+'.',placeSay:(it: Libre,z: Libre)=>cap(nameT(it.k))+' va '+z.nm+'.',
     gen(i: number){const Z: Record<string,Libre>={escuela:{it:['mochila','lapiz','cuento'],nm:'al cole'},hospital:{it:['ambulancia','medico','fonendo'],nm:'al hospital'},parque:{it:['tobogan','pelota','bici'],nm:'al parque'},tienda:{it:['pan','manzana','leche'],nm:'a la tienda'}};
       const zs=i?['parque','tienda']:['escuela','hospital'];if(AGE()>=5)zs.push(i?'escuela':'parque');const its: Libre[]=[];zs.forEach(z=>shuffle(Z[z].it).slice(0,2).forEach(k=>its.push({k,zone:z})));
-      return {ask:'¿Adónde va cada cosa? Llevala a su lugar de la ciudad.',zones:zs.map((z,j,a)=>({id:z,nm:Z[z].nm,x:900-(a.length-1)*230+j*460,y:440,w:340,h:200,c:'#E4E9F2',icon:zoneIcon(z)})),items:its,tray:{x0:380,x1:1440,y:780}}}},d)},
+      return {ask:'¿Adónde va cada cosa? Llévala a su lugar de la ciudad.',zones:zs.map((z,j,a)=>({id:z,nm:Z[z].nm,x:900-(a.length-1)*230+j*460,y:440,w:340,h:200,c:'#E4E9F2',icon:zoneIcon(z)})),items:its,tray:{x0:380,x1:1440,y:780}}}},d)},
   {t:'busca'}]},
 {id:'4A-T9',zone:'bosque',n:'Animales domésticos y salvajes',icon:'jirafa',c:'#E8B45E',trim:2,bg:BG.sabana,
  words:[{k:'leon',say:'El león. Es el rey de la sabana. ¡Grrr!'},{k:'elefante',say:'El elefante. Tiene una trompa muy larga.'},{k:'jirafa',say:'La jirafa. Su cuello largo llega a las hojas más altas.'},{k:'mono',say:'El mono. Salta de árbol en árbol.'},{k:'cebra',say:'La cebra. Tiene rayas blancas y negras.'},{k:'cocodrilo',say:'El cocodrilo. Vive en el río.'},{k:'tigre',say:'El tigre. Tiene rayas negras y corre muy rápido.'},
@@ -247,12 +247,12 @@ export const T4: Tema[]=[
   {t:'sonido',icon:'leon',make:(d: AlTerminar,t: Libre)=>Sonido({items:['leon','elefante','mono','tigre','perro','gato','vaca','conejo','cocodrilo'],bg:t.bg},d)},
   {t:'sombras',icon:'elefante',name:'¿De quién es la sombra?',make:(d: AlTerminar,t: Libre)=>{const pool=shuffle(['leon','elefante','jirafa','mono','cocodrilo','conejo','perro','gato','cebra','tigre']);return ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'sombras',y:680,
     ref(r: Libre){refCard(900,300,320,320,()=>picS(r.k,900,300,280))},
-    gen(i: number){const k=pool[i%pool.length],others=shuffle(pool.filter(x=>x!==k)).slice(0,nOpts()-1);return {k,words:[k,...others],ok:[k],ask:'¿De quién es esta sombra?',okSay:()=>'¡Sí! Es la sombra '+dela(k)+'.',badSay:(w: Cosa)=>eseEs(w)+'. Mirá bien la forma de la sombra.'}}},d)}}]},
+    gen(i: number){const k=pool[i%pool.length],others=shuffle(pool.filter(x=>x!==k)).slice(0,nOpts()-1);return {k,words:[k,...others],ok:[k],ask:'¿De quién es esta sombra?',okSay:()=>'¡Sí! Es la sombra '+dela(k)+'.',badSay:(w: Cosa)=>eseEs(w)+'. Mira bien la forma de la sombra.'}}},d)}}]},
 {id:'4A-T10',zone:'bosque',n:'Las plantas',icon:'plantaFlor',c:'#5FA84E',trim:3,bg:BG.huerta,season:'primavera',
  words:[{k:'semilla',say:'La semilla. Si la plantamos y la regamos, ¡crece una planta!'},{k:'brote',say:'El brote. Es la plantita recién nacida.'},{k:'plantita',say:'La planta. Tiene raíz, tallo y hojas.'},{k:'plantaFlor',say:'La flor. Muchas plantas tienen flores.'},{k:'plantaFruto',say:'El fruto. Adentro tiene semillas nuevas.'},{k:'regadera',say:'La regadera. Las plantas necesitan agua.'},{k:'sol',say:'El sol. Las plantas necesitan luz para crecer.'}],
  games:[{t:'conocer'},
   {t:'partes',icon:'plantaFlor',name:'Las partes de la planta',make:(d: AlTerminar,_t: Libre)=>TocaPartes({parts:PLANT_PARTS,bg:()=>{sky('#D5F0FA','#F4FBEA')},draw:plantDraw,lx:340,ly:300,key:'partes-planta',intro:'Esta es una planta. Vamos a conocer sus partes.'},d)},
-  {t:'secuencia',icon:'semilla',name:'¿Cómo crece?',make:(d: AlTerminar,t: Libre)=>Secuencia({bg:t.bg,key:'secuencia',panels:AGE()<=4?['semilla','plantita','plantaFlor']:['semilla','brote','plantita','plantaFlor','plantaFruto'],ask:'¿Cómo crece una planta? Ordená del primero al último.',okAll:'¡Muy bien! Primero la semilla, después crece la planta y al final sale la flor.'},d)},
+  {t:'secuencia',icon:'semilla',name:'¿Cómo crece?',make:(d: AlTerminar,t: Libre)=>Secuencia({bg:t.bg,key:'secuencia',panels:AGE()<=4?['semilla','plantita','plantaFlor']:['semilla','brote','plantita','plantaFlor','plantaFruto'],ask:'¿Cómo crece una planta? Ordena del primero al último.',okAll:'¡Muy bien! Primero la semilla, después crece la planta y al final sale la flor.'},d)},
   {t:'riega',icon:'regadera',make:(d: AlTerminar,t: Libre)=>Riega({bg:t.bg,n:AGE()<=3?3:4},d)}]},
 {id:'4A-T11',zone:'bosque',n:'Los transportes por tierra, mar y aire',icon:'ambulancia',c:'#5BB8E6',trim:3,bg:BG.ciudad,
  words:[{k:'ambulancia',say:'La ambulancia. Lleva a los enfermos al hospital. ¡Niinoo!'},{k:'camionBomberos',say:'El camión de bomberos. Va rápido a apagar el fuego.'},{k:'patrullero',say:'El coche de policía. Lo usa la policía.'},{k:'helicoptero',say:'El helicóptero. Vuela y puede quedarse quieto en el aire.'},
@@ -265,16 +265,16 @@ export const T4: Tema[]=[
       return {ask:'¿Por dónde va cada uno? Por tierra, por el aire o por el agua.',zones:zs.map((z,j,a)=>({id:z,x:900-(a.length-1)*230+j*460,y:450,w:360,h:220,c:Z[z].c,icon:Z[z].ic})),items:its,tray:{x0:380,x1:1440,y:790}}}},d)},
   {t:'sonido',icon:'ambulancia',name:'¿Quién suena así?',make:(d: AlTerminar,t: Libre)=>Sonido({items:['ambulancia','camionBomberos','patrullero','helicoptero','tractor','submarino','tren','barco'],bg:t.bg},d)},
   {t:'ordena',icon:'autobus',name:'Del más corto al más largo',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'tamanos',bg:t.bg,
-    why:()=>'Mmm, ese lugar es de otro tamaño. Mirá bien los cuadros.',
-    gen(i: number){const set=i?['bici','auto','camion']:['moto','auto','autobus'];return {ask:'Ordená del más corto al más largo. El más corto va primero.',zones:[sizeSlot('s0',560,190),sizeSlot('s1',900,260),sizeSlot('s2',1300,330)],items:set.map((k,j)=>({k,zone:'s'+j,s:170})),tray:{x0:460,x1:1400,y:790},okAll:'¡Muy bien! Del más corto al más largo.'}}},d)}]},
+    why:()=>'Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.',
+    gen(i: number){const set=i?['bici','auto','camion']:['moto','auto','autobus'];return {ask:'Ordena del más corto al más largo. El más corto va primero.',zones:[sizeSlot('s0',560,190),sizeSlot('s1',900,260),sizeSlot('s2',1300,330)],items:set.map((k,j)=>({k,zone:'s'+j,s:170})),tray:{x0:460,x1:1400,y:790},okAll:'¡Muy bien! Del más corto al más largo.'}}},d)}]},
 {id:'4A-T12',zone:'bosque',n:'Los bichitos y el verano',icon:'hormiga',c:'#FF5A5A',trim:3,bg:BG.primavera,season:'verano',
  words:[{k:'hormiga',say:'La hormiga. Trabaja en equipo y es muy fuerte.'},{k:'caracol',say:'El caracol. Lleva su casa en la espalda, ¡como yo!'},{k:'mariposa',say:'La mariposa. Antes fue una oruga.'},{k:'abeja',say:'La abeja. Hace miel con las flores.'},{k:'mariquita',say:'La mariquita. Tiene puntitos negros.'},{k:'arana',say:'La araña. Tiene ocho patas y teje su tela.'},{k:'gusano',say:'El gusano. Vive bajo la tierra y la ayuda a estar sana.'},{k:'oruga',say:'La oruga. Come hojas y un día será mariposa.'}],
  games:[{t:'conocer'},
-  {t:'lupa',icon:'lupa',name:'Buscá con la lupa',make:(d: AlTerminar,_t: Libre)=>{const P=shuffle([[420,560],[700,700],[980,520],[1250,690],[560,330],[1150,330],[1380,480]]),bugs=shuffle(['hormiga','arana','mariquita','gusano','oruga','caracol','abeja']).slice(0,AGE()<=3?3:AGE()===4?4:5);
+  {t:'lupa',icon:'lupa',name:'Busca con la lupa',make:(d: AlTerminar,_t: Libre)=>{const P=shuffle([[420,560],[700,700],[980,520],[1250,690],[560,330],[1150,330],[1380,480]]),bugs=shuffle(['hormiga','arana','mariquita','gusano','oruga','caracol','abeja']).slice(0,AGE()<=3?3:AGE()===4?4:5);
     const items=bugs.map((k,j): Libre=>({k,x:P[j][0],y:P[j][1],s:150}));const blades=Array.from({length:90},(_,j)=>[(j*53)%1300+300,250+(j*97)%560,ri(30,70),rnd(-.3,.3)]);
     const base=()=>{sky('#C9EBB5','#9FDC8F');for(const o of items)if(!o.found){ctx.globalAlpha=.9;thing(o.k,o.x,o.y,o.s*.32);ctx.globalAlpha=1}};
     const cover=()=>{for(const [x,y,h,r] of blades){ctx.save();ctx.translate(x,y);ctx.rotate(r);ctx.beginPath();ctx.moveTo(-8,0);ctx.quadraticCurveTo(0,-h,4,-h*1.1);ctx.quadraticCurveTo(6,-h*.5,8,0);ctx.fillStyle='#5FA84E';ctx.fill();ctx.restore()}};
-    return Lens({items,base,cover,key:'lupa',intro:'Hay bichitos escondidos en el pasto. Mirá con la lupa y tocalos.',ask:(k: Cosa)=>'Buscá '+W_(k)+'.',
+    return Lens({items,base,cover,key:'lupa',intro:'Hay bichitos escondidos en el pasto. Mira con la lupa y tócalos.',ask:(k: Cosa)=>'Busca '+W_(k)+'.',
       inside:(its: Libre[],L: Libre)=>{ctx.fillStyle='#BFE6A0';ctx.fillRect(L.x-L.r,L.y-L.r,L.r*2,L.r*2);for(const o of its)if(!o.found&&dist(o.x,o.y,L.x,L.y)<L.r+o.s){thing(o.k,L.x+(o.x-L.x)*1.6,L.y+(o.y-L.y)*1.6,o.s*.9)}}},d)}},
   {t:'series',icon:'mariquita',name:'¿Qué viene después?',make:(d: AlTerminar,t: Libre)=>Series({pool:['mariquita','abeja','hormiga','mariposa','caracol','arana'],bg:t.bg},d)},
   {t:'memoria'}]}
@@ -292,12 +292,12 @@ export const C4: Tema={id:'4A-C',zone:'bosque',n:'Rincón de los Conceptos',icon
   {t:'formas',icon:'formas',name:'Las formas',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'formas',bg:t.bg,
     why:(_it: Libre,z: Libre)=>'Mmm, esa forma no es '+shape2(z.id).name+'.',placeSay:(_it: Libre,z: Libre)=>cap(shape2(z.id).name)+'.',
     gen(i: number){const fs=i?['triangulo','rectangulo','circulo']:['cuadrado','triangulo','rectangulo'],cs=shuffle(['#FF5A5A','#5B8DEF','#FFD66B','#7CC86E','#F58BB4','#FFA94D']);const its: Libre[]=[];fs.forEach((f,j)=>{for(let q=0;q<(AGE()<=3?1:2);q++)its.push({k:shape2(f,cs[(j*2+q)%6]),zone:f,s:150})});
-      return {ask:'Cada forma va con su forma. Arrastralas.',zones:fs.map((f,j)=>({id:f,x:440+j*460,y:430,w:340,h:210,c:'#E8B46A',icon:(x: number,y: number,s: number)=>shape2(f,'#fff').draw(x,y,s)})),items:its,tray:{x0:380,x1:1440,y:790}}}},d)},
+      return {ask:'Cada forma va con su forma. Arrástralas.',zones:fs.map((f,j)=>({id:f,x:440+j*460,y:430,w:340,h:210,c:'#E8B46A',icon:(x: number,y: number,s: number)=>shape2(f,'#fff').draw(x,y,s)})),items:its,tray:{x0:380,x1:1440,y:790}}}},d)},
   {t:'masmenos',icon:'galleta',name:'Más y menos',make:(d: AlTerminar,t: Libre)=>ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'mas-menos',y:500,big:true,
-    gen(i: number){const mas=i%2===0,a=ri(1,4),b=Math.min(6,a+ri(2,3)),k=pick(['galleta','fresa','uva','pelota']),A=plateN(b,k),B=plateN(a,k);return {words:[A,B],ok:[mas?A:B],ask:mas?'¿Dónde hay más? Tocá el plato.':'¿Dónde hay menos? Tocá el plato.',okSay:()=>mas?'¡Sí! Ahí hay '+NUM[b]+', es más.':'¡Sí! Ahí hay '+NUM[a]+', es menos.',badSay:()=>mas?'Ahí hay menos. Contá y buscá donde hay más.':'Ahí hay más. Contá y buscá donde hay menos.'}}},d)},
+    gen(i: number){const mas=i%2===0,a=ri(1,4),b=Math.min(6,a+ri(2,3)),k=pick(['galleta','fresa','uva','pelota']),A=plateN(b,k),B=plateN(a,k);return {words:[A,B],ok:[mas?A:B],ask:mas?'¿Dónde hay más? Toca el plato.':'¿Dónde hay menos? Toca el plato.',okSay:()=>mas?'¡Sí! Ahí hay '+NUM[b]+', es más.':'¡Sí! Ahí hay '+NUM[a]+', es menos.',badSay:()=>mas?'Ahí hay menos. Cuenta y busca donde hay más.':'Ahí hay más. Cuenta y busca donde hay menos.'}}},d)},
   {t:'alto',icon:'jirafa',name:'Alto, bajo, largo y corto',make:(d: AlTerminar,t: Libre)=>ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'alto-largo',y:500,big:true,
-    gen(i: number){const q=i%4,c=pick(['#5B8DEF','#FF8A7A','#7CC86E']);if(q<2){const A=towerOf(ri(5,6)),B=towerOf(ri(1,2));return {words:[A,B],ok:[q===0?A:B],ask:q===0?'¿Cuál es la torre más alta?':'¿Cuál es la torre más baja?',okSay:()=>q===0?'¡Sí! Esa es la más alta.':'¡Sí! Esa es la más baja.',badSay:()=>'Mirá bien cuántos bloques tiene cada torre.'}}
-      const A=pencilOf(.95,c),B=pencilOf(.4,c);return {words:[A,B],ok:[q===2?A:B],ask:q===2?'¿Cuál es el lápiz más largo?':'¿Cuál es el lápiz más corto?',okSay:()=>q===2?'¡Sí! Ese es el más largo.':'¡Sí! Ese es el más corto.',badSay:()=>'Mirá bien el tamaño de cada lápiz.'}}},d)},
+    gen(i: number){const q=i%4,c=pick(['#5B8DEF','#FF8A7A','#7CC86E']);if(q<2){const A=towerOf(ri(5,6)),B=towerOf(ri(1,2));return {words:[A,B],ok:[q===0?A:B],ask:q===0?'¿Cuál es la torre más alta?':'¿Cuál es la torre más baja?',okSay:()=>q===0?'¡Sí! Esa es la más alta.':'¡Sí! Esa es la más baja.',badSay:()=>'Mira bien cuántos bloques tiene cada torre.'}}
+      const A=pencilOf(.95,c),B=pencilOf(.4,c);return {words:[A,B],ok:[q===2?A:B],ask:q===2?'¿Cuál es el lápiz más largo?':'¿Cuál es el lápiz más corto?',okSay:()=>q===2?'¡Sí! Ese es el más largo.':'¡Sí! Ese es el más corto.',badSay:()=>'Mira bien el tamaño de cada lápiz.'}}},d)},
   {t:'posiciones',icon:'gato',name:'Delante, detrás, cerca y lejos',make:(d: AlTerminar,t: Libre)=>ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'posiciones',y:500,big:true,
     gen(i: number){const Q=[['caja','delante','detras','¿Dónde está el gato delante de la caja?'],['caja','detras','delante','¿Dónde está el gato detrás de la caja?'],['mesa','encima','debajo','¿Dónde está la pelota encima de la mesa?'],['mesa','debajo','encima','¿Dónde está la pelota debajo de la mesa?'],['casa','cerca','lejos','¿Dónde está el perro cerca de la casa?'],['casa','lejos','cerca','¿Dónde está el perro lejos de la casa?']];
       const q=Q[(i*2+ri(0,1))%6],A=posScene(q[0],q[1]),B=posScene(q[0],q[2]);return {words:[A,B],ok:[A],ask:q[3],okSay:()=>'¡Sí! '+cap(A.name)+'.',badSay:()=>'Ahí está '+B.name+'. '+q[3]}}},d)},

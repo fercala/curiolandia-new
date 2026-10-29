@@ -12,25 +12,23 @@
 //   - vestir(): fábrica del juego "vestir al nene".
 //   - T3 (lista de temas de 3 años), C3 (Rincón de los Conceptos de 3 años), COLS3.
 // Importa: el núcleo, src/nucleo/ (ctx, W, H, T, K, PI, sky, card, circ, ell, rr, fillStroke, text, pic, say,
-//   V, tx, W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, LEX2, COLORES, SFX...), juegos/comps.ts (Arrastra,
+//   W_, cap, shuffle, pick, ri, AGE, nRounds, LEX, COLORES, SFX...), juegos/comps.ts (Arrastra,
 //   ChoiceGame, Conocer, Busca, Memoria, Cuerpo, Puzzle, Atrapa, Cuenta, Excava, Riega, Pinta, nameT,
 //   drawKid, isPl, colorAdj) y los dibujos PICS (src/dibujos/). Lo usan escenas/escenas2d.ts (TEMAS, TEMA,
 //   SCENES.juego), escenas/zonas.ts (ZONES.jardin), aplicacion/adultos.ts, temas/extras.ts y contenido/cuentos.ts.
 //
 // makeGame, que convierte cada juego de un tema en su componente, está desde la fase 4f en temas/hacerJuego.ts.
 //
-// Textos: los textos se escriben en rioplatense ("Tocá", "la seño") y tx() (nucleo/idioma.ts y contenido/lex.ts) los pasa
-// a castellano de España. Las frases que tx() no sabría cambiar bien ya están escritas en castellano de España (fase
-// 5e de docs/PLAN-MIGRACION.md). ¡No cambies ninguna frase que se diga con say()! Cada una
-// tiene su MP3 grabado (voz/manifest.json), y el MP3 se busca por el texto exacto.
+// Textos: en castellano de España (desde la fase 5f de docs/PLAN-MIGRACION.md; antes se escribían en rioplatense y
+// tx() los adaptaba). Cada frase nueva o cambiada se apunta en dialogos/ (dialogos/LEEME.md).
 import type { AlTerminar, Cosa, Libre, Tema } from '../juegos/tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DIAC, FLC, H, LEX, LEX2, LF, PI, SFX, T, V, W, W_, cap, card, circ, cloud, ctx, ell, fillStroke, flower, nRounds, pic, pick, ri, rr, say, shuffle, sky, star, text } from '../nucleo/indice.ts';
+import { AGE, DIAC, FLC, H, LEX, LF, PI, SFX, T, W, W_, cap, card, circ, cloud, ctx, ell, fillStroke, flower, nRounds, pic, pick, ri, rr, say, shuffle, sky, star, text } from '../nucleo/indice.ts';
 import { Arrastra, Atrapa, BG, COLORES, ChoiceGame, Conocer, Cuenta, Cuerpo, Excava, Pinta, Puzzle, Riega, Sonido, colorAdj, drawKid, isPl, nameT } from '../juegos/indice.ts';
-// Palabras nuevas para nombrar dibujos (W_(), nameT()): LEX = 'k' -> nombre con artículo;
-// LEX2 = 'k' -> nombre con artículo ya en castellano de España (los que tx() no sabría cambiar).
+// Palabras nuevas para nombrar dibujos (W_(), nameT()): LEX = 'k' -> nombre con artículo. (pinturas ya estaba en LEX:
+// se repite aquí desde que era LEX2.)
 Object.assign(LEX,{lancha:'la lancha',helicoptero:'el helicóptero'});
-Object.assign(LEX2,{pinturas:'las pinturas'});
+Object.assign(LEX,{pinturas:'las pinturas'});
 
 // ---------------------------------------------------------------------------
 // FONDOS. Cada fondo es una función sin parámetros que pinta la pantalla entera
@@ -143,7 +141,7 @@ export const sizeSlot=(id: string,x: number,s: number)=>({id,x,y:430,w:s,h:s,dra
 export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => string){
   return (onDone: AlTerminar,t: Libre)=>{const wear: Libre={};const R=2;
     return Arrastra({rounds:R,key:'vestir',noCard:false,bg:t.bg,sayPick:true,
-      why:(it: Libre)=>V(why(it.k)),
+      why:(it: Libre)=>why(it.k),
       gen(_i: number){Object.keys(wear).forEach(k=>delete wear[k]);const ok=shuffle(okK).slice(0,AGE()<=3?3:4),bad=shuffle(badK).slice(0,2);
         return {ask,zones:[kidZone(wear)],tray:{x0:300,x1:760,y:0},
           items:[...ok.map(k=>({k,zone:'kid'})),...bad.map(k=>({k,zone:'no'}))].map((o,j)=>Object.assign(o,{x:j%2?660:420,y:200+Math.floor(j/2)*200,s:170})),
@@ -177,7 +175,7 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //   concepts (opcional) true en el Rincón de los Conceptos: no está en el camino y se abre
 //           al terminar 3 casitas (escenas/zonas.ts).
 //   words   las palabras del tema. Cada una es {k, say, label, ex} o una cosa dibujada:
-//             k     clave del dibujo en PICS (y de su nombre en LEX/LEX2);
+//             k     clave del dibujo en PICS (y de su nombre en LEX);
 //             say   (opcional) frase de Tito al tocarla en "conocer" (texto);
 //                   si falta dice el nombre: "La mochila.";
 //             label (opcional) palabra escrita en grande en la ficha (si falta, el nombre sin artículo);
@@ -215,39 +213,39 @@ export const T3: Tema[]=[
  games:[{t:'conocer'},{t:'busca'},
   {t:'guarda',icon:'mochila',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:1,total:AGE()<=3?4:5,key:'dentro-fuera',bg:t.bg,
     gen(){const its=['lapiz','cuento','pinturas','pelota','manzana'];const st=shuffle(its).slice(0,AGE()<=3?4:5).map((k,j)=>({k,zone:j%2?'fuera':'dentro'}));
-      return {ask:'Vamos a ordenar. Escuchá bien dónde va cada cosa.',zones:[mochilaZone,mesaZone],items:its.map(k=>({k,s:150})),tray:{x0:330,x1:1520,y:790},
-        steps:st.map(s=>({k:s.k,zone:s.zone,say:s.zone==='dentro'?'Guardá '+W_(s.k)+' dentro de la mochila.':'Dejá '+W_(s.k)+' fuera de la mochila, en la mesa.',ok:s.zone==='dentro'?'¡Muy bien! Está dentro de la mochila.':'¡Muy bien! Está fuera de la mochila.'}))}}},d)},
+      return {ask:'Vamos a ordenar. Escucha bien dónde va cada cosa.',zones:[mochilaZone,mesaZone],items:its.map(k=>({k,s:150})),tray:{x0:330,x1:1520,y:790},
+        steps:st.map(s=>({k:s.k,zone:s.zone,say:s.zone==='dentro'?'Guarda '+W_(s.k)+' dentro de la mochila.':'Deja '+W_(s.k)+' fuera de la mochila, en la mesa.',ok:s.zone==='dentro'?'¡Muy bien! Está dentro de la mochila.':'¡Muy bien! Está fuera de la mochila.'}))}}},d)},
   {t:'memoria'}]},
 {id:'3A-T2',zone:'jardin',n:'Mi cuerpo',icon:'cara',c:'#F58BB4',trim:1,bg:BG.cuerpo,words:[{k:'ojo'},{k:'nariz'},{k:'boca'},{k:'oreja'},{k:'mano'},{k:'pie'}],
  games:[{t:'cuerpo',icon:'nene',make:(d: AlTerminar,t: Libre)=>Cuerpo({mode:'free',bg:t.bg},d)},{t:'toca',icon:'mano',make:(d: AlTerminar,t: Libre)=>Cuerpo({mode:'ask',bg:t.bg,only:['ojos','nariz','boca','orejas','pelo','cabeza','manos','brazos','barriga','piernas','pies']},d)},
   {t:'puzzle',icon:'cara',make:(d: AlTerminar,t: Libre)=>Puzzle({list:['cara','nene'],bg:t.bg},d)},{t:'busca'}]},
 {id:'3A-T3',zone:'jardin',n:'Los colores',icon:'pinturas',c:'#FF5A5A',trim:1,bg:BG.colores,
- words:['rojo','azul','amarillo','verde'].map(c=>Object.assign(swatch(c),{label:COLORES[c].n,say:({rojo:'Rojo. Rojo como la frutilla y el tomate.',azul:'Azul. Azul como el mar y la ballena.',amarillo:'Amarillo. Amarillo como el sol y la banana.',verde:'Verde. Verde como la rana y las hojas.'} as Record<string,string>)[c],ex:{rojo:['fresa','tomate','manzana'],azul:['ballena','gota','pajaro'],amarillo:['sol','banana','pato'],verde:['rana','hoja','pera']}[c]})),
- games:[{t:'conocer',icon:'pinturas',make:(d: AlTerminar,t: Libre)=>Conocer({items:t.words,bg:t.bg,intro:'Estos son los colores. Tocá cada uno para conocerlo.'},d)},
+ words:['rojo','azul','amarillo','verde'].map(c=>Object.assign(swatch(c),{label:COLORES[c].n,say:({rojo:'Rojo. Rojo como la fresa y el tomate.',azul:'Azul. Azul como el mar y la ballena.',amarillo:'Amarillo. Amarillo como el sol y el plátano.',verde:'Verde. Verde como la rana y las hojas.'} as Record<string,string>)[c],ex:{rojo:['fresa','tomate','manzana'],azul:['ballena','gota','pajaro'],amarillo:['sol','banana','pato'],verde:['rana','hoja','pera']}[c]})),
+ games:[{t:'conocer',icon:'pinturas',make:(d: AlTerminar,t: Libre)=>Conocer({items:t.words,bg:t.bg,intro:'Estos son los colores. Toca cada uno para conocerlo.'},d)},
   {t:'pinta',icon:'pinturas',make:(d: AlTerminar,t: Libre)=>Pinta({items:COLS3,bg:t.bg},d)},
   {t:'clasifica',icon:'fresa',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:3,key:'colores',bg:t.bg,
-    why:(it: Libre,z: Libre)=>'Mmm, '+nameT(it.k)+' no es '+V(COLORES[z.id].n)+'. ¿De qué color es?',placeSay:(it: Libre,z: Libre)=>cap(nameT(it.k))+(isPl(it.k)?' son ':' es ')+colorAdj(z.id,it.k)+'.',
+    why:(it: Libre,z: Libre)=>'Mmm, '+nameT(it.k)+' no es '+COLORES[z.id].n+'. ¿De qué color es?',placeSay:(it: Libre,z: Libre)=>cap(nameT(it.k))+(isPl(it.k)?' son ':' es ')+colorAdj(z.id,it.k)+'.',
     gen(i: number){const cs=shuffle(['rojo','azul','amarillo','verde']).slice(0,AGE()<=3&&i<2?2:3);const its: Libre[]=[];cs.forEach(c=>shuffle(COLS3.filter(q=>q[1]===c)).slice(0,2).forEach(q=>its.push({k:q[0],zone:c,s:150})));
-      return {ask:'Poné cada cosa en la canasta de su color.',zones:cs.map((c,j,a)=>({id:c,x:900-(a.length-1)*230+j*460,y:450,w:330,h:220,c:'#E8B46A',icon:(x: number,y: number,s: number)=>swatch(c).draw(x,y,s*1.1)})),items:its,tray:{x0:330,x1:1520,y:790}}}},d)},
-  {t:'burbujas',icon:'globo',make:(d: AlTerminar,_t: Libre)=>Atrapa({targets:shuffle(['rojo','amarillo','azul','verde']).slice(0,AGE()<=3?3:4).map(c=>({ask:'¡Atrapá las burbujas de color '+V(COLORES[c].n)+'!',is:(k: Cosa)=>(COLS3.find(q=>q[0]===k)||[])[1]===c,label:'',icon:(x: number,y: number,s: number)=>swatch(c).draw(x-180,y,s*1.1)})),
+      return {ask:'Pon cada cosa en la canasta de su color.',zones:cs.map((c,j,a)=>({id:c,x:900-(a.length-1)*230+j*460,y:450,w:330,h:220,c:'#E8B46A',icon:(x: number,y: number,s: number)=>swatch(c).draw(x,y,s*1.1)})),items:its,tray:{x0:330,x1:1520,y:790}}}},d)},
+  {t:'burbujas',icon:'globo',make:(d: AlTerminar,_t: Libre)=>Atrapa({targets:shuffle(['rojo','amarillo','azul','verde']).slice(0,AGE()<=3?3:4).map(c=>({ask:'¡Atrapa las burbujas de color '+COLORES[c].n+'!',is:(k: Cosa)=>(COLS3.find(q=>q[0]===k)||[])[1]===c,label:'',icon:(x: number,y: number,s: number)=>swatch(c).draw(x-180,y,s*1.1)})),
     pool:COLS3.map(q=>q[0]),ring:(k: Cosa)=>COLORES[(COLS3.find(q=>q[0]===k)||[,'azul'])[1]!].c,bg:()=>{sky('#E8F7FD','#BFE6F7')},key:'colores'},d)}]},
 {id:'3A-T4',zone:'jardin',n:'El otoño',icon:'hojaNaranja',c:'#FFA94D',trim:1,bg:BG.otono,season:'otoño',
  words:[{k:'hojaNaranja',label:'hoja',say:'Las hojas. En otoño se ponen naranjas, rojas y marrones, ¡y se caen de los árboles!'},{k:'castana',say:'La castaña. Es un fruto del otoño.'},{k:'seta',say:'La seta. Crece cuando llueve.'},
   {k:'lluvia',say:'La lluvia. En otoño llueve mucho.'},{k:'paraguas',say:'El paraguas. Nos tapa de la lluvia.'},{k:'botasAgua',say:'Las botas de agua. ¡Para saltar en los charcos!'},{k:'ardilla',say:'La ardilla. Junta comida para el invierno.'},{k:'viento',say:'El viento. ¡Sopla y se llevan las hojas! Fiuuu.'}],
  games:[{t:'conocer'},
-  {t:'cae',icon:'hojaRoja',make:(d: AlTerminar,t: Libre)=>Atrapa({dir:'down',style:'plain',targets:[{ask:'¡Se caen las hojas! Atrapá las hojas.',is:(k: Cosa)=>/^hoja/.test(k)},{ask:'¡Ahora atrapá las castañas!',is:(k: Cosa)=>k==='castana'}],pool:['hojaNaranja','hojaRoja','hojaMarron','castana','castana','seta'],bg:t.bg,key:'otono'},d)},
-  {t:'viste',icon:'paraguas',make:vestir(['paraguas','botasAgua','abrigo','gorro'],['gafas','remera','gorra'],'¡Está lloviendo! Vestí al nene para salir con lluvia. Arrastrá la ropa hasta el nene.',(k: Cosa)=>(({gafas:'Los anteojos de sol son para cuando hay sol, no para la lluvia.',remera:'Con remera nos mojamos y tenemos frío.',gorra:'La gorra es para el sol. Con lluvia mejor el paraguas.'} as Record<string,string>)[k]||'Eso no va.'))},
+  {t:'cae',icon:'hojaRoja',make:(d: AlTerminar,t: Libre)=>Atrapa({dir:'down',style:'plain',targets:[{ask:'¡Se caen las hojas! Atrapa las hojas.',is:(k: Cosa)=>/^hoja/.test(k)},{ask:'¡Ahora atrapa las castañas!',is:(k: Cosa)=>k==='castana'}],pool:['hojaNaranja','hojaRoja','hojaMarron','castana','castana','seta'],bg:t.bg,key:'otono'},d)},
+  {t:'viste',icon:'paraguas',make:vestir(['paraguas','botasAgua','abrigo','gorro'],['gafas','remera','gorra'],'¡Está lloviendo! Viste al niño para salir con lluvia. Arrastra la ropa hasta el niño.',(k: Cosa)=>(({gafas:'Las gafas de sol son para cuando hay sol, no para la lluvia.',remera:'Con camiseta nos mojamos y tenemos frío.',gorra:'La gorra es para el sol. Con lluvia mejor el paraguas.'} as Record<string,string>)[k]||'Eso no va.'))},
   {t:'busca'}]},
 {id:'3A-T5',zone:'jardin',n:'Mi familia',icon:'mama',c:'#FF8A7A',trim:1,bg:BG.familia,
- words:[{k:'mama',say:'Mamá.'},{k:'papa',say:'Papá.'},{k:'hermano',say:'El hermano.'},{k:'hermana',say:'La hermana.'},{k:'bebe',say:'El bebé. Es chiquito y toma leche.'},{k:'abuelo',say:'El abuelo. Es el papá de papá o de mamá.'},{k:'abuela',say:'La abuela. Es la mamá de mamá o de papá.'}],
- intro:'Esta es una familia. Todas las familias son distintas, ¡y todas son lindas! Tocá a cada uno.',
+ words:[{k:'mama',say:'Mamá.'},{k:'papa',say:'Papá.'},{k:'hermano',say:'El hermano.'},{k:'hermana',say:'La hermana.'},{k:'bebe',say:'El bebé. Es pequeñito y toma leche.'},{k:'abuelo',say:'El abuelo. Es el papá de papá o de mamá.'},{k:'abuela',say:'La abuela. Es la mamá de mamá o de papá.'}],
+ intro:'Esta es una familia. Todas las familias son distintas, ¡y todas son bonitas! Toca a cada uno.',
  games:[{t:'conocer'},
   {t:'ordena',icon:'bebe',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'tamanos',bg:t.bg,
-    why:()=>'Mmm, ese lugar es de otro tamaño. Mirá bien los cuadros.',
+    why:()=>'Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.',
     gen(i: number){const set=i?['bebe','hermana','papa']:['bebe','hermano','abuela'];
-      return {ask:'Ordená de más chiquito a más grande. El más chiquito va primero.',zones:[sizeSlot('s0',560,190),sizeSlot('s1',900,260),sizeSlot('s2',1300,330)],items:set.map((k,j)=>({k,zone:'s'+j,s:170})),tray:{x0:460,x1:1400,y:790},okAll:'¡Muy bien! Del más chiquito al más grande.'}}},d)},
+      return {ask:'Ordena de más pequeñito a más grande. El más pequeñito va primero.',zones:[sizeSlot('s0',560,190),sizeSlot('s1',900,260),sizeSlot('s2',1300,330)],items:set.map((k,j)=>({k,zone:'s'+j,s:170})),tray:{x0:460,x1:1400,y:790},okAll:'¡Muy bien! Del más pequeñito al más grande.'}}},d)},
   {t:'mifamilia',icon:'casa',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:1,key:'familia',bg:t.bg,sayPick:false,
-    gen(){return {free:true,ask:'¡Armá tu familia! Llevá a la casa a las personas que viven con vos. Cuando termines, tocá el botón verde.',
+    gen(){return {free:true,ask:'¡Arma tu familia! Lleva a la casa a las personas que viven con tú. Cuando termines, toca el botón verde.',
       zones:[panelZone('casa',900,400,620,420,(x: number,y: number,w: number,h: number)=>{ctx.beginPath();ctx.moveTo(x-w/2-30,y-h/2+60);ctx.lineTo(x,y-h/2-90);ctx.lineTo(x+w/2+30,y-h/2+60);ctx.closePath();fillStroke('#FF8A7A',7);card(x-w/2,y-h/2+60,w,h-60,'#FFF3B0',7,12)})],
       items:['mama','papa','hermano','hermana','bebe','abuelo','abuela','perro','gato'].map(k=>({k,s:140})),tray:{x0:300,x1:1540,y:790}}}},d)},
   {t:'busca'}]},
@@ -255,46 +253,46 @@ export const T3: Tema[]=[
  words:[{k:'copo',say:'La nieve. En invierno hace mucho frío y a veces nieva.'},{k:'muneco',say:'El muñeco de nieve. ¡Lo hacemos con nieve!'},{k:'abrigo',say:'El abrigo. Nos da calorcito.'},{k:'gorro',say:'El gorro. Para la cabeza.'},
   {k:'bufanda',say:'La bufanda. Para el cuello.'},{k:'guantes',say:'Los guantes. Para las manos.'},{k:'bota',say:'Las botas. Para los pies.'}],
  games:[{t:'conocer'},
-  {t:'viste',icon:'gorro',make:vestir(['abrigo','gorro','bufanda','guantes'],['gafas','remera','gorra'],'¡Hace mucho frío! Vestí al nene para salir a la nieve.',(k: Cosa)=>(({gafas:'Los anteojos de sol son para el verano.',remera:'Con remera tenemos frío. Busquemos ropa abrigada.',gorra:'La gorra es para el sol. Para el frío mejor el gorro.'} as Record<string,string>)[k]||'Eso no va.'))},
+  {t:'viste',icon:'gorro',make:vestir(['abrigo','gorro','bufanda','guantes'],['gafas','remera','gorra'],'¡Hace mucho frío! Viste al niño para salir a la nieve.',(k: Cosa)=>(({gafas:'Las gafas de sol son para el verano.',remera:'Con camiseta tenemos frío. Busquemos ropa abrigada.',gorra:'La gorra es para el sol. Para el frío mejor el gorro.'} as Record<string,string>)[k]||'Eso no va.'))},
   {t:'clasifica',icon:'copo',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'frio-calor',bg:t.bg,
     why:(it: Libre,z: Libre)=>z.id==='frio'?cap(nameT(it.k))+' es para cuando hace calor.':cap(nameT(it.k))+' es para cuando hace frío.',
     gen(){const fr=shuffle(['abrigo','gorro','bufanda','guantes','muneco']).slice(0,2),ca=shuffle(['remera','gafas','gorra','helado','sandia']).slice(0,2);
       return {ask:'¿Frío o calor? Las cosas del frío van con la nieve. Las del calor van con el sol.',zones:[{id:'frio',x:560,y:450,w:360,h:230,c:'#CFE8F7',icon:(x: number,y: number,s: number)=>pic('copo',x,y,s)},{id:'calor',x:1240,y:450,w:360,h:230,c:'#FFE08A',icon:(x: number,y: number,s: number)=>pic('sol',x,y,s)}],
         items:[...fr.map(k=>({k,zone:'frio'})),...ca.map(k=>({k,zone:'calor'}))],tray:{x0:380,x1:1440,y:790}}}},d)},
   {t:'arma',icon:'muneco',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:1,key:'armar',bg:t.bg,noCard:true,
-    why:()=>'Esa pieza va en otro lugar. ¡Mirá la sombra!',
+    why:()=>'Esa pieza va en otro lugar. ¡Mira la sombra!',
     gen(){const P=['base','medio','cabeza','sombrero','nariz'].slice(0,AGE()<=3?4:5);const pos: Record<string,[number,number]>={base:[900,640],medio:[900,500],cabeza:[900,385],sombrero:[900,318],nariz:[948,386]};const sz: Record<string,number>={base:170,medio:170,cabeza:170,sombrero:150,nariz:90};
-      return {ask:'¡Hagamos un muñeco de nieve! Arrastrá cada parte a su sombra.',
+      return {ask:'¡Hagamos un muñeco de nieve! Arrastra cada parte a su sombra.',
         zones:P.map(id=>({id,x:pos[id][0],y:pos[id][1],w:id==='base'?160:id==='nariz'?70:120,h:id==='base'?160:id==='nariz'?60:110,draw:()=>{ctx.save();ctx.globalAlpha=.22;snowPart(id).draw(pos[id][0],pos[id][1],sz[id]);ctx.restore()},slot:()=>pos[id],ps:1.16})),
         items:shuffle(P).map((id,j)=>({k:snowPart(id),zone:id,s:sz[id],x:[380,380,1400,1400,1400][j],y:[330,610,300,520,730][j]})),
-        okAll:'¡Qué lindo muñeco de nieve!'}}},d)}]},
+        okAll:'¡Qué bonito muñeco de nieve!'}}},d)}]},
 {id:'3A-T7',zone:'jardin',n:'Las frutas y el desayuno',icon:'manzana',c:'#FF6B5E',trim:2,bg:BG.cocina,
- words:[{k:'manzana',say:'La manzana. ¡Crunch!'},{k:'banana',say:'La banana. Se pela y se come.'},{k:'naranja',say:'La naranja. Con la naranja hacemos jugo.'},{k:'pera',say:'La pera. Es dulce y jugosa.'},{k:'fresa',say:'La frutilla. Es roja y chiquita.'},
-  {k:'uva',say:'Las uvas. Crecen en racimos.'},{k:'leche',say:'La leche. Para el desayuno.'},{k:'pan',say:'El pan. Rico en el desayuno.'},{k:'zumo',say:'El jugo de naranja. ¡Mmm!'}],
+ words:[{k:'manzana',say:'La manzana. ¡Crunch!'},{k:'banana',say:'El plátano. Se pela y se come.'},{k:'naranja',say:'La naranja. Con la naranja hacemos zumo.'},{k:'pera',say:'La pera. Es dulce y jugosa.'},{k:'fresa',say:'La fresa. Es roja y pequeñita.'},
+  {k:'uva',say:'Las uvas. Crecen en racimos.'},{k:'leche',say:'La leche. Para el desayuno.'},{k:'pan',say:'El pan. Rico en el desayuno.'},{k:'zumo',say:'El zumo de naranja. ¡Mmm!'}],
  games:[{t:'conocer'},{t:'busca'},
   {t:'macedonia',icon:'macedonia',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:1,total:AGE()<=3?4:5,key:'frutas',bg:t.bg,sayPick:false,
     gen(){const fr=['manzana','banana','naranja','pera','fresa','uva'];const st=shuffle(fr).slice(0,AGE()<=3?4:5);
       return {ask:'¡Hagamos una ensalada de frutas! Te digo qué fruta va en el bol.',zones:[{id:'bol',x:900,y:440,w:420,h:260,draw:(_z: Libre,hl: boolean)=>{ctx.save();if(hl){ctx.shadowColor='#FFC93C';ctx.shadowBlur=36}pic('bol',900,470,460);ctx.restore()},slot:(n: number)=>[780+(n%4)*80,400-Math.floor(n/4)*30],ps:.55}],
-        items:fr.map(k=>({k,s:150})),tray:{x0:330,x1:1520,y:790},steps:st.map(k=>({k,zone:'bol',say:'Poné '+W_(k)+' en el bol.',ok:pick(['¡Mmm, qué rico!','¡Muy bien!','¡Eso es!'])})),onPlace:()=>SFX.munch()}}},d)},
+        items:fr.map(k=>({k,s:150})),tray:{x0:330,x1:1520,y:790},steps:st.map(k=>({k,zone:'bol',say:'Pon '+W_(k)+' en el bol.',ok:pick(['¡Mmm, qué rico!','¡Muy bien!','¡Eso es!'])})),onPlace:()=>SFX.munch()}}},d)},
   {t:'cuenta',icon:'fresa',make:(d: AlTerminar,t: Libre)=>Cuenta({pool:['manzana','fresa','pera','naranja','banana'],bg:t.bg},d)}]},
 {id:'3A-T8',zone:'jardin',n:'Mi casa',icon:'casa',c:'#FFC93C',trim:2,bg:BG.casa,
- words:[{k:'cama',say:'La cama. Acá dormimos.'},{k:'sofa',say:'El sofá. Para sentarnos todos juntos.'},{k:'mesa',say:'La mesa. Acá comemos.'},{k:'banera',say:'La bañera. Para bañarnos con burbujas.'},{k:'inodoro',say:'El inodoro. Para hacer pis y caca.'},
-  {k:'cepillo',say:'El cepillo de dientes. ¡A lavarse los dientes!'},{k:'nevera',say:'La heladera. Guarda la comida fresquita.'},{k:'olla',say:'La olla. Para cocinar.'},{k:'tele',say:'La tele. Para ver dibujitos un ratito.'}],
+ words:[{k:'cama',say:'La cama. Aquí dormimos.'},{k:'sofa',say:'El sofá. Para sentarnos todos juntos.'},{k:'mesa',say:'La mesa. Aquí comemos.'},{k:'banera',say:'La bañera. Para bañarnos con burbujas.'},{k:'inodoro',say:'El inodoro. Para hacer pis y caca.'},
+  {k:'cepillo',say:'El cepillo de dientes. ¡A lavarse los dientes!'},{k:'nevera',say:'La nevera. Guarda la comida fresquita.'},{k:'olla',say:'La olla. Para cocinar.'},{k:'tele',say:'La tele. Para ver dibujitos un ratito.'}],
  games:[{t:'conocer'},
   {t:'ordena',icon:'cama',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:AGE()<=3?2:3,key:'casa',bg:t.bg,
-    why:(it: Libre,z: Libre)=>cap(nameT(it.k))+' no va '+V(z.nm[1])+'.',placeSay:(it: Libre,z: Libre)=>cap(nameT(it.k))+' va '+V(z.nm[1])+'.',
+    why:(it: Libre,z: Libre)=>cap(nameT(it.k))+' no va '+z.nm[1]+'.',placeSay:(it: Libre,z: Libre)=>cap(nameT(it.k))+' va '+z.nm[1]+'.',
     gen(i: number){const R: Record<string,Libre>={cocina:{c:'#FFE3E0',ic:'olla',it:['nevera','olla'],nm:['la cocina','en la cocina']},bano:{c:'#D5F0FA',ic:'banera',it:['inodoro','cepillo','banera'],nm:['el baño','en el baño']},dorm:{c:'#EDE7FF',ic:'cama',it:['cama','oso'],nm:['el dormitorio','en el dormitorio']},sala:{c:'#FFF3B0',ic:'sofa',it:['sofa','tele'],nm:['el salón','en el salón']}};
       const pairs=[['cocina','bano'],['dorm','sala'],['cocina','dorm']][i%3];const its: Libre[]=[];pairs.forEach(r=>shuffle(R[r].it).slice(0,2).forEach(k=>its.push({k,zone:r,s:150})));
-      return {ask:'Cada cosa va en su lugar de la casa. ¡Llevalas a su cuarto!',zones:pairs.map((r,j)=>roomZone(r,560+j*680,430,520,380,R[r].c,R[r].ic,R[r].nm)),items:its,tray:{x0:380,x1:1440,y:790}}}},d)},
+      return {ask:'Cada cosa va en su lugar de la casa. ¡Llévalas a su cuarto!',zones:pairs.map((r,j)=>roomZone(r,560+j*680,430,520,380,R[r].c,R[r].ic,R[r].nm)),items:its,tray:{x0:380,x1:1440,y:790}}}},d)},
   {t:'busca'},{t:'memoria'}]},
 {id:'3A-T9',zone:'jardin',n:'Los animales de la granja',icon:'vaca',c:'#7CC86E',trim:2,bg:BG.granja,
- words:[{k:'vaca',say:'La vaca. Nos da leche. ¡Muuu!'},{k:'cerdo',say:'El chancho. Le encanta el barro. ¡Oinc, oinc!'},{k:'gallina',say:'La gallina. Pone huevos. ¡Clo, clo!'},{k:'oveja',say:'La oveja. Tiene lana. ¡Beee!'},{k:'caballo',say:'El caballo. Corre muy rápido. ¡Iiiii!'},
+ words:[{k:'vaca',say:'La vaca. Nos da leche. ¡Muuu!'},{k:'cerdo',say:'El cerdo. Le encanta el barro. ¡Oinc, oinc!'},{k:'gallina',say:'La gallina. Pone huevos. ¡Clo, clo!'},{k:'oveja',say:'La oveja. Tiene lana. ¡Beee!'},{k:'caballo',say:'El caballo. Corre muy rápido. ¡Iiiii!'},
   {k:'pato',say:'El pato. Nada en el agua. ¡Cuac, cuac!'},{k:'perro',say:'El perro. Cuida la granja. ¡Guau!'},{k:'gato',say:'El gato. ¡Miau!'},{k:'pollito',say:'El pollito. Es el bebé de la gallina. ¡Pío, pío!'}],
  games:[{t:'conocer'},{t:'sonido',icon:'oveja',make:(d: AlTerminar,t: Libre)=>Sonido({items:['vaca','cerdo','gallina','oveja','caballo','pato','perro','gato','pollito'],bg:t.bg},d)},{t:'memoria'},
   {t:'corral',icon:'caballo',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:1,total:AGE()<=3?4:5,key:'dentro-fuera',bg:t.bg,
     gen(){const an=['vaca','cerdo','oveja','caballo','gallina','pato'];const st=shuffle(an).slice(0,AGE()<=3?4:5).map((k,j)=>({k,zone:j%2?'fuera':'dentro'}));
-      return {ask:'Es de noche y los animales van a dormir. Escuchá bien.',zones:[corralZone,pradoZone],items:an.map(k=>({k,s:150})),tray:{x0:330,x1:1520,y:800},
-        steps:st.map(s=>({k:s.k,zone:s.zone,say:s.zone==='dentro'?'Llevá '+W_(s.k)+' dentro del corral.':'Dejá '+W_(s.k)+' fuera del corral, en el pasto.',ok:s.zone==='dentro'?'¡Eso! Dentro del corral.':'¡Eso! Fuera del corral.'}))}}},d)}]},
+      return {ask:'Es de noche y los animales van a dormir. Escucha bien.',zones:[corralZone,pradoZone],items:an.map(k=>({k,s:150})),tray:{x0:330,x1:1520,y:800},
+        steps:st.map(s=>({k:s.k,zone:s.zone,say:s.zone==='dentro'?'Lleva '+W_(s.k)+' dentro del corral.':'Deja '+W_(s.k)+' fuera del corral, en el pasto.',ok:s.zone==='dentro'?'¡Eso! Dentro del corral.':'¡Eso! Fuera del corral.'}))}}},d)}]},
 {id:'3A-T10',zone:'jardin',n:'La primavera',icon:'flor',c:'#F58BB4',trim:3,bg:BG.primavera,season:'primavera',
  words:[{k:'flor',say:'La flor. En primavera salen muchas flores.'},{k:'mariposa',say:'La mariposa. Vuela de flor en flor.'},{k:'mariquita',say:'La mariquita. Es roja con puntitos.'},{k:'abeja',say:'La abeja. Hace miel. ¡Bzzz!'},
   {k:'pajaro',say:'El pájaro. Canta en primavera.'},{k:'nido',say:'El nido. La casita de los pájaros.'},{k:'sol',say:'El sol. En primavera hay más sol.'}],
@@ -302,7 +300,7 @@ export const T3: Tema[]=[
   {t:'cuenta',icon:'mariquita',make:(d: AlTerminar,t: Libre)=>Cuenta({pool:['mariquita','mariposa','abeja','flor'],bg:t.bg},d)},
   {t:'pinta',icon:'mariposa',make:(d: AlTerminar,t: Libre)=>Pinta({items:[['mariquita','rojo'],['sol','amarillo'],['pajaro','azul'],['hoja','verde'],['rana','verde'],['fresa','rojo'],['pato','amarillo'],['ballena','azul']],bg:t.bg},d)}]},
 {id:'3A-T11',zone:'jardin',n:'Los transportes',icon:'autobus',c:'#5BB8E6',trim:3,bg:BG.ciudad,
- words:[{k:'auto',say:'El auto. Va por la calle. ¡Bip, bip!'},{k:'autobus',say:'El autobús. Lleva a mucha gente.'},{k:'tren',say:'El tren. Va por las vías. ¡Chu, chu!'},{k:'avion',say:'El avión. Vuela por el cielo.'},
+ words:[{k:'auto',say:'El coche. Va por la calle. ¡Bip, bip!'},{k:'autobus',say:'El autobús. Lleva a mucha gente.'},{k:'tren',say:'El tren. Va por las vías. ¡Chu, chu!'},{k:'avion',say:'El avión. Vuela por el cielo.'},
   {k:'barco',say:'El barco. Navega por el agua.'},{k:'bici',say:'La bici. ¡Pedaleamos! ¡Rin, rin!'},{k:'moto',say:'La moto. ¡Brum, brum!'},{k:'helicoptero',say:'El helicóptero. Vuela y hace mucho ruido.'}],
  games:[{t:'conocer'},{t:'sonido',icon:'tren',make:(d: AlTerminar,t: Libre)=>Sonido({items:['auto','autobus','tren','avion','barco','bici','moto'],bg:t.bg},d)},
   {t:'clasifica',icon:'avion',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:3,key:'transportes',bg:t.bg,
@@ -316,7 +314,7 @@ export const T3: Tema[]=[
  words:[{k:'sol',say:'El sol. En verano hace mucho calor.'},{k:'castillo',say:'El castillo de arena.'},{k:'cubo',say:'El cubo. Para llevar arena y agua.'},{k:'pala',say:'La pala. Para cavar en la arena.'},{k:'toalla',say:'La toalla. Para secarnos.'},
   {k:'gafas',say:'Las gafas de sol. Cuidan los ojos del sol.'},{k:'gorra',say:'La gorra. Nos tapa la cabeza del sol.'},{k:'crema',say:'La crema solar. ¡Para no quemarnos!'},{k:'helado',say:'El helado. ¡Fresquito!'},{k:'concha',say:'La concha. La encontramos en la arena.'}],
  games:[{t:'conocer'},
-  {t:'viste',icon:'gafas',make:vestir(['gorra','gafas','remera','crema'],['abrigo','gorro','bufanda','guantes'],'¡Hace mucho calor! Preparemos al nene para ir a la playa.',(k: Cosa)=>(({abrigo:'¡Con abrigo en la playa tendríamos mucho calor!',gorro:'El gorro de lana es para el frío. Mejor la gorra.',bufanda:'La bufanda es para el invierno.',guantes:'Los guantes son para el frío.'} as Record<string,string>)[k]||'Eso no va.'))},
+  {t:'viste',icon:'gafas',make:vestir(['gorra','gafas','remera','crema'],['abrigo','gorro','bufanda','guantes'],'¡Hace mucho calor! Preparemos al niño para ir a la playa.',(k: Cosa)=>(({abrigo:'¡Con abrigo en la playa tendríamos mucho calor!',gorro:'El gorro de lana es para el frío. Mejor la gorra.',bufanda:'La bufanda es para el invierno.',guantes:'Los guantes son para el frío.'} as Record<string,string>)[k]||'Eso no va.'))},
   {t:'cuenta',icon:'estrellaMar',make:(d: AlTerminar,t: Libre)=>Cuenta({pool:['concha','estrellaMar','helado','pez'],bg:t.bg},d)},
   {t:'excava',icon:'pala',make:(d: AlTerminar,t: Libre)=>Excava({pool:['concha','estrellaMar','pala','cubo','pez','caracol'],bg:t.bg},d)}]}
 ];
@@ -332,22 +330,22 @@ export const C3: Tema={id:'3A-C',zone:'jardin',n:'Rincón de los Conceptos',icon
  games:[
   {t:'tamano',icon:'elefante',name:'Grande y pequeño',make:(d: AlTerminar,t: Libre)=>{const pool=['elefante','oso','pelota','casa','arbol','pato','manzana'];return ChoiceGame({rounds:nRounds(),bg:t.bg,key:()=>'grande-pequeno',y:520,big:true,
     gen(i: number){const k=pick(pool),big=i%2===0,B={name:'el grande',draw:(x: number,y: number,s: number)=>pic(k,x,y,s)},S_={name:'el pequeño',draw:(x: number,y: number,s: number)=>pic(k,x,y+s*.25,s*.42)};
-      return {words:[B,S_],ok:[big?B:S_],ask:big?'¿Cuál es '+V('el más grande')+'? Tocalo.':V('¿Cuál es el más pequeño? Tócalo.'),okSay:()=>big?'¡Ese es el grande!':V('¡Ese es el pequeño!'),badSay:()=>big?'Ese es chiquito. Buscá el grande.':V('Ese es grande. Busca el pequeño.')}}},d)}},
+      return {words:[B,S_],ok:[big?B:S_],ask:big?'¿Cuál es '+'el más grande'+'? Tócalo.':'¿Cuál es el más pequeño? Tócalo.',okSay:()=>big?'¡Ese es el grande!':'¡Ese es el pequeño!',badSay:()=>big?'Ese es pequeñito. Busca el grande.':'Ese es grande. Busca el pequeño.'}}},d)}},
   {t:'arriba',icon:'pelota',name:'Arriba y abajo',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:1,total:4,key:'arriba-abajo',bg:t.bg,
     gen(){const its=['pelota','gato','oso','globo','pato'];const st=shuffle(its).slice(0,4).map((k,j)=>({k,zone:j%2?'abajo':'arriba'}));
       const mesa=(x: number,y: number)=>{card(x-260,y,520,44,'#C98A4B',7,10);card(x-230,y+44,34,200,'#A86B43',6,6);card(x+196,y+44,34,200,'#A86B43',6,6)};
-      return {ask:'Escuchá dónde va cada cosa: arriba o abajo de la mesa.',zones:[{id:'arriba',x:900,y:260,w:520,h:200,draw:(_z: Libre,hl: boolean)=>{if(hl){ctx.globalAlpha=.3;card(640,170,520,190,'#FFE08A',0,20);ctx.globalAlpha=1}},slot:(n: number)=>[780+n*120,290],ps:.7},
+      return {ask:'Escucha dónde va cada cosa: arriba o abajo de la mesa.',zones:[{id:'arriba',x:900,y:260,w:520,h:200,draw:(_z: Libre,hl: boolean)=>{if(hl){ctx.globalAlpha=.3;card(640,170,520,190,'#FFE08A',0,20);ctx.globalAlpha=1}},slot:(n: number)=>[780+n*120,290],ps:.7},
         {id:'abajo',x:900,y:520,w:420,h:180,draw:(_z: Libre,hl: boolean)=>{if(hl){ctx.globalAlpha=.3;card(690,430,420,200,'#FFE08A',0,20);ctx.globalAlpha=1}mesa(900,360)},slot:(n: number)=>[820+n*120,560],ps:.62}],
         items:its.map(k=>({k,s:140})),tray:{x0:330,x1:1520,y:790},
-        steps:st.map(s=>({k:s.k,zone:s.zone,say:'Poné '+W_(s.k)+(s.zone==='arriba'?' arriba de la mesa.':' abajo de la mesa.'),ok:s.zone==='arriba'?'¡Muy bien! Arriba de la mesa.':'¡Muy bien! Abajo de la mesa.'}))}}},d)},
+        steps:st.map(s=>({k:s.k,zone:s.zone,say:'Pon '+W_(s.k)+(s.zone==='arriba'?' arriba de la mesa.':' abajo de la mesa.'),ok:s.zone==='arriba'?'¡Muy bien! Arriba de la mesa.':'¡Muy bien! Abajo de la mesa.'}))}}},d)},
   {t:'cuenta',icon:'pato',name:'Contar',make:(d: AlTerminar,t: Libre)=>Cuenta({pool:['pato','pelota','estrella','globo','oso','flor'],bg:t.bg},d)},
   {t:'formas',icon:'formas',name:'Círculo y cuadrado',make:(d: AlTerminar,t: Libre)=>Arrastra({rounds:2,key:'formas',bg:t.bg,
     why:(_it: Libre,z: Libre)=>'Mmm, '+(z.id==='circulo'?'esa forma no es redonda.':'esa forma no es un cuadrado.'),placeSay:(_it: Libre,z: Libre)=>z.id==='circulo'?'Círculo.':'Cuadrado.',
     gen(){const cs=shuffle(['#FF5A5A','#5B8DEF','#FFD66B','#7CC86E','#F58BB4','#FFA94D']);const its=[0,1,2,3].map(j=>({k:shape(j%2?'cuadrado':'circulo',cs[j]),zone:j%2?'cuadrado':'circulo',s:150}));
       return {ask:'Los círculos van con el círculo. Los cuadrados van con el cuadrado.',zones:[{id:'circulo',x:580,y:450,w:360,h:230,c:'#E8B46A',icon:(x: number,y: number,s: number)=>circ(x,y,s*.38,'#fff',6)},{id:'cuadrado',x:1220,y:450,w:360,h:230,c:'#E8B46A',icon:(x: number,y: number,s: number)=>card(x-s*.36,y-s*.36,s*.72,s*.72,'#fff',6,6)}],items:its,tray:{x0:380,x1:1440,y:790}}}},d)},
   {t:'mucho',icon:'galleta',name:'Mucho y poco',make:(d: AlTerminar,t: Libre)=>ChoiceGame({rounds:4,bg:t.bg,key:()=>'mucho-poco',y:500,big:true,
-    gen(i: number){const m=i%2===0,A=plateOf(ri(7,10)),B=plateOf(ri(1,2));return {words:[A,B],ok:[m?A:B],ask:m?'¿Dónde hay muchas galletas?':'¿Dónde hay pocas galletas?',okSay:()=>m?'¡Ahí hay muchas!':'¡Ahí hay poquitas!',badSay:()=>m?'Ahí hay pocas. Buscá donde hay muchas.':'Ahí hay muchas. Buscá donde hay pocas.'}}},d)},
+    gen(i: number){const m=i%2===0,A=plateOf(ri(7,10)),B=plateOf(ri(1,2));return {words:[A,B],ok:[m?A:B],ask:m?'¿Dónde hay muchas galletas?':'¿Dónde hay pocas galletas?',okSay:()=>m?'¡Ahí hay muchas!':'¡Ahí hay poquitas!',badSay:()=>m?'Ahí hay pocas. Busca donde hay muchas.':'Ahí hay muchas. Busca donde hay pocas.'}}},d)},
   {t:'dianoche',icon:'luna',name:'Día y noche',make:(d: AlTerminar,t: Libre)=>ChoiceGame({rounds:4,bg:t.bg,key:()=>'dia-noche',y:500,big:true,
-    gen(i: number){const Q=shuffle([['¿Cuándo sale el sol?',1],['¿Cuándo salen las estrellas y la luna?',0],['¿Cuándo dormimos?',0],['¿Cuándo vamos a la escuela?',1],['¿Cuándo jugamos en el parque?',1],['¿Cuándo está oscuro?',0]]);const q=Q[i%Q.length];const D=dayNight(1),N=dayNight(0);
-      return {words:[D,N],ok:[q[1]?D:N],ask:q[0],okSay:()=>q[1]?'¡De día!':'¡De noche!',badSay:()=>q[1]?'Ese es de noche. Mirá el otro.':'Ese es de día. Mirá el otro.'}}},d)}]};
+    gen(i: number){const Q=shuffle([['¿Cuándo sale el sol?',1],['¿Cuándo salen las estrellas y la luna?',0],['¿Cuándo dormimos?',0],['¿Cuándo vamos al cole?',1],['¿Cuándo jugamos en el parque?',1],['¿Cuándo está oscuro?',0]]);const q=Q[i%Q.length];const D=dayNight(1),N=dayNight(0);
+      return {words:[D,N],ok:[q[1]?D:N],ask:q[0],okSay:()=>q[1]?'¡De día!':'¡De noche!',badSay:()=>q[1]?'Ese es de noche. Mira el otro.':'Ese es de día. Mira el otro.'}}},d)}]};
 

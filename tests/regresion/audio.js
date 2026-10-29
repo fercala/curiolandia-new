@@ -20,7 +20,7 @@ const espia = require('./espia');
   await p.evaluate(() => {
     window.__dichos = []; const s0 = say;
     say = function (t, cb, o = {}) {
-      const tt = o.en ? t : tx(t), plan = !o.en && S.vol.voz > 0 && VOZ ? vozFile(tt) : null;
+      const tt = t, plan = !o.en && S.vol.voz > 0 && VOZ ? vozFile(tt) : null;
       const d = { t: __now(), texto: tt, en: !!o.en, plan: plan ? plan.map(x => typeof x === 'string' ? x : { t: x.t }) : null, escena: sceneName, cbT: null };
       __dichos.push(d);
       return s0(t, cb ? function () { d.cbT = __now(); return cb.apply(this, arguments) } : cb, o);

@@ -68,7 +68,7 @@ caso('copia-xss', 'Copia con un nombre con HTML (se enseña en el resumen de la 
 for (const [k, nombre] of [['html', '<b>Ana</b>'], ['coma', 'Ana, Luz'], ['tito', 'Tito'], ['emoji', 'Lu 🌟'], ['largo', 'María de los Ángeles'], ['espacios', '   ']]) {
   caso('nombre-' + k, 'Nombre raro: ' + JSON.stringify(nombre), { guardado: Object.assign({}, BASE, { name: nombre }) }, async p => {
     const m = [];
-    const plan = await p.evaluate(() => { const t = tx('¡Muy bien' + kid() + '! ¡Una estrella más!'); return { t, plan: VOZ ? vozFile(t) : 'sin VOZ' } });
+    const plan = await p.evaluate(() => { const t = '¡Muy bien' + kid() + '! ¡Una estrella más!'; return { t, plan: VOZ ? vozFile(t) : 'sin VOZ' } });
     if (plan.plan && plan.plan !== 'sin VOZ' && !plan.plan.some(x => typeof x === 'string')) m.push('con este nombre la felicitación no suena grabada: ' + JSON.stringify(plan));
     await p.evaluate(() => openAdult()); await p.waitForTimeout(400); const html = await p.evaluate(() => document.getElementById('adult').innerHTML.includes('<b>Ana</b>')); await p.evaluate(() => closeAdult());
     if (html) m.push('el nombre se mete como HTML en la zona de adultos');

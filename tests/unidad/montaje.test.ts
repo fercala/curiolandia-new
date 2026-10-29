@@ -57,13 +57,13 @@ describe('paginaJuego', () => {
     for (const k of ['K', 'TITO_SVG', 'ERIZO_SVG', 'TORTUGA_SVG', 'CONEJO_SVG', 'LUPI_SVG', 'GLASSES_SVG', 'HAND_SVG']) {
       expect(typeof global[k], k).toBe('string');
     }
-    for (const k of ['say', 'go', 'ponS', 'tx', 'drawTito', 'later', 'save']) expect(typeof global[k], k).toBe('function');
+    for (const k of ['say', 'go', 'ponS', 'W_', 'drawTito', 'later', 'save']) expect(typeof global[k], k).toBe('function');
     expect(global['S']).toMatchObject({ variant: 'es', voz: 'nav', vol: { voz: 1 } });
     expect(Object.keys(global['IMG'] as object).length).toBeGreaterThan(300);
-    // contenido/lex.ts amplía el vocabulario del núcleo.
-    expect(global['LEX']).toMatchObject({ gato: 'el gato', escuela: 'la escuela' });
+    // contenido/lex.ts amplía el vocabulario del núcleo (y sus nombres ganan a los del núcleo: escuela).
+    expect(global['LEX']).toMatchObject({ gato: 'el gato', escuela: 'el cole' });
     expect(global['ONO']).toMatchObject({ vaca: '¡Muuu!', ambulancia: '¡Niinoo, niinoo!' });
-    expect(runInContext("S.variant = 'es'; tx('Agarralo con la valija')", global)).toBe('Cógelo con la maleta');
+    expect(runInContext("W_('sofa') + ' / ' + W_('maleta')", global)).toBe('el sofá / la maleta');
     // juegos/: los componentes y sus ayudas de texto.
     for (const k of ['Busca', 'Arrastra', 'Memoria', 'Tracer', 'Story', 'thing']) expect(typeof global[k], k).toBe('function');
     expect(runInContext("unN(3, 'perro') + ' / ' + eseEs('mesa')", global)).toBe('tres perros / Esa es la mesa');

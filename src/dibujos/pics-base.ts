@@ -17,7 +17,7 @@
 //     nombre y lo dibuja centrado en (x,y). Si la clave no existe, no pinta nada (no da error).
 //     thing(k,x,y,s) (juegos/comps.ts) acepta además cosas dibujadas {draw} y caritas 'emo:...'.
 //     Variantes: greyOf/picG (en gris, nucleo/imagenes.ts y juegos/comps2.ts) y shadowOf/picS (sombra, juegos/comps2.ts).
-//   - El NOMBRE que dice Tito no está aquí: está en LEX / LEX2 (nucleo/idioma.ts o contenido/lex.ts) y se lee con W_(clave).
+//   - El NOMBRE que dice Tito no está aquí: está en LEX (nucleo/idioma.ts o contenido/lex.ts) y se lee con W_(clave).
 //     Si falta, Tito diría la clave tal cual ("botasAgua").
 // Lo que exporta este módulo: K (color del contorno), sw(), eye(), smile() (ayudas para escribir SVG),
 // PICS, y LUPI_SVG, GLASSES_SVG, HAND_SVG (dibujos sueltos con su propio viewBox; nucleo/imagenes.ts los

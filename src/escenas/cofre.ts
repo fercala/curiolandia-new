@@ -58,7 +58,7 @@ SCENES.cofre={music:'casita',
 // Lo de la partida lo dice el caso de uso ganarCofre (aplicacion/abrirCofre.ts, desde la fase 4l).
   enter(o: Libre){VIVO.coinBanner=null;VIVO.toast=null;this.t=TEMA[o.t];this.taps=0;this.op=0;this.openT=0;this.shakeT=-9;this.rewarded=false;this.gift=nextGift();this.busy=false;
     Object.assign(S,ganarCofre(S,this.t.id));save();
-    const n=lowName(this.t);later(400,()=>{SFX.tada();burst(800,300,70);say(('¡Terminaste todos los juegos de '+n).replace(/ de el /,' del ')+kid()+'! ¡Ganaste un cofre del tesoro! Tocalo tres veces para abrirlo.')})},
+    const n=lowName(this.t);later(400,()=>{SFX.tada();burst(800,300,70);say(('¡Terminaste todos los juegos de '+n).replace(/ de el /,' del ')+kid()+'! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.')})},
 // reward(): entrega el premio una sola vez (this.rewarded): regalo, figurita (S.stk) y monedas (S.coins). Se llama al
 // abrirse o al salir con la casa sin abrirlo, para que nunca se pierda. Quita el pendiente de S.cofreP (giveCoins guarda).
 // Lo de la partida (pendiente y figurita) y cuántas monedas da lo dice el caso de uso abrirCofre (aplicacion/abrirCofre.ts,
@@ -69,7 +69,7 @@ SCENES.cofre={music:'casita',
 // next(): vuelve a la zona del tema con {from: id} (la zona felicita si ya no queda camino).
   next(){const z=this.t.zone;go(ZONES[z]?z:'map',{from:this.t.id})},
 // prompt(): cuántos toques faltan o, ya abierto, qué se puede hacer.
-  prompt(){if(!this.openT)say('Tocá el cofre para abrirlo. ¡Te '+(3-this.taps===1?'falta un toque':'faltan '+(3-this.taps)+' toques')+'!');else say('Tocá la casa para ver tu regalo, o la flecha verde para seguir el camino.')},
+  prompt(){if(!this.openT)say('Toca el cofre para abrirlo. ¡Te '+(3-this.taps===1?'falta un toque':'faltan '+(3-this.taps)+' toques')+'!');else say('Toca la casa para ver tu regalo, o la flecha verde para seguir el camino.')},
 // hint(): señala el cofre; ya abierto, tras 3 s, la flecha de seguir.
   hint(){if(!this.openT)return{x:800,y:560,r:200};if(T<this.openT+3)return null;return{x:1000,y:800,r:80}},
 // dwell(id): nombres de los dos botones del final.
@@ -96,7 +96,7 @@ SCENES.cofre={music:'casita',
     if(inTito(x,y)){this.prompt!();return}
     if(!this.openT){if(inR(x,y,800,520,380,360)){if(T-this.shakeT<.18)return;this.taps++;this.shakeT=T;SFX.pop();tone(500+this.taps*180,.12,'triangle',.15);sparkles(800,420,10);
         if(this.taps>=3){this.openT=T+.15;later(150,()=>{SFX.tada();burst(800,420,100);burst(400,300,30);burst(1200,300,30);this.reward()});
-          const it=this.gift;later(1300,()=>sayQ(it?'¡Mirá lo que había'+kid()+': '+itemName(it)+'! '+(it.slot?'¡Tito ya se lo puso!':'Ya está en la casa de Tito.')+' ¡Y diez monedas!':'¡Mirá cuántas monedas'+kid()+'! ¡Veinte monedas!',()=>later(300,()=>sayQ(it?'Tocá la casa para verlo, o la flecha verde para seguir el camino.':'Tocá la flecha verde para seguir el camino.'))))}
+          const it=this.gift;later(1300,()=>sayQ(it?'¡Mira lo que había'+kid()+': '+itemName(it)+'! '+(it.slot?'¡Tito ya se lo puso!':'Ya está en la casa de Tito.')+' ¡Y diez monedas!':'¡Mira cuántas monedas'+kid()+'! ¡Veinte monedas!',()=>later(300,()=>sayQ(it?'Toca la casa para verlo, o la flecha verde para seguir el camino.':'Toca la flecha verde para seguir el camino.'))))}
         else say(this.taps===1?'¡Otra vez!':'¡Una vez más!');return}
       SFX.tap();sparkles(x,y,3);return}
     if(T<this.openT+1.4)return;

@@ -16,13 +16,12 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 - Cada camino de edad admite 12 casitas (`zonePos()` en escenas/zonas.ts) y cada casita unos 8 juegos (`st3Pos()` en mundo3d/casita3d.ts).
 - La casa de Tito tiene 12 huecos de suelo y 4 de pared por habitación (`HOMESPOT`, `WALLSPOT`): a partir de ahí las cosas nuevas se colocan al azar y pueden quedar unas encima de otras (se pueden mover arrastrándolas).
 - Varios números están escritos a mano en frases grabadas ("tres casitas", "seis flores"): si se cambia `NEED` o la regla de 6 flores (`FLORES_PARA_SEGUIR`), los dos en `dominio/apertura.ts`, las frases dejan de cuadrar.
-- `tx()` convierte "a vos" en "a tú" (debería ser "a ti"): "¡Ahora te toca a tú!" ya está grabado así en tres frases de las canciones, y hay una más pendiente. Arreglarlo cambia el texto de frases grabadas: habría que regrabarlas.
 
 ## Rarezas sin efecto visible (limpieza)
 
 - Multiplicaciones por 0 que no hacen nada (restos de ajustes): `umb3`, `scare3`, `flower()`, `SPOT3.ingles`, `Sonido`, `Cuenta`, `SONGS.colores`...
 - Comentarios del código original colocados encima de la función equivocada (están señalados con una nota en los comentarios nuevos).
-- `GNAME` recibe `memoria` dos veces; `TU` y contenido/lex.ts tienen pares repetidos o que no cambian nada.
+- `GNAME` recibe `memoria` dos veces.
 - Campos y variables sin uso: `S.album`, `trim` de los temas (`GICON`, que tampoco se usaba, se borró en la fase 4n).
 - Siete piezas 3D piden media esfera o un cilindro abierto (la cúpula de la cabina de `phone3`, las hojas de nenúfar
   de `frog3`, `squir3`, el montón de `leafs3`, la tapa de `tea3`, el nido de `nest3` y la cáscara de `makePipo`), pero

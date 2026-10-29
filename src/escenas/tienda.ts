@@ -25,7 +25,7 @@
 //   y de dominio/monedas.ts (alcanza).
 import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, SFX, SHELLC, STARS, T, TITO, TITO_EYES, V, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
@@ -173,7 +173,7 @@ SHOP.find(i=>i.id==='telescopio')!.pref='torre';// el telescopio, a la torre de 
 // Artículos de una categoría. Para "vales" crea artículos a partir de los vales activos de S.vales (máx. 10).
 const shopItems=(cat: string): Articulo[]=>cat==='vales'?S.vales!.filter(v=>v.on).slice(0,10).map(v=>({id:'vale:'+v.id,cat:'vales',p:v.p!,tier:1,vale:v,n:'el vale: '+v.txt})):SHOP.filter(i=>i.cat===cat);
 // Nombre de un artículo para decirlo en voz alta (it.n o el nombre del diccionario W_).
-export const itemName=(it: Articulo)=>it.n?V(it.n):W_(it.id);
+export const itemName=(it: Articulo)=>it.n?it.n:W_(it.id);
 // ¿Tito lleva puesto ahora este artículo de ropa o color?
 const isWorn=(it: Articulo)=>{const t=S.tito!;return it.slot==='hat'?t.hat===it.id:it.slot==='glasses'?!!t.glasses:it.slot==='bow'?!!t.bow:it.slot==='shell'?t.shell===it.v:it.slot==='scarf'?t.scarf===it.v:false};
 // Pone (on=true) o quita la prenda it a Tito en S.tito y guarda. Los colores siempre se ponen (no se quitan).
@@ -216,7 +216,7 @@ export function placeHome(id: string){if(S.home![id])return;const it=SHOP.find(i
 // para la casa: el botón de la casa salta).
 SCENES.tienda={music:'casita',
   // Al entrar: Tito saluda (la primera vez explica cómo funciona; S.first.tienda lo recuerda).
-  enter(){this.cat=this.cat||'ropa';this.page=this.page||0;this.conf=null;this.newHome=0;const seen=S.first.tienda;later(300,()=>sayQ(seen?'¡La tienda! Tenés '+S.coins+' monedas. Tocá algo para ver cuánto cuesta.':V('¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.')));S.first.tienda=1;save()},
+  enter(){this.cat=this.cat||'ropa';this.page=this.page||0;this.conf=null;this.newHome=0;const seen=S.first.tienda;later(300,()=>sayQ(seen?'¡La tienda! Tienes '+S.coins+' monedas. Toca algo para ver cuánto cuesta.':'¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.'));S.first.tienda=1;save()},
   // Pestañas visibles con su posición y ancho w (la de vales solo si hay algún vale activo). Con muchas pestañas se
   // juntan un poco para que quepan.
   tabs(): Pestana[]{const a=SHOPCAT.filter(c=>c.id!=='vales'||S.vales!.some(v=>v.on)),st=Math.min(204,1330/a.length);return a.map((c,i)=>Object.assign({x:900-(a.length-1)*st/2+i*st,y:215,w:Math.min(184,st-12)},c))},
@@ -227,17 +227,17 @@ SCENES.tienda={music:'casita',
   // Flechas para cambiar de página: [x, y, dirección] de las que se pueden usar.
   arrows(): Flecha[]{const pg=this.page||0,n=this.pages(),A: Flecha[]=[];if(pg>0)A.push([170,570,-1]);if(pg<n-1)A.push([1550,570,1]);return A},
   // Tito repite qué hay que hacer (al tocar a Tito o tras un rato sin tocar).
-  prompt(){if(this.conf)say('¿Lo comprás? Tocá el verde para comprar o la cruz para volver.');else say('Tocá algo para ver cuánto cuesta. Tenés '+S.coins+' monedas.')},
+  prompt(){if(this.conf)say('¿Lo compras? Toca el verde para comprar o la cruz para volver.');else say('Toca algo para ver cuánto cuesta. Tienes '+S.coins+' monedas.')},
   // Pista: en la confirmación señala el botón verde de comprar.
   hint(){if(this.conf)return{x:680,y:690,r:80};return null},
   // Dedo encima de algo: dice el nombre de la pestaña, o el del artículo y su precio, o las monedas.
-  dwell(id){if(id.startsWith('tab:')){const c=SHOPCAT.find(c=>c.id===id.slice(4));if(c)say(c.n+'.')}else if(id.startsWith('it:')){const g=this.grid().find((g: Casilla)=>g.it.id===id.slice(3));if(g)say(cap(itemName(g.it))+'.'+(S.owned![g.it.id]&&!g.it.vale?' Ya es tuyo.':' Cuesta '+g.it.p+' monedas.'))}else if(id==='coins')say('Tenés '+S.coins+' monedas.')},
+  dwell(id){if(id.startsWith('tab:')){const c=SHOPCAT.find(c=>c.id===id.slice(4));if(c)say(c.n+'.')}else if(id.startsWith('it:')){const g=this.grid().find((g: Casilla)=>g.it.id===id.slice(3));if(g)say(cap(itemName(g.it))+'.'+(S.owned![g.it.id]&&!g.it.vale?' Ya es tuyo.':' Cuesta '+g.it.p+' monedas.'))}else if(id==='coins')say('Tienes '+S.coins+' monedas.')},
   // Dibuja la tienda: toldo, título, botón de la casa, estrellas, pestañas y artículos.
   // Cada artículo muestra check verde (ya es tuyo), precio (fondo amarillo si llegan las monedas) o candado con
   // las estrellas que faltan. Encima, si hay, la ventana de confirmación con los botones verde y rojo.
   draw(){sky('#FFF6E6','#FDE6C6');for(let i=0;i<16;i++){ctx.fillStyle=i%2?'#FF8A7A':'#FFF6E6';ctx.beginPath();ctx.moveTo(i*100,0);ctx.lineTo(i*100+100,0);ctx.lineTo(i*100+100,26);ctx.quadraticCurveTo(i*100+50,62,i*100,26);ctx.closePath();ctx.fill()}
     floor(820,'#E9C99A');
-    card(170,44,520,100,'#fff',6,50);pic('tienda',230,94,80);text(V('La tienda'),470,112,54,K,{w:600});
+    card(170,44,520,100,'#fff',6,50);pic('tienda',230,94,80);text('La tienda',470,112,54,K,{w:600});
     {const s=hv('btn:casa',hC(1240,70,52)),j=this.newHome?Math.abs(Math.sin((T-this.newHome)*6))*-14:0;ctx.save();ctx.translate(1240,70+j);ctx.scale(s,s);if(this.newHome){ctx.globalAlpha=.4+.3*Math.sin(T*6);circ(0,0,64,null,10,'#FFC93C');ctx.globalAlpha=1}circ(0,0,50,'#fff',6);titoHouseIc(0,0,84);ctx.restore()}
     card(1012,40,150,60,'#fff',5,30);star(1050,70,20,'#FFC93C',3);text(String(STARS()),1110,84,36,K,{f:LF});
     for(const tb of this.tabs()){const on=tb.id===this.cat,s=on?1:hv('tab:'+tb.id,hR(tb.x,tb.y,tb.w,110));ctx.save();ctx.translate(tb.x,tb.y-(on?8:0));ctx.scale(s,s);card(-tb.w/2,-52,tb.w,104,on?'#FFE08A':'#fff',on?8:5,30,on?'#D9962A':K);if(tb.id==='colores'&&titoKind()!=='caracol')shellIcon(0,0,32,'naranja');else pic(tb.ic,0,0,80);ctx.restore()}
@@ -265,20 +265,20 @@ SCENES.tienda={music:'casita',
     if(atHome(x,y)){SFX.tap();go('map');return}
     if(inTito(x,y)){this.prompt!();return}
     if(dist(x,y,1240,70)<56){SFX.pop();go('casaTito',{hello:true,nuevo:this.newHome?this.newId:null});return}
-    if(inCoinHUD(x,y)){say('Tenés '+S.coins+' monedas.');return}
-    if(inR(x,y,1087,70,150,60)){say('Tenés '+STARS()+' estrellas. Las ganás terminando juegos.');return}
+    if(inCoinHUD(x,y)){say('Tienes '+S.coins+' monedas.');return}
+    if(inR(x,y,1087,70,150,60)){say('Tienes '+STARS()+' estrellas. Las ganas terminando juegos.');return}
     const tb=this.tabs().find((t: Pestana)=>inR(x,y,t.x,t.y,t.w,110));if(tb){SFX.pop();this.cat=tb.id;this.page=0;say(tb.n+'.');return}
     const ar=this.arrows().find(([ax,ay]: Flecha)=>dist(x,y,ax,ay)<56);if(ar){SFX.whoosh();this.page=(this.page||0)+ar[2];return}
     const g=this.grid().find((g: Casilla)=>inR(x,y,g.x,g.y,210,230));if(!g){SFX.tap();sparkles(x,y,3);return}
     const it=g.it,need=TIER_NEED[it.tier];
-    if(!nivelAbierto(it.tier,STARS())){SFX.boing();say(cap(itemName(it))+' se abre cuando tengas '+need+' estrellas. ¡Ya tenés '+STARS()+'! Ganás estrellas terminando juegos.');return}
+    if(!nivelAbierto(it.tier,STARS())){SFX.boing();say(cap(itemName(it))+' se abre cuando tengas '+need+' estrellas. ¡Ya tienes '+STARS()+'! Ganas estrellas terminando juegos.');return}
     // su habitación de la casa aún está cerrada: se abre al terminar casitas (ROOMS)
     if(it.room&&!roomOpen(it.room)&&!S.owned![it.id]){SFX.boing();const R=roomOf(it.room);say(cap(itemName(it))+(/^(las|los) /.test(itemName(it))?' son para ':' es para ')+R.n+'. '+cap(R.n)+' se abre cuando termines '+(R.need===1?'una casita.':R.need+' casitas.'));return}
     if(S.owned![it.id]&&!it.vale){
-      if(it.slot){const on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();sparkles(TITO.x+150,TITO.y+40,12);say(on?'¡Tito se puso '+itemName(it)+'!':V('Tito se quitó ')+itemName(it)+'.');return}
+      if(it.slot){const on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();sparkles(TITO.x+150,TITO.y+40,12);say(on?'¡Tito se puso '+itemName(it)+'!':'Tito se quitó '+itemName(it)+'.');return}
       SFX.pop();say(cap(itemName(it))+' ya es tuyo. Está en la casa de Tito.');return}
-    if(!alcanza(S.coins!,it.p)){SFX.boing();const f=it.p-S.coins!;say(cap(itemName(it))+' cuesta '+it.p+' monedas. Te '+(f===1?'falta una':'faltan '+f)+'. ¡Jugando ganás más!');return}
-    SFX.pop();this.conf=it;this.confT=T;say('¿Querés comprar '+itemName(it)+' por '+it.p+' monedas? Tocá el verde para comprar.')},
+    if(!alcanza(S.coins!,it.p)){SFX.boing();const f=it.p-S.coins!;say(cap(itemName(it))+' cuesta '+it.p+' monedas. Te '+(f===1?'falta una':'faltan '+f)+'. ¡Jugando ganas más!');return}
+    SFX.pop();this.conf=it;this.confT=T;say('¿Quieres comprar '+itemName(it)+' por '+it.p+' monedas? Toca el verde para comprar.')},
   // Compra el artículo con el caso de uso comprar (aplicacion/comprar.ts): gasta las monedas, celebra y lo da. Un vale
   // se apunta en S.valesLog (para que el adulto lo canjee); la ropa se pone a Tito; lo demás se coloca en la casa y hace
   // saltar el botón de la casa. Si es un vale que el adulto desactivó mientras la confirmación estaba abierta, no se
@@ -287,10 +287,10 @@ SCENES.tienda={music:'casita',
     // lo que cambia en la partida lo decide el caso de uso comprar (aplicacion/comprar.ts); aquí, la pantalla
     const c=comprar(S,it,today());if(c.tipo==='desactivado'){SFX.boing();return}
     spendCoins(it.p,800,400);SFX.tada();burst(800,420,60);Object.assign(S,c.partida);
-    if(c.tipo==='vale'){save();say('¡Compraste el vale! '+it.vale!.txt+'. Mostráselo a un adulto de tu familia para canjearlo.');return}
+    if(c.tipo==='vale'){save();say('¡Compraste el vale! '+it.vale!.txt+'. Enséñaselo a un adulto de tu familia para canjearlo.');return}
     if(it.slot)wear(it,true);else placeHome(it.id);save();
     if(!it.slot){this.newHome=T;this.newId=it.id}
-    say(it.slot?'¡Es tuyo! ¡Mirá qué lindo le queda a Tito!':'¡Es tuyo! Ya está en la casa de Tito. Tocá la casita de arriba para verlo.')}
+    say(it.slot?'¡Es tuyo! ¡Mira qué bonito le queda a Tito!':'¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.')}
 };
 
 /* ---------- la casa de Tito ---------- */
@@ -348,9 +348,9 @@ SCENES.casaTito={music:'casita',room:'salon',
   // vieron), se va a ella y Tito lo anuncia. Si no, Tito saluda según haya cosas o la casa esté vacía.
   enter(o){this.drag=null;this.wpg=0;this.jump=-9;this.petJump=-9;this.newRoom=-9;const nv=o.nuevo&&SHOP.find(i=>i.id===o.nuevo);this.nuevo=nv&&S.owned![nv.id]?nv:null;this.t0=T;
     if(!roomOpen(this.room))this.room='salon';const n=homeItems().length,op=roomsOpen();
-    if(this.nuevo){const it=this.nuevo;if(it.slot)this.jump=T+.3;else this.room=homeRoom(it.id);later(300,()=>{SFX.sparkle();say('¡Acá está '+itemName(it)+'! '+(it.slot?'¡Mirá qué lindo me queda!':V('Puedes cambiar las cosas de lugar arrastrándolas.')))});return}
-    if(op.length>(S.rooms||1)){const R=op[op.length-1];S.rooms=op.length;save();this.room=R.id;this.newRoom=T;later(300,()=>{SFX.tada();burst(800,400,50);sayQ('¡Mi casa creció! Tiene una habitación nueva: '+R.n+'. Arriba podés elegir a qué habitación ir.')});return}
-    later(300,()=>sayQ(n?V('¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.'):V('¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.')))},
+    if(this.nuevo){const it=this.nuevo;if(it.slot)this.jump=T+.3;else this.room=homeRoom(it.id);later(300,()=>{SFX.sparkle();say('¡Aquí está '+itemName(it)+'! '+(it.slot?'¡Mira qué bonito me queda!':'Puedes cambiar las cosas de lugar arrastrándolas.'))});return}
+    if(op.length>(S.rooms||1)){const R=op[op.length-1];S.rooms=op.length;save();this.room=R.id;this.newRoom=T;later(300,()=>{SFX.tada();burst(800,400,50);sayQ('¡Mi casa creció! Tiene una habitación nueva: '+R.n+'. Arriba puedes elegir a qué habitación ir.')});return}
+    later(300,()=>sayQ(n?'¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.':'¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.'))},
   // Armario: la ropa y colores que tiene el niño, con su posición en la fila de abajo. Caben 10; si hay más, se ven
   // de 9 en 9 (página this.wpg) y aparecen flechas a los lados (wardArrows) para pasar de página, que dan la vuelta.
   wardrobe(): Casilla[]{const L=SHOP.filter(i=>i.slot&&S.owned![i.id]);if(L.length<=10)return L.map((it,i)=>({it,x:470+i*100,y:845}));
@@ -358,7 +358,7 @@ SCENES.casaTito={music:'casita',room:'salon',
   // Flechas del armario [x, y, dirección]: solo si la ropa no cabe en una fila (más de 10 prendas).
   wardArrows(): Flecha[]{return SHOP.filter(i=>i.slot&&S.owned![i.id]).length>10?[[445,845,-1],[1415,845,1]]:[]},
   // Tito explica qué hacer en la casa.
-  prompt(){say(homeItems().length?'Arrastrá las cosas para acomodar la casa. Abajo está mi ropa: tocala para ponérmela.':'Tocá el carrito para ir a la tienda.')},
+  prompt(){say(homeItems().length?'Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tócala para ponérmela.':'Toca el carrito para ir a la tienda.')},
   // Pista: si la casa está vacía señala el botón de la tienda.
   hint(){return homeItems().length?null:{x:1240,y:70,r:60}},
   // Dedo encima de un objeto: dice su nombre; encima del botón de una habitación, su nombre.
@@ -393,17 +393,17 @@ SCENES.casaTito={music:'casita',room:'salon',
   // de él se pueda volver a coger), Tito (salta y dice algo) o una prenda del armario (se la pone o quita).
   down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}
     if(dist(x,y,1240,70)<56){SFX.pop();go('tienda');return}
-    if(inCoinHUD(x,y)){say('Tenés '+S.coins+' monedas.');return}
-    if(dist(x,y,190,790)<85){this.petJump=T;SFX.boing();const ps=petStage(),f=ps<4?PET_NEXT[ps]-STARS():0;say(ps===0?'Es el huevo de Pipo. Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para abrirse.':ps<4?pick(['¡Pipo te quiere mucho!','Pipo dice: ¡grrr! Así saludan los dinosaurios.','¡Pipo crece cuando jugás! Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para crecer.']):'¡Pipo es el dinosaurio más grande del mundo!');return}
+    if(inCoinHUD(x,y)){say('Tienes '+S.coins+' monedas.');return}
+    if(dist(x,y,190,790)<85){this.petJump=T;SFX.boing();const ps=petStage(),f=ps<4?PET_NEXT[ps]-STARS():0;say(ps===0?'Es el huevo de Pipo. Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para abrirse.':ps<4?pick(['¡Pipo te quiere mucho!','Pipo dice: ¡grrr! Así saludan los dinosaurios.','¡Pipo crece cuando juegas! Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para crecer.']):'¡Pipo es el dinosaurio más grande del mundo!');return}
     const rb=roomBtns().find(b=>dist(x,y,b.x,b.y)<38);
     if(rb){const R=rb.R;if(!roomOpen(R.id)){SFX.boing();const f=R.need-temasDone();say(cap(R.n)+' todavía está '+R.cer+'. Se abre cuando termines '+(f===1?'una casita más.':f+' casitas más.'));return}
       if(R.id!==this.room){SFX.pop();this.room=R.id;this.newRoom=-9}say(cap(R.n)+'.');return}
-    if(inR(x,y,395,94,450,100)){SFX.pop();const hl=houseLevel(),f=hl<4?HOUSE_NEXT[hl]-temasDone():0;say(hl<4?'La casa de Tito crece cuando terminás casitas. '+(f===1?'Falta una':'Faltan '+f)+' para que crezca.':'¡La casa de Tito ya es un castillo!');return}
+    if(inR(x,y,395,94,450,100)){SFX.pop();const hl=houseLevel(),f=hl<4?HOUSE_NEXT[hl]-temasDone():0;say(hl<4?'La casa de Tito crece cuando terminas casitas. '+(f===1?'Falta una':'Faltan '+f)+' para que crezca.':'¡La casa de Tito ya es un castillo!');return}
     const wa=this.wardArrows().find(([ax,ay]: Flecha)=>dist(x,y,ax,ay)<40);if(wa){SFX.whoosh();this.wpg=(this.wpg||0)+wa[2];return}
     // los objetos se miran antes que Tito: uno soltado delante de él tiene que poder volver a moverse
     const o=this.itemAt(x,y);if(o){const p=S.home![o.id];this.drag={id:o.id,dx:x-o.x,dy:y-o.y,sx:x,sy:y,ox:p.x,oy:p.y,moved:false};VIVO.drag={it:o,home:1};setCursor('grab');return}
-    if(inR(x,y,440,500,380,330)){this.jump=T;SFX.boing();say(pick(['¡Me encanta mi casa!','¡Gracias por jugar conmigo!','¡Qué lindo día!',V('¿Has visto mi ropa nueva?')]));return}
-    const w=this.wardrobe().find((w: Casilla)=>dist(x,y,w.x,w.y)<46);if(w){const it=w.it,on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();this.jump=T;say(on?'¡Me puse '+itemName(it)+'!':V('Me quité ')+itemName(it)+'.');return}
+    if(inR(x,y,440,500,380,330)){this.jump=T;SFX.boing();say(pick(['¡Me encanta mi casa!','¡Gracias por jugar conmigo!','¡Qué bonito día!','¿Has visto mi ropa nueva?']));return}
+    const w=this.wardrobe().find((w: Casilla)=>dist(x,y,w.x,w.y)<46);if(w){const it=w.it,on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();this.jump=T;say(on?'¡Me puse '+itemName(it)+'!':'Me quité '+itemName(it)+'.');return}
     SFX.tap();sparkles(x,y,3)},
   // Arrastrar: a partir de 12 px se considera que se mueve y el objeto sigue al dedo. Mientras se arrastra puede subir
   // hasta los botones de las habitaciones (para llevarlo a otra); al soltar se vuelve a encajar en el suelo o la pared.

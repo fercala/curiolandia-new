@@ -14,7 +14,7 @@ import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, FLC, LF, PI, S, SCENES, SFX, T, V, VIVO, atHome, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, ponCtx, scene, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
+import { DF, FLC, LF, PI, S, SCENES, SFX, T, VIVO, atHome, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, ponCtx, scene, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { GNAME, drawStation, tst, ultimoJuego } from '../escenas/escenas2d.ts';
 import { gameOpen, nextGameOf } from '../escenas/zonas.ts';
 import { ponDisposicion } from '../nucleo/disposicion.ts';
@@ -90,7 +90,7 @@ const casita2D=SCENES.casita;
   // draw(): cada cuadro: estación bajo el ratón y su nombre (GNAME), cartel con el tema, botones y bocadillo de Tito
   draw(){this.sync();const t=this.t,w=W3;let hv_=null;
     let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.game!=null){hv_=u.game;VIVO.hovNow='g:'+u.game}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
-    {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(V(t.n)).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(V(t.n),310+tw/2,110,54,K,{w:600})}
+    {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(t.n).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(t.n,310+tw/2,110,54,K,{w:600})}
     if(hv_!=null){const g=t.games[hv_],nm=GNAME[g.t]||'',p=w!.st![hv_].p2;if(nm){ctx.font=`600 32px ${DF}`;const tw=ctx.measureText(nm).width;card(p[0]-tw/2-24,p[1]+120,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p[0],p[1]+158,32,K,{w:600})}}
     drawHome();drawCoinHUD();
     if(VIVO.talking){const tp=titoPos(),bx=tp.x+tp.w*.85,by=tp.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},

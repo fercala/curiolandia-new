@@ -36,7 +36,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | `VIVO.fade`, `VIVO.sessionT`, `VIVO.minuteAcc` | `nucleo/escenas.ts`, `nucleo/interfaz.ts` | Esperar a que acabe el velo de una escena; tiempo de juego (`cobertura.js`, `limites.js`). |
 | `ponGo` | `nucleo/escenas.ts` | Envolver `go` para apuntar las escenas (`camino.js`). |
 | `pickVoice`, `VOICE` | `nucleo/voz.ts` | Prueba de la elección de voz (`voces.js`). |
-| `VOZ`, `vozFile`, `tx`, `kid` | `nucleo/voz.ts`, `nucleo/idioma.ts` | Plan de voz de una frase con el nombre del niño (`limites.js`, `audio.js`; sin voces grabadas `VOZ` es `null`). |
+| `VOZ`, `vozFile`, `kid` | `nucleo/voz.ts` | Plan de voz de una frase con el nombre del niño (`limites.js`, `audio.js`; sin voces grabadas `VOZ` es `null`). |
 | `bkEncode`, `bkDecode` | `aplicacion/adultos.ts` | Copias de seguridad. |
 | `VIVO.MX`, `T` | `nucleo/puntero.ts`, `nucleo/pantalla.ts` | Posición del ratón y reloj de juego. |
 | `localStorage['curiolandia-new.v1']` | `nucleo/guardado.ts` (`KEY`) | Escribir partidas de prueba antes de cargar. |

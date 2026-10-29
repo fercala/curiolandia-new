@@ -21,7 +21,7 @@
 // dibujar caritas 'emo:...'; ahora lo hace la propia thing().
 // IMPORTA: juegos/comps.ts (thing, ChoiceGame, Arrastra, layoutChoice,
 // drawChoice, hitItem, nameT, eseEs, NUM), el núcleo, src/nucleo/ (dibujo, voz,
-// SFX, tone, AC, DIAC, ala, sky, hand, V, Wn, tx, svgImg...) y PICS y K de
+// SFX, tone, AC, DIAC, ala, sky, hand, Wn, svgImg...) y PICS y K de
 // src/dibujos/. Usa también BG (juegos/fondos.ts desde la fase 4o; los fondos se los añaden los temas al
 // cargarse). Los datos de Story y Song (CUENTOS,
 // SONGS) llegan como parámetro; el tipo de un cuento está en contenido/tipos.ts.
@@ -29,7 +29,7 @@
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import type { Cuento, PaginaCuento } from '../contenido/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
-import { AC, AGE, DIAC, H, LF, PI, SFX, T, V, VIVO, W, Wn, ala, back, burst, cap, card, circ, clamp, ctx, dist, fillStroke, hC, hR, hand, hv, inR, later, lerp, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sky, sparkles, star, svgImg, text, tone, tx } from '../nucleo/indice.ts';
+import { AC, AGE, DIAC, H, LF, PI, SFX, T, VIVO, W, Wn, ala, back, burst, cap, card, circ, clamp, ctx, dist, fillStroke, hC, hR, hand, hv, inR, later, lerp, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sky, sparkles, star, svgImg, text, tone } from '../nucleo/indice.ts';
 import { BG } from './fondos.ts';
 import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, nameT, thing } from './comps.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
@@ -69,7 +69,7 @@ export function Secuencia(cfg: Config, onDone: AlTerminar): Juego{
   const sets=cfg.sets||[cfg.panels];
   return Arrastra({rounds:sets.length,key:cfg.key||'secuencia',bg:cfg.bg,rect:true,sayPick:false,
     // frase de fallo: la del tema o la genérica (la misma en las dos variantes)
-    why:(it: Libre,z: Libre)=>cfg.why?cfg.why(it,z):V('Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?'),
+    why:(it: Libre,z: Libre)=>cfg.why?cfg.why(it,z):'Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?',
     placeSay:cfg.placeSay,
     // Ronda i: calcula el tamaño de las viñetas para que quepan en fila, crea las
     // zonas punteadas con su número encima (draw) y su único hueco (slot), y las
@@ -104,9 +104,9 @@ export function Une(cfg: Config, onDone: AlTerminar): Juego{
     load(){const ps=shuffle<[Cosa,Cosa]>(cfg.pairs).slice(0,n),gap=Math.min(190,600/Math.max(1,n-1)),s=Math.min(160,gap-24);
       this.s=s;this.L=ps.map((p,j)=>({k:p[0],m:j,x:560,y:480-(n-1)*gap/2+j*gap,in:T+j*.08}));
       const ry=shuffle(ps.map((_p,j)=>j));this.R=ps.map((p,j)=>({k:p[1],m:j,x:1240,y:480-(n-1)*gap/2+ry[j]*gap,in:T+.3+j*.08}));
-      this.sel=null;this.errs=0;later(300,()=>sayQ(V(cfg.ask)))},
+      this.sel=null;this.errs=0;later(300,()=>sayQ(cfg.ask))},
     // Repite la consigna.
-    prompt(){say(V(cfg.ask))},
+    prompt(){say(cfg.ask)},
     // Ayuda: desde el punto de la primera tarjeta izquierda sin unir hasta su pareja.
     hint(){const a=this.L.find((l: Libre)=>!l.ok);if(!a)return null;const b=this.R.find((r: Libre)=>r.m===a.m);return{x:a.x+this.s/2+24,y:a.y,r:60,dx:b.x-this.s/2-24-(a.x+this.s/2+24),dy:b.y-a.y}},
     // Tarjeta de la lista (columna) que hay en el punto (x,y), con margen.
@@ -157,7 +157,7 @@ export function Series(cfg: Config, onDone: AlTerminar): Juego{
       const A=pool[0],B=pool[1],C=pool[2],unit=({AB:[A,B],ABC:[A,B,C],AAB:[A,A,B],ABB:[A,B,B]} as Record<string,Cosa[]>)[kind]!;
       const len=kind==='AB'?(age<=3?4:5+(i%2)):6+(i%2);const row=Array.from({length:len},(_,j)=>unit[j%unit.length]);const ans=unit[len%unit.length];
       const opts=[...new Set([ans,...unit,pool[3]])].slice(0,Math.min(nOpts()+(age>=5?1:0),4));if(!opts.includes(ans))opts[0]=ans;
-      return {row,words:opts,ok:[ans],ask:'Mirá la fila. ¿Qué viene después? Tocalo.',okSay:(w: Cosa)=>'¡Sí! Después va '+nameT(w)+'.',badSay:(w: Cosa)=>'Mmm, '+nameT(w)+' no. Mirá cómo se repite la fila.'}}},onDone);
+      return {row,words:opts,ok:[ans],ask:'Mira la fila. ¿Qué viene después? Tócalo.',okSay:(w: Cosa)=>'¡Sí! Después va '+nameT(w)+'.',badSay:(w: Cosa)=>'Mmm, '+nameT(w)+' no. Mira cómo se repite la fila.'}}},onDone);
 }
 
 /* ---------- lupa / linterna: buscar cosas escondidas ---------- */
@@ -175,13 +175,13 @@ export function Lens(cfg: Config, onDone: AlTerminar): Juego{
   const L={x:900,y:470,r:cfg.r||140};
   return {total:R,done:0,i:0,
     // Dice la explicación y, en modo pedido, lo primero que hay que buscar.
-    enter(){later(300,()=>sayQ(V(cfg.intro),()=>this.ask()))},
+    enter(){later(300,()=>sayQ(cfg.intro,()=>this.ask()))},
     // Cosa que hay que buscar ahora (modo pedido) o null (modo libre).
     cur(){return cfg.ask?order[this.i]:null},
     // Pide la cosa actual.
-    ask(){const o=this.cur();if(o)say(V(cfg.ask(o.k)))},
+    ask(){const o=this.cur();if(o)say(cfg.ask(o.k))},
     // Repite lo que hay que buscar o la explicación.
-    prompt(){const o=this.cur();say(o?V(cfg.ask(o.k)):V(cfg.intro))},
+    prompt(){const o=this.cur();say(o?cfg.ask(o.k):cfg.intro)},
     // Ayuda: la cosa pedida o la primera sin encontrar.
     hint(){const o=this.cur()||items.find((o: Libre)=>!o.found);return o?{x:o.x,y:o.y,r:o.s*.5+30}:null},
     // Con ratón, la lente sigue al puntero con suavidad.
@@ -200,9 +200,9 @@ export function Lens(cfg: Config, onDone: AlTerminar): Juego{
     down(x,y){L.x=x;L.y=y;this.on=1;if(this.busy)return;
       const o=items.filter((o: Libre)=>!o.found&&dist(x,y,o.x,o.y)<o.s*.55+20).sort((a: Libre,b: Libre)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];if(!o){SFX.tap();return}
       const t=this.cur();
-      if(t&&o!==t){SFX.boing();say(eseEs(o.k)+'. '+V(cfg.ask(t.k)));rec(cfg.key||'lupa',false);return}
+      if(t&&o!==t){SFX.boing();say(eseEs(o.k)+'. '+cfg.ask(t.k));rec(cfg.key||'lupa',false);return}
       o.found=T;SFX.good();burst(o.x,o.y,24);rec(cfg.key||'lupa',true);onRight(true);this.done++;scene!.starPop=T;this.busy=true;
-      say((cfg.foundSay?V(cfg.foundSay(o.k)):'¡Encontraste '+nameT(o.k)+'!'),()=>later(250,()=>{this.busy=false;if(this.done>=R){if(!this.fin){this.fin=1;onDone()}}else if(cfg.ask){this.i++;this.ask()}}))},
+      say((cfg.foundSay?cfg.foundSay(o.k):'¡Encontraste '+nameT(o.k)+'!'),()=>later(250,()=>{this.busy=false;if(this.done>=R){if(!this.fin){this.fin=1;onDone()}}else if(cfg.ask){this.i++;this.ask()}}))},
     // Mueve la lente con el dedo apoyado (o con el ratón).
     move(x,y){if(this.on||!VIVO.mouseOn){L.x=x;L.y=y}},/* soltar el dedo */ up(){this.on=0}
   };
@@ -219,11 +219,11 @@ export function TocaPartes(cfg: Config, onDone: AlTerminar): Juego{
   const uniq=[...new Map(cfg.parts.map((p: Libre)=>[p.id,p])).values()],R=cfg.rounds||Math.min(uniq.length,nRounds()+1);let order=shuffle(uniq);
   return {total:R,done:0,i:0,hl:null,hlT:0,
     // Dice la explicación y pide la primera parte.
-    enter(){later(300,()=>sayQ(V(cfg.intro),()=>this.ask()))},
+    enter(){later(300,()=>sayQ(cfg.intro,()=>this.ask()))},
     // Elige la parte objetivo y la pide.
-    ask(){this.t=order[this.i%order.length];this.errs=0;say('Tocá '+V(this.t.n)+'.')},
+    ask(){this.t=order[this.i%order.length];this.errs=0;say('Toca '+this.t.n+'.')},
     // Repite la parte que hay que tocar.
-    prompt(){this.t&&say('Tocá '+V(this.t.n)+'.')},
+    prompt(){this.t&&say('Toca '+this.t.n+'.')},
     // Ayuda: el círculo de la parte objetivo.
     hint(){return this.t?{x:this.t.x,y:this.t.y,r:this.t.r+10}:null},
     // Parte tocada en (x,y): de las que contienen el punto, la más cercana en
@@ -231,13 +231,13 @@ export function TocaPartes(cfg: Config, onDone: AlTerminar): Juego{
     partAt(x: number,y: number){return cfg.parts.filter((p: Libre)=>dist(x,y,p.x,p.y)<p.r).sort((a: Libre,b: Libre)=>dist(x,y,a.x,a.y)/a.r-dist(x,y,b.x,b.y)/b.r)[0]},
     // Dibuja el dibujo y, 1,4 s tras un toque, resalta la parte tocada y su nombre.
     draw(){cfg.bg();cfg.draw(T-this.hlT<1.4?this.hl:null);if(VIVO.mouseOn&&!this.busy){const p=this.partAt(VIVO.MX,VIVO.MY);if(p)hv('p'+p.id,true)}
-      if(this.hl&&T-this.hlT<1.4){const p=cfg.parts.find((q: Libre)=>q.id===this.hl);ctx.globalAlpha=.5;for(const q of cfg.parts)if(q.id===p.id)circ(q.x,q.y,q.r,null,10,'#FFC93C');ctx.globalAlpha=1;text(Wn(V(p.n)).toUpperCase(),cfg.lx||420,cfg.ly||300,64,K,{f:LF})}},
+      if(this.hl&&T-this.hlT<1.4){const p=cfg.parts.find((q: Libre)=>q.id===this.hl);ctx.globalAlpha=.5;for(const q of cfg.parts)if(q.id===p.id)circ(q.x,q.y,q.r,null,10,'#FFC93C');ctx.globalAlpha=1;text(Wn(p.n).toUpperCase(),cfg.lx||420,cfg.ly||300,64,K,{f:LF})}},
     // Toque: acierto → estrella y siguiente parte (u onDone); fallo → Tito dice
     // qué parte es y repite; al 2º fallo baja la dificultad y fuerza la ayuda.
     down(x,y){if(this.busy||!this.t)return;const p=this.partAt(x,y);if(!p){SFX.tap();sparkles(x,y,3);return}this.hl=p.id;this.hlT=T;
       if(p.id===this.t.id){this.busy=true;SFX.good();burst(x,y,24);rec(cfg.key||'partes',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;
-        say(praise()+' '+cap(V(p.n))+'.'+(p.say?' '+V(p.say):''),()=>later(350,()=>{this.busy=false;this.i++;if(this.i>=R)onDone();else this.ask()}))}
-      else{SFX.bad();this.errs++;if(this.errs===1)rec(cfg.key||'partes',false);say(cap(V(p.n))+'. Buscá '+V(this.t.n)+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=12}}}
+        say(praise()+' '+cap(p.n)+'.'+(p.say?' '+p.say:''),()=>later(350,()=>{this.busy=false;this.i++;if(this.i>=R)onDone();else this.ask()}))}
+      else{SFX.bad();this.errs++;if(this.errs===1)rec(cfg.key||'partes',false);say(cap(p.n)+'. Busca '+this.t.n+'.');if(this.errs>=2){onWrongTwice();VIVO.idle=12}}}
   };
 }
 
@@ -249,9 +249,9 @@ export function Apaga(cfg: Config, onDone: AlTerminar): Juego{
   const spots=cfg.spots.map((s: Libre)=>Object.assign({on:1},s));
   return {total:spots.length,done:0,
     // Dice la explicación.
-    enter(){later(300,()=>sayQ(V(cfg.intro)))},
+    enter(){later(300,()=>sayQ(cfg.intro))},
     // Repite la explicación.
-    prompt(){say(V(cfg.intro))},
+    prompt(){say(cfg.intro)},
     // Ayuda: la primera cosa encendida.
     hint(){const s=spots.find((s: Libre)=>s.on);return s?{x:s.x,y:s.y,r:80}:null},
     // Dibuja cada cosa: bombilla con halo, grifo con gotas o tele con colores.
@@ -264,7 +264,7 @@ export function Apaga(cfg: Config, onDone: AlTerminar): Juego{
     // apagadas, frase final y onDone.
     down(x,y){const s=spots.find((s: Libre)=>s.on&&dist(x,y,s.x,s.y)<90);if(!s){SFX.tap();return}
       s.on=0;SFX.snap();sparkles(s.x,s.y,10);rec(cfg.key||'apaga',true);onRight(true);this.done++;scene!.starPop=T;
-      say(V(cfg.say[s.t]),()=>{if(this.done>=spots.length&&!this.fin){this.fin=1;SFX.good();burst(800,400,50);say(V(cfg.okAll),()=>later(400,onDone))}})}
+      say(cfg.say[s.t],()=>{if(this.done>=spots.length&&!this.fin){this.fin=1;SFX.good();burst(800,400,50);say(cfg.okAll,()=>later(400,onDone))}})}
   };
 }
 
@@ -278,9 +278,9 @@ export function Frota(cfg: Config, onDone: AlTerminar): Juego{
   const spots=cfg.spots.map(([x,y,r]: number[])=>({x,y,r,h:1,ph:rnd(0,6)})),bub: Libre[]=[];
   return {total:spots.length,done:0,
     // Dice la explicación.
-    enter(){later(300,()=>sayQ(V(cfg.intro)))},
+    enter(){later(300,()=>sayQ(cfg.intro))},
     // Repite la explicación.
-    prompt(){say(V(cfg.intro))},
+    prompt(){say(cfg.intro)},
     // Ayuda: la primera mancha que queda.
     hint(){const s=spots.find((s: Libre)=>s.h>0);return s?{x:s.x,y:s.y,r:s.r+20,dx:40}:null},
     // Frota en (x,y): resta vida a las manchas cercanas (0,12 por llamada) y echa
@@ -288,7 +288,7 @@ export function Frota(cfg: Config, onDone: AlTerminar): Juego{
     // todas, frase final y onDone.
     rub(x: number,y: number){for(const s of spots){if(s.h<=0||dist(x,y,s.x,s.y)>s.r+40)continue;s.h-=.12;if(azar()<.5)SFX.dig();
         if(s.h<=0){s.h=0;SFX.pop();sparkles(s.x,s.y,10);this.done++;scene!.starPop=T;rec(cfg.key||'frota',true);
-          if(this.done>=spots.length&&!this.fin){this.fin=1;later(300,()=>{SFX.good();burst(800,420,50);say(V(cfg.okAll),()=>later(400,onDone))})}else if(azar()<.4)say(pick(['¡Chau!','¡Limpito!','¡Otro menos!']))}}
+          if(this.done>=spots.length&&!this.fin){this.fin=1;later(300,()=>{SFX.good();burst(800,420,50);say(cfg.okAll,()=>later(400,onDone))})}else if(azar()<.4)say(pick(['¡Chau!','¡Limpito!','¡Otro menos!']))}}
       if(bub.length<60)bub.push({x:x+rnd(-30,30),y:y+rnd(-30,30),r:rnd(8,20),t:T})},
     // Dibuja la base, las manchas (más pequeñas y transparentes según su vida),
     // las burbujas que suben (se borran a los 2 s) y la herramienta.
@@ -319,9 +319,9 @@ export function Llena(cfg: Config, onDone: AlTerminar): Juego{
     // Ronda: elige N (distinto del anterior, salvo que min = max) y pone al menos N+2 cosas a la derecha.
     load(){let n;do{n=ri(cfg.min||2,mx)}while(n===last&&mx>(cfg.min||2));/* si min = max solo hay un número posible: se repite en vez de buscar otro para siempre */last=n;this.n=n;this.c=0;this.busy=false;
       const P=Array.from({length:Math.max(n+2,7)},(_,j)=>j);this.its=P.map((j)=>({k:pick(cfg.pool),x:1080+(j%4)*120+(Math.floor(j/4)%2)*50,y:300+Math.floor(j/4)*170,s:130,in:T+j*.05}));this.its.forEach((o: Libre)=>{o.hx=o.x;o.hy=o.y});
-      later(300,()=>sayQ(V(cfg.ask(n))))},
+      later(300,()=>sayQ(cfg.ask(n)))},
     // Repite cuántas hay que meter.
-    prompt(){say(V(cfg.ask(this.n)))},
+    prompt(){say(cfg.ask(this.n))},
     // Ayuda: una cosa que queda fuera y hacia el recipiente.
     hint(){const o=this.its.find((o: Libre)=>!o.in2);return o&&!VIVO.drag?{x:o.x,y:o.y,r:70,dx:cfg.zone.x-o.x,dy:cfg.zone.y-o.y}:null},
     // Acerca cada cosa no arrastrada a su sitio (hx,hy).
@@ -341,7 +341,7 @@ export function Llena(cfg: Config, onDone: AlTerminar): Juego{
     // Nota: no hay error posible (no se puede meter de más porque se bloquea).
     up(){if(!VIVO.drag||!this.its.includes(VIVO.drag.it))return;const o=VIVO.drag.it;VIVO.drag=null;setCursor('pt');const z=cfg.zone;
       if(dist(o.x,o.y,z.x,z.y)<z.r+30){this.c++;o.in2=T;o.hx=z.x+rnd(-z.r*.4,z.r*.4);o.hy=z.y+rnd(-z.r*.2,z.r*.3);SFX.count(this.c);say(cap(NUM[this.c]));
-        if(this.c>=this.n){this.busy=true;rec('contar',true);onRight(true);this.done++;scene!.starPop=T;later(700,()=>{SFX.good();burst(z.x,z.y,30);say(praise()+' '+V(cfg.okSay(this.n)),()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))})}}
+        if(this.c>=this.n){this.busy=true;rec('contar',true);onRight(true);this.done++;scene!.starPop=T;later(700,()=>{SFX.good();burst(z.x,z.y,30);say(praise()+' '+cfg.okSay(this.n),()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))})}}
       else{o.hx=o.x;o.hy=o.y}}
   };
 }
@@ -354,9 +354,9 @@ export function Velas(cfg: Config, onDone: AlTerminar): Juego{
   const n=cfg.n||AGE()+1;const vs=Array.from({length:n},(_,j)=>({x:900-(n-1)*55+j*110,y:330,on:1}));let c=0;
   return {total:n,done:0,
     // Dice la explicación.
-    enter(){later(300,()=>sayQ(V(cfg.intro||'¡Es la fiesta de cumpleaños! Soplá las velitas: tocá cada una y contamos.')))},
+    enter(){later(300,()=>sayQ(cfg.intro||'¡Es la fiesta de cumpleaños! Sopla las velitas: toca cada una y contamos.'))},
     // Repite la consigna.
-    prompt(){say('Tocá las velitas para soplarlas.')},
+    prompt(){say('Toca las velitas para soplarlas.')},
     // Ayuda: la primera vela encendida.
     hint(){const v=vs.find(v=>v.on);return v?{x:v.x,y:v.y-30,r:60}:null},
     // Dibuja la tarta, las velas con llama que tiembla y humo en las apagadas.
@@ -365,7 +365,7 @@ export function Velas(cfg: Config, onDone: AlTerminar): Juego{
         else{ctx.globalAlpha=.4;circ(v.x+Math.sin(T*2)*6,v.y-50-((T*30)%40),8,'#B8B0A6',0);ctx.globalAlpha=1}}},
     // Toque: apaga la vela y cuenta (c); con todas, fiesta, canción y onDone.
     down(x,y){const v=vs.find(v=>v.on&&Math.abs(x-v.x)<55&&y<v.y+80&&y>v.y-110);if(!v){SFX.tap();return}v.on=0;c++;SFX.whoosh();SFX.count(c);this.done++;scene!.starPop=T;say(cap(NUM[c]));
-      if(c>=n&&!this.fin){this.fin=1;later(800,()=>{SFX.tada();burst(900,400,90);burst(500,300,40);burst(1300,300,40);playTune(TUNES.cumple);say(V(cfg.okAll||'¡Feliz cumpleaños! ¡Que los cumplas feliz!'),()=>later(1600,onDone))})}}
+      if(c>=n&&!this.fin){this.fin=1;later(800,()=>{SFX.tada();burst(900,400,90);burst(500,300,40);burst(1300,300,40);playTune(TUNES.cumple);say(cfg.okAll||'¡Feliz cumpleaños! ¡Que los cumplas feliz!',()=>later(1600,onDone))})}}
   };
 }
 
@@ -380,12 +380,12 @@ export function Gira(cfg: Config, onDone: AlTerminar): Juego{
     // Carga la primera ronda.
     enter(){this.load()},
     // Ronda: decide si se pide noche (rondas pares) o día y lo dice.
-    load(){this.want=this.i%2===0?'noche':'dia';this.ok=false;later(300,()=>sayQ(this.want==='noche'?'Girá la Tierra para que sea de noche donde está Leo. ¡Que no le dé el sol!':'Ahora girá la Tierra para que sea de día donde está Leo. ¡Que le dé el sol!'))},
+    load(){this.want=this.i%2===0?'noche':'dia';this.ok=false;later(300,()=>sayQ(this.want==='noche'?'Gira la Tierra para que sea de noche donde está Leo. ¡Que no le dé el sol!':'Ahora gira la Tierra para que sea de día donde está Leo. ¡Que le dé el sol!'))},
     // 'dia' si Leo mira hacia el sol (cos(a) < -0,35, lado izquierdo), 'noche' si
     // está en el lado derecho (cos(a) > 0,35) y 'medio' entre los dos.
     state(){return Math.cos(a)<-.35?'dia':Math.cos(a)>.35?'noche':'medio'},
     // Repite la consigna.
-    prompt(){say(this.want==='noche'?'Girá la Tierra hasta que Leo quede del lado oscuro.':'Girá la Tierra hasta que Leo quede del lado del sol.')},
+    prompt(){say(this.want==='noche'?'Gira la Tierra hasta que Leo quede del lado oscuro.':'Gira la Tierra hasta que Leo quede del lado del sol.')},
     // Ayuda: un arco (path) desde Leo hasta el lado bueno, por el camino más
     // corto (d = diferencia de ángulo normalizada a -π..π con atan2).
     hint(){if(this.ok)return null;const tgt=this.want==='noche'?0:PI,cur=a;let d=Math.atan2(Math.sin(tgt-cur),Math.cos(tgt-cur));const p0=[C.x+Math.cos(cur)*C.r*.6,C.y+Math.sin(cur)*C.r*.6];return{x:p0[0],y:p0[1],r:70,path:Array.from({length:12},(_,i)=>[C.x+Math.cos(cur+d*i/11)*C.r*.6,C.y+Math.sin(cur+d*i/11)*C.r*.6])}},
@@ -413,7 +413,7 @@ export function Gira(cfg: Config, onDone: AlTerminar): Juego{
     up(){if(this.on==null)return;this.on=null;VIVO.drag=null;setCursor('pt');const st=this.state();
       if(st===this.want){this.ok=true;SFX.good();burst(C.x+Math.cos(a)*(C.r+50),C.y+Math.sin(a)*(C.r+50),30);rec('dia-noche',true);onRight(true);this.done++;scene!.starPop=T;
         say(this.want==='noche'?'¡Sí! Ahora Leo está del lado oscuro: es de noche y ve la luna.':'¡Sí! Ahora a Leo le da el sol: es de día.',()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
-      else if(st!=='medio'){say(this.want==='noche'?'Ahí le da el sol, es de día. Seguí girando.':'Ahí no le da el sol, es de noche. Seguí girando.')}}
+      else if(st!=='medio'){say(this.want==='noche'?'Ahí le da el sol, es de día. Sigue girando.':'Ahí no le da el sol, es de noche. Sigue girando.')}}
   };
 }
 
@@ -427,9 +427,9 @@ export function Semaforo(cfg: Config, onDone: AlTerminar): Juego{
     // Carga la primera ronda.
     enter(){this.load()},
     // Ronda: color del semáforo (this.g) y pregunta.
-    load(){this.g=seq[this.i];this.walk=0;this.errs=0;this.lock=false;later(300,()=>sayQ(this.g?'Mirá el semáforo de las personas. ¿Cruzamos o esperamos?':'Mirá el semáforo. ¿Cruzamos o esperamos?'))},
+    load(){this.g=seq[this.i];this.walk=0;this.errs=0;this.lock=false;later(300,()=>sayQ(this.g?'Mira el semáforo de las personas. ¿Cruzamos o esperamos?':'Mira el semáforo. ¿Cruzamos o esperamos?'))},
     // Repite la pregunta.
-    prompt(){say('¿Cruzamos o esperamos? Mirá el color del semáforo.')},
+    prompt(){say('¿Cruzamos o esperamos? Mira el color del semáforo.')},
     // Ayuda: el botón correcto.
     hint(){if(this.walk)return null;return this.g?{x:620,y:780,r:100}:{x:1180,y:780,r:100}},
     // Dibuja la calle, coches pasando si está en rojo, el semáforo, el niño (que
@@ -452,8 +452,8 @@ export function Semaforo(cfg: Config, onDone: AlTerminar): Juego{
     // Toque en un botón: acierto → estrella y siguiente ronda; fallo → explica.
     down(x,y){if(this.lock)return;let c=null;if(inR(x,y,620,790,320,120))c=1;else if(inR(x,y,1180,790,320,120))c=0;if(c==null){SFX.tap();return}
       if(c===this.g){this.lock=true;SFX.good();rec('semaforo',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;if(c)this.walk=T;
-        say(c?'¡Muy bien! Está verde: cruzamos por el paso de cebra, mirando a los dos lados.':'¡Muy bien! Está rojo: esperamos en la vereda.',()=>later(c?900:300,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
-      else{SFX.bad();this.errs++;if(this.errs===1)rec('semaforo',false);say(c?'¡Cuidado! Está rojo: los autos pasan. Esperamos.':'Está verde para las personas. ¡Podemos cruzar!')}}
+        say(c?'¡Muy bien! Está verde: cruzamos por el paso de cebra, mirando a los dos lados.':'¡Muy bien! Está rojo: esperamos en la acera.',()=>later(c?900:300,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
+      else{SFX.bad();this.errs++;if(this.errs===1)rec('semaforo',false);say(c?'¡Cuidado! Está rojo: los coches pasan. Esperamos.':'Está verde para las personas. ¡Podemos cruzar!')}}
   };
 }
 
@@ -468,9 +468,9 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego{
     enter(){this.load()},
     // Ronda: lugar de la izquierda (L), de la derecha (Rr) y adónde ir (go: -1/1).
     load(){const ps=shuffle(places);this.L=ps[0];this.Rr=ps[1];this.go=azar()<.5?-1:1;this.car={t:0,dir:0};this.errs=0;this.lock=false;
-      later(300,()=>sayQ('Vamos '+V(ala(this.go<0?this.L:this.Rr))+'. ¿Doblamos a la derecha o a la izquierda?'))},
+      later(300,()=>sayQ('Vamos '+ala(this.go<0?this.L:this.Rr)+'. ¿Doblamos a la derecha o a la izquierda?'))},
     // Repite adónde queremos ir.
-    prompt(){say('Queremos ir '+V(ala(this.go<0?this.L:this.Rr))+'. ¿Derecha o izquierda?')},
+    prompt(){say('Queremos ir '+ala(this.go<0?this.L:this.Rr)+'. ¿Derecha o izquierda?')},
     // Ayuda: la flecha correcta.
     hint(){return this.lock?null:{x:this.go<0?380:1420,y:760,r:100}},
     // Dibuja las carreteras, los dos lugares, el coche (sube 0,45 del tiempo y
@@ -484,15 +484,15 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego{
       ctx.save();ctx.translate(x,y);ctx.rotate(rot);card(-50,-80,100,160,'#FF6B5E',6,26);card(-38,-56,76,40,'#BFEAF7',4,10);circ(-50,-44,13,K,0);circ(50,-44,13,K,0);circ(-50,46,13,K,0);circ(50,46,13,K,0);ctx.restore();
       // botones con flechas
       const sl=hv('bl',hC(380,760,95)),sr=hv('br',hC(1420,760,95));arrowBtn(380,760,-1,'#5B8DEF',sl);arrowBtn(1420,760,1,'#FFA94D',sr);
-      text(tx('IZQUIERDA'),380,890,34,K,{f:LF});text('DERECHA',1420,890,34,K,{f:LF});
+      text('IZQUIERDA',380,890,34,K,{f:LF});text('DERECHA',1420,890,34,K,{f:LF});
       // manos guía
       ctx.save();ctx.translate(530,780);ctx.scale(-1,1);hand(0,-30,70,0);ctx.restore();hand(1270,750,70,0)},
     // Toque en una flecha: acierto → el coche gira, estrella y siguiente ronda;
     // fallo → Tito dice adónde lleva ese lado.
     down(x,y){if(this.lock)return;let d=0;if(dist(x,y,380,760)<110)d=-1;else if(dist(x,y,1420,760)<110)d=1;if(!d){SFX.tap();return}
       if(d===this.go){this.lock=true;this.car={t:T,dir:d};SFX.good();rec('derecha-izquierda',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;
-        say(praise()+' '+(d<0?'Doblamos a la izquierda':'Doblamos a la derecha')+' y llegamos '+V(ala(d<0?this.L:this.Rr))+'.',()=>later(700,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
-      else{SFX.bad();this.errs++;if(this.errs===1)rec('derecha-izquierda',false);say('Por ahí vamos '+V(ala(d<0?this.L:this.Rr))+'. Queremos ir '+V(ala(this.go<0?this.L:this.Rr))+'.')}}
+        say(praise()+' '+(d<0?'Doblamos a la izquierda':'Doblamos a la derecha')+' y llegamos '+ala(d<0?this.L:this.Rr)+'.',()=>later(700,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
+      else{SFX.bad();this.errs++;if(this.errs===1)rec('derecha-izquierda',false);say('Por ahí vamos '+ala(d<0?this.L:this.Rr)+'. Queremos ir '+ala(this.go<0?this.L:this.Rr)+'.')}}
   };
 }
 
@@ -515,9 +515,9 @@ export function Tracer(cfg: Config, onDone: AlTerminar): Juego{
     // distancias acumuladas (se calculan pero no se usan después).
     load(first: number){const P=cfg.paths[this.i];this.P=P;this.pts=P.pts;this.prog=0;this.on=false;this.ink=[];this.fin=0;
       const L=[0];for(let j=1;j<this.pts.length;j++)L.push(L[j-1]+dist(this.pts[j-1][0],this.pts[j-1][1],this.pts[j][0],this.pts[j][1]));this.len=L;
-      later(first?300:100,()=>sayQ(V(P.say||cfg.ask)))},
+      later(first?300:100,()=>sayQ(P.say||cfg.ask))},
     // Repite la consigna del trazo.
-    prompt(){say(V(this.P.say||cfg.ask))},
+    prompt(){say(this.P.say||cfg.ask)},
     // Ayuda: la manita recorre el resto del camino desde donde se quedó (path).
     hint(){if(this.fin)return null;const j=Math.min(this.pts.length-1,this.prog);const p=this.pts[j];return{x:p[0],y:p[1],r:50,path:this.pts.slice(j)}},
     // Dibuja el camino ancho y punteado, la tinta hasta prog, la meta, el punto
@@ -540,7 +540,7 @@ export function Tracer(cfg: Config, onDone: AlTerminar): Juego{
     near(x: number,y: number){// avanza si el puntero está cerca de los próximos puntos
       let best=-1;for(let j=this.prog;j<Math.min(this.pts.length,this.prog+12);j++)if(dist(x,y,this.pts[j][0],this.pts[j][1])<tol)best=j;return best},
     // Toque: si es cerca del punto donde se quedó, empieza a trazar.
-    down(x,y){if(this.fin)return;const cur=this.pts[this.prog];if(dist(x,y,cur[0],cur[1])<tol+30){this.on=true;SFX.pop()}else{SFX.tap();if(this.prog===0)say('Empezá en el punto verde.')}},
+    down(x,y){if(this.fin)return;const cur=this.pts[this.prog];if(dist(x,y,cur[0],cur[1])<tol+30){this.on=true;SFX.pop()}else{SFX.tap();if(this.prog===0)say('Empieza en el punto verde.')}},
     // Al mover: avanza prog si el dedo sigue el camino (con un tono cada 10
     // puntos); si el dedo se aleja mucho, se suelta (boing). Al final, complete().
     move(x,y){if(!this.on||this.fin)return;const j=this.near(x,y);if(j>this.prog){if(Math.floor(j/10)>Math.floor(this.prog/10))tone(500+j*6,.06,'sine',.12);this.prog=j}
@@ -550,7 +550,7 @@ export function Tracer(cfg: Config, onDone: AlTerminar): Juego{
     up(){this.on=false},
     // Trazo terminado: estrella, frase y siguiente trazo u onDone.
     complete(){if(this.fin)return;this.fin=T;this.on=false;SFX.good();const e=this.pts[this.pts.length-1];burst(e[0],e[1],36);rec('trazos',true);onRight(true);this.done++;scene!.starPop=T;
-      say(V(this.P.ok||praise()),()=>later(500,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
+      say(this.P.ok||praise(),()=>later(500,()=>{this.i++;if(this.i>=R)onDone();else this.load()}))}
   };
 }
 
@@ -584,15 +584,15 @@ export function Song(cfg: Config, onDone: AlTerminar): Juego{
   const part2=cfg.part2!==false;
   return {total:part2?n:1,done:0,ph:'sing',li:-1,
     // Dice la introducción, toca la melodía y empieza a cantar.
-    enter(){later(300,()=>sayQ(V(cfg.intro||'¡Vamos a cantar! Escuchá la canción.'),()=>{playTune(TUNES[cfg.tune]||TUNES.dias);later(1400,()=>this.next())}))},
+    enter(){later(300,()=>sayQ(cfg.intro||'¡Vamos a cantar! Escucha la canción.',()=>{playTune(TUNES[cfg.tune]||TUNES.dias);later(1400,()=>this.next())}))},
     // Canta la línea siguiente (nota + verso). Al acabar las líneas: melodía
     // final y, si hay segunda parte, pasa a 'play'; si no, onDone.
-    next(){this.li++;if(this.li>=n){this.ph='fin1';playTune(TUNES.fin);later(700,()=>{if(!part2){this.done=1;scene!.starPop=T;onDone();return}this.ph='play';this.order=cfg.mode==='pedido'?shuffle(L):L.slice();this.k=0;say(V(cfg.ask2||'¡Ahora te toca a vos! Tocá cada uno en orden, como en la canción.'),()=>this.askNext())});return}
-      const l=L[this.li];l.jump=T;const tune=TUNES[cfg.tune]||TUNES.dias;tone(NOTE(tune[this.li%tune.length][0]+12),.3,'triangle',.18);say(V(l.say),()=>later(120,()=>this.next()),{rate:1})},
+    next(){this.li++;if(this.li>=n){this.ph='fin1';playTune(TUNES.fin);later(700,()=>{if(!part2){this.done=1;scene!.starPop=T;onDone();return}this.ph='play';this.order=cfg.mode==='pedido'?shuffle(L):L.slice();this.k=0;say(cfg.ask2||'¡Ahora te toca a ti! Toca cada uno en orden, como en la canción.',()=>this.askNext())});return}
+      const l=L[this.li];l.jump=T;const tune=TUNES[cfg.tune]||TUNES.dias;tone(NOTE(tune[this.li%tune.length][0]+12),.3,'triangle',.18);say(l.say,()=>later(120,()=>this.next()),{rate:1})},
     // Pide la siguiente tarjeta (en 'pedido') o pregunta cuál va primero.
-    askNext(){const l=this.order[this.k];if(cfg.mode==='pedido')say('Tocá '+V(l.n)+'.');else if(this.k===0)say('¿Cuál va primero?')},
+    askNext(){const l=this.order[this.k];if(cfg.mode==='pedido')say('Toca '+l.n+'.');else if(this.k===0)say('¿Cuál va primero?')},
     // Repite qué tarjeta tocar (solo en la fase de jugar).
-    prompt(){if(this.ph==='play'){const l=this.order[this.k];say(cfg.mode==='pedido'?'Tocá '+V(l.n)+'.':'¿Cuál sigue? Tocá '+V(l.n)+'.')}},
+    prompt(){if(this.ph==='play'){const l=this.order[this.k];say(cfg.mode==='pedido'?'Toca '+l.n+'.':'¿Cuál sigue? Toca '+l.n+'.')}},
     // Ayuda: la tarjeta que toca ahora.
     hint(){if(this.ph!=='play')return null;const l=this.order[this.k];return l?{x:l.x,y:l.y,r:l.s*.6}:null},
     // Dibuja las tarjetas (saltan, bailan mientras se canta, estrella en las
@@ -609,8 +609,8 @@ export function Song(cfg: Config, onDone: AlTerminar): Juego{
       if(this.ph!=='play'){l.jump=T;SFX.pop();return}
       if(this.busy||l.okT)return;const want=this.order[this.k];
       if(l===want){l.okT=T;l.jump=T;SFX.count(this.k+1);rec(cfg.key||'cancion',true);onRight(true);this.done++;scene!.starPop=T;this.k++;this.busy=true;
-        say(V(l.n2||l.n),()=>{this.busy=false;if(this.k>=n){SFX.tada();burst(900,450,70);say(V(cfg.okAll||'¡Qué bien cantamos!'),()=>later(400,onDone))}else if(cfg.mode==='pedido')this.askNext()})}
-      else{SFX.bad();l.jump=T;rec(cfg.key||'cancion',false);say(cap(V(l.n))+'. '+(cfg.mode==='pedido'?'Buscá '+V(want.n)+'.':'Ese va después. ¿Cuál sigue?'))}}
+        say(l.n2||l.n,()=>{this.busy=false;if(this.k>=n){SFX.tada();burst(900,450,70);say(cfg.okAll||'¡Qué bien cantamos!',()=>later(400,onDone))}else if(cfg.mode==='pedido')this.askNext()})}
+      else{SFX.bad();l.jump=T;rec(cfg.key||'cancion',false);say(cap(l.n)+'. '+(cfg.mode==='pedido'?'Busca '+want.n+'.':'Ese va después. ¿Cuál sigue?'))}}
   };
 }
 
@@ -629,14 +629,14 @@ export function Story(data: Cuento,_cfg: Config,onDone: AlTerminar): Juego{
     // Muestra la página i y la lee (la primera con el título); 0,9 s después de
     // terminar pasa sola a la siguiente si sigue en esa página.
     page(i: number){this.pi=i;this.pT=T;this.said=false;const p=P[i];
-      later(i?250:400,()=>sayQ((i===0?V('Escucha el cuento: ')+V(data.title)+'. ':'')+V(p.say),()=>{this.said=T;later(900,()=>{if(this.ph==='read'&&this.pi===i)this.turn()})}))},
+      later(i?250:400,()=>sayQ((i===0?'Escucha el cuento: '+data.title+'. ':'')+p.say,()=>{this.said=T;later(900,()=>{if(this.ph==='read'&&this.pi===i)this.turn()})}))},
     // Pasa a la página siguiente o, tras la última, a las preguntas.
     turn(){if(this.pi<P.length-1){SFX.whoosh();this.page(this.pi+1)}else this.quiz(0)},
     // Pregunta i: coloca las opciones y la lee. Sin más preguntas → onDone.
     quiz(i: number){this.ph='quiz';this.qi=i;const q=Q[i];if(!q){this.ph='end';onDone();return}this.errs=0;this.busy=false;
-      this.items=layoutChoice(shuffle(q.opts),[q.ok],660,false);later(300,()=>sayQ((i===0?'Ahora te pregunto. ':'')+V(q.q)))},
+      this.items=layoutChoice(shuffle(q.opts),[q.ok],660,false);later(300,()=>sayQ((i===0?'Ahora te pregunto. ':'')+q.q))},
     // Repite la pregunta o la página actual.
-    prompt(){if(this.ph==='quiz')say(V(Q[this.qi].q));else say(V(P[this.pi].say))},
+    prompt(){if(this.ph==='quiz')say(Q[this.qi].q);else say(P[this.pi].say)},
     // Ayuda: la opción correcta o, tras leer la página, la flecha.
     hint(){if(this.ph==='quiz'){const it=this.items.find((i: Libre)=>i.ok&&!i.win);return it?{x:it.x,y:it.y,r:it.s*.6}:null}return this.said?{x:1470,y:470,r:70}:null},
     // Dibuja el fondo de la página p y sus dibujos balanceándose; yo y sc
@@ -648,10 +648,10 @@ export function Story(data: Cuento,_cfg: Config,onDone: AlTerminar): Juego{
         // puntitos de página y flecha
         P.forEach((_q: Libre,j: number)=>circ(800-(P.length-1)*20+j*40,860,10,j<this.pi?'#7CC86E':j===this.pi?'#FFC93C':'#EADFCF',3));
         const s=hv('next',hC(1470,470,70))*(this.said?1+Math.sin(T*5)*.06:1);ctx.save();ctx.translate(1470,470);ctx.scale(s,s);ctx.globalAlpha=this.said?1:.45;circ(0,0,62,'#fff',6);ctx.beginPath();ctx.moveTo(-14,-26);ctx.lineTo(20,0);ctx.lineTo(-14,26);ctx.lineWidth=12;ctx.strokeStyle=K;ctx.lineCap='round';ctx.stroke();ctx.restore();ctx.globalAlpha=1;
-        card(560,22,480,80,'#FFFBF2',5,40);pic('libro',620,62,64);text(V(data.title),830,76,V(data.title).length>24?28:34,K,{w:600})}
+        card(560,22,480,80,'#FFFBF2',5,40);pic('libro',620,62,64);text(data.title,830,76,data.title.length>24?28:34,K,{w:600})}
       else{ctx.save();(BG[P[0].bg]||BG.conceptos)();ctx.restore();ctx.fillStyle='rgba(255,246,230,.6)';ctx.fillRect(0,0,W,H);
         card(330,110,940,280,'#fff',6,36);pic('libro',440,250,140);text('?',1170,310,160,'#FFA94D',{f:LF,st:8,sc:'#fff'});
-        text(V(data.title),800,250,V(data.title).length>24?44:54,K,{w:600});
+        text(data.title,800,250,data.title.length>24?44:54,K,{w:600});
         if(this.items)drawChoice(this.items)}},
     // Lectura: la flecha pasa de página (corta la voz y anula su callback con
     // sceneTokBump). Preguntas: acierto → estrella y siguiente; fallo → repite y,
@@ -659,8 +659,8 @@ export function Story(data: Cuento,_cfg: Config,onDone: AlTerminar): Juego{
     down(x: number,y: number){if(this.ph==='read'){if(dist(x,y,1470,470)<80){if(this.said||T-this.pT>1.5){SFX.tap();try{speechSynthesis.cancel()}catch(e){}sceneTokBump();this.turn()}}return}
       if(this.ph!=='quiz')return;const it=hitItem(this.items,x,y);if(!it){SFX.tap();return}if(it.win||this.busy)return;const q=Q[this.qi];
       if(it.ok){this.busy=true;it.win=T;SFX.good();burst(it.x,it.y,30);rec('cuentos',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;
-        say(praise()+' '+V(q.okSay||''),()=>later(400,()=>this.quiz(this.qi+1)))}
-      else{SFX.bad();it.shake=T;if(this.errs===0)rec('cuentos',false);this.errs++;say(V('Mmm, no. Piensa en el cuento. ')+V(q.q));
+        say(praise()+' '+(q.okSay||''),()=>later(400,()=>this.quiz(this.qi+1)))}
+      else{SFX.bad();it.shake=T;if(this.errs===0)rec('cuentos',false);this.errs++;say('Mmm, no. Piensa en el cuento. '+q.q);
         if(this.errs===2){const w=this.items.find((i: Libre)=>!i.ok&&!i.gone&&i!==it);if(w&&this.items.filter((i: Libre)=>!i.gone&&!i.ok).length>1)w.gone=T}}}
   };
 }

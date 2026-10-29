@@ -14,7 +14,7 @@ import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, DIAC, FLC, LF, PI, SCENES, SFX, T, V, VIVO, atHome, cap, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
+import { DF, DIAC, FLC, LF, PI, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { FIESTAS } from '../temas/indice.ts';
 import { TEMA, gDone, isBday, tst } from '../escenas/escenas2d.ts';
 import { MAINZ, ZONES, ZPOS, casitaPos, pathDone, pathOf, temaOpen } from '../escenas/zonas.ts';
@@ -141,7 +141,7 @@ for(const z in ZONES){const zona2D=SCENES[z];
       let hT=false;if(VIVO.mouseOn&&!VIVO.drag&&!(w&&busy3(w))){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.tema){hv_=u.tema;VIVO.hovNow='j:'+u.tema}else if(u&&u.id==='tito'){VIVO.hovNow='tito';hT=true}}this.hov=hv_;this.hovTito=hT;
       {const nm=cap(Z.name);ctx.font=`600 44px ${DF}`;const tw=Math.min(900,ctx.measureText(nm).width);card(800-tw/2-40,26,tw+80,80,'rgba(255,255,255,.92)',6,40);text(nm,800,82,44,K,{w:600})}
       // nombre de la casita bajo el ratón; en la fila de arriba no se monta sobre el cartel de la zona
-      if(hv_){const t=TEMA[hv_],p=casitaPos(z,hv_);ctx.font=`600 32px ${DF}`;const nm=t.concepts?'Rincón de los Conceptos':V(t.n),tw=ctx.measureText(nm).width,cy=Math.max(p.y-178,116);card(p.x-tw/2-24,cy,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p.x,cy+38,32,K,{w:600})}
+      if(hv_){const t=TEMA[hv_],p=casitaPos(z,hv_);ctx.font=`600 32px ${DF}`;const nm=t.concepts?'Rincón de los Conceptos':t.n,tw=ctx.measureText(nm).width,cy=Math.max(p.y-178,116);card(p.x-tw/2-24,cy,tw+48,54,'rgba(255,255,255,.92)',5,27);text(nm,p.x,cy+38,32,K,{w:600})}
       drawHome();drawCoinHUD();
       if(VIVO.talking){const tp=titoPos(),bx=tp.x+tp.w*.85,by=tp.y-50;ctx.globalAlpha=.95;card(bx,by,96,72,'#fff',5,28);ctx.globalAlpha=1;speaker(bx+50,by+36,46+Math.sin(T*12)*4)}},
     // down(x,y): toque en la zona: botones; objetos que vuelan; nada -> objeto tocable, cielo (skyTap) o pasear; Tito -> salta;

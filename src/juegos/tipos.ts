@@ -45,7 +45,7 @@ export interface Juego {
  * o una cosa dibujada a mano (name y draw: swatch(), dayCard(), monthCard()...). Desde la fase 5c tiene su tipo.
  */
 export interface Palabra {
-  /** Clave del dibujo en PICS (y de su nombre en LEX/LEX2). Falta en las dibujadas a mano. */
+  /** Clave del dibujo en PICS (y de su nombre en LEX). Falta en las dibujadas a mano. */
   k?: string;
   /** Lo que dice Tito al tocarla en 'conocer'; si falta, su nombre ("La mochila."). */
   say?: string;
