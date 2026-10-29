@@ -32,6 +32,7 @@ npm ci && npx playwright install chromium   # la primera vez (también activa lo
 npm run dev                  # servidor de desarrollo: recarga al guardar
 npm run build                # dist/ con la web completa (Vite + herramientas/vite/curiolandia.mts)
 npm run test:comentarios     # comentarios de cabecera (docs/POLITICA-DOCUMENTACION.md)
+npm run dialogos             # rehace el catálogo de frases dialogos/todos.csv
 npm run tipos                # TypeScript estricto (el juego, el montaje y las pruebas .ts)
 npm run test:unidad          # Vitest (tests/unidad)
 npm run test:humo            # escenas de día y de noche sin errores
@@ -43,7 +44,7 @@ Lo que las pruebas leen del juego (`window.__cl`) está en [docs/CONTRATO-PRUEBA
 
 ## Reglas
 - Sin voces grabadas: el juego nuevo usa solo la voz del navegador.
-- Cada diálogo nuevo o cambiado se apunta en `dialogos/pendientes.txt` y en el catálogo `dialogos/todos.csv` ([dialogos/LEEME.md](dialogos/LEEME.md)).
+- Cada diálogo nuevo o cambiado se apunta en `dialogos/pendientes.txt` y se rehace el catálogo `dialogos/todos.csv` con `npm run dialogos` ([dialogos/LEEME.md](dialogos/LEEME.md)).
 - Las partidas guardadas no se rompen nunca: clave de guardado propia, copia única de la partida de `curiolandia-3d`, versión y migraciones.
 - Cada cambio va documentado: comentario de cabecera en cada función, `docs/` al día y una entrada en `docs/CAMBIOS.md`.
 - Las fases se hacen en ramas pequeñas con PR, y el juego queda publicable y con las pruebas en verde al final de cada una.
