@@ -21,7 +21,7 @@ Curiolandia 3D es un juego web para niños de Educación Infantil (3, 4 y 5 año
 
 Características técnicas:
 - **HTML + JavaScript y TypeScript**, sin frameworks. Vite monta la página: junta los módulos TypeScript en un solo `<script>` (ver «Archivos de `src/`»).
-- **Three.js** para la capa 3D: el paquete `three` de npm (desde la fase 6a, aún la versión r128), que va dentro del `<script>` del juego.
+- **Three.js** para la capa 3D: el paquete `three` de npm (desde la fase 6a; desde la 6b, la versión 0.186 con la gestión de color apagada y las luces × π para que se vea como con r128), que va dentro del `<script>` del juego.
 - **Funciona sin conexión** (es una PWA con service worker) y se puede instalar en el móvil.
 - **Voz del navegador** (`speechSynthesis`) para todo lo que dice Tito; no hay voces grabadas.
 - Se publica en GitHub Pages: https://fercala.github.io/curiolandia-new/
