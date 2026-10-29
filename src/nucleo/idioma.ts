@@ -1,5 +1,6 @@
 // idioma.ts: rioplatense y castellano de España, y los nombres de los dibujos.
-//   - TU, _tuRe, tx(), V(): el texto del juego se escribe en rioplatense y tx() lo pasa a España si S.variant==='es'.
+//   - TU, _tuRe, tx(), V(): el texto del juego aún se escribe en rioplatense y tx() lo pasa a castellano de España (desde
+//     la fase 5d el juego es solo de España: S.variant es siempre 'es').
 //   - LEX, LEX2, W_, Wn, art, dela, ala: el nombre con artículo de cada dibujo, para que Tito lo diga.
 // contenido/lex.ts añade más pares a _tuRe y más nombres a LEX y LEX2.
 import { S } from './guardado.ts';
