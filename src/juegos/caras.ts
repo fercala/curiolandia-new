@@ -3,14 +3,13 @@
 // componentes de juego (juegos/comps.ts y comps2.ts: canciones y cuentos) y los temas de las emociones (temas/temas4.ts
 // y temas/ingles.ts). Hasta la fase 4o estaban en escenas/escenas2d.ts, que se carga después de todos ellos, y los
 // demás las usaban como globales tardías (src/tardias.d.ts).
-// Exporta: EMO y drawFace. Importa: del núcleo, src/nucleo/, ctx, PI, el tipo Par y el dibujo básico (circ, ell,
+// Exporta: EMO y drawFace. Importa: del núcleo, src/nucleo/, ctx, PI y el dibujo básico (circ, ell,
 // fillStroke), y K de los dibujos.
 import { K } from '../dibujos/todos.ts';
 import { PI, circ, ctx, ell, fillStroke } from '../nucleo/indice.ts';
-import type { Par } from '../nucleo/indice.ts';
 
-// EMO: emociones de la asamblea. {clave: {c: color de la carita, n: nombre (o [rioplatense, España])}}.
-export const EMO: Record<string, { c: string; n: string | Par }>={alegria:{c:'#FFD66B',n:'alegría'},tristeza:{c:'#7FB0FF',n:'tristeza'},enojo:{c:'#FF6B5E',n:['enojo','enfado']},miedo:{c:'#9B8AD9',n:'miedo'},sorpresa:{c:'#FFA94D',n:'sorpresa'},calma:{c:'#7CC86E',n:'calma'},verguenza:{c:'#F58BB4',n:'vergüenza'}};
+// EMO: emociones de la asamblea. {clave: {c: color de la carita, n: nombre}}.
+export const EMO: Record<string, { c: string; n: string }>={alegria:{c:'#FFD66B',n:'alegría'},tristeza:{c:'#7FB0FF',n:'tristeza'},enojo:{c:'#FF6B5E',n:'enfado'},miedo:{c:'#9B8AD9',n:'miedo'},sorpresa:{c:'#FFA94D',n:'sorpresa'},calma:{c:'#7CC86E',n:'calma'},verguenza:{c:'#F58BB4',n:'vergüenza'}};
 // drawFace(x, y, r, m): dibuja la carita de la emoción m (clave de EMO) de radio r en (x, y). Solo dibuja.
 export function drawFace(x: number,y: number,r: number,m: string){const e=EMO[m];ctx.save();ctx.translate(x,y);circ(0,0,r,e.c,6);const ey=-r*.12,ex=r*.34,L=r*.07;ctx.lineCap='round';ctx.lineWidth=L;ctx.strokeStyle=K;
 // eyes(rr): dos ojos de radio rr con brillo blanco.

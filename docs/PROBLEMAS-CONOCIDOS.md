@@ -21,7 +21,6 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 ## Rarezas sin efecto visible (limpieza)
 
 - Multiplicaciones por 0 que no hacen nada (restos de ajustes): `umb3`, `scare3`, `flower()`, `SPOT3.ingles`, `Sonido`, `Cuenta`, `SONGS.colores`...
-- `V([a, b])` con las dos variantes iguales (título de la portada, una pregunta de `F-libro`, `Secuencia`).
 - Comentarios del código original colocados encima de la función equivocada (están señalados con una nota en los comentarios nuevos).
 - `GNAME` recibe `memoria` dos veces; `TU` y contenido/lex.ts tienen pares repetidos o que no cambian nada.
 - Campos y variables sin uso: `S.album`, `trim` de los temas (`GICON`, que tampoco se usaba, se borró en la fase 4n).

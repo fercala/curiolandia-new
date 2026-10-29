@@ -10,7 +10,7 @@
 // Depende de: BG (juegos/fondos.ts, con los fondos que le añaden temas/temas.ts y temas/temas4.ts) y PICS (src/dibujos/) para los dibujos.
 //
 // FORMATO: CUENTOS['id del tema'] = {title, pages, qs}
-//   title   título del cuento: texto o [rioplatense, España].
+//   title   título del cuento.
 //   pages   lista de páginas. Cada página es {bg, items, say}:
 //             bg     nombre de un fondo de BG ('aula', 'parque', 'noche'...); si no existe se usa
 //                    BG.conceptos.
@@ -18,10 +18,10 @@
 //                    pantalla de 1600x900 (el dibujo se balancea suavemente arriba y abajo); tamaño en px;
 //                    volteado (opcional) = true para dibujarlo mirando al otro lado. La clave también
 //                    puede ser una carita 'emo:alegria'.
-//             say    lo que lee Tito en esa página: texto o [rioplatense, España]. En la primera página
+//             say    lo que lee Tito en esa página. En la primera página
 //                    Tito dice antes "Escucha el cuento: <título>. ".
 //   qs      preguntas al final (lo normal: 2 o 3). Cada una es {q, ok, opts, okSay}:
-//             q      pregunta (texto o [rioplatense, España]);
+//             q      pregunta;
 //             ok     clave de PICS de la respuesta correcta;
 //             opts   claves de PICS de todas las opciones (incluida la correcta; se barajan);
 //             okSay  (opcional) frase tras acertar (Tito antes dice un elogio).
@@ -38,15 +38,15 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'aula',items:[['nene',600,540,330],['mochila',920,610,200]],
      say:'Teo llegó a la escuela con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!'},
     {bg:'aula',items:[['nene',470,540,300],['mesa',900,620,320],['lapiz',800,520,120],['pinturas',910,505,130],['cuento',1010,525,120]],
-     say:['Teo sacó todo: el lápiz, los crayones y el cuento. ¡Y lo dejó desparramado por toda la mesa! ¡Qué lío!','Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!']},
+     say:'Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!'},
     {bg:'aula',items:[['maestra',500,540,330],['mochila',850,610,200],['lapiz',790,420,120],['cuento',920,410,130],['nene',1190,540,300]],
-     say:['La seño lo ayudó a ordenar: el lápiz, los crayones y el cuento... ¡adentro de la mochila!','La profe le ayudó a ordenar: el lápiz, las pinturas y el cuento... ¡dentro de la mochila!']},
+     say:'La profe le ayudó a ordenar: el lápiz, las pinturas y el cuento... ¡dentro de la mochila!'},
     {bg:'parque',items:[['nene',560,540,330],['tobogan',930,560,300],['pelota',1250,650,150]],
-     say:['La pelota se quedó afuera, ¡para el recreo! Y en el recreo, Teo se tiró por el tobogán. ¡Uiii!','La pelota se quedó fuera, ¡para el recreo! Y en el recreo, Teo se tiró por el tobogán. ¡Uiii!']}
+     say:'La pelota se quedó fuera, ¡para el recreo! Y en el recreo, Teo se tiró por el tobogán. ¡Uiii!'}
   ],
   qs:[
-    {q:['¿Qué guardó Teo adentro de la mochila?','¿Qué guardó Teo dentro de la mochila?'],ok:'lapiz',opts:['lapiz','pelota'],
-     okSay:['¡El lápiz! La pelota se quedó afuera.','¡El lápiz! La pelota se quedó fuera.']},
+    {q:'¿Qué guardó Teo dentro de la mochila?',ok:'lapiz',opts:['lapiz','pelota'],
+     okSay:'¡El lápiz! La pelota se quedó fuera.'},
     {q:'¿Dónde jugó Teo en el recreo?',ok:'tobogan',opts:['tobogan','banera'],okSay:'¡En el tobogán! ¡Uiii!'}
   ]},
 
@@ -66,10 +66,10 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {q:'¿Con qué escuchó Lola al gato?',ok:'oreja',opts:['oreja','mano'],okSay:'¡Con las orejas! Miau, miau.'}
   ]},
 
-'3A-T3':{title:['Los crayones de Nico','Las pinturas de Nico'],
+'3A-T3':{title:'Las pinturas de Nico',
   pages:[
     {bg:'colores',items:[['nene',580,540,330],['pinturas',920,610,200]],
-     say:['Nico tenía cuatro crayones: rojo, azul, amarillo y verde. ¿Qué iba a pintar?','Nico tenía cuatro pinturas: roja, azul, amarilla y verde. ¿Qué iba a pintar?']},
+     say:'Nico tenía cuatro pinturas: roja, azul, amarilla y verde. ¿Qué iba a pintar?'},
     {bg:'colores',items:[['fresa',490,480,160],['tomate',720,520,160],['ballena',1120,500,320]],
      say:'Con el rojo pintó una frutilla y un tomate. Con el azul, ¡una ballena enorme!'},
     {bg:'colores',items:[['sol',480,320,170],['banana',500,610,170],['rana',880,580,220],['hoja',1250,520,190]],
@@ -89,9 +89,9 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'otono',items:[['hermano',540,540,330],['castana',830,650,130],['ardilla',1150,580,250]],
      say:'Debajo de un árbol, Leo encontró una castaña. ¡Y una ardilla la miraba con muchas ganas!'},
     {bg:'otono',items:[['ardilla',650,580,260],['seta',1050,610,200],['castana',1190,690,110]],
-     say:['Leo le regaló la castaña a la ardilla. ¡Y ella la escondió debajo de un hongo, para el invierno!','Leo le regaló la castaña a la ardilla. ¡Y ella la escondió debajo de una seta, para el invierno!']},
+     say:'Leo le regaló la castaña a la ardilla. ¡Y ella la escondió debajo de una seta, para el invierno!'},
     {bg:'lluvia',items:[['hermano',600,540,330],['paraguas',620,300,220],['botasAgua',930,650,150],['lluvia',1200,290,200]],
-     say:['Después empezó a llover. Leo abrió el paraguas, se puso las botas de lluvia y... ¡splash, a saltar en los charcos!','Después empezó a llover. Leo abrió el paraguas, se puso las botas de agua y... ¡splash, a saltar en los charcos!']}
+     say:'Después empezó a llover. Leo abrió el paraguas, se puso las botas de agua y... ¡splash, a saltar en los charcos!'}
   ],
   qs:[
     {q:'¿Qué se cayó de los árboles con el viento?',ok:'hojaNaranja',opts:['hojaNaranja','pelota'],okSay:'¡Las hojas! En otoño se caen de los árboles.'},
@@ -101,7 +101,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
 '3A-T5':{title:'Familias de todos los tamaños',
   pages:[
     {bg:'aula',items:[['maestra',520,540,330],['pinturas',830,620,150],['hermana',1060,560,280],['hermano',1290,560,280]],
-     say:['La seño dijo: hoy vamos a dibujar a nuestra familia. ¡Y todos sacaron los crayones!','La profe dijo: hoy vamos a dibujar a nuestra familia. ¡Y todos sacaron las pinturas!']},
+     say:'La profe dijo: hoy vamos a dibujar a nuestra familia. ¡Y todos sacaron las pinturas!'},
     {bg:'familia',items:[['mama',450,520,290],['papa',690,520,300],['abuela',930,520,290],['hermana',1160,570,250],['bebe',1360,640,170]],
      say:'La familia de Sofi es grande: mamá, papá, la abuela, Sofi... ¡y un bebé que llora muy fuerte! Buaaa.'},
     {bg:'parque',items:[['papa',600,520,340],['nene',880,560,280],['pelota',1180,650,150]],
@@ -133,18 +133,18 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
 '3A-T7':{title:'El desayuno de Pablo',
   pages:[
     {bg:'cocina',items:[['hermano',560,540,330],['abuelo',900,520,340]],
-     say:['Pablo se despertó con mucha hambre. ¡Le hacía ruido la panza: grrr! Y el abuelo dijo: ¡a desayunar!','Pablo se despertó con mucha hambre. ¡Le sonaba la tripa: grrr! Y el abuelo dijo: ¡a desayunar!']},
+     say:'Pablo se despertó con mucha hambre. ¡Le sonaba la tripa: grrr! Y el abuelo dijo: ¡a desayunar!'},
     {bg:'cocina',items:[['abuelo',480,520,330],['naranja',760,620,150],['zumo',960,590,170],['pan',1160,620,150],['leche',1360,590,160]],
      say:'El abuelo exprimió unas naranjas e hizo jugo. ¡Y puso en la mesa pan y leche!'},
     {bg:'cocina',items:[['macedonia',900,560,240],['banana',520,440,150],['fresa',520,660,140],['uva',1280,440,150],['pera',1280,660,150]],
-     say:['Después hicieron una ensalada de frutas con banana, frutilla, uvas y pera. ¡Cuántos colores!','Después hicieron una macedonia con plátano, fresa, uvas y pera. ¡Cuántos colores!']},
+     say:'Después hicieron una macedonia con plátano, fresa, uvas y pera. ¡Cuántos colores!'},
     {bg:'parque',items:[['hermano',600,540,330],['pelota',950,650,150],['abuelo',1250,520,330]],
      say:'Pablo se comió todo. ¡Y salió a jugar con energía de superhéroe! El abuelo no lo podía alcanzar.'}
   ],
   qs:[
     {q:'¿Qué hizo el abuelo con las naranjas?',ok:'zumo',opts:['zumo','helado'],okSay:'¡Jugo de naranja! Mmm.'},
-    {q:['¿Qué fruta había en la ensalada de frutas?','¿Qué fruta había en la macedonia?'],ok:'uva',opts:['uva','galleta'],
-     okSay:['¡Las uvas! Y también banana, frutilla y pera.','¡Las uvas! Y también plátano, fresa y pera.']}
+    {q:'¿Qué fruta había en la macedonia?',ok:'uva',opts:['uva','galleta'],
+     okSay:'¡Las uvas! Y también plátano, fresa y pera.'}
   ]},
 
 '3A-T8':{title:'Coco, el perro escondedor',
@@ -152,9 +152,9 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'casa',items:[['hermana',560,540,330],['perro',940,600,240]],
      say:'Coco, el perro de Clara, era muy travieso: ¡escondía las cosas en lugares rarísimos!'},
     {bg:'cocina',items:[['hermana',500,540,330],['nevera',880,500,300],['cepillo',1200,380,150],['perro',1250,620,200]],
-     say:['Clara abrió la heladera y... ¡el cepillo de dientes estaba adentro, al lado de la leche! ¡Qué frío!','Clara abrió la nevera y... ¡el cepillo de dientes estaba dentro, al lado de la leche! ¡Qué frío!']},
+     say:'Clara abrió la nevera y... ¡el cepillo de dientes estaba dentro, al lado de la leche! ¡Qué frío!'},
     {bg:'dormitorio',items:[['perro',440,640,170],['cama',820,590,340],['olla',820,500,150],['hermana',1230,540,310]],
-     say:['Y en la cama, tapadita con la frazada, ¡estaba la olla durmiendo la siesta!','Y en la cama, tapadita con la manta, ¡estaba la olla durmiendo la siesta!']},
+     say:'Y en la cama, tapadita con la manta, ¡estaba la olla durmiendo la siesta!'},
     {bg:'casa',items:[['hermana',560,540,330],['perro',900,600,230],['corazon',1200,350,150]],
      say:'Clara puso cada cosa en su lugar: el cepillo en el baño y la olla en la cocina. ¡Y a Coco le dio un abrazo!'}
   ],
@@ -184,7 +184,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'primavera',items:[['hermana',540,540,330],['sol',1300,270,180],['flor',880,640,150],['flor',1080,620,170],['flor',1280,640,150]],
      say:'Llegó la primavera. El sol calentó el jardín de Alba y, ¡pop, pop, pop!, salieron flores por todos lados.'},
     {bg:'primavera',items:[['mariposa',640,330,200],['flor',640,640,160],['hoja',1050,620,220],['mariquita',1050,600,120]],
-     say:['Una mariposa vino a visitar las flores. Y una vaquita de San Antonio paseaba por una hoja, despacito.','Una mariposa vino a visitar las flores. Y una mariquita paseaba por una hoja, despacito.']},
+     say:'Una mariposa vino a visitar las flores. Y una mariquita paseaba por una hoja, despacito.'},
     {bg:'primavera',items:[['hermana',600,540,330],['abeja',880,380,150],['flor',1150,640,160]],
      say:'Bzzz... una abeja pasó tan cerquita de la nariz de Alba que le hizo cosquillas. ¡Achís!'},
     {bg:'primavera',items:[['hermana',480,560,290],['arbol',900,470,360],['nido',930,380,140],['pajaro',1250,320,160]],
@@ -214,18 +214,18 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
 '3A-T12':{title:'El castillo de Nora',
   pages:[
     {bg:'playa',items:[['hermana',500,540,330],['mama',760,520,320],['crema',1000,630,150],['gorra',1180,630,150],['gafas',1360,630,150]],
-     say:['¡Qué calor! Antes de jugar, mamá le puso a Nora crema para el sol, la gorra y los anteojos de sol.','¡Qué calor! Antes de jugar, mamá le puso a Nora crema solar, la gorra y las gafas de sol.']},
+     say:'¡Qué calor! Antes de jugar, mamá le puso a Nora crema solar, la gorra y las gafas de sol.'},
     {bg:'playa',items:[['hermana',480,560,300],['castillo',850,560,300],['cubo',1180,650,150],['pala',1350,600,170]],
-     say:['Con el balde y la pala, Nora hizo un castillo de arena. ¡Con torres y todo!','Con el cubo y la pala, Nora hizo un castillo de arena. ¡Con torres y todo!']},
+     say:'Con el cubo y la pala, Nora hizo un castillo de arena. ¡Con torres y todo!'},
     {bg:'playa',items:[['castillo',850,560,300],['concha',850,370,130],['hermana',1220,540,320]],
-     say:['Arriba del castillo puso una concha, como si fuera una corona. ¡Era el castillo de la reina Nora!','Encima del castillo puso una concha, como si fuera una corona. ¡Era el castillo de la reina Nora!']},
+     say:'Encima del castillo puso una concha, como si fuera una corona. ¡Era el castillo de la reina Nora!'},
     {bg:'playa',items:[['hermana',560,540,330],['helado',850,430,160],['sol',1300,270,180]],
      say:'Al final, ¡un helado! Pero hacía tanto calor que se derretía... ¡y Nora se lo comió rapidísimo!'}
   ],
   qs:[
     {q:'¿Qué le puso mamá a Nora para cuidarse del sol?',ok:'crema',opts:['crema','helado'],
-     okSay:['¡La crema para el sol! Y la gorra y los anteojos.','¡La crema solar! Y la gorra y las gafas.']},
-    {q:['¿Qué puso Nora arriba del castillo?','¿Qué puso Nora encima del castillo?'],ok:'concha',opts:['concha','zapato'],okSay:'¡Una concha, como una corona!'}
+     okSay:'¡La crema solar! Y la gorra y las gafas.'},
+    {q:'¿Qué puso Nora encima del castillo?',ok:'concha',opts:['concha','zapato'],okSay:'¡Una concha, como una corona!'}
   ]},
 
 /* ---------------- 4 AÑOS: EL BOSQUE ---------------- */
@@ -234,19 +234,19 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'ciudad',items:[['hermano',560,540,330],['mochila',800,630,140],['escuela',1120,470,340]],
      say:'El lunes empezó la semana. Hugo se puso la mochila ¡y fue a la escuela!'},
     {bg:'aula',items:[['hermano',540,540,330],['pinturas',860,620,150],['cuento',1080,600,150],['maestra',1300,540,320]],
-     say:['Martes, miércoles, jueves... ¡días de escuela! Hugo pintó, escuchó cuentos y cantó con la seño.','Martes, miércoles, jueves... ¡días de cole! Hugo pintó, escuchó cuentos y cantó con la profe.']},
+     say:'Martes, miércoles, jueves... ¡días de cole! Hugo pintó, escuchó cuentos y cantó con la profe.'},
     {bg:'casa',items:[['hermano',560,540,330],['mano',880,380,160],['calendario',1200,440,240]],
-     say:['El viernes, Hugo contó con los dedos: ¡mañana no hay escuela! Llegaba el fin de semana.','El viernes, Hugo contó con los dedos: ¡mañana no hay cole! Llegaba el fin de semana.']},
+     say:'El viernes, Hugo contó con los dedos: ¡mañana no hay cole! Llegaba el fin de semana.'},
     {bg:'parque',items:[['papa',480,520,320],['hermano',730,560,270],['piscina',1130,600,320]],
-     say:['El sábado fue a la pileta con papá. ¡Hugo nadó como un pececito... con flotadores!','El sábado fue a la piscina con papá. ¡Hugo nadó como un pececito... con manguitos!']},
+     say:'El sábado fue a la piscina con papá. ¡Hugo nadó como un pececito... con manguitos!'},
     {bg:'familia',items:[['abuelo',500,520,320],['abuela',760,520,320],['hermano',1020,560,270],['almuerzo',1280,620,170]],
      say:'El domingo almorzaron en la casa de los abuelos. Y después del domingo... ¡otra vez lunes! La semana vuelve a empezar.'}
   ],
   qs:[
     {q:'¿Adónde fue Hugo el lunes?',ok:'escuela',opts:['escuela','piscina','hospital'],
-     okSay:['¡A la escuela! De lunes a viernes hay escuela.','¡Al cole! De lunes a viernes hay cole.']},
+     okSay:'¡Al cole! De lunes a viernes hay cole.'},
     {q:'¿Adónde fue Hugo el sábado?',ok:'piscina',opts:['piscina','escuela','tienda'],
-     okSay:['¡A la pileta! A nadar con papá.','¡A la piscina! A nadar con papá.']},
+     okSay:'¡A la piscina! A nadar con papá.'},
     {q:'¿A quiénes visitó Hugo el domingo?',ok:'abuelo',opts:['abuelo','medico','bombera'],okSay:'¡A los abuelos! El domingo es fin de semana.'}
   ]},
 
@@ -278,7 +278,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'huerta',items:[['abuela',500,520,330],['calabaza',830,630,220],['uva',1080,610,160],['granada',1300,610,160]],
      say:'Cerca de ahí, en la huerta de la abuela Rosa, también había frutos de otoño: uvas, granadas ¡y una calabaza gigante!'},
     {bg:'bosque',items:[['ardilla',560,590,260],['seta',900,620,180],['erizo',1220,630,200]],
-     say:['Pero Bruna era muy olvidadiza. ¿Dónde había guardado las nueces? Buscó debajo de un hongo y encontró... ¡un erizo dormido!','Pero Bruna era muy olvidadiza. ¿Dónde había guardado las nueces? Buscó debajo de una seta y encontró... ¡un erizo dormido!']},
+     say:'Pero Bruna era muy olvidadiza. ¿Dónde había guardado las nueces? Buscó debajo de una seta y encontró... ¡un erizo dormido!'},
     {bg:'huerta',items:[['abuela',520,520,330],['nuez',830,560,130],['ardilla',1150,590,260]],
      say:'Entonces la abuela Rosa le dejó unas nueces en la ventana. ¡Y Bruna las guardó en su árbol, contentísima!'}
   ],
@@ -293,11 +293,11 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'casa',items:[['nene',560,540,330],['emo:alegria',930,380,170],['sol',1260,290,180]],
      say:'Martín se despertó contento: había sol y era sábado. ¡Sonreía de oreja a oreja!'},
     {bg:'parque',items:[['nene',560,540,330],['heladoCaido',900,650,170],['emo:tristeza',1200,360,170]],
-     say:['En la plaza, a Martín se le cayó el helado al piso. ¡Plaf! Y se puso triste, muy triste.','En el parque, a Martín se le cayó el helado al suelo. ¡Plaf! Y se puso triste, muy triste.']},
+     say:'En el parque, a Martín se le cayó el helado al suelo. ¡Plaf! Y se puso triste, muy triste.'},
     {bg:'casa',items:[['nene',500,540,330],['torreRota',840,630,200],['bebe',1080,650,170],['emo:enojo',1300,360,160]],
      say:'Después armó una torre altísima con bloques... ¡y el bebé la tiró! Martín se enojó mucho. ¡Grrr!'},
     {bg:'noche',items:[['papa',560,520,340],['nene',830,570,270],['tormenta',1180,300,220],['emo:miedo',1290,580,150]],
-     say:['A la noche hubo tormenta. ¡Brrrum! Martín tuvo miedo y abrazó fuerte a papá.','Por la noche hubo tormenta. ¡Brrrum! Martín tuvo miedo y abrazó fuerte a papá.']},
+     say:'Por la noche hubo tormenta. ¡Brrrum! Martín tuvo miedo y abrazó fuerte a papá.'},
     {bg:'dormitorio',items:[['nene',540,540,330],['cajaSorpresa',880,600,220],['emo:sorpresa',1220,360,170]],
      say:'Antes de dormir, papá le dio una caja. ¡Boing! Salió un muñeco saltarín. ¡Qué sorpresa! Y Martín volvió a reírse.'}
   ],
@@ -316,7 +316,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'parque',items:[['hermana',560,540,330],['sandia',920,620,200],['merienda',1230,600,170]],
      say:'A la hora de la merienda, una fruta fresquita: ¡sandía! Paula terminó con la cara toda roja.'},
     {bg:'cocina',items:[['papa',520,520,340],['patata',860,630,150],['brocoli',1100,610,170],['cena',1330,600,170]],
-     say:['En la cena, papá hizo puré de papas y brócoli. Paula dijo: ¡el brócoli parece un arbolito!','En la cena, papá hizo puré de patatas y brócoli. Paula dijo: ¡el brócoli parece un arbolito!']},
+     say:'En la cena, papá hizo puré de patatas y brócoli. Paula dijo: ¡el brócoli parece un arbolito!'},
     {bg:'cocina',items:[['hermana',540,540,330],['kiwi',880,440,140],['sandia',1110,440,150],['brocoli',880,650,140],['zanahoria',1110,650,150]],
      say:'Se comió el bosque de brócoli entero. Y aprendió: el kiwi y la sandía son frutas; el brócoli y la zanahoria, verduras.'}
   ],
@@ -335,9 +335,9 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'polo',items:[['osoPolar',600,540,330],['carta',950,420,150],['pinguino',1260,570,260]],
      say:'Un día, Nilo le escribió una carta a su amigo Pipo, un pingüino que vivía lejísimos: en el Polo Sur.'},
     {bg:'polo',items:[['pinguino',650,570,280],['pluma',950,400,140],['hielo',1150,650,200]],
-     say:['Pipo le contestó: ¡Acá también hace frío! Pero mis plumas me abrigan. ¡Y me tiro de panza por el hielo!','Pipo le contestó: ¡Aquí también hace frío! Pero mis plumas me abrigan. ¡Y me tiro de barriga por el hielo!']},
+     say:'Pipo le contestó: ¡Aquí también hace frío! Pero mis plumas me abrigan. ¡Y me tiro de barriga por el hielo!'},
     {bg:'polo',items:[['osoPolar',640,540,340],['carta',1000,400,140],['hielo',1150,650,180]],
-     say:['Nilo se rió tanto que también se tiró de panza por el hielo, ¡fiuuu! Dos amigos bien abrigados, en las dos puntas del mundo.','Nilo se rió tanto que también se tiró de barriga por el hielo, ¡fiuuu! Dos amigos bien abrigados, en los dos extremos del mundo.']}
+     say:'Nilo se rió tanto que también se tiró de barriga por el hielo, ¡fiuuu! Dos amigos bien abrigados, en los dos extremos del mundo.'}
   ],
   qs:[
     {q:'¿Quién roncaba muy fuerte?',ok:'morsa',opts:['morsa','foca','conejo'],okSay:'¡La morsa! Rrrrr.'},
@@ -352,7 +352,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'ciudad',items:[['panadero',540,540,340],['perro',960,600,230],['pan',1200,500,150]],
      say:'Después pasó por la panadería y se llevó un pan calentito. ¡El panadero lo persiguió, todo lleno de harina!'},
     {bg:'ciudad',items:[['medico',520,540,340],['hermana',800,580,260],['fonendo',1060,380,140],['perro',1200,610,220]],
-     say:['Después le sacó el estetoscopio al médico, que estaba escuchando el corazón de una nena. ¡Pum, pum!','Después le quitó el fonendo al médico, que estaba escuchando el corazón de una niña. ¡Pum, pum!']},
+     say:'Después le quitó el fonendo al médico, que estaba escuchando el corazón de una niña. ¡Pum, pum!'},
     {bg:'ciudad',items:[['bombera',520,540,340],['manguera',830,610,200],['perro',1150,600,230],['gota',1150,400,120]],
      say:'¡Y le tiró de la manguera a la bombera! ¡Splash! Toby quedó empapado de la cabeza a la cola.'},
     {bg:'ciudad',items:[['policia',520,540,340],['silbato',800,360,130],['perro',1020,610,220],['carta',1270,460,130],['pan',1300,650,140]],
@@ -360,26 +360,26 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
   ],
   qs:[
     {q:'¿A quién le quitó Toby el pan?',ok:'panadero',opts:['panadero','bombera','cartero'],okSay:'¡Al panadero! El panadero hace el pan.'},
-    {q:'¿Qué usa el médico para escuchar el corazón?',ok:'fonendo',opts:['fonendo','manguera','tijeras'],okSay:['¡El estetoscopio! Pum, pum.','¡El fonendo! Pum, pum.']},
+    {q:'¿Qué usa el médico para escuchar el corazón?',ok:'fonendo',opts:['fonendo','manguera','tijeras'],okSay:'¡El fonendo! Pum, pum.'},
     {q:'¿Qué tocó la policía para que Toby se quedara quieto?',ok:'silbato',opts:['silbato','campana','tambor'],okSay:'¡El silbato! Priiip.'}
   ]},
 
 '4A-T8':{title:'Bruno cruza la calle',
   pages:[
     {bg:'calle',items:[['mama',480,520,320],['hermano',720,570,260],['tienda',1060,470,260],['hospital',1330,460,260]],
-     say:['Bruno y mamá iban al parque caminando por la vereda. Pasaron por la tienda y por el hospital.','Bruno y mamá iban al parque caminando por la acera. Pasaron por la tienda y por el hospital.']},
+     say:'Bruno y mamá iban al parque caminando por la acera. Pasaron por la tienda y por el hospital.'},
     {bg:'calle',items:[['mama',520,520,330],['hermano',760,570,270],['semaforo',1100,440,300]],
      say:'En la esquina, el semáforo estaba en rojo. Se quedaron quietitos, esperando. ¡Ni un pasito!'},
     {bg:'calle',items:[['hermano',560,560,290],['pelota',920,660,140],['auto',1220,620,240]],
      say:'De repente, la pelota de Bruno rodó hasta la calle. Bruno quiso correr a buscarla, pero se acordó: ¡nunca hay que correr a la calle!'},
     {bg:'calle',items:[['pasoCebra',850,660,300],['mama',740,500,300],['hermano',960,540,250],['semaforo',1280,430,260]],
-     say:['Cuando el semáforo se puso en verde, miraron a los dos lados y cruzaron por la senda peatonal, de la mano.','Cuando el semáforo se puso en verde, miraron a los dos lados y cruzaron por el paso de cebra, de la mano.']},
+     say:'Cuando el semáforo se puso en verde, miraron a los dos lados y cruzaron por el paso de cebra, de la mano.'},
     {bg:'parque',items:[['hermano',520,560,290],['pelota',780,650,150],['mama',1000,520,320],['parque',1300,470,280]],
      say:'Del otro lado, la pelota los esperaba quietita. ¡Y en el parque jugaron toda la tarde!'}
   ],
   qs:[
     {q:'¿Qué se le escapó a Bruno?',ok:'pelota',opts:['pelota','globo','gorra'],okSay:'¡La pelota! Y Bruno no corrió a la calle.'},
-    {q:'¿Por dónde cruzaron la calle?',ok:'pasoCebra',opts:['pasoCebra','tobogan','tren'],okSay:['¡Por la senda peatonal, de la mano!','¡Por el paso de cebra, de la mano!']},
+    {q:'¿Por dónde cruzaron la calle?',ok:'pasoCebra',opts:['pasoCebra','tobogan','tren'],okSay:'¡Por el paso de cebra, de la mano!'},
     {q:'¿Adónde iban Bruno y mamá?',ok:'parque',opts:['parque','hospital','escuela'],okSay:'¡Al parque! A jugar toda la tarde.'}
   ]},
 
@@ -409,9 +409,9 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'huerta',items:[['nene',520,540,330],['regadera',820,430,180],['maceta',960,630,180],['sol',1300,270,180]],
      say:'Todos los días la regaba con la regadera y la ponía al sol. ¡Las plantas necesitan agua y sol para crecer!'},
     {bg:'huerta',items:[['nene',540,540,330],['brote',950,600,240],['sol',1300,270,170]],
-     say:['Abajo de la tierra le crecieron raíces para tomar agua. Y arriba salió un tallo con dos hojitas. ¡Hola!','Debajo de la tierra le crecieron raíces para beber agua. Y arriba salió un tallo con dos hojitas. ¡Hola!']},
+     say:'Debajo de la tierra le crecieron raíces para beber agua. Y arriba salió un tallo con dos hojitas. ¡Hola!'},
     {bg:'huerta',items:[['nene',540,540,330],['plantaFlor',950,520,320]],
-     say:['Tomás la saludaba cada mañana: ¡buen día, plantita! Y la planta creció y creció... ¡y le salió una flor amarilla!','Tomás la saludaba cada mañana: ¡buenos días, plantita! Y la planta creció y creció... ¡y le salió una flor amarilla!']},
+     say:'Tomás la saludaba cada mañana: ¡buenos días, plantita! Y la planta creció y creció... ¡y le salió una flor amarilla!'},
     {bg:'huerta',items:[['nene',540,540,330],['plantaFruto',950,520,320],['tomate',1300,630,150]],
      say:'Un día, donde estaba la flor, apareció un fruto rojo y redondo: ¡un tomate! Tomás lo compartió con toda su familia.'}
   ],
@@ -424,7 +424,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
 '4A-T11':{title:'¡Uiu, uiu! Un día de vehículos',
   pages:[
     {bg:'ciudad',items:[['abuela',480,520,320],['hermano',720,570,260],['metro',1120,540,340]],
-     say:['Dani y su abuela tomaron el subte. ¡Iba por debajo de la tierra, por un túnel larguísimo!','Dani y su abuela cogieron el metro. ¡Iba por debajo de la tierra, por un túnel larguísimo!']},
+     say:'Dani y su abuela cogieron el metro. ¡Iba por debajo de la tierra, por un túnel larguísimo!'},
     {bg:'ciudad',items:[['camionBomberos',780,560,360],['arbol',1240,460,300],['gato',1240,370,120]],
      say:'Al salir, escucharon: ¡uiu, uiu! Pasó un camión de bomberos. ¡Iba a rescatar a un gatito que no podía bajar de un árbol!'},
     {bg:'ciudad',items:[['ambulancia',760,560,360],['hospital',1240,470,280]],
@@ -432,10 +432,10 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'ciudad',items:[['helicoptero',700,330,260],['globoAire',1180,400,280]],
      say:'En el cielo, un helicóptero hacía ¡taca, taca, taca! Y más arriba, un globo de colores flotaba despacito.'},
     {bg:'bano',items:[['banera',820,600,340],['submarino',780,510,160],['pato',1220,590,170]],
-     say:['A la noche, en la bañera, Dani jugó con su submarino de juguete: ¡glu, glu, a rescatar al patito!','Por la noche, en la bañera, Dani jugó con su submarino de juguete: ¡glu, glu, a rescatar al patito!']}
+     say:'Por la noche, en la bañera, Dani jugó con su submarino de juguete: ¡glu, glu, a rescatar al patito!'}
   ],
   qs:[
-    {q:'¿En qué viajaron por debajo de la tierra?',ok:'metro',opts:['metro','avion','barco'],okSay:['¡En subte! Por un túnel.','¡En metro! Por un túnel.']},
+    {q:'¿En qué viajaron por debajo de la tierra?',ok:'metro',opts:['metro','avion','barco'],okSay:'¡En metro! Por un túnel.'},
     {q:'¿Qué vehículo fue a rescatar al gatito?',ok:'camionBomberos',opts:['camionBomberos','tractor','bici'],okSay:'¡El camión de bomberos! Uiu, uiu.'},
     {q:'¿Qué lleva a las personas enfermas al hospital?',ok:'ambulancia',opts:['ambulancia','globoAire','submarino'],okSay:'¡La ambulancia! Para que las curen.'}
   ]},
@@ -465,26 +465,26 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'casa',items:[['hermana',520,540,330],['calendario',930,430,280]],
      say:'Vera colgó un calendario nuevo. Tenía doce meses: enero, febrero, marzo... ¡hasta diciembre! Más que los dedos de las dos manos.'},
     {bg:'playa',items:[['hermana',520,540,330],['maleta',850,630,190],['sol',1300,270,180]],
-     say:['En enero llegaron las vacaciones de verano. Vera fue a la playa con su valija. ¡Qué calor!','En agosto llegaron las vacaciones de verano. Vera fue a la playa con su maleta. ¡Qué calor!']},
+     say:'En agosto llegaron las vacaciones de verano. Vera fue a la playa con su maleta. ¡Qué calor!'},
     {bg:'aula',items:[['hermana',520,540,330],['mochila',820,620,170],['maestra',1150,540,330]],
-     say:['En marzo, ¡vuelta a la escuela! Vera estrenó mochila y abrazó a sus amigos. ¡Los extrañaba un montón!','En septiembre, ¡vuelta al cole! Vera estrenó mochila y abrazó a sus amigos. ¡Los echaba mucho de menos!']},
+     say:'En septiembre, ¡vuelta al cole! Vera estrenó mochila y abrazó a sus amigos. ¡Los echaba mucho de menos!'},
     {bg:'fiesta',items:[['hermana',520,540,330],['tarta',870,620,220],['globo',1150,330,160],['regalo',1250,640,160]],
-     say:['En noviembre, ¡su cumpleaños! Vera cumplió cinco y sopló las velitas de la torta. ¡Feliz cumple!','En noviembre, ¡su cumpleaños! Vera cumplió cinco y sopló las velitas de la tarta. ¡Feliz cumple!']},
+     say:'En noviembre, ¡su cumpleaños! Vera cumplió cinco y sopló las velitas de la tarta. ¡Feliz cumple!'},
     {bg:'casa',items:[['arbolNavidad',800,470,360],['regalo',1080,650,150],['hermana',1290,560,290]],
-     say:['Y en diciembre, el último mes, llegó la Navidad. ¡Armaron el arbolito todos juntos!','Y en diciembre, el último mes, llegó la Navidad. ¡Pusieron el árbol todos juntos!']},
+     say:'Y en diciembre, el último mes, llegó la Navidad. ¡Pusieron el árbol todos juntos!'},
     {bg:'noche',items:[['hermana',520,540,330],['calendario',880,450,240],['fuegos',1240,320,240]],
      say:'Cuando terminó diciembre, el calendario volvió a empezar: ¡otra vez enero! Un año nuevo, lleno de aventuras.'}
   ],
   qs:[
     {q:'¿Qué llegó antes: el cumpleaños de Vera o la Navidad?',ok:'tarta',opts:['tarta','arbolNavidad','fuegos'],okSay:'¡El cumpleaños! Noviembre viene antes que diciembre.'},
-    {q:['¿Qué estrenó Vera en la vuelta a la escuela?','¿Qué estrenó Vera en la vuelta al cole?'],ok:'mochila',opts:['mochila','maleta','paraguas'],okSay:'¡Una mochila nueva!'},
-    {q:'¿Qué llegó en diciembre, el último mes del año?',ok:'arbolNavidad',opts:['arbolNavidad','maleta','mochila'],okSay:['¡La Navidad! Con el arbolito.','¡La Navidad! Con el árbol.']}
+    {q:'¿Qué estrenó Vera en la vuelta al cole?',ok:'mochila',opts:['mochila','maleta','paraguas'],okSay:'¡Una mochila nueva!'},
+    {q:'¿Qué llegó en diciembre, el último mes del año?',ok:'arbolNavidad',opts:['arbolNavidad','maleta','mochila'],okSay:'¡La Navidad! Con el árbol.'}
   ]},
 
 '5A-T2':{title:'Una carrera por dentro',
   pages:[
     {bg:'parque',items:[['hermana',560,540,330],['esqueleto',1000,500,300]],
-     say:['Sara se preparó para una carrera en el parque. ¡Y adentro de su cuerpo, todo se preparó también!','Sara se preparó para una carrera en el parque. ¡Y dentro de su cuerpo, todo se preparó también!']},
+     say:'Sara se preparó para una carrera en el parque. ¡Y dentro de su cuerpo, todo se preparó también!'},
     {bg:'cuerpo',items:[['hermana',520,540,330],['cerebro',900,380,200]],
      say:'Primero, su cerebro dio la orden: ¡a correr! El cerebro es el jefe: piensa y le dice al cuerpo qué hacer.'},
     {bg:'cuerpo',items:[['hermana',500,540,330],['musculo',820,380,180],['esqueleto',1150,520,300]],
@@ -492,14 +492,14 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'cuerpo',items:[['hermana',500,540,330],['corazonOrg',840,380,190],['pulmones',1150,400,220]],
      say:'Su corazón latía fuerte, ¡pum, pum, pum!, para llevar sangre a todo el cuerpo. Y los pulmones se inflaban como globos para tomar aire.'},
     {bg:'parque',items:[['hermana',520,540,330],['banana',850,600,150],['estomago',1150,420,200]],
-     say:['¡Sara llegó a la meta! Después comió una banana, y su estómago la convirtió en energía.','¡Sara llegó a la meta! Después comió un plátano, y su estómago lo convirtió en energía.']},
+     say:'¡Sara llegó a la meta! Después comió un plátano, y su estómago lo convirtió en energía.'},
     {bg:'dormitorio',items:[['hermana',520,540,330],['cama',900,610,320],['luna',1290,280,170]],
      say:'Esa noche, Sara durmió como un tronco. Pero su corazón y sus pulmones siguieron trabajando, despacito. ¡Nunca se toman vacaciones!'}
   ],
   qs:[
     {q:'¿Qué parte del cuerpo dio la orden de correr?',ok:'cerebro',opts:['cerebro','estomago','hueso'],okSay:'¡El cerebro! Piensa y manda.'},
     {q:'¿Qué se infla como un globo para tomar aire?',ok:'pulmones',opts:['pulmones','corazonOrg','musculo'],okSay:'¡Los pulmones! Sirven para respirar.'},
-    {q:['¿Qué convirtió la banana en energía?','¿Qué convirtió el plátano en energía?'],ok:'estomago',opts:['estomago','cerebro','pulmones'],okSay:'¡El estómago! Ahí va la comida.'}
+    {q:'¿Qué convirtió el plátano en energía?',ok:'estomago',opts:['estomago','cerebro','pulmones'],okSay:'¡El estómago! Ahí va la comida.'}
   ]},
 
 '5A-T3':{title:'La golondrina de Lucía',
@@ -515,7 +515,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'otono',items:[['hermana',500,560,300],['golondrina',830,330,200],['sol',1300,270,170]],
      say:'Un día, la golondrina se despidió. Con el frío hay pocos bichitos para comer, ¡así que voló a un lugar calentito!'},
     {bg:'casa',items:[['hermana',520,540,330],['mama',800,520,330],['nido',1180,400,180]],
-     say:['Lucía la extrañó un poquito. Pero mamá le contó: ¡en primavera, la golondrina va a volver a su nido!','Lucía la echó un poquito de menos. Pero mamá le contó: ¡en primavera, la golondrina volverá a su nido!']}
+     say:'Lucía la echó un poquito de menos. Pero mamá le contó: ¡en primavera, la golondrina volverá a su nido!'}
   ],
   qs:[
     {q:'¿Qué hizo que se cayeran las hojas?',ok:'viento',opts:['viento','luna','arcoiris'],okSay:'¡El viento! Fiuuu, y las hojas se cayeron.'},
@@ -526,7 +526,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
 '5A-T4':{title:'Max y el plato de colores',
   pages:[
     {bg:'cocina',items:[['nene',520,540,330],['dulces',860,600,190],['abuela',1200,520,340]],
-     say:['Max quería comer solo golosinas: ¡caramelos en el desayuno, en el almuerzo y en la cena! Pero la abuela tuvo una idea.','Max quería comer solo chucherías: ¡caramelos en el desayuno, en la comida y en la cena! Pero la abuela tuvo una idea.']},
+     say:'Max quería comer solo chucherías: ¡caramelos en el desayuno, en la comida y en la cena! Pero la abuela tuvo una idea.'},
     {bg:'granja',items:[['gallina',520,590,250],['huevo',760,650,130],['vaca',1050,560,300],['queso',1320,640,150]],
      say:'Primero fueron a la granja. La gallina les regaló un huevo, y la vaca les dio leche para hacer queso. ¡Muuu!'},
     {bg:'huerta',items:[['trigo',560,520,260],['pan',820,620,160],['aceituna',1070,520,170],['aceite',1300,580,200]],
@@ -534,21 +534,21 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'mar',items:[['barco',750,480,330],['pescado',1180,620,200]],
      say:'En el puerto, los pescadores volvían del mar con pescado fresquito. ¡Del mar a la mesa!'},
     {bg:'cocina',items:[['arroz',560,440,170],['pescado',820,440,170],['legumbres',1080,440,170],['brocoli',690,650,160],['manzana',950,650,160]],
-     say:['En casa armaron un plato con un poquito de todo: arroz, pescado, legumbres y verduras. ¡Y una manzana de postre!','En casa prepararon un plato con un poquito de todo: arroz, pescado, legumbres y verduras. ¡Y una manzana de postre!']},
+     say:'En casa prepararon un plato con un poquito de todo: arroz, pescado, legumbres y verduras. ¡Y una manzana de postre!'},
     {bg:'cocina',items:[['nene',520,540,330],['abuela',820,520,330],['dulces',1180,620,150]],
-     say:['¡Max se comió todo y quedó lleno de energía! ¿Y las golosinas? A veces, de postre, y solo un poquito.','¡Max se comió todo y quedó lleno de energía! ¿Y las chucherías? A veces, de postre, y solo un poquito.']}
+     say:'¡Max se comió todo y quedó lleno de energía! ¿Y las chucherías? A veces, de postre, y solo un poquito.'}
   ],
   qs:[
     {q:'¿Qué les regaló la gallina?',ok:'huevo',opts:['huevo','queso','pan'],okSay:'¡Un huevo! Los huevos vienen de la gallina.'},
     {q:'¿De qué se hace el aceite?',ok:'aceituna',opts:['aceituna','trigo','pescado'],okSay:'¡De las aceitunas!'},
     {q:'¿Qué hay que comer solo un poquito, a veces?',ok:'dulces',opts:['dulces','manzana','arroz'],
-     okSay:['¡Las golosinas! Solo un poquito, de vez en cuando.','¡Las chucherías! Solo un poquito, de vez en cuando.']}
+     okSay:'¡Las chucherías! Solo un poquito, de vez en cuando.'}
   ]},
 
 '5A-T5':{title:'El baúl de las fiestas',
   pages:[
     {bg:'casa',items:[['hermana',520,540,330],['baul',920,610,250]],
-     say:['Ana tenía un baúl de recuerdos. En cada fiesta del año guardaba algo adentro, ¡como un tesoro!','Ana tenía un baúl de recuerdos. En cada fiesta del año guardaba algo dentro, ¡como un tesoro!']},
+     say:'Ana tenía un baúl de recuerdos. En cada fiesta del año guardaba algo dentro, ¡como un tesoro!'},
     {bg:'noche',items:[['zapato',560,660,150],['camello',900,540,320],['corona',1250,380,170]],
      say:'El seis de enero llegaron los Reyes Magos. Ana había dejado sus zapatos y agua para los camellos. ¡Le trajeron una corona!'},
     {bg:'fiesta',items:[['hermana',520,540,330],['antifaz',860,330,160],['capa',880,610,190],['serpentina',1200,400,180]],
@@ -558,12 +558,12 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'fiesta',items:[['hermana',520,560,310],['fuegos',900,330,260],['tambor',1250,600,180]],
      say:'En la fiesta del pueblo hubo música, tambores y fuegos artificiales en el cielo. ¡Pum, pum, cuántos colores!'},
     {bg:'fiesta',items:[['hermana',520,540,330],['tarta',850,610,200],['vela',1200,420,120],['baul',1200,620,220]],
-     say:['Para su cumpleaños, Ana abrió el baúl y recordó todas sus fiestas. ¡Y guardó una vela de su torta, como recuerdo!','Para su cumpleaños, Ana abrió el baúl y recordó todas sus fiestas. ¡Y guardó una vela de su tarta, como recuerdo!']}
+     say:'Para su cumpleaños, Ana abrió el baúl y recordó todas sus fiestas. ¡Y guardó una vela de su tarta, como recuerdo!'}
   ],
   qs:[
     {q:'¿Qué le trajeron los Reyes Magos a Ana?',ok:'corona',opts:['corona','antifaz','libro'],okSay:'¡Una corona!'},
     {q:'¿Qué se puso Ana en carnaval?',ok:'antifaz',opts:['antifaz','gorroNavidad','casco'],okSay:'¡Un antifaz! Y una capa.'},
-    {q:'¿Qué guardó Ana de su cumpleaños?',ok:'vela',opts:['vela','rosaFlor','zapato'],okSay:['¡Una vela de la torta!','¡Una vela de la tarta!']}
+    {q:'¿Qué guardó Ana de su cumpleaños?',ok:'vela',opts:['vela','rosaFlor','zapato'],okSay:'¡Una vela de la tarta!'}
   ]},
 
 '5A-T6':{title:'Luz, la astronauta',
@@ -590,7 +590,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
 '5A-T7':{title:'El fósil de Simón',
   pages:[
     {bg:'parque',items:[['nene',520,540,330],['pala',800,610,170],['fosil',1120,640,200]],
-     say:['Cavando en el arenero de la plaza, Simón encontró una piedra rara, con forma de hueso. ¡Era un fósil!','Cavando en el arenero del parque, Simón encontró una piedra rara, con forma de hueso. ¡Era un fósil!']},
+     say:'Cavando en el arenero del parque, Simón encontró una piedra rara, con forma de hueso. ¡Era un fósil!'},
     {bg:'prehistoria',items:[['abuelo',520,520,330],['fosil',800,620,140],['diplodoco',1150,480,380]],
      say:'El abuelo le contó: hace muchísimo tiempo, antes de que existieran las personas, en la Tierra vivían los dinosaurios.'},
     {bg:'prehistoria',items:[['diplodoco',700,470,380],['triceratops',1180,590,300]],
@@ -613,7 +613,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'parque',items:[['papa',500,520,330],['hermana',740,570,270],['mapa',760,300,140],['globoAire',1140,420,340]],
      say:'Olivia y su papá subieron a un globo, con un mapa. Querían conocer las casas de los animales. ¡Arriba!'},
     {bg:'desierto',items:[['cactus',520,580,220],['camello',900,540,360],['sol',1300,260,180]],
-     say:['Primero llegaron al desierto: arena y mucho calor. Allí vivía el camello, que aguanta muchos días sin tomar agua.','Primero llegaron al desierto: arena y mucho calor. Allí vivía el camello, que aguanta muchos días sin beber agua.']},
+     say:'Primero llegaron al desierto: arena y mucho calor. Allí vivía el camello, que aguanta muchos días sin beber agua.'},
     {bg:'mar',items:[['ballena',720,440,340],['pulpo',1200,600,240]],
      say:'Después volaron sobre el mar. Una ballena les tiró un chorro de agua, ¡fsss!, y un pulpo los saludó con sus ocho brazos.'},
     {bg:'polo',items:[['pinguino',640,560,300],['pinguino',940,580,250,true],['hielo',1250,640,190]],
@@ -624,7 +624,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
      say:'Olivia volvió a casa feliz. Cada animal vive donde encuentra comida y está a gusto. ¿Y Olivia? ¡En su camita!'}
   ],
   qs:[
-    {q:'¿Quién vivía en el desierto?',ok:'camello',opts:['camello','pulpo','pinguino'],okSay:['¡El camello! Aguanta sin tomar agua.','¡El camello! Aguanta sin beber agua.']},
+    {q:'¿Quién vivía en el desierto?',ok:'camello',opts:['camello','pulpo','pinguino'],okSay:'¡El camello! Aguanta sin beber agua.'},
     {q:'¿Quién los saludó con sus ocho brazos?',ok:'pulpo',opts:['pulpo','ballena','lobo'],okSay:'¡El pulpo! Vive en el mar.'},
     {q:'¿Quién veía todo en la oscuridad del bosque?',ok:'buho',opts:['buho','camello','pez'],okSay:'¡El búho! Ve muy bien de noche.'}
   ]},
@@ -636,7 +636,7 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'parque',items:[['hermano',520,540,330],['gorra',840,340,150],['termometro',1050,460,180],['sol',1300,270,180]],
      say:'El lunes, sol y mucho calor: el termómetro subió y subió. Pronóstico de Lucas: ¡gorra, agua fresquita y a la sombra!'},
     {bg:'parque',items:[['hermano',520,540,330],['cometa',1000,300,220],['viento',1250,540,200]],
-     say:['El martes sopló un viento fuertísimo. ¡Ideal para remontar el barrilete! Voló tan alto que casi tocaba las nubes.','El martes sopló un viento fuertísimo. ¡Ideal para volar la cometa! Subió tan alto que casi tocaba las nubes.']},
+     say:'El martes sopló un viento fuertísimo. ¡Ideal para volar la cometa! Subió tan alto que casi tocaba las nubes.'},
     {bg:'lluvia',items:[['hermano',520,560,300],['tormenta',900,300,240],['rayo',1250,430,200]],
      say:'El miércoles, nubes negras, rayos y truenos: ¡tormenta! Lucas se quedó en casa jugando, bien sequito.'},
     {bg:'calle',items:[['hermano',520,560,300],['niebla',900,420,340]],
@@ -645,8 +645,8 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
      say:'El viernes llovió un ratito y enseguida salió el sol... ¡y apareció un arcoíris enorme! El mejor pronóstico de la semana.'}
   ],
   qs:[
-    {q:['¿Qué remontó Lucas el día de viento?','¿Qué voló Lucas el día de viento?'],ok:'cometa',opts:['cometa','paraguas','pelota'],
-     okSay:['¡El barrilete! Con el viento vuela alto.','¡La cometa! Con el viento vuela alto.']},
+    {q:'¿Qué voló Lucas el día de viento?',ok:'cometa',opts:['cometa','paraguas','pelota'],
+     okSay:'¡La cometa! Con el viento vuela alto.'},
     {q:'¿Por qué se quedó Lucas en casa el miércoles?',ok:'tormenta',opts:['tormenta','sol','arcoiris'],okSay:'¡Por la tormenta! Con rayos y truenos.'},
     {q:'¿Qué apareció cuando salió el sol después de la lluvia?',ok:'arcoiris',opts:['arcoiris','nieve','niebla'],okSay:'¡El arcoíris! Sale cuando hay sol y lluvia.'}
   ]},
@@ -664,12 +664,12 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'huerta',items:[['plantaFlor',760,540,320],['abeja',1100,340,150],['hermana',1260,560,290]],
      say:'Con agua otra vez, la planta se puso contenta. Le salieron flores amarillas, y las abejas vinieron a visitarlas. ¡Bzzz!'},
     {bg:'huerta',items:[['plantaFruto',560,540,300],['sandia',880,630,200],['semilla',1080,650,120],['hermana',1300,560,280]],
-     say:['Las flores se convirtieron en frutos: ¡sandías! Y adentro había un montón de semillas... ¡para plantar otra vez!','Las flores se convirtieron en frutos: ¡sandías! Y dentro había un montón de semillas... ¡para plantar otra vez!']}
+     say:'Las flores se convirtieron en frutos: ¡sandías! Y dentro había un montón de semillas... ¡para plantar otra vez!'}
   ],
   qs:[
     {q:'¿Qué salió primero de la semilla?',ok:'brote',opts:['brote','plantaFlor','sandia'],okSay:'¡El brote! Después vinieron la planta, la flor y el fruto.'},
     {q:'¿Qué le faltó a la planta el día de calor?',ok:'gota',opts:['gota','pelota','luna'],okSay:'¡Agua! Sin agua, la planta se pone triste.'},
-    {q:['¿Qué había adentro de la sandía?','¿Qué había dentro de la sandía?'],ok:'semilla',opts:['semilla','pez','estrella'],okSay:'¡Semillas! Para plantar otra vez.'}
+    {q:'¿Qué había dentro de la sandía?',ok:'semilla',opts:['semilla','pez','estrella'],okSay:'¡Semillas! Para plantar otra vez.'}
   ]},
 
 '5A-T11':{title:'Martina, superheroína del planeta',
@@ -677,43 +677,43 @@ export const CUENTOS: Readonly<Record<string, Cuento>>={
     {bg:'casa',items:[['hermana',520,540,330],['capa',830,600,190],['tierra',1200,380,240]],
      say:'Martina se puso su capa: ¡era la superheroína del planeta! Su misión: separar la basura y no desperdiciar nada.'},
     {bg:'cocina',items:[['botellaPlastico',560,600,180],['lata',820,620,150],['brik',1080,600,170]],
-     say:['Las botellas de plástico, las latas y los cartones de leche, ¡al tacho amarillo! Ahí van los envases.','Las botellas de plástico, las latas y los briks, ¡al contenedor amarillo! Ahí van los envases.']},
+     say:'Las botellas de plástico, las latas y los briks, ¡al contenedor amarillo! Ahí van los envases.'},
     {bg:'cocina',items:[['periodico',520,600,170],['cajaCarton',780,600,180],['botellaVidrio',1080,580,190],['frasco',1320,620,150]],
-     say:['El diario y las cajas de cartón, al tacho azul. Los frascos y las botellas de vidrio, al verde. ¡Con cuidado!','El periódico y las cajas de cartón, al contenedor azul. Los frascos y las botellas de vidrio, al verde. ¡Con cuidado!']},
+     say:'El periódico y las cajas de cartón, al contenedor azul. Los frascos y las botellas de vidrio, al verde. ¡Con cuidado!'},
     {bg:'huerta',items:[['cascara',560,620,170],['restoManzana',820,620,160],['plantita',1150,560,260]],
-     say:['La cáscara de banana y el corazón de la manzana, al marrón. ¡Se convierten en abono para las plantas!','La piel del plátano y el corazón de la manzana, al marrón. ¡Se convierten en abono para las plantas!']},
+     say:'La piel del plátano y el corazón de la manzana, al marrón. ¡Se convierten en abono para las plantas!'},
     {bg:'bano',items:[['hermana',520,540,330],['grifo',900,420,200],['cepillo',1180,480,150]],
-     say:['Cuando se lavaba los dientes, Martina cerraba la canilla. ¡Así no se escapa el agua que no usamos!','Cuando se lavaba los dientes, Martina cerraba el grifo. ¡Así no se escapa el agua que no usamos!']},
+     say:'Cuando se lavaba los dientes, Martina cerraba el grifo. ¡Así no se escapa el agua que no usamos!'},
     {bg:'noche',items:[['hermana',520,560,310],['bombilla',880,330,180],['tierra',1200,450,260]],
      say:'Y al salir de un cuarto, ¡clic!, apagaba la luz. El planeta Tierra estaba feliz con su superheroína.'}
   ],
   qs:[
-    {q:['¿Qué tiró Martina al tacho verde?','¿Qué tiró Martina al contenedor verde?'],ok:'botellaVidrio',opts:['botellaVidrio','periodico','cascara'],okSay:'¡La botella de vidrio! El vidrio va al verde.'},
-    {q:['¿Qué fue al tacho marrón?','¿Qué fue al contenedor marrón?'],ok:'cascara',opts:['cascara','lata','periodico'],
-     okSay:['¡La cáscara de banana! Se convierte en abono.','¡La piel del plátano! Se convierte en abono.']},
-    {q:'¿Qué cerraba Martina para ahorrar agua?',ok:'grifo',opts:['grifo','bombilla','cajaCarton'],okSay:['¡La canilla! Así cuidamos el agua.','¡El grifo! Así cuidamos el agua.']}
+    {q:'¿Qué tiró Martina al contenedor verde?',ok:'botellaVidrio',opts:['botellaVidrio','periodico','cascara'],okSay:'¡La botella de vidrio! El vidrio va al verde.'},
+    {q:'¿Qué fue al contenedor marrón?',ok:'cascara',opts:['cascara','lata','periodico'],
+     okSay:'¡La piel del plátano! Se convierte en abono.'},
+    {q:'¿Qué cerraba Martina para ahorrar agua?',ok:'grifo',opts:['grifo','bombilla','cajaCarton'],okSay:'¡El grifo! Así cuidamos el agua.'}
   ]},
 
 '5A-T12':{title:'El viaje de Mateo',
   pages:[
     {bg:'casa',items:[['nene',500,540,330],['maleta',820,620,190],['abrigo',1060,580,170],['peluche',1290,600,170]],
-     say:['La familia de Mateo se iba de viaje a la montaña. Mateo armó su valija: abrigo, gorro... ¡y su peluche, claro!','La familia de Mateo se iba de viaje a la montaña. Mateo hizo su maleta: abrigo, gorro... ¡y su peluche, claro!']},
+     say:'La familia de Mateo se iba de viaje a la montaña. Mateo hizo su maleta: abrigo, gorro... ¡y su peluche, claro!'},
     {bg:'calle',items:[['cinturon',600,500,320],['auto',1080,600,300],['mapa',1330,320,160]],
      say:'Antes de arrancar, todos se pusieron el cinturón de seguridad. ¡Clic! Mateo, en su sillita. Y mamá miró el mapa.'},
     {bg:'calle',items:[['stop',640,420,240],['auto',1050,600,300]],
-     say:['En la ruta apareció una señal roja de pare. Papá frenó, miró bien a los dos lados... y siguió.','En la carretera apareció una señal roja de stop. Papá paró, miró bien a los dos lados... y siguió.']},
+     say:'En la carretera apareció una señal roja de stop. Papá paró, miró bien a los dos lados... y siguió.'},
     {bg:'ciudad',items:[['semaforo',460,420,240],['pasoCebra',900,660,300],['mama',820,500,290],['nene',1030,540,240],['papa',1260,520,300]],
-     say:['Pararon a comer en un pueblo. Para cruzar la calle, esperaron el semáforo en verde y cruzaron por la senda peatonal.','Pararon a comer en un pueblo. Para cruzar la calle, esperaron el semáforo en verde y cruzaron por el paso de cebra.']},
+     say:'Pararon a comer en un pueblo. Para cruzar la calle, esperaron el semáforo en verde y cruzaron por el paso de cebra.'},
     {bg:'bosque',items:[['nene',520,540,330],['casco',820,330,150],['bici',1000,620,220]],
-     say:['¡Por fin, la montaña! Mateo anduvo en bici por un caminito, con el casco bien puesto. ¡Qué aire tan fresco!','¡Por fin, la montaña! Mateo montó en bici por un caminito, con el casco bien puesto. ¡Qué aire tan fresco!']},
+     say:'¡Por fin, la montaña! Mateo montó en bici por un caminito, con el casco bien puesto. ¡Qué aire tan fresco!'},
     {bg:'noche',items:[['nene',500,540,330],['peluche',760,610,150],['estrella',1050,250,110],['luna',1250,280,180],['estrella',1400,420,110]],
-     say:['A la noche, Mateo miró las estrellas abrazado a su peluche. ¡Qué lindo es viajar... y viajar seguros!','Por la noche, Mateo miró las estrellas abrazado a su peluche. ¡Qué bonito es viajar... y viajar seguros!']}
+     say:'Por la noche, Mateo miró las estrellas abrazado a su peluche. ¡Qué bonito es viajar... y viajar seguros!'}
   ],
   qs:[
     {q:'¿Qué se pusieron todos antes de arrancar?',ok:'cinturon',opts:['cinturon','gafas','bufanda'],okSay:'¡El cinturón de seguridad! Clic.'},
-    {q:['¿Qué hizo frenar a papá en la ruta?','¿Qué hizo parar a papá en la carretera?'],ok:'stop',opts:['stop','arcoiris','globo'],
-     okSay:['¡La señal de pare! Hay que frenar y mirar.','¡La señal de stop! Hay que parar y mirar.']},
-    {q:['¿Qué se puso Mateo para andar en bici?','¿Qué se puso Mateo para montar en bici?'],ok:'casco',opts:['casco','corona','antifaz'],okSay:'¡El casco! Cuida la cabeza.'}
+    {q:'¿Qué hizo parar a papá en la carretera?',ok:'stop',opts:['stop','arcoiris','globo'],
+     okSay:'¡La señal de stop! Hay que parar y mirar.'},
+    {q:'¿Qué se puso Mateo para montar en bici?',ok:'casco',opts:['casco','corona','antifaz'],okSay:'¡El casco! Cuida la cabeza.'}
   ]}
 
 };

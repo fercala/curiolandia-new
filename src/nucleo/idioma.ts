@@ -1,6 +1,7 @@
 // idioma.ts: rioplatense y castellano de España, y los nombres de los dibujos.
-//   - TU, _tuRe, tx(), V(): el texto del juego aún se escribe en rioplatense y tx() lo pasa a castellano de España (desde
-//     la fase 5d el juego es solo de España: S.variant es siempre 'es').
+//   - TU, _tuRe, tx(), V(): casi todo el texto del juego aún se escribe en rioplatense y tx() lo pasa a castellano
+//     de España (desde la fase 5d el juego es solo de España: S.variant es siempre 'es'; desde la 5e, las frases que
+//     tx() no sabría cambiar ya están escritas en castellano de España).
 //   - LEX, LEX2, W_, Wn, art, dela, ala: el nombre con artículo de cada dibujo, para que Tito lo diga.
 // contenido/lex.ts añade más pares a _tuRe y más nombres a LEX y LEX2.
 import { S } from './guardado.ts';
@@ -37,12 +38,9 @@ export function tx(s: string): string{
   for(const [re,b] of _tuRe)s=s.replace(re,(_m: string,p: string,w: string)=>p+(w[0]!==w[0].toLowerCase()?b[0].toUpperCase()+b.slice(1):b));
   return s;
 }
-// Una frase que cambia demasiado entre variantes: [rioplatense, España]. Los temas y las escenas escriben las parejas
-// como listas sueltas (string[]), así que V acepta cualquier lista y usa sus dos primeros elementos.
-export type Par=readonly string[];
-// V(x): si x es una lista [rioplatense, España], elige según S.variant; si es un texto, le pasa tx().
-// Se usa cuando la frase cambia demasiado entre variantes para que baste con tx().
-export const V=(x: string|Par): string=>Array.isArray(x)?(S.variant==='es'?x[1]:x[0]) as string:tx(x as string);
+// V(x): el texto x pasado por tx(). Hasta la fase 5e, x también podía ser una lista [rioplatense, España] y V elegía
+// según S.variant; desde entonces esas frases están escritas solo en castellano de España (y tx() las deja igual).
+export const V=(x: string): string=>tx(x);
 
 /* ---------- nombres de los dibujos (rioplatense; tx() los pasa a España) ---------- */
 // LEX: nombre con artículo de cada dibujo, en rioplatense (tx() lo pasa a España). Formato {claveDelDibujo: 'el nombre'}.
@@ -60,9 +58,10 @@ export const LEX: Record<string,string>={gato:'el gato',pato:'el pato',sol:'el s
  regadera:'la regadera',autobus:'el colectivo',bici:'la bici',cubo:'el balde',toalla:'la toalla',crema:'la crema para el sol',castillo:'el castillo de arena',concha:'la concha',galleta:'la galleta',
  plato:'el plato',bol:'el bol',macedonia:'la ensalada de frutas',maceta:'la maceta',estrellaMar:'la estrella de mar',mama:'mamá',hermano:'el hermano',hermana:'la hermana',bebe:'el bebé',
  abuelo:'el abuelo',abuela:'la abuela',maestra:'la maestra',nene:'el nene'};
-// palabras que cambian mucho entre variantes: [rioplatense, España]
-export const LEX2: Record<string,Par>={sofa:['el sillón','el sofá'],cubo:['el balde','el cubo'],macedonia:['la ensalada de frutas','la macedonia'],crema:['la crema para el sol','la crema solar'],mariquita:['la vaquita de San Antonio','la mariquita'],
- maestra:['la seño','la profe'],botasAgua:['las botas de lluvia','las botas de agua'],tele:['la tele','la tele'],seta:['el hongo','la seta'],sandia:['la sandía','la sandía']};
+// LEX2: nombre con artículo, ya en castellano de España, de los dibujos cuyo nombre tx() no sabría cambiar (cambia
+// el artículo o la palabra entera). W_ lo prefiere a LEX.
+export const LEX2: Record<string,string>={sofa:'el sofá',cubo:'el cubo',macedonia:'la macedonia',crema:'la crema solar',mariquita:'la mariquita',
+ maestra:'la profe',botasAgua:'las botas de agua',tele:'la tele',seta:'la seta',sandia:'la sandía'};
 // Para nombrar dibujos (k = clave del dibujo): W_ con artículo ('el gato'), usando LEX2 si la palabra cambia mucho y si no LEX + tx().
 export const W_=(k: string): string=>{const d=LEX2[k];return d?V(d):tx(LEX[k]||k)};              // con artículo
 // Wn(k): nombre sin artículo ('gato').
