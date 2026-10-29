@@ -282,7 +282,7 @@ export function frame(now: number){
     ctx.fillStyle='rgba(46,36,32,.08)';if(x0>0){ctx.fillRect(0,0,x0,cv.height);ctx.fillRect(x0+gw,0,rw,cv.height)}if(y0>0){ctx.fillRect(0,0,cv.width,y0);ctx.fillRect(0,y0+gh,cv.width,rh)}
     ctx.restore()}catch(e){}}
   // fuera del recorte de la franja del juego: el velo oscuro tapa toda la pantalla (antes solo la franja del juego y en vertical se veía el 3D arriba y abajo)
-  if(isPortrait()&&!portraitOk){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle='rgba(46,36,32,.88)';ctx.fillRect(0,0,cv.width,cv.height);ctx.restore();ctx.save();ctx.translate(800,400);ctx.rotate(Math.sin(T*2)*.8-.8);card(-90,-160,180,320,'#fff',10,30);ctx.restore();text(V(['Girá el teléfono','Gira el móvil']),800,700,90,'#fff');text(V(['(tocá para seguir igual)','(toca para seguir igual)']),800,790,44,'#FCEBD0')}
+  if(isPortrait()&&!portraitOk){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle='rgba(46,36,32,.88)';ctx.fillRect(0,0,cv.width,cv.height);ctx.restore();ctx.save();ctx.translate(800,400);ctx.rotate(Math.sin(T*2)*.8-.8);card(-90,-160,180,320,'#fff',10,30);ctx.restore();text(V('Gira el móvil'),800,700,90,'#fff');text(V('(toca para seguir igual)'),800,790,44,'#FCEBD0')}
   requestAnimationFrame(frame);
 }
 // window.__cl: puerta para las pruebas automáticas (y para depurar desde la consola): ir a escenas, leer S y la escena,

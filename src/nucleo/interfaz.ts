@@ -117,7 +117,7 @@ export function drawSticker(k: string,x: number,y: number,s: number,rot=0,grey?:
 // drawToast(): dibuja el aviso de pegatina nueva: entra con rebote, se queda y se va a los 2,8 s.
 export function drawToast(): void{const toast=VIVO.toast;if(!toast)return;const k=T-toast.t;if(k>2.8){VIVO.toast=null;return}
   const a=k<.3?back(k/.3):k>2.4?1-(k-2.4)/.4:1;ctx.save();ctx.globalAlpha=clamp(a,0,1);ctx.translate(toast.x||800,toast.y||180);ctx.scale(clamp(a,0,1.2),clamp(a,0,1.2));
-  card(-230,-80,460,160,'#FFF6E6',6,40);drawSticker(toast.k,-140,0,130,Math.sin(T*4)*.1);text(V(['¡Figurita nueva!','¡Pegatina nueva!']),60,14,38,K);ctx.restore()}
+  card(-230,-80,460,160,'#FFF6E6',6,40);drawSticker(toast.k,-140,0,130,Math.sin(T*4)*.1);text(V('¡Pegatina nueva!'),60,14,38,K);ctx.restore()}
 
 /* ---------- calendario ---------- */
 // Calendario: DIASL empieza en lunes; DIAC es el color de cada día (desde el lunes).

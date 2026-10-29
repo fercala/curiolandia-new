@@ -128,7 +128,7 @@ SCENES.title={music:null,
     sky('#FFF6E6','#FCE3C0');
     for(const f of this.q){ctx.globalAlpha=.3;text('?',f.x+Math.sin(T+f.ph)*20,f.y,90,f.c);ctx.globalAlpha=1}
     drawLogo(800,230,150);
-    text(V(['Tito y las preguntas escondidas','Tito y las preguntas escondidas']),800,310,46,K,{w:600});
+    text(V('Tito y las preguntas escondidas'),800,310,46,K,{w:600});
     drawTito(470,420,380,{bubble:false});
     const p=hv('play',hC(1080,560,120))*(1+Math.sin(T*4)*.05); ctx.save();ctx.translate(1080,560);ctx.scale(p,p);circ(0,0,110,'#7CC86E',8);ctx.beginPath();ctx.moveTo(-30,-48);ctx.lineTo(54,0);ctx.lineTo(-30,48);ctx.closePath();fillStroke('#fff',6);ctx.restore();
     if(S.age){pill(205,830,330,80,S.name?'Juega: '+S.name:'¿Quién juega?');pill(1395,830,330,80,'Empezar de nuevo','#fff','#C0473C')}
@@ -513,11 +513,11 @@ const ALBUM_KEYS=(()=>{const s=new Set<string>();for(const t of TEMAS){if(t.word
 // ÁLBUM DE FIGURITAS: 18 por página (per); las que se tienen (S.stk) en color, las demás en sombra.
 SCENES.album={music:'book',
 // enter(): primera página; Tito dice cuántas figuritas hay.
-  enter(){this.pg=0;const n=Object.keys(S.stk).length;later(300,()=>sayQ(n?V(['Este es tu álbum. Tenés ','Este es tu álbum. Tienes '])+n+(n===1?V([' figurita.',' pegatina.']):V([' figuritas.',' pegatinas.'])):V(['Todavía no tenés figuritas. ¡Las ganás terminando juegos!','Todavía no tienes pegatinas. ¡Las ganas terminando juegos!'])))},
+  enter(){this.pg=0;const n=Object.keys(S.stk).length;later(300,()=>sayQ(n?V('Este es tu álbum. Tienes ')+n+(n===1?V(' pegatina.'):V(' pegatinas.')):V('Todavía no tienes pegatinas. ¡Las ganas terminando juegos!')))},
 // per: figuritas por página (6 x 3).
   per:18,
 // draw(): la página actual, número de página y flechas de anterior/siguiente.
-  draw(){sky('#EDE7FF','#FFF6E6');card(240,40,1300,800,'#FFFBF2',8,40);text(V(['Mi álbum de figuritas','Mi álbum de pegatinas']),890,110,52,K,{w:600});
+  draw(){sky('#EDE7FF','#FFF6E6');card(240,40,1300,800,'#FFFBF2',8,40);text(V('Mi álbum de pegatinas'),890,110,52,K,{w:600});
     const ks=ALBUM_KEYS.slice(this.pg*this.per,(this.pg+1)*this.per);
     ks.forEach((k,i)=>{const x=390+(i%6)*200,y=250+Math.floor(i/6)*200,has=S.stk[k];const hs=has?hv('a'+k,hC(x,y,80)):1;ctx.save();ctx.translate(x,y);ctx.scale(hs,hs);if(has)drawSticker(k,0,0,160,Math.sin(i)*.08);else{circ(0,0,80,'#F1E9DC',4,'#E4D3B8');ctx.globalAlpha=.18;picG(k,0,0,130);ctx.globalAlpha=1}ctx.restore()});
     const pages=Math.ceil(ALBUM_KEYS.length/this.per);text((this.pg+1)+' / '+pages,890,820,30,'#7A6252');

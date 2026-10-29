@@ -39,12 +39,12 @@ Object.assign(LEX,{
  candado:'el candado',cofre:'el cofre del tesoro',sombreroCopa:'el sombrero de copa',monio:'el moño',gorroFiesta:'el gorrito de fiesta',
  'emo:alegria':'la alegría','emo:tristeza':'la tristeza','emo:enojo':'el enojo','emo:miedo':'el miedo','emo:sorpresa':'la sorpresa','emo:calma':'la calma','emo:verguenza':'la vergüenza'
 });
-// LEX2: [rioplatense, España] de las palabras que tx() no sabría cambiar bien (cambia el artículo o la palabra entera).
-Object.assign(LEX2,{escuela:['la escuela','el cole'],piscina:['la pileta','la piscina'],fonendo:['el estetoscopio','el fonendo'],patrullero:['el patrullero','el coche de policía'],metro:['el subte','el metro'],
- stop:['la señal de pare','la señal de stop'],maleta:['la valija','la maleta'],patata:['la papa','la patata'],pimiento:['el morrón','el pimiento'],pina:['el ananá','la piña'],bombilla:['la lamparita','la bombilla'],
- dulces:['las golosinas','las chucherías'],brik:['el cartón de leche','el brik de leche'],periodico:['el diario','el periódico'],cascara:['la cáscara de banana','la piel del plátano'],grifo:['la canilla','el grifo'],
- banador:['la malla','el bañador'],tarta:['la torta de cumpleaños','la tarta de cumpleaños'],pijama:['el piyama','el pijama'],estanteria:['la biblioteca','la estantería'],cometa:['el barrilete','la cometa'],
- columpio:['la hamaca','el columpio'],'emo:enojo':['el enojo','el enfado'],almuerzo:['el almuerzo','la comida'],cerdito:['el chanchito','el cerdito']});
+// LEX2: nombre en castellano de España de las palabras que tx() no sabría cambiar bien (cambia el artículo o la palabra entera).
+Object.assign(LEX2,{escuela:'el cole',piscina:'la piscina',fonendo:'el fonendo',patrullero:'el coche de policía',metro:'el metro',
+ stop:'la señal de stop',maleta:'la maleta',patata:'la patata',pimiento:'el pimiento',pina:'la piña',bombilla:'la bombilla',
+ dulces:'las chucherías',brik:'el brik de leche',periodico:'el periódico',cascara:'la piel del plátano',grifo:'el grifo',
+ banador:'el bañador',tarta:'la tarta de cumpleaños',pijama:'el pijama',estanteria:'la estantería',cometa:'la cometa',
+ columpio:'el columpio','emo:enojo':'el enfado',almuerzo:'la comida',cerdito:'el cerdito'});
 // sonidos nuevos
 // sonidos nuevos: misma clave que el dibujo; ver syn() en nucleo/sonido.ts para el significado de cada campo.
 Object.assign(SOUNDS,{

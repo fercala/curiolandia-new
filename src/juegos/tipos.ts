@@ -2,7 +2,6 @@
 // Un componente es una función Nombre(cfg, onDone) que devuelve un objeto Juego (ver la cabecera de comps.ts).
 // Los campos propios de cada componente (rondas, tarjetas, fichas...) y su cfg aún son de forma libre: son la frontera
 // con los temas, que vienen del juego viejo (eran globales y sin tipos).
-import type { Par } from '../nucleo/idioma.ts';
 import type { Libre, Pista } from '../nucleo/tipos.ts';
 
 export type { Libre };
@@ -49,13 +48,13 @@ export interface Palabra {
   /** Clave del dibujo en PICS (y de su nombre en LEX/LEX2). Falta en las dibujadas a mano. */
   k?: string;
   /** Lo que dice Tito al tocarla en 'conocer'; si falta, su nombre ("La mochila."). */
-  say?: string | Par;
+  say?: string;
   /** Palabra escrita en grande en la ficha; si falta, el nombre sin artículo. */
-  label?: string | Par;
+  label?: string;
   /** Claves de PICS que se enseñan debajo como ejemplos (los colores). */
   ex?: string[];
   /** Nombre con artículo de las dibujadas a mano (las de k lo sacan de LEX). */
-  name?: string | Par;
+  name?: string;
   /** Pinta la dibujada a mano centrada en (x, y) dentro de un cuadrado de lado s. */
   draw?: (x: number, y: number, s: number) => void;
   /** Los días de la semana (dayCard, temas/temas4.ts): 0 = lunes. */
@@ -71,7 +70,7 @@ export interface JuegoTema {
   /** Dibujo (clave de PICS) del botón del juego en la casita; si falta, el del tipo. */
   icon?: string;
   /** Nombre del botón; si falta, el del tipo (GNAME en escenas/escenas2d.ts). */
-  name?: string | Par;
+  name?: string;
   /** Crea el juego cuando no basta con el tipo: recibe qué hacer al terminar y el tema. */
   make?: (onDone: AlTerminar, t: Tema) => Juego;
   /** Solo en los juegos 'cancion': clave de SONGS (temas/extras.ts). */
@@ -85,8 +84,8 @@ export interface JuegoTema {
 export interface Tema {
   /** Identificador único: '3A-T1', '4A-C', 'X-CAN', 'F-cumple', 'EN-HELLO'... Es la clave de su progreso en la partida (S.temas[id]). */
   id: string;
-  /** Nombre del tema, o el par [rioplatense, España]. */
-  n: string | Par;
+  /** Nombre del tema. */
+  n: string;
   /** Dibujo (clave de PICS) del tejado de la casita. */
   icon: string;
   /** Color de la casita. */
@@ -109,7 +108,7 @@ export interface Tema {
   /** true en el Rincón de los Conceptos de cada zona, que se abre de otra manera (dominio/apertura.ts). */
   concepts?: boolean;
   /** Lo que dice Tito al empezar el juego 'conocer' (y al repetir la consigna de la casita si no hay words). */
-  intro?: string | Par;
+  intro?: string;
   /** Idea para seguir en casa que da la zona de adultos (aplicacion/adultos.ts). */
   tip?: string;
   /** Solo en el Rincón del inglés: grupo de palabras en inglés (enItems en temas/ingles.ts). */

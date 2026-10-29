@@ -15,7 +15,6 @@
 //   (componentes, COLORES, panel, germ, pathPts, BG), contenido/cuentos.ts (CUENTOS) y el núcleo (src/nucleo/:
 //   DIASL, MESES, tree...). tree() está en el núcleo desde la fase 4o (antes era de escenas/escenas2d.ts, global tardía).
 import type { Config, Libre, Tema } from '../juegos/tipos.ts';
-import type { Par } from '../nucleo/idioma.ts';
 import { AGE, DIAC, DIASL, LEX, LEX2, MESES, PI, S, V, cap, card, circ, clamp, cloud, ctx, ell, fillStroke, lerp, nOpts, pic, shuffle, sky, star, tree } from '../nucleo/indice.ts';
 import { Arrastra, Atrapa, BG, COLORES, ChoiceGame, Cuenta, Frota, Puzzle, Secuencia, Tracer, Velas, drawKid, eseEs, germ, nameT, panel, pathPts } from '../juegos/indice.ts';
 import { CUENTOS } from '../contenido/cuentos.ts';
@@ -23,8 +22,8 @@ import { T3, swatch } from './temas.ts';
 import { ESTS, T4, dayCard } from './temas4.ts';
 import { T5, monthCard } from './temas5.ts';
 /* ================= CANCIONES ================= */
-// Letra de la canción de los días (lunes a domingo). Un elemento lista es [rioplatense, España].
-const DLYR=[['Lunes, empieza la semana.','Lunes, empieza la semana.'],'Martes, jugamos con ganas.','Miércoles, ¡ya estamos en la mitad!','Jueves, ¡qué bien se está!',['Viernes, último día de escuela.','Viernes, último día de cole.'],'Sábado, ¡a jugar y a pasear!','Domingo, en familia a descansar.'];
+// Letra de la canción de los días (lunes a domingo).
+const DLYR=['Lunes, empieza la semana.','Martes, jugamos con ganas.','Miércoles, ¡ya estamos en la mitad!','Jueves, ¡qué bien se está!','Viernes, último día de cole.','Sábado, ¡a jugar y a pasear!','Domingo, en familia a descansar.'];
 // Canciones: SONGS[id]() devuelve la configuración para el componente Song (juegos/comps2.ts):
 //   tune: melodía de TUNES; cols / s: columnas y tamaño de las tarjetas; mode: 'orden' (tocar en orden, por defecto)
 //   o 'pedido' (tocar la que dice Tito); intro, ask2, okAll: frases de inicio, de la segunda parte y del final;
@@ -36,9 +35,9 @@ export const SONGS: Record<string, () => Config>={
     lines:DIASL.map((d,i)=>({say:DLYR[i],draw:dayCard(i).draw,n:'el '+d,n2:cap(d)+'.'}))}),
   // Las estaciones: árbol de cada estación; con 3 años se juega "pedido", con más "en orden".
   estaciones:()=>({tune:'estaciones',s:240,mode:AGE()<=3?'pedido':'orden',intro:'¡La canción de las estaciones! Escuchá.',ask2:AGE()<=3?'¡Ahora jugamos! Tocá la estación que te digo.':'¡Ahora te toca a vos! Tocá las estaciones en orden, como en la canción.',okAll:'¡Qué bien! Otoño, invierno, primavera y verano.',
-    lines:([['otoño','En otoño, las hojas se caen. ¡Chas, chas!'],['invierno','En invierno hace frío. ¡Brrr, brrr!'],['primavera','En primavera salen las flores. ¡Qué lindo olor!'],['verano',['En verano hace calor. ¡A la pileta!','En verano hace calor. ¡A la piscina!']]] as [string, string|Par][]).map(([e,l])=>({say:l,draw:(x: number,y: number,s: number)=>tree(x,y+s*.28,s/290,e),n:ESTS[e]}))}),
+    lines:([['otoño','En otoño, las hojas se caen. ¡Chas, chas!'],['invierno','En invierno hace frío. ¡Brrr, brrr!'],['primavera','En primavera salen las flores. ¡Qué lindo olor!'],['verano','En verano hace calor. ¡A la piscina!']] as [string, string][]).map(([e,l])=>({say:l,draw:(x: number,y: number,s: number)=>tree(x,y+s*.28,s/290,e),n:ESTS[e]}))}),
   // Los colores: 4, 6 u 8 colores según la edad, cada uno con una cosa de ese color; modo "pedido".
-  colores:()=>{const C=([['rojo','fresa','Rojo como la fresa.'],['amarillo','sol','Amarillo como el sol.'],['azul','ballena','Azul como el mar.'],['verde','rana','Verde como la rana.'],['naranja','zanahoria','Naranja como la zanahoria.'],['rosa','cerdo',['Rosa como el chanchito.','Rosa como el cerdito.']],['violeta','uva',['Violeta como las uvas.','Morado como las uvas.']],['marron','chocolate','Marrón como el chocolate.']] as [string, string, string|Par][]).slice(0,AGE()<=3?4:AGE()===4?6:8);
+  colores:()=>{const C=([['rojo','fresa','Rojo como la fresa.'],['amarillo','sol','Amarillo como el sol.'],['azul','ballena','Azul como el mar.'],['verde','rana','Verde como la rana.'],['naranja','zanahoria','Naranja como la zanahoria.'],['rosa','cerdo','Rosa como el cerdito.'],['violeta','uva','Morado como las uvas.'],['marron','chocolate','Marrón como el chocolate.']] as [string, string, string][]).slice(0,AGE()<=3?4:AGE()===4?6:8);
     return {tune:'colores',cols:C.length>4?4:4,s:200,mode:'pedido',intro:'¡La canción de los colores! Escuchá.',ask2:'¡Ahora jugamos! Tocá el color que te digo.',okAll:'¡Qué bien! ¡Sabés un montón de colores!',
       lines:C.map(([c,k,l])=>({say:l,draw:(x: number,y: number,s: number)=>{swatch(c).draw(x-s*.16,y+s*.14,s*.74);pic(k,x+s*.18,y-s*.12,s*.56)},n:'el '+V(COLORES[c].n)}))}},
   // Los meses del año (12 tarjetas de mes, en orden).
@@ -52,10 +51,10 @@ export const bubbles=(x: number,y: number,s: number,n=7)=>{for(let j=0;j<n;j++)c
 // Dibuja tres gotas de agua cayendo junto a (x,y).
 export const drops=(x: number,y: number,s: number)=>{for(let j=0;j<3;j++)ell(x-s*.06+j*s*.06,y+j*s*.07,s*.025,s*.04,'#5BB8E6',2)};
 // Viñetas de las rutinas para el juego Secuencia. panel(nombre, partes, extra) (juegos/comps2.ts): nombre es lo que dice
-// Tito (texto o [rioplatense, España]); partes = [[dibujo, dx, dy, tamaño], ...] relativos al tamaño de la viñeta;
+// Tito; partes = [[dibujo, dx, dy, tamaño], ...] relativos al tamaño de la viñeta;
 // extra(x,y,s) dibuja algo más encima.
 const RP={
-  mojar:panel(['mojamos las manos','mojamos las manos'],[['grifo',-.08,-.16,.58],['manos',.04,.24,.46]],(x,y,s)=>drops(x-s*.18,y-s*.02,s)),
+  mojar:panel('mojamos las manos',[['grifo',-.08,-.16,.58],['manos',.04,.24,.46]],(x,y,s)=>drops(x-s*.18,y-s*.02,s)),
   jabon:panel('el jabón',[['jabon',0,0,.7]]),
   frotar:panel('frotamos',[['manos',0,.02,.66]],(x,y,s)=>bubbles(x,y-s*.05,s)),
   secar:panel('secamos',[['toalla',0,0,.7]]),
@@ -152,7 +151,7 @@ export const FIESTAS: Tema[]=[
  words:[{k:'tarta'},{k:'vela'},{k:'regalo'},{k:'globo'},{k:'gorroFiesta'},{k:'serpentina'}],
  games:[{t:'velas',icon:'vela',name:'Soplar las velitas',make:(d,t)=>Velas({n:clamp(S.age||AGE(),3,6),bg:t.bg,intro:'¡Es una fiesta de cumpleaños! Soplá las velitas: tocá cada una y contamos.'},d)},
   {t:'decora',icon:'tarta',name:'Decorar la torta',make:(d,t)=>Arrastra({rounds:1,key:'fiesta',bg:t.bg,sayPick:true,
-    gen(){return {free:true,ask:V(['¡Decoremos la torta! Poné arriba lo que más te guste. Cuando termines, tocá el botón verde.','¡Decoremos la tarta! Pon encima lo que más te guste. Cuando termines, toca el botón verde.']),
+    gen(){return {free:true,ask:V('¡Decoremos la tarta! Pon encima lo que más te guste. Cuando termines, toca el botón verde.'),
       zones:[freeDeco('torta',860,470,520,400,()=>{card(620,420,480,260,'#F58BB4',8,40);card(650,360,420,90,'#FFF6E6',7,30);card(560,670,600,36,'#E4D3B8',6,18)},n=>[680+(n%5)*90,380+Math.floor(n/5)*90])],
       items:['fresa','estrella','corazon','flor','vela','uva','fresa','vela'].map((k,j)=>({k,zone:'torta',x:j%2?420:250,y:180+Math.floor(j/2)*150,s:130}))}}},d)},
   {t:'cuenta',icon:'regalo',name:'Contar regalos',make:(d,t)=>Cuenta({pool:['regalo','globo','gorroFiesta'],bg:t.bg},d)},
@@ -178,13 +177,13 @@ export const FIESTAS: Tema[]=[
 {id:'F-libro',n:'El Día del Libro',icon:'libro',c:'#5B8DEF',trim:0,bg:BG.aula,zone:'fiestas',fiesta:true,
  words:[{k:'libro'},{k:'cerdito'},{k:'lobo'},{k:'casaPaja'},{k:'casaMadera'},{k:'casaLadrillo'},{k:'rosaFlor'}],
  games:[{t:'cerditos',icon:'cerdito',name:'Los tres chanchitos',make:(d,t)=>Secuencia({bg:t.bg,key:'cuentos',panels:['casaPaja','casaMadera','casaLadrillo'],first:true,
-    ask:V(['¿Te acordás del cuento de los tres chanchitos? El lobo sopló las casas. Ordenalas como en el cuento: primero la de paja.','¿Te acuerdas del cuento de los tres cerditos? El lobo sopló las casas. Ordénalas como en el cuento: primero la de paja.']),okAll:'¡Muy bien! Paja, madera y ladrillo. ¡La casa de ladrillo no se cayó!'},d)},
-  {t:'quien',icon:'lobo',name:'Preguntas del cuento',make:(d,t)=>{const Q=[['lobo','¿Quién sopló y sopló?',['cerdito','gato']],['casaLadrillo','¿Qué casa no se cayó?',['casaPaja','casaMadera']],['casaPaja','¿Qué casa se voló con un soplido?',['casaLadrillo','casaMadera']],['cerdito',V(['¿Quiénes construyeron las casas?','¿Quiénes construyeron las casas?']),['lobo','oso']]];
+    ask:V('¿Te acuerdas del cuento de los tres cerditos? El lobo sopló las casas. Ordénalas como en el cuento: primero la de paja.'),okAll:'¡Muy bien! Paja, madera y ladrillo. ¡La casa de ladrillo no se cayó!'},d)},
+  {t:'quien',icon:'lobo',name:'Preguntas del cuento',make:(d,t)=>{const Q=[['lobo','¿Quién sopló y sopló?',['cerdito','gato']],['casaLadrillo','¿Qué casa no se cayó?',['casaPaja','casaMadera']],['casaPaja','¿Qué casa se voló con un soplido?',['casaLadrillo','casaMadera']],['cerdito',V('¿Quiénes construyeron las casas?'),['lobo','oso']]];
     return ChoiceGame({rounds:4,bg:t.bg,key:()=>'cuentos',y:560,big:true,gen(i: number){const q=Q[i];return {words:[q[0],...q[2].slice(0,nOpts()-1)],ok:[q[0]],ask:q[1],okSay:()=>'¡Sí! '+cap(nameT(q[0]))+'.',badSay:(w: string)=>eseEs(w)+'. '+q[1]}}},d)}},
   {t:'busca'},{t:'puzzle',icon:'cerdito',make:(d,t)=>Puzzle({list:['cerdito','libro'],bg:t.bg},d)}]}
 ];
-// Nombres de palabras nuevas para W_() (LEX2: [rioplatense, España]; LEX: igual en las dos).
-Object.assign(LEX2,{cerdito:['el chanchito','el cerdito']});
+// Nombres de palabras nuevas para W_() (LEX2: ya en castellano de España; LEX: lo pasa tx()).
+Object.assign(LEX2,{cerdito:'el cerdito'});
 Object.assign(LEX,{bloques:'los bloques',trenJuguete:'el trencito'});
 
 // Añade a cada tema por edad (T3, T4, T5) que tenga cuento en CUENTOS un juego "El cuento" al final (si no lo tiene ya).

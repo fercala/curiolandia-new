@@ -11,18 +11,17 @@
 //   desde la fase 4o, drawFace: antes era de escenas/escenas2d.ts y se usaba como global tardía).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa y SIN pasar por tx() (no se adapta a España/Argentina).
 import type { AlTerminar, Config, Juego, JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
-import type { Par } from '../nucleo/idioma.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, H, LF, PI, SFX, T, V, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, inR, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
 import { BG, NUM, drawFace } from '../juegos/indice.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 
-/** Una palabra en inglés de EN: en (en inglés), es (traducción; texto o [rioplatense, España]), a (edad mínima) y su
+/** Una palabra en inglés de EN: en (en inglés), es (traducción al castellano), a (edad mínima) y su
  * dibujo: k (clave de PICS) o draw(x, y, s). Los colores llevan además col y los números n. */
 export interface PalabraEn {
   en: string;
-  es: string | Par;
+  es: string;
   a: number;
   k?: string;
   draw?: (x: number, y: number, s: number) => void;
@@ -56,20 +55,20 @@ function enNum(n: number){return (x: number,y: number,s: number)=>{ctx.save();ct
 // Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de juegos/caras.ts).
 const enFace=(m: string)=>(x: number,y: number,s: number)=>drawFace(x,y,s*.36,m);
 // a: edad desde la que aparece la palabra
-// Palabras de cada tema de inglés: EN[conjunto] = lista de {en (palabra en inglés), es (traducción; puede ser
-// [rioplatense, España]), a (edad mínima: 3, 4 o 5), y para dibujarla k (id de dibujo de PICS) o draw(x,y,s)}.
+// Palabras de cada tema de inglés: EN[conjunto] = lista de {en (palabra en inglés), es (traducción al
+// castellano), a (edad mínima: 3, 4 o 5), y para dibujarla k (id de dibujo de PICS) o draw(x,y,s)}.
 // Los colores llevan además col (su color) y los números n (su valor). Conjuntos: hello, colors, numbers, animals.
 export const EN: Record<string, PalabraEn[]>={
   hello:[{en:'Hello',es:'Hola',k:'mano',a:3},{en:'Happy',es:'Contento',draw:enFace('alegria'),a:3},{en:'Sad',es:'Triste',draw:enFace('tristeza'),a:3},{en:'Good night',es:'Buenas noches',k:'luna',a:3},
-    {en:'Good morning',es:'Buenos días',k:'sol',a:4},{en:'Thank you',es:'Gracias',k:'regalo',a:4},{en:'I love you',es:'Te quiero',k:'corazon',a:5},{en:'Angry',es:['Enojado','Enfadado'],draw:enFace('enojo'),a:5}],
-  colors:([['red','Rojo',3],['blue','Azul',3],['yellow','Amarillo',3],['green','Verde',3],['orange','Naranja',4],['pink','Rosa',4],['purple',['Violeta','Morado'],4],['brown','Marrón',5],['black','Negro',5],['white','Blanco',5]] as [string, string|Par, number][]).map(([en,es,a])=>({en:en[0].toUpperCase()+en.slice(1),es,a,col:ENC[en],draw:enBlob(ENC[en])})),
+    {en:'Good morning',es:'Buenos días',k:'sol',a:4},{en:'Thank you',es:'Gracias',k:'regalo',a:4},{en:'I love you',es:'Te quiero',k:'corazon',a:5},{en:'Angry',es:'Enfadado',draw:enFace('enojo'),a:5}],
+  colors:([['red','Rojo',3],['blue','Azul',3],['yellow','Amarillo',3],['green','Verde',3],['orange','Naranja',4],['pink','Rosa',4],['purple','Morado',4],['brown','Marrón',5],['black','Negro',5],['white','Blanco',5]] as [string, string, number][]).map(([en,es,a])=>({en:en[0].toUpperCase()+en.slice(1),es,a,col:ENC[en],draw:enBlob(ENC[en])})),
   numbers:['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'].map((en,i)=>({en,es:cap(NUM[i+1]),n:i+1,a:i<5?3:i<8?4:5,draw:enNum(i+1)})),
-  animals:([['Dog','Perro','perro',3],['Cat','Gato','gato',3],['Cow','Vaca','vaca',3],['Duck','Pato','pato',3],['Fish','Pez','pez',4],['Horse','Caballo','caballo',4],['Pig',['Chancho','Cerdo'],'cerdo',4],['Sheep','Oveja','oveja',4],
-    ['Lion','León','leon',5],['Elephant','Elefante','elefante',5],['Monkey','Mono','mono',5],['Frog','Rana','rana',5]] as [string, string|Par, string, number][]).map(([en,es,k,a])=>({en,es,k,a}))
+  animals:([['Dog','Perro','perro',3],['Cat','Gato','gato',3],['Cow','Vaca','vaca',3],['Duck','Pato','pato',3],['Fish','Pez','pez',4],['Horse','Caballo','caballo',4],['Pig','Cerdo','cerdo',4],['Sheep','Oveja','oveja',4],
+    ['Lion','León','leon',5],['Elephant','Elefante','elefante',5],['Monkey','Mono','mono',5],['Frog','Rana','rana',5]] as [string, string, string, number][]).map(([en,es,k,a])=>({en,es,k,a}))
 };
 // Palabras del conjunto set que tocan a la edad del niño (AGE()).
 export const enItems=(set: string)=>EN[set].filter(i=>i.a<=Math.max(3,AGE()));
-// Traducción al castellano de la palabra (elige la variante de España o Argentina con V).
+// Traducción al castellano de la palabra (V la pasa por tx()).
 const enEs=(it: PalabraEn)=>V(it.es);
 // Dibuja la palabra it centrada en (x,y) con tamaño s (su draw propio o su dibujo pic).
 function enDraw(it: PalabraEn,x: number,y: number,s: number){if(it.draw)it.draw(x,y,s);else pic(it.k!,x,y,s)}

@@ -426,7 +426,7 @@ SCENES.map={music:'map',
     const regalo=regaloDelDia(S,today());// caso de uso (aplicacion/premiosDelDia.ts): null si hoy ya se dio
     if(msg){later(600,()=>{if(this.wake){SFX.tada();const z=mzOf(this.wake.z);burst(z.x,z.y,70);this.wake.t=T}if(fx)fx();say(msg)})}
     // regalo diario: las monedas se abonan a la vez que se marca el día (si se sale antes de verlas, no se pierden)
-    else if(regalo){Object.assign(S,regalo.partida);creditCoins(regalo.monedas);save();later(900,()=>sayQ(V(['¡Hola'+kid()+'! Te guardé un regalito: ¡tres monedas!','¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'])));later(1400,()=>{const tp=titoPos();giveCoins(regalo.monedas,tp.x+150,tp.y+40,undefined,true)})}/* las monedas salen de Tito, donde esté (en 3D, el proyectado) */
+    else if(regalo){Object.assign(S,regalo.partida);creditCoins(regalo.monedas);save();later(900,()=>sayQ(V('¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!')));later(1400,()=>{const tp=titoPos();giveCoins(regalo.monedas,tp.x+150,tp.y+40,undefined,true)})}/* las monedas salen de Tito, donde esté (en 3D, el proyectado) */
     else if(o.hello)later(400,()=>this.prompt!(true));
     if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
   },

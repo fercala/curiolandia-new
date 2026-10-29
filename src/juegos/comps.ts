@@ -80,7 +80,6 @@
 // pick, shuffle, cap, praise, SOUNDS, playSound, ONO, IMG, W_, Wn, V, tx...) y K
 // de src/dibujos/. Los tipos (Juego, Config, Cosa...) están en juegos/tipos.ts.
 // ============================================================================
-import type { Par } from '../nucleo/idioma.ts';
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, H, IMG, LF, ONO, PI, SFX, SOUNDS, T, V, VIVO, W, W_, Wn, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, flower, hC, hR, hv, later, lerp, nOpts, nRounds, onRight, onWrongTwice, parts, pic, picG, pick, playSound, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sparkles, speaker, star, text, tx, whenQuiet } from '../nucleo/indice.ts';
@@ -124,9 +123,9 @@ export const unN=(n: number,k: Cosa)=>n===1?(fem(k)?'una ':'un ')+Wn(k):NUM[n]+'
 // Partes del cuerpo del niño dibujado. Formato: {id, n}; id = nombre interno
 // (lo usan kidPartAt y KID_C), n = nombre con artículo para decirlo
 // (texto o lista ['rioplatense','España'] que resuelve V()).
-const KID_PARTS: {id: string; n: string | Par}[]=[
+const KID_PARTS: {id: string; n: string}[]=[
   {id:'ojos',n:'los ojos'},{id:'nariz',n:'la nariz'},{id:'boca',n:'la boca'},{id:'orejas',n:'las orejas'},{id:'pelo',n:'el pelo'},{id:'cabeza',n:'la cabeza'},
-  {id:'manos',n:'las manos'},{id:'brazos',n:'los brazos'},{id:'barriga',n:['la panza','la barriga']},{id:'piernas',n:'las piernas'},{id:'pies',n:'los pies'}];
+  {id:'manos',n:'las manos'},{id:'brazos',n:'los brazos'},{id:'barriga',n:'la barriga'},{id:'piernas',n:'las piernas'},{id:'pies',n:'los pies'}];
 // Distancia del punto (px,py) al segmento que va de (ax,ay) a (bx,by).
 // Proyecta el punto sobre el segmento (t entre 0 y 1) y mide hasta ahí.
 function segD(px: number,py: number,ax: number,ay: number,bx: number,by: number){const dx=bx-ax,dy=by-ay,t=clamp(((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy),0,1);return dist(px,py,ax+dx*t,ay+dy*t)}
@@ -336,7 +335,7 @@ export function Conocer(cfg: Config, onDone: AlTerminar): Juego{
 /* ---------- el cuerpo: tocar partes ---------- */
 // Partes "finas" del cuerpo (para 5 años, cfg.fine en Cuerpo): mismo formato
 // que KID_PARTS. La línea siguiente añade sus centros a KID_C.
-const KID_FINE: {id: string; n: string | Par}[]=[{id:'cuello',n:'el cuello'},{id:'hombros',n:'los hombros'},{id:'codos',n:'los codos'},{id:'rodillas',n:'las rodillas'},{id:'tobillos',n:'los tobillos'}];
+const KID_FINE: {id: string; n: string}[]=[{id:'cuello',n:'el cuello'},{id:'hombros',n:'los hombros'},{id:'codos',n:'los codos'},{id:'rodillas',n:'las rodillas'},{id:'tobillos',n:'los tobillos'}];
 Object.assign(KID_C,{cuello:[0,-410],hombros:[76,-372],codos:[112,-293],rodillas:[43,-100],tobillos:[43,-36]});
 // Como kidPartAt pero mira primero las partes finas (cuello, hombros, codos,
 // rodillas, tobillos); si no toca ninguna, usa kidPartAt.
@@ -789,7 +788,7 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego{
 /* ---------- pintar con el color correcto ---------- */
 // Colores del juego: clave → {c: color en hexadecimal, n: nombre (texto o
 // lista ['rioplatense','España'])}. Lo usan Pinta, el tema de los colores...
-export const COLORES: Record<string,{c: string; n: string | Par}>={rojo:{c:'#FF5A5A',n:'rojo'},azul:{c:'#5B8DEF',n:'azul'},amarillo:{c:'#FFD66B',n:'amarillo'},verde:{c:'#7CC86E',n:'verde'},naranja:{c:'#FFA94D',n:'naranja'},rosa:{c:'#F58BB4',n:'rosa'},violeta:{c:'#9B8AD9',n:['violeta','morado']},marron:{c:'#A86B43',n:'marrón'}};
+export const COLORES: Record<string,{c: string; n: string}>={rojo:{c:'#FF5A5A',n:'rojo'},azul:{c:'#5B8DEF',n:'azul'},amarillo:{c:'#FFD66B',n:'amarillo'},verde:{c:'#7CC86E',n:'verde'},naranja:{c:'#FFA94D',n:'naranja'},rosa:{c:'#F58BB4',n:'rosa'},violeta:{c:'#9B8AD9',n:'morado'},marron:{c:'#A86B43',n:'marrón'}};
 // Dibuja un bote de pintura del color c en (x,y), tamaño s; sel = elegido (brilla).
 function paintPot(x: number,y: number,s: number,c: string,sel?: boolean){ctx.save();ctx.translate(x,y);if(sel){ctx.shadowColor=c;ctx.shadowBlur=30}card(-s*.38,-s*.2,s*.76,s*.62,'#fff',6,18);ctx.shadowBlur=0;ctx.beginPath();ctx.ellipse(0,-s*.2,s*.38,s*.14,0,0,PI*2);fillStroke(c,6);ctx.beginPath();ctx.moveTo(-s*.2,-s*.15);ctx.quadraticCurveTo(-s*.18,s*.12,-s*.1,s*.05);ctx.quadraticCurveTo(-s*.05,-s*.1,0,-s*.15);ctx.fillStyle=c;ctx.fill();ctx.restore()}
 // Nombre del color c concordado con la cosa k: 'rojo'→'roja' si k es femenina,

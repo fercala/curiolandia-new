@@ -27,7 +27,6 @@
 // SONGS) llegan como parámetro; el tipo de un cuento está en contenido/tipos.ts.
 // ============================================================================
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
-import type { Par } from '../nucleo/idioma.ts';
 import type { Cuento, PaginaCuento } from '../contenido/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import { AC, AGE, DIAC, H, LF, PI, SFX, T, V, VIVO, W, Wn, ala, back, burst, cap, card, circ, clamp, ctx, dist, fillStroke, hC, hR, hand, hv, inR, later, lerp, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, ri, rnd, rr, say, sayQ, scene, setCursor, shuffle, sky, sparkles, star, svgImg, text, tone, tx } from '../nucleo/indice.ts';
@@ -70,7 +69,7 @@ export function Secuencia(cfg: Config, onDone: AlTerminar): Juego{
   const sets=cfg.sets||[cfg.panels];
   return Arrastra({rounds:sets.length,key:cfg.key||'secuencia',bg:cfg.bg,rect:true,sayPick:false,
     // frase de fallo: la del tema o la genérica (la misma en las dos variantes)
-    why:(it: Libre,z: Libre)=>cfg.why?cfg.why(it,z):V(['Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?','Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?']),
+    why:(it: Libre,z: Libre)=>cfg.why?cfg.why(it,z):V('Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?'),
     placeSay:cfg.placeSay,
     // Ronda i: calcula el tamaño de las viñetas para que quepan en fila, crea las
     // zonas punteadas con su número encima (draw) y su único hueco (slot), y las
@@ -87,7 +86,7 @@ export function Secuencia(cfg: Config, onDone: AlTerminar): Juego{
 // dibujos sueltos. parts: lista de [clave, x, y, tamaño, reflejar] con x, y y
 // tamaño relativos al lado s de la viñeta (0,1 = 10 %); extra(x,y,s): dibujo
 // adicional opcional.
-export const panel=(name: string | Par,parts: readonly (readonly [Cosa,number,number,number,boolean?])[],extra?: (x: number, y: number, s: number) => void)=>({name,draw:(x: number,y: number,s: number)=>{card(x-s*.46,y-s*.46,s*.92,s*.92,'#FFFBF2',0,s*.12);for(const [k,a,b,z,f] of parts)picF(k,x+a*s,y+b*s,z*s,f);extra&&extra(x,y,s)}});
+export const panel=(name: string,parts: readonly (readonly [Cosa,number,number,number,boolean?])[],extra?: (x: number, y: number, s: number) => void)=>({name,draw:(x: number,y: number,s: number)=>{card(x-s*.46,y-s*.46,s*.92,s*.92,'#FFFBF2',0,s*.12);for(const [k,a,b,z,f] of parts)picF(k,x+a*s,y+b*s,z*s,f);extra&&extra(x,y,s)}});
 
 /* ---------- unir con flechas ---------- */
 // COMPONENTE Une: unir cada dibujo de la izquierda con su pareja de la derecha
@@ -630,7 +629,7 @@ export function Story(data: Cuento,_cfg: Config,onDone: AlTerminar): Juego{
     // Muestra la página i y la lee (la primera con el título); 0,9 s después de
     // terminar pasa sola a la siguiente si sigue en esa página.
     page(i: number){this.pi=i;this.pT=T;this.said=false;const p=P[i];
-      later(i?250:400,()=>sayQ((i===0?V(['Escuchá el cuento: ','Escucha el cuento: '])+V(data.title)+'. ':'')+V(p.say),()=>{this.said=T;later(900,()=>{if(this.ph==='read'&&this.pi===i)this.turn()})}))},
+      later(i?250:400,()=>sayQ((i===0?V('Escucha el cuento: ')+V(data.title)+'. ':'')+V(p.say),()=>{this.said=T;later(900,()=>{if(this.ph==='read'&&this.pi===i)this.turn()})}))},
     // Pasa a la página siguiente o, tras la última, a las preguntas.
     turn(){if(this.pi<P.length-1){SFX.whoosh();this.page(this.pi+1)}else this.quiz(0)},
     // Pregunta i: coloca las opciones y la lee. Sin más preguntas → onDone.
@@ -661,7 +660,7 @@ export function Story(data: Cuento,_cfg: Config,onDone: AlTerminar): Juego{
       if(this.ph!=='quiz')return;const it=hitItem(this.items,x,y);if(!it){SFX.tap();return}if(it.win||this.busy)return;const q=Q[this.qi];
       if(it.ok){this.busy=true;it.win=T;SFX.good();burst(it.x,it.y,30);rec('cuentos',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;
         say(praise()+' '+V(q.okSay||''),()=>later(400,()=>this.quiz(this.qi+1)))}
-      else{SFX.bad();it.shake=T;if(this.errs===0)rec('cuentos',false);this.errs++;say(V(['Mmm, no. Pensá en el cuento. ','Mmm, no. Piensa en el cuento. '])+V(q.q));
+      else{SFX.bad();it.shake=T;if(this.errs===0)rec('cuentos',false);this.errs++;say(V('Mmm, no. Piensa en el cuento. ')+V(q.q));
         if(this.errs===2){const w=this.items.find((i: Libre)=>!i.ok&&!i.gone&&i!==it);if(w&&this.items.filter((i: Libre)=>!i.gone&&!i.ok).length>1)w.gone=T}}}
   };
 }

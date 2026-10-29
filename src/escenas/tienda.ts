@@ -216,7 +216,7 @@ export function placeHome(id: string){if(S.home![id])return;const it=SHOP.find(i
 // para la casa: el botón de la casa salta).
 SCENES.tienda={music:'casita',
   // Al entrar: Tito saluda (la primera vez explica cómo funciona; S.first.tienda lo recuerda).
-  enter(){this.cat=this.cat||'ropa';this.page=this.page||0;this.conf=null;this.newHome=0;const seen=S.first.tienda;later(300,()=>sayQ(seen?'¡La tienda! Tenés '+S.coins+' monedas. Tocá algo para ver cuánto cuesta.':V(['¡Bienvenido a la tienda! Con las monedas que ganás jugando, podés comprar cosas para mí y para mi casa. Arriba elegís qué mirar.','¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.'])));S.first.tienda=1;save()},
+  enter(){this.cat=this.cat||'ropa';this.page=this.page||0;this.conf=null;this.newHome=0;const seen=S.first.tienda;later(300,()=>sayQ(seen?'¡La tienda! Tenés '+S.coins+' monedas. Tocá algo para ver cuánto cuesta.':V('¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.')));S.first.tienda=1;save()},
   // Pestañas visibles con su posición y ancho w (la de vales solo si hay algún vale activo). Con muchas pestañas se
   // juntan un poco para que quepan.
   tabs(): Pestana[]{const a=SHOPCAT.filter(c=>c.id!=='vales'||S.vales!.some(v=>v.on)),st=Math.min(204,1330/a.length);return a.map((c,i)=>Object.assign({x:900-(a.length-1)*st/2+i*st,y:215,w:Math.min(184,st-12)},c))},
@@ -237,7 +237,7 @@ SCENES.tienda={music:'casita',
   // las estrellas que faltan. Encima, si hay, la ventana de confirmación con los botones verde y rojo.
   draw(){sky('#FFF6E6','#FDE6C6');for(let i=0;i<16;i++){ctx.fillStyle=i%2?'#FF8A7A':'#FFF6E6';ctx.beginPath();ctx.moveTo(i*100,0);ctx.lineTo(i*100+100,0);ctx.lineTo(i*100+100,26);ctx.quadraticCurveTo(i*100+50,62,i*100,26);ctx.closePath();ctx.fill()}
     floor(820,'#E9C99A');
-    card(170,44,520,100,'#fff',6,50);pic('tienda',230,94,80);text(V(['La tienda','La tienda']),470,112,54,K,{w:600});
+    card(170,44,520,100,'#fff',6,50);pic('tienda',230,94,80);text(V('La tienda'),470,112,54,K,{w:600});
     {const s=hv('btn:casa',hC(1240,70,52)),j=this.newHome?Math.abs(Math.sin((T-this.newHome)*6))*-14:0;ctx.save();ctx.translate(1240,70+j);ctx.scale(s,s);if(this.newHome){ctx.globalAlpha=.4+.3*Math.sin(T*6);circ(0,0,64,null,10,'#FFC93C');ctx.globalAlpha=1}circ(0,0,50,'#fff',6);titoHouseIc(0,0,84);ctx.restore()}
     card(1012,40,150,60,'#fff',5,30);star(1050,70,20,'#FFC93C',3);text(String(STARS()),1110,84,36,K,{f:LF});
     for(const tb of this.tabs()){const on=tb.id===this.cat,s=on?1:hv('tab:'+tb.id,hR(tb.x,tb.y,tb.w,110));ctx.save();ctx.translate(tb.x,tb.y-(on?8:0));ctx.scale(s,s);card(-tb.w/2,-52,tb.w,104,on?'#FFE08A':'#fff',on?8:5,30,on?'#D9962A':K);if(tb.id==='colores'&&titoKind()!=='caracol')shellIcon(0,0,32,'naranja');else pic(tb.ic,0,0,80);ctx.restore()}
@@ -275,7 +275,7 @@ SCENES.tienda={music:'casita',
     // su habitación de la casa aún está cerrada: se abre al terminar casitas (ROOMS)
     if(it.room&&!roomOpen(it.room)&&!S.owned![it.id]){SFX.boing();const R=roomOf(it.room);say(cap(itemName(it))+(/^(las|los) /.test(itemName(it))?' son para ':' es para ')+R.n+'. '+cap(R.n)+' se abre cuando termines '+(R.need===1?'una casita.':R.need+' casitas.'));return}
     if(S.owned![it.id]&&!it.vale){
-      if(it.slot){const on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();sparkles(TITO.x+150,TITO.y+40,12);say(on?'¡Tito se puso '+itemName(it)+'!':V(['Tito se sacó ','Tito se quitó '])+itemName(it)+'.');return}
+      if(it.slot){const on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();sparkles(TITO.x+150,TITO.y+40,12);say(on?'¡Tito se puso '+itemName(it)+'!':V('Tito se quitó ')+itemName(it)+'.');return}
       SFX.pop();say(cap(itemName(it))+' ya es tuyo. Está en la casa de Tito.');return}
     if(!alcanza(S.coins!,it.p)){SFX.boing();const f=it.p-S.coins!;say(cap(itemName(it))+' cuesta '+it.p+' monedas. Te '+(f===1?'falta una':'faltan '+f)+'. ¡Jugando ganás más!');return}
     SFX.pop();this.conf=it;this.confT=T;say('¿Querés comprar '+itemName(it)+' por '+it.p+' monedas? Tocá el verde para comprar.')},
@@ -348,9 +348,9 @@ SCENES.casaTito={music:'casita',room:'salon',
   // vieron), se va a ella y Tito lo anuncia. Si no, Tito saluda según haya cosas o la casa esté vacía.
   enter(o){this.drag=null;this.wpg=0;this.jump=-9;this.petJump=-9;this.newRoom=-9;const nv=o.nuevo&&SHOP.find(i=>i.id===o.nuevo);this.nuevo=nv&&S.owned![nv.id]?nv:null;this.t0=T;
     if(!roomOpen(this.room))this.room='salon';const n=homeItems().length,op=roomsOpen();
-    if(this.nuevo){const it=this.nuevo;if(it.slot)this.jump=T+.3;else this.room=homeRoom(it.id);later(300,()=>{SFX.sparkle();say('¡Acá está '+itemName(it)+'! '+(it.slot?'¡Mirá qué lindo me queda!':V(['Podés cambiar las cosas de lugar arrastrándolas.','Puedes cambiar las cosas de lugar arrastrándolas.'])))});return}
+    if(this.nuevo){const it=this.nuevo;if(it.slot)this.jump=T+.3;else this.room=homeRoom(it.id);later(300,()=>{SFX.sparkle();say('¡Acá está '+itemName(it)+'! '+(it.slot?'¡Mirá qué lindo me queda!':V('Puedes cambiar las cosas de lugar arrastrándolas.')))});return}
     if(op.length>(S.rooms||1)){const R=op[op.length-1];S.rooms=op.length;save();this.room=R.id;this.newRoom=T;later(300,()=>{SFX.tada();burst(800,400,50);sayQ('¡Mi casa creció! Tiene una habitación nueva: '+R.n+'. Arriba podés elegir a qué habitación ir.')});return}
-    later(300,()=>sayQ(n?V(['¡Esta es mi casa! Podés mover las cosas arrastrándolas, y tocarlas para jugar.','¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.']):V(['¡Esta es mi casa! Está vacía. En la tienda podés comprar cosas con tus monedas.','¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.'])))},
+    later(300,()=>sayQ(n?V('¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.'):V('¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.')))},
   // Armario: la ropa y colores que tiene el niño, con su posición en la fila de abajo. Caben 10; si hay más, se ven
   // de 9 en 9 (página this.wpg) y aparecen flechas a los lados (wardArrows) para pasar de página, que dan la vuelta.
   wardrobe(): Casilla[]{const L=SHOP.filter(i=>i.slot&&S.owned![i.id]);if(L.length<=10)return L.map((it,i)=>({it,x:470+i*100,y:845}));
@@ -402,8 +402,8 @@ SCENES.casaTito={music:'casita',room:'salon',
     const wa=this.wardArrows().find(([ax,ay]: Flecha)=>dist(x,y,ax,ay)<40);if(wa){SFX.whoosh();this.wpg=(this.wpg||0)+wa[2];return}
     // los objetos se miran antes que Tito: uno soltado delante de él tiene que poder volver a moverse
     const o=this.itemAt(x,y);if(o){const p=S.home![o.id];this.drag={id:o.id,dx:x-o.x,dy:y-o.y,sx:x,sy:y,ox:p.x,oy:p.y,moved:false};VIVO.drag={it:o,home:1};setCursor('grab');return}
-    if(inR(x,y,440,500,380,330)){this.jump=T;SFX.boing();say(pick(['¡Me encanta mi casa!','¡Gracias por jugar conmigo!','¡Qué lindo día!',V(['¿Viste mi ropa nueva?','¿Has visto mi ropa nueva?'])]));return}
-    const w=this.wardrobe().find((w: Casilla)=>dist(x,y,w.x,w.y)<46);if(w){const it=w.it,on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();this.jump=T;say(on?'¡Me puse '+itemName(it)+'!':V(['Me saqué ','Me quité '])+itemName(it)+'.');return}
+    if(inR(x,y,440,500,380,330)){this.jump=T;SFX.boing();say(pick(['¡Me encanta mi casa!','¡Gracias por jugar conmigo!','¡Qué lindo día!',V('¿Has visto mi ropa nueva?')]));return}
+    const w=this.wardrobe().find((w: Casilla)=>dist(x,y,w.x,w.y)<46);if(w){const it=w.it,on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();this.jump=T;say(on?'¡Me puse '+itemName(it)+'!':V('Me quité ')+itemName(it)+'.');return}
     SFX.tap();sparkles(x,y,3)},
   // Arrastrar: a partir de 12 px se considera que se mueve y el objeto sigue al dedo. Mientras se arrastra puede subir
   // hasta los botones de las habitaciones (para llevarlo a otra); al soltar se vuelve a encajar en el suelo o la pared.
