@@ -22,7 +22,8 @@ import { ahora, alGuardarFuera, escribirGuardado, leerGuardado } from '../aplica
  * Campos que crea DEF (aquí):
  *   age      3, 4 o 5 (0 = aún no elegida; AGE() devuelve entonces 3).
  *   name     nombre del niño ('' si no se dio). Tito lo dice en voz alta (kid(), praise()).
- *   variant  'ar' (rioplatense) o 'es' (castellano de España): cambia palabras con tx()/V() y la voz del navegador.
+ *   variant  siempre 'es' (castellano de España) desde la fase 5d: el juego ya no tiene variante rioplatense. Se
+ *            conserva el campo para que las partidas viejas y nuevas tengan la misma forma (migración 1 → 2).
  *   hemi     'N' o 'S': hemisferio, para calcular la estación del año (estacionDe).
  *   vol      {voz, mus, fx}: volúmenes de 0 a 1 de la voz, la música y los efectos.
  *   limit    minutos de juego por sesión (0 = sin límite; 10, 15 o 20). Al llegar, Tito se va a dormir (escena 'dormir').
@@ -56,8 +57,8 @@ import { ahora, alGuardarFuera, escribirGuardado, leerGuardado } from '../aplica
 // KEY_COPIA marca que esa copia ya se hizo (solo si había partida vieja), para no volver a traerla nunca más.
 export const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curiolandia-new.copiada';
 // DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (aplicacion/adultos.ts) también parte de aquí.
-// variant '' (aún sin elegir) y hemi 'N' llevan su tipo de Estado para que S (copia de DEF) sea un Estado.
-export const DEF={age:0,name:'',variant:'' as Estado['variant'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0,ver:VERSION_PARTIDA};
+// variant 'es' y hemi 'N' llevan su tipo de Estado para que S (copia de DEF) sea un Estado.
+export const DEF={age:0,name:'',variant:'es' as Estado['variant'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0,ver:VERSION_PARTIDA};
 // S empieza siendo una copia de DEF (JSON.parse(JSON.stringify(...)) hace una copia profunda) y load() la completa.
 export let S: Estado=JSON.parse(JSON.stringify(DEF)) as Estado;
 // ponS(nuevo): cambia la partida entera por otra (borrar todo en aplicacion/adultos.ts). Es la única forma de cambiar S desde otro
@@ -118,14 +119,11 @@ const conVol=(d: Crudo): Partial<Estado>=>Object.assign({},d,{vol:Object.assign(
   let d: unknown=null; try{d=JSON.parse(leerGuardado(KEY)||'null')}catch(e){}
   if(!d&&!leerGuardado(KEY_COPIA))try{d=JSON.parse(leerGuardado(KEY_VIEJA)||'null');if(d)escribirGuardado(KEY_COPIA,'1')}catch(e){d=null}
   if(esPartida(d)){const c=migrar(d);sanoS(c,DEF);sanoHondo(c);if(c['vol'])sanoS(c['vol'] as Crudo,DEF.vol);S=Object.assign(S,conVol(c));return}
-  // primera vez: si Letrilandia ya se jugó en este dispositivo, traemos nombre, edad, acento y volúmenes
+  // primera vez: si Letrilandia ya se jugó en este dispositivo, traemos nombre, edad y volúmenes (el acento ya no:
+  // desde la fase 5d el juego es solo en castellano de España)
   try{const l=JSON.parse(leerGuardado('letrilandia.v1')||'null') as {name?: string;age?: number;accent?: string;vol?: Partial<Volumenes>}|null;
-    if(l){if(l.name)S.name=l.name;if(l.age)S.age=l.age;if(l.accent)S.variant=l.accent==='es'?'es':'ar';if(l.vol)S.vol=Object.assign({},DEF.vol,l.vol);S.first['fromLetri']=1}}catch(e){}
+    if(l){if(l.name)S.name=l.name;if(l.age)S.age=l.age;if(l.vol)S.vol=Object.assign({},DEF.vol,l.vol);S.first['fromLetri']=1}}catch(e){}
 })();
-// Por defecto (partida nueva), castellano de España: es el acento de las voces grabadas (voz/, voz-fer/); con
-// rioplatense casi todas las frases irían con la voz del navegador. Las partidas que ya eligieron acento no cambian.
-// El texto original está escrito en rioplatense y tx() lo pasa a España.
-if(!S.variant)S.variant='es';
 // Esta versión no lleva voces grabadas (ni voz/ ni voz-fer/): todo lo dice la voz del navegador. Una partida copiada
 // de curiolandia-3d puede traer S.voz '' o 'fer'; se pasa a 'nav' para que vozLoad() no busque manifiestos.
 S.voz='nav';

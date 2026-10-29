@@ -3,7 +3,7 @@
 // Para cada frase que dice say() apunta: con qué sonó (MP3 entero, mezcla de MP3 y voz del navegador, solo voz del
 // navegador), si se oyó entera o la cortó la frase siguiente (y cuánto faltaba), si no sonó nada, si sonaron dos cosas
 // a la vez y si el juego siguió (callback de say) antes de que acabara el audio.
-// Uso: node tests/regresion/audio.js <carpeta web> [variant es|ar] [voz ''|fer] [minutos]
+// Uso: node tests/regresion/audio.js <carpeta web> [variant es] [voz ''|fer] [minutos]  (desde la fase 5d solo hay 'es')
 const L = require('./lib'), fs = require('fs'), path = require('path');
 const [raiz, variant = 'es', voz = '', minTxt = '6'] = process.argv.slice(2);
 const nombre = 'audio-' + variant + (voz ? '-' + voz : '');

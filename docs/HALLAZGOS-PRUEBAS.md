@@ -66,7 +66,7 @@ Las pruebas de audio (`audio.js`, `audio-espera.js`) usan los MP3 de verdad de `
 
 ### A5. Con el acento rioplatense, la mayoría de las frases van con la voz del navegador (media)
 - **Qué pasa:** con `S.variant='ar'`, solo 88 de 221 frases (40 %) sonaron con MP3; 117 con la voz del navegador y 16 mezcladas. Las grabaciones son de España, así que en rioplatense se mezclan dos acentos.
-- **Arreglo (v1.586):** una partida nueva empieza con el acento de España, el de las grabaciones. Las partidas que ya tienen acento no cambian; en la zona de adultos se puede elegir rioplatense.
+- **Arreglo (v1.586):** una partida nueva empieza con el acento de España, el de las grabaciones. Las partidas que ya tienen acento no cambian; en la zona de adultos se puede elegir rioplatense. (En curiolandia-new, desde la fase 5d, el juego es solo de España.)
 
 ### A6. En iPhone y iPad las voces grabadas podrían no sonar nunca (alta, sin comprobar)
 - **Qué pasa (deducido del código, no probado: aquí solo hay Chromium):** Safari solo deja reproducir audio en un elemento que se haya «desbloqueado» con un toque. `VOZ_EL` (`core.js`) se crea tarde, dentro de una promesa, nunca dentro de un toque; Safari podría rechazar todos los `play()` y Tito usaría siempre la voz del navegador.

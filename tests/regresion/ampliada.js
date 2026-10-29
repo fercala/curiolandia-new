@@ -96,12 +96,12 @@ const base = {age:5,name:'QA',variant:'es',intro:true,first:{askedName:1},unlock
   await p.waitForTimeout(100);
   return{fail:accepted&&(!!err||p.errs.length>0),accepted,error:err,errors:[...new Set(p.errs)]};
  },{guardado:{...base,...save}});
- await test('matriz-ajustes','Controles de edad, modo y variante (12 combinaciones; la voz es siempre la del navegador) y persistencia final',async p=>{
-  // Integración DOM: activa los controles y sus onchange, sin reconstruir 12 mundos 3D. Sin «a-voz»: la elección de voz
-  // grabada se quitó en la fase 0 y S.voz es siempre 'nav'.
+ await test('matriz-ajustes','Controles de edad y modo (6 combinaciones; la voz es siempre la del navegador y el idioma, España) y persistencia final',async p=>{
+  // Integración DOM: activa los controles y sus onchange, sin reconstruir 6 mundos 3D. Sin «a-voz»: la elección de voz
+  // grabada se quitó en la fase 0 y S.voz es siempre 'nav'. Sin «a-var»: desde la fase 5d S.variant es siempre 'es'.
   const cases=await p.evaluate(()=>{openAdult();const cases=[];
-   for(const age of[3,4,5])for(const free of[false,true])for(const voice of['nav'])for(const variant of['es','ar']){
-    for(const [name,value]of[['a-age',String(age)],['a-mode',free?'libre':'camino'],['a-var',variant]]){
+   for(const age of[3,4,5])for(const free of[false,true])for(const voice of['nav'])for(const variant of['es']){
+    for(const [name,value]of[['a-age',String(age)],['a-mode',free?'libre':'camino']]){
      const el=[...document.querySelectorAll(`[name="${name}"]`)].find(e=>e.value===value);if(!el)throw new Error('Control ausente: '+name);el.click();
     }
     const got={age:S.age,free:!!S.unlockAll,voice:S.voz||'',variant:S.variant};
@@ -110,7 +110,7 @@ const base = {age:5,name:'QA',variant:'es',intro:true,first:{askedName:1},unlock
   });
   await p.reload();await p.waitForFunction(()=>window.__cl&&sceneName==='title');
   const last=await p.evaluate(()=>({age:S.age,free:!!S.unlockAll,voice:S.voz,variant:S.variant}));
-  return{fail:cases.some(c=>!c.ok)||last.age!==5||!last.free||last.voice!=='nav'||last.variant!=='ar',count:cases.length,cases,last};
+  return{fail:cases.some(c=>!c.ok)||last.age!==5||!last.free||last.voice!=='nav'||last.variant!=='es',count:cases.length,cases,last};
  });
  await test('riega-sostenido','Control del guion: regar exige mantener el arrastre, no soltar inmediatamente',async p=>{
   await p.evaluate(()=>__cl.go('juego',{t:'3A-T10',g:1}));await p.waitForFunction(()=>VIVO.fade<.5);

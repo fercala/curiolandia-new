@@ -34,9 +34,15 @@ describe('migraciones', () => {
   test('una partida de curiolandia-3d sale con la versión actual y los mismos datos, sin cambiar la que se pasa', () => {
     const copia = structuredClone(VIEJA);
     const nueva = migrar(VIEJA);
-    expect(nueva).toEqual({ ...VIEJA, ver: VERSION_PARTIDA });
+    // Lo único que cambia (desde la versión 2, fase 5d) es la variante del idioma: siempre España.
+    expect(nueva).toEqual({ ...VIEJA, variant: 'es', ver: VERSION_PARTIDA });
     expect(nueva).not.toBe(VIEJA);
     expect(VIEJA).toEqual(copia);
+  });
+
+  test('1 → 2: una partida en rioplatense, o sin variante elegida, pasa a castellano de España', () => {
+    const variantes = ['ar', '', 'es', undefined].map((variant) => migrar({ ...VIEJA, variant, ver: 1 })['variant']);
+    expect(variantes).toEqual(['es', 'es', 'es', 'es']);
   });
 
   test('una partida ya al día, o de un juego más nuevo, sale igual', () => {

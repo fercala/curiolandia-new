@@ -127,7 +127,6 @@ export function openAdult(){
    <div class="row">${[['caracol','🐌 Caracol'],['erizo','🦔 Erizo'],['tortuga','🐢 Tortuga'],['conejo','🐰 Conejo']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-kind" value="${k}" ${((S.tito&&S.tito.kind)||'caracol')===k?'checked':''}> ${l}</label>`).join('')}</div>
    <p class="note">Tito sigue llamándose Tito. La ropa y los colores de la tienda le quedan igual (en el erizo el color va en las púas, en la tortuga en el caparazón y en el conejo en la mochila).</p></section>
   <section><h3>Idioma y voz</h3>
-   <div class="row"><span>Palabras</span>${[['ar','Rioplatense (vos, remera, auto)'],['es','España (tú, camiseta, coche)']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-var" value="${k}" ${S.variant===k?'checked':''}> ${l}</label>`).join('')}</div>
    <div class="row"><span>Estaciones</span>${[['N','Hemisferio norte (España)'],['S','Hemisferio sur (Argentina, Uruguay)']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-hemi" value="${k}" ${S.hemi===k?'checked':''}> ${l}</label>`).join('')}</div>
    <div class="row"><span>Voz del navegador</span><select id="a-vnav" style="max-width:100%">${vopts}</select><button id="a-vprueba" type="button">▶ Probar</button></div>
    <details><summary>Cómo conseguir voces más naturales</summary>${vozGuiaHTML()}</details>
@@ -166,8 +165,6 @@ export function openAdult(){
   el.querySelectorAll<HTMLInputElement>('[name=a-age]').forEach(r=>r.onchange=()=>{S.age=+r.value;VIVO.ADAPT=0;save()});
 // Personaje de Tito: se guarda en S.tito.kind y se pide a la capa 3D que rehaga a Tito (__w3.retito).
   el.querySelectorAll<HTMLInputElement>('[name=a-kind]').forEach(r=>r.onchange=()=>{S.tito=S.tito||{};S.tito.kind=r.value as Tito['kind'];save();try{if(window.__w3&&window.__w3.retito)window.__w3.retito()}catch(e){console.error(e)}});
-// Variante del idioma: cambia S.variant, elige otra voz del navegador y Tito saluda para que se oiga el cambio.
-  el.querySelectorAll<HTMLInputElement>('[name=a-var]').forEach(r=>r.onchange=()=>{S.variant=r.value as Estado['variant'];save();pickVoice();say(tx('¡Hola! Soy Tito. ¿Jugamos? Tocá la plaza.'))});
 // Voz del navegador: S.vozNav guarda la elegida ('' = automática); se aplica con pickVoice y se oye un saludo de prueba.
   q('#a-vnav').onchange=e=>{S.vozNav=(e.target as HTMLInputElement).value;save();pickVoice();vozProbar()};
   q('#a-vprueba').onclick=()=>{pickVoice();vozProbar()};

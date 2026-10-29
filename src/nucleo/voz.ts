@@ -46,15 +46,15 @@ export const vozCalidad=(v: SpeechSynthesisVoice): number=>/natural|online|neura
 // vocesES(): las voces en español del navegador, de mejor a peor calidad (vozCalidad); a igual calidad, el orden del navegador.
 export function vocesES(): SpeechSynthesisVoice[]{if(!('speechSynthesis' in window))return [];return speechSynthesis.getVoices().filter(v=>/^es/i.test(v.lang)).map((v,i)=>[v,i] as const).sort((a,b)=>vozCalidad(b[0])-vozCalidad(a[0])||a[1]-b[1]).map(a=>a[0])}
 // pickVoice(): elige la voz del navegador. Si en la zona de adultos se eligió una (S.vozNav, su voiceURI o nombre) y está
-// en este aparato, usa esa. Si no, la automática: primero por país (España, o Argentina/Uruguay en rioplatense) y,
-// dentro del país, la de más calidad (vozCalidad). También elige la voz inglesa (británica en modo España).
+// en este aparato, usa esa. Si no, la automática: primero por país (España y, si no hay, las de otros países) y,
+// dentro del país, la de más calidad (vozCalidad). También elige la voz inglesa (británica si la hay).
 export function pickVoice(): void{
   if(!('speechSynthesis' in window))return; const all=speechSynthesis.getVoices(),en=all.filter(v=>/^en/i.test(v.lang));
-  if(en.length){const pe=S.variant==='es'?['en-GB','en-IE','en-US','en-AU']:['en-US','en-GB','en-CA','en-AU'],Le=(v: SpeechSynthesisVoice): string=>v.lang.replace('_','-').toLowerCase();VOICE_EN=null;
+  if(en.length){const pe=['en-GB','en-IE','en-US','en-AU'],Le=(v: SpeechSynthesisVoice): string=>v.lang.replace('_','-').toLowerCase();VOICE_EN=null;
     for(const p of pe){const c=en.filter(v=>Le(v)===p.toLowerCase());if(c.length){VOICE_EN=c.find(v=>/google|natural|premium|enhanced/i.test(v.name))||c[0] as SpeechSynthesisVoice;break}}if(!VOICE_EN)VOICE_EN=en[0] as SpeechSynthesisVoice}
   const vs=vocesES(); if(!vs.length)return;
   if(typeof S.vozNav==='string'&&S.vozNav){const nav=S.vozNav,v=vs.find(v=>v.voiceURI===nav||v.name===nav);if(v){VOICE=v;return}}// la elegida (si no está en este aparato, la automática)
-  const pref=S.variant==='es'?['es-ES','es-MX','es-US','es-419','es-AR']:['es-AR','es-UY','es-US','es-419','es-MX','es-CO','es-ES'];
+  const pref=['es-ES','es-MX','es-US','es-419','es-AR'];
   const L=(v: SpeechSynthesisVoice): string=>v.lang.replace('_','-');
   for(const p of pref){const c=vs.find(v=>L(v).toLowerCase()===p.toLowerCase()); if(c){VOICE=c;return}}// vs ya va de mejor a peor
   VOICE=vs[0] as SpeechSynthesisVoice;
@@ -130,7 +130,7 @@ function vozPlay(fs: readonly string[],tok: number,fin: ()=>void,fail: ()=>void)
 // Sin voz del navegador, o si no avisa del final a tiempo, sigue igualmente.
 function sayTTS(tt: string,tok: number,next: ()=>void): void{let go=false;const nx=(): void=>{if(go)return;go=true;next()};
   if(!('speechSynthesis' in window)||tok!==VIVO.sayTok){nx();return}
-  try{const u=new SpeechSynthesisUtterance(tt);if(VOICE){u.voice=VOICE;u.lang=VOICE.lang}else u.lang=S.variant==='es'?'es-ES':'es-AR';
+  try{const u=new SpeechSynthesisUtterance(tt);if(VOICE){u.voice=VOICE;u.lang=VOICE.lang}else u.lang='es-ES';
     u.rate=.9;u.pitch=1.1;u.volume=S.vol.voz;u.onend=nx;u.onerror=nx;speechSynthesis.speak(u)}catch(e){nx();return}
   setTimeout(nx,1500+tt.length*95)}
 // vozSeq(plan, tok, fin, fallo): dice un plan de vozFile (mp3 y trozos {t}) en orden: los mp3 seguidos se juntan en un
@@ -171,7 +171,7 @@ export function say(t: string,cb?: (()=>void)|null,o: OpcionesSay={}): void{
   VIVO.talking=true;
 // speak(): habla con la voz del navegador, si esta sigue siendo la frase actual.
   const speak=(): void=>{ if(tok!==VIVO.sayTok||!('speechSynthesis' in window))return;
-    const u=new SpeechSynthesisUtterance(t),vv=o.en?VOICE_EN:VOICE; if(vv){u.voice=vv;u.lang=vv.lang}else u.lang=o.en?(S.variant==='es'?'en-GB':'en-US'):S.variant==='es'?'es-ES':'es-AR';
+    const u=new SpeechSynthesisUtterance(t),vv=o.en?VOICE_EN:VOICE; if(vv){u.voice=vv;u.lang=vv.lang}else u.lang=o.en?'en-GB':'es-ES';
     u.rate=o.rate||.9; u.pitch=o.pitch||1.1; u.volume=S.vol.voz; u.onend=fin; u.onerror=fin;
     speechSynthesis.speak(u);
   };

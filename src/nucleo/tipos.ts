@@ -67,7 +67,7 @@ export interface Estado {
   // DEF (guardado.ts)
   age: number;
   name: string;
-  variant: '' | 'ar' | 'es';
+  variant: 'es';
   hemi: 'N' | 'S';
   vol: Volumenes;
   limit: number;
