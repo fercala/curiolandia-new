@@ -35,7 +35,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
    - Para probar de noche sin esperar: en la consola, `Date.prototype.getHours=()=>22; __cl.go('map')`.
 6. **Prueba automática**: `npm run test:humo` (debe terminar con `TODO BIEN`; capturas en `tests/capturas/`) y `npm run test:pr`, lo mismo que pasa GitHub Actions en cada PR (unos minutos; las pruebas de una en una, nunca a la vez).
 7. **Prueba en un móvil** si has tocado algo visual o de rendimiento (el 3D es lo más pesado).
-8. **Frases nuevas o cambiadas**: apúntalas en `dialogos/pendientes.txt` y en `dialogos/todos.csv` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
+8. **Frases nuevas o cambiadas**: apúntalas en `dialogos/pendientes.txt` y rehaz `dialogos/todos.csv` con `npm run dialogos` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
 9. **Documenta el cambio** siguiendo [POLITICA-DOCUMENTACION.md](POLITICA-DOCUMENTACION.md): comentarios en el código, documentos de `docs/` que toque y entrada en [CAMBIOS.md](CAMBIOS.md). Comprueba con `npm run test:comentarios` (GitHub Actions lo pasa también en cada PR).
 10. **Para publicar**:
    1. Sube `version` en `package.json` (`0.N.0` → `0.N+1.0`): es el nombre de la caché del service worker. **Sin esto los móviles se quedan con la versión anterior.**
@@ -52,7 +52,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 
 ## 2. Reglas que no se pueden saltar
 
-1. **Cada diálogo nuevo o cambiado**, en castellano de España y apuntado en `dialogos/pendientes.txt` y `dialogos/todos.csv` (aquí no hay MP3: los textos se pueden mejorar). → [dialogos/LEEME.md](../dialogos/LEEME.md)
+1. **Cada diálogo nuevo o cambiado**, en castellano de España y apuntado en `dialogos/pendientes.txt`, con `dialogos/todos.csv` rehecho por `npm run dialogos` (aquí no hay MP3: los textos se pueden mejorar). → [dialogos/LEEME.md](../dialogos/LEEME.md)
 2. **No rompas las partidas guardadas**: no cambies el formato de `S`, ni `id` de temas, artículos o dibujos guardados; campos nuevos con valor por defecto; y si un formato tiene que cambiar, con una migración (`dominio/partida.ts`). → [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md)
 3. **Los juegos de un tema se guardan por posición**: no quites ni reordenes juegos publicados; los nuevos, al final (cuidado con el cuento: ver receta 5).
 4. **Sube `version` en `package.json`** cada vez que publiques.

@@ -34,12 +34,12 @@ Características técnicas:
 ├── public/             lo que se copia tal cual a la web: three.min.js (r128), fonts/, iconos
 ├── dist/               la web montada (no está en git; la genera `npm run build` y la publica GitHub Actions)
 ├── tests/              humo.js, comentarios.py y regresion/ (ver tests/regresion/LEEME.md)
-├── dialogos/           catálogo de frases (todos.csv) y frases nuevas o cambiadas (pendientes.txt)
+├── dialogos/           catálogo de frases (todos.csv, sale del código) y frases nuevas o cambiadas (pendientes.txt)
 ├── docs/               esta documentación y el plan de migración
 ├── .github/workflows/  web.yml: pruebas en cada PR y publicación desde main
 ├── package.json        versión, órdenes (`npm run ...`) y herramientas: Vite, TypeScript, Vitest, Playwright
 ├── vite.config.mts, index.html  Vite; index.html es solo la entrada, la página la monta el plugin
-├── herramientas/       vite/curiolandia.mts (el montaje) y git-hooks/ (ganchos de commit)
+├── herramientas/       vite/curiolandia.mts (el montaje), git-hooks/ (ganchos de commit), analisis/ y dialogos/ (catálogo de frases)
 ├── CLAUDE.md           reglas cortas para trabajar con Claude Code
 └── README.md           presentación del proyecto
 ```
@@ -351,7 +351,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 - `say(texto, alAcabar)` hace hablar a Tito con la **voz del navegador** (`speechSynthesis`). La voz es la elegida en la zona de adultos (`S.vozNav`) o la más natural del país (`pickVoice`, `vozCalidad` en `nucleo/voz.ts`). El código de las voces grabadas (`vozLoad`, `vozFile`, `vozSeq`...) sigue en `nucleo/voz.ts` pero no se usa, porque `S.voz` es siempre `'nav'`; se quita en la migración.
 - El juego es **solo en castellano de España** desde la fase 5d (ya no se elige la variante en la zona de adultos; `S.variant` es siempre `'es'` y la voz se busca primero en `es-ES`). Todos los textos del código están escritos en castellano de España. El juego nació en **español rioplatense** ("Tocá", "Buscá") y hasta la fase 5f los textos se escribían así y `tx()` los convertía al decirlos (con su tabla `TU`), y `V()` elegía entre listas `['rioplatense', 'España']`; las fases 5e y 5f los reescribieron y quitaron `tx()`, `V()` y `LEX2`.
-- Las frases nuevas o cambiadas se escriben en castellano de España y se apuntan en `dialogos/` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
+- Las frases nuevas o cambiadas se escriben en castellano de España y se apuntan en `dialogos/pendientes.txt`. El catálogo de todos los textos, `dialogos/todos.csv`, lo saca del código `herramientas/dialogos/catalogo.mts` (`npm run dialogos`), y `tests/unidad/dialogos.test.ts` comprueba que esté al día (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
 
 ## 11. Sonido, música y partículas
 

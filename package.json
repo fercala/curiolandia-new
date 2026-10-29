@@ -1,6 +1,6 @@
 {
   "name": "curiolandia-new",
-  "version": "0.2.47",
+  "version": "0.2.48",
   "private": true,
   "description": "Curiolandia: juego de temas de Educación Infantil con Tito como guía (migración de curiolandia-3d).",
   "scripts": {
@@ -11,6 +11,7 @@
     "tipos": "tsc -p tsconfig.json",
     "test:unidad": "vitest run",
     "test:comentarios": "python3 tests/comentarios.py",
+    "dialogos": "node herramientas/dialogos/escribir.mts",
     "test:humo": "node tests/humo.js dist",
     "test:pr": "node tests/regresion/informe-b.js dist && node tests/regresion/voces.js dist && node tests/regresion/casa.js dist && node tests/regresion/guardado-viejo.js dist && node tests/regresion/juegos.js dist 0 8 90 && node tests/regresion/comprobar.js informe-b voces casa guardado-viejo juegos-0"
   },
