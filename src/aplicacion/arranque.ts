@@ -3,14 +3,14 @@
  * cargados todos los módulos y el puente ha dejado lo suyo en globalThis.
  * Entrega los cofres que se quedaron sin abrir (cofrePend) y espera a que carguen las fuentes Andika y Fredoka (para
  * que los textos del lienzo no salgan con otra letra), pero como mucho 2,5 s (sin internet pueden no llegar nunca).
- * Después va a la portada (go('title')) y arranca el bucle de dibujo frame() de aplicacion/adultos.ts, que ya se repite
+ * Después va a la portada (go('title')) y arranca el bucle de dibujo frame() de aplicacion/bucle.ts, que ya se repite
  * solo con requestAnimationFrame.
  * Desde la fase 2p es un módulo: era el último archivo global, así que ya no queda código global.
- * Exporta: arrancar. Importa: go (el núcleo, src/nucleo/), cofrePend (escenas/cofre.ts) y frame (aplicacion/adultos.ts).
+ * Exporta: arrancar. Importa: go (el núcleo, src/nucleo/), cofrePend (escenas/cofre.ts) y frame (aplicacion/bucle.ts).
  */
 import { go } from '../nucleo/indice.ts';
 import { cofrePend } from '../escenas/cofre.ts';
-import { frame } from './adultos.ts';
+import { frame } from './bucle.ts';
 
 // Lo que se espera como mucho a las fuentes, en milisegundos.
 const ESPERA_FUENTES = 2500;

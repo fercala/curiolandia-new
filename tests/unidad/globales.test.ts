@@ -10,7 +10,7 @@ import { exportadas } from '../../herramientas/analisis/globales.mts';
 
 const SRC = join(import.meta.dirname, '..', '..', 'src');
 // Lo que src/modulos.ts pasa al puente, en el mismo orden.
-const ENTRADAS = ['aplicacion/puertos.ts', 'dibujos/todos.ts', 'nucleo/indice.ts', 'juegos/indice.ts', 'temas/indice.ts', 'contenido/cuentos.ts', 'escenas/indice.ts', 'aplicacion/adultos.ts', 'mundo3d/mundo3d.ts'] as const;
+const ENTRADAS = ['aplicacion/puertos.ts', 'dibujos/todos.ts', 'nucleo/indice.ts', 'juegos/indice.ts', 'temas/indice.ts', 'contenido/cuentos.ts', 'escenas/indice.ts', 'aplicacion/adultos.ts', 'aplicacion/bucle.ts', 'mundo3d/mundo3d.ts'] as const;
 
 describe('globales', () => {
   test('el puente pasa lo que exportan los módulos y nada se repite', () => {

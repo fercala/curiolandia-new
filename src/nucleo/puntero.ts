@@ -1,6 +1,6 @@
 // puntero.ts: el ratón (o el dedo) en la pantalla lógica: pasar por encima y cursores dibujados a mano.
 //   VIVO.MX, VIVO.MY, VIVO.mouseOn, VIVO.hovNow..., hR, hC, hv, setCursor.
-// Los eventos (pointerdown, pointermove...) están en aplicacion/adultos.ts, que rellena VIVO.MX/MY/mouseOn.
+// Los eventos (pointerdown, pointermove...) están en aplicacion/bucle.ts, que rellena VIVO.MX/MY/mouseOn.
 // Al cargar el módulo dibuja los dos cursores y pone el de la mano.
 import { K } from '../dibujos/todos.ts';
 import { cv, VIVO } from './pantalla.ts';
@@ -9,7 +9,7 @@ import { dist } from './utilidades.ts';
 /* ---------- puntero: ratón grande, pasar por encima ---------- */
 // Puntero en coordenadas lógicas (1600x900): MX/MY posición; mouseOn solo es true con ratón (con el dedo no hay "pasar por encima").
 // hovNow: id de lo que está bajo el ratón en este cuadro (lo apunta hv() al dibujar); hovPrev, hovT y dwellDone sirven para
-// el sonidito al pasar por encima y para decir el nombre si el ratón se queda quieto (hoverTick() en aplicacion/adultos.ts).
+// el sonidito al pasar por encima y para decir el nombre si el ratón se queda quieto (hoverTick() en aplicacion/bucle.ts).
 Object.assign(VIVO,{MX:-9,MY:-9,mouseOn:false,hovNow:null,hovPrev:null,hovT:0,dwellDone:false});
 // hR(x,y,w,h): ¿el ratón está dentro del rectángulo centrado en (x,y)? Nunca con el dedo ni mientras se arrastra.
 export const hR=(x: number,y: number,w: number,h: number): boolean=>VIVO.mouseOn&&!VIVO.drag&&Math.abs(VIVO.MX-x)<w/2&&Math.abs(VIVO.MY-y)<h/2;

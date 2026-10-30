@@ -29,7 +29,7 @@ import { ahora, alGuardarFuera, escribirGuardado, leerGuardado } from '../aplica
  *   limit    minutos de juego por sesión (0 = sin límite; 10, 15 o 20). Al llegar, Tito se va a dormir (escena 'dormir').
  *   temas    {idTema: {g: {númeroDeJuego: veces jugado}, done: 0/1}}: progreso de cada tema (escenas/escenas2d.ts).
  *   stats    {habilidad: {ok, err}}: aciertos y fallos por habilidad (rec(), en interfaz.ts); se ven en la zona de adultos.
- *   days     {'AAAA-MM-DD': minutos}: tiempo jugado cada día (se guardan los últimos 30; lo apunta frame() en aplicacion/adultos.ts).
+ *   days     {'AAAA-MM-DD': minutos}: tiempo jugado cada día (se guardan los últimos 30; lo apunta frame() en aplicacion/bucle.ts).
  *   asam     {'AAAA-MM-DD': {done, age, dia, tiempo, emo}}: la asamblea de cada día (escenas/escenas2d.ts).
  *   stk      {dibujo: cantidad}: pegatinas (figuritas) del álbum (giveSticker()).
  *   album    lista vacía que no usa ningún archivo (se conserva por compatibilidad).
