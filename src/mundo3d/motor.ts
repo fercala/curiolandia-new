@@ -6,13 +6,13 @@
  * devuelve false si no hay Three.js o el aparato no tiene WebGL (entonces el juego sigue en 2D).
  * Exporta: R, W3, PRK y ponPRK, FPS, RC, montarMotor, rs, proj, projO, projR, pickAt, newWorld,
  * setWorld, camRig, camTick y fpsTick. Importa: del núcleo, src/nucleo/, PI, VIVO (MX, MY, mouseOn) y
- * OX, OY y SC (de 1600x900 a píxeles), y de mundo3d/materiales.ts V3 y la caché de texturas TXC. fitCam, trimShadows
+ * OX, OY y SC (de 1600x900 a píxeles), y de mundo3d/materiales.ts la caché de texturas TXC. fitCam, trimShadows
  * y disposeWorld son internas (desde la fase 4n).
  */
 import * as THREE from 'three';
 import type { Mundo, Nodo, OpcionesMundo } from './tipos.ts';
 import { OX, OY, PI, SC, VIVO } from '../nucleo/indice.ts';
-import { TXC, V3 } from './materiales.ts';
+import { TXC } from './materiales.ts';
 
 // R: el dibujante (renderer) de Three.js sobre el <canvas id="gl">. Lo crea montarMotor.
 export let R!: THREE.WebGLRenderer;
@@ -45,13 +45,13 @@ export function montarMotor(): boolean{
   R.outputColorSpace=THREE.LinearSRGBColorSpace;R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFShadowMap;
   SHM=matchMedia('(pointer:coarse)').matches?1024:2048;
   addEventListener('resize',rs);rs();
-  _v=new THREE.Vector3();_w=new THREE.Vector3();_u=new THREE.Vector3();RC=new THREE.Raycaster();_m=new THREE.Vector2();
+  _v=new THREE.Vector3();_w=new THREE.Vector3();_u=new THREE.Vector3();_c=new THREE.Vector3();RC=new THREE.Raycaster();_m=new THREE.Vector2();
   return true}
 
 /* ---------- proyección 3D → 1600x900 y selección con el puntero ---------- */
 // vectores de trabajo reutilizados (crear vectores nuevos en cada cuadro haría trabajar de más al recolector de basura).
-// Los crea montarMotor.
-let _v!: THREE.Vector3,_w!: THREE.Vector3,_u!: THREE.Vector3;
+// Los crea montarMotor. _v, _w y _u son de la proyección; _c, del destino de la cámara en camTick.
+let _v!: THREE.Vector3,_w!: THREE.Vector3,_u!: THREE.Vector3,_c!: THREE.Vector3;
 // proj(p): pasa un punto 3D del mundo (Vector3) a coordenadas de la pantalla lógica 1600x900. Devuelve [x,y].
 // project() da coordenadas de -1 a 1; se pasan a píxeles de la ventana y luego se deshace el encaje del juego
 // en la ventana (desplazamiento OX/OY y escala SC de nucleo/pantalla.ts).
@@ -105,10 +105,12 @@ function disposeWorld(w: Mundo){const kept=new Set<THREE.Texture>(Object.values(
 // acercarse); w.camL = punto al que mira ahora. par = cuánto se mueve con el ratón (paralaje)
 export function camRig(w: Mundo,pos: THREE.Vector3,look: THREE.Vector3,par=1){w.cb={pos:pos.clone(),look:look.clone(),par};w.cam.position.copy(pos);w.cam.lookAt(look);w.camT={pos:pos.clone(),look:look.clone()};w.camL=look.clone()}
 // camTick(w,dt): cada cuadro acerca la cámara suavemente a su destino (w.camT) más el paralaje del ratón (MX,MY);
-// k=1-e^(-3*dt) hace que el suavizado vaya igual de rápido con cualquier número de cuadros por segundo
+// k=1-e^(-3*dt) hace que el suavizado vaya igual de rápido con cualquier número de cuadros por segundo.
+// El destino con paralaje va en el vector de trabajo _c (sin clone() ni V3() en cada cuadro): paralaje + destino da
+// exactamente los mismos números que destino + paralaje, porque la suma de dos números es conmutativa también en coma flotante
 export function camTick(w: Mundo,dt: number){const c=w.cb;if(!c)return;const k=1-Math.exp(-dt*3);
   const mx=VIVO.mouseOn?(VIVO.MX-800)/800:0,my=VIVO.mouseOn?(VIVO.MY-450)/450:0;
-  const tp=w.camT!.pos.clone().add(V3(mx*c.par,-my*c.par*.5,0)),tl=w.camT!.look;
+  const tp=_c.set(mx*c.par,-my*c.par*.5,0).add(w.camT!.pos),tl=w.camT!.look;
   w.cam.position.lerp(tp,k);w.camL!.lerp(tl,k);w.cam.lookAt(w.camL!)}
 
 // calidad adaptable: si el aparato no llega a ~24 cuadros por segundo en 3D, se baja la resolución (nunca se sube);
