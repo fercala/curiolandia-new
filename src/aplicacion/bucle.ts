@@ -66,7 +66,7 @@ function hoverTick(dt: number){
 }
 /* frame(now): EL BUCLE DEL JUEGO. Se ejecuta en cada cuadro de pantalla (requestAnimationFrame; lo arranca aplicacion/arranque.ts).
    Pasos: 1) calcula rdt (tiempo real, máx. 1 s) y dt (máx. 0,05 s para que una pausa no dé un salto) y avanza T, idle (solo mientras Tito calla) y el velo fade;
-   2) ejecuta los temporizadores de later() que vencen (solo si siguen en su escena); 3) candado: 3 s reales pulsado abre la
+   2) ejecuta los temporizadores de later() que vencen (solo si siguen en su escena) y, si venció alguno, los quita de la lista; 3) candado: 3 s reales pulsado abre la
    zona de adultos; 4) cuenta el tiempo jugado (S.days cada 15 s, límite S.limit -> escena 'dormir');
    5) música y scene.update(dt); 6) fondo: si la escena es 3D (scene.three), mundo3d/mundo3d.ts la pinta con R3frame(dt);
    7) dibuja la escena 2D encima, ayudas, partículas, aviso de pegatina y monedas, y el candado, recortado a 1600x900;
@@ -75,7 +75,11 @@ function hoverTick(dt: number){
 export function frame(now: number){
   const rdt=Math.min(1,Math.max(0,(now-lastF)/1000)),dt=Math.min(.05,rdt);lastF=now;ponT(T+dt);if(!VIVO.talking)VIVO.idle+=dt;VIVO.fade=Math.max(0,VIVO.fade-dt*3);
 // Temporizadores de later(): solo se ejecutan si siguen en la escena en la que se crearon (t.tok===sceneTok).
-  for(const t of VIVO.timers){t.t-=dt;if(t.t<=0&&!t.done){t.done=1;if(t.tok===sceneTok)try{t.fn()}catch(e){console.error(e)}}}VIVO.timers=VIVO.timers.filter(t=>!t.done);
+  // Temporizadores de later(): solo se hace una lista nueva (filter) en los cuadros en que vence alguno, para no reservar
+  // memoria en cada cuadro. Un temporizador que se añade mientras se recorre la lista se recorre en este mismo cuadro, como antes.
+  let vencio=false;
+  for(const t of VIVO.timers){t.t-=dt;if(t.t<=0&&!t.done){t.done=1;vencio=true;if(t.tok===sceneTok)try{t.fn()}catch(e){console.error(e)}}}
+  if(vencio)VIVO.timers=VIVO.timers.filter(t=>!t.done);
   if(VIVO.lockDown){VIVO.lockHold+=Math.min(.25,(now-VIVO.lockPrev)/1000);if(VIVO.lockHold>=3)openAdult()}VIVO.lockPrev=now;// en tiempo real, no de juego (dt tiene tope)
 // Tiempo de juego (no cuenta con el panel abierto, en la portada ni durmiendo). Cada 15 s se apunta en S.days (en
 // minutos) y se guardan solo los últimos 30 días. Cuenta con rdt, el tiempo real (tope 1 s, para que volver de otra app

@@ -161,7 +161,7 @@ Todo el juego trabaja en una pantalla imaginaria de **1600 x 900 píxeles**. `nu
 Cada cuadro (unas 60 veces por segundo) `frame()` hace, en este orden:
 
 1. Calcula `dt` (segundos desde el cuadro anterior, máximo 0,05) y avanza el reloj global `T`.
-2. Ejecuta los temporizadores de `later()` que tocan (solo los de la escena actual).
+2. Ejecuta los temporizadores de `later()` que tocan (solo los de la escena actual) y, si venció alguno, los quita de `VIVO.timers` (desde la v0.2.53, en los cuadros en que no vence ninguno la lista no se rehace; lo prueba `tests/unidad/temporizadores.test.ts`).
 3. Comprueba el candado de adultos (mantener pulsado 3 s abajo a la derecha) y el límite de tiempo de juego (`S.limit`, que lleva a la escena `dormir`).
 4. Música (`musicTick`) y `scene.update(dt)`.
 5. **Si la escena es 3D** (`scene.three`), llama a `R3frame(dt)` de `mundo3d/mundo3d.ts`, que anima y pinta el 3D en `#gl`.
