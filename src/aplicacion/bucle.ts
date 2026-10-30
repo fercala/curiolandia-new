@@ -7,7 +7,7 @@
  *  2) El BUCLE: frame(now), que se ejecuta en cada cuadro (temporizadores, tiempo de juego, música, 3D, dibujo de la
  *     escena, ayudas, partículas...). Lo pone en marcha aplicacion/arranque.ts.
  * src/modulos.ts lo carga después de aplicacion/adultos.ts, y el puente deja frame en globalThis para las pruebas.
- * Define: portraitOk, toLogical, dlgOpen, upH, isPortrait, lastF y hoverTick.
+ * Define: portraitOk, panelAdultos, panelNombre, panelBorrar, toLogical, dlgOpen, upH, isPortrait, lastF y hoverTick.
  * Exporta: frame.
  * Importa: el núcleo, src/nucleo/ (S, VIVO, T, scene, go, save, el lienzo y su escala, el sonido, la ayuda, las
  * partículas, el candado...), ahora() de aplicacion/puertos.ts (la hora de S.ses), R3frame de mundo3d/mundo3d.ts (el
@@ -26,8 +26,12 @@ import { openAdult } from './adultos.ts';
 let portraitOk=false;
 // toLogical(evento): pasa la posición del dedo/ratón en la ventana a coordenadas lógicas de 1600x900 (quita márgenes y escala).
 function toLogical(e: MouseEvent){return[(e.clientX-OX)/SC,(e.clientY-OY)/SC]}
+// Los tres paneles HTML (adultos, nombre y empezar de nuevo) están fijos en src/head.html, antes del <script>, y nunca se
+// quitan ni se cambian por otros: se buscan una sola vez al cargar (desde la v0.2.52; antes, con getElementById en cada
+// cuadro y en cada tecla). Solo se lee su .hidden, que sigue al día porque es el mismo elemento.
+const panelAdultos=document.getElementById('adult')!,panelNombre=document.getElementById('nameDlg')!,panelBorrar=document.getElementById('resetDlg')!;
 // dlgOpen(): ¿hay abierto algún panel HTML (adultos, nombre o borrar)? Entonces el teclado y el "pasar por encima" no actúan.
-const dlgOpen=()=>!document.getElementById('adult')!.hidden||!document.getElementById('nameDlg')!.hidden||!document.getElementById('resetDlg')!.hidden;
+const dlgOpen=()=>!panelAdultos.hidden||!panelNombre.hidden||!panelBorrar.hidden;
 // Tocar (dedo o ratón): activa el audio, reinicia el contador de inactividad y, por orden: aviso de móvil en vertical,
 // candado de adultos (esquina de abajo a la derecha, empieza a contar), y si no hay transición, scene.down(x,y).
 cv.addEventListener('pointerdown',e=>{e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}initAudio();VIVO.idle=0;VIVO.hintSaid=false;
@@ -76,7 +80,7 @@ export function frame(now: number){
 // Tiempo de juego (no cuenta con el panel abierto, en la portada ni durmiendo). Cada 15 s se apunta en S.days (en
 // minutos) y se guardan solo los últimos 30 días. Cuenta con rdt, el tiempo real (tope 1 s, para que volver de otra app
 // no sume la pausa), no con dt: en un móvil lento (10 cuadros por segundo) dt con tope contaba la mitad del tiempo.
-  if(document.getElementById('adult')!.hidden&&sceneName!=='title'&&sceneName!=='dormir'){VIVO.sessionT+=rdt;VIVO.minuteAcc+=rdt;
+  if(panelAdultos.hidden&&sceneName!=='title'&&sceneName!=='dormir'){VIVO.sessionT+=rdt;VIVO.minuteAcc+=rdt;
     if(VIVO.minuteAcc>=15){const d=today();S.days[d]=(S.days[d]||0)+VIVO.minuteAcc/60;VIVO.minuteAcc=0;
       const ks=Object.keys(S.days).sort();while(ks.length>30)delete S.days[ks.shift()!];S.ses={t:Math.round(VIVO.sessionT),at:ahora().getTime()};save()}
     if(S.limit&&VIVO.sessionT>=S.limit*60)go('dormir')}
