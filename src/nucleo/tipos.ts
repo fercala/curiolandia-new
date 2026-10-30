@@ -122,7 +122,7 @@ export interface Temporizador {
   t: number;
   fn: () => void;
   tok: number;
-  /** Ya se ejecutó (frame() en aplicacion/adultos.ts lo marca y lo quita de la lista). */
+  /** Ya se ejecutó (frame() en aplicacion/bucle.ts lo marca y lo quita de la lista). */
   done?: boolean | number;
 }
 

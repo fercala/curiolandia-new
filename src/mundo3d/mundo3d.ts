@@ -23,14 +23,14 @@
  *   - Las escenas 3D (SCENES.title, map, las zonas, casita, cofre) se ponen en sus módulos (montarMapa3D...). Desde la
  *     fase 4i, la portada, el cofre y la casita 3D son otra escena hecha a partir de la 2D, que no se toca
  *     (SCENES.cofre={...cofre2D,three:true,enter,draw,down}): llaman a los métodos 2D por su nombre. Desde la fase 4j,
- *     el mapa y las zonas también (antes se "envolvían" con Object.assign(S0,{three:true,...}), guardando enter0/down0). scene.three=true le dice al bucle de dibujo (aplicacion/adultos.ts) que llame a R3frame.
+ *     el mapa y las zonas también (antes se "envolvían" con Object.assign(S0,{three:true,...}), guardando enter0/down0). scene.three=true le dice al bucle de dibujo (aplicacion/bucle.ts) que llame a R3frame.
  *   - down(x,y): primero pickAt(x,y) lanza un rayo (raycast) desde la cámara por el punto tocado y
  *     devuelve el userData del objeto con userData.id (zona, casita, 'tito'...). Si no hay nada, se
  *     prueban los objetos animados (flyTap, wobTap), el cielo (skyTap), el mar o el suelo (walkGround).
  *     Si se tocó un lugar, walkTo() hace que Tito camine hasta allí y al llegar se llama a la lógica 2D
  *     original con call0() (mientras dura, la disposición pone a Tito y la casa fuera de la pantalla para que no "roben" el
  *     toque).
- *   - R3frame(dt): lo llama el bucle principal (aplicacion/adultos.ts) en cada cuadro si la escena es 3D. Ejecuta las
+ *   - R3frame(dt): lo llama el bucle principal (aplicacion/bucle.ts) en cada cuadro si la escena es 3D. Ejecuta las
  *     funciones de W3.upd (animaciones), mueve la cámara (camTick) y dibuja la escena con R.render.
  *
  * El mundo activo: W3 (en las funciones se le llama `w`). Lo crea newWorld() y lo activa setWorld():
@@ -64,10 +64,10 @@
  *   zonas3d.ts, casita3d.ts, cofre3d.ts y portada3d.ts. Ninguno crea nada de Three.js al cargarse: cada escena se
  *   convierte en 3D con su función montar* (montarMapa3D...) y este archivo las llama en orden.
  * Desde la fase 2o es un módulo: src/modulos.ts lo carga después de las escenas y, desde la fase 4p, antes de
- *   aplicacion/adultos.ts, que importa R3frame (antes iba después y R3frame era una global tardía); el puente deja
+ *   la aplicación: aplicacion/bucle.ts importa R3frame (antes iba después y R3frame era una global tardía). El puente deja
  *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts; THREE es
  *   el paquete three de npm, que cada archivo importa (desde la fase 6a; antes era global, de three.min.js).
- * Exporta: R3frame (lo llama frame(), en aplicacion/adultos.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
+ * Exporta: R3frame (lo llama frame(), en aplicacion/bucle.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y pone la disposición de la vista 3D (ponDisposicion, de
  *   nucleo/disposicion.ts: los puestos de la casita, desde la fase 4i, en mundo3d/casita3d.ts; los sitios del mapa y las
  *   casitas de las zonas, desde la 4j, en mapa3d.ts y zonas3d.ts; Tito y su casa, desde la 4k, en interaccion.ts). Ya no
@@ -94,7 +94,7 @@ export let R3frame: ((dt: number) => void) | null = null;
 // Función que se ejecuta al momento y monta la capa 3D si hay Three.js y WebGL.
 (function(){
 if(!montarMotor())return;
-// R3frame(dt): el dibujo 3D de cada cuadro (lo llama el bucle de aplicacion/adultos.ts antes de dibujar lo 2D encima). Solo si hay mundo y la escena
+// R3frame(dt): el dibujo 3D de cada cuadro (lo llama el bucle de aplicacion/bucle.ts antes de dibujar lo 2D encima). Solo si hay mundo y la escena
 // es 3D (scene.three): ejecuta las funciones de W3.upd (con try/catch para que un fallo en un objeto no pare el juego), mueve la cámara y dibuja
 R3frame=function(dt){if(!W3||!scene||!scene.three)return;fpsTick();
   for(const f of W3.upd)try{f(dt)}catch(e){console.error(e)}camTick(W3,dt);R.render(W3.sc,W3.cam)};

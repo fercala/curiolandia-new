@@ -12,11 +12,11 @@
  * Qué es una escena:
  *   Un objeto SCENES.nombre = { music, enter, update, draw, down, move,
  *   up, hint, prompt, dwell, ... }. Todos los métodos son opcionales salvo
- *   draw. Quien los llama (el núcleo, src/nucleo/, y aplicacion/adultos.ts):
+ *   draw. Quien los llama (el núcleo, src/nucleo/, y el bucle y la entrada de aplicacion/bucle.ts):
  *     - go(nombre, o)  (nucleo/escenas.ts) cambia de escena: borra temporizadores
  *       later(), partículas y la voz, pone la música scene.music y llama a
  *       scene.enter(o). "o" lleva los datos del viaje ({t, g, hello, fin...}).
- *     - El bucle de aplicacion/adultos.ts llama cada cuadro a scene.update(dt) y
+ *     - El bucle de aplicacion/bucle.ts llama cada cuadro a scene.update(dt) y
  *       scene.draw(), y a scene.dwell(id) cuando el ratón se queda quieto
  *       ~1 s sobre una zona registrada con hv(id, ...).
  *     - Los punteros llaman a scene.down/move/up(x, y) en coordenadas

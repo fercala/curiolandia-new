@@ -1,4 +1,7 @@
 id,texto,tipo,donde
+9c763d0ac223,(pointer:coarse),trozo,src/aplicacion/bucle.ts src/mundo3d/motor.ts
+70bf1ce400d3,Gira el móvil,trozo,src/aplicacion/bucle.ts
+1739af05fc06,(toca para seguir igual),trozo,src/aplicacion/bucle.ts
 46a9c845ed04,La mochila de Teo,trozo,src/contenido/cuentos.ts
 63dc4af5492e,Teo llegó al cole con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!,frase,src/contenido/cuentos.ts
 e94285781b6f,"Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!",frase,src/contenido/cuentos.ts
@@ -1344,7 +1347,6 @@ eb61eead90e3,HELLO,trozo,src/mundo3d/interaccion.ts
 0cc175b9c0f1,a,trozo,src/mundo3d/mapa3d.ts
 6aaa0c8b5072,"attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}",trozo,src/mundo3d/materiales.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts
-9c763d0ac223,(pointer:coarse),trozo,src/mundo3d/motor.ts
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts
 087974002010,CONTENTO,trozo,src/mundo3d/objetos.ts
 e86410fa2d6e,ABCDEFGHIJ,trozo,src/mundo3d/zonas3d.ts

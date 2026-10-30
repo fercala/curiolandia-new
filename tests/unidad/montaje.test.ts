@@ -92,8 +92,8 @@ describe('paginaJuego', () => {
     for (const k of ['giveCoins', 'creditCoins', 'STARS', 'drawCoinHUD', 'placeHome', 'wear', 'roomsOpen']) expect(typeof global[k], k).toBe('function');
     // escenas/repaso.ts: el repaso diario (añade kg y gs a S, la escena repaso y REP_ON para las pruebas).
     expect(runInContext("[typeof S.kg, typeof S.gs, typeof SCENES.repaso.draw, REP_ON].join()", global)).toBe('object,object,function,false');
-    // aplicacion/adultos.ts: la zona de adultos, el bucle frame() (lo pone en marcha aplicacion/arranque.ts), la copia de
-    // seguridad y window.__cl.
+    // aplicacion/adultos.ts: la zona de adultos, la copia de seguridad y window.__cl; y aplicacion/bucle.ts, el bucle
+    // frame() (lo pone en marcha aplicacion/arranque.ts).
     for (const k of ['frame', 'openAdult', 'closeAdult', 'openNameDlg', 'openResetDlg', 'doReset', 'bkEncode', 'bkDecode']) expect(typeof global[k], k).toBe('function');
     expect(runInContext("__cl.go === undefined ? 'no' : typeof __cl.go + ' ' + (__cl.S === S)", global)).toBe('function true');
     // mundo3d/mundo3d.ts: sin Three.js (aquí no hay WebGL) la capa 3D no se monta: R3frame sigue en null y el juego va en 2D.
