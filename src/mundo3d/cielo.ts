@@ -10,7 +10,7 @@
  * (temas/); ahora() (aplicacion/puertos.ts); RC y proj (mundo3d/motor.ts); piezas de mundo3d/materiales.ts; fhit y
  * softTex (mundo3d/decorado.ts) y cloud3 y hitS (mundo3d/objetos.ts).
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { OpcionesSay } from '../nucleo/voz.ts';
 import type { Mundo, Nodo } from './tipos.ts';
 import { PI, S, SCENES, T, noise, parts, rnd, say, sceneName, tone } from '../nucleo/indice.ts';
@@ -93,7 +93,7 @@ export function sunRays(w: Mundo,x: number,y: number,z: number,c: string,e: stri
 // nubecitas que cruzan el cielo de las zonas de día; se pueden tocar
 // águila que vuela en círculos delante de la montaña, de día; se puede tocar
 // mountEagle(w): águila que vuela en círculos delante de la montaña (de día). Marca userData.eagle.
-export function mountEagle(w: Mundo){const g=new THREE.Group();g.scale.setScalar(1.7);g.userData.eagle=1;hitS(g,1,0);w.sc.add(g);const W: [Tres.Group, number][]=[];mk(Sph(.22,10,8),'#7A5232',{s:[1,1.3,.8],ol:.03,cs:false,rs:false,to:g});mk(Sph(.14,10,8),'#FFFFFF',{p:[0,.3,.05],ol:.02,cs:false,rs:false,to:g});mk(Cone(.06,.14,6),'#FFC23A',{p:[0,.27,.2],r:[PI/2,0,0],ol:0,cs:false,rs:false,to:g});
+export function mountEagle(w: Mundo){const g=new THREE.Group();g.scale.setScalar(1.7);g.userData.eagle=1;hitS(g,1,0);w.sc.add(g);const W: [THREE.Group, number][]=[];mk(Sph(.22,10,8),'#7A5232',{s:[1,1.3,.8],ol:.03,cs:false,rs:false,to:g});mk(Sph(.14,10,8),'#FFFFFF',{p:[0,.3,.05],ol:.02,cs:false,rs:false,to:g});mk(Cone(.06,.14,6),'#FFC23A',{p:[0,.27,.2],r:[PI/2,0,0],ol:0,cs:false,rs:false,to:g});
   for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.15;g.add(a);mk(Box(.95,.26,.06),'#6A4428',{p:[sd*.47,.04,0],r:[0,0,sd*.12],ol:.02,cs:false,rs:false,to:a});W.push([a,sd])}g.traverse((o: Nodo)=>{if(o.isMesh&&o.material!==fhit())o.raycast=()=>{}});
   w.upd.push(()=>{const t=T*.35;g.position.set(Math.cos(t)*7,1.7+Math.sin(t*2)*.4,-12);g.rotation.z=-Math.sin(t)*.3;W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*3)*.3)})}
 // en Navidad, de noche, el trineo de Papá Noel cruza el cielo de vez en cuando; se puede tocar
@@ -105,7 +105,7 @@ export function xmasSleigh(w: Mundo){const g=new THREE.Group();g.userData.sleigh
   g.traverse((m: Nodo)=>{if(m.isMesh&&m.material!==fhit())m.raycast=()=>{}});let jg=-1;w.upd.push(()=>{const c=T%26,q=c/10,n=Math.floor(T/26);if(q>.3&&jg!==n){jg=n;for(let i=0;i<6;i++){tone(2093+(i%3)*300,.07,'triangle',.02,1,i*.12);noise(.03,.025,6000,i*.12)}}/* al pasar, se oyen bajito los cascabeles */g.visible=q<1;if(!g.visible)return;g.position.set(-30+q*60,-.3+Math.sin(T*3)*.15,-19.5);g.rotation.y=PI;g.scale.setScalar(1.25)})}
 // pajaritos que cruzan el cielo de las zonas de día, de vez en cuando, aleteando
 // skyBirds(w): tres pajaritos que cruzan el cielo juntos cada 22 s aleteando (de día). Marca userData.skyb.
-export function skyBirds(w: Mundo){const B: [Tres.Group, [Tres.Group, number][], number][]=[];for(let i=0;i<3;i++){const g=new THREE.Group();g.userData.skyb=1;hitS(g,.9,0);w.sc.add(g);const W: [Tres.Group, number][]=[];for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.04;g.add(a);const m=mk(Box(.6,.08,.08),'#4A4A5A',{p:[sd*.29,0,0],ol:0,cs:false,rs:false});m.raycast=()=>{};a.add(m);W.push([a,sd])}B.push([g,W,i])}
+export function skyBirds(w: Mundo){const B: [THREE.Group, [THREE.Group, number][], number][]=[];for(let i=0;i<3;i++){const g=new THREE.Group();g.userData.skyb=1;hitS(g,.9,0);w.sc.add(g);const W: [THREE.Group, number][]=[];for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.04;g.add(a);const m=mk(Box(.6,.08,.08),'#4A4A5A',{p:[sd*.29,0,0],ol:0,cs:false,rs:false});m.raycast=()=>{};a.add(m);W.push([a,sd])}B.push([g,W,i])}
   w.upd.push(()=>{const c=T%22,q=c/9;B.forEach(([g,W,i])=>{g.visible=q<1;if(!g.visible)return;g.position.set(30-q*60-i*1.3,1.1+i*.35+Math.sin(T*2+i)*.1,-20.5);W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*9+i*1.7)*.5)})})}
 // skyClouds(w,tint): dos nubes con carita que cruzan el cielo de las zonas y un arcoíris escondido (w.rainbow)
 // que se ve 2,6 s cuando se pone w.rainT=T. tint = color de las nubes (si no, rosadas a partir de las 18 h).
@@ -117,7 +117,7 @@ export function skyClouds(w: Mundo,tint?: string){const rb=new THREE.Group();rb.
 // orbFace(w,G,sleep): carita para el sol o la luna G: ojos, mofletes y sonrisa. sleep=true pone ojos cerrados (luna
 // dormida) que se abren un momento al tocarla; el sol parpadea, sonríe más al tocarlo y al atardecer bosteza.
 // (arc es una pequeña función que crea medio aro para los ojos cerrados.) Devuelve el grupo de la cara.
-export function orbFace(w: Mundo,G: Tres.Group,sleep: number|boolean){const EY: Tres.Mesh[]=[],OE: Tres.Mesh[]=[];const g=new THREE.Group();g.position.z=1.02;G.add(g);const K='#5A3A1E',arc=()=>new THREE.TorusGeometry(.13,.035,6,12,PI);
+export function orbFace(w: Mundo,G: THREE.Group,sleep: number|boolean){const EY: THREE.Mesh[]=[],OE: THREE.Mesh[]=[];const g=new THREE.Group();g.position.z=1.02;G.add(g);const K='#5A3A1E',arc=()=>new THREE.TorusGeometry(.13,.035,6,12,PI);
   for(const sd of[-1,1]){const e=sleep?mk(arc(),K,{p:[sd*.36,.2,0],r:[0,0,PI],ol:0,cs:false,rs:false}):mk(Sph(.09,10,8),K,{p:[sd*.36,.2,0],ol:0,cs:false,rs:false});e.raycast=()=>{};g.add(e);EY.push(e);if(sleep){const o=mk(Sph(.09,10,8),'#5A3A1E',{p:[sd*.36,.2,0],ol:0,cs:false,rs:false});o.visible=false;o.raycast=()=>{};g.add(o);OE.push(o)}
     const c=mk(Sph(.12,10,8),'#FF9A7A',{p:[sd*.58,-.08,-.05],s:[1,.6,.4],ol:0,cs:false,rs:false});c.raycast=()=>{};g.add(c)}
   const m=mk(new THREE.TorusGeometry(sleep?.12:.26,.04,6,14,PI),K,{p:[0,sleep?-.2:-.08,0],r:[0,0,PI],ol:0,cs:false,rs:false});m.raycast=()=>{};g.add(m);

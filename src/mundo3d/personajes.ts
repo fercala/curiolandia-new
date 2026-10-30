@@ -10,7 +10,7 @@
  * shellIcon (escenas/zonas.ts); SHELLC y SCARFC (escenas/tienda.ts); ahora() (aplicacion/puertos.ts); piezas de
  * mundo3d/materiales.ts y flower3 (mundo3d/decorado.ts).
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { Libre } from '../nucleo/tipos.ts';
 import type { Nodo, PiezaUnida, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
@@ -29,8 +29,8 @@ import { flower3 } from './decorado.ts';
 function shellGeo(){
   // Spiral: la curva de Three.js con forma de espiral logarítmica (radio R*e^(-b*ángulo)) en el plano XY; turns = vueltas, a0 = ángulo de
   // inicio. Es el eje del caparazón del caracol. Desde la fase 4h se define aquí dentro (shellGeo solo se llama una
-  // vez, ver SHELL) y no al cargar el módulo, porque THREE.Curve solo existe cuando se ha cargado three.min.js.
-  class Spiral extends THREE.Curve<Tres.Vector3>{declare R: number;declare b: number;declare T: number;declare a0: number;
+  // vez, ver SHELL) y no al cargar el módulo (hasta la fase 6a, THREE.Curve solo existía tras cargar three.min.js).
+  class Spiral extends THREE.Curve<THREE.Vector3>{declare R: number;declare b: number;declare T: number;declare a0: number;
     constructor(R: number,b: number,turns: number,a0: number){super();this.R=R;this.b=b;this.T=turns*PI*2;this.a0=a0}
     // getPoint(t,o): el punto de la curva para t de 0 a 1 (lo pide TubeGeometry); lo escribe en o y lo devuelve
     getPoint(t: number,o=new THREE.Vector3()){const th=t*this.T,r=this.R*Math.exp(-this.b*th),a=this.a0+th;return o.set(Math.cos(a)*r,Math.sin(a)*r,0)}}
@@ -59,10 +59,10 @@ const HOP: Record<string, [number, number]>={caracol:[.9,.6],erizo:[.65,.45],tor
 // scarf = bufanda, hat/bow/glasses = ropa de la tienda; pone una flor por cada casita terminada (temasDone(), como mucho 15).
 // into: grupo donde construirlo (si no, uno nuevo). Devuelve root con userData.id='tito', userData.kind, userData.parts (piezas)
 // y userData.anim(dt,o) para animarlo en cada cuadro. No cambia S.
-export function makeTito(into?: Tres.Group){const root=into||new THREE.Group(),b=grp(root);root.userData.id='tito';const t=S.tito||{},GR='#9BD86A';
+export function makeTito(into?: THREE.Group){const root=into||new THREE.Group(),b=grp(root);root.userData.id='tito';const t=S.tito||{},GR='#9BD86A';
   const kind: string=TITO_KINDS.includes(t.kind)?t.kind!:'caracol';root.userData.kind=kind;
   const sc=(SHELLC[t.shell!]||SHELLC.naranja),scarf=SCARFC[t.scarf!]||SCARFC.roja;
-  let head,mouth,mo,sh,nose=null;const eyes: Tres.Group[]=[],wig: [Tres.Object3D, 'x'|'y'|'z', number, number, number, number][]=[],stalks: Tres.Group[]=[],ears: Tres.Group[]=[];
+  let head,mouth,mo,sh,nose=null;const eyes: THREE.Group[]=[],wig: [THREE.Object3D, 'x'|'y'|'z', number, number, number, number][]=[],stalks: THREE.Group[]=[],ears: THREE.Group[]=[];
   // cada animal construye su cuerpo y rellena head, eyes, mouth (boca cerrada), mo (boca abierta al hablar) y sh (grupo de las flores);
   // wig = piezas que se menean solas: [malla, eje, ángulo base, amplitud, velocidad, fase]
   if(kind==='caracol'){
@@ -227,7 +227,7 @@ export function makeHouse(lvl: number){const g=new THREE.Group();g.userData.id='
   mk(Box(3.1,H1,2.4),'#FFF3D6',{p:[0,.25+H1/2,0],to:g,ol:.06});
   mk(prism(3.9,1.7,2.9),'#FF8A7A',{p:[0,.25+H1,0],to:g,ol:.06});
   mk(Box(.5,1.1,.5),'#C98A4B',{p:[.8,.25+H1+1.0,-.4],to:g,ol:.04});
-  const smoke: Tres.Mesh[]=[];for(let i=0;i<3;i++)smoke.push(mk(Sph(.22,10,8),'#FFFFFF',{p:[.8,.25+H1+1.7,-.4],to:g,ol:.025,cs:false}));
+  const smoke: THREE.Mesh[]=[];for(let i=0;i<3;i++)smoke.push(mk(Sph(.22,10,8),'#FFFFFF',{p:[.8,.25+H1+1.7,-.4],to:g,ol:.025,cs:false}));
   g.userData.emb=plane(shellTex(),.8,.8,{p:[0,.25+H1+.65,1.46],to:g});
   mk(Box(.75,1.25,.12),'#C98A4B',{p:[0,.25+.62,1.22],to:g,ol:.04});mk(Sph(.06,8,6),K,{p:[.22,.9,1.3],ol:0,to:g});
   const wins=[[-1,1.3],[1,1.3]];if(two)wins.push([-1,2.85],[1,2.85]);

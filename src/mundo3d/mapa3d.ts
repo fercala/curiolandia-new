@@ -10,7 +10,7 @@
  * ahora() (aplicacion/puertos.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { Escena, Libre } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
@@ -52,64 +52,64 @@ function island3(w: Mundo){const pts=[[150,560],[100,330,180,170,420,170],[640,1
 // SPOT3: un constructor por cada lugar del mapa (clave = id de MZ2). Cada uno recibe g (el grupo ya colocado en el mapa) y, las zonas
 // por edad, open (true si la zona está abierta; si no, se dibuja en gris y dormida con zzz). Añaden las piezas con mk/spr/plane
 // y, si se mueve algo, ponen g.userData.anim (se llama cada cuadro desde buildMap).
-const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
+const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void>={
   // plaza / asamblea: fuente con gotas, banderitas de colores (userData.wave) y el cartel ASAMBLEA
-  plaza(g: Tres.Group){mk(Cyl(2.9,3,.18,40),'#F1E2C8',{p:[0,.09,0],to:g,ol:.05});mk(Cyl(2.2,2.2,.04,40),'#E8D4B0',{p:[0,.2,0],ol:0,to:g});
+  plaza(g: THREE.Group){mk(Cyl(2.9,3,.18,40),'#F1E2C8',{p:[0,.09,0],to:g,ol:.05});mk(Cyl(2.2,2.2,.04,40),'#E8D4B0',{p:[0,.2,0],ol:0,to:g});
     mk(Cyl(1.25,1.35,.5,32),'#FFFFFF',{p:[0,.35,0],to:g,ol:.05});mk(Cyl(1.08,1.08,.1,32),'#7FD3F0',{p:[0,.58,0],ol:0,to:g});
     mk(Cyl(.2,.3,1.1,12),'#FFFFFF',{p:[0,.9,0],to:g,ol:.04});mk(Cyl(.55,.45,.18,20),'#FFFFFF',{p:[0,1.45,0],to:g,ol:.04});
-    const drops: Tres.Mesh[]=[];for(let i=0;i<8;i++)drops.push(mk(Sph(.09,8,6),'#BFEAF7',{ol:.015,cs:false,to:g}));
+    const drops: THREE.Mesh[]=[];for(let i=0;i<8;i++)drops.push(mk(Sph(.09,8,6),'#BFEAF7',{ol:.015,cs:false,to:g}));
     g.userData.anim=()=>{drops.forEach((d,i)=>{const a=i/8*PI*2,k=(T*.9+i*.37)%1;d.position.set(Math.cos(a)*(.4+k*.6),1.55+Math.sin(k*PI)*.7-k*.6,Math.sin(a)*(.4+k*.6))})};
     DIAC.forEach((c,i)=>{const a=PI*1.05+i/6*PI*.9,x=Math.cos(a)*2.55,z=Math.sin(a)*2.55;mk(Cyl(.05,.05,1.6,6),'#FFFFFF',{p:[x,.8,z],to:g,ol:.025});
       const f=mk(new THREE.PlaneGeometry(.55,.38),new THREE.MeshToonMaterial({color:c,gradientMap:gradiente(),side:THREE.DoubleSide}),{p:[x+.27,1.4,z],ol:0,to:g});f.userData.wave=i});
     spr(canvasTex(512,150,()=>{card(16,16,480,118,'#fff',8,30);DIAC.forEach((c,i)=>circ(100+i*52,44,13,c,4));text('ASAMBLEA',256,124,66,K,{f:LF})},'asamblea'),3.9,1.15,{p:[0,2.8,-.6],to:g})},
   // jardín (3 años): valla, cuatro casitas de colores, flores y la pastilla «3 años»
-  jardin(g: Tres.Group){mk(Cyl(3.2,3.3,.2,36),'#B5E89E',{p:[0,.1,0],s:[1,1,.78],to:g,ol:.05});
+  jardin(g: THREE.Group){mk(Cyl(3.2,3.3,.2,36),'#B5E89E',{p:[0,.1,0],s:[1,1,.78],to:g,ol:.05});
     mk(mg(Array.from({length:16},(_,i)=>{const a=i/16*PI*2;return[Box(.14,.6,.14),[Math.cos(a)*3.05,.45,Math.sin(a)*2.35]]})),'#C98A4B',{to:g,ol:.025});
     [[-1.4,-.4,0],[.3,-.9,1],[1.6,.2,2],[-.4,.9,3]].forEach(([x,z,i])=>{const h=grp(g,[x,.2,z],.75);mk(Box(1.1,.8,.9),'#FFF3B0',{p:[0,.4,0],to:h,ol:.04});mk(Cone(.95,.75,4),FLC[i],{p:[0,1.18,0],r:[0,PI/4,0],to:h,ol:.04});mk(Box(.28,.45,.06),'#C98A4B',{p:[0,.25,.46],to:h,ol:.02})});
     for(let i=0;i<7;i++)flower3(g,-2.4+i*.8,1.75+(i%2)*.25,FLC[i%7],.7,.2);
     pillSpr('3 años','#FF8A7A','#fff',{p:[0,2.9,0],w:3.2,to:g})},
   // bosque (4 años): árboles de varias estaciones y la pastilla «4 años»; cerrado: gris y con zzz
-  bosque(g: Tres.Group,open: boolean){mk(Cyl(3.1,3.2,.2,30),open?'#8CCB78':'#CFC8BF',{p:[0,.1,0],s:[1,1,.8],to:g,ol:.05});
+  bosque(g: THREE.Group,open: boolean){mk(Cyl(3.1,3.2,.2,30),open?'#8CCB78':'#CFC8BF',{p:[0,.1,0],s:[1,1,.8],to:g,ol:.05});
     ([[-1.7,.4,.85,'otoño'],[0,-.6,1.05,'verano'],[1.7,.3,.9,'verano'],[-.7,1.4,.7,'otoño'],[1,1.5,.7,'primavera'],[-2.2,-.9,.7,null],[2.3,-.9,.7,null]] as [number, number, number, string|null][]).forEach(([x,z,s,k])=>tree3(g,x,z,s,open?(k||'verano'):'gris',!k));
     spr(pillTex('4 años',open?'#7CC86E':'#B8B0A6','#fff',72),4,1,{p:[0,.65,3.1],to:g});if(!open)zzz(g,[2,3.2,0])},
   // montaña (5 años): dos picos nevados, flores si está abierta, piedras y la pastilla «5 años»
-  montana(g: Tres.Group,open: boolean){const gc=open?'#A7BCD6':'#CFC8BF';mk(Cone(2.4,4.2,9),gc,{p:[-1,2.1,-.4],to:g,ol:.07});mk(Cone(2,3.4,9),gc,{p:[1.5,1.7,.2],to:g,ol:.07});
+  montana(g: THREE.Group,open: boolean){const gc=open?'#A7BCD6':'#CFC8BF';mk(Cone(2.4,4.2,9),gc,{p:[-1,2.1,-.4],to:g,ol:.07});mk(Cone(2,3.4,9),gc,{p:[1.5,1.7,.2],to:g,ol:.07});
     mk(Cone(.95,1.65,9),'#FFFFFF',{p:[-1,3.4,-.4],to:g,ol:.05});mk(Cone(.75,1.3,9),'#FFFFFF',{p:[1.5,2.8,.2],to:g,ol:.05});
     if(open)for(let i=0;i<5;i++)flower3(g,-2+i*1,2+(i%2)*.3,FLC[i+1],.75,0);rock3(g,2.8,1.4,.8);rock3(g,-3,1.2,.6);
     pillSpr('5 años',open?'#5B8DEF':'#B8B0A6','#fff',{p:[0,.6,2.9],w:3.2,to:g});if(!open)zzz(g,[2.3,4,0])},
   // canciones: carpa de rayas con bandera y notas musicales que suben
-  canciones(g: Tres.Group){mk(Cyl(1.5,1.5,1.3,16),M('#fff',{map:stripesTex()}),{p:[0,.65,0],to:g,ol:.05});mk(Cone(1.85,1.6,16),'#FF6B5E',{p:[0,2.1,0],to:g,ol:.05});
+  canciones(g: THREE.Group){mk(Cyl(1.5,1.5,1.3,16),M('#fff',{map:stripesTex()}),{p:[0,.65,0],to:g,ol:.05});mk(Cone(1.85,1.6,16),'#FF6B5E',{p:[0,2.1,0],to:g,ol:.05});
     mk(Cyl(.03,.03,.7,6),K,{p:[0,3.1,0],ol:0,to:g});mk(new THREE.PlaneGeometry(.5,.3),new THREE.MeshToonMaterial({color:'#FFC93C',gradientMap:gradiente(),side:THREE.DoubleSide}),{p:[.25,3.3,0],ol:0,to:g});
     mk(Box(.8,.95,.1),'#7A4C30',{p:[0,.48,1.47],to:g,ol:.03});
     const notes=[0,1,2].map(i=>spr(canvasTex(128,128,()=>text('♪',64,100,110,DIAC[i*2],{st:8}),'nota'+i),.9,.9,{to:g}));
     g.userData.anim=()=>notes.forEach((n,i)=>{const k=(T*.5+i/3)%1;n.position.set(-1+i+Math.sin(T*2+i)*.3,2.6+k*1.8,.5);n.material.opacity=1-k})},
   // trazos: caballete con una pizarra de trazos
-  trazos(g: Tres.Group){const e=grp(g,[0,0,0]);for(const x of[-.7,.7])mk(Box(.12,2.6,.12),'#C98A4B',{p:[x,1.25,0],r:[-.12,0,x>0?-.12:.12],to:e,ol:.03});
+  trazos(g: THREE.Group){const e=grp(g,[0,0,0]);for(const x of[-.7,.7])mk(Box(.12,2.6,.12),'#C98A4B',{p:[x,1.25,0],r:[-.12,0,x>0?-.12:.12],to:e,ol:.03});
     mk(Box(2,1.4,.12),'#C98A4B',{p:[0,1.75,.12],r:[-.12,0,0],to:e,ol:.04});
     plane(canvasTex(256,180,()=>{ctx.fillStyle='#3E7A5A';ctx.fillRect(0,0,256,180);ctx.strokeStyle='#fff';ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();for(let x=20;x<230;x+=6)ctx.lineTo(x,60+Math.sin(x/14)*22);ctx.stroke();ctx.beginPath();ctx.arc(70,130,24,0,PI*2);ctx.stroke();text('a',160,150,60,'#FFE08A',{f:LF})},'pizarra3'),1.8,1.25,{p:[0,1.75,.19],r:[-.12,0,0],to:e});
     mk(Box(1.9,.1,.25),'#C98A4B',{p:[0,1,.28],to:e,ol:.02})},
   // rutinas: casita con el dibujo de las manos y pompas de jabón que suben
-  rutinas(g: Tres.Group){mk(Box(1.9,1.3,1.6),'#BFEAF7',{p:[0,.65,0],to:g,ol:.05});mk(prism(2.4,1.1,2),'#5BB8E6',{p:[0,1.3,0],to:g,ol:.05});
+  rutinas(g: THREE.Group){mk(Box(1.9,1.3,1.6),'#BFEAF7',{p:[0,.65,0],to:g,ol:.05});mk(prism(2.4,1.1,2),'#5BB8E6',{p:[0,1.3,0],to:g,ol:.05});
     plane(canvasTex(160,160,()=>{circ(80,80,70,'#fff',8);pic('manos',80,80,110)},'manos3'),1,1,{p:[0,.75,.82],to:g});
     const bub=[0,1,2,3].map(i=>{const m=new THREE.Mesh(Sph(.16+i*.04,12,10),new THREE.MeshToonMaterial({color:'#E8F8FF',gradientMap:gradiente(),transparent:true,opacity:.75}));g.add(m);return m});
     g.userData.anim=()=>bub.forEach((b,i)=>{const k=(T*.6+i/4)%1;b.position.set(1.1+Math.sin(T*3+i)*.2,1.2+k*2,.3);b.scale.setScalar(1-k*.3);b.visible=k<.95})},
   // álbum: libro abierto con una estrella que se balancea encima
-  album(g: Tres.Group){const b=grp(g,[0,.2,0]);b.rotation.y=-.25;mk(Box(1.5,.25,2),'#9B8AD9',{p:[-.78,.12,0],r:[0,0,.12],to:b,ol:.04});mk(Box(1.5,.25,2),'#9B8AD9',{p:[.78,.12,0],r:[0,0,-.12],to:b,ol:.04});
+  album(g: THREE.Group){const b=grp(g,[0,.2,0]);b.rotation.y=-.25;mk(Box(1.5,.25,2),'#9B8AD9',{p:[-.78,.12,0],r:[0,0,.12],to:b,ol:.04});mk(Box(1.5,.25,2),'#9B8AD9',{p:[.78,.12,0],r:[0,0,-.12],to:b,ol:.04});
     mk(Box(1.35,.12,1.8),'#FFF6E6',{p:[-.72,.32,0],r:[0,0,.12],to:b,ol:.02});mk(Box(1.35,.12,1.8),'#FFF6E6',{p:[.72,.32,0],r:[0,0,-.12],to:b,ol:.02});
     const st=mk(starGeo(.45,.15),'#FFC93C',{p:[0,1.3,0],to:b,ol:.03});g.userData.anim=()=>{st.rotation.y=Math.sin(T*1.4)*.55;st.position.y=1.3+Math.sin(T*2)*.12}},
   // rincón del inglés: bocadillo «Hello!» y tres cubos A, B y C
-  ingles(g: Tres.Group){mk(Cyl(.08,.08,1.8,8),'#C98A4B',{p:[0,.9,0],to:g,ol:.03});
+  ingles(g: THREE.Group){mk(Cyl(.08,.08,1.8,8),'#C98A4B',{p:[0,.9,0],to:g,ol:.03});
     spr(canvasTex(256,180,()=>{card(14,14,228,120,'#fff',8,50);ctx.beginPath();ctx.moveTo(90,128);ctx.lineTo(70,170);ctx.lineTo(125,128);ctx.closePath();fillStroke('#fff',8);ctx.fillStyle='#fff';ctx.fillRect(80,118,50,14);text('Hello!',128,95,58,'#5B8DEF',{f:LF})},'hello3'),1.9,1.33,{p:[0,2.35,0],to:g});
     ['A','B','C'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=['#FF6B5E','#FFC93C','#7CC86E'][i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l);
       const m=new THREE.Mesh(Box(.7,.7,.7),new THREE.MeshToonMaterial({map:t,gradientMap:gradiente()}));m.position.set(-.85+i*.85,.35+(i===1?.0:0),.9);m.rotation.y=(i-1)*.3;m.castShadow=true;g.add(m);m.add(Object.assign(new THREE.Mesh(olGeo(m.geometry),OLm(.035)),{raycast:()=>{}}))})},
   // fiestas: tarta con velas (llamitas userData.fl), dos regalos y cuatro globos que se mecen
-  fiestas(g: Tres.Group){const c=grp(g,[0,0,0]);mk(Cyl(1,1,.6,24),'#F58BB4',{p:[0,.3,0],to:c,ol:.04});mk(Cyl(.75,.75,.5,24),'#FFF6E6',{p:[0,.85,0],to:c,ol:.04});
+  fiestas(g: THREE.Group){const c=grp(g,[0,0,0]);mk(Cyl(1,1,.6,24),'#F58BB4',{p:[0,.3,0],to:c,ol:.04});mk(Cyl(.75,.75,.5,24),'#FFF6E6',{p:[0,.85,0],to:c,ol:.04});
     for(let i=0;i<4;i++){const a=i/4*PI*2;mk(Cyl(.05,.05,.35,6),DIAC[i],{p:[Math.cos(a)*.4,1.27,Math.sin(a)*.4],to:c,ol:.015});const fl=mk(Sph(.07,8,6),'#FFC93C',{p:[Math.cos(a)*.4,1.5,Math.sin(a)*.4],s:[1,1.6,1],ol:0,cs:false,to:c});fl.userData.fl=1}
     ([[1.6,.5,'#5B8DEF'],[-1.5,.7,'#7CC86E']] as [number, number, string][]).forEach(([x,z,cc])=>{const p=grp(g,[x,0,z]);mk(Box(.8,.7,.8),cc,{p:[0,.35,0],to:p,ol:.035});mk(Box(.84,.74,.18),'#FFC93C',{p:[0,.35,0],ol:.02,to:p});mk(Box(.18,.74,.84),'#FFC93C',{p:[0,.35,0],ol:.02,to:p})});
     const bl=([['#FF6B5E',-1.2,-.8],['#FFC93C',-.4,-1.2],['#9B8AD9',.6,-1.1],['#7FD3F0',1.3,-.6]] as [string, number, number][]).map(([cc,x,z])=>balloon3(g,x,z,cc,2.2));
     g.userData.anim=()=>bl.forEach((b,i)=>{b.rotation.z=Math.sin(T*1.5+i)*.06;b.rotation.x=Math.cos(T*1.2+i)*.05})},
   // tienda: mostrador con toldo de rayas, monedas y dibujos; si hay monedas (S.coins), una moneda gira encima
-  tienda(g: Tres.Group){mk(Box(2.6,1,1.1),'#FFF3D6',{p:[0,.5,.3],to:g,ol:.05});for(const x of[-1.2,1.2])for(const z of[-.3,.8])mk(Box(.13,2.3,.13),'#C98A4B',{p:[x,1.15,z],to:g,ol:.025});
+  tienda(g: THREE.Group){mk(Box(2.6,1,1.1),'#FFF3D6',{p:[0,.5,.3],to:g,ol:.05});for(const x of[-1.2,1.2])for(const z of[-.3,.8])mk(Box(.13,2.3,.13),'#C98A4B',{p:[x,1.15,z],to:g,ol:.025});
     const aw=grp(g,[0,2.35,.25]);aw.rotation.x=.25;for(let i=0;i<6;i++)mk(Box(.47,.12,1.6),i%2?'#fff':'#FF6B5E',{p:[-1.18+i*.47,0,0],to:aw,ol:.025});
     spr(pillTex('Tienda','#7CC86E','#fff',80),3.2,.8,{p:[0,3.3,0],to:g});
     for(let i=0;i<5;i++)mk(Cyl(.2,.2,.07,16),'#FFC93C',{p:[-.7+(i%3)*.3,1.05+Math.floor(i/3)*.08,.4+(i%2)*.15],to:g,ol:.02});
@@ -119,10 +119,10 @@ const SPOT3: Record<string, (g: Tres.Group, open: boolean) => void>={
 // stripesTex(): textura de rayas rojas y blancas (para la carpa de canciones)
 function stripesTex(){return canvasTex(256,64,()=>{for(let i=0;i<8;i++){ctx.fillStyle=i%2?'#FFF6E6':'#FF6B5E';ctx.fillRect(i*32,0,32,64)}},'stripes')}
 // zzz(g,p): dos «z» que suben desde el punto p del grupo g (lugar dormido). Encadena con el g.userData.anim que ya hubiera.
-function zzz(g: Tres.Object3D,p: Trio){const zs=[0,1].map(i=>spr(canvasTex(96,96,()=>text('z',48,76,80,'#7A6252',{st:6,sc:'#fff'}),'z'),.6+i*.2,.6+i*.2,{to:g}));
+function zzz(g: THREE.Object3D,p: Trio){const zs=[0,1].map(i=>spr(canvasTex(96,96,()=>text('z',48,76,80,'#7A6252',{st:6,sc:'#fff'}),'z'),.6+i*.2,.6+i*.2,{to:g}));
   const a=g.userData.anim;g.userData.anim=()=>{a&&a();zs.forEach((z,i)=>{const k=(T*.4+i*.5)%1;z.position.set(p[0]+k*.6,p[1]+k*1.4,p[2]);z.material.opacity=Math.sin(k*PI)})}}
 // greyAll(g,on): on=true pinta de gris todas las piezas toon del grupo g (guardando el material en userData.m0); on=false lo deshace.
-function greyAll(g: Tres.Object3D,on: boolean){g.traverse((o: Nodo)=>{if(o.isMesh&&o.material&&o.material.isMeshToonMaterial){if(on){o.userData.m0=o.userData.m0||o.material;o.material=M('#CFC8BF')}else if(o.userData.m0)o.material=o.userData.m0}})}
+function greyAll(g: THREE.Object3D,on: boolean){g.traverse((o: Nodo)=>{if(o.isMesh&&o.material&&o.material.isMeshToonMaterial){if(on){o.userData.m0=o.userData.m0||o.material;o.material=M('#CFC8BF')}else if(o.userData.m0)o.material=o.userData.m0}})}
 
 // buildMap(st): construye el mundo 3D del mapa y lo devuelve (setWorld lo activa). st es la escena SCENES.map, de la que lee
 // titoAt, hop, hov, unl (candado que se abre), wake (zona que despierta), lockShake, shake (casa) y petJump (mascota).

@@ -37,7 +37,7 @@ describe('paginaJuego', () => {
   test('lleva el juego en un solo <script> normal, sin código global', () => {
     const { publicada, modulos } = pagina;
     expect(publicada.indexOf(`<script>\n${modulos}</script>`)).toBeGreaterThan(0);
-    // Los otros <script> son three.min.js (head.html) y el registro del service worker, en una línea.
+    // El otro <script> es el registro del service worker, en una línea (Three.js va dentro, desde la fase 6a).
     expect(publicada.match(/<script>\n/g)).toHaveLength(1);
   });
 
@@ -136,11 +136,11 @@ describe('paginaJuego', () => {
     expect(() => runInContext('function go() {}', global)).toThrow();
   });
 
-  test('no carga nada de internet: fuentes y Three.js locales', () => {
+  test('no carga nada de internet: fuentes locales y Three.js dentro del juego', () => {
     const { publicada } = pagina;
     expect(publicada).not.toContain('fonts.googleapis.com');
     expect(publicada).not.toContain('cdnjs.cloudflare.com');
-    expect(publicada).toContain('<script src="three.min.js">');
+    expect(publicada).not.toContain('three.min.js');
     expect(publicada).toContain('url(fonts/fredoka-latin.woff2)');
     expect(publicada).toContain('<link rel="manifest" href="manifest.webmanifest">');
   });

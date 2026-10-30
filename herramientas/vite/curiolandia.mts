@@ -1,6 +1,6 @@
 // Plugin de Vite que monta Curiolandia en una sola página: src/head.html y un <script> con el juego (src/modulos.ts y
-// todo lo que importa, juntos con rolldown). Cambia las fuentes de Google y Three.js de cdnjs por las copias locales de
-// public/ y, al montar para publicar, añade el service worker (sw.js, con la caché curiolandia-new-v<versión de
+// todo lo que importa, juntos con rolldown, Three.js incluido: el paquete three, desde la fase 6a). Cambia las fuentes
+// de Google por las copias locales de public/ y, al montar para publicar, añade el service worker (sw.js, con la caché curiolandia-new-v<versión de
 // package.json>).
 // Hasta la fase 2p de la migración la página llevaba además un <script> con los .js de src/ que aún eran globales,
 // pegados en un orden fijo (ARCHIVOS, el de src/build.sh); ahora todo el juego son módulos.
@@ -27,8 +27,6 @@ const META_WEB = '<link rel="manifest" href="manifest.webmanifest"><meta name="t
   '<style>@font-face{font-family:"Andika";font-weight:400 700;font-display:swap;' +
   'src:url(fonts/andika-700-latin.woff2) format("woff2")}@font-face{font-family:"Fredoka";' +
   'font-weight:300 700;font-display:swap;src:url(fonts/fredoka-latin.woff2) format("woff2")}</style>';
-
-const THREE_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
 
 // En el servidor de desarrollo, el cliente de Vite (recarga la página al guardar). La página se pone después de que
 // Vite procese index.html, así que hay que añadirlo a mano.
@@ -75,8 +73,7 @@ export async function codigoModulos(src: string): Promise<string> {
 export async function paginaJuego(o: OpcionesPagina): Promise<string> {
   const cabeza = readFileSync(join(o.src, 'head.html'), 'utf8')
     .replace(PRECONNECT, '')
-    .replace(GOOGLE_FONTS, META_WEB)
-    .replace(THREE_CDN, 'three.min.js');
+    .replace(GOOGLE_FONTS, META_WEB);
   const registro = o.conServiceWorker ? REGISTRO_SW : '';
   const cliente = o.conServiceWorker ? '' : CLIENTE_VITE;
   const modulos = await codigoModulos(o.src);
@@ -87,7 +84,7 @@ export async function paginaJuego(o: OpcionesPagina): Promise<string> {
 // cachés viejas de este juego (PREFIJO_CACHE); al pedir algo de su ámbito responde desde la caché y, si no está, lo
 // descarga y lo guarda. Sin conexión y sin caché devuelve index.html.
 export function serviceWorker(cache: string): string {
-  return `const C='${cache}';const F=['./','index.html','three.min.js','manifest.webmanifest','fonts/andika-700-latin.woff2','fonts/fredoka-latin.woff2','icon-192.png','icon-512.png','apple-touch-icon.png'];
+  return `const C='${cache}';const F=['./','index.html','manifest.webmanifest','fonts/andika-700-latin.woff2','fonts/fredoka-latin.woff2','icon-192.png','icon-512.png','apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('${PREFIJO_CACHE}')&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||!e.request.url.startsWith(self.registration.scope))return;e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request).then(res=>{if(res.ok){const cp=res.clone();caches.open(C).then(c=>c.put(e.request,cp))}return res}).catch(()=>caches.match('index.html'))))});`;

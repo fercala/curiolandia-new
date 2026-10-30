@@ -8,7 +8,7 @@
  * mundo3d/mundo3d.ts (antes world3d.js) — LA CAPA 3D DE CURIOLANDIA: la entrada, que la monta
  * ----------------------------------------------------------------------------
  * Qué hace:
- *   Dibuja con Three.js (r128) en el <canvas id="gl"> la portada, el mapa (la isla), las cinco zonas
+ *   Dibuja con Three.js (el paquete three de npm) en el <canvas id="gl"> la portada, el mapa (la isla), las cinco zonas
  *   (jardín, bosque, montaña, fiestas, inglés), las casitas de tema por fuera y el cofre. El lienzo 2D
  *   (#cv) va encima y es transparente en las escenas 3D: en él se pintan los carteles, botones y HUD.
  *
@@ -65,8 +65,8 @@
  *   convierte en 3D con su función montar* (montarMapa3D...) y este archivo las llama en orden.
  * Desde la fase 2o es un módulo: src/modulos.ts lo carga después de las escenas y, desde la fase 4p, antes de
  *   aplicacion/adultos.ts, que importa R3frame (antes iba después y R3frame era una global tardía); el puente deja
- *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts, y THREE, que
- *   llega como global desde three.min.js, en mundo3d/three.d.ts.
+ *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts; THREE es
+ *   el paquete three de npm, que cada archivo importa (desde la fase 6a; antes era global, de three.min.js).
  * Exporta: R3frame (lo llama frame(), en aplicacion/adultos.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y pone la disposición de la vista 3D (ponDisposicion, de
  *   nucleo/disposicion.ts: los puestos de la casita, desde la fase 4i, en mundo3d/casita3d.ts; los sitios del mapa y las

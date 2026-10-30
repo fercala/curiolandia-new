@@ -4,12 +4,12 @@
  * marrón), piezas (mk, grp) y formas (Box, Sph, Cyl, Cone, prism, rbox, starGeo), piezas unidas (mg), geometrías
  * compartidas (gcache, keep, GC) y texturas dibujadas con las funciones 2D de siempre (canvasTex, picTex, pillTex,
  * flowerTex y, desde la fase 4h, gradTex, el degradado de los fondos; con su caché TXC) y sus carteles (spr, plane, pillSpr). V3 es un atajo para crear vectores.
- * Usa THREE (global, de three.min.js) solo dentro de las funciones: así el módulo se carga igual sin Three.js (el
- * juego va en 2D) y no crea nada hasta que la capa 3D se monta (mundo3d/motor.ts, montarMotor).
+ * Usa THREE (el paquete three, importado) solo dentro de las funciones: no crea nada hasta que la capa 3D se monta
+ * (mundo3d/motor.ts, montarMotor), y si el móvil no tiene WebGL el juego va en 2D.
  * Exporta todo lo de arriba. Importa: K (src/dibujos/) y del núcleo, src/nucleo/, el lienzo y el dibujo 2D (ctx, ponCtx,
  * card, text, flower, IMG, DF, LF, PI, VIVO.mouseOn).
  */
-import type * as Tres from 'three';
+import * as THREE from 'three';
 import type { OpcionesPieza, OpcionesPlano, OpcionesSprite, PiezaUnida, TexturaDibujada, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, IMG, LF, PI, VIVO, card, ctx, flower, ponCtx, text } from '../nucleo/indice.ts';
@@ -21,16 +21,16 @@ export const V3=(x: number,y: number,z: number)=>new THREE.Vector3(x,y,z);
 // GRAD: textura de 3 píxeles (gris oscuro, gris claro, blanco) que hace que la luz se pinte en 3 escalones
 // en vez de en degradado: es lo que da el aspecto de dibujo animado (MeshToonMaterial). Desde la fase 4g se crea la
 // primera vez que se pide (gradiente()), no al cargar el módulo: así el módulo se carga igual sin Three.js (sin 3D).
-let GRAD: Tres.DataTexture|null=null;
+let GRAD: THREE.DataTexture|null=null;
 // gradiente(): la textura GRAD (la crea la primera vez que se pide).
-export function gradiente(): Tres.DataTexture{return GRAD||(GRAD=(()=>{const t=new THREE.DataTexture(new Uint8Array([150,150,150,255,212,212,212,255,255,255,255,255]),3,1,THREE.RGBAFormat);t.minFilter=t.magFilter=THREE.NearestFilter;t.generateMipmaps=false;t.needsUpdate=true;return t})())}
+export function gradiente(): THREE.DataTexture{return GRAD||(GRAD=(()=>{const t=new THREE.DataTexture(new Uint8Array([150,150,150,255,212,212,212,255,255,255,255,255]),3,1,THREE.RGBAFormat);t.minFilter=t.magFilter=THREE.NearestFilter;t.generateMipmaps=false;t.needsUpdate=true;return t})())}
 // MC: caché de materiales, para no crear dos iguales.
-const MC: Record<string, Tres.MeshToonMaterial>={};
+const MC: Record<string, THREE.MeshToonMaterial>={};
 // M(c,o): devuelve el material toon de color c (por ejemplo '#FFC93C') con las opciones extra o de Three.js
 // ({emissive, side, transparent...}). Se guarda en MC con clave color+opciones y se reutiliza.
-export function M(c: string,o?: Tres.MeshToonMaterialParameters){const k=c+(o?JSON.stringify(o):'');return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:gradiente()},o||{})))}
+export function M(c: string,o?: THREE.MeshToonMaterialParameters){const k=c+(o?JSON.stringify(o):'');return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:gradiente()},o||{})))}
 // OLC: caché de materiales de contorno, uno por grosor.
-const OLC: Record<number, Tres.ShaderMaterial>={};
+const OLC: Record<number, THREE.ShaderMaterial>={};
 // OLm(w): material del contorno marrón de grosor w. Técnica del "casco invertido": se dibuja una copia de la pieza
 // hinchada w unidades a lo largo de las normales (atributo onorm) y solo por dentro (BackSide), de color marrón
 // liso; como la copia es un poco más grande y se ven sus caras de atrás, asoma como un borde alrededor de la pieza.
@@ -41,7 +41,7 @@ export function OLm(w: number){w=Math.round(w*1000)/1000;return OLC[w]||(OLC[w]=
 // olGeo(g): añade a la geometría g el atributo onorm que usa OLm. Junta los vértices que están en el mismo sitio
 // (redondeando a 1/500) y les da la media de sus normales, así las esquinas se hinchan juntas y no se abren.
 // Lo hace una sola vez por geometría (marca g.userData.ol). Devuelve g.
-export function olGeo(g: Tres.BufferGeometry){if(g.userData.ol)return g;const p=g.attributes.position,n=g.attributes.normal,map=new Map(),o=new Float32Array(p.count*3);
+export function olGeo(g: THREE.BufferGeometry){if(g.userData.ol)return g;const p=g.attributes.position,n=g.attributes.normal,map=new Map(),o=new Float32Array(p.count*3);
   for(let i=0;i<p.count;i++){const k=Math.round(p.getX(i)*500)+','+Math.round(p.getY(i)*500)+','+Math.round(p.getZ(i)*500);let a=map.get(k);if(!a)map.set(k,a=[]);a.push(i)}
   for(const a of map.values()){let x=0,y=0,z=0;for(const i of a){x+=n.getX(i);y+=n.getY(i);z+=n.getZ(i)}const l=Math.hypot(x,y,z)||1;for(const i of a){o[i*3]=x/l;o[i*3+1]=y/l;o[i*3+2]=z/l}}
   g.setAttribute('onorm',new THREE.BufferAttribute(o,3));g.userData.ol=1;return g}
@@ -50,13 +50,13 @@ export function olGeo(g: Tres.BufferGeometry){if(g.userData.ol)return g;const p=
 // to = grupo o escena donde se añade, cs/rs = false para no proyectar/recibir sombra, ol = grosor del contorno
 // (0 = sin contorno; por defecto .05). El contorno es una pieza hija que no se puede tocar (raycast vacío) y su
 // grosor se divide por la escala media para que se vea igual de grueso en piezas grandes y pequeñas. Devuelve la pieza.
-export function mk(geo: Tres.BufferGeometry,c: string | Tres.Material,o: OpcionesPieza={}){const m=new THREE.Mesh(geo,typeof c==='string'?M(c):c);m.castShadow=o.cs!==false;m.receiveShadow=o.rs!==false;
+export function mk(geo: THREE.BufferGeometry,c: string | THREE.Material,o: OpcionesPieza={}){const m=new THREE.Mesh(geo,typeof c==='string'?M(c):c);m.castShadow=o.cs!==false;m.receiveShadow=o.rs!==false;
   if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);
   if(o.s!=null){if(typeof o.s==='number')m.scale.setScalar(o.s);else m.scale.set(o.s[0],o.s[1],o.s[2])}
   if(o.ol!==0){const sc=(m.scale.x+m.scale.y+m.scale.z)/3,l=new THREE.Mesh(olGeo(geo),OLm((o.ol||.05)/sc));l.castShadow=false;l.receiveShadow=false;l.raycast=()=>{};m.add(l)}
   if(o.to)o.to.add(m);return m}
 // grp(to,p,s): crea un grupo vacío en la posición p [x,y,z] con escala s y lo añade a to. Devuelve el grupo.
-export const grp=(to: Tres.Object3D,p?: Trio,s?: number)=>{const g=new THREE.Group();if(p)g.position.set(p[0],p[1],p[2]);if(s)g.scale.setScalar(s);if(to)to.add(g);return g};
+export const grp=(to: THREE.Object3D,p?: Trio,s?: number)=>{const g=new THREE.Group();if(p)g.position.set(p[0],p[1],p[2]);if(s)g.scale.setScalar(s);if(to)to.add(g);return g};
 // atajos de formas básicas: caja (ancho, alto, fondo), esfera (radio, segmentos), cilindro (radio arriba, radio abajo,
 // alto, lados) y cono (radio, alto, lados). Menos segmentos = menos trabajo para el móvil.
 export const Box=(w: number,h: number,d: number)=>new THREE.BoxGeometry(w,h,d),Sph=(r: number,a=20,b=14)=>new THREE.SphereGeometry(r,a,b),Cyl=(a: number,b: number,h: number,n=20)=>new THREE.CylinderGeometry(a,b,h,n),Cone=(r: number,h: number,n=20)=>new THREE.ConeGeometry(r,h,n);
@@ -70,16 +70,16 @@ export function starGeo(r: number,d: number){const s=new THREE.Shape();for(let i
 
 // une varias piezas del mismo color en una sola geometría (menos llamadas de dibujo): [[geo,[x,y,z],[sx,sy,sz]|s,[rx,ry,rz]],...]
 // _o3: objeto de trabajo para colocar cada pieza (se crea la primera vez que se usa mg).
-let _o3: Tres.Object3D|null=null;
+let _o3: THREE.Object3D|null=null;
 // mg(parts): parts = [[geometría, posición, escala, giro], ...]. Copia cada geometría, le aplica su posición/escala/giro
 // y las suelta todas juntas en una BufferGeometry nueva (solo posición y normal). Devuelve esa geometría.
 export function mg(parts: PiezaUnida[]){const o3=_o3||(_o3=new THREE.Object3D()),pos=[],nor=[];for(const [g0,p,sc,r] of parts){const g=g0.index?g0.toNonIndexed():g0.clone();o3.position.set(...(p||[0,0,0]));if(sc==null)o3.scale.set(1,1,1);else if(typeof sc==='number')o3.scale.setScalar(sc);else o3.scale.set(...sc);o3.rotation.set(...(r||[0,0,0]));o3.updateMatrix();g.applyMatrix4(o3.matrix);
   pos.push(...(g.attributes.position.array as Float32Array));nor.push(...(g.attributes.normal.array as Float32Array))}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3));return g}
 // GC: caché de geometrías compartidas. keep(g) las marca para que disposeWorld no las borre al cambiar de escena.
-const GC: Record<string, Tres.BufferGeometry>={};export const keep=(g: Tres.BufferGeometry)=>{g.userData.keep=1;return g};
+const GC: Record<string, THREE.BufferGeometry>={};export const keep=(g: THREE.BufferGeometry)=>{g.userData.keep=1;return g};
 // gcache(k,f): devuelve la geometría guardada con el nombre k; si no existe, la crea con f(), le prepara el contorno
 // (olGeo) y la guarda para siempre. Úsalo para piezas que se repiten mucho (flores, copas de árbol, nubes...).
-export const gcache=(k: string,f: () => Tres.BufferGeometry)=>GC[k]||(GC[k]=keep(olGeo(f())));
+export const gcache=(k: string,f: () => THREE.BufferGeometry)=>GC[k]||(GC[k]=keep(olGeo(f())));
 /* ---------- texturas hechas con el dibujo 2D de siempre ---------- */
 // TXC: caché de texturas dibujadas (por clave). Estas no se liberan al cambiar de escena.
 export const TXC: Record<string, TexturaDibujada>={};
@@ -96,9 +96,9 @@ export function picTex(k: string,px=256){const t=canvasTex(px,px,g=>{const i=IMG
   if(IMG[k]&&!IMG[k].complete)IMG[k].addEventListener('load',()=>t.redraw(),{once:true});return t}
 // spr(tex,w,h,o): sprite (cartel plano que siempre mira a la cámara) con la textura tex, de w x h unidades.
 // Opciones o: p posición, to dónde añadirlo, dt=false para dibujarlo siempre por encima, op opacidad, ro orden de dibujo.
-export function spr(tex: Tres.Texture,w: number,h?: number,o: OpcionesSprite={}){const m=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:o.dt!==false,opacity:o.op??1}));m.scale.set(w,h??w,1);if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.to)o.to.add(m);m.renderOrder=o.ro||0;return m}
+export function spr(tex: THREE.Texture,w: number,h?: number,o: OpcionesSprite={}){const m=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:o.dt!==false,opacity:o.op??1}));m.scale.set(w,h??w,1);if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.to)o.to.add(m);m.renderOrder=o.ro||0;return m}
 // plane(tex,w,h,o): plano fijo con la textura tex (no gira hacia la cámara). Opciones: p, r, to, ds (dos caras).
-export function plane(tex: Tres.Texture,w: number,h: number,o: OpcionesPlano={}){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex,transparent:true,alphaTest:.02,side:o.ds?THREE.DoubleSide:THREE.FrontSide}));if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);if(o.to)o.to.add(m);return m}
+export function plane(tex: THREE.Texture,w: number,h: number,o: OpcionesPlano={}){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex,transparent:true,alphaTest:.02,side:o.ds?THREE.DoubleSide:THREE.FrontSide}));if(o.p)m.position.set(o.p[0],o.p[1],o.p[2]);if(o.r)m.rotation.set(o.r[0],o.r[1],o.r[2]);if(o.to)o.to.add(m);return m}
 // cartel en forma de píldora: [texto, fondo, color del texto]
 // pillTex(t,bg,fg,sz): textura de 512x128 con el texto t sobre un cartel redondeado; se guarda en caché.
 export function pillTex(t: string,bg='#fff',fg=K,sz=56){return canvasTex(512,128,g=>{g.font=`700 ${sz}px ${DF}`;const tw=Math.min(470,g.measureText(t).width+60);card(256-tw/2,14,tw,100,bg,8,50);text(t,256,64+sz*.36,sz,fg)},'pill:'+t+bg+fg+sz)}
