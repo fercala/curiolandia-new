@@ -33,13 +33,16 @@ export let PRK=1;
 export function rs(){const b=Math.min(devicePixelRatio||1,matchMedia('(pointer:coarse)').matches?1.5:1.75);R.setPixelRatio(Math.max(Math.min(b,.75),b*PRK));R.setSize(innerWidth,innerHeight,false);if(W3)fitCam(W3)}
 // ponPRK(v): cambia la calidad PRK y ajusta el dibujo (window.__w3.PRK: las pruebas y la zona de adultos).
 export function ponPRK(v: number): void{PRK=v;rs()}
-// montarMotor(): crea el dibujante R (si no hay Three.js o el aparato no tiene WebGL, devuelve false y no hay 3D),
-// activa las sombras suaves, decide el tamaño de las sombras (SHM), crea los vectores y el rayo de trabajo, ajusta el
+// montarMotor(): crea el dibujante R (si el aparato no tiene WebGL, devuelve false y no hay 3D), apaga la gestión de
+// color de Three.js (desde r152 convierte los colores a sRGB; el juego se diseñó con r128, que no lo hacía, y con ella
+// todo saldría más claro), activa las sombras suaves (PCFShadowMap: PCFSoftShadowMap ya no existe; el radio del sol, 1, lo deja como antes:
+// con más, el borde sale punteado), decide el tamaño de las sombras (SHM), crea los vectores y el rayo de trabajo, ajusta el
 // tamaño del dibujo (rs) y lo vuelve a ajustar cada vez que cambia el tamaño de la ventana. Devuelve true si hay 3D.
 export function montarMotor(): boolean{
+  THREE.ColorManagement.enabled=false;
   try{R=new THREE.WebGLRenderer({canvas:document.getElementById('gl') as HTMLCanvasElement,antialias:true,powerPreference:'high-performance'})}catch(e){return false}
   if(!R.getContext())return false;
-  R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
+  R.outputColorSpace=THREE.LinearSRGBColorSpace;R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFShadowMap;
   SHM=matchMedia('(pointer:coarse)').matches?1024:2048;
   addEventListener('resize',rs);rs();
   _v=new THREE.Vector3();_w=new THREE.Vector3();_u=new THREE.Vector3();RC=new THREE.Raycaster();_m=new THREE.Vector2();
@@ -71,14 +74,15 @@ export function pickAt(x: number,y: number){if(!W3)return null;_m.set((x*SC+OX)/
 
 /* ---------- el mundo activo ---------- */
 // newWorld(o): crea un mundo 3D vacío: escena, cámara (o.fov, 40 por defecto, 16:9), fondo o.bg, niebla o.fog=[cerca,lejos] y luces
-// (cielo, ambiente y sol con sombras que cubren o.shadow). Devuelve w = {sc, cam, fov, pick:[] (cosas que se pueden tocar),
+// (cielo, ambiente y sol con sombras que cubren o.shadow; sus intensidades van × PI porque desde r155 las luces son
+// «físicas» y r128 ya multiplicaba por PI por dentro: así se ven igual). Devuelve w = {sc, cam, fov, pick:[] (cosas que se pueden tocar),
 // upd:[] (funciones de cada cuadro), kind, sun}. Cada escena 3D lo rellena y luego llama a setWorld(w).
 export function newWorld(o: OpcionesMundo={}){const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(o.fov||40,16/9,.1,400);
   const w: Mundo={sc,cam,fov:o.fov||40,pick:[],upd:[],kind:o.kind};
   sc.background=new THREE.Color(o.bg||'#BFE9F8');if(o.fog)sc.fog=new THREE.Fog(o.bg||'#BFE9F8',o.fog[0],o.fog[1]);
-  sc.add(new THREE.HemisphereLight(0xffffff,0xb7d39c,.44));sc.add(new THREE.AmbientLight(0xffffff,.12));
-  const sun=new THREE.DirectionalLight(0xfff4e0,.48);sun.position.set(-14,30,18);sun.castShadow=true;const s=o.shadow||24;
-  Object.assign(sun.shadow.camera,{left:-s,right:s,top:s,bottom:-s,near:1,far:90});sun.shadow.mapSize.setScalar(SHM);sun.shadow.bias=-.0006;sun.shadow.radius=3;sc.add(sun);sc.add(sun.target);w.sun=sun;
+  sc.add(new THREE.HemisphereLight(0xffffff,0xb7d39c,.44*PI));sc.add(new THREE.AmbientLight(0xffffff,.12*PI));
+  const sun=new THREE.DirectionalLight(0xfff4e0,.48*PI);sun.position.set(-14,30,18);sun.castShadow=true;const s=o.shadow||24;
+  Object.assign(sun.shadow.camera,{left:-s,right:s,top:s,bottom:-s,near:1,far:90});sun.shadow.mapSize.setScalar(SHM);sun.shadow.bias=-.0006;sun.shadow.radius=1;sc.add(sun);sc.add(sun.target);w.sun=sun;
   fitCam(w);return w}
 // las piezas diminutas (pétalos, piedritas, puntitos) no proyectan sombra: no se nota y ahorra una pasada de dibujo por pieza
 // trimShadows(w): mira el tamaño real de cada pieza (radio de su geometría por la escala); Tito (w.tito) conserva siempre sus sombras
