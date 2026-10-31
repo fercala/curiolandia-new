@@ -6,9 +6,13 @@
  * (Partida: modo libre, edad, mes de hoy y progreso de cada tema) y el mapa (Mapa: los temas de cada zona y los temas
  * sueltos). escenas/zonas.ts le pasa los de verdad (S, AGE(), la fecha y ZONES) y conserva los nombres de antes
  * (zoneOpen, temaOpen, gameOpen...); tests/unidad/apertura.test.ts prueba las reglas con partidas inventadas.
- * Exporta: ZAGE, MAINZ y NEED (los números de las reglas), los tipos TemaAbrible, Progreso, Partida y Mapa, y las
- * reglas: flores, camino, terminadasEnCamino, terminadasPrincipales, zonaAbierta, fiestaDelMes, empezado,
- * temaAbierto, juegoAbierto, siguienteJuego, zonaDeLaEdad, temaQueToca, siguienteTema, sitioAbierto y sitioNecesita.
+ * Desde la fase L1 de docs/PLAN-LECTURA.md también sabe de la Isla de las Letras: sus tres zonas (ZONAS_LETRAS) se
+ * abren como las principales (por edad o con 6 flores en la anterior) y tienen su propio «seguir» (siguienteLetra),
+ * pero sus casitas no cuentan para abrir nada del mapa grande (terminadasPrincipales solo mira MAINZ).
+ * Exporta: ZAGE, MAINZ, ZONAS_LETRAS y NEED (los números de las reglas), los tipos TemaAbrible, Progreso, Partida y
+ * Mapa, y las reglas: flores, camino, terminadasEnCamino, terminadasPrincipales, zonaAbierta, fiestaDelMes, empezado,
+ * temaAbierto, juegoAbierto, siguienteJuego, zonaDeLaEdad, temaQueToca, siguienteTema, zonaDeLetrasDeLaEdad,
+ * siguienteLetra, sitioAbierto y sitioNecesita.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de este archivo son las reglas mismas, en tablas con nombre
@@ -42,7 +46,8 @@ export interface Partida {
 
 /** El mapa de Curiolandia, como lo ven las reglas. */
 export interface Mapa<T extends TemaAbrible> {
-  /** Temas de cada zona con camino, en el orden del camino (ZONES[z].temas): jardin, bosque, montana, fiestas e ingles. */
+  /** Temas de cada zona con camino, en el orden del camino (ZONES[z].temas): jardin, bosque, montana, fiestas, ingles
+   * y, desde la fase L1, las zonas de la Isla de las Letras (ZONAS_LETRAS; si aún no están, cuentan como vacías). */
   readonly zonas: Readonly<Record<string, readonly T[]>>;
   /** Temas sueltos del mapa: canciones (CAN), rutinas (RUT) y trazos (TRZ). */
   readonly can: T;
@@ -50,11 +55,23 @@ export interface Mapa<T extends TemaAbrible> {
   readonly trz: T;
 }
 
-// ZAGE: edad de cada zona principal. Si el niño tiene esa edad o más, la zona está abierta desde el principio.
-export const ZAGE: Readonly<Record<string, number>> = { jardin: 3, bosque: 4, montana: 5 };
+// ZAGE: edad de cada zona por edades (las principales y las de la Isla de las Letras). Si el niño tiene esa edad o
+// más, la zona está abierta desde el principio.
+export const ZAGE: Readonly<Record<string, number>> = {
+  jardin: 3, bosque: 4, montana: 5, playaSonidos: 3, bosqueLetras: 4, puebloPalabras: 5,
+};
 
 // MAINZ: las tres zonas principales por edad, en orden.
 export const MAINZ: readonly string[] = ['jardin', 'bosque', 'montana'];
+
+// ZONAS_LETRAS: las tres zonas de la Isla de las Letras por edad, en orden: la Playa de los Sonidos (3 años), el
+// Bosque de las Letras (4) y el Pueblo de las Palabras (5). Sus letras están en contenido/letras.ts.
+export const ZONAS_LETRAS: readonly string[] = ['playaSonidos', 'bosqueLetras', 'puebloPalabras'];
+
+// ZONA_ANTERIOR: de qué zona hacen falta las flores para abrir cada zona antes de tener su edad (zonaAbierta).
+const ZONA_ANTERIOR: Readonly<Record<string, string>> = {
+  bosque: 'jardin', montana: 'bosque', bosqueLetras: 'playaSonidos', puebloPalabras: 'bosqueLetras',
+};
 
 // NEED: cuántas casitas del camino (terminadasPrincipales) hay que terminar para abrir cada cosa:
 // 'X-CAN' canciones, 'X-RUT' rutinas, 'X-TRZ' trazos, fiestas, ingles; concepts = casitas de ESA zona
@@ -67,6 +84,9 @@ const FLORES_PARA_SEGUIR = 6;
 
 // Zona de cada edad (zonaDeLaEdad): la de 3 años es el jardín.
 const ZONA_DE_EDAD: Readonly<Record<number, string>> = { 3: 'jardin', 4: 'bosque', 5: 'montana' };
+
+// Zona de la isla de cada edad (zonaDeLetrasDeLaEdad): la de 3 años es la Playa de los Sonidos.
+const ZONA_LETRAS_DE_EDAD: Readonly<Record<number, string>> = { 3: 'playaSonidos', 4: 'bosqueLetras', 5: 'puebloPalabras' };
 
 // terminado(p, t): true si el tema t está terminado.
 const terminado = (p: Partida, t: TemaAbrible): boolean => !!p.progreso(t.id).done;
@@ -93,14 +113,15 @@ export function terminadasPrincipales<T extends TemaAbrible>(p: Partida, m: Mapa
   return MAINZ.reduce((a, z) => a + terminadasEnCamino(p, m, z), 0);
 }
 
-// zonaAbierta(p, m, z): ¿está abierta la zona z? El jardín y las zonas sin edad, siempre. Bosque y montaña: en modo
-// libre o si la edad del niño llega (ZAGE[z] <= edad); si no, cuando la zona anterior está abierta y tiene 6 flores
-// (bosque <- jardín, montaña <- bosque; es recursiva).
+// zonaAbierta(p, m, z): ¿está abierta la zona z? Las primeras de cada lista (jardín, Playa de los Sonidos) y las
+// zonas sin edad, siempre. Las demás (bosque, montaña, Bosque de las Letras, Pueblo de las Palabras): en modo libre o
+// si la edad del niño llega (ZAGE[z] <= edad); si no, cuando la zona anterior (ZONA_ANTERIOR) está abierta y tiene 6
+// flores (bosque <- jardín, montaña <- bosque, y lo mismo en la isla; es recursiva).
 export function zonaAbierta<T extends TemaAbrible>(p: Partida, m: Mapa<T>, z: string): boolean {
   const edad = ZAGE[z];
-  if (z === 'jardin' || !edad) return true;
+  const antes = ZONA_ANTERIOR[z];
+  if (!edad || !antes) return true;
   if (p.libre || edad <= p.edad) return true;
-  const antes = z === 'bosque' ? 'jardin' : 'bosque';
   return zonaAbierta(p, m, antes) && flores(p, m, antes) >= FLORES_PARA_SEGUIR;
 }
 
@@ -127,8 +148,9 @@ function anteriorTerminado(p: Partida, lista: readonly TemaAbrible[], t: TemaAbr
 
 // temaAbierto(p, m, t): ¿se puede entrar en la casita del tema t? Reglas, en orden:
 // 1) sin tema, no; en modo libre o ya empezado, sí.
-// 2) temas de zonas principales: la zona tiene que estar abierta; el Rincón de los Conceptos pide NEED.concepts
-//    casitas terminadas en su zona; el resto, que la casita anterior del camino esté terminada (la primera, siempre).
+// 2) temas de zonas principales y de la Isla de las Letras: la zona tiene que estar abierta; el Rincón de los
+//    Conceptos pide NEED.concepts casitas terminadas en su zona; el resto, que la casita anterior del camino esté
+//    terminada (la primera, siempre).
 // 3) fiestas e inglés: hacen falta NEED[zona] casitas del camino y, además, la anterior terminada (en fiestas vale
 //    también que sea la fiesta del mes, que se salta el orden).
 // 4) temas sueltos con NEED[t.id] (canciones, rutinas, trazos): NEED[t.id] casitas del camino.
@@ -137,7 +159,7 @@ export function temaAbierto<T extends TemaAbrible>(p: Partida, m: Mapa<T>, t: T 
   if (!t) return false;
   if (p.libre || empezado(p, t)) return true;
   const z = t.zone ?? '';
-  if (MAINZ.includes(z)) {
+  if (MAINZ.includes(z) || ZONAS_LETRAS.includes(z)) {
     if (!zonaAbierta(p, m, z)) return false;
     if (t.concepts) return terminadasEnCamino(p, m, z) >= (NEED['concepts'] ?? 0);
     return anteriorTerminado(p, camino(m, z), t);
@@ -198,6 +220,22 @@ export function siguienteTema<T extends TemaAbrible>(p: Partida, m: Mapa<T>): T 
   const rincones = MAINZ.map((z) => (m.zonas[z] ?? []).find((t) => t.concepts));
   const extras = [m.can, m.rut, ...(m.zonas['ingles'] ?? []), m.trz, ...rincones, ...(m.zonas['fiestas'] ?? [])];
   return extras.find((t) => pendiente(p, m, t)) ?? null;
+}
+
+// zonaDeLetrasDeLaEdad(p, m): la zona de la Isla de las Letras de la edad del niño si está abierta; si no, la Playa
+// de los Sonidos (que siempre lo está).
+export function zonaDeLetrasDeLaEdad<T extends TemaAbrible>(p: Partida, m: Mapa<T>): string {
+  const z = ZONA_LETRAS_DE_EDAD[p.edad] ?? 'playaSonidos';
+  return zonaAbierta(p, m, z) ? z : 'playaSonidos';
+}
+
+// siguienteLetra(p, m): el tema del botón «seguir» de la Isla de las Letras: la primera casita pendiente de la zona de
+// la isla de su edad y, si no queda, la de las otras zonas abiertas de la isla, por orden. null si ya no queda nada.
+// No mira el mapa grande, igual que siguienteTema no mira la isla.
+export function siguienteLetra<T extends TemaAbrible>(p: Partida, m: Mapa<T>): T | null {
+  const z0 = zonaDeLetrasDeLaEdad(p, m);
+  const zonas = [z0, ...ZONAS_LETRAS.filter((z) => z !== z0)].filter((z) => zonaAbierta(p, m, z));
+  return zonas.reduce<T | null>((hallado, z) => hallado ?? camino(m, z).find((t) => pendiente(p, m, t)) ?? null, null);
 }
 
 // sitioAbierto(p, m, id): ¿está abierto el sitio id del mapa? Canciones, rutinas y trazos, si su tema está abierto;
