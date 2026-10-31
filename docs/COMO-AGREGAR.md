@@ -1,6 +1,6 @@
 # Cómo añadir funcionalidades
 
-Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso a paso** para los cambios más habituales (secciones 2 a 12). Antes de empezar, lee [ARQUITECTURA.md](ARQUITECTURA.md).
+Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso a paso** para los cambios más habituales (secciones 2 a 13). Antes de empezar, lee [ARQUITECTURA.md](ARQUITECTURA.md).
 
 Índice:
 1. [El proceso de trabajo](#1-el-proceso-de-trabajo)
@@ -15,6 +15,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 10. [Canciones, rutinas, trazos, fiestas e inglés](#10-canciones-rutinas-trazos-fiestas-e-inglés)
 11. [Una escena o una zona nueva](#11-una-escena-o-una-zona-nueva)
 12. [Una opción en la zona de adultos](#12-una-opción-en-la-zona-de-adultos)
+13. [Una letra de la Isla de las Letras](#13-una-letra-de-la-isla-de-las-letras)
 
 ---
 
@@ -278,3 +279,18 @@ En `openAdult()` (aplicacion/adultos.ts), cuya cabecera lo explica con detalle:
 3. Conectarla después de crear el panel: `el.querySelectorAll('[name=a-mi]').forEach(r=>r.onchange=()=>{S.miAjuste=+r.value;save()})`.
 4. Si debe sobrevivir a "Borrar todo el progreso", añádelo a `keep` en `doReset()`.
 5. Los textos del panel son HTML y no pasan por `say()`: se pueden cambiar sin problema.
+
+## 13. Una letra de la Isla de las Letras
+
+La isla se está haciendo por fases ([PLAN-LECTURA.md](PLAN-LECTURA.md)); desde la L1 las letras son datos, en
+`LETRAS` (`contenido/letras.ts`, cuya cabecera explica cada campo):
+
+1. **Al final** de `LETRAS` (los temas de la isla se crean a partir de la lista: no cambies el orden ni la letra de una
+   entrada publicada), con su `zona` de `ZONA_DE_LETRA`.
+2. `amigo` y `palabras` son claves de `PICS` que empiezan por la letra; si falta un dibujo, receta 8, y su nombre en
+   `LEX`. `amigoDice` es cómo se dice el amigo, sin artículo.
+3. `trazos`: cada trazo es una lista de puntos en una caja de 1 x 1 (x a la derecha, y hacia abajo), en el orden y la
+   dirección en que se escribe. Para las curvas, `arco(cx, cy, rx, ry, a0, a1)`. Míralos pintados antes de publicar.
+4. `nombre` es una frase nueva: apúntala en `dialogos/pendientes.txt` y rehaz el catálogo con `npm run dialogos`.
+5. `npm run test:unidad` (`tests/unidad/letras.test.ts`) comprueba que no se repita, que existan los dibujos, que las
+   palabras empiecen por la letra y que los trazos quepan en la caja.
