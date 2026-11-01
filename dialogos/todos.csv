@@ -705,7 +705,7 @@ d19b87a375f0,¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vac
 ff43ee39bc35,¿Me ayudas a encontrar las respuestas,trozo,src/escenas/escenas2d.ts
 cedc92559668,? ¡Vamos a Curiolandia!,trozo,src/escenas/escenas2d.ts
 16d3bcd7a531,Conocer,trozo,src/escenas/escenas2d.ts
-85fe37a75fbc,¿Dónde está?,frase,src/escenas/escenas2d.ts src/temas/ingles.ts
+85fe37a75fbc,¿Dónde está?,frase,src/escenas/escenas2d.ts src/temas/ingles.ts src/temas/letras.ts
 46f8e2e6bd7c,Memoria,trozo,src/escenas/escenas2d.ts
 1c5c8a35ac55,¿Quién hace este sonido?,frase,src/escenas/escenas2d.ts
 8bf33debdf25,Mi cuerpo,trozo,src/escenas/escenas2d.ts src/temas/temas.ts
@@ -1202,7 +1202,7 @@ e22afba83a94,Doblamos a la izquierda,trozo,src/juegos/comps2.ts
 0854628330db, y llegamos ,trozo,src/juegos/comps2.ts
 325235ad7f7f,Por ahí vamos ,trozo,src/juegos/comps2.ts
 27ade7d3289d,. Queremos ir ,trozo,src/juegos/comps2.ts
-1178ef73e06c,¡Muy bien!,frase,src/juegos/comps2.ts src/mundo3d/cielo.ts src/mundo3d/interaccion.ts
+1178ef73e06c,¡Muy bien!,frase,src/juegos/comps2.ts src/juegos/lectura.ts src/mundo3d/cielo.ts
 9281b9963a54,Empieza en el punto verde.,frase,src/juegos/comps2.ts
 0c870da7abef,¡Vamos a cantar! Escucha la canción.,frase,src/juegos/comps2.ts
 c80425633a4f,"¡Ahora te toca a ti! Toca cada uno en orden, como en la canción.",frase,src/juegos/comps2.ts
@@ -1214,6 +1214,19 @@ b3810aa0a25f,¿Cuál sigue? Toca ,trozo,src/juegos/comps2.ts
 43bb1b642cba,Escucha el cuento: ,trozo,src/juegos/comps2.ts
 0724a6ba0986,Ahora te pregunto. ,frase,src/juegos/comps2.ts
 df9bc8abab8f,"Mmm, no. Piensa en el cuento. ",frase,src/juegos/comps2.ts
+9ed0eb2cf404,uve doble,trozo,src/juegos/lectura.ts
+7d513e645434,i griega,trozo,src/juegos/lectura.ts
+87e2719d8e78,NFD,trozo,src/juegos/lectura.ts src/temas/letras.ts
+451f3750f787,la ,trozo,src/juegos/lectura.ts
+ec885e10ce6f,. Toca el tambor una vez por cada trozo.,trozo,src/juegos/lectura.ts
+599aa33e94a9,Vamos a dar palmas.,frase,src/juegos/lectura.ts
+ca737bb082a8,Ahora: ,trozo,src/juegos/lectura.ts
+6bdb0c4319e1,. Toca el tambor.,trozo,src/juegos/lectura.ts
+88be6cc2e213, tiene ,trozo,src/juegos/lectura.ts src/temas/letras.ts
+2cd1b892e862,una palma,trozo,src/juegos/lectura.ts src/temas/letras.ts
+a6adc37e0595, palmas,trozo,src/juegos/lectura.ts src/temas/letras.ts
+2cc4792f9e9f,Toca la letra que salta.,frase,src/juegos/lectura.ts
+fd7134d70d86, Así se escribe ,trozo,src/juegos/lectura.ts
 3dfc0990cb02,Uno,trozo,src/mundo3d/cielo.ts
 a1a067cf6264,Dos,trozo,src/mundo3d/cielo.ts
 0a988f7b9abb,Tres,trozo,src/mundo3d/cielo.ts
@@ -1742,6 +1755,59 @@ d83fd84b3b1b,Une cada letra con su amigo. Arrastra una línea desde la letra has
 717a24de0911,Une cada letra con su amigo,trozo,src/temas/letras.ts
 ba9a99294925,L3-,trozo,src/temas/letras.ts
 f316ef34364e,La ,trozo,src/temas/letras.ts
+24114dcddd06,Escucha: ,trozo,src/temas/letras.ts
+0f711e3e9d78,. ¿Qué es?,trozo,src/temas/letras.ts
+2aef5ce5e5e8,¿Cuál es más larga: ,trozo,src/temas/letras.ts
+1b4bfc33dcf3,? Da palmas con cada una.,trozo,src/temas/letras.ts
+869812c0a1f4,. ¿Cuál tiene más?,trozo,src/temas/letras.ts
+607f6eddbae4,¿Qué empieza por ,trozo,src/temas/letras.ts
+7602858967a0,otra letra,trozo,src/temas/letras.ts
+6b230476526a,Une cada dibujo con la letra por la que empieza.,frase,src/temas/letras.ts
+95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,frase,src/temas/letras.ts
+42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,frase,src/temas/letras.ts
+572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,frase,src/temas/letras.ts
+ce178861ab46,TITO,trozo,src/temas/letras.ts
+df9276a6b0eb,Tito,trozo,src/temas/letras.ts
+42f800d88029,Este es tu nombre: ,trozo,src/temas/letras.ts
+3dcfb097d8b3,". Toca sus letras, una a una.",trozo,src/temas/letras.ts
+d9af4926bc7f,"Este es el nombre de Tito. Toca sus letras, una a una.",frase,src/temas/letras.ts
+6cf7e0642e21,de tu nombre,trozo,src/temas/letras.ts
+4097e21a2fab,del nombre de Tito,trozo,src/temas/letras.ts
+07fa416e34ac,", la primera letra ",trozo,src/temas/letras.ts
+c4871a7d9c73,. Píntala con el dedo como tú quieras.,trozo,src/temas/letras.ts
+9c9d4245baea,¡Qué bonita te ha quedado ,trozo,src/temas/letras.ts
+30fea3f48a67, Con ,trozo,src/temas/letras.ts
+a766fcb58ccc, empieza ,trozo,src/temas/letras.ts
+eb052704f361,tu nombre,trozo,src/temas/letras.ts
+1a6f919b167e,L3-PAL,trozo,src/temas/letras.ts
+670587ba7bec,Las palmas,trozo,src/temas/letras.ts
+296d932947ee,¡Vamos a dar palmas con las palabras!,frase,src/temas/letras.ts
+a53f4801c5c9,Da palmas,trozo,src/temas/letras.ts
+39fc5ab85e99,Vamos a dar una palmada por cada trozo de la palabra.,frase,src/temas/letras.ts
+4f75181b9057,El eco de Tito,trozo,src/temas/letras.ts
+9199c5c5017c,Más palmas,trozo,src/temas/letras.ts
+69d4f0a6d0cc,La palabra larga,trozo,src/temas/letras.ts
+2cb2e253aad7,L3-EMP,trozo,src/temas/letras.ts
+1ca906ffcda8,¿Cómo empieza?,frase,src/temas/letras.ts
+53584a60bfe9,¡Vamos a escuchar cómo empiezan las palabras!,frase,src/temas/letras.ts
+7309dc7536c3,Une cada dibujo con su letra,trozo,src/temas/letras.ts
+f7318a89d76e,Letras en la arena,trozo,src/temas/letras.ts
+b03accad761b,Memoria de letras,trozo,src/temas/letras.ts
+83f413872b33,L3-NOM,trozo,src/temas/letras.ts
+b1e2892560d5,Mi nombre,trozo,src/temas/letras.ts
+424e5539ae0a,¡Vamos a jugar con las letras de tu nombre!,frase,src/temas/letras.ts
+1ad2e433e4b3,La pizarra,trozo,src/temas/letras.ts
+d1866a65eca4,Mi primera letra,trozo,src/temas/letras.ts
+5f703b9e9683,L3-MEZ,trozo,src/temas/letras.ts
+6761ed9b4870,Las vocales mezcladas,trozo,src/temas/letras.ts
+28065ead4e89,¡Las vocales se han mezclado! Vamos a encontrarlas.,frase,src/temas/letras.ts
+61a02d88a371,Atrapa las vocales,trozo,src/temas/letras.ts
+7b91a931492f,L3-FIE,trozo,src/temas/letras.ts
+c35229389f40,Fiesta de las vocales,trozo,src/temas/letras.ts
+d101c4d57c64,¡Es la fiesta de las vocales!,frase,src/temas/letras.ts
+438ae6e3393e,Las cinco vocales,trozo,src/temas/letras.ts
+289ddb498578,Palmas con los amigos,trozo,src/temas/letras.ts
+c78bf3a5d2fb,Escribe una vocal,trozo,src/temas/letras.ts
 e067f26392e3,la lancha,nombre,src/temas/temas.ts
 50c036b75e36,el helicóptero,nombre,src/temas/temas.ts
 1eec213e0e4e,A  B  C  1  2  3,trozo,src/temas/temas.ts

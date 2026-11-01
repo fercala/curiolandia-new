@@ -161,8 +161,11 @@ games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tu
 | `Tracer` | Seguir un trazo con el dedo | `paths:[{pts, say, who, end}]` |
 | `Song` | Canción y tocar en orden | `lines, tune, mode` |
 | `Story` | Cuento ilustrado y preguntas | un `CUENTOS[id]` |
+| `Palmas` | Una palmada en el tambor por cada sílaba (`juegos/lectura.ts`, fase L3) | `words:[{k, syl:['a','be','ja']}], intro, key` |
+| `Pizarra` | Pintar libre con el dedo sobre una letra grande en gris | `letra, c, ask, ok, path, need` |
+| `MiNombre` | El nombre en letras grandes: se tocan una a una y suenan | `nombre, dice, intro` |
 
-La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/juegos/comps.ts` y `src/juegos/comps2.ts`. La mejor forma de aprender es copiar un juego parecido de otro tema.
+La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/juegos/comps.ts`, `src/juegos/comps2.ts` y, los de la Isla de las Letras, `src/juegos/lectura.ts`. La mejor forma de aprender es copiar un juego parecido de otro tema.
 
 Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRounds()` (número de rondas) y `VIVO.REP` (veces que ya se ha jugado) se ajustan solos según la edad y los aciertos. Las reglas (cuántas opciones y rondas, cuándo sube o baja la dificultad) están en `dominio/dificultad.ts`.
 
