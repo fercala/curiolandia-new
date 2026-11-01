@@ -161,8 +161,13 @@ games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tu
 | `Tracer` | Seguir un trazo con el dedo | `paths:[{pts, say, who, end}]` |
 | `Song` | Canción y tocar en orden | `lines, tune, mode` |
 | `Story` | Cuento ilustrado y preguntas | un `CUENTOS[id]` |
+| `Palmas` | Una palmada en el tambor por cada sílaba (`juegos/lectura.ts`, fase L3) | `words:[{k, syl:['a','be','ja']}], intro, key` |
+| `Pizarra` | Pintar libre con el dedo sobre una letra grande en gris | `letra, c, ask, ok, path, need` |
+| `MiNombre` | El nombre en letras grandes: se tocan una a una y suenan | `nombre, dice, intro` |
+| `Tren` | La locomotora de una consonante y los vagones de las vocales forman sílabas (fase L4) | `letra:{l, nombre, c}, vocales:[{l, c}]` |
+| `Huellas` | Tocar en orden las huellas que forman una letra | `trazos` (en la pantalla), `paso, c, who, ask, ok` |
 
-La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/juegos/comps.ts` y `src/juegos/comps2.ts`. La mejor forma de aprender es copiar un juego parecido de otro tema.
+La explicación detallada de cada uno está en el comentario de cabecera de su función en `src/juegos/comps.ts`, `src/juegos/comps2.ts` y, los de la Isla de las Letras, `src/juegos/lectura.ts`. La mejor forma de aprender es copiar un juego parecido de otro tema.
 
 Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRounds()` (número de rondas) y `VIVO.REP` (veces que ya se ha jugado) se ajustan solos según la edad y los aciertos. Las reglas (cuántas opciones y rondas, cuándo sube o baja la dificultad) están en `dominio/dificultad.ts`.
 
@@ -268,7 +273,7 @@ Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepára
 
 **Zona nueva con camino**: `ZONES` en escenas/zonas.ts; `ZAGE`, `MAINZ`, `NEED` y las reglas (`temaAbierto`, `sitioAbierto`, `sitioNecesita`, `siguienteTema`) en dominio/apertura.ts, con su caso en tests/unidad/apertura.test.ts; el mensaje del candado en `lockMsg` (escenas/zonas.ts), lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); su estilo en `ZSTYLE` y su decoración en `zoneDecor` (mundo3d/zonas3d.ts), y su lugar en el mapa 3D en `MAPPOS` y `SPOT3` (mundo3d/mapa3d.ts). Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y de mundo3d/zonas3d.ts.
 
-**Casita nueva en la Isla de las Letras** (desde la fase L2, [PLAN-LECTURA.md](PLAN-LECTURA.md)): la letra en `LETRAS` (contenido/letras.ts) y su tema en la lista de su zona de temas/letras.ts (`TL3` para la Playa de los Sonidos), siempre **al final** de la lista: el progreso se guarda por id y por posición. Una zona nueva de la isla sigue la receta de la zona nueva, pero va en `ZONAS_LETRAS` (no en `MAINZ`: no cuenta para `NEED`), lleva `vuelta: 'isla'` en `ZONES` y deja de salir «en obras» en la escena de la isla (escenas/isla.ts) en cuanto está en `ZONES`.
+**Casita nueva en la Isla de las Letras** (desde la fase L2, [PLAN-LECTURA.md](PLAN-LECTURA.md)): la letra en `LETRAS` (contenido/letras.ts) y su tema en la lista de su zona de temas/letras.ts (`TL3` para la Playa de los Sonidos, `TL4` para el Bosque de las Letras), siempre **al final** de la lista: el progreso se guarda por id y por posición. Una zona nueva de la isla sigue la receta de la zona nueva, pero va en `ZONAS_LETRAS` (no en `MAINZ`: no cuenta para `NEED`), lleva `vuelta: 'isla'` en `ZONES` y deja de salir «en obras» en la escena de la isla (escenas/isla.ts) en cuanto está en `ZONES`.
 
 ## 12. Una opción en la zona de adultos
 
