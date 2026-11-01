@@ -97,7 +97,7 @@ Cada fase es un PR pequeño que deja el juego publicable, con las pruebas en ver
    isla (`escenas/isla.ts`, en 2D) con sus tres zonas, Lupi y su botón verde, y la Playa de los Sonidos con sus cinco
    primeras casitas, A, E, I, O y U (`temas/letras.ts`: conocer, buscar, trazar, atrapar y unir con su amigo). Se
    adelantaron las vocales para que la isla no se publicara vacía. El Bosque y el Pueblo salen «en obras».
-3. **L3, Playa de los Sonidos (hecha en v0.2.58).** Las otras 5 casitas, **después de la U** (el progreso se guarda
+3. **L3, Playa de los Sonidos (hecha en v0.2.61).** Las otras 5 casitas, **después de la U** (el progreso se guarda
    por id y posición: no se meten casitas entre las publicadas): las palmas, ¿cómo empieza?, mi nombre, las vocales
    mezcladas y la fiesta de las vocales, con los componentes nuevos `Palmas`, `Pizarra` y `MiNombre`
    (`juegos/lectura.ts`). El juego de mi nombre usa `S.name` (o «Tito» si no hay nombre) y tiene siempre los mismos
