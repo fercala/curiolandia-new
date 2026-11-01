@@ -17,7 +17,7 @@ import { K } from '../dibujos/todos.ts';
 import { DF, DIAC, FLC, LF, PI, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { FIESTAS } from '../temas/indice.ts';
 import { TEMA, gDone, isBday, tst } from '../escenas/escenas2d.ts';
-import { MAINZ, ZONES, ZPOS, casitaPos, pathDone, pathOf, temaOpen } from '../escenas/zonas.ts';
+import { MAINZ, ZONAS_LETRAS, ZONES, ZPOS, casitaPos, pathDone, pathOf, temaOpen } from '../escenas/zonas.ts';
 import { ponDisposicion } from '../nucleo/disposicion.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
@@ -85,8 +85,9 @@ function zoneDecor(w: Mundo,z: string){const D=w.sc;
   if(z==='ingles'){bus3(w,7.2);phone3(w,8.2,4.4,1);clock3(w,-1.6,4.8,.85);post3(w,3.8,5,1);tea3(w,-5.8,4.6,1.5);guard3(w,-9.6,4.8,1.3);flag3(w,6,3.4,1.1);umb3(w,.9,6.4,1)}
   // la Playa de los Sonidos (fase L2): palmeras, sombrilla, castillo de arena y un cangrejo en la arena, y las vocales
   // grandes de colores puestas en la arena, que se mecen
-  if(z==='playaSonidos'){palm3(w,-13.5,5.5,1.1);palm3(w,13.8,5.2,1);sunb3(w,-7,6.2,1);sandc3(w,7.5,6,1.3);crab3(w,-3,3,7.4,1);
-    'AEIOU'.split('').forEach((l,i)=>{const q=spr(canvasTex(128,128,()=>text(l,64,104,104,DIAC[i],{f:LF,st:8,sc:K}),'vocal'+l),1.8,1.8,{p:[-8+i*4,1.1,1.5+(i%2)*1.2],to:D});
+  if(z==='playaSonidos'){palm3(w,-14.8,6.8,1.1);palm3(w,14.2,4.6,1);sunb3(w,-3.6,8.4,1);sandc3(w,12,7.6,1.3);crab3(w,0,6,8.8,1);
+    // desde la fase L3 la playa tiene tres filas de casitas (como las zonas principales): las vocales van delante, a la derecha
+    'AEIOU'.split('').forEach((l,i)=>{const q=spr(canvasTex(128,128,()=>text(l,64,104,104,DIAC[i],{f:LF,st:8,sc:K}),'vocal'+l),1.6,1.6,{p:[-1+i*2.5,1.1,6.4+(i%2)*.6],to:D});
       w.upd.push(()=>{q.position.y=1.1+Math.abs(Math.sin(T*2+i))*.35;q.material.rotation=Math.sin(T*1.5+i)*.12})})}
   if(z==='ingles'){['H','E','L','L','O'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=DIAC[i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l+i);const m=new THREE.Mesh(Box(1.2,1.2,1.2),new THREE.MeshToonMaterial({map:t,gradientMap:gradiente()}));m.position.set(-4+i*2,.6,-8.2);m.rotation.y=(i%2?.2:-.2);m.castShadow=true;m.userData.letter=i+1;D.add(m)})}}
 // buildZone(z,st): construye el mundo 3D de la zona z (camino de casitas). st es la escena de la zona (titoAt, cur = tema siguiente,
@@ -108,11 +109,11 @@ function buildZone(z: string,st: Escena){const Z=ZONES[z],sty=ZSTYLE[z]||ZSTYLE.
     if(!acc&&mo0>=2&&mo0<=4){const h=new THREE.Group();h.position.set(0,.88,.55);G.add(h);([[-.5,-.16,'#FF8FB1'],[0,.05,'#FFFFFF'],[.5,-.16,'#C9A2F2']] as [number, number, string][]).forEach(([x,y,c])=>{for(let k=0;k<5;k++){const a=k/5*PI*2;mk(Sph(.13,8,6),c,{p:[x+Math.cos(a)*.17,y+Math.sin(a)*.17,0],ol:.02,cs:false,rs:false,to:h})}mk(Sph(.1,8,6),'#FFB43A',{p:[x,y,.06],ol:.02,cs:false,rs:false,to:h})});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}/* en primavera, flores en la cabeza */
     if(!acc&&mo0>=8&&mo0<=10){const h=new THREE.Group();h.position.set(.32,1.22,.3);h.rotation.z=.9;G.add(h);mk(Sph(.42,12,8),'#E8703C',{s:[1,.5,.25],ol:.03,cs:false,rs:false,to:h});mk(Cyl(.025,.025,.3,5),'#8A5A2E',{p:[-.38,-.04,0],r:[0,0,PI/2],ol:0,cs:false,rs:false,to:h});h.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}})}/* en otoño, una hoja en la cabeza */sunRays(w,-12,sy,-19,C[0],C[1]);skyClouds(w);skyBirds(w)}else if(!skyNow().night)mountEagle(w);/* en la montaña, de día, un águila *//* al atardecer, el sol está más bajo y naranja *//* de día, un sol en el mismo sitio (en la montaña no: la tapa el pico) */
   for(let i=0;i<4;i++)cloud3(w.sc,-20+i*13,10+(i%2)*1.5,-14,.9);
-  const main=MAINZ.includes(z),path=z==='fiestas'?FIESTAS:main?pathOf(z):Z.temas,B: Record<string, PuntoSuelo>=w.base={};
+  const main=MAINZ.includes(z)||ZONAS_LETRAS.includes(z)/* desde la fase L3, las zonas de la isla se colocan como las principales */,path=z==='fiestas'?FIESTAS:main?pathOf(z):Z.temas,B: Record<string, PuntoSuelo>=w.base={};
   for(const t of Z.temas)B[t.id]=ZX(ZPOS[z][t.id].x,ZPOS[z][t.id].y);
   // carteles de estación de cada fila: en el borde (x≈-17) quedaban detrás de los árboles o fuera de la pantalla;
   // ahora van detrás de la fila, entre la 1.ª y la 2.ª casita, y Tito los esquiva al pasear
-  if(main){['hojaNaranja','copo','flor'].forEach((k,i)=>{const zz=ZX(292,[250,490,725][i])[1]-1.8,x=-10.2;const g=grp(w.sc,[x,0,zz]);g.userData.sign=1;g.userData.sk=i;(w.avoid=w.avoid||[]).push([x,zz,.8]);mk(Cyl(.07,.07,1.4,6),'#C98A4B',{p:[0,.7,0],to:g,ol:.025});spr(canvasTex(160,160,()=>{circ(80,80,68,'#fff',8);pic(k,80,80,104)},'season'+k),1.4,1.4,{p:[0,1.75,0],to:g})})}
+  if(MAINZ.includes(z)){['hojaNaranja','copo','flor'].forEach((k,i)=>{const zz=ZX(292,[250,490,725][i])[1]-1.8,x=-10.2;const g=grp(w.sc,[x,0,zz]);g.userData.sign=1;g.userData.sk=i;(w.avoid=w.avoid||[]).push([x,zz,.8]);mk(Cyl(.07,.07,1.4,6),'#C98A4B',{p:[0,.7,0],to:g,ol:.025});spr(canvasTex(160,160,()=>{circ(80,80,68,'#fff',8);pic(k,80,80,104)},'season'+k),1.4,1.4,{p:[0,1.75,0],to:g})})}
   const pts=path.map(t=>B[t.id]),ci=st.cur?path.indexOf(st.cur):path.length-1,rp=roadPts(pts,4.4);
   ribbon(w.sc,rp,1.5,'#FFF6E0',.04,{dash:4,dashC:'#C9AE7A'});
   if(ci>0){const per=rp.length/(pts.length-1||1);ribbon(w.sc,rp.slice(0,Math.round(ci*per)+1),1.5,'#FFE08A',.05,{polygonOffset:1})}
