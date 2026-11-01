@@ -339,7 +339,7 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 ### Ayudantes de geometría y rendimiento
 
-- `M(color)` material "toon" (sombreado de dibujos animados); `mk` añade un **contorno** marrón con la técnica del casco invertido (`OLm`, `olGeo`).
+- `M(color)` material "toon" (sombreado de dibujos animados), guardado en una caché con la clave de `claveMaterial` (color + opciones; una textura cuenta por su uuid); `mk` añade un **contorno** marrón con la técnica del casco invertido (`OLm`, `olGeo`).
 - `gcache(clave, f)` guarda geometrías repetidas para no recrearlas; `mg` fusiona piezas de un mismo color en una sola geometría (menos llamadas de dibujo).
 - `canvasTex` crea texturas dibujando con las funciones 2D (`card`, `text`...).
 - `PRK` y `fpsTick` bajan la resolución si el móvil va lento; las piezas pequeñas no proyectan sombra.

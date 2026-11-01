@@ -1,6 +1,6 @@
 /*
  * mundo3d/materiales.ts: las piezas con las que se construye todo el mundo 3D (desde la fase 4g; antes, el primer trozo
- * de mundo3d/mundo3d.ts). Materiales con estilo de dibujo animado (M: sombreado en 3 tonos; OLm y olGeo: el contorno
+ * de mundo3d/mundo3d.ts). Materiales con estilo de dibujo animado (M, con su clave de caché claveMaterial: sombreado en 3 tonos; OLm y olGeo: el contorno
  * marrón), piezas (mk, grp) y formas (Box, Sph, Cyl, Cone, prism, rbox, starGeo), piezas unidas (mg), geometrías
  * compartidas (gcache, keep, GC) y texturas dibujadas con las funciones 2D de siempre (canvasTex, picTex, pillTex,
  * flowerTex y, desde la fase 4h, gradTex, el degradado de los fondos; con su caché TXC) y sus carteles (spr, plane, pillSpr). V3 es un atajo para crear vectores.
@@ -26,9 +26,24 @@ let GRAD: THREE.DataTexture|null=null;
 export function gradiente(): THREE.DataTexture{return GRAD||(GRAD=(()=>{const t=new THREE.DataTexture(new Uint8Array([150,150,150,255,212,212,212,255,255,255,255,255]),3,1,THREE.RGBAFormat);t.minFilter=t.magFilter=THREE.NearestFilter;t.generateMipmaps=false;t.needsUpdate=true;return t})())}
 // MC: caché de materiales, para no crear dos iguales.
 const MC: Record<string, THREE.MeshToonMaterial>={};
+// claveMaterial(c,o): la clave con la que M guarda en MC el material de color c y opciones o: el color y, si hay
+// opciones, JSON.stringify(o), como siempre. La única diferencia es con una textura entre las opciones (map...):
+// JSON.stringify la serializaba entera (su toJSON, unos 0,1 ms en cada llamada) y ahora se escribe en una copia de o
+// como 'tex:'+su uuid. El uuid ya iba en lo serializado, así que comparten clave las mismas llamadas que antes: misma
+// textura y mismas opciones. Sin texturas (casi siempre) la clave es la de antes, letra a letra.
+export function claveMaterial(c: string,o?: THREE.MeshToonMaterialParameters): string{
+  if(!o)return c;
+  // sinTexturas: copia de o con cada textura cambiada por su uuid (se hace solo si o trae alguna)
+  let sinTexturas: Record<string, unknown>|null=null;
+  for(const nombre of Object.keys(o)){
+    const valor: unknown=o[nombre as keyof THREE.MeshToonMaterialParameters];
+    if(valor instanceof THREE.Texture)(sinTexturas??={...o})[nombre]='tex:'+valor.uuid;
+  }
+  return c+JSON.stringify(sinTexturas??o);
+}
 // M(c,o): devuelve el material toon de color c (por ejemplo '#FFC93C') con las opciones extra o de Three.js
-// ({emissive, side, transparent...}). Se guarda en MC con clave color+opciones y se reutiliza.
-export function M(c: string,o?: THREE.MeshToonMaterialParameters){const k=c+(o?JSON.stringify(o):'');return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:gradiente()},o||{})))}
+// ({emissive, side, transparent, map...}). Se guarda en MC con la clave claveMaterial(c,o) y se reutiliza.
+export function M(c: string,o?: THREE.MeshToonMaterialParameters){const k=claveMaterial(c,o);return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:gradiente()},o||{})))}
 // OLC: caché de materiales de contorno, uno por grosor.
 const OLC: Record<number, THREE.ShaderMaterial>={};
 // OLm(w): material del contorno marrón de grosor w. Técnica del "casco invertido": se dibuja una copia de la pieza
