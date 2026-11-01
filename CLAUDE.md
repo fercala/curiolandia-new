@@ -24,6 +24,7 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   cielo, los objetos, los personajes, la interacción y un módulo por escena 3D; `mundo3d.ts` solo la monta). El código es el de `curiolandia-3d` (commit `dd5fc61`, v1.592) sin voces grabadas;
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
+- **Isla de las Letras** (aprender a leer, 3 a 5 años): plan aprobado y fases en [docs/PLAN-LECTURA.md](docs/PLAN-LECTURA.md). Fase L1 (reglas y datos) hecha.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.
 
 ## Montar y probar
