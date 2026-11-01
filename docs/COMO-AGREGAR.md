@@ -268,6 +268,8 @@ Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepára
 
 **Zona nueva con camino**: `ZONES` en escenas/zonas.ts; `ZAGE`, `MAINZ`, `NEED` y las reglas (`temaAbierto`, `sitioAbierto`, `sitioNecesita`, `siguienteTema`) en dominio/apertura.ts, con su caso en tests/unidad/apertura.test.ts; el mensaje del candado en `lockMsg` (escenas/zonas.ts), lugar en `MZ2`, temas en `TEMAS` (escenas/escenas2d.ts); su estilo en `ZSTYLE` y su decoración en `zoneDecor` (mundo3d/zonas3d.ts), y su lugar en el mapa 3D en `MAPPOS` y `SPOT3` (mundo3d/mapa3d.ts). Es un cambio grande: lee antes los comentarios de cabecera de escenas/zonas.ts y de mundo3d/zonas3d.ts.
 
+**Casita nueva en la Isla de las Letras** (desde la fase L2, [PLAN-LECTURA.md](PLAN-LECTURA.md)): la letra en `LETRAS` (contenido/letras.ts) y su tema en la lista de su zona de temas/letras.ts (`TL3` para la Playa de los Sonidos), siempre **al final** de la lista: el progreso se guarda por id y por posición. Una zona nueva de la isla sigue la receta de la zona nueva, pero va en `ZONAS_LETRAS` (no en `MAINZ`: no cuenta para `NEED`), lleva `vuelta: 'isla'` en `ZONES` y deja de salir «en obras» en la escena de la isla (escenas/isla.ts) en cuanto está en `ZONES`.
+
 ## 12. Una opción en la zona de adultos
 
 En `openAdult()` (aplicacion/adultos.ts), cuya cabecera lo explica con detalle:
