@@ -12,6 +12,7 @@ import { noise, ONO, SOUNDS, syn, tone } from '../nucleo/sonido.ts';
 
 /* ================= PALABRAS NUEVAS (v2) ================= */
 Object.assign(LEX,{
+ nu:'el ñu',
  escuela:'el cole',parque:'el parque',piscina:'la piscina',tienda:'la tienda',hospital:'el hospital',calendario:'el calendario',semaforo:'el semáforo',pasoCebra:'el paso de cebra',
  bombera:'la bombera',medico:'el médico',policia:'la policía',panadero:'el panadero',cocinera:'la cocinera',cartero:'el cartero',granjera:'la granjera',peluquero:'el peluquero',
  manguera:'la manguera',fonendo:'el estetoscopio',silbato:'el silbato',carta:'la carta',tijeras:'las tijeras',sarten:'la sartén',ambulancia:'la ambulancia',camionBomberos:'el camión de bomberos',
