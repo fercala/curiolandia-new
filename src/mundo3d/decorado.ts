@@ -118,6 +118,7 @@ export function fireflies(w: Mundo,WX: number,WZ: number,sz?: number){const n=24
 // estrellas que titilan en el cielo de noche (tres grupos que brillan a destiempo)
 // skyStars(w,y0,z0,WX,HY): cielo de noche: tres grupos de 12 estrellas en una franja de ancho WX y alto HY
 // sobre y0, en el fondo z0, que titilan a destiempo, y una estrella fugaz cada 9 s (o al tocar la luna: w.shootT).
+// Mientras cruza la estrella fugaz, Tito la sigue con la mirada (userData.lk) sin crear vectores en cada cuadro.
 export function skyStars(w: Mundo,y0: number,z0: number,WX: number,HY: number){for(let k=0;k<3;k++){const n=12,pos=new Float32Array(n*3);for(let i=0;i<n;i++){pos[i*3]=(azar()-.5)*WX;pos[i*3+1]=y0+azar()*HY;pos[i*3+2]=z0-azar()*2;if(Math.abs(pos[i*3]+12)<2&&Math.abs(pos[i*3+1]-2.3)<2)pos[i*3]+=5/* que no tapen la luna */}
     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
     const p=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:1.5,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));p.raycast=()=>{};w.sc.add(p);
@@ -125,4 +126,6 @@ export function skyStars(w: Mundo,y0: number,z0: number,WX: number,HY: number){f
   // de vez en cuando cruza una estrella fugaz con su estela
   const n=6,fp=new Float32Array(n*3),fg=new THREE.BufferGeometry();fg.setAttribute('position',new THREE.BufferAttribute(fp,3));
   const f=new THREE.Points(fg,new THREE.PointsMaterial({color:'#FFFFFF',size:1.6,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));f.raycast=()=>{};w.sc.add(f);
-  w.upd.push(()=>{const c=w.shootT!=null&&T-w.shootT<1.3?T-w.shootT:T%9/* al tocar la luna, sale una enseguida */,q=c/1.3;f.visible=q<1;if(!f.visible)return;const s0=Math.floor(T/9)%2?1:-1;for(let i=0;i<n;i++){const qq=Math.max(0,q-i*.035);fp[i*3]=s0*(-WX*.4+qq*WX*.8);fp[i*3+1]=y0+HY-qq*HY*.7;fp[i*3+2]=z0}fg.attributes.position.needsUpdate=true;f.material.opacity=Math.sin(q*PI);if(w.tito&&q>.15&&q<.85)w.tito.userData.lk={p:new THREE.Vector3(fp[0],fp[1],fp[2]),t:T}/* Tito sigue la estrella fugaz con la mirada */})}
+  // adónde mira Tito mientras cruza la estrella fugaz: un solo objeto que se reutiliza en cada cuadro (la cabeza lo copia, no lo guarda)
+  const mira={p:new THREE.Vector3(),t:0};
+  w.upd.push(()=>{const c=w.shootT!=null&&T-w.shootT<1.3?T-w.shootT:T%9/* al tocar la luna, sale una enseguida */,q=c/1.3;f.visible=q<1;if(!f.visible)return;const s0=Math.floor(T/9)%2?1:-1;for(let i=0;i<n;i++){const qq=Math.max(0,q-i*.035);fp[i*3]=s0*(-WX*.4+qq*WX*.8);fp[i*3+1]=y0+HY-qq*HY*.7;fp[i*3+2]=z0}fg.attributes.position.needsUpdate=true;f.material.opacity=Math.sin(q*PI);if(w.tito&&q>.15&&q<.85){mira.p.set(fp[0],fp[1],fp[2]);mira.t=T;w.tito.userData.lk=mira}/* Tito sigue la estrella fugaz con la mirada (siempre el mismo objeto, sin vectores nuevos) */})}
