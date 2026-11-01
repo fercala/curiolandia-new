@@ -1,6 +1,6 @@
 // utilidades.ts: azar, números, curvas de animación y colores. No dependen de nada del juego; el azar sale del puerto
 // azar() (aplicacion/puertos.ts).
-//   rnd, ri, pick, shuffle, clamp, lerp, dist, inR, easeOut, back, PI, hex2, col.
+//   rnd, ri, pick, shuffle, clamp, lerp, dist, inR, easeOut, back, PI, hex2, col, copiaProfunda.
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 
@@ -26,3 +26,8 @@ export function col(c: string,s: number): string{ // mezcla un color hacia su gr
   const [r,g,b]=hex2(c), l=r*.3+g*.59+b*.11, m=(v: number): number=>Math.round(clamp(l*.85+40+(v-(l*.85+40))*s,0,255));
   return _cc[k]=`rgb(${m(r)},${m(g)},${m(b)})`;
 }
+// copiaProfunda(valor): una copia del valor que no comparte nada con el original (cambiar la copia no toca el original).
+// Pasa por JSON a propósito, como hacía el código antes de tener esta función, y no usa structuredClone: así los campos
+// undefined y las funciones desaparecen, las fechas quedan como texto y NaN o Infinity como null, igual que al guardar la
+// partida en localStorage. Sirve para datos de partida (DEF, S, vales): objetos, listas, textos, números, true/false y null.
+export function copiaProfunda<X>(valor: X): X{return JSON.parse(JSON.stringify(valor)) as X}

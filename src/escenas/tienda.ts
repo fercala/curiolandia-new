@@ -18,14 +18,14 @@
 //   internas desde la fase 4n: se pasan al núcleo con ponRopaTito.
 // Envuelve: nada desde la fase 4b (antes onRight, finishGame y SCENES.juego, para las monedas: ahora las da el juego).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
-//   TITO_EYES..., STARS, inR y las monedas: spendCoins, drawCoinHUD, inCoinHUD), los dibujos de Tito
+//   TITO_EYES..., STARS, inR, copiaProfunda y las monedas: spendCoins, drawCoinHUD, inCoinHUD), los dibujos de Tito
 //   (TITO_SVG...), escenas/zonas.ts (houseLevel,
 //   drawTitoHouse, drawPet, petStage, PET_NEXT, HOUSE_NEXT, shellIcon, arrowAt), temas/ (floor, bunting), juegos/
 //   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (TIER_NEED, nivelAbierto, habitacionAbierta)
 //   y de dominio/monedas.ts (alcanza).
 import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, copiaProfunda, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
@@ -94,17 +94,17 @@ type Flecha = [number, number, number];
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
 const DEF2={coins:0,coinsTot:0,gift:'',woke:{},home:{},tito:{shell:'naranja',scarf:'roja',hat:'',glasses:'',bow:''},owned:{'caparazon:naranja':1,'bufanda:roja':1},vales:null,valesLog:[],bday:null,bdayDone:'',unlockAll:false,seenOpen:{},houseSeen:null,petSeen:null,cofres:0};
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.
-Object.assign(DEF,JSON.parse(JSON.stringify(DEF2)));
+Object.assign(DEF,copiaProfunda(DEF2));
 const _oldSave=S.coins===undefined&&Object.keys(S.temas||{}).length>0;
 sanoS(S,DEF2);// campos de una partida rota (null o de otro tipo) → valor por defecto, como los que faltan
-{const s: Libre=S,d: Libre=DEF2;for(const k in d)if(s[k]===undefined)s[k]=JSON.parse(JSON.stringify(d[k]))}
+{const s: Libre=S,d: Libre=DEF2;for(const k in d)if(s[k]===undefined)s[k]=copiaProfunda(d[k])}
 // quien ya jugaba la versión 1 recibe monedas por lo que ya había jugado
 if(_oldSave){const n=Object.values(S.temas).reduce((a,t)=>a+Object.keys((t&&t.g)||{}).length,0)*2;S.coins=S.coinsTot=n;save()}
 // Vales por defecto que un adulto puede activar en la zona de adultos: id, txt (lo que se promete),
 // ic (dibujo), p (precio en monedas), on (1 = se ve en la tienda). Se copian a S.vales la primera vez.
 const VALES_DEF: Vale[]=[{id:'v1',txt:'Un cuento extra antes de dormir',ic:'libro',p:30,on:1},{id:'v2',txt:'Ir a jugar al parque',ic:'parque',p:50,on:1},{id:'v3',txt:'Elegir a qué jugamos juntos',ic:'bloques',p:40,on:1},
   {id:'v4',txt:'Cocinar algo rico juntos',ic:'olla',p:60,on:0},{id:'v5',txt:'Elegir la película del fin de semana',ic:'tele',p:60,on:0},{id:'v6',txt:'Un abrazo de oso gigante',ic:'oso',p:10,on:0}];
-if(!S.vales)S.vales=JSON.parse(JSON.stringify(VALES_DEF));
+if(!S.vales)S.vales=copiaProfunda(VALES_DEF);
 
 // Las monedas en pantalla (marcador, animación, creditCoins, giveCoins...) están desde la fase 4a en su propio módulo,
 // desde la 4b en el núcleo (nucleo/monedas.ts). Las de cada acierto las da onRight (nucleo/interfaz.ts) y las de

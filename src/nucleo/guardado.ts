@@ -3,7 +3,7 @@
 //   desde la fase 4c en interfaz.ts.)
 // S cambia (ponS, al borrar todo): desde fuera de este módulo solo se lee y se cambian sus campos.
 // Al cargar el módulo se lee la partida (load) y se escucha el guardado de otras pestañas (evento storage).
-// Importa edadDe de dominio/dificultad.ts (AGE) y la versión y las migraciones de la partida de dominio/partida.ts.
+// Importa copiaProfunda de utilidades.ts (S nace como copia de DEF), edadDe de dominio/dificultad.ts (AGE) y la versión y las migraciones de la partida de dominio/partida.ts.
 import type { Estado, Volumenes } from './tipos.ts';
 import { edadDe } from '../dominio/dificultad.ts';
 import type { PartidaCruda } from '../dominio/partida.ts';
@@ -11,6 +11,7 @@ import { VERSION_PARTIDA, esPartida, migrar } from '../dominio/partida.ts';
 // ahora() y lo guardado (leerGuardado, escribirGuardado, alGuardarFuera): puertos de aplicacion/puertos.ts, desde las
 // fases 3g y 3h; antes new Date() y localStorage.
 import { ahora, alGuardarFuera, escribirGuardado, leerGuardado } from '../aplicacion/puertos.ts';
+import { copiaProfunda } from './utilidades.ts';
 
 /*
  * ESTADO GUARDADO S
@@ -59,8 +60,8 @@ export const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curi
 // DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (aplicacion/adultos.ts) también parte de aquí.
 // variant 'es' y hemi 'N' llevan su tipo de Estado para que S (copia de DEF) sea un Estado.
 export const DEF={age:0,name:'',variant:'es' as Estado['variant'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0,ver:VERSION_PARTIDA};
-// S empieza siendo una copia de DEF (JSON.parse(JSON.stringify(...)) hace una copia profunda) y load() la completa.
-export let S: Estado=JSON.parse(JSON.stringify(DEF)) as Estado;
+// S empieza siendo una copia profunda de DEF (copiaProfunda, nucleo/utilidades.ts) y load() la completa.
+export let S: Estado=copiaProfunda<Estado>(DEF);
 // ponS(nuevo): cambia la partida entera por otra (borrar todo en aplicacion/adultos.ts). Es la única forma de cambiar S desde otro
 // archivo; para cambiar un campo basta con S.campo = valor.
 export function ponS(nuevo: Estado): void{S=nuevo}

@@ -5,9 +5,9 @@
  * usaban como globales tardías (src/tardias.d.ts). Ahora solo dependen del núcleo, así que se cargan antes que las
  * escenas y se importan. La zona de adultos (aplicacion/adultos.ts) usa doReset para «Borrar todo el progreso».
  * Al cargarse, conecta los botones de los dos diálogos.
- * Exporta: openNameDlg, openResetDlg y doReset. Importa: del núcleo, src/nucleo/, S, DEF, VIVO, save, go y ponS.
+ * Exporta: openNameDlg, openResetDlg y doReset. Importa: del núcleo, src/nucleo/, S, DEF, VIVO, save, go, ponS y copiaProfunda.
  */
-import { DEF, S, VIVO, go, ponS, save } from '../nucleo/indice.ts';
+import { DEF, S, VIVO, copiaProfunda, go, ponS, save } from '../nucleo/indice.ts';
 
 // nameAfter: qué hacer cuando se cierra el diálogo del nombre (recibe el nombre escrito, o '' si se canceló).
 let nameAfter: ((nombre: string)=>void)|null=null;
@@ -23,7 +23,7 @@ document.getElementById('nm-x')!.onclick=()=>{document.getElementById('nameDlg')
 export function openResetDlg(){document.getElementById('resetDlg')!.hidden=false}
 // doReset(): borra el progreso: S vuelve a DEF, conservando solo los ajustes de keep (idioma, voz, hemisferio, volumen,
 // límite, vales y cumpleaños), guarda y vuelve a la portada. Ver la nota de posibles fallos en doc/notes/core.md.
-export function doReset(){const keep={variant:S.variant,voz:S.voz,vozNav:S.vozNav,hemi:S.hemi,vol:S.vol,limit:S.limit,vales:S.vales,bday:S.bday};ponS(Object.assign(JSON.parse(JSON.stringify(DEF)),keep));VIVO.ADAPT=0;save();go('title')}
+export function doReset(){const keep={variant:S.variant,voz:S.voz,vozNav:S.vozNav,hemi:S.hemi,vol:S.vol,limit:S.limit,vales:S.vales,bday:S.bday};ponS(Object.assign(copiaProfunda(DEF),keep));VIVO.ADAPT=0;save();go('title')}
 // Botones del diálogo de empezar de nuevo.
 document.getElementById('rs-yes')!.onclick=()=>{document.getElementById('resetDlg')!.hidden=true;doReset()};
 document.getElementById('rs-no')!.onclick=()=>{document.getElementById('resetDlg')!.hidden=true};
