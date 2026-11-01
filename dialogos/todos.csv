@@ -847,7 +847,7 @@ f2a070932858,¡Qué bonito jugamos,trozo,src/escenas/escenas2d.ts
 fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 563528c57bb4,Es hora de descansar,trozo,src/escenas/escenas2d.ts
 af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
-7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts
+7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 82a8c9409b57,¡Muy pronto!,frase,src/escenas/isla.ts
@@ -976,6 +976,7 @@ cd31ebc2e43d,los días especiales,trozo,src/escenas/zonas.ts
 0a23c669cd3d,el Rincón del inglés,trozo,src/escenas/zonas.ts
 c4db7b5ab57e,"¡Bienvenido al Rincón del inglés! Aquí aprendemos palabras en inglés, como los niños de Inglaterra. Las casitas se abren de a una. ",frase,src/escenas/zonas.ts
 af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
+819111bf6ccc,¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e43303c24ba4,el Rincón de los Conceptos,trozo,src/escenas/zonas.ts
 ca6ec05b56e2,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ,trozo,src/escenas/zonas.ts
 4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,frase,src/escenas/zonas.ts
@@ -1227,6 +1228,12 @@ ca737bb082a8,Ahora: ,trozo,src/juegos/lectura.ts
 a6adc37e0595, palmas,trozo,src/juegos/lectura.ts src/temas/letras.ts
 2cc4792f9e9f,Toca la letra que salta.,frase,src/juegos/lectura.ts
 fd7134d70d86, Así se escribe ,trozo,src/juegos/lectura.ts
+cececcade29a,¡Llega el tren de ,trozo,src/juegos/lectura.ts
+acb3133388b6,! Toca un vagón para engancharlo.,trozo,src/juegos/lectura.ts
+1472ee7b8d39,Toca un vagón para engancharlo a la locomotora.,frase,src/juegos/lectura.ts
+6db26f694335, con ,trozo,src/juegos/lectura.ts
+3ae78738bcbb," ¡Chu, chu! El tren se va.",frase,src/juegos/lectura.ts
+c12dcbb5375e,Toca la huella que brilla.,frase,src/juegos/lectura.ts
 3dfc0990cb02,Uno,trozo,src/mundo3d/cielo.ts
 a1a067cf6264,Dos,trozo,src/mundo3d/cielo.ts
 0a988f7b9abb,Tres,trozo,src/mundo3d/cielo.ts
@@ -1749,11 +1756,13 @@ efb17f22a082,¡Muy bien! ¡Ya sabes escribir ,trozo,src/temas/letras.ts
 56e7a240aa23,Atrapa,trozo,src/temas/letras.ts
 d83fd84b3b1b,Une cada letra con su amigo. Arrastra una línea desde la letra hasta su dibujo.,frase,src/temas/letras.ts
 7ab941f3e418, no empieza por ,trozo,src/temas/letras.ts
+842ce6eb510f,L3,trozo,src/temas/letras.ts
 22204def8299,Conoce ,trozo,src/temas/letras.ts
 2c2aaa3129b1,Escribe ,trozo,src/temas/letras.ts
 96ac3c50f123,Atrapa ,trozo,src/temas/letras.ts
 717a24de0911,Une cada letra con su amigo,trozo,src/temas/letras.ts
-ba9a99294925,L3-,trozo,src/temas/letras.ts
+8e43c026830c,El tren de ,trozo,src/temas/letras.ts
+be0f242bcace,Las huellas de ,trozo,src/temas/letras.ts
 f316ef34364e,La ,trozo,src/temas/letras.ts
 24114dcddd06,Escucha: ,trozo,src/temas/letras.ts
 0f711e3e9d78,. ¿Qué es?,trozo,src/temas/letras.ts
@@ -1808,6 +1817,22 @@ d101c4d57c64,¡Es la fiesta de las vocales!,frase,src/temas/letras.ts
 438ae6e3393e,Las cinco vocales,trozo,src/temas/letras.ts
 289ddb498578,Palmas con los amigos,trozo,src/temas/letras.ts
 c78bf3a5d2fb,Escribe una vocal,trozo,src/temas/letras.ts
+8b40011deaa3, forman ,trozo,src/temas/letras.ts
+91c1338bfec4,". Tócalas en orden, empezando por la que brilla.",trozo,src/temas/letras.ts
+fa889f901148, Las huellas forman ,trozo,src/temas/letras.ts
+2e573b62316a,L4-VOC,trozo,src/temas/letras.ts
+64495757762c,Repaso de vocales,trozo,src/temas/letras.ts
+67e46ec90549,¡Vamos a repasar las vocales antes de entrar en el bosque!,frase,src/temas/letras.ts
+4aa0f8a9fd5a,L4,trozo,src/temas/letras.ts
+cd1afe341638,L4-NOM,trozo,src/temas/letras.ts
+78cc9a39ff8f,Escribo mi nombre,trozo,src/temas/letras.ts
+e22c7c8529c0,¡Vamos a escribir las letras de tu nombre!,frase,src/temas/letras.ts
+463f3a6b86df,Escribe mi primera letra,trozo,src/temas/letras.ts
+6a3c9ed04d71,Huellas de mi letra,trozo,src/temas/letras.ts
+f7e31bebd5d7,L4-FIE,trozo,src/temas/letras.ts
+1d20e2f45ef8,Fiesta de las letras,trozo,src/temas/letras.ts
+058888f822a9,¡Es la fiesta de las letras del bosque!,frase,src/temas/letras.ts
+fc7614bee946,El tren de las sílabas,trozo,src/temas/letras.ts
 e067f26392e3,la lancha,nombre,src/temas/temas.ts
 50c036b75e36,el helicóptero,nombre,src/temas/temas.ts
 1eec213e0e4e,A  B  C  1  2  3,trozo,src/temas/temas.ts
