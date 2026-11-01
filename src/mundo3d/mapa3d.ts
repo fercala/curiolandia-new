@@ -34,7 +34,7 @@ import { skyNow } from './cielo.ts';
 // MAPPOS: dónde va cada lugar del mapa en 3D, en píxeles 2D (se pasan con MP). id del lugar -> [x,y].
 const MZP: Record<string, {x: number; y: number; r: number}>={};
 const MP=(x: number,y: number): PuntoSuelo=>[(x-800)/40,(y-500)/40];
-const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740]};
+const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740],muelle:[1280,860]};
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
 function sea3(w: Mundo,c: string){const g=new THREE.PlaneGeometry(220,160,70,50);g.rotateX(-PI/2);const m=new THREE.Mesh(g,M(c));m.position.y=-1.1;m.receiveShadow=true;w.sc.add(m);w.sea=m;
   // olas: altura y normal calculadas a mano (derivada de la fórmula); computeVertexNormals en cada cuadro costaba ~0,6 ms
@@ -115,6 +115,13 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void>={
     for(let i=0;i<5;i++)mk(Cyl(.2,.2,.07,16),'#FFC93C',{p:[-.7+(i%3)*.3,1.05+Math.floor(i/3)*.08,.4+(i%2)*.15],to:g,ol:.02});
     spr(picTex('manzana'),.6,.6,{p:[.5,1.3,.4],to:g});spr(picTex('pelota'),.6,.6,{p:[.95,1.3,.4],to:g});
     if(S.coins!>0){const c=mk(Cyl(.4,.4,.1,24),'#FFC93C',{p:[1.4,2.6,.6],r:[PI/2,0,0],to:g,ol:.03});g.userData.anim=()=>{c.rotation.z=T*3;c.position.y=2.9+Math.sin(T*3)*.12}}},
+  // muelle (fase L2): tablas sobre postes que entran en el mar y el barco de vela con la A, que se mece; lleva a la
+  // Isla de las Letras (SCENES.isla)
+  muelle(g: THREE.Group){for(let i=0;i<4;i++){mk(Box(.5,.12,2.4),'#C98A4B',{p:[-1.5+i*.55,.3,.4],to:g,ol:.025})}
+    for(const [x,z] of[[-1.7,1.5],[.2,1.5],[-1.7,-.6],[.2,-.6]] as [number, number][])mk(Cyl(.09,.09,1.2,8),'#8A5A34',{p:[x,0,z],to:g,ol:.02});
+    const b=grp(g,[1.5,-.2,-.1],1.25);mk(Box(2,.5,.9),'#FF8A7A',{p:[0,.25,0],to:b,ol:.04});mk(Cyl(.05,.05,2,6),'#C98A4B',{p:[0,1.4,0],ol:0,to:b});
+    spr(canvasTex(160,200,()=>{ctx.beginPath();ctx.moveTo(10,10);ctx.lineTo(150,190);ctx.lineTo(10,190);ctx.closePath();fillStroke('#fff',8);text('A',55,170,80,'#E8554E',{f:LF})},'velaA'),1.1,1.4,{p:[.55,1.4,0],to:b});
+    g.userData.anim=()=>{b.position.y=-.2+Math.sin(T*1.3)*.1;b.rotation.z=Math.sin(T*1.1)*.06}},
 };
 // stripesTex(): textura de rayas rojas y blancas (para la carpa de canciones)
 function stripesTex(){return canvasTex(256,64,()=>{for(let i=0;i<8;i++){ctx.fillStyle=i%2?'#FFF6E6':'#FF6B5E';ctx.fillRect(i*32,0,32,64)}},'stripes')}
@@ -136,7 +143,7 @@ function buildMap(st: Escena){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind
   // nubes y estrellas se mueven según el tiempo, no por cuadro: igual en una pantalla de 30, 60 o 120 Hz
   for(let i=0;i<6;i++){const c=cloud3(w.sc,-34+i*14,9+(i%3)*1.5,-18+(i%2)*6,1+(i%3)*.3);w.upd.push((dt: number)=>{c.position.x+=.3*dt;if(c.position.x>40)c.position.x=-40})}
   // gaviotas que vuelan en círculos sobre la orilla de la isla
-  crab3(w,-4,3,10.2,1);whale3(w,-21.8,0,.85);dolph3(w,22.9,.5,.9);lighthouse3(w,11.9,9.9,1);if(summerNow()){sunb3(w,7.2,10.1,.9);sandc3(w,9.3,10.5,1.15)}palm3(w,-11.4,10,1);hab3(w,12,2.8,-6,.9);gull3(w,18,10,7,0,1);gull3(w,16,9,8,2.2,1);gull3(w,19,11,6.5,4,-1);
+  crab3(w,-4,3,10.2,1);whale3(w,-21.8,0,.85);dolph3(w,22.9,.5,.9);lighthouse3(w,17.4,7.6,1);/* desde la fase L2, más a la derecha: su sitio de antes es el del muelle */if(summerNow()){sunb3(w,7.2,10.1,.9);sandc3(w,9.3,10.5,1.15)}palm3(w,-11.4,10,1);hab3(w,12,2.8,-6,.9);gull3(w,18,10,7,0,1);gull3(w,16,9,8,2.2,1);gull3(w,19,11,6.5,4,-1);
   // barquitos
   for(const [x,z,c] of([[-22,4,'#FF6B5E'],[24,-6,'#5B8DEF'],[16,14,'#FFC93C']] as [number, number, string][])){const b=grp(w.sc,[x,-1,z]);mk(Box(1.6,.4,.7),c,{p:[0,.2,0],to:b,ol:.04});mk(Cyl(.04,.04,1.6,6),'#C98A4B',{p:[0,1.1,0],ol:0,to:b});mk(prism(.9,1.2,.05),'#fff',{p:[.1,.5,0],r:[0,0,0],to:b,ol:.02});
     const hb=new THREE.Mesh(Box(2.6,2.4,1.6),fhit());hb.position.y=.8;b.add(hb);b.userData.boat=1;// al tocarlo, salta dando una vuelta y toca la bocina
@@ -144,8 +151,9 @@ function buildMap(st: Escena){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind
   // caminos desde la plaza
   const P=MP(...MAPPOS.plaza);
   for(const id in MAPPOS){if(id==='plaza')continue;const Q=MP(...MAPPOS[id]),c: PuntoSuelo=[(P[0]+Q[0])/2+(Q[1]-P[1])*.12,(P[1]+Q[1])/2-(Q[0]-P[0])*.08];ribbon(w.sc,bez(P,c,Q,30),.9,'#FFF3D6',.03,{dash:3})}
-  // decoración: árboles, arbustos, flores, piedras en lugares libres
-  ([[-14.5,-5,'verano'],[-12.5,7,'primavera'],[2.5,-7.2,'otoño'],[17.5,-2,'verano'],[14,8.5,'primavera'],[-4,7.8,null],[18,5.5,null],[-15.5,1.5,null],[8.5,-7.5,null],[11.5,-.5,'verano']] as [number, number, string|null][]).forEach(([x,z,k],i)=>tree3(w.sc,x,z,.75+(i%3)*.1,k||'verano',!k));
+  // decoración: árboles, arbustos, flores, piedras en lugares libres (desde la fase L2, sin el árbol de [14, 8.5], que
+  // tapaba el barco del muelle)
+  ([[-14.5,-5,'verano'],[-12.5,7,'primavera'],[2.5,-7.2,'otoño'],[17.5,-2,'verano'],[-4,7.8,null],[18,5.5,null],[-15.5,1.5,null],[8.5,-7.5,null],[11.5,-.5,'verano']] as [number, number, string|null][]).forEach(([x,z,k],i)=>tree3(w.sc,x,z,.75+(i%3)*.1,k||'verano',!k));
   [[-8,-1],[3.8,1.8],[7.8,2.5],[-3,4.5],[12,4],[-13,4],[5,-3.2]].forEach(([x,z],i)=>bush3(w.sc,x,z,.8,i%2?'#7CC86E':'#6FC25A'));
   for(let i=0;i<26;i++){const a=i*2.4,r=6+(i*37%11);const x=Math.cos(a)*r*1.35+1,z=Math.sin(a)*r*.62+1;if(Math.abs(z)<8.5&&Math.abs(x)<17)flower3(w.sc,x,z,FLC[i%7],.6)}
   rock3(w.sc,-16,-2.5,1);rock3(w.sc,19,1,.9);rock3(w.sc,6,9.5,.7);

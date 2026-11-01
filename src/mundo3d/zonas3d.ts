@@ -27,7 +27,7 @@ import { Box, Cone, Cyl, M, OLm, Sph, V3, canvasTex, flowerTex, gradiente, grp, 
 import { bigDipper, jupiter, mountEagle, orbFace, saturn, skyBirds, skyClouds, skyNow, skyTap, sunRays, xmasSleigh, zoneMoon } from './cielo.ts';
 import { arrow3, arrowSway, bush3, butterfly3, fallPts, fireflies, flower3, lock3, ribbon, ring3, rock3, skyStars, tree3 } from './decorado.ts';
 import { busy3, call0, flyTap, titoRect, walkGround, walkTick, walkTo, wobInit, wobTap } from './interaccion.ts';
-import { ants3, balloon3, bee3, bubbles3, burrow3, bus3, cake3, can3, cann3, clock3, cloud3, drum3, flag3, frog3, garland3, goat3, guard3, hallowNow, hitS, igloo3, jack3, kite3, leafs3, marm3, mush3, nest3, owl3, peng3, phone3, pinata3, post3, pump3, scare3, sled3, snowman3, squir3, sunf3, tea3, umb3, wpk3, xmasNow } from './objetos.ts';
+import { ants3, balloon3, bee3, bubbles3, burrow3, bus3, cake3, can3, cann3, clock3, cloud3, crab3, drum3, flag3, frog3, garland3, goat3, guard3, hallowNow, hitS, igloo3, jack3, kite3, leafs3, marm3, mush3, nest3, owl3, palm3, peng3, phone3, pinata3, post3, pump3, sandc3, scare3, sled3, snowman3, squir3, sunb3, sunf3, tea3, umb3, wpk3, xmasNow } from './objetos.ts';
 import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 
 /* ================= LAS ZONAS: un camino de casitas en 3D ================= */
@@ -35,10 +35,11 @@ import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 // ZP3[zona][idTema]: dónde ha quedado en la pantalla cada casita {x,y}, lo último que proyectó sync(). Es la disposición
 // de las casitas (nucleo/disposicion.ts: casitaPos la pregunta). Desde la fase 4j; antes sync() escribía en ZPOS y una
 // copia, ZPB, guardaba las posiciones 2D (ahora ZPOS no cambia).
-// ZSTYLE: colores de cada zona {bg: cielo, g: césped, e: borde de tierra}.
+// ZSTYLE: colores de cada zona {bg: cielo, g: césped, e: borde de tierra}. Desde la fase L2, la Playa de los Sonidos
+// (arena en lugar de césped).
 const ZX=(x: number,y: number): PuntoSuelo=>[(x-930)/37,(y-490)/37];
 const ZP3: Record<string, Record<string, {x: number; y: number}>>={};
-const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},ingles:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'}};
+const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},ingles:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'},playaSonidos:{bg:'#DDF1FA',g:'#FFE9B8',e:'#E3BE7E'}};
 // slab(to,w,d,c,e,y,r): losa de suelo con esquinas redondeadas (ancho w, fondo d, radio r) con césped c y borde e, a la altura y.
 // La añade a to (con contorno) y devuelve la malla (se usa como w.ground).
 function slab(to: THREE.Object3D,w: number,d: number,c: string,e: string,y=0,r=3){const s=new THREE.Shape(),x=-w/2,z=-d/2;s.moveTo(x+r,z);s.lineTo(x+w-r,z);s.quadraticCurveTo(x+w,z,x+w,z+r);s.lineTo(x+w,z+d-r);s.quadraticCurveTo(x+w,z+d,x+w-r,z+d);s.lineTo(x+r,z+d);s.quadraticCurveTo(x,z+d,x,z+d-r);s.lineTo(x,z+r);s.quadraticCurveTo(x,z,x+r,z);
@@ -65,7 +66,8 @@ function casita3(to: THREE.Object3D,t: Tema,p: PuntoSuelo,o: Libre){const g=grp(
 export function roadPts(P: PuntoSuelo[],o: number){const r: PuntoSuelo[]=[];for(let i=0;i<P.length;i++){if(!i){r.push(P[0]);continue}const a=P[i-1],b=P[i];
   if(Math.abs(a[1]-b[1])<.2){for(let k=1;k<=12;k++)r.push([lerp(a[0],b[0],k/12),a[1]])}
   else{const sd=(a[0]+b[0])/2>0?1:-1;for(let k=1;k<=24;k++){const t=k/24,u=1-t;const c1=[a[0]+sd*o,a[1]],c2=[b[0]+sd*o,b[1]];r.push([u*u*u*a[0]+3*u*u*t*c1[0]+3*u*t*t*c2[0]+t*t*t*b[0],u*u*u*a[1]+3*u*u*t*c1[1]+3*u*t*t*c2[1]+t*t*t*b[1]])}}}return r}
-// zoneDecor(w,z): pone la decoración y los objetos tocables de la zona z (jardin, bosque, montana, fiestas, ingles): animales y objetos
+// zoneDecor(w,z): pone la decoración y los objetos tocables de la zona z (jardin, bosque, montana, fiestas, ingles y,
+// desde la fase L2, playaSonidos): animales y objetos
 // con sus funciones *3 (frog3, owl3...), árboles, flores, cosas que caen (fallPts) y las letras flotantes / bloques HELLO del inglés.
 // Aquí se añade un objeto 3D nuevo a una zona (ver docs/COMO-AGREGAR.md).
 function zoneDecor(w: Mundo,z: string){const D=w.sc;
@@ -81,6 +83,11 @@ function zoneDecor(w: Mundo,z: string){const D=w.sc;
       w.upd.push((dt: number)=>{const u=q.userData,e=u.wob==null?9:T-u.wob;if(e<.6){q.scale.setScalar(1.4*(1+e*1.4));q.material.rotation+=dt*12;q.material.opacity=.9*(1-e/.6);u.pp=1;return}
         if(u.pp){u.pp=0;q.position.y=0;q.scale.setScalar(1.4);q.material.opacity=.9}q.position.y+=dt*.45;q.position.x+=Math.sin(T+i)*dt*.3;q.material.rotation=Math.sin(T*.8+i)*.25;if(q.position.y>9)q.position.y=0})}}
   if(z==='ingles'){bus3(w,7.2);phone3(w,8.2,4.4,1);clock3(w,-1.6,4.8,.85);post3(w,3.8,5,1);tea3(w,-5.8,4.6,1.5);guard3(w,-9.6,4.8,1.3);flag3(w,6,3.4,1.1);umb3(w,.9,6.4,1)}
+  // la Playa de los Sonidos (fase L2): palmeras, sombrilla, castillo de arena y un cangrejo en la arena, y las vocales
+  // grandes de colores puestas en la arena, que se mecen
+  if(z==='playaSonidos'){palm3(w,-13.5,5.5,1.1);palm3(w,13.8,5.2,1);sunb3(w,-7,6.2,1);sandc3(w,7.5,6,1.3);crab3(w,-3,3,7.4,1);
+    'AEIOU'.split('').forEach((l,i)=>{const q=spr(canvasTex(128,128,()=>text(l,64,104,104,DIAC[i],{f:LF,st:8,sc:K}),'vocal'+l),1.8,1.8,{p:[-8+i*4,1.1,1.5+(i%2)*1.2],to:D});
+      w.upd.push(()=>{q.position.y=1.1+Math.abs(Math.sin(T*2+i))*.35;q.material.rotation=Math.sin(T*1.5+i)*.12})})}
   if(z==='ingles'){['H','E','L','L','O'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=DIAC[i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l+i);const m=new THREE.Mesh(Box(1.2,1.2,1.2),new THREE.MeshToonMaterial({map:t,gradientMap:gradiente()}));m.position.set(-4+i*2,.6,-8.2);m.rotation.y=(i%2?.2:-.2);m.castShadow=true;m.userData.letter=i+1;D.add(m)})}}
 // buildZone(z,st): construye el mundo 3D de la zona z (camino de casitas). st es la escena de la zona (titoAt, cur = tema siguiente,
 // hov, hop, unl, lockShake). Pone suelo, decoración, cielo según la hora (luna con gorro, sol con accesorios según el mes),

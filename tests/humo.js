@@ -26,6 +26,7 @@ const srv = http.createServer((q, r) => {
 const ESCENAS = [
   ['title'], ['map'], ['jardin'], ['bosque'], ['montana'], ['fiestas'], ['ingles'],
   ['casita', { t: '3A-T1' }], ['cofre', { t: '3A-T1' }], ['tienda'], ['casaTito'], ['album'],
+  ['isla'], ['playaSonidos'], ['casita', { t: 'L3-A' }], // la Isla de las Letras (fase L2)
 ];
 
 (async () => {
