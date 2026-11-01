@@ -807,7 +807,7 @@ f1e0a16ca9e7,¡Que los cumplas feliz! Tito te regala diez monedas.,frase,src/esc
 2c23d1f14a54,"¡Es fin de semana, no hay escuela!",frase,src/escenas/escenas2d.ts
 f6d69a9c5ea7,Es día de escuela.,frase,src/escenas/escenas2d.ts
 12dc139623b5, Mañana será ,trozo,src/escenas/escenas2d.ts
-f4b7f5c009fb, de ,trozo,src/escenas/escenas2d.ts src/juegos/comps.ts
+f4b7f5c009fb, de ,trozo,src/escenas/escenas2d.ts src/juegos/comps.ts src/temas/letras.ts
 a954a34f8c79,. Busca el ,trozo,src/escenas/escenas2d.ts
 878ee639f14d, Lo anotamos en el calendario del tiempo.,frase,src/escenas/escenas2d.ts
 f3c4a7693673,¡Sí! Ahora es de día.,frase,src/escenas/escenas2d.ts
@@ -846,6 +846,22 @@ f2a070932858,¡Qué bonito jugamos,trozo,src/escenas/escenas2d.ts
 06747db549ea,! Ahora Tito se va a descansar. ¡Hasta mañana!,trozo,src/escenas/escenas2d.ts
 fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 563528c57bb4,Es hora de descansar,trozo,src/escenas/escenas2d.ts
+af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
+7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts
+ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts
+7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
+82a8c9409b57,¡Muy pronto!,frase,src/escenas/isla.ts
+8510453fad10, años,trozo,src/escenas/isla.ts
+f9ec665e0ef6,¡Llegamos a la Isla de las Letras,trozo,src/escenas/isla.ts
+1b8f255649ec,"! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",trozo,src/escenas/isla.ts
+6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,frase,src/escenas/isla.ts
+b2b4b96d3c6d,"Lupi, la lechuza.",frase,src/escenas/isla.ts
+64f14c61b0d3,Seguir con las letras.,frase,src/escenas/isla.ts
+1ad8c3cff60b,¡Terminaste todas las letras que hay por ahora! Puedes repetir las que quieras.,frase,src/escenas/isla.ts
+71d864795142,"¡Hola! Soy Lupi, la lechuza. Cuido las letras de esta isla. ¡Vamos a aprenderlas juntos!",frase,src/escenas/isla.ts
+d03edbf54161,Lupi está preparando ,trozo,src/escenas/isla.ts
+4c61c25d7f14,. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/isla.ts
+09fa232bd366, todavía no se ha abierto.,trozo,src/escenas/isla.ts
 059c77083744,¡Terminaste el repaso de hoy,trozo,src/escenas/repaso.ts
 2778aa48c205,! Tito te regala cinco monedas.,trozo,src/escenas/repaso.ts
 25738850ad8d,¡Muy bien! Ahora el número ,trozo,src/escenas/repaso.ts
@@ -959,6 +975,7 @@ cd31ebc2e43d,los días especiales,trozo,src/escenas/zonas.ts
 4777b56bd48a,"¡Los días especiales! Se abren de a una, como un camino. ",frase,src/escenas/zonas.ts
 0a23c669cd3d,el Rincón del inglés,trozo,src/escenas/zonas.ts
 c4db7b5ab57e,"¡Bienvenido al Rincón del inglés! Aquí aprendemos palabras en inglés, como los niños de Inglaterra. Las casitas se abren de a una. ",frase,src/escenas/zonas.ts
+af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e43303c24ba4,el Rincón de los Conceptos,trozo,src/escenas/zonas.ts
 ca6ec05b56e2,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ,trozo,src/escenas/zonas.ts
 4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,frase,src/escenas/zonas.ts
@@ -989,6 +1006,7 @@ d8f5db14848e,las canciones,trozo,src/escenas/zonas.ts
 b23b2e5c8973,las rutinas y los hábitos,trozo,src/escenas/zonas.ts
 5e97168da8a5,el álbum,trozo,src/escenas/zonas.ts
 47ff295173a9,la casa de Tito,trozo,src/escenas/zonas.ts
+538329857e0b,el barco de la Isla de las Letras,trozo,src/escenas/zonas.ts
 d1660b9daa58,¡Terminaste todos los caminos,trozo,src/escenas/zonas.ts
 e12315af2ad6,! Puedes repetir lo que más te guste.,trozo,src/escenas/zonas.ts
 df09140b08d5,3 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
@@ -1049,9 +1067,9 @@ a830de01ef81,miedo,trozo,src/juegos/caras.ts
 9583efc731c9,calma,trozo,src/juegos/caras.ts
 8f586855bc67,vergüenza,trozo,src/juegos/caras.ts
 92969de44e23,¿Dónde están ,trozo,src/juegos/comps.ts
-a0099f02b7d9,¿Dónde está ,trozo,src/juegos/comps.ts
+a0099f02b7d9,¿Dónde está ,trozo,src/juegos/comps.ts src/temas/letras.ts
 2d64b95bc7d1,Ese es ,trozo,src/juegos/comps.ts src/temas/temas4.ts src/temas/temas5.ts
-db182603c659,Esa es ,trozo,src/juegos/comps.ts src/temas/temas4.ts
+db182603c659,Esa es ,trozo,src/juegos/comps.ts src/temas/letras.ts src/temas/temas4.ts
 2c5387f21255,Esos son ,trozo,src/juegos/comps.ts
 771384549337,Esas son ,trozo,src/juegos/comps.ts
 48148702c568,Es ,trozo,src/juegos/comps.ts
@@ -1704,6 +1722,26 @@ ee5c35ce3d08,numbers,trozo,src/temas/ingles.ts
 645863de3566,Los animales en inglés,trozo,src/temas/ingles.ts
 a723e3dfb497,animals,trozo,src/temas/ingles.ts
 3e5165059ba5,mirar un libro de animales y nombrarlos en inglés.,trozo,src/temas/ingles.ts
+1c701316e96d,Esta es ,trozo,src/temas/letras.ts
+ed98257fa8ae, empieza por ,trozo,src/temas/letras.ts
+ebb7fd71260d,¡Vamos a conocer ,trozo,src/temas/letras.ts
+9ff5786dd2b2,! Toca cada tarjeta.,trozo,src/temas/letras.ts
+006475045d1d,Vamos a escribir ,trozo,src/temas/letras.ts
+81fecf81b49b,. Empieza en el punto verde y sigue el camino con el dedo.,trozo,src/temas/letras.ts
+1adeb906cc07,"Ahora, el siguiente trazo. Empieza en el punto verde.",frase,src/temas/letras.ts
+efb17f22a082,¡Muy bien! ¡Ya sabes escribir ,trozo,src/temas/letras.ts
+642f309db8c4,Sigue el camino de ,trozo,src/temas/letras.ts
+4e4ed920f3c0, con el dedo.,trozo,src/temas/letras.ts
+6da2fc603d06,¡Atrapa las burbujas de ,trozo,src/temas/letras.ts
+56e7a240aa23,Atrapa,trozo,src/temas/letras.ts
+d83fd84b3b1b,Une cada letra con su amigo. Arrastra una línea desde la letra hasta su dibujo.,frase,src/temas/letras.ts
+7ab941f3e418, no empieza por ,trozo,src/temas/letras.ts
+22204def8299,Conoce ,trozo,src/temas/letras.ts
+2c2aaa3129b1,Escribe ,trozo,src/temas/letras.ts
+96ac3c50f123,Atrapa ,trozo,src/temas/letras.ts
+717a24de0911,Une cada letra con su amigo,trozo,src/temas/letras.ts
+ba9a99294925,L3-,trozo,src/temas/letras.ts
+f316ef34364e,La ,trozo,src/temas/letras.ts
 e067f26392e3,la lancha,nombre,src/temas/temas.ts
 50c036b75e36,el helicóptero,nombre,src/temas/temas.ts
 1eec213e0e4e,A  B  C  1  2  3,trozo,src/temas/temas.ts

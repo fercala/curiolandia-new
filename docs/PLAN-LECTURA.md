@@ -26,7 +26,7 @@ rutina: conocer la letra, escuchar con qué empieza, trazarla, atraparla y un ju
 
 | Zona | Casitas del camino |
 | --- | --- |
-| Playa de los Sonidos (10) | Las palmas, ¿Cómo empieza?, A, E, I, O, U, Mi nombre, Las vocales mezcladas, Fiesta de las vocales |
+| Playa de los Sonidos (10) | A, E, I, O, U (publicadas en la fase L2), Las palmas, ¿Cómo empieza?, Mi nombre, Las vocales mezcladas, Fiesta de las vocales |
 | Bosque de las Letras (12) | Repaso de vocales, M, P, L, S, T, N, D, F, B, Escribo mi nombre, Fiesta de las letras |
 | Pueblo de las Palabras (12) | R, C, G, J, V, Ñ, Fábrica de sílabas, Palabras de dos sílabas, Palabras de tres sílabas, Frases que se mueven, Cuentos para leer, Fiesta del abecedario |
 
@@ -93,9 +93,13 @@ Cada fase es un PR pequeño que deja el juego publicable, con las pruebas en ver
    `zonaAbierta` con la zona anterior en una tabla, `temaAbierto`, `zonaDeLetrasDeLaEdad` y `siguienteLetra`) y las 20
    letras en `contenido/letras.ts` (`LETRAS`, con los trazos de las mayúsculas), con sus pruebas. El dibujo del ñu.
    El juego no cambia.
-2. **L2, la entrada.** El muelle en el mapa (2D y 3D), el viaje en barco y la escena del mapa de la isla con sus tres
-   zonas y candados, aún sin casitas. Lupi en la isla.
-3. **L3, Playa de los Sonidos.** Sus 10 casitas, `Palmas`, `Pizarra`, `MiNombre` y el trazado de las vocales.
+2. **L2, la entrada y las vocales (hecha en v0.2.57).** El muelle con su barco en el mapa (2D y 3D), la escena de la
+   isla (`escenas/isla.ts`, en 2D) con sus tres zonas, Lupi y su botón verde, y la Playa de los Sonidos con sus cinco
+   primeras casitas, A, E, I, O y U (`temas/letras.ts`: conocer, buscar, trazar, atrapar y unir con su amigo). Se
+   adelantaron las vocales para que la isla no se publicara vacía. El Bosque y el Pueblo salen «en obras».
+3. **L3, Playa de los Sonidos.** Las otras 5 casitas, **después de la U** (el progreso se guarda por id y posición: no
+   se meten casitas entre las publicadas): las palmas, ¿cómo empieza?, mi nombre, las vocales mezcladas y la fiesta de
+   las vocales, con `Palmas`, `Pizarra` y `MiNombre`.
 4. **L4, Bosque de las Letras.** Sus 12 casitas, `Tren`, la pesca y las huellas.
 5. **L5, Pueblo de las Palabras.** Sus 12 casitas, `Maquina`, `Frase`, los cuentos para leer y los trazos de las
    minúsculas.
