@@ -75,7 +75,7 @@ import { MAINZ, NEED, ZAGE, ZONAS_LETRAS, camino, empezado, flores, juegoAbierto
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, SHELLC, STARS, T, TITO, VIVO, W, atHome, burst, cap, card, circ, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, pic, ponRepOn, save, say, sayQ, sky, sparkles, star, temasDone, text, titoKind, titoPos, today, tree } from '../nucleo/indice.ts';
 import { BG, NUM } from '../juegos/indice.ts';
-import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TL3, TRZ } from '../temas/indice.ts';
+import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TL3, TL4, TRZ } from '../temas/indice.ts';
 import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
@@ -118,7 +118,11 @@ export const ZONES: Record<string, Zona>={
   // La Playa de los Sonidos (3 años), la primera zona de la Isla de las Letras (fase L2 de docs/PLAN-LECTURA.md): sus
   // casitas son las vocales (TL3, temas/letras.ts) y el botón de casa vuelve a la isla.
   playaSonidos:{temas:TL3,name:'la Playa de los Sonidos',vuelta:'isla',hello:'¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#D9F1FB','#FFF4DA');ctx.fillStyle='#FFE6A8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.12;'AEIOU'.split('').forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,120,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#FFE9C2','#DDF1FA','#FFF1CF']}
+    bg:()=>{sky('#D9F1FB','#FFF4DA');ctx.fillStyle='#FFE6A8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.12;'AEIOU'.split('').forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,120,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#FFE9C2','#DDF1FA','#FFF1CF']},
+  // El Bosque de las Letras (4 años), la segunda zona de la isla (fase L4): repaso de vocales, las consonantes M, P, L, S,
+  // T, N, D, F y B, escribo mi nombre y la fiesta de las letras (TL4, temas/letras.ts).
+  bosqueLetras:{temas:TL4,name:'el Bosque de las Letras',vuelta:'isla',hello:'¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ',
+    bg:()=>{sky('#D8F0CC','#F1FAE8');for(let i=0;i<12;i++){ctx.globalAlpha=.3;tree(120+i*130,880,.9+(i%3)*.15,'verano');ctx.globalAlpha=1}ctx.globalAlpha=.12;'MPLST'.split('').forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,120,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#F7DDB8','#D9ECF7','#CDEBC0']}
 };
 // PARTIDA: la partida de verdad, como la ven las reglas de dominio/apertura.ts. Lee S, la edad y la fecha en el
 // momento de cada pregunta (S cambia entero con ponS al empezar de nuevo o cargar una copia).

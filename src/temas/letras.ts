@@ -20,7 +20,7 @@
 import type { AlTerminar, Cosa, JuegoTema, Libre, Palabra, Tema } from '../juegos/tipos.ts';
 import { LETRAS, letraEnPantalla, type Letra, type Trazo } from '../contenido/letras.ts';
 import { AGE, LF, S, W_, cap, ctx, nOpts, nRounds, pick, praise, sky, shuffle, text } from '../nucleo/indice.ts';
-import { Atrapa, BG, ChoiceGame, Conocer, Excava, Memoria, MiNombre, NUM, Palmas, Pizarra, Tracer, Une, nameT, nombreDeLetra } from '../juegos/indice.ts';
+import { Atrapa, BG, ChoiceGame, Conocer, Excava, Memoria, Huellas, MiNombre, NUM, Palmas, Pizarra, Tracer, Tren, Une, nameT, nombreDeLetra } from '../juegos/indice.ts';
 
 // BG.letras: el fondo de los juegos de letras: cielo claro, arena y letras grandes muy suaves al fondo.
 Object.assign(BG, {
@@ -80,9 +80,14 @@ const fondoTrazo = (L: Letra) => (): void => {
   ctx.restore();
 };
 
-// distractoras(L): las letras que pueden salir con L como opciones equivocadas: las de su zona (las vocales, en la
-// playa) y, desde los 5 años, también todas las demás de la isla.
-const distractoras = (L: Letra): Letra[] => LETRAS.filter((x) => x !== L && (x.zona === L.zona || AGE() >= 5));
+// distractoras(L): las letras que pueden salir con L como opciones equivocadas: en la playa, las otras vocales; en el
+// bosque, las ya vistas (las vocales y las del bosque anteriores); desde los 5 años, todas las demás de la isla.
+const distractoras = (L: Letra): Letra[] => {
+  if (AGE() >= 5) return LETRAS.filter((x) => x !== L);
+  if (L.zona === 'playaSonidos') return LETRAS.filter((x) => x !== L && x.zona === L.zona);
+  // en el bosque, a los 3 y 4 años, las ya vistas: las vocales y las del bosque que van antes (desde la fase L4)
+  return LETRAS.filter((x) => x.zona === 'playaSonidos' || (x.zona === L.zona && LETRAS.indexOf(x) < LETRAS.indexOf(L)));
+};
 
 // conocerLetra(L, bg): el juego de conocer la letra: su tarjeta (se dice «Esta es la a. La a de abeja.») y las de su
 // amigo y sus palabras («La abeja. Abeja empieza por la a.»).
@@ -138,7 +143,13 @@ function uneLetras(hasta: Letra, bg: () => void, d: AlTerminar) {
 // temaVocal(L, i): la casita de la vocal L (i = su número en el camino): conocer, buscar, trazar, atrapar y, desde la
 // segunda (i > 0), unir las letras aprendidas con sus amigos.
 function temaVocal(L: Letra, i: number): Tema {
-  const bg = BG['letras']!;
+  return temaLetra(L, i, 'L3', BG['letras']!);
+}
+
+// temaLetra(L, i, pre, bg): la casita de la letra L (id `${pre}-${L.l}`, en la zona de L, con el fondo bg): conocer,
+// buscar, trazar, atrapar y, desde la segunda (i > 0), unir. Fuera de la playa (desde la fase L4), además, el tren de
+// las sílabas y las huellas de la letra, al final (los juegos se guardan por posición).
+function temaLetra(L: Letra, i: number, pre: string, bg: () => void): Tema {
   const games: JuegoTema[] = [
     { t: 'conocerLetra', icon: L.amigo, name: `Conoce ${L.nombre}`, make: (d: AlTerminar) => conocerLetra(L, bg, d) },
     { t: 'buscaLetra', icon: 'lupa', name: `¿Dónde está ${L.nombre}?`, make: (d: AlTerminar) => buscaLetra(L, bg, d) },
@@ -146,8 +157,11 @@ function temaVocal(L: Letra, i: number): Tema {
     { t: 'atrapaLetra', icon: 'globo', name: `Atrapa ${L.nombre}`, make: (d: AlTerminar) => atrapaLetra(L, bg, d) },
   ];
   if (i > 0) games.push({ t: 'uneLetras', icon: 'pizarra', name: 'Une cada letra con su amigo', make: (d: AlTerminar) => uneLetras(L, bg, d) });
+  if (L.zona !== 'playaSonidos') games.push(
+    { t: 'trenLetra', icon: 'tren', name: `El tren de ${L.nombre}`, make: (d: AlTerminar) => trenLetra(L, bg, d) },
+    { t: 'huellasLetra', icon: L.amigo, name: `Las huellas de ${L.nombre}`, make: (d: AlTerminar) => huellasLetra(L, bg, d) });
   const words: Palabra[] = [L.amigo, ...L.palabras].map((k) => ({ k }));
-  return { id: `L3-${L.l}`, zone: 'playaSonidos', n: `La ${L.l}`, icon: L.amigo, c: L.c, bg, words, games,
+  return { id: `${pre}-${L.l}`, zone: L.zona, n: `La ${L.l}`, icon: L.amigo, c: L.c, bg, words, games,
     intro: `¡Vamos a conocer ${L.nombre}!` };
 }
 
@@ -167,8 +181,8 @@ const SILABAS: Readonly<Record<string, readonly string[]>> = {
 const silabas = (k: string): string[] => [...(SILABAS[k] ?? [sinArticulo(k)])];
 // rondasPalmas(ks): las rondas de Palmas con las palabras ks, en ese orden.
 const rondasPalmas = (ks: readonly string[]) => ks.map((k) => ({ k, syl: silabas(k) }));
-// vocalDe(k): la vocal por la que empieza la palabra con dibujo k (de las de VOCALES), o undefined.
-const vocalDe = (k: string): Letra | undefined => VOCALES.find((v) => v.amigo === k || v.palabras.includes(k));
+// vocalDe(k): la letra de LETRAS por la que empieza la palabra con dibujo k (su amigo o una de sus palabras), o undefined.
+const vocalDe = (k: string): Letra | undefined => LETRAS.find((v) => v.amigo === k || v.palabras.includes(k));
 // palabrasVocal(L): el amigo y las palabras de la vocal L.
 const palabrasVocal = (L: Letra): string[] => [L.amigo, ...L.palabras];
 
@@ -198,13 +212,13 @@ function palabraLarga(bg: () => void, d: AlTerminar) {
     } }, d);
 }
 
-// comoEmpieza(bg): «¿cómo empieza?»: Tito dice una vocal y hay que tocar el dibujo que empieza por ella, entre dibujos
-// que empiezan por otras vocales.
-function comoEmpieza(bg: () => void, d: AlTerminar) {
+// comoEmpieza(bg, d, set): «¿cómo empieza?»: Tito dice una letra de set (las vocales, si no se da) y hay que tocar el
+// dibujo que empieza por ella, entre dibujos que empiezan por otras letras de set.
+function comoEmpieza(bg: () => void, d: AlTerminar, set: Letra[] = VOCALES) {
   return ChoiceGame({ rounds: nRounds(), bg, key: () => 'letras', y: 560, big: true,
     gen: () => {
-      const L = pick(VOCALES), t = pick(palabrasVocal(L));
-      const otras = shuffle(VOCALES.filter((v) => v !== L)).slice(0, Math.max(1, nOpts() - 1)).map((v) => pick(palabrasVocal(v)));
+      const L = pick(set), t = pick(palabrasVocal(L));
+      const otras = shuffle(set.filter((v) => v !== L)).slice(0, Math.max(1, nOpts() - 1)).map((v) => pick(palabrasVocal(v)));
       const ask = `¿Qué empieza por ${L.nombre}?`;
       return { words: [t, ...otras], ok: [t], ask, okSay: () => `${praise()} ${cap(sinArticulo(t))} empieza por ${L.nombre}.`,
         badSay: (w: Cosa) => `${cap(sinArticulo(String(w)))} empieza por ${vocalDe(String(w))?.nombre ?? 'otra letra'}. ${ask}` };
@@ -225,16 +239,16 @@ function excavaVocales(bg: () => void, d: AlTerminar) {
   return Excava({ pool: VOCALES.map(cosaLetra), n: AGE() <= 3 ? 4 : 5, bg, intro: 'Escarba en la arena con el dedo. ¡Hay letras escondidas!' }, d);
 }
 
-// memoriaVocales(bg): memoria con las vocales: dos cartas iguales.
-function memoriaVocales(bg: () => void, d: AlTerminar) {
-  return Memoria({ pool: VOCALES.map(cosaLetra), pairs: AGE() <= 3 ? 3 : 4, bg, intro: 'Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.' }, d);
+// memoriaVocales(bg, d, set): memoria con las letras de set (las vocales, si no se da): dos cartas iguales.
+function memoriaVocales(bg: () => void, d: AlTerminar, set: Letra[] = VOCALES) {
+  return Memoria({ pool: set.map(cosaLetra), pairs: AGE() <= 3 ? 3 : 4, bg, intro: 'Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.' }, d);
 }
 
-// buscaVocales(bg): «¿dónde está…?» con una vocal distinta en cada ronda.
-function buscaVocales(bg: () => void, d: AlTerminar) {
+// buscaVocales(bg, d, set): «¿dónde está…?» con una letra de set (las vocales, si no se da) distinta en cada ronda.
+function buscaVocales(bg: () => void, d: AlTerminar, set: Letra[] = VOCALES) {
   return ChoiceGame({ rounds: nRounds(), bg, key: () => 'letras', y: 560, big: true,
     gen: () => {
-      const L = pick(VOCALES), buena = cosaLetra(L), otras = shuffle(VOCALES.filter((v) => v !== L)).slice(0, Math.max(1, nOpts() - 1)).map(cosaLetra);
+      const L = pick(set), buena = cosaLetra(L), otras = shuffle(set.filter((v) => v !== L)).slice(0, Math.max(1, nOpts() - 1)).map(cosaLetra);
       const ask = `¿Dónde está ${L.nombre}?`;
       return { words: [buena, ...otras], ok: [buena], ask, okSay: () => `${praise()} ${cap(L.nombre)} de ${L.amigoDice}.`, badSay: (w: Cosa) => `Esa es ${nameT(w)}. ${ask}` };
     } }, d);
@@ -342,5 +356,67 @@ function juegosPlaya(): Tema[] {
 // palmas, ¿cómo empieza?, mi nombre, las vocales mezcladas y la fiesta de las vocales (fase L3).
 export const TL3: Tema[] = [...VOCALES.map(temaVocal), ...juegosPlaya()];
 
+/* ---------- fase L4: el Bosque de las Letras ---------- */
+// BG.letrasBosque: el fondo de los juegos del bosque: cielo verde claro, hierba y letras suaves al fondo.
+Object.assign(BG, {
+  letrasBosque(): void {
+    sky('#DDF2D2', '#F4FBEA');
+    ctx.fillStyle = '#C9E7A8'; ctx.fillRect(0, 760, 1600, 140);
+    ctx.save(); ctx.globalAlpha = .08;
+    'MPLSTNDFB'.split('').forEach((l, i) => text(l, 140 + i * 170, 200 + (i % 3) * 230, 150, '#3E7A5A', { f: LF }));
+    ctx.restore();
+  },
+});
+// BOSQUE: las nueve consonantes del bosque, en orden (M, P, L, S, T, N, D, F, B).
+const BOSQUE: Letra[] = LETRAS.filter((x) => x.zona === 'bosqueLetras');
+
+// trenLetra(L, bg): el tren de las sílabas de L con las cinco vocales (MA, ME, MI, MO, MU), con el componente Tren.
+function trenLetra(L: Letra, bg: () => void, d: AlTerminar) {
+  return Tren({ letra: { l: L.l, nombre: L.nombre, c: L.c }, vocales: VOCALES.map((v) => ({ l: v.l, c: v.c })), bg, key: 'letras' }, d);
+}
+
+// huellasLetra(L, bg): las huellas del amigo de L forman la letra; hay que tocarlas en orden (Huellas).
+function huellasLetra(L: Letra, bg: () => void, d: AlTerminar) {
+  return Huellas({ trazos: L.trazos.map((t) => densificar(letraEnPantalla(t, 680, 190, 440, 560), 10)), c: L.c, who: L.amigo, bg, key: 'trazos',
+    ask: `Las huellas de ${W_(L.amigo)} forman ${L.nombre}. Tócalas en orden, empezando por la que brilla.`,
+    ok: `${praise()} Las huellas forman ${L.nombre}.` }, d);
+}
+
+// letraDelNombre(): la primera letra del nombre si está en LETRAS (si no, la de Tito, la T), para trazarla.
+const letraDelNombre = (): Letra => LETRAS.find((x) => x.l === inicial()) ?? LETRAS.find((x) => x.l === 'T')!;
+
+// juegosBosque(): las doce casitas del bosque (4 años): repaso de vocales, M, P, L, S, T, N, D, F, B, escribo mi nombre
+// y la fiesta de las letras. Sus ids y el orden de sus juegos son definitivos.
+function juegosBosque(): Tema[] {
+  const bg = BG['letrasBosque']!;
+  const tema = (id: string, n: string, icon: string, c: string, intro: string, games: JuegoTema[]): Tema =>
+    ({ id, zone: 'bosqueLetras', n, icon, c, bg, words: BOSQUE.map((L) => ({ k: L.amigo })), games, intro });
+  return [
+    tema('L4-VOC', 'Repaso de vocales', 'abeja', '#E8554E', '¡Vamos a repasar las vocales antes de entrar en el bosque!', [
+      { t: 'conocerVocales', icon: 'regalo', name: 'Las cinco vocales', make: (d: AlTerminar) => conocerVocales(bg, d) },
+      { t: 'buscaVocales', icon: 'lupa', name: '¿Dónde está?', make: (d: AlTerminar) => buscaVocales(bg, d) },
+      { t: 'comoEmpieza', icon: 'oreja', name: '¿Cómo empieza?', make: (d: AlTerminar) => comoEmpieza(bg, d) },
+      { t: 'uneDibujoLetra', icon: 'pizarra', name: 'Une cada dibujo con su letra', make: (d: AlTerminar) => uneDibujoLetra(bg, d) },
+    ]),
+    ...BOSQUE.map((L, i) => temaLetra(L, i, 'L4', bg)),
+    tema('L4-NOM', 'Escribo mi nombre', 'lapiz', '#4BA3E0', '¡Vamos a escribir las letras de tu nombre!', [
+      { t: 'miNombre', icon: 'pizarra', name: 'Mi nombre', make: (d: AlTerminar) => juegoMiNombre(bg, d) },
+      { t: 'trazaLetra', icon: 'lapiz', name: 'Escribe mi primera letra', make: (d: AlTerminar) => trazaLetra(letraDelNombre(), d) },
+      { t: 'huellasLetra', icon: 'tortuga', name: 'Huellas de mi letra', make: (d: AlTerminar) => huellasLetra(letraDelNombre(), bg, d) },
+      { t: 'buscaInicial', icon: 'lupa', name: 'Mi primera letra', make: (d: AlTerminar) => buscaInicial(bg, d) },
+    ]),
+    tema('L4-FIE', 'Fiesta de las letras', 'tarta', '#9B6FD0', '¡Es la fiesta de las letras del bosque!', [
+      { t: 'buscaVocales', icon: 'lupa', name: '¿Dónde está?', make: (d: AlTerminar) => buscaVocales(bg, d, BOSQUE) },
+      { t: 'comoEmpieza', icon: 'oreja', name: '¿Cómo empieza?', make: (d: AlTerminar) => comoEmpieza(bg, d, BOSQUE) },
+      { t: 'trenLetra', icon: 'tren', name: 'El tren de las sílabas', make: (d: AlTerminar) => trenLetra(pick(BOSQUE), bg, d) },
+      { t: 'uneLetras', icon: 'pizarra', name: 'Une cada letra con su amigo', make: (d: AlTerminar) => uneLetras(BOSQUE[BOSQUE.length - 1]!, bg, d) },
+      { t: 'memoriaVocales', icon: 'concha', name: 'Memoria de letras', make: (d: AlTerminar) => memoriaVocales(bg, d, BOSQUE) },
+    ]),
+  ];
+}
+
+// TL4: las casitas del Bosque de las Letras (4 años), en el orden del camino (fase L4).
+export const TL4: Tema[] = juegosBosque();
+
 // TEMAS_LETRAS: todos los temas de la isla, para TEMAS (escenas/escenas2d.ts). Crecerá con las fases L3 a L5.
-export const TEMAS_LETRAS: Tema[] = [...TL3];
+export const TEMAS_LETRAS: Tema[] = [...TL3, ...TL4];

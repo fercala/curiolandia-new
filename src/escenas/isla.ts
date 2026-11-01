@@ -3,9 +3,9 @@
  * muelle del mapa (MZ2 en escenas/zonas.ts) en barco. Es un mapa pequeño con las tres zonas de la isla, Lupi (la
  * lechuza de Letrilandia, que cuida las letras), el barco para volver y su propio botón verde de «seguir», que lleva a la
  * casita de letras que toca (nextLetra, con la regla siguienteLetra de dominio/apertura.ts).
- * Las zonas de la isla que ya tienen casitas son zonas de ZONES (hoy, la Playa de los Sonidos) y se abren como las
- * principales (zoneOpen). Las que todavía no tienen casitas (el Bosque de las Letras y el Pueblo de las Palabras, fases
- * L4 y L5) salen «en obras»: al tocarlas, Tito dice que Lupi las está preparando.
+ * Las zonas de la isla que ya tienen casitas son zonas de ZONES (la Playa de los Sonidos y, desde la fase L4, el Bosque
+ * de las Letras) y se abren como las principales (zoneOpen). La que todavía no tiene casitas (el Pueblo de las Palabras,
+ * fase L5) sale «en obras»: al tocarla, Tito dice que Lupi la está preparando.
  * Es una escena 2D (la isla en 3D es la fase L6).
  * Exporta: ISLA (los sitios de la isla) y pone SCENES.isla al cargarse.
  * Importa: el núcleo (dibujo, voz, toque, Tito), las reglas y ayudas de escenas/zonas.ts (ZONES, zoneOpen, nextLetra,

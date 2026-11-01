@@ -4,7 +4,9 @@
  * down/move/up, prompt y hint; informa con rec(), onRight(), this.done++ y scene.starPop = T, y llama a onDone() al
  * terminar.
  * COMPONENTES: Palmas (dar una palmada en el tambor por cada sílaba de una palabra), Pizarra (pintar libre con el dedo
- * sobre una letra grande en gris) y MiNombre (el nombre del niño en letras grandes: se tocan una a una y suenan).
+ * sobre una letra grande en gris) y MiNombre (el nombre del niño en letras grandes: se tocan una a una y suenan); desde
+ * la fase L4, Tren (la locomotora de una consonante y los vagones de las vocales forman sílabas: M + A = MA) y Huellas
+ * (tocar en orden las huellas que forman una letra).
  * Exporta además nombreDeLetra (cómo se dice cualquier letra: 'la be', 'la hache'...).
  * Importa: los tipos de juegos/tipos.ts, el núcleo (dibujo, voz, sonido, premios) y thing y nameT de juegos/comps.ts.
  */
@@ -12,7 +14,7 @@
    animaciones, como en el resto de componentes. */
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { LF, SFX, T, back, burst, cap, card, circ, clamp, ctx, dist, ell, later, onRight, praise, rec, say, sayQ, scene, sparkles, text, tone } from '../nucleo/indice.ts';
+import { LF, PI, SFX, T, back, burst, cap, card, circ, clamp, ctx, dist, ell, later, onRight, praise, rec, say, sayQ, scene, sparkles, text, tone } from '../nucleo/indice.ts';
 import { NUM, nameT, thing } from './comps.ts';
 
 // NOMBRES: cómo se dice cada letra (sin tilde ni diéresis: quien llama las quita con sinTilde).
@@ -152,5 +154,101 @@ export function MiNombre(cfg: Config, onDone: AlTerminar): Juego {
       if (this.cur < n) { say(cap(nombreDeLetra(c.l))); return; }
       this.busy = true; rec(cfg.key || 'letras', true); onRight(true); SFX.good(); burst(900, 470, 50);
       say(cap(nombreDeLetra(c.l)), () => later(300, () => say(`${praise()} Así se escribe ${cfg.dice || cfg.nombre}.`, () => later(600, onDone)))); },
+  };
+}
+
+/* ---------- Tren: la locomotora y los vagones de las sílabas (fase L4) ---------- */
+// drawLoco(x, y, l, c, humo): la locomotora en (x, y) con la letra l de color c en la cabina; humo = sale humo.
+function drawLoco(x: number, y: number, l: string, c: string, humo: boolean): void {
+  ctx.save(); ctx.translate(x, y);
+  card(-110, -60, 220, 120, '#E8554E', 7, 18); card(-30, -150, 120, 100, '#E8554E', 7, 14); card(-10, -135, 80, 70, '#fff', 5, 10);
+  text(l, 30, -78, 66, c, { f: LF }); card(-100, -110, 40, 50, K, 0, 6);
+  for (const wx of [-70, 0, 70]) { circ(wx, 70, 30, '#3B3B4F', 6); circ(wx, 70, 9, '#FFC93C', 0); }
+  if (humo) for (let i = 0; i < 3; i++) { const k = (T * .8 + i / 3) % 1; ctx.globalAlpha = .7 * (1 - k); circ(-80 - k * 40, -130 - k * 90, 18 + k * 20, '#fff', 0); ctx.globalAlpha = 1; }
+  ctx.restore();
+}
+// drawVagon(x, y, l, c, s): un vagón con la vocal l de color c, de tamaño s (1 = normal).
+function drawVagon(x: number, y: number, l: string, c: string, s = 1): void {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  card(-75, -70, 150, 120, '#FFF3B0', 7, 16); text(l, 0, 28, 92, c, { f: LF, st: 6, sc: '#fff' });
+  for (const wx of [-42, 42]) { circ(wx, 62, 22, '#3B3B4F', 5); circ(wx, 62, 7, '#FFC93C', 0); }
+  ctx.restore();
+}
+// COMPONENTE Tren: arriba esperan los vagones de las vocales; abajo, la locomotora de la consonante. Al tocar un vagón,
+// se engancha a la locomotora, sale la sílaba escrita (MA) y Tito la dice («La eme con la a: ma.»). Una estrella por
+// vagón; con todos, el tren se va. No hay fallos.
+// cfg: letra ({l, nombre, c}: la consonante), vocales ([{l, c}]), bg, key.
+export function Tren(cfg: Config, onDone: AlTerminar): Juego {
+  const V: Array<{ l: string; c: string }> = cfg.vocales, L = cfg.letra;
+  const vag: Libre[] = V.map((v, i) => ({ ...v, x: 900 - ((V.length - 1) * 190) / 2 + i * 190, y: 250, usado: 0 }));
+  return { total: V.length, done: 0, busy: false, ultimo: null as Libre | null, t1: 0, fin: 0,
+    // Dice la consigna.
+    enter() { later(300, () => sayQ(`¡Llega el tren de ${L.nombre}! Toca un vagón para engancharlo.`)); },
+    // Repite la consigna.
+    prompt() { say('Toca un vagón para engancharlo a la locomotora.'); },
+    // Ayuda: el primer vagón que falta.
+    hint() { const v = vag.find((q) => !q.usado); return v && !this.busy ? { x: v.x, y: v.y, r: 90 } : null; },
+    // Dibuja el fondo, la vía, los vagones que esperan, la locomotora (que se va al final) con el último vagón
+    // enganchado y la sílaba que forman.
+    draw() { cfg.bg(); const sale = this.fin ? (T - this.fin) * 600 : 0;
+      ctx.fillStyle = '#B98A5B'; ctx.fillRect(0, 718, 1600, 14); for (let x = 20; x < 1600; x += 60) { ctx.fillStyle = '#8A5A34'; ctx.fillRect(x, 708, 22, 34); }
+      for (const v of vag) if (!v.usado) { const toca = !this.busy && v === vag.find((q) => !q.usado); drawVagon(v.x, v.y + (toca ? Math.sin(T * 4) * 6 : 0), v.l, v.c); }
+      drawLoco(620 + sale, 620, L.l, L.c, true);
+      const u = this.ultimo; if (u) { const k = clamp((T - this.t1) * 3, 0, 1); drawVagon(lerpN(u.x, 830, k) + sale, lerpN(u.y, 630, k), u.l, u.c);
+        if (k >= 1 && !this.fin) { card(700, 420, 330, 120, '#fff', 7, 30); text((L.l + u.l).toUpperCase(), 865, 512, 96, '#5B8DEF', { f: LF }); } } },
+    // Toque en un vagón que espera: se engancha, se dice la sílaba y, con el último, el tren se va y acaba.
+    down(x: number, y: number) { if (this.busy) return; const v = vag.find((q) => !q.usado && Math.abs(x - q.x) < 85 && Math.abs(y - q.y) < 80);
+      if (!v) { SFX.tap(); sparkles(x, y, 3); return; }
+      v.usado = T; this.ultimo = v; this.t1 = T; this.busy = true; SFX.pop(); tone(300 + this.done * 70, .15, 'triangle', .14);
+      this.done++; scene!.starPop = T; rec(cfg.key || 'letras', true); onRight(true);
+      const sil = (L.l + v.l).toLowerCase();
+      say(`${cap(L.nombre)} con ${nombreDeLetra(v.l)}: ${sil}.`, () => later(400, () => {
+        if (this.done < V.length) { this.busy = false; return; }
+        this.fin = T; SFX.good(); burst(830, 600, 40); say(`${praise()} ¡Chu, chu! El tren se va.`, () => later(500, onDone)); })); },
+  };
+}
+// lerpN(a, b, k): de a a b según k (0 a 1).
+const lerpN = (a: number, b: number, k: number): number => a + (b - a) * k;
+
+/* ---------- Huellas: tocar en orden las huellas de la letra (fase L4) ---------- */
+// drawHuella(x, y, s, llena, c): una huella de pata (almohadilla y cuatro dedos) en (x, y); llena = ya pisada, de color c.
+function drawHuella(x: number, y: number, s: number, llena: boolean, c: string): void {
+  const f = llena ? c : 'rgba(255,255,255,.75)', b = llena ? K : '#B8A890';
+  ell(x, y + s * .15, s * .32, s * .26, f, 4, b);
+  for (let i = 0; i < 4; i++) { const a = -PI / 2 + (i - 1.5) * .5; circ(x + Math.cos(a) * s * .42, y + Math.sin(a) * s * .38 - s * .05, s * .12, f, 3, b); }
+}
+// COMPONENTE Huellas: las huellas de un animal forman la letra; hay que tocarlas en orden (la que toca late). El
+// animal salta de huella en huella. Una estrella por trazo; al acabar, onDone.
+// cfg: trazos (cada trazo, una lista de puntos [x, y] ya en la pantalla), paso (distancia entre huellas, 110), c (color
+// de las huellas pisadas), who (dibujo del animal), bg, ask, ok, key.
+export function Huellas(cfg: Config, onDone: AlTerminar): Juego {
+  // las huellas, una cada `paso` píxeles del trazo (cfg.paso, 110 por defecto) y siempre una al final
+  const paso = cfg.paso || 110;
+  const tr: Array<Array<[number, number]>> = cfg.trazos.map((t: Array<[number, number]>) => {
+    const out: Array<[number, number]> = []; let d = 999;
+    t.forEach((p, i) => { if (i === 0) { out.push(p); d = 0; return; } const q = t[i - 1]!; d += dist(p[0], p[1], q[0], q[1]); if (d >= paso || i === t.length - 1) { out.push(p); d = 0; } });
+    return out;
+  });
+  return { total: tr.length, done: 0, ti: 0, pi: 0, busy: false, salto: 0,
+    // Dice la consigna.
+    enter() { later(300, () => sayQ(cfg.ask)); },
+    // Repite la consigna.
+    prompt() { say('Toca la huella que brilla.'); },
+    // Ayuda: la huella que toca.
+    hint() { const p = tr[this.ti]?.[this.pi]; return p && !this.busy ? { x: p[0], y: p[1], r: 40 } : null; },
+    // Dibuja el fondo, todas las huellas (pisadas o no; la que toca, latiendo) y el animal sobre la última pisada.
+    draw() { cfg.bg();
+      tr.forEach((t, a) => t.forEach(([x, y], b) => { const hecha = a < this.ti || (a === this.ti && b < this.pi), toca = a === this.ti && b === this.pi && !this.busy;
+        drawHuella(x, y, toca ? 56 + Math.sin(T * 6) * 6 : 50, hecha, cfg.c || '#7CC86E'); if (toca) { ctx.globalAlpha = .4 + .3 * Math.sin(T * 6); circ(x, y, 44, null, 6, '#FFC93C'); ctx.globalAlpha = 1; } }));
+      const p = this.pi > 0 ? tr[this.ti]![this.pi - 1]! : this.ti > 0 ? tr[this.ti - 1]![tr[this.ti - 1]!.length - 1]! : null;
+      if (p && cfg.who) { const h = Math.max(0, 1 - (T - this.salto) * 4) * 30; thing(cfg.who, p[0] + 40, p[1] - 50 - h, 110); } },
+    // Toque: si es la huella que toca, se pisa (y al final del trazo, estrella); si no, nada.
+    down(x: number, y: number) { if (this.busy) return; const t = tr[this.ti]!, p = t[this.pi]!;
+      if (dist(x, y, p[0], p[1]) > 55) { SFX.tap(); return; }
+      this.pi++; this.salto = T; tone(420 + this.pi * 25, .07, 'sine', .12); sparkles(p[0], p[1], 5);
+      if (this.pi < t.length) return;
+      this.busy = true; this.done++; scene!.starPop = T; SFX.good(); rec(cfg.key || 'trazos', true); onRight(true);
+      const ultimo = this.ti === tr.length - 1;
+      say(ultimo ? cfg.ok || praise() : praise(), () => later(400, () => { if (ultimo) { onDone(); return; } this.ti++; this.pi = 0; this.busy = false; })); },
   };
 }

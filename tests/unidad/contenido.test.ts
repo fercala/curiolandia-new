@@ -72,12 +72,12 @@ describe('los temas', () => {
     const zonas: Array<[string, string[]]> = [
       ['jardin', ['T3', 'C3']], ['bosque', ['T4', 'C4']], ['montana', ['T5', 'C5']],
       ['extras', ['CAN', 'RUT', 'TRZ']], ['fiestas', ['FIESTAS']], ['ingles', ['ING']],
-      ['playaSonidos', ['TL3']], // la Isla de las Letras (fase L2 de docs/PLAN-LECTURA.md)
+      ['playaSonidos', ['TL3']], ['bosqueLetras', ['TL4']], // la Isla de las Letras (fases L2 y L4 de docs/PLAN-LECTURA.md)
     ];
     const fuera = zonas.flatMap(([zona, listas]) =>
       listas.flatMap((l) => juego[l] as TemaLeido | TemaLeido[]).filter((t) => t.zone !== zona).map((t) => `${t.id} no es de ${zona}`));
     expect(fuera).toEqual([]);
-    expect(temas().filter((t) => !['jardin', 'bosque', 'montana', 'extras', 'fiestas', 'ingles', 'playaSonidos'].includes(t.zone))).toEqual([]);
+    expect(temas().filter((t) => !['jardin', 'bosque', 'montana', 'extras', 'fiestas', 'ingles', 'playaSonidos', 'bosqueLetras'].includes(t.zone))).toEqual([]);
   });
 
   test('cada dibujo que nombran existe (icono, juegos, palabras y ejemplos)', () => {

@@ -36,10 +36,10 @@ import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 // de las casitas (nucleo/disposicion.ts: casitaPos la pregunta). Desde la fase 4j; antes sync() escribía en ZPOS y una
 // copia, ZPB, guardaba las posiciones 2D (ahora ZPOS no cambia).
 // ZSTYLE: colores de cada zona {bg: cielo, g: césped, e: borde de tierra}. Desde la fase L2, la Playa de los Sonidos
-// (arena en lugar de césped).
+// (arena en lugar de césped) y, desde la L4, el Bosque de las Letras.
 const ZX=(x: number,y: number): PuntoSuelo=>[(x-930)/37,(y-490)/37];
 const ZP3: Record<string, Record<string, {x: number; y: number}>>={};
-const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},ingles:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'},playaSonidos:{bg:'#DDF1FA',g:'#FFE9B8',e:'#E3BE7E'}};
+const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},ingles:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'},playaSonidos:{bg:'#DDF1FA',g:'#FFE9B8',e:'#E3BE7E'},bosqueLetras:{bg:'#CFEFD0',g:'#A8DC8F',e:'#B98A5B'}};
 // slab(to,w,d,c,e,y,r): losa de suelo con esquinas redondeadas (ancho w, fondo d, radio r) con césped c y borde e, a la altura y.
 // La añade a to (con contorno) y devuelve la malla (se usa como w.ground).
 function slab(to: THREE.Object3D,w: number,d: number,c: string,e: string,y=0,r=3){const s=new THREE.Shape(),x=-w/2,z=-d/2;s.moveTo(x+r,z);s.lineTo(x+w-r,z);s.quadraticCurveTo(x+w,z,x+w,z+r);s.lineTo(x+w,z+d-r);s.quadraticCurveTo(x+w,z+d,x+w-r,z+d);s.lineTo(x+r,z+d);s.quadraticCurveTo(x,z+d,x,z+d-r);s.lineTo(x,z+r);s.quadraticCurveTo(x,z,x+r,z);
@@ -67,7 +67,7 @@ export function roadPts(P: PuntoSuelo[],o: number){const r: PuntoSuelo[]=[];for(
   if(Math.abs(a[1]-b[1])<.2){for(let k=1;k<=12;k++)r.push([lerp(a[0],b[0],k/12),a[1]])}
   else{const sd=(a[0]+b[0])/2>0?1:-1;for(let k=1;k<=24;k++){const t=k/24,u=1-t;const c1=[a[0]+sd*o,a[1]],c2=[b[0]+sd*o,b[1]];r.push([u*u*u*a[0]+3*u*u*t*c1[0]+3*u*t*t*c2[0]+t*t*t*b[0],u*u*u*a[1]+3*u*u*t*c1[1]+3*u*t*t*c2[1]+t*t*t*b[1]])}}}return r}
 // zoneDecor(w,z): pone la decoración y los objetos tocables de la zona z (jardin, bosque, montana, fiestas, ingles y,
-// desde la fase L2, playaSonidos): animales y objetos
+// desde la fase L2, playaSonidos; desde la L4, bosqueLetras): animales y objetos
 // con sus funciones *3 (frog3, owl3...), árboles, flores, cosas que caen (fallPts) y las letras flotantes / bloques HELLO del inglés.
 // Aquí se añade un objeto 3D nuevo a una zona (ver docs/COMO-AGREGAR.md).
 function zoneDecor(w: Mundo,z: string){const D=w.sc;
@@ -88,6 +88,11 @@ function zoneDecor(w: Mundo,z: string){const D=w.sc;
   if(z==='playaSonidos'){palm3(w,-14.8,6.8,1.1);palm3(w,14.2,4.6,1);sunb3(w,-3.6,8.4,1);sandc3(w,12,7.6,1.3);crab3(w,0,6,8.8,1);
     // desde la fase L3 la playa tiene tres filas de casitas (como las zonas principales): las vocales van delante, a la derecha
     'AEIOU'.split('').forEach((l,i)=>{const q=spr(canvasTex(128,128,()=>text(l,64,104,104,DIAC[i],{f:LF,st:8,sc:K}),'vocal'+l),1.6,1.6,{p:[-1+i*2.5,1.1,6.4+(i%2)*.6],to:D});
+      w.upd.push(()=>{q.position.y=1.1+Math.abs(Math.sin(T*2+i))*.35;q.material.rotation=Math.sin(T*1.5+i)*.12})})}
+  // el Bosque de las Letras (fase L4): árboles a los lados, setas, un búho y las letras del bosque delante, que se mecen
+  if(z==='bosqueLetras'){for(const x of[-17.5,17.5])for(let i=0;i<5;i++)tree3(D,x,-6+i*3,.75,i%2?'otoño':'verano');mush3(D,16,8.4,1.1);mush3(D,-9.2,8.9,.9);owl3(w,14.5,4.2,1);
+    // las letras, delante a la derecha: la tercera fila de casitas ocupa la izquierda
+    'MPLST'.split('').forEach((l,i)=>{const q=spr(canvasTex(128,128,()=>text(l,64,104,104,DIAC[i],{f:LF,st:8,sc:K}),'bosque'+l),1.5,1.5,{p:[6+i*2,1.1,6.6+(i%2)*.6],to:D});
       w.upd.push(()=>{q.position.y=1.1+Math.abs(Math.sin(T*2+i))*.35;q.material.rotation=Math.sin(T*1.5+i)*.12})})}
   if(z==='ingles'){['H','E','L','L','O'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=DIAC[i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l+i);const m=new THREE.Mesh(Box(1.2,1.2,1.2),new THREE.MeshToonMaterial({map:t,gradientMap:gradiente()}));m.position.set(-4+i*2,.6,-8.2);m.rotation.y=(i%2?.2:-.2);m.castShadow=true;m.userData.letter=i+1;D.add(m)})}}
 // buildZone(z,st): construye el mundo 3D de la zona z (camino de casitas). st es la escena de la zona (titoAt, cur = tema siguiente,
