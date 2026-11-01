@@ -295,7 +295,7 @@ Desde la fase 4h, lo demás también está en su módulo. `mundo3d/mundo3d.ts` s
 | `interaccion.ts` | caminar (`walkTo`, `walkTick`, `walkGround`), tocar objetos (`WOBK`, `wobInit`, `wobTap`, `flyTap`, `seaTap`) y el puente con lo 2D (`titoRect`, `ponCasaP`, `call0`); `retito` | `montarInteraccion`: la disposición de Tito y su casa y `window.__w3` |
 | `mapa3d.ts` | la isla (`sea3`, `island3`, `SPOT3`, `buildMap`) | `montarMapa3D`: su disposición (los sitios proyectados, `MZP`) y el mapa 3D en `SCENES.map`, con su `seguir` |
 | `zonas3d.ts` | las zonas (`casita3`, `roadPts`, `zoneDecor`, `buildZone`) | `montarZonas3D`: su disposición (las casitas proyectadas, `ZP3`) y las 5 zonas 3D en `SCENES` |
-| `casita3d.ts` | la casita de un tema (`st3Pos`, `st3Tito`, `buildCasita`) | `montarCasita3D`: su disposición (los puestos proyectados) y la casita 3D en `SCENES.casita` (Tito aparece en el último juego, `ultimoJuego` de `escenas/escenas2d.ts`) |
+| `casita3d.ts` | la casita de un tema (`st3Pos`, `st3Tito`, `buildCasita`; el telón con el fondo del tema, `bgSample`, reutiliza el lienzo del último tema, `TELON`, y los colores de muestra de cada tema, `MUESTRA`) | `montarCasita3D`: su disposición (los puestos proyectados) y la casita 3D en `SCENES.casita` (Tito aparece en el último juego, `ultimoJuego` de `escenas/escenas2d.ts`) |
 | `cofre3d.ts` | el cofre (`buildCofre`) | `montarCofre3D`: el cofre 3D en `SCENES.cofre` |
 | `portada3d.ts` | la portada (`buildTitle`) | `montarPortada3D`: la portada 3D en `SCENES.title` |
 
