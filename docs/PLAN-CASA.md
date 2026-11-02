@@ -51,8 +51,8 @@ Al crecer hay fiesta. Pipo sigue creciendo con las estrellas y también se puede
 
 | Fase | Qué entra |
 | --- | --- |
-| C1 | Reglas y datos en `dominio/casa.ts` con pruebas (`tests/unidad/casa.test.ts`); partida versión 4 con `mascotas`, `sorpresas` y `huerto`; este plan. Nada visible. |
-| C2 | Tito camina por la habitación y los 49 objetos tienen su reacción. |
+| C1 (v0.2.81) | Reglas y datos en `dominio/casa.ts` con pruebas (`tests/unidad/casa.test.ts`); partida versión 4 con `mascotas`, `sorpresas` y `huerto`; este plan. Nada visible. |
+| C2 | Tito camina por la habitación y los 49 objetos tienen su reacción (`escenas/casaReacciones.ts`, frases en `contenido/casa.ts`). Hecha en la v0.2.82. |
 | C3 | La torre: escena del cielo de noche (telescopio), el globo terráqueo, Saturno y el cohete. |
 | C4 | Música y dibujo: escenas Los instrumentos, Mi pizarra y Mi tele. |
 | C5 | Cocina, baño, dormitorio y huerto: escenas La merienda, Sopa de Tito, El baño, Buenas noches y Mi huerto. |
