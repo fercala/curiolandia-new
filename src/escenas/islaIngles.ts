@@ -6,7 +6,8 @@
  * que toca (nextIngles, con la regla siguienteDeIsla de dominio/apertura.ts).
  * Las zonas que ya tienen casitas son zonas de ZONES (desde la fase I2, la Playa Hello) y se abren como las principales
  * (zoneOpen). Las que aún no tienen salen «en obras»: al tocarlas, Tito dice que Polly las está preparando.
- * Es una escena 2D (la fase I6 la pasará a 3D, como mundo3d/isla3d.ts hizo con la de las letras).
+ * Es una escena 2D; con WebGL, desde la fase I6, mundo3d/islaIngles3d.ts la convierte en 3D (como mundo3d/isla3d.ts hizo
+ * con la de las letras), y para eso usa ISLA_INGLES, POLLY y GLOBO.
  * Exporta: ISLA_INGLES (los sitios de la isla), POLLY y GLOBO, y pone SCENES.islaIngles al cargarse.
  * Importa: el núcleo (dibujo, voz, toque, Tito), las reglas y ayudas de escenas/zonas.ts (ZONES, zoneOpen, nextIngles,
  * drawSeguir y SEGUIR) y el mar y la valla de las obras de escenas/isla.ts (fondo, drawObras).

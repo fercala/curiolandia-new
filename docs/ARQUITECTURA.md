@@ -214,7 +214,7 @@ Para cambiar de escena se llama a `go('nombre', {datos})`. `go` cancela los temp
 | `album` | escenas/escenas2d.ts | Álbum de pegatinas |
 | `repaso` | escenas/repaso.ts | Repaso diario |
 | `isla` | escenas/isla.ts (+3D desde la fase L6, mundo3d/isla3d.ts) | La Isla de las Letras (desde la fase L2): sus tres zonas, Lupi, el barco para volver y el botón verde de las letras (`nextLetra`). Se llega por el muelle del mapa (`MZ2`, con `esc: 'isla'`) |
-| `islaIngles` | escenas/islaIngles.ts | La Isla del Inglés (desde la fase I2 de [PLAN-INGLES.md](PLAN-INGLES.md)): sus tres zonas (la Playa Hello, y el Parque de Londres y el Pueblo de los Cuentos «en obras»), Polly, el globo para volver y el botón verde del inglés (`nextIngles`). Se llega por el globo del mapa (`MZ2`, con `esc: 'islaIngles'`), en el sitio del antiguo Rincón del inglés. En 2D (la fase I6 la hará 3D). En sus zonas, la capa 3D dice los números y los colores en inglés (`enIslaIngles`) |
+| `islaIngles` | escenas/islaIngles.ts (+3D desde la fase I6, mundo3d/islaIngles3d.ts) | La Isla del Inglés (desde la fase I2 de [PLAN-INGLES.md](PLAN-INGLES.md)): sus tres zonas (la Playa Hello, el Parque de Londres y el Pueblo de los Cuentos), Polly, el globo para volver y el botón verde del inglés (`nextIngles`). Se llega por el globo del mapa (`MZ2`, con `esc: 'islaIngles'`), en el sitio del antiguo Rincón del inglés. En sus zonas, la capa 3D dice los números y los colores en inglés (`enIslaIngles`) |
 | `libroLetras` | escenas/libroLetras.ts | Mi libro de letras (desde la fase L7): las 20 letras de la isla y cómo va cada una. Se abre con el botón del libro del álbum y su botón del álbum vuelve a él |
 | `playaSonidos`, `bosqueLetras`, `puebloPalabras` | escenas/zonas.ts (+3D) | Zonas de la isla (el bosque, desde la fase L4; el pueblo, desde la L5) con su camino de casitas, como las otras; la casa de arriba vuelve a la isla (`vuelta`) |
 | `dormir` | escenas/escenas2d.ts | Fin del tiempo de juego |
@@ -306,6 +306,7 @@ Desde la fase 4h, lo demás también está en su módulo. `mundo3d/mundo3d.ts` s
 | `cofre3d.ts` | el cofre (`buildCofre`) | `montarCofre3D`: el cofre 3D en `SCENES.cofre` |
 | `portada3d.ts` | la portada (`buildTitle`) | `montarPortada3D`: la portada 3D en `SCENES.title` |
 | `isla3d.ts` (desde la fase L6 de [PLAN-LECTURA.md](PLAN-LECTURA.md)) | la Isla de las Letras (`isla3`, `SITIOS3`, `POS3`, Lupi, el barco, `buildIsla`; usa `sea3` y `greyAll` de `mapa3d.ts`) | `montarIsla3D`: la isla 3D en `SCENES.isla` (el mundo es de tipo `'isla'`) |
+| `islaIngles3d.ts` (desde la fase I6 de [PLAN-INGLES.md](PLAN-INGLES.md)) | la Isla del Inglés (`isla3`, `SITIOS3`, `POS3`, Polly, el globo, `buildIslaIngles`; usa `sea3`, `greyAll` y `globoAire3` de `mapa3d.ts`) | `montarIslaIngles3D`: la isla 3D en `SCENES.islaIngles` (el mundo es de tipo `'islaIngles'`) |
 
 Los módulos se importan entre sí (por ejemplo, `interaccion.ts` usa los objetos de `objetos.ts` y estos, `say3` de `cielo.ts`): no pasa nada porque al cargarse solo definen funciones y datos, y todo lo de Three.js se crea dentro de las funciones (`fhit()`, el material invisible de los toques, y el rayo del rastro de Tito se crean la primera vez que se usan).
 
