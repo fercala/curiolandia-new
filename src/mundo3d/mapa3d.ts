@@ -6,7 +6,8 @@
  * (nucleo/disposicion.ts: lo que proyecta sync() cada cuadro, en MZP, para que mzOf y la lógica 2D de escenas/zonas.ts
  * acierten) y pone en SCENES.map el mapa 3D, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía,
  * escribía lo proyectado en MZ2 y envolvía goSeguir). Su seguir() hace que Tito camine hasta el lugar antes de entrar.
- * Exporta: montarMapa3D. Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa;
+ * Exporta: montarMapa3D y, desde la fase L6 de docs/PLAN-LECTURA.md, sea3 y greyAll (los usa la Isla de las Letras en
+ * 3D, mundo3d/isla3d.ts). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa;
  * ahora() (aplicacion/puertos.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
@@ -36,7 +37,7 @@ const MZP: Record<string, {x: number; y: number; r: number}>={};
 const MP=(x: number,y: number): PuntoSuelo=>[(x-800)/40,(y-500)/40];
 const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740],muelle:[1280,860]};
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
-function sea3(w: Mundo,c: string){const g=new THREE.PlaneGeometry(220,160,70,50);g.rotateX(-PI/2);const m=new THREE.Mesh(g,M(c));m.position.y=-1.1;m.receiveShadow=true;w.sc.add(m);w.sea=m;
+export function sea3(w: Mundo,c: string){const g=new THREE.PlaneGeometry(220,160,70,50);g.rotateX(-PI/2);const m=new THREE.Mesh(g,M(c));m.position.y=-1.1;m.receiveShadow=true;w.sc.add(m);w.sea=m;
   // olas: altura y normal calculadas a mano (derivada de la fórmula); computeVertexNormals en cada cuadro costaba ~0,6 ms
   const p=g.attributes.position,nm=g.attributes.normal,b=Float32Array.from(p.array),A=p.array as Float32Array,N=nm.array as Float32Array;w.upd.push(()=>{for(let i=0,j=0;i<p.count;i++,j+=3){const ax=b[j]*.35+T*1.2,az=b[j+2]*.4+T*.9;
     A[j+1]=Math.sin(ax)*.12+Math.cos(az)*.12;const nx=-.042*Math.cos(ax),nz=.048*Math.sin(az),l=1/Math.sqrt(nx*nx+1+nz*nz);N[j]=nx*l;N[j+1]=l;N[j+2]=nz*l}p.needsUpdate=true;nm.needsUpdate=true})}
@@ -129,7 +130,7 @@ function stripesTex(){return canvasTex(256,64,()=>{for(let i=0;i<8;i++){ctx.fill
 function zzz(g: THREE.Object3D,p: Trio){const zs=[0,1].map(i=>spr(canvasTex(96,96,()=>text('z',48,76,80,'#7A6252',{st:6,sc:'#fff'}),'z'),.6+i*.2,.6+i*.2,{to:g}));
   const a=g.userData.anim;g.userData.anim=()=>{a&&a();zs.forEach((z,i)=>{const k=(T*.4+i*.5)%1;z.position.set(p[0]+k*.6,p[1]+k*1.4,p[2]);z.material.opacity=Math.sin(k*PI)})}}
 // greyAll(g,on): on=true pinta de gris todas las piezas toon del grupo g (guardando el material en userData.m0); on=false lo deshace.
-function greyAll(g: THREE.Object3D,on: boolean){g.traverse((o: Nodo)=>{if(o.isMesh&&o.material&&o.material.isMeshToonMaterial){if(on){o.userData.m0=o.userData.m0||o.material;o.material=M('#CFC8BF')}else if(o.userData.m0)o.material=o.userData.m0}})}
+export function greyAll(g: THREE.Object3D,on: boolean){g.traverse((o: Nodo)=>{if(o.isMesh&&o.material&&o.material.isMeshToonMaterial){if(on){o.userData.m0=o.userData.m0||o.material;o.material=M('#CFC8BF')}else if(o.userData.m0)o.material=o.userData.m0}})}
 
 // buildMap(st): construye el mundo 3D del mapa y lo devuelve (setWorld lo activa). st es la escena SCENES.map, de la que lee
 // titoAt, hop, hov, unl (candado que se abre), wake (zona que despierta), lockShake, shake (casa) y petJump (mascota).
