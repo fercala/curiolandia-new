@@ -79,7 +79,7 @@ las estrellas, las monedas y el progreso son los de siempre. Las palabras de cad
 Cada fase es un PR pequeño que deja el juego publicable, con las pruebas en verde y la versión subida. Antes de
 fusionar cada uno se pone al día con `main` y se vuelve a subir la versión si otro PR la ha usado.
 
-1. **I1, reglas y datos (hecha en v0.2.71).** Las tres zonas de la isla en `dominio/apertura.ts` (`ZONAS_INGLES`,
+1. **I1, reglas y datos (hecha en v0.2.72).** Las tres zonas de la isla en `dominio/apertura.ts` (`ZONAS_INGLES`,
    `ZAGE`, la zona anterior de cada una) y las dos islas en la tabla `ISLAS`, con las reglas de isla para las dos
    (`zonaDeIslaDeLaEdad` y `siguienteDeIsla`; `siguienteLetra` es la de las letras). Las palabras nuevas en
    `contenido/ingles.ts` (`PALABRAS_INGLES`, 13 conjuntos con dibujo) con sus pruebas, y el dibujo de Polly. El juego
