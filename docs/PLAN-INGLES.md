@@ -91,7 +91,10 @@ fusionar cada uno se pone al día con `main` y se vuelve a subir la versión si 
    de las 2 casitas (`NEED.ingles`) desaparecen. La decoración 3D del rincón se reparte: las letras que flotan, los
    cubos HELLO y la sombrilla, a la playa; lo de Londres (autobús, cabina, reloj, buzón, tetera, guardia y bandera),
    al Parque de Londres, que sale en la fase I4. El Parque y el Pueblo salen «en obras».
-3. **I3, el resto de la Playa Hello.** Las otras 6 casitas y los juegos nuevos `Repite` y `Telefono`.
+3. **I3, el resto de la Playa Hello (hecha en v0.2.74).** Las otras 6 casitas detrás de las del rincón (`EN-FAMILY`,
+   `EN-BODY`, `EN-TOYS`, `EN-FRUIT`, `EN-SHAPES` y la fiesta `EN-BEACH`, que repasa palabras de toda la playa) y los
+   juegos nuevos `EnRepite` (Polly dice la palabra dos veces y el niño la repite y toca la boca: no se usa el micrófono)
+   y `EnTelefono` (suena el teléfono rojo, se coge y Polly pide una cosa: «Ball, please!»).
 4. **I4, Parque de Londres.** Sus 12 casitas y el juego `Viste`.
 5. **I5, Pueblo de los Cuentos.** Sus 12 casitas y los juegos `Bingo` y `Autobus`.
 6. **I6, la isla en 3D.** El mar, las tres zonas, Polly, el globo y Tito caminando.
