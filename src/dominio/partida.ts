@@ -5,13 +5,15 @@
  * ponen al día al cargarlas, sin perder nada (receta en docs/ESTADO-GUARDADO.md).
  * La versión 1 es el formato de curiolandia-3d v1.592, el de las partidas de antes de esta fase, que no llevan versión
  * (cuentan como versión 0) y solo necesitan apuntarla. La versión 2 (fase 5d) es la de solo castellano de España. La 3
- * (fase L7b de docs/PLAN-LECTURA.md) trae tipoLetra, la opción de mayúsculas y minúsculas de la Isla de las Letras.
+ * (fase L7b de docs/PLAN-LECTURA.md) trae tipoLetra, la opción de mayúsculas y minúsculas de la Isla de las Letras. La 4
+ * (fase C1 de docs/PLAN-CASA.md) trae la casa interactiva: mascotas (fichas de las mascotas que crecen), sorpresas y huerto.
  * Es DOMINIO, como el resto de src/dominio/: no sabe nada de localStorage ni de S y no cambia lo que recibe: migrar
  * devuelve una partida nueva. nucleo/guardado.ts la usa al cargar la partida y cuando otra pestaña guarda, antes de
  * arreglar lo que venga roto (sanoS y sanoHondo). Pruebas: tests/unidad/partida.test.ts.
  * Exporta: VERSION_PARTIDA, MIGRACIONES, los tipos PartidaCruda y Migracion y las reglas esPartida, versionDe y migrar.
- * No importa nada.
+ * Importa de dominio/casa.ts las mascotas que crecen y su ficha (para la migración 3 → 4).
  */
+import { MASCOTAS, fichaComprada, huertoNuevo } from './casa.ts';
 
 /** Una partida tal como se lee (de localStorage, de otra pestaña o de una copia): cualquier campo puede traer cualquier cosa. */
 export type PartidaCruda = Record<string, unknown>;
@@ -20,7 +22,7 @@ export type PartidaCruda = Record<string, unknown>;
 export type Migracion = (d: Readonly<PartidaCruda>) => PartidaCruda;
 
 // VERSION_PARTIDA: la versión del formato de la partida que entiende este juego (S.ver de una partida nueva).
-export const VERSION_PARTIDA = 3;
+export const VERSION_PARTIDA = 4;
 
 // MIGRACIONES: el paso que pasa una partida de cada versión (la clave) a la siguiente. Tiene que haber uno por cada
 // versión, de 0 a VERSION_PARTIDA - 1 (lo comprueba tests/unidad/partida.test.ts). Cada paso recibe la partida tal
@@ -35,7 +37,25 @@ export const MIGRACIONES: Readonly<Record<number, Migracion>> = {
   // 2 → 3 (fase L7b): la Isla de las Letras puede enseñar también las minúsculas. Las partidas de antes siguen con solo
   // mayúsculas (tipoLetra 'mayus'), salvo si ya traen 'ambas'.
   2: (d) => ({ ...d, tipoLetra: d['tipoLetra'] === 'ambas' ? 'ambas' : 'mayus' }),
+  // 3 → 4 (fase C1 de docs/PLAN-CASA.md): la casa interactiva. Solo añade campos: mascotas (cada mascota que crece y
+  // ya estaba comprada en owned recibe su ficha de joven, fichaComprada; las fichas que ya hubiera se quedan),
+  // sorpresas ({} si no había) y huerto (sin regar si no había).
+  3: (d) => ({ ...d, mascotas: mascotasDe(d), sorpresas: objeto(d['sorpresas']) ?? {}, huerto: objeto(d['huerto']) ?? huertoNuevo() }),
 };
+
+// objeto(v): v si es un objeto (no null ni una lista); si no, undefined.
+function objeto(v: unknown): Record<string, unknown> | undefined {
+  return v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : undefined;
+}
+
+// mascotasDe(d): las fichas de mascotas de la partida d para la versión 4: las que ya tenga, más una de joven
+// (fichaComprada) por cada mascota que crece comprada en owned y sin ficha.
+function mascotasDe(d: Readonly<PartidaCruda>): Record<string, unknown> {
+  const tiene = objeto(d['owned']) ?? {};
+  const fichas: Record<string, unknown> = { ...(objeto(d['mascotas']) ?? {}) };
+  const nuevas = MASCOTAS.filter((id) => tiene[id] && !objeto(fichas[id])).map((id) => [id, fichaComprada()]);
+  return { ...fichas, ...Object.fromEntries(nuevas) };
+}
 
 // esPartida(d): ¿parece una partida? Tiene que ser un objeto, no null ni una lista. Lo demás (un número, un texto, un
 // JSON roto que dio null) se ignora y el juego sigue con la partida que tenga.

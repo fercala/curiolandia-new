@@ -91,8 +91,11 @@ type Flecha = [number, number, number];
 //   owned: {idArtículo:1} lo comprado o regalado; vales: lista de vales (ver VALES_DEF); valesLog: vales comprados
 //   [{id, txt, d:fecha, given:0/1}]; cofres: cofres abiertos. El resto (woke, bday, bdayDone, unlockAll, seenOpen,
 //   houseSeen, petSeen) lo usan otros archivos (escenas/, dominio/apertura.ts y aplicacion/adultos.ts).
+//   Desde la fase C1 de docs/PLAN-CASA.md (partida versión 4; reglas en dominio/casa.ts): mascotas: {idMascota:
+//   {nombre, dias, dia, hechos}} fichas de las mascotas que crecen; sorpresas: {idSorpresa:1} lo descubierto en la casa
+//   (el id del objeto o 'a+b'); huerto: {dias, dia} días regados de la flor del huerto.
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
-const DEF2={coins:0,coinsTot:0,gift:'',woke:{},home:{},tito:{shell:'naranja',scarf:'roja',hat:'',glasses:'',bow:''},owned:{'caparazon:naranja':1,'bufanda:roja':1},vales:null,valesLog:[],bday:null,bdayDone:'',unlockAll:false,seenOpen:{},houseSeen:null,petSeen:null,cofres:0};
+const DEF2={coins:0,coinsTot:0,gift:'',woke:{},home:{},tito:{shell:'naranja',scarf:'roja',hat:'',glasses:'',bow:''},owned:{'caparazon:naranja':1,'bufanda:roja':1},vales:null,valesLog:[],bday:null,bdayDone:'',unlockAll:false,seenOpen:{},houseSeen:null,petSeen:null,cofres:0,mascotas:{},sorpresas:{},huerto:{dias:0,dia:''}};
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.
 Object.assign(DEF,copiaProfunda(DEF2));
 const _oldSave=S.coins===undefined&&Object.keys(S.temas||{}).length>0;
