@@ -53,9 +53,10 @@ export interface RepasoDelDia {
 }
 
 // NOREP: tipos de juego que no sirven para repasar (no tienen acierto ni fallo, o son solo de mirar o escuchar).
-// Desde la fase L7, también los de la Isla de las Letras que solo son de mirar, escuchar o trazar (siempre aciertan).
+// Desde la fase L7, también los de la Isla de las Letras que solo son de mirar, escuchar o trazar (siempre aciertan), y
+// desde la fase I7 (docs/PLAN-INGLES.md), «Repite conmigo» del inglés (enRepite: no oye al niño, siempre acierta).
 export const NOREP: readonly string[] = ['conocer', 'enConocer', 'cuento', 'cancion', 'trazo', 'decora', 'mifamilia', 'velas',
-  'conocerLetra', 'conocerVocales', 'trazaLetra', 'huellasLetra', 'pizarra', 'miNombre', 'trenLetra', 'palmas', 'cancionAbc'];
+  'conocerLetra', 'conocerVocales', 'trazaLetra', 'huellasLetra', 'pizarra', 'miNombre', 'trenLetra', 'palmas', 'cancionAbc', 'enRepite'];
 
 // REPASO: los números de las reglas del repaso.
 export const REPASO = {

@@ -116,8 +116,13 @@ fusionar cada uno se pone al día con `main` y se vuelve a subir la versión si 
    la zona antes de entrar. Las zonas cerradas salen en gris con candado, y la de la casita que toca lleva un aro dorado.
    Los toques van a la escena 2D con el punto 2D de cada sitio, así las reglas son las mismas. El globo del mapa y el de
    la isla son la misma pieza (`globoAire3`, de `mapa3d.ts`).
-7. **I7, premios y adultos.** «Mi diccionario de inglés» en el álbum, el progreso de inglés en la zona de adultos y
-   las palabras en el repaso diario.
+7. **I7, premios y adultos (hecha en v0.2.78).** «Mi diccionario de inglés» (escena nueva `diccionario`,
+   `escenas/diccionario.ts`), con el botón de Polly del álbum: las palabras de las casitas con algún juego terminado,
+   15 por página, que al tocarlas se oyen en inglés y se explican en castellano («quiere decir gato»). En la zona de
+   adultos, el progreso de las tres zonas de la isla, una sección «Inglés» (casitas terminadas, palabras del
+   diccionario y si el dispositivo tiene voz inglesa) y el nombre de todas las habilidades `ingles-...` en «Cómo le va».
+   El repaso diario ya usaba los juegos de inglés; se quita de él «Repite conmigo» (`enRepite`, en `NOREP`), que
+   siempre acierta. **Con la I7, el plan está completo.**
 
 ## Riesgos
 
