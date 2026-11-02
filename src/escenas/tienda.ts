@@ -25,7 +25,7 @@
 //   y de dominio/monedas.ts (alcanza).
 import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, copiaProfunda, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, sceneName, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, copiaProfunda, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
@@ -34,9 +34,9 @@ import { alcanza } from '../dominio/monedas.ts';
 import { comprar } from '../aplicacion/comprar.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
-import { reaccionDe } from '../dominio/casa.ts';
+import { descubrir, reaccionDe, type EscenaCasa } from '../dominio/casa.ts';
 import { FRASES_CASA } from '../contenido/casa.ts';
-import { TITO_CASA, andar, andando, animObjeto, destinoJunto, dibujaTitoCasa, efectosAccion, paseoQuieto, posTito } from './casaReacciones.ts';
+import { DURACION_ACCION, TITO_CASA, andar, andando, animObjeto, destinoJunto, dibujaTitoCasa, efectosAccion, paseoQuieto, posTito } from './casaReacciones.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -318,6 +318,9 @@ function homeAction(id: string,x: number,y: number){SFX.pop();sparkles(x,y,8);
     conejo:()=>SFX.boing(),globo:()=>SFX.pop(),piscina:()=>SFX.splash(),banera:()=>SFX.splash(),jabon:()=>SFX.sparkle(),regadera:()=>SFX.drip(),columpio:()=>SFX.whoosh(),tobogan:()=>SFX.whoosh(),
     cohete:()=>{SFX.whoosh();SFX.sparkle()},nevera:()=>tone(180,.4,'sine',.15),olla:()=>SFX.munch(),cama:()=>playTune(TUNES.meses,300),cometa:()=>SFX.whoosh(),pelotaPlaya:()=>SFX.boing(),bloques:()=>SFX.snap(),telescopio:()=>SFX.sparkle(),lampara:()=>{homeLight=!homeLight}};
   (A[id]||(()=>{}))();say(FRASES_CASA[id]??cap(W_(id))+'.')}
+// ESCENA_CASA: la escena (SCENES) de cada escena pequeña de la casa que ya está hecha: desde la fase C3, el cielo de
+// noche (telescopio, escenas/casaCielo.ts) y la vuelta al mundo (globo terráqueo, escenas/casaMundo.ts).
+const ESCENA_CASA: Partial<Record<EscenaCasa,string>>={cielo:'casaCielo',mundo:'casaMundo'};
 // Luz de la casa de Tito (la lámpara la cambia: de noche se oscurece la habitación). No se guarda.
 let homeLight=true;
 // roomBg(id, hl): dibuja el fondo fijo de la habitación id de la casa de Tito (pared, ventana, suelo y adornos propios);
@@ -354,10 +357,11 @@ export const roomBtns=()=>ROOMS.map((R,i)=>({R,x:660+i*76,y:94}));
 // está haciendo con un objeto, AccionEnCurso). Al tocar un objeto, Tito va hasta él y juega (irA); al tocar el
 // suelo, va allí. Entra andando por la izquierda.
 SCENES.casaTito={music:'casita',room:'salon',
-  // Al entrar (Tito entra andando por la izquierda). o.nuevo: id de lo recién comprado (se va a su habitación y se resalta con brillo y flecha durante 12 s;
+  // Al entrar (Tito entra andando por la izquierda; o.volver: vuelve de una escena pequeña, como la del telescopio, y
+  // Tito ya está dentro, en la misma habitación, sin decir nada). o.nuevo: id de lo recién comprado (se va a su habitación y se resalta con brillo y flecha durante 12 s;
   // si es ropa, Tito salta). Si no, si se abrió una habitación desde la última visita (S.rooms cuenta las que ya se
   // vieron), se va a ella y Tito lo anuncia. Si no, Tito saluda según haya cosas o la casa esté vacía.
-  enter(o){this.drag=null;this.wpg=0;this.jump=-9;this.petJump=-9;this.newRoom=-9;this.acc=null;this.paseoTok=0;this.paseo=andar(paseoQuieto(-120,700),440,700);const nv=o.nuevo&&SHOP.find(i=>i.id===o.nuevo);this.nuevo=nv&&S.owned![nv.id]?nv:null;this.t0=T;
+  enter(o){this.drag=null;this.wpg=0;this.jump=-9;this.petJump=-9;this.newRoom=-9;this.acc=null;this.paseoTok=0;this.paseo=o.volver?paseoQuieto(440,700):andar(paseoQuieto(-120,700),440,700);if(o.volver)return;const nv=o.nuevo&&SHOP.find(i=>i.id===o.nuevo);this.nuevo=nv&&S.owned![nv.id]?nv:null;this.t0=T;
     if(!roomOpen(this.room))this.room='salon';const n=homeItems().length,op=roomsOpen();
     if(this.nuevo){const it=this.nuevo;if(it.slot)this.jump=T+.3;else this.room=homeRoom(it.id);later(300,()=>{SFX.sparkle();say('¡Aquí está '+itemName(it)+'! '+(it.slot?'¡Mira qué bonito me queda!':'Puedes cambiar las cosas de lugar arrastrándolas.'))});return}
     if(op.length>(S.rooms||1)){const R=op[op.length-1];S.rooms=op.length;save();this.room=R.id;this.newRoom=T;later(300,()=>{SFX.tada();burst(800,400,50);sayQ('¡Mi casa creció! Tiene una habitación nueva: '+R.n+'. Arriba puedes elegir a qué habitación ir.')});return}
@@ -423,11 +427,14 @@ SCENES.casaTito={music:'casita',room:'salon',
     SFX.tap();sparkles(x,y,3)},
   // irA(id): Tito anda hasta el objeto id de la habitación (al lado, encima o debajo, según su acción: destinoJunto)
   // y, al llegar, juega con él: la acción de REACCIONES (dominio/casa.ts; las mascotas, un saltito) y homeAction
-  // (sonido y frase). Si antes de llegar se le manda a otro sitio, ya no juega (paseoTok). va: a qué objeto va y
+  // (sonido y frase), y apunta la sorpresa descubierta (S.sorpresas, para el álbum de la fase C7). Si el objeto tiene
+  // escena pequeña ya hecha (ESCENA_CASA), al acabar de jugar se abre. Si antes de llegar (o de que se abra la escena)
+  // se le manda a otro sitio, ya no juega (paseoTok). va: a qué objeto va y
   // qué hará al llegar (lo miran las pruebas, tests/regresion/casa.js).
   irA(id: string){const o=homeItems(this.room).find(i=>i.id===id);if(!o)return;const r=reaccionDe(id),accion=r?r.tito:'tocar',[dx,dy]=destinoJunto(this.paseo,o.x,o.y,o.s,accion);
     SFX.pop();this.acc=null;this.va={id,accion};this.paseo=andar(this.paseo,dx,dy);const tok=++this.paseoTok,llega=this.paseo.dur;
-    later(llega*1000,()=>{if(tok!==this.paseoTok)return;const p=S.home![id];if(!p)return;this.acc={id,accion,t0:T,x:p.x,y:p.y,s:o.s};homeAction(id,p.x,p.y-80)})},
+    later(llega*1000,()=>{if(tok!==this.paseoTok)return;const p=S.home![id];if(!p)return;this.acc={id,accion,t0:T,x:p.x,y:p.y,s:o.s};homeAction(id,p.x,p.y-80);S.sorpresas=descubrir(S.sorpresas||{},id).sorpresas;save();
+      const esc=r&&r.escena&&ESCENA_CASA[r.escena];if(esc)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc)})})},
   // Arrastrar: a partir de 12 px se considera que se mueve y el objeto sigue al dedo. Mientras se arrastra puede subir
   // hasta los botones de las habitaciones (para llevarlo a otra); al soltar se vuelve a encajar en el suelo o la pared.
   move(x,y){const d=this.drag;if(!d)return;d.x=x;d.y=y;if(Math.abs(x-d.sx)+Math.abs(y-d.sy)>12)d.moved=true;if(d.moved){const p=S.home![d.id];p.x=clamp(x-d.dx,40,1560);p.y=clamp(y-d.dy,60,780)}},

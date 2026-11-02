@@ -3,7 +3,8 @@
 // teniéndolo todo en el salón, que lo comprado vaya a su habitación, que se pueda llevar una cosa a otra habitación
 // arrastrándola hasta su botón, que la tienda no deje comprar lo de una habitación cerrada y que pase de página.
 // Desde la fase C2 de docs/PLAN-CASA.md, también que Tito ande hasta lo que se toca y juegue con ello (C8), que ande
-// al tocar el suelo (C9) y que las 49 reacciones se dibujen sin errores (C10).
+// al tocar el suelo (C9) y que las 49 reacciones se dibujen sin errores (C10); desde la C3, el cielo de noche del
+// telescopio (C11) y la vuelta al mundo del globo terráqueo (C12).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -83,6 +84,32 @@ const temas = n => { const o = {}; for (let i = 1; i <= n; i++) o['3A-T' + i] = 
     await p.evaluate(() => { const S = __cl.S; S.temas = {}; for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} }; S.rooms = 7; for (const it of SHOP) if (!it.slot) { S.owned[it.id] = 1; placeHome(it.id) } __cl.go('casaTito', {}) }); await p.waitForTimeout(800);
     const ids = await p.evaluate(() => SHOP.filter(it => !it.slot && it.cat !== 'vales').map(it => it.id));
     for (const id of ids) { await p.evaluate(id => { const sc = __cl.scene, o = S.home[id]; sc.room = homeRoom(id); sc.irA(id); sc.paseoTok++; sc.acc = { id, accion: sc.va.accion, t0: T, x: o.x, y: o.y, s: 160 } }, id); await p.waitForTimeout(300) }
+    if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
+  });
+
+  await caso('C11', 'El telescopio abre el cielo de noche: las constelaciones se encuentran y la casa vuelve a la torre', async p => {
+    await p.evaluate(() => { const S = __cl.S; S.home = {}; S.temas = {}; for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} }; S.rooms = 7; S.owned.telescopio = 1; S.owned.saturno = 1; placeHome('telescopio'); placeHome('saturno'); SCENES.casaTito.room = 'torre'; __cl.go('casaTito', {}) }); await p.waitForTimeout(1500);
+    await p.evaluate(() => { const sc = __cl.scene, o = S.home.telescopio; sc.down(o.x, o.y - 60); sc.up(o.x, o.y - 60) }); await p.waitForTimeout(6500);
+    if (await p.evaluate(() => sceneName) !== 'casaCielo') return 'tras jugar con el telescopio la escena es ' + await p.evaluate(() => sceneName);
+    if (!(await p.evaluate(() => S.sorpresas && S.sorpresas.telescopio))) return 'no apunta la sorpresa del telescopio';
+    const r = await p.evaluate(() => { window.__said = []; const sc = __cl.scene; sc.est.filter(e => e.grupo === 0).forEach(e => sc.down(e.x, e.y)); return [sc.hechas.join(), (window.__said || []).join(' | ')] });
+    if (r[0] !== '0' || !/Osa Mayor/.test(r[1])) return 'la Osa Mayor: ' + JSON.stringify(r);
+    await p.waitForTimeout(800);
+    await p.evaluate(() => { __cl.scene.prox = 0 }); await p.waitForTimeout(400);
+    const q = await p.evaluate(() => { const sc = __cl.scene; if (!sc.fug) return -1; const u = (T - sc.fug.t0) / 1.6; sc.down(sc.fug.x0 + u * 560, sc.fug.y0 + u * 260); return sc.fugaces });
+    if (q !== 1) return 'la estrella fugaz no se cuenta: ' + q;
+    await p.evaluate(() => __cl.scene.down(80, 80)); await p.waitForTimeout(600);
+    const v = await p.evaluate(() => [sceneName, __cl.scene.room]);
+    if (v.join() !== 'casaTito,torre') return 'la casa lleva a ' + v.join();
+  });
+  await caso('C12', 'El globo abre la vuelta al mundo: la Tierra gira, enseña sitios y pregunta dónde está España', async p => {
+    await p.evaluate(() => { window.__said = []; __cl.go('casaMundo', {}) }); await p.waitForTimeout(1200);
+    for (let i = 0; i < 3; i++) { await p.evaluate(() => { const sc = __cl.scene; sc.down(560, 480) }); await p.waitForTimeout(4500) }
+    const r = await p.evaluate(() => [__cl.scene.vistos, __cl.scene.reto && __cl.scene.reto.length, window.__said.join(' | ')]);
+    if (r[0] !== 3 || r[1] !== 3) return 'sitios vistos y reto: ' + JSON.stringify(r);
+    if (!/España! Aquí vivimos/.test(r[2])) return 'Tito dice: ' + r[2];
+    const ok = await p.evaluate(() => { const sc = __cl.scene, i = sc.reto.indexOf('espana'), j = (i + 1) % 3; sc.down([1000, 1205, 1410][j], 470); const sigue = !!sc.reto; sc.down([1000, 1205, 1410][i], 470); return [sigue, sc.retoHecho] });
+    if (ok.join() !== 'true,true') return 'el reto: ' + ok.join();
     if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
   });
 

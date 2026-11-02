@@ -4,7 +4,8 @@
  * en castellano de España. Las mascotas no están: al tocarlas, Tito dice su nombre (y desde la fase C6, se cuidan).
  * Es CONTENIDO: solo datos, sin dibujo ni S. El catálogo de frases (npm run dialogos) las recoge de aquí.
  * Pruebas: tests/unidad/casa.test.ts (que cada objeto con reacción tiene su frase).
- * Exporta: FRASES_CASA.
+ * Desde la fase C3, también los sitios de la escena Vuelta al mundo (LUGARES), con sus dibujos y su frase.
+ * Exporta: FRASES_CASA, el tipo LugarMundo y LUGARES.
  * No importa nada.
  */
 
@@ -68,3 +69,23 @@ export const FRASES_CASA: Readonly<Record<string, string>> = {
   castillo: '¡Mi castillo ya tiene bandera!',
   piscina: '¡Al agua, patos!',
 };
+
+/** Un sitio del mundo de la escena Vuelta al mundo (el globo terráqueo): su nombre, sus dibujos (claves de PICS), el
+ *  color de su tarjeta y lo que dice Tito. */
+export interface LugarMundo {
+  readonly id: string;
+  readonly n: string;
+  readonly pics: readonly string[];
+  readonly color: string;
+  readonly frase: string;
+}
+
+// LUGARES: los sitios que salen al girar el globo terráqueo (fase C3), en orden; España, la primera.
+export const LUGARES: readonly LugarMundo[] = [
+  { id: 'espana', n: 'España', pics: ['castillo', 'sol'], color: '#FFE08A', frase: '¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.' },
+  { id: 'poloNorte', n: 'El Polo Norte', pics: ['osoPolar', 'iglu'], color: '#DDF3FB', frase: '¡El Polo Norte! Hace mucho frío. Aquí vive el oso polar.' },
+  { id: 'africa', n: 'África', pics: ['leon', 'jirafa', 'elefante'], color: '#FFD9A0', frase: '¡África! Aquí viven el león, la jirafa y el elefante.' },
+  { id: 'mar', n: 'El mar', pics: ['ballena'], color: '#BDE6F7', frase: '¡El mar! Casi toda la Tierra es agua. Aquí vive la ballena.' },
+  { id: 'desierto', n: 'El desierto', pics: ['camello', 'cactus'], color: '#FBE3B4', frase: '¡El desierto! Hay mucha arena y muy poca agua. Aquí vive el camello.' },
+  { id: 'poloSur', n: 'El Polo Sur', pics: ['pinguino'], color: '#E6F0FA', frase: '¡El Polo Sur! También hace mucho frío. Aquí viven los pingüinos.' },
+];

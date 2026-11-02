@@ -51,6 +51,18 @@ d75b16331d5c,¡A regar el jardín!,frase,src/contenido/casa.ts
 7be035253169,"¡Más alto, más alto!",frase,src/contenido/casa.ts
 edea8e35ad92,¡Mi castillo ya tiene bandera!,frase,src/contenido/casa.ts
 702d0228e651,"¡Al agua, patos!",frase,src/contenido/casa.ts
+f13d2458f0fd,España,trozo,src/contenido/casa.ts
+8aa41e16879b,¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.,frase,src/contenido/casa.ts
+0856d9814fce,El Polo Norte,trozo,src/contenido/casa.ts
+90e6cd281bbd,¡El Polo Norte! Hace mucho frío. Aquí vive el oso polar.,frase,src/contenido/casa.ts
+8ba2d3ed9c89,África,trozo,src/contenido/casa.ts
+7811f89c301e,"¡África! Aquí viven el león, la jirafa y el elefante.",frase,src/contenido/casa.ts
+1b7895848b3c,El mar,trozo,src/contenido/casa.ts
+f53979e05c98,¡El mar! Casi toda la Tierra es agua. Aquí vive la ballena.,frase,src/contenido/casa.ts
+8b4b93f2891a,El desierto,trozo,src/contenido/casa.ts
+f6d68a15f7a8,¡El desierto! Hay mucha arena y muy poca agua. Aquí vive el camello.,frase,src/contenido/casa.ts
+ac025ce09df6,El Polo Sur,trozo,src/contenido/casa.ts
+2b28e21d6efc,¡El Polo Sur! También hace mucho frío. Aquí viven los pingüinos.,frase,src/contenido/casa.ts
 46a9c845ed04,La mochila de Teo,trozo,src/contenido/cuentos.ts
 63dc4af5492e,Teo llegó al cole con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!,frase,src/contenido/cuentos.ts
 e94285781b6f,"Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!",frase,src/contenido/cuentos.ts
@@ -902,6 +914,23 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
+35a4964e3b39,¡Has encontrado la Osa Mayor! ¿A que parece un carro?,frase,src/escenas/casaCielo.ts
+0c09b00990a8,¡Has dibujado un caracol con estrellas!,frase,src/escenas/casaCielo.ts
+1ad90bf4d27e,¡Qué noche tan bonita! Toca las estrellas para encenderlas.,frase,src/escenas/casaCielo.ts
+0f49e7ddbf8a,"De día casi no se ven, pero con mi telescopio mágico, ¡sí! Toca las estrellas para encenderlas.",frase,src/escenas/casaCielo.ts
+1d4bc96233f2,Toca las estrellas para encenderlas. ¿Ves alguna estrella fugaz? ¡Tócala!,frase,src/escenas/casaCielo.ts
+288538a246b1,¡Una estrella fugaz! ¡Pide un deseo!,frase,src/escenas/casaCielo.ts
+d2a67cc3d9bf,¡Otra estrella fugaz! Ya van ,trozo,src/escenas/casaCielo.ts
+d4985428a7f7,"¡Hola, Luna! La Luna brilla de noche.",frase,src/escenas/casaCielo.ts
+ec8358fec670,Marte es el planeta rojo.,frase,src/escenas/casaCielo.ts
+1cf70ee6bb96,¡Saturno! Es el planeta de los anillos.,frase,src/escenas/casaCielo.ts
+d9d4224faf63,¡Has encontrado todas las constelaciones! ¡Qué bien miras el cielo!,frase,src/escenas/casaCielo.ts
+db443cb87127,"¡Es la Tierra, nuestro planeta! Tócala para hacerla girar.",frase,src/escenas/casaMundo.ts
+a0bb78508b42,¿Dónde está España? Toca su tarjeta.,frase,src/escenas/casaMundo.ts
+3f061be03f5a,Toca la Tierra para hacerla girar.,frase,src/escenas/casaMundo.ts
+2bce67e1ce3d,¿Dónde está España?,frase,src/escenas/casaMundo.ts
+1159433b3357,"¡Muy bien! Esa es España, donde vivimos.",frase,src/escenas/casaMundo.ts
+83fe4b16d332,. ¡Busca el castillo y el sol!,trozo,src/escenas/casaMundo.ts
 5c1d9a65d69e, del ,trozo,src/escenas/cofre.ts
 73c25bcef15e,! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,trozo,src/escenas/cofre.ts
 b02ec5f955d1,Toca el cofre para abrirlo. ¡Te ,trozo,src/escenas/cofre.ts
