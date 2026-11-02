@@ -10,7 +10,8 @@
 // I7, diccionario.ts: «Mi diccionario de inglés» (SCENES.diccionario), que se abren desde el álbum. Desde la fase C3
 // (docs/PLAN-CASA.md), las escenas pequeñas de la casa de Tito: casaCielo.ts (el telescopio) y casaMundo.ts (el globo
 // terráqueo); desde la C4, casaMusica.ts (los instrumentos), casaPizarra.ts y casaTele.ts; desde la C5, casaCocina.ts (la merienda y la
-// sopa), casaBano.ts, casaNoches.ts (buenas noches) y casaHuerto.ts. src/modulos.ts pasa todo lo que exportan al puente.
+// sopa), casaBano.ts, casaNoches.ts (buenas noches) y casaHuerto.ts; desde la C6, casaMascotas.ts (las
+// mascotas que crecen). src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';
@@ -29,3 +30,4 @@ export * from './casaCocina.ts';
 export * from './casaBano.ts';
 export * from './casaNoches.ts';
 export * from './casaHuerto.ts';
+export * from './casaMascotas.ts';

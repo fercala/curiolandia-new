@@ -34,7 +34,8 @@ import { alcanza } from '../dominio/monedas.ts';
 import { comprar } from '../aplicacion/comprar.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
-import { descubrir, reaccionDe, type EscenaCasa } from '../dominio/casa.ts';
+import { MASCOTAS, descubrir, fichaNueva, reaccionDe, type EscenaCasa } from '../dominio/casa.ts';
+import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
 import { FRASES_CASA } from '../contenido/casa.ts';
 import { DURACION_ACCION, TITO_CASA, andar, andando, animObjeto, destinoJunto, dibujaTitoCasa, efectosAccion, paseoQuieto, posTito } from './casaReacciones.ts';
 
@@ -294,6 +295,8 @@ SCENES.tienda={music:'casita',
     const c=comprar(S,it,today());if(c.tipo==='desactivado'){SFX.boing();return}
     spendCoins(it.p,800,400);SFX.tada();burst(800,420,60);Object.assign(S,c.partida);
     if(c.tipo==='vale'){save();say('¡Compraste el vale! '+it.vale!.txt+'. Enséñaselo a un adulto de tu familia para canjearlo.');return}
+    // desde la fase C6, una mascota nueva nace bebé y sin nombre (fichaNueva)
+    if(MASCOTAS.includes(it.id))S.mascotas={...(S.mascotas||{}),[it.id]:{...fichaNueva(),hechos:[]}};
     if(it.slot)wear(it,true);else placeHome(it.id);save();
     if(!it.slot){this.newHome=T;this.newId=it.id}
     say(it.slot?'¡Es tuyo! ¡Mira qué bonito le queda a Tito!':'¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.')}
@@ -392,11 +395,18 @@ SCENES.casaTito={music:'casita',room:'salon',
     {const s=hv('btn:tienda',hC(1240,70,52));ctx.save();ctx.translate(1240,70);ctx.scale(s,s);circ(0,0,50,'#fff',6);pic('tienda',0,0,84);ctx.restore()}
     const nv=this.nuevo;if(nv&&!nv.slot&&S.home![nv.id]&&homeRoom(nv.id)===R.id&&(T-this.t0)<12){const p=S.home![nv.id],hs=HSIZE[nv.id]||160;ctx.globalAlpha=.45+.2*Math.sin(T*5);circ(p.x,p.y-hs*.4,hs*.62,'#FFE08A',0);ctx.globalAlpha=1}
     // Orden de dibujo: primero la alfombra, luego lo de la pared y después de atrás (y pequeña) hacia delante.
+    // pide: la mascota de la habitación que enseña su bocadillo ahora: de una en una, cada 4 segundos, entre las que aún
+    // piden algo hoy (desde la fase C6), para no llenar la habitación de bocadillos
+    const pidenHoy=homeItems(R.id).filter(o=>MASCOTAS.includes(o.id)&&pideAlgo(o.id)),pide=pidenHoy.length?pidenHoy[Math.floor(T/4)%pidenHoy.length].id:'';
     const its=homeItems(R.id).sort((a,b)=>(a.id==='alfombra'?-1:b.id==='alfombra'?1:0)||(WALLITEMS.includes(a.id)?-1:WALLITEMS.includes(b.id)?1:0)||a.y-b.y);
     for(const o of its){const dr=this.drag&&this.drag.id===o.id,ox=o.id==='hamster'&&!dr?Math.sin(T*.9)*110:0,b=o.id==='hamster'?Math.abs(Math.sin(T*8))*-6:0,s=dr?1.08:hv('h:'+o.id,hC(o.x,o.y-o.s*.2,o.s*.45));
       const po=animObjeto(this.acc,o.id);if(!dr&&!this.acc&&!andando(this.paseo)&&this.cerca===o.id){ctx.globalAlpha=.16+.08*Math.sin(T*4);circ(o.x,o.y-o.s*.4,o.s*.55,'#FFF3B0',0);ctx.globalAlpha=1}
       ctx.save();ctx.translate(o.x+ox+po.dx,o.y+b+po.dy);ctx.scale(s*po.sc,s*(po.sc-po.sq));if(po.rot){ctx.translate(0,-o.s*.42);ctx.rotate(po.rot);ctx.translate(0,o.s*.42)}if(o.id==='lampara'&&homeLight){ctx.globalAlpha=.25+.05*Math.sin(T*3);circ(0,-o.s*.3,o.s*.5,'#FFE08A',0);ctx.globalAlpha=1}
-      if(o.id==='hamster'&&Math.cos(T*.9)<0)ctx.scale(-1,1);pic(o.id,0,-o.s*.42,o.s);if(o.id==='casitaPerro')pic('perro',o.s*.62,-o.s*.22+Math.abs(Math.sin(T*3))*-6,o.s*.55);ctx.restore()}
+      if(o.id==='hamster'&&Math.cos(T*.9)<0)ctx.scale(-1,1);
+      // las mascotas (desde la fase C6) se dibujan según su etapa (dibujaMascota); el perro, junto a su casita
+      if(o.id==='casitaPerro'){pic(o.id,0,-o.s*.42,o.s);dibujaMascota(o.id,o.s*.62,Math.abs(Math.sin(T*3))*-6,o.s*.55)}else if(MASCOTAS.includes(o.id))dibujaMascota(o.id,0,0,o.s);else pic(o.id,0,-o.s*.42,o.s);ctx.restore();
+      // y, si le toca enseñar lo que pide hoy (pide), su bocadillo (no mientras se arrastra ni mientras Tito juega)
+      if(o.id===pide&&!dr&&!this.acc)bocadillo(o.id,o.x+ox+(o.id==='casitaPerro'?o.s*.62:o.s*.25),o.y-o.s*(o.id==='casitaPerro'?.55:.75))}
     if(nv&&!nv.slot&&S.home![nv.id]&&homeRoom(nv.id)===R.id&&(T-this.t0)<12){const p=S.home![nv.id],hs=HSIZE[nv.id]||160;arrowAt(p.x,p.y-hs*.9-30)}
     const tb=this.jump>0&&T>this.jump?Math.max(0,1-(T-this.jump)*2)*Math.abs(Math.sin((T-this.jump)*10))*-60:0;dibujaTitoCasa(this.paseo,this.acc,tb);efectosAccion(this.acc);
     // el objeto más cercano a Tito parado brilla un poco, para invitar a tocarlo (decisión 1 del plan)
@@ -415,7 +425,10 @@ SCENES.casaTito={music:'casita',room:'salon',
   down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}
     if(dist(x,y,1240,70)<56){SFX.pop();go('tienda');return}
     if(inCoinHUD(x,y)){say('Tienes '+S.coins+' monedas.');return}
-    if(dist(x,y,190,790)<85){this.petJump=T;SFX.boing();const ps=petStage(),f=ps<4?PET_NEXT[ps]-STARS():0;say(ps===0?'Es el huevo de Pipo. Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para abrirse.':ps<4?pick(['¡Pipo te quiere mucho!','Pipo dice: ¡grrr! Así saludan los dinosaurios.','¡Pipo crece cuando juegas! Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para crecer.']):'¡Pipo es el dinosaurio más grande del mundo!');return}
+    if(dist(x,y,190,790)<85){this.petJump=T;SFX.boing();const ps=petStage();
+      // desde la fase C6, Pipo ya nacido también se cuida: se abre su escena (escenas/casaMascotas.ts)
+      if(ps>=2){later(400,()=>{if(sceneName==='casaTito')go('casaMascota',{inst:'pipo'})});return}
+      const f=ps<4?PET_NEXT[ps]-STARS():0;say(ps===0?'Es el huevo de Pipo. Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para abrirse.':ps<4?pick(['¡Pipo te quiere mucho!','Pipo dice: ¡grrr! Así saludan los dinosaurios.','¡Pipo crece cuando juegas! Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para crecer.']):'¡Pipo es el dinosaurio más grande del mundo!');return}
     const rb=roomBtns().find(b=>dist(x,y,b.x,b.y)<38);
     if(rb){const R=rb.R;if(!roomOpen(R.id)){SFX.boing();const f=R.need-temasDone();say(cap(R.n)+' todavía está '+R.cer+'. Se abre cuando termines '+(f===1?'una casita más.':f+' casitas más.'));return}
       if(R.id!==this.room){SFX.pop();this.room=R.id;this.newRoom=-9}say(cap(R.n)+'.');return}
@@ -431,13 +444,14 @@ SCENES.casaTito={music:'casita',room:'salon',
   // irA(id): Tito anda hasta el objeto id de la habitación (al lado, encima o debajo, según su acción: destinoJunto)
   // y, al llegar, juega con él: la acción de REACCIONES (dominio/casa.ts; las mascotas, un saltito) y homeAction
   // (sonido y frase), y apunta la sorpresa descubierta (S.sorpresas, para el álbum de la fase C7). Si el objeto tiene
-  // escena pequeña ya hecha (ESCENA_CASA), al acabar de jugar se abre. Si antes de llegar (o de que se abra la escena)
+  // escena pequeña ya hecha (ESCENA_CASA), al acabar de jugar se abre; si es una mascota (desde la fase C6), su escena
+  // de cuidados (casaMascota). Si antes de llegar (o de que se abra la escena)
   // se le manda a otro sitio, ya no juega (paseoTok). va: a qué objeto va y
   // qué hará al llegar (lo miran las pruebas, tests/regresion/casa.js).
   irA(id: string){const o=homeItems(this.room).find(i=>i.id===id);if(!o)return;const r=reaccionDe(id),accion=r?r.tito:'tocar',[dx,dy]=destinoJunto(this.paseo,o.x,o.y,o.s,accion);
     SFX.pop();this.acc=null;this.va={id,accion};this.paseo=andar(this.paseo,dx,dy);const tok=++this.paseoTok,llega=this.paseo.dur;
     later(llega*1000,()=>{if(tok!==this.paseoTok)return;const p=S.home![id];if(!p)return;this.acc={id,accion,t0:T,x:p.x,y:p.y,s:o.s};homeAction(id,p.x,p.y-80);S.sorpresas=descubrir(S.sorpresas||{},id).sorpresas;save();
-      const esc=r&&r.escena&&ESCENA_CASA[r.escena];if(esc)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc,{inst:id})})})},
+      const esc=(r&&r.escena&&ESCENA_CASA[r.escena])||(MASCOTAS.includes(id)?'casaMascota':null);if(esc)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc,{inst:id})})})},
   // Arrastrar: a partir de 12 px se considera que se mueve y el objeto sigue al dedo. Mientras se arrastra puede subir
   // hasta los botones de las habitaciones (para llevarlo a otra); al soltar se vuelve a encajar en el suelo o la pared.
   move(x,y){const d=this.drag;if(!d)return;d.x=x;d.y=y;if(Math.abs(x-d.sx)+Math.abs(y-d.sy)>12)d.moved=true;if(d.moved){const p=S.home![d.id];p.x=clamp(x-d.dx,40,1560);p.y=clamp(y-d.dy,60,780)}},
