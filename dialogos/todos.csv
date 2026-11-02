@@ -866,7 +866,7 @@ adc2b818ca34,la muñeca,nombre,src/contenido/lex.ts
 c27f46ae7dc3,el telescopio,nombre,src/contenido/lex.ts
 d00d65df1e94,el tren de juguete,nombre,src/contenido/lex.ts
 d27d46ebb89f,el reloj,nombre,src/contenido/lex.ts
-eed5d65ca376,el hámster,nombre,src/contenido/lex.ts
+eed5d65ca376,el hámster,nombre,src/contenido/lex.ts src/escenas/casaMascotas.ts
 4a4543bfbe07,la casita del perro,nombre,src/contenido/lex.ts
 57aa54a7b1c4,el banco,nombre,src/contenido/lex.ts
 cdbbfec23326,el farol,nombre,src/contenido/lex.ts
@@ -958,6 +958,55 @@ a4c339cc5685,Hoy ya la hemos regado. ¡Mira qué bien está!,frase,src/escenas/c
 9e8c6519f5d0,Toca la regadera para regar la flor.,frase,src/escenas/casaHuerto.ts
 22ceafea059b,"¡Ya está regada! Mañana más, que si no se ahoga.",frase,src/escenas/casaHuerto.ts
 2ef2413ea1a1,"¡Gracias! Con agua y sol, poco a poco crecerá.",frase,src/escenas/casaHuerto.ts
+12ace8436c64,Toby,trozo,src/escenas/casaMascotas.ts
+587be3f55606,Lula,trozo,src/escenas/casaMascotas.ts
+70e4468a0681,Coco,trozo,src/escenas/casaMascotas.ts
+32a57a556002,Misi,trozo,src/escenas/casaMascotas.ts
+5c3476979642,Nube,trozo,src/escenas/casaMascotas.ts
+b916ee5b351a,Bigotes,trozo,src/escenas/casaMascotas.ts
+b6ef9705b1e5,Kiwi,trozo,src/escenas/casaMascotas.ts
+ff3eef06c65b,Pío,trozo,src/escenas/casaMascotas.ts
+0cb9cde516c3,Lima,trozo,src/escenas/casaMascotas.ts
+baf6ce981d60,Copito,trozo,src/escenas/casaMascotas.ts
+d63539b1281e,Nieve,trozo,src/escenas/casaMascotas.ts
+52532d86cd18,Saltarín,trozo,src/escenas/casaMascotas.ts
+81c33f936d71,Bolita,trozo,src/escenas/casaMascotas.ts
+aca4a53ef079,Canela,trozo,src/escenas/casaMascotas.ts
+268c0e859cac,Pipas,trozo,src/escenas/casaMascotas.ts
+2d546b700b63,Burbuja,trozo,src/escenas/casaMascotas.ts
+191a73270b90,Aleta,trozo,src/escenas/casaMascotas.ts
+61db47dac8ae,Coral,trozo,src/escenas/casaMascotas.ts
+4322f80a24e1,el perrito,trozo,src/escenas/casaMascotas.ts
+05eb17608012,el gatito,trozo,src/escenas/casaMascotas.ts
+a4b6ea5edb27,el pajarito,trozo,src/escenas/casaMascotas.ts
+1914ff5931b6,el conejito,trozo,src/escenas/casaMascotas.ts
+0ca598eb6ea7,los peces,trozo,src/escenas/casaMascotas.ts
+80db790085db,Pipo,trozo,src/escenas/casaMascotas.ts
+beb2407051f5,"¡Ñam, ñam! Le encanta su comida.",frase,src/escenas/casaMascotas.ts
+27f7fe9f5511,¡Qué fresquita el agua!,frase,src/escenas/casaMascotas.ts
+573beb1db739,¡Cómo se divierte!,frase,src/escenas/casaMascotas.ts
+dc0ca729c797,¡Ahora huele muy bien!,frase,src/escenas/casaMascotas.ts
+bbea4f3d05a6,¡Mira cómo nadan!,frase,src/escenas/casaMascotas.ts
+1c35e130e5a2,¡Es la hora de comer!,frase,src/escenas/casaMascotas.ts
+f883e5b1b641,¡Es la hora de beber agua!,frase,src/escenas/casaMascotas.ts
+71702a3b7f09,¡Es la hora de jugar!,frase,src/escenas/casaMascotas.ts
+4dfa0c9f61e1,¡Es la hora del baño!,frase,src/escenas/casaMascotas.ts
+718d9a419529,¡Es la hora de mirar cómo nadan!,frase,src/escenas/casaMascotas.ts
+cb3e1d8cc1ad,¡Hay que ponerle nombre! ¿,trozo,src/escenas/casaMascotas.ts
+057847a3ccfa, o ,trozo,src/escenas/casaMascotas.ts
+245c0670b666,? Toca el que más te guste.,trozo,src/escenas/casaMascotas.ts
+ded764e77023,"¡Hola, ",trozo,src/escenas/casaMascotas.ts src/escenas/escenas2d.ts
+0c0fd90703a0,¡Hoy ya está feliz!,frase,src/escenas/casaMascotas.ts
+8427906f77b8,Toca el nombre que más te guste.,frase,src/escenas/casaMascotas.ts
+6faaae0ebf6f, Toca los botones de abajo.,frase,src/escenas/casaMascotas.ts
+27a185b5483d,Hoy ya está feliz. Puedes seguir jugando.,frase,src/escenas/casaMascotas.ts
+f9ca27b386f9,¿Cómo se llama?,frase,src/escenas/casaMascotas.ts
+e84dfae998b7,¡Se llama ,trozo,src/escenas/casaMascotas.ts
+bd65f6b46d09,! ¡Qué nombre tan bonito!,trozo,src/escenas/casaMascotas.ts
+646fda398c33, ha crecido! ,trozo,src/escenas/casaMascotas.ts
+afe8f50d3ebe,¡Ya es mayor!,frase,src/escenas/casaMascotas.ts
+b817646d642e,Ya no es un bebé.,frase,src/escenas/casaMascotas.ts
+dd567156beba," ¡Hoy ya está feliz! Mañana, más mimos.",frase,src/escenas/casaMascotas.ts
 db443cb87127,"¡Es la Tierra, nuestro planeta! Tócala para hacerla girar.",frase,src/escenas/casaMundo.ts
 a0bb78508b42,¿Dónde está España? Toca su tarjeta.,frase,src/escenas/casaMundo.ts
 3f061be03f5a,Toca la Tierra para hacerla girar.,frase,src/escenas/casaMundo.ts
@@ -1036,7 +1085,6 @@ b98615f7a5dd,¿Cuántos años tiene quien va a jugar?,frase,src/escenas/escenas2
 a587736f77f4,años,trozo,src/escenas/escenas2d.ts
 a49638107f59,¡Hola! Yo soy Tito. ¿Cómo te llamas? Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
 d88671ed28a4,Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
-ded764e77023,"¡Hola, ",trozo,src/escenas/escenas2d.ts
 d616330452a9,! ¡Qué bonito nombre!,trozo,src/escenas/escenas2d.ts
 b5a266a1e5af,¿Cómo te llamas?,frase,src/escenas/escenas2d.ts
 ea877d21ec52,Escribir el nombre,trozo,src/escenas/escenas2d.ts

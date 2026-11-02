@@ -6,7 +6,8 @@
 // al tocar el suelo (C9) y que las 49 reacciones se dibujen sin errores (C10); desde la C3, el cielo de noche del
 // telescopio (C11) y la vuelta al mundo del globo terráqueo (C12); desde la C4, los instrumentos (C13), la pizarra
 // (C14) y la tele (C15); desde la C5, la merienda y la sopa (C16), el baño (C17), buenas noches (C18) y el huerto
-// (C19).
+// (C19); desde la C6, cuidar a las mascotas: ir a su escena y ponerles nombre (C20), crecer con los días cuidados
+// (C21) y nacer bebé al comprarla (C22).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -167,6 +168,29 @@ const temas = n => { const o = {}; for (let i = 1; i <= n; i++) o['3A-T' + i] = 
     await p.evaluate(() => __cl.scene.down(HUERTO.regadera.x, HUERTO.regadera.y)); await p.waitForTimeout(300);
     const r = await p.evaluate(() => [__cl.S.huerto.dias, __cl.S.huerto.dia, JSON.parse(localStorage.getItem(KEY)).huerto.dias]);
     if (r.join() !== '3,2026-10-21,3') return 'huerto: ' + r.join();
+  });
+
+  await caso('C20', 'Al tocar una mascota, Tito va a su lado, se abre su escena y se le pone nombre', async p => {
+    await p.evaluate(() => { const S = __cl.S; S.home = {}; S.temas = {}; for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} }; S.rooms = 7; S.mascotas = { gato: { nombre: '', dias: 0, dia: '', hechos: [] } }; S.owned.gato = 1; placeHome('gato'); SCENES.casaTito.room = homeRoom('gato'); __cl.go('casaTito', {}) }); await p.waitForTimeout(1500);
+    await p.evaluate(() => { const sc = __cl.scene, o = S.home.gato; sc.down(o.x, o.y - 40); sc.up(o.x, o.y - 40) }); await p.waitForTimeout(7000);
+    const r = await p.evaluate(() => [sceneName, __cl.scene.id, (__cl.scene.elige || []).join()]);
+    if (r.join('|') !== 'casaMascota|gato|Misi,Nube,Bigotes') return 'escena: ' + r.join('|');
+    await p.evaluate(() => __cl.scene.down(1120, 470)); await p.waitForTimeout(300);
+    const n = await p.evaluate(() => [__cl.S.mascotas.gato.nombre, JSON.parse(localStorage.getItem(KEY)).mascotas.gato.nombre, !!__cl.scene.elige]);
+    if (n.join() !== 'Bigotes,Bigotes,false') return 'nombre: ' + n.join();
+  });
+  await caso('C21', 'Dos cuidados distintos cuentan el día y la mascota crece con fiesta', async p => {
+    await p.evaluate(() => { window.__said = []; __cl.S.mascotas = { conejo: { nombre: 'Nieve', dias: 2, dia: '2026-10-20', hechos: ['comer', 'agua'] } }; __cl.go('casaMascota', { inst: 'conejo' }) }); await p.waitForTimeout(800);
+    const r = await p.evaluate(() => { const sc = __cl.scene, a = etapaDe('conejo'); sc.cuida('comer'); sc.cuida('comer'); const b = __cl.S.mascotas.conejo.dias; sc.cuida('jugar'); return [a, b, __cl.S.mascotas.conejo.dias, etapaDe('conejo')] });
+    if (r.join() !== '0,2,3,1') return 'etapas y días: ' + r.join();
+    await p.waitForTimeout(1800);
+    const f = await p.evaluate(() => [T - __cl.scene.fiesta < 3, window.__said.join(' | ')]);
+    if (!f[0] || !/Nieve ha crecido/.test(f[1])) return 'fiesta: ' + JSON.stringify(f);
+    if (await p.evaluate(() => JSON.parse(localStorage.getItem(KEY)).mascotas.conejo.dias) !== 3) return 'no se guarda';
+  });
+  await caso('C22', 'Una mascota comprada en la tienda nace bebé y sin nombre', async p => {
+    const r = await p.evaluate(() => { const S = __cl.S; S.coins = 100; delete S.owned.hamster; S.mascotas = {}; __cl.go('tienda', {}); SCENES.tienda.buy(SHOP.find(i => i.id === 'hamster')); return [S.owned.hamster, JSON.stringify(S.mascotas.hamster), etapaDe('hamster')] });
+    if (r.join('|') !== '1|{"nombre":"","dias":0,"dia":"","hechos":[]}|0') return 'compra: ' + r.join('|');
   });
 
   R.guardar(); await b.close(); srv.close(); process.exit(0);
