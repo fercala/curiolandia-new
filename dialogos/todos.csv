@@ -873,6 +873,13 @@ ff3c9697a105,! ¡Veinte monedas!,trozo,src/escenas/cofre.ts
 82b808c124a3,Toca la flecha verde para seguir el camino.,frase,src/escenas/cofre.ts src/escenas/repaso.ts
 24166ed0d5a7,¡Otra vez!,frase,src/escenas/cofre.ts
 86cc9c3caa41,¡Una vez más!,frase,src/escenas/cofre.ts
+047a6c123a1f,Este es tu diccionario de inglés. Ya conoces ,trozo,src/escenas/diccionario.ts
+d585c75f67ab,palabra,trozo,src/escenas/diccionario.ts
+0ecbc11e335f,palabras,trozo,src/escenas/diccionario.ts
+5500a4d3fb9c,Tu diccionario de inglés está vacío. ¡Polly te espera en la Isla del Inglés!,frase,src/escenas/diccionario.ts
+534bd1d9551c,Mi diccionario de inglés,trozo,src/escenas/diccionario.ts
+cbde4daf3b50,Juega en la Isla del Inglés y aquí saldrán tus palabras,trozo,src/escenas/diccionario.ts
+273f135fe145,quiere decir ,trozo,src/escenas/diccionario.ts
 5e99b98e216f,Curiolandia,trozo,src/escenas/escenas2d.ts
 0f0c9b9c836e,(display-mode: standalone),trozo,src/escenas/escenas2d.ts
 4cb72ca44f61,(display-mode: fullscreen),trozo,src/escenas/escenas2d.ts

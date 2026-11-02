@@ -6,8 +6,8 @@
 // (fase 4a) están desde la fase 4b en el núcleo (nucleo/monedas.ts), y terminar un juego, en finishGame
 // (escenas2d.ts) y su caso de uso aplicacion/terminarJuego.ts. Desde la fase L2 (docs/PLAN-LECTURA.md), isla.ts: la
 // Isla de las Letras (SCENES.isla), desde la fase I2 (docs/PLAN-INGLES.md), islaIngles.ts: la Isla del Inglés
-// (SCENES.islaIngles), y desde la fase L7, libroLetras.ts: «Mi libro de letras» (SCENES.libroLetras), que se
-// abre desde el álbum. src/modulos.ts pasa todo lo que exportan al puente.
+// (SCENES.islaIngles), desde la fase L7, libroLetras.ts: «Mi libro de letras» (SCENES.libroLetras), y desde la fase
+// I7, diccionario.ts: «Mi diccionario de inglés» (SCENES.diccionario), que se abren desde el álbum. src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';
@@ -16,3 +16,4 @@ export * from './repaso.ts';
 export * from './isla.ts';
 export * from './islaIngles.ts';
 export * from './libroLetras.ts';
+export * from './diccionario.ts';

@@ -150,6 +150,20 @@ describe('el progreso por letra (fase L7 de docs/PLAN-LECTURA.md)', () => {
   });
 });
 
+describe('la Isla del Inglés (fase I7 de docs/PLAN-INGLES.md)', () => {
+  test('cada casita tiene su conjunto de palabras en EN, que van al diccionario (con dibujo), y algún juego que repasar', () => {
+    const EN = lee<Record<string, Array<{ en: string; k?: string; draw?: unknown }>>>('EN');
+    const casitas = ['ING', 'ING_PARQUE', 'ING_PUEBLO'].flatMap((l) => lee<TemaLeido[]>(l));
+    const malas = casitas.flatMap((t) => [
+      ...(t.en && EN[t.en]?.some((w) => w.k || w.draw) ? [] : [`${t.id}: sin palabras en EN[${t.en}]`]),
+      // la casita de las canciones (EN-SONGS) solo tiene canciones, como el tema de canciones del mapa
+      ...(t.games.some((g) => !NOREP.includes(g.t)) || t.games.every((g) => g.t === 'cancion') ? [] : [`${t.id}: sin juegos que repasar`]),
+    ]);
+    expect(casitas.length).toBe(34);
+    expect(malas).toEqual([]);
+  });
+});
+
 describe('los cuentos', () => {
   const cuentos = (): Array<[string, CuentoLeido]> => Object.entries(lee<Record<string, CuentoLeido>>('CUENTOS'));
 
