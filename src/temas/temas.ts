@@ -168,7 +168,7 @@ export function vestir(okK: Cosa[],badK: Cosa[],ask: string,why: (k: Cosa) => st
 //           archivo lo lee ahora mismo.
 //   bg      función de fondo (BG.xxx) que usan sus juegos.
 //   zone    zona del mapa: 'jardin' (T3, C3), 'bosque' (T4, C4), 'montana' (T5, C5), 'extras', 'fiestas' o
-//           'ingles'. Desde la fase 5a cada tema la trae escrita (antes la ponía escenas/escenas2d.ts al cargar).
+//           una zona de las islas (las casitas de inglés, 'playaHello' desde la fase I2; antes 'ingles'). Desde la fase 5a cada tema la trae escrita (antes la ponía escenas/escenas2d.ts al cargar).
 //   season  (opcional) 'otoño', 'invierno', 'primavera' o 'verano'. Es informativo: ya en el juego viejo solo lo
 //           leía una versión de suggestTema que otra reemplazaba.
 //   intro   (opcional) frase con la que empieza el juego "conocer".

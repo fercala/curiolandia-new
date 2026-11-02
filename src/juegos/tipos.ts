@@ -99,7 +99,8 @@ export interface Tema {
   /** Los juegos de la casita, en orden. */
   games: JuegoTema[];
   /**
-   * Zona del mapa: 'jardin', 'bosque' y 'montana' (los del camino de 3, 4 y 5 años), 'extras', 'fiestas' o 'ingles'.
+   * Zona del mapa: 'jardin', 'bosque' y 'montana' (los del camino de 3, 4 y 5 años), 'extras', 'fiestas' o
+   * una zona de las islas (desde la fase I2, las casitas de inglés están en 'playaHello'; antes en 'ingles').
    * Desde la fase 5a cada tema la trae escrita; antes la ponía escenas/escenas2d.ts al cargar.
    */
   zone: string;

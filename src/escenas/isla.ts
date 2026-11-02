@@ -8,7 +8,8 @@
  * tuviera casitas saldría «en obras»: al tocarla, Tito diría que Lupi la está preparando.
  * Es una escena 2D. Desde la fase L6, con WebGL, mundo3d/isla3d.ts la convierte en 3D (como el mapa): usa su lógica
  * (enter, prompt, hint, dwell) y, para tocar, llama a su down con los puntos 2D de ISLA, LUPI y BARCO.
- * Exporta: ISLA (los sitios de la isla), LUPI y BARCO, y pone SCENES.isla al cargarse.
+ * Exporta: ISLA (los sitios de la isla), LUPI y BARCO, fondo y drawObras (que usa también escenas/islaIngles.ts, desde la
+ * fase I2 de docs/PLAN-INGLES.md), y pone SCENES.isla al cargarse.
  * Importa: el núcleo (dibujo, voz, toque, Tito), las reglas y ayudas de escenas/zonas.ts (ZONES, zoneOpen, nextLetra,
  * drawSeguir y SEGUIR).
  */
@@ -78,8 +79,9 @@ function drawPueblo(x: number, y: number, abierta: boolean): void {
   });
 }
 
-// drawObras(x, y): lo que aún está «en obras»: una valla de rayas y un cartel de «¡Muy pronto!».
-function drawObras(x: number, y: number): void {
+// drawObras(x, y): lo que aún está «en obras»: una valla de rayas y un cartel de «¡Muy pronto!». Desde la fase I2 de
+// docs/PLAN-INGLES.md la usa también la Isla del Inglés (escenas/islaIngles.ts).
+export function drawObras(x: number, y: number): void {
   for (let i = 0; i < 4; i++) card(x - 110 + i * 56, y + 70, 48, 26, i % 2 ? '#fff' : '#FFA94D', 4, 6);
   card(x - 90, y - 150, 180, 50, '#FFD66B', 5, 25); text('¡Muy pronto!', x, y - 114, 28, K);
 }
@@ -99,8 +101,8 @@ function drawSitio(z: SitioIsla, brilla: boolean): void {
   ctx.restore();
 }
 
-// fondo(): el mar con olas y la isla de arena y hierba.
-function fondo(): void {
+// fondo(): el mar con olas y la isla de arena y hierba. Desde la fase I2 la usa también la Isla del Inglés.
+export function fondo(): void {
   ctx.fillStyle = '#7FD3F0'; ctx.fillRect(0, 0, W, H);
   for (let i = 0; i < 12; i++) {
     const x = (i * 263) % 1600, y = 60 + (i * 151) % 800;

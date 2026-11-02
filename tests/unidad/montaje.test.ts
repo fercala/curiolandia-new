@@ -76,7 +76,7 @@ describe('paginaJuego', () => {
     // temas/extras.ts: los temas extra, el fondo de los trazos y «El cuento» al final de los temas con cuento.
     expect(runInContext('[RUT.id, TRZ.id, CAN.id, FIESTAS.length, typeof BG.trazo].join()', global)).toBe('X-RUT,X-TRZ,X-CAN,4,function');
     expect(runInContext("T3.find((t) => t.id === '3A-T1').games.at(-1).t", global)).toBe('cuento');
-    // temas/ingles.ts: el Rincón del inglés y sus juegos.
+    // temas/ingles.ts: las casitas de inglés (del Rincón del inglés; desde la fase I2, de la Playa Hello) y sus juegos.
     expect(runInContext("ING.map((t) => t.id).join() + ' ' + EN.numbers[2].en", global)).toBe('EN-HELLO,EN-COLORS,EN-NUMBERS,EN-ANIMALS Three');
     for (const k of ['EnConocer', 'EnEscucha', 'EnGlobos', 'EnCuenta', 'sayMix']) expect(typeof global[k], k).toBe('function');
     // escenas/escenas2d.ts: las escenas 2D en SCENES y la lista de todos los temas.
@@ -84,7 +84,7 @@ describe('paginaJuego', () => {
     expect(runInContext("TEMAS.length === Object.keys(TEMA).length && TEMA['EN-HELLO'] === ING[0]", global)).toBe(true);
     for (const k of ['finishGame', 'drawFace', 'tree', 'inR', 'isBday']) expect(typeof global[k], k).toBe('function');
     // escenas/zonas.ts: las zonas, sus escenas (con el mapa y la casita, desde la fase 4d solo aquí) y las reglas del camino.
-    expect(runInContext("Object.keys(ZONES).join() + ' ' + ['map', 'casita', 'jardin', 'bosque', 'montana', 'fiestas', 'ingles', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,ingles,playaSonidos,bosqueLetras,puebloPalabras true');
+    expect(runInContext("Object.keys(ZONES).join() + ' ' + ['map', 'casita', 'jardin', 'bosque', 'montana', 'fiestas', 'islaIngles', 'playaHello', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,playaSonidos,bosqueLetras,puebloPalabras,playaHello true');
     expect(runInContext("S.age = 3; [zoneOpen('jardin'), temaOpen(T3[0]), curTema('jardin') === T3[0], suggestTema() === T3[0]].join()", global)).toBe('true,true,true,true');
     for (const k of ['goSeguir', 'suggestTema', 'stationPos', 'zoneScene', 'grantGift']) expect(typeof global[k], k).toBe('function');
     // escenas/tienda.ts: monedas, tienda y casa de Tito (añade los campos de DEF2 a S y las escenas tienda y casaTito).

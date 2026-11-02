@@ -35,7 +35,7 @@ import { skyNow } from './cielo.ts';
 // MAPPOS: dónde va cada lugar del mapa en 3D, en píxeles 2D (se pasan con MP). id del lugar -> [x,y].
 const MZP: Record<string, {x: number; y: number; r: number}>={};
 const MP=(x: number,y: number): PuntoSuelo=>[(x-800)/40,(y-500)/40];
-const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740],muelle:[1225,840]};
+const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],globo:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740],muelle:[1225,840]};
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
 export function sea3(w: Mundo,c: string){const g=new THREE.PlaneGeometry(220,160,70,50);g.rotateX(-PI/2);const m=new THREE.Mesh(g,M(c));m.position.y=-1.1;m.receiveShadow=true;w.sc.add(m);w.sea=m;
   // olas: altura y normal calculadas a mano (derivada de la fórmula); computeVertexNormals en cada cuadro costaba ~0,6 ms
@@ -98,11 +98,15 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void>={
   album(g: THREE.Group){const b=grp(g,[0,.2,0]);b.rotation.y=-.25;mk(Box(1.5,.25,2),'#9B8AD9',{p:[-.78,.12,0],r:[0,0,.12],to:b,ol:.04});mk(Box(1.5,.25,2),'#9B8AD9',{p:[.78,.12,0],r:[0,0,-.12],to:b,ol:.04});
     mk(Box(1.35,.12,1.8),'#FFF6E6',{p:[-.72,.32,0],r:[0,0,.12],to:b,ol:.02});mk(Box(1.35,.12,1.8),'#FFF6E6',{p:[.72,.32,0],r:[0,0,-.12],to:b,ol:.02});
     const st=mk(starGeo(.45,.15),'#FFC93C',{p:[0,1.3,0],to:b,ol:.03});g.userData.anim=()=>{st.rotation.y=Math.sin(T*1.4)*.55;st.position.y=1.3+Math.sin(T*2)*.12}},
-  // rincón del inglés: bocadillo «Hello!» y tres cubos A, B y C
-  ingles(g: THREE.Group){mk(Cyl(.08,.08,1.8,8),'#C98A4B',{p:[0,.9,0],to:g,ol:.03});
-    spr(canvasTex(256,180,()=>{card(14,14,228,120,'#fff',8,50);ctx.beginPath();ctx.moveTo(90,128);ctx.lineTo(70,170);ctx.lineTo(125,128);ctx.closePath();fillStroke('#fff',8);ctx.fillStyle='#fff';ctx.fillRect(80,118,50,14);text('Hello!',128,95,58,'#5B8DEF',{f:LF})},'hello3'),1.9,1.33,{p:[0,2.35,0],to:g});
-    ['A','B','C'].forEach((l,i)=>{const t=canvasTex(128,128,()=>{ctx.fillStyle=['#FF6B5E','#FFC93C','#7CC86E'][i];ctx.fillRect(0,0,128,128);text(l,64,100,96,'#fff',{f:LF,st:8})},'abc'+l);
-      const m=new THREE.Mesh(Box(.7,.7,.7),new THREE.MeshToonMaterial({map:t,gradientMap:gradiente()}));m.position.set(-.85+i*.85,.35+(i===1?.0:0),.9);m.rotation.y=(i-1)*.3;m.castShadow=true;g.add(m);m.add(Object.assign(new THREE.Mesh(olGeo(m.geometry),OLm(.035)),{raycast:()=>{}}))})},
+  // globo de la Isla del Inglés (fase I2 de docs/PLAN-INGLES.md, en el sitio del antiguo Rincón del inglés): un globo
+  // aerostático de gajos rojos, blancos y azules con su cesta y sus cuerdas, que sube y baja despacio, y encima su cartel,
+  // «Isla del Inglés», que se ve siempre (el barco de la Isla de las Letras costaba encontrarlo sin cartel)
+  globo(g: THREE.Group){const b=grp(g,[0,0,0]);mk(Box(1,.7,1),'#C98A4B',{p:[0,.65,0],to:b,ol:.04});
+    for(const [x,z] of[[-.42,-.42],[.42,-.42],[-.42,.42],[.42,.42]] as [number, number][])mk(Cyl(.03,.03,1.3,4),K,{p:[x*1.4,1.6,z*1.4],r:[z*.5,0,-x*.5],ol:0,cs:false,to:b});
+    const tela=new THREE.Mesh(Sph(1.5,16,14),new THREE.MeshToonMaterial({map:canvasTex(256,64,()=>{['#E8554E','#FFFFFF','#5B8DEF','#FFFFFF'].forEach((c,i)=>{ctx.fillStyle=c;for(let k=0;k<2;k++)ctx.fillRect((i+k*4)*32,0,32,64)})},'globoGajos'),gradientMap:gradiente()}));
+    tela.position.set(0,3.3,0);tela.scale.set(1,1.12,1);tela.castShadow=true;b.add(tela);{const ol=new THREE.Mesh(olGeo(tela.geometry),OLm(.04));ol.position.copy(tela.position);ol.scale.copy(tela.scale);ol.raycast=()=>{};b.add(ol)}
+    spr(pillTex('Isla del Inglés','#E8554E','#fff',50),5,1.25,{p:[0,5.8,.6],to:g});/* pegado a lo alto del globo: delante lo tapaba la montaña y más arriba parecía del globo que vuela en el cielo */
+    g.userData.anim=()=>{b.position.y=Math.sin(T*1.3)*.2;b.rotation.y=Math.sin(T*.5)*.15}},
   // fiestas: tarta con velas (llamitas userData.fl), dos regalos y cuatro globos que se mecen
   fiestas(g: THREE.Group){const c=grp(g,[0,0,0]);mk(Cyl(1,1,.6,24),'#F58BB4',{p:[0,.3,0],to:c,ol:.04});mk(Cyl(.75,.75,.5,24),'#FFF6E6',{p:[0,.85,0],to:c,ol:.04});
     for(let i=0;i<4;i++){const a=i/4*PI*2;mk(Cyl(.05,.05,.35,6),DIAC[i],{p:[Math.cos(a)*.4,1.27,Math.sin(a)*.4],to:c,ol:.015});const fl=mk(Sph(.07,8,6),'#FFC93C',{p:[Math.cos(a)*.4,1.5,Math.sin(a)*.4],s:[1,1.6,1],ol:0,cs:false,to:c});fl.userData.fl=1}
@@ -169,7 +173,7 @@ function buildMap(st: Escena){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind
     else SPOT3[z.id](g,open);
     const hit=new THREE.Mesh(Cyl(z.id==='casaTito'?3:2.4,2.4,3.4,12),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=1.5;g.add(hit);
     const lk=!spotOpen(z.id)&&!ZAGE[z.id];
-    if(lk||(st.unl&&st.unl.id===z.id)){const ly=z.id==='ingles'?4.3:3.3;g.userData.lockY=ly;g.userData.lock=lock3(g,[0,ly,0],1.15);// el bocadillo de Hello! no queda tapado por el candado
+    if(lk||(st.unl&&st.unl.id===z.id)){const ly=3.3;g.userData.lockY=ly;g.userData.lock=lock3(g,[0,ly,0],1.15);
     if(lk){g.userData.need=spr(flowerTex(FLC[0],spotNeed(z.id)),2.3,1.15,{p:[0,2.2,1.7],to:g});greyAll(g,true)}}
     if(st.wake&&st.wake.z===z.id)greyAll(g,true);
     w.spots[z.id]=g;w.pick.push(g)}
@@ -235,7 +239,7 @@ const mapa2D=SCENES.map;
     this.titoAt=z.id;walkTo(w,w.tito!,to,()=>{if(sceneName==='map'){const q=mzOf(z.id);call0(mapa2D.down!,this,q.x,q.y)}},{zoom:V3(0,9,8)})},/* al llegar, el lugar donde está entonces (la cámara se ha movido) */
   // seguir(): el botón verde: Tito camina hacia la plaza o hacia la zona del próximo tema y luego se sigue (goSeguir)
   seguir(){const w=W3;if(sceneName!=='map'||!w||w.kind!=='map')return goSeguir();
-   let id='plaza';if(asamHoy()){const t=nextTema();if(!t)return goSeguir();id=MAINZ.includes(t.zone)?t.zone:t.zone==='fiestas'?'fiestas':t.zone==='ingles'?'ingles':t.id==='X-CAN'?'canciones':t.id==='X-RUT'?'rutinas':t.id==='X-TRZ'?'trazos':'plaza'}
+   let id='plaza';if(asamHoy()){const t=nextTema();if(!t)return goSeguir();id=MAINZ.includes(t.zone)?t.zone:t.zone==='fiestas'?'fiestas':t.id==='X-CAN'?'canciones':t.id==='X-RUT'?'rutinas':t.id==='X-TRZ'?'trazos':'plaza'}
    const g=w.spots![id];this.titoAt=id;walkTo(w,w.tito!,g.position.clone().add(V3(1.4,0,2.4)),()=>{if(sceneName==='map')goSeguir()},{zoom:V3(0,9,8)})}
  } satisfies Escena;
 }

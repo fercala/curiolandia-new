@@ -24,10 +24,11 @@ const srv = http.createServer((q, r) => {
 
 // Escenas que se visitan: [nombre de la escena, opciones que recibe go()].
 const ESCENAS = [
-  ['title'], ['map'], ['jardin'], ['bosque'], ['montana'], ['fiestas'], ['ingles'],
+  ['title'], ['map'], ['jardin'], ['bosque'], ['montana'], ['fiestas'],
   ['casita', { t: '3A-T1' }], ['cofre', { t: '3A-T1' }], ['tienda'], ['casaTito'], ['album'],
   ['isla'], ['playaSonidos'], ['casita', { t: 'L3-A' }], ['libroLetras'], // la Isla de las Letras (fase L2) y el libro de letras (L7)
   ['bosqueLetras'], ['puebloPalabras'], ['casita', { t: 'L5-FAB' }], // el bosque y el pueblo (fases L4 y L5)
+  ['islaIngles'], ['playaHello'], ['casita', { t: 'EN-HELLO' }], // la Isla del Inglés (fase I2 de docs/PLAN-INGLES.md)
 ];
 
 (async () => {

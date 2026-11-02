@@ -35,7 +35,7 @@
 | `stk` | `{claveDibujo: cantidad}` | Pegatinas del álbum. |
 | `album` | `[]` | No se usa. |
 | `intro` | `true/false` | Si ya vio el cuento de bienvenida. |
-| `first` | `{askedName, fromLetri, jardin, bosque..., isla, wk}` | Cosas que solo pasan una vez (saludos largos, si ya se preguntó el nombre...). `isla` (desde la fase L2): ya se oyó la bienvenida a la Isla de las Letras. Las casitas de la isla guardan su progreso en `S.temas` con sus ids (`L3-A`...), como las demás. |
+| `first` | `{askedName, fromLetri, jardin, bosque..., isla, wk}` | Cosas que solo pasan una vez (saludos largos, si ya se preguntó el nombre...). `isla` (desde la fase L2): ya se oyó la bienvenida a la Isla de las Letras. Las casitas de la isla guardan su progreso en `S.temas` con sus ids (`L3-A`...), como las demás. `islaIngles` (desde la fase I2 de PLAN-INGLES): ya se oyó la bienvenida a la Isla del Inglés; las casitas de inglés siguen con sus ids de siempre (`EN-HELLO`...), ahora en la zona `playaHello`. |
 | `seenFl` | número | Flores ya celebradas en el mapa. |
 | `ver` | número entero (hoy `3`) | Versión del formato de la partida (`VERSION_PARTIDA`, desde la fase 3f). Las partidas de antes, también las de curiolandia-3d, no la llevan: cuentan como versión 0 y `migrar()` las pone al día al cargarlas. Una partida de una versión más nueva se deja como está. |
 

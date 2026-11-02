@@ -1,10 +1,12 @@
-// temas/ingles.ts (antes ingles.js): el Rincón del inglés (zona 'ingles' del mapa).
+// temas/ingles.ts (antes ingles.js): las casitas de inglés. Eran el Rincón del inglés (zona 'ingles' del mapa); desde
+// la fase I2 de docs/PLAN-INGLES.md son las primeras casitas de la Playa Hello (zona 'playaHello' de la Isla del
+// Inglés), con los mismos ids, así que lo ya jugado no se pierde.
 // Para qué sirve: define las palabras en inglés (EN), los 4 tipos de juego en inglés (EnConocer, EnEscucha,
 //   EnGlobos, EnCuenta) y los 4 temas del rincón (ING). Esos juegos los crea makeGame (temas/hacerJuego.ts).
 // Desde la fase 2i es un módulo (temas/indice.ts lo carga después de extras.ts) y exporta: sayMix, ENC, enBlob,
 //   enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer, EnEscucha, EnGlobos, EnCuenta, ENG, ING y
 //   los tipos PalabraEn y OpcionesTarjeta. El puente de src/modulos.ts los deja en globalThis. ING se añade a TEMAS en
-//   escenas/escenas2d.ts y a la zona 'ingles' en escenas/zonas.ts.
+//   escenas/escenas2d.ts y a la zona 'playaHello' en escenas/zonas.ts.
 // Hasta la fase 4f, al cargarse envolvía makeGame (temas/temas.ts, ya envuelta por temas/extras.ts) con ponMakeGame.
 // Importa: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
 //   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, cap), juegos/ (NUM, BG y,
@@ -197,13 +199,14 @@ export function EnCuenta(cfg: Config,onDone: AlTerminar): Juego{const max=AGE()<
 
 // Juegos del inglés para usar en los temas: t (tipo de juego que reconoce makeGame), icon y name (nombre en el camino).
 const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja',name:'Escucha y repite'},escucha:{t:'enEscucha',icon:'busca',name:'¿Dónde está?'},globos:{t:'enGlobos',icon:'globo',name:'Revienta los globos'},cuenta:{t:'enCuenta',icon:'manzana',name:'Contar en inglés'}};
-// Temas del Rincón del inglés (casitas de la zona 'ingles', se abren en orden). Campos: id, n (nombre), icon, c (color),
+// Temas de inglés (casitas de la Playa Hello, zona 'playaHello' desde la fase I2; antes, del Rincón del inglés, zona
+// 'ingles'; se abren en orden). Campos: id, n (nombre), icon, c (color),
 // bg (fondo de los juegos), zone, en (conjunto de palabras de EN), tip (consejo para la familia en la zona de adultos),
 // games (lista de juegos de ENG).
 export const ING: Tema[]=[
-  {id:'EN-HELLO',n:'Los saludos en inglés',icon:'mano',c:'#5BB8E6',bg:BG.aula,zone:'ingles',en:'hello',tip:'saludarse en inglés al llegar y al irse: hello, good morning, good night.',games:[ENG.conocer,ENG.escucha,ENG.globos]},
-  {id:'EN-COLORS',n:'Los colores en inglés',icon:'pinturas',c:'#FF5A5A',bg:BG.colores,zone:'ingles',en:'colors',tip:'jugar a "I spy": buscar en casa cosas red, blue, yellow...',games:[ENG.conocer,ENG.escucha,ENG.globos]},
-  {id:'EN-NUMBERS',n:'Los números en inglés',icon:'bloques',c:'#7CC86E',bg:BG.aula,zone:'ingles',en:'numbers',tip:'contar en inglés los escalones o los juguetes: one, two, three...',games:[ENG.conocer,ENG.cuenta,ENG.escucha]},
-  {id:'EN-ANIMALS',n:'Los animales en inglés',icon:'perro',c:'#FFA94D',bg:BG.granja,zone:'ingles',en:'animals',tip:'mirar un libro de animales y nombrarlos en inglés.',games:[ENG.conocer,ENG.escucha,ENG.globos]}
+  {id:'EN-HELLO',n:'Los saludos en inglés',icon:'mano',c:'#5BB8E6',bg:BG.aula,zone:'playaHello',en:'hello',tip:'saludarse en inglés al llegar y al irse: hello, good morning, good night.',games:[ENG.conocer,ENG.escucha,ENG.globos]},
+  {id:'EN-COLORS',n:'Los colores en inglés',icon:'pinturas',c:'#FF5A5A',bg:BG.colores,zone:'playaHello',en:'colors',tip:'jugar a "I spy": buscar en casa cosas red, blue, yellow...',games:[ENG.conocer,ENG.escucha,ENG.globos]},
+  {id:'EN-NUMBERS',n:'Los números en inglés',icon:'bloques',c:'#7CC86E',bg:BG.aula,zone:'playaHello',en:'numbers',tip:'contar en inglés los escalones o los juguetes: one, two, three...',games:[ENG.conocer,ENG.cuenta,ENG.escucha]},
+  {id:'EN-ANIMALS',n:'Los animales en inglés',icon:'perro',c:'#FFA94D',bg:BG.granja,zone:'playaHello',en:'animals',tip:'mirar un libro de animales y nombrarlos en inglés.',games:[ENG.conocer,ENG.escucha,ENG.globos]}
 ];
 // Los juegos de inglés (tipo en..., en un tema con en) los crea makeGame (temas/hacerJuego.ts), con las palabras de su edad.

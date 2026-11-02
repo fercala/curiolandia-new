@@ -122,7 +122,7 @@ caso('borrar-todo', 'Borrar todo el progreso y empezar de nuevo', { guardado: BA
 });
 caso('modo-libre', 'Modo libre: entrar en todas las casitas de todas las zonas y en el primer juego de cada tema', { guardado: Object.assign({}, BASE, { unlockAll: true }) }, async p => {
   const m = []; const ts = await p.evaluate(() => __cl.TEMAS.map(t => t.id));
-  for (const z of ['jardin', 'bosque', 'montana', 'fiestas', 'ingles']) { await p.evaluate(z => __cl.go(z, {}), z); await p.waitForTimeout(600); await L.paso(p, 1) }
+  for (const z of ['jardin', 'bosque', 'montana', 'fiestas', 'playaHello']) { await p.evaluate(z => __cl.go(z, {}), z); await p.waitForTimeout(600); await L.paso(p, 1) }
   for (const t of ts) {
     await p.evaluate(t => { __cl.S.age = +(t.match(/^(\d)A/) || [0, 4])[1] || 4; __cl.go('casita', { t }) }, t); await p.waitForTimeout(250);
     await p.evaluate(t => __cl.go('juego', { t, g: 0 }), t); await p.waitForTimeout(350); await L.paso(p);

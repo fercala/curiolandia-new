@@ -24,7 +24,6 @@ const MAPA: Mapa<TemaAbrible> = {
     bosque: camino('bosque', 'B', 6),
     montana: camino('montana', 'M', 3),
     fiestas: [tema('F-navidad', 'fiestas'), tema('F-carnaval', 'fiestas'), tema('F-libro', 'fiestas')],
-    ingles: [tema('EN-1', 'ingles'), tema('EN-2', 'ingles')],
   },
   can: tema('X-CAN'),
   rut: tema('X-RUT'),
@@ -121,12 +120,6 @@ describe('casitas', () => {
     expect(abierto(partida({ hechos: tres, mes: 3 }), 'F-libro')).toBe(false);
   });
 
-  test('inglés: 2 casitas del camino y en orden', () => {
-    expect(abierto(partida({ hechos: ['J1'] }), 'EN-1')).toBe(false);
-    expect(abierto(partida({ hechos: ['J1', 'J2'] }), 'EN-1')).toBe(true);
-    expect(abierto(partida({ hechos: ['J1', 'J2'] }), 'EN-2')).toBe(false);
-  });
-
   test('canciones, rutinas y trazos piden 1, 2 y 3 casitas de las zonas principales', () => {
     const p = partida({ edad: 4, hechos: ['J1', 'B1'] });
     expect(terminadasPrincipales(p, MAPA)).toBe(2);
@@ -169,8 +162,8 @@ describe('qué toca', () => {
     expect(siguienteTema(partida({ edad: 4, hechos: ['B1', 'B2', 'B3', 'B4', 'B5', 'B6'] }), MAPA)?.id).toBe('J1');
     const todoElCamino = [...JARDIN_HECHO, 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'M1', 'M2', 'M3'];
     expect(siguienteTema(partida({ edad: 5, hechos: todoElCamino }), MAPA)?.id).toBe('X-CAN');
-    expect(siguienteTema(partida({ edad: 5, hechos: [...todoElCamino, 'X-CAN', 'X-RUT'] }), MAPA)?.id).toBe('EN-1');
-    const todo = [...todoElCamino, 'X-CAN', 'X-RUT', 'EN-1', 'EN-2', 'X-TRZ', 'JC', 'BC', 'MC', 'F-navidad', 'F-carnaval', 'F-libro'];
+    expect(siguienteTema(partida({ edad: 5, hechos: [...todoElCamino, 'X-CAN', 'X-RUT'] }), MAPA)?.id).toBe('X-TRZ');
+    const todo = [...todoElCamino, 'X-CAN', 'X-RUT', 'X-TRZ', 'JC', 'BC', 'MC', 'F-navidad', 'F-carnaval', 'F-libro'];
     expect(siguienteTema(partida({ edad: 5, hechos: todo }), MAPA)).toBeNull();
   });
 });
@@ -179,12 +172,12 @@ describe('sitios del mapa', () => {
   test('cada sitio con candado pide sus casitas; el resto está siempre abierto', () => {
     expect(sitioAbierto(partida(), MAPA, 'canciones')).toBe(false);
     expect(sitioAbierto(partida({ hechos: ['J1'] }), MAPA, 'canciones')).toBe(true);
-    expect(sitioAbierto(partida({ hechos: ['J1'] }), MAPA, 'ingles')).toBe(false);
+    expect(sitioAbierto(partida(), MAPA, 'globo')).toBe(true); // la Isla del Inglés, abierta desde el principio (fase I2)
     expect(sitioAbierto(partida({ hechos: ['J1', 'J2', 'J3', 'J4'] }), MAPA, 'fiestas')).toBe(true);
     expect(sitioAbierto(partida(), MAPA, 'bosque')).toBe(false);
     expect(sitioAbierto(partida(), MAPA, 'tienda')).toBe(true);
     expect(sitioAbierto(partida({ libre: true }), MAPA, 'trazos')).toBe(true);
-    expect(['canciones', 'rutinas', 'trazos', 'fiestas', 'ingles', 'plaza'].map(sitioNecesita)).toEqual([1, 2, 3, 4, 2, undefined]);
+    expect(['canciones', 'rutinas', 'trazos', 'fiestas', 'globo', 'plaza'].map(sitioNecesita)).toEqual([1, 2, 3, 4, undefined, undefined]);
   });
 
   test('la fiesta de cada mes', () => {

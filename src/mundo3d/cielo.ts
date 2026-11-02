@@ -18,6 +18,8 @@ import { sayMix } from '../temas/indice.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
 import { ahora } from '../aplicacion/puertos.ts';
+// enIslaIngles: si la escena es la Isla del Inglés o una de sus zonas (desde la fase I2; antes, el Rincón del inglés).
+import { enIslaIngles } from '../escenas/zonas.ts';
 import { RC, proj } from './motor.ts';
 import { Box, Cone, Cyl, M, Sph, gcache, mg, mk } from './materiales.ts';
 import { fhit, softTex } from './decorado.ts';
@@ -45,8 +47,8 @@ export const NAMES3: [string, string, string, number?, string?, string?][]=[['fr
 export function sylClap(x: number,y: number,wd: string){/* una palmada por sílaba, con la sílaba escrita, y Tito salta con cada una */const sc0=sceneName,Y=(SYL3[wd]||wd).split(' '),n=Y.length,X=Math.min(1480-n*65,Math.max(120+n*65,x));Y.forEach((sy,i)=>setTimeout(()=>{if(sceneName!==sc0)return;noise(.06,.35,1800);{const st=SCENES[sceneName];if(st)st.hop=T}tone(330+i*60,.08,'triangle',.05);parts.push({x:X-(n-1)*65+i*130,y:Math.max(230,y-120),vx:0,vy:-20,life:1.3,t:0,c:['#5A6FD0','#E8803C','#4DB85A','#A77BDB'][i%4],r:20,rot:0,k:'t',tx:sy,g:0})},250+i*500))}
 // SYL3: PALABRA -> sílabas separadas por espacios (para sylClap). Si una palabra falta, se palmea entera.
 const SYL3: Record<string, string>={RANA:'RA NA',ÁRBOL:'ÁR BOL',PINGÜINO:'PIN GÜI NO',MUÑECO:'MU ÑE CO',MARIPOSA:'MA RI PO SA',PÁJARO:'PÁ JA RO',BALLENA:'BA LLE NA',CASTILLO:'CAS TI LLO',PELOTA:'PE LO TA',TARTA:'TAR TA',ESTRELLA:'ES TRE LLA',HOJA:'HO JA',GOTA:'GO TA',SETA:'SE TA',ABEJA:'A BE JA',CALABAZA:'CA LA BA ZA',ARDILLA:'AR DI LLA',BÚHO:'BÚ HO',HORMIGA:'HOR MI GA',NIDO:'NI DO',MARIQUITA:'MA RI QUI TA',REGALO:'RE GA LO',BARCO:'BAR CO',CONEJO:'CO NE JO',IGLÚ:'I GLÚ',JÚPITER:'JÚ PI TER',ARCOÍRIS:'AR CO Í RIS',NIEVE:'NIE VE',FOCA:'FO CA',TRINEO:'TRI NE O',GLOBO:'GLO BO',PLANTA:'PLAN TA',SORPRESA:'SOR PRE SA',SATURNO:'SA TUR NO',COMETA:'CO ME TA',REGADERA:'RE GA DE RA',CONTENTO:'CON TEN TO',RENO:'RE NO',BOLA:'BO LA',COPO:'CO PO',VIENTO:'VIEN TO',BELLOTA:'BE LLO TA',SEMILLA:'SE MI LLA'};/* sílabas para dar una palmada por cada una */
-// sayNum(n,cb): Tito dice el número n (1-10); en el Rincón del inglés lo dice en inglés ('@' = frase en inglés).
-export function sayNum(n: number,cb?: (() => void) | null){/* dice un número: en el Rincón del inglés, en inglés */if(sceneName==='ingles')sayMix3(['@'+['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][n-1]],cb);else say3(NUM10[n-1],cb)}
+// sayNum(n,cb): Tito dice el número n (1-10); en la Isla del Inglés (antes, en el Rincón del inglés) lo dice en inglés ('@' = frase en inglés).
+export function sayNum(n: number,cb?: (() => void) | null){/* dice un número: en la Isla del Inglés, en inglés */if(enIslaIngles(sceneName))sayMix3(['@'+['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][n-1]],cb);else say3(NUM10[n-1],cb)}
 // numPop(x,y,n,tx): hace salir flotando en (x,y) de 1600x900 el número n (con n puntitos) o el texto tx en grande.
 // Sin tx, suena una nota más aguda cuanto mayor es n. Usa la lista de partículas parts de nucleo/escenas.ts.
 export function numPop(x: number,y: number,n: number,tx?: string){
@@ -163,10 +165,10 @@ export function skyTap(x: number,y: number,w: Mundo){
         {
           const C=[['Rojo.','#E84A4A'],['Naranja.','#F5932E'],['Amarillo.','#F2C200'],['Verde.','#4DB85A'],['Azul.','#3D8FE0'],['Morado.','#9A63D1']];
           let k=0;
-          // nx(): nombra el color siguiente y, al acabar la frase, el otro; en el Rincón del inglés, en inglés
+          // nx(): nombra el color siguiente y, al acabar la frase, el otro; en la Isla del Inglés, en inglés
           const nx=()=>{
             if(k>=C.length||sceneName!==sc0)return;
-            const [n,c]=C[k],en=sceneName==='ingles',ne=['Red','Orange','Yellow','Green','Blue','Purple'][k];
+            const [n,c]=C[k],en=enIslaIngles(sceneName),ne=['Red','Orange','Yellow','Green','Blue','Purple'][k];
             parts.push({x:560+k*96,y:200,vx:0,vy:-25,life:2.2,t:0,c,r:22,rot:0,k:'t',tx:en?ne:n.slice(0,-1),g:0});
             k++;
             if(en)sayMix3(['@'+ne],nx);
