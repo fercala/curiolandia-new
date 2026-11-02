@@ -35,34 +35,135 @@ import { ffTap, makeTito, noteParts, ringParts, shellTex } from './personajes.ts
 // walkTo(w,tito,to,cb,o): to = punto 3D de destino; cb = qué hacer al llegar; o.speed (9 por defecto), o.max (duración máxima, 1,1 s),
 // o.free (paseo libre: no bloquea los toques, ver busy3), o.zoom (la cámara se acerca un 35 % hacia el destino). Solo guarda w.walk
 // y hacia dónde mirar (userData.face); el movimiento lo hace walkTick en cada cuadro
-export function walkTo(w: Mundo,tito: THREE.Group,to: THREE.Vector3,cb: (() => void) | null,o: OpcionesPaseo={}){const from=tito.position.clone(),d=from.distanceTo(to),dur=clamp(d/(o.speed||9),.35,o.max||1.1);
+export function walkTo(w: Mundo,tito: THREE.Group,to: THREE.Vector3,cb: (() => void) | null,o: OpcionesPaseo={}){
+  // dur: lo que tarda el paseo (distancia / velocidad, entre 0,35 s y o.max)
+  const from=tito.position.clone(),d=from.distanceTo(to),dur=clamp(d/(o.speed||9),.35,o.max||1.1);
   if(tito.userData.rest==null)tito.userData.rest=tito.rotation.y;
-  w.walk={t0:T,dur,from,to:to.clone(),cb,free:!!o.free};const dx=to.x-from.x,dz=to.z-from.z;if(Math.hypot(dx,dz)>.1)tito.userData.face=Math.atan2(-dz,dx);
-  if(o.zoom){w.camT!.pos=w.cb!.pos.clone().lerp(to.clone().add(o.zoom),.35);w.camT!.look=w.cb!.look.clone().lerp(to,.35)}}
+  w.walk={t0:T,dur,from,to:to.clone(),cb,free:!!o.free};
+  const dx=to.x-from.x,dz=to.z-from.z;
+  if(Math.hypot(dx,dz)>.1)tito.userData.face=Math.atan2(-dz,dx);
+  if(o.zoom){
+    w.camT!.pos=w.cb!.pos.clone().lerp(to.clone().add(o.zoom),.35);
+    w.camT!.look=w.cb!.look.clone().lerp(to,.35);
+  }
+}
 // al tocarlos, los árboles se sacuden, los arbustos se aplastan, las flores saltan y las piedras botan; luego se calman solos; en el mapa, las zonas y las casitas
 // WOBK(o): devuelve algo verdadero si el objeto o tiene alguna marca de tipo tocable (userData.tree, bush, ..., sat).
 // Para que un objeto nuevo se pueda tocar, su marca TIENE que estar en esta lista.
-const WOBK=(o: THREE.Object3D)=>o.userData.tree||o.userData.bush||o.userData.flower||o.userData.rock||o.userData.boat||o.userData.balloon||o.userData.gift||o.userData.letter||o.userData.sign||o.userData.mount||o.userData.gull||o.userData.bfly||o.userData.mush||o.userData.bus||o.userData.snowman||o.userData.pinata||o.userData.owl||o.userData.phone||o.userData.frog||o.userData.crab||o.userData.cake||o.userData.lady||o.userData.bird||o.userData.peng||o.userData.squir||o.userData.burrow||o.userData.clock||o.userData.igloo||o.userData.drum||o.userData.post||o.userData.ants||o.userData.light||o.userData.whale||o.userData.dolph||o.userData.xtree||o.userData.pump||o.userData.leafs||o.userData.kite||o.userData.hab||o.userData.tea||o.userData.jack||o.userData.can||o.userData.sled||o.userData.wpk||o.userData.ball||o.userData.guard||o.userData.cann||o.userData.goat||o.userData.palm||o.userData.sunf||o.userData.parrot||o.userData.flag||o.userData.bub||o.userData.nest||o.userData.marm||o.userData.scare||o.userData.umb||o.userData.sunb||o.userData.sandc||o.userData.abc||o.userData.orb||o.userData.cloud||o.userData.skyb||o.userData.eagle||o.userData.bball||o.userData.sleigh||o.userData.dip||o.userData.jup||o.userData.sat;
+const WOBK=(o: THREE.Object3D)=>
+  o.userData.tree||o.userData.bush||o.userData.flower||o.userData.rock||o.userData.boat||o.userData.balloon||
+  o.userData.gift||o.userData.letter||o.userData.sign||o.userData.mount||o.userData.gull||o.userData.bfly||
+  o.userData.mush||o.userData.bus||o.userData.snowman||o.userData.pinata||o.userData.owl||o.userData.phone||
+  o.userData.frog||o.userData.crab||o.userData.cake||o.userData.lady||o.userData.bird||o.userData.peng||
+  o.userData.squir||o.userData.burrow||o.userData.clock||o.userData.igloo||o.userData.drum||o.userData.post||
+  o.userData.ants||o.userData.light||o.userData.whale||o.userData.dolph||o.userData.xtree||o.userData.pump||
+  o.userData.leafs||o.userData.kite||o.userData.hab||o.userData.tea||o.userData.jack||o.userData.can||
+  o.userData.sled||o.userData.wpk||o.userData.ball||o.userData.guard||o.userData.cann||o.userData.goat||
+  o.userData.palm||o.userData.sunf||o.userData.parrot||o.userData.flag||o.userData.bub||o.userData.nest||
+  o.userData.marm||o.userData.scare||o.userData.umb||o.userData.sunb||o.userData.sandc||o.userData.abc||
+  o.userData.orb||o.userData.cloud||o.userData.skyb||o.userData.eagle||o.userData.bball||o.userData.sleigh||
+  o.userData.dip||o.userData.jup||o.userData.sat;
 // wobInit(w): se llama al terminar de montar un mundo. Busca todos los objetos con marca (WOBK), guarda su escala (s0) y altura (y0)
 // originales, los mete en w.trees y añade a w.upd la animación genérica del toque (y las reacciones en cadena de chainWob)
-export function wobInit(w: Mundo){w.trees=[];w.sc.traverse(o=>{if(WOBK(o)){o.userData.s0=o.scale.x;o.userData.y0=o.position.y;w.trees!.push(o)}});if(!w.trees.length)return;
-  w.upd.push(()=>{for(const t of w.trees!){if(t.userData.wobAt&&T>=t.userData.wobAt){t.userData.wob=T;t.userData.wobAt=0}/* reacción en cadena programada */const k=t.userData.wob;if(k==null)continue;const e=T-k,s0=t.userData.s0,u=t.userData;
-    // los tipos de esta lista larga tienen su propia animación (en su w.upd): aquí solo se borra wob cuando pasa u.dur (1,6 s si no tiene).
-    // Un tipo nuevo con animación propia hay que añadirlo a esta lista
-    if(u.pinata){if(e>2.6)u.wob=null;continue}if(u.boat||u.gull||u.bfly||u.bus||u.crab||u.cake||u.lady||u.bird||u.peng||u.squir||u.burrow||u.clock||u.igloo||u.post||u.ants||u.light||u.whale||u.dolph||u.xtree||u.pump||u.leafs||u.kite||u.hab||u.tea||u.jack||u.can||u.sled||u.wpk||u.ball||u.guard||u.cann||u.goat||u.palm||u.sunf||u.parrot||u.flag||u.bub||u.nest||u.marm||u.scare||u.umb||u.sunb||u.sandc||u.abc||u.skyb||u.eagle||u.bball||u.sleigh||u.dip||u.jup||u.sat){if(e>(u.dur||1.6))u.wob=null;continue}// los barquitos se animan en su propio paso
-    // el resto (árboles, arbustos, flores, piedras...): animación genérica de 1,6 s y, al acabar, todo vuelve a su sitio
-    if(e>1.6){t.rotation.x=t.rotation.z=0;if(u.bush||u.mush||u.drum)t.scale.setScalar(s0);t.position.y=u.y0;if(u.flower){u.flower.rotation.z=0;u.flower.scale.setScalar(1)}t.userData.wob=null;continue}
-    if(u.drum){const a=Math.abs(Math.sin(e*22))*.12*Math.exp(-e*2.5);t.scale.set(s0*(1+a*.4),s0*(1-a),s0*(1+a*.4))}else if(u.bush||u.mush){const a=Math.sin(e*14)*(u.mush?.3:.2)*Math.exp(-e*3.2);t.scale.set(s0*(1+a*.5),s0*(1-a),s0*(1+a*.5))}// los arbustos se aplastan y rebotan
-    else if(u.flower){const q=Math.min(e/.7,1);t.position.y=u.y0+Math.sin(q*PI)*.25*s0;u.flower.rotation.z=q*PI*2;u.flower.scale.setScalar(1+Math.sin(q*PI)*.5)}// las flores dan un saltito girando
-    else if(u.balloon){const q=Math.min(e/1.4,1);t.position.y=u.y0+Math.sin(q*PI)*.9;t.rotation.z=Math.sin(e*7)*.18*Math.exp(-e*2)}// los globos suben y vuelven
-    else if(u.gift||u.letter){const q=Math.min(e/.6,1);t.position.y=u.y0+Math.sin(q*PI)*.7;t.rotation.z=Math.sin(q*PI*2)*.15}// los regalos y las letras saltan
-    else if(u.mount||u.snowman||u.owl||u.frog){}else if(u.phone){t.rotation.z=Math.sin(e*40)*.05*Math.exp(-e*2.2)}// la cabina tiembla al sonar// las montañas no se mueven: responden con eco
-    else if(u.rock){t.position.y=u.y0+Math.abs(Math.sin(e*9))*.3*Math.exp(-e*4)}// las piedras botan
-    else{const a=Math.sin(e*16)*.13*Math.exp(-e*2.6);t.rotation.z=a;t.rotation.x=a*.4}}})}
+export function wobInit(w: Mundo){
+  w.trees=[];
+  w.sc.traverse(o=>{
+    if(WOBK(o)){
+      o.userData.s0=o.scale.x;
+      o.userData.y0=o.position.y;
+      w.trees!.push(o);
+    }
+  });
+  if(!w.trees.length)return;
+  w.upd.push(()=>{
+    for(const t of w.trees!){
+      // reacción en cadena programada
+      if(t.userData.wobAt&&T>=t.userData.wobAt){
+        t.userData.wob=T;
+        t.userData.wobAt=0;
+      }
+      const k=t.userData.wob;
+      if(k==null)continue;
+      // e: segundos desde el toque
+      const e=T-k,s0=t.userData.s0,u=t.userData;
+      // los tipos de esta lista larga tienen su propia animación (en su w.upd): aquí solo se borra wob cuando pasa u.dur (1,6 s si no tiene).
+      // Un tipo nuevo con animación propia hay que añadirlo a esta lista. La piñata dura 2,6 s
+      if(u.pinata){
+        if(e>2.6)u.wob=null;
+        continue;
+      }
+      if(u.boat||u.gull||u.bfly||u.bus||u.crab||u.cake||u.lady||u.bird||u.peng||u.squir||u.burrow||u.clock||
+        u.igloo||u.post||u.ants||u.light||u.whale||u.dolph||u.xtree||u.pump||u.leafs||u.kite||u.hab||u.tea||
+        u.jack||u.can||u.sled||u.wpk||u.ball||u.guard||u.cann||u.goat||u.palm||u.sunf||u.parrot||u.flag||u.bub||
+        u.nest||u.marm||u.scare||u.umb||u.sunb||u.sandc||u.abc||u.skyb||u.eagle||u.bball||u.sleigh||u.dip||u.jup||
+        u.sat){
+        if(e>(u.dur||1.6))u.wob=null;
+        continue;
+      }
+      // el resto (árboles, arbustos, flores, piedras...): animación genérica de 1,6 s y, al acabar, todo vuelve a su sitio
+      if(e>1.6){
+        t.rotation.x=t.rotation.z=0;
+        if(u.bush||u.mush||u.drum)t.scale.setScalar(s0);
+        t.position.y=u.y0;
+        if(u.flower){
+          u.flower.rotation.z=0;
+          u.flower.scale.setScalar(1);
+        }
+        t.userData.wob=null;
+        continue;
+      }
+      if(u.drum){
+        // el tambor late: se aplasta y se ensancha
+        const a=Math.abs(Math.sin(e*22))*.12*Math.exp(-e*2.5);
+        t.scale.set(s0*(1+a*.4),s0*(1-a),s0*(1+a*.4));
+      }else if(u.bush||u.mush){
+        // los arbustos (y las setas) se aplastan y rebotan
+        const a=Math.sin(e*14)*(u.mush?.3:.2)*Math.exp(-e*3.2);
+        t.scale.set(s0*(1+a*.5),s0*(1-a),s0*(1+a*.5));
+      }else if(u.flower){
+        // las flores dan un saltito girando
+        const q=Math.min(e/.7,1);
+        t.position.y=u.y0+Math.sin(q*PI)*.25*s0;
+        u.flower.rotation.z=q*PI*2;
+        u.flower.scale.setScalar(1+Math.sin(q*PI)*.5);
+      }else if(u.balloon){
+        // los globos suben y vuelven
+        const q=Math.min(e/1.4,1);
+        t.position.y=u.y0+Math.sin(q*PI)*.9;
+        t.rotation.z=Math.sin(e*7)*.18*Math.exp(-e*2);
+      }else if(u.gift||u.letter){
+        // los regalos y las letras saltan
+        const q=Math.min(e/.6,1);
+        t.position.y=u.y0+Math.sin(q*PI)*.7;
+        t.rotation.z=Math.sin(q*PI*2)*.15;
+      }else if(u.mount||u.snowman||u.owl||u.frog){
+        // las montañas (y el muñeco de nieve, el búho y la rana) no se mueven: responden con eco o con su voz
+      }else if(u.phone){
+        // la cabina tiembla al sonar
+        t.rotation.z=Math.sin(e*40)*.05*Math.exp(-e*2.2);
+      }else if(u.rock){
+        // las piedras botan
+        t.position.y=u.y0+Math.abs(Math.sin(e*9))*.3*Math.exp(-e*4);
+      }else{
+        // los árboles (y lo demás) se sacuden
+        const a=Math.sin(e*16)*.13*Math.exp(-e*2.6);
+        t.rotation.z=a;
+        t.rotation.x=a*.4;
+      }
+    }
+  });
+}
 // tras pickAt: lo que vuela (mariposas, gaviotas) va por delante de las casitas, así que se mira primero
 // flyTap(w,x,y): w.fly (se calcula una sola vez) = los objetos de esos tipos; si el rayo del toque (RC) da en alguno, llama a wobTap.
 // Devuelve true si se tocó algo. Un objeto nuevo que esté por delante de las casitas o se mueva hay que añadirlo a esta lista
-export function flyTap(w: Mundo,x: number,y: number){if(!w.fly)w.fly=(w.trees||[]).filter(t=>t.userData.bfly||t.userData.gull||t.userData.crab||t.userData.lady||t.userData.bird||t.userData.xtree||t.userData.pump||t.userData.kite||t.userData.hab||t.userData.sled||t.userData.wpk||t.userData.ball||t.userData.goat||t.userData.palm||t.userData.bub||t.userData.nest||t.userData.marm||t.userData.scare||t.userData.umb||t.userData.sunb||t.userData.sandc||t.userData.snowman);return !!(w.fly.length&&RC.intersectObjects(w.fly,true).length)&&wobTap(w,x,y)}
+export function flyTap(w: Mundo,x: number,y: number){
+  if(!w.fly)w.fly=(w.trees||[]).filter(t=>
+    t.userData.bfly||t.userData.gull||t.userData.crab||t.userData.lady||t.userData.bird||t.userData.xtree||
+    t.userData.pump||t.userData.kite||t.userData.hab||t.userData.sled||t.userData.wpk||t.userData.ball||
+    t.userData.goat||t.userData.palm||t.userData.bub||t.userData.nest||t.userData.marm||t.userData.scare||
+    t.userData.umb||t.userData.sunb||t.userData.sandc||t.userData.snowman);
+  return !!(w.fly.length&&RC.intersectObjects(w.fly,true).length)&&wobTap(w,x,y);
+}
 // tras pickAt (que deja RC apuntando al toque): ¿se tocó un árbol?
 // wobTap(w,x,y): x,y = punto tocado en la pantalla 2D. Busca el primer objeto de w.trees que corta el rayo y sube por sus padres hasta
 // el que tiene marca (WOBK). Si no hay ninguno devuelve false. Si lo hay: lo anima (u.wob=T; ignora toques repetidos en 0,3 s), Tito lo
