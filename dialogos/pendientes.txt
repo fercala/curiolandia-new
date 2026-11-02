@@ -245,3 +245,7 @@ El pato y la luna
 La vaca que quería volar
 Fiesta del abecedario
 La canción del abecedario
+Mi libro de letras
+Este es tu libro de letras. Ya conoces ... letras.
+Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!
+Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!

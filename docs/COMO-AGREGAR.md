@@ -303,3 +303,7 @@ La isla se está haciendo por fases ([PLAN-LECTURA.md](PLAN-LECTURA.md)); desde 
 4. `nombre` es una frase nueva: apúntala en `dialogos/pendientes.txt` y rehaz el catálogo con `npm run dialogos`.
 5. `npm run test:unidad` (`tests/unidad/letras.test.ts`) comprueba que no se repita, que existan los dibujos, que las
    palabras empiecen por la letra y que los trazos quepan en la caja.
+6. Desde la fase L7, cada letra sale en «Mi libro de letras» (`escenas/libroLetras.ts`) y en la sección «Letras» de la
+   zona de adultos, con el progreso de su casita (`casitaDeLetra`: `L3-`, `L4-` o `L5-` según su zona, y la letra).
+   El libro tiene sitio para 20 letras (5 x 4, `LIBRO`): con más, hay que hacerle otra página.
+   `contenido.test.ts` comprueba que cada letra tenga su casita.

@@ -807,7 +807,7 @@ f1e0a16ca9e7,¡Que los cumplas feliz! Tito te regala diez monedas.,frase,src/esc
 2c23d1f14a54,"¡Es fin de semana, no hay escuela!",frase,src/escenas/escenas2d.ts
 f6d69a9c5ea7,Es día de escuela.,frase,src/escenas/escenas2d.ts
 12dc139623b5, Mañana será ,trozo,src/escenas/escenas2d.ts
-f4b7f5c009fb, de ,trozo,src/escenas/escenas2d.ts src/juegos/comps.ts src/temas/letras.ts
+f4b7f5c009fb, de ,trozo,src/escenas/escenas2d.ts src/escenas/libroLetras.ts src/juegos/comps.ts
 a954a34f8c79,. Busca el ,trozo,src/escenas/escenas2d.ts
 878ee639f14d, Lo anotamos en el calendario del tiempo.,frase,src/escenas/escenas2d.ts
 f3c4a7693673,¡Sí! Ahora es de día.,frase,src/escenas/escenas2d.ts
@@ -862,6 +862,12 @@ b2b4b96d3c6d,"Lupi, la lechuza.",frase,src/escenas/isla.ts
 d03edbf54161,Lupi está preparando ,trozo,src/escenas/isla.ts
 4c61c25d7f14,. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/isla.ts
 09fa232bd366, todavía no se ha abierto.,trozo,src/escenas/isla.ts
+8d06689637ee,Este es tu libro de letras. Ya conoces ,trozo,src/escenas/libroLetras.ts
+7e9cde7f9cb1,letra,trozo,src/escenas/libroLetras.ts
+7074afe3c5e3,letras,trozo,src/escenas/libroLetras.ts
+a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
+e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
+b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 059c77083744,¡Terminaste el repaso de hoy,trozo,src/escenas/repaso.ts
 2778aa48c205,! Tito te regala cinco monedas.,trozo,src/escenas/repaso.ts
 25738850ad8d,¡Muy bien! Ahora el número ,trozo,src/escenas/repaso.ts
