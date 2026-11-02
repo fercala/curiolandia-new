@@ -310,16 +310,100 @@ export function sunRays(w: Mundo,x: number,y: number,z: number,c: string,e: stri
 // nubecitas que cruzan el cielo de las zonas de día; se pueden tocar
 // águila que vuela en círculos delante de la montaña, de día; se puede tocar
 // mountEagle(w): águila que vuela en círculos delante de la montaña (de día). Marca userData.eagle.
-export function mountEagle(w: Mundo){const g=new THREE.Group();g.scale.setScalar(1.7);g.userData.eagle=1;hitS(g,1,0);w.sc.add(g);const W: [THREE.Group, number][]=[];mk(Sph(.22,10,8),'#7A5232',{s:[1,1.3,.8],ol:.03,cs:false,rs:false,to:g});mk(Sph(.14,10,8),'#FFFFFF',{p:[0,.3,.05],ol:.02,cs:false,rs:false,to:g});mk(Cone(.06,.14,6),'#FFC23A',{p:[0,.27,.2],r:[PI/2,0,0],ol:0,cs:false,rs:false,to:g});
-  for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.15;g.add(a);mk(Box(.95,.26,.06),'#6A4428',{p:[sd*.47,.04,0],r:[0,0,sd*.12],ol:.02,cs:false,rs:false,to:a});W.push([a,sd])}g.traverse((o: Nodo)=>{if(o.isMesh&&o.material!==fhit())o.raycast=()=>{}});
-  w.upd.push(()=>{const t=T*.35;g.position.set(Math.cos(t)*7,1.7+Math.sin(t*2)*.4,-12);g.rotation.z=-Math.sin(t)*.3;W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*3)*.3)})}
+export function mountEagle(w: Mundo){
+  const g=new THREE.Group();
+  g.scale.setScalar(1.7);
+  g.userData.eagle=1;
+  hitS(g,1,0);
+  w.sc.add(g);
+  // W: las dos alas, cada una con su lado (-1 izquierda, 1 derecha), para batirlas
+  const W: [THREE.Group, number][]=[];
+  // el cuerpo, la cabeza blanca y el pico
+  mk(Sph(.22,10,8),'#7A5232',{s:[1,1.3,.8],ol:.03,cs:false,rs:false,to:g});
+  mk(Sph(.14,10,8),'#FFFFFF',{p:[0,.3,.05],ol:.02,cs:false,rs:false,to:g});
+  mk(Cone(.06,.14,6),'#FFC23A',{p:[0,.27,.2],r:[PI/2,0,0],ol:0,cs:false,rs:false,to:g});
+  for(const sd of[-1,1]){
+    const a=new THREE.Group();
+    a.position.x=sd*.15;
+    g.add(a);
+    mk(Box(.95,.26,.06),'#6A4428',{p:[sd*.47,.04,0],r:[0,0,sd*.12],ol:.02,cs:false,rs:false,to:a});
+    W.push([a,sd]);
+  }
+  // las piezas no se tocan: solo la esfera invisible de hitS
+  g.traverse((o: Nodo)=>{
+    if(o.isMesh&&o.material!==fhit())o.raycast=()=>{};
+  });
+  w.upd.push(()=>{
+    // vuela en círculos, sube y baja un poco, se inclina en las curvas y bate las alas
+    const t=T*.35;
+    g.position.set(Math.cos(t)*7,1.7+Math.sin(t*2)*.4,-12);
+    g.rotation.z=-Math.sin(t)*.3;
+    W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*3)*.3);
+  });
+}
 // en Navidad, de noche, el trineo de Papá Noel cruza el cielo de vez en cuando; se puede tocar
 // xmasSleigh(w): trineo de Papá Noel con dos renos (el primero con la nariz roja que brilla) que cruza el cielo cada
 // 26 s haciendo sonar cascabeles. Marca userData.sleigh. Las piezas no se tocan: solo la esfera invisible de hitS.
-export function xmasSleigh(w: Mundo){const g=new THREE.Group();g.userData.sleigh=1;hitS(g,1.6,.3).scale.x*=2.2;w.sc.add(g);const o={ol:.03,cs:false,rs:false,to:g};
-  mk(Box(1,.4,.55),'#D9342B',{...o,p:[0,.2,0]});mk(Box(1.3,.06,.08),'#F2C14E',{...o,p:[.05,-.05,.22]});mk(Box(1.3,.06,.08),'#F2C14E',{...o,p:[.05,-.05,-.22]});mk(Sph(.24,12,10),'#D9342B',{...o,p:[-.15,.6,0]});mk(Sph(.14,10,8),'#F6D3B8',{...o,p:[-.15,.88,-.04]});mk(Cone(.15,.3,10),'#D9342B',{...o,p:[-.15,1.08,0]});mk(Sph(.12,10,8),'#FFFFFF',{...o,p:[-.15,.8,-.12],s:[1.2,.8,.6]});
-  for(let i=0;i<2;i++){const x=-1.1-i*.9;mk(Sph(.22,10,8),'#9A6A42',{...o,p:[x,.35,0],s:[1.4,.9,.9]});mk(Sph(.13,10,8),'#9A6A42',{...o,p:[x-.32,.6,0]});mk(Sph(i?.07:.05,6,5),i?new THREE.MeshBasicMaterial({color:'#FF3B2E'}):'#5A3A1E',{...o,p:[x-.45,.6,0]});if(i){const gl=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array([x-.47,.6,0]),3)),new THREE.PointsMaterial({color:'#FF5A4A',size:1.1,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));gl.raycast=()=>{};g.add(gl);w.upd.push(()=>{gl.material.opacity=.55+.45*Math.sin(T*5)})}/* la nariz del primer reno brilla */for(const sd of[-1,1])mk(Cyl(.02,.02,.25,4),'#5A3A1E',{...o,p:[x-.3,.8,sd*.06],r:[sd*.4,0,.3]})}
-  g.traverse((m: Nodo)=>{if(m.isMesh&&m.material!==fhit())m.raycast=()=>{}});let jg=-1;w.upd.push(()=>{const c=T%26,q=c/10,n=Math.floor(T/26);if(q>.3&&jg!==n){jg=n;for(let i=0;i<6;i++){tone(2093+(i%3)*300,.07,'triangle',.02,1,i*.12);noise(.03,.025,6000,i*.12)}}/* al pasar, se oyen bajito los cascabeles */g.visible=q<1;if(!g.visible)return;g.position.set(-30+q*60,-.3+Math.sin(T*3)*.15,-19.5);g.rotation.y=PI;g.scale.setScalar(1.25)})}
+export function xmasSleigh(w: Mundo){
+  const g=new THREE.Group();
+  g.userData.sleigh=1;
+  hitS(g,1.6,.3).scale.x*=2.2;
+  w.sc.add(g);
+  const o={ol:.03,cs:false,rs:false,to:g};
+  // el trineo con sus dos patines
+  mk(Box(1,.4,.55),'#D9342B',{...o,p:[0,.2,0]});
+  mk(Box(1.3,.06,.08),'#F2C14E',{...o,p:[.05,-.05,.22]});
+  mk(Box(1.3,.06,.08),'#F2C14E',{...o,p:[.05,-.05,-.22]});
+  // Papá Noel: cuerpo, cara, gorro y barba
+  mk(Sph(.24,12,10),'#D9342B',{...o,p:[-.15,.6,0]});
+  mk(Sph(.14,10,8),'#F6D3B8',{...o,p:[-.15,.88,-.04]});
+  mk(Cone(.15,.3,10),'#D9342B',{...o,p:[-.15,1.08,0]});
+  mk(Sph(.12,10,8),'#FFFFFF',{...o,p:[-.15,.8,-.12],s:[1.2,.8,.6]});
+  // los dos renos, delante del trineo: cuerpo, cabeza, nariz (roja en el primero) y cuernos
+  for(let i=0;i<2;i++){
+    const x=-1.1-i*.9;
+    mk(Sph(.22,10,8),'#9A6A42',{...o,p:[x,.35,0],s:[1.4,.9,.9]});
+    mk(Sph(.13,10,8),'#9A6A42',{...o,p:[x-.32,.6,0]});
+    mk(Sph(i?.07:.05,6,5),i?new THREE.MeshBasicMaterial({color:'#FF3B2E'}):'#5A3A1E',{...o,p:[x-.45,.6,0]});
+    // la nariz del primer reno brilla
+    if(i){
+      const gl=new THREE.Points(
+        new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array([x-.47,.6,0]),3)),
+        new THREE.PointsMaterial({
+          color:'#FF5A4A',size:1.1,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false
+        })
+      );
+      gl.raycast=()=>{};
+      g.add(gl);
+      w.upd.push(()=>{
+        gl.material.opacity=.55+.45*Math.sin(T*5);
+      });
+    }
+    for(const sd of[-1,1])mk(Cyl(.02,.02,.25,4),'#5A3A1E',{...o,p:[x-.3,.8,sd*.06],r:[sd*.4,0,.3]});
+  }
+  g.traverse((m: Nodo)=>{
+    if(m.isMesh&&m.material!==fhit())m.raycast=()=>{};
+  });
+  // jg: la última vuelta (n) en la que sonaron los cascabeles, para que suenen una sola vez por pasada
+  let jg=-1;
+  w.upd.push(()=>{
+    // q: lo que lleva recorrido de la pasada (0 a 1 en 10 s; cada 26 s empieza otra)
+    const c=T%26,q=c/10,n=Math.floor(T/26);
+    // al pasar, se oyen bajito los cascabeles
+    if(q>.3&&jg!==n){
+      jg=n;
+      for(let i=0;i<6;i++){
+        tone(2093+(i%3)*300,.07,'triangle',.02,1,i*.12);
+        noise(.03,.025,6000,i*.12);
+      }
+    }
+    g.visible=q<1;
+    if(!g.visible)return;
+    g.position.set(-30+q*60,-.3+Math.sin(T*3)*.15,-19.5);
+    g.rotation.y=PI;
+    g.scale.setScalar(1.25);
+  });
+}
 // pajaritos que cruzan el cielo de las zonas de día, de vez en cuando, aleteando
 // skyBirds(w): tres pajaritos que cruzan el cielo juntos cada 22 s aleteando (de día). Marca userData.skyb.
 export function skyBirds(w: Mundo){const B: [THREE.Group, [THREE.Group, number][], number][]=[];for(let i=0;i<3;i++){const g=new THREE.Group();g.userData.skyb=1;hitS(g,.9,0);w.sc.add(g);const W: [THREE.Group, number][]=[];for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.04;g.add(a);const m=mk(Box(.6,.08,.08),'#4A4A5A',{p:[sd*.29,0,0],ol:0,cs:false,rs:false});m.raycast=()=>{};a.add(m);W.push([a,sd])}B.push([g,W,i])}
