@@ -576,7 +576,8 @@ export function playTune(t: Cosa,bpm=150,v=.28){if(!AC)return;let d=0;const b=60
 // salta. Fase 'play' (si part2 no es false): hay que tocar las tarjetas en el
 // orden de la canción (mode 'orden') o la que pide Tito (mode 'pedido').
 // cfg.lines: [{say: verso, k o draw: dibujo, n: nombre que pide, n2: lo que se
-// dice al acertar}]; tune (nombre en TUNES), intro, ask2, okAll, cols, s, key, bg.
+// dice al acertar, en: el verso y n2 van en inglés (desde la fase I4 de docs/PLAN-INGLES.md, las canciones de la
+// Isla del Inglés)}]; tune (nombre en TUNES), intro, ask2, okAll, cols, s, key, bg.
 // Lo crea temas/extras.ts para {t:'cancion'} con los datos de SONGS.
 export function Song(cfg: Config, onDone: AlTerminar): Juego{
   const L=cfg.lines,n=L.length,cols=cfg.cols||Math.min(n,7),rows=Math.ceil(n/cols),s=Math.min(cfg.s||190,1200/cols-24,560/rows-30);
@@ -588,7 +589,7 @@ export function Song(cfg: Config, onDone: AlTerminar): Juego{
     // Canta la línea siguiente (nota + verso). Al acabar las líneas: melodía
     // final y, si hay segunda parte, pasa a 'play'; si no, onDone.
     next(){this.li++;if(this.li>=n){this.ph='fin1';playTune(TUNES.fin);later(700,()=>{if(!part2){this.done=1;scene!.starPop=T;onDone();return}this.ph='play';this.order=cfg.mode==='pedido'?shuffle(L):L.slice();this.k=0;say(cfg.ask2||'¡Ahora te toca a ti! Toca cada uno en orden, como en la canción.',()=>this.askNext())});return}
-      const l=L[this.li];l.jump=T;const tune=TUNES[cfg.tune]||TUNES.dias;tone(NOTE(tune[this.li%tune.length][0]+12),.3,'triangle',.18);say(l.say,()=>later(120,()=>this.next()),{rate:1})},
+      const l=L[this.li];l.jump=T;const tune=TUNES[cfg.tune]||TUNES.dias;tone(NOTE(tune[this.li%tune.length][0]+12),.3,'triangle',.18);say(l.say,()=>later(120,()=>this.next()),l.en?{en:1,rate:.85}:{rate:1})},
     // Pide la siguiente tarjeta (en 'pedido') o pregunta cuál va primero.
     askNext(){const l=this.order[this.k];if(cfg.mode==='pedido')say('Toca '+l.n+'.');else if(this.k===0)say('¿Cuál va primero?')},
     // Repite qué tarjeta tocar (solo en la fase de jugar).
@@ -609,7 +610,7 @@ export function Song(cfg: Config, onDone: AlTerminar): Juego{
       if(this.ph!=='play'){l.jump=T;SFX.pop();return}
       if(this.busy||l.okT)return;const want=this.order[this.k];
       if(l===want){l.okT=T;l.jump=T;SFX.count(this.k+1);rec(cfg.key||'cancion',true);onRight(true);this.done++;scene!.starPop=T;this.k++;this.busy=true;
-        say(l.n2||l.n,()=>{this.busy=false;if(this.k>=n){SFX.tada();burst(900,450,70);say(cfg.okAll||'¡Qué bien cantamos!',()=>later(400,onDone))}else if(cfg.mode==='pedido')this.askNext()})}
+        say(l.n2||l.n,()=>{this.busy=false;if(this.k>=n){SFX.tada();burst(900,450,70);say(cfg.okAll||'¡Qué bien cantamos!',()=>later(400,onDone))}else if(cfg.mode==='pedido')this.askNext()},l.en&&l.n2?{en:1,rate:.85}:{})}
       else{SFX.bad();l.jump=T;rec(cfg.key||'cancion',false);say(cap(l.n)+'. '+(cfg.mode==='pedido'?'Busca '+want.n+'.':'Ese va después. ¿Cuál sigue?'))}}
   };
 }

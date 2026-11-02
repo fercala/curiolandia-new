@@ -493,3 +493,104 @@ Corazón
 Rectángulo
 Óvalo
 Rombo
+Hat
+Scarf
+Boots
+el Parque de Londres
+¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una.
+el gorro
+la bufanda
+¿Quién dice
+@The
+ says
+. Dice
+Glasses
+las gafas
+las botas
+¡Vamos a vestir a Polly! Escucha qué se quiere poner y tócalo.
+@Put on the
+¡Qué guapa está Polly!
+. Polly quiere
+¡Vamos a cantar en inglés con Polly! Escucha.
+¡Ahora jugamos! Toca lo que te digo.
+¡Ahora te toca a ti! Toca los dibujos en el orden de la canción.
+¡Bravo! ¡Qué bien cantas en inglés!
+Viste a Polly
+Sonidos de la granja
+Canta los saludos
+Canta los colores
+Canta los números
+Repaso de la playa
+preguntar en inglés por lo que ya sabe: what colour is it?
+La ropa en inglés
+al vestirse, nombrar la ropa en inglés: put on your coat!
+La comida en inglés
+en la mesa, pedir las cosas en inglés: milk, please.
+Mi casa en inglés
+buscar por casa la bed, la table o el sofa.
+El tiempo en inglés
+mirar por la ventana y decir qué tiempo hace: sunny, rainy...
+Los transportes en inglés
+por la calle, nombrar los coches, autobuses y bicis en inglés.
+La granja en inglés
+imitar a los animales en inglés: the cow says moo.
+Lo que hacemos
+jugar a hacer lo que se dice en inglés: run, jump, sleep.
+Grande y pequeño
+buscar cosas big y small en casa.
+Cómo me siento
+preguntar cada día en inglés: are you happy?
+Canciones del parque
+cantar juntos en inglés los colores y los números.
+Fiesta del parque
+repasar con la familia las palabras en inglés del parque.
+Run
+Jump
+Sleep
+Eat
+Swim
+Fly
+Sing
+Dance
+Correr
+Saltar
+Dormir
+Comer
+Nadar
+Volar
+Cantar
+Bailar
+Big
+Small
+Hot
+Cold
+Fast
+Slow
+Up
+Down
+Grande
+Pequeño
+Caliente
+Frío
+Rápido
+Lento
+Arriba
+Abajo
+Happy
+Sad
+Angry
+Scared
+Surprised
+Calm
+Shy
+Contento
+Triste
+Enfadado
+Asustado
+Sorprendido
+Tranquilo
+Vergonzoso
+Hello, hello!
+Good morning, good morning!
+Thank you, thank you!
+Good night, good night!
