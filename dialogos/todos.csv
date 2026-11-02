@@ -849,9 +849,9 @@ fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/juegos/le
 af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
-7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
+7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts
 82a8c9409b57,¡Muy pronto!,frase,src/escenas/isla.ts
-8510453fad10, años,trozo,src/escenas/isla.ts
+8510453fad10, años,trozo,src/escenas/isla.ts src/mundo3d/isla3d.ts
 f9ec665e0ef6,¡Llegamos a la Isla de las Letras,trozo,src/escenas/isla.ts
 1b8f255649ec,"! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",trozo,src/escenas/isla.ts
 6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,frase,src/escenas/isla.ts
@@ -1414,6 +1414,8 @@ b08b80509591,@White,inglés,src/mundo3d/interaccion.ts
 a39f206ba401,@Blue,inglés,src/mundo3d/interaccion.ts
 a3ab49ee4618,@Hello,inglés,src/mundo3d/interaccion.ts
 eb61eead90e3,HELLO,trozo,src/mundo3d/interaccion.ts
+c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
+0346395fbbe7,MPL,trozo,src/mundo3d/isla3d.ts
 0cc175b9c0f1,a,trozo,src/mundo3d/mapa3d.ts
 6aaa0c8b5072,"attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}",trozo,src/mundo3d/materiales.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts
