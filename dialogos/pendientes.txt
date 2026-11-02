@@ -251,3 +251,4 @@ Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!
 Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!
 Y esta es ... minúscula.
 Ahora, ... minúscula. Empieza en el punto verde.
+Isla de las Letras
