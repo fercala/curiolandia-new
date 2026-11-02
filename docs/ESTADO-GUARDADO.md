@@ -56,6 +56,9 @@
 | `seenOpen` | `{clave: [ids]}` | Qué estaba abierto la última vez, para animar lo que se abre nuevo. |
 | `houseSeen`, `petSeen` | números | Último nivel de la casa / etapa de Pipo celebrados. |
 | `cofres` | número | Cofres abiertos. |
+| `mascotas` | `{idMascota: {nombre, dias, dia, hechos}}` | (Fase C1, partida versión 4) Ficha de cada mascota que crece (`MASCOTAS` en dominio/casa.ts): nombre elegido (`''` si aún no), días cuidados en total (bebé, joven con 3, mayor con 8), el día de los cuidados de hoy y qué cuidados se hicieron ese día. Sin ficha cuenta como joven (`fichaDe`). |
+| `sorpresas` | `{idSorpresa: 1}` | (Fase C1) Lo descubierto en la casa para el álbum: el id del objeto (su reacción) o `'a+b'` (una combinación de `COMBINACIONES`). |
+| `huerto` | `{dias, dia}` | (Fase C1) La flor del huerto: días regados en total y el último día que se regó (cuenta uno al día). |
 | `cofreP` | objeto `{idTema: 1}` o ausente | Cofres con el premio aún sin entregar (v1.592): se apunta al entrar en el cofre y se quita al dar el premio. Si la página se cerró antes, `cofrePend()` (escenas/zonas.ts, llamada desde aplicacion/arranque.ts) lo entrega al arrancar. |
 
 ### En `escenas/repaso.ts`
@@ -94,7 +97,7 @@
    3. Cambia `DEF` (o `DEF2`) y el tipo `Estado` al formato nuevo: después de migrar, `sanoS` y `sanoHondo` arreglan lo que siga roto.
    4. Pruébalo en `tests/unidad/partida.test.ts` con una partida de la versión anterior (y con una rota). La prueba de que no falta ningún paso ya está.
    5. Un paso ya publicado no se cambia nunca: hay móviles que ya lo han aplicado. Si estaba mal, se arregla con otro paso.
-   6. Pasos que hay: 0 → 1 (solo apunta la versión) y 1 → 2 (fase 5d: `variant` pasa a `'es'`) y 2 → 3 (fase L7b: `tipoLetra` pasa a `'mayus'` si no era `'ambas'`).
+   6. Pasos que hay: 0 → 1 (solo apunta la versión) y 1 → 2 (fase 5d: `variant` pasa a `'es'`) 2 → 3 (fase L7b: `tipoLetra` pasa a `'mayus'` si no era `'ambas'`) y 3 → 4 (fase C1 de PLAN-CASA.md: añade `mascotas`, con ficha de joven para las mascotas ya compradas, `sorpresas` y `huerto`).
    7. Ojo: curiolandia-3d no entiende las migraciones. Una copia de seguridad de este juego con un formato nuevo no sirve en el juego viejo.
 
 ## 4. Cómo probar con una partida concreta

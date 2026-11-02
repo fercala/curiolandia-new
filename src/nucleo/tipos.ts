@@ -103,6 +103,12 @@ export interface Estado {
   petSeen?: number;
   cofres?: number;
   cofreP?: Record<string, number>;
+  /** Fichas de las mascotas que crecen (dominio/casa.ts, FichaMascota), por id de la tienda. Desde la fase C1. */
+  mascotas?: Record<string, { nombre: string; dias: number; dia: FechaDia | ''; hechos: string[] }>;
+  /** Sorpresas descubiertas en la casa de Tito: {idObjeto o 'a+b': 1}. Desde la fase C1. */
+  sorpresas?: Record<string, number>;
+  /** La flor del huerto: días regados y el último día que se regó. Desde la fase C1. */
+  huerto?: { dias: number; dia: FechaDia | '' };
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;
