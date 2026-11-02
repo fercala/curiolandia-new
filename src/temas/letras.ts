@@ -12,7 +12,8 @@
  * Los ids de los temas ('L3-A'...) son definitivos (son la clave del progreso guardado), y los juegos se guardan por
  * posición: añade juegos al final y casitas al final de su zona, para no cambiar las casitas abiertas de los niños que
  * ya juegan.
- * Exporta: BG.letras, BG.letrasBosque y BG.letrasPueblo (al cargarse), cosaLetra, dibujaLetra, densificar, TL3, TL4 y
+ * Exporta: BG.letras, BG.letrasBosque y BG.letrasPueblo (al cargarse), cosaLetra, dibujaLetra, densificar, (desde la
+ * fase L7b, para las minúsculas) ambas, dibujaMinus y cosaMinus, TL3, TL4 y
  * TL5 (los temas de cada zona), PALABRAS_LEER (las palabras partidas en sílabas del pueblo, para las pruebas) y
  * TEMAS_LETRAS (todos los de la isla, para TEMAS en escenas/escenas2d.ts) y, desde la fase L7, casitaDeLetra (el id de la
  * casita de cada letra, para el libro de letras y la zona de adultos).
@@ -44,6 +45,14 @@ export function dibujaLetra(L: Letra, x: number, y: number, s: number): void {
   text(L.l, x, y + s * .36, s, L.c, { f: LF, st: Math.max(4, s * .06), sc: '#fff' });
 }
 
+// ambas(): ¿enseña la isla también las minúsculas? (S.tipoLetra 'ambas', que elige el adulto; desde la fase L7b).
+export const ambas = (): boolean => S.tipoLetra === 'ambas';
+
+// dibujaMinus(L, x, y, s): pinta la minúscula de la letra L como dibujaLetra la mayúscula (fase L7b).
+export function dibujaMinus(L: Letra, x: number, y: number, s: number): void {
+  text(L.l.toLowerCase(), x, y + s * .3, s, L.c, { f: LF, st: Math.max(4, s * .06), sc: '#fff' });
+}
+
 // COSAS: una «cosa» por letra, creada una sola vez (los componentes comparan las cosas por identidad: así la A de
 // las burbujas es la misma que la del objetivo).
 const COSAS = new Map<string, Libre>();
@@ -51,6 +60,13 @@ const COSAS = new Map<string, Libre>();
 export function cosaLetra(L: Letra): Libre {
   let c = COSAS.get(L.l);
   if (!c) { c = { l: L.l, name: L.nombre, draw: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s * .95) }; COSAS.set(L.l, c); }
+  return c;
+}
+// COSAS_MIN y cosaMinus(L): lo mismo para la minúscula de L (fase L7b): se llama igual que la mayúscula ('la a').
+const COSAS_MIN = new Map<string, Libre>();
+export function cosaMinus(L: Letra): Libre {
+  let c = COSAS_MIN.get(L.l);
+  if (!c) { c = { l: L.l, minus: true, name: L.nombre, draw: (x: number, y: number, s: number) => dibujaMinus(L, x, y, s * 1.05) }; COSAS_MIN.set(L.l, c); }
   return c;
 }
 
@@ -74,12 +90,22 @@ const sinArticulo = (k: string): string => W_(k).replace(/^(el|la|los|las) /, ''
 // CAJA: dónde va la letra grande al trazarla: esquina de arriba a la izquierda, ancho y alto (pantalla de 1600x900).
 const CAJA = { x: 690, y: 200, w: 420, h: 560 };
 
-// fondoTrazo(L): el fondo del juego de trazar la letra L: BG.letras y la letra entera muy suave, para ver la forma.
+// CAJAS2: con las minúsculas (fase L7b), dónde van la mayúscula y la minúscula, una al lado de la otra. La caja de la
+// minúscula es más alta (alto / 0,8) para que las dos se apoyen en la misma línea (MINUS_CAJA en contenido/letras.ts).
+const CAJAS2 = { mayus: { x: 380, y: 220, w: 330, h: 440 }, minus: { x: 900, y: 220, w: 330, h: 550 } };
+type Caja = { x: number; y: number; w: number; h: number };
+
+// enCaja(t, c): el trazo t (en su caja de 1 x 1) en la caja c de la pantalla.
+const enCaja = (t: Trazo, c: Caja) => letraEnPantalla(t, c.x, c.y, c.w, c.h);
+
+// fondoTrazo(L): el fondo del juego de trazar la letra L: BG.letras y la letra entera muy suave, para ver la forma. Con
+// las minúsculas (ambas()), la mayúscula y la minúscula, cada una en su caja de CAJAS2.
 const fondoTrazo = (L: Letra) => (): void => {
   BG['letras']!();
-  ctx.save(); ctx.globalAlpha = .18; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 90; ctx.strokeStyle = L.c;
-  for (const t of L.trazos) {
-    const p = letraEnPantalla(t, CAJA.x, CAJA.y, CAJA.w, CAJA.h);
+  ctx.save(); ctx.globalAlpha = .18; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = L.c;
+  const grupos: Array<[readonly Trazo[], Caja, number]> = ambas() ? [[L.trazos, CAJAS2.mayus, 70], [L.minus, CAJAS2.minus, 70]] : [[L.trazos, CAJA, 90]];
+  for (const [trazos, c, ancho] of grupos) for (const t of trazos) {
+    const p = enCaja(t, c); ctx.lineWidth = ancho;
     ctx.beginPath(); p.forEach(([x, y], j) => (j ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke();
   }
   ctx.restore();
@@ -105,21 +131,24 @@ const empiezaPor = (L: Letra, k: string): boolean => {
 // eñe), «lleva la eñe».
 const comoLleva = (L: Letra, k: string): string => (empiezaPor(L, k) ? `empieza por ${L.nombre}` : `lleva ${L.nombre}`);
 
-// conocerLetra(L, bg): el juego de conocer la letra: su tarjeta (se dice «Esta es la a. La a de abeja.») y las de su
-// amigo y sus palabras («La abeja. Abeja empieza por la a.»; desde la fase L5, «Piña lleva la eñe.» si no empieza por
-// ella).
+// conocerLetra(L, bg): el juego de conocer la letra: su tarjeta (se dice «Esta es la a. La a de abeja.»), con las
+// minúsculas (fase L7b) la de la minúscula («Y esta es la a minúscula.»), y las de su amigo y sus palabras («La abeja.
+// Abeja empieza por la a.»; desde la fase L5, «Piña lleva la eñe.» si no empieza por ella).
 function conocerLetra(L: Letra, bg: () => void, d: AlTerminar) {
   const tarjeta = { draw: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s * .9), label: L.l, say: `Esta es ${L.nombre}. ${cap(L.nombre)} de ${L.amigoDice}.` };
   const palabras = [L.amigo, ...L.palabras].map((k) => ({ k, say: `${cap(W_(k))}. ${cap(sinArticulo(k))} ${comoLleva(L, k)}.` }));
-  return Conocer({ items: [tarjeta, ...palabras], bg, intro: `¡Vamos a conocer ${L.nombre}! Toca cada tarjeta.` }, d);
+  // con las minúsculas (fase L7b), una tarjeta más, la de la minúscula, detrás de la de la mayúscula
+  const minus = { draw: (x: number, y: number, s: number) => dibujaMinus(L, x, y, s), label: L.l.toLowerCase(), say: `Y esta es ${L.nombre} minúscula.` };
+  return Conocer({ items: ambas() ? [tarjeta, minus, ...palabras] : [tarjeta, ...palabras], bg, intro: `¡Vamos a conocer ${L.nombre}! Toca cada tarjeta.` }, d);
 }
 
-// buscaLetra(L, bg): «¿Dónde está la a?» entre nOpts() letras (la buena y distractoras), nRounds() rondas.
+// buscaLetra(L, bg): «¿Dónde está la a?» entre nOpts() letras (la buena y distractoras), nRounds() rondas. Con las
+// minúsculas (ambas(), fase L7b), en cada ronda salen al azar todas en mayúscula o todas en minúscula.
 function buscaLetra(L: Letra, bg: () => void, d: AlTerminar) {
-  const buena = cosaLetra(L);
   return ChoiceGame({ rounds: nRounds(), bg, key: () => 'letras', y: 560, big: true,
     gen: () => {
-      const otras = shuffle(distractoras(L)).slice(0, Math.max(1, nOpts() - 1)).map(cosaLetra);
+      const forma = ambas() && pick([true, false]) ? cosaMinus : cosaLetra, buena = forma(L);
+      const otras = shuffle(distractoras(L)).slice(0, Math.max(1, nOpts() - 1)).map(forma);
       const ask = `¿Dónde está ${L.nombre}?`;
       return { words: [buena, ...otras], ok: [buena], ask,
         okSay: () => `${praise()} ${cap(L.nombre)} de ${L.amigoDice}.`,
@@ -128,22 +157,29 @@ function buscaLetra(L: Letra, bg: () => void, d: AlTerminar) {
 }
 
 // trazaLetra(L, d): trazar la letra L trazo a trazo con el dedo; su amigo avanza por el camino. Una estrella por trazo.
+// Con las minúsculas (ambas(), fase L7b), primero la mayúscula y después la minúscula, al lado.
 function trazaLetra(L: Letra, d: AlTerminar) {
-  const n = L.trazos.length;
-  const paths = L.trazos.map((t: Trazo, i: number) => ({
-    pts: densificar(letraEnPantalla(t, CAJA.x, CAJA.y, CAJA.w, CAJA.h)), who: L.amigo, ws: 110, c: L.c,
-    say: i === 0 ? `Vamos a escribir ${L.nombre}. Empieza en el punto verde y sigue el camino con el dedo.` : 'Ahora, el siguiente trazo. Empieza en el punto verde.',
+  const dos = ambas(), m = L.trazos.length;
+  const todos: Array<[Trazo, Caja]> = dos ? [...L.trazos.map((t): [Trazo, Caja] => [t, CAJAS2.mayus]), ...L.minus.map((t): [Trazo, Caja] => [t, CAJAS2.minus])] : L.trazos.map((t): [Trazo, Caja] => [t, CAJA]);
+  const n = todos.length;
+  const paths = todos.map(([t, c], i: number) => ({
+    pts: densificar(enCaja(t, c)), who: L.amigo, ws: dos ? 90 : 110, c: L.c,
+    say: i === 0 ? `Vamos a escribir ${L.nombre}. Empieza en el punto verde y sigue el camino con el dedo.`
+      : dos && i === m ? `Ahora, ${L.nombre} minúscula. Empieza en el punto verde.` : 'Ahora, el siguiente trazo. Empieza en el punto verde.',
     ok: i === n - 1 ? `¡Muy bien! ¡Ya sabes escribir ${L.nombre}!` : praise(),
   }));
   return Tracer({ paths, bg: fondoTrazo(L), ask: `Sigue el camino de ${L.nombre} con el dedo.` }, d);
 }
 
-// atrapaLetra(L, bg): burbujas con letras; hay que atrapar las de L.
+// atrapaLetra(L, bg): burbujas con letras; hay que atrapar las de L. Con las minúsculas (ambas(), fase L7b), también
+// salen las minúsculas, y valen la mayúscula y la minúscula de L.
 function atrapaLetra(L: Letra, bg: () => void, d: AlTerminar) {
-  const buena = cosaLetra(L);
-  const pool = [buena, ...distractoras(L).slice(0, 4).map(cosaLetra)];
+  const buena = cosaLetra(L), dos = ambas(), buenas = dos ? [buena, cosaMinus(L)] : [buena];
+  const otras = distractoras(L).slice(0, 4);
+  const pool = [...buenas, ...otras.map(cosaLetra), ...(dos ? otras.slice(0, 2).map(cosaMinus) : [])];
   return Atrapa({ bg, pool, key: 'letras', ring: (k: Libre) => LETRAS.find((x) => x.l === k.l)?.c ?? '#5B8DEF',
-    targets: [{ ask: `¡Atrapa las burbujas de ${L.nombre}!`, is: (k: Cosa) => k === buena, label: 'Atrapa', icon: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s) }] }, d);
+    targets: [{ ask: `¡Atrapa las burbujas de ${L.nombre}!`, is: (k: Cosa) => buenas.includes(k), label: 'Atrapa',
+      icon: (x: number, y: number, s: number) => { if (dos) { dibujaLetra(L, x - s * .32, y, s * .8); dibujaMinus(L, x + s * .32, y, s * .8); } else dibujaLetra(L, x, y, s); } }] }, d);
 }
 
 // uneLetras(hasta, bg): unir con una flecha cada letra aprendida hasta `hasta` (incluida) con su amigo.

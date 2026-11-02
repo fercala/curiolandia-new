@@ -24,6 +24,7 @@
 | `age` | `0` (sin elegir), `3`, `4` o `5` | Edad del niño. Usa `AGE()`, que devuelve 3 si aún es 0. |
 | `name` | texto (máx. 20) | Nombre del niño (`''` si no hay). |
 | `variant` | `'es'` | Variante del español. Desde la fase 5d el juego es solo en castellano de España: siempre `'es'`. Las partidas con `'ar'` (rioplatense) o vacía pasan a `'es'` al cargarlas (migración 1 → 2). Se conserva el campo para no cambiar la forma de la partida. |
+| `tipoLetra` | `'mayus'` o `'ambas'` | Cómo salen las letras en la Isla de las Letras (desde la fase L7b de `PLAN-LECTURA.md`): solo mayúsculas o también minúsculas. Lo elige el adulto en la zona de adultos («Letras de la isla»). Las partidas de antes pasan a `'mayus'` al cargarlas (migración 2 → 3), salvo si ya traen `'ambas'`. Se lee con `ambas()` (`temas/letras.ts`). |
 | `hemi` | `'N'` o `'S'` | Hemisferio, para las estaciones del año. |
 | `vol` | `{voz, mus, fx}` de 0 a 1 | Volúmenes. |
 | `limit` | minutos: `0`, `10`, `15`, `20` | Límite de tiempo de juego al día (0 = sin límite). |
@@ -36,7 +37,7 @@
 | `intro` | `true/false` | Si ya vio el cuento de bienvenida. |
 | `first` | `{askedName, fromLetri, jardin, bosque..., isla, wk}` | Cosas que solo pasan una vez (saludos largos, si ya se preguntó el nombre...). `isla` (desde la fase L2): ya se oyó la bienvenida a la Isla de las Letras. Las casitas de la isla guardan su progreso en `S.temas` con sus ids (`L3-A`...), como las demás. |
 | `seenFl` | número | Flores ya celebradas en el mapa. |
-| `ver` | número entero (hoy `2`) | Versión del formato de la partida (`VERSION_PARTIDA`, desde la fase 3f). Las partidas de antes, también las de curiolandia-3d, no la llevan: cuentan como versión 0 y `migrar()` las pone al día al cargarlas. Una partida de una versión más nueva se deja como está. |
+| `ver` | número entero (hoy `3`) | Versión del formato de la partida (`VERSION_PARTIDA`, desde la fase 3f). Las partidas de antes, también las de curiolandia-3d, no la llevan: cuentan como versión 0 y `migrar()` las pone al día al cargarlas. Una partida de una versión más nueva se deja como está. |
 
 ### En `DEF2` (escenas/tienda.ts)
 
@@ -93,7 +94,7 @@
    3. Cambia `DEF` (o `DEF2`) y el tipo `Estado` al formato nuevo: después de migrar, `sanoS` y `sanoHondo` arreglan lo que siga roto.
    4. Pruébalo en `tests/unidad/partida.test.ts` con una partida de la versión anterior (y con una rota). La prueba de que no falta ningún paso ya está.
    5. Un paso ya publicado no se cambia nunca: hay móviles que ya lo han aplicado. Si estaba mal, se arregla con otro paso.
-   6. Pasos que hay: 0 → 1 (solo apunta la versión) y 1 → 2 (fase 5d: `variant` pasa a `'es'`).
+   6. Pasos que hay: 0 → 1 (solo apunta la versión) y 1 → 2 (fase 5d: `variant` pasa a `'es'`) y 2 → 3 (fase L7b: `tipoLetra` pasa a `'mayus'` si no era `'ambas'`).
    7. Ojo: curiolandia-3d no entiende las migraciones. Una copia de seguridad de este juego con un formato nuevo no sirve en el juego viejo.
 
 ## 4. Cómo probar con una partida concreta

@@ -1,11 +1,12 @@
 // Pruebas de las letras de la Isla de las Letras (src/contenido/letras.ts, fase L1 de docs/PLAN-LECTURA.md): que estén
 // las 20 letras sin repetir y en sus zonas, que existan los dibujos de los amigos y las palabras, que cada palabra
-// empiece por su letra y que los trazos estén dentro de la caja de la letra. Un error aquí es una letra mal escrita: el
+// empiece por su letra y que los trazos estén dentro de la caja de la letra (desde la fase L7b, también los de la
+// minúscula). Un error aquí es una letra mal escrita: el
 // mensaje dice cuál.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (cuántas letras, límites de la
    caja): leerlos tal cual es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
-import { LETRAS, letra, letraEnPantalla, letrasDeZona } from '../../src/contenido/letras.ts';
+import { LETRAS, MINUS_CAJA, letra, letraEnPantalla, letrasDeZona } from '../../src/contenido/letras.ts';
 import { ZONAS_LETRAS } from '../../src/dominio/apertura.ts';
 import { PICS } from '../../src/dibujos/todos.ts';
 
@@ -45,6 +46,25 @@ describe('letras de la isla', () => {
         }
       }
     }
+  });
+
+  test('cada letra tiene los trazos de su minúscula, de al menos dos puntos y dentro de su caja (fase L7b)', () => {
+    for (const x of LETRAS) {
+      expect(x.minus.length, `minúscula de la ${x.l}`).toBeGreaterThan(0);
+      for (const t of x.minus) {
+        expect(t.length, `trazo de la ${x.l} minúscula`).toBeGreaterThanOrEqual(2);
+        for (const [px, py] of t) {
+          expect(px, `x de la ${x.l} minúscula`).toBeGreaterThanOrEqual(-0.01);
+          expect(px, `x de la ${x.l} minúscula`).toBeLessThanOrEqual(1.01);
+          expect(py, `y de la ${x.l} minúscula`).toBeGreaterThanOrEqual(-0.01);
+          expect(py, `y de la ${x.l} minúscula`).toBeLessThanOrEqual(1.01);
+        }
+      }
+    }
+    // la a pequeña empieza arriba (en lo alto de las letras pequeñas) y se apoya en la línea de abajo
+    const a = LETRAS[0]!.minus.flat();
+    expect(Math.min(...a.map((p) => p[1]))).toBeCloseTo(MINUS_CAJA.x, 1);
+    expect(Math.max(...a.map((p) => p[1]))).toBeCloseTo(MINUS_CAJA.base, 1);
   });
 
   test('letraEnPantalla lleva un trazo de la caja a la pantalla', () => {

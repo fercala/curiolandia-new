@@ -68,6 +68,8 @@ export interface Estado {
   age: number;
   name: string;
   variant: 'es';
+  /** Cómo salen las letras de la isla: solo mayúsculas ('mayus') o también minúsculas ('ambas'). Desde la fase L7b. */
+  tipoLetra: 'mayus' | 'ambas';
   hemi: 'N' | 'S';
   vol: Volumenes;
   limit: number;

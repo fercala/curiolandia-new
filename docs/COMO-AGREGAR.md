@@ -299,7 +299,8 @@ La isla se está haciendo por fases ([PLAN-LECTURA.md](PLAN-LECTURA.md)); desde 
 2. `amigo` y `palabras` son claves de `PICS` que empiezan por la letra; si falta un dibujo, receta 8, y su nombre en
    `LEX`. `amigoDice` es cómo se dice el amigo, sin artículo.
 3. `trazos`: cada trazo es una lista de puntos en una caja de 1 x 1 (x a la derecha, y hacia abajo), en el orden y la
-   dirección en que se escribe. Para las curvas, `arco(cx, cy, rx, ry, a0, a1)`. Míralos pintados antes de publicar.
+   dirección en que se escribe. Desde la fase L7b, también los de la minúscula, en `MINUS` (con su caja, `MINUS_CAJA`:
+   lo alto de las letras pequeñas en 0,4 y la línea en la que se apoyan en 0,8). Para las curvas, `arco(cx, cy, rx, ry, a0, a1)`. Míralos pintados antes de publicar.
 4. `nombre` es una frase nueva: apúntala en `dialogos/pendientes.txt` y rehaz el catálogo con `npm run dialogos`.
 5. `npm run test:unidad` (`tests/unidad/letras.test.ts`) comprueba que no se repita, que existan los dibujos, que las
    palabras empiecen por la letra y que los trazos quepan en la caja.

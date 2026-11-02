@@ -4,7 +4,8 @@
  * MIGRACIONES el paso que pasa una partida de la versión anterior a la nueva: así las partidas de los móviles se
  * ponen al día al cargarlas, sin perder nada (receta en docs/ESTADO-GUARDADO.md).
  * La versión 1 es el formato de curiolandia-3d v1.592, el de las partidas de antes de esta fase, que no llevan versión
- * (cuentan como versión 0) y solo necesitan apuntarla. La versión 2 (fase 5d) es la de solo castellano de España.
+ * (cuentan como versión 0) y solo necesitan apuntarla. La versión 2 (fase 5d) es la de solo castellano de España. La 3
+ * (fase L7b de docs/PLAN-LECTURA.md) trae tipoLetra, la opción de mayúsculas y minúsculas de la Isla de las Letras.
  * Es DOMINIO, como el resto de src/dominio/: no sabe nada de localStorage ni de S y no cambia lo que recibe: migrar
  * devuelve una partida nueva. nucleo/guardado.ts la usa al cargar la partida y cuando otra pestaña guarda, antes de
  * arreglar lo que venga roto (sanoS y sanoHondo). Pruebas: tests/unidad/partida.test.ts.
@@ -19,7 +20,7 @@ export type PartidaCruda = Record<string, unknown>;
 export type Migracion = (d: Readonly<PartidaCruda>) => PartidaCruda;
 
 // VERSION_PARTIDA: la versión del formato de la partida que entiende este juego (S.ver de una partida nueva).
-export const VERSION_PARTIDA = 2;
+export const VERSION_PARTIDA = 3;
 
 // MIGRACIONES: el paso que pasa una partida de cada versión (la clave) a la siguiente. Tiene que haber uno por cada
 // versión, de 0 a VERSION_PARTIDA - 1 (lo comprueba tests/unidad/partida.test.ts). Cada paso recibe la partida tal
@@ -31,6 +32,9 @@ export const MIGRACIONES: Readonly<Record<number, Migracion>> = {
   // 1 → 2 (fase 5d): el juego es solo en castellano de España. Una partida que eligió rioplatense ('ar'), o que no
   // eligió todavía (''), pasa a 'es'; lo demás no cambia.
   1: (d) => ({ ...d, variant: 'es' }),
+  // 2 → 3 (fase L7b): la Isla de las Letras puede enseñar también las minúsculas. Las partidas de antes siguen con solo
+  // mayúsculas (tipoLetra 'mayus'), salvo si ya traen 'ambas'.
+  2: (d) => ({ ...d, tipoLetra: d['tipoLetra'] === 'ambas' ? 'ambas' : 'mayus' }),
 };
 
 // esPartida(d): ¿parece una partida? Tiene que ser un objeto, no null ni una lista. Lo demás (un número, un texto, un

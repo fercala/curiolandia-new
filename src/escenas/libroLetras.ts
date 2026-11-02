@@ -6,7 +6,8 @@
  * Lo que lleva el niño de cada letra lo calculan las reglas de dominio/letras.ts (datosLetra, estadoLetra) con su
  * casita (casitaDeLetra de temas/letras.ts).
  * Exporta: LIBRO (dónde están las casillas y el botón para volver al álbum) y pone SCENES.libroLetras al cargarse.
- * Importa: el núcleo (dibujo, voz, toque, Tito), LETRAS de contenido/letras.ts, dibujaLetra y casitaDeLetra de
+ * Importa: el núcleo (dibujo, voz, toque, Tito), LETRAS de contenido/letras.ts, dibujaLetra, casitaDeLetra y (fase L7b)
+ * ambas de
  * temas/letras.ts, TEMA y tst de escenas/escenas2d.ts y las reglas de dominio/letras.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900, como en el resto de
@@ -14,7 +15,7 @@
 import { K } from '../dibujos/todos.ts';
 import { LETRAS, type Letra } from '../contenido/letras.ts';
 import { LF, S, SCENES, SFX, TITO, atHome, cap, card, circ, ctx, dist, drawHome, drawTito, go, hC, hv, later, pic, picG, say, sayQ, sky, sparkles, star, text } from '../nucleo/indice.ts';
-import { casitaDeLetra, dibujaLetra } from '../temas/letras.ts';
+import { ambas, casitaDeLetra, dibujaLetra } from '../temas/letras.ts';
 import { TEMA, tst } from './escenas2d.ts';
 import { datosLetra, estadoLetra, type DatosLetra } from '../dominio/letras.ts';
 
@@ -39,17 +40,19 @@ function drawBotonAlbum(x: number, y: number, s: number): void {
 }
 
 // drawCasilla(L, i): la casilla de la letra L: en color con su amigo y los puntos de los juegos hechos si ya la ha
-// empezado (con estrella si está aprendida); si no, la letra y su amigo en sombra.
+// empezado (con estrella si está aprendida); si no, la letra y su amigo en sombra. Con las minúsculas (ambas(), fase
+// L7b), la mayúscula y la minúscula.
 function drawCasilla(L: Letra, i: number): void {
   const [x, y] = pos(i), d = datos(L), e = estadoLetra(d), s = hv('l' + i, hC(x, y, 100));
   ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
   if (e === 'sinEmpezar') {
     card(-105, -62, 210, 124, '#F1E9DC', 4, 24, '#E4D3B8');
-    text(L.l, -50, -6 + 92 * .36, 92, '#D9CDB8', { f: LF });
+    text(ambas() ? L.l + L.l.toLowerCase() : L.l, -52, -6 + (ambas() ? 76 : 92) * .36, ambas() ? 76 : 92, '#D9CDB8', { f: LF, w: 100 });
     ctx.globalAlpha = .22; picG(L.amigo, 52, -6, 84); ctx.globalAlpha = 1;
   } else {
     card(-105, -62, 210, 124, '#fff', 5, 24);
-    dibujaLetra(L, -50, -6, 92); pic(L.amigo, 52, -8, 84);
+    if (ambas()) text(L.l + L.l.toLowerCase(), -52, -6 + 76 * .36, 76, L.c, { f: LF, st: 5, sc: '#fff', w: 100 }); else dibujaLetra(L, -50, -6, 92);
+    pic(L.amigo, 52, -8, 84);
     const w = 16, x0 = -((d.total - 1) * w) / 2;
     for (let j = 0; j < d.total; j++) circ(x0 + j * w, 46, 5, j < d.hechos ? L.c : '#E4D3B8', 0);
     if (e === 'aprendida') star(92, -52, 22, '#FFC93C', 3);
