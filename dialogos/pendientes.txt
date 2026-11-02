@@ -818,3 +818,25 @@ Lo inflo, lo inflo... ¡Pum!
 ¡Más alto, más alto!
 ¡Mi castillo ya tiene bandera!
 ¡Al agua, patos!
+¡Qué noche tan bonita! Toca las estrellas para encenderlas.
+De día casi no se ven, pero con mi telescopio mágico, ¡sí! Toca las estrellas para encenderlas.
+Toca las estrellas para encenderlas. ¿Ves alguna estrella fugaz? ¡Tócala!
+¡Has encontrado la Osa Mayor! ¿A que parece un carro?
+¡Has dibujado un caracol con estrellas!
+¡Una estrella fugaz! ¡Pide un deseo!
+¡Otra estrella fugaz! Ya van 2.
+¡Hola, Luna! La Luna brilla de noche.
+Marte es el planeta rojo.
+¡Saturno! Es el planeta de los anillos.
+¡Has encontrado todas las constelaciones! ¡Qué bien miras el cielo!
+¡Es la Tierra, nuestro planeta! Tócala para hacerla girar.
+Toca la Tierra para hacerla girar.
+¿Dónde está España? Toca su tarjeta.
+¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.
+¡El Polo Norte! Hace mucho frío. Aquí vive el oso polar.
+¡África! Aquí viven el león, la jirafa y el elefante.
+¡El mar! Casi toda la Tierra es agua. Aquí vive la ballena.
+¡El desierto! Hay mucha arena y muy poca agua. Aquí vive el camello.
+¡El Polo Sur! También hace mucho frío. Aquí viven los pingüinos.
+¡Muy bien! Esa es España, donde vivimos.
+El Polo Norte. ¡Busca el castillo y el sol!
