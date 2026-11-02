@@ -6,8 +6,9 @@
  * Las zonas de la isla que ya tienen casitas son zonas de ZONES (la Playa de los Sonidos y, desde las fases L4 y L5, el
  * Bosque de las Letras y el Pueblo de las Palabras) y se abren como las principales (zoneOpen). Una zona que todavía no
  * tuviera casitas saldría «en obras»: al tocarla, Tito diría que Lupi la está preparando.
- * Es una escena 2D (la isla en 3D es la fase L6).
- * Exporta: ISLA (los sitios de la isla) y pone SCENES.isla al cargarse.
+ * Es una escena 2D. Desde la fase L6, con WebGL, mundo3d/isla3d.ts la convierte en 3D (como el mapa): usa su lógica
+ * (enter, prompt, hint, dwell) y, para tocar, llama a su down con los puntos 2D de ISLA, LUPI y BARCO.
+ * Exporta: ISLA (los sitios de la isla), LUPI y BARCO, y pone SCENES.isla al cargarse.
  * Importa: el núcleo (dibujo, voz, toque, Tito), las reglas y ayudas de escenas/zonas.ts (ZONES, zoneOpen, nextLetra,
  * drawSeguir y SEGUIR).
  */
@@ -35,8 +36,8 @@ export const ISLA: readonly SitioIsla[] = [
   { id: 'puebloPalabras', x: 1240, y: 560, r: 150, name: 'el Pueblo de las Palabras', edad: 5 },
 ];
 // BARCO: el barco para volver al mapa grande (abajo a la derecha). LUPI: dónde está Lupi, en el centro de la isla.
-const BARCO = { x: 1440, y: 800, r: 90 };
-const LUPI = { x: 860, y: 640, s: 170 };
+export const BARCO = { x: 1440, y: 800, r: 90 };
+export const LUPI = { x: 860, y: 640, s: 170 };
 
 // hecha(id): ¿tiene ya casitas la zona id? (si no, sale «en obras»).
 const hecha = (id: string): boolean => !!ZONES[id];

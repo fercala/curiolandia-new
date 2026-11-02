@@ -61,7 +61,8 @@
  *   cielo.ts (skyNow, el cielo tocable y la voz del paisaje, say3), objetos.ts (los animales y cosas tocables de las
  *   zonas, cann3 explica su patrón común), personajes.ts (Tito, Pipo y la casa de Tito), interaccion.ts (caminar,
  *   tocar objetos con wobTap y el puente con la lógica 2D: titoRect, call0) y una por cada escena 3D: mapa3d.ts,
- *   zonas3d.ts, casita3d.ts, cofre3d.ts y portada3d.ts. Ninguno crea nada de Three.js al cargarse: cada escena se
+ *   zonas3d.ts, casita3d.ts, cofre3d.ts, portada3d.ts y, desde la fase L6 de docs/PLAN-LECTURA.md, isla3d.ts (la Isla
+ *   de las Letras). Ninguno crea nada de Three.js al cargarse: cada escena se
  *   convierte en 3D con su función montar* (montarMapa3D...) y este archivo las llama en orden.
  * Desde la fase 2o es un módulo: src/modulos.ts lo carga después de las escenas y, desde la fase 4p, antes de
  *   la aplicación: aplicacion/bucle.ts importa R3frame (antes iba después y R3frame era una global tardía). El puente deja
@@ -77,7 +78,8 @@
  *   funciones montar* de cada módulo.
  * Todo va dentro de una función que se llama sola: si montarMotor() dice que no hay Three.js o WebGL, se sale y el
  *   juego sigue en 2D; si no, crea R3frame, llama a montarInteraccion, montarMapa3D, montarZonas3D, montarCasita3D,
- *   montarCofre3D y montarPortada3D (en el mismo orden en que antes estaban aquí sus envolturas) y pone __w3.ok.
+ *   montarCofre3D y montarPortada3D (en el mismo orden en que antes estaban aquí sus envolturas), desde la fase L6
+ *   montarIsla3D, y pone __w3.ok.
  * ========================================================================== */
 import { R, W3, camTick, fpsTick, montarMotor } from './motor.ts';
 import { scene } from '../nucleo/indice.ts';
@@ -87,6 +89,7 @@ import { montarZonas3D } from './zonas3d.ts';
 import { montarCasita3D } from './casita3d.ts';
 import { montarCofre3D } from './cofre3d.ts';
 import { montarPortada3D } from './portada3d.ts';
+import { montarIsla3D } from './isla3d.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea al montar la capa 3D (si no hay WebGL se queda
 // en null).
@@ -99,7 +102,7 @@ if(!montarMotor())return;
 R3frame=function(dt){if(!W3||!scene||!scene.three)return;fpsTick();
   for(const f of W3.upd)try{f(dt)}catch(e){console.error(e)}camTick(W3,dt);R.render(W3.sc,W3.cam)};
 // cada escena 3D se monta en su módulo (y antes, el cambio de go() y window.__w3)
-montarInteraccion();montarMapa3D();montarZonas3D();montarCasita3D();montarCofre3D();montarPortada3D();
+montarInteraccion();montarMapa3D();montarZonas3D();montarCasita3D();montarCofre3D();montarPortada3D();montarIsla3D();
 // marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
 window.__w3.ok=true;
 })();

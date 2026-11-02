@@ -112,7 +112,10 @@ Cada fase es un PR pequeño que deja el juego publicable, con las pruebas en ver
    DUERME y tocar la escena). Leer es leer: Tito no dice la palabra escrita, pero la lee a trozos si se toca. Los
    cuentos para leer no amplían `Story`: son un `ChoiceGame` por página, con la palabra que lee el niño en amarillo. Los
    trazos de las minúsculas pasan a la fase L7, con la opción de mayúsculas y minúsculas, que es quien los necesita.
-6. **L6, la isla en 3D.** Decoración de la isla y de sus zonas.
+6. **L6, la isla en 3D (hecha en v0.2.64).** La escena de la isla, en 3D como el mapa (`mundo3d/isla3d.ts`): el mar, la
+   isla, las tres zonas (las cerradas en gris y con candado; la de la casita que toca, con un aro dorado), Lupi en su
+   tocón, el barco con la A y Tito, que camina hasta la zona antes de entrar. La lógica sigue siendo la de la escena 2D.
+   Las zonas ya tenían su decoración 3D desde las fases L2 a L5. Con WebGL por software, la isla va más rápida que el mapa.
 7. **L7, recompensas y adultos.** «Mi libro de letras» en el álbum, las letras en el repaso diario (`S.kg`), la opción
    de mayúsculas y minúsculas (un campo nuevo y opcional de `S`, con su migración) con los trazos de las minúsculas
    (desde la fase L5) y el progreso por letra.
