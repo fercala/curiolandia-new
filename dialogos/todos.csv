@@ -844,11 +844,11 @@ f57ad61913db, pegatina.,trozo,src/escenas/escenas2d.ts
 5b3629e4ec0b,Esta todavía no la tienes.,frase,src/escenas/escenas2d.ts
 f2a070932858,¡Qué bonito jugamos,trozo,src/escenas/escenas2d.ts
 06747db549ea,! Ahora Tito se va a descansar. ¡Hasta mañana!,trozo,src/escenas/escenas2d.ts
-fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
+fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/juegos/lectura.ts
 563528c57bb4,Es hora de descansar,trozo,src/escenas/escenas2d.ts
 af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
-ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts
+ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 82a8c9409b57,¡Muy pronto!,frase,src/escenas/isla.ts
 8510453fad10, años,trozo,src/escenas/isla.ts
@@ -977,6 +977,7 @@ cd31ebc2e43d,los días especiales,trozo,src/escenas/zonas.ts
 c4db7b5ab57e,"¡Bienvenido al Rincón del inglés! Aquí aprendemos palabras en inglés, como los niños de Inglaterra. Las casitas se abren de a una. ",frase,src/escenas/zonas.ts
 af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 819111bf6ccc,¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
+e0ea41a6c7ea,¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e43303c24ba4,el Rincón de los Conceptos,trozo,src/escenas/zonas.ts
 ca6ec05b56e2,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ,trozo,src/escenas/zonas.ts
 4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,frase,src/escenas/zonas.ts
@@ -1234,6 +1235,16 @@ acb3133388b6,! Toca un vagón para engancharlo.,trozo,src/juegos/lectura.ts
 6db26f694335, con ,trozo,src/juegos/lectura.ts
 3ae78738bcbb," ¡Chu, chu! El tren se va.",frase,src/juegos/lectura.ts
 c12dcbb5375e,Toca la huella que brilla.,frase,src/juegos/lectura.ts
+b034806c1201,Haz la sílaba ,trozo,src/juegos/lectura.ts
+e5c960a74085,. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,trozo,src/juegos/lectura.ts
+b52e12769797,¡Esta es la máquina de las sílabas! ,frase,src/juegos/lectura.ts
+4938a7cf8e90,Haz:,trozo,src/juegos/lectura.ts
+18ce5a5063f4,Ha salido ,trozo,src/juegos/lectura.ts
+991d426af75b,. Queremos ,trozo,src/juegos/lectura.ts
+acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.",frase,src/juegos/lectura.ts
+1819906d8c99,Lee la frase y toca el dibujo que dice.,frase,src/juegos/lectura.ts
+f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.",frase,src/juegos/lectura.ts
+ba20461b2d04,Te la leo:,trozo,src/juegos/lectura.ts
 3dfc0990cb02,Uno,trozo,src/mundo3d/cielo.ts
 a1a067cf6264,Dos,trozo,src/mundo3d/cielo.ts
 0a988f7b9abb,Tres,trozo,src/mundo3d/cielo.ts
@@ -1742,8 +1753,9 @@ ee5c35ce3d08,numbers,trozo,src/temas/ingles.ts
 645863de3566,Los animales en inglés,trozo,src/temas/ingles.ts
 a723e3dfb497,animals,trozo,src/temas/ingles.ts
 3e5165059ba5,mirar un libro de animales y nombrarlos en inglés.,trozo,src/temas/ingles.ts
+0351bae97d6a,empieza por ,trozo,src/temas/letras.ts
+292f724537e8,lleva ,trozo,src/temas/letras.ts
 1c701316e96d,Esta es ,trozo,src/temas/letras.ts
-ed98257fa8ae, empieza por ,trozo,src/temas/letras.ts
 ebb7fd71260d,¡Vamos a conocer ,trozo,src/temas/letras.ts
 9ff5786dd2b2,! Toca cada tarjeta.,trozo,src/temas/letras.ts
 006475045d1d,Vamos a escribir ,trozo,src/temas/letras.ts
@@ -1770,6 +1782,7 @@ f316ef34364e,La ,trozo,src/temas/letras.ts
 1b4bfc33dcf3,? Da palmas con cada una.,trozo,src/temas/letras.ts
 869812c0a1f4,. ¿Cuál tiene más?,trozo,src/temas/letras.ts
 607f6eddbae4,¿Qué empieza por ,trozo,src/temas/letras.ts
+ed98257fa8ae, empieza por ,trozo,src/temas/letras.ts
 7602858967a0,otra letra,trozo,src/temas/letras.ts
 6b230476526a,Une cada dibujo con la letra por la que empieza.,frase,src/temas/letras.ts
 95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,frase,src/temas/letras.ts
@@ -1833,6 +1846,72 @@ f7e31bebd5d7,L4-FIE,trozo,src/temas/letras.ts
 1d20e2f45ef8,Fiesta de las letras,trozo,src/temas/letras.ts
 058888f822a9,¡Es la fiesta de las letras del bosque!,frase,src/temas/letras.ts
 fc7614bee946,El tren de las sílabas,trozo,src/temas/letras.ts
+3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,frase,src/temas/letras.ts
+2654c5494fd6, Pone ,trozo,src/temas/letras.ts
+44778f07deab,". Si tocas la palabra, te la leo a trozos.",trozo,src/temas/letras.ts
+0713fabbacb4,Esto es ,trozo,src/temas/letras.ts
+57f2b4eafc26,. ¿Con qué trozo empieza?,trozo,src/temas/letras.ts
+b8ff87d2ab8d,. ¿Qué trozo falta?,trozo,src/temas/letras.ts
+ca85cc8c5b91,Con ,trozo,src/temas/letras.ts
+507afec646af, no pone ,trozo,src/temas/letras.ts
+dd5e7d6c7c0d,"Mmm, ese trozo no va ahí. Escucha: ",trozo,src/temas/letras.ts
+c3dcd43563e4,. Arrastra los trozos en orden para escribir ,trozo,src/temas/letras.ts
+f1ab68c326af,Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.,frase,src/temas/letras.ts
+ae6fba38151f,Aquí no pone ,trozo,src/temas/letras.ts
+5d817438981f,¡Atrapa los globos que dicen ,trozo,src/temas/letras.ts
+0c5879749bf0,Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.,frase,src/temas/letras.ts
+e7854240534b,El pato y la luna,trozo,src/temas/letras.ts
+6861d9a40b54,Había una vez un,trozo,src/temas/letras.ts
+e7d4db33e0e3,que vivía en un lago.,trozo,src/temas/letras.ts
+500985f90306,"Una noche, el pato miró al cielo y vio la",trozo,src/temas/letras.ts
+a586b4fd8e01,La luna estaba sola. El pato le llevó una,trozo,src/temas/letras.ts
+8368153a0248,para que jugaran.,trozo,src/temas/letras.ts
+405ea22d6199,"Y la luna, la nube y el pato jugaron con una",trozo,src/temas/letras.ts
+bae611da83b4,toda la noche.,trozo,src/temas/letras.ts
+9aa32bc4cd2c,La vaca que quería volar,trozo,src/temas/letras.ts
+9e803381aacb,En el pueblo vivía una,trozo,src/temas/letras.ts
+0930e3cfb91c,muy curiosa.,trozo,src/temas/letras.ts
+1e37387519c1,"Un día, la vaca vio una",trozo,src/temas/letras.ts
+ddac612b2daa,en el cielo.,trozo,src/temas/letras.ts
+1d0de93dd8ac,"Quería volar tan alto como ella, así que subió a un",trozo,src/temas/letras.ts
+f3039b4992a3,Y desde arriba saludó a la,trozo,src/temas/letras.ts
+d6ade1fe632d,". ¡Hola, luna!",trozo,src/temas/letras.ts
+cbffc42b1dc4,... ¿Qué pone en la palabra amarilla? Toca su dibujo.,trozo,src/temas/letras.ts
+e2a14c29745f,Vamos a leer un cuento: ,trozo,src/temas/letras.ts
+86a990a26e4c," Y colorín, colorado, este cuento se ha acabado.",frase,src/temas/letras.ts
+27fb55b9c18f,. Lee la palabra amarilla.,trozo,src/temas/letras.ts
+efc0787e836e,ABCDEFGHIJKLMNÑOPQRSTUVWXYZ,trozo,src/temas/letras.ts
+c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,frase,src/temas/letras.ts
+25d6c78aa672,L5,trozo,src/temas/letras.ts
+31b218bef63e,L5-FAB,trozo,src/temas/letras.ts
+8ecf7eff4024,Fábrica de sílabas,trozo,src/temas/letras.ts
+22ac18b7151a,¡Bienvenido a la fábrica de sílabas!,frase,src/temas/letras.ts
+de044df6b466,La máquina de sílabas,trozo,src/temas/letras.ts
+1043ab2e443c,Globos de sílabas,trozo,src/temas/letras.ts
+7bba0cd6b148,¿Con qué trozo empieza?,frase,src/temas/letras.ts
+96dc2b86ca16,L5-DOS,trozo,src/temas/letras.ts
+07ebc2f81dbc,Palabras de dos sílabas,trozo,src/temas/letras.ts
+710b05ca52b3,¡Vamos a leer palabras cortas!,frase,src/temas/letras.ts
+abd6a7ff6080,Leo y elijo,trozo,src/temas/letras.ts
+1424311ca10d,Armo la palabra,trozo,src/temas/letras.ts
+220029cba633,La sílaba que falta,trozo,src/temas/letras.ts
+762d5abcb86d,Une la palabra con su dibujo,trozo,src/temas/letras.ts
+51c97e2e77bd,L5-TRE,trozo,src/temas/letras.ts
+8631c2161a39,Palabras de tres sílabas,trozo,src/temas/letras.ts
+8ba623bf05c0,"¡Ahora, palabras más largas!",frase,src/temas/letras.ts
+d9ce629f70b7,L5-FRA,trozo,src/temas/letras.ts
+f3875ea37ae0,Frases que se mueven,trozo,src/temas/letras.ts
+f6e227a99acf,¡Vamos a leer frases!,frase,src/temas/letras.ts
+56af6a6d3826,¡Las frases se mueven!,frase,src/temas/letras.ts
+11d8ff405c53,Ordena la frase,trozo,src/temas/letras.ts
+3d4334518bc8,Más frases,trozo,src/temas/letras.ts
+d7b86a23b6e2,L5-CUE,trozo,src/temas/letras.ts
+6f21a9c01ee7,Cuentos para leer,trozo,src/temas/letras.ts
+51b429f28487,¡Vamos a leer cuentos! Tú lees la palabra amarilla.,frase,src/temas/letras.ts
+e9ac2f996044,L5-FIE,trozo,src/temas/letras.ts
+6112046404d0,Fiesta del abecedario,trozo,src/temas/letras.ts
+1e80a86086ff,¡Es la fiesta del abecedario!,frase,src/temas/letras.ts
+83b033c3b049,La canción del abecedario,trozo,src/temas/letras.ts
 e067f26392e3,la lancha,nombre,src/temas/temas.ts
 50c036b75e36,el helicóptero,nombre,src/temas/temas.ts
 1eec213e0e4e,A  B  C  1  2  3,trozo,src/temas/temas.ts

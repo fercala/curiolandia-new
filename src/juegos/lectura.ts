@@ -6,16 +6,20 @@
  * COMPONENTES: Palmas (dar una palmada en el tambor por cada sílaba de una palabra), Pizarra (pintar libre con el dedo
  * sobre una letra grande en gris) y MiNombre (el nombre del niño en letras grandes: se tocan una a una y suenan); desde
  * la fase L4, Tren (la locomotora de una consonante y los vagones de las vocales forman sílabas: M + A = MA) y Huellas
- * (tocar en orden las huellas que forman una letra).
- * Exporta además nombreDeLetra (cómo se dice cualquier letra: 'la be', 'la hache'...).
- * Importa: los tipos de juegos/tipos.ts, el núcleo (dibujo, voz, sonido, premios) y thing y nameT de juegos/comps.ts.
+ * (tocar en orden las huellas que forman una letra); desde la fase L5, Maquina (dos ruedas, una de consonantes y otra
+ * de vocales, para fabricar la sílaba que pide Tito) y Frase (leer una frase corta y tocar la escena que dice).
+ * Exporta además nombreDeLetra (cómo se dice cualquier letra: 'la be', 'la hache'...) y, desde la fase L5, ACCIONES y
+ * drawEscena (un animal haciendo una acción, para las frases).
+ * Importa: los tipos de juegos/tipos.ts, el núcleo (dibujo, voz, sonido, premios), thing, nameT y las tarjetas de elegir
+ * (layoutChoice, drawChoice, hitItem) de juegos/comps.ts y picF de juegos/comps2.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900 y tiempos de las
    animaciones, como en el resto de componentes. */
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { LF, PI, SFX, T, back, burst, cap, card, circ, clamp, ctx, dist, ell, later, onRight, praise, rec, say, sayQ, scene, sparkles, text, tone } from '../nucleo/indice.ts';
-import { NUM, nameT, thing } from './comps.ts';
+import { LF, PI, SFX, T, back, burst, cap, card, circ, clamp, cloud, ctx, dist, ell, later, onRight, onWrongTwice, praise, rec, say, sayQ, scene, shuffle, sparkles, text, tone, whenQuiet } from '../nucleo/indice.ts';
+import { NUM, drawChoice, hitItem, layoutChoice, nameT, thing } from './comps.ts';
+import { picF } from './comps2.ts';
 
 // NOMBRES: cómo se dice cada letra (sin tilde ni diéresis: quien llama las quita con sinTilde).
 const NOMBRES: Readonly<Record<string, string>> = {
@@ -250,5 +254,146 @@ export function Huellas(cfg: Config, onDone: AlTerminar): Juego {
       this.busy = true; this.done++; scene!.starPop = T; SFX.good(); rec(cfg.key || 'trazos', true); onRight(true);
       const ultimo = this.ti === tr.length - 1;
       say(ultimo ? cfg.ok || praise() : praise(), () => later(400, () => { if (ultimo) { onDone(); return; } this.ti++; this.pi = 0; this.busy = false; })); },
+  };
+}
+
+/* ---------- Maquina: la fábrica de sílabas (fase L5) ---------- */
+// MAQ: dónde están las piezas de la máquina: las dos ventanas de las ruedas (centro), el botón rojo y la salida del
+// papel con la sílaba.
+const MAQ = { izq: { x: 760, y: 440 }, der: { x: 1000, y: 440 }, boton: { x: 1340, y: 470, r: 78 }, papel: { x: 880, y: 720 } };
+// drawRueda(x, y, l, c, giro): la ventana de una rueda con la letra l de color c; giro = instante del último toque (la
+// letra baja rodando desde arriba).
+function drawRueda(x: number, y: number, l: string, c: string, giro: number): void {
+  const k = clamp((T - giro) * 5, 0, 1);
+  card(x - 100, y - 120, 200, 240, '#fff', 7, 26);
+  ctx.save(); ctx.beginPath(); ctx.rect(x - 94, y - 114, 188, 228); ctx.clip();
+  ctx.globalAlpha = k; text(l, x, y + 62 - (1 - k) * 90, 170, c, { f: LF }); ctx.restore();
+  for (const d of [-1, 1]) { ctx.beginPath(); ctx.moveTo(x - 22, y + d * 150); ctx.lineTo(x + 22, y + d * 150); ctx.lineTo(x, y + d * 172); ctx.closePath(); ctx.fillStyle = '#FFC93C'; ctx.fill(); }
+}
+// COMPONENTE Maquina: la fábrica de sílabas. Tito pide una sílaba («Haz la sílaba ma.»), que sale escrita arriba; la
+// máquina tiene una rueda de consonantes y otra de vocales: cada toque en una rueda pasa a la letra siguiente, y el
+// botón rojo imprime la sílaba que forman. Si es la que se pedía, sale el papel con la sílaba y una estrella; si no,
+// Tito dice qué sílaba ha salido y cuál quería. Al segundo fallo, onWrongTwice.
+// cfg: rondas (las sílabas que se piden, en mayúsculas: ['MA', 'PE']), consonantes ([{l, c}]: las letras que puede
+// tener la rueda de la izquierda; en cada ronda salen la buena y tres más), vocales ([{l, c}]), bg, key.
+export function Maquina(cfg: Config, onDone: AlTerminar): Juego {
+  const R: string[] = cfg.rondas, V: Array<{ l: string; c: string }> = cfg.vocales, C: Array<{ l: string; c: string }> = cfg.consonantes;
+  const sil = (s: string): string => s.toLowerCase();
+  return { total: R.length, done: 0, i: 0, ci: 0, vi: 0, cons: [] as Array<{ l: string; c: string }>, busy: false, errs: 0, giroI: -9, giroD: -9, papel: null as null | { s: string; t: number; ok: boolean },
+    // Empieza la primera ronda.
+    enter() { this.ronda(true); },
+    // Prepara la ronda this.i: la rueda de consonantes (la buena y tres más, barajadas) y las dos ruedas en letras que
+    // no son las buenas; después, la consigna.
+    ronda(primera?: boolean) { const s = R[this.i]!; this.obj = s; this.errs = 0; this.busy = false; this.papel = null;
+      const buena = C.find((c) => c.l === s[0]) ?? { l: s[0]!, c: '#5B8DEF' };
+      this.cons = shuffle([buena, ...shuffle(C.filter((c) => c.l !== s[0])).slice(0, 3)]);
+      this.ci = this.cons.findIndex((c: { l: string }) => c.l !== s[0]); this.vi = V.findIndex((v) => v.l !== s[1]);
+      const i0 = this.i;
+      later(350, () => whenQuiet(() => { if (this.i === i0 && !this.busy) sayQ(`${primera ? '¡Esta es la máquina de las sílabas! ' : ''}Haz la sílaba ${sil(s)}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.`); })); },
+    // Repite la sílaba que se pide.
+    prompt() { say(`Haz la sílaba ${sil(this.obj)}.`); },
+    // Ayuda: la rueda que no tiene la letra buena o, si las dos la tienen, el botón.
+    hint() { if (this.busy) return null;
+      if (this.cons[this.ci]!.l !== this.obj[0]) return { x: MAQ.izq.x, y: MAQ.izq.y, r: 110 };
+      if (V[this.vi]!.l !== this.obj[1]) return { x: MAQ.der.x, y: MAQ.der.y, r: 110 };
+      return { x: MAQ.boton.x, y: MAQ.boton.y, r: MAQ.boton.r + 10 }; },
+    // Dibuja el fondo, el cartel con la sílaba pedida, la máquina con sus dos ruedas y sus engranajes, el botón rojo
+    // (late cuando las dos letras son las buenas) y el papel que sale con la sílaba impresa.
+    draw() { cfg.bg();
+      card(690, 40, 380, 150, '#FFFBF2', 6, 30); text('Haz:', 790, 132, 44, K); text(this.obj, 950, 152, 110, '#5B8DEF', { f: LF });
+      const p = this.papel;
+      if (p) { const k = clamp((T - p.t) * 3, 0, 1); card(MAQ.papel.x - 130, 600 + k * 70, 260, 150, p.ok ? '#FFF3B0' : '#fff', 6, 14); text(p.s, MAQ.papel.x, 715 + k * 70, 96, p.ok ? '#E8554E' : '#9A9086', { f: LF }); }
+      card(560, 250, 640, 400, '#7A8CA8', 8, 40);
+      for (const [gx, gy] of [[610, 300], [1150, 600]] as const) { ctx.save(); ctx.translate(gx, gy); ctx.rotate(T * (gx > 900 ? -1 : 1)); for (let a = 0; a < 8; a++) { ctx.rotate(PI / 4); card(-8, -46, 16, 22, '#FFC93C', 3, 4); } circ(0, 0, 34, '#FFC93C', 4); circ(0, 0, 10, '#7A8CA8', 3); ctx.restore(); }
+      const c = this.cons[this.ci]!, v = V[this.vi]!;
+      drawRueda(MAQ.izq.x, MAQ.izq.y, c.l, c.c, this.giroI); drawRueda(MAQ.der.x, MAQ.der.y, v.l, v.c, this.giroD);
+      const listo = c.l === this.obj[0] && v.l === this.obj[1] && !this.busy, b = MAQ.boton, sc = listo ? 1 + Math.sin(T * 6) * .06 : 1;
+      ctx.save(); ctx.translate(b.x, b.y); ctx.scale(sc, sc); card(-30, -10, 60, 120, '#5A5A5A', 5, 10); circ(0, -10, b.r * .8, '#E8554E', 8); circ(-14, -26, 14, 'rgba(255,255,255,.5)', 0); ctx.restore(); },
+    // Toque: en una rueda, la letra siguiente (y Tito dice cuál es); en el botón, se imprime la sílaba: acierto →
+    // estrella y la ronda siguiente (u onDone); fallo → Tito dice qué ha salido y qué quería.
+    down(x: number, y: number) { if (this.busy) return;
+      const enRueda = (r: { x: number; y: number }) => Math.abs(x - r.x) < 110 && Math.abs(y - r.y) < 180;
+      if (enRueda(MAQ.izq)) { this.ci = (this.ci + 1) % this.cons.length; this.giroI = T; tone(500, .06, 'square', .08); say(cap(nombreDeLetra(this.cons[this.ci]!.l))); return; }
+      if (enRueda(MAQ.der)) { this.vi = (this.vi + 1) % V.length; this.giroD = T; tone(600, .06, 'square', .08); say(cap(nombreDeLetra(V[this.vi]!.l))); return; }
+      if (dist(x, y, MAQ.boton.x, MAQ.boton.y) > MAQ.boton.r + 20) { SFX.tap(); sparkles(x, y, 3); return; }
+      const c = this.cons[this.ci]!, v = V[this.vi]!, hecha = c.l + v.l, ok = hecha === this.obj;
+      this.papel = { s: hecha, t: T, ok }; SFX.pop();
+      if (ok) { this.busy = true; rec(cfg.key || 'silabas', this.errs === 0); onRight(this.errs === 0); this.done++; scene!.starPop = T; SFX.good(); burst(MAQ.papel.x, 760, 30);
+        say(`${praise()} ${cap(nombreDeLetra(c.l))} con ${nombreDeLetra(v.l)}: ${sil(hecha)}.`, () => later(500, () => { this.i++; if (this.i >= R.length) onDone(); else this.ronda(); })); return; }
+      SFX.bad(); if (this.errs === 0) rec(cfg.key || 'silabas', false); this.errs++; if (this.errs === 2) onWrongTwice();
+      say(`Ha salido ${sil(hecha)}. Queremos ${sil(this.obj)}.`); },
+  };
+}
+
+/* ---------- Frase: leer una frase y elegir la escena (fase L5) ---------- */
+// ACCIONES: lo que saben hacer los animales de las frases (el verbo, como se escribe en la frase).
+export const ACCIONES = ['salta', 'duerme', 'nada', 'vuela', 'baila', 'corre'] as const;
+// drawEscena(k, acc, x, y, s): el dibujo k haciendo la acción acc (una de ACCIONES), dentro de un cuadrado de lado s
+// centrado en (x, y): salta (bota con su sombra), duerme (tumbado, con zetas), nada (en el agua), vuela (entre nubes),
+// baila (se balancea con notas) y corre (va y viene con rayas de velocidad).
+export function drawEscena(k: Cosa, acc: string, x: number, y: number, s: number): void {
+  const a = s * .58;
+  ctx.save(); ctx.translate(x, y); ctx.beginPath(); ctx.rect(-s / 2, -s / 2, s, s); ctx.clip();
+  if (acc === 'salta') { const h = Math.abs(Math.sin(T * 4)) * s * .22; ctx.globalAlpha = .18; ell(0, s * .4, a * .4, 10, K, 0); ctx.globalAlpha = 1; thing(k, 0, s * .12 - h, a); }
+  else if (acc === 'duerme') { ctx.save(); ctx.translate(0, s * .14); ctx.rotate(-.35); thing(k, 0, 0, a); ctx.restore();
+    for (let i = 0; i < 3; i++) { const q = (T * .5 + i / 3) % 1; ctx.globalAlpha = 1 - q; text('z', s * .18 + q * s * .16, -s * .05 - q * s * .3, s * (.12 + q * .08), '#5B8DEF', { f: LF }); ctx.globalAlpha = 1; } }
+  else if (acc === 'nada') { thing(k, Math.sin(T * 1.5) * s * .14, s * .06 + Math.sin(T * 3) * s * .02, a);
+    ctx.fillStyle = 'rgba(91,180,239,.6)'; ctx.fillRect(-s / 2, s * .16, s, s * .4);
+    ctx.beginPath(); for (let i = 0; i <= 8; i++) { const px = -s / 2 + i * s / 8, py = s * .16 + Math.sin(T * 4 + i) * 5; if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py); } ctx.lineWidth = 6; ctx.strokeStyle = '#fff'; ctx.stroke(); }
+  else if (acc === 'vuela') { cloud(-s * .42, s * .3, s * .0022); cloud(s * .08, s * .38, s * .0018); thing(k, Math.sin(T * 1.2) * s * .14, -s * .1 + Math.sin(T * 3) * s * .04, a * .9); }
+  else if (acc === 'baila') { ctx.save(); ctx.translate(0, s * .1); ctx.rotate(Math.sin(T * 5) * .3); thing(k, 0, 0, a); ctx.restore();
+    for (let i = 0; i < 2; i++) { const q = (T * .6 + i / 2) % 1; ctx.globalAlpha = 1 - q; text('♪', (i ? 1 : -1) * s * .32, s * .1 - q * s * .4, s * .16, '#9B6FD0'); ctx.globalAlpha = 1; } }
+  else { const dx = Math.sin(T * 2.5) * s * .2, va = Math.cos(T * 2.5) < 0;
+    ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(0,0,0,.25)'; ctx.lineCap = 'round';
+    for (let i = 0; i < 3; i++) { const lx = dx + (va ? 1 : -1) * a * .55; ctx.beginPath(); ctx.moveTo(lx, s * (.0 + i * .1)); ctx.lineTo(lx + (va ? 1 : -1) * s * .12, s * (.0 + i * .1)); ctx.stroke(); }
+    picF(k, dx, s * .1 - Math.abs(Math.sin(T * 12)) * s * .03, a, va); }
+  ctx.restore();
+}
+// FRASE_Y: altura de las tarjetas de las palabras de la frase.
+const FRASE_Y = 250;
+// COMPONENTE Frase: arriba, una frase corta escrita (EL GATO DUERME), cada palabra en su tarjeta; abajo, dos a cuatro
+// escenas (el animal haciendo algo, drawEscena). Hay que leer la frase y tocar la escena que dice. Tocar una palabra
+// hace que Tito la lea. Al acertar, Tito lee la frase entera (cada palabra se enciende al decirla) y una estrella; al
+// segundo fallo, la lee también y quita una escena equivocada.
+// cfg: frases ([{texto: 'EL GATO DUERME', escenas: [{k, acc}] (la primera es la buena)}]), bg, key, intro.
+export function Frase(cfg: Config, onDone: AlTerminar): Juego {
+  const F: Array<{ texto: string; escenas: Array<{ k: Cosa; acc: string }> }> = cfg.frases;
+  // escena(e): la escena e como cosa de las tarjetas de elegir (con su nombre para la voz: 'el gato duerme').
+  const escena = (e: { k: Cosa; acc: string }): Libre => ({ name: `${nameT(e.k)} ${e.acc}`, draw: (x: number, y: number, s: number) => drawEscena(e.k, e.acc, x, y, s / .78 * .92) });
+  return { total: F.length, done: 0, i: 0, busy: false, errs: 0, lee: -1, pal: [] as Libre[], items: [] as Libre[],
+    // Empieza la primera ronda.
+    enter() { this.ronda(true); },
+    // Prepara la ronda this.i: las tarjetas de las palabras (de ancho según lo que mide cada una, centradas) y las escenas
+    // barajadas; después, la consigna.
+    ronda(primera?: boolean) { const f = F[this.i]!; this.errs = 0; this.busy = false; this.lee = -1;
+      ctx.font = `700 82px ${LF}`;
+      const ws = f.texto.split(' '), an = ws.map((w) => Math.max(150, ctx.measureText(w).width + 70)), tot = an.reduce((a, b) => a + b, 0) + (ws.length - 1) * 30;
+      let x = 900 - tot / 2; this.pal = ws.map((w, j) => { const o = { w, x: x + an[j]! / 2, an: an[j]! }; x += an[j]! + 30; return o; });
+      const es = f.escenas.map(escena); this.items = layoutChoice(shuffle(es), [es[0]!], 610, true);
+      const i0 = this.i;
+      later(400, () => whenQuiet(() => { if (this.i === i0 && !this.busy) sayQ(`${primera ? (cfg.intro || '') + ' ' : ''}Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.`); })); },
+    // Repite la consigna.
+    prompt() { say('Lee la frase y toca el dibujo que dice.'); },
+    // Ayuda: la escena buena.
+    hint() { const it = this.items.find((q: Libre) => q.ok && !q.win); return it && !this.busy ? { x: it.x, y: it.y, r: it.s * .62 } : null; },
+    // leer(fin): Tito lee la frase palabra a palabra; la que dice se enciende (this.lee). Al acabar, fin().
+    leer(fin?: () => void) { const ps = this.pal, paso = (j: number): void => { if (j >= ps.length) { this.lee = -1; fin?.(); return; } this.lee = j; say(ps[j]!.w.toLowerCase(), () => later(80, () => paso(j + 1))); }; paso(0); },
+    // Dibuja el fondo, las palabras de la frase (la que se lee, en amarillo) y las escenas.
+    draw() { cfg.bg();
+      this.pal.forEach((p: Libre, j: number) => { const on = j === this.lee; card(p.x - p.an / 2, FRASE_Y - 70, p.an, 140, on ? '#FFF3B0' : '#fff', on ? 8 : 6, 26, on ? '#FFC93C' : K); text(p.w, p.x, FRASE_Y + 30, 82, '#3B3B4F', { f: LF }); });
+      drawChoice(this.items); },
+    // Toque: en una palabra, Tito la lee; en una escena, acierto (estrella, Tito lee la frase y sigue) o fallo
+    // (temblor; al segundo, Tito lee la frase y quita una escena equivocada).
+    down(x: number, y: number) {
+      const p = this.pal.find((q: Libre) => Math.abs(x - q.x) < q.an / 2 && Math.abs(y - FRASE_Y) < 75);
+      if (p) { if (!this.busy) { SFX.tap(); say(p.w.toLowerCase()); } return; }
+      const it = hitItem(this.items, x, y); if (!it) { SFX.tap(); sparkles(x, y, 3); return; }
+      if (it.win || this.busy) return;
+      if (it.ok) { this.busy = true; it.win = T; SFX.good(); burst(it.x, it.y, 30); rec(cfg.key || 'frases', this.errs === 0); onRight(this.errs === 0); this.done++; scene!.starPop = T;
+        say(praise(), () => this.leer(() => later(500, () => { this.i++; if (this.i >= F.length) onDone(); else this.ronda(); }))); return; }
+      SFX.bad(); it.shake = T; if (this.errs === 0) rec(cfg.key || 'frases', false); this.errs++;
+      if (this.errs < 2) { say('Mmm, no es ese. Mira bien la frase.'); return; }
+      onWrongTwice(); const w = this.items.find((q: Libre) => !q.ok && !q.gone && q !== it); if (w && this.items.filter((q: Libre) => !q.gone && !q.ok).length > 1) w.gone = T;
+      this.busy = true; say('Te la leo:', () => this.leer(() => { this.busy = false; })); },
   };
 }
