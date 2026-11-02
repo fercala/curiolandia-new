@@ -11,7 +11,7 @@
 // (docs/PLAN-CASA.md), las escenas pequeñas de la casa de Tito: casaCielo.ts (el telescopio) y casaMundo.ts (el globo
 // terráqueo); desde la C4, casaMusica.ts (los instrumentos), casaPizarra.ts y casaTele.ts; desde la C5, casaCocina.ts (la merienda y la
 // sopa), casaBano.ts, casaNoches.ts (buenas noches) y casaHuerto.ts; desde la C6, casaMascotas.ts (las
-// mascotas que crecen). src/modulos.ts pasa todo lo que exportan al puente.
+// mascotas que crecen); desde la C7, casaAlbum.ts (el álbum «Sorpresas de la casa»). src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';
@@ -31,3 +31,4 @@ export * from './casaBano.ts';
 export * from './casaNoches.ts';
 export * from './casaHuerto.ts';
 export * from './casaMascotas.ts';
+export * from './casaAlbum.ts';

@@ -5,7 +5,8 @@
  * Es CONTENIDO: solo datos, sin dibujo ni S. El catálogo de frases (npm run dialogos) las recoge de aquí.
  * Pruebas: tests/unidad/casa.test.ts (que cada objeto con reacción tiene su frase).
  * Desde la fase C3, también los sitios de la escena Vuelta al mundo (LUGARES), con sus dibujos y su frase.
- * Exporta: FRASES_CASA, el tipo LugarMundo y LUGARES.
+ * Desde la fase C7, lo que dice Tito al descubrir cada combinación de dos objetos (FRASES_COMBINACION).
+ * Exporta: FRASES_CASA, el tipo LugarMundo, LUGARES y FRASES_COMBINACION.
  * No importa nada.
  */
 
@@ -89,3 +90,22 @@ export const LUGARES: readonly LugarMundo[] = [
   { id: 'desierto', n: 'El desierto', pics: ['camello', 'cactus'], color: '#FBE3B4', frase: '¡El desierto! Hay mucha arena y muy poca agua. Aquí vive el camello.' },
   { id: 'poloSur', n: 'El Polo Sur', pics: ['pinguino'], color: '#E6F0FA', frase: '¡El Polo Sur! También hace mucho frío. Aquí viven los pingüinos.' },
 ];
+
+// FRASES_COMBINACION: lo que dice Tito al juntar dos objetos con sorpresa (COMBINACIONES en dominio/casa.ts), por el id
+// de la sorpresa ('a+b', como lo da idSorpresa). Desde la fase C7.
+export const FRASES_COMBINACION: Readonly<Record<string, string>> = {
+  'pato+banera': '¡El patito nada en la bañera! Cuac, cuac.',
+  'jabon+banera': '¡Cuántas burbujas de jabón en la bañera!',
+  'toalla+banera': '¡La toalla, para secarme al salir del baño!',
+  'regadera+plantaFlor': '¡Riego la flor y se pone muy contenta!',
+  'regadera+plantaInterior': '¡La planta tenía sed! Ya está regada.',
+  'pelotaPlaya+casitaPerro': '¡El perrito va a por la pelota! ¡Qué rápido corre!',
+  'cuento+cama': '¡Un cuento en la cama, antes de dormir!',
+  'sofa+tele': '¡A ver la tele desde el sofá!',
+  'robot+muneca': '¡El robot y la muñeca bailan juntos!',
+  'lampara+estrellas': '¡Apago la lámpara y las estrellas brillan en la oscuridad!',
+  'telescopio+saturno': '¡Con el telescopio veo los anillos de Saturno!',
+  'mesa+silla': '¡Me siento a la mesa! ¿Qué hay de comer?',
+  'pinturas+pizarra': '¡Con las pinturas, la pizarra se llena de colores!',
+  'trenJuguete+tobogan': '¡El tren baja por el tobogán! ¡Chuuu!',
+};

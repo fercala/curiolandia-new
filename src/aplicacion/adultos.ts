@@ -18,7 +18,8 @@
  * gDone, TEMAS, TEMA, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4,
  * T5, C5, CAN, RUT, TRZ, FIESTAS, ING y, desde la fase L7, TL3, TL4, TL5 y casitaDeLetra, y desde la fase I7 ING_PARQUE
  * e ING_PUEBLO), palabrasDe de escenas/diccionario.ts (la sección «Inglés»), LETRAS de contenido/letras.ts y
- * las reglas del progreso por letra de dominio/letras.ts (la sección «Letras»), escenas/zonas.ts (zoneOpen, suggestTema), esPartida de dominio/partida.ts (la
+ * las reglas del progreso por letra de dominio/letras.ts (la sección «Letras»), las de la casa de Tito de dominio/casa.ts (la sección «Casa de Tito», desde la fase
+ * C7 de PLAN-CASA.md), escenas/zonas.ts (zoneOpen, suggestTema), esPartida de dominio/partida.ts (la
  * copia de seguridad), escribirGuardado de aplicacion/puertos.ts y doReset de aplicacion/dialogos.ts. Usa window.__w3
  * (tipos en nucleo/tipos.ts).
  */
@@ -28,6 +29,7 @@ import { DIASL, KEY, MESES, S, SCENES, STARS, T, VIVO, VOICE, go, pickVoice, sav
 import { C3, C4, C5, CAN, FIESTAS, ING, ING_PARQUE, ING_PUEBLO, RUT, T3, T4, T5, TL3, TL4, TL5, TRZ, casitaDeLetra } from '../temas/indice.ts';
 import { LETRAS } from '../contenido/letras.ts';
 import { aciertosLetra, datosLetra, estadoLetra, type EstadoLetra } from '../dominio/letras.ts';
+import { MASCOTAS, TOTAL_SORPRESAS, cuantasSorpresas, etapaFlor, etapaMascota, fichaDe } from '../dominio/casa.ts';
 import { TEMA, TEMAS, dayIdx, gDone, standalone, tst } from '../escenas/escenas2d.ts';
 import { suggestTema, zoneOpen } from '../escenas/zonas.ts';
 import { palabrasDe } from '../escenas/diccionario.ts';
@@ -117,6 +119,11 @@ export function openAdult(){
 // ya están en su diccionario (palabrasDe, escenas/diccionario.ts). vozEn: si este navegador tiene voz inglesa.
   const ingles=([['Playa Hello (3 años)',ING],['Parque de Londres (4 años)',ING_PARQUE],['Pueblo de los Cuentos (5 años)',ING_PUEBLO]] as [string,Tema[]][]).map(([z,L])=>`<tr><td>${z}</td><td>${L.filter(t=>tst(t.id).done).length}/${L.length}</td><td>${palabrasDe(L).length}</td></tr>`).join('');
   const vozEn='speechSynthesis' in window&&speechSynthesis.getVoices().some(v=>/^en/i.test(v.lang));
+// casa: la casa de Tito (fase C7 de docs/PLAN-CASA.md): una fila por mascota comprada (nombre, etapa y días cuidados,
+// con fichaDe y etapaMascota de dominio/casa.ts), y aparte las sorpresas descubiertas y los días regados del huerto.
+  const ESPECIE_A: Record<string,string>={casitaPerro:'Perrito',gato:'Gatito',pajaro:'Pajarito',conejo:'Conejito',hamster:'Hámster',pecera:'Peces'},ETAPA_A=['Bebé','Joven','Mayor'];
+  const casa=MASCOTAS.filter(id=>S.owned?.[id]).map(id=>{const f=fichaDe(S.mascotas||{},id);return `<tr><td>${ESPECIE_A[id]}</td><td>${f.nombre?esc(f.nombre):'—'}</td><td>${ETAPA_A[etapaMascota(f.dias)]}</td><td>${f.dias}</td></tr>`}).join('');
+  const huertoDias=(S.huerto&&S.huerto.dias)||0;
 // cal: las últimas 14 asambleas (tiempo y emoción elegidos).
   const cal=Object.keys(S.asam).sort().slice(-14).map(d=>{const a=S.asam[d],dt=new Date(d+'T12:00');return `<span><small>${DIASL[dayIdx(dt)].slice(0,3)} ${dt.getDate()}/${dt.getMonth()+1}</small><b>${a.tiempo?WX_E[a.tiempo]:'·'} ${a.emo?EMO_E[a.emo]:''}</b></span>`}).join('')||'<span>Todavía no hay asambleas.</span>';
 // days: minutos jugados en los últimos 7 días con datos.
@@ -128,7 +135,7 @@ export function openAdult(){
 // sug: el próximo tema del camino (para la sección "Lo que sigue").
   const sug=suggestTema();
 // El HTML del panel, sección a sección: Modo de juego, Perfil, Personaje de Tito, Idioma y voz, Tiempo de juego,
-// progreso por zonas (tm), Monedas y premios, Lo que sigue, Asambleas, Cómo le va, Letras (fase L7), Inglés (fase I7), Copia de seguridad, Instalar,
+// progreso por zonas (tm), Monedas y premios, Lo que sigue, Asambleas, Cómo le va, Letras (fase L7), Inglés (fase I7), Casa de Tito (fase C7 de PLAN-CASA.md), Copia de seguridad, Instalar,
 // Ir a (atajos) y Empezar de cero. Es una plantilla de texto: no se pueden poner comentarios dentro.
   el.querySelector('.body')!.innerHTML=`
   <section><h3>Modo de juego</h3>
@@ -167,6 +174,7 @@ export function openAdult(){
   <section><h3>Cómo le va</h3><p class="note">Con esto Tito arma cada día un <b>repaso</b> de 3 juegos: primero los de lo que le cuesta y, si no hay, los que jugó hace más tiempo. El botón verde del mapa pasa una vez por día por el repaso cuando hay algo que cuesta; también se abre con la lupa de arriba del mapa.</p>${sk?`<table><thead><tr><th>Habilidad</th><th>Aciertos</th><th>Intentos</th><th></th></tr></thead><tbody>${sk}</tbody></table>`:'<p class="note">Todavía no hay datos.</p>'}</section>
   <section><h3>Letras</h3><p class="note">Cómo va cada letra de la Isla de las Letras: los juegos hechos de su casita y los aciertos en ellos. Una letra está <b>aprendida</b> con su casita terminada y el 80 % de aciertos o más. Las que cuestan entran en el repaso de cada día.</p><table><thead><tr><th>Letra</th><th>Juegos</th><th>Aciertos</th><th></th></tr></thead><tbody>${letras}</tbody></table></section>
   <section><h3>Inglés</h3><p class="note">Cómo va la Isla del Inglés: las casitas terminadas de cada zona y las palabras que ya están en «Mi diccionario de inglés» (en el álbum, el botón de Polly). Los juegos de inglés que cuestan entran en el repaso de cada día. ${vozEn?'Polly dice las palabras con la voz inglesa de este dispositivo.':'<b>Este dispositivo no tiene voz inglesa</b>: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.'}</p><table><thead><tr><th>Zona</th><th>Casitas</th><th>Palabras</th></tr></thead><tbody>${ingles}</tbody></table></section>
+  <section><h3>Casa de Tito</h3><p class="note">Lo que ha descubierto jugando en la casa de Tito: <b>${cuantasSorpresas(S.sorpresas||{})} de ${TOTAL_SORPRESAS} sorpresas</b> del álbum «Sorpresas de la casa». La flor del huerto lleva ${huertoDias} ${huertoDias===1?'día regado':'días regados'} (etapa ${etapaFlor(huertoDias)} de 4). Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.</p>${casa?`<table><thead><tr><th>Mascota</th><th>Nombre</th><th>Etapa</th><th>Días cuidados</th></tr></thead><tbody>${casa}</tbody></table>`:'<p class="note">Todavía no tiene mascotas.</p>'}</section>
   <section><h3>Copia de seguridad</h3>
    <p class="note">Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia cada tanto.</p>
    <div class="row"><button id="a-bk-dl">⬇️ Descargar copia</button><button id="a-bk-code">🔑 Ver código de copia</button><label class="opt" style="cursor:pointer">📂 Cargar archivo de copia<input type="file" id="a-bk-file" accept=".json,.txt,application/json,text/plain" hidden></label></div>
