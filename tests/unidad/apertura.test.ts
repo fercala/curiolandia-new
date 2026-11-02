@@ -1,5 +1,6 @@
 // Pruebas de las reglas de apertura (src/dominio/apertura.ts, fase 3a): qué zonas, casitas, juegos y sitios del mapa
-// están abiertos y qué casita toca; desde la fase L1 (docs/PLAN-LECTURA.md), también las zonas de la Isla de las Letras. Usan un mapa pequeño inventado y partidas inventadas, sin navegador: cada prueba
+// están abiertos y qué casita toca; desde la fase L1 (docs/PLAN-LECTURA.md), también las zonas de la Isla de las Letras
+// y, desde la fase I1 (docs/PLAN-INGLES.md), las de la Isla del Inglés. Usan un mapa pequeño inventado y partidas inventadas, sin navegador: cada prueba
 // dice qué temas están terminados o empezados, la edad, el modo libre y el mes.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (edades, meses, casitas,
    juegos): leerlos tal cual en la prueba es más claro que darles un nombre. */
@@ -7,6 +8,7 @@ import { describe, expect, test } from 'vitest';
 import {
   NEED, empezado, fiestaDelMes, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto,
   siguienteLetra, temaQueToca, terminadasPrincipales, zonaAbierta, zonaDeLaEdad, zonaDeLetrasDeLaEdad,
+  ISLAS, ZONAS_INGLES, siguienteDeIsla, zonaDeIslaDeLaEdad,
 } from '../../src/dominio/apertura.ts';
 import type { Mapa, Partida, TemaAbrible } from '../../src/dominio/apertura.ts';
 
@@ -240,5 +242,56 @@ describe('Isla de las Letras', () => {
     expect(siguienteLetra(partida({ edad: 5, hechos: todo }), MAPA_ISLA)).toBeNull();
     expect(siguienteTema(partida(), MAPA_ISLA)?.id).toBe('J1');
     expect(siguienteLetra(partida(), MAPA)).toBeNull();
+  });
+});
+
+// MAPA_DOS_ISLAS: el mapa de prueba con las dos islas: la de las Letras (MAPA_ISLA) y la del Inglés, con tres zonas.
+const MAPA_DOS_ISLAS: Mapa<TemaAbrible> = {
+  ...MAPA_ISLA,
+  zonas: { ...MAPA_ISLA.zonas, playaHello: isla('playaHello', 'IP', 6), parqueLondres: isla('parqueLondres', 'IL', 6), puebloCuentos: isla('puebloCuentos', 'IC', 2) },
+};
+const HELLO_HECHA = ['IP1', 'IP2', 'IP3', 'IP4', 'IP5', 'IP6'];
+
+describe('Isla del Inglés', () => {
+  test('sus zonas, en orden, y las dos islas en ISLAS', () => {
+    expect(ZONAS_INGLES).toEqual(['playaHello', 'parqueLondres', 'puebloCuentos']);
+    expect(Object.keys(ISLAS)).toEqual(['letras', 'ingles']);
+  });
+
+  test('sus zonas se abren como las de la otra isla: por edad, en modo libre o con 6 flores en la anterior', () => {
+    expect(zonaAbierta(partida(), MAPA_DOS_ISLAS, 'playaHello')).toBe(true);
+    expect(zonaAbierta(partida(), MAPA_DOS_ISLAS, 'parqueLondres')).toBe(false);
+    expect(zonaAbierta(partida({ edad: 4 }), MAPA_DOS_ISLAS, 'parqueLondres')).toBe(true);
+    expect(zonaAbierta(partida({ libre: true }), MAPA_DOS_ISLAS, 'puebloCuentos')).toBe(true);
+    expect(zonaAbierta(partida({ hechos: HELLO_HECHA }), MAPA_DOS_ISLAS, 'parqueLondres')).toBe(true);
+    expect(zonaAbierta(partida({ hechos: HELLO_HECHA }), MAPA_DOS_ISLAS, 'puebloCuentos')).toBe(false);
+  });
+
+  test('una isla no abre la otra ni el mapa grande', () => {
+    expect(zonaAbierta(partida({ hechos: PLAYA_HECHA }), MAPA_DOS_ISLAS, 'parqueLondres')).toBe(false);
+    expect(zonaAbierta(partida({ hechos: HELLO_HECHA }), MAPA_DOS_ISLAS, 'bosqueLetras')).toBe(false);
+    expect(terminadasPrincipales(partida({ hechos: HELLO_HECHA }), MAPA_DOS_ISLAS)).toBe(0);
+  });
+
+  test('sus casitas se abren de una en una', () => {
+    const abierto = (p: Partida, id: string): boolean =>
+      temaAbierto(p, MAPA_DOS_ISLAS, Object.values(MAPA_DOS_ISLAS.zonas).flat().find((t) => t.id === id));
+    expect(abierto(partida(), 'IP1')).toBe(true);
+    expect(abierto(partida(), 'IP2')).toBe(false);
+    expect(abierto(partida({ hechos: ['IP1'] }), 'IP2')).toBe(true);
+    expect(abierto(partida(), 'IL1')).toBe(false);
+    expect(abierto(partida({ edad: 5 }), 'IC1')).toBe(true);
+  });
+
+  test('cada isla tiene su seguir; el de las letras no cambia', () => {
+    expect(zonaDeIslaDeLaEdad(partida({ edad: 4 }), MAPA_DOS_ISLAS, 'ingles')).toBe('parqueLondres');
+    expect(zonaDeIslaDeLaEdad(partida({ edad: 5 }), MAPA_DOS_ISLAS, 'letras')).toBe('puebloPalabras');
+    expect(siguienteDeIsla(partida(), MAPA_DOS_ISLAS, 'ingles')?.id).toBe('IP1');
+    expect(siguienteDeIsla(partida({ edad: 4 }), MAPA_DOS_ISLAS, 'ingles')?.id).toBe('IL1');
+    expect(siguienteDeIsla(partida({ edad: 4, hechos: ['IL1', 'IL2', 'IL3', 'IL4', 'IL5', 'IL6'] }), MAPA_DOS_ISLAS, 'ingles')?.id).toBe('IP1');
+    expect(siguienteLetra(partida(), MAPA_DOS_ISLAS)?.id).toBe('LP1');
+    expect(siguienteDeIsla(partida({ hechos: HELLO_HECHA }), MAPA_DOS_ISLAS, 'letras')?.id).toBe('LP1');
+    expect(siguienteDeIsla(partida(), MAPA, 'ingles')).toBeNull();
+    expect(siguienteTema(partida({ hechos: JARDIN_HECHO }), MAPA_DOS_ISLAS)?.zone).not.toBe('playaHello');
   });
 });
