@@ -44,7 +44,25 @@ export function sayMix3(p: readonly string[],cb?: (() => void) | null){if(S.quie
 export const NAMES3: [string, string, string, number?, string?, string?][]=[['frog','Rana.','RANA',1,'La rana es verde.'],['tree','El árbol.','ÁRBOL',0,'El viento. ¡Sopla y se llevan las hojas! Fiuuu.','VIENTO'],['peng','El pingüino.','PINGÜINO',1,'El pingüino. Es un pájaro que no vuela, ¡pero nada muy bien!'],['snowman','El muñeco de nieve.','MUÑECO',0,'Nieva. Caen copos de nieve cuando hace mucho frío.','COPO'],['bee','La abeja. Hace miel con las flores.','ABEJA',1],['bfly','La mariposa.','MARIPOSA',1,'La mariposa. Vuela de flor en flor.'],['bird','El pájaro.','PÁJARO',1],['skyb','El pájaro.','PÁJARO',1],['whale','La ballena.','BALLENA',0,'La ballena. Vive en el mar, pero respira aire.'],['sandc','El castillo de arena.','CASTILLO'],['ball','La pelota de playa.','PELOTA',0,'La pelota. En el recreo jugamos a la pelota.'],['cake','La tarta de cumpleaños.','TARTA',0,'La tarta. En el cumpleaños soplamos las velas.'],['pinata','La estrella.','ESTRELLA'],['palm','El árbol.','ÁRBOL'],['xtree','El árbol.','ÁRBOL',0,'La bola de Navidad.','BOLA'],['gull','El pájaro.','PÁJARO',1],['leafs','La hoja.','HOJA',0,'Las hojas. En otoño se ponen naranjas y amarillas, y se caen.'],['cloud','La gota de agua.','GOTA',1,'El arcoíris. Sale cuando hay sol y lluvia a la vez.','ARCOÍRIS'],['mush','La seta. Crece cuando llueve.','SETA'],['pump','La calabaza. Es grande y naranja.','CALABAZA'],['squir','La ardilla. Guarda comida para el invierno.','ARDILLA',1,'La bellota. Es el fruto del roble. ¡A las ardillas les encanta!','BELLOTA'],['owl','El búho. Vive en el bosque y sale de noche.','BÚHO',2],['ants','La hormiga. Trabaja en equipo y es muy fuerte.','HORMIGA',1],['nest','El nido. La casita de los pájaros.','NIDO'],['lady','La mariquita. Tiene puntitos negros.','MARIQUITA',1,'La mariquita. Es roja con puntitos.'],['gift','El regalo. ¡Qué bonito es regalar!','REGALO'],['boat','El barco. Navega por el agua.','BARCO'],['burrow','El conejo. Come zanahorias y salta.','CONEJO',1],['igloo','El iglú. Es una casa hecha con bloques de nieve.','IGLÚ',0,'La foca. Nada en el agua helada.','FOCA'],['sled','El trineo, para la nieve.','TRINEO'],['jack','Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.','SORPRESA'],['sleigh','El reno','RENO'],['hab','El globo aerostático. Vuela con aire caliente.','GLOBO'],['sunf','La planta. Tiene raíz, tallo y hojas.','PLANTA',1,'La semilla. De ella nace una planta nueva.','SEMILLA'],['kite','¡Súper! ¡La cometa! Con el viento vuela alto.','COMETA'],['can','La regadera. Las plantas necesitan agua.','REGADERA'],['flower','La flor. Muchas plantas tienen flores.','FLOR',0,'La planta es un ser vivo.','PLANTA']];/* cosas que Tito nombra (frases ya grabadas, algunas con una explicación); 1 = animal que de noche duerme, 2 = el búho, que de día duerme. Gana la primera fila cuya marca tenga el objeto: 'bee' va antes que 'bfly' porque las abejas llevan las dos marcas */
 // sylClap(x,y,wd): palabra wd dividida en sílabas (SYL3): por cada sílaba suena una palmada, sale la sílaba escrita
 // flotando cerca de (x,y) y Tito da un saltito (st.hop=T). Se corta si cambia la escena.
-export function sylClap(x: number,y: number,wd: string){/* una palmada por sílaba, con la sílaba escrita, y Tito salta con cada una */const sc0=sceneName,Y=(SYL3[wd]||wd).split(' '),n=Y.length,X=Math.min(1480-n*65,Math.max(120+n*65,x));Y.forEach((sy,i)=>setTimeout(()=>{if(sceneName!==sc0)return;noise(.06,.35,1800);{const st=SCENES[sceneName];if(st)st.hop=T}tone(330+i*60,.08,'triangle',.05);parts.push({x:X-(n-1)*65+i*130,y:Math.max(230,y-120),vx:0,vy:-20,life:1.3,t:0,c:['#5A6FD0','#E8803C','#4DB85A','#A77BDB'][i%4],r:20,rot:0,k:'t',tx:sy,g:0})},250+i*500))}
+export function sylClap(x: number,y: number,wd: string){
+  // una palmada por sílaba, con la sílaba escrita, y Tito salta con cada una
+  const sc0=sceneName,Y=(SYL3[wd]||wd).split(' '),n=Y.length,X=Math.min(1480-n*65,Math.max(120+n*65,x));
+  Y.forEach((sy,i)=>setTimeout(()=>{
+    // si ya se ha cambiado de escena, no se palmea
+    if(sceneName!==sc0)return;
+    noise(.06,.35,1800);
+    {
+      const st=SCENES[sceneName];
+      if(st)st.hop=T;
+    }
+    tone(330+i*60,.08,'triangle',.05);
+    parts.push({
+      x:X-(n-1)*65+i*130,y:Math.max(230,y-120),vx:0,vy:-20,life:1.3,t:0,
+      c:['#5A6FD0','#E8803C','#4DB85A','#A77BDB'][i%4],
+      r:20,rot:0,k:'t',tx:sy,g:0
+    });
+  },250+i*500));
+}
 // SYL3: PALABRA -> sílabas separadas por espacios (para sylClap). Si una palabra falta, se palmea entera.
 const SYL3: Record<string, string>={RANA:'RA NA',ÁRBOL:'ÁR BOL',PINGÜINO:'PIN GÜI NO',MUÑECO:'MU ÑE CO',MARIPOSA:'MA RI PO SA',PÁJARO:'PÁ JA RO',BALLENA:'BA LLE NA',CASTILLO:'CAS TI LLO',PELOTA:'PE LO TA',TARTA:'TAR TA',ESTRELLA:'ES TRE LLA',HOJA:'HO JA',GOTA:'GO TA',SETA:'SE TA',ABEJA:'A BE JA',CALABAZA:'CA LA BA ZA',ARDILLA:'AR DI LLA',BÚHO:'BÚ HO',HORMIGA:'HOR MI GA',NIDO:'NI DO',MARIQUITA:'MA RI QUI TA',REGALO:'RE GA LO',BARCO:'BAR CO',CONEJO:'CO NE JO',IGLÚ:'I GLÚ',JÚPITER:'JÚ PI TER',ARCOÍRIS:'AR CO Í RIS',NIEVE:'NIE VE',FOCA:'FO CA',TRINEO:'TRI NE O',GLOBO:'GLO BO',PLANTA:'PLAN TA',SORPRESA:'SOR PRE SA',SATURNO:'SA TUR NO',COMETA:'CO ME TA',REGADERA:'RE GA DE RA',CONTENTO:'CON TEN TO',RENO:'RE NO',BOLA:'BO LA',COPO:'CO PO',VIENTO:'VIEN TO',BELLOTA:'BE LLO TA',SEMILLA:'SE MI LLA'};/* sílabas para dar una palmada por cada una */
 // sayNum(n,cb): Tito dice el número n (1-10); en la Isla del Inglés (antes, en el Rincón del inglés) lo dice en inglés ('@' = frase en inglés).
@@ -253,14 +271,37 @@ export function saturn(w: Mundo){/* Saturno, con sus anillos, que brilla de noch
 // bigDipper(w): la Osa Mayor (7 estrellas unidas por una línea) en el cielo de noche. Marca userData.dip; al tocarla
 // las estrellas se encienden una a una (cada 0,55 s) y Tito las cuenta con el número flotando encima.
 // El número se coloca proyectando la estrella con un vector que se reutiliza (enMundo), no uno nuevo por estrella.
-export function bigDipper(w: Mundo){const S=[[8.6,2.0],[10,1.85],[11.2,1.6],[12.3,1.35],[12.6,.6],[14.1,.45],[14.3,1.2]],z=-19.6,P=S.map(([x,y])=>new THREE.Vector3(x,y,z));
+export function bigDipper(w: Mundo){
+  const S=[[8.6,2.0],[10,1.85],[11.2,1.6],[12.3,1.35],[12.6,.6],[14.1,.45],[14.3,1.2]],z=-19.6,P=S.map(([x,y])=>new THREE.Vector3(x,y,z));
   const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints([...P,P[3]]),new THREE.LineBasicMaterial({color:'#AFC0FF',transparent:true,opacity:.35}));ln.raycast=()=>{};w.sc.add(ln);
   const g=new THREE.BufferGeometry().setFromPoints(P),p=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:2.1,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));p.raycast=()=>{};w.sc.add(p);
   const hg=new THREE.BufferGeometry();hg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3));const hl=new THREE.Points(hg,new THREE.PointsMaterial({color:'#FFFFFF',size:4.5,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));hl.raycast=()=>{};hl.visible=false;w.sc.add(hl);
   const G=new THREE.Group();G.position.set(11.4,1.25,z);G.userData.dip=1;G.userData.dur=4.2;hitS(G,1,0).scale.set(3.4,1.1,1);w.sc.add(G);/* se puede tocar: las estrellas se encienden una a una */
   // dónde está en el mundo la estrella que se enciende, para poner su número: un vector que se reutiliza (proj lo copia)
   const enMundo=new THREE.Vector3();
-  w.upd.push(()=>{p.material.opacity=.8+.2*Math.sin(T*1.7);const e=G.userData.wob==null?-1:T-G.userData.wob,i=Math.floor(e/.55);hl.visible=e>=0&&i<7;if(hl.visible){(hl.geometry.attributes.position.array as Float32Array).set([P[i].x,P[i].y,P[i].z]);hl.geometry.attributes.position.needsUpdate=true;if(G.userData.ln!==i){G.userData.ln=i;tone([523,587,659,698,784,880,988][i],.22,'sine',.06);sayNum(i+1,i===6?()=>say3('¡Muy bien!'):null);{const v=hl.localToWorld(enMundo.copy(P[i]));const [sx,sy]=proj(v);numPop(sx,sy+20,i+1)}}/* y las cuenta en voz alta, con el número flotando */}else G.userData.ln=-1})}
+  w.upd.push(()=>{
+    p.material.opacity=.8+.2*Math.sin(T*1.7);
+    // i: la estrella que toca encender, una cada 0,55 s desde que se tocó la Osa
+    const e=G.userData.wob==null?-1:T-G.userData.wob,i=Math.floor(e/.55);
+    hl.visible=e>=0&&i<7;
+    if(hl.visible){
+      (hl.geometry.attributes.position.array as Float32Array).set([P[i].x,P[i].y,P[i].z]);
+      hl.geometry.attributes.position.needsUpdate=true;
+      // y las cuenta en voz alta, con el número flotando (una sola vez por estrella)
+      if(G.userData.ln!==i){
+        G.userData.ln=i;
+        tone([523,587,659,698,784,880,988][i],.22,'sine',.06);
+        sayNum(i+1,i===6?()=>say3('¡Muy bien!'):null);
+        {
+          const v=hl.localToWorld(enMundo.copy(P[i]));
+          const [sx,sy]=proj(v);
+          numPop(sx,sy+20,i+1);
+        }
+      }
+    }
+    else G.userData.ln=-1;
+  });
+}
 // rayos del sol de las zonas, que giran despacio
 // sunRays(w,x,y,z,c,e): los diez rayos del sol de las zonas (color c, brillo propio e), que giran y laten.
 export function sunRays(w: Mundo,x: number,y: number,z: number,c: string,e: string){const g=new THREE.Group();g.position.set(x,y,z);w.sc.add(g);
