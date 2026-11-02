@@ -914,6 +914,15 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
+9ae769a67022,"¡Al agua! Explota las burbujas. Con el jabón, me lavas.",frase,src/escenas/casaBano.ts
+f7ee3b8911e8,Toca a Tito para enjabonarlo.,frase,src/escenas/casaBano.ts
+ac214add7665,"Explota las burbujas, o coge el jabón y lávame.",frase,src/escenas/casaBano.ts
+0fc93a7c9516,¡Ya has explotado ,trozo,src/escenas/casaBano.ts
+be266509ce16, burbujas!,trozo,src/escenas/casaBano.ts
+661fd4d6c37f,¡Primero hay que enjabonarme!,frase,src/escenas/casaBano.ts
+bcf696085120,¡Ya estoy limpito y sequito! ¡Gracias!,frase,src/escenas/casaBano.ts
+4088f57103ec,¡Cuánta espuma! Ahora sécame con la toalla.,frase,src/escenas/casaBano.ts
+0e441e949184,¡Cuánta espuma! ¡Qué limpito estoy!,frase,src/escenas/casaBano.ts
 35a4964e3b39,¡Has encontrado la Osa Mayor! ¿A que parece un carro?,frase,src/escenas/casaCielo.ts
 0c09b00990a8,¡Has dibujado un caracol con estrellas!,frase,src/escenas/casaCielo.ts
 1ad90bf4d27e,¡Qué noche tan bonita! Toca las estrellas para encenderlas.,frase,src/escenas/casaCielo.ts
@@ -925,6 +934,30 @@ d4985428a7f7,"¡Hola, Luna! La Luna brilla de noche.",frase,src/escenas/casaCiel
 ec8358fec670,Marte es el planeta rojo.,frase,src/escenas/casaCielo.ts
 1cf70ee6bb96,¡Saturno! Es el planeta de los anillos.,frase,src/escenas/casaCielo.ts
 d9d4224faf63,¡Has encontrado todas las constelaciones! ¡Qué bien miras el cielo!,frase,src/escenas/casaCielo.ts
+b465267e754e,¡Qué hambre! ¿Me das ,trozo,src/escenas/casaCocina.ts
+e9055c861ea8,¿Me das ,trozo,src/escenas/casaCocina.ts
+c8c41870e463,? Tócalas en la balda.,trozo,src/escenas/casaCocina.ts
+1f33418d912a,Toca la fruta y me la como.,frase,src/escenas/casaCocina.ts
+8aec7bcb85ff,Eso es ,trozo,src/escenas/casaCocina.ts
+0cb5b78c3d23,. ¡Yo quería ,trozo,src/escenas/casaCocina.ts
+631116223577,! ¡Gracias!,trozo,src/escenas/casaCocina.ts
+ba85a3d39e6d,"¡Qué rica la merienda! Si quieres, dame más fruta.",frase,src/escenas/casaCocina.ts
+cabf4b4dac3c,¡Vamos a hacer sopa! Echa tres verduras a la olla.,frase,src/escenas/casaCocina.ts
+d989a326f8e3,Toca las verduras para echarlas a la olla.,frase,src/escenas/casaCocina.ts
+9bc376d2124e,Remueve la sopa: da vueltas con el dedo dentro de la olla.,frase,src/escenas/casaCocina.ts
+7aa8dfcbace7,¡Ya está todo! Ahora remueve la sopa: da vueltas con el dedo dentro de la olla.,frase,src/escenas/casaCocina.ts
+9148b04ca25d,"¡La sopa está lista! ¡Mmm, qué bien huele!",frase,src/escenas/casaCocina.ts
+83165b764fc8,¿Hacemos otra sopa? Echa tres verduras.,frase,src/escenas/casaCocina.ts
+4c009af87239,"¡Mira, ha salido un brote!",frase,src/escenas/casaHuerto.ts
+68cd52505232,¡Ya tiene hojas!,frase,src/escenas/casaHuerto.ts
+2f2b3136c04f,¡Tiene un capullo! Pronto se abrirá.,frase,src/escenas/casaHuerto.ts
+4596b6ed7c4e,¡La flor se ha abierto! ¡Qué bonita!,frase,src/escenas/casaHuerto.ts
+a4c339cc5685,Hoy ya la hemos regado. ¡Mira qué bien está!,frase,src/escenas/casaHuerto.ts
+10495fd9c8f2,¿Regamos la flor? Toca la regadera.,frase,src/escenas/casaHuerto.ts
+9b52ef141814,Hoy ya está regada. Vuelve mañana para que crezca.,frase,src/escenas/casaHuerto.ts
+9e8c6519f5d0,Toca la regadera para regar la flor.,frase,src/escenas/casaHuerto.ts
+22ceafea059b,"¡Ya está regada! Mañana más, que si no se ahoga.",frase,src/escenas/casaHuerto.ts
+2ef2413ea1a1,"¡Gracias! Con agua y sol, poco a poco crecerá.",frase,src/escenas/casaHuerto.ts
 db443cb87127,"¡Es la Tierra, nuestro planeta! Tócala para hacerla girar.",frase,src/escenas/casaMundo.ts
 a0bb78508b42,¿Dónde está España? Toca su tarjeta.,frase,src/escenas/casaMundo.ts
 3f061be03f5a,Toca la Tierra para hacerla girar.,frase,src/escenas/casaMundo.ts
@@ -940,6 +973,16 @@ d0a494807780,¡Ahora tú!,frase,src/escenas/casaMusica.ts
 fcc22d180638,¡Casi! Escucha otra vez.,frase,src/escenas/casaMusica.ts
 8f4af0bd5a24,¡Bravo! ¡Qué bien tocas!,frase,src/escenas/casaMusica.ts
 fd5b91cc3d49,¡Bravo! ¡Lo has tocado igual!,frase,src/escenas/casaMusica.ts
+53a6d10aa6ed,Había una vez una estrella pequeñita que no podía dormir.,frase,src/escenas/casaNoches.ts
+0d92bc17809d,La Luna le cantó una nana muy bajito.,frase,src/escenas/casaNoches.ts
+f4f62c665ca4,"La estrella cerró los ojos, brilló un poquito y se quedó dormida.",frase,src/escenas/casaNoches.ts
+042a13ae2e48,"Y colorín colorado, este cuento se ha acabado.",frase,src/escenas/casaNoches.ts
+a424c25d8f97,"¿Me cuentas un cuento? Toca el libro. Luego, apaga la lámpara.",frase,src/escenas/casaNoches.ts
+3fa9f8348285,"Cuando quieras, apaga la lámpara para dormir.",frase,src/escenas/casaNoches.ts
+d37aa4ff0c30,Toca la ventana para que se haga de día.,frase,src/escenas/casaNoches.ts
+462816a761f3,Toca la lámpara para apagar la luz.,frase,src/escenas/casaNoches.ts
+c3bb0fc2345f,Buenas noches. ¡Hasta mañana!,frase,src/escenas/casaNoches.ts
+36f7ac2970f5,¡Buenos días! ¡Qué bien he dormido!,frase,src/escenas/casaNoches.ts
 31cdd611ecf8,¡Dibuja lo que quieras con el dedo! Abajo puedes cambiar de color.,frase,src/escenas/casaPizarra.ts
 e7280c884a66,Dibuja con el dedo en la pizarra. Abajo están las tizas y el borrador.,frase,src/escenas/casaPizarra.ts
 d889004db892,¡Pizarra limpia! A dibujar otra vez.,frase,src/escenas/casaPizarra.ts

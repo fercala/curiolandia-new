@@ -5,7 +5,8 @@
 // Desde la fase C2 de docs/PLAN-CASA.md, también que Tito ande hasta lo que se toca y juegue con ello (C8), que ande
 // al tocar el suelo (C9) y que las 49 reacciones se dibujen sin errores (C10); desde la C3, el cielo de noche del
 // telescopio (C11) y la vuelta al mundo del globo terráqueo (C12); desde la C4, los instrumentos (C13), la pizarra
-// (C14) y la tele (C15).
+// (C14) y la tele (C15); desde la C5, la merienda y la sopa (C16), el baño (C17), buenas noches (C18) y el huerto
+// (C19).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -136,6 +137,36 @@ const temas = n => { const o = {}; for (let i = 1; i <= n; i++) o['3A-T' + i] = 
     await p.evaluate(() => __cl.scene.down(80, 80)); await p.waitForTimeout(500);
     if (await p.evaluate(() => sceneName) !== 'casaTito') return 'la casa no vuelve a la casa de Tito';
     if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
+  });
+
+  await caso('C16', 'La merienda da a Tito la fruta que pide y la sopa se hace con tres verduras y removiendo', async p => {
+    await p.evaluate(() => __cl.go('casaMerienda', {})); await p.waitForTimeout(800);
+    const m = await p.evaluate(() => { const sc = __cl.scene, P = sc.pide, i = COCINA.frutas.indexOf(P.f), j = (i + 1) % 5, X = k => COCINA.balda.x0 + k * COCINA.balda.dx;
+      sc.down(X(j), COCINA.balda.y); const malo = sc.plato.length; for (let k = 0; k < P.n; k++) sc.down(X(i), COCINA.balda.y); return [malo, sc.pide] });
+    if (JSON.stringify(m) !== '[0,null]') return 'merienda: ' + JSON.stringify(m);
+    await p.evaluate(() => __cl.go('casaSopa', {})); await p.waitForTimeout(600);
+    const s = await p.evaluate(() => { const sc = __cl.scene, C = COCINA.cesta, o = COCINA.olla; [0, 1, 2, 3].forEach(k => sc.down(C.x0 + k * C.dx, C.y)); const n = sc.dentro.length;
+      sc.down(o.x + 150, o.y - 60); for (let a = 0; a <= 80; a++) sc.move(o.x + Math.cos(a / 4) * 150, o.y - 60 + Math.sin(a / 4) * 80); sc.up(); return [n, sc.lista] });
+    if (s.join() !== '3,true') return 'sopa: ' + s.join();
+  });
+  await caso('C17', 'El baño: las burbujas explotan, el jabón hace espuma y la toalla seca a Tito', async p => {
+    await p.evaluate(() => { __cl.S.owned.toalla = 1; __cl.go('casaBano', {}) }); await p.waitForTimeout(600);
+    const r = await p.evaluate(() => { const sc = __cl.scene; sc.burbujas = [{ x: 500, y: 400, r: 40, t0: T }]; sc.down(500, 400); const ex = sc.explotadas;
+      sc.burbujas = []; sc.down(BANO.jabon.x, BANO.jabon.y); sc.down(760, 370); sc.down(800, 330); const es = sc.espuma.length; sc.down(BANO.toalla.x, BANO.toalla.y); return [ex, es, sc.espuma.length, sc.seco] });
+    if (r.join() !== '1,2,0,true') return 'baño: ' + r.join();
+  });
+  await caso('C18', 'Buenas noches: la lámpara apaga la luz, Tito se duerme y la ventana trae la mañana', async p => {
+    await p.evaluate(() => { window.__said = []; __cl.go('casaNoches', {}) }); await p.waitForTimeout(600);
+    const r = await p.evaluate(() => { const sc = __cl.scene; sc.down(NOCHES.lampara.x, NOCHES.lampara.y - 40); const n = sc.noche; sc.down(NOCHES.ventana.x, NOCHES.ventana.y); return [n, sc.noche] });
+    if (r.join() !== 'true,false') return 'noche y día: ' + r.join();
+    if (!/Buenos días/.test(await p.evaluate(() => window.__said.join(' | ')))) return 'Tito no da los buenos días';
+  });
+  await caso('C19', 'El huerto se riega una vez al día, se guarda y la flor crece', async p => {
+    await p.evaluate(() => { __cl.S.huerto = { dias: 2, dia: '2026-10-20' }; __cl.go('casaHuerto', {}) }); await p.waitForTimeout(600);
+    await p.evaluate(() => __cl.scene.down(HUERTO.regadera.x, HUERTO.regadera.y)); await p.waitForTimeout(2300);
+    await p.evaluate(() => __cl.scene.down(HUERTO.regadera.x, HUERTO.regadera.y)); await p.waitForTimeout(300);
+    const r = await p.evaluate(() => [__cl.S.huerto.dias, __cl.S.huerto.dia, JSON.parse(localStorage.getItem(KEY)).huerto.dias]);
+    if (r.join() !== '3,2026-10-21,3') return 'huerto: ' + r.join();
   });
 
   R.guardar(); await b.close(); srv.close(); process.exit(0);
