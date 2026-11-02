@@ -471,18 +471,18 @@ ff71ff25b2b0,Lemon,trozo,src/contenido/ingles.ts
 08a5a4f01551,Sandía,trozo,src/contenido/ingles.ts
 7855cca1372a,Pineapple,trozo,src/contenido/ingles.ts
 8dad40beeb6c,Piña,trozo,src/contenido/ingles.ts
-a10d7a62aaff,Hat,trozo,src/contenido/ingles.ts
+a10d7a62aaff,Hat,trozo,src/contenido/ingles.ts src/temas/ingles.ts
 14e89d38cb53,Gorro,trozo,src/contenido/ingles.ts
 73f7830328e2,Shoe,trozo,src/contenido/ingles.ts
 5e98d07a53c3,Zapato,trozo,src/contenido/ingles.ts
 5ec3e2c4cb63,Camiseta,trozo,src/contenido/ingles.ts
 6e162ed9a2bc,Coat,trozo,src/contenido/ingles.ts
 52f1de9b746a,Abrigo,trozo,src/contenido/ingles.ts
-7c74ec2a0ca9,Scarf,trozo,src/contenido/ingles.ts
+7c74ec2a0ca9,Scarf,trozo,src/contenido/ingles.ts src/temas/ingles.ts
 6dd9d8eb0979,Bufanda,trozo,src/contenido/ingles.ts
 643fdaf1fef5,Gloves,trozo,src/contenido/ingles.ts
 c09a69cad323,Guantes,trozo,src/contenido/ingles.ts
-797e65b9c5cd,Boots,trozo,src/contenido/ingles.ts
+797e65b9c5cd,Boots,trozo,src/contenido/ingles.ts src/temas/ingles.ts
 6b2fb3be41a8,Botas,trozo,src/contenido/ingles.ts
 b4159910295c,Pyjamas,trozo,src/contenido/ingles.ts
 0347b507203d,Pijama,trozo,src/contenido/ingles.ts
@@ -1059,7 +1059,7 @@ d03edbf54161,Lupi está preparando ,trozo,src/escenas/isla.ts
 4c61c25d7f14,. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts
 09fa232bd366, todavía no se ha abierto.,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts
 8c59a66df767,la Playa Hello,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts
-9de5f3445da2,el Parque de Londres,trozo,src/escenas/islaIngles.ts
+9de5f3445da2,el Parque de Londres,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts
 f9a7ebd038f4,el Pueblo de los Cuentos,trozo,src/escenas/islaIngles.ts
 952d2c56d048,Hello!,frase,src/escenas/islaIngles.ts
 35c172d95155,¡Llegamos a la Isla del Inglés,trozo,src/escenas/islaIngles.ts
@@ -1191,6 +1191,7 @@ af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras.
 819111bf6ccc,¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e0ea41a6c7ea,¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 99c13b9da39c,¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
+a4060dd809b3,¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e43303c24ba4,el Rincón de los Conceptos,trozo,src/escenas/zonas.ts
 ca6ec05b56e2,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ,trozo,src/escenas/zonas.ts
 4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,frase,src/escenas/zonas.ts
@@ -1715,8 +1716,8 @@ a75a90bfe60c,la niebla,nombre,src/nucleo/idioma.ts
 7930db79320b,el arcoíris,nombre,src/nucleo/idioma.ts
 de1f99c7f312,la ardilla,nombre,src/nucleo/idioma.ts
 ebae60d4734f,el abrigo,nombre,src/nucleo/idioma.ts
-f397f9524ded,el gorro,nombre,src/nucleo/idioma.ts
-5ead4eb037c9,la bufanda,nombre,src/nucleo/idioma.ts
+f397f9524ded,el gorro,nombre,src/nucleo/idioma.ts src/temas/ingles.ts
+5ead4eb037c9,la bufanda,nombre,src/nucleo/idioma.ts src/temas/ingles.ts
 215279598c24,los guantes,nombre,src/nucleo/idioma.ts
 53f2f867f10c,el copo de nieve,nombre,src/nucleo/idioma.ts
 4ebe57bdd86a,el muñeco de nieve,nombre,src/nucleo/idioma.ts
@@ -1928,6 +1929,7 @@ aae95e55c166,¿Qué casa se voló con un soplido?,frase,src/temas/extras.ts
 40aca82fdc2e,¿Quiénes construyeron las casas?,frase,src/temas/extras.ts
 86406a67c00d,¡Sí! ,frase,src/temas/extras.ts src/temas/temas4.ts src/temas/temas5.ts
 89c2b9e29f6f,el trenecito,nombre,src/temas/extras.ts
+21c2e59531c8,Z,trozo,src/temas/ingles.ts
 8b1a9953c461,Hello,trozo,src/temas/ingles.ts
 f688ae26e9cf,Hola,trozo,src/temas/ingles.ts
 ef97b40b2245,Happy,trozo,src/temas/ingles.ts
@@ -1945,8 +1947,12 @@ e4f58a805a6e,I love you,trozo,src/temas/ingles.ts
 cc3b72d79006,Angry,trozo,src/temas/ingles.ts
 6fdfd2ae16c4,Enfadado,trozo,src/temas/ingles.ts
 6b750c1f2a44,Toca cada dibujo y escucha cómo se dice en inglés. ¡Repítelo en voz alta!,frase,src/temas/ingles.ts
+5c60203af7d1,¿Quién dice,trozo,src/temas/ingles.ts
 56faf0ea7307,Toca,trozo,src/temas/ingles.ts
+5e6b6f09693c,@The ,inglés,src/temas/ingles.ts
+682a493a3882, says ,trozo,src/temas/ingles.ts
 4da0b6011cda,Ese es,trozo,src/temas/ingles.ts
+2d23d3154775,. Dice,trozo,src/temas/ingles.ts
 9e42517b7c1f,. Busca,trozo,src/temas/ingles.ts
 16526d50e695,Revienta los globos de,trozo,src/temas/ingles.ts
 896f94a91413,"Ahora, los globos de",trozo,src/temas/ingles.ts
@@ -1961,11 +1967,27 @@ ccd63adc0fa8,Toca cada dibujo y contamos en inglés.,frase,src/temas/ingles.ts
 ee58d9c9aa3d,Toca el teléfono para cogerlo.,frase,src/temas/ingles.ts
 25a8538ab1d7,@Thank you!,inglés,src/temas/ingles.ts
 70d4e5a2b797,. Polly pide,trozo,src/temas/ingles.ts
+0f461e64d283,Glasses,trozo,src/temas/ingles.ts
+8f8742737782,las gafas,trozo,src/temas/ingles.ts
+15687c144377,las botas,trozo,src/temas/ingles.ts
+633f6856958a,¡Vamos a vestir a Polly! Escucha qué se quiere poner y tócalo.,frase,src/temas/ingles.ts
+e1e04341f52b,@Put on the ,inglés,src/temas/ingles.ts
+6c67483ce79d,¡Qué guapa está Polly!,frase,src/temas/ingles.ts
+a90eec5a4c39,. Polly quiere,trozo,src/temas/ingles.ts
+cbc97f3e50f6,¡Vamos a cantar en inglés con Polly! Escucha.,frase,src/temas/ingles.ts
+d4434d1d66ba,¡Ahora jugamos! Toca lo que te digo.,frase,src/temas/ingles.ts
+92b5df07c1fa,¡Ahora te toca a ti! Toca los dibujos en el orden de la canción.,frase,src/temas/ingles.ts
+2ad4070e6386,¡Bravo! ¡Qué bien cantas en inglés!,frase,src/temas/ingles.ts
 9441a5a2c109,Escucha y repite,trozo,src/temas/ingles.ts
 c4d5806b8ac8,Revienta los globos,trozo,src/temas/ingles.ts
 0ba73f4612ee,Contar en inglés,trozo,src/temas/ingles.ts
 df9ef7929c5b,Repite conmigo,trozo,src/temas/ingles.ts
 7fbc901c0609,El teléfono rojo,trozo,src/temas/ingles.ts
+29df31812122,Viste a Polly,trozo,src/temas/ingles.ts
+89a8c84cff81,Sonidos de la granja,trozo,src/temas/ingles.ts
+301b703476f1,Canta los saludos,trozo,src/temas/ingles.ts
+224483f417bb,Canta los colores,trozo,src/temas/ingles.ts
+a069fa16a69a,Canta los números,trozo,src/temas/ingles.ts
 8ad4c7d09071,Los saludos en inglés,trozo,src/temas/ingles.ts
 5d41402abc4b,hello,trozo,src/temas/ingles.ts
 a3f22fa4c974,"saludarse en inglés al llegar y al irse: hello, good morning, good night.",trozo,src/temas/ingles.ts
@@ -1996,6 +2018,40 @@ a8e2a84b819c,Las formas en inglés,trozo,src/temas/ingles.ts
 5d028fdf62dd,Fiesta de la playa,trozo,src/temas/ingles.ts
 7193529abbf9,beach,trozo,src/temas/ingles.ts
 b2440786e29a,repasar con la familia las palabras en inglés que ya sabe.,trozo,src/temas/ingles.ts
+b27b4c65e425,Repaso de la playa,trozo,src/temas/ingles.ts
+ec66a1f345ea,preguntar en inglés por lo que ya sabe: what colour is it?,trozo,src/temas/ingles.ts
+d1ce7db9239c,La ropa en inglés,trozo,src/temas/ingles.ts
+e7a80f49aaf2,clothes,trozo,src/temas/ingles.ts
+eb23e419b364,"al vestirse, nombrar la ropa en inglés: put on your coat!",trozo,src/temas/ingles.ts
+79f639841891,La comida en inglés,trozo,src/temas/ingles.ts
+62506be34d57,food,trozo,src/temas/ingles.ts
+b9e9c9684cb2,"en la mesa, pedir las cosas en inglés: milk, please.",trozo,src/temas/ingles.ts
+d0577b674b50,Mi casa en inglés,trozo,src/temas/ingles.ts
+2ca63cddd54f,house,trozo,src/temas/ingles.ts
+7d992c112cab,"buscar por casa la bed, la table o el sofa.",trozo,src/temas/ingles.ts
+27883af102e0,El tiempo en inglés,trozo,src/temas/ingles.ts
+aab92e69374e,weather,trozo,src/temas/ingles.ts
+c21a5e7f425e,"mirar por la ventana y decir qué tiempo hace: sunny, rainy...",trozo,src/temas/ingles.ts
+818762406f83,Los transportes en inglés,trozo,src/temas/ingles.ts
+7b334b726036,transport,trozo,src/temas/ingles.ts
+ce45e1eb30d5,"por la calle, nombrar los coches, autobuses y bicis en inglés.",trozo,src/temas/ingles.ts
+45654c8772bc,La granja en inglés,trozo,src/temas/ingles.ts
+e67ed91b512d,farm,trozo,src/temas/ingles.ts
+368a9b87fa64,imitar a los animales en inglés: the cow says moo.,trozo,src/temas/ingles.ts
+b29b9b7d7dd5,Lo que hacemos,trozo,src/temas/ingles.ts
+ebb67a4271ab,actions,trozo,src/temas/ingles.ts
+a17d7d233413,"jugar a hacer lo que se dice en inglés: run, jump, sleep.",trozo,src/temas/ingles.ts
+52c646563dd1,Grande y pequeño,trozo,src/temas/ingles.ts src/temas/temas.ts
+8ab0b4ecc974,opposites,trozo,src/temas/ingles.ts
+ed70dbe315a7,buscar cosas big y small en casa.,trozo,src/temas/ingles.ts
+4896f9e7b3fe,Cómo me siento,trozo,src/temas/ingles.ts
+aa9009f64655,feelings,trozo,src/temas/ingles.ts
+36c6bc8c0404,preguntar cada día en inglés: are you happy?,trozo,src/temas/ingles.ts
+276ad8d9fb34,Canciones del parque,trozo,src/temas/ingles.ts
+e31b7b47c61a,cantar juntos en inglés los colores y los números.,trozo,src/temas/ingles.ts
+c9cd30b044fe,Fiesta del parque,trozo,src/temas/ingles.ts
+fb45615cea11,park,trozo,src/temas/ingles.ts
+7d233def8cf8,repasar con la familia las palabras en inglés del parque.,trozo,src/temas/ingles.ts
 0351bae97d6a,empieza por ,trozo,src/temas/letras.ts
 292f724537e8,lleva ,trozo,src/temas/letras.ts
 1c701316e96d,Esta es ,trozo,src/temas/letras.ts
@@ -2327,7 +2383,6 @@ e18e00acead4,¡Con abrigo en la playa tendríamos mucho calor!,frase,src/temas/t
 c93ecdea64fb,El gorro de lana es para el frío. Mejor la gorra.,frase,src/temas/temas.ts
 eaac9bd0d608,La bufanda es para el invierno.,frase,src/temas/temas.ts
 e01789a5369c,Los guantes son para el frío.,frase,src/temas/temas.ts
-52c646563dd1,Grande y pequeño,trozo,src/temas/temas.ts
 5393719f51fc,el grande,trozo,src/temas/temas.ts
 3b66fc47b650,el pequeño,trozo,src/temas/temas.ts
 a0bae866c997,¿Cuál es ,trozo,src/temas/temas.ts src/temas/temas5.ts

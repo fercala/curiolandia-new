@@ -95,7 +95,13 @@ fusionar cada uno se pone al día con `main` y se vuelve a subir la versión si 
    `EN-BODY`, `EN-TOYS`, `EN-FRUIT`, `EN-SHAPES` y la fiesta `EN-BEACH`, que repasa palabras de toda la playa) y los
    juegos nuevos `EnRepite` (Polly dice la palabra dos veces y el niño la repite y toca la boca: no se usa el micrófono)
    y `EnTelefono` (suena el teléfono rojo, se coge y Polly pide una cosa: «Ball, please!»).
-4. **I4, Parque de Londres.** Sus 12 casitas y el juego `Viste`.
+4. **I4, Parque de Londres (hecha en v0.2.75).** Sus 12 casitas (`ING_PARQUE`: `EN-REVIEW`, `EN-CLOTHES`, `EN-FOOD`,
+   `EN-HOUSE`, `EN-WEATHER`, `EN-TRANSPORT`, `EN-FARM`, `EN-ACTIONS`, `EN-OPPOSITES`, `EN-FEELINGS`, `EN-SONGS` y
+   `EN-PARK`). El juego `EnViste` es **Viste a Polly** y no a Tito: Tito puede ser un caracol, un erizo, una tortuga o un
+   conejo, y a Polly la ropa le queda siempre en su sitio (gorro, gafas, bufanda y botas de colores). Las acciones, los
+   contrarios y las caritas se dibujan con una función que se mueve (`enAccion`, `enOpuesto` y `enFace`). Los sonidos de
+   la granja son `EnEscucha` con `dice` («¿Quién dice moo?») y las tres canciones en inglés usan `Song` con `en:1` en
+   cada verso. En 3D, la decoración de Londres se reparte por delante de las casitas para no taparlas.
 5. **I5, Pueblo de los Cuentos.** Sus 12 casitas y los juegos `Bingo` y `Autobus`.
 6. **I6, la isla en 3D.** El mar, las tres zonas, Polly, el globo y Tito caminando.
 7. **I7, premios y adultos.** «Mi diccionario de inglés» en el álbum, el progreso de inglés en la zona de adultos y

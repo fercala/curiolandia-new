@@ -68,8 +68,8 @@ export function roadPts(P: PuntoSuelo[],o: number){const r: PuntoSuelo[]=[];for(
   else{const sd=(a[0]+b[0])/2>0?1:-1;for(let k=1;k<=24;k++){const t=k/24,u=1-t;const c1=[a[0]+sd*o,a[1]],c2=[b[0]+sd*o,b[1]];r.push([u*u*u*a[0]+3*u*u*t*c1[0]+3*u*t*t*c2[0]+t*t*t*b[0],u*u*u*a[1]+3*u*u*t*c1[1]+3*u*t*t*c2[1]+t*t*t*b[1]])}}}return r}
 // zoneDecor(w,z): pone la decoración y los objetos tocables de la zona z (jardin, bosque, montana, fiestas y,
 // desde la fase L2, playaSonidos; desde la L4, bosqueLetras; desde la L5, puebloPalabras; desde la I2 de
-// docs/PLAN-INGLES.md, playaHello, con lo que tenía el Rincón del inglés, menos lo de Londres, que espera al Parque de
-// Londres, parqueLondres): animales y objetos
+// docs/PLAN-INGLES.md, playaHello, con lo que tenía el Rincón del inglés, menos lo de Londres, y desde la I4 el Parque de
+// Londres, parqueLondres, con lo de Londres colocado delante de las casitas para no taparlas): animales y objetos
 // con sus funciones *3 (frog3, owl3...), árboles, flores, cosas que caen (fallPts) y las letras flotantes / bloques HELLO del inglés.
 // Aquí se añade un objeto 3D nuevo a una zona (ver docs/COMO-AGREGAR.md).
 function zoneDecor(w: Mundo,z: string){const D=w.sc;
@@ -87,7 +87,7 @@ function zoneDecor(w: Mundo,z: string){const D=w.sc;
   // la Playa Hello (fase I2): la sombrilla del rincón y, en la arena, una palmera, un castillo y un cangrejo; lo de Londres
   // (el autobús, la cabina, el reloj, el buzón, la tetera, el guardia y la bandera) va al Parque de Londres
   if(z==='playaHello'){umb3(w,14.6,4.4,1);palm3(w,-14.8,6.8,1.1);sandc3(w,13.2,8,1.2);crab3(w,-4,3,9,1)}
-  if(z==='parqueLondres'){bus3(w,7.2);phone3(w,8.2,4.4,1);clock3(w,-1.6,4.8,.85);post3(w,3.8,5,1);tea3(w,-5.8,4.6,1.5);guard3(w,-9.6,4.8,1.3);flag3(w,6,3.4,1.1);umb3(w,.9,6.4,1)}
+  if(z==='parqueLondres'){bus3(w,9.6);phone3(w,11.4,5.6,1);clock3(w,-1.6,4.8,.85);post3(w,8.4,7.4,1);tea3(w,-0.9,8,1.3);guard3(w,-7.4,8.2,1.3);flag3(w,6.4,3.4,1.1)}
   // la Playa de los Sonidos (fase L2): palmeras, sombrilla, castillo de arena y un cangrejo en la arena, y las vocales
   // grandes de colores puestas en la arena, que se mecen
   if(z==='playaSonidos'){palm3(w,-14.8,6.8,1.1);palm3(w,14.2,4.6,1);sunb3(w,-3.6,8.4,1);sandc3(w,12,7.6,1.3);crab3(w,0,6,8.8,1);

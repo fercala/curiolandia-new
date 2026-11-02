@@ -84,7 +84,7 @@ describe('paginaJuego', () => {
     expect(runInContext("TEMAS.length === Object.keys(TEMA).length && TEMA['EN-HELLO'] === ING[0]", global)).toBe(true);
     for (const k of ['finishGame', 'drawFace', 'tree', 'inR', 'isBday']) expect(typeof global[k], k).toBe('function');
     // escenas/zonas.ts: las zonas, sus escenas (con el mapa y la casita, desde la fase 4d solo aquí) y las reglas del camino.
-    expect(runInContext("Object.keys(ZONES).join() + ' ' + ['map', 'casita', 'jardin', 'bosque', 'montana', 'fiestas', 'islaIngles', 'playaHello', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,playaSonidos,bosqueLetras,puebloPalabras,playaHello true');
+    expect(runInContext("Object.keys(ZONES).join() + ' ' + ['map', 'casita', 'jardin', 'bosque', 'montana', 'fiestas', 'islaIngles', 'playaHello', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,playaSonidos,bosqueLetras,puebloPalabras,playaHello,parqueLondres true');
     expect(runInContext("S.age = 3; [zoneOpen('jardin'), temaOpen(T3[0]), curTema('jardin') === T3[0], suggestTema() === T3[0]].join()", global)).toBe('true,true,true,true');
     for (const k of ['goSeguir', 'suggestTema', 'stationPos', 'zoneScene', 'grantGift']) expect(typeof global[k], k).toBe('function');
     // escenas/tienda.ts: monedas, tienda y casa de Tito (añade los campos de DEF2 a S y las escenas tienda y casaTito).

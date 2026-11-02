@@ -76,7 +76,7 @@ import { MAINZ, NEED, ZAGE, ZONAS_INGLES, ZONAS_LETRAS, camino, empezado, flores
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, SHELLC, STARS, T, TITO, VIVO, W, atHome, burst, cap, card, circ, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, pic, ponRepOn, save, say, sayQ, sky, sparkles, star, temasDone, text, titoKind, titoPos, today, tree } from '../nucleo/indice.ts';
 import { BG, NUM } from '../juegos/indice.ts';
-import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TL3, TL4, TL5, TRZ } from '../temas/indice.ts';
+import { C3, C4, C5, CAN, FIESTAS, ING, ING_PARQUE, RUT, T3, T4, T5, TL3, TL4, TL5, TRZ } from '../temas/indice.ts';
 import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
@@ -135,7 +135,12 @@ export const ZONES: Record<string, Zona>={
   // casitas son las del Rincón del inglés (ING, temas/ingles.ts, con los mismos ids para no perder lo jugado) y el
   // botón de casa vuelve a la isla.
   playaHello:{temas:ING,name:'la Playa Hello',vuelta:'islaIngles',hello:'¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#DDEBFF','#FFF4DA');ctx.fillStyle='#FFE6A8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.14;['Hello!','Hi!','ABC','1 2 3','Yes!'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,80,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#FFE9C2','#DDEBFF','#FFF1CF']}
+    bg:()=>{sky('#DDEBFF','#FFF4DA');ctx.fillStyle='#FFE6A8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.14;['Hello!','Hi!','ABC','1 2 3','Yes!'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,80,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#FFE9C2','#DDEBFF','#FFF1CF']},
+  // El Parque de Londres (4 años), la segunda zona de la Isla del Inglés (fase I4 de docs/PLAN-INGLES.md): 12 casitas
+  // (ING_PARQUE, temas/ingles.ts). En 3D lleva lo que era la decoración del Rincón del inglés: el autobús rojo, la
+  // cabina, el reloj, el buzón, la tetera, el guardia y la bandera.
+  parqueLondres:{temas:ING_PARQUE,name:'el Parque de Londres',vuelta:'islaIngles',hello:'¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ',
+    bg:()=>{sky('#DCE8F5','#F2F7EC');ctx.fillStyle='#BFE3A6';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.14;['Hi!','Bus','Tea','Rain','Park'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,80,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#DDEFD0','#DCE8F5','#F3EBD6']}
 };
 // PARTIDA: la partida de verdad, como la ven las reglas de dominio/apertura.ts. Lee S, la edad y la fecha en el
 // momento de cada pregunta (S cambia entero con ponS al empezar de nuevo o cargar una copia).
