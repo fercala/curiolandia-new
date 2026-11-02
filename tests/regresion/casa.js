@@ -2,6 +2,8 @@
 // con las casitas terminadas, que Tito anuncie la nueva y vaya a ella, que una partida antigua (cosas sin habitación) siga
 // teniéndolo todo en el salón, que lo comprado vaya a su habitación, que se pueda llevar una cosa a otra habitación
 // arrastrándola hasta su botón, que la tienda no deje comprar lo de una habitación cerrada y que pase de página.
+// Desde la fase C2 de docs/PLAN-CASA.md, también que Tito ande hasta lo que se toca y juegue con ello (C8), que ande
+// al tocar el suelo (C9) y que las 49 reacciones se dibujen sin errores (C10).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -61,6 +63,27 @@ const temas = n => { const o = {}; for (let i = 1; i <= n; i++) o['3A-T' + i] = 
     for (const r of ['salon', 'dormitorio', 'cocina', 'bano', 'juegos', 'jardin', 'torre']) { await p.evaluate(r => { __cl.scene.room = r }, r); await p.waitForTimeout(250) }
     const fuera = await p.evaluate(() => homeItems().filter(o => o.x + o.s * .5 > 1610 || o.x - o.s * .5 < 0).map(o => o.id));
     if (fuera.length) return 'se salen de la pantalla: ' + fuera.join();
+  });
+
+  await caso('C8', 'Al tocar el telescopio, Tito anda hasta él, juega y dice su frase', async p => {
+    await p.evaluate(() => { const S = __cl.S; S.home = {}; S.temas = {}; for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} }; S.rooms = 7; S.owned.telescopio = 1; placeHome('telescopio'); SCENES.casaTito.room = 'torre'; __cl.go('casaTito', {}) }); await p.waitForTimeout(1500);
+    const r0 = await p.evaluate(() => { window.__said = []; const sc = __cl.scene, o = S.home.telescopio; sc.down(o.x, o.y - 60); sc.up(o.x, o.y - 60); return [!!sc.acc, sc.paseo.dur > 0] });
+    if (r0[0] || !r0[1]) return 'al tocarlo, Tito no echa a andar o ya está jugando: ' + JSON.stringify(r0);
+    await p.waitForTimeout(3000);
+    const r = await p.evaluate(() => { const sc = __cl.scene; return [sc.acc && sc.acc.id, sc.acc && sc.acc.accion, (window.__said || []).join(' | ')] });
+    if (r[0] !== 'telescopio' || r[1] !== 'mirar') return 'acción: ' + JSON.stringify(r);
+    if (!/estrellas se ven por mi telescopio/.test(r[2])) return 'Tito dice: ' + r[2];
+  });
+  await caso('C9', 'Al tocar el suelo, Tito anda hasta allí', async p => {
+    await p.evaluate(() => { SCENES.casaTito.room = 'salon'; __cl.go('casaTito', {}) }); await p.waitForTimeout(1500);
+    const r = await p.evaluate(() => { const sc = __cl.scene; sc.down(1200, 720); return [sc.paseo.x1, sc.paseo.y1] });
+    if (r[0] !== 1200 || r[1] !== 720) return 'Tito va a ' + r.join();
+  });
+  await caso('C10', 'Las reacciones de los 49 objetos se dibujan sin errores', async p => {
+    await p.evaluate(() => { const S = __cl.S; S.temas = {}; for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} }; S.rooms = 7; for (const it of SHOP) if (!it.slot) { S.owned[it.id] = 1; placeHome(it.id) } __cl.go('casaTito', {}) }); await p.waitForTimeout(800);
+    const ids = await p.evaluate(() => SHOP.filter(it => !it.slot && it.cat !== 'vales').map(it => it.id));
+    for (const id of ids) { await p.evaluate(id => { const sc = __cl.scene, o = S.home[id]; sc.room = homeRoom(id); sc.irA(id); sc.paseoTok++; sc.acc = { id, accion: sc.va.accion, t0: T, x: o.x, y: o.y, s: 160 } }, id); await p.waitForTimeout(300) }
+    if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
   });
 
   R.guardar(); await b.close(); srv.close(); process.exit(0);

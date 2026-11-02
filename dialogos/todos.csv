@@ -2,6 +2,55 @@ id,texto,tipo,donde
 9c763d0ac223,(pointer:coarse),trozo,src/aplicacion/bucle.ts src/mundo3d/motor.ts
 70bf1ce400d3,Gira el móvil,trozo,src/aplicacion/bucle.ts
 1739af05fc06,(toca para seguir igual),trozo,src/aplicacion/bucle.ts
+4078c7480678,¡Cuántas estrellas se ven por mi telescopio!,frase,src/contenido/casa.ts
+fad80629d3fc,¡Mira cómo gira la Tierra! Aquí vivimos todos.,frase,src/contenido/casa.ts
+f4285e3680c7,Saturno es un planeta con anillos. ¡Cómo giran!,frase,src/contenido/casa.ts
+c6de8d50bf50,"¡Tres, dos, uno... despegamos!",frase,src/contenido/casa.ts
+cfad88c21f17,¡Qué blandito es mi sofá!,frase,src/contenido/casa.ts
+865e351831f7,¡Vamos a ver dibujos!,frase,src/contenido/casa.ts
+27ba04d9b341,¡Voy a hacer la croqueta!,frase,src/contenido/casa.ts
+6f8f4da0e311,¡Qué cuadro tan bonito!,frase,src/contenido/casa.ts
+4462b751668f,Mi planta está muy verde. ¡Le ha salido una hoja!,frase,src/contenido/casa.ts
+0b3397c058cf,¡Luz! ¿Encendida o apagada?,frase,src/contenido/casa.ts
+7a68693b9e2a,Me siento un ratito a descansar.,frase,src/contenido/casa.ts
+9ca97ec50a8f,¡Cuántos libros! Me encanta leer.,frase,src/contenido/casa.ts
+7fd83c34cb9d,"Tic, tac, tic, tac. ¡Cuco!",frase,src/contenido/casa.ts
+49e4da882e48,¡El farol ya da luz!,frase,src/contenido/casa.ts
+41501fa60696,¡Escucha mi canción!,frase,src/contenido/casa.ts
+8df019e164a1,¡Los pajaritos vienen a beber agua!,frase,src/contenido/casa.ts
+7150942039ca,Uaaah... ¡Qué sueño! Me echo una siesta.,frase,src/contenido/casa.ts
+c2c2bf948f9c,¿Qué habrá dentro del baúl? ¡Una sorpresa!,frase,src/contenido/casa.ts
+89f33f8b7010,¡Me encanta este cuento!,frase,src/contenido/casa.ts
+f8ef435adcd6,¡Mis estrellas brillan en el techo!,frase,src/contenido/casa.ts
+48edf2d57233,¡A la mesa! Ya tengo hambre.,frase,src/contenido/casa.ts
+1baee88cd329,Me siento en mi silla.,frase,src/contenido/casa.ts
+d69b5b04628d,¡Qué fresquita está la fruta!,frase,src/contenido/casa.ts
+d51fd464d48f,Remuevo la sopa. ¡Qué bien huele!,frase,src/contenido/casa.ts
+7d6cad410235,¡Soplo las velas! ¡Fiuuu!,frase,src/contenido/casa.ts
+6a87cfdf8e14,¡Al agua! ¡Me encanta bañarme!,frase,src/contenido/casa.ts
+ab8583bc5289,¡Ya estoy sequito!,frase,src/contenido/casa.ts
+7907e7e8524f,¡Cuántas burbujas!,frase,src/contenido/casa.ts
+cf3ea53e9591,"¡Cuac, cuac! Hola, patito.",frase,src/contenido/casa.ts
+e714b239bf60,¡Chuto la pelota! ¡Goool!,frase,src/contenido/casa.ts
+dbf62efcef7c,"¡Una torre muy alta! ¡Oh, se cae!",frase,src/contenido/casa.ts
+f2f08134d0cb,¡Un abrazo muy fuerte!,frase,src/contenido/casa.ts
+8cd4665d10b8,¡Mi cometa vuela muy alto!,frase,src/contenido/casa.ts
+eb044378d1b3,"¡Do, re, mi, fa, sol!",frase,src/contenido/casa.ts
+2b87d51c915a,¡Vamos a bailar!,frase,src/contenido/casa.ts
+4ecc29bbac39,"Bip, bup. ¡El robot baila conmigo!",frase,src/contenido/casa.ts
+79bb35bdd195,"¡Chu, chu! ¡Viajeros al tren!",frase,src/contenido/casa.ts
+c7fdd4dce6c0,¡Toco la guitarra!,frase,src/contenido/casa.ts
+c686852ee113,"¡Pum, pum, pum!",frase,src/contenido/casa.ts src/contenido/lex.ts
+afeba27a0792,¡Dibujo un caracol en la pizarra!,frase,src/contenido/casa.ts
+0deaa705cbd5,¡Pinto de muchos colores!,frase,src/contenido/casa.ts
+a55a8764ff0e,"Lo inflo, lo inflo... ¡Pum!",frase,src/contenido/casa.ts
+46d320f6b352,¡Allá voy! ¡Yupi!,frase,src/contenido/casa.ts
+29317c13a3ba,¡Mira cómo caen las hojas!,frase,src/contenido/casa.ts
+90c220cb2869,¡Riego mi flor para que crezca!,frase,src/contenido/casa.ts
+d75b16331d5c,¡A regar el jardín!,frase,src/contenido/casa.ts
+7be035253169,"¡Más alto, más alto!",frase,src/contenido/casa.ts
+edea8e35ad92,¡Mi castillo ya tiene bandera!,frase,src/contenido/casa.ts
+702d0228e651,"¡Al agua, patos!",frase,src/contenido/casa.ts
 46a9c845ed04,La mochila de Teo,trozo,src/contenido/cuentos.ts
 63dc4af5492e,Teo llegó al cole con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!,frase,src/contenido/cuentos.ts
 e94285781b6f,"Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!",frase,src/contenido/cuentos.ts
@@ -843,7 +892,6 @@ de25bcb9c83f,¡Piiing!,frase,src/contenido/lex.ts
 806c9a29306c,¡Fsssh!,frase,src/contenido/lex.ts
 5a2f6c4e9630,"¡Tucutú, tucutú!",frase,src/contenido/lex.ts
 8dd38a0f94ea,"¡Talán, talán!",frase,src/contenido/lex.ts
-c686852ee113,"¡Pum, pum, pum!",frase,src/contenido/lex.ts
 de91d2a4b61c,"¡Cua, cua!",frase,src/contenido/lex.ts
 e97bbf56b361,¡Grrrooo!,frase,src/contenido/lex.ts
 9c4613d1302a,¡Auuuuu!,frase,src/contenido/lex.ts
