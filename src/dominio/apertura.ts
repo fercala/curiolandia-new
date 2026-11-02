@@ -49,7 +49,7 @@ export interface Partida {
 
 /** El mapa de Curiolandia, como lo ven las reglas. */
 export interface Mapa<T extends TemaAbrible> {
-  /** Temas de cada zona con camino, en el orden del camino (ZONES[z].temas): jardin, bosque, montana, fiestas, ingles
+  /** Temas de cada zona con camino, en el orden del camino (ZONES[z].temas): jardin, bosque, montana, fiestas
    * y, desde la fase L1, las zonas de la Isla de las Letras (ZONAS_LETRAS) y, desde la fase I1, las de la Isla del
    * Inglés (ZONAS_INGLES); si aún no están, cuentan como vacías. */
   readonly zonas: Readonly<Record<string, readonly T[]>>;
@@ -91,10 +91,12 @@ const ZONA_ANTERIOR: Readonly<Record<string, string>> = {
 };
 
 // NEED: cuántas casitas del camino (terminadasPrincipales) hay que terminar para abrir cada cosa:
-// 'X-CAN' canciones, 'X-RUT' rutinas, 'X-TRZ' trazos, fiestas, ingles; concepts = casitas de ESA zona
+// 'X-CAN' canciones, 'X-RUT' rutinas, 'X-TRZ' trazos, fiestas; concepts = casitas de ESA zona
 // (terminadasEnCamino) para el Rincón de los Conceptos. OJO: lockMsg (escenas/zonas.ts) y algunas frases dicen el
 // número con palabras ("tres", "cuatro", "dos"): si cambia aquí, cambian allí.
-export const NEED: Readonly<Record<string, number>> = { 'X-CAN': 1, 'X-RUT': 2, 'X-TRZ': 3, fiestas: 4, ingles: 2, concepts: 3 };
+export const NEED: Readonly<Record<string, number>> = { 'X-CAN': 1, 'X-RUT': 2, 'X-TRZ': 3, fiestas: 4, concepts: 3 };
+// (Hasta la fase I2 de docs/PLAN-INGLES.md, el Rincón del inglés pedía 2 casitas; la Isla del Inglés está abierta desde
+// el principio, como la de las Letras.)
 
 // Flores (temas terminados) que hace falta tener en una zona para abrir la siguiente sin tener la edad.
 const FLORES_PARA_SEGUIR = 6;
@@ -125,7 +127,7 @@ export function terminadasEnCamino<T extends TemaAbrible>(p: Partida, m: Mapa<T>
 }
 
 // terminadasPrincipales(p, m): casitas del camino terminadas sumando las tres zonas principales. Es lo que miran los
-// NEED de canciones, rutinas, trazos, fiestas e inglés.
+// NEED de canciones, rutinas, trazos y fiestas.
 export function terminadasPrincipales<T extends TemaAbrible>(p: Partida, m: Mapa<T>): number {
   return MAINZ.reduce((a, z) => a + terminadasEnCamino(p, m, z), 0);
 }
@@ -169,7 +171,7 @@ function anteriorTerminado(p: Partida, lista: readonly TemaAbrible[], t: TemaAbr
 // 2) temas de zonas principales y de las islas (de las Letras y del Inglés): la zona tiene que estar abierta; el Rincón de los
 //    Conceptos pide NEED.concepts casitas terminadas en su zona; el resto, que la casita anterior del camino esté
 //    terminada (la primera, siempre).
-// 3) fiestas e inglés: hacen falta NEED[zona] casitas del camino y, además, la anterior terminada (en fiestas vale
+// 3) fiestas: hacen falta NEED.fiestas casitas del camino y, además, la anterior terminada (en fiestas vale
 //    también que sea la fiesta del mes, que se salta el orden).
 // 4) temas sueltos con NEED[t.id] (canciones, rutinas, trazos): NEED[t.id] casitas del camino.
 // 5) cualquier otro: abierto.
@@ -182,7 +184,7 @@ export function temaAbierto<T extends TemaAbrible>(p: Partida, m: Mapa<T>, t: T 
     if (t.concepts) return terminadasEnCamino(p, m, z) >= (NEED['concepts'] ?? 0);
     return anteriorTerminado(p, camino(m, z), t);
   }
-  if (z === 'fiestas' || z === 'ingles') {
+  if (z === 'fiestas') {
     if (terminadasPrincipales(p, m) < (NEED[z] ?? 0)) return false;
     return anteriorTerminado(p, m.zonas[z] ?? [], t) || fiestaDelMes(p.mes()) === t.id;
   }
@@ -227,7 +229,7 @@ export function temaQueToca<T extends TemaAbrible>(p: Partida, m: Mapa<T>, z: st
 }
 
 // siguienteTema(p, m): el tema del botón «seguir el camino» del mapa. Busca primero en la zona de su edad, luego en
-// las otras zonas principales abiertas; después en los extras, por este orden: canciones, rutinas, inglés, trazos,
+// las otras zonas principales abiertas; después en los extras, por este orden: canciones, rutinas, trazos,
 // rincones de los conceptos y fiestas. null si ya no queda nada.
 export function siguienteTema<T extends TemaAbrible>(p: Partida, m: Mapa<T>): T | null {
   const z0 = zonaDeLaEdad(p, m);
@@ -236,7 +238,7 @@ export function siguienteTema<T extends TemaAbrible>(p: Partida, m: Mapa<T>): T 
   const enCamino = zonas.reduce<T | undefined>((hallado, z) => hallado ?? camino(m, z).find((t) => pendiente(p, m, t)), undefined);
   if (enCamino) return enCamino;
   const rincones = MAINZ.map((z) => (m.zonas[z] ?? []).find((t) => t.concepts));
-  const extras = [m.can, m.rut, ...(m.zonas['ingles'] ?? []), m.trz, ...rincones, ...(m.zonas['fiestas'] ?? [])];
+  const extras = [m.can, m.rut, m.trz, ...rincones, ...(m.zonas['fiestas'] ?? [])];
   return extras.find((t) => pendiente(p, m, t)) ?? null;
 }
 
@@ -270,21 +272,21 @@ export function siguienteLetra<T extends TemaAbrible>(p: Partida, m: Mapa<T>): T
 }
 
 // sitioAbierto(p, m, id): ¿está abierto el sitio id del mapa? Canciones, rutinas y trazos, si su tema está abierto;
-// fiestas e inglés, según NEED; bosque y montaña, según zonaAbierta; el resto (plaza, jardín, álbum, tienda, casa),
+// fiestas, según NEED; bosque y montaña, según zonaAbierta; el resto (plaza, jardín, álbum, tienda, casa),
 // siempre. En modo libre, todos.
 export function sitioAbierto<T extends TemaAbrible>(p: Partida, m: Mapa<T>, id: string): boolean {
   if (p.libre) return true;
   if (id === 'canciones') return temaAbierto(p, m, m.can);
   if (id === 'rutinas') return temaAbierto(p, m, m.rut);
   if (id === 'trazos') return temaAbierto(p, m, m.trz);
-  if (id === 'fiestas' || id === 'ingles') return terminadasPrincipales(p, m) >= (NEED[id] ?? 0);
+  if (id === 'fiestas') return terminadasPrincipales(p, m) >= (NEED[id] ?? 0);
   if (ZAGE[id]) return zonaAbierta(p, m, id);
   return true;
 }
 
 // Casitas que pide cada sitio del mapa con candado (sitioNecesita).
 const NEED_SITIO: Readonly<Record<string, number | undefined>> = {
-  canciones: NEED['X-CAN'], rutinas: NEED['X-RUT'], trazos: NEED['X-TRZ'], fiestas: NEED['fiestas'], ingles: NEED['ingles'],
+  canciones: NEED['X-CAN'], rutinas: NEED['X-RUT'], trazos: NEED['X-TRZ'], fiestas: NEED['fiestas'],
 };
 
 // sitioNecesita(id): casitas del camino que hacen falta para abrir el sitio id (el número del cartel de su candado), o

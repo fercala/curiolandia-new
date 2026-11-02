@@ -84,8 +84,13 @@ fusionar cada uno se pone al día con `main` y se vuelve a subir la versión si 
    (`zonaDeIslaDeLaEdad` y `siguienteDeIsla`; `siguienteLetra` es la de las letras). Las palabras nuevas en
    `contenido/ingles.ts` (`PALABRAS_INGLES`, 13 conjuntos con dibujo) con sus pruebas, y el dibujo de Polly. El juego
    no cambia.
-2. **I2, la entrada y la Playa Hello con sus 4 casitas.** El globo con su cartel en el mapa (2D y 3D) en lugar del
-   rincón, la escena de la isla con Polly y las 4 casitas del rincón ya en la playa. El Parque y el Pueblo salen «en obras».
+2. **I2, la entrada y la Playa Hello con sus 4 casitas (hecha en v0.2.73).** El globo con su cartel en el mapa (2D y
+   3D) en el sitio del rincón (`MZ2` con id `globo` y `esc: 'islaIngles'`; en 3D, `SPOT3.globo`, con el cartel pegado a
+   lo alto del globo: delante lo tapaba la montaña), la escena de la isla con Polly (`escenas/islaIngles.ts`, en 2D) y
+   las 4 casitas del rincón ya en la playa (`ZONES.playaHello`, con `vuelta: 'islaIngles'`). La zona `ingles` y la regla
+   de las 2 casitas (`NEED.ingles`) desaparecen. La decoración 3D del rincón se reparte: las letras que flotan, los
+   cubos HELLO y la sombrilla, a la playa; lo de Londres (autobús, cabina, reloj, buzón, tetera, guardia y bandera),
+   al Parque de Londres, que sale en la fase I4. El Parque y el Pueblo salen «en obras».
 3. **I3, el resto de la Playa Hello.** Las otras 6 casitas y los juegos nuevos `Repite` y `Telefono`.
 4. **I4, Parque de Londres.** Sus 12 casitas y el juego `Viste`.
 5. **I5, Pueblo de los Cuentos.** Sus 12 casitas y los juegos `Bingo` y `Autobus`.

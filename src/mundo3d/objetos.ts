@@ -83,7 +83,7 @@ export function owl3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x
   const zz=nt?null:zzz3(w,g,2.4);// el búho es nocturno: de día duerme y de noche está despierto
   w.upd.push(()=>{const k=g.userData.wob,e=k==null?9:T-k,q=Math.min(e/1.2,1),sl=!nt&&e>3,bl=sl?.12:(T%4.3)<.15?.15:1;for(const pu of E)pu.scale.y=bl;for(const m of EW)m.scale.y=sl?.15:1;if(zz)zz.forEach(z=>z.visible=!!sl);
     hd.rotation.y=e<1.2?Math.sin(q*PI*2)*1.2:sl?0:Math.sin(T*.4)*.15;hd.rotation.x=sl?.25:0;hd.rotation.z=e<1.2?Math.sin(q*PI)*.2:0});return g}
-// cabina de teléfono roja (rincón de inglés): al tocarla tiembla y suena ring-ring
+// cabina de teléfono roja (del Rincón del inglés; desde la fase I2, del Parque de Londres de la Isla del Inglés): al tocarla tiembla y suena ring-ring
 // phone3(w,x,z,s): cabina de teléfono roja (inglés); de noche tiene luz dentro. Al tocarla tiembla. Marca userData.phone.
 export function phone3(w: Mundo,x: number,z: number,s: number){const g=grp(w.sc,[x,0,z],s);g.userData.phone=1;const R='#D9372C';
   mk(Box(1,2.3,1),R,{p:[0,1.15,0],to:g,ol:.04});mk(Box(1.12,.18,1.12),R,{p:[0,2.38,0],to:g,ol:.03});mk(Sph(.5,14,8),R,{p:[0,2.46,0],s:[1,.35,1],to:g,ol:.03});

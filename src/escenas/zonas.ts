@@ -3,7 +3,7 @@
  * ---------------------------------------------------------------------
  * Para qué sirve:
  *   Convierte el juego en un "camino": las zonas del mapa (jardín 3 años,
- *   bosque 4, montaña 5, días especiales, rincón del inglés) y, dentro de
+ *   bosque 4, montaña 5, días especiales; y las zonas de las dos islas) y, dentro de
  *   cada zona, las casitas (temas) se abren de una en una; dentro de cada
  *   casita, los juegos también. Las reglas de qué está abierto y qué toca
  *   ahora están, desde la fase 3a, en dominio/apertura.ts; aquí siguen con
@@ -16,7 +16,7 @@
  *
  * Flujo del niño (con zonas.ts cargado):
  *   portada (title) -> mapa (map) -> [asamblea si no se ha hecho hoy]
- *   -> zona (SCENES.jardin/bosque/montana/fiestas/ingles = zoneScene(z))
+ *   -> zona (SCENES.jardin/bosque/montana/fiestas = zoneScene(z); las islas tienen sus zonas)
  *   o botón "seguir" (goSeguir -> casita del siguiente tema, nextTema)
  *   -> casita (juegos en camino) -> juego -> finishGame (escenas/escenas2d.ts)
  *   -> casita con o.fin -> cofre -> vuelve a la zona ({from}).
@@ -44,7 +44,8 @@
  *   unlockFx, arrowAt, zonePos, ZPOS, casitaPos, newlyOpen, zoneScene, HOUSE_AT, casaPos,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
  *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
- *   drawSeguir, drawZoneSpot, suggestTema, stationPos,
+ *   drawSeguir, drawZoneSpot, suggestTema, stationPos, nextLetra y, desde la fase I2 de docs/PLAN-INGLES.md,
+ *   ZONAS_INGLES, nextIngles y enIslaIngles,
  *   stLocked (GIFTS, nextGift, grantGift, la escena del cofre y cofrePend están desde la fase 4q en escenas/cofre.ts).
  * Importa:
  *   el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo...), escenas/escenas2d.ts
@@ -71,7 +72,7 @@ import type { Escena } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
 import { regaloDelDia } from '../aplicacion/premiosDelDia.ts';
 import { HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa } from '../dominio/progreso.ts';
-import { MAINZ, NEED, ZAGE, ZONAS_LETRAS, camino, empezado, flores, juegoAbierto, siguienteJuego, siguienteLetra, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
+import { MAINZ, NEED, ZAGE, ZONAS_INGLES, ZONAS_LETRAS, camino, empezado, flores, juegoAbierto, siguienteDeIsla, siguienteJuego, siguienteLetra, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, SHELLC, STARS, T, TITO, VIVO, W, atHome, burst, cap, card, circ, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, pic, ponRepOn, save, say, sayQ, sky, sparkles, star, temasDone, text, titoKind, titoPos, today, tree } from '../nucleo/indice.ts';
 import { BG, NUM } from '../juegos/indice.ts';
@@ -90,7 +91,7 @@ export interface Zona {
   bg: () => void;
   bands?: string[];
   cbox?: string;
-  /** Escena a la que vuelve el botón de casa (por defecto, el mapa). Las zonas de la Isla de las Letras vuelven a la isla. */
+  /** Escena a la que vuelve el botón de casa (por defecto, el mapa). Las zonas de las islas vuelven a su isla. */
   vuelta?: string;
 }
 
@@ -104,7 +105,11 @@ export interface PosCasita {
 /* ================= ZONAS, CAMINO, MAPA Y CASITAS (v3) ================= */
 // ZAGE (edad de cada zona principal), MAINZ (las tres zonas principales) y NEED (casitas que pide cada cosa) son de
 // dominio/apertura.ts; se exportan también desde aquí, donde estaban antes.
-export { MAINZ, NEED, ZAGE, ZONAS_LETRAS };
+export { MAINZ, NEED, ZAGE, ZONAS_INGLES, ZONAS_LETRAS };
+// enIslaIngles(escena): ¿es la escena de la Isla del Inglés o una de sus zonas? (desde la fase I2 de
+// docs/PLAN-INGLES.md; antes se miraba si era 'ingles', el Rincón del inglés). En la isla, la capa 3D dice los números
+// y los colores en inglés.
+export const enIslaIngles=(escena: string): boolean=>escena==='islaIngles'||ZONAS_INGLES.includes(escena);
 // ZONES: las zonas con camino de casitas. Formato: {temas: lista de temas en orden del camino, name: nombre para la voz,
 // hello: saludo al entrar la primera vez, bg(): dibuja el fondo, bands?: colores de las 3 franjas, cbox?: color del cuadro
 // del Rincón de los Conceptos}. Para cada clave se crea la escena SCENES[clave] = zoneScene(clave) (más abajo).
@@ -113,8 +118,6 @@ export const ZONES: Record<string, Zona>={
   bosque:{temas:[...T4,C4],name:'el Bosque de los 4 años',hello:'¡Bienvenido al Bosque de los 4 años! Sigue el camino: las casitas se abren de a una. ',bg:()=>{sky('#D8F0CC','#F1FAE8');for(let i=0;i<12;i++){ctx.globalAlpha=.35;tree(120+i*130,880,.9+(i%3)*.15,i%2?'verano':'primavera');ctx.globalAlpha=1}},bands:['#F7DDB8','#D9ECF7','#CDEBC0'],cbox:'#E4DDF8'},
   montana:{temas:[...T5,C5],name:'la Montaña de los 5 años',hello:'¡Bienvenido a la Montaña de los 5 años! Sigue el camino: las casitas se abren de a una. ',bg:()=>{sky('#E2EAF8','#F6F2EA');ctx.globalAlpha=.4;for(let i=0;i<6;i++){ctx.beginPath();ctx.moveTo(i*300-60,900);ctx.lineTo(i*300+120,560+(i%2)*80);ctx.lineTo(i*300+300,900);ctx.closePath();fillStroke('#B9C3D6',0)}ctx.globalAlpha=1},bands:['#F9E0C4','#DCE7F7','#DDEFD5'],cbox:'#E8E1FA'},
   fiestas:{temas:FIESTAS,name:'los días especiales',hello:'¡Los días especiales! Se abren de a una, como un camino. ',bg:()=>BG.fiesta()},
-  ingles:{temas:ING,name:'el Rincón del inglés',hello:'¡Bienvenido al Rincón del inglés! Aquí aprendemos palabras en inglés, como los niños de Inglaterra. Las casitas se abren de a una. ',
-    bg:()=>{sky('#E3F0FF','#FFF4E6');for(let i=0;i<7;i++){const x=300+i*150,y=110+(i%2)*40;ctx.globalAlpha=.5;card(x-44,y-28,88,56,'#fff',4,24);text(['Hi!','ABC','1 2 3','Yes!','Wow!'][i%5],x,y+12,26,DIAC[i%7],{f:LF});ctx.globalAlpha=1}}},
   // La Playa de los Sonidos (3 años), la primera zona de la Isla de las Letras (fase L2 de docs/PLAN-LECTURA.md): sus
   // casitas son las vocales (TL3, temas/letras.ts) y el botón de casa vuelve a la isla.
   playaSonidos:{temas:TL3,name:'la Playa de los Sonidos',vuelta:'isla',hello:'¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ',
@@ -127,7 +130,12 @@ export const ZONES: Record<string, Zona>={
   // fábrica de sílabas, las palabras de dos y de tres sílabas, las frases, los cuentos para leer y la fiesta del
   // abecedario (TL5, temas/letras.ts).
   puebloPalabras:{temas:TL5,name:'el Pueblo de las Palabras',vuelta:'isla',hello:'¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#FDE7D6','#FFF7EC');ctx.fillStyle='#EBD9B6';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.12;['SOL','PAN','LUZ','MAR','PIE'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,90,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#F7DDB8','#FDE7D6','#E9F2D8']}
+    bg:()=>{sky('#FDE7D6','#FFF7EC');ctx.fillStyle='#EBD9B6';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.12;['SOL','PAN','LUZ','MAR','PIE'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,90,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#F7DDB8','#FDE7D6','#E9F2D8']},
+  // La Playa Hello (3 años), la primera zona de la Isla del Inglés (fase I2 de docs/PLAN-INGLES.md): sus primeras
+  // casitas son las del Rincón del inglés (ING, temas/ingles.ts, con los mismos ids para no perder lo jugado) y el
+  // botón de casa vuelve a la isla.
+  playaHello:{temas:ING,name:'la Playa Hello',vuelta:'islaIngles',hello:'¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ',
+    bg:()=>{sky('#DDEBFF','#FFF4DA');ctx.fillStyle='#FFE6A8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.14;['Hello!','Hi!','ABC','1 2 3','Yes!'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,80,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#FFE9C2','#DDEBFF','#FFF1CF']}
 };
 // PARTIDA: la partida de verdad, como la ven las reglas de dominio/apertura.ts. Lee S, la edad y la fecha en el
 // momento de cada pregunta (S cambia entero con ponS al empezar de nuevo o cargar una copia).
@@ -167,6 +175,10 @@ export const nextTema=(): Tema | null=>siguienteTema(PARTIDA,MAPA);
 // nextLetra(): la casita del botón «seguir» de la Isla de las Letras (siguienteLetra en dominio/apertura.ts): la que
 // toca en la zona de la isla de su edad y luego en las otras abiertas. null si no queda nada. Desde la fase L2.
 export const nextLetra=(): Tema | null=>siguienteLetra(PARTIDA,MAPA);
+// nextIngles(): la casita del botón «seguir» de la Isla del Inglés (siguienteDeIsla con la isla 'ingles', en
+// dominio/apertura.ts): la que toca en la zona de la isla de su edad y luego en las otras abiertas. null si no queda
+// nada. Desde la fase I2 de docs/PLAN-INGLES.md.
+export const nextIngles=(): Tema | null=>siguienteDeIsla(PARTIDA,MAPA,'ingles');
 // suggestTema(z): el tema que Tito recomienda: la casita que toca en el camino de la zona z (o, sin z, de la zona de
 // su edad abierta). La usa la zona de adultos (aplicacion/adultos.ts). Desde la fase 4d está solo aquí (antes había
 // otra en escenas/escenas2d.ts, que esta sustituía con ponSuggestTema).
@@ -177,7 +189,6 @@ export const lowName=(t: Tema)=>t.concepts?'el Rincón de los Conceptos':t.n.rep
 function lockMsg(t: Tema){const z=t.zone;
   if(t.concepts)return 'El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste '+(NUM[pathDone(z)]||pathDone(z))+'!';
   if(z==='fiestas'&&mainDone()<NEED.fiestas)return 'Los días especiales se abren cuando termines cuatro casitas del camino.';
-  if(z==='ingles'&&mainDone()<NEED.ingles)return 'El Rincón del inglés se abre cuando termines dos casitas del camino.';
   const L=z==='fiestas'?FIESTAS:pathOf(z),prev=L[L.indexOf(t)-1];
   return 'Esta casita todavía está cerrada. Primero termina '+(prev?lowName(prev):'la anterior')+'. ¡Sigue el camino!'}
 
@@ -204,12 +215,12 @@ export function arrowAt(x: number,y: number){const b=Math.abs(Math.sin(T*4))*16;
 
 // posiciones de las casitas de una zona: un camino en zigzag (izquierda→derecha, derecha→izquierda...)
 // zonePos(z): calcula las posiciones {id: {x, y, s: escala, band?}} de las casitas de la zona z.
-// Zonas principales y de la Isla de las Letras (ZONAS_LETRAS): camino en zigzag de 3 filas (5, 4 y 3 casitas; la fila
-// del medio va de derecha a izquierda) y el Rincón de los Conceptos (si hay) abajo a la derecha. Fiestas e inglés: una
-// sola fila centrada y más grandes (s = 1.25).
+// Zonas principales y de las islas (ZONAS_LETRAS y, desde la fase I2, ZONAS_INGLES): camino en zigzag de 3 filas (5, 4
+// y 3 casitas; la fila del medio va de derecha a izquierda) y el Rincón de los Conceptos (si hay) abajo a la derecha.
+// Fiestas: una sola fila centrada y más grandes (s = 1.25).
 // Admite hasta 12 casitas en el camino: un tema número 13 no tendría posición.
 function zonePos(z: string){const P: Record<string, PosCasita>={},L=ZONES[z].temas;
-  if(!MAINZ.includes(z)&&!ZONAS_LETRAS.includes(z)){L.forEach((t,i)=>P[t.id]={x:900-(L.length-1)*170+i*340,y:500,s:1.25});return P}
+  if(!MAINZ.includes(z)&&!ZONAS_LETRAS.includes(z)&&!ZONAS_INGLES.includes(z)){L.forEach((t,i)=>P[t.id]={x:900-(L.length-1)*170+i*340,y:500,s:1.25});return P}
   const path=pathOf(z),rows=[[0,1,2,3,4],[5,6,7,8],[9,10,11]],ys=[250,490,725];
   rows.forEach((r,ri)=>r.forEach((n,j)=>{const t=path[n];if(t)P[t.id]={x:ri===0?440+j*256:ri===1?1290-j*280:450+j*280,y:ys[ri],band:ri,s:1}}));
 // El Rincón de los Conceptos no forma parte del camino: va aparte, abajo a la derecha.
@@ -343,7 +354,7 @@ export function drawTitoHouse(x: number,gy: number,lvl: number,o: Libre={}){cons
 /* ---------- el mapa ---------- */
 // MZ2: los sitios del mapa v3. Formato: {id, x, y, r: radio tocable, name: nombre para la voz, t?: id del tema al que
 // lleva directamente (canciones, trazos, rutinas), esc?: escena a la que lleva si no es la del id (el muelle -> 'isla',
-// desde la fase L2)}. Al tocarlo: plaza -> asamblea; con t -> su casita; con esc -> esa escena; si no -> go(id) (una
+// desde la fase L2; el globo -> 'islaIngles', desde la fase I2, en el sitio del antiguo Rincón del inglés)}. Al tocarlo: plaza -> asamblea; con t -> su casita; con esc -> esa escena; si no -> go(id) (una
 // zona de ZONES, 'album', 'tienda' o 'casaTito'). Son las posiciones 2D: dónde está cada sitio en la
 // pantalla se pregunta con mzOf o lugar, que en 3D dan las proyectadas (desde la fase 4j; antes se escribían aquí).
 export const MZ2=[
@@ -355,7 +366,7 @@ export const MZ2=[
   {id:'trazos',x:530,y:255,r:85,name:'los trazos',t:'X-TRZ'},
   {id:'rutinas',x:770,y:240,r:85,name:'las rutinas y los hábitos',t:'X-RUT'},
   {id:'album',x:1450,y:270,r:80,name:'el álbum'},
-  {id:'ingles',x:1290,y:458,r:74,name:'el Rincón del inglés'},
+  {id:'globo',x:1290,y:458,r:80,name:'el globo de la Isla del Inglés',esc:'islaIngles'},
   {id:'fiestas',x:575,y:785,r:90,name:'los días especiales'},
   {id:'tienda',x:790,y:800,r:90,name:'la tienda'},
   {id:'casaTito',x:1040,y:715,r:150,name:'la casa de Tito'},
@@ -407,6 +418,23 @@ function drawMuelle(x: number,y: number){const b=Math.sin(T*2)*3;
   text('A',22,-24,38,'#E8554E',{f:LF});ctx.restore();
   // el cartel (desde la v0.2.70), como el de la Casa de Tito, para que se vea adónde lleva
   card(x-112,y-112,224,40,'#5B8DEF',5,20);text('Isla de las Letras',x,y-83,24,'#fff')}
+// drawGlobo(x, y): el globo del mapa (fase I2 de docs/PLAN-INGLES.md), en el sitio del antiguo Rincón del inglés: un globo
+// aerostático de rayas rojas, blancas y azules con su cesta, que sube y baja despacio, y encima su cartel, «Isla del
+// Inglés», que se ve siempre (el barco de las letras costaba encontrarlo sin cartel). Lleva a SCENES.islaIngles
+// (escenas/islaIngles.ts).
+function drawGlobo(x: number,y: number){const b=Math.sin(T*1.6)*6;
+  ctx.save();ctx.translate(x,y+b);
+  // las cuerdas y la cesta
+  ctx.lineWidth=4;ctx.strokeStyle=K;for(const d of[-1,1]){ctx.beginPath();ctx.moveTo(d*36,-12);ctx.lineTo(d*18,30);ctx.stroke()}
+  card(-24,28,48,34,'#C98A4B',5,8);
+  // la tela: un globo con gajos de colores
+  ctx.beginPath();ctx.ellipse(0,-58,58,64,0,0,PI*2);ctx.fillStyle='#fff';ctx.fill();
+  ctx.save();ctx.clip();['#E8554E','#fff','#5B8DEF','#fff','#E8554E'].forEach((c,i)=>{ctx.fillStyle=c;ctx.fillRect(-58+i*23.2,-124,23.2,132)});ctx.restore();
+  ctx.beginPath();ctx.ellipse(0,-58,58,64,0,0,PI*2);ctx.lineWidth=6;ctx.strokeStyle=K;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(-40,-12);ctx.quadraticCurveTo(0,6,40,-12);ctx.lineWidth=5;ctx.stroke();
+  ctx.restore();
+  // el cartel, como el del barco de la Isla de las Letras
+  card(x-104,y-180,208,40,'#E8554E',5,20);text('Isla del Inglés',x,y-151,24,'#fff')}
 // drawZoneSpot(z, o): dibuja el sitio z de MZ2 con su dibujo propio (plaza, jardín, bosque, montaña, carpa, pizarra...).
 // o.glow = halo; o.wake = instante en que se despertó (tiembla); o.unl = instante de la animación de desbloqueo;
 // o.shake / o.petJump para la casa y Pipo. Los sitios cerrados (no bosque/montaña, que salen "dormidos" en gris con
@@ -430,8 +458,7 @@ function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z.id),s=
   if(z.id==='rutinas'){card(x-62,y-26,124,90,'#BFEAF7',6,10);ctx.beginPath();ctx.moveTo(x-80,y-24);ctx.lineTo(x,y-90);ctx.lineTo(x+80,y-24);ctx.closePath();fillStroke('#5BB8E6',6);circ(x,y+18,34,'#fff',5);pic('manos',x,y+18,58);for(let i=0;i<3;i++){const k=(T*.6+i/3)%1;ctx.globalAlpha=1-k;circ(x+60+Math.sin(T*3+i)*8,y-30-k*60,6+i*2,'rgba(255,255,255,.8)',2,'#9ED9F5')}ctx.globalAlpha=1}
   if(z.id==='album'){ctx.save();ctx.translate(x,y);ctx.rotate(-.08);card(-60,-50,120,100,'#9B8AD9',6,14);card(-48,-40,96,80,'#FFF6E6',4,10);star(0,0,26,'#FFC93C',4);ctx.restore()}
   if(z.id==='fiestas'){pic('fuegos',x,y-44,130);pic('tarta',x-38,y+26,110);pic('regalo',x+46,y+34,90)}
-  if(z.id==='ingles'){ctx.save();ctx.translate(x,y);const b=Math.sin(T*2)*3;card(-70,-58+b,140,84,'#fff',6,30);ctx.beginPath();ctx.moveTo(-24,24+b);ctx.lineTo(-40,52+b);ctx.lineTo(0,24+b);ctx.closePath();fillStroke('#fff',6);card(-26,18+b,40,10,'#fff',0,0);
-    text('Hello!',0,-4+b,36,'#5B8DEF',{f:LF});card(-54,40,108,40,'#FF6B5E',5,20);text('ABC',0,70,26,'#fff',{f:LF});ctx.restore()}
+  if(z.id==='globo')drawGlobo(x,y);
   if(z.id==='tienda'){pic('tienda',x,y,180);if(S.coins!>0){pic('moneda',x+62,y-60,50+Math.sin(T*4)*4)}}
   if(z.id==='muelle')drawMuelle(x,y);
   if(z.id==='casaTito'){const h=casaPos();drawTitoHouse(h[0],h[1],houseLevel(),{shake:o.shake});drawPet(h[0]+170,h[1]+40,96,{jump:o.petJump})}

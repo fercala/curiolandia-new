@@ -1047,7 +1047,7 @@ af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts
 82a8c9409b57,¡Muy pronto!,frase,src/escenas/isla.ts
-8510453fad10, años,trozo,src/escenas/isla.ts src/mundo3d/isla3d.ts
+8510453fad10, años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/mundo3d/isla3d.ts
 f9ec665e0ef6,¡Llegamos a la Isla de las Letras,trozo,src/escenas/isla.ts
 1b8f255649ec,"! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",trozo,src/escenas/isla.ts
 6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,frase,src/escenas/isla.ts
@@ -1056,8 +1056,20 @@ b2b4b96d3c6d,"Lupi, la lechuza.",frase,src/escenas/isla.ts
 1ad8c3cff60b,¡Terminaste todas las letras que hay por ahora! Puedes repetir las que quieras.,frase,src/escenas/isla.ts
 71d864795142,"¡Hola! Soy Lupi, la lechuza. Cuido las letras de esta isla. ¡Vamos a aprenderlas juntos!",frase,src/escenas/isla.ts
 d03edbf54161,Lupi está preparando ,trozo,src/escenas/isla.ts
-4c61c25d7f14,. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/isla.ts
-09fa232bd366, todavía no se ha abierto.,trozo,src/escenas/isla.ts
+4c61c25d7f14,. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts
+09fa232bd366, todavía no se ha abierto.,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts
+8c59a66df767,la Playa Hello,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts
+9de5f3445da2,el Parque de Londres,trozo,src/escenas/islaIngles.ts
+f9a7ebd038f4,el Pueblo de los Cuentos,trozo,src/escenas/islaIngles.ts
+952d2c56d048,Hello!,frase,src/escenas/islaIngles.ts
+35c172d95155,¡Llegamos a la Isla del Inglés,trozo,src/escenas/islaIngles.ts
+498f7fb90f09,"! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.",trozo,src/escenas/islaIngles.ts
+67cc5a360054,Toca el botón verde para seguir con el inglés. O toca una zona de la isla.,frase,src/escenas/islaIngles.ts
+79033b942cf3,"Polly, la lorita.",frase,src/escenas/islaIngles.ts
+7665111d836a,Seguir con el inglés.,frase,src/escenas/islaIngles.ts
+645bd7ef79e7,¡Terminaste todo el inglés que hay por ahora! Puedes repetir lo que quieras.,frase,src/escenas/islaIngles.ts
+739343dc1545,"Hello! Soy Polly, la lorita. Vivo en esta isla y hablo inglés. ¡Vamos a aprender juntos!",frase,src/escenas/islaIngles.ts
+193bc5cffe9d,Polly está preparando ,trozo,src/escenas/islaIngles.ts
 8d06689637ee,Este es tu libro de letras. Ya conoces ,trozo,src/escenas/libroLetras.ts
 7e9cde7f9cb1,letra,trozo,src/escenas/libroLetras.ts
 7074afe3c5e3,letras,trozo,src/escenas/libroLetras.ts
@@ -1175,15 +1187,13 @@ b19795e88a5d,el Bosque de los 4 años,trozo,src/escenas/zonas.ts
 9c14df0e321d,¡Bienvenido a la Montaña de los 5 años! Sigue el camino: las casitas se abren de a una. ,frase,src/escenas/zonas.ts
 cd31ebc2e43d,los días especiales,trozo,src/escenas/zonas.ts
 4777b56bd48a,"¡Los días especiales! Se abren de a una, como un camino. ",frase,src/escenas/zonas.ts
-0a23c669cd3d,el Rincón del inglés,trozo,src/escenas/zonas.ts
-c4db7b5ab57e,"¡Bienvenido al Rincón del inglés! Aquí aprendemos palabras en inglés, como los niños de Inglaterra. Las casitas se abren de a una. ",frase,src/escenas/zonas.ts
 af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 819111bf6ccc,¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e0ea41a6c7ea,¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
+99c13b9da39c,¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e43303c24ba4,el Rincón de los Conceptos,trozo,src/escenas/zonas.ts
 ca6ec05b56e2,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ,trozo,src/escenas/zonas.ts
 4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,frase,src/escenas/zonas.ts
-da9b387d7cde,El Rincón del inglés se abre cuando termines dos casitas del camino.,frase,src/escenas/zonas.ts
 3bed5faac62d,Esta casita todavía está cerrada. Primero termina ,trozo,src/escenas/zonas.ts
 4e9557de6aef,la anterior,trozo,src/escenas/zonas.ts
 95c648f53cba,. ¡Sigue el camino!,trozo,src/escenas/zonas.ts
@@ -1209,16 +1219,16 @@ d8f5db14848e,las canciones,trozo,src/escenas/zonas.ts
 02449fab297d,los trazos,trozo,src/escenas/zonas.ts
 b23b2e5c8973,las rutinas y los hábitos,trozo,src/escenas/zonas.ts
 5e97168da8a5,el álbum,trozo,src/escenas/zonas.ts
+bf5fd63a874f,el globo de la Isla del Inglés,trozo,src/escenas/zonas.ts
 47ff295173a9,la casa de Tito,trozo,src/escenas/zonas.ts
 538329857e0b,el barco de la Isla de las Letras,trozo,src/escenas/zonas.ts
 d1660b9daa58,¡Terminaste todos los caminos,trozo,src/escenas/zonas.ts
 e12315af2ad6,! Puedes repetir lo que más te guste.,trozo,src/escenas/zonas.ts
 ba425b157dcd,Isla de las Letras,trozo,src/escenas/zonas.ts
+a623a5ae7a4d,Isla del Inglés,trozo,src/escenas/zonas.ts
 df09140b08d5,3 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 5d400baad9f7,4 años,trozo,src/escenas/zonas.ts
 dcf5a6f7e26e,5 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
-952d2c56d048,Hello!,frase,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
-902fbdd2b1df,ABC,trozo,src/escenas/zonas.ts src/juegos/comps2.ts src/mundo3d/interaccion.ts
 851c9032c1e6,¡Mira,trozo,src/escenas/zonas.ts
 bcfa7fa26ac9,! ¡Se despertó ,trozo,src/escenas/zonas.ts
 47713ef9554f,! Ahora puedes jugar ahí también.,trozo,src/escenas/zonas.ts
@@ -1367,6 +1377,7 @@ c9cb11cccccc, es ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",frase,src/juegos/comps2.ts
 9232de82c9f9, no va con ,trozo,src/juegos/comps2.ts
 b86fc6b051f6,AB,trozo,src/juegos/comps2.ts
+902fbdd2b1df,ABC,trozo,src/juegos/comps2.ts src/mundo3d/interaccion.ts
 e934202c876b,AAB,trozo,src/juegos/comps2.ts
 8c0d39874f72,ABB,trozo,src/juegos/comps2.ts
 0cbecf00a88c,Mira la fila. ¿Qué viene después? Tócalo.,frase,src/juegos/comps2.ts
