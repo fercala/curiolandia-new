@@ -1,12 +1,13 @@
 /*
  * mundo3d/casita3d.ts: la casita de un tema en 3D, con un puesto para cada juego (desde la fase 4h; antes, en
  * mundo3d/mundo3d.ts): dónde va cada puesto (st3Pos) y dónde se para Tito junto a él (st3Tito), el telón con el fondo
- * del tema (bgSample) y buildCasita, que monta el mundo.
+ * del tema (bgSample, que reutiliza el último lienzo y los colores de muestra de cada tema: TELON y MUESTRA) y
+ * buildCasita, que monta el mundo.
  * montarCasita3D() (la llama mundo3d/mundo3d.ts al montar la capa 3D) pone la disposición de la casita 3D
  * (nucleo/disposicion.ts: stationPos devuelve los puestos proyectados) y pone en SCENES.casita la casita 3D, otra escena
  * hecha a partir de la 2D (desde la fase 4i; antes envolvía la casita, SCENES.juego.enter para apuntar el último juego,
  * que ahora es ultimoJuego de escenas/escenas2d.ts, y stationPos con ponStationPos).
- * Exporta: montarCasita3D. Importa: del núcleo y de escenas/ lo que dibuja y lee la casita; el motor, las piezas y lo de
+ * Exporta: montarCasita3D (y bgSample, para tests/unidad/telonCasita.test.ts). Importa: del núcleo y de escenas/ lo que dibuja y lee la casita; el motor, las piezas y lo de
  * los demás módulos de mundo3d/ (también roadPts de mundo3d/zonas3d.ts).
  */
 import * as THREE from 'three';
@@ -34,12 +35,28 @@ import { skyNow } from './cielo.ts';
 const st3Tito=(n: number,j: number)=>{const g=({tortuga:-.7,erizo:-.45} as Record<string, number>)[(S.tito&&S.tito.kind)!]||0;return n>4&&st3Pos(n,j)[1]<0?[-2.3+g,-.5]:[-2+g,1.35]};
 // st3Pos(n,j): posición [x,z] de la estación del juego j de n: una fila si son 4 o menos; si no, dos filas en zigzag (3 o 4 por fila).
 function st3Pos(n: number,j: number): PuntoSuelo{if(n<=4)return[(j-(n-1)/2)*4.3,.4];const per=n<=6?3:4,r=Math.floor(j/per),c=j%per,cc=r?per-1-c:c;return[(cc-(per-1)/2)*(per===3?4.8:4.2),r?3.4:-2.4]}
+// MUESTRA: los colores de muestra del fondo de cada tema (clave: t.id), {ground, top}. El fondo de un tema siempre es
+// el mismo dibujo, así que se toman la primera vez que se entra en su casita y luego se reutilizan: así no se pinta el
+// fondo otra vez en pequeño ni se leen sus píxeles (getImageData) en cada entrada. Son dos colores por tema.
+const MUESTRA=new Map<string,{ground: THREE.Color,top: THREE.Color}>();
+// TELON: el lienzo del último telón pintado y de qué tema es. Al volver de un juego a la misma casita se reutiliza en vez
+// de pintar otra vez el fondo entero a 1024x576; solo se guarda uno para no gastar memoria con un lienzo por tema.
+let TELON: {id: string,c: HTMLCanvasElement}|null=null;
 // bgSample(t): dibuja el fondo 2D del tema (t.bg) en un lienzo para usarlo de telón 3D y toma muestras de color.
 // Devuelve {tex: textura del fondo, ground: color medio del suelo, top: color de arriba (cielo)}. Cambia ctx un momento.
-function bgSample(t: Tema){const c=document.createElement('canvas');c.width=1024;c.height=576;const g=c.getContext('2d')!,old=ctx;ponCtx(g);g.scale(.64,.64);try{t.bg()}catch(e){}
-  const c2=document.createElement('canvas');c2.width=64;c2.height=36;const g2=c2.getContext('2d',{willReadFrequently:true})!;ponCtx(g2);g2.scale(.04,.04);try{t.bg()}catch(e){}ponCtx(old);
-  const d=g2.getImageData(28,33,8,3).data;let r=0,gg=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gg+=d[i+1];b+=d[i+2]}const n=d.length/4;const tex=new THREE.CanvasTexture(c);tex.anisotropy=4;
-  const top=g2.getImageData(32,0,1,1).data;return{tex,ground:new THREE.Color(r/n/255,gg/n/255,b/n/255),top:new THREE.Color(top[0]/255,top[1]/255,top[2]/255)}}
+// El lienzo del último tema (TELON) y los colores de cada tema (MUESTRA) se reutilizan; la textura es nueva cada vez,
+// porque disposeWorld libera la del mundo anterior al cambiar de escena (la que se reutiliza es el lienzo, no la textura).
+export function bgSample(t: Tema){const old=ctx;
+  // el telón: el fondo entero, a 0,64 de la pantalla lógica (1600x900 → 1024x576)
+  let c=TELON&&TELON.id===t.id?TELON.c:null;
+  if(!c){c=document.createElement('canvas');c.width=1024;c.height=576;const g=c.getContext('2d')!;ponCtx(g);g.scale(.64,.64);try{t.bg()}catch(e){}TELON={id:t.id,c}}
+  // las muestras: el fondo en pequeño (64x36) para leer el color medio del suelo (abajo, en el centro) y el del cielo (arriba)
+  let m=MUESTRA.get(t.id);
+  if(!m){const c2=document.createElement('canvas');c2.width=64;c2.height=36;const g2=c2.getContext('2d',{willReadFrequently:true})!;ponCtx(g2);g2.scale(.04,.04);try{t.bg()}catch(e){}
+    const d=g2.getImageData(28,33,8,3).data;let r=0,gg=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gg+=d[i+1];b+=d[i+2]}const n=d.length/4;
+    const top=g2.getImageData(32,0,1,1).data;m={ground:new THREE.Color(r/n/255,gg/n/255,b/n/255),top:new THREE.Color(top[0]/255,top[1]/255,top[2]/255)};MUESTRA.set(t.id,m)}
+  ponCtx(old);
+  const tex=new THREE.CanvasTexture(c);tex.anisotropy=4;return{tex,ground:m.ground,top:m.top}}
 // buildCasita(t,st): mundo 3D de dentro de la casita del tema t: telón con el fondo del tema, suelo, camino y una estación por juego
 // (disco con el dibujo del juego y su número; candado si está cerrado), flecha al siguiente juego, animales, Tito y la animación.
 // st es SCENES.casita (titoAt, hov, hop, unl, lockShake).
