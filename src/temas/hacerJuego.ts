@@ -5,7 +5,8 @@
  * temas/extras.ts (el cuento y la canción) y temas/ingles.ts (los juegos de inglés) con ponMakeGame. Va en
  * temas/indice.ts después de ingles.ts, porque usa lo de todos los temas.
  * Mira, en este orden (el mismo que tenían las envolturas, de la última a la primera):
- *   1. los juegos de inglés (tipo en..., en un tema con en): EnConocer, EnEscucha, EnGlobos y EnCuenta;
+ *   1. los juegos de inglés (tipo en..., en un tema con en): EnConocer, EnEscucha, EnGlobos, EnCuenta y, desde la
+ *      fase I3 de docs/PLAN-INGLES.md, EnRepite y EnTelefono;
  *   2. el cuento del tema (Story, con CUENTOS) y la canción (Song, con SONGS);
  *   3. los que traen su propia fábrica (g.make) y los que se arman con las palabras del tema: Conocer, Busca y
  *      Memoria.
@@ -17,7 +18,7 @@ import type { AlTerminar, Juego, Libre, Palabra } from '../juegos/tipos.ts';
 import { Busca, Conocer, Memoria, Song, Story } from '../juegos/indice.ts';
 import { CUENTOS } from '../contenido/cuentos.ts';
 import { SONGS } from './extras.ts';
-import { EnConocer, EnCuenta, EnEscucha, EnGlobos, enItems } from './ingles.ts';
+import { EnConocer, EnCuenta, EnEscucha, EnGlobos, EnRepite, EnTelefono, enItems } from './ingles.ts';
 
 // juegoDeIngles(g, t, onDone): el juego de inglés g (tipo en...) del tema t, con las palabras de su rincón que van con
 // la edad (enItems); undefined si g no es un juego de inglés que se conozca.
@@ -28,6 +29,9 @@ function juegoDeIngles(g: Libre, t: Libre, onDone: AlTerminar): Juego | undefine
   if (g.t === 'enEscucha') return EnEscucha({ items, bg, key: `ingles-${t.en}` }, onDone);
   if (g.t === 'enGlobos') return EnGlobos({ items, bg, key: `ingles-${t.en}` }, onDone);
   if (g.t === 'enCuenta') return EnCuenta({ bg }, onDone);
+  // Desde la fase I3 de docs/PLAN-INGLES.md: Repite conmigo y El teléfono rojo.
+  if (g.t === 'enRepite') return EnRepite({ items, bg, key: `ingles-${t.en}` }, onDone);
+  if (g.t === 'enTelefono') return EnTelefono({ items, bg, key: `ingles-${t.en}` }, onDone);
   return undefined;
 }
 

@@ -77,7 +77,7 @@ describe('paginaJuego', () => {
     expect(runInContext('[RUT.id, TRZ.id, CAN.id, FIESTAS.length, typeof BG.trazo].join()', global)).toBe('X-RUT,X-TRZ,X-CAN,4,function');
     expect(runInContext("T3.find((t) => t.id === '3A-T1').games.at(-1).t", global)).toBe('cuento');
     // temas/ingles.ts: las casitas de inglés (del Rincón del inglés; desde la fase I2, de la Playa Hello) y sus juegos.
-    expect(runInContext("ING.map((t) => t.id).join() + ' ' + EN.numbers[2].en", global)).toBe('EN-HELLO,EN-COLORS,EN-NUMBERS,EN-ANIMALS Three');
+    expect(runInContext("ING.map((t) => t.id).join() + ' ' + EN.numbers[2].en", global)).toBe('EN-HELLO,EN-COLORS,EN-NUMBERS,EN-ANIMALS,EN-FAMILY,EN-BODY,EN-TOYS,EN-FRUIT,EN-SHAPES,EN-BEACH Three');
     for (const k of ['EnConocer', 'EnEscucha', 'EnGlobos', 'EnCuenta', 'sayMix']) expect(typeof global[k], k).toBe('function');
     // escenas/escenas2d.ts: las escenas 2D en SCENES y la lista de todos los temas.
     expect(runInContext("['title', 'edad', 'juego', 'asamblea', 'album', 'dormir'].every((n) => typeof SCENES[n].draw === 'function')", global)).toBe(true);

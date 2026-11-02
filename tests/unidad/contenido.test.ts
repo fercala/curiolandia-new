@@ -99,7 +99,7 @@ describe('los temas', () => {
     // sinFabrica(t, g): por qué makeGame no sabría crear el juego g del tema t (vacío si sí sabe).
     const sinFabrica = (t: TemaLeido, g: TemaLeido['games'][number]): string => {
       if (g.make) return '';
-      if (t.en && ['enConocer', 'enEscucha', 'enGlobos', 'enCuenta'].includes(g.t)) return '';
+      if (t.en && ['enConocer', 'enEscucha', 'enGlobos', 'enCuenta', 'enRepite', 'enTelefono'].includes(g.t)) return '';
       if (g.t === 'cuento') return t.id in cuentos ? '' : 'cuento sin CUENTOS[id]';
       if (g.t === 'cancion') return g.song && g.song in canciones ? '' : `canción sin SONGS[${g.song}]`;
       if (['conocer', 'busca', 'memoria'].includes(g.t)) return t.words?.length ? '' : `${g.t} sin words`;
