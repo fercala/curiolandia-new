@@ -406,14 +406,79 @@ export function xmasSleigh(w: Mundo){
 }
 // pajaritos que cruzan el cielo de las zonas de día, de vez en cuando, aleteando
 // skyBirds(w): tres pajaritos que cruzan el cielo juntos cada 22 s aleteando (de día). Marca userData.skyb.
-export function skyBirds(w: Mundo){const B: [THREE.Group, [THREE.Group, number][], number][]=[];for(let i=0;i<3;i++){const g=new THREE.Group();g.userData.skyb=1;hitS(g,.9,0);w.sc.add(g);const W: [THREE.Group, number][]=[];for(const sd of[-1,1]){const a=new THREE.Group();a.position.x=sd*.04;g.add(a);const m=mk(Box(.6,.08,.08),'#4A4A5A',{p:[sd*.29,0,0],ol:0,cs:false,rs:false});m.raycast=()=>{};a.add(m);W.push([a,sd])}B.push([g,W,i])}
-  w.upd.push(()=>{const c=T%22,q=c/9;B.forEach(([g,W,i])=>{g.visible=q<1;if(!g.visible)return;g.position.set(30-q*60-i*1.3,1.1+i*.35+Math.sin(T*2+i)*.1,-20.5);W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*9+i*1.7)*.5)})})}
+export function skyBirds(w: Mundo){
+  // B: cada pajarito con su grupo g, sus dos alas W ([grupo del ala, lado -1|1]) y su número i
+  const B: [THREE.Group, [THREE.Group, number][], number][]=[];
+  for(let i=0;i<3;i++){
+    const g=new THREE.Group();
+    g.userData.skyb=1;
+    hitS(g,.9,0);
+    w.sc.add(g);
+    const W: [THREE.Group, number][]=[];
+    // un ala a cada lado, colgada de un grupo que gira para aletear
+    for(const sd of[-1,1]){
+      const a=new THREE.Group();
+      a.position.x=sd*.04;
+      g.add(a);
+      const m=mk(Box(.6,.08,.08),'#4A4A5A',{p:[sd*.29,0,0],ol:0,cs:false,rs:false});
+      m.raycast=()=>{};
+      a.add(m);
+      W.push([a,sd]);
+    }
+    B.push([g,W,i]);
+  }
+  w.upd.push(()=>{
+    // q: lo que lleva recorrido la bandada (0 a 1 en 9 s; cada 22 s empieza otra pasada)
+    const c=T%22,q=c/9;
+    B.forEach(([g,W,i])=>{
+      g.visible=q<1;
+      if(!g.visible)return;
+      g.position.set(30-q*60-i*1.3,1.1+i*.35+Math.sin(T*2+i)*.1,-20.5);
+      W.forEach(([a,sd])=>a.rotation.z=sd*Math.sin(T*9+i*1.7)*.5);
+    });
+  });
+}
 // skyClouds(w,tint): dos nubes con carita que cruzan el cielo de las zonas y un arcoíris escondido (w.rainbow)
 // que se ve 2,6 s cuando se pone w.rainT=T. tint = color de las nubes (si no, rosadas a partir de las 18 h).
-export function skyClouds(w: Mundo,tint?: string){const rb=new THREE.Group();rb.visible=false;w.sc.add(rb);['#FF6B6B','#FFB347','#FFE45C','#7ED957','#5AB8F0','#9B7FE6'].forEach((c,i)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(2.3-i*.16,.09,6,32,PI),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0,depthWrite:false}));m.raycast=()=>{};rb.add(m)});w.rainbow=rb;
-  w.upd.push(()=>{const e=w.rainT==null?9:T-w.rainT;rb.visible=e<2.6;if(rb.visible){const o=Math.min(1,e*3,(2.6-e)*2)*.85;rb.children.forEach((m: Nodo)=>m.material.opacity=o)}})/* arcoíris que aparece un momento al tocar una nube */
-  for(let i=0;i<2;i++){const c=cloud3(w.sc,-19+i*35,.5+i*.5,-21,.5+i*.08);if(tint||ahora().getHours()>=18)c.traverse((o: Nodo)=>{if(o.isMesh&&o.material!==fhit())o.material=M(tint||'#FFD6C6')})/* al atardecer, nubes rosadas; de noche, azuladas */;c.userData.cloud=1;hitS(c,1.5,0).position.x=1.1;orbFace(w,c,tint?1:0).position.set(1.1,.2,1.45);/* las nubes también tienen carita */
-  w.upd.push((dt: number)=>{c.position.x+=.25*dt;if(c.position.x>30)c.position.x=-32})}}
+export function skyClouds(w: Mundo,tint?: string){
+  // el arcoíris: seis medios aros de colores, transparentes hasta que se toca una nube
+  const rb=new THREE.Group();
+  rb.visible=false;
+  w.sc.add(rb);
+  ['#FF6B6B','#FFB347','#FFE45C','#7ED957','#5AB8F0','#9B7FE6'].forEach((c,i)=>{
+    const m=new THREE.Mesh(
+      new THREE.TorusGeometry(2.3-i*.16,.09,6,32,PI),
+      new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0,depthWrite:false})
+    );
+    m.raycast=()=>{};
+    rb.add(m);
+  });
+  w.rainbow=rb;
+  // arcoíris que aparece un momento al tocar una nube
+  w.upd.push(()=>{
+    const e=w.rainT==null?9:T-w.rainT;
+    rb.visible=e<2.6;
+    if(rb.visible){
+      const o=Math.min(1,e*3,(2.6-e)*2)*.85;
+      rb.children.forEach((m: Nodo)=>m.material.opacity=o);
+    }
+  });
+  for(let i=0;i<2;i++){
+    const c=cloud3(w.sc,-19+i*35,.5+i*.5,-21,.5+i*.08);
+    // al atardecer, nubes rosadas; de noche, azuladas
+    if(tint||ahora().getHours()>=18)c.traverse((o: Nodo)=>{
+      if(o.isMesh&&o.material!==fhit())o.material=M(tint||'#FFD6C6');
+    });
+    c.userData.cloud=1;
+    hitS(c,1.5,0).position.x=1.1;
+    // las nubes también tienen carita
+    orbFace(w,c,tint?1:0).position.set(1.1,.2,1.45);
+    w.upd.push((dt: number)=>{
+      c.position.x+=.25*dt;
+      if(c.position.x>30)c.position.x=-32;
+    });
+  }
+}
 // carita del sol (ojos abiertos) o de la luna (ojos cerrados, dormida)
 // orbFace(w,G,sleep): carita para el sol o la luna G: ojos, mofletes y sonrisa. sleep=true pone ojos cerrados (luna
 // dormida) que se abren un momento al tocarla; el sol parpadea, sonríe más al tocarlo y al atardecer bosteza.
