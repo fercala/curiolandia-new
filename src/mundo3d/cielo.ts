@@ -49,7 +49,16 @@ const SYL3: Record<string, string>={RANA:'RA NA',ÁRBOL:'ÁR BOL',PINGÜINO:'PIN
 export function sayNum(n: number,cb?: (() => void) | null){/* dice un número: en el Rincón del inglés, en inglés */if(sceneName==='ingles')sayMix3(['@'+['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][n-1]],cb);else say3(NUM10[n-1],cb)}
 // numPop(x,y,n,tx): hace salir flotando en (x,y) de 1600x900 el número n (con n puntitos) o el texto tx en grande.
 // Sin tx, suena una nota más aguda cuanto mayor es n. Usa la lista de partículas parts de nucleo/escenas.ts.
-export function numPop(x: number,y: number,n: number,tx?: string){parts.push({x:Math.min(1480,Math.max(120,x)),y:Math.max(160,y-45),vx:0,vy:-40,life:tx?2.2:1.4,t:0,c:['#FF6B6B','#F5A623','#4CB4E7','#5CC16A','#A77BDB'][(n-1)%5],r:tx?28:38,rot:0,k:'t',tx:tx||String(n),dots:tx?0:n,g:0});if(!tx)tone([523,587,659,698,784,880,988,1046,1175,1318][(n-1)%10],.12,'sine',.05)}/* cada número suena un poco más agudo que el anterior *//* el número contado aparece flotando */
+export function numPop(x: number,y: number,n: number,tx?: string){
+  // el número contado aparece flotando
+  parts.push({
+    x:Math.min(1480,Math.max(120,x)),y:Math.max(160,y-45),vx:0,vy:-40,life:tx?2.2:1.4,t:0,
+    c:['#FF6B6B','#F5A623','#4CB4E7','#5CC16A','#A77BDB'][(n-1)%5],
+    r:tx?28:38,rot:0,k:'t',tx:tx||String(n),dots:tx?0:n,g:0
+  });
+  // cada número suena un poco más agudo que el anterior
+  if(!tx)tone([523,587,659,698,784,880,988,1046,1175,1318][(n-1)%10],.12,'sine',.05);
+}
 // skyTap(x,y,w): tocar el cielo vacío (justo después de pickAt, porque usa el rayo RC). Calcula el punto 3D en la
 // pared del fondo (z = -19,5) y Tito mira hacia allí.
 //  - De noche: nace una estrella que se queda (hasta 30, en un único Points w.myS). Tito las cuenta del 1 al 7; cada
@@ -180,11 +189,59 @@ export function skyTap(x: number,y: number,w: Mundo){
 // la Osa Mayor en el cielo de noche de las zonas, entre el título y las monedas
 // jupiter(w): Júpiter en el cielo de noche (textura de rayas pintada a mano) con un halo. Marca userData.jup;
 // al tocarlo, durante 4 s, sus cuatro lunas dan vueltas a su alrededor.
-export function jupiter(w: Mundo){/* Júpiter, un planeta con rayas que brilla de noche */const cv=document.createElement('canvas');cv.width=64;cv.height=32;const c=cv.getContext('2d')!;['#F3DDB0','#D9A86C','#F6E6C4','#C98E55','#F3DDB0','#E2B985','#F6E6C4'].forEach((k,i)=>{c.fillStyle=k;c.fillRect(0,i*32/7,64,32/7+1)});c.fillStyle='#C0603A';c.beginPath();c.ellipse(40,20,5,2.6,0,0,7);c.fill();
-  const G=new THREE.Group();G.position.set(13.8,2.85,-19.4);G.userData.jup=1;G.userData.dur=4;const b=new THREE.Mesh(new THREE.SphereGeometry(.42,20,14),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv)}));b.rotation.z=.12;b.raycast=()=>{};G.add(b);
-  const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:softTex(),color:'#FFE9B8',transparent:true,opacity:.45,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.setScalar(1.6);gl.raycast=()=>{};G.add(gl);hitS(G,.7,0);w.sc.add(G);
-  const Mo=[0,1,2,3].map(i=>{const m=new THREE.Mesh(new THREE.SphereGeometry(.06,8,6),new THREE.MeshBasicMaterial({color:['#FFF2C0','#E8E8F0','#D8C8A8','#C8D0E0'][i],transparent:true}));m.raycast=()=>{};m.visible=false;G.add(m);return m});/* sus cuatro lunas grandes */
-  w.upd.push(()=>{b.rotation.y=T*.25;gl.material.opacity=.38+.1*Math.sin(T*1.3);const e=G.userData.wob==null?-1:T-G.userData.wob,on=e>=0&&e<4;Mo.forEach((m,i)=>{m.visible=on;if(on){const r=.55+i*.2,a=e*(2.4-i*.45)+i*1.7;m.position.set(Math.cos(a)*r,Math.sin(a)*r*.18,Math.sin(a)*r*.3);m.material.opacity=Math.min(1,e*3,(4-e)*2)}})})}/* al tocarlo, sus lunas dan vueltas a su alrededor */
+export function jupiter(w: Mundo){
+  // Júpiter, un planeta con rayas que brilla de noche
+  const cv=document.createElement('canvas');
+  cv.width=64;
+  cv.height=32;
+  const c=cv.getContext('2d')!;
+  ['#F3DDB0','#D9A86C','#F6E6C4','#C98E55','#F3DDB0','#E2B985','#F6E6C4'].forEach((k,i)=>{
+    c.fillStyle=k;
+    c.fillRect(0,i*32/7,64,32/7+1);
+  });
+  // y su gran mancha roja
+  c.fillStyle='#C0603A';
+  c.beginPath();
+  c.ellipse(40,20,5,2.6,0,0,7);
+  c.fill();
+  const G=new THREE.Group();
+  G.position.set(13.8,2.85,-19.4);
+  G.userData.jup=1;
+  G.userData.dur=4;
+  const b=new THREE.Mesh(new THREE.SphereGeometry(.42,20,14),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv)}));
+  b.rotation.z=.12;
+  b.raycast=()=>{};
+  G.add(b);
+  // el halo que brilla
+  const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:softTex(),color:'#FFE9B8',transparent:true,opacity:.45,blending:THREE.AdditiveBlending,depthWrite:false}));
+  gl.scale.setScalar(1.6);
+  gl.raycast=()=>{};
+  G.add(gl);
+  hitS(G,.7,0);
+  w.sc.add(G);
+  // sus cuatro lunas grandes
+  const Mo=[0,1,2,3].map(i=>{
+    const m=new THREE.Mesh(new THREE.SphereGeometry(.06,8,6),new THREE.MeshBasicMaterial({color:['#FFF2C0','#E8E8F0','#D8C8A8','#C8D0E0'][i],transparent:true}));
+    m.raycast=()=>{};
+    m.visible=false;
+    G.add(m);
+    return m;
+  });
+  // al tocarlo, sus lunas dan vueltas a su alrededor
+  w.upd.push(()=>{
+    b.rotation.y=T*.25;
+    gl.material.opacity=.38+.1*Math.sin(T*1.3);
+    const e=G.userData.wob==null?-1:T-G.userData.wob,on=e>=0&&e<4;
+    Mo.forEach((m,i)=>{
+      m.visible=on;
+      if(on){
+        const r=.55+i*.2,a=e*(2.4-i*.45)+i*1.7;
+        m.position.set(Math.cos(a)*r,Math.sin(a)*r*.18,Math.sin(a)*r*.3);
+        m.material.opacity=Math.min(1,e*3,(4-e)*2);
+      }
+    });
+  });
+}
 // saturn(w): Saturno con sus anillos en el cielo de noche. Marca userData.sat; al tocarlo los anillos giran deprisa.
 export function saturn(w: Mundo){/* Saturno, con sus anillos, que brilla de noche */const G=new THREE.Group();G.position.set(-16.5,2.8,-19.4);G.userData.sat=1;G.userData.dur=2.5;
   const b=new THREE.Mesh(new THREE.SphereGeometry(.34,18,12),new THREE.MeshBasicMaterial({color:'#EBD39A'}));b.raycast=()=>{};G.add(b);
