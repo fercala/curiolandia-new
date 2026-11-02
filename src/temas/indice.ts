@@ -9,5 +9,7 @@ export * from './temas4.ts';
 export * from './temas5.ts';
 export * from './extras.ts';
 export * from './ingles.ts';
+// Desde la fase I5 de docs/PLAN-INGLES.md: el Pueblo de los Cuentos de la Isla del Inglés (usa lo de ingles.ts).
+export * from './inglesPueblo.ts';
 export * from './letras.ts';
 export * from './hacerJuego.ts';

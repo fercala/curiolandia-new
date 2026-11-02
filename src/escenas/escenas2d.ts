@@ -67,7 +67,7 @@
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tree, whenQuiet, ymd } from '../nucleo/indice.ts';
-import { C3, C4, C5, CAN, FIESTAS, ING, ING_PARQUE, RUT, T3, T4, T5, TEMAS_LETRAS, TRZ, bunting, dayNight, floor, makeGame } from '../temas/indice.ts';
+import { C3, C4, C5, CAN, FIESTAS, ING, ING_PARQUE, ING_PUEBLO, RUT, T3, T4, T5, TEMAS_LETRAS, TRZ, bunting, dayNight, floor, makeGame } from '../temas/indice.ts';
 import { repeticion } from '../dominio/dificultad.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
@@ -85,7 +85,7 @@ import { esCumple } from '../dominio/progreso.ts';
 // hint() -> {x,y,r} o null, prompt() (repite la consigna), dwell(id) (dice el nombre de lo que hay bajo el ratón)}.
 // TEMAS: lista de todos los temas en orden (desde la fase L2, también los de la Isla de las Letras, TEMAS_LETRAS). TEMA: el mismo tema buscado por su id (TEMA['3A-T1']).
 // Formato de un tema: el tipo Tema de juegos/tipos.ts, con un comentario por campo. Cada tema trae su zone (fase 5a).
-export const TEMAS: Tema[]=[...T3,C3,...T4,C4,...T5,C5,CAN,RUT,TRZ,...FIESTAS,...ING,...TEMAS_LETRAS,...ING_PARQUE], TEMA: Record<string, Tema>={};TEMAS.forEach(t=>TEMA[t.id]=t);
+export const TEMAS: Tema[]=[...T3,C3,...T4,C4,...T5,C5,CAN,RUT,TRZ,...FIESTAS,...ING,...TEMAS_LETRAS,...ING_PARQUE,...ING_PUEBLO], TEMA: Record<string, Tema>={};TEMAS.forEach(t=>TEMA[t.id]=t);
 // CATALOGO: TEMAS y TEMA juntos, como los piden los casos de uso del repaso (aplicacion/repasoDelDia.ts, desde la fase 4c).
 export const CATALOGO: CatalogoDeTemas={lista:TEMAS,tema:(id: string)=>TEMA[id]};
 // tst(id): progreso guardado del tema con ese id, o uno vacío si aún no se ha jugado.

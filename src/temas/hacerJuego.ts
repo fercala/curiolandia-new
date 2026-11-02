@@ -6,7 +6,9 @@
  * temas/indice.ts después de ingles.ts, porque usa lo de todos los temas.
  * Mira, en este orden (el mismo que tenían las envolturas, de la última a la primera):
  *   1. los juegos de inglés (tipo en..., en un tema con en): EnConocer, EnEscucha, EnGlobos, EnCuenta y, desde la
- *      fase I3 de docs/PLAN-INGLES.md, EnRepite y EnTelefono, y desde la I4, enDice (EnEscucha con los sonidos) y EnViste;
+ *      fase I3 de docs/PLAN-INGLES.md, EnRepite y EnTelefono, desde la I4, enDice (EnEscucha con los sonidos) y EnViste, y
+ *      desde la I5, los del Pueblo de los Cuentos (juegoDelPueblo: Polly says, Me gusta, What is it?, el bingo, el
+ *      autobús y los cuentos, de temas/inglesPueblo.ts);
  *   2. el cuento del tema (Story, con CUENTOS) y la canción (Song, con SONGS);
  *   3. los que traen su propia fábrica (g.make) y los que se arman con las palabras del tema: Conocer, Busca y
  *      Memoria.
@@ -19,6 +21,7 @@ import { Busca, Conocer, Memoria, Song, Story } from '../juegos/indice.ts';
 import { CUENTOS } from '../contenido/cuentos.ts';
 import { SONGS } from './extras.ts';
 import { EnConocer, EnCuenta, EnEscucha, EnGlobos, EnRepite, EnTelefono, EnViste, enItems } from './ingles.ts';
+import { EnAutobus, EnBingo, EnCuento, EnMeGusta, EnPollySays, EnQueEs } from './inglesPueblo.ts';
 
 // juegoDeIngles(g, t, onDone): el juego de inglés g (tipo en...) del tema t, con las palabras de su rincón que van con
 // la edad (enItems); undefined si g no es un juego de inglés que se conozca.
@@ -35,6 +38,20 @@ function juegoDeIngles(g: Libre, t: Libre, onDone: AlTerminar): Juego | undefine
   // Desde la fase I4: Sonidos de la granja (¿Dónde está? preguntando por el sonido) y Viste a Polly.
   if (g.t === 'enDice') return EnEscucha({ items, bg, key: `ingles-${t.en}`, dice: 1 }, onDone);
   if (g.t === 'enViste') return EnViste({ bg, key: 'ingles-clothes' }, onDone);
+  return juegoDelPueblo(g, t, items, onDone);
+}
+
+// juegoDelPueblo(g, t, items, onDone): los juegos de inglés del Pueblo de los Cuentos (fase I5 de docs/PLAN-INGLES.md,
+// temas/inglesPueblo.ts), con las palabras items del tema t; undefined si g no es ninguno de ellos.
+function juegoDelPueblo(g: Libre, t: Libre, items: unknown[], onDone: AlTerminar): Juego | undefined {
+  const bg = t.bg;
+  const key = `ingles-${t.en}`;
+  if (g.t === 'enPollySays') return EnPollySays({ items, bg, key }, onDone);
+  if (g.t === 'enMeGusta') return EnMeGusta({ items, bg, key }, onDone);
+  if (g.t === 'enQueEs') return EnQueEs({ items, bg, key }, onDone);
+  if (g.t === 'enBingo') return EnBingo({ items, bg, key }, onDone);
+  if (g.t === 'enAutobus') return EnAutobus({ bg, key: 'ingles-animals' }, onDone);
+  if (g.t === 'enCuento') return EnCuento({ cuento: g.cuento, bg, key }, onDone);
   return undefined;
 }
 

@@ -102,7 +102,13 @@ fusionar cada uno se pone al día con `main` y se vuelve a subir la versión si 
    contrarios y las caritas se dibujan con una función que se mueve (`enAccion`, `enOpuesto` y `enFace`). Los sonidos de
    la granja son `EnEscucha` con `dice` («¿Quién dice moo?») y las tres canciones en inglés usan `Song` con `en:1` en
    cada verso. En 3D, la decoración de Londres se reparte por delante de las casitas para no taparlas.
-5. **I5, Pueblo de los Cuentos.** Sus 12 casitas y los juegos `Bingo` y `Autobus`.
+5. **I5, Pueblo de los Cuentos (hecha en v0.2.76).** Módulo nuevo `temas/inglesPueblo.ts` con sus 12 casitas
+   (`ING_PUEBLO`: `EN-DAYS`, `EN-SEASONS`, `EN-WHERE`, `EN-SIMON`, `EN-ILIKE`, `EN-WHAT`, `EN-COLOURTHINGS`, `EN-COUNT20`,
+   `EN-JOBS`, `EN-SHOP`, `EN-STORIES` y `EN-TOWN`) y seis juegos nuevos: `EnPollySays` (con la señal de stop cuando
+   Polly no lo dice), `EnMeGusta` (carita contenta o triste), `EnQueEs` (una ventana que se abre poco a poco),
+   `EnBingo` (cartón de 6), `EnAutobus` (los animales suben al autobús de dos pisos) y `EnCuento` (dos cuentos en
+   castellano con palabras en inglés, `CUENTOS_INGLES`, y preguntas al final). Los cuentos son juegos propios y no
+   `Story`, porque cada trozo se dice con su voz (sayMix). Las mesas de «dónde está» se dibujan sin nada encima.
 6. **I6, la isla en 3D.** El mar, las tres zonas, Polly, el globo y Tito caminando.
 7. **I7, premios y adultos.** «Mi diccionario de inglés» en el álbum, el progreso de inglés en la zona de adultos y
    las palabras en el repaso diario.

@@ -594,3 +594,172 @@ Hello, hello!
 Good morning, good morning!
 Thank you, thank you!
 Good night, good night!
+Ball
+Apple
+Milk
+Egg
+Fridge
+Dog
+el Pueblo de los Cuentos
+¡Bienvenido al Pueblo de los Cuentos! Aquí jugamos con frases y cuentos en inglés. Las casitas se abren de una en una.
+Los días de la semana
+Toca
+@The
+Ese es
+Haz lo que diga Polly, pero solo si empieza con «Polly says». Si no lo dice, toca la señal de stop.
+@Polly says: touch the
+@Touch the
+¡Muy bien! Polly no ha dicho «Polly says».
+¡Sí lo ha dicho! Escucha otra vez:
+¡Cuidado! Polly no ha dicho «Polly says». Toca la señal de stop.
+Escucha a Polly. Si le gusta, toca la carita contenta. Si no le gusta, la triste.
+@I like
+@I don't like
+¡Sí! A Polly le gusta.
+¡Eso es! A Polly no le gusta.
+Escucha bien:
+Hay algo escondido. Mira bien y toca lo que es.
+@What is it?
+@It's
+an
+¡Jugamos al bingo! Polly dice una palabra en inglés y tú tapas ese dibujo.
+BINGO
+BINGO!
+@Bingo!
+¡Has tapado todo el cartón!
+. Polly ha dicho
+¡El autobús de Londres! Escucha qué animal sube y tócalo.
+ gets on the bus!
+BUS
+@Goodbye, bus!
+. Sube
+El paseo de Polly
+Un día de
+@sun
+, Polly salió a pasear por el parque.
+En el parque vio un
+@dog
+y un
+@cat
+El
+jugaba con una
+@ball
+Entonces empezó a llover. Polly abrió su
+@umbrella
+Y volvió a casa muy contenta.
+@Goodbye!
+Umbrella
+Sun
+La merienda de Tito
+Tito tenía mucha hambre y abrió la
+@fridge
+Dentro había
+@milk
+, un
+@egg
+y una
+@apple
+Tito se comió la
+. ¡Ñam, ñam!
+Después se bebió la
+y le dijo a Polly:
+@Thank you, Polly!
+¿Te has fijado? Ahora te pregunto.
+Polly says
+Me gusta
+What is it?
+Bingo
+El autobús de Londres
+Canta los días
+decir cada mañana qué día es en inglés: today is Monday.
+Las estaciones en inglés
+al salir a la calle, decir en qué estación estamos: autumn, winter...
+¿Dónde está? In, on, under
+esconder un juguete y decir dónde está: in the box, under the table.
+jugar a «Polly says» en casa: Polly says touch your nose!
+Me gusta: I like
+en la comida, decir lo que nos gusta: I like apples!
+tapar un dibujo con la mano, enseñar un trozo y preguntar: what is it?
+Cosas de colores
+nombrar las cosas con su color en inglés: a red apple, a yellow banana.
+Contar hasta 20
+contar en inglés más allá del diez: eleven, twelve, thirteen...
+Los oficios en inglés
+al ver a alguien trabajando, decir su oficio: a doctor, a farmer...
+La tienda de Polly
+jugar a las tiendas pidiendo en inglés: an apple, please.
+Cuentos en inglés
+contar cuentos de siempre metiendo alguna palabra en inglés.
+Gran fiesta del inglés
+celebrar todo lo aprendido: repasar juntos las palabras en inglés.
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday
+Sunday
+Lunes
+Martes
+Miércoles
+Jueves
+Viernes
+Sábado
+Domingo
+In
+On
+Under
+Next to
+Behind
+In front of
+Dentro
+Encima
+Debajo
+Al lado
+Detrás
+Delante
+Apples
+Bananas
+Carrots
+Biscuits
+Manzanas
+Plátanos
+Zanahorias
+Galletas
+A red apple
+A yellow banana
+A green frog
+A blue whale
+An orange carrot
+A pink pig
+Purple grapes
+A brown bear
+Una manzana roja
+Un plátano amarillo
+Una rana verde
+Una ballena azul
+Una zanahoria naranja
+Un cerdo rosa
+Uvas moradas
+Un oso marrón
+Eleven
+Twelve
+Thirteen
+Fourteen
+Fifteen
+Sixteen
+Seventeen
+Eighteen
+Nineteen
+Twenty
+Once
+Doce
+Trece
+Catorce
+Quince
+Dieciséis
+Diecisiete
+Dieciocho
+Diecinueve
+Veinte
+STOP

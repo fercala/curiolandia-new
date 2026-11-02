@@ -39,7 +39,7 @@ import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 // (arena en lugar de césped), desde la L4, el Bosque de las Letras y, desde la L5, el Pueblo de las Palabras.
 const ZX=(x: number,y: number): PuntoSuelo=>[(x-930)/37,(y-490)/37];
 const ZP3: Record<string, Record<string, {x: number; y: number}>>={};
-const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},playaHello:{bg:'#DDEBFF',g:'#FFE9B8',e:'#E3BE7E'},parqueLondres:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'},playaSonidos:{bg:'#DDF1FA',g:'#FFE9B8',e:'#E3BE7E'},bosqueLetras:{bg:'#CFEFD0',g:'#A8DC8F',e:'#B98A5B'},puebloPalabras:{bg:'#FDE7D6',g:'#D6E8B0',e:'#C9A57A'}};
+const ZSTYLE: Record<string, {bg: string; g: string; e: string}>={jardin:{bg:'#D9F1FB',g:'#BFE6A0',e:'#D9A86C'},bosque:{bg:'#CFEFD0',g:'#9FD08A',e:'#B98A5B'},montana:{bg:'#DCE6F7',g:'#CFE3B5',e:'#B5A79A'},fiestas:{bg:'#FFE6F0',g:'#FFE3B8',e:'#E8B98A'},playaHello:{bg:'#DDEBFF',g:'#FFE9B8',e:'#E3BE7E'},parqueLondres:{bg:'#DDEBFF',g:'#CFE8C0',e:'#C9A57A'},playaSonidos:{bg:'#DDF1FA',g:'#FFE9B8',e:'#E3BE7E'},bosqueLetras:{bg:'#CFEFD0',g:'#A8DC8F',e:'#B98A5B'},puebloPalabras:{bg:'#FDE7D6',g:'#D6E8B0',e:'#C9A57A'},puebloCuentos:{bg:'#F3E3F7',g:'#DCE8C0',e:'#C9A57A'}};
 // slab(to,w,d,c,e,y,r): losa de suelo con esquinas redondeadas (ancho w, fondo d, radio r) con césped c y borde e, a la altura y.
 // La añade a to (con contorno) y devuelve la malla (se usa como w.ground).
 function slab(to: THREE.Object3D,w: number,d: number,c: string,e: string,y=0,r=3){const s=new THREE.Shape(),x=-w/2,z=-d/2;s.moveTo(x+r,z);s.lineTo(x+w-r,z);s.quadraticCurveTo(x+w,z,x+w,z+r);s.lineTo(x+w,z+d-r);s.quadraticCurveTo(x+w,z+d,x+w-r,z+d);s.lineTo(x+r,z+d);s.quadraticCurveTo(x,z+d,x,z+d-r);s.lineTo(x,z+r);s.quadraticCurveTo(x,z,x+r,z);
@@ -88,6 +88,10 @@ function zoneDecor(w: Mundo,z: string){const D=w.sc;
   // (el autobús, la cabina, el reloj, el buzón, la tetera, el guardia y la bandera) va al Parque de Londres
   if(z==='playaHello'){umb3(w,14.6,4.4,1);palm3(w,-14.8,6.8,1.1);sandc3(w,13.2,8,1.2);crab3(w,-4,3,9,1)}
   if(z==='parqueLondres'){bus3(w,9.6);phone3(w,11.4,5.6,1);clock3(w,-1.6,4.8,.85);post3(w,8.4,7.4,1);tea3(w,-0.9,8,1.3);guard3(w,-7.4,8.2,1.3);flag3(w,6.4,3.4,1.1)}
+  // el Pueblo de los Cuentos (fase I5): arbustos y flores a los lados, un buzón, un reloj y una cometa, como en el
+  // Pueblo de las Palabras
+  if(z==='puebloCuentos'){for(const x of[-17.5,17.5])for(let i=0;i<5;i++){bush3(D,x,-6+i*3,.9);flower3(D,x+(x>0?-1.2:1.2),-4.8+i*3,FLC[i%FLC.length]!,1)}
+    post3(w,14.6,4.4,1.1);clock3(w,-16.6,8.8,.7);kite3(w,10,6.5,-6,1)}
   // la Playa de los Sonidos (fase L2): palmeras, sombrilla, castillo de arena y un cangrejo en la arena, y las vocales
   // grandes de colores puestas en la arena, que se mecen
   if(z==='playaSonidos'){palm3(w,-14.8,6.8,1.1);palm3(w,14.2,4.6,1);sunb3(w,-3.6,8.4,1);sandc3(w,12,7.6,1.3);crab3(w,0,6,8.8,1);
