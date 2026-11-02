@@ -3,7 +3,7 @@
  * aplicacion/adultos.ts (antes adult.js): dos cosas en un mismo archivo.
  *  1) La ZONA DE ADULTOS: un panel HTML (#adult, definido en head.html) que se abre manteniendo pulsado 3 s el candado
  *     de abajo a la derecha. Tiene ajustes (modo de juego, perfil, personaje de Tito, idioma y voz, volúmenes, límite de
- *     tiempo, vales), el progreso (temas, habilidades, letras de la isla, asambleas, minutos por día), copia de seguridad, instalación y atajos.
+ *     tiempo, vales), el progreso (temas, habilidades, letras de la isla, inglés, asambleas, minutos por día), copia de seguridad, instalación y atajos.
  *     Funciones: openAdult(), closeAdult(), installHTML(), vozGuiaHTML() (cómo instalar voces mejores). Los diálogos del nombre
  *     (openNameDlg) y de borrar (openResetDlg, doReset) están desde la fase 4p en aplicacion/dialogos.ts.
  *  2) La COPIA DE SEGURIDAD: bkEncode/bkDecode/bkWire convierten S en un código de texto o un archivo JSON y al revés.
@@ -16,7 +16,8 @@
  * (de aplicacion/dialogos.ts) para el puente.
  * Importa: el núcleo, src/nucleo/ (S, save, go, say, SCENES, T, VIVO, la voz y los volúmenes...), escenas/escenas2d.ts (tst,
  * gDone, TEMAS, TEMA, dayIdx, standalone, VIVO.deferredInstall), temas/ (también extras.ts e ingles.ts) (T3, C3, T4, C4,
- * T5, C5, CAN, RUT, TRZ, FIESTAS, ING y, desde la fase L7, TL3, TL4, TL5 y casitaDeLetra), LETRAS de contenido/letras.ts y
+ * T5, C5, CAN, RUT, TRZ, FIESTAS, ING y, desde la fase L7, TL3, TL4, TL5 y casitaDeLetra, y desde la fase I7 ING_PARQUE
+ * e ING_PUEBLO), palabrasDe de escenas/diccionario.ts (la sección «Inglés»), LETRAS de contenido/letras.ts y
  * las reglas del progreso por letra de dominio/letras.ts (la sección «Letras»), escenas/zonas.ts (zoneOpen, suggestTema), esPartida de dominio/partida.ts (la
  * copia de seguridad), escribirGuardado de aplicacion/puertos.ts y doReset de aplicacion/dialogos.ts. Usa window.__w3
  * (tipos en nucleo/tipos.ts).
@@ -24,11 +25,12 @@
 import type { Tema } from '../juegos/tipos.ts';
 import type { Estado, Libre, Tito, Vale, Volumenes } from '../nucleo/tipos.ts';
 import { DIASL, KEY, MESES, S, SCENES, STARS, T, VIVO, VOICE, go, pickVoice, save, say, scene, sceneArg, sceneName, setVol, today, vocesES, vozCalidad, vozProbar } from '../nucleo/indice.ts';
-import { C3, C4, C5, CAN, FIESTAS, ING, RUT, T3, T4, T5, TL3, TL4, TL5, TRZ, casitaDeLetra } from '../temas/indice.ts';
+import { C3, C4, C5, CAN, FIESTAS, ING, ING_PARQUE, ING_PUEBLO, RUT, T3, T4, T5, TL3, TL4, TL5, TRZ, casitaDeLetra } from '../temas/indice.ts';
 import { LETRAS } from '../contenido/letras.ts';
 import { aciertosLetra, datosLetra, estadoLetra, type EstadoLetra } from '../dominio/letras.ts';
 import { TEMA, TEMAS, dayIdx, gDone, standalone, tst } from '../escenas/escenas2d.ts';
 import { suggestTema, zoneOpen } from '../escenas/zonas.ts';
+import { palabrasDe } from '../escenas/diccionario.ts';
 import { esPartida } from '../dominio/partida.ts';
 // escribirGuardado(): el guardado (puerto de aplicacion/puertos.ts, desde la fase 3h; antes localStorage).
 import { escribirGuardado } from './puertos.ts';
@@ -39,7 +41,14 @@ export { doReset, openNameDlg, openResetDlg } from './dialogos.ts';
 
 // SKILL: nombre legible de cada habilidad de S.stats para la tabla "Cómo le va" ({clave: 'texto'}). Si una clave
 // no está, se muestra la clave con espacios. Al crear un juego con una habilidad nueva, añade aquí su nombre.
-const SKILL: Record<string,string>={'ingles-hello':'Inglés: saludos','ingles-colors':'Inglés: colores','ingles-numbers':'Inglés: números','ingles-numeros':'Inglés: contar','ingles-animals':'Inglés: animales',busca:'Reconocer palabras (¿Dónde está?)',sonidos:'Sonidos de animales y transportes',memoria:'Memoria',cuerpo:'Partes del cuerpo',contar:'Contar',colores:'Colores',puzzle:'Rompecabezas',excava:'Cavar en la arena',riega:'Regar',
+// Las de inglés son 'ingles-' más el conjunto de palabras del tema (t.en); desde la fase I7 de docs/PLAN-INGLES.md
+// están todas las de la isla.
+const SKILL: Record<string,string>={'ingles-hello':'Inglés: saludos','ingles-colors':'Inglés: colores','ingles-numbers':'Inglés: números','ingles-numeros':'Inglés: contar','ingles-animals':'Inglés: animales',
+  ingles:'Inglés','ingles-family':'Inglés: la familia','ingles-body':'Inglés: el cuerpo','ingles-toys':'Inglés: los juguetes','ingles-fruit':'Inglés: la fruta','ingles-shapes':'Inglés: las formas','ingles-beach':'Inglés: la playa',
+  'ingles-clothes':'Inglés: la ropa','ingles-food':'Inglés: la comida','ingles-house':'Inglés: la casa','ingles-weather':'Inglés: el tiempo','ingles-transport':'Inglés: los transportes','ingles-farm':'Inglés: la granja',
+  'ingles-actions':'Inglés: lo que hacemos','ingles-opposites':'Inglés: los contrarios','ingles-feelings':'Inglés: cómo me siento','ingles-park':'Inglés: el parque','ingles-days':'Inglés: los días','ingles-seasons':'Inglés: las estaciones',
+  'ingles-where':'Inglés: dónde está','ingles-likes':'Inglés: me gusta','ingles-whatis':'Inglés: ¿qué es?','ingles-colourThings':'Inglés: cosas de colores','ingles-numbers20':'Inglés: contar hasta 20','ingles-jobs':'Inglés: los oficios',
+  'ingles-shop':'Inglés: la tienda','ingles-story':'Inglés: los cuentos','ingles-town':'Inglés: el pueblo',busca:'Reconocer palabras (¿Dónde está?)',sonidos:'Sonidos de animales y transportes',memoria:'Memoria',cuerpo:'Partes del cuerpo',contar:'Contar',colores:'Colores',puzzle:'Rompecabezas',excava:'Cavar en la arena',riega:'Regar',
   'dentro-fuera':'Dentro / fuera',vestir:'Ropa según el tiempo',transportes:'Transportes por tierra, aire y agua',tamanos:'Grande / mediano / pequeño',otono:'Otoño',frutas:'Seguir un pedido (frutas)','frio-calor':'Frío / calor',
   formas:'Formas',familia:'Familia',casa:'Las partes de la casa',armar:'Armar por partes','arriba-abajo':'Arriba / abajo',arrastra:'Clasificar arrastrando',atrapa:'Atrapar lo que se pide',
   'dia-hoy':'Asamblea: qué día es hoy','dia-manana':'Asamblea: qué día es mañana',calendario:'Asamblea: el número del día','asamblea-dianoche':'Asamblea: día o noche','asamblea-ropa':'Asamblea: ropa según el tiempo','asamblea-estacion':'Asamblea: estación del año','asamblea-siguiente':'Asamblea: qué estación viene',
@@ -90,7 +99,7 @@ export function openAdult(){
 // tmOf(listaDeTemas): HTML con una tarjeta por tema: nombre, juegos hechos/total, barra de progreso y si está completo.
   const tmOf=(L: Tema[])=>L.map(t=>{const n=gDone(t),N=t.games.length;return `<div class="tm ${tst(t.id).done?'done':''}"><b>${esc(t.n)}</b>${n}/${N} juegos${tst(t.id).done?' · completo 🌼':''}<div class="bar"><i style="width:${Math.round(n/N*100)}%"></i></div></div>`}).join('');
 // tm: secciones de progreso por zona (cada una con sus temas).
-  const tm=([['Jardín de 3 años',[...T3,C3]],['Bosque de 4 años',[...T4,C4]],['Montaña de 5 años',[...T5,C5]],['Canciones, rutinas y trazos',[CAN,RUT,TRZ]],['Días especiales',FIESTAS],['Isla del Inglés: Playa Hello',ING],['Isla de las Letras: Playa de los Sonidos',TL3],['Isla de las Letras: Bosque de las Letras',TL4],['Isla de las Letras: Pueblo de las Palabras',TL5]] as [string,Tema[]][]).map(([h,L])=>`<section><h3>${h}</h3><div class="temas">${tmOf(L)}</div></section>`).join('');
+  const tm=([['Jardín de 3 años',[...T3,C3]],['Bosque de 4 años',[...T4,C4]],['Montaña de 5 años',[...T5,C5]],['Canciones, rutinas y trazos',[CAN,RUT,TRZ]],['Días especiales',FIESTAS],['Isla del Inglés: Playa Hello',ING],['Isla del Inglés: Parque de Londres',ING_PARQUE],['Isla del Inglés: Pueblo de los Cuentos',ING_PUEBLO],['Isla de las Letras: Playa de los Sonidos',TL3],['Isla de las Letras: Bosque de las Letras',TL4],['Isla de las Letras: Pueblo de las Palabras',TL5]] as [string,Tema[]][]).map(([h,L])=>`<section><h3>${h}</h3><div class="temas">${tmOf(L)}</div></section>`).join('');
 // vales: una fila por vale (casilla de activo, texto y precio en monedas) para editarlos.
   const vales=S.vales!.map((v,i)=>`<div class="row vale"><label class="opt"><input type="checkbox" data-von="${i}" ${v.on?'checked':''}></label><input data-vtxt="${i}" maxlength="60" value="${esc(v.txt)}" style="flex:1;min-width:180px"><label>🪙 <input type="number" data-vp="${i}" min="5" max="500" value="${v.p}" style="width:70px"></label></div>`).join('');
 // pend: vales que el niño compró en la tienda y aún no se le dieron (con botón "Entregado").
@@ -104,6 +113,10 @@ export function openAdult(){
 // letras: una fila por letra de la isla (fase L7): juegos de su casita hechos, porcentaje de aciertos y su estado.
   const letras=LETRAS.map(L=>{const id=casitaDeLetra(L),d=datosLetra(id,TEMA[id]?.games.length??0,tst(id).g,S.gs??{}),p=aciertosLetra(d),[lbl,cls]=ESTADO_L[estadoLetra(d)];
     return `<tr><td><b>${esc(L.l)}</b> (${esc(L.amigoDice)})</td><td>${d.hechos}/${d.total}</td><td>${p===null?'—':p+'%'}</td><td><span class="pill ${cls}">${lbl}</span></td></tr>`}).join('');
+// ingles: una fila por zona de la Isla del Inglés (fase I7 de docs/PLAN-INGLES.md): casitas terminadas y palabras que
+// ya están en su diccionario (palabrasDe, escenas/diccionario.ts). vozEn: si este navegador tiene voz inglesa.
+  const ingles=([['Playa Hello (3 años)',ING],['Parque de Londres (4 años)',ING_PARQUE],['Pueblo de los Cuentos (5 años)',ING_PUEBLO]] as [string,Tema[]][]).map(([z,L])=>`<tr><td>${z}</td><td>${L.filter(t=>tst(t.id).done).length}/${L.length}</td><td>${palabrasDe(L).length}</td></tr>`).join('');
+  const vozEn='speechSynthesis' in window&&speechSynthesis.getVoices().some(v=>/^en/i.test(v.lang));
 // cal: las últimas 14 asambleas (tiempo y emoción elegidos).
   const cal=Object.keys(S.asam).sort().slice(-14).map(d=>{const a=S.asam[d],dt=new Date(d+'T12:00');return `<span><small>${DIASL[dayIdx(dt)].slice(0,3)} ${dt.getDate()}/${dt.getMonth()+1}</small><b>${a.tiempo?WX_E[a.tiempo]:'·'} ${a.emo?EMO_E[a.emo]:''}</b></span>`}).join('')||'<span>Todavía no hay asambleas.</span>';
 // days: minutos jugados en los últimos 7 días con datos.
@@ -115,7 +128,7 @@ export function openAdult(){
 // sug: el próximo tema del camino (para la sección "Lo que sigue").
   const sug=suggestTema();
 // El HTML del panel, sección a sección: Modo de juego, Perfil, Personaje de Tito, Idioma y voz, Tiempo de juego,
-// progreso por zonas (tm), Monedas y premios, Lo que sigue, Asambleas, Cómo le va, Letras (fase L7), Copia de seguridad, Instalar,
+// progreso por zonas (tm), Monedas y premios, Lo que sigue, Asambleas, Cómo le va, Letras (fase L7), Inglés (fase I7), Copia de seguridad, Instalar,
 // Ir a (atajos) y Empezar de cero. Es una plantilla de texto: no se pueden poner comentarios dentro.
   el.querySelector('.body')!.innerHTML=`
   <section><h3>Modo de juego</h3>
@@ -153,6 +166,7 @@ export function openAdult(){
   <section><h3>Asambleas</h3><p class="note">El tiempo que eligió y cómo se sentía cada día.</p><div class="cal">${cal}</div></section>
   <section><h3>Cómo le va</h3><p class="note">Con esto Tito arma cada día un <b>repaso</b> de 3 juegos: primero los de lo que le cuesta y, si no hay, los que jugó hace más tiempo. El botón verde del mapa pasa una vez por día por el repaso cuando hay algo que cuesta; también se abre con la lupa de arriba del mapa.</p>${sk?`<table><thead><tr><th>Habilidad</th><th>Aciertos</th><th>Intentos</th><th></th></tr></thead><tbody>${sk}</tbody></table>`:'<p class="note">Todavía no hay datos.</p>'}</section>
   <section><h3>Letras</h3><p class="note">Cómo va cada letra de la Isla de las Letras: los juegos hechos de su casita y los aciertos en ellos. Una letra está <b>aprendida</b> con su casita terminada y el 80 % de aciertos o más. Las que cuestan entran en el repaso de cada día.</p><table><thead><tr><th>Letra</th><th>Juegos</th><th>Aciertos</th><th></th></tr></thead><tbody>${letras}</tbody></table></section>
+  <section><h3>Inglés</h3><p class="note">Cómo va la Isla del Inglés: las casitas terminadas de cada zona y las palabras que ya están en «Mi diccionario de inglés» (en el álbum, el botón de Polly). Los juegos de inglés que cuestan entran en el repaso de cada día. ${vozEn?'Polly dice las palabras con la voz inglesa de este dispositivo.':'<b>Este dispositivo no tiene voz inglesa</b>: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.'}</p><table><thead><tr><th>Zona</th><th>Casitas</th><th>Palabras</th></tr></thead><tbody>${ingles}</tbody></table></section>
   <section><h3>Copia de seguridad</h3>
    <p class="note">Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia cada tanto.</p>
    <div class="row"><button id="a-bk-dl">⬇️ Descargar copia</button><button id="a-bk-code">🔑 Ver código de copia</button><label class="opt" style="cursor:pointer">📂 Cargar archivo de copia<input type="file" id="a-bk-file" accept=".json,.txt,application/json,text/plain" hidden></label></div>
