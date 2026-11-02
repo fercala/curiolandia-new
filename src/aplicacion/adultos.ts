@@ -134,6 +134,8 @@ export function openAdult(){
    <div class="row"><span>Estaciones</span>${[['N','Hemisferio norte (España)'],['S','Hemisferio sur (Argentina, Uruguay)']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-hemi" value="${k}" ${S.hemi===k?'checked':''}> ${l}</label>`).join('')}</div>
    <div class="row"><span>Voz del navegador</span><select id="a-vnav" style="max-width:100%">${vopts}</select><button id="a-vprueba" type="button">▶ Probar</button></div>
    <details><summary>Cómo conseguir voces más naturales</summary>${vozGuiaHTML()}</details>
+   <div class="row"><span>Letras de la isla</span>${[['mayus','Solo MAYÚSCULAS (para empezar)'],['ambas','Mayúsculas y minúsculas']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-tletra" value="${k}" ${(S.tipoLetra==='ambas'?'ambas':'mayus')===k?'checked':''}> ${l}</label>`).join('')}</div>
+   <p class="note">Con minúsculas, en la Isla de las Letras se conoce, se busca, se atrapa y se escribe también la letra pequeña, y el libro de letras las enseña juntas.</p>
    <div class="row"><span>Paisaje</span>${[['','Tito cuenta y nombra lo que se toca'],['q','Sin comentarios en el paisaje']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-q3" value="${k}" ${(S.quiet3?'q':'')===k?'checked':''}> ${l}</label>`).join('')}</div>
    <p class="note">Tito habla con la voz del navegador. Voz del navegador: ${esc(vname)}.</p>
    ${(['voz','mus','fx'] as (keyof Volumenes)[]).map(k=>`<label class="rng">${({voz:'Voz',mus:'Música',fx:'Efectos'})[k]} <input type="range" id="a-${k}" min="0" max="1" step="0.05" value="${S.vol[k]}"></label>`).join('')}</section>
@@ -173,6 +175,8 @@ export function openAdult(){
 // Voz del navegador: S.vozNav guarda la elegida ('' = automática); se aplica con pickVoice y se oye un saludo de prueba.
   q('#a-vnav').onchange=e=>{S.vozNav=(e.target as HTMLInputElement).value;save();pickVoice();vozProbar()};
   q('#a-vprueba').onclick=()=>{pickVoice();vozProbar()};
+// Letras de la isla (fase L7b): S.tipoLetra 'mayus' (solo mayúsculas) o 'ambas' (también minúsculas).
+  el.querySelectorAll<HTMLInputElement>('[name=a-tletra]').forEach(r=>r.onchange=()=>{S.tipoLetra=r.value==='ambas'?'ambas':'mayus';save()});
 // Paisaje: S.quiet3=1 hace callar los comentarios de Tito en el mundo 3D (say3 en mundo3d/cielo.ts).
   el.querySelectorAll<HTMLInputElement>('[name=a-q3]').forEach(r=>r.onchange=()=>{S.quiet3=r.value==='q'?1:0;save()});
 // Hemisferio, límite de tiempo y volúmenes (los volúmenes se aplican al momento con setVol).

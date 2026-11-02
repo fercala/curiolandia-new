@@ -5,11 +5,14 @@
  * Cada letra trae su nombre para la voz, su amigo (un dibujo de PICS cuyo nombre empieza por ella), otras palabras con
  * dibujo que empiezan igual, su color, su zona y los trazos de la mayúscula (letra de palo), con su orden y dirección.
  * Los trazos están en una caja de 1 x 1 (x a la derecha, y hacia abajo; la tilde de la Ñ sube por encima, con y
- * negativa): quien los pinte o los use en Tracer los escala a su sitio con letraEnPantalla. Las minúsculas llegan con la
- * opción de mayúsculas y minúsculas (fase L7).
+ * negativa): quien los pinte o los use en Tracer los escala a su sitio con letraEnPantalla. Desde la fase L7b, cada
+ * letra trae también los trazos de su minúscula (minus, de MINUS), para la opción de mayúsculas y minúsculas. Su caja es
+ * la de las minúsculas (MINUS_CAJA): arriba, lo alto de la l y la d; en 0,4, lo alto de la a y la o; en 0,8, la línea
+ * en la que se apoyan, y abajo, lo que baja la p, la g y la j. Así, con una caja de alto h / 0,8 junto a la de la
+ * mayúscula (alto h), las dos se apoyan en la misma línea.
  * Es CONTENIDO: solo datos y cálculo, sin dibujo ni S. Pruebas: tests/unidad/letras.test.ts (que existan los dibujos,
  * que no se repitan, que cada palabra empiece por su letra y que los trazos estén dentro de la caja).
- * Exporta: los tipos Punto, Trazo y Letra, ZONA_DE_LETRA, LETRAS, letra, letrasDeZona y letraEnPantalla.
+ * Exporta: los tipos Punto, Trazo y Letra, ZONA_DE_LETRA, MINUS_CAJA, LETRAS, letra, letrasDeZona y letraEnPantalla.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- las coordenadas de los trazos son el dibujo de cada letra: darles
@@ -39,7 +42,13 @@ export interface Letra {
   readonly zona: string;
   /** Trazos de la mayúscula, en el orden en que se escriben. */
   readonly trazos: readonly Trazo[];
+  /** Trazos de la minúscula, en el orden en que se escriben, en su caja (MINUS_CAJA). Desde la fase L7b. */
+  readonly minus: readonly Trazo[];
 }
+
+// MINUS_CAJA: las líneas de la caja de las minúsculas: lo alto de las letras pequeñas (x) y la línea en la que se
+// apoyan todas (base). Arriba (0) llegan la l, la d, la b, la f y la t; abajo (1), la p, la g y la j.
+export const MINUS_CAJA = { x: 0.4, base: 0.8 } as const;
 
 // ZONA_DE_LETRA: la zona de la isla de cada grupo de letras, por nombre, para no repetir la cadena en cada letra.
 export const ZONA_DE_LETRA = { playa: 'playaSonidos', bosque: 'bosqueLetras', pueblo: 'puebloPalabras' } as const;
@@ -57,9 +66,35 @@ function arco(cx: number, cy: number, rx: number, ry: number, a0: number, a1: nu
 const PI = Math.PI;
 const { playa, bosque, pueblo } = ZONA_DE_LETRA;
 
+// MINUS: los trazos de cada minúscula (fase L7b), en su caja (MINUS_CAJA), letra de palo como la de los cuadernos.
+const MINUS: Readonly<Record<string, readonly Trazo[]>> = {
+  A: [arco(0.45, 0.6, 0.3, 0.2, -0.3, 0.1 - 2 * PI, 28), [[0.75, 0.4], [0.75, 0.8]]],
+  E: [[[0.15, 0.6], [0.75, 0.6], ...arco(0.45, 0.6, 0.3, 0.2, 0, 0.6 - 2 * PI, 24).slice(1)]],
+  I: [[[0.5, 0.4], [0.5, 0.8]], [[0.5, 0.2], [0.5, 0.25]]],
+  O: [arco(0.5, 0.6, 0.3, 0.2, -PI / 2, -PI / 2 - 2 * PI, 32)],
+  U: [[[0.2, 0.4], [0.2, 0.6], ...arco(0.45, 0.6, 0.25, 0.2, PI, 0), [0.7, 0.4]], [[0.7, 0.4], [0.7, 0.8]]],
+  M: [[[0.1, 0.4], [0.1, 0.8]], [[0.1, 0.55], ...arco(0.3, 0.55, 0.2, 0.15, PI, 2 * PI), [0.5, 0.8]],
+    [[0.5, 0.55], ...arco(0.7, 0.55, 0.2, 0.15, PI, 2 * PI), [0.9, 0.8]]],
+  P: [[[0.2, 0.4], [0.2, 1]], arco(0.45, 0.6, 0.25, 0.2, PI, 3 * PI, 28)],
+  L: [[[0.5, 0], [0.5, 0.8]]],
+  S: [[...arco(0.5, 0.5, 0.25, 0.1, -0.3, -1.5 * PI), ...arco(0.5, 0.7, 0.25, 0.1, -PI / 2, PI - 0.3).slice(1)]],
+  T: [[[0.45, 0.1], [0.45, 0.8]], [[0.2, 0.4], [0.75, 0.4]]],
+  N: [[[0.15, 0.4], [0.15, 0.8]], [[0.15, 0.55], ...arco(0.45, 0.6, 0.3, 0.2, PI, 2 * PI), [0.75, 0.8]]],
+  D: [arco(0.45, 0.6, 0.25, 0.2, 0, -2 * PI, 28), [[0.7, 0], [0.7, 0.8]]],
+  F: [[...arco(0.6, 0.2, 0.2, 0.2, -0.25 * PI, -PI), [0.4, 0.8]], [[0.2, 0.4], [0.65, 0.4]]],
+  B: [[[0.2, 0], [0.2, 0.8]], arco(0.45, 0.6, 0.25, 0.2, PI, 3 * PI, 28)],
+  R: [[[0.25, 0.4], [0.25, 0.8]], [[0.25, 0.6], ...arco(0.5, 0.6, 0.25, 0.15, PI, 1.75 * PI)]],
+  C: [arco(0.5, 0.6, 0.3, 0.2, -0.6, 0.6 - 2 * PI, 24)],
+  G: [arco(0.45, 0.6, 0.25, 0.2, 0, -2 * PI, 28), [[0.7, 0.4], [0.7, 0.9], ...arco(0.45, 0.9, 0.25, 0.1, 0, PI).slice(1)]],
+  J: [[[0.6, 0.4], [0.6, 0.9], ...arco(0.4, 0.9, 0.2, 0.1, 0, PI).slice(1)], [[0.6, 0.2], [0.6, 0.25]]],
+  V: [[[0.15, 0.4], [0.5, 0.8], [0.85, 0.4]]],
+  Ñ: [[[0.15, 0.4], [0.15, 0.8]], [[0.15, 0.55], ...arco(0.45, 0.6, 0.3, 0.2, PI, 2 * PI), [0.75, 0.8]],
+    [[0.2, 0.25], [0.38, 0.18], [0.6, 0.3], [0.8, 0.22]]],
+};
+
 // LETRAS: las 20 letras, en el orden de la isla. No cambies el orden ni la letra de una entrada publicada: los temas de
-// la isla (fases L3 a L5) se crearán a partir de esta lista.
-export const LETRAS: readonly Letra[] = [
+// la isla (fases L3 a L5) se crearán a partir de esta lista. Desde la fase L7b, cada una lleva su minúscula de MINUS.
+const MAYUS: ReadonlyArray<Omit<Letra, 'minus'>> = [
   { l: 'A', nombre: 'la a', amigo: 'abeja', amigoDice: 'abeja', palabras: ['arbol', 'avion'], c: '#E8554E', zona: playa,
     trazos: [[[0.5, 0], [0, 1]], [[0.5, 0], [1, 1]], [[0.2, 0.62], [0.8, 0.62]]] },
   { l: 'E', nombre: 'la e', amigo: 'elefante', amigoDice: 'elefante', palabras: ['estrella'], c: '#F08A3C', zona: playa,
@@ -104,6 +139,7 @@ export const LETRAS: readonly Letra[] = [
   { l: 'Ñ', nombre: 'la eñe', amigo: 'nu', amigoDice: 'ñu', palabras: ['pina'], c: '#8B5E3C', zona: pueblo,
     trazos: [[[0.05, 1], [0.05, 0], [0.95, 1], [0.95, 0]], [[0.15, -0.2], [0.35, -0.3], [0.65, -0.15], [0.85, -0.25]]] },
 ];
+export const LETRAS: readonly Letra[] = MAYUS.map((x) => ({ ...x, minus: MINUS[x.l] ?? [] }));
 
 // letra(l): la letra l de LETRAS ('A', 'Ñ'...), o undefined si no está.
 export function letra(l: string): Letra | undefined {

@@ -34,10 +34,16 @@ describe('migraciones', () => {
   test('una partida de curiolandia-3d sale con la versión actual y los mismos datos, sin cambiar la que se pasa', () => {
     const copia = structuredClone(VIEJA);
     const nueva = migrar(VIEJA);
-    // Lo único que cambia (desde la versión 2, fase 5d) es la variante del idioma: siempre España.
-    expect(nueva).toEqual({ ...VIEJA, variant: 'es', ver: VERSION_PARTIDA });
+    // Lo único que cambia (desde la versión 2, fase 5d) es la variante del idioma: siempre España; y desde la 3 (fase
+    // L7b), las letras de la isla salen solo en mayúsculas.
+    expect(nueva).toEqual({ ...VIEJA, variant: 'es', tipoLetra: 'mayus', ver: VERSION_PARTIDA });
     expect(nueva).not.toBe(VIEJA);
     expect(VIEJA).toEqual(copia);
+  });
+
+  test('2 → 3: las letras de la isla, solo en mayúsculas, salvo si ya eran también minúsculas', () => {
+    const tipos = ['ambas', 'mayus', undefined, 'otra', 3].map((tipoLetra) => migrar({ ...VIEJA, tipoLetra, ver: 2 })['tipoLetra']);
+    expect(tipos).toEqual(['ambas', 'mayus', 'mayus', 'mayus', 'mayus']);
   });
 
   test('1 → 2: una partida en rioplatense, o sin variante elegida, pasa a castellano de España', () => {

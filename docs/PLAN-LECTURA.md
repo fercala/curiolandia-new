@@ -123,8 +123,12 @@ Cada fase es un PR pequeño que deja el juego publicable, con las pruebas en ver
      letras en el repaso diario: los juegos de la isla con aciertos y fallos ya entraban por `S.gs` y `S.kg` (habilidades
      `letras`, `silabas`, `palabras`, `frases`...); ahora los que solo son de mirar, escuchar o trazar (siempre aciertan)
      están en `NOREP`, como los demás de ese tipo. No cambia `S`.
-   - **L7b.** La opción de mayúsculas y minúsculas (un campo nuevo y opcional de `S`, con su migración) con los trazos
-     de las minúsculas (desde la fase L5).
+   - **L7b (hecha en v0.2.69).** La opción de mayúsculas y minúsculas: `S.tipoLetra` (`'mayus'` o `'ambas'`, migración
+     2 → 3 de la partida), que se elige en la zona de adultos. Cada letra trae los trazos de su minúscula (`minus`, con
+     su caja `MINUS_CAJA` en `contenido/letras.ts`). Con minúsculas, conocer la letra tiene la tarjeta de la minúscula,
+     buscarla sale a veces en minúscula, en atrapar valen las dos y escribirla traza la mayúscula y después la
+     minúscula, al lado; el libro de letras las enseña juntas («Aa»). Las huellas, el tren y los demás juegos siguen en
+     mayúscula.
 
 ## Riesgos
 

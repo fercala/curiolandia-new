@@ -25,6 +25,8 @@ import { copiaProfunda } from './utilidades.ts';
  *   name     nombre del niño ('' si no se dio). Tito lo dice en voz alta (kid(), praise()).
  *   variant  siempre 'es' (castellano de España) desde la fase 5d: el juego ya no tiene variante rioplatense. Se
  *            conserva el campo para que las partidas viejas y nuevas tengan la misma forma (migración 1 → 2).
+ *   tipoLetra 'mayus' (solo mayúsculas) o 'ambas' (también minúsculas): cómo salen las letras en la Isla de las Letras
+ *            (desde la fase L7b; lo elige el adulto; migración 2 → 3).
  *   hemi     'N' o 'S': hemisferio, para calcular la estación del año (estacionDe).
  *   vol      {voz, mus, fx}: volúmenes de 0 a 1 de la voz, la música y los efectos.
  *   limit    minutos de juego por sesión (0 = sin límite; 10, 15 o 20). Al llegar, Tito se va a dormir (escena 'dormir').
@@ -59,7 +61,7 @@ import { copiaProfunda } from './utilidades.ts';
 export const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curiolandia-new.copiada';
 // DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (aplicacion/adultos.ts) también parte de aquí.
 // variant 'es' y hemi 'N' llevan su tipo de Estado para que S (copia de DEF) sea un Estado.
-export const DEF={age:0,name:'',variant:'es' as Estado['variant'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0,ver:VERSION_PARTIDA};
+export const DEF={age:0,name:'',variant:'es' as Estado['variant'],tipoLetra:'mayus' as Estado['tipoLetra'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0,ver:VERSION_PARTIDA};
 // S empieza siendo una copia profunda de DEF (copiaProfunda, nucleo/utilidades.ts) y load() la completa.
 export let S: Estado=copiaProfunda<Estado>(DEF);
 // ponS(nuevo): cambia la partida entera por otra (borrar todo en aplicacion/adultos.ts). Es la única forma de cambiar S desde otro
