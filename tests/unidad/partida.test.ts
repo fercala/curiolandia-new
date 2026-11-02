@@ -35,8 +35,8 @@ describe('migraciones', () => {
     const copia = structuredClone(VIEJA);
     const nueva = migrar(VIEJA);
     // Lo único que cambia (desde la versión 2, fase 5d) es la variante del idioma: siempre España; y desde la 3 (fase
-    // L7b), las letras de la isla salen solo en mayúsculas.
-    expect(nueva).toEqual({ ...VIEJA, variant: 'es', tipoLetra: 'mayus', ver: VERSION_PARTIDA });
+    // L7b), las letras de la isla salen solo en mayúsculas; y desde la 4 (fase C1), la casa interactiva añade sus campos vacíos.
+    expect(nueva).toEqual({ ...VIEJA, variant: 'es', tipoLetra: 'mayus', mascotas: {}, sorpresas: {}, huerto: { dias: 0, dia: '' }, ver: VERSION_PARTIDA });
     expect(nueva).not.toBe(VIEJA);
     expect(VIEJA).toEqual(copia);
   });
@@ -44,6 +44,14 @@ describe('migraciones', () => {
   test('2 → 3: las letras de la isla, solo en mayúsculas, salvo si ya eran también minúsculas', () => {
     const tipos = ['ambas', 'mayus', undefined, 'otra', 3].map((tipoLetra) => migrar({ ...VIEJA, tipoLetra, ver: 2 })['tipoLetra']);
     expect(tipos).toEqual(['ambas', 'mayus', 'mayus', 'mayus', 'mayus']);
+  });
+
+  test('3 → 4: las mascotas ya compradas son jóvenes; lo que ya hubiera se queda y lo roto se cambia por vacío', () => {
+    const p = migrar({ ...VIEJA, owned: { gato: 1, pecera: 1, sofa: 1 }, mascotas: { pecera: { nombre: 'Nemo', dias: 9, dia: '', hechos: [] } }, ver: 3 });
+    expect(p['mascotas']).toEqual({ pecera: { nombre: 'Nemo', dias: 9, dia: '', hechos: [] }, gato: { nombre: '', dias: 3, dia: '', hechos: [] } });
+    expect([p['sorpresas'], p['huerto'], p['ver']]).toEqual([{}, { dias: 0, dia: '' }, 4]);
+    const rota = migrar({ owned: null, mascotas: [], sorpresas: 'x', huerto: { dias: 2, dia: '2026-11-01' }, ver: 3 });
+    expect([rota['mascotas'], rota['sorpresas'], rota['huerto']]).toEqual([{}, {}, { dias: 2, dia: '2026-11-01' }]);
   });
 
   test('1 → 2: una partida en rioplatense, o sin variante elegida, pasa a castellano de España', () => {
