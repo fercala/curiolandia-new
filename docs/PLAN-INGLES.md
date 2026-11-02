@@ -109,7 +109,13 @@ fusionar cada uno se pone al día con `main` y se vuelve a subir la versión si 
    `EnBingo` (cartón de 6), `EnAutobus` (los animales suben al autobús de dos pisos) y `EnCuento` (dos cuentos en
    castellano con palabras en inglés, `CUENTOS_INGLES`, y preguntas al final). Los cuentos son juegos propios y no
    `Story`, porque cada trozo se dice con su voz (sayMix). Las mesas de «dónde está» se dibujan sin nada encima.
-6. **I6, la isla en 3D.** El mar, las tres zonas, Polly, el globo y Tito caminando.
+6. **I6, la isla en 3D (hecha en v0.2.77).** Módulo nuevo `mundo3d/islaIngles3d.ts` (`montarIslaIngles3D`), como
+   `isla3d.ts` con la de las Letras: el mar, la isla de arena y hierba, la Playa Hello (palmera, castillo de arena y las
+   letras HELLO que saltan), el Parque de Londres (árbol, cabina, reloj y bandera), el Pueblo de los Cuentos (tres casitas
+   con CAT, SUN y DOG), Polly en su percha en el centro, el globo con el cartel «Mapa» para volver y Tito, que camina hasta
+   la zona antes de entrar. Las zonas cerradas salen en gris con candado, y la de la casita que toca lleva un aro dorado.
+   Los toques van a la escena 2D con el punto 2D de cada sitio, así las reglas son las mismas. El globo del mapa y el de
+   la isla son la misma pieza (`globoAire3`, de `mapa3d.ts`).
 7. **I7, premios y adultos.** «Mi diccionario de inglés» en el álbum, el progreso de inglés en la zona de adultos y
    las palabras en el repaso diario.
 

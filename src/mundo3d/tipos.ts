@@ -104,7 +104,7 @@ export interface OpcionesPaseo {
 }
 
 /** Tipo de mundo: portada, mapa (la isla), zona, casita de tema o cofre. */
-export type TipoMundo = 'title' | 'map' | 'zone' | 'casita' | 'cofre' | 'isla';
+export type TipoMundo = 'title' | 'map' | 'zone' | 'casita' | 'cofre' | 'isla' | 'islaIngles';
 
 /** Posición y punto de mira de la cámara (camRig, walkTo). */
 export interface Encuadre {

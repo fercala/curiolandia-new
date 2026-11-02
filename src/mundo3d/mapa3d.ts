@@ -7,7 +7,7 @@
  * acierten) y pone en SCENES.map el mapa 3D, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía,
  * escribía lo proyectado en MZ2 y envolvía goSeguir). Su seguir() hace que Tito camine hasta el lugar antes de entrar.
  * Exporta: montarMapa3D y, desde la fase L6 de docs/PLAN-LECTURA.md, sea3 y greyAll (los usa la Isla de las Letras en
- * 3D, mundo3d/isla3d.ts). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa;
+ * 3D, mundo3d/isla3d.ts, y desde la fase I6 de docs/PLAN-INGLES.md la del Inglés, con globoAire3, el globo aerostático). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa;
  * ahora() (aplicacion/puertos.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
@@ -101,10 +101,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void>={
   // globo de la Isla del Inglés (fase I2 de docs/PLAN-INGLES.md, en el sitio del antiguo Rincón del inglés): un globo
   // aerostático de gajos rojos, blancos y azules con su cesta y sus cuerdas, que sube y baja despacio, y encima su cartel,
   // «Isla del Inglés», que se ve siempre (el barco de la Isla de las Letras costaba encontrarlo sin cartel)
-  globo(g: THREE.Group){const b=grp(g,[0,0,0]);mk(Box(1,.7,1),'#C98A4B',{p:[0,.65,0],to:b,ol:.04});
-    for(const [x,z] of[[-.42,-.42],[.42,-.42],[-.42,.42],[.42,.42]] as [number, number][])mk(Cyl(.03,.03,1.3,4),K,{p:[x*1.4,1.6,z*1.4],r:[z*.5,0,-x*.5],ol:0,cs:false,to:b});
-    const tela=new THREE.Mesh(Sph(1.5,16,14),new THREE.MeshToonMaterial({map:canvasTex(256,64,()=>{['#E8554E','#FFFFFF','#5B8DEF','#FFFFFF'].forEach((c,i)=>{ctx.fillStyle=c;for(let k=0;k<2;k++)ctx.fillRect((i+k*4)*32,0,32,64)})},'globoGajos'),gradientMap:gradiente()}));
-    tela.position.set(0,3.3,0);tela.scale.set(1,1.12,1);tela.castShadow=true;b.add(tela);{const ol=new THREE.Mesh(olGeo(tela.geometry),OLm(.04));ol.position.copy(tela.position);ol.scale.copy(tela.scale);ol.raycast=()=>{};b.add(ol)}
+  globo(g: THREE.Group){const b=grp(g,[0,0,0]);globoAire3(b);
     spr(pillTex('Isla del Inglés','#E8554E','#fff',50),5,1.25,{p:[0,5.8,.6],to:g});/* pegado a lo alto del globo: delante lo tapaba la montaña y más arriba parecía del globo que vuela en el cielo */
     g.userData.anim=()=>{b.position.y=Math.sin(T*1.3)*.2;b.rotation.y=Math.sin(T*.5)*.15}},
   // fiestas: tarta con velas (llamitas userData.fl), dos regalos y cuatro globos que se mecen
@@ -135,6 +132,13 @@ function stripesTex(){return canvasTex(256,64,()=>{for(let i=0;i<8;i++){ctx.fill
 // zzz(g,p): dos «z» que suben desde el punto p del grupo g (lugar dormido). Encadena con el g.userData.anim que ya hubiera.
 function zzz(g: THREE.Object3D,p: Trio){const zs=[0,1].map(i=>spr(canvasTex(96,96,()=>text('z',48,76,80,'#7A6252',{st:6,sc:'#fff'}),'z'),.6+i*.2,.6+i*.2,{to:g}));
   const a=g.userData.anim;g.userData.anim=()=>{a&&a();zs.forEach((z,i)=>{const k=(T*.4+i*.5)%1;z.position.set(p[0]+k*.6,p[1]+k*1.4,p[2]);z.material.opacity=Math.sin(k*PI)})}}
+// globoAire3(b): el globo aerostático de gajos rojos, blancos y azules, con su cesta y sus cuerdas, dentro del grupo b
+// (la cesta en el suelo del grupo y la tela encima). Lo usan el sitio del globo del mapa (SPOT3.globo, fase I2 de
+// docs/PLAN-INGLES.md) y la Isla del Inglés en 3D (mundo3d/islaIngles3d.ts, fase I6), para volver al mapa.
+export function globoAire3(b: THREE.Group){mk(Box(1,.7,1),'#C98A4B',{p:[0,.65,0],to:b,ol:.04});
+  for(const [x,z] of[[-.42,-.42],[.42,-.42],[-.42,.42],[.42,.42]] as [number, number][])mk(Cyl(.03,.03,1.3,4),K,{p:[x*1.4,1.6,z*1.4],r:[z*.5,0,-x*.5],ol:0,cs:false,to:b});
+  const tela=new THREE.Mesh(Sph(1.5,16,14),new THREE.MeshToonMaterial({map:canvasTex(256,64,()=>{['#E8554E','#FFFFFF','#5B8DEF','#FFFFFF'].forEach((c,i)=>{ctx.fillStyle=c;for(let k=0;k<2;k++)ctx.fillRect((i+k*4)*32,0,32,64)})},'globoGajos'),gradientMap:gradiente()}));
+  tela.position.set(0,3.3,0);tela.scale.set(1,1.12,1);tela.castShadow=true;b.add(tela);{const ol=new THREE.Mesh(olGeo(tela.geometry),OLm(.04));ol.position.copy(tela.position);ol.scale.copy(tela.scale);ol.raycast=()=>{};b.add(ol)}}
 // greyAll(g,on): on=true pinta de gris todas las piezas toon del grupo g (guardando el material en userData.m0); on=false lo deshace.
 export function greyAll(g: THREE.Object3D,on: boolean){g.traverse((o: Nodo)=>{if(o.isMesh&&o.material&&o.material.isMeshToonMaterial){if(on){o.userData.m0=o.userData.m0||o.material;o.material=M('#CFC8BF')}else if(o.userData.m0)o.material=o.userData.m0}})}
 
