@@ -320,8 +320,10 @@ function homeAction(id: string,x: number,y: number){SFX.pop();sparkles(x,y,8);
   (A[id]||(()=>{}))();say(FRASES_CASA[id]??cap(W_(id))+'.')}
 // ESCENA_CASA: la escena (SCENES) de cada escena pequeña de la casa que ya está hecha: desde la fase C3, el cielo de
 // noche (telescopio, escenas/casaCielo.ts) y la vuelta al mundo (globo terráqueo, escenas/casaMundo.ts); desde la C4,
-// los instrumentos (escenas/casaMusica.ts, que recibe cuál se tocó), la pizarra (casaPizarra.ts) y la tele (casaTele.ts).
-const ESCENA_CASA: Partial<Record<EscenaCasa,string>>={cielo:'casaCielo',mundo:'casaMundo',instrumentos:'casaMusica',pizarra:'casaPizarra',tele:'casaTele'};
+// los instrumentos (escenas/casaMusica.ts, que recibe cuál se tocó), la pizarra (casaPizarra.ts) y la tele (casaTele.ts);
+// desde la C5, la merienda y la sopa (casaCocina.ts), el baño (casaBano.ts), buenas noches (casaNoches.ts) y el huerto.
+const ESCENA_CASA: Partial<Record<EscenaCasa,string>>={cielo:'casaCielo',mundo:'casaMundo',instrumentos:'casaMusica',pizarra:'casaPizarra',tele:'casaTele',
+  merienda:'casaMerienda',sopa:'casaSopa',bano:'casaBano',buenasNoches:'casaNoches',huerto:'casaHuerto'};
 // Luz de la casa de Tito (la lámpara la cambia: de noche se oscurece la habitación). No se guarda.
 let homeLight=true;
 // roomBg(id, hl): dibuja el fondo fijo de la habitación id de la casa de Tito (pared, ventana, suelo y adornos propios);

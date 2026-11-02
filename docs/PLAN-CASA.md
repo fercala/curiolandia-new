@@ -55,7 +55,7 @@ Al crecer hay fiesta. Pipo sigue creciendo con las estrellas y también se puede
 | C2 | Tito camina por la habitación y los 49 objetos tienen su reacción (`escenas/casaReacciones.ts`, frases en `contenido/casa.ts`). Hecha en la v0.2.82. |
 | C3 | La torre: escena del cielo de noche (telescopio, `escenas/casaCielo.ts`) y la vuelta al mundo (globo terráqueo, `escenas/casaMundo.ts`); Saturno sale en el cielo si Tito lo tiene; el cohete ya despega desde la C2. Las sorpresas descubiertas se apuntan en `S.sorpresas`. Hecha en la v0.2.83. |
 | C4 | Música y dibujo: escenas Los instrumentos (`escenas/casaMusica.ts`), Mi pizarra (`casaPizarra.ts`) y Mi tele (`casaTele.ts`). Hecha en la v0.2.84. |
-| C5 | Cocina, baño, dormitorio y huerto: escenas La merienda, Sopa de Tito, El baño, Buenas noches y Mi huerto. |
+| C5 | Cocina, baño, dormitorio y huerto: escenas La merienda y Sopa de Tito (`escenas/casaCocina.ts`), El baño (`casaBano.ts`), Buenas noches (`casaNoches.ts`) y Mi huerto (`casaHuerto.ts`). Hecha en la v0.2.85. |
 | C6 | Mascotas que crecen: dibujos de bebé, joven y mayor, cuidados, nombres, avisos y fiesta al crecer. |
 | C7 | Combinaciones, álbum «Sorpresas de la casa», mascotas mayores en el mapa, sección en la zona de adultos y prueba de la casa ampliada (`tests/regresion/casa.js`). |
 

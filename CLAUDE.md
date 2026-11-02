@@ -26,7 +26,7 @@ con arquitectura limpia. Se habla y se documenta en castellano.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - **Isla de las Letras** (aprender a leer, 3 a 5 años): plan aprobado y fases en [docs/PLAN-LECTURA.md](docs/PLAN-LECTURA.md). Completa: fases L1 a L7, hasta la v0.2.69.
 - **Isla del Inglés** (sustituye al Rincón del inglés, 3 a 5 años, con Polly la lorita): plan aprobado el 2 de noviembre de 2026 y fases en [docs/PLAN-INGLES.md](docs/PLAN-INGLES.md). Completa: fases I1 a I7, hasta la v0.2.78. Las casitas del rincón (`EN-HELLO`...) pasan a la isla con su id: no se pierde el progreso.
-- **Casa de Tito interactiva y mascotas que crecen**: plan aprobado el 2 de noviembre de 2026 y fases en [docs/PLAN-CASA.md](docs/PLAN-CASA.md). Hechas: C1 (reglas en `src/dominio/casa.ts`, partida versión 4) C2 (Tito anda por la casa y juega con cada objeto, `src/escenas/casaReacciones.ts`) C3 (escenas del telescopio y del globo terráqueo) y C4 (instrumentos, pizarra y tele).
+- **Casa de Tito interactiva y mascotas que crecen**: plan aprobado el 2 de noviembre de 2026 y fases en [docs/PLAN-CASA.md](docs/PLAN-CASA.md). Hechas: C1 (reglas en `src/dominio/casa.ts`, partida versión 4) C2 (Tito anda por la casa y juega con cada objeto, `src/escenas/casaReacciones.ts`) C3 (escenas del telescopio y del globo terráqueo), C4 (instrumentos, pizarra y tele) y C5 (merienda, sopa, baño, buenas noches y huerto).
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.
 
 ## Montar y probar
