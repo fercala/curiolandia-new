@@ -116,9 +116,15 @@ Cada fase es un PR pequeño que deja el juego publicable, con las pruebas en ver
    isla, las tres zonas (las cerradas en gris y con candado; la de la casita que toca, con un aro dorado), Lupi en su
    tocón, el barco con la A y Tito, que camina hasta la zona antes de entrar. La lógica sigue siendo la de la escena 2D.
    Las zonas ya tenían su decoración 3D desde las fases L2 a L5. Con WebGL por software, la isla va más rápida que el mapa.
-7. **L7, recompensas y adultos.** «Mi libro de letras» en el álbum, las letras en el repaso diario (`S.kg`), la opción
-   de mayúsculas y minúsculas (un campo nuevo y opcional de `S`, con su migración) con los trazos de las minúsculas
-   (desde la fase L5) y el progreso por letra.
+7. **L7, recompensas y adultos.** Va en dos partes.
+   - **L7a (hecha en v0.2.66).** «Mi libro de letras» en el álbum (escena `libroLetras`: las 20 letras, en color las
+     empezadas, con un punto por juego hecho de su casita y estrella las aprendidas), el progreso por letra en la zona de
+     adultos (sección «Letras», con las reglas de `dominio/letras.ts`, y el progreso de las casitas de la isla) y las
+     letras en el repaso diario: los juegos de la isla con aciertos y fallos ya entraban por `S.gs` y `S.kg` (habilidades
+     `letras`, `silabas`, `palabras`, `frases`...); ahora los que solo son de mirar, escuchar o trazar (siempre aciertan)
+     están en `NOREP`, como los demás de ese tipo. No cambia `S`.
+   - **L7b.** La opción de mayúsculas y minúsculas (un campo nuevo y opcional de `S`, con su migración) con los trazos
+     de las minúsculas (desde la fase L5).
 
 ## Riesgos
 

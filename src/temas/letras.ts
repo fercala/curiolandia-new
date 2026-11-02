@@ -14,7 +14,8 @@
  * ya juegan.
  * Exporta: BG.letras, BG.letrasBosque y BG.letrasPueblo (al cargarse), cosaLetra, dibujaLetra, densificar, TL3, TL4 y
  * TL5 (los temas de cada zona), PALABRAS_LEER (las palabras partidas en sílabas del pueblo, para las pruebas) y
- * TEMAS_LETRAS (todos los de la isla, para TEMAS en escenas/escenas2d.ts).
+ * TEMAS_LETRAS (todos los de la isla, para TEMAS en escenas/escenas2d.ts) y, desde la fase L7, casitaDeLetra (el id de la
+ * casita de cada letra, para el libro de letras y la zona de adultos).
  * Importa: los tipos de juegos/tipos.ts, LETRAS de contenido/letras.ts, el núcleo (dibujo, voz, dificultad) y los
  * componentes de juegos/.
  */
@@ -722,3 +723,8 @@ export const TL5: Tema[] = juegosPueblo();
 
 // TEMAS_LETRAS: todos los temas de la isla, para TEMAS (escenas/escenas2d.ts).
 export const TEMAS_LETRAS: Tema[] = [...TL3, ...TL4, ...TL5];
+
+// PREFIJO: el prefijo de las casitas de cada zona de la isla ('L3-A', 'L4-M', 'L5-R').
+const PREFIJO: Readonly<Record<string, string>> = { playaSonidos: 'L3', bosqueLetras: 'L4', puebloPalabras: 'L5' };
+// casitaDeLetra(L): el id de la casita de la letra L (fase L7: el libro de letras y el progreso por letra lo miran).
+export const casitaDeLetra = (L: Letra): string => `${PREFIJO[L.zona] ?? 'L3'}-${L.l}`;

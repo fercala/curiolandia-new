@@ -7,6 +7,8 @@ import { join } from 'node:path';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { codigoModulos } from '../../herramientas/vite/curiolandia.mts';
 import { ejecutaModulos } from './juegoEnVm.ts';
+import { LETRAS } from '../../src/contenido/letras.ts';
+import { NOREP } from '../../src/dominio/repaso.ts';
 
 const SRC = join(import.meta.dirname, '..', '..', 'src');
 // Prefijo de las caritas de emoción ('emo:alegria'), que dibuja drawFace (juegos/caras.ts) y no son de IMG.
@@ -129,6 +131,19 @@ describe('las palabras para leer del Pueblo de las Palabras (fase L5 de docs/PLA
   test('las de dos sílabas tienen dos y las de tres, tres', () => {
     const p = lee<{ dos: Array<{ syl: string[] }>; tres: Array<{ syl: string[] }> }>('PALABRAS_LEER');
     expect(p.dos.every((w) => w.syl.length === 2) && p.tres.every((w) => w.syl.length === 3)).toBe(true);
+  });
+});
+
+describe('el progreso por letra (fase L7 de docs/PLAN-LECTURA.md)', () => {
+  test('cada letra de la isla tiene su casita, con juegos que se pueden repasar', () => {
+    const tema = lee<Record<string, TemaLeido>>('TEMA');
+    const casita = lee<(L: { l: string; zona: string }) => string>('casitaDeLetra');
+    const malas = LETRAS.flatMap((L) => {
+      const t = tema[casita(L)];
+      if (!t) return [`${L.l}: sin casita ${casita(L)}`];
+      return t.zone === L.zona && t.games.some((g) => !NOREP.includes(g.t)) ? [] : [`${L.l}: casita ${t.id} de otra zona o sin juegos que repasar`];
+    });
+    expect(malas).toEqual([]);
   });
 });
 
