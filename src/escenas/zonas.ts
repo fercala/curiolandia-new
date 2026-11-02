@@ -397,14 +397,16 @@ function drawRepBtn(){const s=hv('repaso',hC(REPBTN.x,REPBTN.y,50)),due=repDue()
 export function drawSeguir(){const p=(Math.sin(T*4)+1)/2,s=hv('seguir',hC(SEGUIR.x,SEGUIR.y,SEGUIR.r+8));ctx.save();ctx.translate(SEGUIR.x,SEGUIR.y);ctx.scale(s*(1+p*.05),s*(1+p*.05));
   ctx.globalAlpha=.35+.3*p;circ(0,0,SEGUIR.r+12,null,10,'#FFC93C');ctx.globalAlpha=1;circ(0,0,SEGUIR.r,'#7CC86E',7);ctx.beginPath();ctx.moveTo(-18,-28);ctx.lineTo(30,0);ctx.lineTo(-18,28);ctx.closePath();fillStroke('#fff',5);ctx.restore()}
 // drawMuelle(x, y): el muelle del mapa (fase L2): unas tablas que entran en el agua y el barco de vela con la A, que se
-// mece. Lleva a la Isla de las Letras (SCENES.isla, escenas/isla.ts).
+// mece, y desde la v0.2.70 su cartel, «Isla de las Letras». Lleva a la Isla de las Letras (SCENES.isla, escenas/isla.ts).
 function drawMuelle(x: number,y: number){const b=Math.sin(T*2)*3;
   for(let i=0;i<4;i++){card(x-78+i*22,y-14,20,58,'#C98A4B',4,4)}
   ctx.save();ctx.translate(x+30,y+24+b);ctx.rotate(Math.sin(T*1.6)*.05);
   ctx.beginPath();ctx.moveTo(-56,0);ctx.lineTo(56,0);ctx.lineTo(38,28);ctx.lineTo(-38,28);ctx.closePath();fillStroke('#FF8A7A',5);
   ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,-86);ctx.lineWidth=5;ctx.strokeStyle=K;ctx.stroke();
   ctx.beginPath();ctx.moveTo(5,-80);ctx.lineTo(52,-14);ctx.lineTo(5,-14);ctx.closePath();fillStroke('#fff',4);
-  text('A',22,-24,38,'#E8554E',{f:LF});ctx.restore()}
+  text('A',22,-24,38,'#E8554E',{f:LF});ctx.restore();
+  // el cartel (desde la v0.2.70), como el de la Casa de Tito, para que se vea adónde lleva
+  card(x-112,y-112,224,40,'#5B8DEF',5,20);text('Isla de las Letras',x,y-83,24,'#fff')}
 // drawZoneSpot(z, o): dibuja el sitio z de MZ2 con su dibujo propio (plaza, jardín, bosque, montaña, carpa, pizarra...).
 // o.glow = halo; o.wake = instante en que se despertó (tiembla); o.unl = instante de la animación de desbloqueo;
 // o.shake / o.petJump para la casa y Pipo. Los sitios cerrados (no bosque/montaña, que salen "dormidos" en gris con
