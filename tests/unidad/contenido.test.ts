@@ -72,12 +72,12 @@ describe('los temas', () => {
     const zonas: Array<[string, string[]]> = [
       ['jardin', ['T3', 'C3']], ['bosque', ['T4', 'C4']], ['montana', ['T5', 'C5']],
       ['extras', ['CAN', 'RUT', 'TRZ']], ['fiestas', ['FIESTAS']], ['ingles', ['ING']],
-      ['playaSonidos', ['TL3']], ['bosqueLetras', ['TL4']], // la Isla de las Letras (fases L2 y L4 de docs/PLAN-LECTURA.md)
+      ['playaSonidos', ['TL3']], ['bosqueLetras', ['TL4']], ['puebloPalabras', ['TL5']], // la Isla de las Letras (fases L2 a L5 de docs/PLAN-LECTURA.md)
     ];
     const fuera = zonas.flatMap(([zona, listas]) =>
       listas.flatMap((l) => juego[l] as TemaLeido | TemaLeido[]).filter((t) => t.zone !== zona).map((t) => `${t.id} no es de ${zona}`));
     expect(fuera).toEqual([]);
-    expect(temas().filter((t) => !['jardin', 'bosque', 'montana', 'extras', 'fiestas', 'ingles', 'playaSonidos', 'bosqueLetras'].includes(t.zone))).toEqual([]);
+    expect(temas().filter((t) => !['jardin', 'bosque', 'montana', 'extras', 'fiestas', 'ingles', 'playaSonidos', 'bosqueLetras', 'puebloPalabras'].includes(t.zone))).toEqual([]);
   });
 
   test('cada dibujo que nombran existe (icono, juegos, palabras y ejemplos)', () => {
@@ -104,6 +104,31 @@ describe('los temas', () => {
     };
     const malos = temas().flatMap((t) => t.games.map((g, j) => [`${t.id} juego ${j}`, sinFabrica(t, g)])).filter(([, p]) => p);
     expect(malos).toEqual([]);
+  });
+});
+
+describe('las palabras para leer del Pueblo de las Palabras (fase L5 de docs/PLAN-LECTURA.md)', () => {
+  // sinTildes(t): t en mayúsculas sin tildes (la Ñ se queda), para comparar lo escrito con el nombre del dibujo.
+  const sinTildes = (t: string): string => t.toUpperCase().replace(/Ñ/g, '\u0000').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0000/g, 'Ñ');
+  const listas = (): Array<{ k: string; syl: string[] }> => {
+    const p = lee<{ dos: Array<{ k: string; syl: string[] }>; tres: Array<{ k: string; syl: string[] }> }>('PALABRAS_LEER');
+    return [...p.dos, ...p.tres];
+  };
+
+  test('cada palabra se escribe como se llama su dibujo y sus sílabas no se repiten', () => {
+    const lex = lee<Record<string, string>>('LEX');
+    const malas = listas().flatMap((w) => [
+      ...(sinTildes(w.syl.join('')) === sinTildes((lex[w.k] ?? '').replace(/^(el|la|los|las) /, '')) ? [] : [`${w.k}: ${w.syl.join('-')} no es «${lex[w.k]}»`]),
+      ...(new Set(w.syl).size === w.syl.length ? [] : [`${w.k}: sílabas repetidas`]),
+      ...(existeDibujo(w.k) ? [] : [`${w.k}: sin dibujo`]),
+    ]);
+    expect(listas().length).toBeGreaterThan(20);
+    expect(malas).toEqual([]);
+  });
+
+  test('las de dos sílabas tienen dos y las de tres, tres', () => {
+    const p = lee<{ dos: Array<{ syl: string[] }>; tres: Array<{ syl: string[] }> }>('PALABRAS_LEER');
+    expect(p.dos.every((w) => w.syl.length === 2) && p.tres.every((w) => w.syl.length === 3)).toBe(true);
   });
 });
 

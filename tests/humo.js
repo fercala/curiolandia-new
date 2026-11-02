@@ -27,6 +27,7 @@ const ESCENAS = [
   ['title'], ['map'], ['jardin'], ['bosque'], ['montana'], ['fiestas'], ['ingles'],
   ['casita', { t: '3A-T1' }], ['cofre', { t: '3A-T1' }], ['tienda'], ['casaTito'], ['album'],
   ['isla'], ['playaSonidos'], ['casita', { t: 'L3-A' }], // la Isla de las Letras (fase L2)
+  ['bosqueLetras'], ['puebloPalabras'], ['casita', { t: 'L5-FAB' }], // el bosque y el pueblo (fases L4 y L5)
 ];
 
 (async () => {

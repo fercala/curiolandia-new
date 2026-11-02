@@ -1,6 +1,8 @@
 /*
- * temas/letras.ts: las casitas de la Isla de las Letras (fases L2 y L3 de docs/PLAN-LECTURA.md): las diez de la Playa
- * de los Sonidos (TL3). Primero las cinco vocales (fase L2), cada una con sus juegos hechos con componentes que ya
+ * temas/letras.ts: las casitas de la Isla de las Letras (fases L2 a L5 de docs/PLAN-LECTURA.md): las diez de la Playa
+ * de los Sonidos (TL3), las doce del Bosque de las Letras (TL4, fase L4) y las doce del Pueblo de las Palabras (TL5,
+ * fase L5: las letras R, C, G, J, V y Ñ, la fábrica de sílabas, las palabras de dos y de tres sílabas, las frases, los
+ * cuentos para leer y la fiesta del abecedario). Primero las cinco vocales (fase L2), cada una con sus juegos hechos con componentes que ya
  * existen: conocer la letra y a sus amigos (Conocer), buscarla entre otras (ChoiceGame), trazarla con el dedo (Tracer),
  * atrapar sus burbujas (Atrapa) y, desde la E, unir cada letra aprendida con su amigo con una flecha (Une). Detrás
  * (fase L3), las palmas (Palmas, el eco de Tito, la palabra larga), ¿cómo empieza?, mi nombre (MiNombre, Pizarra), las
@@ -10,7 +12,8 @@
  * Los ids de los temas ('L3-A'...) son definitivos (son la clave del progreso guardado), y los juegos se guardan por
  * posición: añade juegos al final y casitas al final de su zona, para no cambiar las casitas abiertas de los niños que
  * ya juegan.
- * Exporta: BG.letras (al cargarse), cosaLetra, dibujaLetra, densificar, TL3 (los temas de la Playa de los Sonidos) y
+ * Exporta: BG.letras, BG.letrasBosque y BG.letrasPueblo (al cargarse), cosaLetra, dibujaLetra, densificar, TL3, TL4 y
+ * TL5 (los temas de cada zona), PALABRAS_LEER (las palabras partidas en sílabas del pueblo, para las pruebas) y
  * TEMAS_LETRAS (todos los de la isla, para TEMAS en escenas/escenas2d.ts).
  * Importa: los tipos de juegos/tipos.ts, LETRAS de contenido/letras.ts, el núcleo (dibujo, voz, dificultad) y los
  * componentes de juegos/.
@@ -19,8 +22,9 @@
    los temas. */
 import type { AlTerminar, Cosa, JuegoTema, Libre, Palabra, Tema } from '../juegos/tipos.ts';
 import { LETRAS, letraEnPantalla, type Letra, type Trazo } from '../contenido/letras.ts';
-import { AGE, LF, S, W_, cap, ctx, nOpts, nRounds, pick, praise, sky, shuffle, text } from '../nucleo/indice.ts';
-import { Atrapa, BG, ChoiceGame, Conocer, Excava, Memoria, Huellas, MiNombre, NUM, Palmas, Pizarra, Tracer, Tren, Une, nameT, nombreDeLetra } from '../juegos/indice.ts';
+import { K } from '../dibujos/todos.ts';
+import { AGE, DF, LF, S, W_, cap, card, ctx, nOpts, nRounds, pick, praise, say, sky, shuffle, text } from '../nucleo/indice.ts';
+import { ACCIONES, Arrastra, Atrapa, BG, ChoiceGame, Conocer, Excava, Frase, Huellas, Maquina, Memoria, MiNombre, NUM, Palmas, Pizarra, Song, Tracer, Tren, Une, drawEscena, nameT, nombreDeLetra, thing } from '../juegos/indice.ts';
 
 // BG.letras: el fondo de los juegos de letras: cielo claro, arena y letras grandes muy suaves al fondo.
 Object.assign(BG, {
@@ -81,19 +85,31 @@ const fondoTrazo = (L: Letra) => (): void => {
 };
 
 // distractoras(L): las letras que pueden salir con L como opciones equivocadas: en la playa, las otras vocales; en el
-// bosque, las ya vistas (las vocales y las del bosque anteriores); desde los 5 años, todas las demás de la isla.
+// bosque y en el pueblo, las ya vistas (las que van antes en LETRAS: las vocales, las del bosque y, en el pueblo, las
+// suyas anteriores); desde los 5 años, todas las demás de la isla.
 const distractoras = (L: Letra): Letra[] => {
   if (AGE() >= 5) return LETRAS.filter((x) => x !== L);
   if (L.zona === 'playaSonidos') return LETRAS.filter((x) => x !== L && x.zona === L.zona);
-  // en el bosque, a los 3 y 4 años, las ya vistas: las vocales y las del bosque que van antes (desde la fase L4)
-  return LETRAS.filter((x) => x.zona === 'playaSonidos' || (x.zona === L.zona && LETRAS.indexOf(x) < LETRAS.indexOf(L)));
+  // a los 3 y 4 años, las ya vistas: las que van antes en LETRAS (las vocales van primero y el bosque antes que el pueblo)
+  return LETRAS.filter((x) => LETRAS.indexOf(x) < LETRAS.indexOf(L));
 };
 
+// empiezaPor(L, k): si el nombre del dibujo k empieza por la letra L (la Ñ casi nunca va al principio: piña la lleva
+// dentro). Compara sin tildes, pero la Ñ no es una N.
+const empiezaPor = (L: Letra, k: string): boolean => {
+  const c = [...sinArticulo(k).toUpperCase()][0] ?? '';
+  return (c === 'Ñ' ? c : c.normalize('NFD').replace(/[̀-ͯ]/g, '')) === L.l;
+};
+// comoLleva(L, k): cómo dice Tito que la palabra k tiene la letra L: «empieza por la a» o, si la lleva dentro (piña y la
+// eñe), «lleva la eñe».
+const comoLleva = (L: Letra, k: string): string => (empiezaPor(L, k) ? `empieza por ${L.nombre}` : `lleva ${L.nombre}`);
+
 // conocerLetra(L, bg): el juego de conocer la letra: su tarjeta (se dice «Esta es la a. La a de abeja.») y las de su
-// amigo y sus palabras («La abeja. Abeja empieza por la a.»).
+// amigo y sus palabras («La abeja. Abeja empieza por la a.»; desde la fase L5, «Piña lleva la eñe.» si no empieza por
+// ella).
 function conocerLetra(L: Letra, bg: () => void, d: AlTerminar) {
   const tarjeta = { draw: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s * .9), label: L.l, say: `Esta es ${L.nombre}. ${cap(L.nombre)} de ${L.amigoDice}.` };
-  const palabras = [L.amigo, ...L.palabras].map((k) => ({ k, say: `${cap(W_(k))}. ${cap(sinArticulo(k))} empieza por ${L.nombre}.` }));
+  const palabras = [L.amigo, ...L.palabras].map((k) => ({ k, say: `${cap(W_(k))}. ${cap(sinArticulo(k))} ${comoLleva(L, k)}.` }));
   return Conocer({ items: [tarjeta, ...palabras], bg, intro: `¡Vamos a conocer ${L.nombre}! Toca cada tarjeta.` }, d);
 }
 
@@ -182,9 +198,10 @@ const silabas = (k: string): string[] => [...(SILABAS[k] ?? [sinArticulo(k)])];
 // rondasPalmas(ks): las rondas de Palmas con las palabras ks, en ese orden.
 const rondasPalmas = (ks: readonly string[]) => ks.map((k) => ({ k, syl: silabas(k) }));
 // vocalDe(k): la letra de LETRAS por la que empieza la palabra con dibujo k (su amigo o una de sus palabras), o undefined.
-const vocalDe = (k: string): Letra | undefined => LETRAS.find((v) => v.amigo === k || v.palabras.includes(k));
-// palabrasVocal(L): el amigo y las palabras de la vocal L.
-const palabrasVocal = (L: Letra): string[] => [L.amigo, ...L.palabras];
+const vocalDe = (k: string): Letra | undefined => LETRAS.find((v) => (v.amigo === k || v.palabras.includes(k)) && empiezaPor(v, k));
+// palabrasVocal(L): el amigo y las palabras de la letra L que empiezan por ella (desde la fase L5 se quitan las que solo
+// la llevan dentro, como piña con la eñe).
+const palabrasVocal = (L: Letra): string[] => [L.amigo, ...L.palabras].filter((k) => empiezaPor(L, k));
 
 // ecoTito(bg): «el eco de Tito»: Tito dice una palabra a trozos («ma... ri... po... sa») y hay que tocar su dibujo.
 function ecoTito(bg: () => void, d: AlTerminar) {
@@ -418,5 +435,290 @@ function juegosBosque(): Tema[] {
 // TL4: las casitas del Bosque de las Letras (4 años), en el orden del camino (fase L4).
 export const TL4: Tema[] = juegosBosque();
 
-// TEMAS_LETRAS: todos los temas de la isla, para TEMAS (escenas/escenas2d.ts). Crecerá con las fases L3 a L5.
-export const TEMAS_LETRAS: Tema[] = [...TL3, ...TL4];
+/* ---------- fase L5: el Pueblo de las Palabras ---------- */
+// BG.letrasPueblo: el fondo de los juegos del pueblo: cielo de tarde, una calle de tierra y letras suaves al fondo.
+Object.assign(BG, {
+  letrasPueblo(): void {
+    sky('#FDE7D6', '#FFF8EE');
+    ctx.fillStyle = '#EBD9B6'; ctx.fillRect(0, 760, 1600, 140);
+    ctx.save(); ctx.globalAlpha = .08;
+    'RCGJVÑSOL'.split('').forEach((l, i) => text(l, 140 + i * 170, 200 + (i % 3) * 230, 150, '#C9673A', { f: LF }));
+    ctx.restore();
+  },
+});
+// PUEBLO: las seis consonantes del pueblo, en orden (R, C, G, J, V, Ñ).
+const PUEBLO: Letra[] = LETRAS.filter((x) => x.zona === 'puebloPalabras');
+// CONSONANTES: las consonantes de la isla (bosque y pueblo) con su color, para la máquina de sílabas y los globos.
+const CONSONANTES = LETRAS.filter((x) => x.zona !== 'playaSonidos').map((x) => ({ l: x.l, c: x.c }));
+
+/** Una palabra con dibujo para leer: su clave de dibujo y sus sílabas. */
+interface PalabraLeer { readonly k: string; readonly syl: readonly string[] }
+// pl(k, s): la palabra del dibujo k con sus sílabas separadas por guiones ('pa-to').
+const pl = (k: string, s: string): PalabraLeer => ({ k, syl: s.split('-') });
+// DOS y TRES: las palabras que se leen en el pueblo, de dos y de tres sílabas, todas de consonante y vocal y sin sílabas
+// repetidas (para que al ordenarlas no haya dos trozos iguales). tests/unidad/contenido.test.ts comprueba que se
+// escriben como su dibujo se llama.
+const DOS: readonly PalabraLeer[] = [pl('pato', 'pa-to'), pl('gato', 'ga-to'), pl('mesa', 'me-sa'), pl('casa', 'ca-sa'), pl('bota', 'bo-ta'),
+  pl('mono', 'mo-no'), pl('luna', 'lu-na'), pl('foca', 'fo-ca'), pl('nube', 'nu-be'), pl('vaca', 'va-ca'), pl('cama', 'ca-ma'),
+  pl('pera', 'pe-ra'), pl('rana', 'ra-na'), pl('mano', 'ma-no'), pl('pino', 'pi-no'), pl('moto', 'mo-to'), pl('pala', 'pa-la'),
+  pl('lobo', 'lo-bo'), pl('cubo', 'cu-bo'), pl('seta', 'se-ta'), pl('lupa', 'lu-pa'), pl('vela', 've-la')];
+const TRES: readonly PalabraLeer[] = [pl('pelota', 'pe-lo-ta'), pl('tomate', 'to-ma-te'), pl('cohete', 'co-he-te'), pl('maceta', 'ma-ce-ta'),
+  pl('conejo', 'co-ne-jo'), pl('gusano', 'gu-sa-no'), pl('jirafa', 'ji-ra-fa'), pl('zapato', 'za-pa-to'), pl('helado', 'he-la-do'),
+  pl('cometa', 'co-me-ta'), pl('pijama', 'pi-ja-ma')];
+// PALABRAS_LEER: las dos listas, para las pruebas.
+export const PALABRAS_LEER = { dos: DOS, tres: TRES };
+// escrita(w): cómo se escribe la palabra w en los juegos: en mayúsculas ('PATO').
+const escrita = (w: PalabraLeer): string => w.syl.join('').toUpperCase();
+// trozos(w): las sílabas de w como las dice Tito, despacio: 'pa... to'.
+const trozos = (w: PalabraLeer): string => w.syl.join('... ');
+
+// TEXTOS: una «cosa» por texto (sílaba o palabra), creada una sola vez: los componentes comparan las cosas por identidad.
+const TEXTOS = new Map<string, Libre>();
+// cosaTexto(t): el texto t (una sílaba o una palabra, en mayúsculas) como cosa de los componentes: se escribe en Andika
+// tan grande como quepa en su tarjeta (lo mide con measureText) y Tito lo lee en minúsculas.
+function cosaTexto(t: string): Libre {
+  let c = TEXTOS.get(t);
+  if (!c) { c = { t, name: t.toLowerCase(), draw: (x: number, y: number, s: number) => {
+    let z = s * .55; ctx.font = `700 ${z}px ${LF}`; const an = ctx.measureText(t).width;
+    if (an > s * .9) z *= (s * .9) / an;
+    text(t, x, y + z * .36, z, '#3B3B4F', { f: LF }); } }; TEXTOS.set(t, c); }
+  return c;
+}
+// cartelPalabra(t, y): el cartel con el texto t en grande, centrado en x = 900 y en la altura y. Devuelve su medio ancho.
+function cartelPalabra(t: string, y: number): number {
+  const an = t.length * 86 + 120;
+  card(900 - an / 2, y - 100, an, 200, '#fff', 7, 36); text(t, 900, y + 50, 140, '#3B3B4F', { f: LF });
+  return an / 2;
+}
+
+// leoYElijo(lista, bg): «leo y elijo»: sale una palabra escrita y hay que tocar su dibujo. Tito no la dice: al tocar el
+// cartel, la lee a trozos («pa... to») para ayudar.
+function leoYElijo(lista: readonly PalabraLeer[], bg: () => void, d: AlTerminar) {
+  return ChoiceGame({ rounds: nRounds(), bg, key: () => 'palabras', y: 640, big: false,
+    gen: () => {
+      const w = pick(lista), otras = shuffle(lista.filter((x) => x !== w)).slice(0, Math.max(1, nOpts() - 1)).map((x) => x.k);
+      return { words: [w.k, ...otras], ok: [w.k], palabra: w, ask: '¿Qué pone? Lee la palabra y toca su dibujo.',
+        okSay: () => `${praise()} Pone ${sinArticulo(w.k)}.`, badSay: (x: Cosa) => `Esa es ${nameT(x)}. Si tocas la palabra, te la leo a trozos.` };
+    },
+    ref: (r: Libre) => { cartelPalabra(escrita(r.palabra), 230); },
+    refTap: (g: Libre, x: number, y: number) => {
+      const an = (escrita(g.r.palabra).length * 86 + 120) / 2;
+      if (Math.abs(x - 900) > an || Math.abs(y - 230) > 100) return false;
+      say(trozos(g.r.palabra)); return true;
+    } }, d);
+}
+
+// silabaFalta(lista, bg, d, primera): «la sílaba que falta»: el dibujo y su palabra con un hueco (LU _ ) y, debajo,
+// sílabas para elegir la que falta. Con primera = true el hueco es siempre la primera sílaba («¿con qué trozo empieza?»).
+function silabaFalta(lista: readonly PalabraLeer[], bg: () => void, d: AlTerminar, primera = false) {
+  return ChoiceGame({ rounds: nRounds(), bg, key: () => 'silabas', y: 660, big: false,
+    gen: () => {
+      const w = pick(lista), j = primera ? 0 : pick([...w.syl.keys()]), falta = w.syl[j]!.toUpperCase();
+      const otras = shuffle([...new Set([...DOS, ...TRES].flatMap((x) => x.syl.map((y) => y.toUpperCase())))].filter((y) => !w.syl.map((q) => q.toUpperCase()).includes(y))).slice(0, Math.max(1, nOpts() - 1));
+      const ask = primera ? `Esto es ${nameT(w.k)}. ¿Con qué trozo empieza?` : `Esto es ${nameT(w.k)}. ¿Qué trozo falta?`;
+      return { words: [cosaTexto(falta), ...otras.map(cosaTexto)], ok: [cosaTexto(falta)], palabra: w, hueco: j, ask,
+        okSay: () => `${praise()} ${trozos(w)}: ${sinArticulo(w.k)}.`, badSay: (x: Cosa) => `Con ${nameT(x)} no pone ${sinArticulo(w.k)}. ${ask}` };
+    },
+    ref: (r: Libre, g: Libre) => {
+      const w: PalabraLeer = r.palabra, n = w.syl.length, an = 190, x0 = 1060 - ((n - 1) * (an + 20)) / 2, hecho = g.items?.some((it: Libre) => it.win);
+      card(330, 120, 280, 280, '#fff', 6, 36); thing(w.k, 470, 260, 230);
+      w.syl.forEach((sy, j) => { const x = x0 + j * (an + 20), hueco = j === r.hueco && !hecho;
+        if (hueco) ctx.setLineDash([16, 12]);
+        card(x - an / 2, 180, an, 160, hueco ? 'rgba(255,255,255,.6)' : '#fff', 6, 26, hueco ? '#B8A890' : K); ctx.setLineDash([]);
+        text(hueco ? '?' : sy.toUpperCase(), x, 300, 100, hueco ? '#B8A890' : '#3B3B4F', { f: LF }); });
+    } }, d);
+}
+
+// ordenaPiezas(gen, bg, d, key): ordenar piezas (sílabas o palabras) arrastrándolas a sus huecos, con Arrastra. Cada
+// ronda, gen() da {piezas (en orden, en mayúsculas), dibujo(x, y, s) (lo que se escribe, arriba), ask, ok, oye (cómo
+// se dice despacio)}. Tres rondas; una estrella por ronda.
+function ordenaPiezas(gen: () => { piezas: string[]; dibujo: (x: number, y: number, s: number) => void; ask: string; ok: string; oye: string }, bg: () => void, d: AlTerminar, key: string) {
+  let oye = '';
+  return Arrastra({ rounds: 3, key, bg, rect: true,
+    why: () => `Mmm, ese trozo no va ahí. Escucha: ${oye}.`,
+    gen: () => {
+      const r = gen(), n = r.piezas.length, an = 220, x0 = 900 - ((n - 1) * (an + 24)) / 2; oye = r.oye;
+      const zones = r.piezas.map((_p, j) => ({ id: 's' + j, x: x0 + j * (an + 24), y: 480, w: an, h: 190, ps: 1,
+        slot: (): [number, number] => [x0 + j * (an + 24), 480],
+        draw: (z: Libre, hl: boolean) => { ctx.setLineDash([16, 12]); card(z.x - an / 2, z.y - 95, an, 190, hl ? '#FFF3B0' : 'rgba(255,255,255,.7)', 5, 26, '#B8A890'); ctx.setLineDash([]); } }));
+      const items = r.piezas.map((p, j) => ({ k: cosaTexto(p), zone: 's' + j, s: 190 }));
+      return { ask: r.ask, zones, items, tray: { x0: 420, x1: 1380, y: 770 }, okAll: r.ok,
+        drawExtra: () => { card(760, 40, 280, 280, '#fff', 6, 36); r.dibujo(900, 180, 240); } };
+    } }, d);
+}
+// armaPalabra(lista, bg): «armo la palabra»: el dibujo arriba y sus sílabas desordenadas para ponerlas en orden.
+function armaPalabra(lista: readonly PalabraLeer[], bg: () => void, d: AlTerminar) {
+  const orden = shuffle(lista); let i = 0;
+  return ordenaPiezas(() => { const w = orden[i++ % orden.length]!;
+    return { piezas: w.syl.map((y) => y.toUpperCase()), dibujo: (x, y, s) => thing(w.k, x, y, s), oye: trozos(w),
+      ask: `Esto es ${nameT(w.k)}. Arrastra los trozos en orden para escribir ${sinArticulo(w.k)}.`, ok: `${praise()} ${trozos(w)}: ${sinArticulo(w.k)}.` }; }, bg, d, 'palabras');
+}
+
+// unePalabraDibujo(lista, bg): unir cada palabra escrita con su dibujo (Une).
+function unePalabraDibujo(lista: readonly PalabraLeer[], bg: () => void, d: AlTerminar) {
+  const pairs = lista.map((w) => [cosaTexto(escrita(w)), w.k]);
+  return Une({ pairs, n: AGE() <= 4 ? 3 : 4, rounds: 2, bg, key: 'palabras',
+    ask: 'Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.',
+    okSay: (a: Libre) => `${praise()} Pone ${a.name}.`,
+    why: (_a: Libre, b: string) => `Aquí no pone ${sinArticulo(b)}.` }, d);
+}
+
+// globosSilabas(bg): «globos de sílabas»: burbujas con sílabas de una consonante (y dos de otra); hay que atrapar las
+// de una sílaba (Atrapa). Un solo objetivo: con dos, las estrellas de arriba taparían el cartel con la sílaba.
+function globosSilabas(bg: () => void, d: AlTerminar) {
+  const L = pick(CONSONANTES.filter((c) => c.l !== 'Ñ')), [a, b] = shuffle(VOCALES).slice(0, 2) as [Letra, Letra];
+  const sil = (v: Letra) => cosaTexto(L.l + v.l), otra = pick(CONSONANTES.filter((c) => c.l !== L.l));
+  const pool = [...VOCALES.map(sil), cosaTexto(otra.l + a.l), cosaTexto(otra.l + b.l)];
+  const obj = (v: Letra) => ({ ask: `¡Atrapa los globos que dicen ${(L.l + v.l).toLowerCase()}!`, is: (k: Cosa) => k === sil(v), label: 'Atrapa', icon: (x: number, y: number, s: number) => sil(v).draw(x, y, s) });
+  return Atrapa({ bg, pool, key: 'silabas', ring: () => L.c, targets: [obj(a)] }, d);
+}
+
+// maquinaSilabas(bg, set): la máquina de sílabas (Maquina) con nRounds() sílabas de las consonantes de set (todas las de
+// la isla si no se da) y las cinco vocales.
+function maquinaSilabas(bg: () => void, d: AlTerminar, set = CONSONANTES) {
+  const rondas = Array.from({ length: nRounds() }, () => pick(set).l + pick(VOCALES).l);
+  return Maquina({ rondas, consonantes: CONSONANTES, vocales: VOCALES.map((v) => ({ l: v.l, c: v.c })), bg, key: 'silabas' }, d);
+}
+
+// FRASES: lo que hacen los animales en las frases ([dibujo, acción de ACCIONES]); las de cada ronda salen de aquí.
+const FRASES: ReadonlyArray<readonly [string, string]> = [['gato', 'duerme'], ['gato', 'salta'], ['pez', 'nada'], ['pato', 'nada'], ['rana', 'salta'],
+  ['mono', 'baila'], ['pajaro', 'vuela'], ['perro', 'corre'], ['vaca', 'duerme'], ['oso', 'baila'], ['foca', 'nada'], ['mono', 'salta'],
+  ['perro', 'salta'], ['pato', 'vuela'], ['oso', 'duerme'], ['vaca', 'corre']];
+// ANIMALES: los dibujos que salen en FRASES.
+const ANIMALES = [...new Set(FRASES.map((f) => f[0]))];
+// textoFrase(k, acc): cómo se escribe la frase: 'EL GATO DUERME'.
+const textoFrase = (k: string, acc: string): string => `${W_(k)} ${acc}`.toUpperCase();
+// rondasFrase(n): n frases distintas de FRASES, cada una con sus escenas: la buena, el mismo animal haciendo otra cosa y
+// otro animal haciendo lo mismo (así hay que leer las dos palabras) y, con cuatro opciones, otra más.
+function rondasFrase(n: number) {
+  return shuffle(FRASES).slice(0, n).map(([k, acc]) => {
+    const otraAcc = pick(ACCIONES.filter((a) => a !== acc)), otroK = pick(ANIMALES.filter((a) => a !== k));
+    const escenas = [{ k, acc }, { k, acc: otraAcc }, { k: otroK, acc }];
+    if (nOpts() >= 4) escenas.push({ k: pick(ANIMALES.filter((a) => a !== k && a !== otroK)), acc: pick(ACCIONES.filter((a) => a !== acc && a !== otraAcc)) });
+    return { texto: textoFrase(k, acc), escenas };
+  });
+}
+// armaFrase(bg): ordenar las palabras de una frase (EL GATO DUERME) con la escena arriba.
+function armaFrase(bg: () => void, d: AlTerminar) {
+  const orden = shuffle(FRASES.filter(([k]) => /^(el|la) \S+$/.test(W_(k)))); let i = 0;
+  return ordenaPiezas(() => { const [k, acc] = orden[i++ % orden.length]!, t = textoFrase(k, acc);
+    return { piezas: t.split(' '), dibujo: (x, y, s) => drawEscena(k, acc, x, y, s), oye: t.toLowerCase().split(' ').join('... '),
+      ask: 'Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.', ok: `${praise()} ${cap(t.toLowerCase())}.` }; }, bg, d, 'frases');
+}
+
+/** Una página de los cuentos para leer: el texto de antes y de después de la palabra que lee el niño (con su dibujo). */
+interface PaginaLeer { readonly antes: string; readonly k: string; readonly despues: string }
+// CUENTOS_LEER: los cuentos del pueblo. En cada página, la palabra k sale escrita en mayúsculas dentro del texto y el niño
+// la lee y toca su dibujo; después, Tito lee la página entera.
+const CUENTOS_LEER: ReadonlyArray<{ titulo: string; paginas: readonly PaginaLeer[] }> = [
+  { titulo: 'El pato y la luna', paginas: [
+    { antes: 'Había una vez un', k: 'pato', despues: 'que vivía en un lago.' },
+    { antes: 'Una noche, el pato miró al cielo y vio la', k: 'luna', despues: '.' },
+    { antes: 'La luna estaba sola. El pato le llevó una', k: 'nube', despues: 'para que jugaran.' },
+    { antes: 'Y la luna, la nube y el pato jugaron con una', k: 'pelota', despues: 'toda la noche.' }] },
+  { titulo: 'La vaca que quería volar', paginas: [
+    { antes: 'En el pueblo vivía una', k: 'vaca', despues: 'muy curiosa.' },
+    { antes: 'Un día, la vaca vio una', k: 'cometa', despues: 'en el cielo.' },
+    { antes: 'Quería volar tan alto como ella, así que subió a un', k: 'cohete', despues: '.' },
+    { antes: 'Y desde arriba saludó a la', k: 'luna', despues: '. ¡Hola, luna!' }] },
+];
+// textoConPalabra(p, y): escribe la página p centrada desde la altura y, en líneas de 960 px como mucho, con la palabra
+// que se lee en mayúsculas, en Andika y sobre un recuadro amarillo.
+function textoConPalabra(p: PaginaLeer, y: number): void {
+  const z = 46, pz = 58, palabra = sinArticulo(p.k).toUpperCase();
+  const toks = [...p.antes.split(' ').map((t) => ({ t, p: false })), { t: palabra, p: true }, ...p.despues.split(' ').filter(Boolean).map((t) => ({ t, p: false }))];
+  const ancho = (t: { t: string; p: boolean }): number => { ctx.font = t.p ? `700 ${pz}px ${LF}` : `700 ${z}px ${DF}`; return ctx.measureText(t.t).width + (t.p ? 36 : 0); };
+  // los signos sueltos (el punto final) van pegados a la palabra de antes
+  const lineas: Array<Array<{ t: string; p: boolean; w: number; pega: boolean }>> = [[]]; let w = 0;
+  for (const t of toks) { const tw = ancho(t), pega = /^[.,;:!?¡¿]/.test(t.t) && !t.p, sp = pega ? 0 : 14;
+    if (w + sp + tw > 960 && lineas[lineas.length - 1]!.length) { lineas.push([]); w = 0; }
+    lineas[lineas.length - 1]!.push({ ...t, w: tw, pega }); w += sp + tw; }
+  lineas.forEach((ln, i) => {
+    const tot = ln.reduce((a, t, j) => a + t.w + (j && !t.pega ? 14 : 0), 0); let x = 800 - tot / 2; const ly = y + i * 76;
+    ln.forEach((t, j) => { if (j && !t.pega) x += 14;
+      if (t.p) { card(x, ly - 56, t.w, 76, '#FFF3B0', 5, 18, '#FFC93C'); text(t.t, x + t.w / 2, ly + 2, pz, '#E8554E', { f: LF }); }
+      else text(t.t, x, ly, z, '#3B3B4F', { al: 'left' });
+      x += t.w; });
+  });
+}
+// cuentoLeer(c, bg): un cuento para leer (ChoiceGame, una ronda por página): arriba, el libro con los dibujos que ya se
+// han leído y el texto con la palabra escrita; abajo, dibujos para elegir el de la palabra.
+function cuentoLeer(c: { titulo: string; paginas: readonly PaginaLeer[] }, bg: () => void, d: AlTerminar) {
+  const hechos: string[] = [], todas = [...DOS, ...TRES].map((w) => w.k);
+  return ChoiceGame({ rounds: c.paginas.length, bg, key: () => 'cuentos', y: 700, big: false,
+    gen: (i: number) => {
+      const p = c.paginas[i]!, otras = shuffle(todas.filter((k) => k !== p.k && !c.paginas.some((q) => q.k === k))).slice(0, Math.max(1, nOpts() - 1));
+      const ultima = i === c.paginas.length - 1, frase = `${p.antes} ${sinArticulo(p.k)}${/^[.,;:!?]/.test(p.despues) ? '' : ' '}${p.despues}`;
+      return { words: [p.k, ...otras], ok: [p.k], pagina: p, ask: `${i === 0 ? `Vamos a leer un cuento: ${c.titulo}. ` : ''}${p.antes}... ¿Qué pone en la palabra amarilla? Toca su dibujo.`,
+        okSay: () => { hechos.push(p.k); return `${praise()} ${frase}${ultima ? ' Y colorín, colorado, este cuento se ha acabado.' : ''}`; },
+        badSay: (x: Cosa) => `Esa es ${nameT(x)}. Lee la palabra amarilla.` };
+    },
+    ref: (r: Libre) => {
+      card(290, 140, 1020, 410, '#FFFBF2', 6, 36); text(c.titulo, 800, 196, 40, '#8A5A34');
+      hechos.forEach((k, j) => thing(k, 800 - ((hechos.length - 1) * 170) / 2 + j * 170, 300, 130));
+      if (!hechos.length) thing('libro', 800, 300, 130);
+      textoConPalabra(r.pagina, 450);
+    } }, d);
+}
+
+// cancionAbecedario(bg): la canción del abecedario (Song, sin segunda parte): Tito canta las veinte letras de la isla en
+// orden («La a de abeja...») y su tarjeta salta.
+function cancionAbecedario(bg: () => void, d: AlTerminar) {
+  const ABC = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ', orden = [...LETRAS].sort((a, b) => ABC.indexOf(a.l) - ABC.indexOf(b.l));
+  const lines = orden.map((L) => ({ say: `${cap(L.nombre)} de ${L.amigoDice}.`, n: L.nombre, draw: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s * .8) }));
+  return Song({ lines, tune: 'meses', cols: 7, s: 150, part2: false, bg, key: 'letras', intro: '¡Vamos a cantar la canción del abecedario! Escucha.' }, d);
+}
+
+// juegosPueblo(): las doce casitas del pueblo (5 años): R, C, G, J, V, Ñ, la fábrica de sílabas, las palabras de dos y
+// de tres sílabas, las frases que se mueven, los cuentos para leer y la fiesta del abecedario. Sus ids y el orden de sus
+// juegos son definitivos.
+function juegosPueblo(): Tema[] {
+  const bg = BG['letrasPueblo']!;
+  const tema = (id: string, n: string, icon: string, c: string, intro: string, words: string[], games: JuegoTema[]): Tema =>
+    ({ id, zone: 'puebloPalabras', n, icon, c, bg, words: words.map((k) => ({ k })), games, intro });
+  const dos = DOS.map((w) => w.k), tres = TRES.map((w) => w.k);
+  return [
+    ...PUEBLO.map((L, i) => temaLetra(L, i, 'L5', bg)),
+    tema('L5-FAB', 'Fábrica de sílabas', 'robot', '#7A8CA8', '¡Bienvenido a la fábrica de sílabas!', dos, [
+      { t: 'maquina', icon: 'robot', name: 'La máquina de sílabas', make: (d: AlTerminar) => maquinaSilabas(bg, d) },
+      { t: 'globosSilabas', icon: 'globo', name: 'Globos de sílabas', make: (d: AlTerminar) => globosSilabas(bg, d) },
+      { t: 'trenLetra', icon: 'tren', name: 'El tren de las sílabas', make: (d: AlTerminar) => trenLetra(pick(PUEBLO), bg, d) },
+      { t: 'silabaInicial', icon: 'oreja', name: '¿Con qué trozo empieza?', make: (d: AlTerminar) => silabaFalta(DOS, bg, d, true) },
+    ]),
+    tema('L5-DOS', 'Palabras de dos sílabas', 'pato', '#E8554E', '¡Vamos a leer palabras cortas!', dos, [
+      { t: 'leoYElijo', icon: 'lupa', name: 'Leo y elijo', make: (d: AlTerminar) => leoYElijo(DOS, bg, d) },
+      { t: 'armaPalabra', icon: 'pizarra', name: 'Armo la palabra', make: (d: AlTerminar) => armaPalabra(DOS, bg, d) },
+      { t: 'silabaFalta', icon: 'oreja', name: 'La sílaba que falta', make: (d: AlTerminar) => silabaFalta(DOS, bg, d) },
+      { t: 'unePalabra', icon: 'lapiz', name: 'Une la palabra con su dibujo', make: (d: AlTerminar) => unePalabraDibujo(DOS, bg, d) },
+    ]),
+    tema('L5-TRE', 'Palabras de tres sílabas', 'pelota', '#4FB477', '¡Ahora, palabras más largas!', tres, [
+      { t: 'leoYElijo', icon: 'lupa', name: 'Leo y elijo', make: (d: AlTerminar) => leoYElijo(TRES, bg, d) },
+      { t: 'armaPalabra', icon: 'pizarra', name: 'Armo la palabra', make: (d: AlTerminar) => armaPalabra(TRES, bg, d) },
+      { t: 'silabaFalta', icon: 'oreja', name: 'La sílaba que falta', make: (d: AlTerminar) => silabaFalta(TRES, bg, d) },
+      { t: 'unePalabra', icon: 'lapiz', name: 'Une la palabra con su dibujo', make: (d: AlTerminar) => unePalabraDibujo(TRES, bg, d) },
+    ]),
+    tema('L5-FRA', 'Frases que se mueven', 'rana', '#4BA3E0', '¡Vamos a leer frases!', ANIMALES, [
+      { t: 'frase', icon: 'rana', name: 'Frases que se mueven', make: (d: AlTerminar) => Frase({ frases: rondasFrase(nRounds()), bg, key: 'frases', intro: '¡Las frases se mueven!' }, d) },
+      { t: 'armaFrase', icon: 'pizarra', name: 'Ordena la frase', make: (d: AlTerminar) => armaFrase(bg, d) },
+      { t: 'frase', icon: 'pajaro', name: 'Más frases', make: (d: AlTerminar) => Frase({ frases: rondasFrase(nRounds()), bg, key: 'frases' }, d) },
+    ]),
+    tema('L5-CUE', 'Cuentos para leer', 'cuento', '#9B6FD0', '¡Vamos a leer cuentos! Tú lees la palabra amarilla.', [...dos, ...tres], [
+      { t: 'cuentoLeer', icon: 'pato', name: CUENTOS_LEER[0]!.titulo, make: (d: AlTerminar) => cuentoLeer(CUENTOS_LEER[0]!, bg, d) },
+      { t: 'cuentoLeer', icon: 'vaca', name: CUENTOS_LEER[1]!.titulo, make: (d: AlTerminar) => cuentoLeer(CUENTOS_LEER[1]!, bg, d) },
+      { t: 'leoYElijo', icon: 'lupa', name: 'Leo y elijo', make: (d: AlTerminar) => leoYElijo([...DOS, ...TRES], bg, d) },
+    ]),
+    tema('L5-FIE', 'Fiesta del abecedario', 'tarta', '#F08A3C', '¡Es la fiesta del abecedario!', PUEBLO.map((L) => L.amigo), [
+      { t: 'cancionAbc', icon: 'regalo', name: 'La canción del abecedario', make: (d: AlTerminar) => cancionAbecedario(bg, d) },
+      { t: 'buscaVocales', icon: 'lupa', name: '¿Dónde está?', make: (d: AlTerminar) => buscaVocales(bg, d, PUEBLO) },
+      { t: 'comoEmpieza', icon: 'oreja', name: '¿Cómo empieza?', make: (d: AlTerminar) => comoEmpieza(bg, d, PUEBLO) },
+      { t: 'maquina', icon: 'robot', name: 'La máquina de sílabas', make: (d: AlTerminar) => maquinaSilabas(bg, d, PUEBLO.filter((L) => L.l !== 'Ñ').map((L) => ({ l: L.l, c: L.c }))) },
+      { t: 'memoriaVocales', icon: 'concha', name: 'Memoria de letras', make: (d: AlTerminar) => memoriaVocales(bg, d, PUEBLO) },
+    ]),
+  ];
+}
+
+// TL5: las casitas del Pueblo de las Palabras (5 años), en el orden del camino (fase L5).
+export const TL5: Tema[] = juegosPueblo();
+
+// TEMAS_LETRAS: todos los temas de la isla, para TEMAS (escenas/escenas2d.ts).
+export const TEMAS_LETRAS: Tema[] = [...TL3, ...TL4, ...TL5];

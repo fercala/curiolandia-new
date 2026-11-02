@@ -28,7 +28,7 @@ rutina: conocer la letra, escuchar con qué empieza, trazarla, atraparla y un ju
 | --- | --- |
 | Playa de los Sonidos (10) | A, E, I, O, U (publicadas en la fase L2), Las palmas, ¿Cómo empieza?, Mi nombre, Las vocales mezcladas, Fiesta de las vocales |
 | Bosque de las Letras (12) | Repaso de vocales, M, P, L, S, T, N, D, F, B, Escribo mi nombre, Fiesta de las letras |
-| Pueblo de las Palabras (12) | R, C, G, J, V, Ñ, Fábrica de sílabas, Palabras de dos sílabas, Palabras de tres sílabas, Frases que se mueven, Cuentos para leer, Fiesta del abecedario |
+| Pueblo de las Palabras (12) | R, C, G, J, V, Ñ (publicadas en la fase L5), Fábrica de sílabas, Palabras de dos sílabas, Palabras de tres sílabas, Frases que se mueven, Cuentos para leer, Fiesta del abecedario |
 
 La dificultad tiene dos capas. La de siempre (`dominio/dificultad.ts`: opciones, rondas, repeticiones y racha) y otra
 de la lectura que depende de la edad, no de la zona:
@@ -106,11 +106,16 @@ Cada fase es un PR pequeño que deja el juego publicable, con las pruebas en ver
    B, escribo mi nombre y la fiesta de las letras) y los componentes `Tren` (sílabas: M + A = MA) y `Huellas`. Cada
    consonante: conocer, buscar, trazar, atrapar, unir (desde la P), el tren y las huellas. A los 3 y 4 años las letras
    que distraen son las ya vistas. La pesca se deja para más adelante: atrapar burbujas ya hace lo mismo.
-5. **L5, Pueblo de las Palabras.** Sus 12 casitas, `Maquina`, `Frase`, los cuentos para leer y los trazos de las
-   minúsculas.
+5. **L5, Pueblo de las Palabras (hecha en v0.2.63).** Sus 12 casitas (`TL5`: R, C, G, J, V, Ñ, la fábrica de
+   sílabas, las palabras de dos y de tres sílabas, las frases que se mueven, los cuentos para leer y la fiesta del
+   abecedario) y los componentes `Maquina` (dos ruedas que forman la sílaba que pide Tito) y `Frase` (leer EL GATO
+   DUERME y tocar la escena). Leer es leer: Tito no dice la palabra escrita, pero la lee a trozos si se toca. Los
+   cuentos para leer no amplían `Story`: son un `ChoiceGame` por página, con la palabra que lee el niño en amarillo. Los
+   trazos de las minúsculas pasan a la fase L7, con la opción de mayúsculas y minúsculas, que es quien los necesita.
 6. **L6, la isla en 3D.** Decoración de la isla y de sus zonas.
 7. **L7, recompensas y adultos.** «Mi libro de letras» en el álbum, las letras en el repaso diario (`S.kg`), la opción
-   de mayúsculas y minúsculas (un campo nuevo y opcional de `S`, con su migración) y el progreso por letra.
+   de mayúsculas y minúsculas (un campo nuevo y opcional de `S`, con su migración) con los trazos de las minúsculas
+   (desde la fase L5) y el progreso por letra.
 
 ## Riesgos
 

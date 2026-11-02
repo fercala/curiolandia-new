@@ -5,8 +5,8 @@
  * Cada letra trae su nombre para la voz, su amigo (un dibujo de PICS cuyo nombre empieza por ella), otras palabras con
  * dibujo que empiezan igual, su color, su zona y los trazos de la mayúscula (letra de palo), con su orden y dirección.
  * Los trazos están en una caja de 1 x 1 (x a la derecha, y hacia abajo; la tilde de la Ñ sube por encima, con y
- * negativa): quien los pinte o los use en Tracer los escala a su sitio con letraEnPantalla. Las minúsculas llegan en una
- * fase posterior (L5).
+ * negativa): quien los pinte o los use en Tracer los escala a su sitio con letraEnPantalla. Las minúsculas llegan con la
+ * opción de mayúsculas y minúsculas (fase L7).
  * Es CONTENIDO: solo datos y cálculo, sin dibujo ni S. Pruebas: tests/unidad/letras.test.ts (que existan los dibujos,
  * que no se repitan, que cada palabra empiece por su letra y que los trazos estén dentro de la caja).
  * Exporta: los tipos Punto, Trazo y Letra, ZONA_DE_LETRA, LETRAS, letra, letrasDeZona y letraEnPantalla.
