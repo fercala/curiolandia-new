@@ -1954,9 +1954,18 @@ e0250c2d9fb4,"¡Contamos en inglés! Toca cada dibujo, de uno en uno.",frase,src
 107cf8f74066,Otra vez: toca cada dibujo y contamos.,frase,src/temas/ingles.ts
 ccd63adc0fa8,Toca cada dibujo y contamos en inglés.,frase,src/temas/ingles.ts
 6e739c0e0215,. ¡Hay ,trozo,src/temas/ingles.ts
+16f9b9c53f10,"Escucha a Polly y repite en voz alta. Cuando lo hayas dicho, toca la boca.",frase,src/temas/ingles.ts
+7a5d4ad05350,Repite conmigo:,trozo,src/temas/ingles.ts
+3671aaa0c231,¡Suena el teléfono rojo! Cógelo tocándolo y escucha lo que pide Polly.,frase,src/temas/ingles.ts
+4488e7a157c8,", please!",trozo,src/temas/ingles.ts
+ee58d9c9aa3d,Toca el teléfono para cogerlo.,frase,src/temas/ingles.ts
+25a8538ab1d7,@Thank you!,inglés,src/temas/ingles.ts
+70d4e5a2b797,. Polly pide,trozo,src/temas/ingles.ts
 9441a5a2c109,Escucha y repite,trozo,src/temas/ingles.ts
 c4d5806b8ac8,Revienta los globos,trozo,src/temas/ingles.ts
 0ba73f4612ee,Contar en inglés,trozo,src/temas/ingles.ts
+df9ef7929c5b,Repite conmigo,trozo,src/temas/ingles.ts
+7fbc901c0609,El teléfono rojo,trozo,src/temas/ingles.ts
 8ad4c7d09071,Los saludos en inglés,trozo,src/temas/ingles.ts
 5d41402abc4b,hello,trozo,src/temas/ingles.ts
 a3f22fa4c974,"saludarse en inglés al llegar y al irse: hello, good morning, good night.",trozo,src/temas/ingles.ts
@@ -1969,6 +1978,24 @@ ee5c35ce3d08,numbers,trozo,src/temas/ingles.ts
 645863de3566,Los animales en inglés,trozo,src/temas/ingles.ts
 a723e3dfb497,animals,trozo,src/temas/ingles.ts
 3e5165059ba5,mirar un libro de animales y nombrarlos en inglés.,trozo,src/temas/ingles.ts
+2cb50c9115bd,La familia en inglés,trozo,src/temas/ingles.ts
+0d3fda0bdbb9,family,trozo,src/temas/ingles.ts
+addb03cbb121,"nombrar en inglés a la familia en las fotos de casa: mum, dad, baby...",trozo,src/temas/ingles.ts
+b3be0f9a1383,Mi cuerpo en inglés,trozo,src/temas/ingles.ts
+841a2d689ad8,body,trozo,src/temas/ingles.ts
+e7166427bdf9,"jugar a tocarse la nariz, los ojos o las manos diciéndolo en inglés.",trozo,src/temas/ingles.ts
+a88a306561d0,Los juguetes en inglés,trozo,src/temas/ingles.ts
+efacc1763324,toys,trozo,src/temas/ingles.ts
+dd042cc8b5c0,"al recoger, pedir los juguetes en inglés: the ball, please.",trozo,src/temas/ingles.ts
+f2c569afc34d,La fruta en inglés,trozo,src/temas/ingles.ts
+e0deff349b2c,fruit,trozo,src/temas/ingles.ts
+c68f9f85b008,"en la compra o en la merienda, decir la fruta en inglés: apple, banana...",trozo,src/temas/ingles.ts
+a8e2a84b819c,Las formas en inglés,trozo,src/temas/ingles.ts
+8a995d2704d5,shapes,trozo,src/temas/ingles.ts
+959fe4f01139,"buscar formas por la calle: a circle, a square, a triangle.",trozo,src/temas/ingles.ts
+5d028fdf62dd,Fiesta de la playa,trozo,src/temas/ingles.ts
+7193529abbf9,beach,trozo,src/temas/ingles.ts
+b2440786e29a,repasar con la familia las palabras en inglés que ya sabe.,trozo,src/temas/ingles.ts
 0351bae97d6a,empieza por ,trozo,src/temas/letras.ts
 292f724537e8,lleva ,trozo,src/temas/letras.ts
 1c701316e96d,Esta es ,trozo,src/temas/letras.ts

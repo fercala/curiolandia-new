@@ -1,23 +1,27 @@
 // temas/ingles.ts (antes ingles.js): las casitas de inglés. Eran el Rincón del inglés (zona 'ingles' del mapa); desde
 // la fase I2 de docs/PLAN-INGLES.md son las primeras casitas de la Playa Hello (zona 'playaHello' de la Isla del
 // Inglés), con los mismos ids, así que lo ya jugado no se pierde.
-// Para qué sirve: define las palabras en inglés (EN), los 4 tipos de juego en inglés (EnConocer, EnEscucha,
-//   EnGlobos, EnCuenta) y los 4 temas del rincón (ING). Esos juegos los crea makeGame (temas/hacerJuego.ts).
+// Para qué sirve: define las palabras en inglés (EN), los tipos de juego en inglés (EnConocer, EnEscucha,
+//   EnGlobos, EnCuenta y, desde la fase I3, EnRepite y EnTelefono) y las casitas de la Playa Hello (ING: las 4 del
+//   rincón y, desde la fase I3, otras 6 detrás). Esos juegos los crea makeGame (temas/hacerJuego.ts).
 // Desde la fase 2i es un módulo (temas/indice.ts lo carga después de extras.ts) y exporta: sayMix, ENC, enBlob,
-//   enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer, EnEscucha, EnGlobos, EnCuenta, ENG, ING y
+//   enNum, enFace, EN, enItems, enEs, enDraw, enCard, enGrid, EnConocer, EnEscucha, EnGlobos, EnCuenta, EnRepite,
+//   EnTelefono, ENG, ING y
 //   los tipos PalabraEn y OpcionesTarjeta. El puente de src/modulos.ts los deja en globalThis. ING se añade a TEMAS en
 //   escenas/escenas2d.ts y a la zona 'playaHello' en escenas/zonas.ts.
 // Hasta la fase 4f, al cargarse envolvía makeGame (temas/temas.ts, ya envuelta por temas/extras.ts) con ponMakeGame.
-// Importa: el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
+// Importa: PALABRAS_INGLES (contenido/ingles.ts, desde la fase I3), el núcleo, src/nucleo/ (say con la opción {en:1}, ctx y funciones de dibujo, AGE, rec, onRight,
 //   onWrongTwice, praise, SFX, later, shuffle, pick, nRounds, nOpts, DIAC, cap), juegos/ (NUM, BG y,
 //   desde la fase 4o, drawFace: antes era de escenas/escenas2d.ts y se usaba como global tardía).
 // Voz: say(texto, cb, {en:1, rate:.8}) dice el texto con voz inglesa (el texto en inglés tal cual).
 import type { AlTerminar, Config, Juego, JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, H, LF, PI, SFX, T, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, inR, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text } from '../nucleo/indice.ts';
+import { AGE, DF, DIAC, H, LF, PI, SFX, T, W, back, burst, cap, card, circ, clamp, ctx, dist, ell, fillStroke, hR, hv, inR, later, nOpts, nRounds, onRight, onWrongTwice, pic, pick, praise, rec, rnd, say, sayQ, scene, shuffle, sparkles, speaker, star, text, tone } from '../nucleo/indice.ts';
 import { BG, NUM, drawFace } from '../juegos/indice.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
+// Las palabras nuevas de la isla (fase I1): la familia, el cuerpo, los juguetes y la fruta salen de aquí (fase I3).
+import { PALABRAS_INGLES } from '../contenido/ingles.ts';
 
 /** Una palabra en inglés de EN: en (en inglés), es (traducción al castellano), a (edad mínima) y su
  * dibujo: k (clave de PICS) o draw(x, y, s). Los colores llevan además col y los números n. */
@@ -56,18 +60,35 @@ function enNum(n: number){return (x: number,y: number,s: number)=>{ctx.save();ct
   const per=5;for(let i=0;i<n;i++){const r=Math.floor(i/per),c=i%per,inRow=Math.min(per,n-r*per);circ((c-(inRow-1)/2)*s*.12,s*.33+r*s*.1,s*.04,'#FFC93C',Math.max(2,s*.012))}ctx.restore()}}
 // Devuelve una función de dibujo (x,y,s) de una carita con la emoción m (drawFace de juegos/caras.ts).
 const enFace=(m: string)=>(x: number,y: number,s: number)=>drawFace(x,y,s*.36,m);
+// enForma(f, c): devuelve una función de dibujo (x,y,s) de la forma f ('circle', 'square', 'triangle', 'star', 'heart',
+// 'rectangle', 'oval' o 'diamond') pintada del color c, para las tarjetas de Las formas en inglés (fase I3).
+function enForma(f: string,c: string){return (x: number,y: number,s: number)=>{const r=s*.34,lw=Math.max(4,s*.03);ctx.save();ctx.translate(x,y);
+  if(f==='circle')circ(0,0,r,c,lw);else if(f==='oval')ell(0,0,r,r*.66,c,lw);else if(f==='square')card(-r*.9,-r*.9,r*1.8,r*1.8,c,lw,4);else if(f==='rectangle')card(-r*1.1,-r*.62,r*2.2,r*1.24,c,lw,4);
+  else if(f==='star')star(0,0,r*1.1,c,lw);else if(f==='heart')pic('corazon',0,0,s*.8);
+  else{ctx.beginPath();if(f==='triangle'){ctx.moveTo(0,-r);ctx.lineTo(r*1.05,r*.8);ctx.lineTo(-r*1.05,r*.8)}else{ctx.moveTo(0,-r*1.1);ctx.lineTo(r*.8,0);ctx.lineTo(0,r*1.1);ctx.lineTo(-r*.8,0)}ctx.closePath();fillStroke(c,lw)}
+  ctx.restore()}}
+// enDeIsla(conjunto): las palabras de un conjunto de la isla (PALABRAS_INGLES de contenido/ingles.ts) con el formato de EN.
+const enDeIsla=(c: string): PalabraEn[]=>(PALABRAS_INGLES[c]??[]).map((w)=>({en:w.en,es:w.es,a:w.a,k:w.k}));
 // a: edad desde la que aparece la palabra
 // Palabras de cada tema de inglés: EN[conjunto] = lista de {en (palabra en inglés), es (traducción al
 // castellano), a (edad mínima: 3, 4 o 5), y para dibujarla k (id de dibujo de PICS) o draw(x,y,s)}.
-// Los colores llevan además col (su color) y los números n (su valor). Conjuntos: hello, colors, numbers, animals.
+// Los colores llevan además col (su color) y los números n (su valor). Conjuntos: hello, colors, numbers, animals y,
+// desde la fase I3, family, body, toys, fruit, shapes y beach (la fiesta de la playa).
 export const EN: Record<string, PalabraEn[]>={
   hello:[{en:'Hello',es:'Hola',k:'mano',a:3},{en:'Happy',es:'Contento',draw:enFace('alegria'),a:3},{en:'Sad',es:'Triste',draw:enFace('tristeza'),a:3},{en:'Good night',es:'Buenas noches',k:'luna',a:3},
     {en:'Good morning',es:'Buenos días',k:'sol',a:4},{en:'Thank you',es:'Gracias',k:'regalo',a:4},{en:'I love you',es:'Te quiero',k:'corazon',a:5},{en:'Angry',es:'Enfadado',draw:enFace('enojo'),a:5}],
   colors:([['red','Rojo',3],['blue','Azul',3],['yellow','Amarillo',3],['green','Verde',3],['orange','Naranja',4],['pink','Rosa',4],['purple','Morado',4],['brown','Marrón',5],['black','Negro',5],['white','Blanco',5]] as [string, string, number][]).map(([en,es,a])=>({en:en[0].toUpperCase()+en.slice(1),es,a,col:ENC[en],draw:enBlob(ENC[en])})),
   numbers:['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'].map((en,i)=>({en,es:cap(NUM[i+1]),n:i+1,a:i<5?3:i<8?4:5,draw:enNum(i+1)})),
   animals:([['Dog','Perro','perro',3],['Cat','Gato','gato',3],['Cow','Vaca','vaca',3],['Duck','Pato','pato',3],['Fish','Pez','pez',4],['Horse','Caballo','caballo',4],['Pig','Cerdo','cerdo',4],['Sheep','Oveja','oveja',4],
-    ['Lion','León','leon',5],['Elephant','Elefante','elefante',5],['Monkey','Mono','mono',5],['Frog','Rana','rana',5]] as [string, string, string, number][]).map(([en,es,k,a])=>({en,es,k,a}))
+    ['Lion','León','leon',5],['Elephant','Elefante','elefante',5],['Monkey','Mono','mono',5],['Frog','Rana','rana',5]] as [string, string, string, number][]).map(([en,es,k,a])=>({en,es,k,a})),
+  // Desde la fase I3, los conjuntos nuevos de la Playa Hello (la familia, el cuerpo, los juguetes, la fruta y las formas).
+  family:enDeIsla('family'),body:enDeIsla('body'),toys:enDeIsla('toys'),fruit:enDeIsla('fruit'),
+  shapes:([['Circle','Círculo','circle','#FF5A5A',3],['Square','Cuadrado','square','#5B8DEF',3],['Triangle','Triángulo','triangle','#FFD66B',3],['Star','Estrella','star','#FFA94D',3],
+    ['Heart','Corazón','heart','#F58BB4',4],['Rectangle','Rectángulo','rectangle','#7CC86E',4],['Oval','Óvalo','oval','#9B8AD9',5],['Diamond','Rombo','diamond','#4FC3C7',5]] as [string, string, string, string, number][]).map(([en,es,f,c,a])=>({en,es,a,draw:enForma(f,c)}))
 };
+// EN.beach: la Fiesta de la playa (fase I3), un repaso con palabras de todas las casitas de la Playa Hello (las tres
+// primeras de cada una que salen a los 3 o 4 años; los saludos no, porque Hello y Hand tienen el mismo dibujo).
+EN.beach=['colors','animals','family','body','toys','fruit','shapes'].flatMap((c)=>EN[c].filter((w)=>w.a<=4).slice(0,3));
 // Palabras del conjunto set que tocan a la edad del niño (AGE()).
 export const enItems=(set: string)=>EN[set].filter(i=>i.a<=Math.max(3,AGE()));
 // Traducción al castellano de la palabra.
@@ -197,8 +218,71 @@ export function EnCuenta(cfg: Config,onDone: AlTerminar): Juego{const max=AGE()<
       if(this.c===this.n){this.busy=true;rec(cfg.key||'ingles-numeros',true);onRight(true);this.done++;scene!.starPop=T;burst(900,300,40);
         later(900,()=>sayMix(['@'+EN.numbers[this.n-1].en+'!',cap(NUM[this.n])+'. ¡Hay '+NUM[this.n]+'!'],()=>later(500,()=>{this.i++;if(this.i>=R)onDone();else this.round()})))}}}}
 
+// 5) Repite conmigo (fase I3 de docs/PLAN-INGLES.md): Polly dice la palabra y el niño la repite en voz alta.
+// Juego "Repite conmigo" (tipo enRepite). cfg: {items, bg, key}. En cada ronda sale una palabra en grande; Polly la dice
+// dos veces y se enciende el botón de la boca: el niño la repite en voz alta y lo toca. No escucha el micrófono (no
+// se graba nada): el botón solo marca que ya lo ha dicho. Tocar la tarjeta o a Polly la vuelve a decir. Siempre acierta.
+export function EnRepite(cfg: Config,onDone: AlTerminar): Juego{const R=Math.min(nRounds(),cfg.items.length),order=shuffle(cfg.items.slice()).slice(0,R) as PalabraEn[];
+  return {total:R,done:0,i:0,
+    // Al empezar: explica el juego y saca la primera palabra.
+    enter(){later(300,()=>sayQ('Escucha a Polly y repite en voz alta. Cuando lo hayas dicho, toca la boca.',()=>this.round!()))},
+    // Prepara una ronda: la palabra nueva aparece y Polly la dice dos veces (la segunda, más despacio); después se
+    // enciende el botón (ready).
+    round(){this.t=order[this.i];this.in=T;this.ready=0;this.busy=false;later(300,()=>this.prompt!())},
+    // Polly dice la palabra (y se enciende el botón cuando termina).
+    prompt(){this.ready=0;sayMix(['Repite conmigo:','@'+this.t.en],()=>later(250,()=>say(this.t.en,()=>{this.ready=T},{en:1,rate:.6})))},
+    // Pista: el botón de la boca cuando ya está encendido.
+    hint(){return this.ready&&!this.busy?{x:1240,y:640,r:120}:null},
+    // Dibuja a Polly (se balancea mientras habla), la tarjeta de la palabra con su nombre y el botón de la boca.
+    draw(){cfg.bg();const it=this.t;if(!it)return;ctx.save();ctx.translate(380,560);ctx.rotate(this.ready?0:Math.sin(T*6)*.06);pic('polly',0,0,360);ctx.restore();
+      const ap=clamp((T-this.in)*3,0,1);enCard(it,860,420,420,{s:(ap<1?back(ap):1)*hv('en:rep',hR(860,420,420,420)),label:true,bg:it.col==='#FFFFFF'?'#E9F3FA':null});
+      const on=this.ready&&!this.busy,b=on?hv('en:boca',hR(1240,640,220,220))*(1+.05*Math.sin(T*5)):1;ctx.save();ctx.translate(1240,640);ctx.scale(b,b);ctx.globalAlpha=on?1:.45;
+      circ(0,0,110,on?'#FFD66B':'#fff',6);pic('boca',0,-10,130);ctx.restore()},
+    // Toque: la tarjeta o Polly repiten la palabra; el botón encendido cuenta la ronda (Polly felicita) y pasa a la siguiente.
+    down(x: number,y: number){if(this.busy||!this.t)return;if(inR(x,y,860,420,420,420)||dist(x,y,380,560)<170){this.prompt!();return}
+      if(dist(x,y,1240,640)<115){if(!this.ready){SFX.tap();return}this.busy=true;SFX.good();burst(1240,640,26);rec(cfg.key||'ingles',true);onRight(true);this.done++;scene!.starPop=T;
+        sayMix(['@'+this.t.en+'!',praise()],()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else this.round()}));return}
+      SFX.tap();sparkles(x,y,3)}}}
+
+// 6) El teléfono rojo (fase I3 de docs/PLAN-INGLES.md): suena el teléfono, el niño lo coge y Polly pide una cosa.
+// Juego "El teléfono rojo" (tipo enTelefono). cfg: {items, bg, key}. Cada ronda el teléfono suena y tiembla hasta que
+// el niño lo toca; entonces Polly pide una cosa en inglés («The ball, please!») y hay que tocarla entre 3 o 4 tarjetas.
+// Dos fallos quitan la tarjeta equivocada, como en ¿Dónde está?; solo el primer fallo de la ronda cuenta en rec.
+export function EnTelefono(cfg: Config,onDone: AlTerminar): Juego{const pool: PalabraEn[]=cfg.items,R=Math.min(nRounds(),pool.length);let order=shuffle(pool.slice());
+  return {total:R,done:0,i:0,items:[],
+    // Al empezar: explica el juego y hace sonar el teléfono.
+    enter(){later(300,()=>sayQ('¡Suena el teléfono rojo! Cógelo tocándolo y escucha lo que pide Polly.',()=>this.round!()))},
+    // Prepara una ronda: el teléfono suena (ring) y las tarjetas esperan escondidas hasta que se coge.
+    round(){const t=order[this.i%order.length],n=clamp(nOpts()+1,3,Math.min(4,pool.length)),others=shuffle(pool.filter((w)=>w!==t)).slice(0,n-1);
+      this.t=t;this.items=shuffle([t,...others]).map((o)=>({it:o,ok:o===t}));enGrid(this.items,200,620,860,1110);this.errs=0;this.busy=false;this.ring=T;this.nr=0;this.call=0},
+    // Polly pide la cosa por teléfono (solo cuando ya se ha cogido).
+    prompt(){if(this.call)sayMix(['@'+cap(this.t.en.toLowerCase())+', please!']);else say('Toca el teléfono para cogerlo.')},
+    // Cada cuadro, mientras suena: el timbre (dos notas) cada 1,4 s.
+    update(dt: number){if(!this.ring)return;this.nr-=dt;if(this.nr<=0){this.nr=1.4;for(let k=0;k<6;k++)tone(k%2?1320:1180,.07,'square',.12,0,k*.08)}},
+    // Pista: el teléfono si suena; si no, la tarjeta pedida (cuando ya se ha dicho).
+    hint(){if(this.ring)return{x:330,y:560,r:150};const c=this.items.find((c: Libre)=>c.ok&&!c.win);return c&&this.call&&T-this.call>1.5?{x:c.x,y:c.y,r:c.s*.6}:null},
+    // Dibuja el teléfono (tiembla mientras suena; cogido, con Polly al lado) y, si ya se ha cogido, las tarjetas.
+    draw(){cfg.bg();const sh=this.ring?Math.sin(T*40)*6:0;ctx.save();ctx.translate(330+sh,600);ctx.scale(hv('en:tel',hR(330,560,300,300)),hv('en:tel',hR(330,560,300,300)));
+      card(-130,-60,260,150,'#E8554E',6,30);circ(0,20,52,'#fff',5);for(let k=0;k<10;k++){const a=-PI/2+k*PI*2/10;circ(Math.cos(a)*36,20+Math.sin(a)*36,6,'#3B3330',0)}
+      ctx.beginPath();ctx.moveTo(-120,0);ctx.bezierCurveTo(-200,-40,this.ring?-170:-90,this.ring?-100:-240,this.ring?-130:-40,this.ring?-110:-250);ctx.lineWidth=5;ctx.strokeStyle='#3B3330';ctx.stroke();
+      ctx.save();ctx.translate(this.ring?0:20,this.ring?-110-Math.abs(Math.sin(T*20))*10:-250);if(!this.ring)ctx.rotate(-.35);card(-150,-28,300,56,'#C9443A',6,28);circ(-130,0,36,'#C9443A',6);circ(130,0,36,'#C9443A',6);ctx.restore();ctx.restore();
+      if(this.ring){for(const k of[0,1,2]){ctx.globalAlpha=.6-k*.18;ctx.beginPath();ctx.arc(330,470,90+k*34+((T*60)%34),-PI*.85,-PI*.15);ctx.lineWidth=6;ctx.strokeStyle='#E8554E';ctx.stroke()}ctx.globalAlpha=1;return}
+      ctx.save();ctx.translate(200,250);ctx.rotate(Math.sin(T*2)*.05);pic('polly',0,0,190);ctx.restore();
+      for(const c of this.items){if(c.gone&&T-c.gone>.4)continue;const ap=clamp((T-this.call)*3,0,1);ctx.save();if(c.gone)ctx.globalAlpha=Math.max(0,1-(T-c.gone)*2.5);
+        enCard(c.it,c.x,c.y,c.s,{s:(ap<1?back(ap):1)*(c.win?1+.1*Math.sin((T-c.win)*12):hv(c,hR(c.x,c.y,c.s,c.s))),shake:c.shake,glow:!!c.win,label:!!c.win,bg:c.it.col==='#FFFFFF'?'#E9F3FA':null});ctx.restore()}},
+    // Toque: el teléfono que suena se coge (Polly pide); cogido, vuelve a pedir. La tarjeta pedida es acierto (rec,
+    // onRight y otra llamada); una equivocada dice qué es y vuelve a pedir.
+    down(x: number,y: number){if(this.busy)return;if(dist(x,y,330,560)<170){if(this.ring){this.ring=0;SFX.pop();this.call=T;later(300,()=>this.prompt!())}else this.prompt!();return}
+      if(this.ring){SFX.tap();return}const c=this.items.find((c: Libre)=>!c.gone&&inR(x,y,c.x,c.y,c.s,c.s));if(!c){SFX.tap();sparkles(x,y,3);return}if(c.win)return;
+      if(c.ok){this.busy=true;c.win=T;SFX.good();burst(c.x,c.y,30);rec(cfg.key||'ingles',this.errs===0);onRight(this.errs===0);this.done++;scene!.starPop=T;
+        sayMix(['@'+c.it.en+'!','@Thank you!',praise()],()=>later(400,()=>{this.i++;if(this.i>=R)onDone();else{if(this.i%order.length===0)order=shuffle(pool.slice());this.round()}}))}
+      else{SFX.bad();c.shake=T;if(this.errs===0)rec(cfg.key||'ingles',false);this.errs++;sayMix(['Ese es','@'+c.it.en,'. Polly pide','@'+this.t.en]);
+        if(this.errs===2){onWrongTwice();c.gone=T}}}}}
+
 // Juegos del inglés para usar en los temas: t (tipo de juego que reconoce makeGame), icon y name (nombre en el camino).
-const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja',name:'Escucha y repite'},escucha:{t:'enEscucha',icon:'busca',name:'¿Dónde está?'},globos:{t:'enGlobos',icon:'globo',name:'Revienta los globos'},cuenta:{t:'enCuenta',icon:'manzana',name:'Contar en inglés'}};
+const ENG: Record<string, JuegoTema>={conocer:{t:'enConocer',icon:'oreja',name:'Escucha y repite'},escucha:{t:'enEscucha',icon:'busca',name:'¿Dónde está?'},globos:{t:'enGlobos',icon:'globo',name:'Revienta los globos'},cuenta:{t:'enCuenta',icon:'manzana',name:'Contar en inglés'},
+  // Desde la fase I3: los dos juegos nuevos de la Playa Hello.
+  repite:{t:'enRepite',icon:'boca',name:'Repite conmigo'},telefono:{t:'enTelefono',icon:'oreja',name:'El teléfono rojo'}};
 // Temas de inglés (casitas de la Playa Hello, zona 'playaHello' desde la fase I2; antes, del Rincón del inglés, zona
 // 'ingles'; se abren en orden). Campos: id, n (nombre), icon, c (color),
 // bg (fondo de los juegos), zone, en (conjunto de palabras de EN), tip (consejo para la familia en la zona de adultos),
@@ -207,6 +291,13 @@ export const ING: Tema[]=[
   {id:'EN-HELLO',n:'Los saludos en inglés',icon:'mano',c:'#5BB8E6',bg:BG.aula,zone:'playaHello',en:'hello',tip:'saludarse en inglés al llegar y al irse: hello, good morning, good night.',games:[ENG.conocer,ENG.escucha,ENG.globos]},
   {id:'EN-COLORS',n:'Los colores en inglés',icon:'pinturas',c:'#FF5A5A',bg:BG.colores,zone:'playaHello',en:'colors',tip:'jugar a "I spy": buscar en casa cosas red, blue, yellow...',games:[ENG.conocer,ENG.escucha,ENG.globos]},
   {id:'EN-NUMBERS',n:'Los números en inglés',icon:'bloques',c:'#7CC86E',bg:BG.aula,zone:'playaHello',en:'numbers',tip:'contar en inglés los escalones o los juguetes: one, two, three...',games:[ENG.conocer,ENG.cuenta,ENG.escucha]},
-  {id:'EN-ANIMALS',n:'Los animales en inglés',icon:'perro',c:'#FFA94D',bg:BG.granja,zone:'playaHello',en:'animals',tip:'mirar un libro de animales y nombrarlos en inglés.',games:[ENG.conocer,ENG.escucha,ENG.globos]}
+  {id:'EN-ANIMALS',n:'Los animales en inglés',icon:'perro',c:'#FFA94D',bg:BG.granja,zone:'playaHello',en:'animals',tip:'mirar un libro de animales y nombrarlos en inglés.',games:[ENG.conocer,ENG.escucha,ENG.globos]},
+  // Desde la fase I3, las otras 6 casitas de la Playa Hello (van detrás de las 4 del rincón, con ids nuevos).
+  {id:'EN-FAMILY',n:'La familia en inglés',icon:'mama',c:'#F58BB4',bg:BG.casa,zone:'playaHello',en:'family',tip:'nombrar en inglés a la familia en las fotos de casa: mum, dad, baby...',games:[ENG.conocer,ENG.escucha,ENG.repite]},
+  {id:'EN-BODY',n:'Mi cuerpo en inglés',icon:'nariz',c:'#FFA94D',bg:BG.cuerpo,zone:'playaHello',en:'body',tip:'jugar a tocarse la nariz, los ojos o las manos diciéndolo en inglés.',games:[ENG.conocer,ENG.repite,ENG.escucha]},
+  {id:'EN-TOYS',n:'Los juguetes en inglés',icon:'pelota',c:'#5B8DEF',bg:BG.aula,zone:'playaHello',en:'toys',tip:'al recoger, pedir los juguetes en inglés: the ball, please.',games:[ENG.conocer,ENG.telefono,ENG.globos]},
+  {id:'EN-FRUIT',n:'La fruta en inglés',icon:'manzana',c:'#7CC86E',bg:BG.huerta,zone:'playaHello',en:'fruit',tip:'en la compra o en la merienda, decir la fruta en inglés: apple, banana...',games:[ENG.conocer,ENG.globos,ENG.telefono]},
+  {id:'EN-SHAPES',n:'Las formas en inglés',icon:'formas',c:'#9B8AD9',bg:BG.colores,zone:'playaHello',en:'shapes',tip:'buscar formas por la calle: a circle, a square, a triangle.',games:[ENG.conocer,ENG.escucha,ENG.globos]},
+  {id:'EN-BEACH',n:'Fiesta de la playa',icon:'globo',c:'#FFD66B',bg:BG.mar,zone:'playaHello',en:'beach',tip:'repasar con la familia las palabras en inglés que ya sabe.',games:[ENG.escucha,ENG.repite,ENG.telefono]}
 ];
 // Los juegos de inglés (tipo en..., en un tema con en) los crea makeGame (temas/hacerJuego.ts), con las palabras de su edad.
