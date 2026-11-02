@@ -3,6 +3,8 @@
 // Reexporta lo que usan los demás módulos y el puente: K, PICS y los dibujos sueltos con su propio viewBox.
 export { GLASSES_SVG, HAND_SVG, K, LUPI_SVG, PICS } from './pics-base.ts';
 export { CONEJO_SVG, ERIZO_SVG, TITO_SVG, TORTUGA_SVG } from './pics-new.ts';
+// Polly, la lorita de la Isla del Inglés (desde la fase I1 de docs/PLAN-INGLES.md).
+export { POLLY_SVG } from './polly.ts';
 import './pics-a.ts';
 import './pics-b.ts';
 import './pics-c.ts';
