@@ -35,7 +35,7 @@ import { skyNow } from './cielo.ts';
 // MAPPOS: dónde va cada lugar del mapa en 3D, en píxeles 2D (se pasan con MP). id del lugar -> [x,y].
 const MZP: Record<string, {x: number; y: number; r: number}>={};
 const MP=(x: number,y: number): PuntoSuelo=>[(x-800)/40,(y-500)/40];
-const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740],muelle:[1280,860]};
+const MAPPOS: Record<string, PuntoSuelo>={plaza:[790,520],jardin:[360,560],bosque:[1110,300],montana:[1400,560],canciones:[330,310],trazos:[560,250],rutinas:[790,250],album:[1440,250],ingles:[1270,450],fiestas:[560,790],tienda:[800,820],casaTito:[1070,740],muelle:[1225,840]};
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
 export function sea3(w: Mundo,c: string){const g=new THREE.PlaneGeometry(220,160,70,50);g.rotateX(-PI/2);const m=new THREE.Mesh(g,M(c));m.position.y=-1.1;m.receiveShadow=true;w.sc.add(m);w.sea=m;
   // olas: altura y normal calculadas a mano (derivada de la fórmula); computeVertexNormals en cada cuadro costaba ~0,6 ms
@@ -122,6 +122,8 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void>={
     for(const [x,z] of[[-1.7,1.5],[.2,1.5],[-1.7,-.6],[.2,-.6]] as [number, number][])mk(Cyl(.09,.09,1.2,8),'#8A5A34',{p:[x,0,z],to:g,ol:.02});
     const b=grp(g,[1.5,-.2,-.1],1.25);mk(Box(2,.5,.9),'#FF8A7A',{p:[0,.25,0],to:b,ol:.04});mk(Cyl(.05,.05,2,6),'#C98A4B',{p:[0,1.4,0],ol:0,to:b});
     spr(canvasTex(160,200,()=>{ctx.beginPath();ctx.moveTo(10,10);ctx.lineTo(150,190);ctx.lineTo(10,190);ctx.closePath();fillStroke('#fff',8);text('A',55,170,80,'#E8554E',{f:LF})},'velaA'),1.1,1.4,{p:[.55,1.4,0],to:b});
+    // el cartel, como el de la Casa de Tito, para que se vea adónde lleva (desde la v0.2.70)
+    spr(pillTex('Isla de las Letras','#5B8DEF','#fff',50),4.4,1.1,{p:[.4,3.9,0],to:g});
     g.userData.anim=()=>{b.position.y=-.2+Math.sin(T*1.3)*.1;b.rotation.z=Math.sin(T*1.1)*.06}},
 };
 // stripesTex(): textura de rayas rojas y blancas (para la carpa de canciones)
