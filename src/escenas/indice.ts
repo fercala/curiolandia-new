@@ -5,10 +5,12 @@
 // la lupa del mapa y lo que apunta cada acierto están desde la fase 4c en zonas.ts y en el núcleo). Las monedas en pantalla
 // (fase 4a) están desde la fase 4b en el núcleo (nucleo/monedas.ts), y terminar un juego, en finishGame
 // (escenas2d.ts) y su caso de uso aplicacion/terminarJuego.ts. Desde la fase L2 (docs/PLAN-LECTURA.md), isla.ts: la
-// Isla de las Letras (SCENES.isla). src/modulos.ts pasa todo lo que exportan al puente.
+// Isla de las Letras (SCENES.isla), y desde la fase L7, libroLetras.ts: «Mi libro de letras» (SCENES.libroLetras), que se
+// abre desde el álbum. src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';
 export * from './cofre.ts';
 export * from './repaso.ts';
 export * from './isla.ts';
+export * from './libroLetras.ts';

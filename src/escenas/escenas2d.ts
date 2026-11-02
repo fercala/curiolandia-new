@@ -510,7 +510,10 @@ SCENES.asamblea={music:'plaza',
 // ALBUM_KEYS: todas las figuritas posibles del álbum, en orden: las palabras con dibujo y el icono de cada tema, más
 // 'estrella' (premio de asambleas). Se calcula una vez al cargar.
 const ALBUM_KEYS=(()=>{const s=new Set<string>();for(const t of TEMAS){if(t.words)t.words.forEach((w: Libre)=>w.k&&PICS[w.k]&&s.add(w.k));s.add(t.icon)}s.add('estrella');return [...s].filter(k=>PICS[k])})();
-// ÁLBUM DE FIGURITAS: 18 por página (per); las que se tienen (S.stk) en color, las demás en sombra.
+// ÁLBUM DE FIGURITAS: 18 por página (per); las que se tienen (S.stk) en color, las demás en sombra. Desde la fase L7
+// (docs/PLAN-LECTURA.md), arriba a la derecha, el botón del libro (LIBRO_BOTON) abre «Mi libro de letras»
+// (escenas/libroLetras.ts).
+const LIBRO_BOTON={x:1440,y:110,r:60};
 SCENES.album={music:'book',
 // enter(): primera página; Tito dice cuántas figuritas hay.
   enter(){this.pg=0;const n=Object.keys(S.stk).length;later(300,()=>sayQ(n?'Este es tu álbum. Tienes '+n+(n===1?' pegatina.':' pegatinas.'):'Todavía no tienes pegatinas. ¡Las ganas terminando juegos!'))},
@@ -518,14 +521,16 @@ SCENES.album={music:'book',
   per:18,
 // draw(): la página actual, número de página y flechas de anterior/siguiente.
   draw(){sky('#EDE7FF','#FFF6E6');card(240,40,1300,800,'#FFFBF2',8,40);text('Mi álbum de pegatinas',890,110,52,K,{w:600});
+    {const b=LIBRO_BOTON,s=hv('libro',hC(b.x,b.y,b.r));ctx.save();ctx.translate(b.x,b.y);ctx.scale(s,s);circ(0,0,56,'#fff',6);pic('libro',0,4,92);ctx.restore()}
     const ks=ALBUM_KEYS.slice(this.pg*this.per,(this.pg+1)*this.per);
     ks.forEach((k,i)=>{const x=390+(i%6)*200,y=250+Math.floor(i/6)*200,has=S.stk[k];const hs=has?hv('a'+k,hC(x,y,80)):1;ctx.save();ctx.translate(x,y);ctx.scale(hs,hs);if(has)drawSticker(k,0,0,160,Math.sin(i)*.08);else{circ(0,0,80,'#F1E9DC',4,'#E4D3B8');ctx.globalAlpha=.18;picG(k,0,0,130);ctx.globalAlpha=1}ctx.restore()});
     const pages=Math.ceil(ALBUM_KEYS.length/this.per);text((this.pg+1)+' / '+pages,890,820,30,'#7A6252');
     if(this.pg>0){const s=hv('prev',hC(170,450,60));ctx.save();ctx.translate(170,450);ctx.scale(s,s);circ(0,0,56,'#fff',6);ctx.beginPath();ctx.moveTo(14,-24);ctx.lineTo(-18,0);ctx.lineTo(14,24);ctx.lineWidth=10;ctx.strokeStyle=K;ctx.lineCap='round';ctx.stroke();ctx.restore()}
     if(this.pg<pages-1){const s=hv('next',hC(1530,450,60));ctx.save();ctx.translate(1530,450);ctx.scale(s,s);circ(0,0,56,'#fff',6);ctx.beginPath();ctx.moveTo(-14,-24);ctx.lineTo(18,0);ctx.lineTo(-14,24);ctx.lineWidth=10;ctx.strokeStyle=K;ctx.lineCap='round';ctx.stroke();ctx.restore()}
     drawHome();drawTito(TITO.x,TITO.y,TITO.w)},
-// down(x, y): casa -> mapa; flechas cambian de página; tocar una figurita dice su nombre (o que aún no se tiene).
-  down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}const pages=Math.ceil(ALBUM_KEYS.length/this.per);
+// down(x, y): casa -> mapa; el botón del libro -> libro de letras; flechas cambian de página; tocar una figurita dice
+// su nombre (o que aún no se tiene).
+  down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}if(dist(x,y,LIBRO_BOTON.x,LIBRO_BOTON.y)<LIBRO_BOTON.r){SFX.whoosh();go('libroLetras');return}const pages=Math.ceil(ALBUM_KEYS.length/this.per);
     if(dist(x,y,170,450)<70&&this.pg>0){this.pg--;SFX.whoosh();return}if(dist(x,y,1530,450)<70&&this.pg<pages-1){this.pg++;SFX.whoosh();return}
     const ks=ALBUM_KEYS.slice(this.pg*this.per,(this.pg+1)*this.per);ks.forEach((k,i)=>{const px=390+(i%6)*200,py=250+Math.floor(i/6)*200;if(dist(x,y,px,py)<85){if(S.stk[k]){SFX.pop();sparkles(px,py,6);say(cap(W_(k))+'.')}else{SFX.tap();say('Esta todavía no la tienes.')}}})}
 };
