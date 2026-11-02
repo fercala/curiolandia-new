@@ -77,11 +77,12 @@ describe('los temas', () => {
       ['playaSonidos', ['TL3']], ['bosqueLetras', ['TL4']], ['puebloPalabras', ['TL5']], // la Isla de las Letras (fases L2 a L5 de docs/PLAN-LECTURA.md)
       ['playaHello', ['ING']], // la Isla del Inglés (fase I2 de docs/PLAN-INGLES.md): las casitas del antiguo rincón
       ['parqueLondres', ['ING_PARQUE']], // y su Parque de Londres (fase I4)
+      ['puebloCuentos', ['ING_PUEBLO']], // y su Pueblo de los Cuentos (fase I5)
     ];
     const fuera = zonas.flatMap(([zona, listas]) =>
       listas.flatMap((l) => juego[l] as TemaLeido | TemaLeido[]).filter((t) => t.zone !== zona).map((t) => `${t.id} no es de ${zona}`));
     expect(fuera).toEqual([]);
-    expect(temas().filter((t) => !['jardin', 'bosque', 'montana', 'extras', 'fiestas', 'playaSonidos', 'bosqueLetras', 'puebloPalabras', 'playaHello', 'parqueLondres'].includes(t.zone))).toEqual([]);
+    expect(temas().filter((t) => !['jardin', 'bosque', 'montana', 'extras', 'fiestas', 'playaSonidos', 'bosqueLetras', 'puebloPalabras', 'playaHello', 'parqueLondres', 'puebloCuentos'].includes(t.zone))).toEqual([]);
   });
 
   test('cada dibujo que nombran existe (icono, juegos, palabras y ejemplos)', () => {
@@ -100,7 +101,7 @@ describe('los temas', () => {
     // sinFabrica(t, g): por qué makeGame no sabría crear el juego g del tema t (vacío si sí sabe).
     const sinFabrica = (t: TemaLeido, g: TemaLeido['games'][number]): string => {
       if (g.make) return '';
-      if (t.en && ['enConocer', 'enEscucha', 'enGlobos', 'enCuenta', 'enRepite', 'enTelefono', 'enDice', 'enViste'].includes(g.t)) return '';
+      if (t.en && ['enConocer', 'enEscucha', 'enGlobos', 'enCuenta', 'enRepite', 'enTelefono', 'enDice', 'enViste', 'enPollySays', 'enMeGusta', 'enQueEs', 'enBingo', 'enAutobus', 'enCuento'].includes(g.t)) return '';
       if (g.t === 'cuento') return t.id in cuentos ? '' : 'cuento sin CUENTOS[id]';
       if (g.t === 'cancion') return g.song && g.song in canciones ? '' : `canción sin SONGS[${g.song}]`;
       if (['conocer', 'busca', 'memoria'].includes(g.t)) return t.words?.length ? '' : `${g.t} sin words`;

@@ -438,7 +438,7 @@ c5ff46a97f5a,Boca,trozo,src/contenido/ingles.ts
 ff4688870a86,Oreja,trozo,src/contenido/ingles.ts
 c15be25ee7f2,Teeth,trozo,src/contenido/ingles.ts
 a284ce186d4b,Dientes,trozo,src/contenido/ingles.ts
-353df421c4fc,Ball,trozo,src/contenido/ingles.ts
+353df421c4fc,Ball,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts
 c506d48a2bef,Pelota,trozo,src/contenido/ingles.ts
 10d3b77299c0,Doll,trozo,src/contenido/ingles.ts
 4b83df8ce2a2,Muñeca,trozo,src/contenido/ingles.ts
@@ -453,7 +453,7 @@ e41273f43af5,Train,trozo,src/contenido/ingles.ts
 dd324db88ecd,Cometa,trozo,src/contenido/ingles.ts
 04c4f9f595c4,Blocks,trozo,src/contenido/ingles.ts
 cb0743bbd331,Bloques,trozo,src/contenido/ingles.ts
-9f6290f4436e,Apple,trozo,src/contenido/ingles.ts
+9f6290f4436e,Apple,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts
 97a9faba76fe,Manzana,trozo,src/contenido/ingles.ts
 e6f9c347672d,Banana,trozo,src/contenido/ingles.ts
 6e093a7dc2ce,Plátano,trozo,src/contenido/ingles.ts
@@ -490,9 +490,9 @@ b4159910295c,Pyjamas,trozo,src/contenido/ingles.ts
 9d18285fa570,Gorra,trozo,src/contenido/ingles.ts
 1296fcaab5ec,Bread,trozo,src/contenido/ingles.ts
 f6d4a17b27da,Pan,trozo,src/contenido/ingles.ts
-e89b2cbb7d11,Milk,trozo,src/contenido/ingles.ts
+e89b2cbb7d11,Milk,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts
 4669737d86f9,Leche,trozo,src/contenido/ingles.ts
-f04ba3c635d3,Egg,trozo,src/contenido/ingles.ts
+f04ba3c635d3,Egg,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts
 a09ea0d3d23a,Huevo,trozo,src/contenido/ingles.ts
 22322b2b47da,Ice cream,trozo,src/contenido/ingles.ts
 c4749370924c,Helado,trozo,src/contenido/ingles.ts
@@ -519,7 +519,7 @@ d46a05dccb98,Lámpara,trozo,src/contenido/ingles.ts
 c359b5c08d3c,Reloj,trozo,src/contenido/ingles.ts
 d260bc75293e,Bath,trozo,src/contenido/ingles.ts
 eaf60ff7f696,Bañera,trozo,src/contenido/ingles.ts
-5b9ccf399943,Fridge,trozo,src/contenido/ingles.ts
+5b9ccf399943,Fridge,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts
 9b94d7cabafb,Nevera,trozo,src/contenido/ingles.ts
 ffc76083445e,Sunny,trozo,src/contenido/ingles.ts
 db463603345c,Hace sol,trozo,src/contenido/ingles.ts
@@ -562,7 +562,7 @@ f97ca8decb3a,Duck,trozo,src/contenido/ingles.ts
 572b2541c97a,Sheep,trozo,src/contenido/ingles.ts
 3f18ba4b9286,Oveja,trozo,src/contenido/ingles.ts
 6c647ded4d34,Baa,trozo,src/contenido/ingles.ts
-c935d187f0b9,Dog,trozo,src/contenido/ingles.ts
+c935d187f0b9,Dog,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts
 ce311f9a3d94,Perro,trozo,src/contenido/ingles.ts
 6d4a6c2c885a,Woof,trozo,src/contenido/ingles.ts
 fa3ebd6742c3,Cat,trozo,src/contenido/ingles.ts
@@ -1060,7 +1060,7 @@ d03edbf54161,Lupi está preparando ,trozo,src/escenas/isla.ts
 09fa232bd366, todavía no se ha abierto.,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts
 8c59a66df767,la Playa Hello,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts
 9de5f3445da2,el Parque de Londres,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts
-f9a7ebd038f4,el Pueblo de los Cuentos,trozo,src/escenas/islaIngles.ts
+f9a7ebd038f4,el Pueblo de los Cuentos,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts
 952d2c56d048,Hello!,frase,src/escenas/islaIngles.ts
 35c172d95155,¡Llegamos a la Isla del Inglés,trozo,src/escenas/islaIngles.ts
 498f7fb90f09,"! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.",trozo,src/escenas/islaIngles.ts
@@ -1192,6 +1192,7 @@ af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras.
 e0ea41a6c7ea,¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 99c13b9da39c,¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 a4060dd809b3,¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
+b56f25d264e8,¡Bienvenido al Pueblo de los Cuentos! Aquí jugamos con frases y cuentos en inglés. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e43303c24ba4,el Rincón de los Conceptos,trozo,src/escenas/zonas.ts
 ca6ec05b56e2,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ,trozo,src/escenas/zonas.ts
 4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,frase,src/escenas/zonas.ts
@@ -1897,7 +1898,7 @@ a59cbbd4bf1d,Los trazos,trozo,src/temas/extras.ts
 fb8547b20d6b,"Con los trazos preparamos la mano para escribir. Se juegan en orden: cuando terminas uno, se abre el siguiente.",frase,src/temas/extras.ts
 107312298d7f,Sigue el camino con el dedo.,frase,src/temas/extras.ts
 f2c77ff57d23,Las canciones,trozo,src/temas/extras.ts
-c40377b59857,Los días de la semana,trozo,src/temas/extras.ts src/temas/temas4.ts
+c40377b59857,Los días de la semana,trozo,src/temas/extras.ts src/temas/inglesPueblo.ts src/temas/temas4.ts
 4f7a6919011c,Las estaciones,trozo,src/temas/extras.ts
 9574ef39a896,Los colores,trozo,src/temas/extras.ts src/temas/temas.ts
 50664bc74445,Los meses del año,trozo,src/temas/extras.ts src/temas/temas5.ts
@@ -1948,10 +1949,10 @@ cc3b72d79006,Angry,trozo,src/temas/ingles.ts
 6fdfd2ae16c4,Enfadado,trozo,src/temas/ingles.ts
 6b750c1f2a44,Toca cada dibujo y escucha cómo se dice en inglés. ¡Repítelo en voz alta!,frase,src/temas/ingles.ts
 5c60203af7d1,¿Quién dice,trozo,src/temas/ingles.ts
-56faf0ea7307,Toca,trozo,src/temas/ingles.ts
-5e6b6f09693c,@The ,inglés,src/temas/ingles.ts
+56faf0ea7307,Toca,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts
+5e6b6f09693c,@The ,inglés,src/temas/ingles.ts src/temas/inglesPueblo.ts
 682a493a3882, says ,trozo,src/temas/ingles.ts
-4da0b6011cda,Ese es,trozo,src/temas/ingles.ts
+4da0b6011cda,Ese es,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts
 2d23d3154775,. Dice,trozo,src/temas/ingles.ts
 9e42517b7c1f,. Busca,trozo,src/temas/ingles.ts
 16526d50e695,Revienta los globos de,trozo,src/temas/ingles.ts
@@ -1998,7 +1999,7 @@ a3f22fa4c974,"saludarse en inglés al llegar y al irse: hello, good morning, goo
 ee5c35ce3d08,numbers,trozo,src/temas/ingles.ts
 6bf2ec704f83,"contar en inglés los escalones o los juguetes: one, two, three...",trozo,src/temas/ingles.ts
 645863de3566,Los animales en inglés,trozo,src/temas/ingles.ts
-a723e3dfb497,animals,trozo,src/temas/ingles.ts
+a723e3dfb497,animals,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts
 3e5165059ba5,mirar un libro de animales y nombrarlos en inglés.,trozo,src/temas/ingles.ts
 2cb50c9115bd,La familia en inglés,trozo,src/temas/ingles.ts
 0d3fda0bdbb9,family,trozo,src/temas/ingles.ts
@@ -2052,6 +2053,105 @@ e31b7b47c61a,cantar juntos en inglés los colores y los números.,trozo,src/tema
 c9cd30b044fe,Fiesta del parque,trozo,src/temas/ingles.ts
 fb45615cea11,park,trozo,src/temas/ingles.ts
 7d233def8cf8,repasar con la familia las palabras en inglés del parque.,trozo,src/temas/ingles.ts
+b8f0ad4d81f0,"Haz lo que diga Polly, pero solo si empieza con «Polly says». Si no lo dice, toca la señal de stop.",frase,src/temas/inglesPueblo.ts
+31f0308bf5d4,@Polly says: touch the ,inglés,src/temas/inglesPueblo.ts
+7baec532df5d,@Touch the ,inglés,src/temas/inglesPueblo.ts
+fe5cda212197,¡Muy bien! Polly no ha dicho «Polly says».,frase,src/temas/inglesPueblo.ts
+fa08c0b021f1,¡Sí lo ha dicho! Escucha otra vez:,trozo,src/temas/inglesPueblo.ts
+03f8442df9fd,¡Cuidado! Polly no ha dicho «Polly says». Toca la señal de stop.,frase,src/temas/inglesPueblo.ts
+615a46af3137,STOP,trozo,src/temas/inglesPueblo.ts
+b9d2e2e25c1a,"Escucha a Polly. Si le gusta, toca la carita contenta. Si no le gusta, la triste.",frase,src/temas/inglesPueblo.ts
+165e4d0c7b00,@I like ,inglés,src/temas/inglesPueblo.ts
+8db004db423d,@I don't like ,inglés,src/temas/inglesPueblo.ts
+4af5a674a05a,¡Sí! A Polly le gusta.,frase,src/temas/inglesPueblo.ts
+8c9fc844b157,¡Eso es! A Polly no le gusta.,frase,src/temas/inglesPueblo.ts
+0c6d136693dc,Escucha bien:,trozo,src/temas/inglesPueblo.ts
+d0797ea9bcaf,Hay algo escondido. Mira bien y toca lo que es.,frase,src/temas/inglesPueblo.ts
+aeed8e9b5768,@What is it?,inglés,src/temas/inglesPueblo.ts
+b24c1018c32d,@It's ,inglés,src/temas/inglesPueblo.ts
+92daa34c8ad1,an ,trozo,src/temas/inglesPueblo.ts
+99020cb24bd1,a ,trozo,src/temas/inglesPueblo.ts
+39f1086cad51,¡Jugamos al bingo! Polly dice una palabra en inglés y tú tapas ese dibujo.,frase,src/temas/inglesPueblo.ts
+ef61f129ee2f,BINGO,trozo,src/temas/inglesPueblo.ts
+9aa4c0fc013f,BINGO!,frase,src/temas/inglesPueblo.ts
+f49be959a4ab,@Bingo!,inglés,src/temas/inglesPueblo.ts
+8da1a35e66c3,¡Has tapado todo el cartón!,frase,src/temas/inglesPueblo.ts
+f76d97cba91d,. Polly ha dicho,trozo,src/temas/inglesPueblo.ts
+0f11d375687f,¡El autobús de Londres! Escucha qué animal sube y tócalo.,frase,src/temas/inglesPueblo.ts
+eb46b31cbcd5, gets on the bus!,trozo,src/temas/inglesPueblo.ts
+0e0c9d888d10,BUS,trozo,src/temas/inglesPueblo.ts
+b958568a008f,"@Goodbye, bus!",inglés,src/temas/inglesPueblo.ts
+c327832cca49,. Sube,trozo,src/temas/inglesPueblo.ts
+2cdc71f9e93a,El paseo de Polly,trozo,src/temas/inglesPueblo.ts
+da2aeaf8038e,Un día de,trozo,src/temas/inglesPueblo.ts
+bc8cd7c2cd24,@sun,inglés,src/temas/inglesPueblo.ts
+4d3572bc0b3f,", Polly salió a pasear por el parque.",trozo,src/temas/inglesPueblo.ts
+9d66fa46f60b,En el parque vio un,trozo,src/temas/inglesPueblo.ts
+c8a6ad76e25a,@dog,inglés,src/temas/inglesPueblo.ts
+2539feb79c8f,y un,trozo,src/temas/inglesPueblo.ts
+9ff77d5adaa8,@cat,inglés,src/temas/inglesPueblo.ts
+9cf613017452,El,trozo,src/temas/inglesPueblo.ts
+7164eac96f2f,jugaba con una,trozo,src/temas/inglesPueblo.ts
+447bfa129241,@ball,inglés,src/temas/inglesPueblo.ts
+5e2e2850990f,Entonces empezó a llover. Polly abrió su,trozo,src/temas/inglesPueblo.ts
+412ab06bb5f9,@umbrella,inglés,src/temas/inglesPueblo.ts
+f1ed250a23e9,Y volvió a casa muy contenta.,frase,src/temas/inglesPueblo.ts
+348f06268166,@Goodbye!,inglés,src/temas/inglesPueblo.ts
+91e0703aceed,Umbrella,trozo,src/temas/inglesPueblo.ts
+ef6572e4cd58,Sun,trozo,src/temas/inglesPueblo.ts
+2291bb491989,La merienda de Tito,trozo,src/temas/inglesPueblo.ts
+7bbb605bb619,Tito tenía mucha hambre y abrió la,trozo,src/temas/inglesPueblo.ts
+a9ae8d5fded3,@fridge,inglés,src/temas/inglesPueblo.ts
+22d3d77d995b,Dentro había,trozo,src/temas/inglesPueblo.ts
+cfac60a726ba,@milk,inglés,src/temas/inglesPueblo.ts
+1f574b9dd44f,", un",trozo,src/temas/inglesPueblo.ts
+f51d4d858555,@egg,inglés,src/temas/inglesPueblo.ts
+a2f20dccf0cd,y una,trozo,src/temas/inglesPueblo.ts
+d4696f72e224,@apple,inglés,src/temas/inglesPueblo.ts
+db693f59a494,Tito se comió la,trozo,src/temas/inglesPueblo.ts
+9de470b75d25,". ¡Ñam, ñam!",trozo,src/temas/inglesPueblo.ts
+5403e3ac2a83,Después se bebió la,trozo,src/temas/inglesPueblo.ts
+9eeb2d1ea83c,y le dijo a Polly:,trozo,src/temas/inglesPueblo.ts
+e1a81bacfe3c,"@Thank you, Polly!",inglés,src/temas/inglesPueblo.ts
+3e70bf6d557a,¿Te has fijado? Ahora te pregunto.,frase,src/temas/inglesPueblo.ts
+d35194692d29,Polly says,trozo,src/temas/inglesPueblo.ts
+f88c70634ad1,Me gusta,trozo,src/temas/inglesPueblo.ts
+6d07b621f405,What is it?,frase,src/temas/inglesPueblo.ts
+6b99fc04045e,Bingo,trozo,src/temas/inglesPueblo.ts
+795767f7fb3f,El autobús de Londres,trozo,src/temas/inglesPueblo.ts
+8b9c2403d1b0,Canta los días,trozo,src/temas/inglesPueblo.ts
+44fdec47036f,days,trozo,src/temas/inglesPueblo.ts
+5631d1852805,decir cada mañana qué día es en inglés: today is Monday.,trozo,src/temas/inglesPueblo.ts
+5c52ec57a520,Las estaciones en inglés,trozo,src/temas/inglesPueblo.ts
+85ed15c4d405,seasons,trozo,src/temas/inglesPueblo.ts
+0ba4255c2c7b,"al salir a la calle, decir en qué estación estamos: autumn, winter...",trozo,src/temas/inglesPueblo.ts
+ead4122d0054,"¿Dónde está? In, on, under",trozo,src/temas/inglesPueblo.ts
+567904efe9e6,where,trozo,src/temas/inglesPueblo.ts
+bc6a9a8c2544,"esconder un juguete y decir dónde está: in the box, under the table.",trozo,src/temas/inglesPueblo.ts
+be8bc8e88c8c,jugar a «Polly says» en casa: Polly says touch your nose!,trozo,src/temas/inglesPueblo.ts
+bad232322424,Me gusta: I like,trozo,src/temas/inglesPueblo.ts
+cc71d8f3dc88,likes,trozo,src/temas/inglesPueblo.ts
+87afd5054780,"en la comida, decir lo que nos gusta: I like apples!",trozo,src/temas/inglesPueblo.ts
+5bd304e39125,whatis,trozo,src/temas/inglesPueblo.ts
+988392ad5634,"tapar un dibujo con la mano, enseñar un trozo y preguntar: what is it?",trozo,src/temas/inglesPueblo.ts
+9856d478c657,Cosas de colores,trozo,src/temas/inglesPueblo.ts
+c0d6b124854b,colourThings,trozo,src/temas/inglesPueblo.ts
+c3eff7184d32,"nombrar las cosas con su color en inglés: a red apple, a yellow banana.",trozo,src/temas/inglesPueblo.ts
+62da6c4a236d,Contar hasta 20,trozo,src/temas/inglesPueblo.ts
+ffc8da13f1b7,numbers20,trozo,src/temas/inglesPueblo.ts
+0f7af59ad1e4,"contar en inglés más allá del diez: eleven, twelve, thirteen...",trozo,src/temas/inglesPueblo.ts
+830906548f04,Los oficios en inglés,trozo,src/temas/inglesPueblo.ts
+27a06a9e3d5e,jobs,trozo,src/temas/inglesPueblo.ts
+edd8f707a991,"al ver a alguien trabajando, decir su oficio: a doctor, a farmer...",trozo,src/temas/inglesPueblo.ts
+0c483b89843e,La tienda de Polly,trozo,src/temas/inglesPueblo.ts
+fb54f3c5992b,shop,trozo,src/temas/inglesPueblo.ts
+c84430fadcdc,"jugar a las tiendas pidiendo en inglés: an apple, please.",trozo,src/temas/inglesPueblo.ts
+074101ec4775,Cuentos en inglés,trozo,src/temas/inglesPueblo.ts
+bec670e5a554,story,trozo,src/temas/inglesPueblo.ts
+0d08074802f3,contar cuentos de siempre metiendo alguna palabra en inglés.,trozo,src/temas/inglesPueblo.ts
+355858f4157e,Gran fiesta del inglés,trozo,src/temas/inglesPueblo.ts
+7198cda575b5,town,trozo,src/temas/inglesPueblo.ts
+bc9202a22afa,celebrar todo lo aprendido: repasar juntos las palabras en inglés.,trozo,src/temas/inglesPueblo.ts
 0351bae97d6a,empieza por ,trozo,src/temas/letras.ts
 292f724537e8,lleva ,trozo,src/temas/letras.ts
 1c701316e96d,Esta es ,trozo,src/temas/letras.ts

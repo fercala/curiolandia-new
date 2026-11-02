@@ -28,7 +28,7 @@ const ESCENAS = [
   ['casita', { t: '3A-T1' }], ['cofre', { t: '3A-T1' }], ['tienda'], ['casaTito'], ['album'],
   ['isla'], ['playaSonidos'], ['casita', { t: 'L3-A' }], ['libroLetras'], // la Isla de las Letras (fase L2) y el libro de letras (L7)
   ['bosqueLetras'], ['puebloPalabras'], ['casita', { t: 'L5-FAB' }], // el bosque y el pueblo (fases L4 y L5)
-  ['islaIngles'], ['playaHello'], ['casita', { t: 'EN-HELLO' }], ['casita', { t: 'EN-BEACH' }], ['parqueLondres'], ['casita', { t: 'EN-CLOTHES' }], // la Isla del Inglés (fases I2 a I4 de docs/PLAN-INGLES.md)
+  ['islaIngles'], ['playaHello'], ['casita', { t: 'EN-HELLO' }], ['casita', { t: 'EN-BEACH' }], ['parqueLondres'], ['casita', { t: 'EN-CLOTHES' }], ['puebloCuentos'], ['casita', { t: 'EN-STORIES' }], // la Isla del Inglés (fases I2 a I5 de docs/PLAN-INGLES.md)
 ];
 
 (async () => {
