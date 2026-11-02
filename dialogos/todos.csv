@@ -931,6 +931,28 @@ a0bb78508b42,¿Dónde está España? Toca su tarjeta.,frase,src/escenas/casaMund
 2bce67e1ce3d,¿Dónde está España?,frase,src/escenas/casaMundo.ts
 1159433b3357,"¡Muy bien! Esa es España, donde vivimos.",frase,src/escenas/casaMundo.ts
 83fe4b16d332,. ¡Busca el castillo y el sol!,trozo,src/escenas/casaMundo.ts
+12e08c646ca9,"¡Vamos a tocar música! Toca las teclas. Si quieres jugar, toca la nota de arriba.",frase,src/escenas/casaMusica.ts
+d11136c240a6,Repite la canción: toca las mismas notas.,frase,src/escenas/casaMusica.ts
+2e9409d1ddbe,"¡Toca las teclas! Si quieres jugar, toca la nota de arriba.",frase,src/escenas/casaMusica.ts
+c5d146aee383,¡Escucha!,frase,src/escenas/casaMusica.ts
+d0a494807780,¡Ahora tú!,frase,src/escenas/casaMusica.ts
+3ed92a18b65e,¡Escucha y repite la canción!,frase,src/escenas/casaMusica.ts
+fcc22d180638,¡Casi! Escucha otra vez.,frase,src/escenas/casaMusica.ts
+8f4af0bd5a24,¡Bravo! ¡Qué bien tocas!,frase,src/escenas/casaMusica.ts
+fd5b91cc3d49,¡Bravo! ¡Lo has tocado igual!,frase,src/escenas/casaMusica.ts
+31cdd611ecf8,¡Dibuja lo que quieras con el dedo! Abajo puedes cambiar de color.,frase,src/escenas/casaPizarra.ts
+e7280c884a66,Dibuja con el dedo en la pizarra. Abajo están las tizas y el borrador.,frase,src/escenas/casaPizarra.ts
+d889004db892,¡Pizarra limpia! A dibujar otra vez.,frase,src/escenas/casaPizarra.ts
+208d9863384c,¡Qué bonito!,frase,src/escenas/casaPizarra.ts
+f8d507336d4f,¡Me encanta tu dibujo!,frase,src/escenas/casaPizarra.ts
+44265fa7d51e,¡Qué colores tan alegres!,frase,src/escenas/casaPizarra.ts
+0e5750139d71,"¡Sigue, sigue!",frase,src/escenas/casaPizarra.ts
+8cbc612db41f,La canción de los colores,trozo,src/escenas/casaTele.ts
+65e1b742691e,Los peces del mar,trozo,src/escenas/casaTele.ts
+bea586d1a053,Tito baila,trozo,src/escenas/casaTele.ts
+663c8b8f7035,Pipo salta,trozo,src/escenas/casaTele.ts
+96cdbc3a5457,¡Mi tele! Con el mando de la derecha cambias de canal.,frase,src/escenas/casaTele.ts
+f60c90a30a0e,Toca los botones del mando para cambiar de canal.,frase,src/escenas/casaTele.ts
 5c1d9a65d69e, del ,trozo,src/escenas/cofre.ts
 73c25bcef15e,! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,trozo,src/escenas/cofre.ts
 b02ec5f955d1,Toca el cofre para abrirlo. ¡Te ,trozo,src/escenas/cofre.ts

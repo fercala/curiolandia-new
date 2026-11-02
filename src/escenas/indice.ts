@@ -9,7 +9,7 @@
 // (SCENES.islaIngles), desde la fase L7, libroLetras.ts: «Mi libro de letras» (SCENES.libroLetras), y desde la fase
 // I7, diccionario.ts: «Mi diccionario de inglés» (SCENES.diccionario), que se abren desde el álbum. Desde la fase C3
 // (docs/PLAN-CASA.md), las escenas pequeñas de la casa de Tito: casaCielo.ts (el telescopio) y casaMundo.ts (el globo
-// terráqueo). src/modulos.ts pasa todo lo que exportan al puente.
+// terráqueo); desde la C4, casaMusica.ts (los instrumentos), casaPizarra.ts y casaTele.ts. src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';
@@ -21,3 +21,6 @@ export * from './libroLetras.ts';
 export * from './diccionario.ts';
 export * from './casaCielo.ts';
 export * from './casaMundo.ts';
+export * from './casaMusica.ts';
+export * from './casaPizarra.ts';
+export * from './casaTele.ts';
