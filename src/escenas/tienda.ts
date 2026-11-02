@@ -319,8 +319,9 @@ function homeAction(id: string,x: number,y: number){SFX.pop();sparkles(x,y,8);
     cohete:()=>{SFX.whoosh();SFX.sparkle()},nevera:()=>tone(180,.4,'sine',.15),olla:()=>SFX.munch(),cama:()=>playTune(TUNES.meses,300),cometa:()=>SFX.whoosh(),pelotaPlaya:()=>SFX.boing(),bloques:()=>SFX.snap(),telescopio:()=>SFX.sparkle(),lampara:()=>{homeLight=!homeLight}};
   (A[id]||(()=>{}))();say(FRASES_CASA[id]??cap(W_(id))+'.')}
 // ESCENA_CASA: la escena (SCENES) de cada escena pequeña de la casa que ya está hecha: desde la fase C3, el cielo de
-// noche (telescopio, escenas/casaCielo.ts) y la vuelta al mundo (globo terráqueo, escenas/casaMundo.ts).
-const ESCENA_CASA: Partial<Record<EscenaCasa,string>>={cielo:'casaCielo',mundo:'casaMundo'};
+// noche (telescopio, escenas/casaCielo.ts) y la vuelta al mundo (globo terráqueo, escenas/casaMundo.ts); desde la C4,
+// los instrumentos (escenas/casaMusica.ts, que recibe cuál se tocó), la pizarra (casaPizarra.ts) y la tele (casaTele.ts).
+const ESCENA_CASA: Partial<Record<EscenaCasa,string>>={cielo:'casaCielo',mundo:'casaMundo',instrumentos:'casaMusica',pizarra:'casaPizarra',tele:'casaTele'};
 // Luz de la casa de Tito (la lámpara la cambia: de noche se oscurece la habitación). No se guarda.
 let homeLight=true;
 // roomBg(id, hl): dibuja el fondo fijo de la habitación id de la casa de Tito (pared, ventana, suelo y adornos propios);
@@ -434,7 +435,7 @@ SCENES.casaTito={music:'casita',room:'salon',
   irA(id: string){const o=homeItems(this.room).find(i=>i.id===id);if(!o)return;const r=reaccionDe(id),accion=r?r.tito:'tocar',[dx,dy]=destinoJunto(this.paseo,o.x,o.y,o.s,accion);
     SFX.pop();this.acc=null;this.va={id,accion};this.paseo=andar(this.paseo,dx,dy);const tok=++this.paseoTok,llega=this.paseo.dur;
     later(llega*1000,()=>{if(tok!==this.paseoTok)return;const p=S.home![id];if(!p)return;this.acc={id,accion,t0:T,x:p.x,y:p.y,s:o.s};homeAction(id,p.x,p.y-80);S.sorpresas=descubrir(S.sorpresas||{},id).sorpresas;save();
-      const esc=r&&r.escena&&ESCENA_CASA[r.escena];if(esc)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc)})})},
+      const esc=r&&r.escena&&ESCENA_CASA[r.escena];if(esc)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc,{inst:id})})})},
   // Arrastrar: a partir de 12 px se considera que se mueve y el objeto sigue al dedo. Mientras se arrastra puede subir
   // hasta los botones de las habitaciones (para llevarlo a otra); al soltar se vuelve a encajar en el suelo o la pared.
   move(x,y){const d=this.drag;if(!d)return;d.x=x;d.y=y;if(Math.abs(x-d.sx)+Math.abs(y-d.sy)>12)d.moved=true;if(d.moved){const p=S.home![d.id];p.x=clamp(x-d.dx,40,1560);p.y=clamp(y-d.dy,60,780)}},
