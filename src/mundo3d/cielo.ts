@@ -58,11 +58,125 @@ export function numPop(x: number,y: number,n: number,tx?: string){parts.push({x:
 //    zona tiene arcoíris (w.rainbow), aparece y Tito nombra sus colores (nx dice uno tras otro). En la montaña, el
 //    primer toque explica la nieve.
 // Banderas en w para no repetir frases: nmStar, stF, snF, myRb.
-export function skyTap(x: number,y: number,w: Mundo){const r=RC.ray,k=r.direction.z<-.01?(-19.5-r.origin.z)/r.direction.z:30,v=r.at(k,new THREE.Vector3());if(w.tito)w.tito.userData.lk={p:v.clone(),t:T};/* Tito mira hacia donde se ha tocado */
-  if(skyNow().night){if(!w.myS){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(90),3));g.setDrawRange(0,0);w.myS=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:1.7,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));w.myS.raycast=()=>{};w.myS.frustumCulled=false;w.sc.add(w.myS);w.myN=0;w.upd.push(()=>{w.myS!.material.opacity=.7+.3*Math.sin(T*2.6)})/* y titilan */}
-    {const g=w.myS.geometry,i=w.myN!%30;(g.attributes.position.array as Float32Array).set([v.x,v.y,v.z],i*3);g.attributes.position.needsUpdate=true;w.myN!++;g.setDrawRange(0,Math.min(w.myN!,30));numPop(x,y,(w.myN!-1)%7+1);if(!w.nmStar){w.nmStar=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('La estrella.',()=>sylClap(x,y+60,'ESTRELLA'));numPop(x,y+40,3,'ESTRELLA');parts[parts.length-1].hl=1}},1100)}/* la primera estrella: Tito la nombra */sayNum((w.myN!-1)%7+1,w.myN!%7===0?()=>say3('¡Muy bien!',()=>{if(!w.stF){w.stF=1;say3('Las estrellas. Están muy, muy lejos. ¡Por eso las vemos pequeñitas!')}}):null);/* cuenta las estrellas en voz alta, y al completar la constelación: ¡muy bien! */if(w.myN!%7===0){const a=g.attributes.position.array,L=[];for(let j=w.myN!-7;j<w.myN!;j++){const q=(j%30)*3;L.push(new THREE.Vector3(a[q],a[q+1],a[q+2]))}const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(L),new THREE.LineBasicMaterial({color:'#AFC0FF',transparent:true,opacity:.45}));ln.raycast=()=>{};w.sc.add(ln);(w.myL=w.myL||[]).push(ln);if(w.myL.length>4)w.sc.remove(w.myL.shift()!);[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.3,'sine',.07),250+i*110));setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300)}/* cada siete estrellas se unen en una constelación nueva, con música, y Tito salta */}/* y la estrellita se queda en el cielo (hasta 30) */parts.push({x,y,vx:0,vy:-6,life:1.6,t:0,c:'#FFF6C8',r:16,rot:0,k:'s',g:0});for(let i=0;i<4;i++)parts.push({x:x+rnd(-18,18),y:y+rnd(-18,18),vx:rnd(-20,20),vy:rnd(-20,20),life:.9,t:0,c:'#FFFFFF',r:rnd(5,7),rot:0,k:'s',g:0});tone(1760,.35,'sine',.05,1.02);tone(2637,.25,'sine',.025,1,.07)}
-  else{if(!w.myC)w.myC=[];if(w.myC.length>=6){const o=w.myC.shift()!;w.sc.remove(o)}{const c=cloud3(w.sc,v.x-.35,v.y,v.z,.3);c.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}});w.myN2=(w.myN2||0)+1;if(sceneName==='montana'&&!w.snF){w.snF=1;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3('La nieve. Es agua congelada que cae del cielo.',()=>sylClap(x,y+60,'NIEVE'));numPop(x,y+40,3,'NIEVE');parts[parts.length-1].hl=1}},1100)}/* en la montaña, el primer toque al cielo explica la nieve */if(w.myN2<=6){numPop(x,y,w.myN2);sayNum(w.myN2)}/* cuenta las nubecillas en voz alta (hasta seis) */w.myC.push(c);if(w.myC.length===6&&w.rainbow&&!w.myRb){w.myRb=1;let cx=0,cy=0;w.myC.forEach(o=>{cx+=o.position.x/6;cy+=o.position.y/6});w.rainbow.position.set(cx,cy-.6,-20.5);w.rainT=T;[523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80));{const C=[['Rojo.','#E84A4A'],['Naranja.','#F5932E'],['Amarillo.','#F2C200'],['Verde.','#4DB85A'],['Azul.','#3D8FE0'],['Morado.','#9A63D1']];let k=0;const nx=()=>{if(k>=C.length||sceneName!==sc0)return;const [n,c]=C[k],en=sceneName==='ingles',ne=['Red','Orange','Yellow','Green','Blue','Purple'][k];parts.push({x:560+k*96,y:200,vx:0,vy:-25,life:2.2,t:0,c,r:22,rot:0,k:'t',tx:en?ne:n.slice(0,-1),g:0});k++;if(en)sayMix3(['@'+ne],nx);else say3(n,nx)}/* en el Rincón del inglés, los colores del arcoíris en inglés */,sc0=sceneName;setTimeout(nx,1300)}}/* con seis nubecillas sale un arcoíris, y Tito nombra sus colores */const t0=T;w.upd.push((dt: number)=>{c.position.x+=.25*(dt||0);const q=Math.min(1,(T-t0)*3);c.scale.setScalar(.3*q)})}/* y la nubecilla se queda en el cielo (hasta 6) */
-    for(let i=0;i<2;i++)parts.push({x,y,vx:0,vy:-10,life:.8,t:0,c:'#FFFFFF',r:12+i*6,rot:0,k:'o',g:0});for(let i=0;i<5;i++)parts.push({x:x+rnd(-15,15),y:y+rnd(-10,10),vx:rnd(-50,50),vy:rnd(-40,10),life:.7,t:0,c:'#FFFFFF',r:rnd(5,8),rot:0,k:'d',g:-20});noise(.18,.05,1200);tone(660,.15,'sine',.04,1.4)}}
+export function skyTap(x: number,y: number,w: Mundo){
+  const r=RC.ray,k=r.direction.z<-.01?(-19.5-r.origin.z)/r.direction.z:30,v=r.at(k,new THREE.Vector3());
+  // Tito mira hacia donde se ha tocado
+  if(w.tito)w.tito.userData.lk={p:v.clone(),t:T};
+  if(skyNow().night){
+    // la primera estrella crea el único Points (hasta 30 estrellas) que las guarda todas
+    if(!w.myS){
+      const g=new THREE.BufferGeometry();
+      g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(90),3));
+      g.setDrawRange(0,0);
+      w.myS=new THREE.Points(g,new THREE.PointsMaterial({color:'#FFF6C8',size:1.7,blending:THREE.AdditiveBlending,map:softTex(),transparent:true,depthWrite:false}));
+      w.myS.raycast=()=>{};
+      w.myS.frustumCulled=false;
+      w.sc.add(w.myS);
+      w.myN=0;
+      // y titilan
+      w.upd.push(()=>{w.myS!.material.opacity=.7+.3*Math.sin(T*2.6)});
+    }
+    // y la estrellita se queda en el cielo (hasta 30)
+    {
+      const g=w.myS.geometry,i=w.myN!%30;
+      (g.attributes.position.array as Float32Array).set([v.x,v.y,v.z],i*3);
+      g.attributes.position.needsUpdate=true;
+      w.myN!++;
+      g.setDrawRange(0,Math.min(w.myN!,30));
+      numPop(x,y,(w.myN!-1)%7+1);
+      // la primera estrella: Tito la nombra
+      if(!w.nmStar){
+        w.nmStar=1;
+        const sc0=sceneName;
+        setTimeout(()=>{
+          if(sceneName===sc0){
+            say3('La estrella.',()=>sylClap(x,y+60,'ESTRELLA'));
+            numPop(x,y+40,3,'ESTRELLA');
+            parts[parts.length-1].hl=1;
+          }
+        },1100);
+      }
+      // cuenta las estrellas en voz alta, y al completar la constelación: ¡muy bien!
+      sayNum((w.myN!-1)%7+1,w.myN!%7===0?()=>say3('¡Muy bien!',()=>{if(!w.stF){w.stF=1;say3('Las estrellas. Están muy, muy lejos. ¡Por eso las vemos pequeñitas!')}}):null);
+      // cada siete estrellas se unen en una constelación nueva, con música, y Tito salta
+      if(w.myN!%7===0){
+        const a=g.attributes.position.array,L=[];
+        for(let j=w.myN!-7;j<w.myN!;j++){
+          const q=(j%30)*3;
+          L.push(new THREE.Vector3(a[q],a[q+1],a[q+2]));
+        }
+        const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(L),new THREE.LineBasicMaterial({color:'#AFC0FF',transparent:true,opacity:.45}));
+        ln.raycast=()=>{};
+        w.sc.add(ln);
+        (w.myL=w.myL||[]).push(ln);
+        if(w.myL.length>4)w.sc.remove(w.myL.shift()!);
+        [523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.3,'sine',.07),250+i*110));
+        setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300);
+      }
+    }
+    // el destello del toque, con su sonido
+    parts.push({x,y,vx:0,vy:-6,life:1.6,t:0,c:'#FFF6C8',r:16,rot:0,k:'s',g:0});
+    for(let i=0;i<4;i++)parts.push({x:x+rnd(-18,18),y:y+rnd(-18,18),vx:rnd(-20,20),vy:rnd(-20,20),life:.9,t:0,c:'#FFFFFF',r:rnd(5,7),rot:0,k:'s',g:0});
+    tone(1760,.35,'sine',.05,1.02);
+    tone(2637,.25,'sine',.025,1,.07);
+  }
+  else{
+    if(!w.myC)w.myC=[];
+    if(w.myC.length>=6){const o=w.myC.shift()!;w.sc.remove(o)}
+    // y la nubecilla se queda en el cielo (hasta 6)
+    {
+      const c=cloud3(w.sc,v.x-.35,v.y,v.z,.3);
+      c.traverse((o: Nodo)=>{if(o.isMesh)o.raycast=()=>{}});
+      w.myN2=(w.myN2||0)+1;
+      // en la montaña, el primer toque al cielo explica la nieve
+      if(sceneName==='montana'&&!w.snF){
+        w.snF=1;
+        const sc0=sceneName;
+        setTimeout(()=>{
+          if(sceneName===sc0){
+            say3('La nieve. Es agua congelada que cae del cielo.',()=>sylClap(x,y+60,'NIEVE'));
+            numPop(x,y+40,3,'NIEVE');
+            parts[parts.length-1].hl=1;
+          }
+        },1100);
+      }
+      // cuenta las nubecillas en voz alta (hasta seis)
+      if(w.myN2<=6){numPop(x,y,w.myN2);sayNum(w.myN2)}
+      w.myC.push(c);
+      // con seis nubecillas sale un arcoíris, y Tito nombra sus colores
+      if(w.myC.length===6&&w.rainbow&&!w.myRb){
+        w.myRb=1;
+        let cx=0,cy=0;
+        w.myC.forEach(o=>{cx+=o.position.x/6;cy+=o.position.y/6});
+        w.rainbow.position.set(cx,cy-.6,-20.5);
+        w.rainT=T;
+        [523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80));
+        {
+          const C=[['Rojo.','#E84A4A'],['Naranja.','#F5932E'],['Amarillo.','#F2C200'],['Verde.','#4DB85A'],['Azul.','#3D8FE0'],['Morado.','#9A63D1']];
+          let k=0;
+          // nx(): nombra el color siguiente y, al acabar la frase, el otro; en el Rincón del inglés, en inglés
+          const nx=()=>{
+            if(k>=C.length||sceneName!==sc0)return;
+            const [n,c]=C[k],en=sceneName==='ingles',ne=['Red','Orange','Yellow','Green','Blue','Purple'][k];
+            parts.push({x:560+k*96,y:200,vx:0,vy:-25,life:2.2,t:0,c,r:22,rot:0,k:'t',tx:en?ne:n.slice(0,-1),g:0});
+            k++;
+            if(en)sayMix3(['@'+ne],nx);
+            else say3(n,nx);
+          },sc0=sceneName;
+          setTimeout(nx,1300);
+        }
+      }
+      // la nubecilla crece al nacer y se va moviendo hacia la derecha
+      const t0=T;
+      w.upd.push((dt: number)=>{c.position.x+=.25*(dt||0);const q=Math.min(1,(T-t0)*3);c.scale.setScalar(.3*q)});
+    }
+    // el soplo del toque, con su sonido
+    for(let i=0;i<2;i++)parts.push({x,y,vx:0,vy:-10,life:.8,t:0,c:'#FFFFFF',r:12+i*6,rot:0,k:'o',g:0});
+    for(let i=0;i<5;i++)parts.push({x:x+rnd(-15,15),y:y+rnd(-10,10),vx:rnd(-50,50),vy:rnd(-40,10),life:.7,t:0,c:'#FFFFFF',r:rnd(5,8),rot:0,k:'d',g:-20});
+    noise(.18,.05,1200);
+    tone(660,.15,'sine',.04,1.4);
+  }
+}
 // la Osa Mayor en el cielo de noche de las zonas, entre el título y las monedas
 // jupiter(w): Júpiter en el cielo de noche (textura de rayas pintada a mano) con un halo. Marca userData.jup;
 // al tocarlo, durante 4 s, sus cuatro lunas dan vueltas a su alrededor.
