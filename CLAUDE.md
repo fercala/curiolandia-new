@@ -25,7 +25,7 @@ con arquitectura limpia. Se habla y se documenta en castellano.
   [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) explica cómo funciona.
 - Lee [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md): decisiones, arquitectura objetivo, fases y riesgos.
 - **Isla de las Letras** (aprender a leer, 3 a 5 años): plan aprobado y fases en [docs/PLAN-LECTURA.md](docs/PLAN-LECTURA.md). Completa: fases L1 a L7, hasta la v0.2.69.
-- **Isla del Inglés** (sustituye al Rincón del inglés, 3 a 5 años, con Polly la lorita): plan aprobado el 2 de noviembre de 2026 y fases en [docs/PLAN-INGLES.md](docs/PLAN-INGLES.md). Las casitas del rincón (`EN-HELLO`...) pasan a la isla con su id: no se pierde el progreso.
+- **Isla del Inglés** (sustituye al Rincón del inglés, 3 a 5 años, con Polly la lorita): plan aprobado el 2 de noviembre de 2026 y fases en [docs/PLAN-INGLES.md](docs/PLAN-INGLES.md). Completa: fases I1 a I7, hasta la v0.2.78. Las casitas del rincón (`EN-HELLO`...) pasan a la isla con su id: no se pierde el progreso.
 - El juego de referencia es `fercala/curiolandia-3d`: **solo lectura**, no se hacen commits allí desde este trabajo.
 
 ## Montar y probar
