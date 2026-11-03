@@ -169,14 +169,125 @@ export function flyTap(w: Mundo,x: number,y: number){
 // el que tiene marca (WOBK). Si no hay ninguno devuelve false. Si lo hay: lo anima (u.wob=T; ignora toques repetidos en 0,3 s), Tito lo
 // mira, la primera vez Tito dice su nombre (NAMES3) y luego cada tipo tiene su rama 'else if(u.xxx)' con sonidos, partículas y voz.
 // Devuelve true.
-export function wobTap(w: Mundo,x: number,y: number){const th=w.trees&&w.trees.length&&RC.intersectObjects(w.trees,true)[0];let t: THREE.Object3D|null|undefined|0=th&&th.object;while(t&&!WOBK(t))t=t.parent;
-  if(!t)return false;const u=t.userData;if(u.wob!=null&&T-u.wob<.3)return true;u.wob=T;if(w.tito){const v=new THREE.Vector3();t.getWorldPosition(v);w.tito.userData.lk={p:v,t:T}}// Tito mira hacia lo que se ha tocado
+export function wobTap(w: Mundo,x: number,y: number){
+  const th=w.trees&&w.trees.length&&RC.intersectObjects(w.trees,true)[0];
+  let t: THREE.Object3D|null|undefined|0=th&&th.object;
+  while(t&&!WOBK(t))t=t.parent;
+  if(!t)return false;
+  const u=t.userData;
+  if(u.wob!=null&&T-u.wob<.3)return true;
+  u.wob=T;
+  // Tito mira hacia lo que se ha tocado
+  if(w.tito){
+    const v=new THREE.Vector3();
+    t.getWorldPosition(v);
+    w.tito.userData.lk={p:v,t:T};
+  }
   // NAMES3 = [[marca, frase, palabra, an, frase2, palabra2],...]: an=1 solo de día, an=2 solo de noche;
-  // w.nmD[marca] = 1 si ya lo nombró, 2 si ya dijo también la segunda frase (frase2)
-  if(!enIslaIngles(sceneName)){const nt=skyNow().night;for(const [k,ph,wd,an,f2,wd2] of NAMES3)if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&(w.nmD||(w.nmD={}))[k]){const sf=f2&&w.nmD[k]===1&&T-(w.nmT||0)>3&&(k!=='tree'||sceneName==='bosque')/* el viento, solo en el bosque de otoño */;numPop(x,y-30,3,sf&&wd2||wd);parts[parts.length-1].hl=1;if(sf){w.nmD[k]=2;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0)say3(f2,wd2?()=>sylClap(x,y,wd2):null)},700)}/* la segunda vez, Tito cuenta algo más de ello */break}/* si ya lo nombró, la palabra vuelve a salir escrita, sin voz */else if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&!w.nmD![k]){w.nmD![k]=1;w.nmT=T;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0){say3(ph,()=>sylClap(x,y,wd));numPop(x,y-30,3,wd);parts[parts.length-1].hl=1;const st=SCENES[sceneName];if(st)st.hop=T}/* y Tito da un saltito al decirlo */},1100);break}}/* la primera vez que se toca cada cosa, Tito dice su nombre y sale escrito */
-  {const nt=skyNow().night;if(nt?(u.bird||u.peng||u.squir||u.frog||u.burrow||u.crab||u.wpk||u.goat||u.sunf||u.parrot||u.scare):u.owl){for(let i=0;i<3;i++)parts.push({x:x+12+i*14,y:y-30-i*10,vx:rnd(15,30),vy:rnd(-55,-40),life:1.3,t:0,c:'#FFFFFF',r:8+i*3,rot:0,k:'z',g:-5});tone(98,.6,'sine',.05,.85,.15)}}/* si se toca un animal dormido, suelta unas zetas y ronca bajito */
+  // w.nmD[marca] = 1 si ya lo nombró, 2 si ya dijo también la segunda frase (frase2).
+  // La primera vez que se toca cada cosa, Tito dice su nombre y sale escrito
+  if(!enIslaIngles(sceneName)){
+    const nt=skyNow().night;
+    for(const [k,ph,wd,an,f2,wd2] of NAMES3)
+      // si ya lo nombró, la palabra vuelve a salir escrita, sin voz
+      if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&(w.nmD||(w.nmD={}))[k]){
+        // sf: toca la segunda frase (el viento, solo en el bosque de otoño)
+        const sf=f2&&w.nmD[k]===1&&T-(w.nmT||0)>3&&(k!=='tree'||sceneName==='bosque');
+        numPop(x,y-30,3,sf&&wd2||wd);
+        parts[parts.length-1].hl=1;
+        // la segunda vez, Tito cuenta algo más de ello
+        if(sf){
+          w.nmD[k]=2;
+          const sc0=sceneName;
+          setTimeout(()=>{if(sceneName===sc0)say3(f2,wd2?()=>sylClap(x,y,wd2):null)},700);
+        }
+        break;
+      }
+      else if(u[k]&&!(an===1&&nt)&&!(an===2&&!nt)&&!w.nmD![k]){
+        w.nmD![k]=1;
+        w.nmT=T;
+        const sc0=sceneName;
+        setTimeout(()=>{
+          if(sceneName===sc0){
+            say3(ph,()=>sylClap(x,y,wd));
+            numPop(x,y-30,3,wd);
+            parts[parts.length-1].hl=1;
+            // y Tito da un saltito al decirlo
+            const st=SCENES[sceneName];
+            if(st)st.hop=T;
+          }
+        },1100);
+        break;
+      }
+  }
+  // si se toca un animal dormido, suelta unas zetas y ronca bajito
+  {
+    const nt=skyNow().night;
+    if(nt?(u.bird||u.peng||u.squir||u.frog||u.burrow||u.crab||u.wpk||u.goat||u.sunf||u.parrot||u.scare):u.owl){
+      for(let i=0;i<3;i++)
+        parts.push({x:x+12+i*14,y:y-30-i*10,vx:rnd(15,30),vy:rnd(-55,-40),life:1.3,t:0,c:'#FFFFFF',r:8+i*3,rot:0,k:'z',g:-5});
+      tone(98,.6,'sine',.05,.85,.15);
+    }
+  }
   // a partir de aquí, una rama por tipo: lo que suena, sale y se dice al tocarlo (el sol dice el día; la luna, el mes)
-  if(u.orb==='sol'){if(w.dayT&&!w.sunF&&T-w.dayT>3){w.sunF=w.dayT=T;setTimeout(()=>say3('El sol. Es una estrella gigante que nos da luz y calor.'),300);numPop(x,y+110,3,'SOL');parts[parts.length-1].hl=1}/* la segunda vez, el sol cuenta qué es */else if(!w.dayT||T-w.dayT>6){w.dayT=T;const d=ahora().getDay(),D=['Domingo.','Lunes.','Martes.','Miércoles.','Jueves.','Viernes.','Sábado.'][d];const h=ahora().getHours();setTimeout(()=>h<12?(enIslaIngles(sceneName)?sayMix3(['@Good morning'],()=>say3(D)):say3('Buenos días.',()=>say3(D))):say3(D),300)/* en el Rincón del inglés, los buenos días en inglés */;numPop(x,y+110,d+1,D.slice(0,-1)+' '+ahora().getDate());parts[parts.length-1].hl=1}/* con el número del día escrito al lado *//* el sol dice qué día es hoy (y por la mañana da los buenos días) */for(let i=0;i<8;i++){const a=i/8*PI*2;parts.push({x,y,vx:Math.cos(a)*rnd(110,150),vy:Math.sin(a)*rnd(110,150),life:.9,t:0,c:pick(['#FFD447','#FFF1A8','#FFB43A']),r:rnd(8,11),rot:0,k:'s',g:40})}/* el sol suelta rayitos de estrellas */if(isBday()){if(!w.bdT||T-w.bdT>8){w.bdT=T;playTune(TUNES.cumple,170,.2)}burst(x,y,30)}/* el día de su cumpleaños, el sol toca la canción de cumpleaños */else if(u.fz){if(!w.bdT||T-w.bdT>5){w.bdT=T;playTune(TUNES.dias,180,.18)}burst(x,y,20)}/* en la zona de fiestas, una cancioncita de fiesta */else if(ahora().getHours()>=18)tone(330,.9,'sine',.07,.55,.1);/* bostezo */else if(ahora().getHours()<11){tone(620,.14,'sawtooth',.035,1.5);tone(900,.16,'sawtooth',.035,1.2,.17);tone(1050,.55,'sawtooth',.035,.6,.36)}/* por la mañana, el sol canta como un gallo: ¡quiquiriquí! */else [784,988,1175].forEach((f,i)=>setTimeout(()=>tone(f,.25,'sine',.09),i*90));chainWob(w,'cloud',.25,.2,2);/* las nubecitas se menean con el sol */chainWob(w,'abc',.3,.12,8);/* en el Rincón del inglés, las letras saltan con el sol */chainWob(w,'sunf',.4,0,1);/* en el Jardín, el girasol se alegra al ver el sol */chainWob(w,'kite',.5,0,1);/* y la cometa da una vuelta */if(sceneName==='bosque'){chainWob(w,'squir',.4,0,1);chainWob(w,'wpk',.6,0,1);chainWob(w,'bird',.5,.2,3)}/* en el Bosque, los animales saludan al sol */if(sceneName==='fiestas'){chainWob(w,'drum',.3,0,1);chainWob(w,'jack',.6,0,1)}/* en Los días especiales, el tambor suena y salta el payaso */setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300)/* Tito salta de alegría con el sol */}
+  if(u.orb==='sol'){
+    // la segunda vez, el sol cuenta qué es
+    if(w.dayT&&!w.sunF&&T-w.dayT>3){
+      w.sunF=w.dayT=T;
+      setTimeout(()=>say3('El sol. Es una estrella gigante que nos da luz y calor.'),300);
+      numPop(x,y+110,3,'SOL');
+      parts[parts.length-1].hl=1;
+    }
+    // el sol dice qué día es hoy (y por la mañana da los buenos días; en el Rincón del inglés, en inglés),
+    // con el número del día escrito al lado
+    else if(!w.dayT||T-w.dayT>6){
+      w.dayT=T;
+      const d=ahora().getDay(),D=['Domingo.','Lunes.','Martes.','Miércoles.','Jueves.','Viernes.','Sábado.'][d];
+      const h=ahora().getHours();
+      setTimeout(()=>h<12?(enIslaIngles(sceneName)?sayMix3(['@Good morning'],()=>say3(D)):say3('Buenos días.',()=>say3(D))):say3(D),300);
+      numPop(x,y+110,d+1,D.slice(0,-1)+' '+ahora().getDate());
+      parts[parts.length-1].hl=1;
+    }
+    // el sol suelta rayitos de estrellas
+    for(let i=0;i<8;i++){
+      const a=i/8*PI*2;
+      parts.push({x,y,vx:Math.cos(a)*rnd(110,150),vy:Math.sin(a)*rnd(110,150),life:.9,t:0,
+        c:pick(['#FFD447','#FFF1A8','#FFB43A']),r:rnd(8,11),rot:0,k:'s',g:40});
+    }
+    // el día de su cumpleaños, el sol toca la canción de cumpleaños
+    if(isBday()){
+      if(!w.bdT||T-w.bdT>8){w.bdT=T;playTune(TUNES.cumple,170,.2)}
+      burst(x,y,30);
+    }
+    // en la zona de fiestas, una cancioncita de fiesta
+    else if(u.fz){
+      if(!w.bdT||T-w.bdT>5){w.bdT=T;playTune(TUNES.dias,180,.18)}
+      burst(x,y,20);
+    }
+    // bostezo
+    else if(ahora().getHours()>=18)tone(330,.9,'sine',.07,.55,.1);
+    // por la mañana, el sol canta como un gallo: ¡quiquiriquí!
+    else if(ahora().getHours()<11){
+      tone(620,.14,'sawtooth',.035,1.5);
+      tone(900,.16,'sawtooth',.035,1.2,.17);
+      tone(1050,.55,'sawtooth',.035,.6,.36);
+    }
+    else [784,988,1175].forEach((f,i)=>setTimeout(()=>tone(f,.25,'sine',.09),i*90));
+    // las nubecitas se menean con el sol
+    chainWob(w,'cloud',.25,.2,2);
+    // en el Rincón del inglés, las letras saltan con el sol
+    chainWob(w,'abc',.3,.12,8);
+    // en el Jardín, el girasol se alegra al ver el sol
+    chainWob(w,'sunf',.4,0,1);
+    // y la cometa da una vuelta
+    chainWob(w,'kite',.5,0,1);
+    // en el Bosque, los animales saludan al sol
+    if(sceneName==='bosque'){chainWob(w,'squir',.4,0,1);chainWob(w,'wpk',.6,0,1);chainWob(w,'bird',.5,.2,3)}
+    // en Los días especiales, el tambor suena y salta el payaso
+    if(sceneName==='fiestas'){chainWob(w,'drum',.3,0,1);chainWob(w,'jack',.6,0,1)}
+    // Tito salta de alegría con el sol
+    setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300);
+  }
   else if(u.cloud&&skyNow().night){for(let i=0;i<6;i++)parts.push({x:x+rnd(-35,35),y:y+rnd(5,20),vx:rnd(-20,20),vy:rnd(10,40),life:rnd(1.1,1.5),t:0,c:pick(['#FFF6C8','#FFFFFF','#FFE58A']),r:rnd(7,10),rot:0,k:'s',g:40});/* de noche, la nube suelta estrellitas */[1318,1568,2093].forEach((f,i)=>setTimeout(()=>tone(f,.25,'sine',.05,1.2),i*130))}
   else if(u.cloud&&isBday()){burst(x,y+10,18);[523,659,784].forEach((f,i)=>setTimeout(()=>tone(f,.2,'triangle',.07),i*100))/* el día del cumpleaños, la nube suelta confeti */}
   else if(u.cloud){const mo=ahora().getMonth(),wi=mo===11||mo<=1;/* en invierno, la nube suelta copitos de nieve en vez de gotitas */for(let i=0;i<7;i++)parts.push({x:x+rnd(-35,35),y:y+rnd(5,20),vx:rnd(-10,10)*(wi?2:1),vy:wi?rnd(10,30):rnd(20,60),life:wi?rnd(1.2,1.6):rnd(.7,1),t:0,c:wi?pick(['#FFFFFF','#EAF4FF']):pick(['#7FC4F0','#A8D8F8','#5AAEE6']),r:wi?rnd(5,7):rnd(4,6),rot:0,k:'d',g:wi?60:450});/* la nube suelta unas gotitas de lluvia */if(!wi&&w.rainbow){const v=new THREE.Vector3(1.1,0,0);t.localToWorld(v);w.rainbow.position.set(v.x,v.y-.3,v.z-1.2);w.rainT=T;[523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80))/* con una escalita de notas, una por color */}/* y sale un arcoíris detrás */for(let i=0;i<4;i++)setTimeout(()=>tone(pick(wi?[784,880,988,1046]:[1046,1175,1318,1568]),wi?.2:.12,'sine',wi?.05:.07),i*(wi?160:110)+60)}
