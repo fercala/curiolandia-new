@@ -9,7 +9,7 @@
  * cuidados, los botones de sus cuidados (cuidadosDe) y la fiesta al crecer. Pipo también se puede cuidar (id 'pipo',
  * desde que nace), aunque crece con las estrellas, como siempre (petStage de escenas/zonas.ts).
  * Lo de cada mascota se guarda en S.mascotas (FichaMascota, con fichaDe, cuidar y fichaNueva de dominio/casa.ts).
- * Exporta: NOMBRES_MASCOTA, ESCALA_ETAPA, fichaMascota, etapaDe, dibujaMascota, pideAlgo, bocadillo y pone SCENES.casaMascota.
+ * Exporta: NOMBRES_MASCOTA, ESCALA_ETAPA, fichaMascota, etapaDe, dibujaMascota, mascotasMayores, pideAlgo, bocadillo y pone SCENES.casaMascota.
  * Importa: el núcleo (dibujo, voz, sonido, toque, guardado), drawPet y petStage de escenas/zonas.ts y las reglas de las
  * mascotas de dominio/casa.ts.
  */
@@ -81,6 +81,10 @@ function iconoCuidado(c: Cuidado, id: string, x: number, y: number, s: number): 
   const ic: Record<Cuidado, string> = { comer: COMIDA[id] || 'galleta', agua: '', jugar: JUGUETE[id] || 'pelota', lavar: 'jabon', mirar: 'lupa' };
   pic(ic[c], x, y, s);
 }
+
+// mascotasMayores(): los dibujos de las mascotas mayores del niño que salen a pasear por el mapa junto a la casa de Tito
+// (desde la fase C7; los peces no salen de su pecera).
+export const mascotasMayores = (): string[] => ['casitaPerro', 'gato', 'pajaro', 'conejo', 'hamster'].filter((id) => S.owned?.[id] && etapaDe(id) === 2).map((id) => DIBUJO[id]);
 
 // pideAlgo(id): ¿la mascota pide hoy algo todavía (quiereHoy)?
 export const pideAlgo = (id: string): boolean => quiereHoy(fichaMascota(id), id, today()) !== null;

@@ -12,7 +12,7 @@ import {
   cuidadosDe, cuidar, descubrir, etapaFlor, etapaMascota, fichaComprada, fichaDe, fichaNueva, huertoNuevo, idSorpresa,
   quiereHoy, reaccionDe, regar,
 } from '../../src/dominio/casa.ts';
-import { FRASES_CASA } from '../../src/contenido/casa.ts';
+import { FRASES_CASA, FRASES_COMBINACION } from '../../src/contenido/casa.ts';
 import { ejecutaModulos } from './juegoEnVm.ts';
 
 // Artículos de la tienda tal como los ve el juego: id, si es ropa (slot) y su categoría.
@@ -37,6 +37,12 @@ describe('los objetos de la casa', () => {
   test('cada objeto con reacción tiene su frase (contenido/casa.ts) y no sobra ninguna (fase C2)', () => {
     expect(Object.keys(REACCIONES).filter((id) => !FRASES_CASA[id])).toEqual([]);
     expect(Object.keys(FRASES_CASA).filter((id) => !reaccionDe(id))).toEqual([]);
+  });
+
+  test('cada combinación tiene su frase con el id de idSorpresa, en los dos órdenes (fase C7)', () => {
+    const ids = COMBINACIONES.map((c) => idSorpresa(c.b, c.a));
+    expect(ids.filter((id) => !FRASES_COMBINACION[id])).toEqual([]);
+    expect(Object.keys(FRASES_COMBINACION).sort()).toEqual([...ids].sort());
   });
 
   test('las mascotas y lo desconocido no tienen reacción', () => {

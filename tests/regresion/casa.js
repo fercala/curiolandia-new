@@ -7,7 +7,8 @@
 // telescopio (C11) y la vuelta al mundo del globo terráqueo (C12); desde la C4, los instrumentos (C13), la pizarra
 // (C14) y la tele (C15); desde la C5, la merienda y la sopa (C16), el baño (C17), buenas noches (C18) y el huerto
 // (C19); desde la C6, cuidar a las mascotas: ir a su escena y ponerles nombre (C20), crecer con los días cuidados
-// (C21) y nacer bebé al comprarla (C22).
+// (C21) y nacer bebé al comprarla (C22); desde la C7, las combinaciones (C23), el álbum «Sorpresas de la casa» (C24) y
+// las mascotas mayores en el mapa y en la zona de adultos (C25).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -191,6 +192,30 @@ const temas = n => { const o = {}; for (let i = 1; i <= n; i++) o['3A-T' + i] = 
   await caso('C22', 'Una mascota comprada en la tienda nace bebé y sin nombre', async p => {
     const r = await p.evaluate(() => { const S = __cl.S; S.coins = 100; delete S.owned.hamster; S.mascotas = {}; __cl.go('tienda', {}); SCENES.tienda.buy(SHOP.find(i => i.id === 'hamster')); return [S.owned.hamster, JSON.stringify(S.mascotas.hamster), etapaDe('hamster')] });
     if (r.join('|') !== '1|{"nombre":"","dias":0,"dia":"","hechos":[]}|0') return 'compra: ' + r.join('|');
+  });
+
+  await caso('C23', 'Soltar el sofá encima de la tele da su sorpresa, que se apunta para el álbum', async p => {
+    await p.evaluate(() => { const S = __cl.S; S.home = {}; S.temas = {}; for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} }; S.rooms = 7; S.sorpresas = {}; ['sofa', 'tele'].forEach(i => { S.owned[i] = 1; placeHome(i) }); SCENES.casaTito.room = 'salon'; __cl.go('casaTito', {}) }); await p.waitForTimeout(1200);
+    const r = await p.evaluate(() => { window.__said = []; const sc = __cl.scene, a = S.home.sofa, t = S.home.tele; sc.down(a.x, a.y - 40); sc.move(t.x, t.y - 40); sc.move(t.x + 5, t.y - 40); sc.up(t.x + 5, t.y - 40); return [Object.keys(__cl.S.sorpresas).join(), JSON.parse(localStorage.getItem(KEY)).sorpresas['sofa+tele']] });
+    if (r.join('|') !== 'sofa+tele|1') return 'sorpresas: ' + r.join('|');
+    await p.waitForTimeout(300);
+    if (!/tele desde el sofá.*Sorpresa nueva/.test(await p.evaluate(() => window.__said.join(' | ')))) return 'Tito no dice la sorpresa';
+  });
+  await caso('C24', 'El botón del libro abre el álbum de sorpresas: lo descubierto se ve, pasa de página y Tito lo recuerda', async p => {
+    await p.evaluate(() => { const S = __cl.S; S.sorpresas = { telescopio: 1, 'mesa+silla': 1 }; __cl.go('casaTito', {}) }); await p.waitForTimeout(800);
+    await p.evaluate(() => __cl.scene.down(ALBUM_CASA_BOTON.x, ALBUM_CASA_BOTON.y)); await p.waitForTimeout(500);
+    if (await p.evaluate(() => sceneName) !== 'sorpresasCasa') return 'el botón no abre el álbum';
+    const r = await p.evaluate(() => { window.__said = []; const sc = __cl.scene, i = ENTRADAS_ALBUM.indexOf('telescopio'); sc.down(230 + (i % 8) * 163, 230 + Math.floor(i / 8) * 160); sc.down(1490, 470); const j = ENTRADAS_ALBUM.indexOf('mesa+silla') - POR_PAGINA; sc.down(230 + (j % 8) * 163, 230 + Math.floor(j / 8) * 160); return [sc.pag, ENTRADAS_ALBUM.length, window.__said.join(' | ')] });
+    if (r[0] !== 1 || r[1] !== 63) return 'páginas: ' + JSON.stringify(r);
+    if (!/telescopio.*Me siento a la mesa/.test(r[2])) return 'Tito dice: ' + r[2];
+  });
+  await caso('C25', 'Las mascotas mayores salen junto a la casa del mapa y la zona de adultos enseña la casa de Tito', async p => {
+    const r = await p.evaluate(() => { const S = __cl.S; S.owned.gato = 1; S.owned.conejo = 1; S.mascotas = { gato: { nombre: 'Nube', dias: 9, dia: '', hechos: [] }, conejo: { nombre: '', dias: 4, dia: '', hechos: [] } }; return mascotasMayores().join() });
+    if (r !== 'gato') return 'mascotas mayores: ' + r;
+    await p.evaluate(() => __cl.go('map', {})); await p.waitForTimeout(2000);
+    await p.evaluate(() => openAdult()); await p.waitForTimeout(800);
+    const t = await p.evaluate(() => { const h = [...document.querySelectorAll('h3')].find(e => e.textContent === 'Casa de Tito'); return h ? h.parentElement.textContent : '' });
+    if (!/Nube/.test(t) || !/Mayor/.test(t) || !/sorpresas/.test(t)) return 'zona de adultos: ' + t.slice(0, 200);
   });
 
   R.guardar(); await b.close(); srv.close(); process.exit(0);

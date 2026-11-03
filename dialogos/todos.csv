@@ -63,6 +63,20 @@ f53979e05c98,¡El mar! Casi toda la Tierra es agua. Aquí vive la ballena.,frase
 f6d68a15f7a8,¡El desierto! Hay mucha arena y muy poca agua. Aquí vive el camello.,frase,src/contenido/casa.ts
 ac025ce09df6,El Polo Sur,trozo,src/contenido/casa.ts
 2b28e21d6efc,¡El Polo Sur! También hace mucho frío. Aquí viven los pingüinos.,frase,src/contenido/casa.ts
+47240493866f,"¡El patito nada en la bañera! Cuac, cuac.",frase,src/contenido/casa.ts
+7a662a828f88,¡Cuántas burbujas de jabón en la bañera!,frase,src/contenido/casa.ts
+36af1e434040,"¡La toalla, para secarme al salir del baño!",frase,src/contenido/casa.ts
+6ca70286178a,¡Riego la flor y se pone muy contenta!,frase,src/contenido/casa.ts
+48a9f8758a4a,¡La planta tenía sed! Ya está regada.,frase,src/contenido/casa.ts
+570affe4645e,¡El perrito va a por la pelota! ¡Qué rápido corre!,frase,src/contenido/casa.ts
+ff1ca2a71707,"¡Un cuento en la cama, antes de dormir!",frase,src/contenido/casa.ts
+da55ee7d86f2,¡A ver la tele desde el sofá!,frase,src/contenido/casa.ts
+4ceb1c26084e,¡El robot y la muñeca bailan juntos!,frase,src/contenido/casa.ts
+96257d4fe6fa,¡Apago la lámpara y las estrellas brillan en la oscuridad!,frase,src/contenido/casa.ts
+c6709b37763d,¡Con el telescopio veo los anillos de Saturno!,frase,src/contenido/casa.ts
+25066c041d0d,¡Me siento a la mesa! ¿Qué hay de comer?,frase,src/contenido/casa.ts
+f16765290dae,"¡Con las pinturas, la pizarra se llena de colores!",frase,src/contenido/casa.ts
+fff1b02b8dbb,¡El tren baja por el tobogán! ¡Chuuu!,frase,src/contenido/casa.ts
 46a9c845ed04,La mochila de Teo,trozo,src/contenido/cuentos.ts
 63dc4af5492e,Teo llegó al cole con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!,frase,src/contenido/cuentos.ts
 e94285781b6f,"Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!",frase,src/contenido/cuentos.ts
@@ -914,6 +928,13 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
+4e3a912fe554,¡Mi álbum de sorpresas! Ya has encontrado ,trozo,src/escenas/casaAlbum.ts
+f4b7f5c009fb, de ,trozo,src/escenas/casaAlbum.ts src/escenas/escenas2d.ts src/escenas/libroLetras.ts
+38e404cc9811,. Toca una para recordarla.,trozo,src/escenas/casaAlbum.ts
+cf73950ddb27,¡Mi álbum de sorpresas! Juega con las cosas de mi casa para llenarlo.,frase,src/escenas/casaAlbum.ts
+0934e9c359fc,Toca una sorpresa para recordarla. Las que tienen interrogación aún están escondidas.,frase,src/escenas/casaAlbum.ts
+813024d4d875,Sorpresas de la casa,trozo,src/escenas/casaAlbum.ts
+c416e38f0f80,Esta sorpresa aún está escondida. ¡Juega en mi casa para encontrarla!,frase,src/escenas/casaAlbum.ts
 9ae769a67022,"¡Al agua! Explota las burbujas. Con el jabón, me lavas.",frase,src/escenas/casaBano.ts
 f7ee3b8911e8,Toca a Tito para enjabonarlo.,frase,src/escenas/casaBano.ts
 ac214add7665,"Explota las burbujas, o coge el jabón y lávame.",frase,src/escenas/casaBano.ts
@@ -1200,7 +1221,6 @@ f1e0a16ca9e7,¡Que los cumplas feliz! Tito te regala diez monedas.,frase,src/esc
 2c23d1f14a54,"¡Es fin de semana, no hay escuela!",frase,src/escenas/escenas2d.ts
 f6d69a9c5ea7,Es día de escuela.,frase,src/escenas/escenas2d.ts
 12dc139623b5, Mañana será ,trozo,src/escenas/escenas2d.ts
-f4b7f5c009fb, de ,trozo,src/escenas/escenas2d.ts src/escenas/libroLetras.ts src/juegos/comps.ts
 a954a34f8c79,. Busca el ,trozo,src/escenas/escenas2d.ts
 878ee639f14d, Lo anotamos en el calendario del tiempo.,frase,src/escenas/escenas2d.ts
 f3c4a7693673,¡Sí! Ahora es de día.,frase,src/escenas/escenas2d.ts
@@ -1375,6 +1395,8 @@ a463b8806a41,¡Me encanta mi casa!,frase,src/escenas/tienda.ts
 63dfd08b402a,¿Has visto mi ropa nueva?,frase,src/escenas/tienda.ts
 494a6bf1cfd2,¡Me puse ,trozo,src/escenas/tienda.ts
 24e373ab664c,Me quité ,trozo,src/escenas/tienda.ts
+82aaad2bbedd,¡Sorpresa!,frase,src/escenas/tienda.ts
+d11569c49cfa,¡Sorpresa nueva para el álbum!,frase,src/escenas/tienda.ts
 8043389ba76c,¡Listo! Ya está en ,trozo,src/escenas/tienda.ts
 e788e52029f2,el Jardín de los 3 años,trozo,src/escenas/zonas.ts
 03b508b84ab7,¡Bienvenido al Jardín de los 3 años! Sigue el camino: las casitas se abren de a una. ,frase,src/escenas/zonas.ts

@@ -55,7 +55,8 @@
  *   funciones de apertura) y de dominio/progreso.ts (HOUSE_NEXT, PET_NEXT, GIFTS, nivelCasa, etapaPipo,
  *   siguienteRegalo) y de dominio/monedas.ts (ganar); los casos de uso del cofre (ganarCofre, abrirCofre,
  *   sinPendiente) de aplicacion/abrirCofre.ts (desde la fase 4l) y el del regalo del día (regaloDelDia) de
- *   aplicacion/premiosDelDia.ts (desde la 4m), y el tipo Articulo de
+ *   aplicacion/premiosDelDia.ts (desde la 4m), mascotasMayores de escenas/casaMascotas.ts (desde la fase C7 de
+ *   PLAN-CASA.md: las mascotas mayores junto a la casa del mapa), y el tipo Articulo de
  *   escenas/tienda.ts, y del núcleo inR, STARS, REP_ON y ponRepOn y las monedas (creditCoins, giveCoins, drawCoinHUD,
  *   inCoinHUD; desde la fase 4a en su módulo, nucleo/monedas.ts desde la 4b). Desde la fase 4c, el caso de uso del
  *   repaso del día (aplicacion/repasoDelDia.ts: tocaRepasar, repasoTerminado, seguirPorElRepaso), con CATALOGO de
@@ -82,6 +83,7 @@ import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation,
 import { ahora } from '../aplicacion/puertos.ts';
 import { repasoTerminado, seguirPorElRepaso, tocaRepasar } from '../aplicacion/repasoDelDia.ts';
 import { disposicion } from '../nucleo/disposicion.ts';
+import { mascotasMayores } from './casaMascotas.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -470,7 +472,9 @@ function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z.id),s=
   if(z.id==='globo')drawGlobo(x,y);
   if(z.id==='tienda'){pic('tienda',x,y,180);if(S.coins!>0){pic('moneda',x+62,y-60,50+Math.sin(T*4)*4)}}
   if(z.id==='muelle')drawMuelle(x,y);
-  if(z.id==='casaTito'){const h=casaPos();drawTitoHouse(h[0],h[1],houseLevel(),{shake:o.shake});drawPet(h[0]+170,h[1]+40,96,{jump:o.petJump})}
+  if(z.id==='casaTito'){const h=casaPos();drawTitoHouse(h[0],h[1],houseLevel(),{shake:o.shake});drawPet(h[0]+170,h[1]+40,96,{jump:o.petJump});
+    // las mascotas mayores pasean junto a la casa (desde la fase C7 de PLAN-CASA.md)
+    mascotasMayores().forEach((d,i)=>pic(d,h[0]-150+i*70+Math.sin(T*.7+i)*12,h[1]+70-Math.abs(Math.sin(T*3+i))*8,64))}
   const lk=!spotOpen(z.id)&&!ZAGE[z.id];
   if(o.unl&&unlockFx(x,y,z.r*.85,o.unl)){}else if(lk){lockOver(x,y,z.r*.85);card(x-46,y+z.r*.6,92,44,'#fff',5,22);flower(x-20,y+z.r*.6+22,11,FLC[0],2.5);text(String(spotNeed(z.id)),x+18,y+z.r*.6+35,30,K,{f:LF})}
   ctx.restore()}

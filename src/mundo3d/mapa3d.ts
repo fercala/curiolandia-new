@@ -7,7 +7,7 @@
  * acierten) y pone en SCENES.map el mapa 3D, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía,
  * escribía lo proyectado en MZ2 y envolvía goSeguir). Su seguir() hace que Tito camine hasta el lugar antes de entrar.
  * Exporta: montarMapa3D y, desde la fase L6 de docs/PLAN-LECTURA.md, sea3 y greyAll (los usa la Isla de las Letras en
- * 3D, mundo3d/isla3d.ts, y desde la fase I6 de docs/PLAN-INGLES.md la del Inglés, con globoAire3, el globo aerostático). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa;
+ * 3D, mundo3d/isla3d.ts, y desde la fase I6 de docs/PLAN-INGLES.md la del Inglés, con globoAire3, el globo aerostático). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa (y mascotasMayores de escenas/casaMascotas.ts, desde la fase C7 de PLAN-CASA.md);
  * ahora() (aplicacion/puertos.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
@@ -17,6 +17,7 @@ import type { Mundo, Nodo, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, DIAC, FLC, LF, PI, S, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, fillStroke, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
 import { asamHoy, drawLogoSmall } from '../escenas/escenas2d.ts';
+import { mascotasMayores } from '../escenas/casaMascotas.ts';
 import { MAINZ, MZ2, SEGUIR, ZAGE, drawSeguir, goSeguir, houseLevel, mzOf, nextTema, petStage, spotNeed, spotOpen, zoneOpen } from '../escenas/zonas.ts';
 import { ponDisposicion } from '../nucleo/disposicion.ts';
 import { W3, camRig, newWorld, pickAt, projO, projR, setWorld } from './motor.ts';
@@ -173,7 +174,9 @@ function buildMap(st: Escena){const sk=skyNow(),w=newWorld({fov:36,bg:sk.bg,kind
   for(const z of MZ2){const [x,zz]=MP(...MAPPOS[z.id]),g=grp(w.sc,[x,0,zz]);g.userData.id='mz:'+z.id;g.userData.spot=z.id;
     const open=ZAGE[z.id]?zoneOpen(z.id):spotOpen(z.id);
     if(z.id==='casaTito'){const h=makeHouse(houseLevel());g.add(h);h.position.set(-.6,0,-.6);h.scale.setScalar(1.12);g.userData.house=h;
-      const p=makePipo(petStage());p.position.set(3.4,.1,1.6);p.scale.setScalar(.8);g.add(p);g.userData.pet=p;w.pick.push(p)}
+      const p=makePipo(petStage());p.position.set(3.4,.1,1.6);p.scale.setScalar(.8);g.add(p);g.userData.pet=p;w.pick.push(p);
+      // las mascotas mayores, junto a la casa (desde la fase C7 de PLAN-CASA.md)
+      mascotasMayores().forEach((d,i)=>spr(picTex(d),1.1,1.1,{p:[-4.3+i*0.85,.5,3.6],to:g}))}
     else SPOT3[z.id](g,open);
     const hit=new THREE.Mesh(Cyl(z.id==='casaTito'?3:2.4,2.4,3.4,12),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=1.5;g.add(hit);
     const lk=!spotOpen(z.id)&&!ZAGE[z.id];
