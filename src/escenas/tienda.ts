@@ -25,7 +25,7 @@
 //   y de dominio/monedas.ts (alcanza).
 import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, sceneName, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, copiaProfunda, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, sceneName, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, copiaProfunda, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, parts, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
@@ -34,9 +34,10 @@ import { alcanza } from '../dominio/monedas.ts';
 import { comprar } from '../aplicacion/comprar.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
-import { MASCOTAS, descubrir, fichaNueva, reaccionDe, type EscenaCasa } from '../dominio/casa.ts';
+import { MASCOTAS, combinacion, cuantasSorpresas, descubrir, fichaNueva, idSorpresa, reaccionDe, type EscenaCasa } from '../dominio/casa.ts';
+import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
-import { FRASES_CASA } from '../contenido/casa.ts';
+import { FRASES_CASA, FRASES_COMBINACION } from '../contenido/casa.ts';
 import { DURACION_ACCION, TITO_CASA, andar, andando, animObjeto, destinoJunto, dibujaTitoCasa, efectosAccion, paseoQuieto, posTito } from './casaReacciones.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
@@ -415,6 +416,8 @@ SCENES.casaTito={music:'casita',room:'salon',
     drawPet(190,872,150,{jump:this.petJump});
     const wd=this.wardrobe(),wa=this.wardArrows();if(wd.length){card(400,795,wa.length?1060:Math.min(1080,wd.length*100+40),100,'rgba(255,255,255,.8)',5,50);
       for(const [ax,ay,d] of wa){const s=hv('wpg'+d,hC(ax,ay,34));ctx.save();ctx.translate(ax,ay);ctx.scale(s*d,s);circ(0,0,32,'#fff',5);ctx.beginPath();ctx.moveTo(-8,-15);ctx.lineTo(10,0);ctx.lineTo(-8,15);ctx.lineWidth=8;ctx.strokeStyle=K;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.restore()}for(const w of wd){const on=isWorn(w.it),s=hv('w:'+w.it.id,hC(w.x,w.y,44));ctx.save();ctx.translate(w.x,w.y);ctx.scale(s,s);circ(0,0,42,on?'#FFF3B0':'#fff',on?7:4,on?'#FFC93C':K);drawItemPic(w.it,0,0,72);ctx.restore()}}
+    // el botón del álbum «Sorpresas de la casa» (desde la fase C7), con cuántas lleva
+    {const B=ALBUM_CASA_BOTON,s=hv('albumCasa',hC(B.x,B.y,B.r));ctx.save();ctx.translate(B.x,B.y);ctx.scale(s,s);circ(0,0,B.r,'#fff',5);pic('cuento',0,0,B.r*1.3);circ(B.r*.7,-B.r*.7,24,'#FFC93C',4);text(String(cuantasSorpresas(S.sorpresas||{})),B.r*.7,-B.r*.7+9,24,K);ctx.restore()}
     drawHome();drawCoinHUD()},
   // Objeto de la habitación que hay bajo el toque (x,y), mirando primero los de delante; el hámster se mueve solo.
   itemAt(x: number,y: number){return homeItems(this.room).sort((a,b)=>b.y-a.y).find(o=>{const ox=o.id==='hamster'?Math.sin(T*.9)*110:0;return Math.abs(x-o.x-ox)<o.s*.45&&y<o.y+10&&y>o.y-o.s*.85})},
@@ -424,6 +427,7 @@ SCENES.casaTito={music:'casita',room:'salon',
   // de él se pueda volver a coger), Tito (salta y dice algo) o una prenda del armario (se la pone o quita).
   down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}
     if(dist(x,y,1240,70)<56){SFX.pop();go('tienda');return}
+    if(dist(x,y,ALBUM_CASA_BOTON.x,ALBUM_CASA_BOTON.y)<ALBUM_CASA_BOTON.r+6){SFX.whoosh();go('sorpresasCasa');return}
     if(inCoinHUD(x,y)){say('Tienes '+S.coins+' monedas.');return}
     if(dist(x,y,190,790)<85){this.petJump=T;SFX.boing();const ps=petStage();
       // desde la fase C6, Pipo ya nacido también se cuida: se abre su escena (escenas/casaMascotas.ts)
@@ -451,7 +455,15 @@ SCENES.casaTito={music:'casita',room:'salon',
   irA(id: string){const o=homeItems(this.room).find(i=>i.id===id);if(!o)return;const r=reaccionDe(id),accion=r?r.tito:'tocar',[dx,dy]=destinoJunto(this.paseo,o.x,o.y,o.s,accion);
     SFX.pop();this.acc=null;this.va={id,accion};this.paseo=andar(this.paseo,dx,dy);const tok=++this.paseoTok,llega=this.paseo.dur;
     later(llega*1000,()=>{if(tok!==this.paseoTok)return;const p=S.home![id];if(!p)return;this.acc={id,accion,t0:T,x:p.x,y:p.y,s:o.s};homeAction(id,p.x,p.y-80);S.sorpresas=descubrir(S.sorpresas||{},id).sorpresas;save();
-      const esc=(r&&r.escena&&ESCENA_CASA[r.escena])||(MASCOTAS.includes(id)?'casaMascota':null);if(esc)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc,{inst:id})})})},
+      const esc=(r&&r.escena&&ESCENA_CASA[r.escena])||(MASCOTAS.includes(id)?'casaMascota':null);if(esc){later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc,{inst:id})});return}
+      // sin escena: si su pareja de una combinación aún sin descubrir está en la misma habitación, al acabar la descubre
+      const pareja=homeItems(this.room).find(i=>i.id!==id&&combinacion(id,i.id)&&!Object.hasOwn(S.sorpresas||{},idSorpresa(id,i.id)));
+      if(pareja)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')this.combina!(id,pareja.id,(p.x+pareja.x)/2,Math.min(p.y,pareja.y)-120)})})},
+  // combina(a, b, x, y): la sorpresa de juntar a y b (desde la fase C7): brillos y corazones en (x, y), Tito dice su
+  // frase (FRASES_COMBINACION) y se apunta en S.sorpresas; si es nueva, Tito avisa de que va al álbum.
+  combina(a: string,b: string,x: number,y: number){const id=idSorpresa(a,b),d=descubrir(S.sorpresas||{},id);S.sorpresas=d.sorpresas;save();
+    SFX.sparkle();burst(x,y,40);[0,1,2].forEach(i=>parts.push({x:x+(i-1)*60,y,vx:rnd(-20,20),vy:-80,life:1.6,t:0,c:'#FF6B8A',r:26,rot:0,k:'h',g:0}));this.jump=T;
+    say(FRASES_COMBINACION[id]||'¡Sorpresa!',d.nueva?()=>say('¡Sorpresa nueva para el álbum!'):undefined)},
   // Arrastrar: a partir de 12 px se considera que se mueve y el objeto sigue al dedo. Mientras se arrastra puede subir
   // hasta los botones de las habitaciones (para llevarlo a otra); al soltar se vuelve a encajar en el suelo o la pared.
   move(x,y){const d=this.drag;if(!d)return;d.x=x;d.y=y;if(Math.abs(x-d.sx)+Math.abs(y-d.sy)>12)d.moved=true;if(d.moved){const p=S.home![d.id];p.x=clamp(x-d.dx,40,1560);p.y=clamp(y-d.dy,60,780)}},
@@ -463,5 +475,7 @@ SCENES.casaTito={music:'casita',room:'salon',
     const rb=roomBtns().find(b=>dist(x,y,b.x,b.y)<44&&b.R.id!==this.room);
     if(rb){if(roomOpen(rb.R.id)){const sp=homeSpot(d.id,rb.R.id);Object.assign(p,{x:sp[0],y:sp[1],r:rb.R.id});save();SFX.whoosh();sparkles(rb.x,rb.y,10);say('¡Listo! Ya está en '+rb.R.n+'.');return}
       SFX.boing();p.x=d.ox;p.y=d.oy;save();return}
-    const hs=HSIZE[d.id]||160;p.x=clamp(p.x,300+hs*.3,W-hs/2-10);p.y=clamp(p.y,WALLITEMS.includes(d.id)?300:420,780);save();SFX.snap()}// como homeSpot: lo grande no se sale por la derecha
+    const hs=HSIZE[d.id]||160;p.x=clamp(p.x,300+hs*.3,W-hs/2-10);p.y=clamp(p.y,WALLITEMS.includes(d.id)?300:420,780);save();SFX.snap();
+    // soltado encima de su pareja de una combinación (desde la fase C7): la sorpresa
+    const pj=homeItems(this.room).find(o=>o.id!==d.id&&combinacion(d.id,o.id)&&dist(p.x,p.y,o.x,o.y)<o.s*.5+60);if(pj)this.combina!(d.id,pj.id,(p.x+pj.x)/2,Math.min(p.y,pj.y)-120)}// como homeSpot: lo grande no se sale por la derecha
 };

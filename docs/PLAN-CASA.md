@@ -57,7 +57,7 @@ Al crecer hay fiesta. Pipo sigue creciendo con las estrellas y también se puede
 | C4 | Música y dibujo: escenas Los instrumentos (`escenas/casaMusica.ts`), Mi pizarra (`casaPizarra.ts`) y Mi tele (`casaTele.ts`). Hecha en la v0.2.84. |
 | C5 | Cocina, baño, dormitorio y huerto: escenas La merienda y Sopa de Tito (`escenas/casaCocina.ts`), El baño (`casaBano.ts`), Buenas noches (`casaNoches.ts`) y Mi huerto (`casaHuerto.ts`). Hecha en la v0.2.85. |
 | C6 | Mascotas que crecen: dibujos de bebé, joven y mayor, cuidados, nombres, avisos y fiesta al crecer (`escenas/casaMascotas.ts`, escena `casaMascota`). Hecha en la v0.2.86: los dibujos de cada etapa salen de los de siempre (el bebé, más pequeño y rechoncho; el mayor, con medalla; en la pecera, un pez más por etapa) en vez de 18 dibujos nuevos. |
-| C7 | Combinaciones, álbum «Sorpresas de la casa», mascotas mayores en el mapa, sección en la zona de adultos y prueba de la casa ampliada (`tests/regresion/casa.js`). |
+| C7 | Combinaciones, álbum «Sorpresas de la casa», mascotas mayores en el mapa, sección en la zona de adultos y prueba de la casa ampliada (`tests/regresion/casa.js`). Hecha en la v0.2.87: las combinaciones salen al soltar un objeto encima de su pareja o al jugar con uno cuando su pareja está en la misma habitación (la primera vez); el álbum es `escenas/casaAlbum.ts`. **Plan completo.** |
 
 ## Partida guardada y voces
 
