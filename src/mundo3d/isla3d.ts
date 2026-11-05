@@ -14,7 +14,7 @@
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños del mundo 3D y de la pantalla de 1600x900, como en
    el resto de la capa 3D. */
 import * as THREE from 'three';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Mundo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, DIAC, LF, PI, SCENES, SFX, T, VIVO, atHome, cap, card, ctx, dist, drawCoinHUD, drawHome, inCoinHUD, lerp, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
@@ -140,7 +140,7 @@ export function montarIsla3D(): void {
   const isla2D = SCENES['isla']!;
   SCENES['isla'] = { ...isla2D, three: true,
     // enter(o): limpia los estados de la visita anterior, llama al enter 2D (saludos) y construye el mundo 3D
-    enter(o: Libre) { this.hov = null; this.lockShake = null; this.hop = null; isla2D.enter!.call(this, o); setWorld(buildIsla(this)); },
+    enter(o: OpcionesEscena) { this.hov = null; this.lockShake = null; this.hop = null; isla2D.enter!.call(this, o); setWorld(buildIsla(this)); },
     // draw(): encima del 3D: proyecta las zonas (IP) y a Tito, decide qué hay bajo el ratón (su nombre en un cartel) y
     // pinta los botones (seguir, casa, monedas) y el bocadillo de Tito cuando habla
     draw() { const w = W3; if (!w || w.kind !== 'isla') return;

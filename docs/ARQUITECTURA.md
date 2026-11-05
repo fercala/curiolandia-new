@@ -194,7 +194,7 @@ Una **escena** es una pantalla del juego. Todas viven en el objeto `SCENES` (`nu
 ```js
 SCENES.miEscena = {
   music: 'jardin',          // música de fondo (o null)
-  enter(o) { ... },         // se llama al entrar; o = datos del viaje ({t: idTema, g: nJuego, hello: true...})
+  enter(o) { ... },         // se llama al entrar; o = datos del viaje ({t: idTema, g: nJuego, hello: true...}; tipo OpcionesEscena)
   update(dt) { ... },       // opcional: animación por tiempo
   draw() { ... },           // obligatorio: pinta la pantalla
   down(x, y) { ... },       // toque (también move/up para arrastrar)

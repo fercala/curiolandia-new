@@ -69,7 +69,7 @@
  *   S.cofres, S.coins (vía giveCoins) y S.stk.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
-import type { Escena } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena, OpcionesTema } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
 import { regaloDelDia } from '../aplicacion/premiosDelDia.ts';
 import { HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa } from '../dominio/progreso.ts';
@@ -256,7 +256,7 @@ export function zoneScene(z: string): Escena{const Z=ZONES[z],P=(id: string)=>ca
 // enter(o): calcula la casita actual. Prioridad del mensaje: 1) casita recién abierta (newlyOpen, anima su candado);
 // 2) si viene del cofre (o.from) y ya no queda nada, felicita por terminar el camino; 3) saludo (o.hello).
 // Marca S.first[z] para que el saludo largo solo salga la primera vez.
-    enter(o: Libre){this.cur=curTema(z);this.unl=null;
+    enter(o: OpcionesEscena){this.cur=curTema(z);this.unl=null;
       const nw=newlyOpen('z:'+z,Z.temas.filter(temaOpen).map(t=>t.id));
       if(nw.length){const t=TEMA[nw[0]];this.unl={id:t.id,t:T+1};later(1000,()=>{SFX.sparkle();const p=P(t.id);burst(p.x,p.y,40)});
         later(500,()=>sayQ('¡Mira! ¡Se abrió '+(t.concepts?'el Rincón de los Conceptos':'una casita nueva: '+lowName(t))+'! Tócala para jugar.'))}
@@ -486,7 +486,7 @@ SCENES.map={music:'map',
 // 3) la casa de Tito ha crecido (S.houseSeen); 4) Pipo ha cambiado de etapa (S.petSeen); 5) flores nuevas (S.seenFl);
 // 6) si no hubo aviso, el regalo diario de 3 monedas (una vez al día, S.gift); 7) si no, saludo (o.hello).
 // Tras 15 minutos de sesión propone descansar una vez.
-  enter(o: Libre){this.wake=null;this.unl=null;this.shake=0;this.petJump=0;
+  enter(o: OpcionesEscena){this.wake=null;this.unl=null;this.shake=0;this.petJump=0;
     let msg=null,fx=null;
     for(const z of['bosque','montana'])if(zoneOpen(z)&&!S.woke![z]){S.woke![z]=1;save();if(ZAGE[z]>AGE()&&!S.unlockAll){this.wake={z,t:T+1};msg='¡Mira'+kid()+'! ¡Se despertó '+mzOf(z).name+'! Ahora puedes jugar ahí también.';break}}
     const nw=newlyOpen('map',MZ2.filter(z=>spotNeed(z.id)&&spotOpen(z.id)).map(z=>z.id));
@@ -579,8 +579,8 @@ SCENES.casita={music:'casita',
 // {back: 1})); en todo caso el repaso deja de estar en marcha (ponRepOn(false); desde la fase 4c aquí, antes en una
 // envoltura de escenas/repaso.ts). Guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta
 // directamente al cofre. Si se ha abierto un juego nuevo (newlyOpen 'g:id') y no viene con hello, anima su candado y
-// lo anuncia.
-  enter(o: Libre){if(REP_ON&&!o.fin){ponRepOn(false);go('repaso',{back:1});return}ponRepOn(false);
+// lo anuncia. o: OpcionesTema (nucleo/tipos.ts), siempre con el tema (o.t).
+  enter(o: OpcionesTema){if(REP_ON&&!o.fin){ponRepOn(false);go('repaso',{back:1});return}ponRepOn(false);
     this.t=TEMA[o.t];S.last=o.t;save();this.unl=null;
     if(o.fin){go('cofre',{t:o.t});return}
     const t: Tema=this.t,nw=newlyOpen('g:'+t.id,t.games.map((_g: JuegoTema,j: number)=>j).filter((j: number)=>gameOpen(t,j)));

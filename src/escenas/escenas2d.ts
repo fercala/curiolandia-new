@@ -65,6 +65,7 @@
  *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
+import type { OpcionesJuego } from '../nucleo/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import { AGE, DF, DIAC, DIASL, ESTACIONES, FLC, LF, MESES, PI, REP_ON, S, SCENES, SFX, T, TITO, VIVO, W_, alEmpezarJuego, atHome, back, burst, cap, card, circ, clamp, cloud, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawRounds, drawSticker, drawTito, easeOut, ell, estacionDe, fillStroke, flower, giveCoins, giveSticker, go, hC, hR, hv, inR, inTito, initAudio, kid, later, pic, picG, pick, pickVoice, praise, rec, rnd, save, say, sayQ, shuffle, sky, sparkles, star, text, titoKind, today, tree, whenQuiet, ymd } from '../nucleo/indice.ts';
 import { C3, C4, C5, CAN, FIESTAS, ING, ING_PARQUE, ING_PUEBLO, RUT, T3, T4, T5, TEMAS_LETRAS, TRZ, bunting, dayNight, floor, makeGame } from '../temas/indice.ts';
@@ -308,7 +309,8 @@ SCENES.juego={music:'game',
 // enter(o): pone a cero las monedas de acierto del juego (alEmpezarJuego; como mucho 5 por juego). REP = veces que ya se
 // ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
 // Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces. Apunta ultimoJuego.
-  enter(o){ultimoJuego={t:o.t,g:o.g};alEmpezarJuego();this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=repeticion(tst(o.t).g[o.g]);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
+// o: OpcionesJuego (nucleo/tipos.ts), siempre con el tema (o.t) y el número del juego (o.g).
+  enter(o: OpcionesJuego){ultimoJuego={t:o.t,g:o.g};alEmpezarJuego();this.t=TEMA[o.t];this.gi=o.g;VIVO.REP=repeticion(tst(o.t).g[o.g]);this.fin=false;this.g=makeGame(this.t.games[o.g],this.t,()=>{if(this.fin)return;this.fin=true;VIVO.drag=null;finishGame(this.t,o.g)});this.g.enter&&this.g.enter()},
 // update(dt): pasa el tiempo al juego.
   update(dt){this.g.update&&this.g.update(dt)},
 // draw(): dibuja el juego, la casa, las estrellas de rondas (g.done de g.total), el cartel "Nivel N" al repetir, Tito y,

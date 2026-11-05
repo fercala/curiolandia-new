@@ -33,3 +33,9 @@ En la fase 2 cada archivo pasó a `.ts` con `import`/`export` y entró en `tscon
 (`Libre`, `Cosa`, los índices con `any`, `userData` de Three.js) se irá cerrando en las fases 3 (reglas del juego en
 `dominio/`), 4 (escenas sin capas) y 5 (temas, cuentos y dibujos como datos tipados). Un tipo más exacto es bienvenido
 si no cambia lo que hace el código.
+
+Desde la mejora 10 del issue #55 (v0.2.91), las opciones de un cambio de escena (lo que se pasa a `go(nombre, o)`, llega
+a `enter(o)` y queda en `sceneArg`) tienen su tipo, `OpcionesEscena` en `src/nucleo/tipos.ts`, con un campo por cada
+dato del viaje (`hello`, `t`, `g`, `fin`, `from`, `seguir`, `back`, `volver`, `nuevo` e `inst`). Las escenas que siempre
+se abren con un tema lo piden con `OpcionesTema` (la casita y el cofre: `t` obligatorio) y `OpcionesJuego` (el juego:
+`t` y `g`). Si una escena nueva necesita otro dato, se añade a `OpcionesEscena` con su comentario.

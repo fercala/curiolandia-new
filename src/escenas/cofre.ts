@@ -9,7 +9,7 @@
  *   (GIFTS, siguienteRegalo) y de dominio/monedas.ts (ganar) y los casos de uso del cofre (aplicacion/abrirCofre.ts).
  * Partes de S que toca: S.cofres, S.cofreP, S.owned, S.stk, S.coins (vía los casos de uso, giveCoins y ganar).
  */
-import type { Libre } from '../juegos/tipos.ts';
+import type { OpcionesTema } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, PI, S, SCENES, SFX, T, TITO, VIVO, atHome, back, burst, cap, card, circ, clamp, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, giveCoins, giveSticker, go, hC, hv, inR, inTito, kid, later, lerp, pic, save, say, sayQ, scene, sky, sparkles, star, text, tone } from '../nucleo/indice.ts';
@@ -56,7 +56,8 @@ function drawChest(x: number,y: number,s: number,op: number,sh: number){ctx.save
 SCENES.cofre={music:'casita',
 // enter(o): prepara el cofre cerrado, elige el regalo, suma S.cofres, apunta el premio pendiente (S.cofreP) y lo anuncia.
 // Lo de la partida lo dice el caso de uso ganarCofre (aplicacion/abrirCofre.ts, desde la fase 4l).
-  enter(o: Libre){VIVO.coinBanner=null;VIVO.toast=null;this.t=TEMA[o.t];this.taps=0;this.op=0;this.openT=0;this.shakeT=-9;this.rewarded=false;this.gift=nextGift();this.busy=false;
+// o: OpcionesTema (nucleo/tipos.ts), siempre con el tema (o.t).
+  enter(o: OpcionesTema){VIVO.coinBanner=null;VIVO.toast=null;this.t=TEMA[o.t];this.taps=0;this.op=0;this.openT=0;this.shakeT=-9;this.rewarded=false;this.gift=nextGift();this.busy=false;
     Object.assign(S,ganarCofre(S,this.t.id));save();
     const n=lowName(this.t);later(400,()=>{SFX.tada();burst(800,300,70);say(('¡Terminaste todos los juegos de '+n).replace(/ de el /,' del ')+kid()+'! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.')})},
 // reward(): entrega el premio una sola vez (this.rewarded): regalo, figurita (S.stk) y monedas (S.coins). Se llama al

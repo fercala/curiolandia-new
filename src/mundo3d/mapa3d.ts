@@ -12,7 +12,7 @@
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
 import * as THREE from 'three';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, DIAC, FLC, LF, PI, S, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, fillStroke, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
@@ -217,7 +217,7 @@ const mapa2D=SCENES.map;
  ponDisposicion({lugar:id=>MZP[id]||null});
  SCENES.map={...mapa2D,three:true,
   // enter(o): entra al mapa: limpia estados, llama al enter original, construye el mundo 3D y sincroniza las posiciones 2D
-  enter(o: Libre){this.hov=null;this.lockShake=null;this.hop=null;mapa2D.enter!.call(this,o);setWorld(buildMap(this));this.sync()},
+  enter(o: OpcionesEscena){this.hov=null;this.lockShake=null;this.hop=null;mapa2D.enter!.call(this,o);setWorld(buildMap(this));this.sync()},
   // sync(): proyecta cada lugar 3D a la pantalla y lo apunta en MZP (la disposición: así mzOf y la lógica 2D de
   // escenas/zonas.ts aciertan); también la casa y Tito
   sync(){const w=W3;if(!w||w.kind!=='map')return;

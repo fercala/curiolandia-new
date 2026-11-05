@@ -8,7 +8,7 @@ import { star, circ } from './dibujo.ts';
 import { ctx, DF, T, VIVO } from './pantalla.ts';
 import { setCursor } from './puntero.ts';
 import { ponMusica } from './sonido.ts';
-import type { Escena, Libre, Particula } from './tipos.ts';
+import type { Escena, OpcionesEscena, Particula } from './tipos.ts';
 import { pick, PI, rnd } from './utilidades.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
@@ -17,7 +17,7 @@ import { azar } from '../aplicacion/puertos.ts';
 /* SISTEMA DE ESCENAS
    Cada pantalla del juego es una "escena": un objeto guardado en SCENES[nombre] (aquí; las rellenan escenas/escenas2d.ts, escenas/zonas.ts, escenas/tienda.ts,
    escenas/repaso.ts, los de mundo3d/...). Lo que puede tener una escena (todo opcional salvo draw):
-     enter(o)      al entrar; o son las opciones que se pasaron a go().
+     enter(o)      al entrar; o son las opciones que se pasaron a go() (tipo OpcionesEscena, en tipos.ts).
      update(dt)    en cada cuadro, antes de dibujar (dt = segundos desde el cuadro anterior).
      draw()        dibuja la escena en la pantalla lógica de 1600x900.
      down(x,y) / move(x,y) / up(x,y)   tocar, mover y soltar (dedo o ratón), en coordenadas lógicas.
@@ -31,7 +31,7 @@ import { azar } from '../aplicacion/puertos.ts';
    las ayudas), hintSaid (ya se repitió la consigna), drag (lo que se está arrastrando, o null). */
 // SCENES: todas las escenas por nombre. Empieza vacío: cada archivo del juego añade las suyas (SCENES.map={...}).
 export const SCENES: Record<string,Escena>={};
-export let scene: Escena|null=null,sceneName='',sceneTok=0,parts: Particula[]=[],sceneArg: Libre={};
+export let scene: Escena|null=null,sceneName='',sceneTok=0,parts: Particula[]=[],sceneArg: OpcionesEscena={};
 Object.assign(VIVO,{fade:0,timers:[],idle:0,hintSaid:false,drag:null});
 // later(ms, fn): ejecuta fn dentro de ms milisegundos, pero solo si se sigue en la misma escena. Dentro de las escenas
 // usa esto en vez de setTimeout: lo cuenta frame() con el reloj del juego y go() lo anula.
@@ -55,7 +55,7 @@ export function ponRepOn(v: boolean): void{REP_ON=v}
 // Ejemplos: go('map',{hello:true}) vuelve al mapa saludando; go('casita',{t:idTema}) abre un tema.
 // Es let y no function porque las pruebas la envuelven con ponGo (tests/regresion/camino.js; hasta la fase 4k también la
 // capa 3D, mundo3d/interaccion.ts).
-export let go=(n: string,o: Libre={}): void=>{
+export let go=(n: string,o: OpcionesEscena={}): void=>{
   if(REP_ON&&(n!=='juego'&&n!=='casita'||o.hello))REP_ON=false;
   const e=SCENES[n];
   if(!e){console.warn('go: no existe la escena',n);return}// nombre mal escrito: se queda en la escena actual en vez de romperse

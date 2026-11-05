@@ -7,7 +7,7 @@
  * gradTex) y lo de los demás módulos de mundo3d/.
  */
 import * as THREE from 'three';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Nodo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, FLC, PI, SCENES, T, VIVO, atHome, back, cap, card, circ, clamp, ctx, drawCoinHUD, drawHome, fillStroke, hC, hv, inR, lerp, pic, sceneName, speaker, text, titoPos } from '../nucleo/indice.ts';
@@ -62,7 +62,7 @@ export function montarCofre3D(): void{
 const cofre2D=SCENES.cofre;
  SCENES.cofre={...cofre2D,three:true,
   // enter(o): construye el mundo del cofre
-  enter(o: Libre){this.hop=null;this.hov=false;cofre2D.enter!.call(this,o);if(sceneName!=='cofre')return;setWorld(buildCofre(this));titoRect(W3!.tito!)},
+  enter(o: OpcionesEscena){this.hop=null;this.hov=false;cofre2D.enter!.call(this,o);if(sceneName!=='cofre')return;setWorld(buildCofre(this));titoRect(W3!.tito!)},
   // draw(): cada cuadro: ratón sobre el cofre, apertura (this.op), el premio que sale, los toques que faltan (3 círculos) y botones
   draw(){const w=W3;if(w&&w.kind==='cofre')titoRect(w.tito!);
     this.hov=false;if(!this.openT&&VIVO.mouseOn&&!VIVO.drag&&w&&w.kind==='cofre'){const u=pickAt(VIVO.MX,VIVO.MY);if(u&&u.id==='chest'){this.hov=true;VIVO.hovNow='cf:cofre'}}

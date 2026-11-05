@@ -11,7 +11,7 @@
  */
 import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, Libre, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, DIAC, FLC, LF, PI, SCENES, SFX, T, VIVO, atHome, cap, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
@@ -160,7 +160,7 @@ ponDisposicion({casita:(z,id)=>ZP3[z]?.[id]||null});
 for(const z in ZONES){const zona2D=SCENES[z];
   SCENES[z]={...zona2D,three:true,
     // enter(o): entra a la zona (o.from = tema del que se viene, ahí aparece Tito) y construye su mundo 3D
-    enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;zona2D.enter!.call(this,o);if(sceneName!==z)return;if(o&&o.from)this.titoAt=o.from;setWorld(buildZone(z,this));this.sync()},
+    enter(o: OpcionesEscena){this.hov=null;this.hop=null;this.lockShake=null;zona2D.enter!.call(this,o);if(sceneName!==z)return;if(o&&o.from)this.titoAt=o.from;setWorld(buildZone(z,this));this.sync()},
     // sync(): proyecta cada casita a la pantalla y la apunta en ZP3 (la disposición: así casitaPos y la lógica 2D de
     // escenas/zonas.ts aciertan); también Tito
     sync(){const w=W3;if(!w||w.kind!=='zone')return;const P=ZP3[z]||(ZP3[z]={});for(const id in w.cas){const [x,y]=projR(w.cas[id],1.6,1.3);P[id]={x,y}}titoRect(w.tito!)},

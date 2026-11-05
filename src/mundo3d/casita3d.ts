@@ -12,7 +12,7 @@
  */
 import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DF, FLC, LF, PI, S, SCENES, SFX, T, VIVO, atHome, card, circ, ctx, drawCoinHUD, drawHome, inCoinHUD, lerp, pic, ponCtx, scene, sceneName, sparkles, speaker, text, titoPos } from '../nucleo/indice.ts';
@@ -101,7 +101,7 @@ const casita2D=SCENES.casita;
  ponDisposicion({puesto(t,j){const w=W3;if(w&&w.kind==='casita'&&w.t===t&&w.st&&w.st[j]&&scene===SCENES.casita)return w.st[j].p2!;return null}});
  SCENES.casita={...casita2D,three:true,
   // enter(o): o.t = tema, o.g = juego del que se vuelve (Tito aparece ahí); construye el mundo 3D
-  enter(o: Libre){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(ultimoJuego&&ultimoJuego.t===(o&&o.t)?ultimoJuego.g:null);casita2D.enter!.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
+  enter(o: OpcionesEscena){this.hov=null;this.hop=null;this.lockShake=null;this.titoAt=o&&o.g!=null?o.g:(ultimoJuego&&ultimoJuego.t===(o&&o.t)?ultimoJuego.g:null);casita2D.enter!.call(this,o);if(sceneName!=='casita')return;setWorld(buildCasita(this.t,this));this.sync()},
   // sync(): proyecta las estaciones a la pantalla (p2) y coloca a Tito (titoRect)
   sync(){const w=W3;if(!w||w.kind!=='casita')return;w.st!.forEach((s)=>{const [x,y]=projO(s.sp,0);s.p2=[x,y]});titoRect(w.tito!)},
   // draw(): cada cuadro: estación bajo el ratón y su nombre (GNAME), cartel con el tema, botones y bocadillo de Tito

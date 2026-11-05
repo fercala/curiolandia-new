@@ -14,7 +14,7 @@
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900, como en el resto de
    las escenas. */
-import type { Libre } from '../juegos/tipos.ts';
+import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DIAC, FLC, LF, PI, S, SCENES, SFX, T, TITO, atHome, burst, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, go, hC, hv, inCoinHUD, inTito, kid, later, pic, save, say, sayQ, sparkles, text, tree } from '../nucleo/indice.ts';
 import { SEGUIR, ZONES, drawSeguir, nextIngles, zoneOpen } from './zonas.ts';
@@ -108,7 +108,7 @@ SCENES['islaIngles'] = {
   music: 'map',
   // enter(o): la primera vez, Tito presenta la isla y a Polly (S.first.islaIngles); si no, saluda corto si viene del mapa
   // (o.hello).
-  enter(o: Libre) {
+  enter(o: OpcionesEscena) {
     if (!S.first['islaIngles']) { S.first['islaIngles'] = 1; save(); later(500, () => sayQ(`¡Llegamos a la Isla del Inglés${kid()}! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.`)); }
     else if (o.hello) later(400, () => this.prompt!());
   },

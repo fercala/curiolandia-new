@@ -8,7 +8,7 @@
  * piezas y lo de los demás módulos de mundo3d/.
  */
 import * as THREE from 'three';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Nodo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { FLC, LF, PI, S, SCENES, T, VIVO, card, circ, ctx, fillStroke, hC, hR, hv, text } from '../nucleo/indice.ts';
@@ -40,7 +40,7 @@ export function montarPortada3D(): void{
 const portada2D=SCENES.title;
  SCENES.title={...portada2D,three:true,
   // enter(o): prepara la portada como la 2D y monta el mundo 3D
-  enter(o: Libre){portada2D.enter!.call(this,o);setWorld(buildTitle())},
+  enter(o: OpcionesEscena){portada2D.enter!.call(this,o);setWorld(buildTitle())},
   // draw(): encima del mundo, el logo, el subtítulo, «3D», el botón de jugar y los de abajo, pantalla completa e instalar
   draw(){drawLogo(800,200,140);
     text('Tito y las preguntas escondidas',800,280,44,K,{w:600,st:10,sc:'#FFF6E6'});

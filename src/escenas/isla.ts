@@ -15,7 +15,7 @@
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900, como en el resto de
    las escenas. */
-import type { Libre } from '../juegos/tipos.ts';
+import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import { DIAC, FLC, H, LF, PI, S, SCENES, SFX, T, TITO, W, atHome, burst, cap, card, circ, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, go, hC, hv, inCoinHUD, inTito, kid, later, pic, save, say, sayQ, sparkles, text, tree } from '../nucleo/indice.ts';
 import { SEGUIR, ZONES, drawSeguir, nextLetra, zoneOpen } from './zonas.ts';
@@ -123,7 +123,7 @@ SCENES['isla'] = {
   music: 'map',
   // enter(o): la primera vez, Tito presenta la isla y a Lupi (S.first.isla); si no, saluda corto si viene del mapa
   // (o.hello).
-  enter(o: Libre) {
+  enter(o: OpcionesEscena) {
     if (!S.first['isla']) { S.first['isla'] = 1; save(); later(500, () => sayQ(`¡Llegamos a la Isla de las Letras${kid()}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.`)); }
     else if (o.hello) later(400, () => this.prompt!());
   },
