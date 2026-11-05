@@ -97,14 +97,31 @@ import { montarIslaIngles3D } from './islaIngles3d.ts';
 // en null).
 export let R3frame: ((dt: number) => void) | null = null;
 // Función que se ejecuta al momento y monta la capa 3D si hay Three.js y WebGL.
-(function(){
-if(!montarMotor())return;
-// R3frame(dt): el dibujo 3D de cada cuadro (lo llama el bucle de aplicacion/bucle.ts antes de dibujar lo 2D encima). Solo si hay mundo y la escena
-// es 3D (scene.three): ejecuta las funciones de W3.upd (con try/catch para que un fallo en un objeto no pare el juego), mueve la cámara y dibuja
-R3frame=function(dt){if(!W3||!scene||!scene.three)return;fpsTick();
-  for(const f of W3.upd)try{f(dt)}catch(e){console.error(e)}camTick(W3,dt);R.render(W3.sc,W3.cam)};
-// cada escena 3D se monta en su módulo (y antes, el cambio de go() y window.__w3)
-montarInteraccion();montarMapa3D();montarZonas3D();montarCasita3D();montarCofre3D();montarPortada3D();montarIsla3D();montarIslaIngles3D();
-// marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
-window.__w3.ok=true;
+(function () {
+  if (!montarMotor()) return;
+  // R3frame(dt): el dibujo 3D de cada cuadro (lo llama el bucle de aplicacion/bucle.ts antes de dibujar lo 2D encima). Solo si hay mundo y la escena
+  // es 3D (scene.three): ejecuta las funciones de W3.upd (con try/catch para que un fallo en un objeto no pare el juego), mueve la cámara y dibuja
+  R3frame = function (dt) {
+    if (!W3 || !scene || !scene.three) return;
+    fpsTick();
+    for (const f of W3.upd)
+      try {
+        f(dt);
+      } catch (e) {
+        console.error(e);
+      }
+    camTick(W3, dt);
+    R.render(W3.sc, W3.cam);
+  };
+  // cada escena 3D se monta en su módulo (y antes, el cambio de go() y window.__w3)
+  montarInteraccion();
+  montarMapa3D();
+  montarZonas3D();
+  montarCasita3D();
+  montarCofre3D();
+  montarPortada3D();
+  montarIsla3D();
+  montarIslaIngles3D();
+  // marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
+  window.__w3.ok = true;
 })();

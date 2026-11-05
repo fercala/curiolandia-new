@@ -62,8 +62,15 @@ export interface Mapa<T extends TemaAbrible> {
 // ZAGE: edad de cada zona por edades (las principales y las de las islas). Si el niño tiene esa edad o más, la zona
 // está abierta desde el principio.
 export const ZAGE: Readonly<Record<string, number>> = {
-  jardin: 3, bosque: 4, montana: 5, playaSonidos: 3, bosqueLetras: 4, puebloPalabras: 5,
-  playaHello: 3, parqueLondres: 4, puebloCuentos: 5,
+  jardin: 3,
+  bosque: 4,
+  montana: 5,
+  playaSonidos: 3,
+  bosqueLetras: 4,
+  puebloPalabras: 5,
+  playaHello: 3,
+  parqueLondres: 4,
+  puebloCuentos: 5,
 };
 
 // MAINZ: las tres zonas principales por edad, en orden.
@@ -79,15 +86,22 @@ export const ZONAS_INGLES: readonly string[] = ['playaHello', 'parqueLondres', '
 
 // ISLAS: las zonas de cada isla, en el orden de las edades. Cada isla tiene su propio «seguir» (siguienteDeIsla) y
 // no abre nada del mapa grande, ni el mapa grande la abre a ella.
-export const ISLAS: Readonly<Record<'letras' | 'ingles', readonly string[]>> = { letras: ZONAS_LETRAS, ingles: ZONAS_INGLES };
+export const ISLAS: Readonly<Record<'letras' | 'ingles', readonly string[]>> = {
+  letras: ZONAS_LETRAS,
+  ingles: ZONAS_INGLES,
+};
 
 /** Una de las islas de ISLAS: 'letras' o 'ingles'. */
 export type Isla = keyof typeof ISLAS;
 
 // ZONA_ANTERIOR: de qué zona hacen falta las flores para abrir cada zona antes de tener su edad (zonaAbierta).
 const ZONA_ANTERIOR: Readonly<Record<string, string>> = {
-  bosque: 'jardin', montana: 'bosque', bosqueLetras: 'playaSonidos', puebloPalabras: 'bosqueLetras',
-  parqueLondres: 'playaHello', puebloCuentos: 'parqueLondres',
+  bosque: 'jardin',
+  montana: 'bosque',
+  bosqueLetras: 'playaSonidos',
+  puebloPalabras: 'bosqueLetras',
+  parqueLondres: 'playaHello',
+  puebloCuentos: 'parqueLondres',
 };
 
 // NEED: cuántas casitas del camino (terminadasPrincipales) hay que terminar para abrir cada cosa:
@@ -235,7 +249,10 @@ export function siguienteTema<T extends TemaAbrible>(p: Partida, m: Mapa<T>): T 
   const z0 = zonaDeLaEdad(p, m);
   const zonas = [z0, ...MAINZ.filter((z) => z !== z0)].filter((z) => zonaAbierta(p, m, z));
   // La primera casita pendiente de la primera zona que tenga una (en cuanto aparece, no se mira más).
-  const enCamino = zonas.reduce<T | undefined>((hallado, z) => hallado ?? camino(m, z).find((t) => pendiente(p, m, t)), undefined);
+  const enCamino = zonas.reduce<T | undefined>(
+    (hallado, z) => hallado ?? camino(m, z).find((t) => pendiente(p, m, t)),
+    undefined,
+  );
   if (enCamino) return enCamino;
   const rincones = MAINZ.map((z) => (m.zonas[z] ?? []).find((t) => t.concepts));
   const extras = [m.can, m.rut, m.trz, ...rincones, ...(m.zonas['fiestas'] ?? [])];
@@ -286,7 +303,10 @@ export function sitioAbierto<T extends TemaAbrible>(p: Partida, m: Mapa<T>, id: 
 
 // Casitas que pide cada sitio del mapa con candado (sitioNecesita).
 const NEED_SITIO: Readonly<Record<string, number | undefined>> = {
-  canciones: NEED['X-CAN'], rutinas: NEED['X-RUT'], trazos: NEED['X-TRZ'], fiestas: NEED['fiestas'],
+  canciones: NEED['X-CAN'],
+  rutinas: NEED['X-RUT'],
+  trazos: NEED['X-TRZ'],
+  fiestas: NEED['fiestas'],
 };
 
 // sitioNecesita(id): casitas del camino que hacen falta para abrir el sitio id (el número del cartel de su candado), o

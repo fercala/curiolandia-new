@@ -8,7 +8,13 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { runInContext } from 'node:vm';
 import { beforeAll, describe, expect, test } from 'vitest';
-import { PREFIJO_CACHE, codigoModulos, nombreCache, paginaJuego, serviceWorker } from '../../herramientas/vite/curiolandia.mts';
+import {
+  PREFIJO_CACHE,
+  codigoModulos,
+  nombreCache,
+  paginaJuego,
+  serviceWorker,
+} from '../../herramientas/vite/curiolandia.mts';
 import { VERSION_PARTIDA } from '../../src/dominio/partida.ts';
 import { ejecutaModulos as ejecutaEnVm } from './juegoEnVm.ts';
 
@@ -54,10 +60,20 @@ describe('paginaJuego', () => {
     const pics: unknown = global['PICS'];
     expect(typeof pics === 'object' && pics !== null ? Object.keys(pics).length : 0).toBeGreaterThan(300);
     expect(pics).toMatchObject({ gato: expect.stringContaining('<path') });
-    for (const k of ['K', 'TITO_SVG', 'ERIZO_SVG', 'TORTUGA_SVG', 'CONEJO_SVG', 'LUPI_SVG', 'GLASSES_SVG', 'HAND_SVG']) {
+    for (const k of [
+      'K',
+      'TITO_SVG',
+      'ERIZO_SVG',
+      'TORTUGA_SVG',
+      'CONEJO_SVG',
+      'LUPI_SVG',
+      'GLASSES_SVG',
+      'HAND_SVG',
+    ]) {
       expect(typeof global[k], k).toBe('string');
     }
-    for (const k of ['say', 'go', 'ponS', 'W_', 'drawTito', 'later', 'save']) expect(typeof global[k], k).toBe('function');
+    for (const k of ['say', 'go', 'ponS', 'W_', 'drawTito', 'later', 'save'])
+      expect(typeof global[k], k).toBe('function');
     expect(global['S']).toMatchObject({ variant: 'es', voz: 'nav', vol: { voz: 1 } });
     expect(Object.keys(global['IMG'] as object).length).toBeGreaterThan(300);
     // contenido/lex.ts amplía el vocabulario del núcleo (y sus nombres ganan a los del núcleo: escuela).
@@ -65,7 +81,8 @@ describe('paginaJuego', () => {
     expect(global['ONO']).toMatchObject({ vaca: '¡Muuu!', ambulancia: '¡Niinoo, niinoo!' });
     expect(runInContext("W_('sofa') + ' / ' + W_('maleta')", global)).toBe('el sofá / la maleta');
     // juegos/: los componentes y sus ayudas de texto.
-    for (const k of ['Busca', 'Arrastra', 'Memoria', 'Tracer', 'Story', 'thing']) expect(typeof global[k], k).toBe('function');
+    for (const k of ['Busca', 'Arrastra', 'Memoria', 'Tracer', 'Story', 'thing'])
+      expect(typeof global[k], k).toBe('function');
     expect(runInContext("unN(3, 'perro') + ' / ' + eseEs('mesa')", global)).toBe('tres perros / Esa es la mesa');
     // temas/: los temas de cada edad, makeGame y los fondos (temas4.ts añade los suyos a BG al cargarse).
     expect(runInContext('[T3.length, T4.length, T5.length].join()', global)).toBe('12,12,12');
@@ -74,30 +91,75 @@ describe('paginaJuego', () => {
     // contenido/cuentos.ts: un cuento por tema, con páginas y preguntas.
     expect(runInContext("CUENTOS['3A-T1'].pages.length > 0 && CUENTOS['3A-T1'].qs.length > 0", global)).toBe(true);
     // temas/extras.ts: los temas extra, el fondo de los trazos y «El cuento» al final de los temas con cuento.
-    expect(runInContext('[RUT.id, TRZ.id, CAN.id, FIESTAS.length, typeof BG.trazo].join()', global)).toBe('X-RUT,X-TRZ,X-CAN,4,function');
+    expect(runInContext('[RUT.id, TRZ.id, CAN.id, FIESTAS.length, typeof BG.trazo].join()', global)).toBe(
+      'X-RUT,X-TRZ,X-CAN,4,function',
+    );
     expect(runInContext("T3.find((t) => t.id === '3A-T1').games.at(-1).t", global)).toBe('cuento');
     // temas/ingles.ts: las casitas de inglés (del Rincón del inglés; desde la fase I2, de la Playa Hello) y sus juegos.
-    expect(runInContext("ING.map((t) => t.id).join() + ' ' + EN.numbers[2].en", global)).toBe('EN-HELLO,EN-COLORS,EN-NUMBERS,EN-ANIMALS,EN-FAMILY,EN-BODY,EN-TOYS,EN-FRUIT,EN-SHAPES,EN-BEACH Three');
-    for (const k of ['EnConocer', 'EnEscucha', 'EnGlobos', 'EnCuenta', 'sayMix']) expect(typeof global[k], k).toBe('function');
+    expect(runInContext("ING.map((t) => t.id).join() + ' ' + EN.numbers[2].en", global)).toBe(
+      'EN-HELLO,EN-COLORS,EN-NUMBERS,EN-ANIMALS,EN-FAMILY,EN-BODY,EN-TOYS,EN-FRUIT,EN-SHAPES,EN-BEACH Three',
+    );
+    for (const k of ['EnConocer', 'EnEscucha', 'EnGlobos', 'EnCuenta', 'sayMix'])
+      expect(typeof global[k], k).toBe('function');
     // escenas/escenas2d.ts: las escenas 2D en SCENES y la lista de todos los temas.
-    expect(runInContext("['title', 'edad', 'juego', 'asamblea', 'album', 'dormir'].every((n) => typeof SCENES[n].draw === 'function')", global)).toBe(true);
+    expect(
+      runInContext(
+        "['title', 'edad', 'juego', 'asamblea', 'album', 'dormir'].every((n) => typeof SCENES[n].draw === 'function')",
+        global,
+      ),
+    ).toBe(true);
     expect(runInContext("TEMAS.length === Object.keys(TEMA).length && TEMA['EN-HELLO'] === ING[0]", global)).toBe(true);
     for (const k of ['finishGame', 'drawFace', 'tree', 'inR', 'isBday']) expect(typeof global[k], k).toBe('function');
     // escenas/zonas.ts: las zonas, sus escenas (con el mapa y la casita, desde la fase 4d solo aquí) y las reglas del camino.
-    expect(runInContext("Object.keys(ZONES).join() + ' ' + ['map', 'casita', 'jardin', 'bosque', 'montana', 'fiestas', 'islaIngles', 'playaHello', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')", global)).toBe('jardin,bosque,montana,fiestas,playaSonidos,bosqueLetras,puebloPalabras,playaHello,parqueLondres,puebloCuentos true');
-    expect(runInContext("S.age = 3; [zoneOpen('jardin'), temaOpen(T3[0]), curTema('jardin') === T3[0], suggestTema() === T3[0]].join()", global)).toBe('true,true,true,true');
-    for (const k of ['goSeguir', 'suggestTema', 'stationPos', 'zoneScene', 'grantGift']) expect(typeof global[k], k).toBe('function');
+    expect(
+      runInContext(
+        "Object.keys(ZONES).join() + ' ' + ['map', 'casita', 'jardin', 'bosque', 'montana', 'fiestas', 'islaIngles', 'playaHello', 'cofre'].every((z) => typeof SCENES[z].draw === 'function')",
+        global,
+      ),
+    ).toBe(
+      'jardin,bosque,montana,fiestas,playaSonidos,bosqueLetras,puebloPalabras,playaHello,parqueLondres,puebloCuentos true',
+    );
+    expect(
+      runInContext(
+        "S.age = 3; [zoneOpen('jardin'), temaOpen(T3[0]), curTema('jardin') === T3[0], suggestTema() === T3[0]].join()",
+        global,
+      ),
+    ).toBe('true,true,true,true');
+    for (const k of ['goSeguir', 'suggestTema', 'stationPos', 'zoneScene', 'grantGift'])
+      expect(typeof global[k], k).toBe('function');
     // escenas/tienda.ts: monedas, tienda y casa de Tito (añade los campos de DEF2 a S y las escenas tienda y casaTito).
-    expect(runInContext("[S.coins, S.tito.shell, S.vales.length, SHOP.length > 50, typeof SCENES.tienda.draw, typeof SCENES.casaTito.draw].join()", global)).toBe('0,naranja,6,true,function,function');
-    for (const k of ['giveCoins', 'creditCoins', 'STARS', 'drawCoinHUD', 'placeHome', 'wear', 'roomsOpen']) expect(typeof global[k], k).toBe('function');
+    expect(
+      runInContext(
+        '[S.coins, S.tito.shell, S.vales.length, SHOP.length > 50, typeof SCENES.tienda.draw, typeof SCENES.casaTito.draw].join()',
+        global,
+      ),
+    ).toBe('0,naranja,6,true,function,function');
+    for (const k of ['giveCoins', 'creditCoins', 'STARS', 'drawCoinHUD', 'placeHome', 'wear', 'roomsOpen'])
+      expect(typeof global[k], k).toBe('function');
     // escenas/repaso.ts: el repaso diario (añade kg y gs a S, la escena repaso y REP_ON para las pruebas).
-    expect(runInContext("[typeof S.kg, typeof S.gs, typeof SCENES.repaso.draw, REP_ON].join()", global)).toBe('object,object,function,false');
+    expect(runInContext('[typeof S.kg, typeof S.gs, typeof SCENES.repaso.draw, REP_ON].join()', global)).toBe(
+      'object,object,function,false',
+    );
     // aplicacion/adultos.ts: la zona de adultos, la copia de seguridad y window.__cl; y aplicacion/bucle.ts, el bucle
     // frame() (lo pone en marcha aplicacion/arranque.ts).
-    for (const k of ['frame', 'openAdult', 'closeAdult', 'openNameDlg', 'openResetDlg', 'doReset', 'bkEncode', 'bkDecode']) expect(typeof global[k], k).toBe('function');
-    expect(runInContext("__cl.go === undefined ? 'no' : typeof __cl.go + ' ' + (__cl.S === S)", global)).toBe('function true');
+    for (const k of [
+      'frame',
+      'openAdult',
+      'closeAdult',
+      'openNameDlg',
+      'openResetDlg',
+      'doReset',
+      'bkEncode',
+      'bkDecode',
+    ])
+      expect(typeof global[k], k).toBe('function');
+    expect(runInContext("__cl.go === undefined ? 'no' : typeof __cl.go + ' ' + (__cl.S === S)", global)).toBe(
+      'function true',
+    );
     // mundo3d/mundo3d.ts: sin Three.js (aquí no hay WebGL) la capa 3D no se monta: R3frame sigue en null y el juego va en 2D.
-    expect(runInContext("R3frame === null && window.__w3 === undefined && SCENES.map.three === undefined", global)).toBe(true);
+    expect(
+      runInContext('R3frame === null && window.__w3 === undefined && SCENES.map.three === undefined', global),
+    ).toBe(true);
   });
 
   test('al cargar, arranca el juego: espera a las fuentes Andika y Fredoka', () => {
@@ -119,7 +181,10 @@ describe('paginaJuego', () => {
   // sin tocar Date ni Math.random.
   test('con un reloj y un azar de prueba (ponPuertos), el juego usa esa fecha y ese azar', () => {
     const global = ejecutaModulos();
-    runInContext('ponPuertos({ reloj: { ahora: () => new Date(2026, 11, 25, 10) }, azar: { numero: () => 0 } })', global);
+    runInContext(
+      'ponPuertos({ reloj: { ahora: () => new Date(2026, 11, 25, 10) }, azar: { numero: () => 0 } })',
+      global,
+    );
     expect(runInContext('today()', global)).toBe('2026-12-25');
     expect(runInContext("pick(['a', 'b', 'c'])", global)).toBe('a');
   });

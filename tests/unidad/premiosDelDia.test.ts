@@ -2,7 +2,14 @@
 // el cumpleaños, el repaso y la asamblea (con la figurita de la semana y las asambleas que se guardan), sin cambiar la
 // partida que reciben. Sin navegador: cada prueba inventa la partida.
 import { describe, expect, test } from 'vitest';
-import { ASAMBLEAS_POR_SEMANA, DIAS_DE_ASAMBLEA, premioDelCumple, premioDelRepaso, regaloDelDia, terminarAsamblea } from '../../src/aplicacion/premiosDelDia.ts';
+import {
+  ASAMBLEAS_POR_SEMANA,
+  DIAS_DE_ASAMBLEA,
+  premioDelCumple,
+  premioDelRepaso,
+  regaloDelDia,
+  terminarAsamblea,
+} from '../../src/aplicacion/premiosDelDia.ts';
 import { MONEDAS } from '../../src/dominio/monedas.ts';
 
 describe('los premios del día', () => {
@@ -14,7 +21,10 @@ describe('los premios del día', () => {
 
   test('el cumpleaños: apunta el día, una tarta más y sus monedas', () => {
     const p = { stk: { tarta: 1, sol: 2 } };
-    expect(premioDelCumple(p, '2026-10-26')).toEqual({ partida: { bdayDone: '2026-10-26', stk: { tarta: 2, sol: 2 } }, monedas: MONEDAS.cumple });
+    expect(premioDelCumple(p, '2026-10-26')).toEqual({
+      partida: { bdayDone: '2026-10-26', stk: { tarta: 2, sol: 2 } },
+      monedas: MONEDAS.cumple,
+    });
     expect(p.stk.tarta).toBe(1);
   });
 
@@ -29,12 +39,23 @@ describe('terminar la asamblea', () => {
   test('la primera de hoy: se guarda con done y la edad, y da monedas; sin figurita', () => {
     const p = { asam: {}, first: {} };
     const r = terminarAsamblea(p, '2026-10-26', '2026-10-26', { tiempo: 'sol' }, 4);
-    expect(r).toEqual({ partida: { asam: { '2026-10-26': { tiempo: 'sol', done: 1, age: 4 } } }, hoy: { tiempo: 'sol', done: 1, age: 4 }, figurita: false, monedas: MONEDAS.asamblea });
+    expect(r).toEqual({
+      partida: { asam: { '2026-10-26': { tiempo: 'sol', done: 1, age: 4 } } },
+      hoy: { tiempo: 'sol', done: 1, age: 4 },
+      figurita: false,
+      monedas: MONEDAS.asamblea,
+    });
     expect(p).toEqual({ asam: {}, first: {} });
   });
 
   test('repetirla el mismo día: sin monedas', () => {
-    const r = terminarAsamblea({ asam: { '2026-10-26': { done: 1 } }, first: {} }, '2026-10-26', '2026-10-26', { done: 1 }, 4);
+    const r = terminarAsamblea(
+      { asam: { '2026-10-26': { done: 1 } }, first: {} },
+      '2026-10-26',
+      '2026-10-26',
+      { done: 1 },
+      4,
+    );
     expect(r.monedas).toBe(0);
   });
 
@@ -52,7 +73,10 @@ describe('terminar la asamblea', () => {
   test('se guardan como mucho DIAS_DE_ASAMBLEA días: se borran los más antiguos', () => {
     const asam: Record<string, { done: number }> = {};
     const d = new Date(2026, 0, 1);
-    for (let i = 0; i < DIAS_DE_ASAMBLEA; i++) { asam[d.toISOString().slice(0, 10)] = { done: 1 }; d.setDate(d.getDate() + 1); }
+    for (let i = 0; i < DIAS_DE_ASAMBLEA; i++) {
+      asam[d.toISOString().slice(0, 10)] = { done: 1 };
+      d.setDate(d.getDate() + 1);
+    }
     const r = terminarAsamblea({ asam, first: {} }, '2026-12-31', '2026-12-28', {}, 3);
     const dias = Object.keys(r.partida.asam).sort();
     expect(dias.length).toBe(DIAS_DE_ASAMBLEA);

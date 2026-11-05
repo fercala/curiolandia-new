@@ -69,6 +69,7 @@ Antes de cada commit:
    - [ ] La lógica complicada lleva comentarios dentro.
    - [ ] Los comentarios de lo que he cambiado o borrado siguen siendo verdad.
    - [ ] He actualizado los documentos de `docs/` que tocan (tabla 1.2).
+   - [ ] `npm run formato` y `npm run lint` sin avisos ([FORMATO-Y-LINTER.md](FORMATO-Y-LINTER.md)).
    - [ ] He apuntado los diálogos nuevos o cambiados en `dialogos/pendientes.txt` y he rehecho `dialogos/todos.csv` (`npm run dialogos`).
    - [ ] Si publico: he subido `version` en `package.json` y he añadido la entrada en `docs/CAMBIOS.md`.
 

@@ -7,4 +7,4 @@
 // Exporta: BG. No importa nada.
 
 /** Fondos de los temas: BG.aula(), BG.conceptos()... pintan el fondo entero. */
-export const BG: Record<string, () => void>={};
+export const BG: Record<string, () => void> = {};

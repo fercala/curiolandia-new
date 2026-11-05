@@ -8,15 +8,23 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import type { Guardado } from '../../src/aplicacion/puertos.ts';
-import { ahora, alGuardarFuera, azar, escribirGuardado, leerGuardado, ponPuertos } from '../../src/aplicacion/puertos.ts';
+import {
+  ahora,
+  alGuardarFuera,
+  azar,
+  escribirGuardado,
+  leerGuardado,
+  ponPuertos,
+} from '../../src/aplicacion/puertos.ts';
 import { azarDelNavegador, guardadoDelNavegador, relojDelNavegador } from '../../src/infraestructura/navegador.ts';
 
 const SRC = join(import.meta.dirname, '..', '..', 'src');
 
 // archivosTs(dir): los .ts de dir y sus carpetas, con la ruta desde src/.
-const archivosTs = (dir: string): string[] => readdirSync(dir, { withFileTypes: true, recursive: true })
-  .filter((e) => e.isFile() && e.name.endsWith('.ts'))
-  .map((e) => relative(SRC, join(e.parentPath, e.name)));
+const archivosTs = (dir: string): string[] =>
+  readdirSync(dir, { withFileTypes: true, recursive: true })
+    .filter((e) => e.isFile() && e.name.endsWith('.ts'))
+    .map((e) => relative(SRC, join(e.parentPath, e.name)));
 
 // enMemoria(): un guardado de prueba en memoria; avisar(clave, texto) hace como si otra pestaña guardara.
 function enMemoria(): Guardado & { avisar(clave: string, texto: string | null): void } {
@@ -24,9 +32,16 @@ function enMemoria(): Guardado & { avisar(clave: string, texto: string | null): 
   const oyentes: ((clave: string, texto: string | null) => void)[] = [];
   return {
     leer: (clave) => datos.get(clave) ?? null,
-    escribir: (clave, texto) => { datos.set(clave, texto); return true; },
-    alCambiarFuera: (fn) => { oyentes.push(fn); },
-    avisar: (clave, texto) => { oyentes.forEach((fn) => fn(clave, texto)); },
+    escribir: (clave, texto) => {
+      datos.set(clave, texto);
+      return true;
+    },
+    alCambiarFuera: (fn) => {
+      oyentes.push(fn);
+    },
+    avisar: (clave, texto) => {
+      oyentes.forEach((fn) => fn(clave, texto));
+    },
   };
 }
 
@@ -67,7 +82,12 @@ describe('puertos', () => {
     // Con un localStorage de mentira, lee y escribe en él.
     const datos: Record<string, string> = {};
     const g = globalThis as Record<string, unknown>;
-    g['localStorage'] = { getItem: (k: string) => datos[k] ?? null, setItem: (k: string, v: string) => { datos[k] = v; } };
+    g['localStorage'] = {
+      getItem: (k: string) => datos[k] ?? null,
+      setItem: (k: string, v: string) => {
+        datos[k] = v;
+      },
+    };
     try {
       expect(guardadoDelNavegador.escribir('partida', '{}')).toBe(true);
       expect(guardadoDelNavegador.leer('partida')).toBe('{}');
@@ -79,7 +99,10 @@ describe('puertos', () => {
   test('en src/, solo infraestructura/ usa new Date(), Date.now(), Math.random() y localStorage', () => {
     const directo = /new Date\(\)|Date\.now\(\)|Math\.random\(\)|\blocalStorage\./;
     // codigo(f): las líneas de f que no son comentarios.
-    const codigo = (f: string): string[] => readFileSync(join(SRC, f), 'utf8').split('\n').filter((l) => !/^\s*(\/\/|\*|\/\*)/.test(l));
+    const codigo = (f: string): string[] =>
+      readFileSync(join(SRC, f), 'utf8')
+        .split('\n')
+        .filter((l) => !/^\s*(\/\/|\*|\/\*)/.test(l));
     const usan = archivosTs(SRC).filter((f) => codigo(f).some((l) => directo.test(l)));
     expect(usan).toEqual([join('infraestructura', 'navegador.ts')]);
   });

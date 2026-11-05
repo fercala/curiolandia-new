@@ -6,15 +6,25 @@ import { comprar } from '../../src/aplicacion/comprar.ts';
 describe('comprar en la tienda', () => {
   test('un artículo pasa a ser del niño', () => {
     const p = { owned: { gorra: 1 } };
-    expect(comprar(p, { id: 'piano' }, '2026-10-26')).toEqual({ tipo: 'articulo', partida: { owned: { gorra: 1, piano: 1 } } });
+    expect(comprar(p, { id: 'piano' }, '2026-10-26')).toEqual({
+      tipo: 'articulo',
+      partida: { owned: { gorra: 1, piano: 1 } },
+    });
     expect(p.owned).toEqual({ gorra: 1 });
   });
 
   test('un vale activo se apunta en valesLog con la fecha y sin dar', () => {
     const vale = { id: 'parque', txt: 'Ir al parque', on: 1 };
     const p = { vales: [vale], valesLog: [{ id: 'cine', d: '2026-10-01', given: 1 }] };
-    expect(comprar(p, { id: 'vale-parque', vale }, '2026-10-26')).toEqual({ tipo: 'vale', partida: { valesLog: [
-      { id: 'cine', d: '2026-10-01', given: 1 }, { id: 'parque', txt: 'Ir al parque', d: '2026-10-26', given: 0 }] } });
+    expect(comprar(p, { id: 'vale-parque', vale }, '2026-10-26')).toEqual({
+      tipo: 'vale',
+      partida: {
+        valesLog: [
+          { id: 'cine', d: '2026-10-01', given: 1 },
+          { id: 'parque', txt: 'Ir al parque', d: '2026-10-26', given: 0 },
+        ],
+      },
+    });
     expect(p.valesLog.length).toBe(1);
   });
 

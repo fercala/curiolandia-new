@@ -11,6 +11,8 @@ Revisa los .js, .ts y .mts de src/ y de herramientas/ (salvo los .d.ts, que solo
      tipo de lo que devuelve en TypeScript: `const nombre = (x: T): R =>`) tenga un
      comentario en alguna de las 4 líneas de encima, sin líneas en blanco entre medias
      (así vale un comentario que explica a la vez una función y sus ayudantes).
+     Si los parámetros siguen en las líneas de abajo (`const nombre = (` y uno por línea, como los parte Prettier),
+     se juntan hasta la flecha para reconocerla.
 Las funciones dentro de objetos o de otras funciones no se comprueban aquí: revísalas a mano.
 Termina con código 1 si falta algo, para poder usarlo antes de cada commit.
 """
@@ -18,16 +20,33 @@ import re, sys, pathlib
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 FUNC = re.compile(r'^(?:export\s+)?(?:async\s+)?function\s+([\w$]+)\s*[<(]|^(?:export\s+)?(?:const|let|var)\s+([\w$]+)\s*(?::[^=]+)?=\s*(?:async\s*)?(?:\([^)]*\)|[\w$]+)\s*(?::\s*[^=]+?)?=>')
+# principio de una función flecha con los parámetros partidos en varias líneas: `const nombre = (` al final de la línea
+PARTIDA = re.compile(r'^(?:export\s+)?(?:const|let|var)\s+[\w$]+\s*(?::[^=]+)?=\s*(?:async\s*)?\($')
+# cuántas líneas se juntan como mucho para buscar la flecha de una función partida
+LINEAS_FIRMA = 30
 EXTENSIONES = ('*.js', '*.ts', '*.mts')
 CARPETAS = ('src', 'herramientas')
+
+def firma(lineas, i):
+    """Devuelve la línea i, o si es el principio de una función partida en varias líneas (PARTIDA), las líneas desde i
+    hasta la que tiene la flecha (=>), juntas en una sola, para que FUNC la reconozca igual que si fuera una línea."""
+    l = lineas[i]
+    if not PARTIDA.match(l):
+        return l
+    trozo = [l]
+    for sig in lineas[i + 1:i + LINEAS_FIRMA]:
+        trozo.append(sig.strip())
+        if '=>' in sig:
+            break
+    return ''.join(trozo)
 
 def revisa(ruta):
     lineas = ruta.read_text(encoding='utf-8').split('\n')
     fallos = []
     if not lineas or not lineas[0].lstrip().startswith(('/*', '//')):
         fallos.append(f'{ruta.name}:1: falta el comentario de cabecera del archivo')
-    for i, l in enumerate(lineas):
-        m = FUNC.match(l)
+    for i in range(len(lineas)):
+        m = FUNC.match(firma(lineas, i))
         if not m:
             continue
         nombre = m.group(1) or m.group(2)

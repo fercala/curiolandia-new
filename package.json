@@ -1,6 +1,6 @@
 {
   "name": "curiolandia-new",
-  "version": "0.2.90",
+  "version": "0.2.91",
   "private": true,
   "description": "Curiolandia: juego de temas de Educación Infantil con Tito como guía (migración de curiolandia-3d).",
   "scripts": {
@@ -9,6 +9,9 @@
     "preview": "vite preview",
     "prepare": "git config core.hooksPath herramientas/git-hooks || true",
     "tipos": "tsc -p tsconfig.json",
+    "formato": "prettier --write .",
+    "formato:comprobar": "prettier --check .",
+    "lint": "oxlint --deny-warnings",
     "test:unidad": "vitest run",
     "test:comentarios": "python3 tests/comentarios.py",
     "dialogos": "node herramientas/dialogos/escribir.mts",
@@ -18,7 +21,9 @@
   "devDependencies": {
     "@types/node": "26.6.5",
     "@types/three": "0.186.0",
+    "oxlint": "1.91.0",
     "playwright": "1.63.0",
+    "prettier": "3.9.10",
     "typescript": "7.0.2",
     "vite": "8.3.5",
     "vitest": "5.0.5"

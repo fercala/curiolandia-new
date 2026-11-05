@@ -45,7 +45,11 @@ export interface AlTerminar {
 /** Lo que devuelve terminarJuego: los campos nuevos de la partida y lo que la escena tiene que celebrar. */
 export interface JuegoTerminado {
   /** Los campos de la partida que cambian, ya nuevos (temas y gs; rep solo si el juego era del repaso del día). */
-  readonly partida: { readonly temas: Record<string, ProgresoDeTema>; readonly gs: Record<string, Resultado>; readonly rep?: RepasoDelDia };
+  readonly partida: {
+    readonly temas: Record<string, ProgresoDeTema>;
+    readonly gs: Record<string, Resultado>;
+    readonly rep?: RepasoDelDia;
+  };
   /** true si era la primera vez que se terminaba ese juego (regala una figurita). */
   readonly primera: boolean;
   /** true si con este juego se acaba de terminar el tema (la casita manda al cofre). */
@@ -65,5 +69,10 @@ export function terminarJuego(p: PartidaDeJuegos, tema: JuegoDeTema, juego: numb
   const rep = al.delRepaso && p.rep ? { rep: conHecho(p.rep, id) } : {};
   const tras = trasTerminarJuego(p.temas[tema.id], juego, tema.games.length);
   const temas = { ...p.temas, [tema.id]: tras.tema };
-  return { partida: { temas, gs, ...rep }, primera: tras.primera, fin: tras.fin, monedas: monedasAlTerminar(tras.primera) };
+  return {
+    partida: { temas, gs, ...rep },
+    primera: tras.primera,
+    fin: tras.fin,
+    monedas: monedasAlTerminar(tras.primera),
+  };
 }

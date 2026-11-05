@@ -21,13 +21,19 @@ describe('el cofre del tesoro', () => {
 
   test('abrirlo con regalo: deja de estar pendiente, una figurita más y las monedas del cofre con regalo', () => {
     const p: PartidaDelCofre = { cofreP: { '3A-T1': 1, '3A-T2': 1 }, stk: { sol: 2 } };
-    expect(abrirCofre(p, '3A-T1', 'sol', true)).toEqual({ partida: { cofreP: { '3A-T2': 1 }, stk: { sol: 3 } }, monedas: MONEDAS.cofreConRegalo });
+    expect(abrirCofre(p, '3A-T1', 'sol', true)).toEqual({
+      partida: { cofreP: { '3A-T2': 1 }, stk: { sol: 3 } },
+      monedas: MONEDAS.cofreConRegalo,
+    });
     expect(p).toEqual({ cofreP: { '3A-T1': 1, '3A-T2': 1 }, stk: { sol: 2 } });
   });
 
   test('abrirlo sin regalo (ya los tiene todos): la primera figurita de ese tema y más monedas', () => {
     const p: PartidaDelCofre = { cofreP: { '3A-T1': 1 }, stk: {} };
-    expect(abrirCofre(p, '3A-T1', 'sol', false)).toEqual({ partida: { cofreP: {}, stk: { sol: 1 } }, monedas: MONEDAS.cofreSinRegalo });
+    expect(abrirCofre(p, '3A-T1', 'sol', false)).toEqual({
+      partida: { cofreP: {}, stk: { sol: 1 } },
+      monedas: MONEDAS.cofreSinRegalo,
+    });
   });
 
   test('sinPendiente: quita solo ese tema, también si no había ninguno', () => {

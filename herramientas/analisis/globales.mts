@@ -33,12 +33,20 @@ function hijos(n: Nodo, campo: string): Nodo[] {
 function nombres(p: Nodo | undefined): string[] {
   if (!p) return [];
   switch (p.type) {
-    case 'Identifier': return [String(p['name'])];
-    case 'ObjectPattern': return hijos(p, 'properties').flatMap((x) => nombres(hijos(x, x.type === 'RestElement' ? 'argument' : 'value')[0]));
-    case 'ArrayPattern': return hijos(p, 'elements').flatMap((x) => nombres(x));
-    case 'AssignmentPattern': return nombres(hijos(p, 'left')[0]);
-    case 'RestElement': return nombres(hijos(p, 'argument')[0]);
-    default: return [];
+    case 'Identifier':
+      return [String(p['name'])];
+    case 'ObjectPattern':
+      return hijos(p, 'properties').flatMap((x) =>
+        nombres(hijos(x, x.type === 'RestElement' ? 'argument' : 'value')[0]),
+      );
+    case 'ArrayPattern':
+      return hijos(p, 'elements').flatMap((x) => nombres(x));
+    case 'AssignmentPattern':
+      return nombres(hijos(p, 'left')[0]);
+    case 'RestElement':
+      return nombres(hijos(p, 'argument')[0]);
+    default:
+      return [];
   }
 }
 
@@ -82,7 +90,11 @@ export function exportadas(src: string, archivo: string): Exportada[] {
       if (e['exportKind'] === 'type') continue;
       const nombre = String(hijos(e, 'exported')[0]?.['name']);
       const origen = hijos(n, 'source').length ? desde(n) : archivo;
-      lista.push({ nombre, archivo: origen === archivo ? archivo : exportadas(src, origen).find((x) => x.nombre === nombre)?.archivo ?? origen });
+      lista.push({
+        nombre,
+        archivo:
+          origen === archivo ? archivo : (exportadas(src, origen).find((x) => x.nombre === nombre)?.archivo ?? origen),
+      });
     }
   }
   return lista;

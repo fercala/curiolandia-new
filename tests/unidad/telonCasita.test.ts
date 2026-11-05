@@ -29,12 +29,22 @@ function lienzoFalso(): Record<string, unknown> {
 // casita3d.ts importa el núcleo, las escenas y el resto de mundo3d/, que al cargarse buscan el lienzo de la página y
 // escuchan la ventana: se les da un navegador de mentira con lo justo (como tests/unidad/claveMaterial.test.ts).
 beforeAll(async () => {
-  vi.stubGlobal('document', { getElementById: lienzoFalso, createElement: lienzoFalso, addEventListener: () => undefined });
+  vi.stubGlobal('document', {
+    getElementById: lienzoFalso,
+    createElement: lienzoFalso,
+    addEventListener: () => undefined,
+  });
   vi.stubGlobal('addEventListener', () => undefined);
   vi.stubGlobal('innerWidth', 1600);
   vi.stubGlobal('innerHeight', 900);
   vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => undefined });
-  vi.stubGlobal('Image', class { src = ''; complete = false; });
+  vi.stubGlobal(
+    'Image',
+    class {
+      src = '';
+      complete = false;
+    },
+  );
   vi.stubGlobal('location', { protocol: 'file:' });
   vi.stubGlobal('setTimeout', () => 0);
   vi.stubGlobal('window', globalThis);
@@ -54,14 +64,24 @@ beforeAll(async () => {
 // temaFalso(id): un tema con solo lo que mira bgSample (id y bg); pintadas.n cuenta las veces que se pinta su fondo.
 function temaFalso(id: string): { t: Tema; pintadas: { n: number } } {
   const pintadas = { n: 0 };
-  return { t: { id, bg: () => { pintadas.n++; } } as unknown as Tema, pintadas };
+  return {
+    t: {
+      id,
+      bg: () => {
+        pintadas.n++;
+      },
+    } as unknown as Tema,
+    pintadas,
+  };
 }
 
 describe('bgSample: el telón de la casita', () => {
-  const a = temaFalso('telonA'), b = temaFalso('telonB');
+  const a = temaFalso('telonA'),
+    b = temaFalso('telonB');
 
   test('la primera vez pinta el fondo dos veces (telón y muestras) y lee el suelo y el cielo', () => {
-    const antes = nucleo.ctx, l0 = lecturas.n;
+    const antes = nucleo.ctx,
+      l0 = lecturas.n;
     const bs = bgSample(a.t);
     expect(a.pintadas.n).toBe(2);
     expect(lecturas.n - l0).toBe(2);
@@ -71,7 +91,9 @@ describe('bgSample: el telón de la casita', () => {
   });
 
   test('al volver a la misma casita no pinta ni lee nada, con los mismos colores y una textura nueva', () => {
-    const primera = bgSample(a.t), l0 = lecturas.n, p0 = a.pintadas.n;
+    const primera = bgSample(a.t),
+      l0 = lecturas.n,
+      p0 = a.pintadas.n;
     const otra = bgSample(a.t);
     expect(a.pintadas.n).toBe(p0);
     expect(lecturas.n).toBe(l0);
@@ -84,7 +106,9 @@ describe('bgSample: el telón de la casita', () => {
   test('tras otra casita, vuelve a pintar el telón, pero no las muestras', () => {
     bgSample(b.t);
     expect(b.pintadas.n).toBe(2);
-    const p0 = a.pintadas.n, l0 = lecturas.n, antes = nucleo.ctx;
+    const p0 = a.pintadas.n,
+      l0 = lecturas.n,
+      antes = nucleo.ctx;
     const bs = bgSample(a.t);
     expect(a.pintadas.n).toBe(p0 + 1);
     expect(lecturas.n).toBe(l0);

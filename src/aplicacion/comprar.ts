@@ -40,8 +40,11 @@ export type Compra =
 export function comprar(p: PartidaDeCompra, it: ArticuloEnVenta, hoy: string): Compra {
   const vale = it.vale;
   if (vale) {
-    if (!(p.vales || []).some(v => v && v.id === vale.id && v.on)) return { tipo: 'desactivado' };
-    return { tipo: 'vale', partida: { valesLog: [...(p.valesLog || []), { id: vale.id, txt: vale.txt, d: hoy, given: 0 }] } };
+    if (!(p.vales || []).some((v) => v && v.id === vale.id && v.on)) return { tipo: 'desactivado' };
+    return {
+      tipo: 'vale',
+      partida: { valesLog: [...(p.valesLog || []), { id: vale.id, txt: vale.txt, d: hoy, given: 0 }] },
+    };
   }
   return { tipo: 'articulo', partida: { owned: { ...p.owned, [it.id]: 1 } } };
 }

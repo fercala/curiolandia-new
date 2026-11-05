@@ -13,12 +13,22 @@ let claveMaterial: Materiales['claveMaterial'];
 // navegador de mentira con lo justo (como tests/unidad/juegoEnVm.ts, pero sin node:vm).
 beforeAll(async () => {
   const lienzo = { width: 0, height: 0, style: {}, getContext: () => ({}), addEventListener: () => undefined };
-  vi.stubGlobal('document', { getElementById: () => lienzo, createElement: () => lienzo, addEventListener: () => undefined });
+  vi.stubGlobal('document', {
+    getElementById: () => lienzo,
+    createElement: () => lienzo,
+    addEventListener: () => undefined,
+  });
   vi.stubGlobal('addEventListener', () => undefined);
   vi.stubGlobal('innerWidth', 1600);
   vi.stubGlobal('innerHeight', 900);
   vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => undefined });
-  vi.stubGlobal('Image', class { src = ''; complete = false; });
+  vi.stubGlobal(
+    'Image',
+    class {
+      src = '';
+      complete = false;
+    },
+  );
   vi.stubGlobal('location', { protocol: 'file:' });
   vi.stubGlobal('setTimeout', () => 0);
   vi.stubGlobal('window', globalThis);
@@ -80,7 +90,9 @@ describe('claveMaterial', () => {
     expect(claveMaterial('#fff', { map: rayas })).toBe(claveMaterial('#fff', { map: rayas }));
     expect(claveMaterial('#fff', { map: rayas })).not.toBe(claveMaterial('#fff', { map: otra }));
     expect(claveMaterial('#fff', { map: rayas })).not.toBe(claveMaterial('#fff'));
-    expect(claveMaterial('#fff', { map: rayas, side: THREE.DoubleSide })).not.toBe(claveMaterial('#fff', { map: rayas }));
+    expect(claveMaterial('#fff', { map: rayas, side: THREE.DoubleSide })).not.toBe(
+      claveMaterial('#fff', { map: rayas }),
+    );
     const opciones = { map: rayas };
     claveMaterial('#fff', opciones);
     expect(opciones.map).toBe(rayas);

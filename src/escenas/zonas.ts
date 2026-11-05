@@ -73,11 +73,106 @@ import type { Escena } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
 import { regaloDelDia } from '../aplicacion/premiosDelDia.ts';
 import { HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa } from '../dominio/progreso.ts';
-import { MAINZ, NEED, ZAGE, ZONAS_INGLES, ZONAS_LETRAS, camino, empezado, flores, juegoAbierto, siguienteDeIsla, siguienteJuego, siguienteLetra, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto, temaQueToca, terminadasEnCamino, terminadasPrincipales, zonaAbierta, zonaDeLaEdad } from '../dominio/apertura.ts';
+import {
+  MAINZ,
+  NEED,
+  ZAGE,
+  ZONAS_INGLES,
+  ZONAS_LETRAS,
+  camino,
+  empezado,
+  flores,
+  juegoAbierto,
+  siguienteDeIsla,
+  siguienteJuego,
+  siguienteLetra,
+  siguienteTema,
+  sitioAbierto,
+  sitioNecesita,
+  temaAbierto,
+  temaQueToca,
+  terminadasEnCamino,
+  terminadasPrincipales,
+  zonaAbierta,
+  zonaDeLaEdad,
+} from '../dominio/apertura.ts';
 import { K } from '../dibujos/todos.ts';
-import { AGE, DF, DIAC, FLC, H, LF, PI, REP_ON, S, SCENES, SFX, SHELLC, STARS, T, TITO, VIVO, W, atHome, burst, cap, card, circ, creditCoins, ctx, dist, drawCoinHUD, drawHome, drawTito, ell, fillStroke, flower, giveCoins, go, hC, hR, hv, inCoinHUD, inR, inTito, kid, later, pic, ponRepOn, save, say, sayQ, sky, sparkles, star, temasDone, text, titoKind, titoPos, today, tree } from '../nucleo/indice.ts';
+import {
+  AGE,
+  DF,
+  DIAC,
+  FLC,
+  H,
+  LF,
+  PI,
+  REP_ON,
+  S,
+  SCENES,
+  SFX,
+  SHELLC,
+  STARS,
+  T,
+  TITO,
+  VIVO,
+  W,
+  atHome,
+  burst,
+  cap,
+  card,
+  circ,
+  creditCoins,
+  ctx,
+  dist,
+  drawCoinHUD,
+  drawHome,
+  drawTito,
+  ell,
+  fillStroke,
+  flower,
+  giveCoins,
+  go,
+  hC,
+  hR,
+  hv,
+  inCoinHUD,
+  inR,
+  inTito,
+  kid,
+  later,
+  pic,
+  ponRepOn,
+  save,
+  say,
+  sayQ,
+  sky,
+  sparkles,
+  star,
+  temasDone,
+  text,
+  titoKind,
+  titoPos,
+  today,
+  tree,
+} from '../nucleo/indice.ts';
 import { BG, NUM } from '../juegos/indice.ts';
-import { C3, C4, C5, CAN, FIESTAS, ING, ING_PARQUE, ING_PUEBLO, RUT, T3, T4, T5, TL3, TL4, TL5, TRZ } from '../temas/indice.ts';
+import {
+  C3,
+  C4,
+  C5,
+  CAN,
+  FIESTAS,
+  ING,
+  ING_PARQUE,
+  ING_PUEBLO,
+  RUT,
+  T3,
+  T4,
+  T5,
+  TL3,
+  TL4,
+  TL5,
+  TRZ,
+} from '../temas/indice.ts';
 import { CATALOGO, GNAME, TEMA, asamHoy, drawCasita, drawLogoSmall, drawStation, tst } from './escenas2d.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from '../aplicacion/puertos.ts';
@@ -111,118 +206,359 @@ export { MAINZ, NEED, ZAGE, ZONAS_INGLES, ZONAS_LETRAS };
 // enIslaIngles(escena): ¿es la escena de la Isla del Inglés o una de sus zonas? (desde la fase I2 de
 // docs/PLAN-INGLES.md; antes se miraba si era 'ingles', el Rincón del inglés). En la isla, la capa 3D dice los números
 // y los colores en inglés.
-export const enIslaIngles=(escena: string): boolean=>escena==='islaIngles'||ZONAS_INGLES.includes(escena);
+export const enIslaIngles = (escena: string): boolean => escena === 'islaIngles' || ZONAS_INGLES.includes(escena);
 // ZONES: las zonas con camino de casitas. Formato: {temas: lista de temas en orden del camino, name: nombre para la voz,
 // hello: saludo al entrar la primera vez, bg(): dibuja el fondo, bands?: colores de las 3 franjas, cbox?: color del cuadro
 // del Rincón de los Conceptos}. Para cada clave se crea la escena SCENES[clave] = zoneScene(clave) (más abajo).
-export const ZONES: Record<string, Zona>={
-  jardin:{temas:[...T3,C3],name:'el Jardín de los 3 años',hello:'¡Bienvenido al Jardín de los 3 años! Sigue el camino: las casitas se abren de a una. ',bg:()=>sky('#E9F7FC','#F4FBEA'),bands:['#FFE2B8','#D6EEFA','#DDF3D2'],cbox:'#EDE7FF'},
-  bosque:{temas:[...T4,C4],name:'el Bosque de los 4 años',hello:'¡Bienvenido al Bosque de los 4 años! Sigue el camino: las casitas se abren de a una. ',bg:()=>{sky('#D8F0CC','#F1FAE8');for(let i=0;i<12;i++){ctx.globalAlpha=.35;tree(120+i*130,880,.9+(i%3)*.15,i%2?'verano':'primavera');ctx.globalAlpha=1}},bands:['#F7DDB8','#D9ECF7','#CDEBC0'],cbox:'#E4DDF8'},
-  montana:{temas:[...T5,C5],name:'la Montaña de los 5 años',hello:'¡Bienvenido a la Montaña de los 5 años! Sigue el camino: las casitas se abren de a una. ',bg:()=>{sky('#E2EAF8','#F6F2EA');ctx.globalAlpha=.4;for(let i=0;i<6;i++){ctx.beginPath();ctx.moveTo(i*300-60,900);ctx.lineTo(i*300+120,560+(i%2)*80);ctx.lineTo(i*300+300,900);ctx.closePath();fillStroke('#B9C3D6',0)}ctx.globalAlpha=1},bands:['#F9E0C4','#DCE7F7','#DDEFD5'],cbox:'#E8E1FA'},
-  fiestas:{temas:FIESTAS,name:'los días especiales',hello:'¡Los días especiales! Se abren de a una, como un camino. ',bg:()=>BG.fiesta()},
+export const ZONES: Record<string, Zona> = {
+  jardin: {
+    temas: [...T3, C3],
+    name: 'el Jardín de los 3 años',
+    hello: '¡Bienvenido al Jardín de los 3 años! Sigue el camino: las casitas se abren de a una. ',
+    bg: () => sky('#E9F7FC', '#F4FBEA'),
+    bands: ['#FFE2B8', '#D6EEFA', '#DDF3D2'],
+    cbox: '#EDE7FF',
+  },
+  bosque: {
+    temas: [...T4, C4],
+    name: 'el Bosque de los 4 años',
+    hello: '¡Bienvenido al Bosque de los 4 años! Sigue el camino: las casitas se abren de a una. ',
+    bg: () => {
+      sky('#D8F0CC', '#F1FAE8');
+      for (let i = 0; i < 12; i++) {
+        ctx.globalAlpha = 0.35;
+        tree(120 + i * 130, 880, 0.9 + (i % 3) * 0.15, i % 2 ? 'verano' : 'primavera');
+        ctx.globalAlpha = 1;
+      }
+    },
+    bands: ['#F7DDB8', '#D9ECF7', '#CDEBC0'],
+    cbox: '#E4DDF8',
+  },
+  montana: {
+    temas: [...T5, C5],
+    name: 'la Montaña de los 5 años',
+    hello: '¡Bienvenido a la Montaña de los 5 años! Sigue el camino: las casitas se abren de a una. ',
+    bg: () => {
+      sky('#E2EAF8', '#F6F2EA');
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * 300 - 60, 900);
+        ctx.lineTo(i * 300 + 120, 560 + (i % 2) * 80);
+        ctx.lineTo(i * 300 + 300, 900);
+        ctx.closePath();
+        fillStroke('#B9C3D6', 0);
+      }
+      ctx.globalAlpha = 1;
+    },
+    bands: ['#F9E0C4', '#DCE7F7', '#DDEFD5'],
+    cbox: '#E8E1FA',
+  },
+  fiestas: {
+    temas: FIESTAS,
+    name: 'los días especiales',
+    hello: '¡Los días especiales! Se abren de a una, como un camino. ',
+    bg: () => BG.fiesta(),
+  },
   // La Playa de los Sonidos (3 años), la primera zona de la Isla de las Letras (fase L2 de docs/PLAN-LECTURA.md): sus
   // casitas son las vocales (TL3, temas/letras.ts) y el botón de casa vuelve a la isla.
-  playaSonidos:{temas:TL3,name:'la Playa de los Sonidos',vuelta:'isla',hello:'¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#D9F1FB','#FFF4DA');ctx.fillStyle='#FFE6A8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.12;'AEIOU'.split('').forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,120,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#FFE9C2','#DDF1FA','#FFF1CF']},
+  playaSonidos: {
+    temas: TL3,
+    name: 'la Playa de los Sonidos',
+    vuelta: 'isla',
+    hello: '¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ',
+    bg: () => {
+      sky('#D9F1FB', '#FFF4DA');
+      ctx.fillStyle = '#FFE6A8';
+      ctx.fillRect(0, 760, W, 140);
+      ctx.globalAlpha = 0.12;
+      'AEIOU'.split('').forEach((l, i) => text(l, 240 + i * 280, 170 + (i % 2) * 60, 120, DIAC[i], { f: LF }));
+      ctx.globalAlpha = 1;
+    },
+    bands: ['#FFE9C2', '#DDF1FA', '#FFF1CF'],
+  },
   // El Bosque de las Letras (4 años), la segunda zona de la isla (fase L4): repaso de vocales, las consonantes M, P, L, S,
   // T, N, D, F y B, escribo mi nombre y la fiesta de las letras (TL4, temas/letras.ts).
-  bosqueLetras:{temas:TL4,name:'el Bosque de las Letras',vuelta:'isla',hello:'¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#D8F0CC','#F1FAE8');for(let i=0;i<12;i++){ctx.globalAlpha=.3;tree(120+i*130,880,.9+(i%3)*.15,'verano');ctx.globalAlpha=1}ctx.globalAlpha=.12;'MPLST'.split('').forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,120,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#F7DDB8','#D9ECF7','#CDEBC0']},
+  bosqueLetras: {
+    temas: TL4,
+    name: 'el Bosque de las Letras',
+    vuelta: 'isla',
+    hello: '¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ',
+    bg: () => {
+      sky('#D8F0CC', '#F1FAE8');
+      for (let i = 0; i < 12; i++) {
+        ctx.globalAlpha = 0.3;
+        tree(120 + i * 130, 880, 0.9 + (i % 3) * 0.15, 'verano');
+        ctx.globalAlpha = 1;
+      }
+      ctx.globalAlpha = 0.12;
+      'MPLST'.split('').forEach((l, i) => text(l, 240 + i * 280, 170 + (i % 2) * 60, 120, DIAC[i], { f: LF }));
+      ctx.globalAlpha = 1;
+    },
+    bands: ['#F7DDB8', '#D9ECF7', '#CDEBC0'],
+  },
   // El Pueblo de las Palabras (5 años), la tercera zona de la isla (fase L5): las consonantes R, C, G, J, V y Ñ, la
   // fábrica de sílabas, las palabras de dos y de tres sílabas, las frases, los cuentos para leer y la fiesta del
   // abecedario (TL5, temas/letras.ts).
-  puebloPalabras:{temas:TL5,name:'el Pueblo de las Palabras',vuelta:'isla',hello:'¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#FDE7D6','#FFF7EC');ctx.fillStyle='#EBD9B6';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.12;['SOL','PAN','LUZ','MAR','PIE'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,90,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#F7DDB8','#FDE7D6','#E9F2D8']},
+  puebloPalabras: {
+    temas: TL5,
+    name: 'el Pueblo de las Palabras',
+    vuelta: 'isla',
+    hello:
+      '¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ',
+    bg: () => {
+      sky('#FDE7D6', '#FFF7EC');
+      ctx.fillStyle = '#EBD9B6';
+      ctx.fillRect(0, 760, W, 140);
+      ctx.globalAlpha = 0.12;
+      ['SOL', 'PAN', 'LUZ', 'MAR', 'PIE'].forEach((l, i) =>
+        text(l, 240 + i * 280, 170 + (i % 2) * 60, 90, DIAC[i], { f: LF }),
+      );
+      ctx.globalAlpha = 1;
+    },
+    bands: ['#F7DDB8', '#FDE7D6', '#E9F2D8'],
+  },
   // La Playa Hello (3 años), la primera zona de la Isla del Inglés (fase I2 de docs/PLAN-INGLES.md): sus primeras
   // casitas son las del Rincón del inglés (ING, temas/ingles.ts, con los mismos ids para no perder lo jugado) y el
   // botón de casa vuelve a la isla.
-  playaHello:{temas:ING,name:'la Playa Hello',vuelta:'islaIngles',hello:'¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#DDEBFF','#FFF4DA');ctx.fillStyle='#FFE6A8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.14;['Hello!','Hi!','ABC','1 2 3','Yes!'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,80,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#FFE9C2','#DDEBFF','#FFF1CF']},
+  playaHello: {
+    temas: ING,
+    name: 'la Playa Hello',
+    vuelta: 'islaIngles',
+    hello:
+      '¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ',
+    bg: () => {
+      sky('#DDEBFF', '#FFF4DA');
+      ctx.fillStyle = '#FFE6A8';
+      ctx.fillRect(0, 760, W, 140);
+      ctx.globalAlpha = 0.14;
+      ['Hello!', 'Hi!', 'ABC', '1 2 3', 'Yes!'].forEach((l, i) =>
+        text(l, 240 + i * 280, 170 + (i % 2) * 60, 80, DIAC[i], { f: LF }),
+      );
+      ctx.globalAlpha = 1;
+    },
+    bands: ['#FFE9C2', '#DDEBFF', '#FFF1CF'],
+  },
   // El Parque de Londres (4 años), la segunda zona de la Isla del Inglés (fase I4 de docs/PLAN-INGLES.md): 12 casitas
   // (ING_PARQUE, temas/ingles.ts). En 3D lleva lo que era la decoración del Rincón del inglés: el autobús rojo, la
   // cabina, el reloj, el buzón, la tetera, el guardia y la bandera.
-  parqueLondres:{temas:ING_PARQUE,name:'el Parque de Londres',vuelta:'islaIngles',hello:'¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#DCE8F5','#F2F7EC');ctx.fillStyle='#BFE3A6';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.14;['Hi!','Bus','Tea','Rain','Park'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,80,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#DDEFD0','#DCE8F5','#F3EBD6']},
+  parqueLondres: {
+    temas: ING_PARQUE,
+    name: 'el Parque de Londres',
+    vuelta: 'islaIngles',
+    hello:
+      '¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ',
+    bg: () => {
+      sky('#DCE8F5', '#F2F7EC');
+      ctx.fillStyle = '#BFE3A6';
+      ctx.fillRect(0, 760, W, 140);
+      ctx.globalAlpha = 0.14;
+      ['Hi!', 'Bus', 'Tea', 'Rain', 'Park'].forEach((l, i) =>
+        text(l, 240 + i * 280, 170 + (i % 2) * 60, 80, DIAC[i], { f: LF }),
+      );
+      ctx.globalAlpha = 1;
+    },
+    bands: ['#DDEFD0', '#DCE8F5', '#F3EBD6'],
+  },
   // El Pueblo de los Cuentos (5 años), la tercera zona de la Isla del Inglés (fase I5 de docs/PLAN-INGLES.md): 12
   // casitas (ING_PUEBLO, temas/inglesPueblo.ts) con frases cortas, cuentos y la gran fiesta del inglés.
-  puebloCuentos:{temas:ING_PUEBLO,name:'el Pueblo de los Cuentos',vuelta:'islaIngles',hello:'¡Bienvenido al Pueblo de los Cuentos! Aquí jugamos con frases y cuentos en inglés. Las casitas se abren de una en una. ',
-    bg:()=>{sky('#F3E3F7','#FFF6E6');ctx.fillStyle='#E8D6B8';ctx.fillRect(0,760,W,140);ctx.globalAlpha=.14;['Once','upon','a','time','The end'].forEach((l,i)=>text(l,240+i*280,170+(i%2)*60,80,DIAC[i],{f:LF}));ctx.globalAlpha=1},bands:['#F1E1F5','#FFF0D6','#E3EFD9']}
+  puebloCuentos: {
+    temas: ING_PUEBLO,
+    name: 'el Pueblo de los Cuentos',
+    vuelta: 'islaIngles',
+    hello:
+      '¡Bienvenido al Pueblo de los Cuentos! Aquí jugamos con frases y cuentos en inglés. Las casitas se abren de una en una. ',
+    bg: () => {
+      sky('#F3E3F7', '#FFF6E6');
+      ctx.fillStyle = '#E8D6B8';
+      ctx.fillRect(0, 760, W, 140);
+      ctx.globalAlpha = 0.14;
+      ['Once', 'upon', 'a', 'time', 'The end'].forEach((l, i) =>
+        text(l, 240 + i * 280, 170 + (i % 2) * 60, 80, DIAC[i], { f: LF }),
+      );
+      ctx.globalAlpha = 1;
+    },
+    bands: ['#F1E1F5', '#FFF0D6', '#E3EFD9'],
+  },
 };
 // PARTIDA: la partida de verdad, como la ven las reglas de dominio/apertura.ts. Lee S, la edad y la fecha en el
 // momento de cada pregunta (S cambia entero con ponS al empezar de nuevo o cargar una copia).
-const PARTIDA: Partida={get libre(){return !!S.unlockAll},get edad(){return AGE()},mes:()=>ahora().getMonth(),progreso:(id: string)=>tst(id) as Progreso};
+const PARTIDA: Partida = {
+  get libre() {
+    return !!S.unlockAll;
+  },
+  get edad() {
+    return AGE();
+  },
+  mes: () => ahora().getMonth(),
+  progreso: (id: string) => tst(id) as Progreso,
+};
 // MAPA: los temas de cada zona de ZONES, en el orden del camino, y los temas sueltos del mapa, para las reglas.
-const MAPA: Mapa<Tema>={zonas:Object.fromEntries(Object.entries(ZONES).map(([z,Z])=>[z,Z.temas])),can:CAN,rut:RUT,trz:TRZ};
+const MAPA: Mapa<Tema> = {
+  zonas: Object.fromEntries(Object.entries(ZONES).map(([z, Z]) => [z, Z.temas])),
+  can: CAN,
+  rut: RUT,
+  trz: TRZ,
+};
 // flowersIn(z): temas terminados en la zona z (cada tema terminado es una flor de Tito). Cuenta también el Rincón de los Conceptos.
-const flowersIn=(z: string)=>flores(PARTIDA,MAPA,z);
+const flowersIn = (z: string) => flores(PARTIDA, MAPA, z);
 // pathOf(z): los temas del camino de la zona z, en orden, sin el Rincón de los Conceptos.
-export const pathOf=(z: string)=>camino(MAPA,z);
+export const pathOf = (z: string) => camino(MAPA, z);
 // pathDone(z): cuántas casitas del camino de la zona z están terminadas.
-export const pathDone=(z: string)=>terminadasEnCamino(PARTIDA,MAPA,z);
+export const pathDone = (z: string) => terminadasEnCamino(PARTIDA, MAPA, z);
 // mainDone(): casitas del camino terminadas sumando las tres zonas principales. Es lo que miran los NEED de extras, fiestas e inglés.
-const mainDone=()=>terminadasPrincipales(PARTIDA,MAPA);
+const mainDone = () => terminadasPrincipales(PARTIDA, MAPA);
 // zoneOpen(z): ¿está abierta la zona z? Por edad, en modo libre o con 6 flores en la anterior (zonaAbierta, en
 // dominio/apertura.ts). No escribe en S.
-export const zoneOpen=(z: string): boolean=>zonaAbierta(PARTIDA,MAPA,z);
+export const zoneOpen = (z: string): boolean => zonaAbierta(PARTIDA, MAPA, z);
 // started(t): true si el tema t ya está terminado o tiene algún juego jugado (lo empezado nunca se vuelve a cerrar).
-export const started=(t: Tema)=>empezado(PARTIDA,t);
+export const started = (t: Tema) => empezado(PARTIDA, t);
 // temaOpen(t): ¿se puede entrar en la casita del tema t? Las reglas, en orden, están en temaAbierto
 // (dominio/apertura.ts): modo libre o ya empezado; zona abierta y casita anterior terminada; NEED para el Rincón de los
 // Conceptos, las fiestas, el inglés, las canciones, las rutinas y los trazos.
-export const temaOpen=(t: Tema | null | undefined)=>temaAbierto(PARTIDA,MAPA,t);
+export const temaOpen = (t: Tema | null | undefined) => temaAbierto(PARTIDA, MAPA, t);
 // gameOpen(t, j): ¿está abierto el juego j del tema t? El primero siempre; los demás si se terminó el anterior; los ya
 // jugados siempre (se pueden repetir). En modo libre, todos.
-export const gameOpen=(t: Tema,j: number)=>juegoAbierto(PARTIDA,t,j);
+export const gameOpen = (t: Tema, j: number) => juegoAbierto(PARTIDA, t, j);
 // nextGameOf(t): número del siguiente juego que toca (abierto y sin terminar) del tema t, o -1 si ya están todos.
-export const nextGameOf=(t: Tema)=>siguienteJuego(PARTIDA,t);
+export const nextGameOf = (t: Tema) => siguienteJuego(PARTIDA, t);
 // ageZoneOpen(): la zona de la edad del niño si está abierta; si no, el jardín.
-const ageZoneOpen=()=>zonaDeLaEdad(PARTIDA,MAPA);
+const ageZoneOpen = () => zonaDeLaEdad(PARTIDA, MAPA);
 // curTema(z): la casita que toca ahora en la zona z (la que brilla y lleva flecha): la primera del camino abierta y sin
 // terminar; si no queda, el Rincón de los Conceptos si está abierto y sin terminar; si no, null (camino terminado).
-export const curTema=(z: string): Tema | null=>temaQueToca(PARTIDA,MAPA,z);
+export const curTema = (z: string): Tema | null => temaQueToca(PARTIDA, MAPA, z);
 // nextTema(): siguiente tema para el botón "seguir el camino" del mapa: primero la zona de su edad, luego las otras
 // zonas principales abiertas y después los extras (ver siguienteTema en dominio/apertura.ts). null si no queda nada.
-export const nextTema=(): Tema | null=>siguienteTema(PARTIDA,MAPA);
+export const nextTema = (): Tema | null => siguienteTema(PARTIDA, MAPA);
 // nextLetra(): la casita del botón «seguir» de la Isla de las Letras (siguienteLetra en dominio/apertura.ts): la que
 // toca en la zona de la isla de su edad y luego en las otras abiertas. null si no queda nada. Desde la fase L2.
-export const nextLetra=(): Tema | null=>siguienteLetra(PARTIDA,MAPA);
+export const nextLetra = (): Tema | null => siguienteLetra(PARTIDA, MAPA);
 // nextIngles(): la casita del botón «seguir» de la Isla del Inglés (siguienteDeIsla con la isla 'ingles', en
 // dominio/apertura.ts): la que toca en la zona de la isla de su edad y luego en las otras abiertas. null si no queda
 // nada. Desde la fase I2 de docs/PLAN-INGLES.md.
-export const nextIngles=(): Tema | null=>siguienteDeIsla(PARTIDA,MAPA,'ingles');
+export const nextIngles = (): Tema | null => siguienteDeIsla(PARTIDA, MAPA, 'ingles');
 // suggestTema(z): el tema que Tito recomienda: la casita que toca en el camino de la zona z (o, sin z, de la zona de
 // su edad abierta). La usa la zona de adultos (aplicacion/adultos.ts). Desde la fase 4d está solo aquí (antes había
 // otra en escenas/escenas2d.ts, que esta sustituía con ponSuggestTema).
-export function suggestTema(z?: string): Tema | null{return curTema(z||ageZoneOpen())}
+export function suggestTema(z?: string): Tema | null {
+  return curTema(z || ageZoneOpen());
+}
 // lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
-export const lowName=(t: Tema)=>t.concepts?'el Rincón de los Conceptos':t.n.replace(/^./,c=>c.toLowerCase());
+export const lowName = (t: Tema) =>
+  t.concepts ? 'el Rincón de los Conceptos' : t.n.replace(/^./, (c) => c.toLowerCase());
 // lockMsg(t): frase que dice Tito al tocar una casita cerrada, explicando qué hace falta para abrirla.
-function lockMsg(t: Tema){const z=t.zone;
-  if(t.concepts)return 'El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste '+(NUM[pathDone(z)]||pathDone(z))+'!';
-  if(z==='fiestas'&&mainDone()<NEED.fiestas)return 'Los días especiales se abren cuando termines cuatro casitas del camino.';
-  const L=z==='fiestas'?FIESTAS:pathOf(z),prev=L[L.indexOf(t)-1];
-  return 'Esta casita todavía está cerrada. Primero termina '+(prev?lowName(prev):'la anterior')+'. ¡Sigue el camino!'}
+function lockMsg(t: Tema) {
+  const z = t.zone;
+  if (t.concepts)
+    return (
+      'El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ' +
+      (NUM[pathDone(z)] || pathDone(z)) +
+      '!'
+    );
+  if (z === 'fiestas' && mainDone() < NEED.fiestas)
+    return 'Los días especiales se abren cuando termines cuatro casitas del camino.';
+  const L = z === 'fiestas' ? FIESTAS : pathOf(z),
+    prev = L[L.indexOf(t) - 1];
+  return (
+    'Esta casita todavía está cerrada. Primero termina ' +
+    (prev ? lowName(prev) : 'la anterior') +
+    '. ¡Sigue el camino!'
+  );
+}
 
 /* ---------- dibujos del camino ---------- */
 // roadPath(pts, o): traza (sin pintar) el camino que une los puntos pts. Si dos puntos están a la misma altura, línea
 // recta; si cambia de fila, una curva que sale hacia el lado de la pantalla donde están (izquierda o derecha, o = cuánto).
-function roadPath(pts: number[][],o: number){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];
-  if(Math.abs(a[1]-b[1])<6)ctx.lineTo(b[0],b[1]);else{const sd=(a[0]+b[0])/2>800?1:-1;ctx.bezierCurveTo(a[0]+sd*o,a[1],b[0]+sd*o,b[1],b[0],b[1])}}}
+function roadPath(pts: number[][], o: number) {
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1],
+      b = pts[i];
+    if (Math.abs(a[1] - b[1]) < 6) ctx.lineTo(b[0], b[1]);
+    else {
+      const sd = (a[0] + b[0]) / 2 > 800 ? 1 : -1;
+      ctx.bezierCurveTo(a[0] + sd * o, a[1], b[0] + sd * o, b[1], b[0], b[1]);
+    }
+  }
+}
 // drawRoad(pts, upto, o): pinta el camino: borde, relleno claro, el tramo recorrido hasta el punto upto en amarillo
 // y una línea de puntos encima. Lo usan las zonas y las casitas.
-export function drawRoad(pts: number[][],upto: number,o=170){if(pts.length<2)return;ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
-  roadPath(pts,o);ctx.lineWidth=60;ctx.strokeStyle='#D9C49A';ctx.stroke();ctx.lineWidth=48;ctx.strokeStyle='#FFF6E0';ctx.stroke();
-  if(upto>0){roadPath(pts.slice(0,upto+1),o);ctx.lineWidth=48;ctx.strokeStyle='#FFE08A';ctx.stroke()}
-  roadPath(pts,o);ctx.lineWidth=7;ctx.setLineDash([3,24]);ctx.strokeStyle='#C9AE7A';ctx.stroke();ctx.setLineDash([]);ctx.restore()}
+export function drawRoad(pts: number[][], upto: number, o = 170) {
+  if (pts.length < 2) return;
+  ctx.save();
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  roadPath(pts, o);
+  ctx.lineWidth = 60;
+  ctx.strokeStyle = '#D9C49A';
+  ctx.stroke();
+  ctx.lineWidth = 48;
+  ctx.strokeStyle = '#FFF6E0';
+  ctx.stroke();
+  if (upto > 0) {
+    roadPath(pts.slice(0, upto + 1), o);
+    ctx.lineWidth = 48;
+    ctx.strokeStyle = '#FFE08A';
+    ctx.stroke();
+  }
+  roadPath(pts, o);
+  ctx.lineWidth = 7;
+  ctx.setLineDash([3, 24]);
+  ctx.strokeStyle = '#C9AE7A';
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.restore();
+}
 // lockOver(x, y, r): tapa lo que hay en (x, y) con un círculo claro y un candado (cosa cerrada).
-export function lockOver(x: number,y: number,r: number){ctx.save();ctx.globalAlpha=.62;circ(x,y,r,'#FFF6E6',0);ctx.globalAlpha=1;pic('candado',x,y+4,r*.78);ctx.restore()}
+export function lockOver(x: number, y: number, r: number) {
+  ctx.save();
+  ctx.globalAlpha = 0.62;
+  circ(x, y, r, '#FFF6E6', 0);
+  ctx.globalAlpha = 1;
+  pic('candado', x, y + 4, r * 0.78);
+  ctx.restore();
+}
 // unlockFx(x, y, r, t0): animación de desbloqueo que empieza en el instante t0 (en tiempo T). Antes de t0 dibuja el
 // candado quieto; durante 1,3 s el velo se aclara y el candado sale volando en parábola girando y se desvanece.
 // candado que salta y se va cuando algo se abre; devuelve false cuando terminó
-export function unlockFx(x: number,y: number,r: number,t0: number){const k=T-t0;if(k<0){lockOver(x,y,r);return true}if(k>1.3)return false;const e=k/1.3;
-  ctx.save();ctx.globalAlpha=Math.max(0,.62*(1-e*2.5));circ(x,y,r,'#FFF6E6',0);ctx.restore();ctx.save();ctx.globalAlpha=Math.max(0,1-e);ctx.translate(x+e*60,y-e*e*220);ctx.rotate(e*1.4);pic('candado',0,4,r*.78*(1+e*.4));ctx.restore();return true}
+export function unlockFx(x: number, y: number, r: number, t0: number) {
+  const k = T - t0;
+  if (k < 0) {
+    lockOver(x, y, r);
+    return true;
+  }
+  if (k > 1.3) return false;
+  const e = k / 1.3;
+  ctx.save();
+  ctx.globalAlpha = Math.max(0, 0.62 * (1 - e * 2.5));
+  circ(x, y, r, '#FFF6E6', 0);
+  ctx.restore();
+  ctx.save();
+  ctx.globalAlpha = Math.max(0, 1 - e);
+  ctx.translate(x + e * 60, y - e * e * 220);
+  ctx.rotate(e * 1.4);
+  pic('candado', 0, 4, r * 0.78 * (1 + e * 0.4));
+  ctx.restore();
+  return true;
+}
 // arrowAt(x, y): flecha amarilla que bota encima de lo que toca hacer ahora.
-export function arrowAt(x: number,y: number){const b=Math.abs(Math.sin(T*4))*16;ctx.save();ctx.translate(x,y-b);ctx.beginPath();ctx.moveTo(-15,-46);ctx.lineTo(15,-46);ctx.lineTo(15,-16);ctx.lineTo(32,-16);ctx.lineTo(0,18);ctx.lineTo(-32,-16);ctx.lineTo(-15,-16);ctx.closePath();fillStroke('#FFC93C',5);ctx.restore()}
+export function arrowAt(x: number, y: number) {
+  const b = Math.abs(Math.sin(T * 4)) * 16;
+  ctx.save();
+  ctx.translate(x, y - b);
+  ctx.beginPath();
+  ctx.moveTo(-15, -46);
+  ctx.lineTo(15, -46);
+  ctx.lineTo(15, -16);
+  ctx.lineTo(32, -16);
+  ctx.lineTo(0, 18);
+  ctx.lineTo(-32, -16);
+  ctx.lineTo(-15, -16);
+  ctx.closePath();
+  fillStroke('#FFC93C', 5);
+  ctx.restore();
+}
 
 // posiciones de las casitas de una zona: un camino en zigzag (izquierda→derecha, derecha→izquierda...)
 // zonePos(z): calcula las posiciones {id: {x, y, s: escala, band?}} de las casitas de la zona z.
@@ -230,137 +566,456 @@ export function arrowAt(x: number,y: number){const b=Math.abs(Math.sin(T*4))*16;
 // y 3 casitas; la fila del medio va de derecha a izquierda) y el Rincón de los Conceptos (si hay) abajo a la derecha.
 // Fiestas: una sola fila centrada y más grandes (s = 1.25).
 // Admite hasta 12 casitas en el camino: un tema número 13 no tendría posición.
-function zonePos(z: string){const P: Record<string, PosCasita>={},L=ZONES[z].temas;
-  if(!MAINZ.includes(z)&&!ZONAS_LETRAS.includes(z)&&!ZONAS_INGLES.includes(z)){L.forEach((t,i)=>P[t.id]={x:900-(L.length-1)*170+i*340,y:500,s:1.25});return P}
-  const path=pathOf(z),rows=[[0,1,2,3,4],[5,6,7,8],[9,10,11]],ys=[250,490,725];
-  rows.forEach((r,ri)=>r.forEach((n,j)=>{const t=path[n];if(t)P[t.id]={x:ri===0?440+j*256:ri===1?1290-j*280:450+j*280,y:ys[ri],band:ri,s:1}}));
-// El Rincón de los Conceptos no forma parte del camino: va aparte, abajo a la derecha.
-  const c=L.find(t=>t.concepts);if(c)P[c.id]={x:1420,y:690,band:3,s:1};return P}
+function zonePos(z: string) {
+  const P: Record<string, PosCasita> = {},
+    L = ZONES[z].temas;
+  if (!MAINZ.includes(z) && !ZONAS_LETRAS.includes(z) && !ZONAS_INGLES.includes(z)) {
+    L.forEach((t, i) => (P[t.id] = { x: 900 - (L.length - 1) * 170 + i * 340, y: 500, s: 1.25 }));
+    return P;
+  }
+  const path = pathOf(z),
+    rows = [
+      [0, 1, 2, 3, 4],
+      [5, 6, 7, 8],
+      [9, 10, 11],
+    ],
+    ys = [250, 490, 725];
+  rows.forEach((r, ri) =>
+    r.forEach((n, j) => {
+      const t = path[n];
+      if (t)
+        P[t.id] = {
+          x: ri === 0 ? 440 + j * 256 : ri === 1 ? 1290 - j * 280 : 450 + j * 280,
+          y: ys[ri],
+          band: ri,
+          s: 1,
+        };
+    }),
+  );
+  // El Rincón de los Conceptos no forma parte del camino: va aparte, abajo a la derecha.
+  const c = L.find((t) => t.concepts);
+  if (c) P[c.id] = { x: 1420, y: 690, band: 3, s: 1 };
+  return P;
+}
 // ZPOS[zona][idTema]: posiciones 2D de las casitas. Dónde está cada una en la pantalla se pregunta con casitaPos, que en
 // 3D da la proyectada (desde la fase 4j; antes mundo3d/zonas3d.ts las sobrescribía aquí cada cuadro).
-export const ZPOS: Record<string, Record<string, PosCasita>>={};for(const z in ZONES)ZPOS[z]=zonePos(z);
+export const ZPOS: Record<string, Record<string, PosCasita>> = {};
+for (const z in ZONES) ZPOS[z] = zonePos(z);
 // casitaPos(z, id): la casita del tema id en la zona z, donde está en la pantalla: si la disposición de la vista lo sabe
 // (disposicion().casita: en 3D, la proyectada), con esa x, y; si no, la de ZPOS (2D). Desde la fase 4j.
-export function casitaPos(z: string,id: string): PosCasita{const p=disposicion().casita?.(z,id),c=ZPOS[z][id];return p?{...c,...p}:c}
+export function casitaPos(z: string, id: string): PosCasita {
+  const p = disposicion().casita?.(z, id),
+    c = ZPOS[z][id];
+  return p ? { ...c, ...p } : c;
+}
 // ¿se abrió algo nuevo desde la última vez? (para la animación del candado)
 // newlyOpen(key, ids): compara la lista ids de cosas abiertas ahora con la guardada en S.seenOpen[key] la última vez,
 // guarda la nueva y devuelve las que se han abierto desde entonces (para animar el candado). La primera vez (sin lista
 // guardada) devuelve [] para no animar todo de golpe. Claves: 'z:zona', 'map', 'g:idTema'.
-export function newlyOpen<C extends string | number>(key: string,ids: C[]): C[]{const prev=S.seenOpen![key] as C[]|undefined;S.seenOpen![key]=ids;save();return prev?ids.filter(i=>!prev.includes(i)):[]}
+export function newlyOpen<C extends string | number>(key: string, ids: C[]): C[] {
+  const prev = S.seenOpen![key] as C[] | undefined;
+  S.seenOpen![key] = ids;
+  save();
+  return prev ? ids.filter((i) => !prev.includes(i)) : [];
+}
 
 // zoneScene(z): crea la escena de una zona de ZONES (jardín, bosque, montaña, fiestas, inglés). Muestra el camino de
 // casitas: abiertas, cerradas con candado, la que toca (curTema) con brillo y flecha, y el contador x/3 del Rincón.
 // P(id): dónde está la casita id en la pantalla (casitaPos; desde la fase 4j, antes ZPOS[z] directamente).
-export function zoneScene(z: string): Escena{const Z=ZONES[z],P=(id: string)=>casitaPos(z,id),path=z==='fiestas'?FIESTAS:pathOf(z);
-  return {music:z==='fiestas'?'plaza':'jardin',
-// enter(o): calcula la casita actual. Prioridad del mensaje: 1) casita recién abierta (newlyOpen, anima su candado);
-// 2) si viene del cofre (o.from) y ya no queda nada, felicita por terminar el camino; 3) saludo (o.hello).
-// Marca S.first[z] para que el saludo largo solo salga la primera vez.
-    enter(o: Libre){this.cur=curTema(z);this.unl=null;
-      const nw=newlyOpen('z:'+z,Z.temas.filter(temaOpen).map(t=>t.id));
-      if(nw.length){const t=TEMA[nw[0]];this.unl={id:t.id,t:T+1};later(1000,()=>{SFX.sparkle();const p=P(t.id);burst(p.x,p.y,40)});
-        later(500,()=>sayQ('¡Mira! ¡Se abrió '+(t.concepts?'el Rincón de los Conceptos':'una casita nueva: '+lowName(t))+'! Tócala para jugar.'))}
-      else if(o.from&&!this.cur)later(400,()=>sayQ('¡Terminaste todo el camino'+kid()+'! ¡Increíble! Puedes repetir la casita que quieras.'))
-      else if(o.hello)later(400,()=>this.prompt!(!S.first[z]));
-      S.first[z]=1;save()},
-// prompt(long): saludo de la zona (si long) y qué casita tocar.
-    prompt(long?: boolean){const c=this.cur;say((long?Z.hello:'')+(c?'Toca la casita que brilla: '+lowName(c)+'.':'¡Terminaste todo el camino! Puedes repetir la casita que quieras.'))},
-// hint(): señala la casita que toca.
-    hint(){const c=this.cur;if(!c)return null;const p=P(c.id);return{x:p.x,y:p.y,r:110*p.s}},
-// dwell(id): id = 'j:' + id de tema; dice su nombre.
-    dwell(id: string){const t=TEMA[id.slice(2)];if(t)say(t.n+'.')},
-// draw(): fondo y franjas, el camino (amarillo hasta la casita actual), las casitas (solo las abiertas reaccionan al
-// ratón), candados o su animación, la flecha y el contador del Rincón de los Conceptos. Luego casa, monedas y Tito.
-    draw(){Z.bg();
+export function zoneScene(z: string): Escena {
+  const Z = ZONES[z],
+    P = (id: string) => casitaPos(z, id),
+    path = z === 'fiestas' ? FIESTAS : pathOf(z);
+  return {
+    music: z === 'fiestas' ? 'plaza' : 'jardin',
+    // enter(o): calcula la casita actual. Prioridad del mensaje: 1) casita recién abierta (newlyOpen, anima su candado);
+    // 2) si viene del cofre (o.from) y ya no queda nada, felicita por terminar el camino; 3) saludo (o.hello).
+    // Marca S.first[z] para que el saludo largo solo salga la primera vez.
+    enter(o: Libre) {
+      this.cur = curTema(z);
+      this.unl = null;
+      const nw = newlyOpen(
+        'z:' + z,
+        Z.temas.filter(temaOpen).map((t) => t.id),
+      );
+      if (nw.length) {
+        const t = TEMA[nw[0]];
+        this.unl = { id: t.id, t: T + 1 };
+        later(1000, () => {
+          SFX.sparkle();
+          const p = P(t.id);
+          burst(p.x, p.y, 40);
+        });
+        later(500, () =>
+          sayQ(
+            '¡Mira! ¡Se abrió ' +
+              (t.concepts ? 'el Rincón de los Conceptos' : 'una casita nueva: ' + lowName(t)) +
+              '! Tócala para jugar.',
+          ),
+        );
+      } else if (o.from && !this.cur)
+        later(400, () =>
+          sayQ('¡Terminaste todo el camino' + kid() + '! ¡Increíble! Puedes repetir la casita que quieras.'),
+        );
+      else if (o.hello) later(400, () => this.prompt!(!S.first[z]));
+      S.first[z] = 1;
+      save();
+    },
+    // prompt(long): saludo de la zona (si long) y qué casita tocar.
+    prompt(long?: boolean) {
+      const c = this.cur;
+      say(
+        (long ? Z.hello : '') +
+          (c
+            ? 'Toca la casita que brilla: ' + lowName(c) + '.'
+            : '¡Terminaste todo el camino! Puedes repetir la casita que quieras.'),
+      );
+    },
+    // hint(): señala la casita que toca.
+    hint() {
+      const c = this.cur;
+      if (!c) return null;
+      const p = P(c.id);
+      return { x: p.x, y: p.y, r: 110 * p.s };
+    },
+    // dwell(id): id = 'j:' + id de tema; dice su nombre.
+    dwell(id: string) {
+      const t = TEMA[id.slice(2)];
+      if (t) say(t.n + '.');
+    },
+    // draw(): fondo y franjas, el camino (amarillo hasta la casita actual), las casitas (solo las abiertas reaccionan al
+    // ratón), candados o su animación, la flecha y el contador del Rincón de los Conceptos. Luego casa, monedas y Tito.
+    draw() {
+      Z.bg();
       // Las franjas del camino; el cuadro del Rincón y los dibujos de las estaciones, solo en las zonas que los tienen
       // (las principales: las de la isla no tienen Rincón ni estaciones).
-      if(Z.bands){[250,490,725].forEach((y,i)=>{card(250,y-112,i===0?1330:i===1?1120:840,224,Z.bands![i],0,60)});
-        if(Z.cbox){card(1300,580,240,230,Z.cbox,0,50);['hojaNaranja','copo','flor'].forEach((k,i)=>{const y=[250,490,725][i];circ(292,y,40,'#fff',5);pic(k,292,y,62)})}}
-      else{card(330,250,1140,480,'rgba(255,255,255,.55)',0,60)}
-      const pts=path.map(t=>[P(t.id).x,P(t.id).y]),ci=this.cur?path.indexOf(this.cur):path.length-1;drawRoad(pts,ci<0?0:ci);
-      for(const t of Z.temas){const p=P(t.id),acc=temaOpen(t),s=acc?hv('j:'+t.id,hR(p.x,p.y,220*p.s,220*p.s)):1;
-        drawCasita(t,p.x,p.y,{s:s*p.s,glow:this.cur===t});
-        const un=this.unl&&this.unl.id===t.id&&unlockFx(p.x,p.y-10,118*p.s,this.unl.t);
-        if(!un&&!acc)lockOver(p.x,p.y-10,118*p.s);
-        if(this.cur===t&&!(this.unl&&this.unl.id===t.id&&T<this.unl.t+.4))arrowAt(p.x,p.y-150*p.s)}
-      const c=Z.temas.find(t=>t.concepts);if(c&&!temaOpen(c)){const p=P(c.id);card(p.x-70,p.y+104,140,50,'#fff',5,25);flower(p.x-36,p.y+129,12,FLC[0],2.5);text(Math.min(pathDone(z),3)+'/3',p.x+20,p.y+142,32,K,{f:LF})}
-      drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w)},
-// down(x, y): casa -> mapa (o la escena de Z.vuelta: la isla, en las zonas de la Isla de las Letras); Tito -> consigna;
-// monedas -> tienda; casita cerrada -> lockMsg; casita abierta -> go('casita', {t: id, hello: true}).
-    down(x: number,y: number){if(atHome(x,y)){SFX.tap();go(Z.vuelta||'map');return}if(inTito(x,y)){this.prompt!(true);return}if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
-      for(const t of Z.temas){const p=P(t.id);if(inR(x,y,p.x,p.y,220*p.s,230*p.s)){
-        if(!temaOpen(t)){SFX.boing();say(lockMsg(t));return}
-        SFX.pop();go('casita',{t:t.id,hello:true});return}}
-      SFX.tap();sparkles(x,y)}};
+      if (Z.bands) {
+        [250, 490, 725].forEach((y, i) => {
+          card(250, y - 112, i === 0 ? 1330 : i === 1 ? 1120 : 840, 224, Z.bands![i], 0, 60);
+        });
+        if (Z.cbox) {
+          card(1300, 580, 240, 230, Z.cbox, 0, 50);
+          ['hojaNaranja', 'copo', 'flor'].forEach((k, i) => {
+            const y = [250, 490, 725][i];
+            circ(292, y, 40, '#fff', 5);
+            pic(k, 292, y, 62);
+          });
+        }
+      } else {
+        card(330, 250, 1140, 480, 'rgba(255,255,255,.55)', 0, 60);
+      }
+      const pts = path.map((t) => [P(t.id).x, P(t.id).y]),
+        ci = this.cur ? path.indexOf(this.cur) : path.length - 1;
+      drawRoad(pts, ci < 0 ? 0 : ci);
+      for (const t of Z.temas) {
+        const p = P(t.id),
+          acc = temaOpen(t),
+          s = acc ? hv('j:' + t.id, hR(p.x, p.y, 220 * p.s, 220 * p.s)) : 1;
+        drawCasita(t, p.x, p.y, { s: s * p.s, glow: this.cur === t });
+        const un = this.unl && this.unl.id === t.id && unlockFx(p.x, p.y - 10, 118 * p.s, this.unl.t);
+        if (!un && !acc) lockOver(p.x, p.y - 10, 118 * p.s);
+        if (this.cur === t && !(this.unl && this.unl.id === t.id && T < this.unl.t + 0.4))
+          arrowAt(p.x, p.y - 150 * p.s);
+      }
+      const c = Z.temas.find((t) => t.concepts);
+      if (c && !temaOpen(c)) {
+        const p = P(c.id);
+        card(p.x - 70, p.y + 104, 140, 50, '#fff', 5, 25);
+        flower(p.x - 36, p.y + 129, 12, FLC[0], 2.5);
+        text(Math.min(pathDone(z), 3) + '/3', p.x + 20, p.y + 142, 32, K, { f: LF });
+      }
+      drawHome();
+      drawCoinHUD();
+      drawTito(TITO.x, TITO.y, TITO.w);
+    },
+    // down(x, y): casa -> mapa (o la escena de Z.vuelta: la isla, en las zonas de la Isla de las Letras); Tito -> consigna;
+    // monedas -> tienda; casita cerrada -> lockMsg; casita abierta -> go('casita', {t: id, hello: true}).
+    down(x: number, y: number) {
+      if (atHome(x, y)) {
+        SFX.tap();
+        go(Z.vuelta || 'map');
+        return;
+      }
+      if (inTito(x, y)) {
+        this.prompt!(true);
+        return;
+      }
+      if (inCoinHUD(x, y)) {
+        SFX.pop();
+        go('tienda');
+        return;
+      }
+      for (const t of Z.temas) {
+        const p = P(t.id);
+        if (inR(x, y, p.x, p.y, 220 * p.s, 230 * p.s)) {
+          if (!temaOpen(t)) {
+            SFX.boing();
+            say(lockMsg(t));
+            return;
+          }
+          SFX.pop();
+          go('casita', { t: t.id, hello: true });
+          return;
+        }
+      }
+      SFX.tap();
+      sparkles(x, y);
+    },
+  };
 }
 // Crea una escena por zona; SCENES.jardin (la antigua de escenas/escenas2d.ts) queda sustituida.
-for(const z in ZONES)SCENES[z]=zoneScene(z);
+for (const z in ZONES) SCENES[z] = zoneScene(z);
 
 /* ---------- la casa de Tito y Pipo, el dinosaurio que crece ---------- */
 // HOUSE_AT: [x, y] del suelo de la casa de Tito en el mapa 2D. Dónde está en la pantalla se pregunta con casaPos (en 3D,
 // la proyectada; desde la fase 4k, antes mundo3d/mapa3d.ts la escribía aquí).
 // houseLevel(): nivel de la casa (0-4) según los temas terminados; HOUSE_NEXT: temas necesarios para cada nivel;
 // HOUSE_SAY: frase al subir a cada nivel.
-export const HOUSE_AT=[1040,800];
+export const HOUSE_AT = [1040, 800];
 // casaPos(): [x, y] de la casa de Tito en la pantalla según la vista: lo que diga la disposición (nucleo/disposicion.ts:
 // en el mapa 3D, la proyectada) o HOUSE_AT (2D). Desde la fase 4k.
-function casaPos(): number[]{return disposicion().casa?.()||HOUSE_AT}
+function casaPos(): number[] {
+  return disposicion().casa?.() || HOUSE_AT;
+}
 // houseLevel(): nivel de la casa de Tito según temasDone(): 0 (menos de 2), 1 (2-4), 2 (5-8), 3 (9-13), 4 (14 o más).
 // La regla (nivelCasa) y HOUSE_NEXT están en dominio/progreso.ts; HOUSE_NEXT se exporta también desde aquí.
-export const houseLevel=()=>nivelCasa(temasDone());
+export const houseLevel = () => nivelCasa(temasDone());
 export { HOUSE_NEXT };
-const HOUSE_SAY=['','¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.','¡La casa de Tito creció! Ahora tiene un piso más, con balcón.','¡La casa de Tito creció! Ahora tiene una torre con bandera.','¡La casa de Tito es un castillo! Tiene estrella y arcoíris.'];
+const HOUSE_SAY = [
+  '',
+  '¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.',
+  '¡La casa de Tito creció! Ahora tiene un piso más, con balcón.',
+  '¡La casa de Tito creció! Ahora tiene una torre con bandera.',
+  '¡La casa de Tito es un castillo! Tiene estrella y arcoíris.',
+];
 // petStage(): etapa de Pipo (0 huevo, 1 eclosión, 2-4 dinosaurio que crece) según las estrellas ganadas (STARS(), en
 // nucleo/tito.ts). PET_NEXT: estrellas necesarias para cada etapa; PET_SAY: frase de cada etapa.
 // La regla (etapaPipo) y PET_NEXT están en dominio/progreso.ts; PET_NEXT se exporta también desde aquí.
-export const petStage=()=>etapaPipo(STARS());
+export const petStage = () => etapaPipo(STARS());
 export { PET_NEXT };
-const PET_SAY=['¡Mira! En el jardín de Tito apareció un huevo misterioso. ¡Si juegas, se va a abrir!','¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!','¡Pipo salió del cascarón y ya camina!','¡Pipo está creciendo un montón!','¡Pipo es un dinosaurio grandote! ¡Y tiene corona!'];
+const PET_SAY = [
+  '¡Mira! En el jardín de Tito apareció un huevo misterioso. ¡Si juegas, se va a abrir!',
+  '¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!',
+  '¡Pipo salió del cascarón y ya camina!',
+  '¡Pipo está creciendo un montón!',
+  '¡Pipo es un dinosaurio grandote! ¡Y tiene corona!',
+];
 // drawPet(x, y, s, o): dibuja a Pipo en su etapa (o.st, o la actual) con los pies en (x, y) y tamaño s. o.jump = instante
 // de un salto (bota y se amortigua). El huevo tiembla de vez en cuando. Solo dibuja.
-export function drawPet(x: number,y: number,s: number,o: Libre={}){const st=o.st??petStage(),j=o.jump?Math.max(0,1-(T-o.jump)*1.6)*Math.abs(Math.sin((T-o.jump)*10))*-s*.35:0;ctx.save();ctx.translate(x,y+j);
-  if(st===0){const w=Math.sin(T*9)*.1*(Math.sin(T*.8)>.55?1:0);ctx.rotate(w);ell(0,-s*.42,s*.31,s*.41,'#FFF6E0',Math.max(3,s*.05));for(const [a,b,r] of[[-.12,-.6,.08],[.13,-.46,.07],[-.08,-.25,.06],[.15,-.7,.05],[.02,-.38,.04]])circ(a*s,b*s,r*s,'#9BD86A',0)}
-  else if(st===1)pic('huevoDino',0,-s*.46,s*.95);
-  else{const k=st===2?.72:st===3?.92:1.1,b=Math.abs(Math.sin(T*3))*-s*.03;pic('dinosaurio',0,-s*k*.44+b,s*k);if(st>=4)pic('corona',s*k*.27,-s*k*.9+b,s*k*.3)}
-  ctx.restore()}
+export function drawPet(x: number, y: number, s: number, o: Libre = {}) {
+  const st = o.st ?? petStage(),
+    j = o.jump ? Math.max(0, 1 - (T - o.jump) * 1.6) * Math.abs(Math.sin((T - o.jump) * 10)) * -s * 0.35 : 0;
+  ctx.save();
+  ctx.translate(x, y + j);
+  if (st === 0) {
+    const w = Math.sin(T * 9) * 0.1 * (Math.sin(T * 0.8) > 0.55 ? 1 : 0);
+    ctx.rotate(w);
+    ell(0, -s * 0.42, s * 0.31, s * 0.41, '#FFF6E0', Math.max(3, s * 0.05));
+    for (const [a, b, r] of [
+      [-0.12, -0.6, 0.08],
+      [0.13, -0.46, 0.07],
+      [-0.08, -0.25, 0.06],
+      [0.15, -0.7, 0.05],
+      [0.02, -0.38, 0.04],
+    ])
+      circ(a * s, b * s, r * s, '#9BD86A', 0);
+  } else if (st === 1) pic('huevoDino', 0, -s * 0.46, s * 0.95);
+  else {
+    const k = st === 2 ? 0.72 : st === 3 ? 0.92 : 1.1,
+      b = Math.abs(Math.sin(T * 3)) * -s * 0.03;
+    pic('dinosaurio', 0, -s * k * 0.44 + b, s * k);
+    if (st >= 4) pic('corona', s * k * 0.27, -s * k * 0.9 + b, s * k * 0.3);
+  }
+  ctx.restore();
+}
 // shellIcon(x, y, r, sh, kind): emblema de Tito de radio r: espiral (caracol), púas (erizo), placas (tortuga) o mochila
 // (conejo), con los colores del caparazón sh (SHELLC). Por defecto, el caparazón y el personaje actuales. Solo dibuja.
 // emblema de Tito (puerta de su casa, tienda): espiral de caracol, púas de erizo, placas de tortuga o mochila de conejo, con el color de la tienda
-export function shellIcon(x: number,y: number,r: number,sh?: string,kind?: string){sh=sh||(S.tito&&S.tito.shell);const c=SHELLC[sh!]||SHELLC.naranja,tk=kind||(typeof titoKind==='function'?titoKind():'caracol'),lw=Math.max(3,r*.12);ctx.lineCap='round';ctx.lineJoin='round';
-  if(tk==='erizo'){const nar=!SHELLC[sh!]||sh==='naranja',f=nar?'#B07A4F':c[0],st=nar?'#7A5030':c[1];ctx.beginPath();for(let i=0;i<24;i++){const a=i/24*PI*2,q=i%2?r*.72:r*1.02;ctx.lineTo(x+Math.cos(a)*q,y+Math.sin(a)*q)}ctx.closePath();fillStroke(f,lw);
-    ctx.beginPath();for(let i=0;i<8;i++){const a=i/8*PI*2+.2;ctx.moveTo(x+Math.cos(a)*r*.2,y+Math.sin(a)*r*.2);ctx.lineTo(x+Math.cos(a)*r*.55,y+Math.sin(a)*r*.55)}ctx.lineWidth=r*.11;ctx.strokeStyle=st;ctx.stroke();return}
-  if(tk==='conejo'){ctx.save();ctx.translate(x,y);card(-r*.78,-r*.82,r*1.56,r*1.7,c[0],lw,r*.3);ctx.beginPath();ctx.moveTo(-r*.6,-r*.2);ctx.lineTo(r*.6,-r*.2);ctx.moveTo(-r*.3,-r*.2);ctx.lineTo(-r*.3,-r*.75);ctx.moveTo(r*.3,-r*.2);ctx.lineTo(r*.3,-r*.75);ctx.lineWidth=r*.13;ctx.strokeStyle=c[1];ctx.stroke();ctx.restore();return}
-  circ(x,y,r,c[0],lw);ctx.beginPath();
-  if(tk==='tortuga'){const h=r*.4;for(let i=0;i<=6;i++){const a=i/6*PI*2+PI/6;ctx.lineTo(x+Math.cos(a)*h,y+Math.sin(a)*h)}for(let i=0;i<6;i++){const a=i/6*PI*2+PI/6;ctx.moveTo(x+Math.cos(a)*h,y+Math.sin(a)*h);ctx.lineTo(x+Math.cos(a)*r*.86,y+Math.sin(a)*r*.86)}}
-  else for(let i=0;i<=30;i++){const a=i/30*PI*4,q=r*.08+i/30*r*.62;ctx.lineTo(x+Math.cos(a)*q,y+Math.sin(a)*q)}
-  ctx.lineWidth=r*.14;ctx.strokeStyle=c[1];ctx.stroke()}
+export function shellIcon(x: number, y: number, r: number, sh?: string, kind?: string) {
+  sh = sh || (S.tito && S.tito.shell);
+  const c = SHELLC[sh!] || SHELLC.naranja,
+    tk = kind || (typeof titoKind === 'function' ? titoKind() : 'caracol'),
+    lw = Math.max(3, r * 0.12);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  if (tk === 'erizo') {
+    const nar = !SHELLC[sh!] || sh === 'naranja',
+      f = nar ? '#B07A4F' : c[0],
+      st = nar ? '#7A5030' : c[1];
+    ctx.beginPath();
+    for (let i = 0; i < 24; i++) {
+      const a = (i / 24) * PI * 2,
+        q = i % 2 ? r * 0.72 : r * 1.02;
+      ctx.lineTo(x + Math.cos(a) * q, y + Math.sin(a) * q);
+    }
+    ctx.closePath();
+    fillStroke(f, lw);
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * PI * 2 + 0.2;
+      ctx.moveTo(x + Math.cos(a) * r * 0.2, y + Math.sin(a) * r * 0.2);
+      ctx.lineTo(x + Math.cos(a) * r * 0.55, y + Math.sin(a) * r * 0.55);
+    }
+    ctx.lineWidth = r * 0.11;
+    ctx.strokeStyle = st;
+    ctx.stroke();
+    return;
+  }
+  if (tk === 'conejo') {
+    ctx.save();
+    ctx.translate(x, y);
+    card(-r * 0.78, -r * 0.82, r * 1.56, r * 1.7, c[0], lw, r * 0.3);
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.6, -r * 0.2);
+    ctx.lineTo(r * 0.6, -r * 0.2);
+    ctx.moveTo(-r * 0.3, -r * 0.2);
+    ctx.lineTo(-r * 0.3, -r * 0.75);
+    ctx.moveTo(r * 0.3, -r * 0.2);
+    ctx.lineTo(r * 0.3, -r * 0.75);
+    ctx.lineWidth = r * 0.13;
+    ctx.strokeStyle = c[1];
+    ctx.stroke();
+    ctx.restore();
+    return;
+  }
+  circ(x, y, r, c[0], lw);
+  ctx.beginPath();
+  if (tk === 'tortuga') {
+    const h = r * 0.4;
+    for (let i = 0; i <= 6; i++) {
+      const a = (i / 6) * PI * 2 + PI / 6;
+      ctx.lineTo(x + Math.cos(a) * h, y + Math.sin(a) * h);
+    }
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * PI * 2 + PI / 6;
+      ctx.moveTo(x + Math.cos(a) * h, y + Math.sin(a) * h);
+      ctx.lineTo(x + Math.cos(a) * r * 0.86, y + Math.sin(a) * r * 0.86);
+    }
+  } else
+    for (let i = 0; i <= 30; i++) {
+      const a = (i / 30) * PI * 4,
+        q = r * 0.08 + (i / 30) * r * 0.62;
+      ctx.lineTo(x + Math.cos(a) * q, y + Math.sin(a) * q);
+    }
+  ctx.lineWidth = r * 0.14;
+  ctx.strokeStyle = c[1];
+  ctx.stroke();
+}
 // drawTitoHouse(x, gy, lvl, o): casa de Tito con el suelo en (x, gy) y nivel lvl: 1 cerca y flores, 2 segundo piso con
 // balcón, 3 torre con bandera, 4 estrella y arcoíris. Dibuja también los adornos comprados en la tienda (S.owned) y
 // ventanas encendidas de noche. o.s = escala, o.shake = instante de un temblor (al crecer). Solo dibuja.
-export function drawTitoHouse(x: number,gy: number,lvl: number,o: Libre={}){const s=o.s||1,sh=o.shake?Math.sin(T*40)*7*Math.max(0,1-(T-o.shake)/1.4):0;ctx.save();ctx.translate(x+sh,gy);ctx.scale(s,s);
-  if(lvl>=4)['#FF6B5E','#FFA94D','#FFD66B','#7CC86E','#5BB8E6','#9B8AD9'].forEach((c,i)=>{ctx.beginPath();ctx.arc(0,-60,178-i*10,PI,0);ctx.lineWidth=10;ctx.strokeStyle=c;ctx.globalAlpha=.75;ctx.stroke();ctx.globalAlpha=1});
-  ell(0,8,172,36,'#9FD88A',5);
-  if(lvl>=3){card(92,-250,70,250,'#FFE3B0',6,8);ctx.beginPath();ctx.moveTo(82,-246);ctx.lineTo(127,-330);ctx.lineTo(172,-246);ctx.closePath();fillStroke('#9B8AD9',6);
-    circ(127,-185,16,'#BFEAF7',5);card(117,-118,20,34,'#BFEAF7',4,8);ctx.beginPath();ctx.moveTo(127,-330);ctx.lineTo(127,-382);ctx.lineWidth=5;ctx.strokeStyle=K;ctx.stroke();
-    const f=Math.sin(T*5)*6;ctx.beginPath();ctx.moveTo(127,-382);ctx.quadraticCurveTo(150,-374+f,174,-368);ctx.lineTo(127,-352);ctx.closePath();fillStroke('#FF6B5E',4)}
-  const two=lvl>=2,top=two?-210:-120;
-  card(40,top-64,30,62,'#C98A4B',5,4);for(let i=0;i<3;i++){const k=(T*.35+i/3)%1;ctx.globalAlpha=.75*(1-k);circ(55+Math.sin(T+i)*8+k*24,top-74-k*90,9+k*14,'#fff',3,'#D8D0C4');ctx.globalAlpha=1}
-  card(-95,top,190,-top,'#FFF3D6',7,10);
-  ctx.beginPath();ctx.moveTo(-120,top+4);ctx.lineTo(0,top-94);ctx.lineTo(120,top+4);ctx.closePath();fillStroke('#FF8A7A',7);
-  shellIcon(0,top-36,24);if(lvl>=4)star(0,top-110,28,'#FFC93C',4);
-  const h=ahora().getHours(),lit=h>=19||h<7;
-  for(const [wx,wy] of[[-58,-86],[58,-86],...(two?[[-58,-176],[58,-176]]:[])]){card(wx-19,wy-17,38,34,lit?'#FFE08A':'#BFEAF7',5,6);ctx.beginPath();ctx.moveTo(wx,wy-17);ctx.lineTo(wx,wy+17);ctx.moveTo(wx-19,wy);ctx.lineTo(wx+19,wy);ctx.lineWidth=3;ctx.strokeStyle=K;ctx.stroke()}
-  if(two){card(-48,-150,96,14,'#C98A4B',4,5);for(let i=0;i<3;i++)flower(-30+i*30,-158,9,FLC[i+2],2)}
-  card(-22,-72,44,72,'#C98A4B',5,16);circ(12,-34,4,K,0);
-  if(lvl>=1){ctx.lineWidth=5;ctx.strokeStyle=K;for(const sd of[-1,1]){ctx.fillStyle='#FFF6E0';for(let i=0;i<4;i++){const px=sd*(48+i*30);card(px-5,-4,10,32,'#FFF6E0',3,3)}card(sd>0?40:-148,6,108,8,'#FFF6E0',3,3)}
-    for(let i=0;i<8;i++)flower(-150+i*43,40+(i%2)*6,8,FLC[i%7],2)}
-  const own=(k: string)=>S.owned&&S.owned[k];
-  if(own('farol'))pic('farol',-150,-50,84);
-  if(own('fuente'))pic('fuente',-128,18,70);
-  if(own('casitaPerro')){pic('casitaPerro',118,10,72);pic('perro',150,26,40)}
-  if(own('banco'))pic('banco',-70,30,56);
-  card(-92,48,184,44,'#FFA94D',5,22);text('Casa de Tito',0,80,27,'#fff');
-  ctx.restore()}
+export function drawTitoHouse(x: number, gy: number, lvl: number, o: Libre = {}) {
+  const s = o.s || 1,
+    sh = o.shake ? Math.sin(T * 40) * 7 * Math.max(0, 1 - (T - o.shake) / 1.4) : 0;
+  ctx.save();
+  ctx.translate(x + sh, gy);
+  ctx.scale(s, s);
+  if (lvl >= 4)
+    ['#FF6B5E', '#FFA94D', '#FFD66B', '#7CC86E', '#5BB8E6', '#9B8AD9'].forEach((c, i) => {
+      ctx.beginPath();
+      ctx.arc(0, -60, 178 - i * 10, PI, 0);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = c;
+      ctx.globalAlpha = 0.75;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    });
+  ell(0, 8, 172, 36, '#9FD88A', 5);
+  if (lvl >= 3) {
+    card(92, -250, 70, 250, '#FFE3B0', 6, 8);
+    ctx.beginPath();
+    ctx.moveTo(82, -246);
+    ctx.lineTo(127, -330);
+    ctx.lineTo(172, -246);
+    ctx.closePath();
+    fillStroke('#9B8AD9', 6);
+    circ(127, -185, 16, '#BFEAF7', 5);
+    card(117, -118, 20, 34, '#BFEAF7', 4, 8);
+    ctx.beginPath();
+    ctx.moveTo(127, -330);
+    ctx.lineTo(127, -382);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = K;
+    ctx.stroke();
+    const f = Math.sin(T * 5) * 6;
+    ctx.beginPath();
+    ctx.moveTo(127, -382);
+    ctx.quadraticCurveTo(150, -374 + f, 174, -368);
+    ctx.lineTo(127, -352);
+    ctx.closePath();
+    fillStroke('#FF6B5E', 4);
+  }
+  const two = lvl >= 2,
+    top = two ? -210 : -120;
+  card(40, top - 64, 30, 62, '#C98A4B', 5, 4);
+  for (let i = 0; i < 3; i++) {
+    const k = (T * 0.35 + i / 3) % 1;
+    ctx.globalAlpha = 0.75 * (1 - k);
+    circ(55 + Math.sin(T + i) * 8 + k * 24, top - 74 - k * 90, 9 + k * 14, '#fff', 3, '#D8D0C4');
+    ctx.globalAlpha = 1;
+  }
+  card(-95, top, 190, -top, '#FFF3D6', 7, 10);
+  ctx.beginPath();
+  ctx.moveTo(-120, top + 4);
+  ctx.lineTo(0, top - 94);
+  ctx.lineTo(120, top + 4);
+  ctx.closePath();
+  fillStroke('#FF8A7A', 7);
+  shellIcon(0, top - 36, 24);
+  if (lvl >= 4) star(0, top - 110, 28, '#FFC93C', 4);
+  const h = ahora().getHours(),
+    lit = h >= 19 || h < 7;
+  for (const [wx, wy] of [
+    [-58, -86],
+    [58, -86],
+    ...(two
+      ? [
+          [-58, -176],
+          [58, -176],
+        ]
+      : []),
+  ]) {
+    card(wx - 19, wy - 17, 38, 34, lit ? '#FFE08A' : '#BFEAF7', 5, 6);
+    ctx.beginPath();
+    ctx.moveTo(wx, wy - 17);
+    ctx.lineTo(wx, wy + 17);
+    ctx.moveTo(wx - 19, wy);
+    ctx.lineTo(wx + 19, wy);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = K;
+    ctx.stroke();
+  }
+  if (two) {
+    card(-48, -150, 96, 14, '#C98A4B', 4, 5);
+    for (let i = 0; i < 3; i++) flower(-30 + i * 30, -158, 9, FLC[i + 2], 2);
+  }
+  card(-22, -72, 44, 72, '#C98A4B', 5, 16);
+  circ(12, -34, 4, K, 0);
+  if (lvl >= 1) {
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = K;
+    for (const sd of [-1, 1]) {
+      ctx.fillStyle = '#FFF6E0';
+      for (let i = 0; i < 4; i++) {
+        const px = sd * (48 + i * 30);
+        card(px - 5, -4, 10, 32, '#FFF6E0', 3, 3);
+      }
+      card(sd > 0 ? 40 : -148, 6, 108, 8, '#FFF6E0', 3, 3);
+    }
+    for (let i = 0; i < 8; i++) flower(-150 + i * 43, 40 + (i % 2) * 6, 8, FLC[i % 7], 2);
+  }
+  const own = (k: string) => S.owned && S.owned[k];
+  if (own('farol')) pic('farol', -150, -50, 84);
+  if (own('fuente')) pic('fuente', -128, 18, 70);
+  if (own('casitaPerro')) {
+    pic('casitaPerro', 118, 10, 72);
+    pic('perro', 150, 26, 40);
+  }
+  if (own('banco')) pic('banco', -70, 30, 56);
+  card(-92, 48, 184, 44, '#FFA94D', 5, 22);
+  text('Casa de Tito', 0, 80, 27, '#fff');
+  ctx.restore();
+}
 
 /* ---------- el mapa ---------- */
 // MZ2: los sitios del mapa v3. Formato: {id, x, y, r: radio tocable, name: nombre para la voz, t?: id del tema al que
@@ -368,194 +1023,671 @@ export function drawTitoHouse(x: number,gy: number,lvl: number,o: Libre={}){cons
 // desde la fase L2; el globo -> 'islaIngles', desde la fase I2, en el sitio del antiguo Rincón del inglés)}. Al tocarlo: plaza -> asamblea; con t -> su casita; con esc -> esa escena; si no -> go(id) (una
 // zona de ZONES, 'album', 'tienda' o 'casaTito'). Son las posiciones 2D: dónde está cada sitio en la
 // pantalla se pregunta con mzOf o lugar, que en 3D dan las proyectadas (desde la fase 4j; antes se escribían aquí).
-export const MZ2=[
-  {id:'plaza',x:790,y:500,r:125,name:'la plaza de la asamblea'},
-  {id:'jardin',x:390,y:590,r:140,name:'el Jardín de los 3 años'},
-  {id:'bosque',x:1090,y:300,r:135,name:'el Bosque de los 4 años'},
-  {id:'montana',x:1385,y:610,r:140,name:'la Montaña de los 5 años'},
-  {id:'canciones',x:300,y:300,r:90,name:'las canciones',t:'X-CAN'},
-  {id:'trazos',x:530,y:255,r:85,name:'los trazos',t:'X-TRZ'},
-  {id:'rutinas',x:770,y:240,r:85,name:'las rutinas y los hábitos',t:'X-RUT'},
-  {id:'album',x:1450,y:270,r:80,name:'el álbum'},
-  {id:'globo',x:1290,y:458,r:80,name:'el globo de la Isla del Inglés',esc:'islaIngles'},
-  {id:'fiestas',x:575,y:785,r:90,name:'los días especiales'},
-  {id:'tienda',x:790,y:800,r:90,name:'la tienda'},
-  {id:'casaTito',x:1040,y:715,r:150,name:'la casa de Tito'},
-  {id:'muelle',x:1345,y:835,r:72,name:'el barco de la Isla de las Letras',esc:'isla'}
+export const MZ2 = [
+  { id: 'plaza', x: 790, y: 500, r: 125, name: 'la plaza de la asamblea' },
+  { id: 'jardin', x: 390, y: 590, r: 140, name: 'el Jardín de los 3 años' },
+  { id: 'bosque', x: 1090, y: 300, r: 135, name: 'el Bosque de los 4 años' },
+  { id: 'montana', x: 1385, y: 610, r: 140, name: 'la Montaña de los 5 años' },
+  { id: 'canciones', x: 300, y: 300, r: 90, name: 'las canciones', t: 'X-CAN' },
+  { id: 'trazos', x: 530, y: 255, r: 85, name: 'los trazos', t: 'X-TRZ' },
+  { id: 'rutinas', x: 770, y: 240, r: 85, name: 'las rutinas y los hábitos', t: 'X-RUT' },
+  { id: 'album', x: 1450, y: 270, r: 80, name: 'el álbum' },
+  { id: 'globo', x: 1290, y: 458, r: 80, name: 'el globo de la Isla del Inglés', esc: 'islaIngles' },
+  { id: 'fiestas', x: 575, y: 785, r: 90, name: 'los días especiales' },
+  { id: 'tienda', x: 790, y: 800, r: 90, name: 'la tienda' },
+  { id: 'casaTito', x: 1040, y: 715, r: 150, name: 'la casa de Tito' },
+  { id: 'muelle', x: 1345, y: 835, r: 72, name: 'el barco de la Isla de las Letras', esc: 'isla' },
 ];
 // SEGUIR: el botón verde "seguir el camino" del mapa (x, y, r).
-export const SEGUIR={x:340,y:812,r:64};
+export const SEGUIR = { x: 340, y: 812, r: 64 };
 // lugar(z): el sitio z de MZ2 donde está en la pantalla según la vista: si la disposición de la vista lo sabe
 // (disposicion().lugar, nucleo/disposicion.ts: en 3D, el sitio proyectado), con su x, y, r; si no, tal cual (2D).
 // Desde la fase 4j; antes mundo3d/mapa3d.ts escribía las posiciones proyectadas en MZ2.
-function lugar(z: typeof MZ2[number]): typeof MZ2[number]{const p=disposicion().lugar?.(z.id);return p?{...z,...p}:z}
+function lugar(z: (typeof MZ2)[number]): (typeof MZ2)[number] {
+  const p = disposicion().lugar?.(z.id);
+  return p ? { ...z, ...p } : z;
+}
 // mzOf(id): el sitio de MZ2 con ese id, donde está en la pantalla (lugar); undefined si no hay ninguno con ese id (el
 // tipo no lo dice, como antes: quien puede pedir un id que no está lo mira, como el down del mapa 3D).
-export const mzOf=(id: string)=>{const z=MZ2.find(z=>z.id===id);return (z&&lugar(z))!};
+export const mzOf = (id: string) => {
+  const z = MZ2.find((z) => z.id === id);
+  return (z && lugar(z))!;
+};
 // spotOpen(id): ¿está abierto el sitio id del mapa? Canciones/rutinas/trazos según temaOpen de su tema; fiestas e inglés
 // según NEED; bosque y montaña según zoneOpen; el resto (plaza, jardín, álbum, tienda, casa) siempre (sitioAbierto).
-export const spotOpen=(id: string)=>sitioAbierto(PARTIDA,MAPA,id);
+export const spotOpen = (id: string) => sitioAbierto(PARTIDA, MAPA, id);
 // spotNeed(id): casitas necesarias para abrir el sitio id (el número del cartel de su candado), o undefined si no tiene.
 // Como antes, el tipo es number: solo se pregunta por sitios cerrados que no son zonas, y esos siempre lo tienen.
-export const spotNeed=(id: string)=>sitioNecesita(id) as number;
+export const spotNeed = (id: string) => sitioNecesita(id) as number;
 // repDue(): ¿toca repasar? (en la lupa del mapa sale el «!» rojo; tocaRepasar). repAllDone(): ¿está hecho el repaso
 // de hoy? (punto verde en la lupa; repasoTerminado). Son el caso de uso aplicacion/repasoDelDia.ts con la partida (S),
 // los temas (CATALOGO), hoy y las estrellas. Hasta la fase 4c estaban en escenas/repaso.ts, que va después.
-export const repDue=(): boolean=>tocaRepasar(S,CATALOGO,today(),STARS()), repAllDone=(): boolean=>repasoTerminado(S,today());
+export const repDue = (): boolean => tocaRepasar(S, CATALOGO, today(), STARS()),
+  repAllDone = (): boolean => repasoTerminado(S, today());
 // goSeguir(): acción del botón "seguir el camino": si no se ha hecho la asamblea hoy, va a la asamblea; si toca pasar
 // por el repaso (una vez al día, si toca repasar: seguirPorElRepaso), al repaso; si no, a la casita de nextTema(). Si
 // no queda nada, lo dice. (Lo del repaso está aquí desde la fase 4c; antes escenas/repaso.ts envolvía goSeguir.) Desde
 // la fase 4j es una función normal: el botón del mapa llama a seguir() de la escena, que en 3D hace caminar a Tito
 // antes (mundo3d/mapa3d.ts; antes envolvía goSeguir con ponGoSeguir, que ya no está).
-export function goSeguir(): void{if(!asamHoy()){go('asamblea');return}if(seguirPorElRepaso(S,CATALOGO,today(),STARS())){go('repaso',{seguir:1});return}const t=nextTema();if(!t){say('¡Terminaste todos los caminos'+kid()+'! Puedes repetir lo que más te guste.');return}go('casita',{t:t.id,hello:true})}
+export function goSeguir(): void {
+  if (!asamHoy()) {
+    go('asamblea');
+    return;
+  }
+  if (seguirPorElRepaso(S, CATALOGO, today(), STARS())) {
+    go('repaso', { seguir: 1 });
+    return;
+  }
+  const t = nextTema();
+  if (!t) {
+    say('¡Terminaste todos los caminos' + kid() + '! Puedes repetir lo que más te guste.');
+    return;
+  }
+  go('casita', { t: t.id, hello: true });
+}
 // REPBTN: dónde está el botón del repaso (la lupa) en el mapa, arriba.
-const REPBTN={x:1215,y:66};
+const REPBTN = { x: 1215, y: 66 };
 // drawRepBtn(): dibuja el botón del repaso en el mapa (la lupa): con un «!» rojo que late si toca repasar (repDue) y un
 // punto verde si el repaso de hoy ya está hecho (repAllDone). Desde la fase 4c es parte del mapa (antes,
 // escenas/repaso.ts envolvía su draw).
-function drawRepBtn(){const s=hv('repaso',hC(REPBTN.x,REPBTN.y,50)),due=repDue();ctx.save();ctx.translate(REPBTN.x,REPBTN.y);ctx.scale(s,s);circ(0,0,46,'#fff',6);pic('lupa',0,0,64);
-  if(due){const p=1+.12*Math.sin(T*5);circ(32,-32,16*p,'#FF6B5E',4);text('!',32,-22,22,'#fff',{f:LF})}else if(repAllDone()){circ(32,-32,16,'#7CC86E',4)}ctx.restore()}
+function drawRepBtn() {
+  const s = hv('repaso', hC(REPBTN.x, REPBTN.y, 50)),
+    due = repDue();
+  ctx.save();
+  ctx.translate(REPBTN.x, REPBTN.y);
+  ctx.scale(s, s);
+  circ(0, 0, 46, '#fff', 6);
+  pic('lupa', 0, 0, 64);
+  if (due) {
+    const p = 1 + 0.12 * Math.sin(T * 5);
+    circ(32, -32, 16 * p, '#FF6B5E', 4);
+    text('!', 32, -22, 22, '#fff', { f: LF });
+  } else if (repAllDone()) {
+    circ(32, -32, 16, '#7CC86E', 4);
+  }
+  ctx.restore();
+}
 // drawSeguir(): dibuja el botón verde de seguir, que late con un halo amarillo.
-export function drawSeguir(){const p=(Math.sin(T*4)+1)/2,s=hv('seguir',hC(SEGUIR.x,SEGUIR.y,SEGUIR.r+8));ctx.save();ctx.translate(SEGUIR.x,SEGUIR.y);ctx.scale(s*(1+p*.05),s*(1+p*.05));
-  ctx.globalAlpha=.35+.3*p;circ(0,0,SEGUIR.r+12,null,10,'#FFC93C');ctx.globalAlpha=1;circ(0,0,SEGUIR.r,'#7CC86E',7);ctx.beginPath();ctx.moveTo(-18,-28);ctx.lineTo(30,0);ctx.lineTo(-18,28);ctx.closePath();fillStroke('#fff',5);ctx.restore()}
+export function drawSeguir() {
+  const p = (Math.sin(T * 4) + 1) / 2,
+    s = hv('seguir', hC(SEGUIR.x, SEGUIR.y, SEGUIR.r + 8));
+  ctx.save();
+  ctx.translate(SEGUIR.x, SEGUIR.y);
+  ctx.scale(s * (1 + p * 0.05), s * (1 + p * 0.05));
+  ctx.globalAlpha = 0.35 + 0.3 * p;
+  circ(0, 0, SEGUIR.r + 12, null, 10, '#FFC93C');
+  ctx.globalAlpha = 1;
+  circ(0, 0, SEGUIR.r, '#7CC86E', 7);
+  ctx.beginPath();
+  ctx.moveTo(-18, -28);
+  ctx.lineTo(30, 0);
+  ctx.lineTo(-18, 28);
+  ctx.closePath();
+  fillStroke('#fff', 5);
+  ctx.restore();
+}
 // drawMuelle(x, y): el muelle del mapa (fase L2): unas tablas que entran en el agua y el barco de vela con la A, que se
 // mece, y desde la v0.2.70 su cartel, «Isla de las Letras». Lleva a la Isla de las Letras (SCENES.isla, escenas/isla.ts).
-function drawMuelle(x: number,y: number){const b=Math.sin(T*2)*3;
-  for(let i=0;i<4;i++){card(x-78+i*22,y-14,20,58,'#C98A4B',4,4)}
-  ctx.save();ctx.translate(x+30,y+24+b);ctx.rotate(Math.sin(T*1.6)*.05);
-  ctx.beginPath();ctx.moveTo(-56,0);ctx.lineTo(56,0);ctx.lineTo(38,28);ctx.lineTo(-38,28);ctx.closePath();fillStroke('#FF8A7A',5);
-  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,-86);ctx.lineWidth=5;ctx.strokeStyle=K;ctx.stroke();
-  ctx.beginPath();ctx.moveTo(5,-80);ctx.lineTo(52,-14);ctx.lineTo(5,-14);ctx.closePath();fillStroke('#fff',4);
-  text('A',22,-24,38,'#E8554E',{f:LF});ctx.restore();
+function drawMuelle(x: number, y: number) {
+  const b = Math.sin(T * 2) * 3;
+  for (let i = 0; i < 4; i++) {
+    card(x - 78 + i * 22, y - 14, 20, 58, '#C98A4B', 4, 4);
+  }
+  ctx.save();
+  ctx.translate(x + 30, y + 24 + b);
+  ctx.rotate(Math.sin(T * 1.6) * 0.05);
+  ctx.beginPath();
+  ctx.moveTo(-56, 0);
+  ctx.lineTo(56, 0);
+  ctx.lineTo(38, 28);
+  ctx.lineTo(-38, 28);
+  ctx.closePath();
+  fillStroke('#FF8A7A', 5);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(0, -86);
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = K;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(5, -80);
+  ctx.lineTo(52, -14);
+  ctx.lineTo(5, -14);
+  ctx.closePath();
+  fillStroke('#fff', 4);
+  text('A', 22, -24, 38, '#E8554E', { f: LF });
+  ctx.restore();
   // el cartel (desde la v0.2.70), como el de la Casa de Tito, para que se vea adónde lleva
-  card(x-112,y-112,224,40,'#5B8DEF',5,20);text('Isla de las Letras',x,y-83,24,'#fff')}
+  card(x - 112, y - 112, 224, 40, '#5B8DEF', 5, 20);
+  text('Isla de las Letras', x, y - 83, 24, '#fff');
+}
 // drawGlobo(x, y): el globo del mapa (fase I2 de docs/PLAN-INGLES.md), en el sitio del antiguo Rincón del inglés: un globo
 // aerostático de rayas rojas, blancas y azules con su cesta, que sube y baja despacio, y encima su cartel, «Isla del
 // Inglés», que se ve siempre (el barco de las letras costaba encontrarlo sin cartel). Lleva a SCENES.islaIngles
 // (escenas/islaIngles.ts).
-function drawGlobo(x: number,y: number){const b=Math.sin(T*1.6)*6;
-  ctx.save();ctx.translate(x,y+b);
+function drawGlobo(x: number, y: number) {
+  const b = Math.sin(T * 1.6) * 6;
+  ctx.save();
+  ctx.translate(x, y + b);
   // las cuerdas y la cesta
-  ctx.lineWidth=4;ctx.strokeStyle=K;for(const d of[-1,1]){ctx.beginPath();ctx.moveTo(d*36,-12);ctx.lineTo(d*18,30);ctx.stroke()}
-  card(-24,28,48,34,'#C98A4B',5,8);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = K;
+  for (const d of [-1, 1]) {
+    ctx.beginPath();
+    ctx.moveTo(d * 36, -12);
+    ctx.lineTo(d * 18, 30);
+    ctx.stroke();
+  }
+  card(-24, 28, 48, 34, '#C98A4B', 5, 8);
   // la tela: un globo con gajos de colores
-  ctx.beginPath();ctx.ellipse(0,-58,58,64,0,0,PI*2);ctx.fillStyle='#fff';ctx.fill();
-  ctx.save();ctx.clip();['#E8554E','#fff','#5B8DEF','#fff','#E8554E'].forEach((c,i)=>{ctx.fillStyle=c;ctx.fillRect(-58+i*23.2,-124,23.2,132)});ctx.restore();
-  ctx.beginPath();ctx.ellipse(0,-58,58,64,0,0,PI*2);ctx.lineWidth=6;ctx.strokeStyle=K;ctx.stroke();
-  ctx.beginPath();ctx.moveTo(-40,-12);ctx.quadraticCurveTo(0,6,40,-12);ctx.lineWidth=5;ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(0, -58, 58, 64, 0, 0, PI * 2);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+  ctx.save();
+  ctx.clip();
+  ['#E8554E', '#fff', '#5B8DEF', '#fff', '#E8554E'].forEach((c, i) => {
+    ctx.fillStyle = c;
+    ctx.fillRect(-58 + i * 23.2, -124, 23.2, 132);
+  });
+  ctx.restore();
+  ctx.beginPath();
+  ctx.ellipse(0, -58, 58, 64, 0, 0, PI * 2);
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = K;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(-40, -12);
+  ctx.quadraticCurveTo(0, 6, 40, -12);
+  ctx.lineWidth = 5;
+  ctx.stroke();
   ctx.restore();
   // el cartel, como el del barco de la Isla de las Letras
-  card(x-104,y-180,208,40,'#E8554E',5,20);text('Isla del Inglés',x,y-151,24,'#fff')}
+  card(x - 104, y - 180, 208, 40, '#E8554E', 5, 20);
+  text('Isla del Inglés', x, y - 151, 24, '#fff');
+}
 // drawZoneSpot(z, o): dibuja el sitio z de MZ2 con su dibujo propio (plaza, jardín, bosque, montaña, carpa, pizarra...).
 // o.glow = halo; o.wake = instante en que se despertó (tiembla); o.unl = instante de la animación de desbloqueo;
 // o.shake / o.petJump para la casa y Pipo. Los sitios cerrados (no bosque/montaña, que salen "dormidos" en gris con
 // zetas) llevan candado y el número de casitas que faltan.
-function drawZoneSpot(z: Libre,o: Libre={}){const {x,y}=z,open=zoneOpen(z.id),s=hv('mz'+z.id,hC(x,y,z.r));ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.translate(-x,-y);
-  if(o.glow){const p=(Math.sin(T*4)+1)/2;ctx.globalAlpha=.4+.3*p;circ(x,y,z.r+10+p*10,null,12,'#FFC93C');ctx.globalAlpha=1}
-  const wk=o.wake?Math.max(0,1-(T-o.wake)/1.5):0;if(wk){ctx.translate(Math.sin(T*40)*8*wk,0)}
-  if(z.id==='plaza'){circ(x,y,115,'#F1E2C8',7);circ(x,y,50,'#7FD3F0',6);circ(x,y,18,'#fff',4);for(let i=0;i<6;i++){const a=T*2+i;circ(x+Math.cos(a)*28,y-10+Math.sin(a)*8-Math.abs(Math.sin(T*4+i))*14,5,'#BFEAF7',0)}
-    card(x-112,y-160,224,84,'#fff',6,16);DIAC.forEach((c,i)=>{circ(x-84+i*28,y-132,10,c,3)});text('ASAMBLEA',x,y-90,28,K,{f:LF})}
-  if(z.id==='jardin'){ell(x,y+10,160,112,'#9FDC8F',7);for(let i=0;i<12;i++){const a=i/12*PI*2;ctx.fillStyle='#C98A4B';ctx.fillRect(x+Math.cos(a)*150-4,y+10+Math.sin(a)*102-26,8,30)}
-    [[-66,-18],[18,-38],[84,8],[-28,46]].forEach(([a,b],i)=>{card(x+a-28,y+b-18,56,42,'#FFF3B0',4,6);ctx.beginPath();ctx.moveTo(x+a-36,y+b-18);ctx.lineTo(x+a,y+b-48);ctx.lineTo(x+a+36,y+b-18);ctx.closePath();fillStroke(FLC[i],4)});
-    for(let i=0;i<6;i++)flower(x-112+i*45,y+76+(i%2)*10,9,FLC[i],2);card(x-58,y-146,116,50,'#FF8A7A',5,25);text('3 años',x,y-111,28,'#fff')}
-  if(z.id==='bosque'){for(const [a,b,sc] of[[-80,20,.7],[0,-10,.85],[80,25,.7],[-30,60,.6],[50,70,.6]])tree(x+a,y+b,sc,open?(a<0?'otoño':'verano'):'gris');
-    card(x-58,y-150,116,50,open?'#7CC86E':'#B8B0A6',5,25);text('4 años',x,y-115,28,'#fff')}
-  if(z.id==='montana'){ctx.beginPath();ctx.moveTo(x-160,y+86);ctx.lineTo(x-40,y-104);ctx.lineTo(x+20,y-28);ctx.lineTo(x+80,y-114);ctx.lineTo(x+170,y+86);ctx.closePath();fillStroke(open?'#A9C98A':'#CFC8BF',7);
-    for(const [a,b] of[[-40,-104],[80,-114]]){ctx.beginPath();ctx.moveTo(x+a-30,y+b+44);ctx.lineTo(x+a,y+b);ctx.lineTo(x+a+30,y+b+44);ctx.closePath();fillStroke('#fff',5)}
-    if(open)for(let i=0;i<5;i++)flower(x-100+i*50,y+60-(i%2)*14,9,FLC[i+1],2);card(x-58,y+96,116,50,open?'#5B8DEF':'#B8B0A6',5,25);text('5 años',x,y+131,28,'#fff')}
-  if(!open&&(z.id==='bosque'||z.id==='montana')){ctx.globalAlpha=.55+.3*Math.sin(T*2+x);text('z',x+110,y-60+Math.sin(T+x)*6,34,'#7A6252');text('z',x+132,y-86+Math.sin(T+x)*6,26,'#7A6252');ctx.globalAlpha=1}
-  if(z.id==='canciones'){pic('carpa',x,y,180);for(let i=0;i<3;i++){const k=(T*.5+i/3)%1;ctx.globalAlpha=1-k;text('♪',x-50+i*50+Math.sin(T*2+i)*10,y-70-k*60,34,DIAC[i*2],{st:3});ctx.globalAlpha=1}}
-  if(z.id==='trazos'){pic('pizarra',x,y,170)}
-  if(z.id==='rutinas'){card(x-62,y-26,124,90,'#BFEAF7',6,10);ctx.beginPath();ctx.moveTo(x-80,y-24);ctx.lineTo(x,y-90);ctx.lineTo(x+80,y-24);ctx.closePath();fillStroke('#5BB8E6',6);circ(x,y+18,34,'#fff',5);pic('manos',x,y+18,58);for(let i=0;i<3;i++){const k=(T*.6+i/3)%1;ctx.globalAlpha=1-k;circ(x+60+Math.sin(T*3+i)*8,y-30-k*60,6+i*2,'rgba(255,255,255,.8)',2,'#9ED9F5')}ctx.globalAlpha=1}
-  if(z.id==='album'){ctx.save();ctx.translate(x,y);ctx.rotate(-.08);card(-60,-50,120,100,'#9B8AD9',6,14);card(-48,-40,96,80,'#FFF6E6',4,10);star(0,0,26,'#FFC93C',4);ctx.restore()}
-  if(z.id==='fiestas'){pic('fuegos',x,y-44,130);pic('tarta',x-38,y+26,110);pic('regalo',x+46,y+34,90)}
-  if(z.id==='globo')drawGlobo(x,y);
-  if(z.id==='tienda'){pic('tienda',x,y,180);if(S.coins!>0){pic('moneda',x+62,y-60,50+Math.sin(T*4)*4)}}
-  if(z.id==='muelle')drawMuelle(x,y);
-  if(z.id==='casaTito'){const h=casaPos();drawTitoHouse(h[0],h[1],houseLevel(),{shake:o.shake});drawPet(h[0]+170,h[1]+40,96,{jump:o.petJump});
+function drawZoneSpot(z: Libre, o: Libre = {}) {
+  const { x, y } = z,
+    open = zoneOpen(z.id),
+    s = hv('mz' + z.id, hC(x, y, z.r));
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s, s);
+  ctx.translate(-x, -y);
+  if (o.glow) {
+    const p = (Math.sin(T * 4) + 1) / 2;
+    ctx.globalAlpha = 0.4 + 0.3 * p;
+    circ(x, y, z.r + 10 + p * 10, null, 12, '#FFC93C');
+    ctx.globalAlpha = 1;
+  }
+  const wk = o.wake ? Math.max(0, 1 - (T - o.wake) / 1.5) : 0;
+  if (wk) {
+    ctx.translate(Math.sin(T * 40) * 8 * wk, 0);
+  }
+  if (z.id === 'plaza') {
+    circ(x, y, 115, '#F1E2C8', 7);
+    circ(x, y, 50, '#7FD3F0', 6);
+    circ(x, y, 18, '#fff', 4);
+    for (let i = 0; i < 6; i++) {
+      const a = T * 2 + i;
+      circ(x + Math.cos(a) * 28, y - 10 + Math.sin(a) * 8 - Math.abs(Math.sin(T * 4 + i)) * 14, 5, '#BFEAF7', 0);
+    }
+    card(x - 112, y - 160, 224, 84, '#fff', 6, 16);
+    DIAC.forEach((c, i) => {
+      circ(x - 84 + i * 28, y - 132, 10, c, 3);
+    });
+    text('ASAMBLEA', x, y - 90, 28, K, { f: LF });
+  }
+  if (z.id === 'jardin') {
+    ell(x, y + 10, 160, 112, '#9FDC8F', 7);
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * PI * 2;
+      ctx.fillStyle = '#C98A4B';
+      ctx.fillRect(x + Math.cos(a) * 150 - 4, y + 10 + Math.sin(a) * 102 - 26, 8, 30);
+    }
+    [
+      [-66, -18],
+      [18, -38],
+      [84, 8],
+      [-28, 46],
+    ].forEach(([a, b], i) => {
+      card(x + a - 28, y + b - 18, 56, 42, '#FFF3B0', 4, 6);
+      ctx.beginPath();
+      ctx.moveTo(x + a - 36, y + b - 18);
+      ctx.lineTo(x + a, y + b - 48);
+      ctx.lineTo(x + a + 36, y + b - 18);
+      ctx.closePath();
+      fillStroke(FLC[i], 4);
+    });
+    for (let i = 0; i < 6; i++) flower(x - 112 + i * 45, y + 76 + (i % 2) * 10, 9, FLC[i], 2);
+    card(x - 58, y - 146, 116, 50, '#FF8A7A', 5, 25);
+    text('3 años', x, y - 111, 28, '#fff');
+  }
+  if (z.id === 'bosque') {
+    for (const [a, b, sc] of [
+      [-80, 20, 0.7],
+      [0, -10, 0.85],
+      [80, 25, 0.7],
+      [-30, 60, 0.6],
+      [50, 70, 0.6],
+    ])
+      tree(x + a, y + b, sc, open ? (a < 0 ? 'otoño' : 'verano') : 'gris');
+    card(x - 58, y - 150, 116, 50, open ? '#7CC86E' : '#B8B0A6', 5, 25);
+    text('4 años', x, y - 115, 28, '#fff');
+  }
+  if (z.id === 'montana') {
+    ctx.beginPath();
+    ctx.moveTo(x - 160, y + 86);
+    ctx.lineTo(x - 40, y - 104);
+    ctx.lineTo(x + 20, y - 28);
+    ctx.lineTo(x + 80, y - 114);
+    ctx.lineTo(x + 170, y + 86);
+    ctx.closePath();
+    fillStroke(open ? '#A9C98A' : '#CFC8BF', 7);
+    for (const [a, b] of [
+      [-40, -104],
+      [80, -114],
+    ]) {
+      ctx.beginPath();
+      ctx.moveTo(x + a - 30, y + b + 44);
+      ctx.lineTo(x + a, y + b);
+      ctx.lineTo(x + a + 30, y + b + 44);
+      ctx.closePath();
+      fillStroke('#fff', 5);
+    }
+    if (open) for (let i = 0; i < 5; i++) flower(x - 100 + i * 50, y + 60 - (i % 2) * 14, 9, FLC[i + 1], 2);
+    card(x - 58, y + 96, 116, 50, open ? '#5B8DEF' : '#B8B0A6', 5, 25);
+    text('5 años', x, y + 131, 28, '#fff');
+  }
+  if (!open && (z.id === 'bosque' || z.id === 'montana')) {
+    ctx.globalAlpha = 0.55 + 0.3 * Math.sin(T * 2 + x);
+    text('z', x + 110, y - 60 + Math.sin(T + x) * 6, 34, '#7A6252');
+    text('z', x + 132, y - 86 + Math.sin(T + x) * 6, 26, '#7A6252');
+    ctx.globalAlpha = 1;
+  }
+  if (z.id === 'canciones') {
+    pic('carpa', x, y, 180);
+    for (let i = 0; i < 3; i++) {
+      const k = (T * 0.5 + i / 3) % 1;
+      ctx.globalAlpha = 1 - k;
+      text('♪', x - 50 + i * 50 + Math.sin(T * 2 + i) * 10, y - 70 - k * 60, 34, DIAC[i * 2], { st: 3 });
+      ctx.globalAlpha = 1;
+    }
+  }
+  if (z.id === 'trazos') {
+    pic('pizarra', x, y, 170);
+  }
+  if (z.id === 'rutinas') {
+    card(x - 62, y - 26, 124, 90, '#BFEAF7', 6, 10);
+    ctx.beginPath();
+    ctx.moveTo(x - 80, y - 24);
+    ctx.lineTo(x, y - 90);
+    ctx.lineTo(x + 80, y - 24);
+    ctx.closePath();
+    fillStroke('#5BB8E6', 6);
+    circ(x, y + 18, 34, '#fff', 5);
+    pic('manos', x, y + 18, 58);
+    for (let i = 0; i < 3; i++) {
+      const k = (T * 0.6 + i / 3) % 1;
+      ctx.globalAlpha = 1 - k;
+      circ(x + 60 + Math.sin(T * 3 + i) * 8, y - 30 - k * 60, 6 + i * 2, 'rgba(255,255,255,.8)', 2, '#9ED9F5');
+    }
+    ctx.globalAlpha = 1;
+  }
+  if (z.id === 'album') {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-0.08);
+    card(-60, -50, 120, 100, '#9B8AD9', 6, 14);
+    card(-48, -40, 96, 80, '#FFF6E6', 4, 10);
+    star(0, 0, 26, '#FFC93C', 4);
+    ctx.restore();
+  }
+  if (z.id === 'fiestas') {
+    pic('fuegos', x, y - 44, 130);
+    pic('tarta', x - 38, y + 26, 110);
+    pic('regalo', x + 46, y + 34, 90);
+  }
+  if (z.id === 'globo') drawGlobo(x, y);
+  if (z.id === 'tienda') {
+    pic('tienda', x, y, 180);
+    if (S.coins! > 0) {
+      pic('moneda', x + 62, y - 60, 50 + Math.sin(T * 4) * 4);
+    }
+  }
+  if (z.id === 'muelle') drawMuelle(x, y);
+  if (z.id === 'casaTito') {
+    const h = casaPos();
+    drawTitoHouse(h[0], h[1], houseLevel(), { shake: o.shake });
+    drawPet(h[0] + 170, h[1] + 40, 96, { jump: o.petJump });
     // las mascotas mayores pasean junto a la casa (desde la fase C7 de PLAN-CASA.md)
-    mascotasMayores().forEach((d,i)=>pic(d,h[0]-150+i*70+Math.sin(T*.7+i)*12,h[1]+70-Math.abs(Math.sin(T*3+i))*8,64))}
-  const lk=!spotOpen(z.id)&&!ZAGE[z.id];
-  if(o.unl&&unlockFx(x,y,z.r*.85,o.unl)){}else if(lk){lockOver(x,y,z.r*.85);card(x-46,y+z.r*.6,92,44,'#fff',5,22);flower(x-20,y+z.r*.6+22,11,FLC[0],2.5);text(String(spotNeed(z.id)),x+18,y+z.r*.6+35,30,K,{f:LF})}
-  ctx.restore()}
+    mascotasMayores().forEach((d, i) =>
+      pic(d, h[0] - 150 + i * 70 + Math.sin(T * 0.7 + i) * 12, h[1] + 70 - Math.abs(Math.sin(T * 3 + i)) * 8, 64),
+    );
+  }
+  const lk = !spotOpen(z.id) && !ZAGE[z.id];
+  if (o.unl && unlockFx(x, y, z.r * 0.85, o.unl)) {
+  } else if (lk) {
+    lockOver(x, y, z.r * 0.85);
+    card(x - 46, y + z.r * 0.6, 92, 44, '#fff', 5, 22);
+    flower(x - 20, y + z.r * 0.6 + 22, 11, FLC[0], 2.5);
+    text(String(spotNeed(z.id)), x + 18, y + z.r * 0.6 + 35, 30, K, { f: LF });
+  }
+  ctx.restore();
+}
 // MAPA v3: la escena del mapa. Desde la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le
 // sustituía los métodos). mundo3d/mapa3d.ts pone un mapa 3D hecho a partir de este (hasta la fase 4j lo envolvía).
-SCENES.map={music:'map',
-// enter(o): decide UN solo aviso al entrar, por prioridad:
-// 1) una zona que se acaba de despertar (S.woke) sin ser de su edad; 2) un sitio recién abierto (newlyOpen 'map');
-// 3) la casa de Tito ha crecido (S.houseSeen); 4) Pipo ha cambiado de etapa (S.petSeen); 5) flores nuevas (S.seenFl);
-// 6) si no hubo aviso, el regalo diario de 3 monedas (una vez al día, S.gift); 7) si no, saludo (o.hello).
-// Tras 15 minutos de sesión propone descansar una vez.
-  enter(o: Libre){this.wake=null;this.unl=null;this.shake=0;this.petJump=0;
-    let msg=null,fx=null;
-    for(const z of['bosque','montana'])if(zoneOpen(z)&&!S.woke![z]){S.woke![z]=1;save();if(ZAGE[z]>AGE()&&!S.unlockAll){this.wake={z,t:T+1};msg='¡Mira'+kid()+'! ¡Se despertó '+mzOf(z).name+'! Ahora puedes jugar ahí también.';break}}
-    const nw=newlyOpen('map',MZ2.filter(z=>spotNeed(z.id)&&spotOpen(z.id)).map(z=>z.id));
-    if(!msg&&nw.length){const z=mzOf(nw[0]);this.unl={id:z.id,t:T+1};msg='¡Mira'+kid()+'! ¡Se '+(/^l[ao]s /.test(z.name)?'abrieron ':'abrió ')+z.name+'! Toca para jugar.';fx=()=>{SFX.sparkle();const q=mzOf(z.id);burst(q.x,q.y,50)}}/* dónde está el sitio cuando salen las chispas (en 3D se mueve) */
-    const hl=houseLevel();if(S.houseSeen==null)S.houseSeen=hl;
-    if(!msg&&hl>S.houseSeen){S.houseSeen=hl;save();msg=HOUSE_SAY[hl];fx=()=>{this.shake=T;SFX.tada();const h=casaPos();burst(h[0],h[1]-150,80)}}
-    const ps=petStage();
-    if(!msg&&(S.petSeen==null||ps>S.petSeen)){S.petSeen=ps;save();msg=PET_SAY[ps];fx=()=>{this.petJump=T;SFX.sparkle();const h=casaPos();burst(h[0]+170,h[1],40)}}
-    const n=temasDone();
-    if(!msg&&n>S.seenFl){S.seenFl=n;save();msg=`¡Mira${kid()}! ¡Tito tiene ${n===1?'una flor':(n<=10?NUM[n]:n)+' flores'} en su caparazón!`;fx=()=>{SFX.sparkle();burst(130,740,40)}}
-// La animación (fx) y la frase se lanzan juntas a los 0,6 s, cuando ya se ve el mapa.
-    const regalo=regaloDelDia(S,today());// caso de uso (aplicacion/premiosDelDia.ts): null si hoy ya se dio
-    if(msg){later(600,()=>{if(this.wake){SFX.tada();const z=mzOf(this.wake.z);burst(z.x,z.y,70);this.wake.t=T}if(fx)fx();say(msg)})}
+SCENES.map = {
+  music: 'map',
+  // enter(o): decide UN solo aviso al entrar, por prioridad:
+  // 1) una zona que se acaba de despertar (S.woke) sin ser de su edad; 2) un sitio recién abierto (newlyOpen 'map');
+  // 3) la casa de Tito ha crecido (S.houseSeen); 4) Pipo ha cambiado de etapa (S.petSeen); 5) flores nuevas (S.seenFl);
+  // 6) si no hubo aviso, el regalo diario de 3 monedas (una vez al día, S.gift); 7) si no, saludo (o.hello).
+  // Tras 15 minutos de sesión propone descansar una vez.
+  enter(o: Libre) {
+    this.wake = null;
+    this.unl = null;
+    this.shake = 0;
+    this.petJump = 0;
+    let msg = null,
+      fx = null;
+    for (const z of ['bosque', 'montana'])
+      if (zoneOpen(z) && !S.woke![z]) {
+        S.woke![z] = 1;
+        save();
+        if (ZAGE[z] > AGE() && !S.unlockAll) {
+          this.wake = { z, t: T + 1 };
+          msg = '¡Mira' + kid() + '! ¡Se despertó ' + mzOf(z).name + '! Ahora puedes jugar ahí también.';
+          break;
+        }
+      }
+    const nw = newlyOpen(
+      'map',
+      MZ2.filter((z) => spotNeed(z.id) && spotOpen(z.id)).map((z) => z.id),
+    );
+    if (!msg && nw.length) {
+      const z = mzOf(nw[0]);
+      this.unl = { id: z.id, t: T + 1 };
+      msg =
+        '¡Mira' + kid() + '! ¡Se ' + (/^l[ao]s /.test(z.name) ? 'abrieron ' : 'abrió ') + z.name + '! Toca para jugar.';
+      fx = () => {
+        SFX.sparkle();
+        const q = mzOf(z.id);
+        burst(q.x, q.y, 50);
+      };
+    } /* dónde está el sitio cuando salen las chispas (en 3D se mueve) */
+    const hl = houseLevel();
+    if (S.houseSeen == null) S.houseSeen = hl;
+    if (!msg && hl > S.houseSeen) {
+      S.houseSeen = hl;
+      save();
+      msg = HOUSE_SAY[hl];
+      fx = () => {
+        this.shake = T;
+        SFX.tada();
+        const h = casaPos();
+        burst(h[0], h[1] - 150, 80);
+      };
+    }
+    const ps = petStage();
+    if (!msg && (S.petSeen == null || ps > S.petSeen)) {
+      S.petSeen = ps;
+      save();
+      msg = PET_SAY[ps];
+      fx = () => {
+        this.petJump = T;
+        SFX.sparkle();
+        const h = casaPos();
+        burst(h[0] + 170, h[1], 40);
+      };
+    }
+    const n = temasDone();
+    if (!msg && n > S.seenFl) {
+      S.seenFl = n;
+      save();
+      msg = `¡Mira${kid()}! ¡Tito tiene ${n === 1 ? 'una flor' : (n <= 10 ? NUM[n] : n) + ' flores'} en su caparazón!`;
+      fx = () => {
+        SFX.sparkle();
+        burst(130, 740, 40);
+      };
+    }
+    // La animación (fx) y la frase se lanzan juntas a los 0,6 s, cuando ya se ve el mapa.
+    const regalo = regaloDelDia(S, today()); // caso de uso (aplicacion/premiosDelDia.ts): null si hoy ya se dio
+    if (msg) {
+      later(600, () => {
+        if (this.wake) {
+          SFX.tada();
+          const z = mzOf(this.wake.z);
+          burst(z.x, z.y, 70);
+          this.wake.t = T;
+        }
+        if (fx) fx();
+        say(msg);
+      });
+    }
     // regalo diario: las monedas se abonan a la vez que se marca el día (si se sale antes de verlas, no se pierden)
-    else if(regalo){Object.assign(S,regalo.partida);creditCoins(regalo.monedas);save();later(900,()=>sayQ('¡Hola'+kid()+'! Te he guardado un regalito: ¡tres monedas!'));later(1400,()=>{const tp=titoPos();giveCoins(regalo.monedas,tp.x+150,tp.y+40,undefined,true)})}/* las monedas salen de Tito, donde esté (en 3D, el proyectado) */
-    else if(o.hello)later(400,()=>this.prompt!(true));
-    if(VIVO.sessionT>15*60&&!VIVO.restAsked&&!S.limit){VIVO.restAsked=true;later(3000,()=>sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'))}
+    else if (regalo) {
+      Object.assign(S, regalo.partida);
+      creditCoins(regalo.monedas);
+      save();
+      later(900, () => sayQ('¡Hola' + kid() + '! Te he guardado un regalito: ¡tres monedas!'));
+      later(1400, () => {
+        const tp = titoPos();
+        giveCoins(regalo.monedas, tp.x + 150, tp.y + 40, undefined, true);
+      });
+    } /* las monedas salen de Tito, donde esté (en 3D, el proyectado) */
+    else if (o.hello) later(400, () => this.prompt!(true));
+    if (VIVO.sessionT > 15 * 60 && !VIVO.restAsked && !S.limit) {
+      VIVO.restAsked = true;
+      later(3000, () => sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'));
+    }
   },
-// ageZone(): zona que corresponde a la edad (ageZoneOpen). Hoy no la llama nadie (la capa 3D ya no la usa para colocar a
-// Tito).
-  ageZone(){return ageZoneOpen()},
-// prompt(first): saludo según la hora (si first) y consigna: asamblea si falta hoy; si no, el botón de seguir.
-  prompt(first?: boolean){const h=ahora().getHours(),sal=h<13?'¡Buen día':h<20?'¡Buenas tardes':'¡Buenas noches';
-    if(!asamHoy())say((first?sal+kid()+'! ':'')+'Vamos a la plaza a hacer la asamblea. Toca la plaza.');
-    else say((first?sal+kid()+'! ':'')+'Toca el botón verde para seguir el camino. También puedes ir a la tienda o a la casa de Tito.')},
-// tocarPipo(): Pipo salta y dice cuánto le falta para nacer o saluda. Desde la fase 4k es un método aparte (lo llama
-// down y también el mapa 3D cuando se toca a Pipo; antes el 3D movía la casa para que el toque cayera en Pipo).
-  tocarPipo(){this.petJump=T;SFX.boing();const ps=petStage();say(ps===0?'Es un huevo misterioso. Le '+((PET_NEXT[0]-STARS())===1?'falta un juego':'faltan '+(PET_NEXT[0]-STARS())+' juegos')+' para abrirse.':'¡Hola! Soy Pipo, el dinosaurio de Tito.')},
-// seguir(): el botón verde «seguir el camino» (goSeguir). Desde la fase 4j es un método para que el mapa 3D ponga el
-// suyo (Tito camina antes hasta el sitio).
-  seguir(){goSeguir()},
-// hint(): señala la plaza o el botón de seguir.
-  hint(){if(!asamHoy()){const z=mzOf('plaza');return{x:z.x,y:z.y,r:z.r*.8}}return{x:SEGUIR.x,y:SEGUIR.y,r:SEGUIR.r+10}},
-// dwell(id): dice el nombre del sitio bajo el ratón ('mz' + id) y si está cerrado o dormido; la lupa, «El repaso con
-// Tito».
-  dwell(id: string){if(id==='repaso'){say('El repaso con Tito.');return}if(id==='seguir'){say('Seguir el camino.');return}const z=MZ2.find(z=>'mz'+z.id===id);if(z)say(cap(z.name)+(!spotOpen(z.id)?(ZAGE[z.id]?'. Todavía '+(z.id==='montana'?'está dormida.':'está dormido.'):'. Todavía está cerrado.'):'.'))},
-// draw(): mar, isla, caminos desde la plaza a cada sitio (curvas ligeramente torcidas), los sitios (drawZoneSpot),
-// logotipo, botón de seguir, casa, monedas, Tito y, encima, el botón del repaso (drawRepBtn). (En 3D
-// mundo3d/mapa3d.ts dibuja otra cosa.)
-  draw(){
-    ctx.fillStyle='#7FD3F0';ctx.fillRect(0,0,W,H);
-    for(let i=0;i<14;i++){const x=(i*233)%1600,y=60+(i*137)%800;ctx.beginPath();ctx.moveTo(x+Math.sin(T+i)*10,y);ctx.quadraticCurveTo(x+20,y-14,x+40,y);ctx.quadraticCurveTo(x+60,y+14,x+80,y);ctx.lineWidth=6;ctx.strokeStyle='#B9E9F8';ctx.lineCap='round';ctx.stroke()}
-    ctx.beginPath();ctx.moveTo(150,560);ctx.bezierCurveTo(100,330,180,170,420,170);ctx.bezierCurveTo(640,130,1000,130,1250,170);ctx.bezierCurveTo(1500,170,1590,330,1570,520);ctx.bezierCurveTo(1580,760,1400,880,1100,870);ctx.bezierCurveTo(840,895,520,885,330,850);ctx.bezierCurveTo(180,810,160,690,150,560);ctx.closePath();fillStroke('#BFE6A0',8);
-    const P=mzOf('plaza');ctx.lineCap='round';
-    for(const z of MZ2.map(lugar)){if(z.id==='plaza')continue;ctx.beginPath();ctx.moveTo(P.x,P.y);ctx.quadraticCurveTo((P.x+z.x)/2+(z.y-P.y)*.12,(P.y+z.y)/2-(z.x-P.x)*.08,z.x,z.y);ctx.lineWidth=34;ctx.strokeStyle='#FFF3D6';ctx.stroke();ctx.lineWidth=8;ctx.setLineDash([4,28]);ctx.strokeStyle='#E4CFA0';ctx.stroke();ctx.setLineDash([])}
-    for(const z of MZ2.map(lugar))drawZoneSpot(z,{glow:z.id==='plaza'?!asamHoy():false,wake:this.wake&&this.wake.z===z.id?this.wake.t:0,unl:this.unl&&this.unl.id===z.id?this.unl.t:0,shake:this.shake,petJump:this.petJump});
-    card(560,22,480,88,'#fff',6,44);drawLogoSmall(800,86,56);
+  // ageZone(): zona que corresponde a la edad (ageZoneOpen). Hoy no la llama nadie (la capa 3D ya no la usa para colocar a
+  // Tito).
+  ageZone() {
+    return ageZoneOpen();
+  },
+  // prompt(first): saludo según la hora (si first) y consigna: asamblea si falta hoy; si no, el botón de seguir.
+  prompt(first?: boolean) {
+    const h = ahora().getHours(),
+      sal = h < 13 ? '¡Buen día' : h < 20 ? '¡Buenas tardes' : '¡Buenas noches';
+    if (!asamHoy()) say((first ? sal + kid() + '! ' : '') + 'Vamos a la plaza a hacer la asamblea. Toca la plaza.');
+    else
+      say(
+        (first ? sal + kid() + '! ' : '') +
+          'Toca el botón verde para seguir el camino. También puedes ir a la tienda o a la casa de Tito.',
+      );
+  },
+  // tocarPipo(): Pipo salta y dice cuánto le falta para nacer o saluda. Desde la fase 4k es un método aparte (lo llama
+  // down y también el mapa 3D cuando se toca a Pipo; antes el 3D movía la casa para que el toque cayera en Pipo).
+  tocarPipo() {
+    this.petJump = T;
+    SFX.boing();
+    const ps = petStage();
+    say(
+      ps === 0
+        ? 'Es un huevo misterioso. Le ' +
+            (PET_NEXT[0] - STARS() === 1 ? 'falta un juego' : 'faltan ' + (PET_NEXT[0] - STARS()) + ' juegos') +
+            ' para abrirse.'
+        : '¡Hola! Soy Pipo, el dinosaurio de Tito.',
+    );
+  },
+  // seguir(): el botón verde «seguir el camino» (goSeguir). Desde la fase 4j es un método para que el mapa 3D ponga el
+  // suyo (Tito camina antes hasta el sitio).
+  seguir() {
+    goSeguir();
+  },
+  // hint(): señala la plaza o el botón de seguir.
+  hint() {
+    if (!asamHoy()) {
+      const z = mzOf('plaza');
+      return { x: z.x, y: z.y, r: z.r * 0.8 };
+    }
+    return { x: SEGUIR.x, y: SEGUIR.y, r: SEGUIR.r + 10 };
+  },
+  // dwell(id): dice el nombre del sitio bajo el ratón ('mz' + id) y si está cerrado o dormido; la lupa, «El repaso con
+  // Tito».
+  dwell(id: string) {
+    if (id === 'repaso') {
+      say('El repaso con Tito.');
+      return;
+    }
+    if (id === 'seguir') {
+      say('Seguir el camino.');
+      return;
+    }
+    const z = MZ2.find((z) => 'mz' + z.id === id);
+    if (z)
+      say(
+        cap(z.name) +
+          (!spotOpen(z.id)
+            ? ZAGE[z.id]
+              ? '. Todavía ' + (z.id === 'montana' ? 'está dormida.' : 'está dormido.')
+              : '. Todavía está cerrado.'
+            : '.'),
+      );
+  },
+  // draw(): mar, isla, caminos desde la plaza a cada sitio (curvas ligeramente torcidas), los sitios (drawZoneSpot),
+  // logotipo, botón de seguir, casa, monedas, Tito y, encima, el botón del repaso (drawRepBtn). (En 3D
+  // mundo3d/mapa3d.ts dibuja otra cosa.)
+  draw() {
+    ctx.fillStyle = '#7FD3F0';
+    ctx.fillRect(0, 0, W, H);
+    for (let i = 0; i < 14; i++) {
+      const x = (i * 233) % 1600,
+        y = 60 + ((i * 137) % 800);
+      ctx.beginPath();
+      ctx.moveTo(x + Math.sin(T + i) * 10, y);
+      ctx.quadraticCurveTo(x + 20, y - 14, x + 40, y);
+      ctx.quadraticCurveTo(x + 60, y + 14, x + 80, y);
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = '#B9E9F8';
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.moveTo(150, 560);
+    ctx.bezierCurveTo(100, 330, 180, 170, 420, 170);
+    ctx.bezierCurveTo(640, 130, 1000, 130, 1250, 170);
+    ctx.bezierCurveTo(1500, 170, 1590, 330, 1570, 520);
+    ctx.bezierCurveTo(1580, 760, 1400, 880, 1100, 870);
+    ctx.bezierCurveTo(840, 895, 520, 885, 330, 850);
+    ctx.bezierCurveTo(180, 810, 160, 690, 150, 560);
+    ctx.closePath();
+    fillStroke('#BFE6A0', 8);
+    const P = mzOf('plaza');
+    ctx.lineCap = 'round';
+    for (const z of MZ2.map(lugar)) {
+      if (z.id === 'plaza') continue;
+      ctx.beginPath();
+      ctx.moveTo(P.x, P.y);
+      ctx.quadraticCurveTo((P.x + z.x) / 2 + (z.y - P.y) * 0.12, (P.y + z.y) / 2 - (z.x - P.x) * 0.08, z.x, z.y);
+      ctx.lineWidth = 34;
+      ctx.strokeStyle = '#FFF3D6';
+      ctx.stroke();
+      ctx.lineWidth = 8;
+      ctx.setLineDash([4, 28]);
+      ctx.strokeStyle = '#E4CFA0';
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    for (const z of MZ2.map(lugar))
+      drawZoneSpot(z, {
+        glow: z.id === 'plaza' ? !asamHoy() : false,
+        wake: this.wake && this.wake.z === z.id ? this.wake.t : 0,
+        unl: this.unl && this.unl.id === z.id ? this.unl.t : 0,
+        shake: this.shake,
+        petJump: this.petJump,
+      });
+    card(560, 22, 480, 88, '#fff', 6, 44);
+    drawLogoSmall(800, 86, 56);
     drawSeguir();
-    drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w);
+    drawHome();
+    drawCoinHUD();
+    drawTito(TITO.x, TITO.y, TITO.w);
     drawRepBtn();
   },
-// down(x, y): la lupa -> el repaso; casa -> portada; Tito; monedas -> tienda; botón seguir; Pipo (dice cuánto falta
-// para que nazca); y si no, el sitio más cercano bajo el dedo: dormido o cerrado -> explica qué falta; abierto -> va a él.
-  down(x: number,y: number){
-    if(dist(x,y,REPBTN.x,REPBTN.y)<52){SFX.pop();go('repaso',{hello:true});return}
-    if(atHome(x,y)){SFX.tap();go('title');return}
-    if(inTito(x,y)){this.prompt!(false);return}
-    if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
-    if(dist(x,y,SEGUIR.x,SEGUIR.y)<SEGUIR.r+10){SFX.pop();this.seguir!();return}
-    {const h=casaPos();if(dist(x,y,h[0]+170,h[1]-10)<55){this.tocarPipo!();return}}
-    const z=MZ2.map(lugar).filter(z=>dist(x,y,z.x,z.y)<z.r).sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
-// El sitio más cercano al dedo gana si se tocan dos a la vez (círculos que se solapan).
-    if(z){
-      if(ZAGE[z.id]&&!zoneOpen(z.id)){SFX.boing();const prev=z.id==='bosque'?'jardin':'bosque',f=flowersIn(prev);say(cap(z.name)+' todavía está '+(z.id==='montana'?'dormida':'dormido')+'. Se despierta cuando Tito tenga seis flores '+(prev==='jardin'?'del jardín':'del bosque')+(f?'. ¡Ya tiene '+(f===1?'una':NUM[f]||f)+'!':'.'));return}
-      if(!spotOpen(z.id)){SFX.boing();const n=spotNeed(z.id),d=mainDone();say(cap(z.name)+' se '+(z.id==='trazos'||z.id==='fiestas'||z.id==='canciones'||z.id==='rutinas'?'abren':'abre')+' cuando termines '+(n===1?'una casita':NUM[n]+' casitas')+' del camino.'+(d?' ¡Ya terminaste '+(d===1?'una':NUM[d]||d)+'!':''));return}
+  // down(x, y): la lupa -> el repaso; casa -> portada; Tito; monedas -> tienda; botón seguir; Pipo (dice cuánto falta
+  // para que nazca); y si no, el sitio más cercano bajo el dedo: dormido o cerrado -> explica qué falta; abierto -> va a él.
+  down(x: number, y: number) {
+    if (dist(x, y, REPBTN.x, REPBTN.y) < 52) {
       SFX.pop();
-      if(z.id==='plaza')go('asamblea');else if(z.t)go('casita',{t:z.t,hello:true});else go(z.esc||z.id,{hello:true});return}
-    SFX.tap();sparkles(x,y);
-  }
+      go('repaso', { hello: true });
+      return;
+    }
+    if (atHome(x, y)) {
+      SFX.tap();
+      go('title');
+      return;
+    }
+    if (inTito(x, y)) {
+      this.prompt!(false);
+      return;
+    }
+    if (inCoinHUD(x, y)) {
+      SFX.pop();
+      go('tienda');
+      return;
+    }
+    if (dist(x, y, SEGUIR.x, SEGUIR.y) < SEGUIR.r + 10) {
+      SFX.pop();
+      this.seguir!();
+      return;
+    }
+    {
+      const h = casaPos();
+      if (dist(x, y, h[0] + 170, h[1] - 10) < 55) {
+        this.tocarPipo!();
+        return;
+      }
+    }
+    const z = MZ2.map(lugar)
+      .filter((z) => dist(x, y, z.x, z.y) < z.r)
+      .sort((a, b) => dist(x, y, a.x, a.y) - dist(x, y, b.x, b.y))[0];
+    // El sitio más cercano al dedo gana si se tocan dos a la vez (círculos que se solapan).
+    if (z) {
+      if (ZAGE[z.id] && !zoneOpen(z.id)) {
+        SFX.boing();
+        const prev = z.id === 'bosque' ? 'jardin' : 'bosque',
+          f = flowersIn(prev);
+        say(
+          cap(z.name) +
+            ' todavía está ' +
+            (z.id === 'montana' ? 'dormida' : 'dormido') +
+            '. Se despierta cuando Tito tenga seis flores ' +
+            (prev === 'jardin' ? 'del jardín' : 'del bosque') +
+            (f ? '. ¡Ya tiene ' + (f === 1 ? 'una' : NUM[f] || f) + '!' : '.'),
+        );
+        return;
+      }
+      if (!spotOpen(z.id)) {
+        SFX.boing();
+        const n = spotNeed(z.id),
+          d = mainDone();
+        say(
+          cap(z.name) +
+            ' se ' +
+            (z.id === 'trazos' || z.id === 'fiestas' || z.id === 'canciones' || z.id === 'rutinas' ? 'abren' : 'abre') +
+            ' cuando termines ' +
+            (n === 1 ? 'una casita' : NUM[n] + ' casitas') +
+            ' del camino.' +
+            (d ? ' ¡Ya terminaste ' + (d === 1 ? 'una' : NUM[d] || d) + '!' : ''),
+        );
+        return;
+      }
+      SFX.pop();
+      if (z.id === 'plaza') go('asamblea');
+      else if (z.t) go('casita', { t: z.t, hello: true });
+      else go(z.esc || z.id, { hello: true });
+      return;
+    }
+    SFX.tap();
+    sparkles(x, y);
+  },
 };
 
 /* ---------- casitas de tema: los juegos también son un camino ---------- */
@@ -563,52 +1695,154 @@ SCENES.map={music:'map',
 // (disposicion(), de nucleo/disposicion.ts: en 3D, los puestos proyectados). Si no lo sabe, la de la vista 2D,
 // formando un camino: hasta 4 en una fila; hasta 6 en dos filas de 3 y hasta 8 en dos de 4, con la segunda fila al
 // revés (zigzag). Desde la fase 4d está solo aquí (antes había otra en escenas/escenas2d.ts).
-export function stationPos(t: Tema,j: number): number[]{const p=disposicion().puesto?.(t,j);if(p)return p;
-  const n=t.games.length;if(n<=4)return[860-(n-1)*180+j*360,560];
-  if(n<=6){const r=Math.floor(j/3),c=j%3;return[540+(r?2-c:c)*360,r?700:420]}
-  const r=Math.floor(j/4),c=j%4;return[400+(r?3-c:c)*340,r?700:410]}
+export function stationPos(t: Tema, j: number): number[] {
+  const p = disposicion().puesto?.(t, j);
+  if (p) return p;
+  const n = t.games.length;
+  if (n <= 4) return [860 - (n - 1) * 180 + j * 360, 560];
+  if (n <= 6) {
+    const r = Math.floor(j / 3),
+      c = j % 3;
+    return [540 + (r ? 2 - c : c) * 360, r ? 700 : 420];
+  }
+  const r = Math.floor(j / 4),
+    c = j % 4;
+  return [400 + (r ? 3 - c : c) * 340, r ? 700 : 410];
+}
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
-const stLocked=(t: Tema,j: number)=>!gameOpen(t,j);
+const stLocked = (t: Tema, j: number) => !gameOpen(t, j);
 // CASITA v3: la escena de la casita de un tema: los juegos forman un camino y se abren de uno en uno (gameOpen). Desde
 // la fase 4d se define solo aquí (antes escenas/escenas2d.ts tenía otra y esta le sustituía enter, prompt, hint, draw y
 // down). mundo3d/casita3d.ts pone una casita 3D hecha a partir de esta (hasta la fase 4i la envolvía).
-SCENES.casita={music:'casita',
-// dwell(id): id = 'g:' + número de juego; dice el nombre del juego (g.name o GNAME[g.t]).
-  dwell(id){const j=+id.slice(2);const g=this.t.games[j];if(g)say(g.name||GNAME[g.t]||'')},
-// enter(o): si se vuelve de un juego del repaso (REP_ON) sin haber terminado el tema, vuelve al repaso (go('repaso',
-// {back: 1})); en todo caso el repaso deja de estar en marcha (ponRepOn(false); desde la fase 4c aquí, antes en una
-// envoltura de escenas/repaso.ts). Guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta
-// directamente al cofre. Si se ha abierto un juego nuevo (newlyOpen 'g:id') y no viene con hello, anima su candado y
-// lo anuncia.
-  enter(o: Libre){if(REP_ON&&!o.fin){ponRepOn(false);go('repaso',{back:1});return}ponRepOn(false);
-    this.t=TEMA[o.t];S.last=o.t;save();this.unl=null;
-    if(o.fin){go('cofre',{t:o.t});return}
-    const t: Tema=this.t,nw=newlyOpen('g:'+t.id,t.games.map((_g: JuegoTema,j: number)=>j).filter((j: number)=>gameOpen(t,j)));
-    if(nw.length&&!o.hello){const j=nw[0];this.unl={j,t:T+.8};later(800,()=>{SFX.sparkle();const [x,y]=stationPos(t,j);burst(x,y,30)});later(300,()=>sayQ('¡Se abrió el juego número '+(j+1)+'! Tócalo para seguir.'))}
-    else if(o.hello)later(300,()=>this.prompt!(true))},
-// prompt(long): nombre e intro del tema (si long) y qué juego tocar.
-  prompt(long?: boolean){const t=this.t,nx=nextGameOf(t);say((long?t.n+'. '+(t.intro&&!t.words?t.intro+' ':''):'')+(nx===0?(t.games[0].t==='conocer'?'Empieza por el primero: ¡vamos a conocer!':'Empieza por el primero.'):nx>0?'Toca el que brilla, el número '+(nx+1)+'.':'¡Ya jugaste todos! Puedes repetir el que más te guste.'))},
-// hint(): señala el siguiente juego.
-  hint(){const t=this.t,nx=nextGameOf(t);if(nx<0)return null;const [x,y]=stationPos(t,nx);return{x,y,r:140}},
-// draw(): fondo del tema, cartel, camino entre estaciones, estaciones con su número (verde = hecho, azul = abierto,
-// gris = cerrado), candados y la flecha sobre el siguiente.
-  draw(){const t=this.t;t.bg();
-    {ctx.font=`600 54px ${DF}`;const tw=Math.min(900,ctx.measureText(t.n).width);card(170,34,tw+190,112,'#fff',6,56);pic(t.icon,250,90,90);text(t.n,310+tw/2,110,54,K,{w:600})}
-    const pts=t.games.map((_g: JuegoTema,j: number)=>stationPos(t,j)),nx=nextGameOf(t);drawRoad(pts,nx<0?pts.length-1:nx,150);
-    t.games.forEach((_g: JuegoTema,j: number)=>{const [x,y]=pts[j],lk=stLocked(t,j);drawStation(t,j,x,y,{s:lk?1:hv('g:'+j,hC(x,y,130))});
-      const un=this.unl&&this.unl.j===j&&unlockFx(x,y,124,this.unl.t);
-      if(!un&&lk)lockOver(x,y,124);
-      circ(x-96,y-96,30,lk?'#EADFCF':tst(t.id).g[j]?'#7CC86E':'#5B8DEF',5);text(String(j+1),x-96,y-84,34,'#fff',{f:LF});
-      if(j===nx&&!(this.unl&&this.unl.j===j&&T<this.unl.t+.4))arrowAt(x,y-170)});
-    drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w)},
-// down(x, y): casa -> la zona del tema (o el mapa si el tema no tiene zona con escena); juego cerrado -> dice cuál
-// terminar antes; juego abierto -> go('juego', {t, g}).
-  down(x: number,y: number){const t=this.t;
-    if(atHome(x,y)){SFX.tap();go(ZONES[t.zone]?t.zone:'map');return}
-    if(inTito(x,y)){this.prompt!(true);return}
-    if(inCoinHUD(x,y)){SFX.pop();go('tienda');return}
-    for(let j=0;j<t.games.length;j++){const [gx,gy]=stationPos(t,j);if(dist(x,y,gx,gy)<140){
-      if(stLocked(t,j)){SFX.boing();const nx=nextGameOf(t);say('Este todavía está cerrado. Primero termina el número '+((nx<0?j-1:nx)+1)+'.');return}
-      SFX.pop();go('juego',{t:t.id,g:j});return}}
-    SFX.tap();sparkles(x,y)}
+SCENES.casita = {
+  music: 'casita',
+  // dwell(id): id = 'g:' + número de juego; dice el nombre del juego (g.name o GNAME[g.t]).
+  dwell(id) {
+    const j = +id.slice(2);
+    const g = this.t.games[j];
+    if (g) say(g.name || GNAME[g.t] || '');
+  },
+  // enter(o): si se vuelve de un juego del repaso (REP_ON) sin haber terminado el tema, vuelve al repaso (go('repaso',
+  // {back: 1})); en todo caso el repaso deja de estar en marcha (ponRepOn(false); desde la fase 4c aquí, antes en una
+  // envoltura de escenas/repaso.ts). Guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta
+  // directamente al cofre. Si se ha abierto un juego nuevo (newlyOpen 'g:id') y no viene con hello, anima su candado y
+  // lo anuncia.
+  enter(o: Libre) {
+    if (REP_ON && !o.fin) {
+      ponRepOn(false);
+      go('repaso', { back: 1 });
+      return;
+    }
+    ponRepOn(false);
+    this.t = TEMA[o.t];
+    S.last = o.t;
+    save();
+    this.unl = null;
+    if (o.fin) {
+      go('cofre', { t: o.t });
+      return;
+    }
+    const t: Tema = this.t,
+      nw = newlyOpen(
+        'g:' + t.id,
+        t.games.map((_g: JuegoTema, j: number) => j).filter((j: number) => gameOpen(t, j)),
+      );
+    if (nw.length && !o.hello) {
+      const j = nw[0];
+      this.unl = { j, t: T + 0.8 };
+      later(800, () => {
+        SFX.sparkle();
+        const [x, y] = stationPos(t, j);
+        burst(x, y, 30);
+      });
+      later(300, () => sayQ('¡Se abrió el juego número ' + (j + 1) + '! Tócalo para seguir.'));
+    } else if (o.hello) later(300, () => this.prompt!(true));
+  },
+  // prompt(long): nombre e intro del tema (si long) y qué juego tocar.
+  prompt(long?: boolean) {
+    const t = this.t,
+      nx = nextGameOf(t);
+    say(
+      (long ? t.n + '. ' + (t.intro && !t.words ? t.intro + ' ' : '') : '') +
+        (nx === 0
+          ? t.games[0].t === 'conocer'
+            ? 'Empieza por el primero: ¡vamos a conocer!'
+            : 'Empieza por el primero.'
+          : nx > 0
+            ? 'Toca el que brilla, el número ' + (nx + 1) + '.'
+            : '¡Ya jugaste todos! Puedes repetir el que más te guste.'),
+    );
+  },
+  // hint(): señala el siguiente juego.
+  hint() {
+    const t = this.t,
+      nx = nextGameOf(t);
+    if (nx < 0) return null;
+    const [x, y] = stationPos(t, nx);
+    return { x, y, r: 140 };
+  },
+  // draw(): fondo del tema, cartel, camino entre estaciones, estaciones con su número (verde = hecho, azul = abierto,
+  // gris = cerrado), candados y la flecha sobre el siguiente.
+  draw() {
+    const t = this.t;
+    t.bg();
+    {
+      ctx.font = `600 54px ${DF}`;
+      const tw = Math.min(900, ctx.measureText(t.n).width);
+      card(170, 34, tw + 190, 112, '#fff', 6, 56);
+      pic(t.icon, 250, 90, 90);
+      text(t.n, 310 + tw / 2, 110, 54, K, { w: 600 });
+    }
+    const pts = t.games.map((_g: JuegoTema, j: number) => stationPos(t, j)),
+      nx = nextGameOf(t);
+    drawRoad(pts, nx < 0 ? pts.length - 1 : nx, 150);
+    t.games.forEach((_g: JuegoTema, j: number) => {
+      const [x, y] = pts[j],
+        lk = stLocked(t, j);
+      drawStation(t, j, x, y, { s: lk ? 1 : hv('g:' + j, hC(x, y, 130)) });
+      const un = this.unl && this.unl.j === j && unlockFx(x, y, 124, this.unl.t);
+      if (!un && lk) lockOver(x, y, 124);
+      circ(x - 96, y - 96, 30, lk ? '#EADFCF' : tst(t.id).g[j] ? '#7CC86E' : '#5B8DEF', 5);
+      text(String(j + 1), x - 96, y - 84, 34, '#fff', { f: LF });
+      if (j === nx && !(this.unl && this.unl.j === j && T < this.unl.t + 0.4)) arrowAt(x, y - 170);
+    });
+    drawHome();
+    drawCoinHUD();
+    drawTito(TITO.x, TITO.y, TITO.w);
+  },
+  // down(x, y): casa -> la zona del tema (o el mapa si el tema no tiene zona con escena); juego cerrado -> dice cuál
+  // terminar antes; juego abierto -> go('juego', {t, g}).
+  down(x: number, y: number) {
+    const t = this.t;
+    if (atHome(x, y)) {
+      SFX.tap();
+      go(ZONES[t.zone] ? t.zone : 'map');
+      return;
+    }
+    if (inTito(x, y)) {
+      this.prompt!(true);
+      return;
+    }
+    if (inCoinHUD(x, y)) {
+      SFX.pop();
+      go('tienda');
+      return;
+    }
+    for (let j = 0; j < t.games.length; j++) {
+      const [gx, gy] = stationPos(t, j);
+      if (dist(x, y, gx, gy) < 140) {
+        if (stLocked(t, j)) {
+          SFX.boing();
+          const nx = nextGameOf(t);
+          say('Este todavía está cerrado. Primero termina el número ' + ((nx < 0 ? j - 1 : nx) + 1) + '.');
+          return;
+        }
+        SFX.pop();
+        go('juego', { t: t.id, g: j });
+        return;
+      }
+    }
+    SFX.tap();
+    sparkles(x, y);
+  },
 };

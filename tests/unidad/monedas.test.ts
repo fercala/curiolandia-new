@@ -3,7 +3,15 @@
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (monedas, precios): leerlos
    tal cual en la prueba es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
-import { MONEDAS, alcanza, ganar, gastar, monedasAlTerminar, monedasDelCofre, monedasPorAcierto } from '../../src/dominio/monedas.ts';
+import {
+  MONEDAS,
+  alcanza,
+  ganar,
+  gastar,
+  monedasAlTerminar,
+  monedasDelCofre,
+  monedasPorAcierto,
+} from '../../src/dominio/monedas.ts';
 
 describe('cuántas monedas', () => {
   test('un acierto a la primera da 1 moneda, como mucho 5 por juego', () => {

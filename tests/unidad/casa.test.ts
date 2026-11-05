@@ -8,9 +8,27 @@ import { join } from 'node:path';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { codigoModulos } from '../../herramientas/vite/curiolandia.mts';
 import {
-  COMBINACIONES, CUIDADOS_POR_DIA, DIAS_ETAPA, MASCOTAS, REACCIONES, TOTAL_SORPRESAS, combinacion, cuantasSorpresas,
-  cuidadosDe, cuidar, descubrir, etapaFlor, etapaMascota, fichaComprada, fichaDe, fichaNueva, huertoNuevo, idSorpresa,
-  quiereHoy, reaccionDe, regar,
+  COMBINACIONES,
+  CUIDADOS_POR_DIA,
+  DIAS_ETAPA,
+  MASCOTAS,
+  REACCIONES,
+  TOTAL_SORPRESAS,
+  combinacion,
+  cuantasSorpresas,
+  cuidadosDe,
+  cuidar,
+  descubrir,
+  etapaFlor,
+  etapaMascota,
+  fichaComprada,
+  fichaDe,
+  fichaNueva,
+  huertoNuevo,
+  idSorpresa,
+  quiereHoy,
+  reaccionDe,
+  regar,
 } from '../../src/dominio/casa.ts';
 import { FRASES_CASA, FRASES_COMBINACION } from '../../src/contenido/casa.ts';
 import { ejecutaModulos } from './juegoEnVm.ts';
@@ -51,9 +69,17 @@ describe('los objetos de la casa', () => {
 
   test('las escenas pequeñas: el telescopio abre el cielo y los instrumentos comparten escena', () => {
     expect(reaccionDe('telescopio')).toEqual({ tito: 'mirar', escena: 'cielo' });
-    const instrumentos = Object.entries(REACCIONES).filter(([, r]) => r.escena === 'instrumentos').map(([id]) => id);
+    const instrumentos = Object.entries(REACCIONES)
+      .filter(([, r]) => r.escena === 'instrumentos')
+      .map(([id]) => id);
     expect(instrumentos.sort()).toEqual(['guitarra', 'piano', 'tambor', 'xilofono']);
-    expect(new Set(Object.values(REACCIONES).map((r) => r.escena).filter(Boolean)).size).toBe(10);
+    expect(
+      new Set(
+        Object.values(REACCIONES)
+          .map((r) => r.escena)
+          .filter(Boolean),
+      ).size,
+    ).toBe(10);
   });
 
   test('las combinaciones son de objetos que existen y se encuentran en cualquier orden', () => {
@@ -101,10 +127,13 @@ describe('las mascotas que crecen', () => {
   });
 
   test('otro día empieza de cero y crece al llegar a los días de su etapa, sin días seguidos', () => {
-    const fin = ['2026-11-01', '2026-11-05', '2026-11-20'].reduce(({ f, crecio }, dia) => {
-      const r = cuidar(cuidar(f, 'comer', dia).ficha, 'lavar', dia);
-      return { f: r.ficha, crecio: r.crece ? [...crecio, dia] : crecio };
-    }, { f: fichaNueva(), crecio: [] as string[] });
+    const fin = ['2026-11-01', '2026-11-05', '2026-11-20'].reduce(
+      ({ f, crecio }, dia) => {
+        const r = cuidar(cuidar(f, 'comer', dia).ficha, 'lavar', dia);
+        return { f: r.ficha, crecio: r.crece ? [...crecio, dia] : crecio };
+      },
+      { f: fichaNueva(), crecio: [] as string[] },
+    );
     expect([fin.f.dias, etapaMascota(fin.f.dias), fin.crecio]).toEqual([3, 1, ['2026-11-20']]);
   });
 
@@ -125,7 +154,12 @@ describe('las mascotas que crecen', () => {
   test('fichaDe: sin ficha, joven; una ficha rota se arregla sin perder los días', () => {
     expect(fichaDe({}, 'gato')).toEqual(fichaComprada());
     expect(fichaDe({ gato: null }, 'gato')).toEqual(fichaComprada());
-    expect(fichaDe({ gato: { dias: 6, nombre: 3, hechos: ['comer', 2] } }, 'gato')).toEqual({ nombre: '', dias: 6, dia: '', hechos: ['comer'] });
+    expect(fichaDe({ gato: { dias: 6, nombre: 3, hechos: ['comer', 2] } }, 'gato')).toEqual({
+      nombre: '',
+      dias: 6,
+      dia: '',
+      hechos: ['comer'],
+    });
     expect(fichaDe({ gato: { dias: -1 } }, 'gato').dias).toBe(DIAS_ETAPA[0]);
   });
 });
