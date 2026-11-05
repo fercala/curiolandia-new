@@ -1,0 +1,10 @@
+# Prettier solo formatea el código (src/, tests/, herramientas/ y la configuración de Vite): lo demás se queda como está.
+dist/
+public/
+docs/
+dialogos/
+.claude/
+.github/
+*.md
+*.html
+*.json

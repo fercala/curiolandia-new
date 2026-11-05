@@ -6,17 +6,40 @@
    juegos): leerlos tal cual en la prueba es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
 import {
-  NEED, empezado, fiestaDelMes, juegoAbierto, siguienteJuego, siguienteTema, sitioAbierto, sitioNecesita, temaAbierto,
-  siguienteLetra, temaQueToca, terminadasPrincipales, zonaAbierta, zonaDeLaEdad, zonaDeLetrasDeLaEdad,
-  ISLAS, ZONAS_INGLES, siguienteDeIsla, zonaDeIslaDeLaEdad,
+  NEED,
+  empezado,
+  fiestaDelMes,
+  juegoAbierto,
+  siguienteJuego,
+  siguienteTema,
+  sitioAbierto,
+  sitioNecesita,
+  temaAbierto,
+  siguienteLetra,
+  temaQueToca,
+  terminadasPrincipales,
+  zonaAbierta,
+  zonaDeLaEdad,
+  zonaDeLetrasDeLaEdad,
+  ISLAS,
+  ZONAS_INGLES,
+  siguienteDeIsla,
+  zonaDeIslaDeLaEdad,
 } from '../../src/dominio/apertura.ts';
 import type { Mapa, Partida, TemaAbrible } from '../../src/dominio/apertura.ts';
 
 // tema(id, zona, rincon): un tema de mentira con tres juegos; rincon = es el Rincón de los Conceptos de su zona.
-const tema = (id: string, zone?: string, rincon = false): TemaAbrible => ({ id, zone, concepts: rincon || undefined, games: ['a', 'b', 'c'] });
+const tema = (id: string, zone?: string, rincon = false): TemaAbrible => ({
+  id,
+  zone,
+  concepts: rincon || undefined,
+  games: ['a', 'b', 'c'],
+});
 // camino(zona, letra, n): n temas en el camino de la zona (J1, J2...) y su Rincón de los Conceptos al final (JC).
-const camino = (zona: string, letra: string, n: number): TemaAbrible[] =>
-  [...Array.from({ length: n }, (_x, i) => tema(`${letra}${i + 1}`, zona)), tema(`${letra}C`, zona, true)];
+const camino = (zona: string, letra: string, n: number): TemaAbrible[] => [
+  ...Array.from({ length: n }, (_x, i) => tema(`${letra}${i + 1}`, zona)),
+  tema(`${letra}C`, zona, true),
+];
 
 const MAPA: Mapa<TemaAbrible> = {
   zonas: {
@@ -177,12 +200,30 @@ describe('sitios del mapa', () => {
     expect(sitioAbierto(partida(), MAPA, 'bosque')).toBe(false);
     expect(sitioAbierto(partida(), MAPA, 'tienda')).toBe(true);
     expect(sitioAbierto(partida({ libre: true }), MAPA, 'trazos')).toBe(true);
-    expect(['canciones', 'rutinas', 'trazos', 'fiestas', 'globo', 'plaza'].map(sitioNecesita)).toEqual([1, 2, 3, 4, undefined, undefined]);
+    expect(['canciones', 'rutinas', 'trazos', 'fiestas', 'globo', 'plaza'].map(sitioNecesita)).toEqual([
+      1,
+      2,
+      3,
+      4,
+      undefined,
+      undefined,
+    ]);
   });
 
   test('la fiesta de cada mes', () => {
     expect(Array.from({ length: 12 }, (_x, m) => fiestaDelMes(m))).toEqual([
-      'F-navidad', 'F-carnaval', 'F-carnaval', 'F-libro', null, null, null, null, null, null, null, 'F-navidad',
+      'F-navidad',
+      'F-carnaval',
+      'F-carnaval',
+      'F-libro',
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      'F-navidad',
     ]);
   });
 });
@@ -192,7 +233,12 @@ const isla = (zona: string, letra: string, n: number): TemaAbrible[] =>
   Array.from({ length: n }, (_x, i) => tema(`${letra}${i + 1}`, zona));
 const MAPA_ISLA: Mapa<TemaAbrible> = {
   ...MAPA,
-  zonas: { ...MAPA.zonas, playaSonidos: isla('playaSonidos', 'LP', 6), bosqueLetras: isla('bosqueLetras', 'LB', 6), puebloPalabras: isla('puebloPalabras', 'LU', 3) },
+  zonas: {
+    ...MAPA.zonas,
+    playaSonidos: isla('playaSonidos', 'LP', 6),
+    bosqueLetras: isla('bosqueLetras', 'LB', 6),
+    puebloPalabras: isla('puebloPalabras', 'LU', 3),
+  },
 };
 const PLAYA_HECHA = ['LP1', 'LP2', 'LP3', 'LP4', 'LP5', 'LP6'];
 
@@ -217,7 +263,13 @@ describe('Isla de las Letras', () => {
 
   test('sus casitas se abren de una en una y sin edad la zona sigue cerrada', () => {
     const abiertoIsla = (p: Partida, id: string): boolean =>
-      temaAbierto(p, MAPA_ISLA, Object.values(MAPA_ISLA.zonas).flat().find((t) => t.id === id));
+      temaAbierto(
+        p,
+        MAPA_ISLA,
+        Object.values(MAPA_ISLA.zonas)
+          .flat()
+          .find((t) => t.id === id),
+      );
     expect(abiertoIsla(partida(), 'LP1')).toBe(true);
     expect(abiertoIsla(partida(), 'LP2')).toBe(false);
     expect(abiertoIsla(partida({ hechos: ['LP1'] }), 'LP2')).toBe(true);
@@ -230,7 +282,9 @@ describe('Isla de las Letras', () => {
     expect(zonaDeLetrasDeLaEdad(partida(), MAPA_ISLA)).toBe('playaSonidos');
     expect(siguienteLetra(partida(), MAPA_ISLA)?.id).toBe('LP1');
     expect(siguienteLetra(partida({ edad: 4 }), MAPA_ISLA)?.id).toBe('LB1');
-    expect(siguienteLetra(partida({ edad: 4, hechos: ['LB1', 'LB2', 'LB3', 'LB4', 'LB5', 'LB6'] }), MAPA_ISLA)?.id).toBe('LP1');
+    expect(
+      siguienteLetra(partida({ edad: 4, hechos: ['LB1', 'LB2', 'LB3', 'LB4', 'LB5', 'LB6'] }), MAPA_ISLA)?.id,
+    ).toBe('LP1');
     const todo = [...PLAYA_HECHA, 'LB1', 'LB2', 'LB3', 'LB4', 'LB5', 'LB6', 'LU1', 'LU2', 'LU3'];
     expect(siguienteLetra(partida({ edad: 5, hechos: todo }), MAPA_ISLA)).toBeNull();
     expect(siguienteTema(partida(), MAPA_ISLA)?.id).toBe('J1');
@@ -241,7 +295,12 @@ describe('Isla de las Letras', () => {
 // MAPA_DOS_ISLAS: el mapa de prueba con las dos islas: la de las Letras (MAPA_ISLA) y la del Inglés, con tres zonas.
 const MAPA_DOS_ISLAS: Mapa<TemaAbrible> = {
   ...MAPA_ISLA,
-  zonas: { ...MAPA_ISLA.zonas, playaHello: isla('playaHello', 'IP', 6), parqueLondres: isla('parqueLondres', 'IL', 6), puebloCuentos: isla('puebloCuentos', 'IC', 2) },
+  zonas: {
+    ...MAPA_ISLA.zonas,
+    playaHello: isla('playaHello', 'IP', 6),
+    parqueLondres: isla('parqueLondres', 'IL', 6),
+    puebloCuentos: isla('puebloCuentos', 'IC', 2),
+  },
 };
 const HELLO_HECHA = ['IP1', 'IP2', 'IP3', 'IP4', 'IP5', 'IP6'];
 
@@ -268,7 +327,13 @@ describe('Isla del Inglés', () => {
 
   test('sus casitas se abren de una en una', () => {
     const abierto = (p: Partida, id: string): boolean =>
-      temaAbierto(p, MAPA_DOS_ISLAS, Object.values(MAPA_DOS_ISLAS.zonas).flat().find((t) => t.id === id));
+      temaAbierto(
+        p,
+        MAPA_DOS_ISLAS,
+        Object.values(MAPA_DOS_ISLAS.zonas)
+          .flat()
+          .find((t) => t.id === id),
+      );
     expect(abierto(partida(), 'IP1')).toBe(true);
     expect(abierto(partida(), 'IP2')).toBe(false);
     expect(abierto(partida({ hechos: ['IP1'] }), 'IP2')).toBe(true);
@@ -281,7 +346,13 @@ describe('Isla del Inglés', () => {
     expect(zonaDeIslaDeLaEdad(partida({ edad: 5 }), MAPA_DOS_ISLAS, 'letras')).toBe('puebloPalabras');
     expect(siguienteDeIsla(partida(), MAPA_DOS_ISLAS, 'ingles')?.id).toBe('IP1');
     expect(siguienteDeIsla(partida({ edad: 4 }), MAPA_DOS_ISLAS, 'ingles')?.id).toBe('IL1');
-    expect(siguienteDeIsla(partida({ edad: 4, hechos: ['IL1', 'IL2', 'IL3', 'IL4', 'IL5', 'IL6'] }), MAPA_DOS_ISLAS, 'ingles')?.id).toBe('IP1');
+    expect(
+      siguienteDeIsla(
+        partida({ edad: 4, hechos: ['IL1', 'IL2', 'IL3', 'IL4', 'IL5', 'IL6'] }),
+        MAPA_DOS_ISLAS,
+        'ingles',
+      )?.id,
+    ).toBe('IP1');
     expect(siguienteLetra(partida(), MAPA_DOS_ISLAS)?.id).toBe('LP1');
     expect(siguienteDeIsla(partida({ hechos: HELLO_HECHA }), MAPA_DOS_ISLAS, 'letras')?.id).toBe('LP1');
     expect(siguienteDeIsla(partida(), MAPA, 'ingles')).toBeNull();

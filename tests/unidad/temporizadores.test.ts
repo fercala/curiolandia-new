@@ -21,10 +21,17 @@ interface Juego {
 // frame() pueda dibujar sin lienzo de verdad.
 function lienzoMudo(): unknown {
   const nada = (): void => undefined;
-  return new Proxy({}, {
-    get: (o: Record<string | symbol, unknown>, k) => (k in o ? o[k] : k === 'measureText' ? () => ({ width: 0 }) : nada),
-    set: (o: Record<string | symbol, unknown>, k, v) => { o[k] = v; return true; },
-  });
+  return new Proxy(
+    {},
+    {
+      get: (o: Record<string | symbol, unknown>, k) =>
+        k in o ? o[k] : k === 'measureText' ? () => ({ width: 0 }) : nada,
+      set: (o: Record<string | symbol, unknown>, k, v) => {
+        o[k] = v;
+        return true;
+      },
+    },
+  );
 }
 
 describe('temporizadores de later() en frame()', () => {

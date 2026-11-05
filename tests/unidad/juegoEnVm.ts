@@ -15,16 +15,33 @@ export interface OpcionesVm {
 export function ejecutaModulos(modulos: string, o: OpcionesVm = {}): Record<string, unknown> {
   const guardado = o.guardado ?? {};
   // aplicacion/adultos.ts conecta al cargarse los botones de los paneles y los eventos del lienzo y del documento.
-  const lienzo = { width: 0, height: 0, style: {}, getContext: () => ({}), toDataURL: () => '', addEventListener: () => undefined };
+  const lienzo = {
+    width: 0,
+    height: 0,
+    style: {},
+    getContext: () => ({}),
+    toDataURL: () => '',
+    addEventListener: () => undefined,
+  };
   const global: Record<string, unknown> = {
     document: {
-      getElementById: () => lienzo, createElement: () => lienzo, addEventListener: () => undefined,
-      fonts: { load: (f: string) => { o.alPedirFuente?.(f); return new Promise(() => undefined); } },
+      getElementById: () => lienzo,
+      createElement: () => lienzo,
+      addEventListener: () => undefined,
+      fonts: {
+        load: (f: string) => {
+          o.alPedirFuente?.(f);
+          return new Promise(() => undefined);
+        },
+      },
     },
     setTimeout: () => 0,
     localStorage: { getItem: (k: string) => guardado[k] ?? null, setItem: () => undefined },
     location: { protocol: 'file:' },
-    Image: class { src = ''; complete = false; },
+    Image: class {
+      src = '';
+      complete = false;
+    },
     addEventListener: () => undefined,
     innerWidth: 1600,
     innerHeight: 900,

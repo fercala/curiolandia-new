@@ -8,8 +8,19 @@
 import { describe, expect, test } from 'vitest';
 import type { DatosRepaso, TemaRepasable } from '../../src/dominio/repaso.ts';
 import {
-  NOREP, REPASO, caducado, conFecha, conHecho, conIntento, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan,
-  repasable, terminado, toca,
+  NOREP,
+  REPASO,
+  caducado,
+  conFecha,
+  conHecho,
+  conIntento,
+  conJuegoReciente,
+  elegirRepaso,
+  masAntiguos,
+  queCuestan,
+  repasable,
+  terminado,
+  toca,
 } from '../../src/dominio/repaso.ts';
 
 const HOY = '2026-10-25';
@@ -26,12 +37,17 @@ const JUGADOS: Record<string, Record<string, number>> = { A: { 0: 1, 1: 1, 2: 1 
 function datos(cambios: Partial<DatosRepaso> = {}): DatosRepaso {
   return {
     stats: {
-      contar: { ok: 1, err: 4 }, colores: { ok: 2, err: 2 }, formas: { ok: 1, err: 1 }, letras: { ok: 9, err: 1 },
+      contar: { ok: 1, err: 4 },
+      colores: { ok: 2, err: 2 },
+      formas: { ok: 1, err: 1 },
+      letras: { ok: 9, err: 1 },
     },
     kg: { contar: ['A#1', 'B#1', 'A#0'], colores: ['B#1', 'A#2'] },
     gs: {
-      'A#0': { ok: 0, err: 3, d: '2026-10-20' }, 'A#2': { ok: 3, err: 0, d: '2026-10-24' },
-      'B#1': { ok: 1, err: 2, d: '2026-10-20' }, 'C#0': { ok: 1, err: 1, d: '2026-10-22' },
+      'A#0': { ok: 0, err: 3, d: '2026-10-20' },
+      'A#2': { ok: 3, err: 0, d: '2026-10-24' },
+      'B#1': { ok: 1, err: 2, d: '2026-10-20' },
+      'C#0': { ok: 1, err: 1, d: '2026-10-22' },
     },
     temas: TEMAS,
     tema: (id) => TEMAS.find((t) => t.id === id),
@@ -45,14 +61,28 @@ const SIN_FALLOS = datos({ stats: {}, gs: {} });
 
 describe('qué se repasa', () => {
   test('los números de las reglas y los tipos de juego que no se repasan', () => {
-    expect(REPASO).toEqual({ juegos: 3, aciertos: 0.7, intentosHabilidad: 4, intentosJuego: 3, recientes: 6, estrellas: 6 });
+    expect(REPASO).toEqual({
+      juegos: 3,
+      aciertos: 0.7,
+      intentosHabilidad: 4,
+      intentosJuego: 3,
+      recientes: 6,
+      estrellas: 6,
+    });
     expect(NOREP).toContain('cuento');
     expect(NOREP).toContain('cancion');
   });
 
   test('un juego se repasa si existe, es de un tipo con aciertos y ya se ha jugado', () => {
     const d = datos();
-    expect(['A#0', 'A#1', 'A#2', 'C#1', 'C#5', 'X#0'].map((id) => repasable(d, id))).toEqual([true, false, true, false, false, false]);
+    expect(['A#0', 'A#1', 'A#2', 'C#1', 'C#5', 'X#0'].map((id) => repasable(d, id))).toEqual([
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+    ]);
   });
 });
 

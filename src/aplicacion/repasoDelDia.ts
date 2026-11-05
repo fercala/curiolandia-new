@@ -13,7 +13,16 @@
  * Importa: solo reglas y tipos de dominio/repaso.ts.
  */
 import type { DatosRepaso, RepasoDelDia, Resultado, TemaRepasable } from '../dominio/repaso.ts';
-import { caducado, conIntento, conJuegoReciente, elegirRepaso, masAntiguos, queCuestan, terminado, toca } from '../dominio/repaso.ts';
+import {
+  caducado,
+  conIntento,
+  conJuegoReciente,
+  elegirRepaso,
+  masAntiguos,
+  queCuestan,
+  terminado,
+  toca,
+} from '../dominio/repaso.ts';
 
 /** El repaso del día tal como se guarda (S.rep): además de los juegos y los hechos, si ya se cobró el premio (paid) y
  * si el botón verde ya pasó hoy por el repaso (seen). */
@@ -62,8 +71,12 @@ export interface Apuntado {
 // datos(p, cat): lo que miran las reglas del repaso (DatosRepaso), sacado de la partida p y de los temas cat.
 function datos(p: PartidaDeRepaso, cat: CatalogoDeTemas): DatosRepaso {
   return {
-    stats: p.stats, kg: p.kg ?? {}, gs: p.gs ?? {}, temas: cat.lista,
-    tema: (id) => cat.tema(id), jugados: (id) => p.temas[id]?.g ?? {},
+    stats: p.stats,
+    kg: p.kg ?? {},
+    gs: p.gs ?? {},
+    temas: cat.lista,
+    tema: (id) => cat.tema(id),
+    jugados: (id) => p.temas[id]?.g ?? {},
   };
 }
 

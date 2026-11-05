@@ -37,13 +37,22 @@ export const PROGRESO_LETRA = {
 // datosLetra(id, total, jugados, gs): lo que lleva el niño de la letra cuya casita es id, con total juegos: cuántos
 // están terminados (jugados = S.temas[id].g, por número de juego) y la suma de aciertos y fallos de sus juegos en gs
 // (S.gs, con las claves 'id#número').
-export function datosLetra(id: string, total: number, jugados: Readonly<Record<string, unknown>>,
-  gs: Readonly<Record<string, { readonly ok: number; readonly err: number } | undefined>>): DatosLetra {
-  let hechos = 0, ok = 0, err = 0;
+export function datosLetra(
+  id: string,
+  total: number,
+  jugados: Readonly<Record<string, unknown>>,
+  gs: Readonly<Record<string, { readonly ok: number; readonly err: number } | undefined>>,
+): DatosLetra {
+  let hechos = 0,
+    ok = 0,
+    err = 0;
   for (let j = 0; j < total; j++) {
     if (jugados[j]) hechos++;
     const r = gs[`${id}#${j}`];
-    if (r) { ok += r.ok; err += r.err; }
+    if (r) {
+      ok += r.ok;
+      err += r.err;
+    }
   }
   return { hechos, total, ok, err };
 }
@@ -51,7 +60,7 @@ export function datosLetra(id: string, total: number, jugados: Readonly<Record<s
 // aciertosLetra(d): el porcentaje de aciertos de la letra (0 a 100, redondeado), o null si aún no tiene intentos.
 export function aciertosLetra(d: DatosLetra): number | null {
   const n = d.ok + d.err;
-  return n ? Math.round(d.ok / n * 100) : null;
+  return n ? Math.round((d.ok / n) * 100) : null;
 }
 
 // estadoLetra(d): cómo va la letra. Sin juegos terminados, sin empezar; con 5 intentos o más y menos del 60 % de
@@ -59,7 +68,8 @@ export function aciertosLetra(d: DatosLetra): number | null {
 // camino.
 export function estadoLetra(d: DatosLetra): EstadoLetra {
   if (!d.hechos) return 'sinEmpezar';
-  const n = d.ok + d.err, parte = n ? d.ok / n : 1;
+  const n = d.ok + d.err,
+    parte = n ? d.ok / n : 1;
   if (n >= PROGRESO_LETRA.intentos && parte < PROGRESO_LETRA.cuesta) return 'cuesta';
   if (d.hechos >= d.total && (n < PROGRESO_LETRA.intentos || parte >= PROGRESO_LETRA.aprendida)) return 'aprendida';
   return 'enCamino';

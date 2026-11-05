@@ -1,0 +1,22 @@
+// Linter del código (oxlint: reglas de ESLint escritas en Rust, sin necesitar la API de TypeScript, que la versión 7
+// ya no tiene en JavaScript). `npm run lint` revisa src/, tests/ y herramientas/ y falla con cualquier aviso; lo pasa
+// GitHub Actions en cada PR. docs/FORMATO-Y-LINTER.md explica cada decisión.
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc"],
+  // Las reglas de "correctness": las que señalan código que casi seguro está mal o no sirve para nada.
+  "categories": { "correctness": "error" },
+  "rules": {
+    // `a && b()` y `c ? d() : e()` como instrucción son la forma corta de un if, y el juego la usa mucho.
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    // Lo que empieza por _ no se usa a propósito (parámetros que se reciben y no se miran); el error de un catch
+    // tampoco hace falta usarlo.
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "destructuredArrayIgnorePattern": "^_", "caughtErrors": "none" }
+    ],
+    // /o$/.test(w) y w.endsWith('o') hacen lo mismo con textos: es cuestión de gusto, no un fallo.
+    "unicorn/prefer-string-starts-ends-with": "off"
+  },
+  "ignorePatterns": ["dist/**", "public/**"]
+}

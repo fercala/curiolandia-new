@@ -40,7 +40,12 @@ export const MIGRACIONES: Readonly<Record<number, Migracion>> = {
   // 3 → 4 (fase C1 de docs/PLAN-CASA.md): la casa interactiva. Solo añade campos: mascotas (cada mascota que crece y
   // ya estaba comprada en owned recibe su ficha de joven, fichaComprada; las fichas que ya hubiera se quedan),
   // sorpresas ({} si no había) y huerto (sin regar si no había).
-  3: (d) => ({ ...d, mascotas: mascotasDe(d), sorpresas: objeto(d['sorpresas']) ?? {}, huerto: objeto(d['huerto']) ?? huertoNuevo() }),
+  3: (d) => ({
+    ...d,
+    mascotas: mascotasDe(d),
+    sorpresas: objeto(d['sorpresas']) ?? {},
+    huerto: objeto(d['huerto']) ?? huertoNuevo(),
+  }),
 };
 
 // objeto(v): v si es un objeto (no null ni una lista); si no, undefined.
@@ -52,7 +57,7 @@ function objeto(v: unknown): Record<string, unknown> | undefined {
 // (fichaComprada) por cada mascota que crece comprada en owned y sin ficha.
 function mascotasDe(d: Readonly<PartidaCruda>): Record<string, unknown> {
   const tiene = objeto(d['owned']) ?? {};
-  const fichas: Record<string, unknown> = { ...(objeto(d['mascotas']) ?? {}) };
+  const fichas: Record<string, unknown> = { ...objeto(d['mascotas']) };
   const nuevas = MASCOTAS.filter((id) => tiene[id] && !objeto(fichas[id])).map((id) => [id, fichaComprada()]);
   return { ...fichas, ...Object.fromEntries(nuevas) };
 }
@@ -78,7 +83,11 @@ const igual: Migracion = (d) => ({ ...d });
 // una más nueva (de un juego más moderno), sale igual. Si faltara un paso, esa versión se salta sin cambiar nada (las
 // pruebas comprueban que no falta ninguno). No cambia d: devuelve una partida nueva (copia de primer nivel: lo que hay
 // dentro de cada campo se comparte, como en los pasos que no lo tocan).
-export function migrar(d: Readonly<PartidaCruda>, hasta: number = VERSION_PARTIDA, pasos: Readonly<Record<number, Migracion>> = MIGRACIONES): PartidaCruda {
+export function migrar(
+  d: Readonly<PartidaCruda>,
+  hasta: number = VERSION_PARTIDA,
+  pasos: Readonly<Record<number, Migracion>> = MIGRACIONES,
+): PartidaCruda {
   const desde = versionDe(d);
   const versiones = Array.from({ length: Math.max(0, hasta - desde) }, (_x, i) => desde + i);
   return versiones.reduce<PartidaCruda>((p, v) => ({ ...(pasos[v] ?? igual)(p), ver: v + 1 }), { ...d });
