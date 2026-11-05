@@ -288,9 +288,36 @@ export function wobTap(w: Mundo,x: number,y: number){
     // Tito salta de alegría con el sol
     setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300);
   }
-  else if(u.cloud&&skyNow().night){for(let i=0;i<6;i++)parts.push({x:x+rnd(-35,35),y:y+rnd(5,20),vx:rnd(-20,20),vy:rnd(10,40),life:rnd(1.1,1.5),t:0,c:pick(['#FFF6C8','#FFFFFF','#FFE58A']),r:rnd(7,10),rot:0,k:'s',g:40});/* de noche, la nube suelta estrellitas */[1318,1568,2093].forEach((f,i)=>setTimeout(()=>tone(f,.25,'sine',.05,1.2),i*130))}
-  else if(u.cloud&&isBday()){burst(x,y+10,18);[523,659,784].forEach((f,i)=>setTimeout(()=>tone(f,.2,'triangle',.07),i*100))/* el día del cumpleaños, la nube suelta confeti */}
-  else if(u.cloud){const mo=ahora().getMonth(),wi=mo===11||mo<=1;/* en invierno, la nube suelta copitos de nieve en vez de gotitas */for(let i=0;i<7;i++)parts.push({x:x+rnd(-35,35),y:y+rnd(5,20),vx:rnd(-10,10)*(wi?2:1),vy:wi?rnd(10,30):rnd(20,60),life:wi?rnd(1.2,1.6):rnd(.7,1),t:0,c:wi?pick(['#FFFFFF','#EAF4FF']):pick(['#7FC4F0','#A8D8F8','#5AAEE6']),r:wi?rnd(5,7):rnd(4,6),rot:0,k:'d',g:wi?60:450});/* la nube suelta unas gotitas de lluvia */if(!wi&&w.rainbow){const v=new THREE.Vector3(1.1,0,0);t.localToWorld(v);w.rainbow.position.set(v.x,v.y-.3,v.z-1.2);w.rainT=T;[523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80))/* con una escalita de notas, una por color */}/* y sale un arcoíris detrás */for(let i=0;i<4;i++)setTimeout(()=>tone(pick(wi?[784,880,988,1046]:[1046,1175,1318,1568]),wi?.2:.12,'sine',wi?.05:.07),i*(wi?160:110)+60)}
+  // nube de noche: suelta estrellitas
+  else if(u.cloud&&skyNow().night){
+    for(let i=0;i<6;i++)parts.push({x:x+rnd(-35,35),y:y+rnd(5,20),vx:rnd(-20,20),vy:rnd(10,40),life:rnd(1.1,1.5),t:0,
+      c:pick(['#FFF6C8','#FFFFFF','#FFE58A']),r:rnd(7,10),rot:0,k:'s',g:40});
+    [1318,1568,2093].forEach((f,i)=>setTimeout(()=>tone(f,.25,'sine',.05,1.2),i*130));
+  }
+  // el día del cumpleaños, la nube suelta confeti
+  else if(u.cloud&&isBday()){
+    burst(x,y+10,18);
+    [523,659,784].forEach((f,i)=>setTimeout(()=>tone(f,.2,'triangle',.07),i*100));
+  }
+  // nube de día: suelta unas gotitas de lluvia y sale un arcoíris detrás
+  else if(u.cloud){
+    // en invierno, la nube suelta copitos de nieve en vez de gotitas
+    const mo=ahora().getMonth(),wi=mo===11||mo<=1;
+    for(let i=0;i<7;i++)parts.push({x:x+rnd(-35,35),y:y+rnd(5,20),vx:rnd(-10,10)*(wi?2:1),vy:wi?rnd(10,30):rnd(20,60),
+      life:wi?rnd(1.2,1.6):rnd(.7,1),t:0,c:wi?pick(['#FFFFFF','#EAF4FF']):pick(['#7FC4F0','#A8D8F8','#5AAEE6']),
+      r:wi?rnd(5,7):rnd(4,6),rot:0,k:'d',g:wi?60:450});
+    // y sale un arcoíris detrás
+    if(!wi&&w.rainbow){
+      const v=new THREE.Vector3(1.1,0,0);
+      t.localToWorld(v);
+      w.rainbow.position.set(v.x,v.y-.3,v.z-1.2);
+      w.rainT=T;
+      // con una escalita de notas, una por color
+      [523,587,659,784,880,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.06),250+i*80));
+    }
+    for(let i=0;i<4;i++)setTimeout(()=>tone(pick(wi?[784,880,988,1046]:[1046,1175,1318,1568]),wi?.2:.12,'sine',wi?.05:.07),
+      i*(wi?160:110)+60);
+  }
   else if(u.sleigh){sparkles(x,y,10);for(let i=0;i<4;i++)parts.push({x:x+rnd(-30,30),y:y+10,vx:rnd(-40,40),vy:rnd(-60,-20),life:1.4,t:0,c:pick(['#E8503C','#4CAF50','#F2C14E','#5AB8F0']),r:rnd(11,14),rot:rnd(0,1),g:380});/* del trineo caen regalitos */for(let i=0;i<8;i++){tone(2093+(i%3)*300,.08,'triangle',.04,1,i*.09);noise(.04,.05,6000,i*.09)}/* cascabeles del trineo */setTimeout(()=>{const st=SCENES[sceneName];if(st)st.hop=T},300)}
   else if(u.bball){if(t.visible){t.visible=false;{const nB=w.trees!.filter(q=>q.userData.bball).length,nP=w.trees!.filter(q=>q.userData.bball&&!q.visible).length;if(nP<=7){numPop(x,y,nP);sayNum(nP,nP===nB?()=>say3('¡Muy bien!'):null)}}/* cuenta los globos explotados, y ¡muy bien! al acabar */noise(.12,.25,2500);tone(180,.12,'square',.06,.5);burst(x,y-60,20)}/* el globo explota y suelta confeti */}
   else if(u.sat){if(!w.satT||T-w.satT>4){w.satT=T;const sc0=sceneName;setTimeout(()=>{if(sceneName===sc0)say3('Saturno. Tiene unos anillos enormes.',()=>sylClap(x,y+40,'SATURNO'))},300);numPop(x,y+80,6,'Saturno');parts[parts.length-1].hl=1}[330,440,550,660].forEach((f,i)=>setTimeout(()=>tone(f,.3,'sine',.05,1.1),i*90));ringParts(x,y,2,0,'#FFE9B8')/* Saturno dice su nombre y sus anillos giran */}
