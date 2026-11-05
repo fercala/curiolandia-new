@@ -53,7 +53,9 @@ function existeDibujo(k: string): boolean {
 // dibujosDe(t): las claves de dibujo que nombra el tema t, con dónde: su icono, el de cada juego (salvo los de
 // ICONOS_DE_ESTACION) y sus palabras con sus ejemplos. Las palabras dibujadas a mano (con draw) no tienen clave.
 function dibujosDe(t: TemaLeido): Array<[string, string]> {
-  const juegos = t.games.flatMap((g, j): Array<[string, string]> => (g.icon && !ICONOS_DE_ESTACION.includes(g.icon) ? [[g.icon, `${t.id}: juego ${j}`]] : []));
+  const juegos = t.games.flatMap((g, j): Array<[string, string]> =>
+    g.icon && !ICONOS_DE_ESTACION.includes(g.icon) ? [[g.icon, `${t.id}: juego ${j}`]] : [],
+  );
   const palabras = (t.words ?? []).flatMap((w): Array<[string, string]> => [
     ...(w.k ? [[w.k, `${t.id}: palabra`] as [string, string]] : []),
     ...(w.ex ?? []).map((e): [string, string] => [e, `${t.id}: ejemplo de ${w.k}`]),
@@ -72,27 +74,60 @@ describe('los temas', () => {
 
   test('cada tema está en la zona de su lista', () => {
     const zonas: Array<[string, string[]]> = [
-      ['jardin', ['T3', 'C3']], ['bosque', ['T4', 'C4']], ['montana', ['T5', 'C5']],
-      ['extras', ['CAN', 'RUT', 'TRZ']], ['fiestas', ['FIESTAS']],
-      ['playaSonidos', ['TL3']], ['bosqueLetras', ['TL4']], ['puebloPalabras', ['TL5']], // la Isla de las Letras (fases L2 a L5 de docs/PLAN-LECTURA.md)
+      ['jardin', ['T3', 'C3']],
+      ['bosque', ['T4', 'C4']],
+      ['montana', ['T5', 'C5']],
+      ['extras', ['CAN', 'RUT', 'TRZ']],
+      ['fiestas', ['FIESTAS']],
+      ['playaSonidos', ['TL3']],
+      ['bosqueLetras', ['TL4']],
+      ['puebloPalabras', ['TL5']], // la Isla de las Letras (fases L2 a L5 de docs/PLAN-LECTURA.md)
       ['playaHello', ['ING']], // la Isla del Inglés (fase I2 de docs/PLAN-INGLES.md): las casitas del antiguo rincón
       ['parqueLondres', ['ING_PARQUE']], // y su Parque de Londres (fase I4)
       ['puebloCuentos', ['ING_PUEBLO']], // y su Pueblo de los Cuentos (fase I5)
     ];
     const fuera = zonas.flatMap(([zona, listas]) =>
-      listas.flatMap((l) => juego[l] as TemaLeido | TemaLeido[]).filter((t) => t.zone !== zona).map((t) => `${t.id} no es de ${zona}`));
+      listas
+        .flatMap((l) => juego[l] as TemaLeido | TemaLeido[])
+        .filter((t) => t.zone !== zona)
+        .map((t) => `${t.id} no es de ${zona}`),
+    );
     expect(fuera).toEqual([]);
-    expect(temas().filter((t) => !['jardin', 'bosque', 'montana', 'extras', 'fiestas', 'playaSonidos', 'bosqueLetras', 'puebloPalabras', 'playaHello', 'parqueLondres', 'puebloCuentos'].includes(t.zone))).toEqual([]);
+    expect(
+      temas().filter(
+        (t) =>
+          ![
+            'jardin',
+            'bosque',
+            'montana',
+            'extras',
+            'fiestas',
+            'playaSonidos',
+            'bosqueLetras',
+            'puebloPalabras',
+            'playaHello',
+            'parqueLondres',
+            'puebloCuentos',
+          ].includes(t.zone),
+      ),
+    ).toEqual([]);
   });
 
   test('cada dibujo que nombran existe (icono, juegos, palabras y ejemplos)', () => {
-    const faltan = temas().flatMap(dibujosDe).filter(([k]) => !existeDibujo(k)).map(([k, d]) => `${d}: ${k}`);
+    const faltan = temas()
+      .flatMap(dibujosDe)
+      .filter(([k]) => !existeDibujo(k))
+      .map(([k, d]) => `${d}: ${k}`);
     expect(faltan).toEqual([]);
   });
 
   test('cada fondo es uno de BG', () => {
     const fondos = Object.values(lee<Record<string, unknown>>('BG'));
-    expect(temas().filter((t) => !fondos.includes(t.bg)).map((t) => t.id)).toEqual([]);
+    expect(
+      temas()
+        .filter((t) => !fondos.includes(t.bg))
+        .map((t) => t.id),
+    ).toEqual([]);
   });
 
   test('cada juego se puede crear: tiene make o makeGame sabe hacerlo con lo que trae el tema', () => {
@@ -101,29 +136,61 @@ describe('los temas', () => {
     // sinFabrica(t, g): por qué makeGame no sabría crear el juego g del tema t (vacío si sí sabe).
     const sinFabrica = (t: TemaLeido, g: TemaLeido['games'][number]): string => {
       if (g.make) return '';
-      if (t.en && ['enConocer', 'enEscucha', 'enGlobos', 'enCuenta', 'enRepite', 'enTelefono', 'enDice', 'enViste', 'enPollySays', 'enMeGusta', 'enQueEs', 'enBingo', 'enAutobus', 'enCuento'].includes(g.t)) return '';
+      if (
+        t.en &&
+        [
+          'enConocer',
+          'enEscucha',
+          'enGlobos',
+          'enCuenta',
+          'enRepite',
+          'enTelefono',
+          'enDice',
+          'enViste',
+          'enPollySays',
+          'enMeGusta',
+          'enQueEs',
+          'enBingo',
+          'enAutobus',
+          'enCuento',
+        ].includes(g.t)
+      )
+        return '';
       if (g.t === 'cuento') return t.id in cuentos ? '' : 'cuento sin CUENTOS[id]';
       if (g.t === 'cancion') return g.song && g.song in canciones ? '' : `canción sin SONGS[${g.song}]`;
       if (['conocer', 'busca', 'memoria'].includes(g.t)) return t.words?.length ? '' : `${g.t} sin words`;
       return `tipo ${g.t} sin make`;
     };
-    const malos = temas().flatMap((t) => t.games.map((g, j) => [`${t.id} juego ${j}`, sinFabrica(t, g)])).filter(([, p]) => p);
+    const malos = temas()
+      .flatMap((t) => t.games.map((g, j) => [`${t.id} juego ${j}`, sinFabrica(t, g)]))
+      .filter(([, p]) => p);
     expect(malos).toEqual([]);
   });
 });
 
 describe('las palabras para leer del Pueblo de las Palabras (fase L5 de docs/PLAN-LECTURA.md)', () => {
   // sinTildes(t): t en mayúsculas sin tildes (la Ñ se queda), para comparar lo escrito con el nombre del dibujo.
-  const sinTildes = (t: string): string => t.toUpperCase().replace(/Ñ/g, '\u0000').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0000/g, 'Ñ');
+  const sinTildes = (t: string): string =>
+    t
+      .toUpperCase()
+      .replace(/Ñ/g, '\u0000')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      // oxlint-disable-next-line no-control-regex -- \u0000 es la marca que se pone a la Ñ mientras se quitan los acentos
+      .replace(/\u0000/g, 'Ñ');
   const listas = (): Array<{ k: string; syl: string[] }> => {
-    const p = lee<{ dos: Array<{ k: string; syl: string[] }>; tres: Array<{ k: string; syl: string[] }> }>('PALABRAS_LEER');
+    const p = lee<{ dos: Array<{ k: string; syl: string[] }>; tres: Array<{ k: string; syl: string[] }> }>(
+      'PALABRAS_LEER',
+    );
     return [...p.dos, ...p.tres];
   };
 
   test('cada palabra se escribe como se llama su dibujo y sus sílabas no se repiten', () => {
     const lex = lee<Record<string, string>>('LEX');
     const malas = listas().flatMap((w) => [
-      ...(sinTildes(w.syl.join('')) === sinTildes((lex[w.k] ?? '').replace(/^(el|la|los|las) /, '')) ? [] : [`${w.k}: ${w.syl.join('-')} no es «${lex[w.k]}»`]),
+      ...(sinTildes(w.syl.join('')) === sinTildes((lex[w.k] ?? '').replace(/^(el|la|los|las) /, ''))
+        ? []
+        : [`${w.k}: ${w.syl.join('-')} no es «${lex[w.k]}»`]),
       ...(new Set(w.syl).size === w.syl.length ? [] : [`${w.k}: sílabas repetidas`]),
       ...(existeDibujo(w.k) ? [] : [`${w.k}: sin dibujo`]),
     ]);
@@ -144,7 +211,9 @@ describe('el progreso por letra (fase L7 de docs/PLAN-LECTURA.md)', () => {
     const malas = LETRAS.flatMap((L) => {
       const t = tema[casita(L)];
       if (!t) return [`${L.l}: sin casita ${casita(L)}`];
-      return t.zone === L.zona && t.games.some((g) => !NOREP.includes(g.t)) ? [] : [`${L.l}: casita ${t.id} de otra zona o sin juegos que repasar`];
+      return t.zone === L.zona && t.games.some((g) => !NOREP.includes(g.t))
+        ? []
+        : [`${L.l}: casita ${t.id} de otra zona o sin juegos que repasar`];
     });
     expect(malas).toEqual([]);
   });
@@ -157,7 +226,9 @@ describe('la Isla del Inglés (fase I7 de docs/PLAN-INGLES.md)', () => {
     const malas = casitas.flatMap((t) => [
       ...(t.en && EN[t.en]?.some((w) => w.k || w.draw) ? [] : [`${t.id}: sin palabras en EN[${t.en}]`]),
       // la casita de las canciones (EN-SONGS) solo tiene canciones, como el tema de canciones del mapa
-      ...(t.games.some((g) => !NOREP.includes(g.t)) || t.games.every((g) => g.t === 'cancion') ? [] : [`${t.id}: sin juegos que repasar`]),
+      ...(t.games.some((g) => !NOREP.includes(g.t)) || t.games.every((g) => g.t === 'cancion')
+        ? []
+        : [`${t.id}: sin juegos que repasar`]),
     ]);
     expect(casitas.length).toBe(34);
     expect(malas).toEqual([]);
@@ -170,23 +241,31 @@ describe('los cuentos', () => {
   test('cada cuento es de un tema que existe', () => {
     const tema = lee<Record<string, unknown>>('TEMA');
     expect(cuentos().length).toBeGreaterThan(MIN_CUENTOS);
-    expect(cuentos().filter(([id]) => !(id in tema)).map(([id]) => id)).toEqual([]);
+    expect(
+      cuentos()
+        .filter(([id]) => !(id in tema))
+        .map(([id]) => id),
+    ).toEqual([]);
   });
 
   test('cada página tiene un fondo de BG y sus dibujos existen', () => {
     const fondos = lee<Record<string, unknown>>('BG');
-    const malos = cuentos().flatMap(([id, c]) => c.pages.flatMap((p, i) => [
-      ...(p.bg in fondos ? [] : [`${id} página ${i}: fondo ${p.bg}`]),
-      ...p.items.filter(([k]) => !existeDibujo(k)).map(([k]) => `${id} página ${i}: ${k}`),
-    ]));
+    const malos = cuentos().flatMap(([id, c]) =>
+      c.pages.flatMap((p, i) => [
+        ...(p.bg in fondos ? [] : [`${id} página ${i}: fondo ${p.bg}`]),
+        ...p.items.filter(([k]) => !existeDibujo(k)).map(([k]) => `${id} página ${i}: ${k}`),
+      ]),
+    );
     expect(malos).toEqual([]);
   });
 
   test('cada pregunta tiene la respuesta entre sus opciones y todas se pueden dibujar', () => {
-    const malos = cuentos().flatMap(([id, c]) => c.qs.flatMap((q, i) => [
-      ...(q.opts.includes(q.ok) ? [] : [`${id} pregunta ${i}: ${q.ok} no está en opts`]),
-      ...q.opts.filter((k) => !existeDibujo(k)).map((k) => `${id} pregunta ${i}: ${k}`),
-    ]));
+    const malos = cuentos().flatMap(([id, c]) =>
+      c.qs.flatMap((q, i) => [
+        ...(q.opts.includes(q.ok) ? [] : [`${id} pregunta ${i}: ${q.ok} no está en opts`]),
+        ...q.opts.filter((k) => !existeDibujo(k)).map((k) => `${id} pregunta ${i}: ${k}`),
+      ]),
+    );
     expect(malos).toEqual([]);
   });
 });

@@ -6,7 +6,14 @@
 import { describe, expect, test } from 'vitest';
 import type { Adaptacion } from '../../src/dominio/dificultad.ts';
 import {
-  EDAD_POR_DEFECTO, SIN_ADAPTAR, edadDe, opciones, repeticion, rondas, trasAcierto, trasDosFallos,
+  EDAD_POR_DEFECTO,
+  SIN_ADAPTAR,
+  edadDe,
+  opciones,
+  repeticion,
+  rondas,
+  trasAcierto,
+  trasDosFallos,
 } from '../../src/dominio/dificultad.ts';
 
 describe('edad y repeticiones', () => {
@@ -16,7 +23,9 @@ describe('edad y repeticiones', () => {
   });
 
   test('las repeticiones cuentan hasta 2', () => {
-    expect([repeticion(undefined), repeticion(0), repeticion(1), repeticion(2), repeticion(7)]).toEqual([0, 0, 1, 2, 2]);
+    expect([repeticion(undefined), repeticion(0), repeticion(1), repeticion(2), repeticion(7)]).toEqual([
+      0, 0, 1, 2, 2,
+    ]);
   });
 });
 

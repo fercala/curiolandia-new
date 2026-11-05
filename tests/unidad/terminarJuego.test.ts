@@ -20,12 +20,17 @@ describe('terminar un juego', () => {
     const r = terminarJuego(p, TEMA, 1, NORMAL);
     expect(r).toEqual({
       partida: { temas: { '3A-T1': { g: { 1: 1 }, done: 0 } }, gs: { '3A-T1#1': { ok: 0, err: 0, d: HOY } } },
-      primera: true, fin: false, monedas: MONEDAS.juegoNuevo,
+      primera: true,
+      fin: false,
+      monedas: MONEDAS.juegoNuevo,
     });
   });
 
   test('al repetirlo: suma una vez más, guarda aciertos y fallos y da las monedas de juego repetido', () => {
-    const p: PartidaDeJuegos = { temas: { '3A-T1': { g: { 1: 1 }, done: 0 } }, gs: { '3A-T1#1': { ok: 4, err: 2, d: '2026-10-20' } } };
+    const p: PartidaDeJuegos = {
+      temas: { '3A-T1': { g: { 1: 1 }, done: 0 } },
+      gs: { '3A-T1#1': { ok: 4, err: 2, d: '2026-10-20' } },
+    };
     const r = terminarJuego(p, TEMA, 1, NORMAL);
     expect(r.partida.temas['3A-T1']).toEqual({ g: { 1: 2 }, done: 0 });
     expect(r.partida.gs['3A-T1#1']).toEqual({ ok: 4, err: 2, d: HOY });
@@ -43,7 +48,11 @@ describe('terminar un juego', () => {
   });
 
   test('no cambia la partida que recibe', () => {
-    const p: PartidaDeJuegos = { temas: { '3A-T1': { g: { 0: 1 }, done: 0 } }, gs: {}, rep: { d: HOY, list: ['3A-T1#0'], done: {} } };
+    const p: PartidaDeJuegos = {
+      temas: { '3A-T1': { g: { 0: 1 }, done: 0 } },
+      gs: {},
+      rep: { d: HOY, list: ['3A-T1#0'], done: {} },
+    };
     const copia = structuredClone(p);
     terminarJuego(p, TEMA, 0, { hoy: HOY, delRepaso: true });
     expect(p).toEqual(copia);
@@ -60,7 +69,9 @@ describe('el repaso del día', () => {
 
   test('si no se lanzó desde el repaso, o no hay repaso, el repaso no cambia (no sale en lo devuelto)', () => {
     expect(terminarJuego({ temas: {}, gs: {}, rep }, TEMA, 0, NORMAL).partida).not.toHaveProperty('rep');
-    expect(terminarJuego({ temas: {}, gs: {}, rep: null }, TEMA, 0, { hoy: HOY, delRepaso: true }).partida).not.toHaveProperty('rep');
+    expect(
+      terminarJuego({ temas: {}, gs: {}, rep: null }, TEMA, 0, { hoy: HOY, delRepaso: true }).partida,
+    ).not.toHaveProperty('rep');
   });
 
   test('desde el repaso, un juego que no está en su lista deja el repaso igual', () => {

@@ -55,8 +55,26 @@ export interface RepasoDelDia {
 // NOREP: tipos de juego que no sirven para repasar (no tienen acierto ni fallo, o son solo de mirar o escuchar).
 // Desde la fase L7, también los de la Isla de las Letras que solo son de mirar, escuchar o trazar (siempre aciertan), y
 // desde la fase I7 (docs/PLAN-INGLES.md), «Repite conmigo» del inglés (enRepite: no oye al niño, siempre acierta).
-export const NOREP: readonly string[] = ['conocer', 'enConocer', 'cuento', 'cancion', 'trazo', 'decora', 'mifamilia', 'velas',
-  'conocerLetra', 'conocerVocales', 'trazaLetra', 'huellasLetra', 'pizarra', 'miNombre', 'trenLetra', 'palmas', 'cancionAbc', 'enRepite'];
+export const NOREP: readonly string[] = [
+  'conocer',
+  'enConocer',
+  'cuento',
+  'cancion',
+  'trazo',
+  'decora',
+  'mifamilia',
+  'velas',
+  'conocerLetra',
+  'conocerVocales',
+  'trazaLetra',
+  'huellasLetra',
+  'pizarra',
+  'miNombre',
+  'trenLetra',
+  'palmas',
+  'cancionAbc',
+  'enRepite',
+];
 
 // REPASO: los números de las reglas del repaso.
 export const REPASO = {
@@ -116,21 +134,34 @@ export function queCuestan(d: DatosRepaso): string[] {
 // masAntiguos(d): todos los juegos que se pueden repasar, del que hace más tiempo que no se juega (o nunca se apuntó
 // la fecha) al más reciente; con la misma fecha, en el orden de los temas.
 export function masAntiguos(d: DatosRepaso): string[] {
-  const lista = d.temas.flatMap((t) => Object.keys(d.jugados(t.id)).map((j) => `${t.id}#${j}`)).filter((id) => repasable(d, id));
+  const lista = d.temas
+    .flatMap((t) => Object.keys(d.jugados(t.id)).map((j) => `${t.id}#${j}`))
+    .filter((id) => repasable(d, id));
   const fecha = (id: string): string => d.gs[id]?.d || '';
   // -1, 0 o 1 según la fecha, comparando los textos 'AAAA-MM-DD' ('' va antes que cualquier fecha).
   const porFecha = (a: { f: string }, b: { f: string }): number => Number(a.f > b.f) - Number(a.f < b.f);
-  return lista.map((id) => ({ id, f: fecha(id) })).sort(porFecha).map((o) => o.id);
+  return lista
+    .map((id) => ({ id, f: fecha(id) }))
+    .sort(porFecha)
+    .map((o) => o.id);
 }
 
 // elegirRepaso(cuestan, antiguos): los juegos del repaso (3 como mucho) y cuántos salen por «cuesta» (weak): hasta 3
 // que cuestan; si faltan, los más antiguos de temas distintos; si aún faltan, cualquiera de los antiguos.
-export function elegirRepaso(cuestan: readonly string[], antiguos: readonly string[]): { list: string[]; weak: number } {
+export function elegirRepaso(
+  cuestan: readonly string[],
+  antiguos: readonly string[],
+): { list: string[]; weak: number } {
   const w = cuestan.slice(0, REPASO.juegos);
   const tema = (id: string): string => partes(id)[0];
   const deTemasDistintos = antiguos.reduce(
-    (L, id) => (L.length < REPASO.juegos && !L.includes(id) && !L.some((x) => tema(x) === tema(id)) ? [...L, id] : L), w);
-  const list = antiguos.reduce((L, id) => (L.length < REPASO.juegos && !L.includes(id) ? [...L, id] : L), deTemasDistintos);
+    (L, id) => (L.length < REPASO.juegos && !L.includes(id) && !L.some((x) => tema(x) === tema(id)) ? [...L, id] : L),
+    w,
+  );
+  const list = antiguos.reduce(
+    (L, id) => (L.length < REPASO.juegos && !L.includes(id) ? [...L, id] : L),
+    deTemasDistintos,
+  );
   return { list, weak: w.length };
 }
 

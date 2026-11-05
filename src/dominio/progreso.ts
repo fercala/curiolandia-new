@@ -17,7 +17,8 @@
    nombre (temas o estrellas que pide cada cosa); sacarlos a otra constante solo repetiría el nombre de la tabla. */
 
 /** Progreso guardado de un tema (S.temas[id]), como lo miran estas reglas: juegos terminados (g) y si está terminado. */
-export type TemaGuardado = { readonly g?: Readonly<Record<number, unknown>>; readonly done?: unknown } | null | undefined;
+export type TemaGuardado =
+  { readonly g?: Readonly<Record<number, unknown>>; readonly done?: unknown } | null | undefined;
 
 // HOUSE_NEXT: temas terminados que hacen falta para cada nivel de la casa de Tito (1: jardín con cerca, 2: un piso más,
 // 3: torre con bandera, 4: castillo). Con menos de 2, nivel 0.
@@ -33,9 +34,32 @@ export const TIER_NEED: Readonly<Record<number, number>> = { 1: 0, 2: 8, 3: 20 }
 // GIFTS: los regalos del cofre (ids de artículos de la tienda), en orden fijo: sorpresa para el niño, pero sin azar.
 // Lo demás se queda en la tienda.
 export const GIFTS: readonly string[] = [
-  'gorroFiesta', 'pelotaPlaya', 'cuadro', 'bufanda:azul', 'peluche', 'plantaInterior', 'monio', 'cometa', 'alfombra',
-  'caparazon:azul', 'xilofono', 'farol', 'gorra', 'bloques', 'lampara', 'pecera', 'gafas', 'banco', 'robot',
-  'caparazon:rosa', 'trenJuguete', 'hamster', 'sombreroPirata', 'fuente', 'telescopio', 'corona',
+  'gorroFiesta',
+  'pelotaPlaya',
+  'cuadro',
+  'bufanda:azul',
+  'peluche',
+  'plantaInterior',
+  'monio',
+  'cometa',
+  'alfombra',
+  'caparazon:azul',
+  'xilofono',
+  'farol',
+  'gorra',
+  'bloques',
+  'lampara',
+  'pecera',
+  'gafas',
+  'banco',
+  'robot',
+  'caparazon:rosa',
+  'trenJuguete',
+  'hamster',
+  'sombreroPirata',
+  'fuente',
+  'telescopio',
+  'corona',
 ];
 
 // estrellas(temas): estrellas ganadas: una por cada juego distinto terminado al menos una vez, en todos los temas.
@@ -75,13 +99,20 @@ export function nivelAbierto(tier: number, estrellas: number): boolean {
 
 // siguienteRegalo(catalogo, tiene): el siguiente regalo del cofre: el primero de GIFTS que está en el catálogo de la
 // tienda y que el niño aún no tiene (tiene[id]), o null si ya los tiene todos.
-export function siguienteRegalo<A extends { readonly id: string }>(catalogo: readonly A[], tiene: Readonly<Record<string, unknown>>): A | null {
+export function siguienteRegalo<A extends { readonly id: string }>(
+  catalogo: readonly A[],
+  tiene: Readonly<Record<string, unknown>>,
+): A | null {
   return GIFTS.map((id) => catalogo.find((a) => a.id === id)).find((a) => a && !tiene[a.id]) ?? null;
 }
 
 // esCumple(cumple, mes, dia): true si el día (mes de 0 a 11 y día del mes) es el cumpleaños guardado (S.bday); false
 // si no hay cumpleaños guardado.
-export function esCumple(cumple: { readonly m: number; readonly d: number } | null | undefined, mes: number, dia: number): boolean {
+export function esCumple(
+  cumple: { readonly m: number; readonly d: number } | null | undefined,
+  mes: number,
+  dia: number,
+): boolean {
   return !!cumple && cumple.m === mes && cumple.d === dia;
 }
 
@@ -106,7 +137,11 @@ export interface TemaTrasJuego {
 // terminar su juego número juego, de los juegos que tiene el tema: suma 1 a las veces de ese juego (g[juego]). Si con
 // esto ya están todos terminados y el tema aún no lo estaba, done pasa a 1 y fin es true; si ya estaba terminado, fin
 // es false (el cofre solo se abre una vez). Lo demás que tuviera st se queda igual. No cambia st: devuelve uno nuevo.
-export function trasTerminarJuego(st: Readonly<ProgresoDeTema> | null | undefined, juego: number, juegos: number): TemaTrasJuego {
+export function trasTerminarJuego(
+  st: Readonly<ProgresoDeTema> | null | undefined,
+  juego: number,
+  juegos: number,
+): TemaTrasJuego {
   const antes = st ?? { g: {}, done: 0 };
   const g = { ...antes.g, [juego]: (antes.g[juego] || 0) + 1 };
   const fin = !antes.done && Array.from({ length: juegos }, (_x, j) => j).every((j) => g[j]);

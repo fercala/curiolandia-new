@@ -14,11 +14,13 @@ import type { Plugin, ResolvedConfig } from 'vite';
 export const PREFIJO_CACHE = 'curiolandia-new-';
 
 // Cabecera de la página: lo que build.sh ponía delante de head.html.
-const CABECERA = '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" ' +
+const CABECERA =
+  '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" ' +
   'content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">';
 
 // Lo que sustituye a la hoja de Google Fonts: manifiesto, iconos y datos de la app, y las fuentes locales.
-const META_WEB = '<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#7CC86E">' +
+const META_WEB =
+  '<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#7CC86E">' +
   '<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">' +
   '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">' +
   '<meta name="apple-mobile-web-app-title" content="Curiolandia">' +
@@ -32,7 +34,8 @@ const META_WEB = '<link rel="manifest" href="manifest.webmanifest"><meta name="t
 // Vite procese index.html, así que hay que añadirlo a mano.
 const CLIENTE_VITE = '<script type="module" src="/@vite/client"></script>';
 
-const REGISTRO_SW = '<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator' +
+const REGISTRO_SW =
+  '<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator' +
   '.serviceWorker.register("sw.js").catch(()=>{}))</script>';
 
 // Los <link rel="preconnect"> a Google Fonts, uno por línea en head.html.
@@ -64,16 +67,15 @@ export async function codigoModulos(src: string): Promise<string> {
   const salida = await build({ input: join(src, ENTRADA_MODULOS), write: false, output: { format: 'iife' } });
   const trozos = salida.output.filter((o) => o.type === 'chunk');
   const [trozo] = trozos;
-  if (trozos.length !== 1 || !trozo) throw new Error(`${ENTRADA_MODULOS} debería dar un solo trozo y da ${trozos.length}`);
+  if (trozos.length !== 1 || !trozo)
+    throw new Error(`${ENTRADA_MODULOS} debería dar un solo trozo y da ${trozos.length}`);
   if (/<\/script/i.test(trozo.code)) throw new Error(`${ENTRADA_MODULOS}: el código lleva «</script»`);
   return trozo.code;
 }
 
 // paginaJuego(o): la página completa del juego: cabecera, head.html y el <script> con los módulos.
 export async function paginaJuego(o: OpcionesPagina): Promise<string> {
-  const cabeza = readFileSync(join(o.src, 'head.html'), 'utf8')
-    .replace(PRECONNECT, '')
-    .replace(GOOGLE_FONTS, META_WEB);
+  const cabeza = readFileSync(join(o.src, 'head.html'), 'utf8').replace(PRECONNECT, '').replace(GOOGLE_FONTS, META_WEB);
   const registro = o.conServiceWorker ? REGISTRO_SW : '';
   const cliente = o.conServiceWorker ? '' : CLIENTE_VITE;
   const modulos = await codigoModulos(o.src);

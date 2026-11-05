@@ -9,7 +9,12 @@ import { NOREP } from '../../src/dominio/repaso.ts';
 
 describe('lo que lleva el niño de una letra', () => {
   test('cuenta los juegos terminados de su casita y suma los aciertos y fallos solo de sus juegos', () => {
-    const gs = { 'L4-M#0': { ok: 3, err: 1 }, 'L4-M#2': { ok: 2, err: 0 }, 'L4-P#0': { ok: 9, err: 9 }, 'L4-M#9': { ok: 5, err: 5 } };
+    const gs = {
+      'L4-M#0': { ok: 3, err: 1 },
+      'L4-M#2': { ok: 2, err: 0 },
+      'L4-P#0': { ok: 9, err: 9 },
+      'L4-M#9': { ok: 5, err: 5 },
+    };
     expect(datosLetra('L4-M', 7, { 0: 1, 2: 3 }, gs)).toEqual({ hechos: 2, total: 7, ok: 5, err: 1 });
     expect(datosLetra('L5-R', 7, {}, {})).toEqual({ hechos: 0, total: 7, ok: 0, err: 0 });
   });
@@ -45,7 +50,19 @@ describe('cómo va cada letra', () => {
 
 describe('las letras en el repaso del día', () => {
   test('los juegos de la isla que solo son de mirar, escuchar o trazar no se repasan; los de elegir, sí', () => {
-    for (const t of ['conocerLetra', 'conocerVocales', 'trazaLetra', 'huellasLetra', 'pizarra', 'miNombre', 'trenLetra', 'palmas', 'cancionAbc']) expect(NOREP).toContain(t);
-    for (const t of ['buscaLetra', 'atrapaLetra', 'uneLetras', 'leoYElijo', 'silabaFalta', 'frase']) expect(NOREP).not.toContain(t);
+    for (const t of [
+      'conocerLetra',
+      'conocerVocales',
+      'trazaLetra',
+      'huellasLetra',
+      'pizarra',
+      'miNombre',
+      'trenLetra',
+      'palmas',
+      'cancionAbc',
+    ])
+      expect(NOREP).toContain(t);
+    for (const t of ['buscaLetra', 'atrapaLetra', 'uneLetras', 'leoYElijo', 'silabaFalta', 'frase'])
+      expect(NOREP).not.toContain(t);
   });
 });

@@ -27,7 +27,9 @@ describe('qué es una partida y qué versión tiene', () => {
 describe('migraciones', () => {
   test('hay un paso por cada versión, de 0 a la anterior a la actual', () => {
     expect(VERSION_PARTIDA).toBeGreaterThanOrEqual(1);
-    const faltan = Array.from({ length: VERSION_PARTIDA }, (_x, v) => v).filter((v) => typeof MIGRACIONES[v] !== 'function');
+    const faltan = Array.from({ length: VERSION_PARTIDA }, (_x, v) => v).filter(
+      (v) => typeof MIGRACIONES[v] !== 'function',
+    );
     expect(faltan).toEqual([]);
   });
 
@@ -36,19 +38,37 @@ describe('migraciones', () => {
     const nueva = migrar(VIEJA);
     // Lo único que cambia (desde la versión 2, fase 5d) es la variante del idioma: siempre España; y desde la 3 (fase
     // L7b), las letras de la isla salen solo en mayúsculas; y desde la 4 (fase C1), la casa interactiva añade sus campos vacíos.
-    expect(nueva).toEqual({ ...VIEJA, variant: 'es', tipoLetra: 'mayus', mascotas: {}, sorpresas: {}, huerto: { dias: 0, dia: '' }, ver: VERSION_PARTIDA });
+    expect(nueva).toEqual({
+      ...VIEJA,
+      variant: 'es',
+      tipoLetra: 'mayus',
+      mascotas: {},
+      sorpresas: {},
+      huerto: { dias: 0, dia: '' },
+      ver: VERSION_PARTIDA,
+    });
     expect(nueva).not.toBe(VIEJA);
     expect(VIEJA).toEqual(copia);
   });
 
   test('2 → 3: las letras de la isla, solo en mayúsculas, salvo si ya eran también minúsculas', () => {
-    const tipos = ['ambas', 'mayus', undefined, 'otra', 3].map((tipoLetra) => migrar({ ...VIEJA, tipoLetra, ver: 2 })['tipoLetra']);
+    const tipos = ['ambas', 'mayus', undefined, 'otra', 3].map(
+      (tipoLetra) => migrar({ ...VIEJA, tipoLetra, ver: 2 })['tipoLetra'],
+    );
     expect(tipos).toEqual(['ambas', 'mayus', 'mayus', 'mayus', 'mayus']);
   });
 
   test('3 → 4: las mascotas ya compradas son jóvenes; lo que ya hubiera se queda y lo roto se cambia por vacío', () => {
-    const p = migrar({ ...VIEJA, owned: { gato: 1, pecera: 1, sofa: 1 }, mascotas: { pecera: { nombre: 'Nemo', dias: 9, dia: '', hechos: [] } }, ver: 3 });
-    expect(p['mascotas']).toEqual({ pecera: { nombre: 'Nemo', dias: 9, dia: '', hechos: [] }, gato: { nombre: '', dias: 3, dia: '', hechos: [] } });
+    const p = migrar({
+      ...VIEJA,
+      owned: { gato: 1, pecera: 1, sofa: 1 },
+      mascotas: { pecera: { nombre: 'Nemo', dias: 9, dia: '', hechos: [] } },
+      ver: 3,
+    });
+    expect(p['mascotas']).toEqual({
+      pecera: { nombre: 'Nemo', dias: 9, dia: '', hechos: [] },
+      gato: { nombre: '', dias: 3, dia: '', hechos: [] },
+    });
     expect([p['sorpresas'], p['huerto'], p['ver']]).toEqual([{}, { dias: 0, dia: '' }, 4]);
     const rota = migrar({ owned: null, mascotas: [], sorpresas: 'x', huerto: { dias: 2, dia: '2026-11-01' }, ver: 3 });
     expect([rota['mascotas'], rota['sorpresas'], rota['huerto']]).toEqual([{}, {}, { dias: 2, dia: '2026-11-01' }]);
@@ -69,17 +89,27 @@ describe('migraciones', () => {
   test('los pasos se aplican en orden, desde la versión de la partida, y cada uno apunta la suya', () => {
     const vistos: number[] = [];
     // paso(v, cambio): un paso de prueba que apunta que pasó por la versión v y cambia la partida.
-    const paso = (v: number, cambio: (d: Record<string, unknown>) => Record<string, unknown>): Migracion => (d) => {
-      vistos.push(Number(d['ver'] ?? 0));
-      return cambio({ ...d, desde: v });
-    };
+    const paso =
+      (v: number, cambio: (d: Record<string, unknown>) => Record<string, unknown>): Migracion =>
+      (d) => {
+        vistos.push(Number(d['ver'] ?? 0));
+        return cambio({ ...d, desde: v });
+      };
     const pasos: Record<number, Migracion> = {
       0: paso(0, (d) => d),
       1: paso(1, (d) => ({ ...d, monedas: d['coins'] })),
       2: paso(2, ({ coins: _quitado, ...d }) => d),
     };
     // El paso 1 copia coins en monedas y el 2 quita coins.
-    expect(migrar(VIEJA, 3, pasos)).toEqual({ age: 4, name: 'Leo', temas: VIEJA.temas, tito: VIEJA.tito, monedas: 12, desde: 2, ver: 3 });
+    expect(migrar(VIEJA, 3, pasos)).toEqual({
+      age: 4,
+      name: 'Leo',
+      temas: VIEJA.temas,
+      tito: VIEJA.tito,
+      monedas: 12,
+      desde: 2,
+      ver: 3,
+    });
     expect(vistos).toEqual([0, 1, 2]);
     vistos.length = 0;
     expect(migrar({ ...VIEJA, ver: 2 }, 3, pasos)).not.toHaveProperty('coins');

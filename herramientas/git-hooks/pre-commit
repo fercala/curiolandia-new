@@ -8,11 +8,22 @@
 # 3. Si el texto de alguna llamada a say(), sayQ(), say3(), sayMix() o sayMix3() de src/ es nuevo o cambia
 #    (frases_diff.py) y no toca dialogos/pendientes.txt, para el commit: cada diálogo nuevo o cambiado se apunta.
 # 4. Si toca dialogos/pendientes.txt, también tiene que tocar el catálogo dialogos/todos.csv.
+# 5. Los .js, .ts, .mts y .mjs del commit tienen que estar formateados (Prettier) y pasar el linter (oxlint) sin avisos
+#    (docs/FORMATO-Y-LINTER.md); `npm run formato` los formatea.
 # Para saltárselo en un caso justificado: git commit --no-verify, y explícalo en el mensaje del commit.
 cambios=$(git diff --cached --name-only --diff-filter=ACMRD)
 if echo "$cambios" | grep -q '^dialogos/pendientes.txt$' && ! echo "$cambios" | grep -q '^dialogos/todos.csv$'; then
   echo "Tocas dialogos/pendientes.txt pero no dialogos/todos.csv: añade allí las frases nuevas (dialogos/LEEME.md)." >&2
   exit 1
+fi
+# archivos de código del commit (los que siguen existiendo): formato y linter
+codigo=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(js|ts|mts|mjs)$')
+if [ -n "$codigo" ]; then
+  echo "$codigo" | xargs npx --no-install prettier --check >/dev/null 2>&1 || {
+    echo "Hay código sin formatear: ejecuta npm run formato (o npx prettier --write <archivo>) y vuelve a añadirlo." >&2
+    echo "$codigo" | xargs npx --no-install prettier --list-different >&2; exit 1; }
+  echo "$codigo" | xargs npx --no-install oxlint --deny-warnings >&2 || {
+    echo "El linter da avisos (arriba). Arréglalos o lee docs/FORMATO-Y-LINTER.md." >&2; exit 1; }
 fi
 echo "$cambios" | grep -q -E '^(src|herramientas)/.*\.(js|ts|mts)$' || exit 0
 python3 tests/comentarios.py || {

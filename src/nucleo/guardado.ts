@@ -58,18 +58,40 @@ import { copiaProfunda } from './utilidades.ts';
 // KEY: clave de guardado de esta versión. KEY_VIEJA es la de curiolandia-3d, que se publica en el mismo dominio
 // (fercala.github.io) y por eso comparte localStorage: su partida se copia una sola vez (ver load()) y nunca se escribe.
 // KEY_COPIA marca que esa copia ya se hizo (solo si había partida vieja), para no volver a traerla nunca más.
-export const KEY='curiolandia-new.v1',KEY_VIEJA='curiolandia.v1',KEY_COPIA='curiolandia-new.copiada';
+export const KEY = 'curiolandia-new.v1',
+  KEY_VIEJA = 'curiolandia.v1',
+  KEY_COPIA = 'curiolandia-new.copiada';
 // DEF: valores de una partida nueva (ver la explicación de arriba). doReset() (aplicacion/adultos.ts) también parte de aquí.
 // variant 'es' y hemi 'N' llevan su tipo de Estado para que S (copia de DEF) sea un Estado.
-export const DEF={age:0,name:'',variant:'es' as Estado['variant'],tipoLetra:'mayus' as Estado['tipoLetra'],hemi:'N' as Estado['hemi'],vol:{voz:1,mus:.45,fx:.8},limit:0,temas:{},stats:{},days:{},asam:{},stk:{},album:[],intro:false,first:{},seenFl:0,ver:VERSION_PARTIDA};
+export const DEF = {
+  age: 0,
+  name: '',
+  variant: 'es' as Estado['variant'],
+  tipoLetra: 'mayus' as Estado['tipoLetra'],
+  hemi: 'N' as Estado['hemi'],
+  vol: { voz: 1, mus: 0.45, fx: 0.8 },
+  limit: 0,
+  temas: {},
+  stats: {},
+  days: {},
+  asam: {},
+  stk: {},
+  album: [],
+  intro: false,
+  first: {},
+  seenFl: 0,
+  ver: VERSION_PARTIDA,
+};
 // S empieza siendo una copia profunda de DEF (copiaProfunda, nucleo/utilidades.ts) y load() la completa.
-export let S: Estado=copiaProfunda<Estado>(DEF);
+export let S: Estado = copiaProfunda<Estado>(DEF);
 // ponS(nuevo): cambia la partida entera por otra (borrar todo en aplicacion/adultos.ts). Es la única forma de cambiar S desde otro
 // archivo; para cambiar un campo basta con S.campo = valor.
-export function ponS(nuevo: Estado): void{S=nuevo}
+export function ponS(nuevo: Estado): void {
+  S = nuevo;
+}
 // Una partida leída de localStorage (o de otra pestaña) antes de arreglarla: cualquier campo puede traer cualquier cosa
 // (PartidaCruda, de dominio/partida.ts).
-type Crudo=PartidaCruda;
+type Crudo = PartidaCruda;
 // sanoS(d, def): arregla en el sitio los campos de una partida guardada d que no tienen el tipo de su valor por defecto
 // en def, para que una partida o copia rota no rompa el juego. Solo mira los campos que def tiene con un valor no null:
 //   - null o undefined: se borra (queda el valor por defecto);
@@ -78,14 +100,37 @@ type Crudo=PartidaCruda;
 //   - def es número: un texto con número se pasa a número ("4" → 4); otra cosa se borra;
 //   - def es sí/no: se deja como esté (las partidas viejas pueden tener 1/0).
 // Dentro de temas quita las entradas que no son objetos ({"3A-T1": null}). Devuelve d.
-export function sanoS<D extends object>(partida: D,defecto: object): D{const d=partida as Crudo,def=defecto as Readonly<Crudo>;
-  for(const k in def){const v=d[k],dv=def[k];if(dv===null||!(k in d))continue;
-    if(v==null){delete d[k];continue}
-    if(typeof dv==='object'){if(typeof v!=='object'||Array.isArray(v)!==Array.isArray(dv))delete d[k]}
-    else if(typeof dv==='string'){if(typeof v==='number')d[k]=String(v);else if(typeof v!=='string')delete d[k]}
-    else if(typeof dv==='number'){if(typeof v==='string'&&v.trim()!==''&&isFinite(+v))d[k]=+v;else if(typeof v!=='number'||!isFinite(v))delete d[k]}}
-  const te=d['temas'];if(te&&typeof te==='object'){const tt=te as Crudo;for(const t in tt){const x=tt[t];if(!x||typeof x!=='object')delete tt[t]}}
-  return partida}
+export function sanoS<D extends object>(partida: D, defecto: object): D {
+  const d = partida as Crudo,
+    def = defecto as Readonly<Crudo>;
+  for (const k in def) {
+    const v = d[k],
+      dv = def[k];
+    if (dv === null || !(k in d)) continue;
+    if (v == null) {
+      delete d[k];
+      continue;
+    }
+    if (typeof dv === 'object') {
+      if (typeof v !== 'object' || Array.isArray(v) !== Array.isArray(dv)) delete d[k];
+    } else if (typeof dv === 'string') {
+      if (typeof v === 'number') d[k] = String(v);
+      else if (typeof v !== 'string') delete d[k];
+    } else if (typeof dv === 'number') {
+      if (typeof v === 'string' && v.trim() !== '' && isFinite(+v)) d[k] = +v;
+      else if (typeof v !== 'number' || !isFinite(v)) delete d[k];
+    }
+  }
+  const te = d['temas'];
+  if (te && typeof te === 'object') {
+    const tt = te as Crudo;
+    for (const t in tt) {
+      const x = tt[t];
+      if (!x || typeof x !== 'object') delete tt[t];
+    }
+  }
+  return partida;
+}
 // sanoHondo(d): el segundo paso de sanoS, por dentro de los campos que son colecciones (una copia editada o rota puede
 // traer {"home":{"robot":null}} y romper la casa al dibujarla). Arregla en el sitio y devuelve d:
 //   - temas.X.g que no es un objeto → {} (el tema queda sin juegos hechos);
@@ -94,19 +139,53 @@ export function sanoS<D extends object>(partida: D,defecto: object): D{const d=p
 //   - kg.X que no es una lista → se borra; cofreP que no es un objeto → se borra;
 //   - vales y valesLog: se quitan las entradas que no son objetos con id; si vales queda vacía se borra (vuelven los de fábrica);
 //   - rep sin list (lista) o done (objeto) → se borra (se vuelve a armar el repaso de hoy).
-function sanoHondo<D extends object>(partida: D): D{const d=partida as Crudo,ob=(v: unknown): v is Crudo=>!!v&&typeof v==='object'&&!Array.isArray(v),num=(v: unknown): boolean=>typeof v==='number'&&isFinite(v);
-  const temas=d['temas'];if(ob(temas))for(const t in temas){const x=temas[t];if(ob(x)&&!ob(x['g']))x['g']={}}
-  for(const k of['stats','gs']){const c=d[k];if(ob(c))for(const i in c){const e=c[i];if(!ob(e)){delete c[i];continue}for(const f of['ok','err'])if(!num(e[f]))e[f]=0}}
-  const home=d['home'];if(ob(home))for(const i in home){const p=home[i];if(!ob(p)||!num(p['x'])||!num(p['y']))delete home[i]}
-  const kg=d['kg'];if(ob(kg))for(const i in kg)if(!Array.isArray(kg[i]))delete kg[i];
-  if('cofreP' in d&&!ob(d['cofreP']))delete d['cofreP'];
-  const conId=(v: unknown): boolean=>ob(v)&&typeof v['id']==='string';
-  const vales=d['vales'];if(Array.isArray(vales)){const f=vales.filter(conId);d['vales']=f;if(!f.length)delete d['vales']}
-  const log=d['valesLog'];if(Array.isArray(log))d['valesLog']=log.filter(conId);
-  const rep=d['rep'];if(rep!=null&&!(ob(rep)&&Array.isArray(rep['list'])&&ob(rep['done'])))delete d['rep'];
-  return partida}
+function sanoHondo<D extends object>(partida: D): D {
+  const d = partida as Crudo,
+    ob = (v: unknown): v is Crudo => !!v && typeof v === 'object' && !Array.isArray(v),
+    num = (v: unknown): boolean => typeof v === 'number' && isFinite(v);
+  const temas = d['temas'];
+  if (ob(temas))
+    for (const t in temas) {
+      const x = temas[t];
+      if (ob(x) && !ob(x['g'])) x['g'] = {};
+    }
+  for (const k of ['stats', 'gs']) {
+    const c = d[k];
+    if (ob(c))
+      for (const i in c) {
+        const e = c[i];
+        if (!ob(e)) {
+          delete c[i];
+          continue;
+        }
+        for (const f of ['ok', 'err']) if (!num(e[f])) e[f] = 0;
+      }
+  }
+  const home = d['home'];
+  if (ob(home))
+    for (const i in home) {
+      const p = home[i];
+      if (!ob(p) || !num(p['x']) || !num(p['y'])) delete home[i];
+    }
+  const kg = d['kg'];
+  if (ob(kg)) for (const i in kg) if (!Array.isArray(kg[i])) delete kg[i];
+  if ('cofreP' in d && !ob(d['cofreP'])) delete d['cofreP'];
+  const conId = (v: unknown): boolean => ob(v) && typeof v['id'] === 'string';
+  const vales = d['vales'];
+  if (Array.isArray(vales)) {
+    const f = vales.filter(conId);
+    d['vales'] = f;
+    if (!f.length) delete d['vales'];
+  }
+  const log = d['valesLog'];
+  if (Array.isArray(log)) d['valesLog'] = log.filter(conId);
+  const rep = d['rep'];
+  if (rep != null && !(ob(rep) && Array.isArray(rep['list']) && ob(rep['done']))) delete d['rep'];
+  return partida;
+}
 // conVol(d): la partida d (ya arreglada) lista para mezclar encima de S, con sus volúmenes completados con los de DEF.
-const conVol=(d: Crudo): Partial<Estado>=>Object.assign({},d,{vol:Object.assign({},DEF.vol,(d['vol']||{}) as Partial<Volumenes>)});
+const conVol = (d: Crudo): Partial<Estado> =>
+  Object.assign({}, d, { vol: Object.assign({}, DEF.vol, (d['vol'] || {}) as Partial<Volumenes>) });
 // load(): se ejecuta una sola vez, al arrancar. Lee la partida guardada, la pone al día (migrar, de dominio/partida.ts:
 // aplica las migraciones desde su versión y apunta la nueva en ver) y la mezcla encima de DEF: lo que falte en una
 // partida vieja queda con su valor por defecto; vol se mezcla aparte para no perder volúmenes nuevos. Antes, sanoS() quita
@@ -118,30 +197,75 @@ const conVol=(d: Crudo): Partial<Estado>=>Object.assign({},d,{vol:Object.assign(
 // Si tampoco hay esa, intenta traer nombre, edad, acento y volumen de Letrilandia (otro juego que guarda en
 // 'letrilandia.v1' en el mismo dominio). Lee y escribe con el puerto Guardado (leerGuardado, escribirGuardado), que
 // nunca da error aunque el navegador bloquee localStorage; los try/catch que quedan son para un JSON mal escrito.
-(function load(): void{
-  let d: unknown=null; try{d=JSON.parse(leerGuardado(KEY)||'null')}catch(e){}
-  if(!d&&!leerGuardado(KEY_COPIA))try{d=JSON.parse(leerGuardado(KEY_VIEJA)||'null');if(d)escribirGuardado(KEY_COPIA,'1')}catch(e){d=null}
-  if(esPartida(d)){const c=migrar(d);sanoS(c,DEF);sanoHondo(c);if(c['vol'])sanoS(c['vol'] as Crudo,DEF.vol);S=Object.assign(S,conVol(c));return}
+(function load(): void {
+  let d: unknown = null;
+  try {
+    d = JSON.parse(leerGuardado(KEY) || 'null');
+  } catch (e) {}
+  if (!d && !leerGuardado(KEY_COPIA))
+    try {
+      d = JSON.parse(leerGuardado(KEY_VIEJA) || 'null');
+      if (d) escribirGuardado(KEY_COPIA, '1');
+    } catch (e) {
+      d = null;
+    }
+  if (esPartida(d)) {
+    const c = migrar(d);
+    sanoS(c, DEF);
+    sanoHondo(c);
+    if (c['vol']) sanoS(c['vol'] as Crudo, DEF.vol);
+    S = Object.assign(S, conVol(c));
+    return;
+  }
   // primera vez: si Letrilandia ya se jugó en este dispositivo, traemos nombre, edad y volúmenes (el acento ya no:
   // desde la fase 5d el juego es solo en castellano de España)
-  try{const l=JSON.parse(leerGuardado('letrilandia.v1')||'null') as {name?: string;age?: number;accent?: string;vol?: Partial<Volumenes>}|null;
-    if(l){if(l.name)S.name=l.name;if(l.age)S.age=l.age;if(l.vol)S.vol=Object.assign({},DEF.vol,l.vol);S.first['fromLetri']=1}}catch(e){}
+  try {
+    const l = JSON.parse(leerGuardado('letrilandia.v1') || 'null') as {
+      name?: string;
+      age?: number;
+      accent?: string;
+      vol?: Partial<Volumenes>;
+    } | null;
+    if (l) {
+      if (l.name) S.name = l.name;
+      if (l.age) S.age = l.age;
+      if (l.vol) S.vol = Object.assign({}, DEF.vol, l.vol);
+      S.first['fromLetri'] = 1;
+    }
+  } catch (e) {}
 })();
 // Esta versión no lleva voces grabadas (ni voz/ ni voz-fer/): todo lo dice la voz del navegador. Una partida copiada
 // de curiolandia-3d puede traer S.voz '' o 'fer'; se pasa a 'nav' para que vozLoad() no busque manifiestos.
-S.voz='nav';
+S.voz = 'nav';
 // save(): guarda S entero (con escribirGuardado: en el navegador, en localStorage). Llámala después de cada cambio de S.
 // Si falla (modo privado, sin espacio) no pasa nada: el juego sigue, pero sin guardar.
-export function save(): void{try{escribirGuardado(KEY,JSON.stringify(S))}catch(e){}}
+export function save(): void {
+  try {
+    escribirGuardado(KEY, JSON.stringify(S));
+  } catch (e) {}
+}
 // Dos pestañas con el juego: cuando la otra guarda, el puerto Guardado avisa aquí (alGuardarFuera; en el navegador, el
 // evento storage) y esta pestaña adopta
 // esa partida (puesta al día con migrar y pasada por sanoS/sanoHondo, como al cargar). Así su próximo save() no pisa con datos viejos lo que se
 // jugó en la otra (por ejemplo, cambiar el volumen aquí borraba una actividad terminada allí).
-alGuardarFuera((clave,texto)=>{if(clave!==KEY||!texto)return;let d: unknown;try{d=JSON.parse(texto)}catch(er){return}
-  if(!esPartida(d))return;const c=migrar(d);sanoS(c,DEF);sanoHondo(c);Object.assign(S,conVol(c))});
+alGuardarFuera((clave, texto) => {
+  if (clave !== KEY || !texto) return;
+  let d: unknown;
+  try {
+    d = JSON.parse(texto);
+  } catch (er) {
+    return;
+  }
+  if (!esPartida(d)) return;
+  const c = migrar(d);
+  sanoS(c, DEF);
+  sanoHondo(c);
+  Object.assign(S, conVol(c));
+});
 // ymd(fecha): devuelve 'AAAA-MM-DD' (hora local). Es el formato de las claves de S.days, S.asam, S.gift...
-export const ymd=(d: Date): string=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+export const ymd = (d: Date): string =>
+  d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 // today(): la fecha de hoy como 'AAAA-MM-DD'.
-export const today=(): string=>ymd(ahora());
+export const today = (): string => ymd(ahora());
 // AGE(): edad elegida (3, 4 o 5); si aún no se eligió, 3 (edadDe, en dominio/dificultad.ts).
-export const AGE=(): number=>edadDe(S.age);
+export const AGE = (): number => edadDe(S.age);

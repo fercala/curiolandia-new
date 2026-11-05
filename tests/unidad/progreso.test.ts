@@ -6,8 +6,18 @@
    leerlos tal cual en la prueba es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
 import {
-  GIFTS, HOUSE_NEXT, PET_NEXT, esCumple, estrellas, etapaPipo, habitacionAbierta, nivelAbierto, nivelCasa,
-  siguienteRegalo, temasTerminados, trasTerminarJuego,
+  GIFTS,
+  HOUSE_NEXT,
+  PET_NEXT,
+  esCumple,
+  estrellas,
+  etapaPipo,
+  habitacionAbierta,
+  nivelAbierto,
+  nivelCasa,
+  siguienteRegalo,
+  temasTerminados,
+  trasTerminarJuego,
 } from '../../src/dominio/progreso.ts';
 
 describe('estrellas y temas terminados', () => {
@@ -39,7 +49,13 @@ describe('habitaciones y tienda', () => {
   });
 
   test('los niveles de la tienda: el 1 siempre, el 2 con 8 estrellas y el 3 con 20', () => {
-    expect([nivelAbierto(1, 0), nivelAbierto(2, 7), nivelAbierto(2, 8), nivelAbierto(3, 19), nivelAbierto(3, 20)]).toEqual([true, false, true, false, true]);
+    expect([
+      nivelAbierto(1, 0),
+      nivelAbierto(2, 7),
+      nivelAbierto(2, 8),
+      nivelAbierto(3, 19),
+      nivelAbierto(3, 20),
+    ]).toEqual([true, false, true, false, true]);
     expect(nivelAbierto(9, 0)).toBe(true);
   });
 });
@@ -74,7 +90,11 @@ describe('terminar un juego del tema', () => {
   test('con el último juego que faltaba el tema queda terminado y fin es true, solo esa vez', () => {
     const ultimo = trasTerminarJuego({ g: { 0: 2, 2: 1 } }, 1, 3);
     expect(ultimo).toEqual({ tema: { g: { 0: 2, 1: 1, 2: 1 }, done: 1 }, primera: true, fin: true });
-    expect(trasTerminarJuego(ultimo.tema, 0, 3)).toEqual({ tema: { g: { 0: 3, 1: 1, 2: 1 }, done: 1 }, primera: false, fin: false });
+    expect(trasTerminarJuego(ultimo.tema, 0, 3)).toEqual({
+      tema: { g: { 0: 3, 1: 1, 2: 1 }, done: 1 },
+      primera: false,
+      fin: false,
+    });
   });
 
   test('no cambia el progreso que recibe y conserva lo demás que tuviera', () => {

@@ -11,14 +11,25 @@ import { ZONAS_LETRAS } from '../../src/dominio/apertura.ts';
 import { PICS } from '../../src/dibujos/todos.ts';
 
 // sinTildes(s): s en mayúsculas sin tildes ni diéresis (la Ñ se queda), para comparar la primera letra de una palabra.
-const sinTildes = (s: string): string => s.toUpperCase().replace(/Ñ/g, '\u0000').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\u0000/g, 'Ñ');
+const sinTildes = (s: string): string =>
+  s
+    .toUpperCase()
+    .replace(/Ñ/g, '\u0000')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    // oxlint-disable-next-line no-control-regex -- \u0000 es la marca que se pone a la Ñ mientras se quitan los acentos
+    .replace(/\u0000/g, 'Ñ');
 
 describe('letras de la isla', () => {
   test('son 20, sin repetir, y cada una está en una zona de la isla', () => {
     expect(LETRAS).toHaveLength(20);
     expect(new Set(LETRAS.map((x) => x.l)).size).toBe(20);
     for (const x of LETRAS) expect(ZONAS_LETRAS, `zona de la ${x.l}`).toContain(x.zona);
-    expect(letrasDeZona('playaSonidos').map((x) => x.l).join('')).toBe('AEIOU');
+    expect(
+      letrasDeZona('playaSonidos')
+        .map((x) => x.l)
+        .join(''),
+    ).toBe('AEIOU');
     expect(letra('Ñ')?.amigoDice).toBe('ñu');
     expect(letra('W')).toBeUndefined();
   });
@@ -68,6 +79,20 @@ describe('letras de la isla', () => {
   });
 
   test('letraEnPantalla lleva un trazo de la caja a la pantalla', () => {
-    expect(letraEnPantalla([[0, 0], [1, 0.5]], 600, 200, 400, 500)).toEqual([[600, 200], [1000, 450]]);
+    expect(
+      letraEnPantalla(
+        [
+          [0, 0],
+          [1, 0.5],
+        ],
+        600,
+        200,
+        400,
+        500,
+      ),
+    ).toEqual([
+      [600, 200],
+      [1000, 450],
+    ]);
   });
 });

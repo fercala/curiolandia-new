@@ -38,8 +38,6 @@ export interface Juego {
   [campo: string]: any;
 }
 
-
-
 /**
  * Una palabra de un tema (Tema.words), que enseñan 'conocer' y 'busca' y que dan las pegatinas. Es un dibujo de PICS (k)
  * o una cosa dibujada a mano (name y draw: swatch(), dayCard(), monthCard()...). Desde la fase 5c tiene su tipo.

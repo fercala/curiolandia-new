@@ -25,7 +25,72 @@
 //   y de dominio/monedas.ts (alcanza).
 import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
-import { DEF, FLC, H, IMG, LF, PI, S, SCARFC, SCENES, sceneName, SFX, SHELLC, STARS, T, TITO, TITO_EYES, VIVO, W, W_, atHome, back, burst, cap, card, circ, clamp, copiaProfunda, ctx, dist, drawCoinHUD, drawHome, drawTito, fillStroke, flower, go, hC, hR, hv, inCoinHUD, inR, inTito, later, noise, parts, pic, pick, playSound, ponRopaTito, rnd, sanoS, save, say, sayQ, setCursor, sky, sparkles, spendCoins, star, svgImg, temasDone, text, titoKind, today, tone } from '../nucleo/indice.ts';
+import {
+  DEF,
+  FLC,
+  H,
+  IMG,
+  LF,
+  PI,
+  S,
+  SCARFC,
+  SCENES,
+  sceneName,
+  SFX,
+  SHELLC,
+  STARS,
+  T,
+  TITO,
+  TITO_EYES,
+  VIVO,
+  W,
+  W_,
+  atHome,
+  back,
+  burst,
+  cap,
+  card,
+  circ,
+  clamp,
+  copiaProfunda,
+  ctx,
+  dist,
+  drawCoinHUD,
+  drawHome,
+  drawTito,
+  fillStroke,
+  flower,
+  go,
+  hC,
+  hR,
+  hv,
+  inCoinHUD,
+  inR,
+  inTito,
+  later,
+  noise,
+  parts,
+  pic,
+  pick,
+  playSound,
+  ponRopaTito,
+  rnd,
+  sanoS,
+  save,
+  say,
+  sayQ,
+  setCursor,
+  sky,
+  sparkles,
+  spendCoins,
+  star,
+  svgImg,
+  temasDone,
+  text,
+  titoKind,
+  today,
+  tone,
+} from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, drawTitoHouse, houseLevel, petStage, shellIcon } from './zonas.ts';
@@ -34,11 +99,31 @@ import { alcanza } from '../dominio/monedas.ts';
 import { comprar } from '../aplicacion/comprar.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
-import { MASCOTAS, combinacion, cuantasSorpresas, descubrir, fichaNueva, idSorpresa, reaccionDe, type EscenaCasa } from '../dominio/casa.ts';
+import {
+  MASCOTAS,
+  combinacion,
+  cuantasSorpresas,
+  descubrir,
+  fichaNueva,
+  idSorpresa,
+  reaccionDe,
+  type EscenaCasa,
+} from '../dominio/casa.ts';
 import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
 import { FRASES_CASA, FRASES_COMBINACION } from '../contenido/casa.ts';
-import { DURACION_ACCION, TITO_CASA, andar, andando, animObjeto, destinoJunto, dibujaTitoCasa, efectosAccion, paseoQuieto, posTito } from './casaReacciones.ts';
+import {
+  DURACION_ACCION,
+  TITO_CASA,
+  andar,
+  andando,
+  animObjeto,
+  destinoJunto,
+  dibujaTitoCasa,
+  efectosAccion,
+  paseoQuieto,
+  posTito,
+} from './casaReacciones.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -100,19 +185,53 @@ type Flecha = [number, number, number];
 //   {nombre, dias, dia, hechos}} fichas de las mascotas que crecen; sorpresas: {idSorpresa:1} lo descubierto en la casa
 //   (el id del objeto o 'a+b'); huerto: {dias, dia} días regados de la flor del huerto.
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
-const DEF2={coins:0,coinsTot:0,gift:'',woke:{},home:{},tito:{shell:'naranja',scarf:'roja',hat:'',glasses:'',bow:''},owned:{'caparazon:naranja':1,'bufanda:roja':1},vales:null,valesLog:[],bday:null,bdayDone:'',unlockAll:false,seenOpen:{},houseSeen:null,petSeen:null,cofres:0,mascotas:{},sorpresas:{},huerto:{dias:0,dia:''}};
+const DEF2 = {
+  coins: 0,
+  coinsTot: 0,
+  gift: '',
+  woke: {},
+  home: {},
+  tito: { shell: 'naranja', scarf: 'roja', hat: '', glasses: '', bow: '' },
+  owned: { 'caparazon:naranja': 1, 'bufanda:roja': 1 },
+  vales: null,
+  valesLog: [],
+  bday: null,
+  bdayDone: '',
+  unlockAll: false,
+  seenOpen: {},
+  houseSeen: null,
+  petSeen: null,
+  cofres: 0,
+  mascotas: {},
+  sorpresas: {},
+  huerto: { dias: 0, dia: '' },
+};
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.
-Object.assign(DEF,copiaProfunda(DEF2));
-const _oldSave=S.coins===undefined&&Object.keys(S.temas||{}).length>0;
-sanoS(S,DEF2);// campos de una partida rota (null o de otro tipo) → valor por defecto, como los que faltan
-{const s: Libre=S,d: Libre=DEF2;for(const k in d)if(s[k]===undefined)s[k]=copiaProfunda(d[k])}
+Object.assign(DEF, copiaProfunda(DEF2));
+const _oldSave = S.coins === undefined && Object.keys(S.temas || {}).length > 0;
+sanoS(S, DEF2); // campos de una partida rota (null o de otro tipo) → valor por defecto, como los que faltan
+{
+  const s: Libre = S,
+    d: Libre = DEF2;
+  for (const k in d) if (s[k] === undefined) s[k] = copiaProfunda(d[k]);
+}
 // quien ya jugaba la versión 1 recibe monedas por lo que ya había jugado
-if(_oldSave){const n=Object.values(S.temas).reduce((a,t)=>a+Object.keys((t&&t.g)||{}).length,0)*2;S.coins=S.coinsTot=n;save()}
+if (_oldSave) {
+  const n = Object.values(S.temas).reduce((a, t) => a + Object.keys((t && t.g) || {}).length, 0) * 2;
+  S.coins = S.coinsTot = n;
+  save();
+}
 // Vales por defecto que un adulto puede activar en la zona de adultos: id, txt (lo que se promete),
 // ic (dibujo), p (precio en monedas), on (1 = se ve en la tienda). Se copian a S.vales la primera vez.
-const VALES_DEF: Vale[]=[{id:'v1',txt:'Un cuento extra antes de dormir',ic:'libro',p:30,on:1},{id:'v2',txt:'Ir a jugar al parque',ic:'parque',p:50,on:1},{id:'v3',txt:'Elegir a qué jugamos juntos',ic:'bloques',p:40,on:1},
-  {id:'v4',txt:'Cocinar algo rico juntos',ic:'olla',p:60,on:0},{id:'v5',txt:'Elegir la película del fin de semana',ic:'tele',p:60,on:0},{id:'v6',txt:'Un abrazo de oso gigante',ic:'oso',p:10,on:0}];
-if(!S.vales)S.vales=copiaProfunda(VALES_DEF);
+const VALES_DEF: Vale[] = [
+  { id: 'v1', txt: 'Un cuento extra antes de dormir', ic: 'libro', p: 30, on: 1 },
+  { id: 'v2', txt: 'Ir a jugar al parque', ic: 'parque', p: 50, on: 1 },
+  { id: 'v3', txt: 'Elegir a qué jugamos juntos', ic: 'bloques', p: 40, on: 1 },
+  { id: 'v4', txt: 'Cocinar algo rico juntos', ic: 'olla', p: 60, on: 0 },
+  { id: 'v5', txt: 'Elegir la película del fin de semana', ic: 'tele', p: 60, on: 0 },
+  { id: 'v6', txt: 'Un abrazo de oso gigante', ic: 'oso', p: 10, on: 0 },
+];
+if (!S.vales) S.vales = copiaProfunda(VALES_DEF);
 
 // Las monedas en pantalla (marcador, animación, creditCoins, giveCoins...) están desde la fase 4a en su propio módulo,
 // desde la 4b en el núcleo (nucleo/monedas.ts). Las de cada acierto las da onRight (nucleo/interfaz.ts) y las de
@@ -121,33 +240,114 @@ if(!S.vales)S.vales=copiaProfunda(VALES_DEF);
 /* ---------- Tito con ropa y colores ---------- */
 // SHELLC y SCARFC (los colores del caparazón y de la bufanda) están desde la fase 4q en el núcleo (nucleo/tito.ts).
 // Caché de imágenes de Tito ya coloreadas, por clave "animal|caparazón|bufanda".
-const TITOIMG: Record<string,HTMLImageElement>={};
+const TITOIMG: Record<string, HTMLImageElement> = {};
 // Devuelve la imagen de Tito con los colores elegidos en S.tito. Crea (una sola vez) un SVG cambiando los
 // colores originales por los de SHELLC/SCARFC; mientras la imagen nueva no ha cargado devuelve la de siempre.
-function titoImg(){const t: Tito=S.tito||{},sh=SHELLC[t.shell!]?t.shell!:'naranja',sc=SCARFC[t.scarf!]?t.scarf!:'roja',tk=titoKind(),er=tk==='erizo',key=(tk==='caracol'?'':tk+'|')+sh+'|'+sc;if(key==='naranja|roja')return IMG.tito;
+function titoImg() {
+  const t: Tito = S.tito || {},
+    sh = SHELLC[t.shell!] ? t.shell! : 'naranja',
+    sc = SCARFC[t.scarf!] ? t.scarf! : 'roja',
+    tk = titoKind(),
+    er = tk === 'erizo',
+    key = (tk === 'caracol' ? '' : tk + '|') + sh + '|' + sc;
+  if (key === 'naranja|roja') return IMG.tito;
   // el erizo lleva el color de la tienda en las púas (con el naranja de siempre, púas marrones); la tortuga en el caparazón y el conejo en la mochila
-  if(!TITOIMG[key])TITOIMG[key]=er?svgImg(ERIZO_SVG.replace('fill="#B07A4F"','fill="'+(sh==='naranja'?'#B07A4F':SHELLC[sh][0])+'"').replace('stroke="#7A5030"','stroke="'+(sh==='naranja'?'#7A5030':SHELLC[sh][1])+'"').replace('fill="#FF6B5E"','fill="'+SCARFC[sc]+'"'),'0 0 240 200',480)
-    :svgImg(({caracol:TITO_SVG,tortuga:TORTUGA_SVG,conejo:CONEJO_SVG} as Record<string,string>)[tk].replace('fill="#FFA94D"','fill="'+SHELLC[sh][0]+'"').replace('stroke="#D9762A"','stroke="'+SHELLC[sh][1]+'"').replace('fill="#FF6B5E"','fill="'+SCARFC[sc]+'"'),'0 0 240 200',480);
-  const i=TITOIMG[key];return i.complete?i:(IMG[tk==='caracol'?'tito':tk]||IMG.tito)}
+  if (!TITOIMG[key])
+    TITOIMG[key] = er
+      ? svgImg(
+          ERIZO_SVG.replace('fill="#B07A4F"', 'fill="' + (sh === 'naranja' ? '#B07A4F' : SHELLC[sh][0]) + '"')
+            .replace('stroke="#7A5030"', 'stroke="' + (sh === 'naranja' ? '#7A5030' : SHELLC[sh][1]) + '"')
+            .replace('fill="#FF6B5E"', 'fill="' + SCARFC[sc] + '"'),
+          '0 0 240 200',
+          480,
+        )
+      : svgImg(
+          ({ caracol: TITO_SVG, tortuga: TORTUGA_SVG, conejo: CONEJO_SVG } as Record<string, string>)[tk]
+            .replace('fill="#FFA94D"', 'fill="' + SHELLC[sh][0] + '"')
+            .replace('stroke="#D9762A"', 'stroke="' + SHELLC[sh][1] + '"')
+            .replace('fill="#FF6B5E"', 'fill="' + SCARFC[sc] + '"'),
+          '0 0 240 200',
+          480,
+        );
+  const i = TITOIMG[key];
+  return i.complete ? i : IMG[tk === 'caracol' ? 'tito' : tk] || IMG.tito;
+}
 // Dónde va cada sombrero sobre el dibujo de Tito: id → [x, y, tamaño] en coordenadas del dibujo (240x200).
-const HATPOS: Record<string,[number,number,number]>={gorroFiesta:[198,28,86],gorra:[204,44,84],gorro:[198,40,84],gorroNavidad:[202,32,92],sombreroCopa:[198,34,78],sombreroPirata:[198,38,100],corona:[198,42,72]};
+const HATPOS: Record<string, [number, number, number]> = {
+  gorroFiesta: [198, 28, 86],
+  gorra: [204, 44, 84],
+  gorro: [198, 40, 84],
+  gorroNavidad: [202, 32, 92],
+  sombreroCopa: [198, 34, 78],
+  sombreroPirata: [198, 38, 100],
+  corona: [198, 42, 72],
+};
 // Dibuja encima de Tito lo que lleva puesto (moño, sombrero, gafas). k = escala del dibujo de Tito.
 // Las posiciones dependen del animal (titoKind); TITO_EYES da dónde están los ojos.
-function drawTitoWear(k: number){const t=S.tito||{};
-  const tk=titoKind(),E=TITO_EYES[tk],BW=({caracol:[126,42],erizo:[104,66],tortuga:[100,70],conejo:[66,104]} as Record<string,[number,number]>)[tk],HY=({caracol:0,erizo:4,tortuga:10,conejo:4} as Record<string,number>)[tk];
-  if(t.bow)pic('monio',BW[0]*k,BW[1]*k,56*k);
+function drawTitoWear(k: number) {
+  const t = S.tito || {};
+  const tk = titoKind(),
+    E = TITO_EYES[tk],
+    BW = (
+      { caracol: [126, 42], erizo: [104, 66], tortuga: [100, 70], conejo: [66, 104] } as Record<
+        string,
+        [number, number]
+      >
+    )[tk],
+    HY = ({ caracol: 0, erizo: 4, tortuga: 10, conejo: 4 } as Record<string, number>)[tk];
+  if (t.bow) pic('monio', BW[0] * k, BW[1] * k, 56 * k);
   // en el caracol el sombrero tapa los ojos (están en las antenas) y se vuelven a dibujar encima; en los demás no hace falta
-  if(t.hat&&HATPOS[t.hat]){const [x,y,s]=HATPOS[t.hat];pic(t.hat,x*k,(y+HY)*k,s*k);
-    if(tk==='caracol')for(const ex of[174,222]){circ(ex*k,20*k,15*k,'#fff',5*k);circ((ex+3)*k,22*k,7*k,K,0);circ((ex+5)*k,19*k,2.5*k,'#fff',0)}}
-  if(t.glasses){for(const [ex,ey,er_] of E)circ(ex*k,ey*k,(er_+3)*k,'rgba(40,40,70,.38)',6*k);const [a,b]=E;ctx.beginPath();ctx.moveTo((a[0]+a[2]+3)*k,(a[1]-2)*k);ctx.lineTo((b[0]-b[2]-3)*k,(b[1]-2)*k);ctx.lineWidth=4*k;ctx.strokeStyle=K;ctx.stroke();for(const [ex,ey] of E){ctx.beginPath();ctx.arc((ex-4)*k,(ey-6)*k,6*k,PI*1.1,PI*1.6);ctx.lineWidth=3*k;ctx.strokeStyle='rgba(255,255,255,.8)';ctx.stroke()}}}
+  if (t.hat && HATPOS[t.hat]) {
+    const [x, y, s] = HATPOS[t.hat];
+    pic(t.hat, x * k, (y + HY) * k, s * k);
+    if (tk === 'caracol')
+      for (const ex of [174, 222]) {
+        circ(ex * k, 20 * k, 15 * k, '#fff', 5 * k);
+        circ((ex + 3) * k, 22 * k, 7 * k, K, 0);
+        circ((ex + 5) * k, 19 * k, 2.5 * k, '#fff', 0);
+      }
+  }
+  if (t.glasses) {
+    for (const [ex, ey, er_] of E) circ(ex * k, ey * k, (er_ + 3) * k, 'rgba(40,40,70,.38)', 6 * k);
+    const [a, b] = E;
+    ctx.beginPath();
+    ctx.moveTo((a[0] + a[2] + 3) * k, (a[1] - 2) * k);
+    ctx.lineTo((b[0] - b[2] - 3) * k, (b[1] - 2) * k);
+    ctx.lineWidth = 4 * k;
+    ctx.strokeStyle = K;
+    ctx.stroke();
+    for (const [ex, ey] of E) {
+      ctx.beginPath();
+      ctx.arc((ex - 4) * k, (ey - 6) * k, 6 * k, PI * 1.1, PI * 1.6);
+      ctx.lineWidth = 3 * k;
+      ctx.strokeStyle = 'rgba(255,255,255,.8)';
+      ctx.stroke();
+    }
+  }
+}
 // tito.ts dibuja a Tito con su imagen de colores (titoImg) y su ropa (drawTitoWear): se las damos con ponRopaTito.
-ponRopaTito(titoImg,drawTitoWear);
+ponRopaTito(titoImg, drawTitoWear);
 
 /* ---------- catálogo ---------- */
 // icono de la casa de Tito: la casita con caparazón para el caracol; para los otros animales, su casa en pequeño (con el emblema de su animal)
-function titoHouseIc(x: number,y: number,s: number){if(titoKind()==='caracol')return pic('casaCaracol',x,y,s);ctx.save();ctx.translate(x,y);ctx.scale(s/280,s/280);drawTitoHouse(0,110,Math.min(1,houseLevel()));ctx.restore()}
+function titoHouseIc(x: number, y: number, s: number) {
+  if (titoKind() === 'caracol') return pic('casaCaracol', x, y, s);
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s / 280, s / 280);
+  drawTitoHouse(0, 110, Math.min(1, houseLevel()));
+  ctx.restore();
+}
 // Pestañas de la tienda: id de categoría, n (nombre que dice Tito) e ic (dibujo de la pestaña).
-const SHOPCAT=[{id:'ropa',n:'Ropa para Tito',ic:'gorroFiesta'},{id:'colores',n:'Colores para Tito',ic:'caracol'},{id:'casa',n:'Cosas para la casa',ic:'lampara'},{id:'juguetes',n:'Juguetes',ic:'peluche'},{id:'jardin',n:'Cosas para el jardín',ic:'columpio'},{id:'mascotas',n:'Mascotas',ic:'hamster'},{id:'vales',n:'Vales para canjear',ic:'vale'}];
+const SHOPCAT = [
+  { id: 'ropa', n: 'Ropa para Tito', ic: 'gorroFiesta' },
+  { id: 'colores', n: 'Colores para Tito', ic: 'caracol' },
+  { id: 'casa', n: 'Cosas para la casa', ic: 'lampara' },
+  { id: 'juguetes', n: 'Juguetes', ic: 'peluche' },
+  { id: 'jardin', n: 'Cosas para el jardín', ic: 'columpio' },
+  { id: 'mascotas', n: 'Mascotas', ic: 'hamster' },
+  { id: 'vales', n: 'Vales para canjear', ic: 'vale' },
+];
 // Catálogo de la tienda. Cada artículo: {id, cat, p (precio), tier (nivel 1-3, ver TIER_NEED),
 //   slot (solo ropa/colores: 'hat', 'glasses', 'bow', 'shell' o 'scarf'), v (color para shell/scarf),
 //   n (nombre que dice Tito, si no se usa W_(id)), draw(x,y,s) (dibujo propio, si no se usa pic(id)),
@@ -155,206 +355,986 @@ const SHOPCAT=[{id:'ropa',n:'Ropa para Tito',ic:'gorroFiesta'},{id:'colores',n:'
 //   pref (habitación preferida, sin candado: si está cerrada, va al salón)}.
 // Los artículos sin slot van a la casa de Tito (necesitan dibujo en PICS y tamaño en HSIZE).
 // Se escriben como listas cortas [id, precio, nivel, slot] que .map convierte en objetos.
-export const SHOP: Articulo[]=[
-  ...([['gorroFiesta',6,1],['gorra',8,1],['monio',6,1,'bow'],['gafas',10,1,'glasses'],['gorro',10,1],['gorroNavidad',12,2],['sombreroCopa',18,2],['sombreroPirata',18,2],['corona',30,3]] as [string,number,number,Ranura?][]).map(([id,p,tier,slot])=>({id,cat:'ropa',slot:slot||'hat',p,tier})),
-  ...([['naranja',0,1],['azul',15,1],['rosa',15,2],['verde',20,2],['violeta',25,3],['dorado',40,3]] as [string,number,number][]).map(([c,p,tier])=>({id:'caparazon:'+c,cat:'colores',slot:'shell',v:c,p,tier,n:'el caparazón '+(c==='rosa'?'rosa':c==='verde'?'verde':c),draw:(x: number,y: number,s: number)=>{if(titoKind()!=='caracol')return shellIcon(x,y,s*.36,c);circ(x,y,s*.36,SHELLC[c][0],6);ctx.beginPath();for(let i=0;i<=40;i++){const a=i/40*PI*4.4,r=4+i/40*s*.26;ctx.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r)}ctx.lineWidth=s*.05;ctx.strokeStyle=SHELLC[c][1];ctx.lineCap='round';ctx.stroke()}})),
-  ...([['roja',0,1],['azul',8,1],['amarilla',8,1],['violeta',10,2]] as [string,number,number][]).map(([c,p,tier])=>({id:'bufanda:'+c,cat:'colores',slot:'scarf',v:c,p,tier,n:'la bufanda '+c,draw:(x: number,y: number,s: number)=>{ctx.save();ctx.translate(x,y);card(-s*.38,-s*.16,s*.76,s*.2,SCARFC[c],6,s*.1);card(s*.08,-s*.04,s*.16,s*.38,SCARFC[c],6,s*.06);ctx.restore()}})),
-  ...([['alfombra',10,1],['cuadro',8,1],['plantaInterior',8,1],['lampara',12,1],['banco',12,2],['estanteria',15,2],['reloj',15,2],['farol',15,2],['piano',30,3],['fuente',35,3]] as [string,number,number][]).map(([id,p,tier])=>({id,cat:'casa',p,tier})),
-  ...([['pelotaPlaya',6,1],['bloques',8,1],['peluche',10,1],['cometa',10,1],['xilofono',12,1],['muneca',15,2],['robot',18,2],['trenJuguete',18,2],['guitarra',20,2],['telescopio',30,3]] as [string,number,number][]).map(([id,p,tier])=>({id,cat:'juguetes',p,tier})),
-  ...([['pecera',20,1],['hamster',25,2],['casitaPerro',40,3]] as [string,number,number][]).map(([id,p,tier])=>({id,cat:'mascotas',p,tier})),
+export const SHOP: Articulo[] = [
+  ...(
+    [
+      ['gorroFiesta', 6, 1],
+      ['gorra', 8, 1],
+      ['monio', 6, 1, 'bow'],
+      ['gafas', 10, 1, 'glasses'],
+      ['gorro', 10, 1],
+      ['gorroNavidad', 12, 2],
+      ['sombreroCopa', 18, 2],
+      ['sombreroPirata', 18, 2],
+      ['corona', 30, 3],
+    ] as [string, number, number, Ranura?][]
+  ).map(([id, p, tier, slot]) => ({ id, cat: 'ropa', slot: slot || 'hat', p, tier })),
+  ...(
+    [
+      ['naranja', 0, 1],
+      ['azul', 15, 1],
+      ['rosa', 15, 2],
+      ['verde', 20, 2],
+      ['violeta', 25, 3],
+      ['dorado', 40, 3],
+    ] as [string, number, number][]
+  ).map(([c, p, tier]) => ({
+    id: 'caparazon:' + c,
+    cat: 'colores',
+    slot: 'shell',
+    v: c,
+    p,
+    tier,
+    n: 'el caparazón ' + (c === 'rosa' ? 'rosa' : c === 'verde' ? 'verde' : c),
+    draw: (x: number, y: number, s: number) => {
+      if (titoKind() !== 'caracol') return shellIcon(x, y, s * 0.36, c);
+      circ(x, y, s * 0.36, SHELLC[c][0], 6);
+      ctx.beginPath();
+      for (let i = 0; i <= 40; i++) {
+        const a = (i / 40) * PI * 4.4,
+          r = 4 + (i / 40) * s * 0.26;
+        ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
+      }
+      ctx.lineWidth = s * 0.05;
+      ctx.strokeStyle = SHELLC[c][1];
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    },
+  })),
+  ...(
+    [
+      ['roja', 0, 1],
+      ['azul', 8, 1],
+      ['amarilla', 8, 1],
+      ['violeta', 10, 2],
+    ] as [string, number, number][]
+  ).map(([c, p, tier]) => ({
+    id: 'bufanda:' + c,
+    cat: 'colores',
+    slot: 'scarf',
+    v: c,
+    p,
+    tier,
+    n: 'la bufanda ' + c,
+    draw: (x: number, y: number, s: number) => {
+      ctx.save();
+      ctx.translate(x, y);
+      card(-s * 0.38, -s * 0.16, s * 0.76, s * 0.2, SCARFC[c], 6, s * 0.1);
+      card(s * 0.08, -s * 0.04, s * 0.16, s * 0.38, SCARFC[c], 6, s * 0.06);
+      ctx.restore();
+    },
+  })),
+  ...(
+    [
+      ['alfombra', 10, 1],
+      ['cuadro', 8, 1],
+      ['plantaInterior', 8, 1],
+      ['lampara', 12, 1],
+      ['banco', 12, 2],
+      ['estanteria', 15, 2],
+      ['reloj', 15, 2],
+      ['farol', 15, 2],
+      ['piano', 30, 3],
+      ['fuente', 35, 3],
+    ] as [string, number, number][]
+  ).map(([id, p, tier]) => ({ id, cat: 'casa', p, tier })),
+  ...(
+    [
+      ['pelotaPlaya', 6, 1],
+      ['bloques', 8, 1],
+      ['peluche', 10, 1],
+      ['cometa', 10, 1],
+      ['xilofono', 12, 1],
+      ['muneca', 15, 2],
+      ['robot', 18, 2],
+      ['trenJuguete', 18, 2],
+      ['guitarra', 20, 2],
+      ['telescopio', 30, 3],
+    ] as [string, number, number][]
+  ).map(([id, p, tier]) => ({ id, cat: 'juguetes', p, tier })),
+  ...(
+    [
+      ['pecera', 20, 1],
+      ['hamster', 25, 2],
+      ['casitaPerro', 40, 3],
+    ] as [string, number, number][]
+  ).map(([id, p, tier]) => ({ id, cat: 'mascotas', p, tier })),
   // v1.590: cosas para cada habitación nueva de la casa (room) y más juguetes y mascotas.
   // [id, precio, nivel, habitación, categoría, nombre (si W_ no lo dice bien)]
-  ...([['sofa',15,1,'salon'],['tele',20,2,'salon'],
-    ['cama',15,1,'dormitorio'],['baul',12,1,'dormitorio'],['cuento',6,1,'dormitorio'],['estrellas',15,2,'dormitorio','casa','las estrellas que brillan'],
-    ['mesa',10,1,'cocina'],['silla',6,1,'cocina'],['nevera',18,1,'cocina'],['olla',8,1,'cocina'],['tarta',12,2,'cocina'],
-    ['banera',18,1,'bano'],['toalla',6,1,'bano'],['jabon',4,1,'bano'],['pato',6,1,'bano','casa','el patito de goma'],
-    ['tambor',12,1,'juegos','juguetes'],['pizarra',15,1,'juegos','juguetes','la pizarra'],['pinturas',10,1,'juegos','juguetes'],['globo',6,1,'juegos','juguetes'],['tobogan',25,2,'juegos','juguetes'],
-    ['arbol',15,1,'jardin','jardin'],['plantaFlor',8,1,'jardin','jardin'],['regadera',6,1,'jardin','jardin'],['columpio',25,2,'jardin','jardin'],['castillo',20,2,'jardin','jardin'],['piscina',30,3,'jardin','jardin'],
-    ['tierra',20,2,'torre','casa','el globo terráqueo'],['saturno',25,2,'torre','casa','Saturno'],['cohete',40,3,'torre','juguetes']
-  ] as [string,number,number,string,string?,string?][]).map(([id,p,tier,room,cat,n])=>Object.assign({id,cat:cat||'casa',p,tier,room},n?{n}:{})),
-  ...([['gato',30,2],['pajaro',25,2],['conejo',35,3]] as [string,number,number][]).map(([id,p,tier])=>({id,cat:'mascotas',p,tier,pref:'jardin'}))
+  ...(
+    [
+      ['sofa', 15, 1, 'salon'],
+      ['tele', 20, 2, 'salon'],
+      ['cama', 15, 1, 'dormitorio'],
+      ['baul', 12, 1, 'dormitorio'],
+      ['cuento', 6, 1, 'dormitorio'],
+      ['estrellas', 15, 2, 'dormitorio', 'casa', 'las estrellas que brillan'],
+      ['mesa', 10, 1, 'cocina'],
+      ['silla', 6, 1, 'cocina'],
+      ['nevera', 18, 1, 'cocina'],
+      ['olla', 8, 1, 'cocina'],
+      ['tarta', 12, 2, 'cocina'],
+      ['banera', 18, 1, 'bano'],
+      ['toalla', 6, 1, 'bano'],
+      ['jabon', 4, 1, 'bano'],
+      ['pato', 6, 1, 'bano', 'casa', 'el patito de goma'],
+      ['tambor', 12, 1, 'juegos', 'juguetes'],
+      ['pizarra', 15, 1, 'juegos', 'juguetes', 'la pizarra'],
+      ['pinturas', 10, 1, 'juegos', 'juguetes'],
+      ['globo', 6, 1, 'juegos', 'juguetes'],
+      ['tobogan', 25, 2, 'juegos', 'juguetes'],
+      ['arbol', 15, 1, 'jardin', 'jardin'],
+      ['plantaFlor', 8, 1, 'jardin', 'jardin'],
+      ['regadera', 6, 1, 'jardin', 'jardin'],
+      ['columpio', 25, 2, 'jardin', 'jardin'],
+      ['castillo', 20, 2, 'jardin', 'jardin'],
+      ['piscina', 30, 3, 'jardin', 'jardin'],
+      ['tierra', 20, 2, 'torre', 'casa', 'el globo terráqueo'],
+      ['saturno', 25, 2, 'torre', 'casa', 'Saturno'],
+      ['cohete', 40, 3, 'torre', 'juguetes'],
+    ] as [string, number, number, string, string?, string?][]
+  ).map(([id, p, tier, room, cat, n]) => Object.assign({ id, cat: cat || 'casa', p, tier, room }, n ? { n } : {})),
+  ...(
+    [
+      ['gato', 30, 2],
+      ['pajaro', 25, 2],
+      ['conejo', 35, 3],
+    ] as [string, number, number][]
+  ).map(([id, p, tier]) => ({ id, cat: 'mascotas', p, tier, pref: 'jardin' })),
 ];
 // Habitación preferida de los artículos de antes (sin candado): los juguetes, al cuarto de juegos (el telescopio, a la
 // torre); las mascotas, al jardín.
-SHOP.forEach(it=>{if(!it.room&&!it.slot&&!it.pref&&(it.cat==='juguetes'||it.cat==='mascotas'))it.pref=it.cat==='juguetes'?'juegos':'jardin'});
-SHOP.find(i=>i.id==='telescopio')!.pref='torre';// el telescopio, a la torre de las estrellas
+SHOP.forEach((it) => {
+  if (!it.room && !it.slot && !it.pref && (it.cat === 'juguetes' || it.cat === 'mascotas'))
+    it.pref = it.cat === 'juguetes' ? 'juegos' : 'jardin';
+});
+SHOP.find((i) => i.id === 'telescopio')!.pref = 'torre'; // el telescopio, a la torre de las estrellas
 // Artículos de una categoría. Para "vales" crea artículos a partir de los vales activos de S.vales (máx. 10).
-const shopItems=(cat: string): Articulo[]=>cat==='vales'?S.vales!.filter(v=>v.on).slice(0,10).map(v=>({id:'vale:'+v.id,cat:'vales',p:v.p!,tier:1,vale:v,n:'el vale: '+v.txt})):SHOP.filter(i=>i.cat===cat);
+const shopItems = (cat: string): Articulo[] =>
+  cat === 'vales'
+    ? S.vales!.filter((v) => v.on)
+        .slice(0, 10)
+        .map((v) => ({ id: 'vale:' + v.id, cat: 'vales', p: v.p!, tier: 1, vale: v, n: 'el vale: ' + v.txt }))
+    : SHOP.filter((i) => i.cat === cat);
 // Nombre de un artículo para decirlo en voz alta (it.n o el nombre del diccionario W_).
-export const itemName=(it: Articulo)=>it.n?it.n:W_(it.id);
+export const itemName = (it: Articulo) => (it.n ? it.n : W_(it.id));
 // ¿Tito lleva puesto ahora este artículo de ropa o color?
-const isWorn=(it: Articulo)=>{const t=S.tito!;return it.slot==='hat'?t.hat===it.id:it.slot==='glasses'?!!t.glasses:it.slot==='bow'?!!t.bow:it.slot==='shell'?t.shell===it.v:it.slot==='scarf'?t.scarf===it.v:false};
+const isWorn = (it: Articulo) => {
+  const t = S.tito!;
+  return it.slot === 'hat'
+    ? t.hat === it.id
+    : it.slot === 'glasses'
+      ? !!t.glasses
+      : it.slot === 'bow'
+        ? !!t.bow
+        : it.slot === 'shell'
+          ? t.shell === it.v
+          : it.slot === 'scarf'
+            ? t.scarf === it.v
+            : false;
+};
 // Pone (on=true) o quita la prenda it a Tito en S.tito y guarda. Los colores siempre se ponen (no se quitan).
-export function wear(it: Articulo,on: boolean){const t=S.tito!;if(it.slot==='hat')t.hat=on?it.id:'';if(it.slot==='glasses')t.glasses=on?'gafas':'';if(it.slot==='bow')t.bow=on?'monio':'';if(it.slot==='shell')t.shell=it.v;if(it.slot==='scarf')t.scarf=it.v;save()}
+export function wear(it: Articulo, on: boolean) {
+  const t = S.tito!;
+  if (it.slot === 'hat') t.hat = on ? it.id : '';
+  if (it.slot === 'glasses') t.glasses = on ? 'gafas' : '';
+  if (it.slot === 'bow') t.bow = on ? 'monio' : '';
+  if (it.slot === 'shell') t.shell = it.v;
+  if (it.slot === 'scarf') t.scarf = it.v;
+  save();
+}
 // Dibuja el artículo en (x,y) con tamaño s: su draw propio, un vale (con su icono en un circulito) o su dibujo pic.
-export function drawItemPic(it: Articulo,x: number,y: number,s: number){if(it.draw)it.draw(x,y,s);else if(it.vale){pic('vale',x,y,s);circ(x+s*.26,y-s*.24,s*.2,'#fff',4);pic(it.vale.ic!,x+s*.26,y-s*.24,s*.32)}else pic(it.id,x,y,s)}
+export function drawItemPic(it: Articulo, x: number, y: number, s: number) {
+  if (it.draw) it.draw(x, y, s);
+  else if (it.vale) {
+    pic('vale', x, y, s);
+    circ(x + s * 0.26, y - s * 0.24, s * 0.2, '#fff', 4);
+    pic(it.vale.ic!, x + s * 0.26, y - s * 0.24, s * 0.32);
+  } else pic(it.id, x, y, s);
+}
 // Huecos del suelo de la casa de Tito donde se colocan las cosas nuevas, por orden.
-const HOMESPOT: [number,number][]=[[930,720],[1180,740],[780,800],[1420,720],[1050,560],[830,560],[1290,560],[1500,560],[1010,840],[1300,850],[700,580],[1500,850]];
+const HOMESPOT: [number, number][] = [
+  [930, 720],
+  [1180, 740],
+  [780, 800],
+  [1420, 720],
+  [1050, 560],
+  [830, 560],
+  [1290, 560],
+  [1500, 560],
+  [1010, 840],
+  [1300, 850],
+  [700, 580],
+  [1500, 850],
+];
 // Cosas que van colgadas en la pared (se dibujan detrás y no bajan al suelo) y huecos de la pared, por orden.
-const WALLITEMS=['cuadro','reloj','pizarra','estrellas','saturno'],WALLSPOT: [number,number][]=[[800,330],[1030,330],[580,320],[380,300]];
+const WALLITEMS = ['cuadro', 'reloj', 'pizarra', 'estrellas', 'saturno'],
+  WALLSPOT: [number, number][] = [
+    [800, 330],
+    [1030, 330],
+    [580, 320],
+    [380, 300],
+  ];
 // ROOMS: habitaciones de la casa de Tito (v1.590). Cada una: id, n (nombre con artículo, lo dice Tito), need (casitas
 // —temas— terminadas para que se abra; 0 = siempre), ic (dibujo de su botón) y cer (cómo se dice "cerrado/a").
 // Las cosas de la casa guardan su habitación en S.home[id].r (sin r = el salón, como en las partidas de antes).
-const ROOMS: Habitacion[]=[{id:'salon',n:'el salón',need:0,ic:'sofa',cer:'cerrado'},{id:'dormitorio',n:'el dormitorio',need:1,ic:'cama',cer:'cerrado'},
-  {id:'cocina',n:'la cocina',need:3,ic:'olla',cer:'cerrada'},{id:'bano',n:'el baño',need:5,ic:'banera',cer:'cerrado'},
-  {id:'juegos',n:'el cuarto de juegos',need:8,ic:'bloques',cer:'cerrado'},{id:'jardin',n:'el jardín',need:11,ic:'arbol',cer:'cerrado'},
-  {id:'torre',n:'la torre de las estrellas',need:14,ic:'telescopio',cer:'cerrada'}];
+const ROOMS: Habitacion[] = [
+  { id: 'salon', n: 'el salón', need: 0, ic: 'sofa', cer: 'cerrado' },
+  { id: 'dormitorio', n: 'el dormitorio', need: 1, ic: 'cama', cer: 'cerrado' },
+  { id: 'cocina', n: 'la cocina', need: 3, ic: 'olla', cer: 'cerrada' },
+  { id: 'bano', n: 'el baño', need: 5, ic: 'banera', cer: 'cerrado' },
+  { id: 'juegos', n: 'el cuarto de juegos', need: 8, ic: 'bloques', cer: 'cerrado' },
+  { id: 'jardin', n: 'el jardín', need: 11, ic: 'arbol', cer: 'cerrado' },
+  { id: 'torre', n: 'la torre de las estrellas', need: 14, ic: 'telescopio', cer: 'cerrada' },
+];
 // roomOf(id de habitación) → la habitación; roomOpen(id): ¿está abierta? (temas terminados, temasDone de nucleo/tito.ts;
 // regla habitacionAbierta de dominio/progreso.ts);
 // roomsOpen(): las abiertas, en orden; homeRoom(id de objeto): habitación donde está ese objeto.
-export const roomOf=(r: string)=>ROOMS.find(x=>x.id===r)||ROOMS[0],roomOpen=(r: string)=>habitacionAbierta(roomOf(r).need,temasDone()),roomsOpen=()=>ROOMS.filter(R=>roomOpen(R.id)),
-  homeRoom=(id: string)=>(S.home![id]&&S.home![id].r)||'salon';
+export const roomOf = (r: string) => ROOMS.find((x) => x.id === r) || ROOMS[0],
+  roomOpen = (r: string) => habitacionAbierta(roomOf(r).need, temasDone()),
+  roomsOpen = () => ROOMS.filter((R) => roomOpen(R.id)),
+  homeRoom = (id: string) => (S.home![id] && S.home![id].r) || 'salon';
 // homeSpot(id, r): un hueco libre para el objeto id en la habitación r: los de pared en WALLSPOT, la alfombra en el
 // centro y el resto en el primer hueco libre de HOMESPOT (o en un sitio al azar si están todos ocupados).
-function homeSpot(id: string,r: string): [number,number]{const used=Object.entries(S.home!).filter(([k,p])=>k!==id&&(p.r||'salon')===r).map(([,p])=>[p.x,p.y]),
-    free=(p: [number,number])=>!used.some(u=>Math.abs(u[0]-p[0])<170&&Math.abs(u[1]-p[1])<40);// libre: ningún objeto casi en ese sitio
-  if(WALLITEMS.includes(id))return WALLSPOT.find(free)||WALLSPOT[0];
-  if(id==='alfombra')return [960,760];
-  const sp: [number,number]=HOMESPOT.find(free)||[rnd(700,1400)|0,rnd(560,800)|0],hs=HSIZE[id]||160;
-  return [clamp(sp[0],300+hs*.3,W-hs/2-10),sp[1]]}// que las cosas grandes no se salgan por la derecha
+function homeSpot(id: string, r: string): [number, number] {
+  const used = Object.entries(S.home!)
+      .filter(([k, p]) => k !== id && (p.r || 'salon') === r)
+      .map(([, p]) => [p.x, p.y]),
+    free = (p: [number, number]) => !used.some((u) => Math.abs(u[0] - p[0]) < 170 && Math.abs(u[1] - p[1]) < 40); // libre: ningún objeto casi en ese sitio
+  if (WALLITEMS.includes(id)) return WALLSPOT.find(free) || WALLSPOT[0];
+  if (id === 'alfombra') return [960, 760];
+  const sp: [number, number] = HOMESPOT.find(free) || [rnd(700, 1400) | 0, rnd(560, 800) | 0],
+    hs = HSIZE[id] || 160;
+  return [clamp(sp[0], 300 + hs * 0.3, W - hs / 2 - 10), sp[1]];
+} // que las cosas grandes no se salgan por la derecha
 // Coloca un objeto nuevo en la casa (S.home[id]={x,y,r}) si no estaba, en un hueco libre (homeSpot) de su habitación:
 // la de it.room o it.pref si está abierta; si no, el salón. No guarda.
-export function placeHome(id: string){if(S.home![id])return;const it=SHOP.find(i=>i.id===id),want=it&&(it.room||it.pref),r=want&&roomOpen(want)?want:'salon';
-  const sp=homeSpot(id,r);S.home![id]={x:sp[0],y:sp[1],r}}
+export function placeHome(id: string) {
+  if (S.home![id]) return;
+  const it = SHOP.find((i) => i.id === id),
+    want = it && (it.room || it.pref),
+    r = want && roomOpen(want) ? want : 'salon';
+  const sp = homeSpot(id, r);
+  S.home![id] = { x: sp[0], y: sp[1], r };
+}
 
 /* ---------- la tienda ---------- */
 // Escena de la tienda: pestañas de categorías, cuadrícula de artículos (5 por fila, 10 por página, con flechas si
 // hay más), ventana de confirmación (this.conf) y botón para ir a la casa de Tito. Estado: cat (pestaña), page
 // (página de la pestaña), conf/confT (artículo a confirmar y cuándo), newHome/newId (se acaba de comprar algo
 // para la casa: el botón de la casa salta).
-SCENES.tienda={music:'casita',
+SCENES.tienda = {
+  music: 'casita',
   // Al entrar: Tito saluda (la primera vez explica cómo funciona; S.first.tienda lo recuerda).
-  enter(){this.cat=this.cat||'ropa';this.page=this.page||0;this.conf=null;this.newHome=0;const seen=S.first.tienda;later(300,()=>sayQ(seen?'¡La tienda! Tienes '+S.coins+' monedas. Toca algo para ver cuánto cuesta.':'¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.'));S.first.tienda=1;save()},
+  enter() {
+    this.cat = this.cat || 'ropa';
+    this.page = this.page || 0;
+    this.conf = null;
+    this.newHome = 0;
+    const seen = S.first.tienda;
+    later(300, () =>
+      sayQ(
+        seen
+          ? '¡La tienda! Tienes ' + S.coins + ' monedas. Toca algo para ver cuánto cuesta.'
+          : '¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.',
+      ),
+    );
+    S.first.tienda = 1;
+    save();
+  },
   // Pestañas visibles con su posición y ancho w (la de vales solo si hay algún vale activo). Con muchas pestañas se
   // juntan un poco para que quepan.
-  tabs(): Pestana[]{const a=SHOPCAT.filter(c=>c.id!=='vales'||S.vales!.some(v=>v.on)),st=Math.min(204,1330/a.length);return a.map((c,i)=>Object.assign({x:900-(a.length-1)*st/2+i*st,y:215,w:Math.min(184,st-12)},c))},
+  tabs(): Pestana[] {
+    const a = SHOPCAT.filter((c) => c.id !== 'vales' || S.vales!.some((v) => v.on)),
+      st = Math.min(204, 1330 / a.length);
+    return a.map((c, i) =>
+      Object.assign({ x: 900 - ((a.length - 1) * st) / 2 + i * st, y: 215, w: Math.min(184, st - 12) }, c),
+    );
+  },
   // Número de páginas de la pestaña actual (10 artículos por página).
-  pages(){return Math.max(1,Math.ceil(shopItems(this.cat).length/10))},
+  pages() {
+    return Math.max(1, Math.ceil(shopItems(this.cat).length / 10));
+  },
   // Artículos de la página actual con su posición en la cuadrícula.
-  grid(): Casilla[]{const pg=Math.min(this.page||0,this.pages()-1),L=shopItems(this.cat).slice(pg*10,pg*10+10);return L.map((it,i)=>Object.assign({x:400+(i%5)*240,y:i<5?440:700,it}))},
+  grid(): Casilla[] {
+    const pg = Math.min(this.page || 0, this.pages() - 1),
+      L = shopItems(this.cat).slice(pg * 10, pg * 10 + 10);
+    return L.map((it, i) => Object.assign({ x: 400 + (i % 5) * 240, y: i < 5 ? 440 : 700, it }));
+  },
   // Flechas para cambiar de página: [x, y, dirección] de las que se pueden usar.
-  arrows(): Flecha[]{const pg=this.page||0,n=this.pages(),A: Flecha[]=[];if(pg>0)A.push([170,570,-1]);if(pg<n-1)A.push([1550,570,1]);return A},
+  arrows(): Flecha[] {
+    const pg = this.page || 0,
+      n = this.pages(),
+      A: Flecha[] = [];
+    if (pg > 0) A.push([170, 570, -1]);
+    if (pg < n - 1) A.push([1550, 570, 1]);
+    return A;
+  },
   // Tito repite qué hay que hacer (al tocar a Tito o tras un rato sin tocar).
-  prompt(){if(this.conf)say('¿Lo compras? Toca el verde para comprar o la cruz para volver.');else say('Toca algo para ver cuánto cuesta. Tienes '+S.coins+' monedas.')},
+  prompt() {
+    if (this.conf) say('¿Lo compras? Toca el verde para comprar o la cruz para volver.');
+    else say('Toca algo para ver cuánto cuesta. Tienes ' + S.coins + ' monedas.');
+  },
   // Pista: en la confirmación señala el botón verde de comprar.
-  hint(){if(this.conf)return{x:680,y:690,r:80};return null},
+  hint() {
+    if (this.conf) return { x: 680, y: 690, r: 80 };
+    return null;
+  },
   // Dedo encima de algo: dice el nombre de la pestaña, o el del artículo y su precio, o las monedas.
-  dwell(id){if(id.startsWith('tab:')){const c=SHOPCAT.find(c=>c.id===id.slice(4));if(c)say(c.n+'.')}else if(id.startsWith('it:')){const g=this.grid().find((g: Casilla)=>g.it.id===id.slice(3));if(g)say(cap(itemName(g.it))+'.'+(S.owned![g.it.id]&&!g.it.vale?' Ya es tuyo.':' Cuesta '+g.it.p+' monedas.'))}else if(id==='coins')say('Tienes '+S.coins+' monedas.')},
+  dwell(id) {
+    if (id.startsWith('tab:')) {
+      const c = SHOPCAT.find((c) => c.id === id.slice(4));
+      if (c) say(c.n + '.');
+    } else if (id.startsWith('it:')) {
+      const g = this.grid().find((g: Casilla) => g.it.id === id.slice(3));
+      if (g)
+        say(
+          cap(itemName(g.it)) +
+            '.' +
+            (S.owned![g.it.id] && !g.it.vale ? ' Ya es tuyo.' : ' Cuesta ' + g.it.p + ' monedas.'),
+        );
+    } else if (id === 'coins') say('Tienes ' + S.coins + ' monedas.');
+  },
   // Dibuja la tienda: toldo, título, botón de la casa, estrellas, pestañas y artículos.
   // Cada artículo muestra check verde (ya es tuyo), precio (fondo amarillo si llegan las monedas) o candado con
   // las estrellas que faltan. Encima, si hay, la ventana de confirmación con los botones verde y rojo.
-  draw(){sky('#FFF6E6','#FDE6C6');for(let i=0;i<16;i++){ctx.fillStyle=i%2?'#FF8A7A':'#FFF6E6';ctx.beginPath();ctx.moveTo(i*100,0);ctx.lineTo(i*100+100,0);ctx.lineTo(i*100+100,26);ctx.quadraticCurveTo(i*100+50,62,i*100,26);ctx.closePath();ctx.fill()}
-    floor(820,'#E9C99A');
-    card(170,44,520,100,'#fff',6,50);pic('tienda',230,94,80);text('La tienda',470,112,54,K,{w:600});
-    {const s=hv('btn:casa',hC(1240,70,52)),j=this.newHome?Math.abs(Math.sin((T-this.newHome)*6))*-14:0;ctx.save();ctx.translate(1240,70+j);ctx.scale(s,s);if(this.newHome){ctx.globalAlpha=.4+.3*Math.sin(T*6);circ(0,0,64,null,10,'#FFC93C');ctx.globalAlpha=1}circ(0,0,50,'#fff',6);titoHouseIc(0,0,84);ctx.restore()}
-    card(1012,40,150,60,'#fff',5,30);star(1050,70,20,'#FFC93C',3);text(String(STARS()),1110,84,36,K,{f:LF});
-    for(const tb of this.tabs()){const on=tb.id===this.cat,s=on?1:hv('tab:'+tb.id,hR(tb.x,tb.y,tb.w,110));ctx.save();ctx.translate(tb.x,tb.y-(on?8:0));ctx.scale(s,s);card(-tb.w/2,-52,tb.w,104,on?'#FFE08A':'#fff',on?8:5,30,on?'#D9962A':K);if(tb.id==='colores'&&titoKind()!=='caracol')shellIcon(0,0,32,'naranja');else pic(tb.ic,0,0,80);ctx.restore()}
+  draw() {
+    sky('#FFF6E6', '#FDE6C6');
+    for (let i = 0; i < 16; i++) {
+      ctx.fillStyle = i % 2 ? '#FF8A7A' : '#FFF6E6';
+      ctx.beginPath();
+      ctx.moveTo(i * 100, 0);
+      ctx.lineTo(i * 100 + 100, 0);
+      ctx.lineTo(i * 100 + 100, 26);
+      ctx.quadraticCurveTo(i * 100 + 50, 62, i * 100, 26);
+      ctx.closePath();
+      ctx.fill();
+    }
+    floor(820, '#E9C99A');
+    card(170, 44, 520, 100, '#fff', 6, 50);
+    pic('tienda', 230, 94, 80);
+    text('La tienda', 470, 112, 54, K, { w: 600 });
+    {
+      const s = hv('btn:casa', hC(1240, 70, 52)),
+        j = this.newHome ? Math.abs(Math.sin((T - this.newHome) * 6)) * -14 : 0;
+      ctx.save();
+      ctx.translate(1240, 70 + j);
+      ctx.scale(s, s);
+      if (this.newHome) {
+        ctx.globalAlpha = 0.4 + 0.3 * Math.sin(T * 6);
+        circ(0, 0, 64, null, 10, '#FFC93C');
+        ctx.globalAlpha = 1;
+      }
+      circ(0, 0, 50, '#fff', 6);
+      titoHouseIc(0, 0, 84);
+      ctx.restore();
+    }
+    card(1012, 40, 150, 60, '#fff', 5, 30);
+    star(1050, 70, 20, '#FFC93C', 3);
+    text(String(STARS()), 1110, 84, 36, K, { f: LF });
+    for (const tb of this.tabs()) {
+      const on = tb.id === this.cat,
+        s = on ? 1 : hv('tab:' + tb.id, hR(tb.x, tb.y, tb.w, 110));
+      ctx.save();
+      ctx.translate(tb.x, tb.y - (on ? 8 : 0));
+      ctx.scale(s, s);
+      card(-tb.w / 2, -52, tb.w, 104, on ? '#FFE08A' : '#fff', on ? 8 : 5, 30, on ? '#D9962A' : K);
+      if (tb.id === 'colores' && titoKind() !== 'caracol') shellIcon(0, 0, 32, 'naranja');
+      else pic(tb.ic, 0, 0, 80);
+      ctx.restore();
+    }
     // flechas de página y puntitos con la página actual
-    for(const [ax,ay,d] of this.arrows()){const s=hv('pg'+d,hC(ax,ay,50));ctx.save();ctx.translate(ax,ay);ctx.scale(s*d,s);circ(0,0,46,'#fff',6);ctx.beginPath();ctx.moveTo(-12,-22);ctx.lineTo(14,0);ctx.lineTo(-12,22);ctx.lineWidth=10;ctx.strokeStyle=K;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.restore()}
-    {const n=this.pages();if(n>1)for(let i=0;i<n;i++)circ(880-(n-1)*18+i*36,850,i===(this.page||0)?12:8,i===(this.page||0)?'#FFC93C':'#fff',4)}
+    for (const [ax, ay, d] of this.arrows()) {
+      const s = hv('pg' + d, hC(ax, ay, 50));
+      ctx.save();
+      ctx.translate(ax, ay);
+      ctx.scale(s * d, s);
+      circ(0, 0, 46, '#fff', 6);
+      ctx.beginPath();
+      ctx.moveTo(-12, -22);
+      ctx.lineTo(14, 0);
+      ctx.lineTo(-12, 22);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = K;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+      ctx.restore();
+    }
+    {
+      const n = this.pages();
+      if (n > 1)
+        for (let i = 0; i < n; i++)
+          circ(
+            880 - (n - 1) * 18 + i * 36,
+            850,
+            i === (this.page || 0) ? 12 : 8,
+            i === (this.page || 0) ? '#FFC93C' : '#fff',
+            4,
+          );
+    }
     // own = ya es suyo, lk = bloqueado por estrellas, lr = su habitación de la casa aún está cerrada, w = lo lleva puesto.
-    for(const g of this.grid()){const it=g.it,own=S.owned![it.id]&&!it.vale,lk=!nivelAbierto(it.tier,STARS()),lr=!own&&!lk&&it.room&&!roomOpen(it.room),w=own&&it.slot&&isWorn(it),s=lk?1:hv('it:'+it.id,hR(g.x,g.y,210,230));
-      ctx.save();ctx.translate(g.x,g.y);ctx.scale(s,s);card(-105,-115,210,230,w?'#FFF6D6':'#fff',w?9:6,32,w?'#FFC93C':K);drawItemPic(it,0,-22,150);
-      if(own){circ(0,82,26,'#7CC86E',5);ctx.beginPath();ctx.moveTo(-11,82);ctx.lineTo(-2,92);ctx.lineTo(13,72);ctx.lineWidth=7;ctx.strokeStyle='#fff';ctx.lineCap='round';ctx.stroke()}
-      else if(lr){ctx.globalAlpha=.7;card(-105,-115,210,230,'#F4EDE2',0,32);ctx.globalAlpha=1;pic('candado',0,-30,110);card(-62,40,124,50,'#fff',4,25);pic('casa',-30,65,40);text(String(roomOf(it.room).need),22,78,30,K,{f:LF})}
-      else if(!lk){card(-62,62,124,44,S.coins!>=it.p?'#FFF3B0':'#F4EDE2',4,22);pic('moneda',-36,84,40);text(String(it.p),18,98,34,K,{f:LF})}
-      if(lk){ctx.globalAlpha=.7;card(-105,-115,210,230,'#F4EDE2',0,32);ctx.globalAlpha=1;pic('candado',0,-30,110);card(-56,40,112,50,'#fff',4,25);star(-24,65,16,'#FFC93C',3);text(String(TIER_NEED[it.tier]),20,78,30,K,{f:LF})}
-      ctx.restore()}
-    if(this.conf){const it=this.conf,k=clamp((T-this.confT)*4,0,1);ctx.fillStyle=`rgba(46,36,32,${.45*k})`;ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(800,450);ctx.scale(back(k),back(k));
-      card(-300,-300,600,600,'#FFF6E6',8,50);drawItemPic(it,0,-90,300);card(-90,90,180,64,'#FFF3B0',5,32);pic('moneda',-46,122,54);text(String(it.p),30,140,44,K,{f:LF});ctx.restore();
-      if(k>=1){for(const [x,c,ok] of[[680,'#7CC86E',1],[920,'#FF6B5E',0]] as [number,string,number][]){const s=hv('cf'+ok,hC(x,690,70));ctx.save();ctx.translate(x,690);ctx.scale(s,s);circ(0,0,66,c,7);ctx.lineWidth=14;ctx.strokeStyle='#fff';ctx.lineCap='round';ctx.beginPath();if(ok){ctx.moveTo(-26,2);ctx.lineTo(-6,24);ctx.lineTo(30,-20)}else{ctx.moveTo(-22,-22);ctx.lineTo(22,22);ctx.moveTo(22,-22);ctx.lineTo(-22,22)}ctx.stroke();ctx.restore()}}}
-    drawHome();drawCoinHUD();drawTito(TITO.x,TITO.y,TITO.w)},
+    for (const g of this.grid()) {
+      const it = g.it,
+        own = S.owned![it.id] && !it.vale,
+        lk = !nivelAbierto(it.tier, STARS()),
+        lr = !own && !lk && it.room && !roomOpen(it.room),
+        w = own && it.slot && isWorn(it),
+        s = lk ? 1 : hv('it:' + it.id, hR(g.x, g.y, 210, 230));
+      ctx.save();
+      ctx.translate(g.x, g.y);
+      ctx.scale(s, s);
+      card(-105, -115, 210, 230, w ? '#FFF6D6' : '#fff', w ? 9 : 6, 32, w ? '#FFC93C' : K);
+      drawItemPic(it, 0, -22, 150);
+      if (own) {
+        circ(0, 82, 26, '#7CC86E', 5);
+        ctx.beginPath();
+        ctx.moveTo(-11, 82);
+        ctx.lineTo(-2, 92);
+        ctx.lineTo(13, 72);
+        ctx.lineWidth = 7;
+        ctx.strokeStyle = '#fff';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      } else if (lr) {
+        ctx.globalAlpha = 0.7;
+        card(-105, -115, 210, 230, '#F4EDE2', 0, 32);
+        ctx.globalAlpha = 1;
+        pic('candado', 0, -30, 110);
+        card(-62, 40, 124, 50, '#fff', 4, 25);
+        pic('casa', -30, 65, 40);
+        text(String(roomOf(it.room).need), 22, 78, 30, K, { f: LF });
+      } else if (!lk) {
+        card(-62, 62, 124, 44, S.coins! >= it.p ? '#FFF3B0' : '#F4EDE2', 4, 22);
+        pic('moneda', -36, 84, 40);
+        text(String(it.p), 18, 98, 34, K, { f: LF });
+      }
+      if (lk) {
+        ctx.globalAlpha = 0.7;
+        card(-105, -115, 210, 230, '#F4EDE2', 0, 32);
+        ctx.globalAlpha = 1;
+        pic('candado', 0, -30, 110);
+        card(-56, 40, 112, 50, '#fff', 4, 25);
+        star(-24, 65, 16, '#FFC93C', 3);
+        text(String(TIER_NEED[it.tier]), 20, 78, 30, K, { f: LF });
+      }
+      ctx.restore();
+    }
+    if (this.conf) {
+      const it = this.conf,
+        k = clamp((T - this.confT) * 4, 0, 1);
+      ctx.fillStyle = `rgba(46,36,32,${0.45 * k})`;
+      ctx.fillRect(0, 0, W, H);
+      ctx.save();
+      ctx.translate(800, 450);
+      ctx.scale(back(k), back(k));
+      card(-300, -300, 600, 600, '#FFF6E6', 8, 50);
+      drawItemPic(it, 0, -90, 300);
+      card(-90, 90, 180, 64, '#FFF3B0', 5, 32);
+      pic('moneda', -46, 122, 54);
+      text(String(it.p), 30, 140, 44, K, { f: LF });
+      ctx.restore();
+      if (k >= 1) {
+        for (const [x, c, ok] of [
+          [680, '#7CC86E', 1],
+          [920, '#FF6B5E', 0],
+        ] as [number, string, number][]) {
+          const s = hv('cf' + ok, hC(x, 690, 70));
+          ctx.save();
+          ctx.translate(x, 690);
+          ctx.scale(s, s);
+          circ(0, 0, 66, c, 7);
+          ctx.lineWidth = 14;
+          ctx.strokeStyle = '#fff';
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          if (ok) {
+            ctx.moveTo(-26, 2);
+            ctx.lineTo(-6, 24);
+            ctx.lineTo(30, -20);
+          } else {
+            ctx.moveTo(-22, -22);
+            ctx.lineTo(22, 22);
+            ctx.moveTo(22, -22);
+            ctx.lineTo(-22, 22);
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }
+    drawHome();
+    drawCoinHUD();
+    drawTito(TITO.x, TITO.y, TITO.w);
+  },
   // Toques. Con la confirmación abierta: verde compra, rojo o fuera cierra. Si no: casa (mapa), Tito, botón de
   // la casa de Tito, monedas, estrellas, pestañas o un artículo. Al tocar un artículo: si está bloqueado dice cuántas
   // estrellas faltan; si ya es suyo y es ropa se lo pone o quita; si no llegan las monedas dice cuántas faltan; si llegan
   // abre la confirmación.
-  down(x,y){
-    if(this.conf){if(T-this.confT<.3)return;if(dist(x,y,680,690)<75){this.buy(this.conf);return}if(dist(x,y,920,690)<75||!inR(x,y,800,450,600,600)){SFX.tap();this.conf=null;say('Bueno, ¡otra vez será!')}return}
-    if(atHome(x,y)){SFX.tap();go('map');return}
-    if(inTito(x,y)){this.prompt!();return}
-    if(dist(x,y,1240,70)<56){SFX.pop();go('casaTito',{hello:true,nuevo:this.newHome?this.newId:null});return}
-    if(inCoinHUD(x,y)){say('Tienes '+S.coins+' monedas.');return}
-    if(inR(x,y,1087,70,150,60)){say('Tienes '+STARS()+' estrellas. Las ganas terminando juegos.');return}
-    const tb=this.tabs().find((t: Pestana)=>inR(x,y,t.x,t.y,t.w,110));if(tb){SFX.pop();this.cat=tb.id;this.page=0;say(tb.n+'.');return}
-    const ar=this.arrows().find(([ax,ay]: Flecha)=>dist(x,y,ax,ay)<56);if(ar){SFX.whoosh();this.page=(this.page||0)+ar[2];return}
-    const g=this.grid().find((g: Casilla)=>inR(x,y,g.x,g.y,210,230));if(!g){SFX.tap();sparkles(x,y,3);return}
-    const it=g.it,need=TIER_NEED[it.tier];
-    if(!nivelAbierto(it.tier,STARS())){SFX.boing();say(cap(itemName(it))+' se abre cuando tengas '+need+' estrellas. ¡Ya tienes '+STARS()+'! Ganas estrellas terminando juegos.');return}
+  down(x, y) {
+    if (this.conf) {
+      if (T - this.confT < 0.3) return;
+      if (dist(x, y, 680, 690) < 75) {
+        this.buy(this.conf);
+        return;
+      }
+      if (dist(x, y, 920, 690) < 75 || !inR(x, y, 800, 450, 600, 600)) {
+        SFX.tap();
+        this.conf = null;
+        say('Bueno, ¡otra vez será!');
+      }
+      return;
+    }
+    if (atHome(x, y)) {
+      SFX.tap();
+      go('map');
+      return;
+    }
+    if (inTito(x, y)) {
+      this.prompt!();
+      return;
+    }
+    if (dist(x, y, 1240, 70) < 56) {
+      SFX.pop();
+      go('casaTito', { hello: true, nuevo: this.newHome ? this.newId : null });
+      return;
+    }
+    if (inCoinHUD(x, y)) {
+      say('Tienes ' + S.coins + ' monedas.');
+      return;
+    }
+    if (inR(x, y, 1087, 70, 150, 60)) {
+      say('Tienes ' + STARS() + ' estrellas. Las ganas terminando juegos.');
+      return;
+    }
+    const tb = this.tabs().find((t: Pestana) => inR(x, y, t.x, t.y, t.w, 110));
+    if (tb) {
+      SFX.pop();
+      this.cat = tb.id;
+      this.page = 0;
+      say(tb.n + '.');
+      return;
+    }
+    const ar = this.arrows().find(([ax, ay]: Flecha) => dist(x, y, ax, ay) < 56);
+    if (ar) {
+      SFX.whoosh();
+      this.page = (this.page || 0) + ar[2];
+      return;
+    }
+    const g = this.grid().find((g: Casilla) => inR(x, y, g.x, g.y, 210, 230));
+    if (!g) {
+      SFX.tap();
+      sparkles(x, y, 3);
+      return;
+    }
+    const it = g.it,
+      need = TIER_NEED[it.tier];
+    if (!nivelAbierto(it.tier, STARS())) {
+      SFX.boing();
+      say(
+        cap(itemName(it)) +
+          ' se abre cuando tengas ' +
+          need +
+          ' estrellas. ¡Ya tienes ' +
+          STARS() +
+          '! Ganas estrellas terminando juegos.',
+      );
+      return;
+    }
     // su habitación de la casa aún está cerrada: se abre al terminar casitas (ROOMS)
-    if(it.room&&!roomOpen(it.room)&&!S.owned![it.id]){SFX.boing();const R=roomOf(it.room);say(cap(itemName(it))+(/^(las|los) /.test(itemName(it))?' son para ':' es para ')+R.n+'. '+cap(R.n)+' se abre cuando termines '+(R.need===1?'una casita.':R.need+' casitas.'));return}
-    if(S.owned![it.id]&&!it.vale){
-      if(it.slot){const on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();sparkles(TITO.x+150,TITO.y+40,12);say(on?'¡Tito se puso '+itemName(it)+'!':'Tito se quitó '+itemName(it)+'.');return}
-      SFX.pop();say(cap(itemName(it))+' ya es tuyo. Está en la casa de Tito.');return}
-    if(!alcanza(S.coins!,it.p)){SFX.boing();const f=it.p-S.coins!;say(cap(itemName(it))+' cuesta '+it.p+' monedas. Te '+(f===1?'falta una':'faltan '+f)+'. ¡Jugando ganas más!');return}
-    SFX.pop();this.conf=it;this.confT=T;say('¿Quieres comprar '+itemName(it)+' por '+it.p+' monedas? Toca el verde para comprar.')},
+    if (it.room && !roomOpen(it.room) && !S.owned![it.id]) {
+      SFX.boing();
+      const R = roomOf(it.room);
+      say(
+        cap(itemName(it)) +
+          (/^(las|los) /.test(itemName(it)) ? ' son para ' : ' es para ') +
+          R.n +
+          '. ' +
+          cap(R.n) +
+          ' se abre cuando termines ' +
+          (R.need === 1 ? 'una casita.' : R.need + ' casitas.'),
+      );
+      return;
+    }
+    if (S.owned![it.id] && !it.vale) {
+      if (it.slot) {
+        const on = it.slot === 'shell' || it.slot === 'scarf' ? true : !isWorn(it);
+        wear(it, on);
+        SFX.pop();
+        sparkles(TITO.x + 150, TITO.y + 40, 12);
+        say(on ? '¡Tito se puso ' + itemName(it) + '!' : 'Tito se quitó ' + itemName(it) + '.');
+        return;
+      }
+      SFX.pop();
+      say(cap(itemName(it)) + ' ya es tuyo. Está en la casa de Tito.');
+      return;
+    }
+    if (!alcanza(S.coins!, it.p)) {
+      SFX.boing();
+      const f = it.p - S.coins!;
+      say(
+        cap(itemName(it)) +
+          ' cuesta ' +
+          it.p +
+          ' monedas. Te ' +
+          (f === 1 ? 'falta una' : 'faltan ' + f) +
+          '. ¡Jugando ganas más!',
+      );
+      return;
+    }
+    SFX.pop();
+    this.conf = it;
+    this.confT = T;
+    say('¿Quieres comprar ' + itemName(it) + ' por ' + it.p + ' monedas? Toca el verde para comprar.');
+  },
   // Compra el artículo con el caso de uso comprar (aplicacion/comprar.ts): gasta las monedas, celebra y lo da. Un vale
   // se apunta en S.valesLog (para que el adulto lo canjee); la ropa se pone a Tito; lo demás se coloca en la casa y hace
   // saltar el botón de la casa. Si es un vale que el adulto desactivó mientras la confirmación estaba abierta, no se
   // compra (suena boing y no se cobra).
-  buy(it: Articulo){this.conf=null;
+  buy(it: Articulo) {
+    this.conf = null;
     // lo que cambia en la partida lo decide el caso de uso comprar (aplicacion/comprar.ts); aquí, la pantalla
-    const c=comprar(S,it,today());if(c.tipo==='desactivado'){SFX.boing();return}
-    spendCoins(it.p,800,400);SFX.tada();burst(800,420,60);Object.assign(S,c.partida);
-    if(c.tipo==='vale'){save();say('¡Compraste el vale! '+it.vale!.txt+'. Enséñaselo a un adulto de tu familia para canjearlo.');return}
+    const c = comprar(S, it, today());
+    if (c.tipo === 'desactivado') {
+      SFX.boing();
+      return;
+    }
+    spendCoins(it.p, 800, 400);
+    SFX.tada();
+    burst(800, 420, 60);
+    Object.assign(S, c.partida);
+    if (c.tipo === 'vale') {
+      save();
+      say('¡Compraste el vale! ' + it.vale!.txt + '. Enséñaselo a un adulto de tu familia para canjearlo.');
+      return;
+    }
     // desde la fase C6, una mascota nueva nace bebé y sin nombre (fichaNueva)
-    if(MASCOTAS.includes(it.id))S.mascotas={...(S.mascotas||{}),[it.id]:{...fichaNueva(),hechos:[]}};
-    if(it.slot)wear(it,true);else placeHome(it.id);save();
-    if(!it.slot){this.newHome=T;this.newId=it.id}
-    say(it.slot?'¡Es tuyo! ¡Mira qué bonito le queda a Tito!':'¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.')}
+    if (MASCOTAS.includes(it.id)) S.mascotas = { ...S.mascotas, [it.id]: { ...fichaNueva(), hechos: [] } };
+    if (it.slot) wear(it, true);
+    else placeHome(it.id);
+    save();
+    if (!it.slot) {
+      this.newHome = T;
+      this.newId = it.id;
+    }
+    say(
+      it.slot
+        ? '¡Es tuyo! ¡Mira qué bonito le queda a Tito!'
+        : '¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.',
+    );
+  },
 };
 
 /* ---------- la casa de Tito ---------- */
 // Tamaño con el que se dibuja cada objeto en la casa de Tito (160 si no está en la lista).
-export const HSIZE: Record<string,number>={alfombra:360,piano:240,estanteria:250,fuente:240,farol:240,banco:250,plantaInterior:180,lampara:220,reloj:140,cuadro:170,casitaPerro:230,pecera:170,hamster:110,telescopio:200,guitarra:170,robot:170,trenJuguete:170,muneca:160,cometa:170,xilofono:170,bloques:150,peluche:160,pelotaPlaya:130,columpio:240,
-  sofa:280,tele:200,cama:300,baul:200,cuento:120,estrellas:150,mesa:240,silla:160,nevera:260,olla:130,tarta:150,banera:300,toalla:150,jabon:100,pato:110,
-  tambor:150,pizarra:200,pinturas:130,globo:170,tobogan:280,arbol:320,plantaFlor:150,regadera:130,castillo:220,piscina:330,tierra:180,saturno:170,cohete:260,gato:140,pajaro:120,conejo:140};
+export const HSIZE: Record<string, number> = {
+  alfombra: 360,
+  piano: 240,
+  estanteria: 250,
+  fuente: 240,
+  farol: 240,
+  banco: 250,
+  plantaInterior: 180,
+  lampara: 220,
+  reloj: 140,
+  cuadro: 170,
+  casitaPerro: 230,
+  pecera: 170,
+  hamster: 110,
+  telescopio: 200,
+  guitarra: 170,
+  robot: 170,
+  trenJuguete: 170,
+  muneca: 160,
+  cometa: 170,
+  xilofono: 170,
+  bloques: 150,
+  peluche: 160,
+  pelotaPlaya: 130,
+  columpio: 240,
+  sofa: 280,
+  tele: 200,
+  cama: 300,
+  baul: 200,
+  cuento: 120,
+  estrellas: 150,
+  mesa: 240,
+  silla: 160,
+  nevera: 260,
+  olla: 130,
+  tarta: 150,
+  banera: 300,
+  toalla: 150,
+  jabon: 100,
+  pato: 110,
+  tambor: 150,
+  pizarra: 200,
+  pinturas: 130,
+  globo: 170,
+  tobogan: 280,
+  arbol: 320,
+  plantaFlor: 150,
+  regadera: 130,
+  castillo: 220,
+  piscina: 330,
+  tierra: 180,
+  saturno: 170,
+  cohete: 260,
+  gato: 140,
+  pajaro: 120,
+  conejo: 140,
+};
 // Objetos de la casa: los de S.home que además son del niño, con su posición y tamaño. Con r, solo los de esa habitación.
-export const homeItems=(r?: string)=>Object.keys(S.home!).filter(id=>S.owned![id]&&(!r||homeRoom(id)===r)).map(id=>({id,x:S.home![id].x,y:S.home![id].y,s:HSIZE[id]||160}));
+export const homeItems = (r?: string) =>
+  Object.keys(S.home!)
+    .filter((id) => S.owned![id] && (!r || homeRoom(id) === r))
+    .map((id) => ({ id, x: S.home![id].x, y: S.home![id].y, s: HSIZE[id] || 160 }));
 // Al jugar con un objeto de la casa (cuando Tito llega hasta él, desde la fase C2): chispitas, su sonido o acción
 // propia (tabla A) y Tito dice su frase (FRASES_CASA, contenido/casa.ts) o, si no tiene (las mascotas), su nombre.
-function homeAction(id: string,x: number,y: number){SFX.pop();sparkles(x,y,8);
+function homeAction(id: string, x: number, y: number) {
+  SFX.pop();
+  sparkles(x, y, 8);
   // A: id del objeto → función que hace al tocarlo (música, sonidos, la lámpara enciende/apaga la luz).
-  const A: Record<string,()=>unknown>={piano:()=>playTune(TUNES.colores,180),xilofono:()=>playTune(TUNES.meses,220),guitarra:()=>[0,4,7,12].forEach((n,i)=>tone(NOTE(55+n),.5,'triangle',.18,0,i*.06)),trenJuguete:()=>playSound('tren'),
-    reloj:()=>{tone(1200,.05,'square',.1);tone(900,.05,'square',.1,0,.5)},robot:()=>[0,1,2].forEach(i=>tone(600+i*200,.1,'square',.1,0,i*.12)),casitaPerro:()=>playSound('perro'),hamster:()=>tone(2400,.08,'sine',.15),
-    fuente:()=>SFX.splash(),pecera:()=>SFX.drip(),
+  const A: Record<string, () => unknown> = {
+    piano: () => playTune(TUNES.colores, 180),
+    xilofono: () => playTune(TUNES.meses, 220),
+    guitarra: () => [0, 4, 7, 12].forEach((n, i) => tone(NOTE(55 + n), 0.5, 'triangle', 0.18, 0, i * 0.06)),
+    trenJuguete: () => playSound('tren'),
+    reloj: () => {
+      tone(1200, 0.05, 'square', 0.1);
+      tone(900, 0.05, 'square', 0.1, 0, 0.5);
+    },
+    robot: () => [0, 1, 2].forEach((i) => tone(600 + i * 200, 0.1, 'square', 0.1, 0, i * 0.12)),
+    casitaPerro: () => playSound('perro'),
+    hamster: () => tone(2400, 0.08, 'sine', 0.15),
+    fuente: () => SFX.splash(),
+    pecera: () => SFX.drip(),
     // v1.590
-    tele:()=>playTune(TUNES.colores,240),tambor:()=>[0,1,2].forEach(i=>noise(.12,.5,180,i*.18)),pato:()=>playSound('pato'),gato:()=>playSound('gato'),pajaro:()=>playSound('pajaro'),
-    conejo:()=>SFX.boing(),globo:()=>SFX.pop(),piscina:()=>SFX.splash(),banera:()=>SFX.splash(),jabon:()=>SFX.sparkle(),regadera:()=>SFX.drip(),columpio:()=>SFX.whoosh(),tobogan:()=>SFX.whoosh(),
-    cohete:()=>{SFX.whoosh();SFX.sparkle()},nevera:()=>tone(180,.4,'sine',.15),olla:()=>SFX.munch(),cama:()=>playTune(TUNES.meses,300),cometa:()=>SFX.whoosh(),pelotaPlaya:()=>SFX.boing(),bloques:()=>SFX.snap(),telescopio:()=>SFX.sparkle(),lampara:()=>{homeLight=!homeLight}};
-  (A[id]||(()=>{}))();say(FRASES_CASA[id]??cap(W_(id))+'.')}
+    tele: () => playTune(TUNES.colores, 240),
+    tambor: () => [0, 1, 2].forEach((i) => noise(0.12, 0.5, 180, i * 0.18)),
+    pato: () => playSound('pato'),
+    gato: () => playSound('gato'),
+    pajaro: () => playSound('pajaro'),
+    conejo: () => SFX.boing(),
+    globo: () => SFX.pop(),
+    piscina: () => SFX.splash(),
+    banera: () => SFX.splash(),
+    jabon: () => SFX.sparkle(),
+    regadera: () => SFX.drip(),
+    columpio: () => SFX.whoosh(),
+    tobogan: () => SFX.whoosh(),
+    cohete: () => {
+      SFX.whoosh();
+      SFX.sparkle();
+    },
+    nevera: () => tone(180, 0.4, 'sine', 0.15),
+    olla: () => SFX.munch(),
+    cama: () => playTune(TUNES.meses, 300),
+    cometa: () => SFX.whoosh(),
+    pelotaPlaya: () => SFX.boing(),
+    bloques: () => SFX.snap(),
+    telescopio: () => SFX.sparkle(),
+    lampara: () => {
+      homeLight = !homeLight;
+    },
+  };
+  (A[id] || (() => {}))();
+  say(FRASES_CASA[id] ?? cap(W_(id)) + '.');
+}
 // ESCENA_CASA: la escena (SCENES) de cada escena pequeña de la casa que ya está hecha: desde la fase C3, el cielo de
 // noche (telescopio, escenas/casaCielo.ts) y la vuelta al mundo (globo terráqueo, escenas/casaMundo.ts); desde la C4,
 // los instrumentos (escenas/casaMusica.ts, que recibe cuál se tocó), la pizarra (casaPizarra.ts) y la tele (casaTele.ts);
 // desde la C5, la merienda y la sopa (casaCocina.ts), el baño (casaBano.ts), buenas noches (casaNoches.ts) y el huerto.
-const ESCENA_CASA: Partial<Record<EscenaCasa,string>>={cielo:'casaCielo',mundo:'casaMundo',instrumentos:'casaMusica',pizarra:'casaPizarra',tele:'casaTele',
-  merienda:'casaMerienda',sopa:'casaSopa',bano:'casaBano',buenasNoches:'casaNoches',huerto:'casaHuerto'};
+const ESCENA_CASA: Partial<Record<EscenaCasa, string>> = {
+  cielo: 'casaCielo',
+  mundo: 'casaMundo',
+  instrumentos: 'casaMusica',
+  pizarra: 'casaPizarra',
+  tele: 'casaTele',
+  merienda: 'casaMerienda',
+  sopa: 'casaSopa',
+  bano: 'casaBano',
+  buenasNoches: 'casaNoches',
+  huerto: 'casaHuerto',
+};
 // Luz de la casa de Tito (la lámpara la cambia: de noche se oscurece la habitación). No se guarda.
-let homeLight=true;
+let homeLight = true;
 // roomBg(id, hl): dibuja el fondo fijo de la habitación id de la casa de Tito (pared, ventana, suelo y adornos propios);
 // hl es el nivel de la casa (houseLevel): en el salón añade flores, banderines y arcoíris como antes. El suelo empieza
 // siempre en y = 600 (los objetos se colocan del 420 al 780). Con la luz apagada (homeLight) se ve la noche.
-function roomBg(id: string,hl: number){
-  const win=(x: number,y: number,w: number,h: number,cort?: string)=>{card(x,y,w,h,homeLight?'#BFEAF7':'#2E3F7A',8,16);if(homeLight)pic('sol',x+w/3,y+70,90);else pic('luna',x+w/3,y+70,80);ctx.beginPath();ctx.moveTo(x+w/2,y);ctx.lineTo(x+w/2,y+h);ctx.moveTo(x,y+h/2);ctx.lineTo(x+w,y+h/2);ctx.lineWidth=6;ctx.strokeStyle=K;ctx.stroke();
-    if(cort){ctx.fillStyle=cort;for(const sd of[0,1]){ctx.beginPath();const cx=sd?x+w+10:x-10;ctx.moveTo(cx,y-14);ctx.lineTo(cx+(sd?-70:70),y-14);ctx.quadraticCurveTo(cx+(sd?-30:30),y+h/2,cx+(sd?-50:50),y+h+20);ctx.lineTo(cx,y+h+20);ctx.closePath();fillStroke(cort,5)}}};
-  const wood=(c: string)=>{floor(600,c);ctx.strokeStyle='rgba(74,52,40,.15)';ctx.lineWidth=4;for(let y=640;y<900;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}card(-10,588,W+20,24,'#C98A4B',5,6)};
-  const checker=(a: string,b: string,z: number)=>{for(let y=600;y<H;y+=z)for(let x=0;x<W;x+=z){ctx.fillStyle=(Math.floor(x/z)+Math.floor((y-600)/z))%2?a:b;ctx.fillRect(x,y,z,z)}card(-10,588,W+20,20,'#fff',5,6)};
-  if(id==='salon'){sky('#FFEFD9','#FFE6C6');ctx.fillStyle='rgba(255,201,60,.12)';for(let x=0;x<W;x+=80)ctx.fillRect(x,0,40,600);win(1200,130,300,230);wood('#E2B98A');
-    if(hl>=1)for(let i=0;i<20;i++)flower(40+i*80,592,12,FLC[i%7],2.5);if(hl>=3)bunting(16,14);
-    if(hl>=4){ctx.save();ctx.beginPath();ctx.rect(1200,130,300,230);ctx.clip();['#FF6B5E','#FFA94D','#FFD66B','#7CC86E','#5BB8E6','#9B8AD9'].forEach((c,i)=>{ctx.beginPath();ctx.arc(1350,400,200-i*14,PI,0);ctx.lineWidth=14;ctx.strokeStyle=c;ctx.stroke()});ctx.restore()}}
-  else if(id==='dormitorio'){sky('#EDE6FB','#E2D8F7');for(let y=180;y<600;y+=90)for(let x=(y/90%2)*60;x<W;x+=120)star(x,y,9,'rgba(155,138,217,.35)',0);win(1210,160,280,210,'#9B8AD9');wood('#D9B58A')}
-  else if(id==='cocina'){sky('#FFF9EC','#FFF4DC');ctx.fillStyle='#fff';ctx.fillRect(0,380,W,220);ctx.strokeStyle='#BFE3F0';ctx.lineWidth=3;for(let y=380;y<=600;y+=55){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(let x=0;x<W;x+=55){ctx.beginPath();ctx.moveTo(x,380);ctx.lineTo(x,600);ctx.stroke()}
-    win(1210,160,280,190,'#FF8A7A');checker('#F2E1C8','#E0C49E',75)}
-  else if(id==='bano'){sky('#DDF4FA','#CDEFF7');ctx.strokeStyle='rgba(91,184,230,.35)';ctx.lineWidth=3;for(let y=150;y<600;y+=70){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(let x=0;x<W;x+=70){ctx.beginPath();ctx.moveTo(x,150);ctx.lineTo(x,600);ctx.stroke()}
-    circ(1350,260,110,'#E8FAFF',8);ctx.save();ctx.globalAlpha=.6;ctx.beginPath();ctx.moveTo(1290,220);ctx.lineTo(1330,180);ctx.moveTo(1300,260);ctx.lineTo(1360,200);ctx.lineWidth=10;ctx.strokeStyle='#fff';ctx.lineCap='round';ctx.stroke();ctx.restore();checker('#FFFFFF','#BDE8F2',70)}
-  else if(id==='juegos'){sky('#FFF6C9','#FFEFA8');const C=['#FF8A7A','#7CC86E','#5BB8E6','#FFA94D','#9B8AD9'];for(let i=0;i<26;i++)circ((i*263)%W,170+(i*137)%400,14+(i%3)*6,C[i%5],0);bunting(150,12);
-    for(let y=600;y<H;y+=100)for(let x=0;x<W;x+=100){ctx.fillStyle=C[((x+y)/100)%5];ctx.fillRect(x,y,100,100)}ctx.strokeStyle='rgba(74,52,40,.2)';ctx.lineWidth=4;ctx.strokeRect(-2,600,W+4,H);card(-10,588,W+20,20,'#fff',5,6)}
-  else if(id==='jardin'){sky(homeLight?'#9FDDF5':'#2E3F7A',homeLight?'#E2F6FF':'#55639A');if(homeLight){pic('sol',1430,190,130);pic('nube',300,220,180);pic('nube',820,170,140)}else pic('luna',1430,190,110);
-    floor(520,'#A6DC7F');for(let x=0;x<W;x+=60){card(x+8,430,40,150,'#fff',4,10)}card(-10,470,W+20,22,'#fff',4,6);card(-10,530,W+20,22,'#fff',4,6);floor(600,'#9BD67A');for(let i=0;i<14;i++)flower(60+i*115,620+(i%3)*90,10,FLC[i%7],2)}
-  else if(id==='torre'){sky('#1E2A55','#34417A');for(let i=0;i<60;i++){const x=(i*397)%W,y=40+(i*211)%520;star(x,y,3+(i%4)*2,'rgba(255,230,140,'+(.5+.5*Math.sin(T*2+i))+')',0)}
-    circ(1330,280,150,'#0F1838',10,'#C98A4B');pic('luna',1290,240,90);for(let i=0;i<8;i++)star(1220+(i*53)%220,180+(i*71)%200,5,'#FFE08A',0);wood('#8C6A4E')}
-  if(!homeLight&&id!=='torre'){ctx.fillStyle='rgba(30,30,70,.25)';ctx.fillRect(0,0,W,H)}}
+function roomBg(id: string, hl: number) {
+  const win = (x: number, y: number, w: number, h: number, cort?: string) => {
+    card(x, y, w, h, homeLight ? '#BFEAF7' : '#2E3F7A', 8, 16);
+    if (homeLight) pic('sol', x + w / 3, y + 70, 90);
+    else pic('luna', x + w / 3, y + 70, 80);
+    ctx.beginPath();
+    ctx.moveTo(x + w / 2, y);
+    ctx.lineTo(x + w / 2, y + h);
+    ctx.moveTo(x, y + h / 2);
+    ctx.lineTo(x + w, y + h / 2);
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = K;
+    ctx.stroke();
+    if (cort) {
+      ctx.fillStyle = cort;
+      for (const sd of [0, 1]) {
+        ctx.beginPath();
+        const cx = sd ? x + w + 10 : x - 10;
+        ctx.moveTo(cx, y - 14);
+        ctx.lineTo(cx + (sd ? -70 : 70), y - 14);
+        ctx.quadraticCurveTo(cx + (sd ? -30 : 30), y + h / 2, cx + (sd ? -50 : 50), y + h + 20);
+        ctx.lineTo(cx, y + h + 20);
+        ctx.closePath();
+        fillStroke(cort, 5);
+      }
+    }
+  };
+  const wood = (c: string) => {
+    floor(600, c);
+    ctx.strokeStyle = 'rgba(74,52,40,.15)';
+    ctx.lineWidth = 4;
+    for (let y = 640; y < 900; y += 50) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
+    }
+    card(-10, 588, W + 20, 24, '#C98A4B', 5, 6);
+  };
+  const checker = (a: string, b: string, z: number) => {
+    for (let y = 600; y < H; y += z)
+      for (let x = 0; x < W; x += z) {
+        ctx.fillStyle = (Math.floor(x / z) + Math.floor((y - 600) / z)) % 2 ? a : b;
+        ctx.fillRect(x, y, z, z);
+      }
+    card(-10, 588, W + 20, 20, '#fff', 5, 6);
+  };
+  if (id === 'salon') {
+    sky('#FFEFD9', '#FFE6C6');
+    ctx.fillStyle = 'rgba(255,201,60,.12)';
+    for (let x = 0; x < W; x += 80) ctx.fillRect(x, 0, 40, 600);
+    win(1200, 130, 300, 230);
+    wood('#E2B98A');
+    if (hl >= 1) for (let i = 0; i < 20; i++) flower(40 + i * 80, 592, 12, FLC[i % 7], 2.5);
+    if (hl >= 3) bunting(16, 14);
+    if (hl >= 4) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(1200, 130, 300, 230);
+      ctx.clip();
+      ['#FF6B5E', '#FFA94D', '#FFD66B', '#7CC86E', '#5BB8E6', '#9B8AD9'].forEach((c, i) => {
+        ctx.beginPath();
+        ctx.arc(1350, 400, 200 - i * 14, PI, 0);
+        ctx.lineWidth = 14;
+        ctx.strokeStyle = c;
+        ctx.stroke();
+      });
+      ctx.restore();
+    }
+  } else if (id === 'dormitorio') {
+    sky('#EDE6FB', '#E2D8F7');
+    for (let y = 180; y < 600; y += 90)
+      for (let x = ((y / 90) % 2) * 60; x < W; x += 120) star(x, y, 9, 'rgba(155,138,217,.35)', 0);
+    win(1210, 160, 280, 210, '#9B8AD9');
+    wood('#D9B58A');
+  } else if (id === 'cocina') {
+    sky('#FFF9EC', '#FFF4DC');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 380, W, 220);
+    ctx.strokeStyle = '#BFE3F0';
+    ctx.lineWidth = 3;
+    for (let y = 380; y <= 600; y += 55) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
+    }
+    for (let x = 0; x < W; x += 55) {
+      ctx.beginPath();
+      ctx.moveTo(x, 380);
+      ctx.lineTo(x, 600);
+      ctx.stroke();
+    }
+    win(1210, 160, 280, 190, '#FF8A7A');
+    checker('#F2E1C8', '#E0C49E', 75);
+  } else if (id === 'bano') {
+    sky('#DDF4FA', '#CDEFF7');
+    ctx.strokeStyle = 'rgba(91,184,230,.35)';
+    ctx.lineWidth = 3;
+    for (let y = 150; y < 600; y += 70) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
+    }
+    for (let x = 0; x < W; x += 70) {
+      ctx.beginPath();
+      ctx.moveTo(x, 150);
+      ctx.lineTo(x, 600);
+      ctx.stroke();
+    }
+    circ(1350, 260, 110, '#E8FAFF', 8);
+    ctx.save();
+    ctx.globalAlpha = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(1290, 220);
+    ctx.lineTo(1330, 180);
+    ctx.moveTo(1300, 260);
+    ctx.lineTo(1360, 200);
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = '#fff';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    ctx.restore();
+    checker('#FFFFFF', '#BDE8F2', 70);
+  } else if (id === 'juegos') {
+    sky('#FFF6C9', '#FFEFA8');
+    const C = ['#FF8A7A', '#7CC86E', '#5BB8E6', '#FFA94D', '#9B8AD9'];
+    for (let i = 0; i < 26; i++) circ((i * 263) % W, 170 + ((i * 137) % 400), 14 + (i % 3) * 6, C[i % 5], 0);
+    bunting(150, 12);
+    for (let y = 600; y < H; y += 100)
+      for (let x = 0; x < W; x += 100) {
+        ctx.fillStyle = C[((x + y) / 100) % 5];
+        ctx.fillRect(x, y, 100, 100);
+      }
+    ctx.strokeStyle = 'rgba(74,52,40,.2)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(-2, 600, W + 4, H);
+    card(-10, 588, W + 20, 20, '#fff', 5, 6);
+  } else if (id === 'jardin') {
+    sky(homeLight ? '#9FDDF5' : '#2E3F7A', homeLight ? '#E2F6FF' : '#55639A');
+    if (homeLight) {
+      pic('sol', 1430, 190, 130);
+      pic('nube', 300, 220, 180);
+      pic('nube', 820, 170, 140);
+    } else pic('luna', 1430, 190, 110);
+    floor(520, '#A6DC7F');
+    for (let x = 0; x < W; x += 60) {
+      card(x + 8, 430, 40, 150, '#fff', 4, 10);
+    }
+    card(-10, 470, W + 20, 22, '#fff', 4, 6);
+    card(-10, 530, W + 20, 22, '#fff', 4, 6);
+    floor(600, '#9BD67A');
+    for (let i = 0; i < 14; i++) flower(60 + i * 115, 620 + (i % 3) * 90, 10, FLC[i % 7], 2);
+  } else if (id === 'torre') {
+    sky('#1E2A55', '#34417A');
+    for (let i = 0; i < 60; i++) {
+      const x = (i * 397) % W,
+        y = 40 + ((i * 211) % 520);
+      star(x, y, 3 + (i % 4) * 2, 'rgba(255,230,140,' + (0.5 + 0.5 * Math.sin(T * 2 + i)) + ')', 0);
+    }
+    circ(1330, 280, 150, '#0F1838', 10, '#C98A4B');
+    pic('luna', 1290, 240, 90);
+    for (let i = 0; i < 8; i++) star(1220 + ((i * 53) % 220), 180 + ((i * 71) % 200), 5, '#FFE08A', 0);
+    wood('#8C6A4E');
+  }
+  if (!homeLight && id !== 'torre') {
+    ctx.fillStyle = 'rgba(30,30,70,.25)';
+    ctx.fillRect(0, 0, W, H);
+  }
+}
 // Botones de las habitaciones (arriba, entre el título y la tienda): x, y y la habitación.
-export const roomBtns=()=>ROOMS.map((R,i)=>({R,x:660+i*76,y:94}));
+export const roomBtns = () => ROOMS.map((R, i) => ({ R, x: 660 + i * 76, y: 94 }));
 // Escena de la casa de Tito por dentro (2D), con habitaciones (ROOMS) que se abren al terminar casitas: arriba,
 // un botón por habitación; los objetos comprados se pueden arrastrar, tocar y llevar a otra habitación soltándolos
 // en su botón. Abajo está el armario con la ropa de Tito y la mascota Pipo. Estado: room (habitación que se ve; se
@@ -363,88 +1343,423 @@ export const roomBtns=()=>ROOMS.map((R,i)=>({R,x:660+i*76,y:94}));
 // dónde va), paseoTok (cuenta los paseos: al llegar solo juega si no ha salido otro después) y acc (la acción que
 // está haciendo con un objeto, AccionEnCurso). Al tocar un objeto, Tito va hasta él y juega (irA); al tocar el
 // suelo, va allí. Entra andando por la izquierda.
-SCENES.casaTito={music:'casita',room:'salon',
+SCENES.casaTito = {
+  music: 'casita',
+  room: 'salon',
   // Al entrar (Tito entra andando por la izquierda; o.volver: vuelve de una escena pequeña, como la del telescopio, y
   // Tito ya está dentro, en la misma habitación, sin decir nada). o.nuevo: id de lo recién comprado (se va a su habitación y se resalta con brillo y flecha durante 12 s;
   // si es ropa, Tito salta). Si no, si se abrió una habitación desde la última visita (S.rooms cuenta las que ya se
   // vieron), se va a ella y Tito lo anuncia. Si no, Tito saluda según haya cosas o la casa esté vacía.
-  enter(o){this.drag=null;this.wpg=0;this.jump=-9;this.petJump=-9;this.newRoom=-9;this.acc=null;this.paseoTok=0;this.paseo=o.volver?paseoQuieto(440,700):andar(paseoQuieto(-120,700),440,700);if(o.volver)return;const nv=o.nuevo&&SHOP.find(i=>i.id===o.nuevo);this.nuevo=nv&&S.owned![nv.id]?nv:null;this.t0=T;
-    if(!roomOpen(this.room))this.room='salon';const n=homeItems().length,op=roomsOpen();
-    if(this.nuevo){const it=this.nuevo;if(it.slot)this.jump=T+.3;else this.room=homeRoom(it.id);later(300,()=>{SFX.sparkle();say('¡Aquí está '+itemName(it)+'! '+(it.slot?'¡Mira qué bonito me queda!':'Puedes cambiar las cosas de lugar arrastrándolas.'))});return}
-    if(op.length>(S.rooms||1)){const R=op[op.length-1];S.rooms=op.length;save();this.room=R.id;this.newRoom=T;later(300,()=>{SFX.tada();burst(800,400,50);sayQ('¡Mi casa creció! Tiene una habitación nueva: '+R.n+'. Arriba puedes elegir a qué habitación ir.')});return}
-    later(300,()=>sayQ(n?'¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.':'¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.'))},
+  enter(o) {
+    this.drag = null;
+    this.wpg = 0;
+    this.jump = -9;
+    this.petJump = -9;
+    this.newRoom = -9;
+    this.acc = null;
+    this.paseoTok = 0;
+    this.paseo = o.volver ? paseoQuieto(440, 700) : andar(paseoQuieto(-120, 700), 440, 700);
+    if (o.volver) return;
+    const nv = o.nuevo && SHOP.find((i) => i.id === o.nuevo);
+    this.nuevo = nv && S.owned![nv.id] ? nv : null;
+    this.t0 = T;
+    if (!roomOpen(this.room)) this.room = 'salon';
+    const n = homeItems().length,
+      op = roomsOpen();
+    if (this.nuevo) {
+      const it = this.nuevo;
+      if (it.slot) this.jump = T + 0.3;
+      else this.room = homeRoom(it.id);
+      later(300, () => {
+        SFX.sparkle();
+        say(
+          '¡Aquí está ' +
+            itemName(it) +
+            '! ' +
+            (it.slot ? '¡Mira qué bonito me queda!' : 'Puedes cambiar las cosas de lugar arrastrándolas.'),
+        );
+      });
+      return;
+    }
+    if (op.length > (S.rooms || 1)) {
+      const R = op[op.length - 1];
+      S.rooms = op.length;
+      save();
+      this.room = R.id;
+      this.newRoom = T;
+      later(300, () => {
+        SFX.tada();
+        burst(800, 400, 50);
+        sayQ('¡Mi casa creció! Tiene una habitación nueva: ' + R.n + '. Arriba puedes elegir a qué habitación ir.');
+      });
+      return;
+    }
+    later(300, () =>
+      sayQ(
+        n
+          ? '¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.'
+          : '¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.',
+      ),
+    );
+  },
   // Armario: la ropa y colores que tiene el niño, con su posición en la fila de abajo. Caben 10; si hay más, se ven
   // de 9 en 9 (página this.wpg) y aparecen flechas a los lados (wardArrows) para pasar de página, que dan la vuelta.
-  wardrobe(): Casilla[]{const L=SHOP.filter(i=>i.slot&&S.owned![i.id]);if(L.length<=10)return L.map((it,i)=>({it,x:470+i*100,y:845}));
-    const n=Math.ceil(L.length/9),pg=((this.wpg||0)%n+n)%n;return L.slice(pg*9,pg*9+9).map((it,i)=>({it,x:530+i*100,y:845}))},
+  wardrobe(): Casilla[] {
+    const L = SHOP.filter((i) => i.slot && S.owned![i.id]);
+    if (L.length <= 10) return L.map((it, i) => ({ it, x: 470 + i * 100, y: 845 }));
+    const n = Math.ceil(L.length / 9),
+      pg = (((this.wpg || 0) % n) + n) % n;
+    return L.slice(pg * 9, pg * 9 + 9).map((it, i) => ({ it, x: 530 + i * 100, y: 845 }));
+  },
   // Flechas del armario [x, y, dirección]: solo si la ropa no cabe en una fila (más de 10 prendas).
-  wardArrows(): Flecha[]{return SHOP.filter(i=>i.slot&&S.owned![i.id]).length>10?[[445,845,-1],[1415,845,1]]:[]},
+  wardArrows(): Flecha[] {
+    return SHOP.filter((i) => i.slot && S.owned![i.id]).length > 10
+      ? [
+          [445, 845, -1],
+          [1415, 845, 1],
+        ]
+      : [];
+  },
   // Tito explica qué hacer en la casa.
-  prompt(){say(homeItems().length?'Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tócala para ponérmela.':'Toca el carrito para ir a la tienda.')},
+  prompt() {
+    say(
+      homeItems().length
+        ? 'Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tócala para ponérmela.'
+        : 'Toca el carrito para ir a la tienda.',
+    );
+  },
   // Pista: si la casa está vacía señala el botón de la tienda.
-  hint(){return homeItems().length?null:{x:1240,y:70,r:60}},
+  hint() {
+    return homeItems().length ? null : { x: 1240, y: 70, r: 60 };
+  },
   // Dedo encima de un objeto: dice su nombre; encima del botón de una habitación, su nombre.
-  dwell(id){if(id.startsWith('h:'))say(cap(W_(id.slice(2)))+'.');else if(id.startsWith('room:'))say(cap(roomOf(id.slice(5)).n)+'.')},
+  dwell(id) {
+    if (id.startsWith('h:')) say(cap(W_(id.slice(2))) + '.');
+    else if (id.startsWith('room:')) say(cap(roomOf(id.slice(5)).n) + '.');
+  },
   // Dibuja la habitación (roomBg), el título con su nombre, los botones de las habitaciones (la actual en amarillo,
   // las cerradas con candado, la recién abierta brillando), el botón de la tienda, los objetos, Tito, la mascota y el armario.
-  draw(){const hl=houseLevel(),R=roomOf(this.room);roomBg(R.id,hl);
-    card(170,44,450,100,'#fff',6,50);titoHouseIc(230,94,80);{const nm=cap(R.n),fs=nm.length>16?28:nm.length>11?36:46;text(nm,425,94+fs*.36,fs,K,{w:600})}
-    for(const b of roomBtns()){const op=roomOpen(b.R.id),on=b.R.id===R.id,s=on?1:hv('room:'+b.R.id,hC(b.x,b.y,34));ctx.save();ctx.translate(b.x,b.y-(on?4:0));ctx.scale(s,s);
-      if(this.newRoom>0&&b.R.id===R.id&&T-this.newRoom<8){ctx.globalAlpha=.4+.3*Math.sin(T*6);circ(0,0,46,null,10,'#FFC93C');ctx.globalAlpha=1}
-      if(this.drag&&this.drag.moved&&op&&!on&&dist(this.drag.x||0,this.drag.y||0,b.x,b.y)<44){circ(0,0,44,'#FFE08A',0)}
-      circ(0,0,34,on?'#FFE08A':op?'#fff':'#EADFCF',on?7:5,on?'#D9962A':K);if(op)pic(b.R.ic,0,0,50);else{ctx.globalAlpha=.35;pic(b.R.ic,0,0,46);ctx.globalAlpha=1;pic('candado',0,4,36)}ctx.restore()}
-    {const s=hv('btn:tienda',hC(1240,70,52));ctx.save();ctx.translate(1240,70);ctx.scale(s,s);circ(0,0,50,'#fff',6);pic('tienda',0,0,84);ctx.restore()}
-    const nv=this.nuevo;if(nv&&!nv.slot&&S.home![nv.id]&&homeRoom(nv.id)===R.id&&(T-this.t0)<12){const p=S.home![nv.id],hs=HSIZE[nv.id]||160;ctx.globalAlpha=.45+.2*Math.sin(T*5);circ(p.x,p.y-hs*.4,hs*.62,'#FFE08A',0);ctx.globalAlpha=1}
+  draw() {
+    const hl = houseLevel(),
+      R = roomOf(this.room);
+    roomBg(R.id, hl);
+    card(170, 44, 450, 100, '#fff', 6, 50);
+    titoHouseIc(230, 94, 80);
+    {
+      const nm = cap(R.n),
+        fs = nm.length > 16 ? 28 : nm.length > 11 ? 36 : 46;
+      text(nm, 425, 94 + fs * 0.36, fs, K, { w: 600 });
+    }
+    for (const b of roomBtns()) {
+      const op = roomOpen(b.R.id),
+        on = b.R.id === R.id,
+        s = on ? 1 : hv('room:' + b.R.id, hC(b.x, b.y, 34));
+      ctx.save();
+      ctx.translate(b.x, b.y - (on ? 4 : 0));
+      ctx.scale(s, s);
+      if (this.newRoom > 0 && b.R.id === R.id && T - this.newRoom < 8) {
+        ctx.globalAlpha = 0.4 + 0.3 * Math.sin(T * 6);
+        circ(0, 0, 46, null, 10, '#FFC93C');
+        ctx.globalAlpha = 1;
+      }
+      if (this.drag && this.drag.moved && op && !on && dist(this.drag.x || 0, this.drag.y || 0, b.x, b.y) < 44) {
+        circ(0, 0, 44, '#FFE08A', 0);
+      }
+      circ(0, 0, 34, on ? '#FFE08A' : op ? '#fff' : '#EADFCF', on ? 7 : 5, on ? '#D9962A' : K);
+      if (op) pic(b.R.ic, 0, 0, 50);
+      else {
+        ctx.globalAlpha = 0.35;
+        pic(b.R.ic, 0, 0, 46);
+        ctx.globalAlpha = 1;
+        pic('candado', 0, 4, 36);
+      }
+      ctx.restore();
+    }
+    {
+      const s = hv('btn:tienda', hC(1240, 70, 52));
+      ctx.save();
+      ctx.translate(1240, 70);
+      ctx.scale(s, s);
+      circ(0, 0, 50, '#fff', 6);
+      pic('tienda', 0, 0, 84);
+      ctx.restore();
+    }
+    const nv = this.nuevo;
+    if (nv && !nv.slot && S.home![nv.id] && homeRoom(nv.id) === R.id && T - this.t0 < 12) {
+      const p = S.home![nv.id],
+        hs = HSIZE[nv.id] || 160;
+      ctx.globalAlpha = 0.45 + 0.2 * Math.sin(T * 5);
+      circ(p.x, p.y - hs * 0.4, hs * 0.62, '#FFE08A', 0);
+      ctx.globalAlpha = 1;
+    }
     // Orden de dibujo: primero la alfombra, luego lo de la pared y después de atrás (y pequeña) hacia delante.
     // pide: la mascota de la habitación que enseña su bocadillo ahora: de una en una, cada 4 segundos, entre las que aún
     // piden algo hoy (desde la fase C6), para no llenar la habitación de bocadillos
-    const pidenHoy=homeItems(R.id).filter(o=>MASCOTAS.includes(o.id)&&pideAlgo(o.id)),pide=pidenHoy.length?pidenHoy[Math.floor(T/4)%pidenHoy.length].id:'';
-    const its=homeItems(R.id).sort((a,b)=>(a.id==='alfombra'?-1:b.id==='alfombra'?1:0)||(WALLITEMS.includes(a.id)?-1:WALLITEMS.includes(b.id)?1:0)||a.y-b.y);
-    for(const o of its){const dr=this.drag&&this.drag.id===o.id,ox=o.id==='hamster'&&!dr?Math.sin(T*.9)*110:0,b=o.id==='hamster'?Math.abs(Math.sin(T*8))*-6:0,s=dr?1.08:hv('h:'+o.id,hC(o.x,o.y-o.s*.2,o.s*.45));
-      const po=animObjeto(this.acc,o.id);if(!dr&&!this.acc&&!andando(this.paseo)&&this.cerca===o.id){ctx.globalAlpha=.16+.08*Math.sin(T*4);circ(o.x,o.y-o.s*.4,o.s*.55,'#FFF3B0',0);ctx.globalAlpha=1}
-      ctx.save();ctx.translate(o.x+ox+po.dx,o.y+b+po.dy);ctx.scale(s*po.sc,s*(po.sc-po.sq));if(po.rot){ctx.translate(0,-o.s*.42);ctx.rotate(po.rot);ctx.translate(0,o.s*.42)}if(o.id==='lampara'&&homeLight){ctx.globalAlpha=.25+.05*Math.sin(T*3);circ(0,-o.s*.3,o.s*.5,'#FFE08A',0);ctx.globalAlpha=1}
-      if(o.id==='hamster'&&Math.cos(T*.9)<0)ctx.scale(-1,1);
+    const pidenHoy = homeItems(R.id).filter((o) => MASCOTAS.includes(o.id) && pideAlgo(o.id)),
+      pide = pidenHoy.length ? pidenHoy[Math.floor(T / 4) % pidenHoy.length].id : '';
+    const its = homeItems(R.id).sort(
+      (a, b) =>
+        (a.id === 'alfombra' ? -1 : b.id === 'alfombra' ? 1 : 0) ||
+        (WALLITEMS.includes(a.id) ? -1 : WALLITEMS.includes(b.id) ? 1 : 0) ||
+        a.y - b.y,
+    );
+    for (const o of its) {
+      const dr = this.drag && this.drag.id === o.id,
+        ox = o.id === 'hamster' && !dr ? Math.sin(T * 0.9) * 110 : 0,
+        b = o.id === 'hamster' ? Math.abs(Math.sin(T * 8)) * -6 : 0,
+        s = dr ? 1.08 : hv('h:' + o.id, hC(o.x, o.y - o.s * 0.2, o.s * 0.45));
+      const po = animObjeto(this.acc, o.id);
+      if (!dr && !this.acc && !andando(this.paseo) && this.cerca === o.id) {
+        ctx.globalAlpha = 0.16 + 0.08 * Math.sin(T * 4);
+        circ(o.x, o.y - o.s * 0.4, o.s * 0.55, '#FFF3B0', 0);
+        ctx.globalAlpha = 1;
+      }
+      ctx.save();
+      ctx.translate(o.x + ox + po.dx, o.y + b + po.dy);
+      ctx.scale(s * po.sc, s * (po.sc - po.sq));
+      if (po.rot) {
+        ctx.translate(0, -o.s * 0.42);
+        ctx.rotate(po.rot);
+        ctx.translate(0, o.s * 0.42);
+      }
+      if (o.id === 'lampara' && homeLight) {
+        ctx.globalAlpha = 0.25 + 0.05 * Math.sin(T * 3);
+        circ(0, -o.s * 0.3, o.s * 0.5, '#FFE08A', 0);
+        ctx.globalAlpha = 1;
+      }
+      if (o.id === 'hamster' && Math.cos(T * 0.9) < 0) ctx.scale(-1, 1);
       // las mascotas (desde la fase C6) se dibujan según su etapa (dibujaMascota); el perro, junto a su casita
-      if(o.id==='casitaPerro'){pic(o.id,0,-o.s*.42,o.s);dibujaMascota(o.id,o.s*.62,Math.abs(Math.sin(T*3))*-6,o.s*.55)}else if(MASCOTAS.includes(o.id))dibujaMascota(o.id,0,0,o.s);else pic(o.id,0,-o.s*.42,o.s);ctx.restore();
+      if (o.id === 'casitaPerro') {
+        pic(o.id, 0, -o.s * 0.42, o.s);
+        dibujaMascota(o.id, o.s * 0.62, Math.abs(Math.sin(T * 3)) * -6, o.s * 0.55);
+      } else if (MASCOTAS.includes(o.id)) dibujaMascota(o.id, 0, 0, o.s);
+      else pic(o.id, 0, -o.s * 0.42, o.s);
+      ctx.restore();
       // y, si le toca enseñar lo que pide hoy (pide), su bocadillo (no mientras se arrastra ni mientras Tito juega)
-      if(o.id===pide&&!dr&&!this.acc)bocadillo(o.id,o.x+ox+(o.id==='casitaPerro'?o.s*.62:o.s*.25),o.y-o.s*(o.id==='casitaPerro'?.55:.75))}
-    if(nv&&!nv.slot&&S.home![nv.id]&&homeRoom(nv.id)===R.id&&(T-this.t0)<12){const p=S.home![nv.id],hs=HSIZE[nv.id]||160;arrowAt(p.x,p.y-hs*.9-30)}
-    const tb=this.jump>0&&T>this.jump?Math.max(0,1-(T-this.jump)*2)*Math.abs(Math.sin((T-this.jump)*10))*-60:0;dibujaTitoCasa(this.paseo,this.acc,tb);efectosAccion(this.acc);
+      if (o.id === pide && !dr && !this.acc)
+        bocadillo(
+          o.id,
+          o.x + ox + (o.id === 'casitaPerro' ? o.s * 0.62 : o.s * 0.25),
+          o.y - o.s * (o.id === 'casitaPerro' ? 0.55 : 0.75),
+        );
+    }
+    if (nv && !nv.slot && S.home![nv.id] && homeRoom(nv.id) === R.id && T - this.t0 < 12) {
+      const p = S.home![nv.id],
+        hs = HSIZE[nv.id] || 160;
+      arrowAt(p.x, p.y - hs * 0.9 - 30);
+    }
+    const tb =
+      this.jump > 0 && T > this.jump
+        ? Math.max(0, 1 - (T - this.jump) * 2) * Math.abs(Math.sin((T - this.jump) * 10)) * -60
+        : 0;
+    dibujaTitoCasa(this.paseo, this.acc, tb);
+    efectosAccion(this.acc);
     // el objeto más cercano a Tito parado brilla un poco, para invitar a tocarlo (decisión 1 del plan)
-    {const [tx,ty]=posTito(this.paseo),c=homeItems(R.id).filter(o=>dist(tx,ty,o.x,o.y)<o.s*.5+150).sort((a,b)=>dist(tx,ty,a.x,a.y)-dist(tx,ty,b.x,b.y))[0];this.cerca=c?c.id:''}
-    if(nv&&nv.slot&&(T-this.t0)<6&&azar()<.15)sparkles(440+rnd(-120,120),420+rnd(-80,80),2);
-    drawPet(190,872,150,{jump:this.petJump});
-    const wd=this.wardrobe(),wa=this.wardArrows();if(wd.length){card(400,795,wa.length?1060:Math.min(1080,wd.length*100+40),100,'rgba(255,255,255,.8)',5,50);
-      for(const [ax,ay,d] of wa){const s=hv('wpg'+d,hC(ax,ay,34));ctx.save();ctx.translate(ax,ay);ctx.scale(s*d,s);circ(0,0,32,'#fff',5);ctx.beginPath();ctx.moveTo(-8,-15);ctx.lineTo(10,0);ctx.lineTo(-8,15);ctx.lineWidth=8;ctx.strokeStyle=K;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.restore()}for(const w of wd){const on=isWorn(w.it),s=hv('w:'+w.it.id,hC(w.x,w.y,44));ctx.save();ctx.translate(w.x,w.y);ctx.scale(s,s);circ(0,0,42,on?'#FFF3B0':'#fff',on?7:4,on?'#FFC93C':K);drawItemPic(w.it,0,0,72);ctx.restore()}}
+    {
+      const [tx, ty] = posTito(this.paseo),
+        c = homeItems(R.id)
+          .filter((o) => dist(tx, ty, o.x, o.y) < o.s * 0.5 + 150)
+          .sort((a, b) => dist(tx, ty, a.x, a.y) - dist(tx, ty, b.x, b.y))[0];
+      this.cerca = c ? c.id : '';
+    }
+    if (nv && nv.slot && T - this.t0 < 6 && azar() < 0.15) sparkles(440 + rnd(-120, 120), 420 + rnd(-80, 80), 2);
+    drawPet(190, 872, 150, { jump: this.petJump });
+    const wd = this.wardrobe(),
+      wa = this.wardArrows();
+    if (wd.length) {
+      card(400, 795, wa.length ? 1060 : Math.min(1080, wd.length * 100 + 40), 100, 'rgba(255,255,255,.8)', 5, 50);
+      for (const [ax, ay, d] of wa) {
+        const s = hv('wpg' + d, hC(ax, ay, 34));
+        ctx.save();
+        ctx.translate(ax, ay);
+        ctx.scale(s * d, s);
+        circ(0, 0, 32, '#fff', 5);
+        ctx.beginPath();
+        ctx.moveTo(-8, -15);
+        ctx.lineTo(10, 0);
+        ctx.lineTo(-8, 15);
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = K;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+        ctx.restore();
+      }
+      for (const w of wd) {
+        const on = isWorn(w.it),
+          s = hv('w:' + w.it.id, hC(w.x, w.y, 44));
+        ctx.save();
+        ctx.translate(w.x, w.y);
+        ctx.scale(s, s);
+        circ(0, 0, 42, on ? '#FFF3B0' : '#fff', on ? 7 : 4, on ? '#FFC93C' : K);
+        drawItemPic(w.it, 0, 0, 72);
+        ctx.restore();
+      }
+    }
     // el botón del álbum «Sorpresas de la casa» (desde la fase C7), con cuántas lleva
-    {const B=ALBUM_CASA_BOTON,s=hv('albumCasa',hC(B.x,B.y,B.r));ctx.save();ctx.translate(B.x,B.y);ctx.scale(s,s);circ(0,0,B.r,'#fff',5);pic('cuento',0,0,B.r*1.3);circ(B.r*.7,-B.r*.7,24,'#FFC93C',4);text(String(cuantasSorpresas(S.sorpresas||{})),B.r*.7,-B.r*.7+9,24,K);ctx.restore()}
-    drawHome();drawCoinHUD()},
+    {
+      const B = ALBUM_CASA_BOTON,
+        s = hv('albumCasa', hC(B.x, B.y, B.r));
+      ctx.save();
+      ctx.translate(B.x, B.y);
+      ctx.scale(s, s);
+      circ(0, 0, B.r, '#fff', 5);
+      pic('cuento', 0, 0, B.r * 1.3);
+      circ(B.r * 0.7, -B.r * 0.7, 24, '#FFC93C', 4);
+      text(String(cuantasSorpresas(S.sorpresas || {})), B.r * 0.7, -B.r * 0.7 + 9, 24, K);
+      ctx.restore();
+    }
+    drawHome();
+    drawCoinHUD();
+  },
   // Objeto de la habitación que hay bajo el toque (x,y), mirando primero los de delante; el hámster se mueve solo.
-  itemAt(x: number,y: number){return homeItems(this.room).sort((a,b)=>b.y-a.y).find(o=>{const ox=o.id==='hamster'?Math.sin(T*.9)*110:0;return Math.abs(x-o.x-ox)<o.s*.45&&y<o.y+10&&y>o.y-o.s*.85})},
+  itemAt(x: number, y: number) {
+    return homeItems(this.room)
+      .sort((a, b) => b.y - a.y)
+      .find((o) => {
+        const ox = o.id === 'hamster' ? Math.sin(T * 0.9) * 110 : 0;
+        return Math.abs(x - o.x - ox) < o.s * 0.45 && y < o.y + 10 && y > o.y - o.s * 0.85;
+      });
+  },
   // Toques: casa (mapa), tienda, monedas, mascota (dice cuánto le falta para crecer), botón de una habitación (abierta:
   // va a ella; cerrada: dice cuántas casitas faltan), el título (cuánto falta para que la casa crezca), las flechas
   // del armario (otra página de ropa), un objeto (empieza a arrastrarlo; va antes que Tito para que uno soltado delante
   // de él se pueda volver a coger), Tito (salta y dice algo) o una prenda del armario (se la pone o quita).
-  down(x,y){if(atHome(x,y)){SFX.tap();go('map');return}
-    if(dist(x,y,1240,70)<56){SFX.pop();go('tienda');return}
-    if(dist(x,y,ALBUM_CASA_BOTON.x,ALBUM_CASA_BOTON.y)<ALBUM_CASA_BOTON.r+6){SFX.whoosh();go('sorpresasCasa');return}
-    if(inCoinHUD(x,y)){say('Tienes '+S.coins+' monedas.');return}
-    if(dist(x,y,190,790)<85){this.petJump=T;SFX.boing();const ps=petStage();
+  down(x, y) {
+    if (atHome(x, y)) {
+      SFX.tap();
+      go('map');
+      return;
+    }
+    if (dist(x, y, 1240, 70) < 56) {
+      SFX.pop();
+      go('tienda');
+      return;
+    }
+    if (dist(x, y, ALBUM_CASA_BOTON.x, ALBUM_CASA_BOTON.y) < ALBUM_CASA_BOTON.r + 6) {
+      SFX.whoosh();
+      go('sorpresasCasa');
+      return;
+    }
+    if (inCoinHUD(x, y)) {
+      say('Tienes ' + S.coins + ' monedas.');
+      return;
+    }
+    if (dist(x, y, 190, 790) < 85) {
+      this.petJump = T;
+      SFX.boing();
+      const ps = petStage();
       // desde la fase C6, Pipo ya nacido también se cuida: se abre su escena (escenas/casaMascotas.ts)
-      if(ps>=2){later(400,()=>{if(sceneName==='casaTito')go('casaMascota',{inst:'pipo'})});return}
-      const f=ps<4?PET_NEXT[ps]-STARS():0;say(ps===0?'Es el huevo de Pipo. Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para abrirse.':ps<4?pick(['¡Pipo te quiere mucho!','Pipo dice: ¡grrr! Así saludan los dinosaurios.','¡Pipo crece cuando juegas! Le '+(f===1?'falta un juego':'faltan '+f+' juegos')+' para crecer.']):'¡Pipo es el dinosaurio más grande del mundo!');return}
-    const rb=roomBtns().find(b=>dist(x,y,b.x,b.y)<38);
-    if(rb){const R=rb.R;if(!roomOpen(R.id)){SFX.boing();const f=R.need-temasDone();say(cap(R.n)+' todavía está '+R.cer+'. Se abre cuando termines '+(f===1?'una casita más.':f+' casitas más.'));return}
-      if(R.id!==this.room){SFX.pop();this.room=R.id;this.newRoom=-9}say(cap(R.n)+'.');return}
-    if(inR(x,y,395,94,450,100)){SFX.pop();const hl=houseLevel(),f=hl<4?HOUSE_NEXT[hl]-temasDone():0;say(hl<4?'La casa de Tito crece cuando terminas casitas. '+(f===1?'Falta una':'Faltan '+f)+' para que crezca.':'¡La casa de Tito ya es un castillo!');return}
-    const wa=this.wardArrows().find(([ax,ay]: Flecha)=>dist(x,y,ax,ay)<40);if(wa){SFX.whoosh();this.wpg=(this.wpg||0)+wa[2];return}
+      if (ps >= 2) {
+        later(400, () => {
+          if (sceneName === 'casaTito') go('casaMascota', { inst: 'pipo' });
+        });
+        return;
+      }
+      const f = ps < 4 ? PET_NEXT[ps] - STARS() : 0;
+      say(
+        ps === 0
+          ? 'Es el huevo de Pipo. Le ' + (f === 1 ? 'falta un juego' : 'faltan ' + f + ' juegos') + ' para abrirse.'
+          : ps < 4
+            ? pick([
+                '¡Pipo te quiere mucho!',
+                'Pipo dice: ¡grrr! Así saludan los dinosaurios.',
+                '¡Pipo crece cuando juegas! Le ' +
+                  (f === 1 ? 'falta un juego' : 'faltan ' + f + ' juegos') +
+                  ' para crecer.',
+              ])
+            : '¡Pipo es el dinosaurio más grande del mundo!',
+      );
+      return;
+    }
+    const rb = roomBtns().find((b) => dist(x, y, b.x, b.y) < 38);
+    if (rb) {
+      const R = rb.R;
+      if (!roomOpen(R.id)) {
+        SFX.boing();
+        const f = R.need - temasDone();
+        say(
+          cap(R.n) +
+            ' todavía está ' +
+            R.cer +
+            '. Se abre cuando termines ' +
+            (f === 1 ? 'una casita más.' : f + ' casitas más.'),
+        );
+        return;
+      }
+      if (R.id !== this.room) {
+        SFX.pop();
+        this.room = R.id;
+        this.newRoom = -9;
+      }
+      say(cap(R.n) + '.');
+      return;
+    }
+    if (inR(x, y, 395, 94, 450, 100)) {
+      SFX.pop();
+      const hl = houseLevel(),
+        f = hl < 4 ? HOUSE_NEXT[hl] - temasDone() : 0;
+      say(
+        hl < 4
+          ? 'La casa de Tito crece cuando terminas casitas. ' +
+              (f === 1 ? 'Falta una' : 'Faltan ' + f) +
+              ' para que crezca.'
+          : '¡La casa de Tito ya es un castillo!',
+      );
+      return;
+    }
+    const wa = this.wardArrows().find(([ax, ay]: Flecha) => dist(x, y, ax, ay) < 40);
+    if (wa) {
+      SFX.whoosh();
+      this.wpg = (this.wpg || 0) + wa[2];
+      return;
+    }
     // los objetos se miran antes que Tito: uno soltado delante de él tiene que poder volver a moverse
-    const o=this.itemAt(x,y);if(o){const p=S.home![o.id];this.drag={id:o.id,dx:x-o.x,dy:y-o.y,sx:x,sy:y,ox:p.x,oy:p.y,moved:false};VIVO.drag={it:o,home:1};setCursor('grab');return}
-    {const [tx,ty]=posTito(this.paseo);if(inR(x,y,tx,ty-TITO_CASA*.42,TITO_CASA*.9,TITO_CASA*.8)){this.jump=T;SFX.boing();say(pick(['¡Me encanta mi casa!','¡Gracias por jugar conmigo!','¡Qué bonito día!','¿Has visto mi ropa nueva?']));return}}
-    const w=this.wardrobe().find((w: Casilla)=>dist(x,y,w.x,w.y)<46);if(w){const it=w.it,on=it.slot==='shell'||it.slot==='scarf'?true:!isWorn(it);wear(it,on);SFX.pop();this.jump=T;say(on?'¡Me puse '+itemName(it)+'!':'Me quité '+itemName(it)+'.');return}
+    const o = this.itemAt(x, y);
+    if (o) {
+      const p = S.home![o.id];
+      this.drag = { id: o.id, dx: x - o.x, dy: y - o.y, sx: x, sy: y, ox: p.x, oy: p.y, moved: false };
+      VIVO.drag = { it: o, home: 1 };
+      setCursor('grab');
+      return;
+    }
+    {
+      const [tx, ty] = posTito(this.paseo);
+      if (inR(x, y, tx, ty - TITO_CASA * 0.42, TITO_CASA * 0.9, TITO_CASA * 0.8)) {
+        this.jump = T;
+        SFX.boing();
+        say(
+          pick([
+            '¡Me encanta mi casa!',
+            '¡Gracias por jugar conmigo!',
+            '¡Qué bonito día!',
+            '¿Has visto mi ropa nueva?',
+          ]),
+        );
+        return;
+      }
+    }
+    const w = this.wardrobe().find((w: Casilla) => dist(x, y, w.x, w.y) < 46);
+    if (w) {
+      const it = w.it,
+        on = it.slot === 'shell' || it.slot === 'scarf' ? true : !isWorn(it);
+      wear(it, on);
+      SFX.pop();
+      this.jump = T;
+      say(on ? '¡Me puse ' + itemName(it) + '!' : 'Me quité ' + itemName(it) + '.');
+      return;
+    }
     // el suelo (desde la fase C2): Tito anda hasta allí; en otro sitio, unos brillos
-    if(y>600&&y<790&&x>300){SFX.tap();this.paseoTok++;this.acc=null;this.paseo=andar(this.paseo,x,y);return}
-    SFX.tap();sparkles(x,y,3)},
+    if (y > 600 && y < 790 && x > 300) {
+      SFX.tap();
+      this.paseoTok++;
+      this.acc = null;
+      this.paseo = andar(this.paseo, x, y);
+      return;
+    }
+    SFX.tap();
+    sparkles(x, y, 3);
+  },
   // irA(id): Tito anda hasta el objeto id de la habitación (al lado, encima o debajo, según su acción: destinoJunto)
   // y, al llegar, juega con él: la acción de REACCIONES (dominio/casa.ts; las mascotas, un saltito) y homeAction
   // (sonido y frase), y apunta la sorpresa descubierta (S.sorpresas, para el álbum de la fase C7). Si el objeto tiene
@@ -452,30 +1767,126 @@ SCENES.casaTito={music:'casita',room:'salon',
   // de cuidados (casaMascota). Si antes de llegar (o de que se abra la escena)
   // se le manda a otro sitio, ya no juega (paseoTok). va: a qué objeto va y
   // qué hará al llegar (lo miran las pruebas, tests/regresion/casa.js).
-  irA(id: string){const o=homeItems(this.room).find(i=>i.id===id);if(!o)return;const r=reaccionDe(id),accion=r?r.tito:'tocar',[dx,dy]=destinoJunto(this.paseo,o.x,o.y,o.s,accion);
-    SFX.pop();this.acc=null;this.va={id,accion};this.paseo=andar(this.paseo,dx,dy);const tok=++this.paseoTok,llega=this.paseo.dur;
-    later(llega*1000,()=>{if(tok!==this.paseoTok)return;const p=S.home![id];if(!p)return;this.acc={id,accion,t0:T,x:p.x,y:p.y,s:o.s};homeAction(id,p.x,p.y-80);S.sorpresas=descubrir(S.sorpresas||{},id).sorpresas;save();
-      const esc=(r&&r.escena&&ESCENA_CASA[r.escena])||(MASCOTAS.includes(id)?'casaMascota':null);if(esc){later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')go(esc,{inst:id})});return}
+  irA(id: string) {
+    const o = homeItems(this.room).find((i) => i.id === id);
+    if (!o) return;
+    const r = reaccionDe(id),
+      accion = r ? r.tito : 'tocar',
+      [dx, dy] = destinoJunto(this.paseo, o.x, o.y, o.s, accion);
+    SFX.pop();
+    this.acc = null;
+    this.va = { id, accion };
+    this.paseo = andar(this.paseo, dx, dy);
+    const tok = ++this.paseoTok,
+      llega = this.paseo.dur;
+    later(llega * 1000, () => {
+      if (tok !== this.paseoTok) return;
+      const p = S.home![id];
+      if (!p) return;
+      this.acc = { id, accion, t0: T, x: p.x, y: p.y, s: o.s };
+      homeAction(id, p.x, p.y - 80);
+      S.sorpresas = descubrir(S.sorpresas || {}, id).sorpresas;
+      save();
+      const esc = (r && r.escena && ESCENA_CASA[r.escena]) || (MASCOTAS.includes(id) ? 'casaMascota' : null);
+      if (esc) {
+        later(DURACION_ACCION * 1000, () => {
+          if (tok === this.paseoTok && sceneName === 'casaTito') go(esc, { inst: id });
+        });
+        return;
+      }
       // sin escena: si su pareja de una combinación aún sin descubrir está en la misma habitación, al acabar la descubre
-      const pareja=homeItems(this.room).find(i=>i.id!==id&&combinacion(id,i.id)&&!Object.hasOwn(S.sorpresas||{},idSorpresa(id,i.id)));
-      if(pareja)later(DURACION_ACCION*1000,()=>{if(tok===this.paseoTok&&sceneName==='casaTito')this.combina!(id,pareja.id,(p.x+pareja.x)/2,Math.min(p.y,pareja.y)-120)})})},
+      const pareja = homeItems(this.room).find(
+        (i) => i.id !== id && combinacion(id, i.id) && !Object.hasOwn(S.sorpresas || {}, idSorpresa(id, i.id)),
+      );
+      if (pareja)
+        later(DURACION_ACCION * 1000, () => {
+          if (tok === this.paseoTok && sceneName === 'casaTito')
+            this.combina!(id, pareja.id, (p.x + pareja.x) / 2, Math.min(p.y, pareja.y) - 120);
+        });
+    });
+  },
   // combina(a, b, x, y): la sorpresa de juntar a y b (desde la fase C7): brillos y corazones en (x, y), Tito dice su
   // frase (FRASES_COMBINACION) y se apunta en S.sorpresas; si es nueva, Tito avisa de que va al álbum.
-  combina(a: string,b: string,x: number,y: number){const id=idSorpresa(a,b),d=descubrir(S.sorpresas||{},id);S.sorpresas=d.sorpresas;save();
-    SFX.sparkle();burst(x,y,40);[0,1,2].forEach(i=>parts.push({x:x+(i-1)*60,y,vx:rnd(-20,20),vy:-80,life:1.6,t:0,c:'#FF6B8A',r:26,rot:0,k:'h',g:0}));this.jump=T;
-    say(FRASES_COMBINACION[id]||'¡Sorpresa!',d.nueva?()=>say('¡Sorpresa nueva para el álbum!'):undefined)},
+  combina(a: string, b: string, x: number, y: number) {
+    const id = idSorpresa(a, b),
+      d = descubrir(S.sorpresas || {}, id);
+    S.sorpresas = d.sorpresas;
+    save();
+    SFX.sparkle();
+    burst(x, y, 40);
+    [0, 1, 2].forEach((i) =>
+      parts.push({
+        x: x + (i - 1) * 60,
+        y,
+        vx: rnd(-20, 20),
+        vy: -80,
+        life: 1.6,
+        t: 0,
+        c: '#FF6B8A',
+        r: 26,
+        rot: 0,
+        k: 'h',
+        g: 0,
+      }),
+    );
+    this.jump = T;
+    say(FRASES_COMBINACION[id] || '¡Sorpresa!', d.nueva ? () => say('¡Sorpresa nueva para el álbum!') : undefined);
+  },
   // Arrastrar: a partir de 12 px se considera que se mueve y el objeto sigue al dedo. Mientras se arrastra puede subir
   // hasta los botones de las habitaciones (para llevarlo a otra); al soltar se vuelve a encajar en el suelo o la pared.
-  move(x,y){const d=this.drag;if(!d)return;d.x=x;d.y=y;if(Math.abs(x-d.sx)+Math.abs(y-d.sy)>12)d.moved=true;if(d.moved){const p=S.home![d.id];p.x=clamp(x-d.dx,40,1560);p.y=clamp(y-d.dy,60,780)}},
+  move(x, y) {
+    const d = this.drag;
+    if (!d) return;
+    d.x = x;
+    d.y = y;
+    if (Math.abs(x - d.sx) + Math.abs(y - d.sy) > 12) d.moved = true;
+    if (d.moved) {
+      const p = S.home![d.id];
+      p.x = clamp(x - d.dx, 40, 1560);
+      p.y = clamp(y - d.dy, 60, 780);
+    }
+  },
   // Al soltar: si se soltó sobre el botón de otra habitación abierta, el objeto se va a esa habitación (a un hueco
   // libre) y Tito lo dice; sobre una cerrada, vuelve a su sitio. Si no, se encaja en los límites y se guarda. Si no se
   // movió, era un toque: Tito va a jugar con el objeto (irA).
-  up(x,y){const d=this.drag;if(!d)return;this.drag=null;VIVO.drag=null;setCursor('pt');const p=S.home![d.id];
-    if(!d.moved){save();this.irA!(d.id);return}
-    const rb=roomBtns().find(b=>dist(x,y,b.x,b.y)<44&&b.R.id!==this.room);
-    if(rb){if(roomOpen(rb.R.id)){const sp=homeSpot(d.id,rb.R.id);Object.assign(p,{x:sp[0],y:sp[1],r:rb.R.id});save();SFX.whoosh();sparkles(rb.x,rb.y,10);say('¡Listo! Ya está en '+rb.R.n+'.');return}
-      SFX.boing();p.x=d.ox;p.y=d.oy;save();return}
-    const hs=HSIZE[d.id]||160;p.x=clamp(p.x,300+hs*.3,W-hs/2-10);p.y=clamp(p.y,WALLITEMS.includes(d.id)?300:420,780);save();SFX.snap();
+  up(x, y) {
+    const d = this.drag;
+    if (!d) return;
+    this.drag = null;
+    VIVO.drag = null;
+    setCursor('pt');
+    const p = S.home![d.id];
+    if (!d.moved) {
+      save();
+      this.irA!(d.id);
+      return;
+    }
+    const rb = roomBtns().find((b) => dist(x, y, b.x, b.y) < 44 && b.R.id !== this.room);
+    if (rb) {
+      if (roomOpen(rb.R.id)) {
+        const sp = homeSpot(d.id, rb.R.id);
+        Object.assign(p, { x: sp[0], y: sp[1], r: rb.R.id });
+        save();
+        SFX.whoosh();
+        sparkles(rb.x, rb.y, 10);
+        say('¡Listo! Ya está en ' + rb.R.n + '.');
+        return;
+      }
+      SFX.boing();
+      p.x = d.ox;
+      p.y = d.oy;
+      save();
+      return;
+    }
+    const hs = HSIZE[d.id] || 160;
+    p.x = clamp(p.x, 300 + hs * 0.3, W - hs / 2 - 10);
+    p.y = clamp(p.y, WALLITEMS.includes(d.id) ? 300 : 420, 780);
+    save();
+    SFX.snap();
     // soltado encima de su pareja de una combinación (desde la fase C7): la sorpresa
-    const pj=homeItems(this.room).find(o=>o.id!==d.id&&combinacion(d.id,o.id)&&dist(p.x,p.y,o.x,o.y)<o.s*.5+60);if(pj)this.combina!(d.id,pj.id,(p.x+pj.x)/2,Math.min(p.y,pj.y)-120)}// como homeSpot: lo grande no se sale por la derecha
+    const pj = homeItems(this.room).find(
+      (o) => o.id !== d.id && combinacion(d.id, o.id) && dist(p.x, p.y, o.x, o.y) < o.s * 0.5 + 60,
+    );
+    if (pj) this.combina!(d.id, pj.id, (p.x + pj.x) / 2, Math.min(p.y, pj.y) - 120);
+  }, // como homeSpot: lo grande no se sale por la derecha
 };

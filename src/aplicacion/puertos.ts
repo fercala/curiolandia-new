@@ -51,7 +51,8 @@ export function ponPuertos(p: Puertos): void {
 // puertos(): los adaptadores conectados. Si aún no hay (un módulo que pide la hora antes de conectar), da un error que
 // lo dice, en vez de seguir con una hora o un azar que no son.
 function puertos(): Puertos {
-  if (!conectados) throw new Error('Puertos sin conectar: src/modulos.ts tiene que importar primero infraestructura/conectar.ts');
+  if (!conectados)
+    throw new Error('Puertos sin conectar: src/modulos.ts tiene que importar primero infraestructura/conectar.ts');
   return conectados;
 }
 

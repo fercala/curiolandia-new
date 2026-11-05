@@ -83,12 +83,48 @@ export interface LugarMundo {
 
 // LUGARES: los sitios que salen al girar el globo terráqueo (fase C3), en orden; España, la primera.
 export const LUGARES: readonly LugarMundo[] = [
-  { id: 'espana', n: 'España', pics: ['castillo', 'sol'], color: '#FFE08A', frase: '¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.' },
-  { id: 'poloNorte', n: 'El Polo Norte', pics: ['osoPolar', 'iglu'], color: '#DDF3FB', frase: '¡El Polo Norte! Hace mucho frío. Aquí vive el oso polar.' },
-  { id: 'africa', n: 'África', pics: ['leon', 'jirafa', 'elefante'], color: '#FFD9A0', frase: '¡África! Aquí viven el león, la jirafa y el elefante.' },
-  { id: 'mar', n: 'El mar', pics: ['ballena'], color: '#BDE6F7', frase: '¡El mar! Casi toda la Tierra es agua. Aquí vive la ballena.' },
-  { id: 'desierto', n: 'El desierto', pics: ['camello', 'cactus'], color: '#FBE3B4', frase: '¡El desierto! Hay mucha arena y muy poca agua. Aquí vive el camello.' },
-  { id: 'poloSur', n: 'El Polo Sur', pics: ['pinguino'], color: '#E6F0FA', frase: '¡El Polo Sur! También hace mucho frío. Aquí viven los pingüinos.' },
+  {
+    id: 'espana',
+    n: 'España',
+    pics: ['castillo', 'sol'],
+    color: '#FFE08A',
+    frase: '¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.',
+  },
+  {
+    id: 'poloNorte',
+    n: 'El Polo Norte',
+    pics: ['osoPolar', 'iglu'],
+    color: '#DDF3FB',
+    frase: '¡El Polo Norte! Hace mucho frío. Aquí vive el oso polar.',
+  },
+  {
+    id: 'africa',
+    n: 'África',
+    pics: ['leon', 'jirafa', 'elefante'],
+    color: '#FFD9A0',
+    frase: '¡África! Aquí viven el león, la jirafa y el elefante.',
+  },
+  {
+    id: 'mar',
+    n: 'El mar',
+    pics: ['ballena'],
+    color: '#BDE6F7',
+    frase: '¡El mar! Casi toda la Tierra es agua. Aquí vive la ballena.',
+  },
+  {
+    id: 'desierto',
+    n: 'El desierto',
+    pics: ['camello', 'cactus'],
+    color: '#FBE3B4',
+    frase: '¡El desierto! Hay mucha arena y muy poca agua. Aquí vive el camello.',
+  },
+  {
+    id: 'poloSur',
+    n: 'El Polo Sur',
+    pics: ['pinguino'],
+    color: '#E6F0FA',
+    frase: '¡El Polo Sur! También hace mucho frío. Aquí viven los pingüinos.',
+  },
 ];
 
 // FRASES_COMBINACION: lo que dice Tito al juntar dos objetos con sorpresa (COMBINACIONES en dominio/casa.ts), por el id

@@ -6,7 +6,13 @@ import { copiaProfunda } from '../../src/nucleo/utilidades.ts';
 
 describe('copiaProfunda', () => {
   test('da un valor igual que no comparte objetos ni listas con el original', () => {
-    const original = { coins: 3, tito: { shell: 'naranja' }, album: ['a', 'b'], vales: [{ id: 'v1', on: 1 }], bday: null };
+    const original = {
+      coins: 3,
+      tito: { shell: 'naranja' },
+      album: ['a', 'b'],
+      vales: [{ id: 'v1', on: 1 }],
+      bday: null,
+    };
     const copia = copiaProfunda(original);
     expect(copia).toEqual(original);
     expect(copia).not.toBe(original);

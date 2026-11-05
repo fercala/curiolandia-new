@@ -20,28 +20,44 @@ import type { AccionTito } from '../dominio/casa.ts';
 // TITO_CASA: ancho de Tito dentro de casa (antes 380, quieto): más pequeño para que quepa andando entre las cosas.
 // Su dibujo es de 240x200, así que su alto es TITO_CASA*200/240.
 export const TITO_CASA = 230;
-const ALTO_TITO = TITO_CASA * 200 / 240;
+const ALTO_TITO = (TITO_CASA * 200) / 240;
 // DURACION_ACCION: segundos que dura una reacción (lo que tarda Tito en jugar con el objeto antes de quedarse quieto).
 export const DURACION_ACCION = 2.6;
 // VELOCIDAD: píxeles por segundo a los que anda Tito. SUELO: entre qué alturas pisa (los pies; el suelo de las
 // habitaciones empieza en 600 y el armario está debajo de 790). Se queda dentro de BORDE a los lados.
-const VELOCIDAD = 520, SUELO: readonly [number, number] = [630, 790], BORDE: readonly [number, number] = [150, 1490];
+const VELOCIDAD = 520,
+  SUELO: readonly [number, number] = [630, 790],
+  BORDE: readonly [number, number] = [150, 1490];
 
 /** Un paseo de Tito: de (x0, y0) a (x1, y1), los pies; empezó en t0 (hora T) y dura dur segundos; flip = va a la izquierda. */
 export interface Paseo {
-  readonly x0: number; readonly y0: number; readonly x1: number; readonly y1: number;
-  readonly t0: number; readonly dur: number; readonly flip: boolean;
+  readonly x0: number;
+  readonly y0: number;
+  readonly x1: number;
+  readonly y1: number;
+  readonly t0: number;
+  readonly dur: number;
+  readonly flip: boolean;
 }
 
 /** La acción que está haciendo Tito: con qué objeto (id, en x, y, de tamaño s), cuál y desde cuándo (t0, hora T). */
 export interface AccionEnCurso {
-  readonly id: string; readonly accion: AccionTito; readonly t0: number;
-  readonly x: number; readonly y: number; readonly s: number;
+  readonly id: string;
+  readonly accion: AccionTito;
+  readonly t0: number;
+  readonly x: number;
+  readonly y: number;
+  readonly s: number;
 }
 
 /** Cómo se pone algo en un momento: desplazamiento, giro (radianes), escala, aplastado (sq) y si duerme. */
 export interface Pose {
-  readonly dx: number; readonly dy: number; readonly rot: number; readonly sc: number; readonly sq: number; readonly sleep: boolean;
+  readonly dx: number;
+  readonly dy: number;
+  readonly rot: number;
+  readonly sc: number;
+  readonly sq: number;
+  readonly sleep: boolean;
 }
 
 // QUIETO: la pose sin mover nada.
@@ -68,7 +84,9 @@ export function andando(p: Paseo, ahora: number = T): boolean {
 // andar(p, x, y, ahora): un paseo nuevo desde donde está Tito ahora hasta (x, y), dentro del suelo y de los bordes.
 // Si el sitio está casi en el mismo punto, mira hacia donde estaba mirando.
 export function andar(p: Paseo, x: number, y: number, ahora: number = T): Paseo {
-  const [x0, y0] = posTito(p, ahora), x1 = limita(x, BORDE[0], BORDE[1]), y1 = limita(y, SUELO[0], SUELO[1]);
+  const [x0, y0] = posTito(p, ahora),
+    x1 = limita(x, BORDE[0], BORDE[1]),
+    y1 = limita(y, SUELO[0], SUELO[1]);
   const d = Math.hypot(x1 - x0, y1 - y0);
   return { x0, y0, x1, y1, t0: ahora, dur: d / VELOCIDAD, flip: Math.abs(x1 - x0) < 8 ? p.flip : x1 < x0 };
 }
@@ -81,7 +99,8 @@ const ENCIMA: readonly AccionTito[] = ['sentarse', 'tumbarse', 'columpiarse', 't
 export function destinoJunto(p: Paseo, x: number, y: number, s: number, accion: AccionTito): [number, number] {
   if (ENCIMA.includes(accion)) return [x, y + 4];
   if (y < 600) return [x, SUELO[0] + 20];
-  const [tx] = posTito(p), lado = tx < x ? -1 : 1;
+  const [tx] = posTito(p),
+    lado = tx < x ? -1 : 1;
   return [x + lado * (s * 0.42 + TITO_CASA * 0.42), y + 6];
 }
 
@@ -113,7 +132,8 @@ const POSE_TITO: Partial<Record<AccionTito, (u: number) => Partial<Pose>>> = {
 
 // poseTito(a, ahora, paseo): cómo se pone Tito: andando, un saltito al paso; jugando, la pose de su acción.
 export function poseTito(a: AccionEnCurso | null, paseo: Paseo, ahora: number = T): Pose {
-  if (andando(paseo, ahora)) return { ...QUIETO, dy: saltito(ahora, 14, 12), sq: Math.abs(Math.sin(ahora * 14)) * 0.05 };
+  if (andando(paseo, ahora))
+    return { ...QUIETO, dy: saltito(ahora, 14, 12), sq: Math.abs(Math.sin(ahora * 14)) * 0.05 };
   const u = fase(a, ahora);
   if (u < 0 || !a) return QUIETO;
   const f = POSE_TITO[a.accion];
@@ -144,7 +164,19 @@ export function animObjeto(a: AccionEnCurso | null, id: string, ahora: number = 
 
 // gota(x, y, c, k, vy, g): una partícula pequeña de tipo k (ver PARTÍCULAS en nucleo/escenas.ts).
 function gota(x: number, y: number, c: string, k: string, vy: number, g: number): void {
-  parts.push({ x: x + rnd(-30, 30), y, vx: rnd(-50, 50), vy, life: rnd(0.7, 1.2), t: 0, c, r: rnd(8, 14), rot: 0, k, g });
+  parts.push({
+    x: x + rnd(-30, 30),
+    y,
+    vx: rnd(-50, 50),
+    vy,
+    life: rnd(0.7, 1.2),
+    t: 0,
+    c,
+    r: rnd(8, 14),
+    rot: 0,
+    k,
+    g,
+  });
 }
 
 // EFECTOS: qué sale de cada acción y con qué probabilidad por cuadro: notas al tocar, zetas al dormir, corazones al
@@ -162,7 +194,11 @@ const EFECTOS: Partial<Record<AccionTito, { p: number; f: (x: number, y: number)
   encender: { p: 0.06, f: (x, y) => sparkles(x, y - 150, 2) },
   girar: { p: 0.06, f: (x, y) => sparkles(x, y - 100, 2) },
   volar: { p: 0.08, f: (x, y) => sparkles(x, y - 60, 2) },
-  pintar: { p: 0.15, f: (x, y) => gota(x, y - 100, ['#FF6B5E', '#FFC93C', '#7CC86E', '#5B8DEF'][Math.floor(rnd(0, 4))] as string, 'd', -40, 0) },
+  pintar: {
+    p: 0.15,
+    f: (x, y) =>
+      gota(x, y - 100, ['#FF6B5E', '#FFC93C', '#7CC86E', '#5B8DEF'][Math.floor(rnd(0, 4))] as string, 'd', -40, 0),
+  },
 };
 
 // efectosAccion(a, ahora): echa, de vez en cuando, las partículas de la acción en curso alrededor del objeto.
@@ -175,7 +211,8 @@ export function efectosAccion(a: AccionEnCurso | null, ahora: number = T): void 
 // dibujaTitoCasa(paseo, a, extra, ahora): dibuja a Tito con los pies donde está en su paseo, mirando hacia donde va,
 // con la pose de lo que hace (los giros, alrededor del centro de su cuerpo). extra: un salto más (el de tocarle).
 export function dibujaTitoCasa(paseo: Paseo, a: AccionEnCurso | null, extra: number, ahora: number = T): void {
-  const [x, y] = posTito(paseo, ahora), p = poseTito(a, paseo, ahora);
+  const [x, y] = posTito(paseo, ahora),
+    p = poseTito(a, paseo, ahora);
   ctx.save();
   ctx.translate(x + p.dx, y - ALTO_TITO / 2 + p.dy + extra);
   ctx.rotate(p.rot);
