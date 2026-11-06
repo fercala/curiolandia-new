@@ -12,7 +12,7 @@
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
 import * as THREE from 'three';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
@@ -919,7 +919,7 @@ export function montarMapa3D(): void {
     ...mapa2D,
     three: true,
     // enter(o): entra al mapa: limpia estados, llama al enter original, construye el mundo 3D y sincroniza las posiciones 2D
-    enter(o: Libre) {
+    enter(o: OpcionesEscena) {
       this.hov = null;
       this.lockShake = null;
       this.hop = null;

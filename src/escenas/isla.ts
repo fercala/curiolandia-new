@@ -15,7 +15,7 @@
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900, como en el resto de
    las escenas. */
-import type { Libre } from '../juegos/tipos.ts';
+import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
   DIAC,
@@ -236,7 +236,7 @@ SCENES['isla'] = {
   music: 'map',
   // enter(o): la primera vez, Tito presenta la isla y a Lupi (S.first.isla); si no, saluda corto si viene del mapa
   // (o.hello).
-  enter(o: Libre) {
+  enter(o: OpcionesEscena) {
     if (!S.first['isla']) {
       S.first['isla'] = 1;
       save();

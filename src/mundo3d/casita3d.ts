@@ -12,7 +12,7 @@
  */
 import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
@@ -278,7 +278,7 @@ export function montarCasita3D(): void {
     ...casita2D,
     three: true,
     // enter(o): o.t = tema, o.g = juego del que se vuelve (Tito aparece ahí); construye el mundo 3D
-    enter(o: Libre) {
+    enter(o: OpcionesEscena) {
       this.hov = null;
       this.hop = null;
       this.lockShake = null;

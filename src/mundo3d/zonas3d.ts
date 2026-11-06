@@ -11,7 +11,7 @@
  */
 import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, Libre, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Mundo, Nodo, PuntoSuelo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
@@ -1000,7 +1000,7 @@ export function montarZonas3D(): void {
       ...zona2D,
       three: true,
       // enter(o): entra a la zona (o.from = tema del que se viene, ahí aparece Tito) y construye su mundo 3D
-      enter(o: Libre) {
+      enter(o: OpcionesEscena) {
         this.hov = null;
         this.hop = null;
         this.lockShake = null;

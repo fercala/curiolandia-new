@@ -125,6 +125,38 @@ export interface Estado {
 // any: frontera con el código del juego viejo, sin tipos (ver la cabecera).
 export type Libre = { [campo: string]: any };
 
+/**
+ * Las opciones de un cambio de escena: lo que se pasa a go(nombre, o), llega a enter(o) de la escena y queda en
+ * sceneArg. Todo es opcional: cada escena lee solo lo suyo. Antes de la mejora 10 era Libre.
+ */
+export interface OpcionesEscena {
+  /** Saludar al llegar (mapa, zonas, islas, casita, repaso, casa de Tito); false al rehacer la escena sin saludo. */
+  hello?: boolean;
+  /** Id del tema (casita, juego, cofre). */
+  t?: string;
+  /** Número del juego dentro del tema (juego; en la casita, el juego del que se vuelve, donde aparece Tito). */
+  g?: number;
+  /** En la casita: true la primera vez que se terminan todos los juegos del tema (lleva al cofre). */
+  fin?: boolean;
+  /** En la zona 3D: id del tema del que se viene (ahí aparece Tito). */
+  from?: string;
+  /** En el repaso: 1 = se sigue con el repaso de hoy (lo marca visto). */
+  seguir?: number;
+  /** En el repaso: 1 = se vuelve de un juego del repaso sin terminar el tema. */
+  back?: number;
+  /** En la casa de Tito: 1 = se vuelve de una de sus escenas (Tito sale del objeto, sin saludo). */
+  volver?: number;
+  /** En la casa de Tito: id del objeto recién comprado o regalado, para estrenarlo. */
+  nuevo?: string | null;
+  /** En la música y en las mascotas: id del instrumento o de la mascota que se tocó. */
+  inst?: string;
+}
+
+/** Las opciones de las escenas que siempre se abren con un tema (la casita y el cofre): t es obligatorio. */
+export type OpcionesTema = OpcionesEscena & { t: string };
+/** Las opciones de la escena del juego: el tema (t) y el número del juego (g), siempre. */
+export type OpcionesJuego = OpcionesTema & { g: number };
+
 /** Lo que se programa con later(): cuándo (segundos que faltan), qué hacer y en qué escena (sceneTok) se pidió. */
 export interface Temporizador {
   t: number;
@@ -230,7 +262,7 @@ export interface Escena {
   three?: boolean;
   /** Momento T del último acierto, para el «pop» de la última estrella de drawRounds. */
   starPop?: number;
-  enter?(o: Libre): void;
+  enter?(o: OpcionesEscena): void;
   update?(dt: number): void;
   draw(): void;
   down?(x: number, y: number): void;
@@ -246,7 +278,7 @@ export interface Escena {
 
 /** window.__cl: lo que las pruebas automáticas leen y hacen en el juego (aplicacion/adultos.ts). */
 export interface PuertaPruebas {
-  go(nombre: string, opciones?: Libre): void;
+  go(nombre: string, opciones?: OpcionesEscena): void;
   readonly S: Estado;
   readonly scene: Escena | null;
   readonly name: string;

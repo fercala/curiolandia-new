@@ -69,7 +69,7 @@
  *   S.cofres, S.coins (vía giveCoins) y S.stk.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
-import type { Escena } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena, OpcionesTema } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
 import { regaloDelDia } from '../aplicacion/premiosDelDia.ts';
 import { HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa } from '../dominio/progreso.ts';
@@ -631,7 +631,7 @@ export function zoneScene(z: string): Escena {
     // enter(o): calcula la casita actual. Prioridad del mensaje: 1) casita recién abierta (newlyOpen, anima su candado);
     // 2) si viene del cofre (o.from) y ya no queda nada, felicita por terminar el camino; 3) saludo (o.hello).
     // Marca S.first[z] para que el saludo largo solo salga la primera vez.
-    enter(o: Libre) {
+    enter(o: OpcionesEscena) {
       this.cur = curTema(z);
       this.unl = null;
       const nw = newlyOpen(
@@ -1388,7 +1388,7 @@ SCENES.map = {
   // 3) la casa de Tito ha crecido (S.houseSeen); 4) Pipo ha cambiado de etapa (S.petSeen); 5) flores nuevas (S.seenFl);
   // 6) si no hubo aviso, el regalo diario de 3 monedas (una vez al día, S.gift); 7) si no, saludo (o.hello).
   // Tras 15 minutos de sesión propone descansar una vez.
-  enter(o: Libre) {
+  enter(o: OpcionesEscena) {
     this.wake = null;
     this.unl = null;
     this.shake = 0;
@@ -1726,8 +1726,8 @@ SCENES.casita = {
   // {back: 1})); en todo caso el repaso deja de estar en marcha (ponRepOn(false); desde la fase 4c aquí, antes en una
   // envoltura de escenas/repaso.ts). Guarda S.last. Si viene de terminar el tema (o.fin, desde finishGame) salta
   // directamente al cofre. Si se ha abierto un juego nuevo (newlyOpen 'g:id') y no viene con hello, anima su candado y
-  // lo anuncia.
-  enter(o: Libre) {
+  // lo anuncia. o: OpcionesTema (nucleo/tipos.ts), siempre con el tema (o.t).
+  enter(o: OpcionesTema) {
     if (REP_ON && !o.fin) {
       ponRepOn(false);
       go('repaso', { back: 1 });

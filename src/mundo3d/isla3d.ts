@@ -14,7 +14,7 @@
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños del mundo 3D y de la pantalla de 1600x900, como en
    el resto de la capa 3D. */
 import * as THREE from 'three';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Mundo, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
@@ -326,7 +326,7 @@ export function montarIsla3D(): void {
     ...isla2D,
     three: true,
     // enter(o): limpia los estados de la visita anterior, llama al enter 2D (saludos) y construye el mundo 3D
-    enter(o: Libre) {
+    enter(o: OpcionesEscena) {
       this.hov = null;
       this.lockShake = null;
       this.hop = null;

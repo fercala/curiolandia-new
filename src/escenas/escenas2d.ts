@@ -65,6 +65,7 @@
  *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
+import type { OpcionesJuego } from '../nucleo/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import {
   AGE,
@@ -796,7 +797,8 @@ SCENES.juego = {
   // enter(o): pone a cero las monedas de acierto del juego (alEmpezarJuego; como mucho 5 por juego). REP = veces que ya se
   // ha terminado este juego (máx. 2): sube el "Nivel" y la dificultad al repetir.
   // Crea el juego con makeGame(desc, tema, alAcabar); this.fin evita terminar dos veces. Apunta ultimoJuego.
-  enter(o) {
+  // o: OpcionesJuego (nucleo/tipos.ts), siempre con el tema (o.t) y el número del juego (o.g).
+  enter(o: OpcionesJuego) {
     ultimoJuego = { t: o.t, g: o.g };
     alEmpezarJuego();
     this.t = TEMA[o.t];

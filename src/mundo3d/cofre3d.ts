@@ -7,7 +7,7 @@
  * gradTex) y lo de los demás módulos de mundo3d/.
  */
 import * as THREE from 'three';
-import type { Escena, Libre } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Nodo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
@@ -182,7 +182,7 @@ export function montarCofre3D(): void {
     ...cofre2D,
     three: true,
     // enter(o): construye el mundo del cofre
-    enter(o: Libre) {
+    enter(o: OpcionesEscena) {
       this.hop = null;
       this.hov = false;
       cofre2D.enter!.call(this, o);

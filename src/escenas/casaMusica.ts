@@ -175,10 +175,11 @@ function cancion(n: number, inst: string): number[] {
 SCENES.casaMusica = {
   music: null,
   // enter(o): o.inst es el instrumento que se tocó; si no lo tiene (o no viene), el primero que tenga, o el piano.
+  // (o.inst && ... solo está para el tipo: sin o.inst, includes también daba false.)
   enter(o) {
     const tiene = ORDEN.filter((id) => S.owned?.[id]);
     this.tiene = tiene.length ? tiene : ['piano'];
-    this.inst = (this.tiene as string[]).includes(o.inst) ? o.inst : (this.tiene as string[])[0];
+    this.inst = o.inst && (this.tiene as string[]).includes(o.inst) ? o.inst : (this.tiene as string[])[0];
     this.luz = [];
     this.seq = null;
     this.pos = 0;

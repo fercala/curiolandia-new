@@ -9,7 +9,7 @@
  *   (GIFTS, siguienteRegalo) y de dominio/monedas.ts (ganar) y los casos de uso del cofre (aplicacion/abrirCofre.ts).
  * Partes de S que toca: S.cofres, S.cofreP, S.owned, S.stk, S.coins (vía los casos de uso, giveCoins y ganar).
  */
-import type { Libre } from '../juegos/tipos.ts';
+import type { OpcionesTema } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
 import { K } from '../dibujos/todos.ts';
 import {
@@ -147,7 +147,8 @@ SCENES.cofre = {
   music: 'casita',
   // enter(o): prepara el cofre cerrado, elige el regalo, suma S.cofres, apunta el premio pendiente (S.cofreP) y lo anuncia.
   // Lo de la partida lo dice el caso de uso ganarCofre (aplicacion/abrirCofre.ts, desde la fase 4l).
-  enter(o: Libre) {
+  // o: OpcionesTema (nucleo/tipos.ts), siempre con el tema (o.t).
+  enter(o: OpcionesTema) {
     VIVO.coinBanner = null;
     VIVO.toast = null;
     this.t = TEMA[o.t];
