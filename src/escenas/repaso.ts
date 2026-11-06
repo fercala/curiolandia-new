@@ -21,7 +21,7 @@
 //   S.rep = {d, list, done, weak, paid, seen}    el repaso del día d: list = 3 ids 'temaId#juego',
 //           done = {id:1} los ya hechos, weak = cuántos salieron por "cuesta", paid = premio ya dado,
 //           seen = el botón verde ya pasó hoy por el repaso.
-import type { Libre, Repaso } from '../nucleo/tipos.ts';
+import type { Repaso } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
   DEF,
@@ -73,10 +73,8 @@ import { premioDelRepaso } from '../aplicacion/premiosDelDia.ts';
 // Todos los días Tito arma un repaso de 3 juegos: primero lo que cuesta, después lo que hace más tiempo que no se juega.
 // Valores por defecto de los campos nuevos y arreglo de partidas antiguas que no los tienen.
 Object.assign(DEF, { kg: {}, gs: {}, rep: null });
-{
-  const s: Libre = S;
-  for (const k of ['kg', 'gs']) if (!s[k] || typeof s[k] !== 'object') s[k] = {};
-}
+// kg y gs que faltan o no son objetos (una partida rota) → {}. Con la lista de claves tipada, sin Libre (mejora 10b).
+for (const k of ['kg', 'gs'] as const) if (!S[k] || typeof S[k] !== 'object') S[k] = {};
 // Lo que se apunta de cada acierto o fallo (S.stats, S.kg, S.gs) lo hace rec (nucleo/interfaz.ts) con el caso de uso
 // aplicacion/repasoDelDia.ts (apuntarResultado), y lo de terminar un juego (la fecha en S.gs y el juego del repaso
 // hecho), finishGame con el caso de uso aplicacion/terminarJuego.ts. REP_ON (true mientras se juega un juego lanzado
