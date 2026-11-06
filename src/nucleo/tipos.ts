@@ -175,6 +175,29 @@ export interface AvisoPegatina {
 }
 
 /**
+ * Cartel de monedas ganadas, «+N» con un dibujo (VIVO.coinBanner, nucleo/monedas.ts): cuántas (n), momento T en que
+ * salió (t), dibujo (icon; sin él, 'monedas') y sitio (x, y; sin ellos, el centro: el cofre lo mueve a la derecha).
+ * Antes de la mejora 10c era Libre.
+ */
+export interface CartelMonedas {
+  n: number;
+  t: number;
+  icon?: string;
+  x?: number;
+  y?: number;
+}
+
+/**
+ * Aviso del navegador para instalar el juego como app (evento 'beforeinstallprompt', VIVO.deferredInstall en
+ * escenas/escenas2d.ts). TypeScript no trae su tipo: aquí está lo que usa el juego, prompt() enseña el aviso y
+ * userChoice termina cuando el adulto contesta. Antes de la mejora 10c era Libre.
+ */
+export interface AvisoInstalar extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<unknown>;
+}
+
+/**
  * Una partícula (ver PARTÍCULAS en escenas.ts): posición, velocidad (px/s), vida y edad (s), color, tamaño, giro,
  * gravedad (900 si no se da) y tipo k. Las de texto ('t') llevan tx y, si acaso, hl y dots.
  */
@@ -247,9 +270,9 @@ export interface Vivo {
   /** Aviso de pegatina nueva, o null. */
   toast: AvisoPegatina | null;
   /** Aviso del navegador para instalar la app, guardado para usarlo después (escenas/escenas2d.ts). */
-  deferredInstall: Libre | null;
+  deferredInstall: AvisoInstalar | null;
   /** Cartel de monedas ganadas, o null (escenas/tienda.ts). */
-  coinBanner: Libre | null;
+  coinBanner: CartelMonedas | null;
 }
 
 /**
