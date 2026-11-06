@@ -18,12 +18,13 @@
 //   internas desde la fase 4n: se pasan al núcleo con ponRopaTito.
 // Envuelve: nada desde la fase 4b (antes onRight, finishGame y SCENES.juego, para las monedas: ahora las da el juego).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
-//   TITO_EYES..., STARS, inR, copiaProfunda y las monedas: spendCoins, drawCoinHUD, inCoinHUD), los dibujos de Tito
+//   TITO_EYES..., STARS, inR, copiaProfunda, sanoS y rellenaS (arreglar y completar la partida con DEF2) y las
+//   monedas: spendCoins, drawCoinHUD, inCoinHUD), los dibujos de Tito
 //   (TITO_SVG...), escenas/zonas.ts (houseLevel,
 //   drawTitoHouse, drawPet, petStage, PET_NEXT, HOUSE_NEXT, shellIcon, arrowAt), temas/ (floor, bunting), juegos/
 //   (playTune, TUNES, NOTE) y las reglas de dominio/progreso.ts (TIER_NEED, nivelAbierto, habitacionAbierta)
 //   y de dominio/monedas.ts (alcanza).
-import type { Libre, Tito, Vale } from '../nucleo/tipos.ts';
+import type { Tito, Vale } from '../nucleo/tipos.ts';
 import { CONEJO_SVG, ERIZO_SVG, K, TITO_SVG, TORTUGA_SVG } from '../dibujos/todos.ts';
 import {
   DEF,
@@ -75,6 +76,7 @@ import {
   playSound,
   ponRopaTito,
   rnd,
+  rellenaS,
   sanoS,
   save,
   say,
@@ -210,11 +212,7 @@ const DEF2 = {
 Object.assign(DEF, copiaProfunda(DEF2));
 const _oldSave = S.coins === undefined && Object.keys(S.temas || {}).length > 0;
 sanoS(S, DEF2); // campos de una partida rota (null o de otro tipo) → valor por defecto, como los que faltan
-{
-  const s: Libre = S,
-    d: Libre = DEF2;
-  for (const k in d) if (s[k] === undefined) s[k] = copiaProfunda(d[k]);
-}
+rellenaS(S, DEF2); // y los que faltan, con una copia de su valor por defecto
 // quien ya jugaba la versión 1 recibe monedas por lo que ya había jugado
 if (_oldSave) {
   const n = Object.values(S.temas).reduce((a, t) => a + Object.keys((t && t.g) || {}).length, 0) * 2;

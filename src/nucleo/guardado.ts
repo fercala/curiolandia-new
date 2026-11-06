@@ -1,5 +1,5 @@
 // guardado.ts: el estado guardado S (la partida) y cómo se carga, se arregla y se guarda.
-//   KEY, DEF, S, ponS(), sanoS(), sanoHondo(), save(), ymd(), today(), AGE(). (rec, que apunta aciertos y fallos, está
+//   KEY, DEF, S, ponS(), sanoS(), rellenaS(), sanoHondo(), save(), ymd(), today(), AGE(). (rec, que apunta aciertos y fallos, está
 //   desde la fase 4c en interfaz.ts.)
 // S cambia (ponS, al borrar todo): desde fuera de este módulo solo se lee y se cambian sus campos.
 // Al cargar el módulo se lee la partida (load) y se escucha el guardado de otras pestañas (evento storage).
@@ -129,6 +129,16 @@ export function sanoS<D extends object>(partida: D, defecto: object): D {
       if (!x || typeof x !== 'object') delete tt[t];
     }
   }
+  return partida;
+}
+// rellenaS(d, def): pone en la partida d una copia profunda de cada campo de def que d no tiene (undefined), para que una
+// partida guardada antes de que existiera un campo lo reciba con su valor por defecto. No toca los que ya tiene (aunque
+// sean null: de eso se encarga sanoS antes). Lo usa escenas/tienda.ts con DEF2. Desde la mejora 10b (antes era un bucle
+// con Libre en tienda.ts). Devuelve d.
+export function rellenaS<D extends object>(partida: D, defecto: object): D {
+  const d = partida as Crudo,
+    def = defecto as Readonly<Crudo>;
+  for (const k in def) if (d[k] === undefined) d[k] = copiaProfunda(def[k]);
   return partida;
 }
 // sanoHondo(d): el segundo paso de sanoS, por dentro de los campos que son colecciones (una copia editada o rota puede
