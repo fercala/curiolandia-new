@@ -65,7 +65,7 @@
  *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
-import type { AvisoInstalar, OpcionesJuego } from '../nucleo/tipos.ts';
+import type { AvisoInstalar, OpcionesDibujo, OpcionesJuego, ProgresoTema } from '../nucleo/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import {
   AGE,
@@ -198,7 +198,8 @@ TEMAS.forEach((t) => (TEMA[t.id] = t));
 export const CATALOGO: CatalogoDeTemas = { lista: TEMAS, tema: (id: string) => TEMA[id] };
 // tst(id): progreso guardado del tema con ese id, o uno vacío si aún no se ha jugado.
 // Formato: S.temas[id] = {g: {índiceJuego: veces que se ha terminado}, done: 1 si ya se terminaron todos}. No escribe en S.
-export const tst = (id: string): Libre => S.temas[id] || { g: {}, done: 0 };
+// Devuelve un ProgresoTema (antes de la mejora 10e, Libre).
+export const tst = (id: string): ProgresoTema => S.temas[id] || { g: {}, done: 0 };
 // gDone(t): cuántos juegos distintos del tema t se han terminado al menos una vez.
 export const gDone = (t: Tema) => t.games.filter((_g, j) => tst(t.id).g[j]).length;
 // LOGO: el texto del logotipo; LOGOC: un color por letra.
@@ -612,10 +613,11 @@ export function drawLogoSmall(x: number, y: number, s: number) {
 }
 
 // drawCasita(t, x, y, o): dibuja la casita del tema t en (x, y). o.s = escala, o.glow = halo amarillo (la recomendada).
+// Las opciones son un OpcionesDibujo (antes de la mejora 10e, Libre).
 // Las casitas normales llevan tejado del color t.c y el dibujo t.icon; el Rincón de los Conceptos (t.concepts) es un
 // cuadro con formas. Debajo, un punto por juego (amarillo = terminado) y, si el tema está terminado, estrella y flores.
 // Solo dibuja. La usan las zonas (escenas/zonas.ts) y la capa 3D (mundo3d/) para las etiquetas.
-export function drawCasita(t: Tema, x: number, y: number, o: Libre = {}) {
+export function drawCasita(t: Tema, x: number, y: number, o: OpcionesDibujo = {}) {
   const st = tst(t.id),
     done = st.done,
     n = gDone(t),
@@ -701,8 +703,8 @@ const gIcon = (g: JuegoTema, t: Tema): string =>
   g.icon || (g.t === 'conocer' ? 'lupa' : g.t === 'busca' ? 'busca' : g.t === 'memoria' ? 'memo' : t.icon);
 // drawStation(t, j, x, y, o): dibuja la estación del juego j del tema t en (x, y): círculo blanco (amarillo si es el
 // primero y no está hecho), el dibujo del juego (lupa, búsqueda, cartas de memoria o el icono) y, si está terminado,
-// una estrella con "×N" veces. o.s = escala. Solo dibuja.
-export function drawStation(t: Tema, j: number, x: number, y: number, o: Libre = {}) {
+// una estrella con "×N" veces. o.s = escala (OpcionesDibujo; antes de la mejora 10e, Libre). Solo dibuja.
+export function drawStation(t: Tema, j: number, x: number, y: number, o: OpcionesDibujo = {}) {
   const g = t.games[j],
     done = tst(t.id).g[j],
     ic = gIcon(g, t),
@@ -764,7 +766,7 @@ export function finishGame(t: Tema, gi: number): void {
   // Figurita: una palabra del tema con dibujo que aún no esté en el álbum; si no queda ninguna, el icono del juego
   // (si es un dibujo real: los nombres cortos como 'lupa'/'memo' no lo son) o el del tema.
   if (r.primera) {
-    const pool = (t.words || []).map((w: Libre) => w.k).filter((k: string) => k && PICS[k] && !S.stk[k]);
+    const pool = (t.words || []).map((w) => w.k).filter((k): k is string => !!k && !!PICS[k] && !S.stk[k]);
     giveSticker(
       pool.length
         ? pick(pool)
@@ -1686,7 +1688,7 @@ SCENES.asamblea = {
 const ALBUM_KEYS = (() => {
   const s = new Set<string>();
   for (const t of TEMAS) {
-    if (t.words) t.words.forEach((w: Libre) => w.k && PICS[w.k] && s.add(w.k));
+    if (t.words) t.words.forEach((w) => w.k && PICS[w.k] && s.add(w.k));
     s.add(t.icon);
   }
   s.add('estrella');
