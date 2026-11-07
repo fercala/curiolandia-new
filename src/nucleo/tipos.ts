@@ -188,6 +188,16 @@ export interface CartelMonedas {
 }
 
 /**
+ * Lo que se está arrastrando (VIVO.drag, nucleo/escenas.ts; null si nada). Siempre lleva la pieza (it) y, según el
+ * juego, cómo se arrastra: con la distancia del dedo a la pieza (dx, dy: juegos/comps.ts y el de llevar a la zona de
+ * juegos/comps2.ts), un objeto de la casa (home: escenas/tienda.ts), una línea de unir (une) o la rueda que se gira
+ * (gira), ambas en juegos/comps2.ts. Mientras no es null, no salen las ayudas ni el brillo de ratón encima.
+ * Antes de la mejora 10d era Libre.
+ */
+export type Arrastre =
+  { it: Libre; dx: number; dy: number } | { it: Libre; home: 1 } | { it: Libre; une: 1 } | { it: Libre; gira: 1 };
+
+/**
  * Aviso del navegador para instalar el juego como app (evento 'beforeinstallprompt', VIVO.deferredInstall en
  * escenas/escenas2d.ts). TypeScript no trae su tipo: aquí está lo que usa el juego, prompt() enseña el aviso y
  * userChoice termina cuando el adulto contesta. Antes de la mejora 10c era Libre.
@@ -254,8 +264,8 @@ export interface Vivo {
   /** Segundos sin tocar (activa las ayudas) y si ya se repitió la consigna. */
   idle: number;
   hintSaid: boolean;
-  /** Lo que se está arrastrando, o null. */
-  drag: Libre | null;
+  /** Lo que se está arrastrando, o null (ver Arrastre). */
+  drag: Arrastre | null;
   /** Candado de la zona de adultos: segundos pulsado, si se está pulsando y la hora del cuadro anterior. */
   lockHold: number;
   lockDown: boolean;

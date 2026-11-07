@@ -1048,9 +1048,9 @@ export function Llena(cfg: Config, onDone: AlTerminar): Juego {
       setCursor('grab');
       SFX.pop();
     },
-    // Mueve la cosa arrastrada.
+    // Mueve la cosa arrastrada ('dx' in VIVO.drag siempre se cumple: solo le dice a TypeScript qué Arrastre es).
     move(x, y) {
-      if (VIVO.drag && this.its.includes(VIVO.drag.it)) {
+      if (VIVO.drag && this.its.includes(VIVO.drag.it) && 'dx' in VIVO.drag) {
         VIVO.drag.it.x = clamp(x - VIVO.drag.dx, 60, 1540);
         VIVO.drag.it.y = clamp(y - VIVO.drag.dy, 60, 860);
       }
