@@ -188,6 +188,15 @@ export interface CartelMonedas {
 }
 
 /**
+ * Opciones al dibujar una casita o una estación de juego (drawCasita y drawStation, escenas/escenas2d.ts): escala (s;
+ * sin ella, 1) y, solo en la casita, el halo amarillo de la recomendada (glow). Antes de la mejora 10e era Libre.
+ */
+export interface OpcionesDibujo {
+  s?: number;
+  glow?: boolean;
+}
+
+/**
  * Lo que se está arrastrando (VIVO.drag, nucleo/escenas.ts; null si nada). Siempre lleva la pieza (it) y, según el
  * juego, cómo se arrastra: con la distancia del dedo a la pieza (dx, dy: juegos/comps.ts y el de llevar a la zona de
  * juegos/comps2.ts), un objeto de la casa (home: escenas/tienda.ts), una línea de unir (une) o la rueda que se gira
