@@ -11,19 +11,21 @@
 //   también escenas/cofre.ts). Hasta la fase 4q, escenas/zonas.ts, que va antes, usaba parte de lo de aquí como global
 //   tardía; ahora el cofre está en escenas/cofre.ts y los colores de Tito, SHELLC y SCARFC, en el núcleo (nucleo/tito.ts).
 // Define: DEF2, VALES_DEF, HATPOS, titoHouseIc,
-//   SHOPCAT, shopItems, isWorn, HOMESPOT, WALLITEMS, WALLSPOT, ROOMS (habitaciones de la casa), homeSpot y la escena
+//   SHOPCAT, shopItems, isWorn, WALLITEMS, ROOMS (habitaciones de la casa), habitualDe y la escena
 //   SCENES.tienda. La casa de Tito por dentro (SCENES.casaTito, homeAction, homeLight, roomBg y roomBtns) está desde la
 //   fase M1 de docs/PLAN-CASA-MEJORA.md en escenas/casa.ts, que importa de aquí lo de la casa.
 // Exporta (lo usan otros archivos o las pruebas): SHELLC, SCARFC, SHOP, itemName, wear, drawItemPic, roomOf, roomOpen, roomsOpen, homeRoom,
 //   placeHome, HSIZE y homeItems, y los tipos Articulo y Vale; para escenas/casa.ts (desde la fase M1), también ROOMS,
-//   WALLITEMS, homeSpot, isWorn, titoHouseIc y los tipos Casilla y Flecha. titoImg y drawTitoWear (Tito con su ropa) son
-//   internas desde la fase 4n: se pasan al núcleo con ponRopaTito.
+//   WALLITEMS, isWorn, titoHouseIc y los tipos Casilla y Flecha; desde la fase M2, habitualDe y casaEnS. Desde la M2,
+//   los huecos fijos HOMESPOT y WALLSPOT y homeSpot ya no existen: las cosas van a los sitios de dominio/casaSitios.ts.
+//   titoImg y drawTitoWear (Tito con su ropa) son internas desde la fase 4n: se pasan al núcleo con ponRopaTito.
 // Envuelve: nada desde la fase 4b (antes onRight, finishGame y SCENES.juego, para las monedas: ahora las da el juego).
 // Importa: el núcleo, src/nucleo/ (S, DEF, save, say, T, ctx, pic, card, text, circ, SFX, tone, hv, TITO, drawTito, titoKind,
 //   TITO_EYES..., STARS, inR, copiaProfunda, sanoS y rellenaS (arreglar y completar la partida con DEF2) y las
 //   monedas: spendCoins, drawCoinHUD, inCoinHUD), los dibujos de Tito
 //   (TITO_SVG...), escenas/zonas.ts (houseLevel, drawTitoHouse, shellIcon), temas/ (floor), el caso de uso comprar
-//   (aplicacion/comprar.ts), las mascotas que crecen (dominio/casa.ts: MASCOTAS y fichaNueva), las reglas de
+//   (aplicacion/comprar.ts), los de la casa ordenada (aplicacion/casa.ts, desde la fase M2), los sitios
+//   (dominio/casaSitios.ts), las mascotas que crecen (dominio/casa.ts: MASCOTAS y fichaNueva), las reglas de
 //   dominio/progreso.ts (TIER_NEED, nivelAbierto, habitacionAbierta)
 //   y de dominio/monedas.ts (alcanza).
 import type { Tito, Vale } from '../nucleo/tipos.ts';
@@ -68,7 +70,6 @@ import {
   later,
   pic,
   ponRopaTito,
-  rnd,
   rellenaS,
   sanoS,
   save,
@@ -90,6 +91,8 @@ import { TIER_NEED, habitacionAbierta, nivelAbierto } from '../dominio/progreso.
 import { alcanza } from '../dominio/monedas.ts';
 import { comprar } from '../aplicacion/comprar.ts';
 import { MASCOTAS, fichaNueva } from '../dominio/casa.ts';
+import { nuevoAlBaul, type CasaArreglada } from '../aplicacion/casa.ts';
+import { EN_BAUL, PLANO, sitioMasCercano } from '../dominio/casaSitios.ts';
 
 /** Dónde se pone una prenda o color en Tito (S.tito): sombrero, gafas, moño, caparazón o bufanda. */
 export type Ranura = 'hat' | 'glasses' | 'bow' | 'shell' | 'scarf';
@@ -151,6 +154,8 @@ export type Flecha = [number, number, number];
 //   Desde la fase C1 de docs/PLAN-CASA.md (partida versión 4; reglas en dominio/casa.ts): mascotas: {idMascota:
 //   {nombre, dias, dia, hechos}} fichas de las mascotas que crecen; sorpresas: {idSorpresa:1} lo descubierto en la casa
 //   (el id del objeto o 'a+b'); huerto: {dias, dia} días regados de la flor del huerto.
+//   Desde la fase M2 de docs/PLAN-CASA-MEJORA.md: casaVistos: {id:1} lo que ya se colocó alguna vez en la casa (lo del
+//   baúl que no está es nuevo); null hasta la primera vez que se entra en la casa (aplicacion/casa.ts).
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
 const DEF2 = {
   coins: 0,
@@ -172,6 +177,7 @@ const DEF2 = {
   mascotas: {},
   sorpresas: {},
   huerto: { dias: 0, dia: '' },
+  casaVistos: null,
 };
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.
 Object.assign(DEF, copiaProfunda(DEF2));
@@ -515,29 +521,10 @@ export function drawItemPic(it: Articulo, x: number, y: number, s: number) {
     pic(it.vale.ic!, x + s * 0.26, y - s * 0.24, s * 0.32);
   } else pic(it.id, x, y, s);
 }
-// Huecos del suelo de la casa de Tito donde se colocan las cosas nuevas, por orden.
-const HOMESPOT: [number, number][] = [
-  [930, 720],
-  [1180, 740],
-  [780, 800],
-  [1420, 720],
-  [1050, 560],
-  [830, 560],
-  [1290, 560],
-  [1500, 560],
-  [1010, 840],
-  [1300, 850],
-  [700, 580],
-  [1500, 850],
-];
-// Cosas que van colgadas en la pared (se dibujan detrás y no bajan al suelo) y huecos de la pared, por orden.
-export const WALLITEMS = ['cuadro', 'reloj', 'pizarra', 'estrellas', 'saturno'],
-  WALLSPOT: [number, number][] = [
-    [800, 330],
-    [1030, 330],
-    [580, 320],
-    [380, 300],
-  ];
+// Cosas que van colgadas en la pared (se dibujan detrás y no bajan al suelo). Desde la fase M2 de
+// docs/PLAN-CASA-MEJORA.md, dónde puede ir cada cosa lo dicen los sitios (dominio/casaSitios.ts: los de pared tienen
+// tamaño 'pared'); ya no hay huecos fijos (HOMESPOT y WALLSPOT).
+export const WALLITEMS = ['cuadro', 'reloj', 'pizarra', 'estrellas', 'saturno'];
 // ROOMS: habitaciones de la casa de Tito (v1.590). Cada una: id, n (nombre con artículo, lo dice Tito), need (casitas
 // —temas— terminadas para que se abra; 0 = siempre), ic (dibujo de su botón) y cer (cómo se dice "cerrado/a").
 // Las cosas de la casa guardan su habitación en S.home[id].r (sin r = el salón, como en las partidas de antes).
@@ -557,28 +544,27 @@ export const roomOf = (r: string) => ROOMS.find((x) => x.id === r) || ROOMS[0],
   roomOpen = (r: string) => habitacionAbierta(roomOf(r).need, temasDone()),
   roomsOpen = () => ROOMS.filter((R) => roomOpen(R.id)),
   homeRoom = (id: string) => (S.home![id] && S.home![id].r) || 'salon';
-// homeSpot(id, r): un hueco libre para el objeto id en la habitación r: los de pared en WALLSPOT, la alfombra en el
-// centro y el resto en el primer hueco libre de HOMESPOT (o en un sitio al azar si están todos ocupados).
-export function homeSpot(id: string, r: string): [number, number] {
-  const used = Object.entries(S.home!)
-      .filter(([k, p]) => k !== id && (p.r || 'salon') === r)
-      .map(([, p]) => [p.x, p.y]),
-    free = (p: [number, number]) => !used.some((u) => Math.abs(u[0] - p[0]) < 170 && Math.abs(u[1] - p[1]) < 40); // libre: ningún objeto casi en ese sitio
-  if (WALLITEMS.includes(id)) return WALLSPOT.find(free) || WALLSPOT[0];
-  if (id === 'alfombra') return [960, 760];
-  const sp: [number, number] = HOMESPOT.find(free) || [rnd(700, 1400) | 0, rnd(560, 800) | 0],
-    hs = HSIZE[id] || 160;
-  return [clamp(sp[0], 300 + hs * 0.3, W - hs / 2 - 10), sp[1]];
-} // que las cosas grandes no se salgan por la derecha
-// Coloca un objeto nuevo en la casa (S.home[id]={x,y,r}) si no estaba, en un hueco libre (homeSpot) de su habitación:
-// la de it.room o it.pref si está abierta; si no, el salón. No guarda.
+// habitualDe(id): la habitación habitual del objeto id (la room o la pref de la tienda), o undefined si no tiene. La
+// usan placeHome y «¡Ordena, Tito!» (escenas/casa.ts, desde la fase M2).
+export function habitualDe(id: string): string | undefined {
+  const it = SHOP.find((i) => i.id === id);
+  return it && (it.room || it.pref);
+}
+// Coloca un objeto en la casa (S.home[id]) si no estaba: desde la fase M2 de docs/PLAN-CASA-MEJORA.md, en el sitio
+// libre que prefiera su tamaño (dominio/casaSitios.ts) de su habitación habitual (habitualDe) si está abierta, o del
+// salón; si no cabe, al baúl. Lo nuevo que se compra ya no pasa por aquí (va al baúl: nuevoAlBaul); lo usan los
+// regalos del cofre y las pruebas. No guarda.
 export function placeHome(id: string) {
   if (S.home![id]) return;
-  const it = SHOP.find((i) => i.id === id),
-    want = it && (it.room || it.pref),
-    r = want && roomOpen(want) ? want : 'salon';
-  const sp = homeSpot(id, r);
-  S.home![id] = { x: sp[0], y: sp[1], r };
+  const want = habitualDe(id),
+    r = want && roomOpen(want) ? want : 'salon',
+    s = sitioMasCercano(PLANO, r, S.home!, id, 1000, 700);
+  S.home![id] = s ? { x: s.x, y: s.y, r, h: s.id } : { x: 0, y: 0, r: EN_BAUL };
+}
+// casaEnS(c): pone en S la casa que devuelve un caso de uso de aplicacion/casa.ts (home y casaVistos). No guarda.
+export function casaEnS(c: CasaArreglada) {
+  S.home = c.home as typeof S.home;
+  S.casaVistos = c.casaVistos;
 }
 
 /* ---------- la tienda ---------- */
@@ -973,8 +959,9 @@ SCENES.tienda = {
     }
     // desde la fase C6, una mascota nueva nace bebé y sin nombre (fichaNueva)
     if (MASCOTAS.includes(it.id)) S.mascotas = { ...S.mascotas, [it.id]: { ...fichaNueva(), hechos: [] } };
+    // desde la fase M2 de docs/PLAN-CASA-MEJORA.md, lo de la casa va al baúl: el niño elige dónde ponerlo
     if (it.slot) wear(it, true);
-    else placeHome(it.id);
+    else casaEnS(nuevoAlBaul(S, it.id));
     save();
     if (!it.slot) {
       this.newHome = T;
@@ -1047,8 +1034,10 @@ export const HSIZE: Record<string, number> = {
   pajaro: 120,
   conejo: 140,
 };
-// Objetos de la casa: los de S.home que además son del niño, con su posición y tamaño. Con r, solo los de esa habitación.
+// Objetos de la casa: los de S.home que además son del niño, con su posición y tamaño. Con r, solo los de esa habitación
+// (con r = EN_BAUL, 'baul', lo guardado en el baúl); sin r, todos los que están en alguna habitación (desde la fase M2,
+// lo del baúl no cuenta).
 export const homeItems = (r?: string) =>
   Object.keys(S.home!)
-    .filter((id) => S.owned![id] && (!r || homeRoom(id) === r))
+    .filter((id) => S.owned![id] && (r ? homeRoom(id) === r : homeRoom(id) !== EN_BAUL))
     .map((id) => ({ id, x: S.home![id].x, y: S.home![id].y, s: HSIZE[id] || 160 }));

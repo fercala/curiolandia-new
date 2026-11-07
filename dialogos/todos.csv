@@ -930,13 +930,19 @@ aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
 fb6bb0961414,¡Aquí está ,trozo,src/escenas/casa.ts
 2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/casa.ts
+6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,frase,src/escenas/casa.ts
 d942b7c84108,Puedes cambiar las cosas de lugar arrastrándolas.,frase,src/escenas/casa.ts
 242b9e727ba3,¡Mi casa creció! Tiene una habitación nueva: ,trozo,src/escenas/casa.ts
 d07953a9bf67,. Arriba puedes elegir a qué habitación ir.,trozo,src/escenas/casa.ts
+741b2d9ae671,¡He ordenado mi casa! Lo que no cabía está guardado en mi baúl.,frase,src/escenas/casa.ts
 2ab5cd41cb7c,"¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.",frase,src/escenas/casa.ts
+87f0a4829e64,¡Esta es mi casa! Mis cosas están en el baúl. Tócalo para sacarlas.,frase,src/escenas/casa.ts
 3086667ea797,¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.,frase,src/escenas/casa.ts
+565a0fee13d6,Abre mi baúl y saca cosas para esta habitación.,frase,src/escenas/casa.ts
 edb2fcee1b5d,Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tócala para ponérmela.,frase,src/escenas/casa.ts
 5df1d9ff1461,Toca el carrito para ir a la tienda.,frase,src/escenas/casa.ts
+235209e89f65,Mi baúl.,frase,src/escenas/casa.ts
+4bc50e759b3d,"¡Ordena, Tito!",frase,src/escenas/casa.ts
 db3901932d77,Tienes ,trozo,src/escenas/casa.ts src/escenas/tienda.ts
 257573a18726, monedas.,trozo,src/escenas/casa.ts src/escenas/tienda.ts
 9140cafcc0ac,Es el huevo de Pipo. Le ,trozo,src/escenas/casa.ts
@@ -958,6 +964,8 @@ d91c33a38ef3,La casa de Tito crece cuando terminas casitas. ,frase,src/escenas/c
 8892bc99f41f,Faltan ,trozo,src/escenas/casa.ts
 136a629b2c67, para que crezca.,trozo,src/escenas/casa.ts
 57b3cbce498e,¡La casa de Tito ya es un castillo!,frase,src/escenas/casa.ts
+3440c63ce2b4,¡Mi baúl! Saca lo que quieras.,frase,src/escenas/casa.ts
+b3602f1aa7df,Mi baúl está vacío.,frase,src/escenas/casa.ts
 a463b8806a41,¡Me encanta mi casa!,frase,src/escenas/casa.ts
 4379cdfcf6e9,¡Gracias por jugar conmigo!,frase,src/escenas/casa.ts
 8b4277261382,¡Qué bonito día!,frase,src/escenas/casa.ts
@@ -966,7 +974,15 @@ a463b8806a41,¡Me encanta mi casa!,frase,src/escenas/casa.ts
 24e373ab664c,Me quité ,trozo,src/escenas/casa.ts
 82aaad2bbedd,¡Sorpresa!,frase,src/escenas/casa.ts
 d11569c49cfa,¡Sorpresa nueva para el álbum!,frase,src/escenas/casa.ts
+b67a2d5f26ce,¿Ordeno la casa? Toca la varita otra vez.,frase,src/escenas/casa.ts
+6b3b8d2df2fe,¡Ya está! Cada cosa en su habitación.,frase,src/escenas/casa.ts
+920f2f384a96,Lo que había encima está en el baúl.,frase,src/escenas/casa.ts
+15c1ff91b2f3,¡Guardado en el baúl!,frase,src/escenas/casa.ts
+570b16eddb19,¡Aquí queda bien!,frase,src/escenas/casa.ts
+a06d8abe53a7,Aquí no hay sitio. Prueba en otra habitación.,frase,src/escenas/casa.ts
 8043389ba76c,¡Listo! Ya está en ,trozo,src/escenas/casa.ts
+66aca70e07de,En ,trozo,src/escenas/casa.ts
+95fb0b75108d, ya no hay sitio para eso.,trozo,src/escenas/casa.ts
 4e3a912fe554,¡Mi álbum de sorpresas! Ya has encontrado ,trozo,src/escenas/casaAlbum.ts
 f4b7f5c009fb, de ,trozo,src/escenas/casaAlbum.ts src/escenas/escenas2d.ts src/escenas/libroLetras.ts
 38e404cc9811,. Toca una para recordarla.,trozo,src/escenas/casaAlbum.ts
