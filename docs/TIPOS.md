@@ -39,3 +39,8 @@ a `enter(o)` y queda en `sceneArg`) tienen su tipo, `OpcionesEscena` en `src/nuc
 dato del viaje (`hello`, `t`, `g`, `fin`, `from`, `seguir`, `back`, `volver`, `nuevo` e `inst`). Las escenas que siempre
 se abren con un tema lo piden con `OpcionesTema` (la casita y el cofre: `t` obligatorio) y `OpcionesJuego` (el juego:
 `t` y `g`). Si una escena nueva necesita otro dato, se añade a `OpcionesEscena` con su comentario.
+
+Desde la mejora 10c (v0.2.94), dos campos de `VIVO` que eran `Libre` tienen su tipo en `src/nucleo/tipos.ts`:
+`coinBanner` es un `CartelMonedas` (cuántas monedas, cuándo salió, el dibujo y el sitio, que el cofre mueve) y
+`deferredInstall` es un `AvisoInstalar`, el evento `beforeinstallprompt` del navegador, que TypeScript no trae, con solo
+lo que usa el juego (`prompt()` y `userChoice`).

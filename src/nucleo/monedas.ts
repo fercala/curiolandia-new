@@ -32,7 +32,8 @@ interface MonedaVuela {
 
 /* ---------- monedas ---------- */
 // Animación de monedas: shownCoins es el número que se ve (va subiendo cuando cada moneda llega al marcador),
-// coinFx las monedas que vuelan, coinBanner el cartel "+N", coinBumpT cuándo saltó el marcador por última vez.
+// coinFx las monedas que vuelan, coinBanner el cartel "+N" (tipo CartelMonedas, tipos.ts), coinBumpT cuándo saltó el
+// marcador por última vez.
 // shownCoins empieza en S.coins (0 si aún no hay: escenas/tienda.ts pone el valor por defecto después) y drawCoinFx lo
 // pone al día en cada cuadro.
 let shownCoins = S.coins ?? 0,

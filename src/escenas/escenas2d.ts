@@ -65,7 +65,7 @@
  *   terminar un juego (finishGame), S.gs, S.rep y las monedas.
  * ===================================================================== */
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
-import type { OpcionesJuego } from '../nucleo/tipos.ts';
+import type { AvisoInstalar, OpcionesJuego } from '../nucleo/tipos.ts';
 import { K, PICS } from '../dibujos/todos.ts';
 import {
   AGE,
@@ -248,9 +248,10 @@ export function pill(x: number, y: number, w: number, h: number, t: string, f = 
 // deferredInstall: el aviso del navegador para instalar el juego como app (PWA). Se guarda al llegar el
 // evento 'beforeinstallprompt' para enseñarlo luego desde el botón "Instalar el juego" de la portada o la zona de adultos.
 Object.assign(VIVO, { deferredInstall: null });
+// El evento llega como Event (TypeScript no conoce 'beforeinstallprompt'): es un AvisoInstalar.
 addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
-  VIVO.deferredInstall = e;
+  VIVO.deferredInstall = e as AvisoInstalar;
 });
 // standalone(): true si el juego ya se está ejecutando instalado (pantalla completa o app), y entonces no se muestran los botones de instalar ni de pantalla completa.
 export const standalone = () =>
