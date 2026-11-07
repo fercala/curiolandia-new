@@ -928,6 +928,45 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
+fb6bb0961414,¡Aquí está ,trozo,src/escenas/casa.ts
+2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/casa.ts
+d942b7c84108,Puedes cambiar las cosas de lugar arrastrándolas.,frase,src/escenas/casa.ts
+242b9e727ba3,¡Mi casa creció! Tiene una habitación nueva: ,trozo,src/escenas/casa.ts
+d07953a9bf67,. Arriba puedes elegir a qué habitación ir.,trozo,src/escenas/casa.ts
+2ab5cd41cb7c,"¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.",frase,src/escenas/casa.ts
+3086667ea797,¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.,frase,src/escenas/casa.ts
+edb2fcee1b5d,Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tócala para ponérmela.,frase,src/escenas/casa.ts
+5df1d9ff1461,Toca el carrito para ir a la tienda.,frase,src/escenas/casa.ts
+db3901932d77,Tienes ,trozo,src/escenas/casa.ts src/escenas/tienda.ts
+257573a18726, monedas.,trozo,src/escenas/casa.ts src/escenas/tienda.ts
+9140cafcc0ac,Es el huevo de Pipo. Le ,trozo,src/escenas/casa.ts
+bb7038d611a3,falta un juego,trozo,src/escenas/casa.ts src/escenas/zonas.ts
+2abec8cebc64,faltan ,trozo,src/escenas/casa.ts src/escenas/cofre.ts src/escenas/tienda.ts
+01ea9c9ec5fa, juegos,trozo,src/escenas/casa.ts src/escenas/zonas.ts
+280eedc40494, para abrirse.,trozo,src/escenas/casa.ts src/escenas/zonas.ts
+fb7be67627c2,¡Pipo te quiere mucho!,frase,src/escenas/casa.ts
+0013a067b269,Pipo dice: ¡grrr! Así saludan los dinosaurios.,frase,src/escenas/casa.ts
+b54c63e0844d,¡Pipo crece cuando juegas! Le ,trozo,src/escenas/casa.ts
+ead7a91cfff9, para crecer.,trozo,src/escenas/casa.ts
+2bab99f7096c,¡Pipo es el dinosaurio más grande del mundo!,frase,src/escenas/casa.ts
+59719f502c20, todavía está ,trozo,src/escenas/casa.ts src/escenas/zonas.ts
+c8a3df90a37b,. Se abre cuando termines ,trozo,src/escenas/casa.ts
+5c8cea32aafb,una casita más.,trozo,src/escenas/casa.ts
+4c9d08c1a1bc, casitas más.,trozo,src/escenas/casa.ts
+d91c33a38ef3,La casa de Tito crece cuando terminas casitas. ,frase,src/escenas/casa.ts
+5a7772701488,Falta una,trozo,src/escenas/casa.ts
+8892bc99f41f,Faltan ,trozo,src/escenas/casa.ts
+136a629b2c67, para que crezca.,trozo,src/escenas/casa.ts
+57b3cbce498e,¡La casa de Tito ya es un castillo!,frase,src/escenas/casa.ts
+a463b8806a41,¡Me encanta mi casa!,frase,src/escenas/casa.ts
+4379cdfcf6e9,¡Gracias por jugar conmigo!,frase,src/escenas/casa.ts
+8b4277261382,¡Qué bonito día!,frase,src/escenas/casa.ts
+63dfd08b402a,¿Has visto mi ropa nueva?,frase,src/escenas/casa.ts
+494a6bf1cfd2,¡Me puse ,trozo,src/escenas/casa.ts
+24e373ab664c,Me quité ,trozo,src/escenas/casa.ts
+82aaad2bbedd,¡Sorpresa!,frase,src/escenas/casa.ts
+d11569c49cfa,¡Sorpresa nueva para el álbum!,frase,src/escenas/casa.ts
+8043389ba76c,¡Listo! Ya está en ,trozo,src/escenas/casa.ts
 4e3a912fe554,¡Mi álbum de sorpresas! Ya has encontrado ,trozo,src/escenas/casaAlbum.ts
 f4b7f5c009fb, de ,trozo,src/escenas/casaAlbum.ts src/escenas/escenas2d.ts src/escenas/libroLetras.ts
 38e404cc9811,. Toca una para recordarla.,trozo,src/escenas/casaAlbum.ts
@@ -1070,7 +1109,6 @@ f60c90a30a0e,Toca los botones del mando para cambiar de canal.,frase,src/escenas
 73c25bcef15e,! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,trozo,src/escenas/cofre.ts
 b02ec5f955d1,Toca el cofre para abrirlo. ¡Te ,trozo,src/escenas/cofre.ts
 b3e7a37ede15,falta un toque,trozo,src/escenas/cofre.ts
-2abec8cebc64,faltan ,trozo,src/escenas/cofre.ts src/escenas/tienda.ts src/escenas/zonas.ts
 332a79b2dba9, toques,trozo,src/escenas/cofre.ts
 f26df03b6930,"Toca la casa para ver tu regalo, o la flecha verde para seguir el camino.",frase,src/escenas/cofre.ts
 097c43172be9,La casa de Tito.,frase,src/escenas/cofre.ts
@@ -1333,10 +1371,8 @@ f94f62e3c49d,el jardín,trozo,src/escenas/tienda.ts
 f2f698a45200,"¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.",frase,src/escenas/tienda.ts
 cd250cb12ba5,¿Lo compras? Toca el verde para comprar o la cruz para volver.,frase,src/escenas/tienda.ts
 6b78f4086625,Toca algo para ver cuánto cuesta. Tienes ,trozo,src/escenas/tienda.ts
-257573a18726, monedas.,trozo,src/escenas/tienda.ts
 4cdea8cacd98, Ya es tuyo.,frase,src/escenas/tienda.ts
 6b4e59a46738, Cuesta ,trozo,src/escenas/tienda.ts
-db3901932d77,Tienes ,trozo,src/escenas/tienda.ts
 422f5aabbe8d,La tienda,trozo,src/escenas/tienda.ts
 1612eda5416c,"Bueno, ¡otra vez será!",frase,src/escenas/tienda.ts
 fb00ff6b58e0, estrellas. Las ganas terminando juegos.,trozo,src/escenas/tienda.ts
@@ -1362,42 +1398,6 @@ d84fbe842a59,¡Compraste el vale! ,frase,src/escenas/tienda.ts
 d8434eee2baa,. Enséñaselo a un adulto de tu familia para canjearlo.,trozo,src/escenas/tienda.ts
 a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,frase,src/escenas/tienda.ts
 f3fee113889f,¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.,frase,src/escenas/tienda.ts
-fb6bb0961414,¡Aquí está ,trozo,src/escenas/tienda.ts
-2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/tienda.ts
-d942b7c84108,Puedes cambiar las cosas de lugar arrastrándolas.,frase,src/escenas/tienda.ts
-242b9e727ba3,¡Mi casa creció! Tiene una habitación nueva: ,trozo,src/escenas/tienda.ts
-d07953a9bf67,. Arriba puedes elegir a qué habitación ir.,trozo,src/escenas/tienda.ts
-2ab5cd41cb7c,"¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.",frase,src/escenas/tienda.ts
-3086667ea797,¡Esta es mi casa! Está vacía. En la tienda puedes comprar cosas con tus monedas.,frase,src/escenas/tienda.ts
-edb2fcee1b5d,Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tócala para ponérmela.,frase,src/escenas/tienda.ts
-5df1d9ff1461,Toca el carrito para ir a la tienda.,frase,src/escenas/tienda.ts
-9140cafcc0ac,Es el huevo de Pipo. Le ,trozo,src/escenas/tienda.ts
-bb7038d611a3,falta un juego,trozo,src/escenas/tienda.ts src/escenas/zonas.ts
-01ea9c9ec5fa, juegos,trozo,src/escenas/tienda.ts src/escenas/zonas.ts
-280eedc40494, para abrirse.,trozo,src/escenas/tienda.ts src/escenas/zonas.ts
-fb7be67627c2,¡Pipo te quiere mucho!,frase,src/escenas/tienda.ts
-0013a067b269,Pipo dice: ¡grrr! Así saludan los dinosaurios.,frase,src/escenas/tienda.ts
-b54c63e0844d,¡Pipo crece cuando juegas! Le ,trozo,src/escenas/tienda.ts
-ead7a91cfff9, para crecer.,trozo,src/escenas/tienda.ts
-2bab99f7096c,¡Pipo es el dinosaurio más grande del mundo!,frase,src/escenas/tienda.ts
-59719f502c20, todavía está ,trozo,src/escenas/tienda.ts src/escenas/zonas.ts
-c8a3df90a37b,. Se abre cuando termines ,trozo,src/escenas/tienda.ts
-5c8cea32aafb,una casita más.,trozo,src/escenas/tienda.ts
-4c9d08c1a1bc, casitas más.,trozo,src/escenas/tienda.ts
-d91c33a38ef3,La casa de Tito crece cuando terminas casitas. ,frase,src/escenas/tienda.ts
-5a7772701488,Falta una,trozo,src/escenas/tienda.ts
-8892bc99f41f,Faltan ,trozo,src/escenas/tienda.ts
-136a629b2c67, para que crezca.,trozo,src/escenas/tienda.ts
-57b3cbce498e,¡La casa de Tito ya es un castillo!,frase,src/escenas/tienda.ts
-a463b8806a41,¡Me encanta mi casa!,frase,src/escenas/tienda.ts
-4379cdfcf6e9,¡Gracias por jugar conmigo!,frase,src/escenas/tienda.ts
-8b4277261382,¡Qué bonito día!,frase,src/escenas/tienda.ts
-63dfd08b402a,¿Has visto mi ropa nueva?,frase,src/escenas/tienda.ts
-494a6bf1cfd2,¡Me puse ,trozo,src/escenas/tienda.ts
-24e373ab664c,Me quité ,trozo,src/escenas/tienda.ts
-82aaad2bbedd,¡Sorpresa!,frase,src/escenas/tienda.ts
-d11569c49cfa,¡Sorpresa nueva para el álbum!,frase,src/escenas/tienda.ts
-8043389ba76c,¡Listo! Ya está en ,trozo,src/escenas/tienda.ts
 e788e52029f2,el Jardín de los 3 años,trozo,src/escenas/zonas.ts
 03b508b84ab7,¡Bienvenido al Jardín de los 3 años! Sigue el camino: las casitas se abren de a una. ,frase,src/escenas/zonas.ts
 b19795e88a5d,el Bosque de los 4 años,trozo,src/escenas/zonas.ts

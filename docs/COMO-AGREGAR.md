@@ -242,12 +242,12 @@ Dificultad automática: `AGE()` (edad), `nOpts()` (número de opciones), `nRound
 
 1. **Dibujo** (receta 8) y **nombre** en `LEX`.
 2. **Catálogo**: añade `['trompeta',15,2]` (id, precio en monedas, nivel 1-3) a la lista de su categoría dentro de `SHOP` (escenas/tienda.ts). La tienda enseña 10 por página (2 filas de 5) y pone flechas si hay más. Para una cosa de una habitación de la casa, usa la lista de v1.590 (`[id, precio, nivel, habitación, categoría, nombre]`): con `room` sale con candado mientras esa habitación está cerrada; con `pref` va a esa habitación si está abierta y, si no, al salón.
-3. **Si va en la casa de Tito**: su tamaño en `HSIZE` (si va colgado, también en `WALLITEMS`) y, si quieres, qué hace al tocarlo en la tabla de `homeAction`.
+3. **Si va en la casa de Tito**: su tamaño en `HSIZE` (si va colgado, también en `WALLITEMS`), su tamaño de sitio en `TAMANOS` (`dominio/casaSitios.ts`, desde la fase M1 de PLAN-CASA-MEJORA.md: grande, mediano, pequeño, pared o alfombra; lo comprueba `casaSitios.test.ts`) y, si quieres, qué hace al tocarlo en la tabla de `homeAction`.
 4. **Si es ropa**: sombrero con su posición en `HATPOS`. Un tipo de ropa nuevo (por ejemplo zapatos) exige tocar `isWorn`, `wear`, `drawTitoWear` y leer `S.tito.zapatos || ''` (partidas viejas).
 5. **Colores** del caparazón o la bufanda: añade el color a `SHELLC`/`SCARFC` y una fila a su lista en `SHOP`.
 6. **Regalo del cofre**: añade su id a `GIFTS` (dominio/progreso.ts) en la posición que quieras. Se regalan en orden, saltando los que el niño ya tiene.
 7. No cambies ids existentes (están en `S.owned` y `S.home`).
-8. **Una habitación nueva**: añádela al final de `ROOMS` (escenas/tienda.ts) con `id`, `n`, `need` (casitas), `ic` y `cer`, y su fondo en `roomBg`. Caben 7 botones entre el título y la tienda; si añades más, hay que juntarlos en `roomBtns`. Sus frases («El …», «Ya está en …», «¡Mi casa creció! …») van a `dialogos/pendientes.txt`.
+8. **Una habitación nueva**: añádela al final de `ROOMS` (escenas/tienda.ts) con `id`, `n`, `need` (casitas), `ic` y `cer`, y su fondo en `roomBg` (escenas/casa.ts, desde la fase M1); su id también va en `HABITACIONES` de `dominio/casaSitios.ts`, para que tenga sitios. Caben 7 botones entre el título y la tienda; si añades más, hay que juntarlos en `roomBtns`. Sus frases («El …», «Ya está en …», «¡Mi casa creció! …») van a `dialogos/pendientes.txt`.
 
 ## 10. Canciones, rutinas, trazos, fiestas e inglés
 
