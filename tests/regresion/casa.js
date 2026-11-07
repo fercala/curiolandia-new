@@ -8,7 +8,8 @@
 // (C14) y la tele (C15); desde la C5, la merienda y la sopa (C16), el baño (C17), buenas noches (C18) y el huerto
 // (C19); desde la C6, cuidar a las mascotas: ir a su escena y ponerles nombre (C20), crecer con los días cuidados
 // (C21) y nacer bebé al comprarla (C22); desde la C7, las combinaciones (C23), el álbum «Sorpresas de la casa» (C24) y
-// las mascotas mayores en el mapa y en la zona de adultos (C25).
+// las mascotas mayores en el mapa y en la zona de adultos (C25); desde la fase M0 de docs/PLAN-CASA-MEJORA.md, la casa
+// en 3D de prueba (C26).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -709,6 +710,48 @@ const temas = (n) => {
         return h ? h.parentElement.textContent : '';
       });
       if (!/Nube/.test(t) || !/Mayor/.test(t) || !/sorpresas/.test(t)) return 'zona de adultos: ' + t.slice(0, 200);
+    },
+  );
+
+  await caso(
+    'C26',
+    'La casa en 3D de prueba (fase M0 de PLAN-CASA-MEJORA.md): se abre desde la zona de adultos, Tito anda y juega',
+    async (p) => {
+      await p.evaluate(() => __cl.go('map', {}));
+      await p.waitForTimeout(1500);
+      await p.evaluate(() => openAdult());
+      await p.waitForTimeout(600);
+      const hay = await p.evaluate(() => {
+        const b = document.querySelector('[data-go="casa3dPrueba"]');
+        if (b) b.click();
+        return !!b;
+      });
+      if (!hay) return 'la zona de adultos no tiene el botón de la casa 3D';
+      await p.waitForTimeout(2000);
+      const r = await p.evaluate(() => {
+        const sc = SCENES.casa3dPrueba;
+        return [sceneName, sc.three, sc.objetos.length, sc.muestra, __w3 && __w3.ok];
+      });
+      if (r[0] !== 'casa3dPrueba' || !r[1] || r[2] !== 8 || !r[3]) return 'escena: ' + JSON.stringify(r);
+      // tocar el sofá de la muestra: se busca el punto de la pantalla donde se ve (con pickAt, como el dedo) y Tito va a
+      // su lado y juega con él
+      await p.evaluate(() => {
+        const sc = SCENES.casa3dPrueba;
+        window.__said = [];
+        for (let y = 200; y < 860; y += 20)
+          for (let x = 400; x < 1500; x += 20) {
+            const u = __w3.pickAt(x, y);
+            if (u && u.id === 'obj:sofa') return sc.down(x, y);
+          }
+      });
+      await p.waitForTimeout(2500);
+      const j = await p.evaluate(() => [SCENES.casa3dPrueba.jugado, (window.__said || []).join(' | ')]);
+      if (j[0] !== 'sofa') return 'al tocar el sofá: ' + JSON.stringify(j);
+      // el botón de volver lleva a la casa de verdad
+      await p.evaluate(() => SCENES.casa3dPrueba.down(90, 90));
+      await p.waitForTimeout(800);
+      const vuelta = await p.evaluate(() => sceneName);
+      if (vuelta !== 'casaTito') return 'al volver: ' + vuelta;
     },
   );
 
