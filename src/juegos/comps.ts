@@ -29,8 +29,8 @@
 //   - draw(): pinta TODO el juego en el lienzo 2D de 1600x900 (fondo incluido).
 //   - down(x,y) / move(x,y) / up(x,y): el dedo o el ratón toca, se mueve y se
 //     levanta, en coordenadas lógicas 1600x900. Para arrastrar se usa la global
-//     `VIVO.drag` (nucleo/escenas.ts): drag={it, dx, dy}; mientras drag no es null, la ayuda no
-//     se dibuja.
+//     `VIVO.drag` (nucleo/escenas.ts, tipo Arrastre de nucleo/tipos.ts): drag={it, dx, dy};
+//     mientras drag no es null, la ayuda no se dibuja.
 //   - prompt(): repite la consigna en voz alta (al tocar a Tito, o cuando salta la
 //     ayuda por inactividad).
 //   - hint(): devuelve dónde está la respuesta para la AYUDA automática (drawHelp
@@ -1227,9 +1227,10 @@ export function Arrastra(cfg: Config, onDone: AlTerminar): Juego {
       SFX.pop();
       if (!this.r.steps && cfg.sayPick !== false && azar() < 0.6) say(cap(nameT(it.k)) + '.');
     },
-    // Mueve la cosa arrastrada con el dedo (sin salir de la pantalla).
+    // Mueve la cosa arrastrada con el dedo (sin salir de la pantalla). 'dx' in VIVO.drag siempre se cumple aquí (lo
+    // puso down()): solo le dice a TypeScript qué clase de Arrastre es.
     move(x, y) {
-      if (VIVO.drag && VIVO.drag.it && this.items.includes(VIVO.drag.it)) {
+      if (VIVO.drag && VIVO.drag.it && this.items.includes(VIVO.drag.it) && 'dx' in VIVO.drag) {
         VIVO.drag.it.x = clamp(x - VIVO.drag.dx, 60, 1540);
         VIVO.drag.it.y = clamp(y - VIVO.drag.dy, 60, 860);
       }
@@ -1996,9 +1997,9 @@ export function Puzzle(cfg: Config, onDone: AlTerminar): Juego {
       setCursor('grab');
       SFX.pop();
     },
-    // Mueve la pieza arrastrada.
+    // Mueve la pieza arrastrada ('dx' in VIVO.drag siempre se cumple: solo le dice a TypeScript qué Arrastre es).
     move(x, y) {
-      if (VIVO.drag && this.ps.includes(VIVO.drag.it)) {
+      if (VIVO.drag && this.ps.includes(VIVO.drag.it) && 'dx' in VIVO.drag) {
         VIVO.drag.it.x = clamp(x - VIVO.drag.dx, 60, 1540);
         VIVO.drag.it.y = clamp(y - VIVO.drag.dy, 60, 860);
       }
@@ -2343,9 +2344,9 @@ export function Riega(cfg: Config, onDone: AlTerminar): Juego {
       }
       SFX.tap();
     },
-    // Mueve la regadera arrastrada.
+    // Mueve la regadera arrastrada ('dx' in VIVO.drag siempre se cumple: solo le dice a TypeScript qué Arrastre es).
     move(x, y) {
-      if (VIVO.drag && VIVO.drag.it === can) {
+      if (VIVO.drag && VIVO.drag.it === can && 'dx' in VIVO.drag) {
         can.x = clamp(x - VIVO.drag.dx, 100, 1500);
         can.y = clamp(y - VIVO.drag.dy, 120, 800);
       }
