@@ -89,7 +89,7 @@ export interface Estado {
   coinsTot?: number;
   gift?: FechaDia;
   woke?: Record<string, number>;
-  home?: Record<string, { x: number; y: number; r?: string }>;
+  home?: Record<string, { x: number; y: number; r?: string; h?: string }>;
   rooms?: number;
   tito?: Tito;
   owned?: Record<string, number>;
@@ -109,6 +109,9 @@ export interface Estado {
   sorpresas?: Record<string, number>;
   /** La flor del huerto: días regados y el último día que se regó. Desde la fase C1. */
   huerto?: { dias: number; dia: FechaDia | '' };
+  /** Lo que ya se colocó alguna vez en la casa de Tito: {id: 1} (lo del baúl que no está es nuevo). null hasta la
+   * primera visita a la casa desde la fase M2 de docs/PLAN-CASA-MEJORA.md (aplicacion/casa.ts). */
+  casaVistos?: Record<string, number> | null;
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;
@@ -185,6 +188,15 @@ export interface CartelMonedas {
   icon?: string;
   x?: number;
   y?: number;
+}
+
+/**
+ * Opciones al dibujar una casita o una estación de juego (drawCasita y drawStation, escenas/escenas2d.ts): escala (s;
+ * sin ella, 1) y, solo en la casita, el halo amarillo de la recomendada (glow). Antes de la mejora 10e era Libre.
+ */
+export interface OpcionesDibujo {
+  s?: number;
+  glow?: boolean;
 }
 
 /**

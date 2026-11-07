@@ -69,7 +69,7 @@ describe('migraciones', () => {
       pecera: { nombre: 'Nemo', dias: 9, dia: '', hechos: [] },
       gato: { nombre: '', dias: 3, dia: '', hechos: [] },
     });
-    expect([p['sorpresas'], p['huerto'], p['ver']]).toEqual([{}, { dias: 0, dia: '' }, 4]);
+    expect([p['sorpresas'], p['huerto'], p['ver']]).toEqual([{}, { dias: 0, dia: '' }, VERSION_PARTIDA]);
     const rota = migrar({ owned: null, mascotas: [], sorpresas: 'x', huerto: { dias: 2, dia: '2026-11-01' }, ver: 3 });
     expect([rota['mascotas'], rota['sorpresas'], rota['huerto']]).toEqual([{}, {}, { dias: 2, dia: '2026-11-01' }]);
   });

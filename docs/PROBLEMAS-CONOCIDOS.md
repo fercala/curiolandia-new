@@ -14,7 +14,7 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 ## Límites que conviene saber
 
 - Cada camino de edad admite 12 casitas (`zonePos()` en escenas/zonas.ts) y cada casita unos 8 juegos (`st3Pos()` en mundo3d/casita3d.ts).
-- La casa de Tito tiene 12 huecos de suelo y 4 de pared por habitación (`HOMESPOT`, `WALLSPOT`): a partir de ahí las cosas nuevas se colocan al azar y pueden quedar unas encima de otras (se pueden mover arrastrándolas).
+- Cada habitación de la casa de Tito tiene 13 sitios (3 grandes y 5 normales en el suelo, 4 en la pared y la alfombra) más los de encima de los muebles (`SITIOS_FIJOS` y `ENCIMA` en `dominio/casaSitios.ts`). Desde la fase M2 de PLAN-CASA-MEJORA.md las cosas ya no se pisan: lo que no cabe se guarda en el baúl. Con muchas cosas, el salón se llena (unas 16) y hay que repartirlas por las habitaciones.
 - Varios números están escritos a mano en frases grabadas ("tres casitas", "seis flores"): si se cambia `NEED` o la regla de 6 flores (`FLORES_PARA_SEGUIR`), los dos en `dominio/apertura.ts`, las frases dejan de cuadrar.
 
 ## Rarezas sin efecto visible (limpieza)

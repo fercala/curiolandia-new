@@ -5,6 +5,7 @@ se gana o se compra en la tienda tenga alguna interacción en la casa de Tito (p
 las estrellas cuando Tito se acerca), que la casa tenga más gracia y que las mascotas vayan creciendo. El documento
 de trabajo con el que se aprobó está en [Claude Docs](https://claude.ai/artifact/9iUsywAqDXDqc1hnhRtGFS); este
 archivo es la copia que siguen los PR. Si cambia una decisión, se cambia aquí y se apunta en `CAMBIOS.md`.
+La mejora siguiente (baúl y sitios, objetos que responden y casa en 3D) está en [PLAN-CASA-MEJORA.md](PLAN-CASA-MEJORA.md).
 
 ## Qué había antes
 

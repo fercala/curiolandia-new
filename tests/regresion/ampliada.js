@@ -167,7 +167,8 @@ const base = {
           __cl.go('casaTito', {});
         });
         await p.waitForFunction(() => VIVO.fade < 0.5);
-        await L.arrastrar(p, 930, 650, 1590, 650);
+        const o = await p.evaluate(() => ({ ...S.home.cama }));
+        await L.arrastrar(p, o.x, o.y - 80, 1590, 650);
         await p.waitForTimeout(150);
         return p.evaluate(() => ({
           fail: S.home.cama.x + HSIZE.cama / 2 > W,
@@ -186,7 +187,9 @@ const base = {
         __cl.go('casaTito', {});
       });
       await p.waitForFunction(() => VIVO.fade < 0.5);
-      await L.arrastrar(p, 930, 650, 440, 530);
+      // desde la fase M2 de PLAN-CASA-MEJORA.md, al entrar el robot salta a su sitio: se coge desde donde esté
+      const o = await p.evaluate(() => ({ ...S.home.robot }));
+      await L.arrastrar(p, o.x, o.y - 70, 440, 530);
       const pos = await p.evaluate(() => ({ ...S.home.robot }));
       await L.arrastrar(p, pos.x, pos.y - 70, 1000, 650);
       await p.waitForTimeout(150);
@@ -209,7 +212,8 @@ const base = {
         __cl.go('casaTito', {});
       });
       await p.waitForFunction(() => VIVO.fade < 0.5);
-      await L.arrastrar(p, 930, 650, 1100, 650);
+      const o = await p.evaluate(() => ({ ...S.home.robot }));
+      await L.arrastrar(p, o.x, o.y - 70, 1300, 700);
       const before = await p.evaluate(() => ({ ...S.home.robot }));
       await p.reload();
       await p.waitForTimeout(350);

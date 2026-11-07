@@ -4,7 +4,8 @@ Fernando lo pidió el 7 de noviembre de 2026: «El menú de los padres de curiol
 quiero que crees un plan de mejoras para dejarlo mejor, pueden ser páginas, pestañas o un menú lateral de categorías,
 pero con la cantidad de cosas que tenemos hoy ya es molesto para interactuar». **Estado: propuesto, pendiente de que
 Fernando lo apruebe.** Cuando lo apruebe (o cambie alguna decisión), se apunta aquí y en `CAMBIOS.md`, y cada fase va en
-su rama y su PR, como los planes de la casa, las letras y el inglés.
+su rama y su PR, como los planes de la casa, las letras y el inglés. Las fases se llaman A1 a A6 (A de adultos) para no
+confundirlas con las fases M de [PLAN-CASA-MEJORA.md](PLAN-CASA-MEJORA.md).
 
 En el código se llama **zona de adultos** (`src/aplicacion/adultos.ts`, panel `#adult` de `src/head.html`); en este
 documento «menú de los padres» y «zona de adultos» son lo mismo.
@@ -45,7 +46,7 @@ se va al desplazar, y no hay forma de saltar a una sección.
 | 20 | Cómo le va | Tabla de habilidades (aciertos, intentos, etiqueta) | `stats` (solo lectura) |
 | 21 | Letras | Tabla de las 20 letras de la isla | `gs`, `temas` (solo lectura) |
 | 22 | Inglés | Casitas y palabras por zona, aviso si no hay voz inglesa | (solo lectura) |
-| 23 | Casa de Tito | Sorpresas, días del huerto, mascotas | `sorpresas`, `huerto`, `mascotas` (solo lectura) |
+| 23 | Casa de Tito | Sorpresas, días del huerto, mascotas y, mientras dure la prueba (fase M0 de `PLAN-CASA-MEJORA.md`), el botón «Casa de Tito en 3D (prueba)» | `sorpresas`, `huerto`, `mascotas` (solo lectura) |
 | 24 | Copia de seguridad | Descargar, ver código, cargar archivo, copiar, recuperar | (toda `S`) |
 | 25 | Instalar en el celular o la tablet | Botón si el navegador lo ofrece e instrucciones | — |
 | 26 | Ir a | 10 atajos a escenas y una lista de todos los temas | — |
@@ -146,7 +147,7 @@ Así no hay pestañas que se esconden, cada página es corta y en cualquier tama
 
 **El plan no cambia nada de `S`**: todos los controles siguen guardando en los mismos campos y con los mismos valores, no
 hace falta migración ni subir `S.ver`, y las copias de seguridad de antes se recuperan igual. La página abierta se
-recuerda solo mientras el juego está abierto (`VIVO`), no en la partida. Solo la fase opcional M6 propone un campo nuevo
+recuerda solo mientras el juego está abierto (`VIVO`), no en la partida. Solo la fase opcional A6 propone un campo nuevo
 (la fecha de la última copia), y sería opcional y sin migración (ver la decisión 5).
 
 ## 6. Pruebas y contrato con las pruebas (`window.__cl`)
@@ -181,14 +182,14 @@ recuerda solo mientras el juego está abierto (`VIVO`), no en la partida. Solo l
 
 | Fase | Qué se hace | Qué ve la familia |
 | --- | --- | --- |
-| **M1. Estructura y navegación** | Partir `adultos.ts` en `aplicacion/adultos/` con `PAGINAS_ADULTOS`; las 7 categorías con el contenido de hoy movido tal cual; menú lateral, menú de iconos y portada de páginas según el ancho; cabecera fija; Escape; `openAdult(pagina?)`; pruebas actualizadas y `tests/regresion/adultos.js` | La zona ya está ordenada por categorías y nada se pierde |
-| **M2. Resumen** | La página de inicio con quién juega, minutos de hoy, monedas, lo que sigue, avisos y atajos; el número de avisos en las categorías; reglas en `dominio/` con Vitest | Lo importante, nada más entrar |
-| **M3. Progreso compacto** | Las 11 zonas en filas que se abren, «Cómo le va» ordenado por lo que cuesta con «Ver todas», subapartados de progreso; reglas en `dominio/` con Vitest | El progreso cabe en una o dos pantallas |
-| **M4. Textos** | Todo el panel en castellano de España (sin «de a uno», «Copialo», «celular»...), notas largas plegadas en «Más información», títulos y botones más cortos | Se lee más rápido |
-| **M5. Accesibilidad y móvil** | Diálogo accesible, foco, teclado, 44 px, contraste, zonas seguras, reducir movimiento; revisión con Playwright en los tres tamaños | Más cómodo con el dedo y con lector de pantalla |
-| **M6. Extras (opcional)** | A elegir: recordar la última página abierta, aviso «Hace 30 días que no haces una copia» (campo opcional `S.bkFecha`), buscador de ajustes | — |
+| **A1. Estructura y navegación** | Partir `adultos.ts` en `aplicacion/adultos/` con `PAGINAS_ADULTOS`; las 7 categorías con el contenido de hoy movido tal cual; menú lateral, menú de iconos y portada de páginas según el ancho; cabecera fija; Escape; `openAdult(pagina?)`; pruebas actualizadas y `tests/regresion/adultos.js` | La zona ya está ordenada por categorías y nada se pierde |
+| **A2. Resumen** | La página de inicio con quién juega, minutos de hoy, monedas, lo que sigue, avisos y atajos; el número de avisos en las categorías; reglas en `dominio/` con Vitest | Lo importante, nada más entrar |
+| **A3. Progreso compacto** | Las 11 zonas en filas que se abren, «Cómo le va» ordenado por lo que cuesta con «Ver todas», subapartados de progreso; reglas en `dominio/` con Vitest | El progreso cabe en una o dos pantallas |
+| **A4. Textos** | Todo el panel en castellano de España (sin «de a uno», «Copialo», «celular»...), notas largas plegadas en «Más información», títulos y botones más cortos | Se lee más rápido |
+| **A5. Accesibilidad y móvil** | Diálogo accesible, foco, teclado, 44 px, contraste, zonas seguras, reducir movimiento; revisión con Playwright en los tres tamaños | Más cómodo con el dedo y con lector de pantalla |
+| **A6. Extras (opcional)** | A elegir: recordar la última página abierta, aviso «Hace 30 días que no haces una copia» (campo opcional `S.bkFecha`), buscador de ajustes | — |
 
-M1 es la fase grande y la que cambia el aspecto; M2 a M5 se pueden hacer en otro orden. Calculo que cada una cabe en un PR.
+A1 es la fase grande y la que cambia el aspecto; A2 a A5 se pueden hacer en otro orden. Calculo que cada una cabe en un PR.
 
 ## 9. Riesgos
 
@@ -207,5 +208,5 @@ M1 es la fase grande y la que cambia el aspecto; M2 a M5 se pueden hacer en otro
 | 2 | Las categorías | Las 7 de arriba | Juntar «Quién juega» y «Cómo se juega» en «Ajustes» (6); separar «Ir a» como categoría propia (8) |
 | 3 | Dónde va «Ir a» | Los atajos más usados en el Resumen y la lista completa en «Copia y aparato» | Categoría propia; solo en el Resumen |
 | 4 | Qué página se abre al entrar | Siempre el Resumen | La última que se usó (mientras el juego siga abierto) |
-| 5 | Aviso de copia de seguridad (M6) | Sí, con el campo opcional `S.bkFecha` (sin migración) | No guardar nada nuevo en la partida |
-| 6 | Orden de las fases M2 a M5 | M2, M3, M4 y M5 | Empezar por los textos (M4), que es lo más rápido |
+| 5 | Aviso de copia de seguridad (A6) | Sí, con el campo opcional `S.bkFecha` (sin migración) | No guardar nada nuevo en la partida |
+| 6 | Orden de las fases A2 a A5 | A2, A3, A4 y A5 | Empezar por los textos (A4), que es lo más rápido |
