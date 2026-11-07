@@ -7,13 +7,16 @@
  * (cuentan como versión 0) y solo necesitan apuntarla. La versión 2 (fase 5d) es la de solo castellano de España. La 3
  * (fase L7b de docs/PLAN-LECTURA.md) trae tipoLetra, la opción de mayúsculas y minúsculas de la Isla de las Letras. La 4
  * (fase C1 de docs/PLAN-CASA.md) trae la casa interactiva: mascotas (fichas de las mascotas que crecen), sorpresas y huerto.
+ * La 5 (fase M1 de docs/PLAN-CASA-MEJORA.md) da a cada objeto de la casa su sitio (home[id].h).
  * Es DOMINIO, como el resto de src/dominio/: no sabe nada de localStorage ni de S y no cambia lo que recibe: migrar
  * devuelve una partida nueva. nucleo/guardado.ts la usa al cargar la partida y cuando otra pestaña guarda, antes de
  * arreglar lo que venga roto (sanoS y sanoHondo). Pruebas: tests/unidad/partida.test.ts.
  * Exporta: VERSION_PARTIDA, MIGRACIONES, los tipos PartidaCruda y Migracion y las reglas esPartida, versionDe y migrar.
- * Importa de dominio/casa.ts las mascotas que crecen y su ficha (para la migración 3 → 4).
+ * Importa de dominio/casa.ts las mascotas que crecen y su ficha (para la migración 3 → 4) y de dominio/casaSitios.ts el
+ * plano de la casa y asignarSitios (para la 4 → 5).
  */
 import { MASCOTAS, fichaComprada, huertoNuevo } from './casa.ts';
+import { PLANO, asignarSitios, type Casa } from './casaSitios.ts';
 
 /** Una partida tal como se lee (de localStorage, de otra pestaña o de una copia): cualquier campo puede traer cualquier cosa. */
 export type PartidaCruda = Record<string, unknown>;
@@ -22,7 +25,7 @@ export type PartidaCruda = Record<string, unknown>;
 export type Migracion = (d: Readonly<PartidaCruda>) => PartidaCruda;
 
 // VERSION_PARTIDA: la versión del formato de la partida que entiende este juego (S.ver de una partida nueva).
-export const VERSION_PARTIDA = 4;
+export const VERSION_PARTIDA = 5;
 
 // MIGRACIONES: el paso que pasa una partida de cada versión (la clave) a la siguiente. Tiene que haber uno por cada
 // versión, de 0 a VERSION_PARTIDA - 1 (lo comprueba tests/unidad/partida.test.ts). Cada paso recibe la partida tal
@@ -46,6 +49,13 @@ export const MIGRACIONES: Readonly<Record<number, Migracion>> = {
     sorpresas: objeto(d['sorpresas']) ?? {},
     huerto: objeto(d['huerto']) ?? huertoNuevo(),
   }),
+  // 4 → 5 (fase M1 de docs/PLAN-CASA-MEJORA.md): los sitios de la casa de Tito. Cada objeto de home recibe su sitio (h)
+  // en su habitación, el libre más cercano a donde estaba (asignarSitios de dominio/casaSitios.ts). Solo añade h: x, y y
+  // la habitación no cambian, y lo que no cabe se queda sin sitio (desde la fase M2, la escena lo guarda en el baúl).
+  4: (d) => {
+    const home = objeto(d['home']);
+    return home ? { ...d, home: asignarSitios(PLANO, home as Casa) } : { ...d };
+  },
 };
 
 // objeto(v): v si es un objeto (no null ni una lista); si no, undefined.

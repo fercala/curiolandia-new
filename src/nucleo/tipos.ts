@@ -89,7 +89,7 @@ export interface Estado {
   coinsTot?: number;
   gift?: FechaDia;
   woke?: Record<string, number>;
-  home?: Record<string, { x: number; y: number; r?: string }>;
+  home?: Record<string, { x: number; y: number; r?: string; h?: string }>;
   rooms?: number;
   tito?: Tito;
   owned?: Record<string, number>;

@@ -46,7 +46,7 @@
 | `coins`, `coinsTot` | números | Monedas actuales y ganadas en total. |
 | `gift` | fecha `'AAAA-MM-DD'` | Último regalo diario de monedas. |
 | `woke` | `{bosque: 1, montana: 1}` | Zonas ya "despertadas" (anunciadas). |
-| `home` | `{idArtículo: {x, y, r}}` | Dónde está cada objeto en la casa de Tito. `r` (v1.590) es la habitación (`ROOMS` en escenas/tienda.ts); sin `r`, el salón (partidas de antes). |
+| `home` | `{idArtículo: {x, y, r}}` | Dónde está cada objeto en la casa de Tito. `r` (v1.590) es la habitación (`ROOMS` en escenas/tienda.ts); sin `r`, el salón (partidas de antes). `h` (partida versión 5, fase M1 de PLAN-CASA-MEJORA.md) es su sitio (`'salon:grande2'`, `'cocina:mesa:1'`: `dominio/casaSitios.ts`); sin `h`, el objeto no tiene sitio todavía. Desde la fase M2, `r: 'baul'` será «guardado en el baúl». |
 | `rooms` | número o ausente | (v1.590) Cuántas habitaciones de la casa ya se vieron abiertas: si hay más abiertas, al entrar en la casa Tito anuncia la nueva. Ausente = 1. |
 | `tito` | `{shell, scarf, hat, glasses, bow, kind}` | Colores y ropa de Tito; `kind` = `'caracol'`, `'erizo'`, `'tortuga'` o `'conejo'`. |
 | `owned` | `{idArtículo: 1}` | Artículos que tiene. |
@@ -97,7 +97,7 @@
    3. Cambia `DEF` (o `DEF2`) y el tipo `Estado` al formato nuevo: después de migrar, `sanoS` y `sanoHondo` arreglan lo que siga roto.
    4. Pruébalo en `tests/unidad/partida.test.ts` con una partida de la versión anterior (y con una rota). La prueba de que no falta ningún paso ya está.
    5. Un paso ya publicado no se cambia nunca: hay móviles que ya lo han aplicado. Si estaba mal, se arregla con otro paso.
-   6. Pasos que hay: 0 → 1 (solo apunta la versión) y 1 → 2 (fase 5d: `variant` pasa a `'es'`) 2 → 3 (fase L7b: `tipoLetra` pasa a `'mayus'` si no era `'ambas'`) y 3 → 4 (fase C1 de PLAN-CASA.md: añade `mascotas`, con ficha de joven para las mascotas ya compradas, `sorpresas` y `huerto`).
+   6. Pasos que hay: 0 → 1 (solo apunta la versión) y 1 → 2 (fase 5d: `variant` pasa a `'es'`) 2 → 3 (fase L7b: `tipoLetra` pasa a `'mayus'` si no era `'ambas'`) 3 → 4 (fase C1 de PLAN-CASA.md: añade `mascotas`, con ficha de joven para las mascotas ya compradas, `sorpresas` y `huerto`) y 4 → 5 (fase M1 de PLAN-CASA-MEJORA.md: cada objeto de `home` recibe su sitio `h`, el libre más cercano en su habitación, con `asignarSitios`; no cambia `x`, `y` ni `r`, y lo que no cabe se queda sin `h`).
    7. Ojo: curiolandia-3d no entiende las migraciones. Una copia de seguridad de este juego con un formato nuevo no sirve en el juego viejo.
 
 ## 4. Cómo probar con una partida concreta

@@ -15,6 +15,7 @@
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';
+export * from './casa.ts';
 export * from './cofre.ts';
 export * from './repaso.ts';
 export * from './isla.ts';
