@@ -9,7 +9,9 @@
 // (C19); desde la C6, cuidar a las mascotas: ir a su escena y ponerles nombre (C20), crecer con los días cuidados
 // (C21) y nacer bebé al comprarla (C22); desde la C7, las combinaciones (C23), el álbum «Sorpresas de la casa» (C24) y
 // las mascotas mayores en el mapa y en la zona de adultos (C25); desde la fase M0 de docs/PLAN-CASA-MEJORA.md, la casa
-// en 3D de prueba (C26).
+// en 3D de prueba (C26); desde la M2, la casa ordenada: al entrar cada cosa va a un sitio y lo que no cabe al baúl
+// (C27), lo comprado va al baúl y se coloca con un toque (C28), arrastrar del baúl a un sitio, al baúl y llevar un
+// mueble con algo encima (C29) y «¡Ordena, Tito!» (C30). Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -197,7 +199,8 @@ const temas = (n) => {
       sc.down(680, 690);
       return [S.owned.cama, homeRoom('cama')];
     });
-    if (q.join() !== '1,dormitorio') return 'con el dormitorio abierto, la cama: ' + q.join();
+    // desde la fase M2 de PLAN-CASA-MEJORA.md, lo comprado va al baúl (el niño elige dónde ponerlo)
+    if (q.join() !== '1,baul') return 'con el dormitorio abierto, la cama: ' + q.join();
   });
   await caso('C7', 'Cada habitación se dibuja sin errores con todo comprado', async (p) => {
     await p.evaluate(() => {
@@ -752,6 +755,190 @@ const temas = (n) => {
       await p.waitForTimeout(800);
       const vuelta = await p.evaluate(() => sceneName);
       if (vuelta !== 'casaTito') return 'al volver: ' + vuelta;
+    },
+  );
+
+  // catDe: la categoría de la tienda de un objeto (para las pestañas del baúl, como en escenas/casa.ts)
+  const casillas = () =>
+    casillasBaul(baulItems(), __cl.scene.pest, __cl.scene.bpag, (id) => SHOP.find((i) => i.id === id).cat);
+  await caso(
+    'C27',
+    'Al entrar, la casa se ordena: cada cosa en un sitio sin repetir y lo que no cabe, al baúl',
+    async (p) => {
+      await p.evaluate(() => {
+        const S = __cl.S;
+        S.temas = {};
+        for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
+        S.rooms = 7;
+        S.home = {};
+        // una casa de antes, desordenada: todo en el salón, en los huecos viejos y sin sitio (h)
+        SHOP.filter((i) => !i.slot && i.cat !== 'vales').forEach((it, k) => {
+          S.owned[it.id] = 1;
+          S.home[it.id] = { x: 700 + ((k * 97) % 800), y: 560 + ((k * 53) % 240) };
+        });
+        S.casaVistos = null;
+        window.__said = [];
+        SCENES.casaTito.room = 'salon';
+        __cl.go('casaTito', {});
+      });
+      await p.waitForTimeout(1500);
+      const r = await p.evaluate(() => {
+        const fuera = Object.keys(S.home).filter((id) => S.home[id].r !== 'baul'),
+          hs = fuera.map((id) => S.home[id].h);
+        return {
+          sinSitio: fuera.filter((id) => !S.home[id].h),
+          repetidos: hs.filter((h, i) => hs.indexOf(h) !== i),
+          salon: homeItems('salon').length,
+          baul: baulItems().length,
+          nuevos: baulNuevos().length,
+          dice: (window.__said || []).join(' | '),
+        };
+      });
+      if (r.sinSitio.length || r.repetidos.length) return 'sitios: ' + JSON.stringify(r);
+      if (r.salon < 10 || r.salon > 20 || r.salon + r.baul !== 55) return 'reparto: ' + JSON.stringify(r);
+      if (r.nuevos) return 'lo que ya había sale como nuevo en el baúl: ' + r.nuevos;
+      if (!/guardado en mi baúl/.test(r.dice)) return 'Tito dice: ' + r.dice;
+    },
+  );
+  await caso(
+    'C28',
+    'Lo comprado va al baúl: se abre con ello brillando en su habitación y con un toque se coloca',
+    async (p) => {
+      const r = await p.evaluate(() => {
+        const S = __cl.S;
+        S.coins = 500;
+        S.temas = {};
+        for (let i = 1; i <= 5; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
+        S.rooms = 4;
+        S.home = {};
+        S.casaVistos = {};
+        __cl.go('tienda', {});
+        const sc = __cl.scene;
+        sc.cat = SHOP.find((i) => i.id === 'pato').cat;
+        for (sc.page = 0; sc.page < 9 && !sc.grid().some((g) => g.it.id === 'pato'); sc.page++);
+        const g = sc.grid().find((g) => g.it.id === 'pato');
+        sc.down(g.x, g.y);
+        sc.confT = -9;
+        sc.down(680, 690);
+        return [S.owned.pato, homeRoom('pato')];
+      });
+      if (r.join() !== '1,baul') return 'tras comprar el pato: ' + r.join();
+      await p.evaluate(() => {
+        window.__said = [];
+        __cl.scene.down(1240, 70);
+      });
+      await p.waitForTimeout(1500);
+      const q = await p.evaluate(() => [
+        sceneName,
+        __cl.scene.room,
+        __cl.scene.baul,
+        baulNuevos().join(),
+        (window.__said || []).join(' | '),
+      ]);
+      if (q.slice(0, 4).join() !== 'casaTito,bano,true,pato') return 'en la casa: ' + JSON.stringify(q);
+      if (!/Dónde lo ponemos/.test(q[4])) return 'Tito dice: ' + q[4];
+      const c = await p.evaluate(`(${casillas})().find((c) => c.id === 'pato')`);
+      if (!c) return 'el pato no está en la bandeja';
+      const v = await p.evaluate((c) => {
+        const sc = __cl.scene;
+        sc.down(c.x, c.y);
+        sc.up(c.x, c.y);
+        return [S.home.pato.r, !!S.home.pato.h, baulNuevos().length];
+      }, c);
+      if (v.join() !== 'bano,true,0') return 'tras tocarlo en la bandeja: ' + v.join();
+    },
+  );
+  await caso(
+    'C29',
+    'Arrastrar del baúl a un sitio, de la habitación al baúl, y un mueble guarda lo que lleva encima',
+    async (p) => {
+      await p.evaluate(() => {
+        const S = __cl.S;
+        S.temas = {};
+        for (let i = 1; i <= 3; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
+        S.rooms = 3;
+        S.home = { robot: { x: 0, y: 0, r: 'baul' } };
+        S.casaVistos = {};
+        ['mesa', 'pato', 'robot'].forEach((id) => (S.owned[id] = 1));
+        S.home.mesa = { x: 640, y: 650, r: 'salon', h: 'salon:grande1' };
+        SCENES.casaTito.room = 'salon';
+        __cl.go('casaTito', {});
+      });
+      await p.waitForTimeout(1200);
+      const a = await p.evaluate(() => {
+        const sc = __cl.scene;
+        sc.colocar('pato', 'salon:mesa:1');
+        sc.down(BAUL.x, BAUL.y);
+        return [sc.baul, S.home.pato.h];
+      });
+      if (a.join() !== 'true,salon:mesa:1') return 'baúl abierto y pato en la mesa: ' + a.join();
+      const c = await p.evaluate(`(${casillas})().find((c) => c.id === 'robot')`);
+      const b1 = await p.evaluate((c) => {
+        const sc = __cl.scene;
+        sc.down(c.x, c.y);
+        sc.move(c.x, c.y - 60);
+        sc.move(1040, 735);
+        const cerca = sc.drag.cerca;
+        sc.up(1040, 735);
+        return [cerca, S.home.robot.h];
+      }, c);
+      if (b1.join() !== 'salon:suelo3,salon:suelo3') return 'del baúl al suelo: ' + b1.join();
+      const b2 = await p.evaluate(() => {
+        const sc = __cl.scene,
+          o = S.home.robot;
+        sc.down(o.x, o.y - 80);
+        sc.move(o.x + 40, o.y - 100);
+        sc.move(BAUL.x, BAUL.y);
+        sc.up(BAUL.x, BAUL.y);
+        return S.home.robot.r;
+      });
+      if (b2 !== 'baul') return 'soltado en el baúl, el robot está en ' + b2;
+      const b3 = await p.evaluate(() => {
+        const sc = __cl.scene,
+          o = S.home.mesa,
+          bt = roomBtns().find((b) => b.R.id === 'cocina');
+        sc.down(o.x + 60, o.y - 40);
+        sc.move(o.x + 80, o.y - 100);
+        sc.move(bt.x, bt.y);
+        sc.up(bt.x, bt.y);
+        const hs = Object.values(S.home)
+          .map((p) => p.h)
+          .filter(Boolean);
+        return [S.home.mesa.r, S.home.pato.r, hs.length === new Set(hs).size];
+      });
+      if (b3.join() !== 'cocina,baul,true') return 'la mesa a la cocina: ' + b3.join();
+    },
+  );
+  await caso(
+    'C30',
+    '«¡Ordena, Tito!» pregunta al primer toque y al segundo pone cada cosa en su habitación',
+    async (p) => {
+      await p.evaluate(() => {
+        const S = __cl.S;
+        S.temas = {};
+        for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
+        S.rooms = 7;
+        S.home = {};
+        S.casaVistos = {};
+        ['cama', 'nevera'].forEach((id) => (S.owned[id] = 1));
+        S.home.cama = { x: 640, y: 650, r: 'salon', h: 'salon:grande1' };
+        S.home.nevera = { x: 1000, y: 650, r: 'salon', h: 'salon:grande2' };
+        SCENES.casaTito.room = 'salon';
+        __cl.go('casaTito', {});
+      });
+      await p.waitForTimeout(1200);
+      const r = await p.evaluate(() => {
+        window.__said = [];
+        const sc = __cl.scene;
+        sc.down(BAUL.x, BAUL.y);
+        sc.down(ORDENA.x, ORDENA.y);
+        const una = [homeRoom('cama'), homeRoom('nevera')].join();
+        sc.down(ORDENA.x, ORDENA.y);
+        return [una, homeRoom('cama'), homeRoom('nevera'), (window.__said || []).join(' | ')];
+      });
+      if (r[0] !== 'salon,salon') return 'al primer toque ya ordena: ' + r[0];
+      if (r[1] !== 'dormitorio' || r[2] !== 'cocina') return 'tras ordenar: ' + JSON.stringify(r);
+      if (!/Ordeno la casa/.test(r[3]) || !/Cada cosa en su habitación/.test(r[3])) return 'Tito dice: ' + r[3];
     },
   );
 

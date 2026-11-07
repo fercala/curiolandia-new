@@ -9,7 +9,7 @@
  * Las tablas (los sitios de cada habitación, los sitios encima de cada mueble y el tamaño de cada objeto) están aquí,
  * como REACCIONES en dominio/casa.ts, para que la migración de la partida (dominio/partida.ts, 4 → 5) las pueda usar.
  * Las posiciones son las de la pantalla 2D de 1600×900 (el pie del objeto, como S.home); las de la casa 3D vendrán con
- * la fase M4. La escena de la casa las usará desde la fase M2 (el baúl).
+ * la fase M4. Desde la fase M2 las usan la escena de la casa (escenas/casa.ts) y sus casos de uso (aplicacion/casa.ts).
  * Pruebas: tests/unidad/casaSitios.test.ts.
  * Exporta: los tipos TamanoObjeto, TipoSitio, Sitio, PosCasa, Casa y Plano; las tablas EN_BAUL, TAMANOS, SITIOS_FIJOS,
  * ENCIMA y PLANO; y las reglas tamanoDe, cabe, sitiosDe, sitioDe, quienEsta, libres, sitioMasCercano, colocar,
@@ -62,7 +62,7 @@ export interface Plano {
   readonly tamanos: Readonly<Record<string, TamanoObjeto>>;
 }
 
-// EN_BAUL: el valor de r de un objeto guardado en el baúl de Tito (sin sitio). Se usará desde la fase M2.
+// EN_BAUL: el valor de r de un objeto guardado en el baúl de Tito (sin sitio). Lo usa la escena desde la fase M2.
 export const EN_BAUL = 'baul';
 
 // TAMANOS: el tamaño de cada uno de los 55 objetos de la casa (los de la tienda sin slot, también las mascotas). Los
@@ -131,18 +131,20 @@ export const TAMANOS: Readonly<Record<string, TamanoObjeto>> = {
   conejo: 'mediano',
 };
 
-// SITIOS_FIJOS: los sitios de una habitación, los mismos en las 7 por ahora (la fase M2 los ajustará al dibujo de cada
-// una): 3 grandes al fondo del suelo, 5 normales delante, 4 en la pared y la alfombra en el centro. El suelo empieza
-// en y = 600; Tito anda por y = 700, entre las dos filas; a la izquierda (x < 400) están Tito y Pipo.
+// SITIOS_FIJOS: los sitios de una habitación, los mismos en las 7: 3 grandes al fondo del suelo, 5 normales delante, 4
+// en la pared y la alfombra en el centro. El suelo empieza en y = 600; Tito anda por y = 700, entre las dos filas; a la
+// izquierda (x < 400) están Tito y Pipo. Desde la fase M2, la fila de delante está un poco más arriba (y de 750 a
+// 775; antes de 760 a 790), para que asome por encima de la bandeja del baúl, y suelo5 está en x = 1480 (antes 1510),
+// para que lo mediano más ancho (la casita del perro) no se salga por la derecha.
 export const SITIOS_FIJOS: readonly SitioFijo[] = [
   { nombre: 'grande1', tipo: 'suelo-grande', x: 640, y: 650 },
   { nombre: 'grande2', tipo: 'suelo-grande', x: 1000, y: 650 },
   { nombre: 'grande3', tipo: 'suelo-grande', x: 1360, y: 650 },
-  { nombre: 'suelo1', tipo: 'suelo', x: 500, y: 780 },
-  { nombre: 'suelo2', tipo: 'suelo', x: 760, y: 790 },
-  { nombre: 'suelo3', tipo: 'suelo', x: 1040, y: 790 },
-  { nombre: 'suelo4', tipo: 'suelo', x: 1320, y: 790 },
-  { nombre: 'suelo5', tipo: 'suelo', x: 1510, y: 760 },
+  { nombre: 'suelo1', tipo: 'suelo', x: 500, y: 770 },
+  { nombre: 'suelo2', tipo: 'suelo', x: 760, y: 775 },
+  { nombre: 'suelo3', tipo: 'suelo', x: 1040, y: 775 },
+  { nombre: 'suelo4', tipo: 'suelo', x: 1320, y: 775 },
+  { nombre: 'suelo5', tipo: 'suelo', x: 1480, y: 750 },
   { nombre: 'pared1', tipo: 'pared', x: 800, y: 330 },
   { nombre: 'pared2', tipo: 'pared', x: 1030, y: 330 },
   { nombre: 'pared3', tipo: 'pared', x: 580, y: 320 },
@@ -359,7 +361,7 @@ function usado(buenos: ReadonlySet<string>, casa: Casa, h: string): boolean {
   return [...buenos].some((id) => casa[id].h === h);
 }
 
-// ordenar(plano, casa, habitual, abiertas): «¡Ordena, Tito!» (se usará desde la fase M2): la casa con cada objeto que
+// ordenar(plano, casa, habitual, abiertas): «¡Ordena, Tito!» (lo usa la escena desde la fase M2): la casa con cada objeto que
 // no está en el baúl en su habitación habitual (habitual(id); si no está abierta, el salón), en el sitio libre que
 // prefiera su tamaño. Lo que no quepa se guarda en el baúl. Los objetos se colocan en el orden de asignarSitios.
 export function ordenar(

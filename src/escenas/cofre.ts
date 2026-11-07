@@ -5,9 +5,11 @@
  * Define: drawChest. La escena SCENES.cofre (la versión 3D la pone mundo3d/cofre3d.ts, que llama a esta por su nombre).
  * Exporta: GIFTS (de dominio/progreso.ts), nextGift, grantGift y cofrePend (lo llama aplicacion/arranque.ts).
  * Importa: el núcleo, src/nucleo/ (S, save, go, later, say, SFX, T, dibujo, monedas...), escenas/tienda.ts (SHOP, wear,
- *   placeHome, itemName, drawItemPic y el tipo Articulo), escenas/escenas2d.ts (TEMA), las reglas de dominio/progreso.ts
- *   (GIFTS, siguienteRegalo) y de dominio/monedas.ts (ganar) y los casos de uso del cofre (aplicacion/abrirCofre.ts).
- * Partes de S que toca: S.cofres, S.cofreP, S.owned, S.stk, S.coins (vía los casos de uso, giveCoins y ganar).
+ *   casaEnS, itemName, drawItemPic y el tipo Articulo), escenas/escenas2d.ts (TEMA), las reglas de dominio/progreso.ts
+ *   (GIFTS, siguienteRegalo) y de dominio/monedas.ts (ganar), los casos de uso del cofre (aplicacion/abrirCofre.ts) y,
+ *   desde la fase M2 de docs/PLAN-CASA-MEJORA.md, nuevoAlBaul (aplicacion/casa.ts: el regalo de la casa va al baúl).
+ * Partes de S que toca: S.cofres, S.cofreP, S.owned, S.stk, S.coins (vía los casos de uso, giveCoins y ganar), S.home y
+ *   S.casaVistos (el regalo de la casa).
  */
 import type { OpcionesTema } from '../nucleo/tipos.ts';
 import type { Articulo } from './tienda.ts';
@@ -56,7 +58,8 @@ import {
   text,
   tone,
 } from '../nucleo/indice.ts';
-import { SHOP, drawItemPic, itemName, placeHome, wear } from './tienda.ts';
+import { SHOP, casaEnS, drawItemPic, itemName, wear } from './tienda.ts';
+import { nuevoAlBaul } from '../aplicacion/casa.ts';
 import { TEMA } from './escenas2d.ts';
 import { ZONES, drawTitoHouse, houseLevel, lowName } from './zonas.ts';
 import { GIFTS, siguienteRegalo } from '../dominio/progreso.ts';
@@ -67,16 +70,17 @@ import { abrirCofre, ganarCofre, sinPendiente } from '../aplicacion/abrirCofre.t
 // GIFTS: regalos del cofre, en orden fijo (sorpresa para el nene, pero sin azar): ids de artículos de SHOP
 // (escenas/tienda.ts). Están en dominio/progreso.ts y se exportan también desde aquí. nextGift(): el primero que aún no
 // se tiene (S.owned) o null. grantGift(it): lo marca como tuyo y se lo pone a Tito (wear) o lo coloca en su casa
-// (placeHome). Modifica S.owned (y lo que toquen wear/placeHome) y guarda.
+// (desde la fase M2 de docs/PLAN-CASA-MEJORA.md, en el baúl: nuevoAlBaul). Modifica S.owned (y S.tito o S.home) y guarda.
 export { GIFTS };
 // nextGift(): siguiente regalo de GIFTS que aún no se tiene, o null (siguienteRegalo, en dominio/progreso.ts).
 export const nextGift = () => siguienteRegalo(SHOP, S.owned!);
-// grantGift(it): da el artículo it: S.owned, y se lo pone a Tito (si tiene slot) o lo coloca en su casa. Guarda.
+// grantGift(it): da el artículo it: S.owned, y se lo pone a Tito (si tiene slot) o lo guarda en el baúl de su casa
+// (desde la fase M2; antes placeHome lo ponía en su habitación). Guarda.
 // Si se lo pone y la escena es 3D (el cofre), rehace a Tito 3D (retito) para que se vea al momento.
 export function grantGift(it: Articulo) {
   S.owned![it.id] = 1;
   if (it.slot) wear(it, true);
-  else placeHome(it.id);
+  else casaEnS(nuevoAlBaul(S, it.id));
   save();
   if (it.slot && scene && scene.three && window.__w3 && window.__w3.retito) window.__w3.retito();
 } // Tito 3D se viste ya (en el cofre), no al cambiar de escena

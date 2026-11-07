@@ -975,3 +975,19 @@ Toca una sorpresa para recordarla. Las que tienen interrogación aún están esc
 Esta sorpresa aún está escondida. ¡Juega en mi casa para encontrarla!
 Sorpresas de la casa
 ¡Mira mi casa en tres dimensiones! Toca el suelo para que ande, o toca una cosa para jugar.
+¿Dónde lo ponemos? Arrástralo a un sitio que brille.
+¡He ordenado mi casa! Lo que no cabía está guardado en mi baúl.
+¡Esta es mi casa! Mis cosas están en el baúl. Tócalo para sacarlas.
+Abre mi baúl y saca cosas para esta habitación.
+Mi baúl.
+¡Ordena, Tito!
+¡Mi baúl! Saca lo que quieras.
+Mi baúl está vacío.
+¿Ordeno la casa? Toca la varita otra vez.
+¡Ya está! Cada cosa en su habitación.
+Lo que había encima está en el baúl.
+¡Guardado en el baúl!
+¡Aquí queda bien!
+Aquí no hay sitio. Prueba en otra habitación.
+En
+ ya no hay sitio para eso.
