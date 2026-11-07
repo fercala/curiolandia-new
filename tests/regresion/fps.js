@@ -1,10 +1,18 @@
-// Mide los fotogramas por segundo de las escenas principales (para docs/LINEA-BASE.md): en cada escena espera 1,5 s y
+// Mide los fotogramas por segundo de las escenas principales (para docs/LINEA-BASE.md; desde la fase M0 de
+// docs/PLAN-CASA-MEJORA.md, también la casa de Tito en 2D y la casa en 3D de prueba): en cada escena espera 1,5 s y
 // cuenta los requestAnimationFrame durante 4 s. Partida de 3 años con la introducción vista.
 // Uso: node tests/regresion/fps.js <carpeta web>
 // Mide solo si no hay otras pruebas en marcha: varias a la vez bajan los FPS de todas.
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
-const ESCENAS = [['map'], ['casita', { t: '3A-T1' }], ['intro', {}], ['juego', { t: '3A-T1', g: 0 }]];
+const ESCENAS = [
+  ['map'],
+  ['casita', { t: '3A-T1' }],
+  ['intro', {}],
+  ['juego', { t: '3A-T1', g: 0 }],
+  ['casaTito', {}],
+  ['casa3dPrueba', {}],
+];
 
 (async () => {
   const srv = L.servir(raiz),

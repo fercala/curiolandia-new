@@ -103,8 +103,8 @@ export interface OpcionesPaseo {
   zoom?: THREE.Vector3;
 }
 
-/** Tipo de mundo: portada, mapa (la isla), zona, casita de tema o cofre. */
-export type TipoMundo = 'title' | 'map' | 'zone' | 'casita' | 'cofre' | 'isla' | 'islaIngles';
+/** Tipo de mundo: portada, mapa (la isla), zona, casita de tema, cofre, las dos islas o la casa de Tito por dentro (casa: el prototipo de la fase M0 de docs/PLAN-CASA-MEJORA.md, mundo3d/casa3d.ts). */
+export type TipoMundo = 'title' | 'map' | 'zone' | 'casita' | 'cofre' | 'isla' | 'islaIngles' | 'casa';
 
 /** Posición y punto de mira de la cámara (camRig, walkTo). */
 export interface Encuadre {

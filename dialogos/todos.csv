@@ -1680,6 +1680,10 @@ acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te l
 1819906d8c99,Lee la frase y toca el dibujo que dice.,frase,src/juegos/lectura.ts
 f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.",frase,src/juegos/lectura.ts
 ba20461b2d04,Te la leo:,trozo,src/juegos/lectura.ts
+5763279c2112,"¡Mira mi casa en tres dimensiones! Toca el suelo para que ande, o toca una cosa para jugar.",frase,src/mundo3d/casa3d.ts
+e3440d61f42c,"Casa en 3D (prueba, muestra)",trozo,src/mundo3d/casa3d.ts
+d944573b21e0,Casa en 3D (prueba),trozo,src/mundo3d/casa3d.ts
+6dc795d7088d, FPS · ,trozo,src/mundo3d/casa3d.ts
 3dfc0990cb02,Uno,trozo,src/mundo3d/cielo.ts
 a1a067cf6264,Dos,trozo,src/mundo3d/cielo.ts
 0a988f7b9abb,Tres,trozo,src/mundo3d/cielo.ts

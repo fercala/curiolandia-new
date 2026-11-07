@@ -974,3 +974,4 @@ Coral
 Toca una sorpresa para recordarla. Las que tienen interrogación aún están escondidas.
 Esta sorpresa aún está escondida. ¡Juega en mi casa para encontrarla!
 Sorpresas de la casa
+¡Mira mi casa en tres dimensiones! Toca el suelo para que ande, o toca una cosa para jugar.

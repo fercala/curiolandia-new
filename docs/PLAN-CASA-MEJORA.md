@@ -7,7 +7,8 @@ no hay código todavía. Cada fase (M0 a M8) se aprueba por separado y va en su 
 [PLAN-CASA.md](PLAN-CASA.md) (C1 a C7, ya hechas), sobre las que se construye.
 
 **Estado: aprobado el 7 de noviembre de 2026** («comencemos con las mejoras», después de proponer empezar con lo
-recomendado): las 14 decisiones del final quedan como se recomienda. Hecha: M1 (v0.2.97).
+recomendado): las 14 decisiones del final quedan como se recomienda. Hechas: M1 (v0.2.97) y M0 (v0.2.98: falta que
+Fernando la pruebe en su móvil y diga si se sigue con la casa 3D).
 
 ---
 
@@ -371,7 +372,7 @@ Cada fase en su rama y su PR, con la versión subida en `package.json`, document
 
 | Fase | Qué entra | Se ve | Depende de |
 | --- | --- | --- | --- |
-| **M0. Prototipo 3D** | Un salón 3D con 8 recortables, Tito andando y la cámara, detrás de un interruptor en la zona de adultos («Casa en 3D (prueba)»). Contador de FPS. Fernando lo prueba en su móvil y se decide si se sigue con la B o se queda en la A. | Solo con el interruptor | — |
+| **M0. Prototipo 3D** | Un salón 3D con 8 recortables, Tito andando y la cámara, detrás de un interruptor en la zona de adultos («Casa en 3D (prueba)»). Contador de FPS. Fernando lo prueba en su móvil y se decide si se sigue con la B o se queda en la A. **Hecha en la v0.2.98**: escena aparte `SCENES.casa3dPrueba` (`mundo3d/casa3d.ts`), que se abre con el botón «Casa de Tito en 3D (prueba)» de la sección «Casa de Tito» de la zona de adultos; enseña el salón del niño (o 8 cosas de muestra si tiene menos de 4), sin sombras reales, con el contador de FPS y la calidad arriba a la derecha. No cambia la casa de verdad ni guarda nada. | Solo con el botón | — |
 | **M1. Reglas de los sitios** | `dominio/casaSitios.ts`, `contenido/casaSitios.ts` (sitios de las 7 habitaciones y tamaño de los 55 objetos), partida versión 5 con la migración 4 → 5, `aplicacion/casa.ts`; `SCENES.casaTito` pasa a `escenas/casa.ts` sin cambiar nada. Pruebas de unidad. **Hecha en la v0.2.97**, con dos cambios: las tablas (sitios y tamaños) van en `dominio/casaSitios.ts` y no en `contenido/`, porque la migración de la partida (dominio) las necesita y el dominio no importa nada de fuera; y la migración 4 → 5 solo añade `h` (no mueve `x`, `y` ni la habitación, ni guarda nada en el baúl), para que en M1 no cambie nada en pantalla: lo que se queda sin sitio irá al baúl en M2, cuando el baúl exista. `aplicacion/casa.ts` se hace en M2, con la escena que lo usa. Con los 55 objetos comprados y repartidos como hoy, 44 reciben sitio y 11 se quedarían sin él. | Nada | — |
 | **M2. El baúl y la casa ordenada (2D)** | Baúl con bandeja y pestañas, arrastrar a sitios que se iluminan, guardar, lo nuevo al baúl, botones de habitación más fáciles, «¡Ordena, Tito!», dibujo por sitios sin solapes. **Arregla ya el desorden**, aunque luego se pase a 3D. | Sí | M1 |
 | **M3. Objetos que responden** | Capa 1 (toque directo) y capa 2 (estados guardados en `casaEst`) para los 49 objetos; reglas de toque nuevas (un toque = objeto; Tito = arrastrarlo o tocarlo antes; escena = botón tras dos toques); variantes de Tito; combinaciones por sitio y nuevas; pistas de pareja. | Sí | M2 |
