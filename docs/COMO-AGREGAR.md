@@ -292,6 +292,7 @@ Desde la fase A1 de [PLAN-MENU-ADULTOS.md](PLAN-MENU-ADULTOS.md) cada categoría
 4. Si debe sobrevivir a "Borrar todo el progreso", añádelo a `keep` en `doReset()`.
 5. Los textos del panel son HTML y no pasan por `say()`: se pueden cambiar sin problema (el catálogo de frases deja fuera la zona de adultos).
 6. Una categoría nueva: un módulo con su `PaginaAdultos` (`adultos/tipos.ts`), su id en `IdPagina` y una fila en `PAGINAS_ADULTOS` (`adultos/paginas.ts`); la prueba `tests/regresion/adultos.js` espera 7 categorías.
+7. Si la página tiene algo pendiente que la familia debe hacer, dale `aviso()` (el número del menú) y, si conviene, un aviso en el Resumen (`avisosResumen`, `adultos/resumen.ts`); las reglas, en `dominio/zonaAdultos.ts`.
 
 ## 13. Una letra de la Isla de las Letras
 

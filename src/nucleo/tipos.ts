@@ -120,6 +120,8 @@ export interface Estado {
   voz?: 'nav' | '' | 'fer';
   vozNav?: string;
   quiet3?: number;
+  /** Día de la última copia de seguridad descargada, vista o copiada ('AAAA-MM-DD'); desde la fase A6 de docs/PLAN-MENU-ADULTOS.md. */
+  bkFecha?: FechaDia;
   last?: string;
   ses?: { t: number; at: number } | null;
 }

@@ -46,7 +46,8 @@ import { copiaProfunda } from './utilidades.ts';
  *   escenas/tienda.ts (DEF2): coins, coinsTot, gift, woke, home, tito {shell, scarf, hat, glasses, bow y kind}, owned,
  *                     vales, valesLog, bday, bdayDone, unlockAll, seenOpen, houseSeen, petSeen, cofres.
  *   escenas/repaso.ts: kg {habilidad: [juegos donde sale]}, gs {'idTema#juego': {ok, err, d}} y rep (el repaso del día).
- *   Sueltos (pueden no existir): voz ('' o 'fer'), quiet3 (1 = Tito no comenta el paisaje 3D), last (último tema abierto).
+ *   Sueltos (pueden no existir): voz ('' o 'fer'), quiet3 (1 = Tito no comenta el paisaje 3D), last (último tema abierto),
+ *            bkFecha (día de la última copia de seguridad, desde la fase A6 de docs/PLAN-MENU-ADULTOS.md).
  *
  * REGLA DE ORO: hay partidas guardadas en los móviles. Nunca cambies de forma incompatible un campo que ya existe
  * (ni su nombre, ni su tipo, ni lo que significan sus valores) ni la clave KEY. Para algo nuevo, añade un campo

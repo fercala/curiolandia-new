@@ -75,7 +75,7 @@ export const TITO_Y_SONIDO: PaginaAdultos = {
    <p class="note">Tito sigue llamándose Tito. La ropa y los colores de la tienda le quedan igual (en el erizo el color va en las púas, en la tortuga en el caparazón y en el conejo en la mochila).</p></section>
   <section><h3>Voz</h3>
    <div class="row"><span>Voz del navegador</span><select id="a-vnav" style="max-width:100%">${vopts}</select><button id="a-vprueba" type="button">▶ Probar</button></div>
-   <details><summary>Cómo conseguir voces más naturales</summary>${vozGuiaHTML()}</details>
+   <details class="guia-voces"><summary>Cómo conseguir voces más naturales</summary>${vozGuiaHTML()}</details>
    <p class="note">Tito habla con la voz del navegador. Voz del navegador: ${esc(vname)}.</p></section>
   <section><h3>Volumen</h3>
    ${(['voz', 'mus', 'fx'] as (keyof Volumenes)[]).map((k) => `<label class="rng">${{ voz: 'Voz', mus: 'Música', fx: 'Efectos' }[k]} <input type="range" id="a-${k}" min="0" max="1" step="0.05" value="${S.vol[k]}"></label>`).join('')}</section>`;

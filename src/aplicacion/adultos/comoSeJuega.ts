@@ -25,8 +25,8 @@ export const COMO_SE_JUEGA: PaginaAdultos = {
          `<label class="opt"><input type="radio" name="a-mode" value="${k}" ${(k === 'libre') === !!S.unlockAll ? 'checked' : ''}> ${l}</label>`,
      )
      .join('')}</div>
-   <p class="note"><b>Camino:</b> los temas son un camino y se abren de a uno; dentro de cada tema, los juegos también se abren en orden. El botón verde del mapa lleva siempre al que sigue y lo ya jugado se puede repetir. El Bosque de 4 años y la Montaña de 5 años se abren con la edad elegida o al juntar 6 flores en la zona anterior. Las canciones se abren al terminar 1 tema del camino; las rutinas, al terminar 2; los trazos, 3, y los días especiales, 4. Las islas de las Letras y del Inglés están abiertas desde el principio.</p>
-   <p class="note"><b>Libre:</b> se puede elegir cualquier tema, cualquier juego y cualquier zona, también las de 4 y 5 años, sin importar la edad. Se puede cambiar en cualquier momento y no se pierde nada de lo jugado.</p></section>
+   <details><summary>Más información</summary><p class="note"><b>Camino:</b> los temas son un camino y se abren de uno en uno; dentro de cada tema, los juegos también se abren en orden. El botón verde del mapa lleva siempre al que sigue y lo ya jugado se puede repetir. El Bosque de 4 años y la Montaña de 5 años se abren con la edad elegida o al juntar 6 flores en la zona anterior. Las canciones se abren al terminar 1 tema del camino; las rutinas, al terminar 2; los trazos, 3, y los días especiales, 4. Las islas de las Letras y del Inglés están abiertas desde el principio.</p>
+   <p class="note"><b>Libre:</b> se puede elegir cualquier tema, cualquier juego y cualquier zona, también las de 4 y 5 años, sin importar la edad. Se puede cambiar en cualquier momento y no se pierde nada de lo jugado.</p></details></section>
   <section><h3>Tiempo de juego</h3>
    <div class="row">${[
      [0, 'Sin límite'],

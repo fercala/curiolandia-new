@@ -16,6 +16,8 @@ export interface PaginaAdultos {
   readonly corto: string;
   /** Emoji del menú. */
   readonly icono: string;
+  /** Número de cosas pendientes que se enseña junto a su nombre en el menú (0 = nada). Desde la fase A2. */
+  aviso?(): number;
   /** El HTML de la página (secciones <section><h3>…), hecho a partir de S cada vez que se pinta. */
   html(): string;
   /** Conecta los controles de la página (ya en el DOM, dentro de el) con S: cada cambio guarda con save(). */
@@ -28,4 +30,6 @@ export interface AccionesPagina {
   rehacer(): void;
   /** Cierra la zona de adultos (closeAdult), antes de ir a una escena o de borrar todo. */
   cerrar(): void;
+  /** Vuelve a pintar el menú (los números de pendientes de aviso()). Desde la fase A2. */
+  menu(): void;
 }

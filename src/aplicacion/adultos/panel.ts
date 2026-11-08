@@ -22,21 +22,43 @@ let actual: IdPagina | null = 'resumen';
 let adultWas = '';
 // vigilado: si ya se escucha el cambio de tamaño (girar el móvil) para no dejar el panel sin página.
 let vigilado = false;
+// antesDeAbrir: lo que tenía el foco al abrir la zona, para devolvérselo al cerrar (fase A5).
+let antesDeAbrir: HTMLElement | null = null;
 
 // panel(): el elemento #adult.
 const panel = () => document.getElementById('adult')!;
 // modoPaginas(): ¿se ve como portada de tarjetas (móvil en vertical)?
 const modoPaginas = () => typeof matchMedia === 'function' && matchMedia(MODO_PAGINAS).matches;
-// ACCIONES: lo que las páginas pueden pedir al panel; rehacer se crea para cada página (pintarPagina).
+// cerrar: lo que las páginas piden para cerrar la zona (AccionesPagina.cerrar); rehacer se crea para cada página
+// (pintarPagina).
 const cerrar = () => closeAdult();
 
-// pintarPagina(p): vuelve a hacer el HTML de la página p dentro de su caja (div.pag) y conecta sus controles y sus
-// atajos «Ir a» (data-go: cierran el panel y van a esa escena con saludo).
+// pintarMenu(): un botón por página (icono, nombre y nombre corto; los estilos enseñan uno u otro según el ancho) y,
+// desde la fase A2, el número de pendientes de aviso() (vales por entregar...), que también se lee en voz alta («2
+// pendientes»). Conserva aria-current en la página que se ve.
+function pintarMenu() {
+  const nav = panel().querySelector('nav.menu')!;
+  nav.innerHTML = PAGINAS_ADULTOS.map((p) => {
+    const n = p.aviso ? p.aviso() : 0,
+      num = n
+        ? `<span class="num"><span aria-hidden="true">${n}</span><span class="solo-lector">, ${n} ${n === 1 ? 'pendiente' : 'pendientes'}</span></span>`
+        : '';
+    return `<button type="button" data-pag="${p.id}"${p.id === actual ? ' aria-current="page"' : ''}><span class="ico" aria-hidden="true">${p.icono}</span><span class="nom">${p.titulo}</span><span class="corto" aria-hidden="true">${p.corto}</span>${num}</button>`;
+  }).join('');
+  nav.querySelectorAll<HTMLButtonElement>('button').forEach((b) => (b.onclick = () => irA(b.dataset.pag as IdPagina)));
+}
+
+// pintarPagina(p): vuelve a hacer el HTML de la página p dentro de su caja (div.pag) y conecta sus controles, sus
+// atajos «Ir a» (data-go: cierran el panel y van a esa escena con saludo) y, desde la fase A2, los botones que llevan
+// a otra página de la zona (data-ir, como los de los avisos del Resumen).
 function pintarPagina(p: PaginaAdultos) {
   const caja = panel().querySelector<HTMLElement>(`.pag[data-pag="${p.id}"]`)!;
   caja.innerHTML = `<h2 class="pag-t" tabindex="-1">${p.icono} ${p.titulo}</h2>` + p.html();
-  const acciones: AccionesPagina = { rehacer: () => pintarPagina(p), cerrar };
+  const acciones: AccionesPagina = { rehacer: () => pintarPagina(p), cerrar, menu: pintarMenu };
   p.conectar(caja, acciones);
+  caja
+    .querySelectorAll<HTMLButtonElement>('[data-ir]')
+    .forEach((b) => (b.onclick = () => irA(b.dataset.ir as IdPagina)));
   caja.querySelectorAll<HTMLButtonElement>('[data-go]').forEach(
     (b) =>
       (b.onclick = () => {
@@ -75,6 +97,7 @@ function irA(id: IdPagina | null, enfocar = true) {
      5. Los estilos (.row, .opt, .note...) están en head.html. Los textos del panel no se dicen con say(), se pueden cambiar. */
 export function openAdult(pagina?: string) {
   adultWas = S.age + '|' + !!S.unlockAll;
+  if (panel().hidden) antesDeAbrir = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   VIVO.lockDown = false;
   VIVO.lockHold = 0;
   try {
@@ -82,18 +105,11 @@ export function openAdult(pagina?: string) {
   } catch (e) {}
   const el = panel();
   el.hidden = false;
-  // El menú: un botón por página (icono, nombre y nombre corto; los estilos enseñan uno u otro según el ancho).
-  el.querySelector('nav.menu')!.innerHTML = PAGINAS_ADULTOS.map(
-    (p) =>
-      `<button type="button" data-pag="${p.id}"><span class="ico" aria-hidden="true">${p.icono}</span><span class="nom">${p.titulo}</span><span class="corto" aria-hidden="true">${p.corto}</span></button>`,
-  ).join('');
+  pintarMenu();
   el.querySelector('.body')!.innerHTML = PAGINAS_ADULTOS.map(
     (p) => `<div class="pag" data-pag="${p.id}" hidden></div>`,
   ).join('');
   PAGINAS_ADULTOS.forEach(pintarPagina);
-  el.querySelectorAll<HTMLButtonElement>('nav.menu button').forEach(
-    (b) => (b.onclick = () => irA(b.dataset.pag as IdPagina)),
-  );
   // Al girar el móvil de vertical a horizontal con la portada abierta, se pasa al Resumen (si no, no se vería nada).
   if (!vigilado && typeof matchMedia === 'function') {
     vigilado = true;
@@ -110,6 +126,8 @@ export function openAdult(pagina?: string) {
 // del informe de pruebas jugadas).
 export function closeAdult() {
   panel().hidden = true;
+  antesDeAbrir?.focus?.({ preventScroll: true });
+  antesDeAbrir = null;
   VIVO.sessionT = 0;
   S.ses = null;
   save();
@@ -126,7 +144,52 @@ export function closeAdult() {
 // Botones de la cabecera: «Volver al juego» cierra y «‹ Categorías» (solo en el móvil en vertical) vuelve a la portada.
 document.getElementById('a-close')!.onclick = () => closeAdult();
 document.getElementById('a-atras')!.onclick = () => irA(null);
-// Escape cierra la zona de adultos (el teclado del juego, en aplicacion/bucle.ts, no actúa con el panel abierto).
+// enfocables(): los controles del panel que se pueden alcanzar con el tabulador y se ven ahora (los de las páginas
+// escondidas, no).
+function enfocables(): HTMLElement[] {
+  return [
+    ...panel().querySelectorAll<HTMLElement>('button, input, select, textarea, summary, [tabindex="0"], a[href]'),
+  ].filter((x) => !(x as HTMLButtonElement).disabled && x.getClientRects().length > 0);
+}
+
+// Teclado con el panel abierto (el del juego, en aplicacion/bucle.ts, no actúa entonces):
+//   - Escape cierra la zona de adultos;
+//   - desde la fase A5, el tabulador no sale del panel (del último control vuelve al primero, y al revés con Mayúsculas);
+//   - en el menú de categorías, las flechas pasan a la categoría anterior o siguiente, e Inicio y Fin a la primera y la
+//     última (solo mueven el foco: se entra en la página con Intro o espacio).
 addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !panel().hidden) closeAdult();
+  if (panel().hidden) return;
+  if (e.key === 'Escape') {
+    closeAdult();
+    return;
+  }
+  if (e.key === 'Tab') {
+    const f = enfocables();
+    if (!f.length) return;
+    const i = f.indexOf(document.activeElement as HTMLElement);
+    if (e.shiftKey && i <= 0) {
+      e.preventDefault();
+      f[f.length - 1].focus();
+    } else if (!e.shiftKey && (i === -1 || i === f.length - 1)) {
+      e.preventDefault();
+      f[0].focus();
+    }
+    return;
+  }
+  const botones = [...panel().querySelectorAll<HTMLButtonElement>('nav.menu button')],
+    i = botones.indexOf(document.activeElement as HTMLButtonElement);
+  if (i === -1) return;
+  const destino =
+    e.key === 'ArrowDown' || e.key === 'ArrowRight'
+      ? (i + 1) % botones.length
+      : e.key === 'ArrowUp' || e.key === 'ArrowLeft'
+        ? (i - 1 + botones.length) % botones.length
+        : e.key === 'Home'
+          ? 0
+          : e.key === 'End'
+            ? botones.length - 1
+            : -1;
+  if (destino === -1) return;
+  e.preventDefault();
+  botones[destino].focus();
 });

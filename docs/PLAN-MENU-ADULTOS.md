@@ -4,7 +4,10 @@ Fernando lo pidió el 7 de noviembre de 2026: «El menú de los padres de curiol
 quiero que crees un plan de mejoras para dejarlo mejor, pueden ser páginas, pestañas o un menú lateral de categorías,
 pero con la cantidad de cosas que tenemos hoy ya es molesto para interactuar». Fernando fusionó el plan el 8 de
 noviembre de 2026 y pidió seguir («continua»): se toma lo recomendado en las decisiones del apartado 10. **Estado:
-hecha la fase A1 (v0.2.100); siguen A2 a A5 y la A6, opcional.** Si cambia una decisión, se apunta aquí y en
+plan terminado.** La fase A1 salió en la v0.2.100 y, cuando Fernando pidió seguir «hasta terminar», las fases A2 a A6
+en la v0.2.101 (un solo PR con un commit por fase). De la A6 se hizo el aviso de la copia de seguridad (decisión 5); no
+se hacen «recordar la última página», porque la decisión 4 es abrir siempre el Resumen, ni el buscador de ajustes, que
+con las páginas cortas ya no hace falta. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Cada fase va en su rama y su PR, como los planes de la casa, las letras y el inglés. Las fases se llaman A1 a A6 (A de adultos) para no
 confundirlas con las fases M de [PLAN-CASA-MEJORA.md](PLAN-CASA-MEJORA.md).
 
@@ -185,11 +188,11 @@ recuerda solo mientras el juego está abierto (`VIVO`), no en la partida. Solo l
 | Fase | Qué se hace | Qué ve la familia |
 | --- | --- | --- |
 | **A1. Estructura y navegación** (hecha, v0.2.100) | Partir `adultos.ts` en `aplicacion/adultos/` con `PAGINAS_ADULTOS`; las 7 categorías con el contenido de hoy movido tal cual; menú lateral, menú de iconos y portada de páginas según el ancho; cabecera fija; Escape; `openAdult(pagina?)`; pruebas actualizadas y `tests/regresion/adultos.js` | La zona ya está ordenada por categorías y nada se pierde |
-| **A2. Resumen** | La página de inicio con quién juega, minutos de hoy, monedas, lo que sigue, avisos y atajos; el número de avisos en las categorías; reglas en `dominio/` con Vitest | Lo importante, nada más entrar |
-| **A3. Progreso compacto** | Las 11 zonas en filas que se abren, «Cómo le va» ordenado por lo que cuesta con «Ver todas», subapartados de progreso; reglas en `dominio/` con Vitest | El progreso cabe en una o dos pantallas |
-| **A4. Textos** | Todo el panel en castellano de España (sin «de a uno», «Copialo», «celular»...), notas largas plegadas en «Más información», títulos y botones más cortos | Se lee más rápido |
-| **A5. Accesibilidad y móvil** | Diálogo accesible, foco, teclado, 44 px, contraste, zonas seguras, reducir movimiento; revisión con Playwright en los tres tamaños | Más cómodo con el dedo y con lector de pantalla |
-| **A6. Extras (opcional)** | A elegir: recordar la última página abierta, aviso «Hace 30 días que no haces una copia» (campo opcional `S.bkFecha`), buscador de ajustes | — |
+| **A2. Resumen** (hecha, v0.2.101) | La página de inicio con quién juega, minutos de hoy, monedas, lo que sigue, avisos y atajos; el número de avisos en las categorías; reglas en `dominio/` con Vitest | Lo importante, nada más entrar |
+| **A3. Progreso compacto** (hecha, v0.2.101) | Las 11 zonas en filas que se abren, «Cómo le va» ordenado por lo que cuesta con «Ver todas», subapartados de progreso; reglas en `dominio/` con Vitest | El progreso cabe en una o dos pantallas |
+| **A4. Textos** (hecha, v0.2.101) | Todo el panel en castellano de España (sin «de a uno», «Copialo», «celular»...), notas largas plegadas en «Más información», títulos y botones más cortos | Se lee más rápido |
+| **A5. Accesibilidad y móvil** (hecha, v0.2.101) | Diálogo accesible, foco, teclado, 44 px, contraste, zonas seguras, reducir movimiento; revisión con Playwright en los tres tamaños | Más cómodo con el dedo y con lector de pantalla |
+| **A6. Extras (opcional)** (hecho el aviso de copia, v0.2.101) | A elegir: recordar la última página abierta, aviso «Hace 30 días que no haces una copia» (campo opcional `S.bkFecha`), buscador de ajustes | — |
 
 A1 es la fase grande y la que cambia el aspecto (hecha: ver «Cómo quedó la fase A1»); A2 a A5 se pueden hacer en otro orden. Calculo que cada una cabe en un PR.
 
@@ -207,6 +210,23 @@ A1 es la fase grande y la que cambia el aspecto (hecha: ver «Cómo quedó la fa
   844 × 390 y 1024 × 768 (`tests/regresion/adultos.js`).
 - El panel ya es un diálogo (`role="dialog"`, `aria-modal`), el menú un `<nav>` con `aria-current` y el foco va al
   título de la página al cambiar; lo demás de accesibilidad (foco atrapado, contraste del botón, 44 px) sigue en la A5.
+
+### Cómo quedaron las fases A2 a A6 (v0.2.101)
+
+- **A2**: el Resumen (`adultos/resumen.ts`) enseña «Hoy» (nombre, edad, minutos de hoy, monedas, estrellas y temas),
+  «Avisos» con un botón a su página (`data-ir`, lo conecta el panel) y lo que sigue. Las páginas pueden tener `aviso()`,
+  el número que sale en el menú (`pintarMenu`, en `adultos/panel.ts`); al marcar un vale como entregado o hacer una
+  copia, el menú se vuelve a pintar (`AccionesPagina.menu`). Reglas en `dominio/zonaAdultos.ts`.
+- **A3**: Progreso con índice (`PARTES`), las 11 zonas en `details.zona` con su resumen (`resumenZona`) y «Cómo le va»
+  ordenado por `ordenHabilidades` con las 10 primeras a la vista y «Ver todas».
+- **A4**: textos en castellano de España («de uno en uno», «Cópialo», «móvil», «Ordenador», «Añadir a pantalla de
+  inicio»...), explicaciones largas en «Más información», los vales por entregar arriba en «Premios y vales» y, en el
+  diálogo de empezar de nuevo, «pegatinas» en vez de «figuritas». La guía de voces es `details.guia-voces`.
+- **A5**: el tabulador no sale del panel, el foco vuelve al cerrar, flechas, Inicio y Fin en el menú, controles de 44 px,
+  «Volver al juego» y el foco en `#6A58B8` (5,7 : 1 con blanco), números del menú en `#C9372C` y nada de animaciones con
+  «reducir movimiento».
+- **A6**: `S.bkFecha` (opcional, sin migración; `ESTADO-GUARDADO.md`): la copia apunta su día al descargarla, verla o
+  copiarla, y `copiaPendiente()` (`adultos/copia.ts`) avisa en el Resumen y en el menú.
 
 ## 9. Riesgos
 
