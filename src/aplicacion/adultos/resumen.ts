@@ -5,6 +5,7 @@
 import { S, STARS, temasDone, today } from '../../nucleo/indice.ts';
 import { suggestTema } from '../../escenas/zonas.ts';
 import { valesPorEntregar } from '../../dominio/zonaAdultos.ts';
+import { copiaPendiente } from './copia.ts';
 import { esc } from './comun.ts';
 import type { IdPagina, PaginaAdultos } from './tipos.ts';
 
@@ -22,8 +23,8 @@ function hayVozInglesa(): boolean {
   return !v.length || v.some((x) => /^en/i.test(x.lang));
 }
 
-// avisosResumen(): lo que pide algo a la familia, en orden de importancia: vales comprados por entregar y que falte
-// la voz inglesa (la Isla del Inglés la necesita).
+// avisosResumen(): lo que pide algo a la familia, en orden de importancia: vales comprados por entregar, la copia de
+// seguridad (desde la fase A6: nunca hecha o de hace 30 días o más) y que falte la voz inglesa (la Isla del Inglés la necesita).
 function avisosResumen(): AvisoResumen[] {
   const r: AvisoResumen[] = [];
   const n = valesPorEntregar(S.valesLog || []);
@@ -31,6 +32,13 @@ function avisosResumen(): AvisoResumen[] {
     r.push({
       texto: n === 1 ? 'Hay <b>1 vale</b> por entregar.' : `Hay <b>${n} vales</b> por entregar.`,
       ir: 'premios',
+    });
+  if (copiaPendiente())
+    r.push({
+      texto: S.bkFecha
+        ? 'Hace más de un mes de la última copia de seguridad: conviene hacer otra.'
+        : 'Todavía no hay ninguna copia de seguridad del progreso: si se borran los datos del navegador, se pierde.',
+      ir: 'copia',
     });
   if (!hayVozInglesa())
     r.push({

@@ -1,7 +1,9 @@
 // adultos/copia.ts: página «Copia y aparato» de la zona de adultos (fase A1 de docs/PLAN-MENU-ADULTOS.md): copia de
 // seguridad (bkWire, adultos/copiaSeguridad.ts), instalar el juego, «Ir a» con todos los sitios y temas y, al final,
 // «Empezar de cero» (doReset, aplicacion/dialogos.ts). Antes eran las últimas secciones de aplicacion/adultos.ts.
-import { VIVO, go } from '../../nucleo/indice.ts';
+// Desde la fase A6, la copia apunta su día en S.bkFecha y, si toca hacer otra, el menú y el Resumen lo recuerdan.
+import { S, VIVO, go, temasDone, today } from '../../nucleo/indice.ts';
+import { tocaCopia } from '../../dominio/zonaAdultos.ts';
 import { TEMAS, standalone } from '../../escenas/escenas2d.ts';
 import { doReset } from '../dialogos.ts';
 import { bkWire } from './copiaSeguridad.ts';
@@ -26,11 +28,17 @@ function installHTML() {
   );
 }
 
+// copiaPendiente(): ¿conviene recordar la copia de seguridad? Hay progreso (monedas ganadas o algún tema terminado) y
+// nunca se ha hecho una o la última (S.bkFecha) es de hace 30 días o más (tocaCopia, dominio/zonaAdultos.ts; fase A6).
+export const copiaPendiente = () => tocaCopia(S.bkFecha, today(), (S.coinsTot || 0) > 0 || temasDone() > 0);
+
 export const COPIA: PaginaAdultos = {
   id: 'copia',
   titulo: 'Copia y aparato',
   corto: 'Copia',
   icono: '💾',
+  // aviso(): 1 si toca recordar la copia de seguridad (copiaPendiente), para el número del menú (fase A6).
+  aviso: () => (copiaPendiente() ? 1 : 0),
   // html(): copia de seguridad, instalar, ir a (los atajos data-go los conecta el panel) y empezar de cero.
   html: () => `
   <section><h3>Copia de seguridad</h3>
@@ -47,7 +55,7 @@ export const COPIA: PaginaAdultos = {
   // y vuelve a pintar la página) y «Borrar todo», que pide confirmación en la propia página antes de doReset().
   conectar(el, acciones) {
     const q = buscador(el);
-    bkWire(q);
+    bkWire(q, acciones.menu);
     q('#a-gotema').onclick = () => {
       const id = q('#a-tema').value;
       acciones.cerrar();

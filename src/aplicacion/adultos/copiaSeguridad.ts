@@ -3,7 +3,7 @@
 // revés, y bkWire conecta los botones de la página «Copia y aparato». Usa esPartida (dominio/partida.ts) y
 // escribirGuardado (aplicacion/puertos.ts).
 import type { Libre } from '../../nucleo/tipos.ts';
-import { KEY, S, today } from '../../nucleo/indice.ts';
+import { KEY, S, save, today } from '../../nucleo/indice.ts';
 import { esPartida } from '../../dominio/partida.ts';
 import { escribirGuardado } from '../puertos.ts';
 import { esc } from './comun.ts';
@@ -54,14 +54,22 @@ export async function bkDecode(code: string): Promise<Libre> {
 // recuperar desde código o archivo. Al recuperar, enseña un resumen y, si se confirma, escribe la copia directamente en
 // el guardado (escribirGuardado; en el navegador, localStorage) y recarga la página (load() de nucleo/guardado.ts la pone al día y la mezcla con DEF como cualquier
 // partida guardada).
-export function bkWire(q: (s: string) => HTMLInputElement) {
+export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => void = () => {}) {
   const msg = (h: string) => {
       q('#a-bk-msg').innerHTML = h;
     },
     ta = q('#a-bk-txt');
+  // hecha(): apunta hoy como día de la última copia (S.bkFecha, fase A6) y avisa a la página (para quitar el número
+  // del menú).
+  const hecha = () => {
+    S.bkFecha = today();
+    save();
+    alHacerCopia();
+  };
   q('#a-bk-code').onclick = async () => {
     ta.value = await bkEncode();
     ta.select();
+    hecha();
     msg('Este código tiene todo el progreso. Cópialo y guárdalo, por ejemplo enviándotelo por mensaje.');
   };
   q('#a-bk-copy').onclick = async () => {
@@ -76,6 +84,7 @@ export function bkWire(q: (s: string) => HTMLInputElement) {
         ok = document.execCommand('copy');
       } catch (e2) {}
     }
+    if (ok) hecha();
     msg(ok ? '✅ Código copiado.' : 'Selecciona el código de arriba y cópialo a mano.');
   };
   q('#a-bk-dl').onclick = () => {
@@ -89,6 +98,7 @@ export function bkWire(q: (s: string) => HTMLInputElement) {
       URL.revokeObjectURL(a.href);
       a.remove();
     }, 1500);
+    hecha();
     msg('Si no se ha descargado nada, usa el código de copia.');
   };
   // ask(texto): intenta leer una copia y pide confirmación antes de reemplazar el progreso. Todo lo que viene de la copia
