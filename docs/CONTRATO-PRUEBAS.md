@@ -20,7 +20,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | `TEMAS`, `TEMA`, `SCENES` | Los temas con sus juegos, el tema por id y las escenas. | 6 |
 | `tap(x, y)`, `drag(x1, y1, x2, y2)`, `hover(x, y)` | Toques en coordenadas de la pantalla lógica de 1600x900. | — |
 | `T()` | Tiempo de juego en segundos. | — |
-| `say`, `openAdult`, `closeAdult` | Hablar y abrir/cerrar la zona de adultos. | — |
+| `say`, `openAdult(pagina?)`, `closeAdult` | Hablar y abrir/cerrar la zona de adultos. Desde la fase A1 de [PLAN-MENU-ADULTOS.md](PLAN-MENU-ADULTOS.md), `openAdult` abre una página concreta si se le pasa su id (`'resumen'`, `'quienJuega'`, `'comoSeJuega'`, `'titoYSonido'`, `'progreso'`, `'premios'`, `'copia'`): lo necesitan las pruebas que pulsan con Playwright, que solo ve lo que está a la vista (`cobertura.js`, `ampliada.js`, `adultos.js`). | — |
 
 ## Lo que las pruebas leen fuera de `__cl`
 
@@ -29,7 +29,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | `window.__fast` | lo ponen las pruebas | Modo rápido: `say()` no habla y acaba en 30 ms. |
 | `window.__said` | lo ponen las pruebas | `say()` apunta ahí cada frase en modo rápido. |
 | `window.__w3` (`ok`, `W`, `retito`, `FPS`, `pickAt`, `proj`...) | `src/mundo3d/interaccion.ts` (`montarInteraccion`; `ok` lo pone `src/mundo3d/mundo3d.ts`) | Saber si hay 3D y leer el mundo 3D. |
-| `#adult` (elemento HTML) | `src/head.html` | Ver si la zona de adultos está abierta (`hidden`). |
+| `#adult` (elemento HTML) | `src/head.html` | Ver si la zona de adultos está abierta (`hidden`). Desde la fase A1, dentro: `#a-close`, `#a-atras`, `nav.menu button[data-pag]` y una caja `.pag[data-pag]` por página; los controles conservan sus `id` y `name` de siempre (`#a-name`, `[name=a-age]`, `[name=a-mode]`, `#a-vnav`, `#a-mus`, `[data-von]`, `[data-vgive]`, `#a-bk-txt`, `#a-tema`...), y todas las páginas están en el DOM aunque no se vean. |
 | `save`, `doReset`, `go`, `sceneName`, `scene`, `S` | `nucleo/guardado.ts`, `nucleo/escenas.ts`, `aplicacion/adultos.ts` | Guardar, borrar todo, cambiar de escena. |
 | `OX`, `OY`, `SC` | `nucleo/pantalla.ts` | Pasar de la pantalla lógica 1600x900 a píxeles de la ventana (ratón de verdad). |
 | `VIVO.talking` | `nucleo/voz.ts` | Esperar a que Tito termine de hablar. |
@@ -37,7 +37,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | `ponGo` | `nucleo/escenas.ts` | Envolver `go` para apuntar las escenas (`camino.js`). |
 | `pickVoice`, `VOICE` | `nucleo/voz.ts` | Prueba de la elección de voz (`voces.js`). |
 | `VOZ`, `vozFile`, `kid` | `nucleo/voz.ts` | Plan de voz de una frase con el nombre del niño (`limites.js`, `audio.js`; sin voces grabadas `VOZ` es `null`). |
-| `bkEncode`, `bkDecode` | `aplicacion/adultos.ts` | Copias de seguridad. |
+| `bkEncode`, `bkDecode` | `aplicacion/adultos/copiaSeguridad.ts` (los vuelve a exportar `aplicacion/adultos.ts`) | Copias de seguridad. |
 | `VIVO.MX`, `T` | `nucleo/puntero.ts`, `nucleo/pantalla.ts` | Posición del ratón y reloj de juego. |
 | `localStorage['curiolandia-new.v1']` | `nucleo/guardado.ts` (`KEY`) | Escribir partidas de prueba antes de cargar. |
 | `localStorage['curiolandia.v1']` | `nucleo/guardado.ts` (`KEY_VIEJA`) | La partida de curiolandia-3d que se copia (`guardado-viejo.js`). |

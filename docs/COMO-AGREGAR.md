@@ -281,15 +281,17 @@ Se entra con `go('huerto', {hello:true})`. Guarda el estado en `this` y prepára
 
 ## 12. Una opción en la zona de adultos
 
-En `openAdult()` (aplicacion/adultos.ts), cuya cabecera lo explica con detalle:
+Desde la fase A1 de [PLAN-MENU-ADULTOS.md](PLAN-MENU-ADULTOS.md) cada categoría del menú es una página de
+`aplicacion/adultos/` (la cabecera de `openAdult()`, en `adultos/panel.ts`, lo explica con detalle):
 1. Campo nuevo en `S` con valor por defecto (en `DEF2` de escenas/tienda.ts, o leyendo `S.miAjuste || 0`).
-2. Una fila en el HTML del panel, como la de "Paisaje":
+2. Una fila en `html()` de la página que toque, como la de "Paisaje" (`adultos/comoSeJuega.ts`):
    ```js
    `<div class="row"><span>Mi ajuste</span>${[[0,'No'],[1,'Sí']].map(([k,l])=>`<label class="opt"><input type="radio" name="a-mi" value="${k}" ${(S.miAjuste||0)==k?'checked':''}> ${l}</label>`).join('')}</div>`
    ```
-3. Conectarla después de crear el panel: `el.querySelectorAll('[name=a-mi]').forEach(r=>r.onchange=()=>{S.miAjuste=+r.value;save()})`.
+3. Conectarla en `conectar(el)` de esa página: `radios(el, 'a-mi', (v) => { S.miAjuste = +v; save(); })` (`radios`, de `adultos/comun.ts`).
 4. Si debe sobrevivir a "Borrar todo el progreso", añádelo a `keep` en `doReset()`.
-5. Los textos del panel son HTML y no pasan por `say()`: se pueden cambiar sin problema.
+5. Los textos del panel son HTML y no pasan por `say()`: se pueden cambiar sin problema (el catálogo de frases deja fuera la zona de adultos).
+6. Una categoría nueva: un módulo con su `PaginaAdultos` (`adultos/tipos.ts`), su id en `IdPagina` y una fila en `PAGINAS_ADULTOS` (`adultos/paginas.ts`); la prueba `tests/regresion/adultos.js` espera 7 categorías.
 
 ## 13. Una letra de la Isla de las Letras
 

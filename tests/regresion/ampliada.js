@@ -239,7 +239,7 @@ const base = {
     await test('copia-html-monedas', 'La previsualización de copias no debe ejecutar HTML del saldo', async (p) => {
       await p.evaluate(() => {
         window.__qaXss = 0;
-        openAdult();
+        openAdult('copia');
       });
       const payload = JSON.stringify({ temas: {}, coins: '<img src=x onerror="window.__qaXss=1">' });
       await p.locator('#a-bk-txt').fill(payload);

@@ -147,7 +147,7 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       await p.evaluate(() => openAdult());
       await p.getByRole('button', { name: 'Mapa', exact: true }).click();
       await p.waitForFunction(() => sceneName === 'map');
-      await p.evaluate(() => openAdult());
+      await p.evaluate(() => openAdult('copia'));
       await p.locator('#a-tema').selectOption('3A-T2');
       await p.locator('#a-gotema').click();
       const result = await p.evaluate(() => ({ scene: sceneName, theme: scene.t?.id || null, reviewFlag: REP_ON }));
@@ -322,7 +322,7 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       'Desactivar un vale debe impedir confirmar una compra pendiente de ese vale',
       async (p) => {
         await prepareVoucher(p);
-        await p.evaluate(() => openAdult());
+        await p.evaluate(() => openAdult('premios'));
         await p.locator('[data-von="0"]').uncheck();
         await p.locator('#a-close').click();
         await L.clic(p, 680, 690);
@@ -340,7 +340,7 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       async (p) => {
         await prepareVoucher(p);
         await L.clic(p, 680, 690);
-        await p.evaluate(() => openAdult());
+        await p.evaluate(() => openAdult('premios'));
         await p.locator('[data-vgive="0"]').click();
         await p.reload();
         await p.waitForFunction(() => window.__cl && sceneName === 'title');
