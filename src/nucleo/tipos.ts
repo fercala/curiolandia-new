@@ -112,6 +112,9 @@ export interface Estado {
   /** Lo que ya se colocó alguna vez en la casa de Tito: {id: 1} (lo del baúl que no está es nuevo). null hasta la
    * primera visita a la casa desde la fase M2 de docs/PLAN-CASA-MEJORA.md (aplicacion/casa.ts). */
   casaVistos?: Record<string, number> | null;
+  /** El cole (dominio/cole.ts, RegistroCole): el último día que se jugó en el patio, lo hecho ese día y cuántas veces
+   * se ha hecho cada actividad. Desde la fase P1 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  cole?: { d: string; hechas: string[]; veces: Record<string, number> };
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;

@@ -991,3 +991,38 @@ Lo que había encima está en el baúl.
 Aquí no hay sitio. Prueba en otra habitación.
 En
  ya no hay sitio para eso.
+el cole
+¡Bienvenido al cole! Aquí está el patio, para jugar y moverse. Muy pronto vendrán las excursiones en autobús y las clases. ¡Toca el patio!
+Toca el patio para jugar.
+el patio
+las clases
+el autobús de las excursiones
+El autobús de las excursiones está en obras. ¡Muy pronto podrás jugar aquí!
+Las clases están en obras. ¡Muy pronto podrás jugar aquí!
+¡Al patio! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?
+Elige un juego del patio.
+¡Estatuas!
+Tito dice
+Yoga de los animales
+Carreras
+Tito dice: ¡muy pronto podrás jugar!
+¡Vamos a jugar a las estatuas! Cuando suene la música, baila conmigo. Cuando pare, ¡nos quedamos quietos como estatuas!
+¡A las estatuas! Baila con la música y, cuando pare, ¡quieto!
+¡A bailar como un pingüino!
+¡Ahora saltamos como las ranas!
+¡A bailar como un mono!
+¡Volamos como una mariposa!
+¡A bailar como un robot!
+¡Estatua! Quietos como un árbol.
+¡Estatua! Quietos como una estrella.
+¡Estatua! Quietos como un gato dormido.
+¡Estatua! Hechos una bola, como una tortuga.
+¡Estatua! Quietos como un robot.
+¡Muy bien! ¡Qué quietos!
+¡Genial! Una estatua perfecta.
+¡Bravo! Ni te has movido.
+¡Qué bien bailas! Has sido una estatua estupenda. ¿Jugamos otra vez?
+¡Quietos como estatuas!
+Toca la flecha para jugar otra vez.
+¡Baila con la música!
+Otra vez.

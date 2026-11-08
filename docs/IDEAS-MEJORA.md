@@ -1,9 +1,11 @@
 # Ideas para llevar Curiolandia a otro nivel
 
-**Estado: propuesta, sin código (8 de noviembre de 2026).** Fernando pide muchas ideas viables para que el juego sea más
+**Estado: aprobado todo (8 de noviembre de 2026), en marcha de una idea en una.** Hecha: P1 (el cole, el patio y
+«¡Estatuas!», v0.2.102). El orden y las fases, en el apartado 12. Fernando pide muchas ideas viables para que el juego sea más
 rico, con juegos más largos y profundos, más uso del motor 3D y actividades nuevas (una visita del cole a la granja,
 carreras y juegos al aire libre...), **sin perder nada de lo que ya hay**. Este documento es el banco de ideas: Fernando
-elige cuáles se hacen, y cada una que se apruebe tendrá su propio plan con fases y PR, como
+eligió el 8 de noviembre de 2026 **hacerlas todas, de una en una** («Vamos a hacer todos, ve haciendo de uno a la vez»);
+cada una va en su PR (las grandes, en varias fases), como
 [PLAN-LECTURA.md](PLAN-LECTURA.md), [PLAN-INGLES.md](PLAN-INGLES.md) o [PLAN-CASA-MEJORA.md](PLAN-CASA-MEJORA.md).
 
 Cómo leer cada idea:
@@ -573,3 +575,27 @@ Fernando pide también «mejor calidad». Son cambios más pequeños que se nota
 | 4 | ¿Juegos de moverse de verdad (sin poder comprobarlo)? | Sí · solo en pantalla | **Sí**, con aviso a los padres en la zona de adultos y la opción de quitarlos. |
 | 5 | ¿Granja escuela en 2D primero o directamente 3D? | 2D primero · 3D | **2D con recortables primero**, 3D cuando haya la medida de FPS. |
 | 6 | ¿Perfiles para varios niños? | Sí · no por ahora | **No por ahora**: toca el guardado y conviene hacerlo con calma más adelante. |
+
+Decisiones tomadas (8 de noviembre de 2026): Fernando aprueba todas las ideas; se toma lo recomendado en todo, con un
+cambio en la 2: en lugar de dos sitios nuevos, **uno solo, «El cole»**, porque el mapa ya está muy lleno. El cole junta
+el patio, el autobús de las excursiones y las clases (los rincones), y así caben casi todas las ideas sin tocar más el
+mapa.
+
+## 12. Orden de trabajo y fases
+
+Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase se apunta aquí al acabarla.
+
+| Fase | Qué | Ideas | Estado |
+|---|---|---|---|
+| **P1** | El cole en el mapa (2D y 3D: el edificio con el autobús), su escena con el patio y lo que viene «¡Muy pronto!», el patio con sus botones y el primer juego, «¡Estatuas!». Reglas en `dominio/cole.ts` (3 monedas la primera vez de cada día, `S.cole`). | 11 | Hecha (v0.2.102) |
+| P2 | Tito dice (en movimiento). | 12 | — |
+| P3 | Yoga de los animales y el rincón de la calma (también como pausa activa a los 20 minutos). | 13 | — |
+| P4 | Retos para hacer en casa, y en la zona de adultos el aviso de los juegos de moverse con la opción de quitarlos. | 37 | — |
+| P5–P8 | La granja escuela: el motor de excursiones (B1) y el autobús del cole, los animales recortables (B2), las estaciones, y el crecer por días (B4). | 1 | — |
+| P9 | Crías y familias de animales. | 22 | — |
+| P10–P11 | El patio en 3D (B3) y las carreras de Tito; el gran día del deporte. | 10, 17 | — |
+| P12 | Juegos de patio cortos (de dos en dos). | 16 | — |
+| P13 | El escondite y el circuito de psicomotricidad. | 14, 15 | — |
+| P14–P15 | Paseo libre con tesoros y la cámara de fotos. | 18, 20 | — |
+| P16 | La gran aventura de Tito (primera temporada, en varias fases). | 26 | — |
+| Después | El resto de excursiones (2 a 9), el resto del 3D (19, 21, 23, 24, 25), los juegos más profundos (27 a 32), el mundo vivo (33 a 36), la familia (38 a 41) y pulir lo que hay (42 a 47). | — | — |

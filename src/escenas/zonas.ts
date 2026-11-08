@@ -1020,7 +1020,8 @@ export function drawTitoHouse(x: number, gy: number, lvl: number, o: Libre = {})
 /* ---------- el mapa ---------- */
 // MZ2: los sitios del mapa v3. Formato: {id, x, y, r: radio tocable, name: nombre para la voz, t?: id del tema al que
 // lleva directamente (canciones, trazos, rutinas), esc?: escena a la que lleva si no es la del id (el muelle -> 'isla',
-// desde la fase L2; el globo -> 'islaIngles', desde la fase I2, en el sitio del antiguo Rincón del inglés)}. Al tocarlo: plaza -> asamblea; con t -> su casita; con esc -> esa escena; si no -> go(id) (una
+// desde la fase L2; el globo -> 'islaIngles', desde la fase I2, en el sitio del antiguo Rincón del inglés)}. Desde la
+// fase P1 de docs/IDEAS-MEJORA.md, el cole (SCENES.cole, escenas/cole.ts), entre el jardín y los días especiales. Al tocarlo: plaza -> asamblea; con t -> su casita; con esc -> esa escena; si no -> go(id) (una
 // zona de ZONES, 'album', 'tienda' o 'casaTito'). Son las posiciones 2D: dónde está cada sitio en la
 // pantalla se pregunta con mzOf o lugar, que en 3D dan las proyectadas (desde la fase 4j; antes se escribían aquí).
 export const MZ2 = [
@@ -1037,6 +1038,7 @@ export const MZ2 = [
   { id: 'tienda', x: 790, y: 800, r: 90, name: 'la tienda' },
   { id: 'casaTito', x: 1040, y: 715, r: 150, name: 'la casa de Tito' },
   { id: 'muelle', x: 1345, y: 835, r: 72, name: 'el barco de la Isla de las Letras', esc: 'isla' },
+  { id: 'cole', x: 625, y: 595, r: 80, name: 'el cole' },
 ];
 // SEGUIR: el botón verde "seguir el camino" del mapa (x, y, r).
 export const SEGUIR = { x: 340, y: 812, r: 64 };
@@ -1160,6 +1162,13 @@ function drawMuelle(x: number, y: number) {
   // el cartel (desde la v0.2.70), como el de la Casa de Tito, para que se vea adónde lleva
   card(x - 112, y - 112, 224, 40, '#5B8DEF', 5, 20);
   text('Isla de las Letras', x, y - 83, 24, '#fff');
+}
+// drawCole(x, y): el cole del mapa (fase P1 de docs/IDEAS-MEJORA.md): el edificio del cole, con su cartel, «El cole».
+// Lleva a SCENES.cole (escenas/cole.ts).
+function drawCole(x: number, y: number) {
+  pic('escuela', x, y, 150);
+  card(x - 70, y - 104, 140, 40, '#FFA94D', 5, 20);
+  text('El cole', x, y - 75, 24, '#fff');
 }
 // drawGlobo(x, y): el globo del mapa (fase I2 de docs/PLAN-INGLES.md), en el sitio del antiguo Rincón del inglés: un globo
 // aerostático de rayas rojas, blancas y azules con su cesta, que sube y baja despacio, y encima su cartel, «Isla del
@@ -1360,6 +1369,7 @@ function drawZoneSpot(z: Libre, o: Libre = {}) {
     }
   }
   if (z.id === 'muelle') drawMuelle(x, y);
+  if (z.id === 'cole') drawCole(x, y);
   if (z.id === 'casaTito') {
     const h = casaPos();
     drawTitoHouse(h[0], h[1], houseLevel(), { shake: o.shake });

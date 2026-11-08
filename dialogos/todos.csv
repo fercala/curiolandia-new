@@ -702,7 +702,7 @@ e49e72e2c77c,la be,trozo,src/contenido/letras.ts
 e5baa22d9f17,la uve,trozo,src/contenido/letras.ts
 00b9518e9743,la eñe,trozo,src/contenido/letras.ts
 9d9ccca0dcbc,el ñu,nombre,src/contenido/lex.ts
-7d9347a6d663,el cole,nombre,src/contenido/lex.ts
+7d9347a6d663,el cole,nombre,src/contenido/lex.ts src/escenas/zonas.ts
 0609b4925b7c,el parque,nombre,src/contenido/lex.ts
 2112e12d7425,la piscina,nombre,src/contenido/lex.ts
 a4d0bed226e5,la tienda,nombre,src/contenido/lex.ts src/escenas/zonas.ts
@@ -928,6 +928,10 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
+1e86783773d9,¡Estatuas!,frase,src/dominio/cole.ts
+5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts
+0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
+db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
 fb6bb0961414,¡Aquí está ,trozo,src/escenas/casa.ts
 2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/casa.ts
 6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,frase,src/escenas/casa.ts
@@ -1139,6 +1143,19 @@ ff3c9697a105,! ¡Veinte monedas!,trozo,src/escenas/cofre.ts
 82b808c124a3,Toca la flecha verde para seguir el camino.,frase,src/escenas/cofre.ts src/escenas/repaso.ts
 24166ed0d5a7,¡Otra vez!,frase,src/escenas/cofre.ts
 86cc9c3caa41,¡Una vez más!,frase,src/escenas/cofre.ts
+a97c66fedfb2,el patio,trozo,src/escenas/cole.ts
+b44e34d68b1b,El patio,trozo,src/escenas/cole.ts src/escenas/patio.ts
+a32c8a6e5f50,las clases,trozo,src/escenas/cole.ts
+c45479ffa5f0,Las clases,trozo,src/escenas/cole.ts
+05999bcdbb62,el autobús de las excursiones,trozo,src/escenas/cole.ts
+4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts
+82a8c9409b57,¡Muy pronto!,frase,src/escenas/cole.ts src/escenas/isla.ts src/escenas/patio.ts
+7dca4a766ce7,¡Bienvenido al cole,trozo,src/escenas/cole.ts
+c4e9ecc068a0,"! Aquí está el patio, para jugar y moverse. Muy pronto vendrán las excursiones en autobús y las clases. ¡Toca el patio!",trozo,src/escenas/cole.ts
+33b763f6ed57,Toca el patio para jugar.,frase,src/escenas/cole.ts
+2417dfef0c3a, en obras. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/cole.ts
+a73566387de6,están,trozo,src/escenas/cole.ts
+093ed663c2df,está,trozo,src/escenas/cole.ts
 047a6c123a1f,Este es tu diccionario de inglés. Ya conoces ,trozo,src/escenas/diccionario.ts
 d585c75f67ab,palabra,trozo,src/escenas/diccionario.ts
 0ecbc11e335f,palabras,trozo,src/escenas/diccionario.ts
@@ -1313,11 +1330,33 @@ f2a070932858,¡Qué bonito jugamos,trozo,src/escenas/escenas2d.ts
 06747db549ea,! Ahora Tito se va a descansar. ¡Hasta mañana!,trozo,src/escenas/escenas2d.ts
 fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/juegos/lectura.ts
 563528c57bb4,Es hora de descansar,trozo,src/escenas/escenas2d.ts
+fbc49c3eee3d,¡A bailar como un pingüino!,frase,src/escenas/estatuas.ts
+e9e0a80c11e3,¡Ahora saltamos como las ranas!,frase,src/escenas/estatuas.ts
+59d3cb6ed21a,¡A bailar como un mono!,frase,src/escenas/estatuas.ts
+842cd1ada873,¡Volamos como una mariposa!,frase,src/escenas/estatuas.ts
+1f3f5e9fc029,¡A bailar como un robot!,frase,src/escenas/estatuas.ts
+33626b692f5a,¡Estatua! Quietos como un árbol.,frase,src/escenas/estatuas.ts
+73052da55938,¡Estatua! Quietos como una estrella.,frase,src/escenas/estatuas.ts
+5338fd6f3a21,¡Estatua! Quietos como un gato dormido.,frase,src/escenas/estatuas.ts
+d721318b8b68,"¡Estatua! Hechos una bola, como una tortuga.",frase,src/escenas/estatuas.ts
+3373f5289449,¡Estatua! Quietos como un robot.,frase,src/escenas/estatuas.ts
+28b2c7b8f6b0,¡Muy bien! ¡Qué quietos!,frase,src/escenas/estatuas.ts
+b8a6f77486dc,¡Genial! Una estatua perfecta.,frase,src/escenas/estatuas.ts
+1cc24bc49458,¡Bravo! Ni te has movido.,frase,src/escenas/estatuas.ts
+e414b29c8d1e,¡Qué bien bailas! Has sido una estatua estupenda. ¿Jugamos otra vez?,frase,src/escenas/estatuas.ts
+0dbca4eda5ed,¡A bailar!,frase,src/escenas/estatuas.ts
+cbd3842a2878,¡Estatua!,frase,src/escenas/estatuas.ts
+8ce3b84b1194,"¡Vamos a jugar a las estatuas! Cuando suene la música, baila conmigo. Cuando pare, ¡nos quedamos quietos como estatuas!",frase,src/escenas/estatuas.ts
+bfd08dda7379,"¡A las estatuas! Baila con la música y, cuando pare, ¡quieto!",frase,src/escenas/estatuas.ts
+15d248e5be3a,¡Quietos como estatuas!,frase,src/escenas/estatuas.ts
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/estatuas.ts
+11f4179087e7,¡Baila con la música!,frase,src/escenas/estatuas.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/estatuas.ts
+be997aa77b53,¡Lo has hecho genial!,frase,src/escenas/estatuas.ts
 af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts
-82a8c9409b57,¡Muy pronto!,frase,src/escenas/isla.ts
 8510453fad10, años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/mundo3d/isla3d.ts
 f9ec665e0ef6,¡Llegamos a la Isla de las Letras,trozo,src/escenas/isla.ts
 1b8f255649ec,"! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",trozo,src/escenas/isla.ts
@@ -1347,6 +1386,10 @@ f9a7ebd038f4,el Pueblo de los Cuentos,trozo,src/escenas/islaIngles.ts src/escena
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
+193efbe89a74,¡Al patio,trozo,src/escenas/patio.ts
+c46254952fc1,! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?,trozo,src/escenas/patio.ts
+0c447c76243e,Elige un juego del patio.,frase,src/escenas/patio.ts
+e72a24abc0e0,: ¡muy pronto podrás jugar!,trozo,src/escenas/patio.ts
 059c77083744,¡Terminaste el repaso de hoy,trozo,src/escenas/repaso.ts
 2778aa48c205,! Tito te regala cinco monedas.,trozo,src/escenas/repaso.ts
 25738850ad8d,¡Muy bien! Ahora el número ,trozo,src/escenas/repaso.ts
@@ -1462,6 +1505,7 @@ bf5fd63a874f,el globo de la Isla del Inglés,trozo,src/escenas/zonas.ts
 d1660b9daa58,¡Terminaste todos los caminos,trozo,src/escenas/zonas.ts
 e12315af2ad6,! Puedes repetir lo que más te guste.,trozo,src/escenas/zonas.ts
 ba425b157dcd,Isla de las Letras,trozo,src/escenas/zonas.ts
+969e43db941b,El cole,trozo,src/escenas/zonas.ts
 a623a5ae7a4d,Isla del Inglés,trozo,src/escenas/zonas.ts
 df09140b08d5,3 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 5d400baad9f7,4 años,trozo,src/escenas/zonas.ts
