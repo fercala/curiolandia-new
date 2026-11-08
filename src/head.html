@@ -26,7 +26,7 @@ html,body{margin:0;height:100%;background:#2E2420;overflow:hidden;overscroll-beh
 #adult nav.menu button{display:flex;align-items:center;gap:10px;text-align:left;border-radius:16px;min-height:48px;border-color:#E4D3B8;padding:6px 12px}
 #adult nav.menu button[aria-current=page]{background:#FFF0C2;border-color:var(--ink)}
 #adult nav.menu .ico{font-size:24px;line-height:1}#adult nav.menu .corto{display:none}
-#adult nav.menu button{position:relative}#adult nav.menu .num{margin-left:auto;min-width:24px;height:24px;border-radius:12px;background:#E2574C;color:#fff;font-size:14px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px;box-sizing:border-box}
+#adult nav.menu button{position:relative}#adult nav.menu .num{margin-left:auto;min-width:24px;height:24px;border-radius:12px;background:#C9372C;color:#fff;font-size:14px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px;box-sizing:border-box}
 #adult .solo-lector{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 #adult .cifras{display:flex;flex-wrap:wrap;gap:8px}#adult .cifras span{background:#fff;border:2px solid #E4D3B8;border-radius:14px;padding:6px 12px}
 #adult .indice{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}#adult .indice button{padding:6px 12px;font-size:14px;border-color:#E4D3B8}
@@ -34,7 +34,7 @@ html,body{margin:0;height:100%;background:#2E2420;overflow:hidden;overscroll-beh
 #adult details.zona summary{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;padding:10px 0;margin:0;min-height:44px;box-sizing:border-box}#adult details.zona summary span{font-size:14px;color:#7A6252}#adult details.zona summary .bar{grid-column:1/-1}
 #adult .aviso{display:flex;align-items:center;gap:12px;background:#FFF0C2;border-radius:14px;padding:8px 12px;margin:6px 0}#adult .aviso span{flex:1}
 #adult .body{flex:1;min-width:0;overflow:auto;padding:0 22px 26px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-#adult .pag-t{font-size:24px;margin:14px 0 2px;color:var(--ink)}#adult .pag-t:focus{outline:none}#adult .pag-t:focus-visible{outline:3px solid var(--lav)}
+#adult .pag-t{font-size:24px;margin:14px 0 2px;color:var(--ink)}#adult .pag-t:focus{outline:none}#adult .pag-t:focus-visible{outline:3px solid #6A58B8}
 #adult .pag>section:first-of-type{border-top:0}
 @media (max-height:500px){
  #adult{padding:0}#adult .panel{max-width:none;max-height:none;border:0;border-radius:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
@@ -67,8 +67,11 @@ html,body{margin:0;height:100%;background:#2E2420;overflow:hidden;overscroll-beh
 #adult td.lt{font-family:Andika,sans-serif;font-weight:700;font-size:22px}
 #adult .pill{border-radius:999px;padding:2px 10px;font-size:13px;background:#EEE}#adult .pAprendida{background:#D6F2CF}#adult .pLecuesta{background:#FFD7D0}#adult .pEncamino{background:#FFF0C2}
 #adult button{font:inherit;font-weight:600;border:2px solid var(--ink);background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer}
-#adult button:focus-visible,#adult input:focus-visible{outline:3px solid var(--lav);outline-offset:2px}
-#adult .danger{background:#FFD7D0}#adult #a-close{background:var(--lav);color:#fff}#adult #a-titulo:focus{outline:none}
+#adult button:focus-visible,#adult input:focus-visible,#adult select:focus-visible,#adult textarea:focus-visible,#adult summary:focus-visible{outline:3px solid #6A58B8;outline-offset:2px}
+#adult button,#adult .opt,#adult select,#adult input:not([type=checkbox]):not([type=radio]){min-height:44px;box-sizing:border-box}#adult input[type=checkbox],#adult input[type=radio]{width:22px;height:22px;margin:0}
+#adult details summary{min-height:44px;display:flex;align-items:center}
+@media (prefers-reduced-motion:reduce){#adult *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+#adult .danger{background:#FFD7D0}#adult #a-close{background:#6A58B8;color:#fff}#adult #a-titulo:focus{outline:none}
 #adult .days{display:flex;gap:8px;flex-wrap:wrap}#adult .day{background:#fff;border-radius:12px;padding:6px 10px;text-align:center;font-size:14px}
 #adult ul{padding-left:20px;margin:8px 0}
 #adult h4{margin:10px 0 4px}#adult details summary{cursor:pointer;font-weight:600;margin:8px 0}
