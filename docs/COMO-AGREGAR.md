@@ -16,6 +16,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 11. [Una escena o una zona nueva](#11-una-escena-o-una-zona-nueva)
 12. [Una opción en la zona de adultos](#12-una-opción-en-la-zona-de-adultos)
 13. [Una letra de la Isla de las Letras](#13-una-letra-de-la-isla-de-las-letras)
+14. [Una actividad del patio del cole](#14-una-actividad-del-patio-del-cole)
 
 ---
 
@@ -313,3 +314,19 @@ La isla se está haciendo por fases ([PLAN-LECTURA.md](PLAN-LECTURA.md)); desde 
    zona de adultos, con el progreso de su casita (`casitaDeLetra`: `L3-`, `L4-` o `L5-` según su zona, y la letra).
    El libro tiene sitio para 20 letras (5 x 4, `LIBRO`): con más, hay que hacerle otra página.
    `contenido.test.ts` comprueba que cada letra tenga su casita.
+
+## 14. Una actividad del patio del cole
+
+Desde la fase P1 de [IDEAS-MEJORA.md](IDEAS-MEJORA.md), el cole (`escenas/cole.ts`) tiene un patio con un botón por
+actividad (`escenas/patio.ts`). Las actividades son datos, en `ACTIVIDADES_PATIO` (`dominio/cole.ts`):
+
+1. Si ya tiene su entrada «¡Muy pronto!» (sin `escena`), ponle la `escena`; si no, añádela al final con su `id`, su
+   `nombre` (lo dice Tito: apúntalo en `dialogos/pendientes.txt`) y su `icono` (una clave de `PICS`). Caben 4 botones
+   en la fila (`BOTON`, en `escenas/patio.ts`): con más, hay que hacerles otra fila.
+2. La escena, en su propio archivo de `escenas/` (añádelo al final de `escenas/indice.ts`), con `fondoPatio()` de
+   fondo; la casa vuelve al patio (`go('patio')`). Mira `escenas/estatuas.ts`: el juego avanza solo con `say(frase, cb)`
+   y `update()`, y pone `VIVO.idle = 0` para que no salga la ayuda automática mientras se mueve el niño.
+3. Al terminar, `terminarActividad(S.cole, id, today())`: pon el registro en `S.cole`, abona las monedas con
+   `creditCoins`, guarda y luego anímalas con `giveCoins(n, x, y, undefined, true)`.
+4. Sus frases, a `dialogos/pendientes.txt` y `npm run dialogos`; la escena, a `tests/humo.js` y, si se puede jugar
+   sola hasta el final, un caso en `tests/regresion/cole.js`.

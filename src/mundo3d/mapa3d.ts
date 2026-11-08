@@ -145,6 +145,7 @@ const MAPPOS: Record<string, PuntoSuelo> = {
   tienda: [800, 820],
   casaTito: [1070, 740],
   muelle: [1225, 840],
+  cole: [585, 600],
 };
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
 export function sea3(w: Mundo, c: string) {
@@ -570,6 +571,40 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
       b.rotation.z = Math.sin(T * 1.1) * 0.06;
     };
   },
+  // cole (fase P1 de docs/IDEAS-MEJORA.md): el edificio del cole con su tejado rojo, su campana, la bandera que ondea y el
+  // autobús amarillo de las excursiones al lado; lleva a SCENES.cole. El cartel, como el de la Casa de Tito.
+  cole(g: THREE.Group) {
+    mk(Cyl(2.3, 2.4, 0.16, 30), '#F1DDB4', { p: [0, 0.08, 0], s: [1, 1, 0.8], to: g, ol: 0.04 });
+    const e = grp(g, [-0.3, 0.16, -0.2], 0.9);
+    mk(Box(2.6, 1.4, 1.5), '#FFF3D6', { p: [0, 0.7, 0], to: e, ol: 0.04 });
+    mk(Cone(1.95, 0.9, 4), '#FF8A7A', { p: [0, 1.85, 0], r: [0, PI / 4, 0], s: [1.05, 1, 0.66], to: e, ol: 0.04 });
+    mk(Box(0.5, 0.5, 0.5), '#FFF3D6', { p: [0, 2.4, 0], to: e, ol: 0.03 });
+    mk(Cone(0.45, 0.4, 4), '#FF8A7A', { p: [0, 2.85, 0], r: [0, PI / 4, 0], to: e, ol: 0.03 });
+    mk(Sph(0.13, 10, 8), '#FFC93C', { p: [0, 2.4, 0.26], to: e, ol: 0.02 });
+    mk(Box(0.45, 0.75, 0.06), '#C98A4B', { p: [0, 0.38, 0.76], to: e, ol: 0.02 });
+    for (const x of [-0.85, 0.85]) mk(Box(0.5, 0.42, 0.06), '#7FD3F0', { p: [x, 0.85, 0.76], to: e, ol: 0.02 });
+    mk(Cyl(0.04, 0.04, 2.2, 6), '#FFFFFF', { p: [1.45, 1.1, 0.4], to: e, ol: 0.02 });
+    const f = mk(
+      new THREE.PlaneGeometry(0.6, 0.38),
+      new THREE.MeshToonMaterial({ color: '#5B8DEF', gradientMap: gradiente(), side: THREE.DoubleSide }),
+      { p: [1.75, 2, 0.4], ol: 0, to: e },
+    );
+    f.userData.wave = 7;
+    const b = grp(g, [1.55, 0.16, 1.15], 0.6);
+    mk(Box(2, 0.85, 0.9), '#FFD23F', { p: [0, 0.6, 0], to: b, ol: 0.04 });
+    mk(Box(1.5, 0.3, 0.92), '#7FD3F0', { p: [-0.15, 0.78, 0], to: b, ol: 0.02 });
+    for (const [x, z] of [
+      [-0.6, 0.46],
+      [0.6, 0.46],
+      [-0.6, -0.46],
+      [0.6, -0.46],
+    ] as [number, number][])
+      mk(Cyl(0.2, 0.2, 0.12, 12), '#4A4A4A', { p: [x, 0.2, z], r: [PI / 2, 0, 0], to: b, ol: 0.02 });
+    spr(pillTex('El cole', '#FFA94D', '#fff', 50), 3.4, 1.1, { p: [-0.3, 3.6, 0], to: g });
+    g.userData.anim = () => {
+      b.position.y = 0.16 + Math.abs(Math.sin(T * 20)) * 0.02; // el motor en marcha
+    };
+  },
 };
 // stripesTex(): textura de rayas rojas y blancas (para la carpa de canciones)
 function stripesTex() {
@@ -748,7 +783,6 @@ function buildMap(st: Escena) {
     [-8, -1],
     [3.8, 1.8],
     [7.8, 2.5],
-    [-3, 4.5],
     [12, 4],
     [-13, 4],
     [5, -3.2],

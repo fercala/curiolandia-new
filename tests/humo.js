@@ -76,6 +76,9 @@ const ESCENAS = [
   ['puebloCuentos'],
   ['casita', { t: 'EN-STORIES' }],
   ['diccionario'], // la Isla del Inglés (fases I2 a I5 de docs/PLAN-INGLES.md) y su diccionario (I7)
+  ['cole'],
+  ['patio'],
+  ['estatuas'], // el cole, su patio y «¡Estatuas!» (fase P1 de docs/IDEAS-MEJORA.md)
 ];
 
 (async () => {

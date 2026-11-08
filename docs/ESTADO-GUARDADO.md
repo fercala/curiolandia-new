@@ -76,6 +76,7 @@
 |---|---|---|
 | `voz` | `'nav'` | Siempre `'nav'` (solo voz del navegador): `load()` lo pone así al arrancar, también en partidas copiadas de curiolandia-3d que traían `''` (voz grabada) o `'fer'`. |
 | `vozNav` | texto (`voiceURI` o nombre), `''` o ausente | Voz del navegador elegida en la zona de adultos (v1.589). Vacío o ausente: automática (`pickVoice`). Si esa voz no existe en el aparato, se usa la automática. Se conserva al empezar de nuevo. |
+| `cole` | `{d: 'AAAA-MM-DD', hechas: [ids], veces: {id: n}}` o ausente | (Fase P1 de IDEAS-MEJORA.md, v0.2.102) Lo jugado en el patio del cole: el último día, las actividades hechas ese día (la primera de cada día da 3 monedas) y cuántas veces se ha hecho cada una desde siempre (para la zona de adultos). Lo escribe la escena de cada actividad con `terminarActividad` (`dominio/cole.ts`); `registroCole` lee como vacío uno ausente o roto. Opcional, sin migración. No está en `keep`: al borrar todo, se va con el progreso. |
 | `bkFecha` | `'AAAA-MM-DD'` o ausente | Día de la última copia de seguridad descargada, vista o copiada en la zona de adultos (desde la fase A6 de `PLAN-MENU-ADULTOS.md`, v0.2.101). Si nunca se ha hecho y hay progreso, o es de hace 30 días o más, el Resumen y el menú lo recuerdan (`tocaCopia`, `dominio/zonaAdultos.ts`). Opcional, sin migración: las partidas de antes no lo tienen y cuentan como «sin copia». No está en `keep`: al borrar todo, se va con el progreso. |
 | `quiet3` | `0` o `1` | Si Tito se calla al tocar el paisaje 3D. |
 | `last` | id de tema | Último tema visitado. |
