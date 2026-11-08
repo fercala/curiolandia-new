@@ -27,16 +27,36 @@ let vigilado = false;
 const panel = () => document.getElementById('adult')!;
 // modoPaginas(): ¿se ve como portada de tarjetas (móvil en vertical)?
 const modoPaginas = () => typeof matchMedia === 'function' && matchMedia(MODO_PAGINAS).matches;
-// ACCIONES: lo que las páginas pueden pedir al panel; rehacer se crea para cada página (pintarPagina).
+// cerrar: lo que las páginas piden para cerrar la zona (AccionesPagina.cerrar); rehacer se crea para cada página
+// (pintarPagina).
 const cerrar = () => closeAdult();
 
-// pintarPagina(p): vuelve a hacer el HTML de la página p dentro de su caja (div.pag) y conecta sus controles y sus
-// atajos «Ir a» (data-go: cierran el panel y van a esa escena con saludo).
+// pintarMenu(): un botón por página (icono, nombre y nombre corto; los estilos enseñan uno u otro según el ancho) y,
+// desde la fase A2, el número de pendientes de aviso() (vales por entregar...), que también se lee en voz alta («2
+// pendientes»). Conserva aria-current en la página que se ve.
+function pintarMenu() {
+  const nav = panel().querySelector('nav.menu')!;
+  nav.innerHTML = PAGINAS_ADULTOS.map((p) => {
+    const n = p.aviso ? p.aviso() : 0,
+      num = n
+        ? `<span class="num"><span aria-hidden="true">${n}</span><span class="solo-lector">, ${n} ${n === 1 ? 'pendiente' : 'pendientes'}</span></span>`
+        : '';
+    return `<button type="button" data-pag="${p.id}"${p.id === actual ? ' aria-current="page"' : ''}><span class="ico" aria-hidden="true">${p.icono}</span><span class="nom">${p.titulo}</span><span class="corto" aria-hidden="true">${p.corto}</span>${num}</button>`;
+  }).join('');
+  nav.querySelectorAll<HTMLButtonElement>('button').forEach((b) => (b.onclick = () => irA(b.dataset.pag as IdPagina)));
+}
+
+// pintarPagina(p): vuelve a hacer el HTML de la página p dentro de su caja (div.pag) y conecta sus controles, sus
+// atajos «Ir a» (data-go: cierran el panel y van a esa escena con saludo) y, desde la fase A2, los botones que llevan
+// a otra página de la zona (data-ir, como los de los avisos del Resumen).
 function pintarPagina(p: PaginaAdultos) {
   const caja = panel().querySelector<HTMLElement>(`.pag[data-pag="${p.id}"]`)!;
   caja.innerHTML = `<h2 class="pag-t" tabindex="-1">${p.icono} ${p.titulo}</h2>` + p.html();
-  const acciones: AccionesPagina = { rehacer: () => pintarPagina(p), cerrar };
+  const acciones: AccionesPagina = { rehacer: () => pintarPagina(p), cerrar, menu: pintarMenu };
   p.conectar(caja, acciones);
+  caja
+    .querySelectorAll<HTMLButtonElement>('[data-ir]')
+    .forEach((b) => (b.onclick = () => irA(b.dataset.ir as IdPagina)));
   caja.querySelectorAll<HTMLButtonElement>('[data-go]').forEach(
     (b) =>
       (b.onclick = () => {
@@ -82,18 +102,11 @@ export function openAdult(pagina?: string) {
   } catch (e) {}
   const el = panel();
   el.hidden = false;
-  // El menú: un botón por página (icono, nombre y nombre corto; los estilos enseñan uno u otro según el ancho).
-  el.querySelector('nav.menu')!.innerHTML = PAGINAS_ADULTOS.map(
-    (p) =>
-      `<button type="button" data-pag="${p.id}"><span class="ico" aria-hidden="true">${p.icono}</span><span class="nom">${p.titulo}</span><span class="corto" aria-hidden="true">${p.corto}</span></button>`,
-  ).join('');
+  pintarMenu();
   el.querySelector('.body')!.innerHTML = PAGINAS_ADULTOS.map(
     (p) => `<div class="pag" data-pag="${p.id}" hidden></div>`,
   ).join('');
   PAGINAS_ADULTOS.forEach(pintarPagina);
-  el.querySelectorAll<HTMLButtonElement>('nav.menu button').forEach(
-    (b) => (b.onclick = () => irA(b.dataset.pag as IdPagina)),
-  );
   // Al girar el móvil de vertical a horizontal con la portada abierta, se pasa al Resumen (si no, no se vería nada).
   if (!vigilado && typeof matchMedia === 'function') {
     vigilado = true;

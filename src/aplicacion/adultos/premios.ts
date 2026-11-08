@@ -3,6 +3,7 @@
 // entregar (S.valesLog). Antes, la sección «Monedas y premios» de aplicacion/adultos.ts.
 import type { Vale } from '../../nucleo/tipos.ts';
 import { S, STARS, save } from '../../nucleo/indice.ts';
+import { valesPorEntregar } from '../../dominio/zonaAdultos.ts';
 import { esc } from './comun.ts';
 import type { PaginaAdultos } from './tipos.ts';
 
@@ -11,6 +12,8 @@ export const PREMIOS: PaginaAdultos = {
   titulo: 'Premios y vales',
   corto: 'Premios',
   icono: '🎟️',
+  // aviso(): los vales comprados que faltan por entregar (fase A2).
+  aviso: () => valesPorEntregar(S.valesLog || []),
   // html(): vales (una fila por vale para editarlo) y pend (los comprados que aún no se han dado, con «Entregado»).
   html() {
     // vales: una fila por vale (casilla de activo, texto y precio en monedas) para editarlos.
@@ -69,6 +72,7 @@ export const PREMIOS: PaginaAdultos = {
           S.valesLog![+b.dataset.vgive!].given = 1;
           save();
           acciones.rehacer();
+          acciones.menu();
         }),
     );
   },

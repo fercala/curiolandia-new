@@ -26,6 +26,10 @@ html,body{margin:0;height:100%;background:#2E2420;overflow:hidden;overscroll-beh
 #adult nav.menu button{display:flex;align-items:center;gap:10px;text-align:left;border-radius:16px;min-height:48px;border-color:#E4D3B8;padding:6px 12px}
 #adult nav.menu button[aria-current=page]{background:#FFF0C2;border-color:var(--ink)}
 #adult nav.menu .ico{font-size:24px;line-height:1}#adult nav.menu .corto{display:none}
+#adult nav.menu button{position:relative}#adult nav.menu .num{margin-left:auto;min-width:24px;height:24px;border-radius:12px;background:#E2574C;color:#fff;font-size:14px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px;box-sizing:border-box}
+#adult .solo-lector{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#adult .cifras{display:flex;flex-wrap:wrap;gap:8px}#adult .cifras span{background:#fff;border:2px solid #E4D3B8;border-radius:14px;padding:6px 12px}
+#adult .aviso{display:flex;align-items:center;gap:12px;background:#FFF0C2;border-radius:14px;padding:8px 12px;margin:6px 0}#adult .aviso span{flex:1}
 #adult .body{flex:1;min-width:0;overflow:auto;padding:0 22px 26px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 #adult .pag-t{font-size:24px;margin:14px 0 2px;color:var(--ink)}#adult .pag-t:focus{outline:none}#adult .pag-t:focus-visible{outline:3px solid var(--lav)}
 #adult .pag>section:first-of-type{border-top:0}
@@ -35,6 +39,7 @@ html,body{margin:0;height:100%;background:#2E2420;overflow:hidden;overscroll-beh
  #adult nav.menu{width:96px;padding:6px;gap:4px}
  #adult nav.menu button{flex-direction:column;justify-content:center;gap:2px;text-align:center;padding:4px;min-height:52px}
  #adult nav.menu .nom{display:none}#adult nav.menu .corto{display:block;font-size:12px}
+ #adult nav.menu .num{position:absolute;top:2px;right:2px;margin:0;min-width:20px;height:20px;font-size:12px}
 }
 @media (max-width:719px) and (min-height:501px){
  #adult{padding:0}#adult .panel{max-width:none;max-height:none;border:0;border-radius:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
@@ -43,6 +48,7 @@ html,body{margin:0;height:100%;background:#2E2420;overflow:hidden;overscroll-beh
  #adult nav.menu{width:auto;flex:1;border:0;display:grid;grid-template-columns:repeat(2,1fr);align-content:start;gap:10px;padding:14px}
  #adult nav.menu button{flex-direction:column;justify-content:center;text-align:center;min-height:104px;font-size:17px;gap:6px}
  #adult nav.menu .ico{font-size:36px}
+ #adult nav.menu .num{position:absolute;top:8px;right:8px;margin:0}
  #adult .panel:not(.portada) nav.menu{display:none}#adult .panel.portada .body{display:none}
  #adult .body{padding:0 14px 22px}
 }
