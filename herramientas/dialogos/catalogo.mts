@@ -30,8 +30,9 @@ export interface Frase {
   readonly donde: readonly string[];
 }
 
-// Carpetas y archivos de src/ que no tienen diálogos: los dibujos y la zona de adultos.
-const FUERA = ['dibujos', join('aplicacion', 'adultos.ts')];
+// Carpetas y archivos de src/ que no tienen diálogos: los dibujos y la zona de adultos (desde la fase A1 de
+// docs/PLAN-MENU-ADULTOS.md, adultos.ts y su carpeta).
+const FUERA = ['dibujos', join('aplicacion', 'adultos.ts'), join('aplicacion', 'adultos')];
 // Funciones cuyos argumentos nunca son textos del juego: dibujo, colores, sonido, DOM, errores y depuración.
 const NO_TEXTO = new Set(['circ', 'card', 'ell', 'rr', 'fillStroke', 'pic', 'picG', 'thing', 'nameT', 'W_', 'Wn', 'dela', 'ala',
   'esta', 'eseEs', 'isPl', 'tree', 'flower', 'cloud', 'sky', 'star', 'go', 'later', 'playSound', 'playTune', 'getElementById',

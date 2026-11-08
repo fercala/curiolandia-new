@@ -2,15 +2,17 @@
 
 Fernando lo pidió el 7 de noviembre de 2026: «El menú de los padres de curiolandia-new ha quedado demasiado grande,
 quiero que crees un plan de mejoras para dejarlo mejor, pueden ser páginas, pestañas o un menú lateral de categorías,
-pero con la cantidad de cosas que tenemos hoy ya es molesto para interactuar». **Estado: propuesto, pendiente de que
-Fernando lo apruebe.** Cuando lo apruebe (o cambie alguna decisión), se apunta aquí y en `CAMBIOS.md`, y cada fase va en
-su rama y su PR, como los planes de la casa, las letras y el inglés. Las fases se llaman A1 a A6 (A de adultos) para no
+pero con la cantidad de cosas que tenemos hoy ya es molesto para interactuar». Fernando fusionó el plan el 8 de
+noviembre de 2026 y pidió seguir («continua»): se toma lo recomendado en las decisiones del apartado 10. **Estado:
+hecha la fase A1 (v0.2.100); siguen A2 a A5 y la A6, opcional.** Si cambia una decisión, se apunta aquí y en
+`CAMBIOS.md`. Cada fase va en su rama y su PR, como los planes de la casa, las letras y el inglés. Las fases se llaman A1 a A6 (A de adultos) para no
 confundirlas con las fases M de [PLAN-CASA-MEJORA.md](PLAN-CASA-MEJORA.md).
 
-En el código se llama **zona de adultos** (`src/aplicacion/adultos.ts`, panel `#adult` de `src/head.html`); en este
+En el código se llama **zona de adultos** (`src/aplicacion/adultos.ts` y, desde la fase A1, la carpeta
+`src/aplicacion/adultos/`; panel `#adult` de `src/head.html`); en este
 documento «menú de los padres» y «zona de adultos» son lo mismo.
 
-## 1. Qué hay hoy
+## 1. Qué había antes del plan
 
 La zona se abre manteniendo pulsado 3 s el candado de abajo a la derecha. `openAdult()` construye **todo el panel de una
 vez**, como una sola página que se desplaza hacia abajo, y lo vuelve a construir entero cada vez que algo cambia (por
@@ -182,14 +184,29 @@ recuerda solo mientras el juego está abierto (`VIVO`), no en la partida. Solo l
 
 | Fase | Qué se hace | Qué ve la familia |
 | --- | --- | --- |
-| **A1. Estructura y navegación** | Partir `adultos.ts` en `aplicacion/adultos/` con `PAGINAS_ADULTOS`; las 7 categorías con el contenido de hoy movido tal cual; menú lateral, menú de iconos y portada de páginas según el ancho; cabecera fija; Escape; `openAdult(pagina?)`; pruebas actualizadas y `tests/regresion/adultos.js` | La zona ya está ordenada por categorías y nada se pierde |
+| **A1. Estructura y navegación** (hecha, v0.2.100) | Partir `adultos.ts` en `aplicacion/adultos/` con `PAGINAS_ADULTOS`; las 7 categorías con el contenido de hoy movido tal cual; menú lateral, menú de iconos y portada de páginas según el ancho; cabecera fija; Escape; `openAdult(pagina?)`; pruebas actualizadas y `tests/regresion/adultos.js` | La zona ya está ordenada por categorías y nada se pierde |
 | **A2. Resumen** | La página de inicio con quién juega, minutos de hoy, monedas, lo que sigue, avisos y atajos; el número de avisos en las categorías; reglas en `dominio/` con Vitest | Lo importante, nada más entrar |
 | **A3. Progreso compacto** | Las 11 zonas en filas que se abren, «Cómo le va» ordenado por lo que cuesta con «Ver todas», subapartados de progreso; reglas en `dominio/` con Vitest | El progreso cabe en una o dos pantallas |
 | **A4. Textos** | Todo el panel en castellano de España (sin «de a uno», «Copialo», «celular»...), notas largas plegadas en «Más información», títulos y botones más cortos | Se lee más rápido |
 | **A5. Accesibilidad y móvil** | Diálogo accesible, foco, teclado, 44 px, contraste, zonas seguras, reducir movimiento; revisión con Playwright en los tres tamaños | Más cómodo con el dedo y con lector de pantalla |
 | **A6. Extras (opcional)** | A elegir: recordar la última página abierta, aviso «Hace 30 días que no haces una copia» (campo opcional `S.bkFecha`), buscador de ajustes | — |
 
-A1 es la fase grande y la que cambia el aspecto; A2 a A5 se pueden hacer en otro orden. Calculo que cada una cabe en un PR.
+A1 es la fase grande y la que cambia el aspecto (hecha: ver «Cómo quedó la fase A1»); A2 a A5 se pueden hacer en otro orden. Calculo que cada una cabe en un PR.
+
+### Cómo quedó la fase A1 (v0.2.100)
+
+- `src/aplicacion/adultos/`: `panel.ts` (`openAdult(pagina?)`, `closeAdult`, menú y navegación), `paginas.ts`
+  (`PAGINAS_ADULTOS`), `tipos.ts` (`PaginaAdultos`, `IdPagina`, `AccionesPagina`), una página por categoría
+  (`resumen.ts`, `quienJuega.ts`, `comoSeJuega.ts`, `titoYSonido.ts`, `progreso.ts`, `premios.ts`, `copia.ts`),
+  `copiaSeguridad.ts` y `comun.ts`. `aplicacion/adultos.ts` queda como entrada (reexporta y define `window.__cl`).
+- El contenido de cada sección es el de antes, movido tal cual a su categoría; «Idioma y voz» se reparte entre «Cómo se
+  juega» (estaciones, letras de la isla, paisaje) y «Tito y el sonido» (voz y volumen), y los minutos por día pasan a
+  «Progreso». El Resumen tiene, por ahora, «Lo que sigue» y cinco atajos (la A2 lo completa).
+- Al tocar «Entregado» en un vale o «Instalar», solo se vuelve a pintar esa página.
+- Medido con Playwright: sin desplazamiento de lado y con «Volver al juego» a la vista en las 7 páginas, en 390 × 844,
+  844 × 390 y 1024 × 768 (`tests/regresion/adultos.js`).
+- El panel ya es un diálogo (`role="dialog"`, `aria-modal`), el menú un `<nav>` con `aria-current` y el foco va al
+  título de la página al cambiar; lo demás de accesibilidad (foco atrapado, contraste del botón, 44 px) sigue en la A5.
 
 ## 9. Riesgos
 
@@ -200,9 +217,9 @@ A1 es la fase grande y la que cambia el aspecto; A2 a A5 se pueden hacer en otro
 | En el móvil en horizontal no cabe | Menú de iconos estrecho y prueba a 844 × 390 en cada fase |
 | La familia no encuentra algo que antes estaba | Resumen con atajos y nombres de categoría claros; decisión 2 por si se quiere otro reparto |
 
-## 10. Decisiones abiertas
+## 10. Decisiones (tomadas el 8 de noviembre de 2026: lo recomendado)
 
-| # | Decisión | Recomendado | Otras opciones |
+| # | Decisión | Elegido (lo recomendado) | Otras opciones que había |
 | --- | --- | --- | --- |
 | 1 | Forma de la navegación | Menú lateral en tableta y en el móvil en horizontal, páginas en el móvil en vertical | Solo pestañas arriba; solo menú lateral; solo páginas |
 | 2 | Las categorías | Las 7 de arriba | Juntar «Quién juega» y «Cómo se juega» en «Ajustes» (6); separar «Ir a» como categoría propia (8) |

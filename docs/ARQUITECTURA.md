@@ -123,7 +123,7 @@ cuando todo era global, se exportaba todo).
 | — | `escenas/casaAlbum.ts` (desde la fase C7) | **El álbum «Sorpresas de la casa»** (`SCENES.sorpresasCasa`), que se abre con el botón del libro de la casa de Tito (`ALBUM_CASA_BOTON`): una casilla por sorpresa (`ENTRADAS_ALBUM`: los 49 objetos y las 14 combinaciones), con dibujo si está descubierta (`S.sorpresas`) y por páginas (`POR_PAGINA`). Las combinaciones las descubre `combina` de `SCENES.casaTito` (`escenas/casa.ts`), con su frase de `FRASES_COMBINACION` (`contenido/casa.ts`). Las mascotas mayores (`mascotasMayores`, `escenas/casaMascotas.ts`) salen junto a la casa del mapa 2D (`escenas/zonas.ts`) y 3D (`mundo3d/mapa3d.ts`), y la zona de adultos (`aplicacion/adultos.ts`) tiene la sección «Casa de Tito». |
 | — | `escenas/diccionario.ts` (desde la fase I7 de [PLAN-INGLES.md](PLAN-INGLES.md); `escenas/indice.ts` la carga después de `libroLetras.ts`) | **Mi diccionario de inglés** (módulo): la escena `diccionario`, que se abre con el botón de Polly del álbum: las palabras en inglés de las casitas de la isla con algún juego terminado (`palabrasDe`, que también usa la sección «Inglés» de la zona de adultos), 15 por página; al tocar una, se oye en inglés y qué quiere decir. |
 | 13 | `mundo3d/mundo3d.ts` (antes `world3d.js`; `modulos.ts` lo carga después de las escenas y, desde la fase 4p, antes de la aplicación; tipos en `mundo3d/tipos.ts`; cada archivo importa `THREE` del paquete `three`) | **La capa 3D**: portada, mapa (isla), zonas, casitas, cofre, Tito y Pipo en 3D, objetos que se tocan. `mundo3d.ts` es la entrada: si hay Three.js y WebGL, monta el motor y cada escena 3D (y exporta `R3frame`). Cada parte está en su módulo de `mundo3d/` (fases 4g y 4h, ver el apartado 8): `motor.ts`, `materiales.ts`, `decorado.ts`, `cielo.ts`, `objetos.ts`, `personajes.ts`, `interaccion.ts`, `mapa3d.ts`, `zonas3d.ts`, `casita3d.ts`, `cofre3d.ts` y `portada3d.ts` (y después `isla3d.ts`, `islaIngles3d.ts` y, desde la fase M0 de [PLAN-CASA-MEJORA.md](PLAN-CASA-MEJORA.md), `casa3d.ts`). Ninguno crea nada al cargarse. |
-| 14 | `aplicacion/adultos.ts` (antes `adult.js`; `modulos.ts` la carga después de las escenas y, desde la fase 4p, de la capa 3D; los diálogos del nombre y de empezar de nuevo están en `aplicacion/dialogos.ts`, que importan las escenas) | **Aplicación** (módulo): zona de adultos, copia de seguridad y `window.__cl` para las pruebas. Hasta la v0.2.50 también la entrada y el bucle, que ahora están en `aplicacion/bucle.ts`. |
+| 14 | `aplicacion/adultos.ts` y la carpeta `aplicacion/adultos/` (desde la fase A1 de [PLAN-MENU-ADULTOS.md](PLAN-MENU-ADULTOS.md); antes `adult.js`; `modulos.ts` la carga después de las escenas y, desde la fase 4p, de la capa 3D; los diálogos del nombre y de empezar de nuevo están en `aplicacion/dialogos.ts`, que importan las escenas) | **Aplicación** (módulo): zona de adultos (`adultos/panel.ts`, `adultos/paginas.ts` y una página por categoría), copia de seguridad (`adultos/copiaSeguridad.ts`) y `window.__cl` para las pruebas (`adultos.ts`). Hasta la v0.2.50 también la entrada y el bucle, que ahora están en `aplicacion/bucle.ts`. |
 | 14 | `aplicacion/bucle.ts` (desde la v0.2.51; `modulos.ts` la carga después de `aplicacion/adultos.ts`, de la que importa `openAdult` para el candado, y de la capa 3D, porque el bucle usa `R3frame`) | **Bucle y entrada** (módulo): **entrada (ratón/dedo/teclado)**, con `toLogical`, y **el bucle de dibujo `frame()`**, que pone en marcha `aplicacion/arranque.ts`. |
 | 15 | `aplicacion/arranque.ts` (antes `boot.js`, el último archivo global; `modulos.ts` llama a `arrancar()` al final) | **Arranque** (módulo): entrega los cofres que quedaron sin abrir, espera a las fuentes, va a la portada y empieza el bucle. |
 | — | `icons.js` | Script aparte (Node + Playwright) para regenerar los iconos PNG. No forma parte del juego. |
@@ -402,7 +402,24 @@ La receta completa está en [COMO-AGREGAR.md](COMO-AGREGAR.md#3-un-objeto-3d-nue
 
 ## 13. Zona de adultos
 
-Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAdult` en aplicacion/adultos.ts). Es un panel HTML (no canvas) con: modo de juego (camino o libre), edad, nombre, cumpleaños, idioma y voz, volumen, límite de tiempo, animal de Tito, paisaje (que Tito comente o no), vales, estadísticas, copia de seguridad y borrar progreso.
+Se abre manteniendo pulsado 3 segundos el candado de abajo a la derecha (`openAdult`). Es un panel HTML (no canvas)
+con una cabecera fija («Volver al juego») y, desde la fase A1 de [PLAN-MENU-ADULTOS.md](PLAN-MENU-ADULTOS.md), un menú
+de 7 categorías, cada una en su página: **Resumen** (lo que sigue y atajos), **Quién juega** (nombre, edad y
+cumpleaños), **Cómo se juega** (modo camino o libre, límite de tiempo, letras de la isla, estaciones y paisaje), **Tito y
+el sonido** (animal de Tito, voz del navegador y volúmenes), **Progreso** (temas por zona, habilidades, letras, inglés,
+asambleas, casa de Tito y minutos por día), **Premios y vales** y **Copia y aparato** (copia de seguridad, instalar, ir a
+cualquier sitio o tema y borrar todo). Escape lo cierra.
+
+- El código está en `aplicacion/adultos/`: `panel.ts` (abrir, cerrar y navegar), `paginas.ts` (`PAGINAS_ADULTOS`, las
+  páginas en el orden del menú), un módulo por página con su `html()` y su `conectar()` (`tipos.ts`), `copiaSeguridad.ts`
+  y `comun.ts`. `aplicacion/adultos.ts` es la entrada: vuelve a exportar `openAdult`, `closeAdult`, `bkEncode` y
+  `bkDecode` y define `window.__cl`.
+- Al abrir se pintan **todas** las páginas a partir de `S` y solo se ve la elegida (`hidden`), así las pruebas encuentran
+  cualquier control. `openAdult(pagina)` abre una página concreta (`'premios'`, `'copia'`...).
+- El aspecto depende del ancho (estilos de `head.html`): menú lateral en tableta y ordenador, menú de iconos con poca
+  altura (móvil en horizontal) y portada de tarjetas con «‹ Categorías» en el móvil en vertical (`MODO_PAGINAS`, la misma
+  consulta que el `@media`).
+- La página abierta no se guarda en `S`: todos los controles guardan en los mismos campos de siempre.
 
 ## 14. Montar y publicar
 
