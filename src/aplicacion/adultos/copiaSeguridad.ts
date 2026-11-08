@@ -62,7 +62,7 @@ export function bkWire(q: (s: string) => HTMLInputElement) {
   q('#a-bk-code').onclick = async () => {
     ta.value = await bkEncode();
     ta.select();
-    msg('Este código tiene todo el progreso. Copialo y guardalo, por ejemplo mandándotelo por mensaje.');
+    msg('Este código tiene todo el progreso. Cópialo y guárdalo, por ejemplo enviándotelo por mensaje.');
   };
   q('#a-bk-copy').onclick = async () => {
     if (!ta.value.startsWith('CURIO')) ta.value = await bkEncode();
@@ -76,7 +76,7 @@ export function bkWire(q: (s: string) => HTMLInputElement) {
         ok = document.execCommand('copy');
       } catch (e2) {}
     }
-    msg(ok ? '✅ Código copiado.' : 'Seleccioná el código de arriba y copialo a mano.');
+    msg(ok ? '✅ Código copiado.' : 'Selecciona el código de arriba y cópialo a mano.');
   };
   q('#a-bk-dl').onclick = () => {
     const b = new Blob([JSON.stringify(S)], { type: 'application/json' }),
@@ -89,7 +89,7 @@ export function bkWire(q: (s: string) => HTMLInputElement) {
       URL.revokeObjectURL(a.href);
       a.remove();
     }, 1500);
-    msg('Si no se descargó nada, usá el código de copia.');
+    msg('Si no se ha descargado nada, usa el código de copia.');
   };
   // ask(texto): intenta leer una copia y pide confirmación antes de reemplazar el progreso. Todo lo que viene de la copia
   // y se enseña va escapado (esc) o pasado a número: una copia editada no puede meter HTML en el panel.
@@ -101,7 +101,7 @@ export function bkWire(q: (s: string) => HTMLInputElement) {
       msg(
         (e as Error).message === 'navegador'
           ? 'Este navegador no puede abrir ese código. Prueba con el archivo de copia.'
-          : '❌ Eso no parece una copia de Curiolandia. Revisá que el código esté completo.',
+          : '❌ Eso no parece una copia de Curiolandia. Revisa que el código esté completo.',
       );
       return;
     }

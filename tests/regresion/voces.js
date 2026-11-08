@@ -61,7 +61,7 @@ const antes = () => {
     const r = await p.evaluate(() => {
       openAdult();
       const o = [...document.querySelectorAll('#a-vnav option')].map((o) => o.textContent);
-      const g = document.querySelector('#adult details');
+      const g = document.querySelector('#adult details.guia-voces');
       return { o, g: g ? g.textContent : '' };
     });
     if (r.o.length !== 6) return 'opciones: ' + r.o.join(' | ');
