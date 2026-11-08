@@ -79,6 +79,7 @@ const ESCENAS = [
   ['cole'],
   ['patio'],
   ['estatuas'], // el cole, su patio y «¡Estatuas!» (fase P1 de docs/IDEAS-MEJORA.md)
+  ['titoDice'], // «Tito dice» (fase P2)
 ];
 
 (async () => {

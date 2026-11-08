@@ -1,7 +1,7 @@
 # Ideas para llevar Curiolandia a otro nivel
 
-**Estado: aprobado todo (8 de noviembre de 2026), en marcha de una idea en una.** Hecha: P1 (el cole, el patio y
-«¡Estatuas!», v0.2.102). El orden y las fases, en el apartado 12. Fernando pide muchas ideas viables para que el juego sea más
+**Estado: aprobado todo (8 de noviembre de 2026), en marcha de una idea en una.** Hechas: P1 (el cole, el patio y
+«¡Estatuas!», v0.2.102) y P2 («Tito dice», v0.2.103). El orden y las fases, en el apartado 12. Fernando pide muchas ideas viables para que el juego sea más
 rico, con juegos más largos y profundos, más uso del motor 3D y actividades nuevas (una visita del cole a la granja,
 carreras y juegos al aire libre...), **sin perder nada de lo que ya hay**. Este documento es el banco de ideas: Fernando
 eligió el 8 de noviembre de 2026 **hacerlas todas, de una en una** («Vamos a hacer todos, ve haciendo de uno a la vez»);
@@ -588,7 +588,7 @@ Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase 
 | Fase | Qué | Ideas | Estado |
 |---|---|---|---|
 | **P1** | El cole en el mapa (2D y 3D: el edificio con el autobús), su escena con el patio y lo que viene «¡Muy pronto!», el patio con sus botones y el primer juego, «¡Estatuas!». Reglas en `dominio/cole.ts` (3 monedas la primera vez de cada día, `S.cole`). | 11 | Hecha (v0.2.102) |
-| P2 | Tito dice (en movimiento). | 12 | — |
+| **P2** | «Tito dice»: Tito da órdenes para moverse y un niño dibujado las hace con la parte del cuerpo iluminada; trampas sin «Tito dice» desde los 4 años (reglas en `dominio/titoDice.ts`). Lo común de los juegos del patio, en `escenas/patioComun.ts`. | 12 | Hecha (v0.2.103) |
 | P3 | Yoga de los animales y el rincón de la calma (también como pausa activa a los 20 minutos). | 13 | — |
 | P4 | Retos para hacer en casa, y en la zona de adultos el aviso de los juegos de moverse con la opción de quitarlos. | 37 | — |
 | P5–P8 | La granja escuela: el motor de excursiones (B1) y el autobús del cole, los animales recortables (B2), las estaciones, y el crecer por días (B4). | 1 | — |

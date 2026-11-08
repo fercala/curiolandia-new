@@ -45,7 +45,7 @@ export const COLE = {
 // de «¡Muy pronto!» (se irán haciendo de una en una, en el orden de docs/IDEAS-MEJORA.md).
 export const ACTIVIDADES_PATIO: readonly ActividadPatio[] = [
   { id: 'estatuas', nombre: '¡Estatuas!', escena: 'estatuas', icono: 'notas' },
-  { id: 'titoDice', nombre: 'Tito dice', icono: 'manos' },
+  { id: 'titoDice', nombre: 'Tito dice', escena: 'titoDice', icono: 'manos' },
   { id: 'yoga', nombre: 'Yoga de los animales', icono: 'gato' },
   { id: 'carreras', nombre: 'Carreras', icono: 'estrella' },
 ];

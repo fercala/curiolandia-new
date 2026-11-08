@@ -1026,3 +1026,44 @@ Tito dice: ¡muy pronto podrás jugar!
 Toca la flecha para jugar otra vez.
 ¡Baila con la música!
 Otra vez.
+Tito dice: ¡salta tres veces!
+Tito dice: ¡da cuatro palmadas!
+Tito dice: ¡tócate la nariz!
+Tito dice: ¡tócate la cabeza!
+Tito dice: ¡tócate las orejas!
+Tito dice: ¡tócate la barriga!
+Tito dice: ¡tócate los pies!
+Tito dice: ¡agáchate como una bolita!
+Tito dice: ¡da una vuelta!
+Tito dice: ¡levanta los brazos!
+Tito dice: ¡marcha como un soldado!
+Tito dice: ¡ponte a la pata coja!
+Tito dice: ¡cierra los ojos!
+Tito dice: ¡abre mucho la boca!
+Tito dice: ¡da cinco pisotones!
+¡Salta tres veces!
+¡Da cuatro palmadas!
+¡Tócate la nariz!
+¡Tócate la cabeza!
+¡Tócate las orejas!
+¡Tócate la barriga!
+¡Tócate los pies!
+¡Agáchate como una bolita!
+¡Da una vuelta!
+¡Levanta los brazos!
+¡Marcha como un soldado!
+¡Ponte a la pata coja!
+¡Cierra los ojos!
+¡Abre mucho la boca!
+¡Da cinco pisotones!
+¡Eso es!
+¡Muy bien!
+¡Genial!
+¡Así se hace!
+¡Je, je! No he dicho «Tito dice». Si no te has movido, ¡muy bien!
+¡Qué bien escuchas! Has hecho todo lo que dice Tito. ¿Jugamos otra vez?
+¡Vamos a jugar a «Tito dice»! Escucha bien y haz lo que diga Tito. ¡Yo lo hago contigo!
+¡Vamos a jugar a «Tito dice»! Haz lo que yo diga, pero solo si antes digo «Tito dice». Si no lo digo, ¡no te muevas! ¡Atento, que a veces hago trampa!
+¡A jugar a «Tito dice»! Solo vale si digo «Tito dice».
+Escucha bien a Tito.
+Tito dice: 

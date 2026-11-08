@@ -324,9 +324,12 @@ actividad (`escenas/patio.ts`). Las actividades son datos, en `ACTIVIDADES_PATIO
    `nombre` (lo dice Tito: apúntalo en `dialogos/pendientes.txt`) y su `icono` (una clave de `PICS`). Caben 4 botones
    en la fila (`BOTON`, en `escenas/patio.ts`): con más, hay que hacerles otra fila.
 2. La escena, en su propio archivo de `escenas/` (añádelo al final de `escenas/indice.ts`), con `fondoPatio()` de
-   fondo; la casa vuelve al patio (`go('patio')`). Mira `escenas/estatuas.ts`: el juego avanza solo con `say(frase, cb)`
-   y `update()`, y pone `VIVO.idle = 0` para que no salga la ayuda automática mientras se mueve el niño.
-3. Al terminar, `terminarActividad(S.cole, id, today())`: pon el registro en `S.cole`, abona las monedas con
-   `creditCoins`, guarda y luego anímalas con `giveCoins(n, x, y, undefined, true)`.
+   fondo; la casa vuelve al patio (`go('patio')`). Mira `escenas/estatuas.ts` o `escenas/titoDice.ts`: el juego avanza
+   solo con `say(frase, cb)` y `update()`, y pone `VIVO.idle = 0` para que no salga la ayuda automática mientras se
+   mueve el niño. Las reglas que dependan de la edad o del azar, en su propio archivo de `dominio/` con sus pruebas
+   (como `dominio/titoDice.ts`).
+3. Al terminar, `terminarEnElPatio(id, x, y)` (`escenas/patioComun.ts`): apunta la actividad en `S.cole`
+   (`terminarActividad`), da las monedas la primera vez de cada día y guarda. Para el final, `dibujaFinal()` y
+   `enOtraVez(x, y)`; para las rondas, `dibujaRondas(n, hechas)`.
 4. Sus frases, a `dialogos/pendientes.txt` y `npm run dialogos`; la escena, a `tests/humo.js` y, si se puede jugar
    sola hasta el final, un caso en `tests/regresion/cole.js`.

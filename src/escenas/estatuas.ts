@@ -8,9 +8,10 @@
  * dominio/cole.ts, guardadas en S.cole) y los botones «Otra vez» y la casa (vuelve al patio).
  * La música es propia (una melodía alegre con bajo, en el bus de efectos), para que suene aunque la música de fondo
  * esté quitada en la zona de adultos.
- * Exporta: BAILES, POSES_ESTATUA y OTRA_VEZ, y pone SCENES.estatuas al cargarse.
- * Importa: el núcleo (dibujo, voz, sonido, toque, monedas, Tito), las reglas de dominio/cole.ts, fondoPatio de
- * escenas/patio.ts y el azar de los puertos.
+ * Exporta: BAILES y POSES_ESTATUA, y pone SCENES.estatuas al cargarse.
+ * Importa: el núcleo (dibujo, voz, sonido, toque, Tito), fondoPatio de escenas/patio.ts, lo común de los juegos del
+ * patio de escenas/patioComun.ts (el final, las rondas, la sombra y terminarEnElPatio, que apunta S.cole y da las
+ * monedas; desde la fase P2) y el azar de los puertos.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños, notas y tiempos en la pantalla de 1600x900, como
    en el resto de las escenas. */
@@ -22,21 +23,16 @@ import {
   SFX,
   T,
   VIVO,
-  W,
   atHome,
   burst,
   card,
   circ,
-  creditCoins,
   ctx,
   dist,
   drawCoinHUD,
   drawHome,
   drawTito,
-  giveCoins,
   go,
-  hC,
-  hv,
   inCoinHUD,
   later,
   noise,
@@ -44,13 +40,11 @@ import {
   save,
   say,
   sparkles,
-  star,
   text,
-  today,
   tone,
 } from '../nucleo/indice.ts';
-import { terminarActividad } from '../dominio/cole.ts';
 import { fondoPatio } from './patio.ts';
+import { OTRA_VEZ, dibujaFinal, dibujaRondas, enOtraVez, sombra, terminarEnElPatio } from './patioComun.ts';
 import { azar } from '../aplicacion/puertos.ts';
 
 /** Un baile: el animal que se imita (dibujo de PICS), lo que dice Tito y cómo se mueve Tito. */
@@ -90,8 +84,6 @@ export const POSES_ESTATUA: readonly PoseEstatua[] = [
 ];
 // BIEN: lo que dice Tito al acabar cada estatua (se va alternando).
 const BIEN = ['¡Muy bien! ¡Qué quietos!', '¡Genial! Una estatua perfecta.', '¡Bravo! Ni te has movido.'];
-// OTRA_VEZ: el botón de volver a jugar que sale al final (centro y radio).
-export const OTRA_VEZ = { x: 1000, y: 700, r: 80 };
 // Tito en grande: dónde tiene los pies (x, y) y su ancho; el alto sale de la proporción del dibujo (200 de 240).
 const TITO_E = { x: 640, y: 760, w: 330 };
 const ALTO_E = (TITO_E.w * 200) / 240;
@@ -186,18 +178,12 @@ function muyBien(): void {
   });
 }
 
-// fin(): el juego ha terminado: apunta la actividad en S.cole (terminarActividad, dominio/cole.ts) y da las monedas si
-// es la primera vez de hoy (se abonan ya con creditCoins y se guardan; luego solo se animan).
+// fin(): el juego ha terminado: lo apunta en S.cole y da las monedas si es la primera vez de hoy
+// (terminarEnElPatio, escenas/patioComun.ts).
 function fin(): void {
   Object.assign(st, { fase: 'fin', t0: T });
-  const r = terminarActividad(S.cole, 'estatuas', today());
-  S.cole = { ...r.registro, hechas: [...r.registro.hechas], veces: { ...r.registro.veces } };
-  if (r.monedas) creditCoins(r.monedas);
-  save();
-  SFX.tada();
-  burst(W / 2, 400, 70);
+  terminarEnElPatio('estatuas', TITO_E.x, TITO_E.y - ALTO_E);
   say('¡Qué bien bailas! Has sido una estatua estupenda. ¿Jugamos otra vez?');
-  if (r.monedas) later(900, () => giveCoins(r.monedas, TITO_E.x, TITO_E.y - ALTO_E, undefined, true));
 }
 
 // dibujaTito(): Tito en grande: bailando (con el movimiento del baile de la ronda), quieto como estatua (con la postura,
@@ -222,22 +208,11 @@ function dibujaTito(): void {
   const salto = Math.max(0, 1 - (T - st.salto) * 3);
   dy -= Math.sin(salto * Math.PI) * 60;
   ctx.save();
-  ell0(TITO_E.x + dx, TITO_E.y, TITO_E.w * 0.42 * (1 + dy / 600));
+  sombra(TITO_E.x + dx, TITO_E.y, TITO_E.w * 0.42 * (1 + dy / 600));
   ctx.translate(TITO_E.x + dx, TITO_E.y - ALTO_E / 2 + dy);
   ctx.rotate(rot);
   ctx.scale(sx, sy);
   drawTito(-TITO_E.w / 2, -ALTO_E / 2, TITO_E.w, { sleep, bubble: false });
-  ctx.restore();
-}
-
-// ell0(x, y, r): la sombra de Tito en el suelo (más pequeña cuanto más alto salta).
-function ell0(x: number, y: number, r: number): void {
-  ctx.save();
-  ctx.globalAlpha = 0.18;
-  ctx.beginPath();
-  ctx.ellipse(x, y, Math.max(20, r), Math.max(8, r * 0.22), 0, 0, PI2);
-  ctx.fillStyle = '#000';
-  ctx.fill();
   ctx.restore();
 }
 
@@ -287,14 +262,6 @@ function dibujaNotas(): void {
     );
   });
   ctx.globalAlpha = 1;
-}
-
-// dibujaRondas(): las estrellas de las rondas, arriba en el centro (llenas las que ya se han hecho).
-function dibujaRondas(): void {
-  const n = rondas();
-  Array.from({ length: n }, (_, i) =>
-    star(W / 2 - ((n - 1) * 70) / 2 + i * 70, 70, 28, i < st.ronda ? '#FFC93C' : '#fff', 5),
-  );
 }
 
 SCENES['estatuas'] = {
@@ -347,33 +314,11 @@ SCENES['estatuas'] = {
   // draw(): el patio, las rondas, Tito, las notas, el bocadillo y, al final, el botón de otra vez; la casa y las monedas.
   draw() {
     fondoPatio();
-    dibujaRondas();
+    dibujaRondas(rondas(), st.ronda);
     dibujaTito();
     dibujaNotas();
     dibujaBocadillo();
-    if (st.fase === 'fin') {
-      const s = hv('otraVez', hC(OTRA_VEZ.x, OTRA_VEZ.y, OTRA_VEZ.r));
-      ctx.save();
-      ctx.translate(OTRA_VEZ.x, OTRA_VEZ.y);
-      ctx.scale(s, s);
-      circ(0, 0, OTRA_VEZ.r, '#7CC86E', 7);
-      ctx.beginPath();
-      ctx.arc(0, 0, 38, -2.6, 2.2);
-      ctx.lineWidth = 12;
-      ctx.strokeStyle = '#fff';
-      ctx.lineCap = 'round';
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(-40, -50);
-      ctx.lineTo(-30, -14);
-      ctx.lineTo(-66, -20);
-      ctx.closePath();
-      ctx.fillStyle = '#fff';
-      ctx.fill();
-      ctx.restore();
-      card(W / 2 - 260, 150, 520, 90, '#fff', 6, 45);
-      text('¡Lo has hecho genial!', W / 2, 212, 44);
-    }
+    if (st.fase === 'fin') dibujaFinal();
     drawHome();
     drawCoinHUD();
   },
@@ -390,7 +335,7 @@ SCENES['estatuas'] = {
       go('tienda');
       return;
     }
-    if (st.fase === 'fin' && dist(x, y, OTRA_VEZ.x, OTRA_VEZ.y) < OTRA_VEZ.r) {
+    if (st.fase === 'fin' && enOtraVez(x, y)) {
       SFX.pop();
       this.enter!({});
       return;

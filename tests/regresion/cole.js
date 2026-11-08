@@ -1,8 +1,9 @@
 // Comprueba el cole y su patio (fase P1 de docs/IDEAS-MEJORA.md) con el ratón de verdad: desde el mapa (3D) se llega al
 // cole tocando su sitio (Tito anda hasta él y entra); del cole al patio; lo que está en obras (el autobús) no lleva a ninguna parte y Tito lo dice;
 // del patio a «¡Estatuas!», que se juega sola hasta el final (Tito baila, para la música, estatua... en todas las rondas)
-// y da 3 monedas y apunta la actividad en S.cole; y la casa vuelve de cada escena a la de antes (estatuas -> patio ->
-// cole -> mapa).
+// y da 3 monedas y apunta la actividad en S.cole; la casa vuelve de cada escena a la de antes (estatuas -> patio ->
+// cole -> mapa); y «Tito dice» (fase P2) se juega solo hasta el final y lo apunta, y su plan con 5 años tiene sus 3
+// trampas bien puestas.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -88,6 +89,39 @@ const R = L.registro('cole');
       }
       return visto.join(',') === 'patio,cole,map' ? null : visto.join(' -> ');
     });
+    await caso('P5', '«Tito dice» se juega hasta el final, apunta la actividad y la casa vuelve al patio', async () => {
+      await p.evaluate(() => __cl.go('patio', {}));
+      await p.waitForTimeout(1200);
+      const bt = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'titoDice'));
+      await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
+      await p.waitForTimeout(800);
+      if ((await escena()) !== 'titoDice') return 'no se ha abierto el juego';
+      // 6 órdenes (3 años) de unos 4 s más lo que se tarda en hablar: menos de 2 minutos
+      let veces = 0;
+      for (let i = 0; i < 150 && !veces; i++) {
+        await p.waitForTimeout(1000);
+        veces = await p.evaluate(() => (__cl.S.cole && __cl.S.cole.veces.titoDice) || 0);
+      }
+      if (veces !== 1) return 'el juego no ha terminado en 150 s';
+      await p.waitForTimeout(1500);
+      await L.clic(p, 85, 82);
+      await p.waitForTimeout(1200);
+      const e = await escena();
+      return e === 'patio' ? null : 'la casa lleva a ' + e;
+    });
+    await caso(
+      'P6',
+      'con 5 años, «Tito dice» tiene 8 órdenes y 3 trampas, nunca al principio ni seguidas',
+      async () => {
+        const planes = await p.evaluate(() =>
+          Array.from({ length: 20 }, () => planDeOrdenes(5, Math.random).map((x) => x.trampa)),
+        );
+        const malo = planes.find(
+          (t) => t.length !== 8 || t.filter(Boolean).length !== 3 || t[0] || t[1] || t.some((x, i) => x && t[i - 1]),
+        );
+        return malo ? 'plan ' + JSON.stringify(malo) : null;
+      },
+    );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {

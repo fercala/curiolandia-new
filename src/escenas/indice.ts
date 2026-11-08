@@ -14,7 +14,8 @@
 // mascotas que crecen); desde la C7, casaAlbum.ts (el álbum «Sorpresas de la casa»); desde la fase M1 de
 // docs/PLAN-CASA-MEJORA.md, casa.ts (la casa por dentro) y desde la M2, casaBaul.ts (el baúl y los sitios que se
 // iluminan). Desde la fase P1 de docs/IDEAS-MEJORA.md, cole.ts (el cole, SCENES.cole), patio.ts (su patio,
-// SCENES.patio) y estatuas.ts (el juego «¡Estatuas!»). src/modulos.ts pasa todo lo que exportan al puente.
+// SCENES.patio) y estatuas.ts (el juego «¡Estatuas!»); desde la P2, patioComun.ts (lo
+// que comparten los juegos del patio) y titoDice.ts (el juego «Tito dice»). src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
 export * from './tienda.ts';
@@ -39,4 +40,6 @@ export * from './casaMascotas.ts';
 export * from './casaAlbum.ts';
 export * from './cole.ts';
 export * from './patio.ts';
+export * from './patioComun.ts';
 export * from './estatuas.ts';
+export * from './titoDice.ts';
