@@ -2,7 +2,9 @@
 // (portada de tarjetas y páginas), móvil en horizontal (menú de iconos) y tableta (menú lateral). En cada uno: se abre
 // en su sitio (portada o Resumen), cada categoría enseña solo su página, no hay desplazamiento de lado, «Volver al
 // juego» se ve siempre (también al bajar hasta el final de la página), Escape cierra, y openAdult(pagina) abre esa
-// página. Además, cada control de la zona guarda en su campo de S y sigue tras recargar.
+// página. Además, cada control de la zona guarda en su campo de S y sigue tras recargar. Desde las fases A2 a A6: el
+// Resumen avisa de los vales por entregar y de la copia de seguridad (con su número en el menú, que se va al resolverlo),
+// el progreso se pliega por zonas, el tabulador no sale del panel y las flechas recorren el menú.
 // Uso: node tests/regresion/adultos.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -163,6 +165,77 @@ const TAMANOS = [
     };
     if (JSON.stringify(s) !== JSON.stringify(esperado)) return 'guardado: ' + JSON.stringify(s);
   });
+
+  await caso(
+    'Z3',
+    'El Resumen avisa de vales y copia, con números en el menú que se van al resolverlo',
+    {},
+    async (p) => {
+      await p.evaluate(() => {
+        const S = __cl.S;
+        S.coinsTot = 50;
+        S.valesLog = [{ id: 'v1', txt: 'Un cuento extra', d: '2026-11-01' }];
+        delete S.bkFecha;
+        save();
+        openAdult();
+      });
+      const leer = () =>
+        p.evaluate(() => ({
+          avisos: [...document.querySelectorAll('#adult .pag[data-pag="resumen"] .aviso button')].map(
+            (b) => b.dataset.ir,
+          ),
+          nums: Object.fromEntries(
+            [...document.querySelectorAll('#adult nav.menu button')].map((b) => [
+              b.dataset.pag,
+              b.querySelector('.num [aria-hidden]')?.textContent || '',
+            ]),
+          ),
+        }));
+      let r = await leer();
+      if (r.avisos.join() !== 'premios,copia') return 'avisos del Resumen: ' + r.avisos.join();
+      if (r.nums.premios !== '1' || r.nums.copia !== '1') return 'números del menú: ' + JSON.stringify(r.nums);
+      await p.locator('#adult .aviso button[data-ir="premios"]').click();
+      await p.locator('[data-vgive="0"]').click();
+      await p.locator('#adult nav.menu button[data-pag="copia"]').click();
+      await p.locator('#a-bk-code').click();
+      await p.waitForFunction(() => __cl.S.bkFecha);
+      r = await leer();
+      if (r.nums.premios || r.nums.copia) return 'los números no se van: ' + JSON.stringify(r.nums);
+      const f = await p.evaluate(() => [__cl.S.bkFecha, today()]);
+      if (f[0] !== f[1]) return 'S.bkFecha: ' + f.join(' / ');
+    },
+  );
+
+  await caso(
+    'Z4',
+    'Progreso plegado por zonas y teclado: el tabulador no sale y las flechas recorren el menú',
+    {},
+    async (p) => {
+      await p.evaluate(() => openAdult('progreso'));
+      const z = await p.evaluate(() => {
+        const d = [...document.querySelectorAll('#adult .pag[data-pag="progreso"] details.zona')];
+        return {
+          n: d.length,
+          abiertas: d.filter((x) => x.open).length,
+          indice: document.querySelectorAll('#adult .indice button').length,
+        };
+      });
+      if (z.n !== 11 || z.abiertas || z.indice !== 7) return 'progreso: ' + JSON.stringify(z);
+      await p.locator('#adult details.zona summary').first().click();
+      if (!(await p.evaluate(() => document.querySelector('#adult details.zona').open))) return 'la zona no se abre';
+      await p.locator('#adult nav.menu button[data-pag="resumen"]').focus();
+      await p.keyboard.press('ArrowDown');
+      if ((await p.evaluate(() => document.activeElement.dataset.pag)) !== 'quienJuega')
+        return 'la flecha no baja en el menú';
+      await p.keyboard.press('End');
+      if ((await p.evaluate(() => document.activeElement.dataset.pag)) !== 'copia') return 'Fin no va a la última';
+      for (let i = 0; i < 80; i++) await p.keyboard.press('Tab');
+      const dentro = await p.evaluate(() => document.querySelector('#adult').contains(document.activeElement));
+      if (!dentro) return 'el foco sale del panel con el tabulador';
+      await p.keyboard.press('Escape');
+      if (!(await p.evaluate(() => document.querySelector('#adult').hidden))) return 'Escape no cierra';
+    },
+  );
 
   R.guardar();
   await b.close();

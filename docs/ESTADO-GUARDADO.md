@@ -76,6 +76,7 @@
 |---|---|---|
 | `voz` | `'nav'` | Siempre `'nav'` (solo voz del navegador): `load()` lo pone así al arrancar, también en partidas copiadas de curiolandia-3d que traían `''` (voz grabada) o `'fer'`. |
 | `vozNav` | texto (`voiceURI` o nombre), `''` o ausente | Voz del navegador elegida en la zona de adultos (v1.589). Vacío o ausente: automática (`pickVoice`). Si esa voz no existe en el aparato, se usa la automática. Se conserva al empezar de nuevo. |
+| `bkFecha` | `'AAAA-MM-DD'` o ausente | Día de la última copia de seguridad descargada, vista o copiada en la zona de adultos (desde la fase A6 de `PLAN-MENU-ADULTOS.md`, v0.2.101). Si nunca se ha hecho y hay progreso, o es de hace 30 días o más, el Resumen y el menú lo recuerdan (`tocaCopia`, `dominio/zonaAdultos.ts`). Opcional, sin migración: las partidas de antes no lo tienen y cuentan como «sin copia». No está en `keep`: al borrar todo, se va con el progreso. |
 | `quiet3` | `0` o `1` | Si Tito se calla al tocar el paisaje 3D. |
 | `last` | id de tema | Último tema visitado. |
 | `ses` | `{t: segundos, at: hora en ms}` o `null` | Tiempo jugado en la sesión, para el límite `limit` (desde v1.586). Se guarda cada 15 s; al recargar, si es de hace menos de 30 min, la sesión sigue desde ahí. Se pone a `null` al cerrar la zona de adultos. |

@@ -61,7 +61,7 @@ export const RESUMEN: PaginaAdultos = {
       avisos = avisosResumen();
     return `
   <section><h3>Hoy</h3>
-   <p><b>${S.name ? esc(S.name) : 'Sin nombre'}</b> · ${S.age} años · <b>${min}</b> ${min === 1 ? 'minuto' : 'minutos'} de juego hoy${S.limit ? ` (límite: ${S.limit} min por sesión)` : ''}</p>
+   <p><b>${S.name ? esc(S.name) : 'Sin nombre'}</b> · ${S.age ? S.age + ' años' : 'edad sin elegir'} · <b>${min}</b> ${min === 1 ? 'minuto' : 'minutos'} de juego hoy${S.limit ? ` (límite: ${S.limit} min por sesión)` : ''}</p>
    <div class="cifras"><span>🪙 <b>${S.coins}</b> monedas</span><span>⭐ <b>${STARS()}</b> estrellas</span><span>🌼 <b>${temasDone()}</b> temas terminados</span></div></section>
   ${avisos.length ? `<section><h3>Avisos</h3>${avisos.map((a) => `<div class="aviso"><span>${a.texto}</span><button type="button" data-ir="${a.ir}">Ver</button></div>`).join('')}</section>` : ''}
   ${sug ? `<section><h3>Lo que sigue</h3><p class="tip">Próximo tema del camino: <b>${esc(sug.n)}</b>. Para seguir fuera de la pantalla: ${esc(sug.tip || 'nombrar juntos las cosas del tema que encuentren en casa o en la calle.')}</p></section>` : ''}
