@@ -1,6 +1,8 @@
 // adultos/progreso.ts: página «Progreso» de la zona de adultos (fase A1 de docs/PLAN-MENU-ADULTOS.md). Solo enseña, no
 // cambia S: los temas de cada zona, «Cómo le va» (habilidades), letras de la isla, inglés, asambleas, la casa de Tito y
-// los minutos por día. Antes eran secciones sueltas de aplicacion/adultos.ts; la fase A3 las hará más compactas.
+// los minutos por día. Antes eran secciones sueltas de aplicacion/adultos.ts. Desde la fase A3, más compacta: un índice
+// arriba para saltar a cada parte, cada zona en una fila plegable con su resumen (resumenZona) y «Cómo le va» con lo que
+// cuesta primero y solo las 10 primeras habilidades a la vista (ordenHabilidades, etiquetaHabilidad; dominio/zonaAdultos.ts).
 // Usa las reglas del progreso por letra (dominio/letras.ts) y de la casa (dominio/casa.ts), palabrasDe
 // (escenas/diccionario.ts) para el inglés y los temas de temas/indice.ts.
 import type { Tema } from '../../juegos/tipos.ts';
@@ -29,6 +31,13 @@ import { aciertosLetra, datosLetra, estadoLetra, type EstadoLetra } from '../../
 import { MASCOTAS, TOTAL_SORPRESAS, cuantasSorpresas, etapaFlor, etapaMascota, fichaDe } from '../../dominio/casa.ts';
 import { TEMA, dayIdx, gDone, tst } from '../../escenas/escenas2d.ts';
 import { palabrasDe } from '../../escenas/diccionario.ts';
+import {
+  ZONA_ADULTOS,
+  etiquetaHabilidad,
+  ordenHabilidades,
+  resumenZona,
+  type EtiquetaHabilidad,
+} from '../../dominio/zonaAdultos.ts';
 import { esc } from './comun.ts';
 import type { PaginaAdultos } from './tipos.ts';
 
@@ -165,13 +174,31 @@ const WX_E: Record<string, string> = {
     verguenza: '😳',
   };
 
+// ETIQUETA_H: el texto y la clase de color de cada etiqueta de «Cómo le va» (las reglas, en dominio/zonaAdultos.ts).
+const ETIQUETA_H: Record<EtiquetaHabilidad, [string, string]> = {
+  empieza: ['Recién empieza', ''],
+  sabe: ['Lo sabe', 'pAprendida'],
+  camino: ['En camino', 'pEncamino'],
+  cuesta: ['Le cuesta', 'pLecuesta'],
+};
+// PARTES: las secciones de la página, con su id y su nombre en el índice de arriba (fase A3).
+const PARTES: readonly [string, string][] = [
+  ['p-zonas', 'Temas'],
+  ['p-habilidades', 'Cómo le va'],
+  ['p-letras', 'Letras'],
+  ['p-ingles', 'Inglés'],
+  ['p-asambleas', 'Asambleas'],
+  ['p-casa', 'Casa de Tito'],
+  ['p-minutos', 'Minutos'],
+];
+
 export const PROGRESO: PaginaAdultos = {
   id: 'progreso',
   titulo: 'Progreso',
   corto: 'Progreso',
   icono: '📊',
-  // html(): cada parte se calcula a partir de S y de las reglas del dominio, y se pinta en su sección: zonas (tm),
-  // Cómo le va (sk), Letras, Inglés, Asambleas (cal), Casa de Tito y Minutos de juego (days).
+  // html(): el índice y cada parte, calculada a partir de S y de las reglas del dominio, en su sección: zonas (tm),
+  // Cómo le va (sk y skMas), Letras, Inglés, Asambleas (cal), Casa de Tito y Minutos de juego (days).
   html() {
     // tmOf(listaDeTemas): HTML con una tarjeta por tema: nombre, juegos hechos/total, barra de progreso y si está completo.
     const tmOf = (L: Tema[]) =>
@@ -180,7 +207,8 @@ export const PROGRESO: PaginaAdultos = {
           N = t.games.length;
         return `<div class="tm ${tst(t.id).done ? 'done' : ''}"><b>${esc(t.n)}</b>${n}/${N} juegos${tst(t.id).done ? ' · completo 🌼' : ''}<div class="bar"><i style="width:${Math.round((n / N) * 100)}%"></i></div></div>`;
       }).join('');
-    // tm: secciones de progreso por zona (cada una con sus temas).
+    // tm: una fila plegable por zona (details): al cerrarla se ve su nombre, temas terminados, juegos hechos y una barra;
+    // al abrirla, la tarjeta de cada tema.
     const tm = (
       [
         ['Jardín de 3 años', [...T3, C3]],
@@ -196,28 +224,28 @@ export const PROGRESO: PaginaAdultos = {
         ['Isla de las Letras: Pueblo de las Palabras', TL5],
       ] as [string, Tema[]][]
     )
-      .map(([h, L]) => `<section><h3>${h}</h3><div class="temas">${tmOf(L)}</div></section>`)
-      .join('');
-    // sk: filas de la tabla de habilidades, de más a menos practicada, con su porcentaje de aciertos y una etiqueta.
-    const sk = Object.keys(S.stats)
-      .filter((k) => S.stats[k].ok + S.stats[k].err > 0)
-      .sort((a, b) => S.stats[b].ok + S.stats[b].err - (S.stats[a].ok + S.stats[a].err))
-      .map((k) => {
-        const s = S.stats[k],
-          n = s.ok + s.err,
-          r = Math.round((s.ok / n) * 100);
-        const lbl = n < 5 ? 'Recién empieza' : r >= 80 ? 'Lo sabe' : r >= 60 ? 'En camino' : 'Le cuesta',
-          cls =
-            lbl === 'Lo sabe'
-              ? 'pAprendida'
-              : lbl === 'Le cuesta'
-                ? 'pLecuesta'
-                : lbl === 'En camino'
-                  ? 'pEncamino'
-                  : '';
-        return `<tr><td>${esc(SKILL[k] || k.replace(/-/g, ' '))}</td><td>${r}%</td><td>${n}</td><td><span class="pill ${cls}">${lbl}</span></td></tr>`;
+      .map(([h, L]) => {
+        const r = resumenZona(
+          L.map((t) => ({ hechos: gDone(t), juegos: t.games.length, terminado: !!tst(t.id).done })),
+        );
+        return `<details class="zona"><summary><b>${h}</b><span>${r.terminados}/${r.temas} temas · ${r.hechos}/${r.juegos} juegos</span><div class="bar"><i style="width:${r.juegos ? Math.round((r.hechos / r.juegos) * 100) : 0}%"></i></div></summary><div class="temas">${tmOf(L)}</div></details>`;
       })
       .join('');
+    // fila(k): la fila de una habilidad: nombre (SKILL), porcentaje de aciertos, intentos y su etiqueta.
+    const fila = (k: string) => {
+      const st = S.stats[k],
+        n = st.ok + st.err,
+        [lbl, cls] = ETIQUETA_H[etiquetaHabilidad(st)];
+      return `<tr><td>${esc(SKILL[k] || k.replace(/-/g, ' '))}</td><td>${Math.round((st.ok / n) * 100)}%</td><td>${n}</td><td><span class="pill ${cls}">${lbl}</span></td></tr>`;
+    };
+    // sk: las primeras habilidades (primero lo que cuesta y después lo más practicado); skMas: las demás, plegadas.
+    const orden = ordenHabilidades(S.stats),
+      cabeza = '<thead><tr><th>Habilidad</th><th>Aciertos</th><th>Intentos</th><th></th></tr></thead>',
+      sk = orden.slice(0, ZONA_ADULTOS.habilidadesVisibles).map(fila).join(''),
+      resto = orden.slice(ZONA_ADULTOS.habilidadesVisibles),
+      skMas = resto.length
+        ? `<details><summary>Ver todas (${orden.length})</summary><table>${cabeza}<tbody>${resto.map(fila).join('')}</tbody></table></details>`
+        : '';
     // ESTADO_L: el texto y la clase de la etiqueta de cada estado de una letra (dominio/letras.ts, fase L7).
     const ESTADO_L: Record<EstadoLetra, [string, string]> = {
       sinEmpezar: ['Sin empezar', ''],
@@ -288,14 +316,25 @@ export const PROGRESO: PaginaAdultos = {
         )
         .join('') || '<span>Todavía no hay datos.</span>';
     return `
-  ${tm}
-  <section><h3>Cómo le va</h3><p class="note">Con esto Tito arma cada día un <b>repaso</b> de 3 juegos: primero los de lo que le cuesta y, si no hay, los que jugó hace más tiempo. El botón verde del mapa pasa una vez por día por el repaso cuando hay algo que cuesta; también se abre con la lupa de arriba del mapa.</p>${sk ? `<table><thead><tr><th>Habilidad</th><th>Aciertos</th><th>Intentos</th><th></th></tr></thead><tbody>${sk}</tbody></table>` : '<p class="note">Todavía no hay datos.</p>'}</section>
-  <section><h3>Letras</h3><p class="note">Cómo va cada letra de la Isla de las Letras: los juegos hechos de su casita y los aciertos en ellos. Una letra está <b>aprendida</b> con su casita terminada y el 80 % de aciertos o más. Las que cuestan entran en el repaso de cada día.</p><table><thead><tr><th>Letra</th><th>Juegos</th><th>Aciertos</th><th></th></tr></thead><tbody>${letras}</tbody></table></section>
-  <section><h3>Inglés</h3><p class="note">Cómo va la Isla del Inglés: las casitas terminadas de cada zona y las palabras que ya están en «Mi diccionario de inglés» (en el álbum, el botón de Polly). Los juegos de inglés que cuestan entran en el repaso de cada día. ${vozEn ? 'Polly dice las palabras con la voz inglesa de este dispositivo.' : '<b>Este dispositivo no tiene voz inglesa</b>: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.'}</p><table><thead><tr><th>Zona</th><th>Casitas</th><th>Palabras</th></tr></thead><tbody>${ingles}</tbody></table></section>
-  <section><h3>Asambleas</h3><p class="note">El tiempo que eligió y cómo se sentía cada día.</p><div class="cal">${cal}</div></section>
-  <section><h3>Casa de Tito</h3><p class="note">Lo que ha descubierto jugando en la casa de Tito: <b>${cuantasSorpresas(S.sorpresas || {})} de ${TOTAL_SORPRESAS} sorpresas</b> del álbum «Sorpresas de la casa». La flor del huerto lleva ${huertoDias} ${huertoDias === 1 ? 'día regado' : 'días regados'} (etapa ${etapaFlor(huertoDias)} de 4). Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.</p>${casa ? `<table><thead><tr><th>Mascota</th><th>Nombre</th><th>Etapa</th><th>Días cuidados</th></tr></thead><tbody>${casa}</tbody></table>` : '<p class="note">Todavía no tiene mascotas.</p>'}${SCENES.casa3dPrueba ? '<p class="note">Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.</p><div class="row"><button data-go="casa3dPrueba">Casa de Tito en 3D (prueba)</button></div>' : ''}</section>
-  <section><h3>Minutos de juego</h3><p class="note">Los minutos jugados en los últimos 7 días con datos.</p><div class="days">${days}</div></section>`;
+  <nav class="indice" aria-label="Partes del progreso">${PARTES.map(([id, n]) => `<button type="button" data-sec="${id}">${n}</button>`).join('')}</nav>
+  <section id="p-zonas"><h3>Temas por zona</h3><p class="note">Toca una zona para ver sus temas.</p>${tm}</section>
+  <section id="p-habilidades"><h3>Cómo le va</h3><p class="note">Con esto Tito arma cada día un <b>repaso</b> de 3 juegos: primero los de lo que le cuesta y, si no hay, los que jugó hace más tiempo. El botón verde del mapa pasa una vez por día por el repaso cuando hay algo que cuesta; también se abre con la lupa de arriba del mapa.</p>${sk ? `<table>${cabeza}<tbody>${sk}</tbody></table>${skMas}` : '<p class="note">Todavía no hay datos.</p>'}</section>
+  <section id="p-letras"><h3>Letras</h3><p class="note">Cómo va cada letra de la Isla de las Letras: los juegos hechos de su casita y los aciertos en ellos. Una letra está <b>aprendida</b> con su casita terminada y el 80 % de aciertos o más. Las que cuestan entran en el repaso de cada día.</p><table><thead><tr><th>Letra</th><th>Juegos</th><th>Aciertos</th><th></th></tr></thead><tbody>${letras}</tbody></table></section>
+  <section id="p-ingles"><h3>Inglés</h3><p class="note">Cómo va la Isla del Inglés: las casitas terminadas de cada zona y las palabras que ya están en «Mi diccionario de inglés» (en el álbum, el botón de Polly). Los juegos de inglés que cuestan entran en el repaso de cada día. ${vozEn ? 'Polly dice las palabras con la voz inglesa de este dispositivo.' : '<b>Este dispositivo no tiene voz inglesa</b>: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.'}</p><table><thead><tr><th>Zona</th><th>Casitas</th><th>Palabras</th></tr></thead><tbody>${ingles}</tbody></table></section>
+  <section id="p-asambleas"><h3>Asambleas</h3><p class="note">El tiempo que eligió y cómo se sentía cada día.</p><div class="cal">${cal}</div></section>
+  <section id="p-casa"><h3>Casa de Tito</h3><p class="note">Lo que ha descubierto jugando en la casa de Tito: <b>${cuantasSorpresas(S.sorpresas || {})} de ${TOTAL_SORPRESAS} sorpresas</b> del álbum «Sorpresas de la casa». La flor del huerto lleva ${huertoDias} ${huertoDias === 1 ? 'día regado' : 'días regados'} (etapa ${etapaFlor(huertoDias)} de 4). Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.</p>${casa ? `<table><thead><tr><th>Mascota</th><th>Nombre</th><th>Etapa</th><th>Días cuidados</th></tr></thead><tbody>${casa}</tbody></table>` : '<p class="note">Todavía no tiene mascotas.</p>'}${SCENES.casa3dPrueba ? '<p class="note">Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.</p><div class="row"><button data-go="casa3dPrueba">Casa de Tito en 3D (prueba)</button></div>' : ''}</section>
+  <section id="p-minutos"><h3>Minutos de juego</h3><p class="note">Los minutos jugados en los últimos 7 días con datos.</p><div class="days">${days}</div></section>`;
   },
-  // conectar(): no hay nada que guardar; el botón de la casa 3D de prueba (data-go) lo conecta el panel.
-  conectar() {},
+  // conectar(el): no hay nada que guardar; los botones del índice llevan a su parte (scrollIntoView, sin animación si se
+  // pidió reducir el movimiento). El botón de la casa 3D de prueba (data-go) lo conecta el panel.
+  conectar(el) {
+    const suave = typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.querySelectorAll<HTMLButtonElement>('[data-sec]').forEach(
+      (b) =>
+        (b.onclick = () =>
+          el
+            .querySelector('#' + b.dataset.sec)
+            ?.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'start' })),
+    );
+  },
 };
