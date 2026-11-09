@@ -62,6 +62,7 @@ const navegador = () =>
 //   hora (0-23) y fecha ('AAAA-MM-DD'): fijan el reloj del juego; ancho/alto: tamaño de la ventana; tactil: pantalla táctil;
 //   guardado: objeto que se escribe en localStorage antes de cargar (null = partida nueva); crudo: texto tal cual para
 //   localStorage; antes: función que se ejecuta en la página antes del juego (addInitScript); rapido: window.__fast.
+//   Al cargar, deja la pausa activa del yoga como ya propuesta (VIVO.pausaHecha), para que no salga en mitad de una prueba.
 // Devuelve la página con p.errs (lista de errores de JavaScript y de consola).
 async function abrir(b, port, o = {}) {
   const ctx = await b.newContext({
@@ -126,6 +127,11 @@ async function abrir(b, port, o = {}) {
   if (o.antes) await p.addInitScript(o.antes);
   await p.goto(`http://localhost:${port}/index.html`);
   await p.waitForTimeout(o.espera || 2000);
+  // la pausa activa del yoga (a los 20 minutos de juego, fase P3 de docs/IDEAS-MEJORA.md) saldría en mitad de las pruebas
+  // largas: se da por hecha; la prueba que la mira (cole.js) la vuelve a poner a false
+  await p.evaluate(() => {
+    if (typeof VIVO !== 'undefined') VIVO.pausaHecha = true;
+  });
   // __cl.go guarda el go() de antes de que la capa 3D lo envuelva (mundo3d/interaccion.ts): sin el envoltorio, al saltar de una escena 3D a un
   // juego no se restaura el rectángulo 2D de Tito (TITO) y los toques donde estaba Tito en 3D se toman por toques a Tito.
   await p

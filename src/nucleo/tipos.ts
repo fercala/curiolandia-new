@@ -158,6 +158,8 @@ export interface OpcionesEscena {
   nuevo?: string | null;
   /** En la música y en las mascotas: id del instrumento o de la mascota que se tocó. */
   inst?: string;
+  /** En el yoga (fase P3 de docs/IDEAS-MEJORA.md): true = la pausa activa, corta, que vuelve sola al mapa. */
+  pausa?: boolean;
 }
 
 /** Las opciones de las escenas que siempre se abren con un tema (la casita y el cofre): t es obligatorio. */
@@ -290,9 +292,11 @@ export interface Vivo {
   /** Dificultad adaptativa (-1 a 1) y veces que ya se jugó este juego (0 a 2). */
   ADAPT: number;
   REP: number;
-  /** Tiempo de juego: segundos de la sesión, si ya se propuso descansar y segundos sin apuntar en S.days. */
+  /** Tiempo de juego: segundos de la sesión, si ya se propuso descansar y segundos sin apuntar en S.days. pausaHecha
+   * (desde la fase P3 de docs/IDEAS-MEJORA.md): ya se propuso la pausa activa del yoga en esta sesión. */
   sessionT: number;
   restAsked: boolean;
+  pausaHecha: boolean;
   minuteAcc: number;
   /** Aviso de pegatina nueva, o null. */
   toast: AvisoPegatina | null;

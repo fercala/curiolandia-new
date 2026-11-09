@@ -3,7 +3,8 @@
 // del patio a «¡Estatuas!», que se juega sola hasta el final (Tito baila, para la música, estatua... en todas las rondas)
 // y da 3 monedas y apunta la actividad en S.cole; la casa vuelve de cada escena a la de antes (estatuas -> patio ->
 // cole -> mapa); y «Tito dice» (fase P2) se juega solo hasta el final y lo apunta, y su plan con 5 años tiene sus 3
-// trampas bien puestas.
+// trampas bien puestas; el yoga (fase P3) se hace solo hasta el final y lo apunta, y a los 20 minutos el mapa abre la
+// pausa activa, que vuelve sola al mapa.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -122,6 +123,40 @@ const R = L.registro('cole');
         return malo ? 'plan ' + JSON.stringify(malo) : null;
       },
     );
+    await caso('P7', 'el yoga del patio se hace hasta el final y lo apunta en S.cole', async () => {
+      await p.evaluate(() => __cl.go('patio', {}));
+      await p.waitForTimeout(1200);
+      const bt = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'yoga'));
+      await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
+      await p.waitForTimeout(800);
+      if ((await escena()) !== 'yoga') return 'no se ha abierto el yoga';
+      // 3 posturas y 2 respiraciones (3 años) de 2 respiros de 6 s, más lo que se tarda en hablar: menos de 3 minutos
+      let veces = 0;
+      for (let i = 0; i < 180 && !veces; i++) {
+        await p.waitForTimeout(1000);
+        veces = await p.evaluate(() => (__cl.S.cole && __cl.S.cole.veces.yoga) || 0);
+      }
+      return veces === 1 ? null : 'el yoga no ha terminado en 3 minutos';
+    });
+    await caso('P8', 'a los 20 minutos, el mapa abre la pausa activa, que vuelve sola al mapa', async () => {
+      await p.evaluate(() => {
+        VIVO.sessionT = 20 * 60 + 5;
+        VIVO.restAsked = true;
+        VIVO.pausaHecha = false;
+        __cl.go('map', {});
+      });
+      let e = 'map';
+      for (let i = 0; i < 30 && e !== 'yoga'; i++) {
+        await p.waitForTimeout(500);
+        e = await escena();
+      }
+      if (e !== 'yoga') return 'no se ha abierto la pausa activa (escena ' + e + ')';
+      for (let i = 0; i < 120 && e === 'yoga'; i++) {
+        await p.waitForTimeout(1000);
+        e = await escena();
+      }
+      return e === 'map' ? null : 'tras la pausa, escena ' + e;
+    });
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {

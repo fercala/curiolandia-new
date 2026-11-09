@@ -327,7 +327,7 @@ actividad (`escenas/patio.ts`). Las actividades son datos, en `ACTIVIDADES_PATIO
    fondo; la casa vuelve al patio (`go('patio')`). Mira `escenas/estatuas.ts` o `escenas/titoDice.ts`: el juego avanza
    solo con `say(frase, cb)` y `update()`, y pone `VIVO.idle = 0` para que no salga la ayuda automática mientras se
    mueve el niño. Las reglas que dependan de la edad o del azar, en su propio archivo de `dominio/` con sus pruebas
-   (como `dominio/titoDice.ts`).
+   (como `dominio/titoDice.ts` o `dominio/yoga.ts`).
 3. Al terminar, `terminarEnElPatio(id, x, y)` (`escenas/patioComun.ts`): apunta la actividad en `S.cole`
    (`terminarActividad`), da las monedas la primera vez de cada día y guarda. Para el final, `dibujaFinal()` y
    `enOtraVez(x, y)`; para las rondas, `dibujaRondas(n, hechas)`.
