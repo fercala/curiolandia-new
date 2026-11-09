@@ -10,7 +10,8 @@
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones) y volverDeEstacion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
- * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts.
+ * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
+ * manzano que crece por días de escenas/granjaManzano.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -64,6 +65,7 @@ import {
 } from '../dominio/excursiones.ts';
 import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
 import { dibujaPaseo, empezarPaseo, moverPaseo, tocarPaseo } from './granjaAnimales.ts';
+import { cuidarManzano, dibujaManzano, tocarManzano } from './granjaManzano.ts';
 
 /* ---------- lo común ---------- */
 
@@ -402,11 +404,15 @@ function hacerFoto(): void {
 SCENES['excursion'] = {
   music: 'jardin',
   // enter(o): la excursión o.exc. Si se vuelve de una estación (o.hecha), se apunta; si con eso la visita está completa,
-  // la foto de grupo. Si no, el guía saluda (la primera vez, presentándose, S.first['exc:' + id]) o dice qué toca.
+  // la foto de grupo. Si no, el guía saluda (la primera vez, presentándose, S.first['exc:' + id]) o dice qué toca; desde
+  // la P8, en la granja el manzano cuenta el día y, si se planta o crece, el guía lo dice antes.
   enter(o: OpcionesEscena) {
     Object.assign(exc, { id: o.exc || exc.id, foto: -1, hecha: false });
     const e = excursionActual();
     empezarPaseo(e.id, e.animales ?? []);
+    // el manzano de la granja cuenta el día (una vez al día); si se planta o crece, Rosa lo dice antes de lo que toca
+    const arbol = cuidarManzano(e.id),
+      luego = (): void => (arbol ? sayQ(arbol, () => this.prompt!()) : this.prompt!());
     if (o.hecha) {
       const v = terminarEstacion(visitaActual(), o.hecha);
       guardarVisita(v);
@@ -423,10 +429,10 @@ SCENES['excursion'] = {
       later(500, () =>
         sayQ(
           `¡Hola${kid()}! Soy ${e.nombreGuia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.`,
-          () => this.prompt!(),
+          luego,
         ),
       );
-    } else later(500, () => this.prompt!());
+    } else later(500, luego);
   },
   // prompt(): lo que toca: la siguiente estación por hacer (o, tras la foto, volver).
   prompt() {
@@ -451,13 +457,14 @@ SCENES['excursion'] = {
   update() {
     moverPaseo();
   },
-  // draw(): la granja, el camino, los animales que pasean, las estaciones, el guía y Tito; tras la visita completa, la
+  // draw(): la granja, el camino, el manzano (en la granja), los animales que pasean, las estaciones, el guía y Tito; tras la visita completa, la
   // foto de grupo.
   draw() {
     const e = excursionActual(),
       v = visitaActual();
     fondoGranja();
     caminoGranja(e);
+    if (e.id === 'granja') dibujaManzano();
     dibujaPaseo();
     e.estaciones.forEach((s) => dibujaEstacion(s, v.vistas.includes(s.id)));
     pic(e.guia, GUIA.x, GUIA.y + Math.sin(T * 2) * 4, GUIA.s);
@@ -467,7 +474,8 @@ SCENES['excursion'] = {
     drawCoinHUD();
   },
   // down(x, y): casa -> el cole; monedas -> tienda; una estación jugable -> su escena; una «muy pronto» -> el guía lo
-  // dice; el guía -> repite lo que toca; un animal que pasea -> salta y hace su sonido.
+  // dice; el guía -> repite lo que toca; el manzano (en la granja) -> se mece y Tito dice cómo va; un animal que pasea
+  // -> salta y hace su sonido.
   down(x: number, y: number) {
     if (atHome(x, y)) {
       SFX.whoosh();
@@ -495,6 +503,7 @@ SCENES['excursion'] = {
       this.prompt!();
       return;
     }
+    if (excursionActual().id === 'granja' && tocarManzano(x, y)) return;
     if (tocarPaseo(x, y)) return;
     SFX.tap();
     sparkles(x, y);

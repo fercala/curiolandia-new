@@ -19,7 +19,8 @@
 // y el rincón de la calma), y desde la P4, retos.ts (los retos para hacer en casa); desde la P5, excursion.ts (el
 // autobús y el motor de excursiones) y granja.ts (las estaciones de la granja escuela), y desde la P6,
 // granjaTalleres.ts (las demás estaciones: queso, cepillar, huerto y tractor), y desde la P7, granjaAnimales.ts (los
-// animales recortables que pasean por la granja) y albumExcursiones.ts (el álbum de excursiones).
+// animales recortables que pasean por la granja) y albumExcursiones.ts (el álbum de excursiones); desde la P8,
+// granjaManzano.ts (el manzano de la granja, que crece por días).
 // src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
@@ -53,5 +54,6 @@ export * from './retos.ts';
 export * from './excursion.ts';
 export * from './granja.ts';
 export * from './granjaAnimales.ts';
+export * from './granjaManzano.ts';
 export * from './granjaTalleres.ts';
 export * from './albumExcursiones.ts';

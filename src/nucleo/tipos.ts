@@ -125,6 +125,9 @@ export interface Estado {
    * visita de ahora, las visitas terminadas, si hay foto de grupo y el último día. Desde la fase P5 de
    * docs/IDEAS-MEJORA.md; opcional, sin migración. */
   exc?: Record<string, { vistas: string[]; veces: number; foto: boolean; d: string }>;
+  /** Los seres vivos que crecen por días (dominio/crecer.ts, Crecimiento), por id ('granja:manzano'): los días que se
+   * les ha cuidado y el último día que contó. Desde la fase P8 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  crece?: Record<string, { dias: number; dia: string }>;
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;

@@ -8,7 +8,7 @@
  * pasan lo guardado (S.exc) y guardan lo que devuelve. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: los tipos Estacion, Excursion, VisitaExcursion y RegistroExcursiones, EXCURSION (los números de las reglas),
  * visitaDe, estacionesJugables, siguienteEstacion, terminarEstacion, visitaCompleta y terminarVisita, y desde la P7,
- * para el álbum de excursiones, diaYMes y vecesTexto.
+ * para el álbum de excursiones, diaYMes y vecesTexto; desde la P8, MANZANO (el manzano de la granja que crece por días).
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de EXCURSION son las reglas mismas, cada uno con su nombre. */
@@ -107,3 +107,8 @@ export function diaYMes(d: string, meses: readonly string[]): string {
 
 // vecesTexto(n): cuántas veces, para decirlo: «una vez», «2 veces».
 export const vecesTexto = (n: number): string => (n === 1 ? 'una vez' : `${n} veces`);
+
+// MANZANO: el manzano de la granja escuela (desde la fase P8, crecer por días, dominio/crecer.ts): de qué excursión es,
+// con qué id se guarda en S.crece y los días de visita que pide cada etapa (0 semilla recién plantada, 1 brote,
+// 2 arbolito, 3 árbol en flor y 4 árbol con manzanas).
+export const MANZANO = { exc: 'granja', id: 'granja:manzano', dias: [2, 3, 5, 7] } as const;
