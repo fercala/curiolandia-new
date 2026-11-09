@@ -131,6 +131,9 @@ export interface Estado {
   /** Las crías nacidas en la granja escuela (dominio/crias.ts, CriaNacida), por id ('pollito'...): el nombre que les
    * puso el niño y el día de granja en que nacieron. Desde la fase P9 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   crias?: Record<string, { nombre: string; d: number }>;
+  /** El gran día del deporte (dominio/deporte.ts, RegistroDeporte): las copas ganadas (una por semana) y la semana (su
+   * lunes, 'AAAA-MM-DD') de la última. Desde la fase P11 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  deporte?: { copas: number; semana: string };
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;
@@ -180,6 +183,11 @@ export interface OpcionesEscena {
   exc?: string;
   /** En la excursión: id de la estación que se acaba de terminar (se apunta al volver). */
   hecha?: string;
+  /** En el gran día del deporte (fase P11 de docs/IDEAS-MEJORA.md): en una prueba, true = es parte de la jornada (al
+   * acabar vuelve a SCENES.deporte); al volver a la jornada, la prueba hecha y sus puntos. */
+  deporte?: boolean;
+  prueba?: string;
+  puntos?: number;
 }
 
 /** Las opciones de las escenas que siempre se abren con un tema (la casita y el cofre): t es obligatorio. */

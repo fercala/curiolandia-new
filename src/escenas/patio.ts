@@ -54,15 +54,18 @@ interface BotonPatio {
   readonly h: number;
 }
 
-// Medidas de los botones: ancho, alto, separación y altura de su borde de arriba. Se centran en la pantalla.
-const BOTON = { w: 290, h: 320, sep: 40, y: 330 };
+// Medidas de los botones: ancho (como mucho; desde la fase P11, con cinco botones, algo menos para que quepan), alto,
+// separación y altura de su borde de arriba. Se centran en la pantalla.
+const BOTON = { w: 290, h: 320, sep: 32, y: 330 };
+// anchoBoton: el ancho de cada botón, para que quepan todos con 80 de margen a cada lado.
+const anchoBoton = Math.min(BOTON.w, (W - 160 - (ACTIVIDADES_PATIO.length - 1) * BOTON.sep) / ACTIVIDADES_PATIO.length);
 // COLORES: el color de cada botón, en orden.
-const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E'];
+const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E', '#FFA94D'];
 
 // BOTONES_PATIO: un botón por actividad del patio, en fila y centrados.
 export const BOTONES_PATIO: readonly BotonPatio[] = ACTIVIDADES_PATIO.map((a, i, todas) => {
-  const ancho = todas.length * BOTON.w + (todas.length - 1) * BOTON.sep;
-  return { a, x: (W - ancho) / 2 + i * (BOTON.w + BOTON.sep), y: BOTON.y, w: BOTON.w, h: BOTON.h };
+  const ancho = todas.length * anchoBoton + (todas.length - 1) * BOTON.sep;
+  return { a, x: (W - ancho) / 2 + i * (anchoBoton + BOTON.sep), y: BOTON.y, w: anchoBoton, h: BOTON.h };
 });
 
 // fondoPatio(): el patio: el cielo, la valla, la hierba, el suelo de arena con la pista de colores y dos árboles. Lo

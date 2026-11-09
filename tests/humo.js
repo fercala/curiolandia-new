@@ -94,6 +94,11 @@ const ESCENAS = [
   ['granjaNace', { exc: 'granja' }], // el nacimiento de una cría (P9)
   ['granjaFamilias', { exc: 'granja' }],
   ['carreras'], // las carreras del patio, en 3D (P10)
+  ['deporte', {}], // el día del deporte y sus pruebas (P11)
+  ['deporteSalto', { deporte: true }],
+  ['deportePunteria', { deporte: true }],
+  ['deporteEquilibrio', { deporte: true }],
+  ['deporteRelevos', { deporte: true }],
 ];
 
 (async () => {
