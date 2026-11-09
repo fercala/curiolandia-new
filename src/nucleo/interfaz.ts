@@ -177,7 +177,8 @@ export function onWrongTwice(): void {
 // nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición (rondas).
 export const nRounds = (): number => rondas(AGE(), VIVO.REP);
 /* tiempo de juego */
-// sessionT: segundos jugados en esta sesión (para S.limit); restAsked: ya se propuso descansar; minuteAcc: segundos aún
+// sessionT: segundos jugados en esta sesión (para S.limit); restAsked: ya se propuso descansar; pausaHecha: ya se
+// propuso la pausa activa del yoga (fase P3 de docs/IDEAS-MEJORA.md, escenas/zonas.ts); minuteAcc: segundos aún
 // no apuntados en S.days. Los usa frame() en aplicacion/bucle.ts.
 // La sesión sigue al recargar la página: si S.ses ({t: segundos, at: hora en ms}, se guarda cada 15 s) es de hace menos
 // de 30 min, sessionT sigue desde ahí. Así recargar no se salta el límite de tiempo («a dormir»).
@@ -188,6 +189,7 @@ Object.assign(VIVO, {
     return s && isFinite(+s.t) && typeof ago === 'number' && ago >= 0 && ago < 30 * 60e3 ? +s.t : 0;
   })(),
   restAsked: false,
+  pausaHecha: false,
   minuteAcc: 0,
 });
 

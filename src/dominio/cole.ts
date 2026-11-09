@@ -46,7 +46,7 @@ export const COLE = {
 export const ACTIVIDADES_PATIO: readonly ActividadPatio[] = [
   { id: 'estatuas', nombre: '¡Estatuas!', escena: 'estatuas', icono: 'notas' },
   { id: 'titoDice', nombre: 'Tito dice', escena: 'titoDice', icono: 'manos' },
-  { id: 'yoga', nombre: 'Yoga de los animales', icono: 'gato' },
+  { id: 'yoga', nombre: 'Yoga de los animales', escena: 'yoga', icono: 'gato' },
   { id: 'carreras', nombre: 'Carreras', icono: 'estrella' },
 ];
 

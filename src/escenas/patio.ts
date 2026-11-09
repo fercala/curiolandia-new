@@ -65,7 +65,7 @@ export const BOTONES_PATIO: readonly BotonPatio[] = ACTIVIDADES_PATIO.map((a, i,
 });
 
 // fondoPatio(): el patio: el cielo, la valla, la hierba, el suelo de arena con la pista de colores y dos árboles. Lo
-// usan el patio y sus actividades (escenas/estatuas.ts).
+// usan el patio y sus actividades (escenas/estatuas.ts, titoDice.ts y yoga.ts).
 export function fondoPatio(): void {
   sky('#D6EFFB', '#F3FAEC');
   ctx.fillStyle = '#B5E29A';

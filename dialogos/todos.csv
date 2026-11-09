@@ -932,6 +932,16 @@ aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
 db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
+c5525ece43f9,"Somos gatos: a cuatro patas, arqueamos la espalda hacia arriba, como un gato que se despierta.",frase,src/dominio/yoga.ts
+332605d4ee58,"Somos perros: manos y pies en el suelo y el culete bien alto, como una montaña.",frase,src/dominio/yoga.ts
+5afd3fc9748b,Somos ranas: nos agachamos con las rodillas abiertas y las manos en el suelo.,frase,src/dominio/yoga.ts
+e4a1b92e17c4,"Somos árboles: un pie apoyado en la otra pierna y los brazos arriba, como ramas.",frase,src/dominio/yoga.ts
+c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.",frase,src/dominio/yoga.ts
+457a19703dbb,"Somos mariposas: sentados, juntamos las plantas de los pies y movemos las rodillas como alas.",frase,src/dominio/yoga.ts
+4a75057aa5d3,"Somos tortugas: de rodillas, nos hacemos una bola y escondemos la cabeza en el caparazón.",frase,src/dominio/yoga.ts
+637e68234d84,"Somos leones: de rodillas, las manos como garras, sacamos la lengua y rugimos sin hacer ruido.",frase,src/dominio/yoga.ts
+775469420154,Ahora inflamos un globo en la barriga: tomamos aire despacito y la barriga se hincha. Luego lo soltamos.,frase,src/dominio/yoga.ts
+c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.",frase,src/dominio/yoga.ts
 fb6bb0961414,¡Aquí está ,trozo,src/escenas/casa.ts
 2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/casa.ts
 6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,frase,src/escenas/casa.ts
@@ -1351,7 +1361,7 @@ bfd08dda7379,"¡A las estatuas! Baila con la música y, cuando pare, ¡quieto!",
 15d248e5be3a,¡Quietos como estatuas!,frase,src/escenas/estatuas.ts
 eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts
 11f4179087e7,¡Baila con la música!,frase,src/escenas/estatuas.ts
-fd81e90ff876,Otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts src/escenas/yoga.ts
 af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
@@ -1473,7 +1483,7 @@ b539e633e8c2,¡da una vuelta!,trozo,src/escenas/titoDice.ts
 9bbb2936abe1,¡abre mucho la boca!,trozo,src/escenas/titoDice.ts
 221ef7bf31d6,¡da cinco pisotones!,trozo,src/escenas/titoDice.ts
 b1a35e44836a,¡Eso es!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts src/temas/temas.ts
-1178ef73e06c,¡Muy bien!,frase,src/escenas/titoDice.ts src/juegos/comps2.ts src/juegos/lectura.ts
+1178ef73e06c,¡Muy bien!,frase,src/escenas/titoDice.ts src/escenas/yoga.ts src/juegos/comps2.ts
 ba8de4499a6c,¡Genial!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts
 a1def823d62e,¡Así se hace!,frase,src/escenas/titoDice.ts
 6d6b7169ae0d,"¡Je, je! No he dicho «Tito dice». Si no te has movido, ¡muy bien!",frase,src/escenas/titoDice.ts
@@ -1483,6 +1493,20 @@ a1def823d62e,¡Así se hace!,frase,src/escenas/titoDice.ts
 4e2198644b13,Tito dice: ,trozo,src/escenas/titoDice.ts
 6f4e1b2b51dd,¡Qué bien escuchas! Has hecho todo lo que dice Tito. ¿Jugamos otra vez?,frase,src/escenas/titoDice.ts
 1e032349cbdf,Escucha bien a Tito.,frase,src/escenas/titoDice.ts
+8491310ce7f7,¡Qué bien lo haces!,frase,src/escenas/yoga.ts
+67d959b2041b,¡Genial! Respiras muy tranquilo.,frase,src/escenas/yoga.ts
+594decd97b0a,¡Estupendo!,frase,src/escenas/yoga.ts
+581a37f46932, Respira conmigo.,frase,src/escenas/yoga.ts
+7dd972fc6fc7,¡Qué bien! Ya tenemos energía para seguir jugando.,frase,src/escenas/yoga.ts
+5d61522c0ea1,¡Qué tranquilos estamos! Has hecho yoga como los animales. ¿Lo hacemos otra vez?,frase,src/escenas/yoga.ts
+53b7bf180dca,Toma aire...,frase,src/escenas/yoga.ts
+32703f74daff,Suelta el aire...,frase,src/escenas/yoga.ts
+95ff847d13da,"¡Vamos a estirarnos como los animales! Ponte de pie, con espacio a tu alrededor.",frase,src/escenas/yoga.ts
+de6cc558aff1,¡Bienvenido al rincón de la calma! Vamos a hacer yoga como los animales. Despacito y respirando tranquilos.,frase,src/escenas/yoga.ts
+9360c7117d53, Mira lo que hago y hazlo conmigo.,frase,src/escenas/yoga.ts
+daba4ff4cfc0,Ahora volvemos al mapa.,frase,src/escenas/yoga.ts
+10d7b53d8c96,Toca la flecha para hacerlo otra vez.,frase,src/escenas/yoga.ts
+649e41640e91,Mira a Tito y respira despacito.,frase,src/escenas/yoga.ts
 e788e52029f2,el Jardín de los 3 años,trozo,src/escenas/zonas.ts
 03b508b84ab7,¡Bienvenido al Jardín de los 3 años! Sigue el camino: las casitas se abren de a una. ,frase,src/escenas/zonas.ts
 b19795e88a5d,el Bosque de los 4 años,trozo,src/escenas/zonas.ts
@@ -1550,6 +1574,7 @@ f4c14f67e00f, en su caparazón!,trozo,src/escenas/zonas.ts
 0f23f37661fd,¡Hola,trozo,src/escenas/zonas.ts
 5e31ad72fa7e,! Te he guardado un regalito: ¡tres monedas!,trozo,src/escenas/zonas.ts
 03521cd42cf7,Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.,frase,src/escenas/zonas.ts
+e3cc98690991,¡Llevamos un buen rato jugando! Vamos a hacer una pausa para estirarnos como los animales.,frase,src/escenas/zonas.ts
 f028fdd87d5c,¡Buenas tardes,trozo,src/escenas/zonas.ts
 387949402ffb,¡Buenas noches,trozo,src/escenas/zonas.ts
 57f9fc8e4e5b,Vamos a la plaza a hacer la asamblea. Toca la plaza.,frase,src/escenas/zonas.ts
