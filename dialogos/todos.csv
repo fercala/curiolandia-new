@@ -1080,14 +1080,13 @@ d91c33a38ef3,La casa de Tito crece cuando terminas casitas. ,frase,src/escenas/c
 57b3cbce498e,¡La casa de Tito ya es un castillo!,frase,src/escenas/casa.ts
 3440c63ce2b4,¡Mi baúl! Saca lo que quieras.,frase,src/escenas/casa.ts
 b3602f1aa7df,Mi baúl está vacío.,frase,src/escenas/casa.ts
-a463b8806a41,¡Me encanta mi casa!,frase,src/escenas/casa.ts
-4379cdfcf6e9,¡Gracias por jugar conmigo!,frase,src/escenas/casa.ts
-8b4277261382,¡Qué bonito día!,frase,src/escenas/casa.ts
-63dfd08b402a,¿Has visto mi ropa nueva?,frase,src/escenas/casa.ts
 494a6bf1cfd2,¡Me puse ,trozo,src/escenas/casa.ts
 24e373ab664c,Me quité ,trozo,src/escenas/casa.ts
 82aaad2bbedd,¡Sorpresa!,frase,src/escenas/casa.ts
 d11569c49cfa,¡Sorpresa nueva para el álbum!,frase,src/escenas/casa.ts
+fc00279183a9,¿A qué jugamos? Toca una cosa.,frase,src/escenas/casa.ts
+30125539ddb2,¡Vamos a jugar! ¿Con qué?,frase,src/escenas/casa.ts
+ab85c165b55f,¡Me encanta mi casa! ¿A qué jugamos?,frase,src/escenas/casa.ts
 b67a2d5f26ce,¿Ordeno la casa? Toca la varita otra vez.,frase,src/escenas/casa.ts
 6b3b8d2df2fe,¡Ya está! Cada cosa en su habitación.,frase,src/escenas/casa.ts
 920f2f384a96,Lo que había encima está en el baúl.,frase,src/escenas/casa.ts

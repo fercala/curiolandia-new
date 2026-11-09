@@ -11,7 +11,9 @@
 // las mascotas mayores en el mapa y en la zona de adultos (C25); desde la fase M0 de docs/PLAN-CASA-MEJORA.md, la casa
 // en 3D de prueba (C26); desde la M2, la casa ordenada: al entrar cada cosa va a un sitio y lo que no cabe al baúl
 // (C27), lo comprado va al baúl y se coloca con un toque (C28), arrastrar del baúl a un sitio, al baúl y llevar un
-// mueble con algo encima (C29) y «¡Ordena, Tito!» (C30). Desde la M2, lo comprado en la tienda va al baúl (C6).
+// mueble con algo encima (C29) y «¡Ordena, Tito!» (C30); desde la M3, los toques directos y los estados guardados, y
+// que Tito solo va a jugar si se le toca antes (C31) y el botón de la escena tras dos toques (C32). Desde la M3, C8, C11,
+// C13 y C20 tocan a Tito antes que al objeto. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -247,6 +249,8 @@ const temas = (n) => {
       window.__said = [];
       const sc = __cl.scene,
         o = S.home.telescopio;
+      // desde la fase M3 de PLAN-CASA-MEJORA.md, para que Tito vaya a jugar se le toca antes
+      sc.tocaTito();
       sc.down(o.x, o.y - 60);
       sc.up(o.x, o.y - 60);
       return [!!sc.acc, sc.paseo.dur > 0];
@@ -323,6 +327,8 @@ const temas = (n) => {
       await p.evaluate(() => {
         const sc = __cl.scene,
           o = S.home.telescopio;
+        // desde la fase M3 de PLAN-CASA-MEJORA.md, para que Tito vaya a jugar se le toca antes
+        sc.tocaTito();
         sc.down(o.x, o.y - 60);
         sc.up(o.x, o.y - 60);
       });
@@ -417,6 +423,8 @@ const temas = (n) => {
       await p.evaluate(() => {
         const sc = __cl.scene,
           o = S.home.xilofono;
+        // desde la fase M3 de PLAN-CASA-MEJORA.md, para que Tito vaya a jugar se le toca antes
+        sc.tocaTito();
         sc.down(o.x, o.y - 60);
         sc.up(o.x, o.y - 60);
       });
@@ -579,6 +587,8 @@ const temas = (n) => {
     await p.evaluate(() => {
       const sc = __cl.scene,
         o = S.home.gato;
+      // desde la fase M3 de PLAN-CASA-MEJORA.md, para que Tito vaya a jugar se le toca antes
+      sc.tocaTito();
       sc.down(o.x, o.y - 40);
       sc.up(o.x, o.y - 40);
     });
@@ -941,6 +951,88 @@ const temas = (n) => {
       if (!/Ordeno la casa/.test(r[3]) || !/Cada cosa en su habitación/.test(r[3])) return 'Tito dice: ' + r[3];
     },
   );
+
+  await caso(
+    'C31',
+    'Un toque: el objeto responde y su estado se guarda; Tito solo juega si se le toca antes',
+    async (p) => {
+      await p.evaluate(() => {
+        const S = __cl.S;
+        S.temas = {};
+        S.home = {};
+        S.casaEst = {};
+        ['lampara', 'tele', 'robot'].forEach((id) => {
+          S.owned[id] = 1;
+          placeHome(id);
+        });
+        SCENES.casaTito.room = 'salon';
+        __cl.go('casaTito', {});
+      });
+      await p.waitForTimeout(2500);
+      const r = await p.evaluate(() => {
+        const sc = __cl.scene,
+          toca = (id) => {
+            const o = S.home[id];
+            sc.down(o.x, o.y - 60);
+            sc.up(o.x, o.y - 60);
+          };
+        toca('lampara');
+        toca('tele');
+        toca('tele');
+        toca('robot');
+        return [S.casaEst.lampara, S.casaEst.tele, !!sc.va, sc.toques.robot > 0];
+      });
+      if (r.join() !== '1,2,false,true') return 'tras los toques: ' + r.join();
+      await p.reload();
+      await p.waitForTimeout(1500);
+      const g = await p.evaluate(() => [__cl.S.casaEst.lampara, __cl.S.casaEst.tele]);
+      if (g.join() !== '1,2') return 'al recargar, los estados son ' + g.join();
+      const t = await p.evaluate(() => {
+        SCENES.casaTito.room = 'salon';
+        __cl.go('casaTito', {});
+      });
+      await p.waitForTimeout(2500);
+      const q = await p.evaluate(() => {
+        const sc = __cl.scene,
+          o = S.home.robot;
+        sc.tocaTito();
+        sc.down(o.x, o.y - 60);
+        sc.up(o.x, o.y - 60);
+        return sc.va && sc.va.id;
+      });
+      if (q !== 'robot') return 'tocando antes a Tito, va a ' + q + (t || '');
+    },
+  );
+  await caso('C32', 'Dos toques seguidos a un objeto con escena sacan su botón, que lleva a la escena', async (p) => {
+    await p.evaluate(() => {
+      const S = __cl.S;
+      S.temas = {};
+      for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
+      S.rooms = 7;
+      S.home = {};
+      S.owned.telescopio = 1;
+      placeHome('telescopio');
+      SCENES.casaTito.room = 'torre';
+      __cl.go('casaTito', {});
+    });
+    await p.waitForTimeout(2500);
+    const b = await p.evaluate(() => {
+      const sc = __cl.scene,
+        o = S.home.telescopio;
+      sc.down(o.x, o.y - 80);
+      sc.up(o.x, o.y - 80);
+      const uno = !!sc.botonEscena();
+      sc.down(o.x, o.y - 80);
+      sc.up(o.x, o.y - 80);
+      const e = sc.botonEscena();
+      if (e) sc.down(e.x, e.y);
+      return [uno, !!e, sc.va && sc.va.id];
+    });
+    if (b.join() !== 'false,true,telescopio') return 'botón de la escena: ' + b.join();
+    await p.waitForTimeout(6500);
+    const n = await p.evaluate(() => sceneName);
+    if (n !== 'casaCielo') return 'tras el botón, la escena es ' + n;
+  });
 
   R.guardar();
   await b.close();

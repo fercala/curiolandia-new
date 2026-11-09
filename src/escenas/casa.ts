@@ -134,13 +134,22 @@ import {
   flechasBaul,
   pestanasDe,
 } from './casaBaul.ts';
+import { ESTADOS, estadoDe, siguienteEstado, toqueDe } from '../dominio/casaToques.ts';
+import { dibujaEstado, poseToque } from './casaToques.ts';
 
 // Al jugar con un objeto de la casa (cuando Tito llega hasta él, desde la fase C2): chispitas, su sonido o acción
 // propia (tabla A) y Tito dice su frase (FRASES_CASA, contenido/casa.ts) o, si no tiene (las mascotas), su nombre.
 function homeAction(id: string, x: number, y: number) {
   SFX.pop();
   sparkles(x, y, 8);
-  // A: id del objeto → función que hace al tocarlo (música, sonidos, la lámpara enciende/apaga la luz).
+  sonidoDe(id);
+  say(FRASES_CASA[id] ?? cap(W_(id)) + '.');
+}
+// sonidoDe(id): el sonido propio de un objeto de la casa (tabla A), si tiene. Lo usan homeAction (cuando Tito juega) y,
+// desde la fase M3 de docs/PLAN-CASA-MEJORA.md, el toque directo del niño (toca). La luz de la lámpara ya no la cambia
+// aquí: es su estado guardado (S.casaEst, dominio/casaToques.ts).
+function sonidoDe(id: string) {
+  // A: id del objeto → función que hace al tocarlo (música y sonidos).
   const A: Record<string, () => unknown> = {
     piano: () => playTune(TUNES.colores, 180),
     xilofono: () => playTune(TUNES.meses, 220),
@@ -180,12 +189,9 @@ function homeAction(id: string, x: number, y: number) {
     pelotaPlaya: () => SFX.boing(),
     bloques: () => SFX.snap(),
     telescopio: () => SFX.sparkle(),
-    lampara: () => {
-      homeLight = !homeLight;
-    },
+    lampara: () => SFX.snap(),
   };
   (A[id] || (() => {}))();
-  say(FRASES_CASA[id] ?? cap(W_(id)) + '.');
 }
 // ESCENA_CASA: la escena (SCENES) de cada escena pequeña de la casa que ya está hecha: desde la fase C3, el cielo de
 // noche (telescopio, escenas/casaCielo.ts) y la vuelta al mundo (globo terráqueo, escenas/casaMundo.ts); desde la C4,
@@ -203,7 +209,8 @@ const ESCENA_CASA: Partial<Record<EscenaCasa, string>> = {
   buenasNoches: 'casaNoches',
   huerto: 'casaHuerto',
 };
-// Luz de la casa de Tito (la lámpara la cambia: de noche se oscurece la habitación). No se guarda.
+// Luz de la habitación que se dibuja: desde la fase M3, apagada si en ella está la lámpara y su estado guardado es
+// «apagada» (S.casaEst, dominio/casaToques.ts); la calcula draw() en cada cuadro. Antes no se guardaba.
 let homeLight = true;
 // roomBg(id, hl): dibuja el fondo fijo de la habitación id de la casa de Tito (pared, ventana, suelo y adornos propios);
 // hl es el nivel de la casa (houseLevel): en el salón añade flores, banderines y arcoíris como antes. El suelo empieza
@@ -411,6 +418,8 @@ function cosasDe(r: string) {
     return { ...o, s: enc ? o.s * ESCALA_ENCIMA : o.s, enc, z };
   });
 }
+// ESPERA_TITO: segundos que Tito se queda listo para jugar después de tocarlo (desde la fase M3).
+const ESPERA_TITO = 6;
 // RADIO_SOLTAR: a cuánto (en píxeles) del sitio hay que soltar una cosa para que salte a él.
 const RADIO_SOLTAR = 420;
 // PENA_GRANDE: lo que «aleja» un sitio grande al elegir dónde cae una cosa: así lo mediano y lo pequeño prefieren los
@@ -465,6 +474,12 @@ SCENES.casaTito = {
     this.newRoom = -9;
     this.acc = null;
     this.paseoTok = 0;
+    // desde la fase M3: cuándo se tocó cada objeto (toques), cuándo se tocó a Tito (titoListo), el último objeto tocado
+    // (ultimo: para los dos toques seguidos) y el botón de la escena que está a la vista (escena)
+    this.toques = {};
+    this.titoListo = -9;
+    this.ultimo = null;
+    this.escena = null;
     this.paseo = o.volver ? paseoQuieto(440, 700) : andar(paseoQuieto(-120, 700), 440, 700);
     if (o.volver) return;
     const nv = o.nuevo && SHOP.find((i) => i.id === o.nuevo);
@@ -572,6 +587,7 @@ SCENES.casaTito = {
   draw() {
     const hl = houseLevel(),
       R = roomOf(this.room);
+    homeLight = !(homeRoom('lampara') === R.id && S.owned!.lampara && estadoDe(S.casaEst, 'lampara') === 1);
     roomBg(R.id, hl);
     card(170, 44, 450, 100, '#fff', 6, 50);
     titoHouseIc(230, 94, 80);
@@ -647,7 +663,9 @@ SCENES.casaTito = {
       const ox = o.id === 'hamster' && !dr && !o.enc ? Math.sin(T * 0.9) * 110 : 0,
         b = o.id === 'hamster' ? Math.abs(Math.sin(T * 8)) * -6 : 0,
         s = dr ? 1.08 : hv('h:' + o.id, hC(o.x, o.y - o.s * 0.2, o.s * 0.45));
-      const po = animObjeto(this.acc, o.id);
+      // el movimiento: el de la acción de Tito con este objeto o, si no, el del toque directo del niño (desde la M3)
+      const pa = animObjeto(this.acc, o.id),
+        po = this.acc && this.acc.id === o.id ? pa : poseToque(toqueDe(o.id), this.toques[o.id] ?? -9);
       if (!dr && !this.acc && !andando(this.paseo) && this.cerca === o.id) {
         ctx.globalAlpha = 0.16 + 0.08 * Math.sin(T * 4);
         circ(o.x, o.y - o.s * 0.4, o.s * 0.55, '#FFF3B0', 0);
@@ -661,7 +679,7 @@ SCENES.casaTito = {
         ctx.rotate(po.rot);
         ctx.translate(0, o.s * 0.42);
       }
-      if (o.id === 'lampara' && homeLight) {
+      if (o.id === 'lampara' && estadoDe(S.casaEst, 'lampara') === 0) {
         ctx.globalAlpha = 0.25 + 0.05 * Math.sin(T * 3);
         circ(0, -o.s * 0.3, o.s * 0.5, '#FFE08A', 0);
         ctx.globalAlpha = 1;
@@ -673,6 +691,8 @@ SCENES.casaTito = {
         dibujaMascota(o.id, o.s * 0.62, Math.abs(Math.sin(T * 3)) * -6, o.s * 0.55);
       } else if (MASCOTAS.includes(o.id)) dibujaMascota(o.id, 0, 0, o.s);
       else pic(o.id, 0, -o.s * 0.42, o.s);
+      // lo de su estado guardado (desde la fase M3): la tele encendida, el fuego de la olla, la torre de bloques...
+      dibujaEstado(o.id, estadoDe(S.casaEst, o.id), o.s);
       ctx.restore();
       // y, si le toca enseñar lo que pide hoy (pide), su bocadillo (no mientras se arrastra ni mientras Tito juega)
       if (o.id === pide && !dr && !this.acc)
@@ -691,6 +711,18 @@ SCENES.casaTito = {
       this.jump > 0 && T > this.jump
         ? Math.max(0, 1 - (T - this.jump) * 2) * Math.abs(Math.sin((T - this.jump) * 10)) * -60
         : 0;
+    // Tito, listo para jugar (se le tocó: desde la fase M3), con un aro que brilla bajo sus pies
+    if (T - this.titoListo < ESPERA_TITO) {
+      const [tx, ty] = posTito(this.paseo);
+      ctx.save();
+      ctx.globalAlpha = 0.5 + 0.3 * Math.sin(T * 8);
+      ctx.beginPath();
+      ctx.ellipse(tx, ty, 110, 30, 0, 0, PI * 2);
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = '#FFC93C';
+      ctx.stroke();
+      ctx.restore();
+    }
     dibujaTitoCasa(this.paseo, this.acc, tb);
     efectosAccion(this.acc);
     // el objeto más cercano a Tito parado brilla un poco, para invitar a tocarlo (decisión 1 del plan)
@@ -747,6 +779,25 @@ SCENES.casaTito = {
       pic('cuento', 0, 0, B.r * 1.3);
       circ(B.r * 0.7, -B.r * 0.7, 24, '#FFC93C', 4);
       text(String(cuantasSorpresas(S.sorpresas || {})), B.r * 0.7, -B.r * 0.7 + 9, 24, K);
+      ctx.restore();
+    }
+    // el botón grande de la escena (desde la fase M3), tras dos toques seguidos a un objeto que tiene escena
+    const eb = this.botonEscena!();
+    if (eb) {
+      const sb = 1 + 0.06 * Math.sin(T * 6);
+      ctx.save();
+      ctx.translate(eb.x, eb.y);
+      ctx.scale(sb, sb);
+      circ(0, 0, eb.r + 10, '#FFE08A', 0);
+      circ(0, 0, eb.r, '#fff', 7, '#D9962A');
+      pic(eb.id, -10, 0, eb.r * 1.25);
+      ctx.beginPath();
+      ctx.moveTo(eb.r * 0.45, -18);
+      ctx.lineTo(eb.r * 0.8, 0);
+      ctx.lineTo(eb.r * 0.45, 18);
+      ctx.closePath();
+      ctx.fillStyle = '#7CC86E';
+      ctx.fill();
       ctx.restore();
     }
     // el baúl (desde la fase M2): la bandeja, si está abierta (más clara mientras se saca una cosa), y su botón, que
@@ -899,6 +950,13 @@ SCENES.casaTito = {
       this.wpg = (this.wpg || 0) + wa[2];
       return;
     }
+    // el botón grande de la escena (desde la fase M3): Tito va a jugar con el objeto y luego se abre su escena
+    const eb = this.botonEscena!();
+    if (eb && dist(x, y, eb.x, eb.y) < eb.r + 10) {
+      this.escena = null;
+      this.irA!(eb.id);
+      return;
+    }
     // los objetos se miran antes que Tito: uno soltado delante de él tiene que poder volver a moverse
     const o = this.itemAt(x, y);
     if (o) {
@@ -922,16 +980,7 @@ SCENES.casaTito = {
     {
       const [tx, ty] = posTito(this.paseo);
       if (inR(x, y, tx, ty - TITO_CASA * 0.42, TITO_CASA * 0.9, TITO_CASA * 0.8)) {
-        this.jump = T;
-        SFX.boing();
-        say(
-          pick([
-            '¡Me encanta mi casa!',
-            '¡Gracias por jugar conmigo!',
-            '¡Qué bonito día!',
-            '¿Has visto mi ropa nueva?',
-          ]),
-        );
+        this.tocaTito!();
         return;
       }
     }
@@ -1027,6 +1076,56 @@ SCENES.casaTito = {
     );
     this.jump = T;
     say(FRASES_COMBINACION[id] || '¡Sorpresa!', d.nueva ? () => say('¡Sorpresa nueva para el álbum!') : undefined);
+  },
+  // tocaTito(): tocar a Tito (desde la fase M3): salta y se queda listo para jugar unos segundos (titoListo, con un aro
+  // bajo los pies); el siguiente objeto que se toque, Tito va y juega con él (irA).
+  tocaTito() {
+    this.jump = T;
+    this.titoListo = T;
+    SFX.boing();
+    say(pick(['¿A qué jugamos? Toca una cosa.', '¡Vamos a jugar! ¿Con qué?', '¡Me encanta mi casa! ¿A qué jugamos?']));
+  },
+  // toca(id): el toque directo del niño en un objeto (desde la fase M3, capas 1 y 2): el objeto se mueve (su Toque de
+  // dominio/casaToques.ts), suena, y si tiene estado pasa al siguiente y se guarda (S.casaEst); la torre de bloques,
+  // al llegar arriba, se cae. La primera vez en cada visita, Tito dice su nombre. Si se toca dos veces seguidas (en
+  // menos de 3 s) un objeto con escena o una mascota, sale el botón grande de su escena (this.escena).
+  toca(id: string) {
+    this.toques[id] = T;
+    const o = homeItems(this.room).find((i) => i.id === id);
+    if (Object.hasOwn(ESTADOS, id)) {
+      S.casaEst = { ...siguienteEstado(S.casaEst, id) };
+      save();
+    }
+    const e = estadoDe(S.casaEst, id);
+    if (id === 'bloques' && e === 0) {
+      SFX.boing();
+      if (o) burst(o.x, o.y - 120, 16);
+    } else if (!(id === 'tele' && e === 0)) sonidoDe(id);
+    SFX.pop();
+    if (o) sparkles(o.x, o.y - o.s * 0.5, 4);
+    const r = reaccionDe(id),
+      conEscena = (r && r.escena && ESCENA_CASA[r.escena]) || MASCOTAS.includes(id);
+    const doble = this.ultimo && this.ultimo.id === id && T - this.ultimo.t < 3;
+    this.ultimo = { id, t: T };
+    if (doble && conEscena && o) {
+      this.escena = { id, t: T };
+      SFX.sparkle();
+      return;
+    }
+    this.dichos = this.dichos || {};
+    if (!this.dichos[id]) {
+      this.dichos[id] = 1;
+      say(cap(W_(id)) + '.');
+    }
+  },
+  // botonEscena(): el botón grande de la escena que está a la vista (dura 6 s), con su centro y radio, encima del
+  // objeto; null si no hay o el objeto ya no está en la habitación.
+  botonEscena() {
+    const e = this.escena;
+    if (!e || T - e.t > 6) return null;
+    const o = cosasDe(this.room).find((i) => i.id === e.id);
+    if (!o) return null;
+    return { id: e.id, x: clamp(o.x, 120, 1480), y: clamp(o.y - o.s - 50, 210, 640), r: 62 };
   },
   // toqueBandeja(x, y): un toque en la bandeja del baúl abierta (desde la fase M2): una pestaña (enseña solo esas cosas),
   // una flecha (otra página), «¡Ordena, Tito!» (ordena) o una cosa guardada (empieza a sacarla: si se arrastra, va al
@@ -1151,8 +1250,12 @@ SCENES.casaTito = {
         this.saca!(d.id);
         return;
       }
+      // desde la fase M3: si Tito está listo (se le acaba de tocar), va a jugar; si no, el objeto responde solo
       save();
-      this.irA!(d.id);
+      if (T - this.titoListo < ESPERA_TITO) {
+        this.titoListo = -9;
+        this.irA!(d.id);
+      } else this.toca!(d.id);
       return;
     }
     const enElBaul =

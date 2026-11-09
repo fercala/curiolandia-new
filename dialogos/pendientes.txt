@@ -1252,3 +1252,6 @@ Cuando el siguiente brille, tócalo para pasarle el testigo.
 ¡Pase perfecto!
 ¡Meta! Has hecho tres pases perfectos.
 ¡Meta! Has hecho un pase perfecto.
+¿A qué jugamos? Toca una cosa.
+¡Vamos a jugar! ¿Con qué?
+¡Me encanta mi casa! ¿A qué jugamos?

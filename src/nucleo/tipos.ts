@@ -112,6 +112,9 @@ export interface Estado {
   /** Lo que ya se colocó alguna vez en la casa de Tito: {id: 1} (lo del baúl que no está es nuevo). null hasta la
    * primera visita a la casa desde la fase M2 de docs/PLAN-CASA-MEJORA.md (aplicacion/casa.ts). */
   casaVistos?: Record<string, number> | null;
+  /** Los estados guardados de las cosas de la casa de Tito: {id: número}, 0 = el normal (dominio/casaToques.ts: la
+   * lámpara, la tele, la cama, la torre de bloques...). Desde la fase M3 de docs/PLAN-CASA-MEJORA.md. */
+  casaEst?: Record<string, number>;
   /** El cole (dominio/cole.ts, RegistroCole): el último día que se jugó en el patio, lo hecho ese día y cuántas veces
    * se ha hecho cada actividad. Desde la fase P1 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   cole?: { d: string; hechas: string[]; veces: Record<string, number> };
