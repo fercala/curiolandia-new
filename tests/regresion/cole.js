@@ -40,9 +40,11 @@ const R = L.registro('cole');
       await p.waitForTimeout(2500);
       const z = await p.evaluate(() => mzOf('cole'));
       await L.clic(p, z.x, z.y);
-      // en 3D, Tito anda primero hasta el sitio y luego se entra
+      // en 3D, Tito anda primero hasta el sitio y luego se entra. Sin tarjeta gráfica (GitHub Actions dibuja el 3D con la
+      // CPU) el mapa va a pocos cuadros por segundo y se tarda: aquí, unos 5 s; en Actions, a veces más de 10. Se esperan
+      // hasta 30 s (con la CPU frenada 3 o 4 veces, unos 11 s; con el código de antes de la fase P9, igual).
       let e = 'map';
-      for (let i = 0; i < 20 && e === 'map'; i++) {
+      for (let i = 0; i < 60 && e === 'map'; i++) {
         await p.waitForTimeout(500);
         e = await escena();
       }
