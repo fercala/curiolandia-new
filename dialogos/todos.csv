@@ -942,6 +942,9 @@ aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
 db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
+f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/casaAlbum.ts src/escenas/escenas2d.ts
+0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
+7327b8c0b779, veces,trozo,src/dominio/excursiones.ts
 0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
 e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
 6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
@@ -984,6 +987,18 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 637e68234d84,"Somos leones: de rodillas, las manos como garras, sacamos la lengua y rugimos sin hacer ruido.",frase,src/dominio/yoga.ts
 775469420154,Ahora inflamos un globo en la barriga: tomamos aire despacito y la barriga se hincha. Luego lo soltamos.,frase,src/dominio/yoga.ts
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.",frase,src/dominio/yoga.ts
+8c3d395b2a94,Aún no hemos ido,trozo,src/escenas/albumExcursiones.ts
+a8419088f339,El ,trozo,src/escenas/albumExcursiones.ts src/temas/temas4.ts
+beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/nucleo/idioma.ts src/temas/temas4.ts
+4d950250f975,de ,trozo,src/escenas/albumExcursiones.ts src/nucleo/idioma.ts
+6dc7ba9fac29,Aquí irá la foto ,trozo,src/escenas/albumExcursiones.ts
+66038aa12121,", cuando vayamos de excursión.",trozo,src/escenas/albumExcursiones.ts
+049bfc802dc7,! Hemos ido ,trozo,src/escenas/albumExcursiones.ts
+adc8f5091465,"; la última, el ",trozo,src/escenas/albumExcursiones.ts
+3346907d9abb,. ¿Te acuerdas de ,trozo,src/escenas/albumExcursiones.ts
+a50ab6af698c,Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.,frase,src/escenas/albumExcursiones.ts
+94ddc8c3d31d,Toca una foto del álbum.,frase,src/escenas/albumExcursiones.ts
+89479dc025ba,Mis excursiones,trozo,src/escenas/albumExcursiones.ts
 fb6bb0961414,¡Aquí está ,trozo,src/escenas/casa.ts
 2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/casa.ts
 6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,frase,src/escenas/casa.ts
@@ -1040,7 +1055,6 @@ a06d8abe53a7,Aquí no hay sitio. Prueba en otra habitación.,frase,src/escenas/c
 66aca70e07de,En ,trozo,src/escenas/casa.ts
 95fb0b75108d, ya no hay sitio para eso.,trozo,src/escenas/casa.ts
 4e3a912fe554,¡Mi álbum de sorpresas! Ya has encontrado ,trozo,src/escenas/casaAlbum.ts
-f4b7f5c009fb, de ,trozo,src/escenas/casaAlbum.ts src/escenas/escenas2d.ts src/escenas/libroLetras.ts
 38e404cc9811,. Toca una para recordarla.,trozo,src/escenas/casaAlbum.ts
 cf73950ddb27,¡Mi álbum de sorpresas! Juega con las cosas de mi casa para llenarlo.,frase,src/escenas/casaAlbum.ts
 0934e9c359fc,Toca una sorpresa para recordarla. Las que tienen interrogación aún están escondidas.,frase,src/escenas/casaAlbum.ts
@@ -1407,8 +1421,10 @@ bfd08dda7379,"¡A las estatuas! Baila con la música y, cuando pare, ¡quieto!",
 eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts
 11f4179087e7,¡Baila con la música!,frase,src/escenas/estatuas.ts
 fd81e90ff876,Otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts src/escenas/yoga.ts
+d4fda45f4254,Álbum,trozo,src/escenas/excursion.ts
 f5adb2b442a3,¡Sube al autobús,trozo,src/escenas/excursion.ts
 037b136c8996,! ¿Adónde nos vamos de excursión? Toca un cartel.,trozo,src/escenas/excursion.ts
+a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 684b61148825,¡Nos vamos de excursión!,frase,src/escenas/excursion.ts
 2b7239249018, está en obras! Muy pronto podremos ir.,trozo,src/escenas/excursion.ts
 b7f1c96708f7,¡Nos vamos a ,trozo,src/escenas/excursion.ts
@@ -1416,7 +1432,7 @@ b7f1c96708f7,¡Nos vamos a ,trozo,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 779ec98e0c31,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. ,frase,src/escenas/excursion.ts
 4bbaead2b9e7, nos espera otro día en ,trozo,src/escenas/excursion.ts
-c5475499d2b6,. Toca la casa para volver al cole.,trozo,src/escenas/excursion.ts
+c40d836c1a0d,. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,trozo,src/escenas/excursion.ts
 0f23f37661fd,¡Hola,trozo,src/escenas/excursion.ts src/escenas/zonas.ts
 8a64e8d831eb,! Soy ,trozo,src/escenas/excursion.ts
 d069f9dda463,", la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.",trozo,src/escenas/excursion.ts
@@ -2194,8 +2210,6 @@ cd4fccdcf9e8,el abuelo,nombre,src/nucleo/idioma.ts
 104b369a6454,la crema solar,nombre,src/nucleo/idioma.ts
 8b2d4920f262,la profe,nombre,src/nucleo/idioma.ts
 f901712955e8,las botas de agua,nombre,src/nucleo/idioma.ts
-beafd999592c,del ,trozo,src/nucleo/idioma.ts src/temas/temas4.ts
-4d950250f975,de ,trozo,src/nucleo/idioma.ts
 b26324d56117,"data:image/svg+xml;charset=utf-8,",trozo,src/nucleo/imagenes.ts
 b24d974bd1ca,¡Pegatina nueva!,frase,src/nucleo/interfaz.ts
 4e5c18e09ebf,lunes,trozo,src/nucleo/interfaz.ts
@@ -3018,7 +3032,6 @@ e88b9cc36be8,La semana tiene siete días. Toca cada vagón para conocerlo.,frase
 cfe2c0069345,¿Qué día falta?,frase,src/temas/temas4.ts
 941ca6182d0b,¡Sí! Falta el ,trozo,src/temas/temas4.ts
 3af9c4ff7375,Escuela o fin de semana,trozo,src/temas/temas4.ts
-a8419088f339,El ,trozo,src/temas/temas4.ts
 60017e8c8aca, no hay escuela. ¡Es fin de semana!,trozo,src/temas/temas4.ts
 0f6ba9cb7091, es día de escuela.,trozo,src/temas/temas4.ts
 dfd94a305928, vamos al cole.,trozo,src/temas/temas4.ts

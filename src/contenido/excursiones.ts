@@ -19,6 +19,7 @@ export const EXCURSIONES: readonly Excursion[] = [
     icono: 'vaca',
     guia: 'granjera',
     nombreGuia: 'Rosa',
+    animales: ['vaca', 'caballo', 'cerdo', 'oveja', 'gallina', 'pollito', 'pato'],
     estaciones: [
       { id: 'comer', nombre: 'Dar de comer a los animales', escena: 'granjaComer', icono: 'zanahoria', x: 330, y: 560 },
       { id: 'huevos', nombre: 'Recoger huevos', escena: 'granjaHuevos', icono: 'huevo', x: 640, y: 690 },

@@ -4,6 +4,8 @@
 import { describe, expect, test } from 'vitest';
 import {
   EXCURSION,
+  diaYMes,
+  vecesTexto,
   estacionesJugables,
   siguienteEstacion,
   terminarEstacion,
@@ -58,6 +60,34 @@ describe('las excursiones', () => {
     expect(a.visita).toEqual({ vistas: [], veces: 1, foto: true, d: '2026-11-09' });
     expect(terminarVisita(a.visita, '2026-11-09').monedas).toBe(0);
     expect(terminarVisita(a.visita, '2026-11-10').monedas).toBe(EXCURSION.monedasVisita);
+  });
+
+  test('el álbum dice el día y el mes de la última visita y cuántas veces', () => {
+    const meses = [
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
+    ];
+    expect(diaYMes('2026-11-09', meses)).toBe('9 de noviembre');
+    expect(diaYMes('2027-01-31', meses)).toBe('31 de enero');
+    expect(diaYMes('', meses)).toBe('');
+    expect(diaYMes('2026-13-01', meses)).toBe('');
+    expect(vecesTexto(1)).toBe('una vez');
+    expect(vecesTexto(3)).toBe('3 veces');
+  });
+
+  test('la granja tiene animales que pasean, sin repetir', () => {
+    expect(granja.animales?.length).toBeGreaterThan(3);
+    expect(new Set(granja.animales).size).toBe(granja.animales?.length);
   });
 
   test('una excursión sin estaciones nunca está completa', () => {

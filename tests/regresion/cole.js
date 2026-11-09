@@ -381,6 +381,38 @@ const R = L.registro('cole');
         return despues - antes === 5 ? null : `monedas ${antes} -> ${despues}`;
       },
     );
+    await caso(
+      'P13',
+      'por la granja pasean animales que saltan al tocarlos; la foto da la pegatina y queda en el álbum del autobús',
+      async () => {
+        if (!(await p.evaluate(() => (__cl.S.stk.vaca || 0) >= 1))) return 'la primera visita no ha dado la pegatina';
+        await p.evaluate(() => __cl.go('excursion', { exc: 'granja' }));
+        await p.waitForTimeout(1500);
+        const a0 = await p.evaluate(() => PASEO.animales.map((a) => [a.x, a.y]));
+        if (a0.length !== 7) return 'animales paseando: ' + a0.length;
+        await p.waitForTimeout(3000);
+        const a1 = await p.evaluate(() => PASEO.animales.map((a) => [a.x, a.y]));
+        if (!a1.some(([x, y], i) => x !== a0[i][0] || y !== a0[i][1])) return 'los animales no se mueven';
+        // se para a un animal lejos de las estaciones y del guía, y se toca
+        await p.evaluate(() => Object.assign(PASEO.animales[3], { x: 800, y: 820, tx: 800, ty: 820, hasta: 1e9 }));
+        await L.clic(p, 800, 780);
+        await p.waitForTimeout(200);
+        const salto = await p.evaluate(() => T - PASEO.animales[3].salto);
+        if (!(salto >= 0 && salto < 1)) return 'el animal tocado no salta';
+        await p.evaluate(() => __cl.go('autobus', {}));
+        await p.waitForTimeout(1500);
+        const b = await p.evaluate(() => ALBUM_EXC_BOTON);
+        await L.clic(p, b.x, b.y);
+        await p.waitForTimeout(800);
+        if ((await escena()) !== 'albumExcursiones') return 'el botón del álbum no abre el álbum: ' + (await escena());
+        const m = await p.evaluate(() => MARCOS_ALBUM.find((z) => z.e.id === 'granja'));
+        await L.clic(p, m.x + m.w / 2, m.y + m.h / 2);
+        await p.waitForTimeout(500);
+        await L.clic(p, 80, 80);
+        await p.waitForTimeout(800);
+        return (await escena()) === 'autobus' ? null : 'la casa del álbum no vuelve al autobús: ' + (await escena());
+      },
+    );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {
