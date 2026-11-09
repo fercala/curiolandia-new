@@ -1,5 +1,5 @@
 // Comprueba el cole y su patio (fase P1 de docs/IDEAS-MEJORA.md) con el ratón de verdad: desde el mapa (3D) se llega al
-// cole tocando su sitio (Tito anda hasta él y entra); del cole al patio; lo que está en obras (el autobús) no lleva a ninguna parte y Tito lo dice;
+// cole tocando su sitio (Tito anda hasta él y entra); del cole al patio; lo que está en obras (las clases) no lleva a ninguna parte y Tito lo dice;
 // del patio a «¡Estatuas!», que se juega sola hasta el final (Tito baila, para la música, estatua... en todas las rondas)
 // y da 3 monedas y apunta la actividad en S.cole; la casa vuelve de cada escena a la de antes (estatuas -> patio ->
 // cole -> mapa); y «Tito dice» (fase P2) se juega solo hasta el final y lo apunta, y su plan con 5 años tiene sus 3
@@ -48,13 +48,13 @@ const R = L.registro('cole');
       }
       return e === 'cole' ? null : 'escena ' + e;
     });
-    await caso('P2', 'el autobús está en obras y el patio lleva al patio', async () => {
+    await caso('P2', 'las clases están en obras y el patio lleva al patio', async () => {
       if ((await escena()) !== 'cole') await p.evaluate(() => __cl.go('cole', {}));
       await p.waitForTimeout(1200);
-      const [bus, patio] = await p.evaluate(() => [COLE_SITIOS[2], COLE_SITIOS[0]]);
-      await L.clic(p, bus.x, bus.y);
+      const [clases, patio] = await p.evaluate(() => [COLE_SITIOS[1], COLE_SITIOS[0]]);
+      await L.clic(p, clases.x, clases.y);
       await p.waitForTimeout(600);
-      if ((await escena()) !== 'cole') return 'el autobús en obras ha cambiado de escena';
+      if ((await escena()) !== 'cole') return 'las clases en obras han cambiado de escena';
       await L.clic(p, patio.x, patio.y);
       await p.waitForTimeout(1200);
       const e = await escena();
@@ -217,6 +217,73 @@ const R = L.registro('cole');
           save();
         });
         return e === 'map' ? null : 'con los juegos quitados, el mapa ha abierto ' + e;
+      },
+    );
+    await caso(
+      'P11',
+      'el autobús lleva a la granja escuela; se da de comer, se recogen huevos y la foto da 5 monedas',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 3;
+          delete __cl.S.exc;
+          __cl.go('cole', {});
+        });
+        await p.waitForTimeout(1200);
+        const bus = await p.evaluate(() => COLE_SITIOS[2]);
+        await L.clic(p, bus.x, bus.y);
+        await p.waitForTimeout(1000);
+        if ((await escena()) !== 'autobus') return 'el autobús no ha abierto su escena: ' + (await escena());
+        const d = await p.evaluate(() => DESTINOS.find((x) => x.e.id === 'granja'));
+        await L.clic(p, d.x + d.w / 2, d.y + d.h / 2);
+        let e = 'autobus';
+        for (let i = 0; i < 20 && e === 'autobus'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'excursion') return 'el viaje no ha llegado a la granja: ' + e;
+        await p.waitForTimeout(1500);
+        const antes = await p.evaluate(() => __cl.S.coins || 0);
+        // dar de comer: cada comida, a su animal
+        const est = await p.evaluate(() => DESTINOS[0].e.estaciones[0]);
+        await L.clic(p, est.x, est.y);
+        await p.waitForTimeout(1200);
+        if ((await escena()) !== 'granjaComer') return 'no se ha abierto «dar de comer»';
+        const parejas = await p.evaluate(() =>
+          ESTADO_GRANJA.comer.comidas.map((f) => {
+            const a = ESTADO_GRANJA.comer.animales.find((x) => x.c.animal === f.c.animal);
+            return [f.x0, f.y0, a.x, a.y + 110];
+          }),
+        );
+        for (const [x1, y1, x2, y2] of parejas) {
+          await L.arrastrar(p, x1, y1, x2, y2);
+          await p.waitForTimeout(700);
+        }
+        for (let i = 0; i < 20 && (await escena()) === 'granjaComer'; i++) await p.waitForTimeout(500);
+        if ((await escena()) !== 'excursion') return 'tras dar de comer, escena ' + (await escena());
+        // recoger huevos: se tocan los montones con huevo
+        const est2 = await p.evaluate(() => DESTINOS[0].e.estaciones[1]);
+        await p.waitForTimeout(1500);
+        await L.clic(p, est2.x, est2.y);
+        await p.waitForTimeout(1200);
+        if ((await escena()) !== 'granjaHuevos') return 'no se ha abierto «recoger huevos»';
+        const montones = await p.evaluate(() =>
+          ESTADO_GRANJA.huevos.montones.filter((m) => m.huevo).map((m) => [m.x, m.y - 30]),
+        );
+        for (const [x, y] of montones) {
+          await L.clic(p, x, y);
+          await p.waitForTimeout(600);
+        }
+        for (let i = 0; i < 20 && (await escena()) === 'granjaHuevos'; i++) await p.waitForTimeout(500);
+        if ((await escena()) !== 'excursion') return 'tras los huevos, escena ' + (await escena());
+        let veces = 0;
+        for (let i = 0; i < 20 && !veces; i++) {
+          await p.waitForTimeout(500);
+          veces = await p.evaluate(() => (__cl.S.exc && __cl.S.exc.granja && __cl.S.exc.granja.veces) || 0);
+        }
+        if (veces !== 1) return 'la visita no ha terminado: ' + JSON.stringify(await p.evaluate(() => __cl.S.exc));
+        await p.waitForTimeout(2500);
+        const despues = await p.evaluate(() => __cl.S.coins || 0);
+        return despues - antes === 5 ? null : `monedas ${antes} -> ${despues}`;
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

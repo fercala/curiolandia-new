@@ -485,6 +485,16 @@ e0fc6cca498a,"Por la noche, Mateo miró las estrellas abrazado a su peluche. ¡Q
 17964e86ef35,¡La señal de stop! Hay que parar y mirar.,frase,src/contenido/cuentos.ts
 672078dc8d56,¿Qué se puso Mateo para montar en bici?,frase,src/contenido/cuentos.ts
 f8ea9231845b,¡El casco! Cuida la cabeza.,frase,src/contenido/cuentos.ts
+e15c21b49d1c,La granja escuela,trozo,src/contenido/excursiones.ts
+0856a4aa9c78,Rosa,trozo,src/contenido/excursiones.ts
+58642a0f0f21,Dar de comer a los animales,trozo,src/contenido/excursiones.ts
+225f451d7fba,Recoger huevos,trozo,src/contenido/excursiones.ts
+13eeaf6d58da,Ordeñar y hacer queso,trozo,src/contenido/excursiones.ts
+860021da5a16,Cepillar al caballo,trozo,src/contenido/excursiones.ts
+c833c8b1e578,El huerto,trozo,src/contenido/excursiones.ts
+b47b61f7e59a,Paseo en tractor,trozo,src/contenido/excursiones.ts
+7e2defd8ef9d,El zoo,trozo,src/contenido/excursiones.ts
+d236fa6bc06b,El bosque,trozo,src/contenido/excursiones.ts
 eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 48418f32fc2d,Mamá,trozo,src/contenido/ingles.ts
 cb525f817e00,Dad,trozo,src/contenido/ingles.ts
@@ -771,7 +781,7 @@ b1244101d8cf,la jirafa,nombre,src/contenido/lex.ts
 be28b65d453e,la cebra,nombre,src/contenido/lex.ts
 79ed7b17d4ef,el cocodrilo,nombre,src/contenido/lex.ts
 bc7e665f9481,el tigre,nombre,src/contenido/lex.ts
-337861eec0a2,el conejo,nombre,src/contenido/lex.ts
+337861eec0a2,el conejo,nombre,src/contenido/lex.ts src/escenas/granja.ts
 269fc9de731d,la hormiga,nombre,src/contenido/lex.ts
 3400abd8dec4,la araña,nombre,src/contenido/lex.ts
 71daf92e518a,el gusano,nombre,src/contenido/lex.ts
@@ -1192,11 +1202,11 @@ c45479ffa5f0,Las clases,trozo,src/escenas/cole.ts
 05999bcdbb62,el autobús de las excursiones,trozo,src/escenas/cole.ts
 4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts
 4e2af90d29d2,Cerrado,trozo,src/escenas/cole.ts
-82a8c9409b57,¡Muy pronto!,frase,src/escenas/cole.ts src/escenas/isla.ts src/escenas/patio.ts
+82a8c9409b57,¡Muy pronto!,frase,src/escenas/cole.ts src/escenas/excursion.ts src/escenas/isla.ts
 7dca4a766ce7,¡Bienvenido al cole,trozo,src/escenas/cole.ts
-c4e9ecc068a0,"! Aquí está el patio, para jugar y moverse. Muy pronto vendrán las excursiones en autobús y las clases. ¡Toca el patio!",trozo,src/escenas/cole.ts
+8932173d4c3f,"! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!",trozo,src/escenas/cole.ts
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,frase,src/escenas/cole.ts
-33b763f6ed57,Toca el patio para jugar.,frase,src/escenas/cole.ts
+f780cf0b3b7a,"Toca el patio para jugar, o el autobús para ir de excursión.",frase,src/escenas/cole.ts
 2417dfef0c3a, en obras. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/cole.ts
 a73566387de6,están,trozo,src/escenas/cole.ts
 093ed663c2df,está,trozo,src/escenas/cole.ts
@@ -1397,6 +1407,42 @@ bfd08dda7379,"¡A las estatuas! Baila con la música y, cuando pare, ¡quieto!",
 eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts
 11f4179087e7,¡Baila con la música!,frase,src/escenas/estatuas.ts
 fd81e90ff876,Otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts src/escenas/yoga.ts
+f5adb2b442a3,¡Sube al autobús,trozo,src/escenas/excursion.ts
+037b136c8996,! ¿Adónde nos vamos de excursión? Toca un cartel.,trozo,src/escenas/excursion.ts
+684b61148825,¡Nos vamos de excursión!,frase,src/escenas/excursion.ts
+2b7239249018, está en obras! Muy pronto podremos ir.,trozo,src/escenas/excursion.ts
+b7f1c96708f7,¡Nos vamos a ,trozo,src/escenas/excursion.ts
+28beb702327c,"! ¡Brum, brum!",trozo,src/escenas/excursion.ts
+f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
+779ec98e0c31,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. ,frase,src/escenas/excursion.ts
+4bbaead2b9e7, nos espera otro día en ,trozo,src/escenas/excursion.ts
+c5475499d2b6,. Toca la casa para volver al cole.,trozo,src/escenas/excursion.ts
+0f23f37661fd,¡Hola,trozo,src/escenas/excursion.ts src/escenas/zonas.ts
+8a64e8d831eb,! Soy ,trozo,src/escenas/excursion.ts
+d069f9dda463,", la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.",trozo,src/escenas/excursion.ts
+41b12a8a9434,Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
+1e207c47883a,¡Vamos a ,trozo,src/escenas/excursion.ts
+a366267364b7,! Toca su dibujo.,trozo,src/escenas/excursion.ts
+67593e94c9e6,: ¡muy pronto podremos hacerlo!,trozo,src/escenas/excursion.ts
+a59e6a93a8a7,la vaca,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
+fcbe927d0a34,la gallina,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
+2951630908e0,el cerdo,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
+23b2349b49e4,el caballo,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
+41a2bd573755,¡Todos los animales tienen la barriga llena! ¡Muchas gracias por ayudar!,frase,src/escenas/granja.ts
+0ed42dbcc5e9,"¡Ñam, ñam! ¡Muy bien!",frase,src/escenas/granja.ts
+998e47c8379e,¡Puaj! ,frase,src/escenas/granja.ts
+64d45deda38e, no le gusta eso. ,trozo,src/escenas/granja.ts
+9b22144c476d, come ,trozo,src/escenas/granja.ts
+cbdf67864202,el ,trozo,src/escenas/granja.ts src/temas/extras.ts src/temas/temas4.ts
+d254aeefaf25,al ,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
+b1200f5b672d,Cada animal come una cosa. Arrastra su comida hasta su comedero.,frase,src/escenas/granja.ts
+4377d49bcfae,Arrastra la comida de cada animal hasta su comedero.,frase,src/escenas/granja.ts
+bd3aa671e645,Las gallinas han puesto huevos escondidos en la paja. ¡Toca la paja para buscarlos y los guardamos en la cesta!,frase,src/escenas/granja.ts
+e2acef73fa15,Toca la paja para buscar los huevos.,frase,src/escenas/granja.ts
+a89e2a92fae0, huevos!,trozo,src/escenas/granja.ts
+8d7f7d7775a9,Aquí no hay ninguno.,frase,src/escenas/granja.ts
+38f0f4852ba0,¡Hemos recogido ,trozo,src/escenas/granja.ts
+4045646a31f9, huevos! Las gallinas están muy contentas.,trozo,src/escenas/granja.ts
 af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
@@ -1609,7 +1655,6 @@ d6227a4f6b5f,! Toca para jugar.,trozo,src/escenas/zonas.ts
 f4c14f67e00f, en su caparazón!,trozo,src/escenas/zonas.ts
 1a8d2e1cba2f,una flor,trozo,src/escenas/zonas.ts
 91c6057566ee, flores,trozo,src/escenas/zonas.ts
-0f23f37661fd,¡Hola,trozo,src/escenas/zonas.ts
 5e31ad72fa7e,! Te he guardado un regalito: ¡tres monedas!,trozo,src/escenas/zonas.ts
 03521cd42cf7,Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.,frase,src/escenas/zonas.ts
 e3cc98690991,¡Llevamos un buen rato jugando! Vamos a hacer una pausa para estirarnos como los animales.,frase,src/escenas/zonas.ts
@@ -2043,7 +2088,6 @@ b4ae8e622fee,el dinosaurio,nombre,src/nucleo/idioma.ts
 f9a0fd76cf91,la foca,nombre,src/nucleo/idioma.ts
 9598d7609c8b,el perro,nombre,src/nucleo/idioma.ts
 876665517f21,el coche,nombre,src/nucleo/idioma.ts
-a59e6a93a8a7,la vaca,nombre,src/nucleo/idioma.ts
 7730fbc8ee43,la cama,nombre,src/nucleo/idioma.ts
 8cb09e5ea056,la silla,nombre,src/nucleo/idioma.ts
 ea72ecca2fdb,el zapato,nombre,src/nucleo/idioma.ts
@@ -2105,9 +2149,6 @@ c20e74cf4e4a,el inodoro,nombre,src/nucleo/idioma.ts
 cb985825235c,la tele,nombre,src/nucleo/idioma.ts
 7bb9977a0fab,el cepillo de dientes,nombre,src/nucleo/idioma.ts
 1a27518dc7d0,la olla,nombre,src/nucleo/idioma.ts
-2951630908e0,el cerdo,nombre,src/nucleo/idioma.ts
-fcbe927d0a34,la gallina,nombre,src/nucleo/idioma.ts
-23b2349b49e4,el caballo,nombre,src/nucleo/idioma.ts
 25cbaa49e002,el pollito,nombre,src/nucleo/idioma.ts
 fee540b1f4eb,la mariquita,nombre,src/nucleo/idioma.ts
 ed0e23516cf6,el pájaro,nombre,src/nucleo/idioma.ts
@@ -2139,7 +2180,6 @@ cd4fccdcf9e8,el abuelo,nombre,src/nucleo/idioma.ts
 f901712955e8,las botas de agua,nombre,src/nucleo/idioma.ts
 beafd999592c,del ,trozo,src/nucleo/idioma.ts src/temas/temas4.ts
 4d950250f975,de ,trozo,src/nucleo/idioma.ts
-d254aeefaf25,al ,trozo,src/nucleo/idioma.ts
 b26324d56117,"data:image/svg+xml;charset=utf-8,",trozo,src/nucleo/imagenes.ts
 b24d974bd1ca,¡Pegatina nueva!,frase,src/nucleo/interfaz.ts
 4e5c18e09ebf,lunes,trozo,src/nucleo/interfaz.ts
@@ -2203,7 +2243,6 @@ a0dfd03cdc8d,"Domingo, en familia a descansar.",frase,src/temas/extras.ts
 3c0fc30af60d,¡Vamos a cantar la canción de los días de la semana! Escucha.,frase,src/temas/extras.ts
 427e2fef5ede,"¡Ahora te toca a ti! Toca los días en orden, empezando por el lunes.",frase,src/temas/extras.ts
 6760837016f6,¡Bravo! ¡Los siete días de la semana!,frase,src/temas/extras.ts
-cbdf67864202,el ,trozo,src/temas/extras.ts src/temas/temas4.ts
 447ffd615d62,¡La canción de las estaciones! Escucha.,frase,src/temas/extras.ts
 bfa0d3c66324,¡Ahora jugamos! Toca la estación que te digo.,frase,src/temas/extras.ts
 33eb835d8653,"¡Ahora te toca a ti! Toca las estaciones en orden, como en la canción.",frase,src/temas/extras.ts
