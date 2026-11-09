@@ -932,6 +932,38 @@ aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
 db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
+0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
+e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
+6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
+d0a21fcb00c9,Ir saltando como una rana hasta la cocina.,frase,src/dominio/retos.ts
+82df35f47061,ayuda a poner la mesa.,trozo,src/dominio/retos.ts
+30cd2519031a,Ayudar a poner la mesa.,frase,src/dominio/retos.ts
+5f1f6cff38ee,cuenta las ventanas de tu casa.,trozo,src/dominio/retos.ts
+fa7a084e9025,Contar las ventanas de casa.,frase,src/dominio/retos.ts
+74b1d2e3b5ce,"busca cosas redondas, como una pelota.",trozo,src/dominio/retos.ts
+bcce1b253216,Buscar cosas redondas por casa.,frase,src/dominio/retos.ts
+b12add0bd055,"anda como un cangrejo, de lado, por el pasillo.",trozo,src/dominio/retos.ts
+ee7aff1cf9ad,Andar de lado como un cangrejo por el pasillo.,frase,src/dominio/retos.ts
+926e506c780c,guarda tus juguetes en su sitio.,trozo,src/dominio/retos.ts
+0c4a046a37fe,Recoger los juguetes y guardarlos en su sitio.,frase,src/dominio/retos.ts
+c967266eeb81,cuenta los zapatos que hay en casa.,trozo,src/dominio/retos.ts
+bb554579c64b,Contar los zapatos que hay en casa.,frase,src/dominio/retos.ts
+e09920dd869e,baila una canción con tu familia.,trozo,src/dominio/retos.ts
+7cc2c0c725b6,Bailar una canción en familia.,frase,src/dominio/retos.ts
+c0e29f9f022d,imita a tu animal favorito y que tu familia lo adivine.,trozo,src/dominio/retos.ts
+09cf9c090984,Imitar un animal para que la familia lo adivine.,frase,src/dominio/retos.ts
+c5b7fe39c39c,riega una planta o mira cómo ha crecido.,trozo,src/dominio/retos.ts
+b8dc14f55c14,Regar una planta (o mirar juntos cómo crece).,frase,src/dominio/retos.ts
+ac5c61b31590,busca la primera letra de tu nombre en un libro o un cartel.,trozo,src/dominio/retos.ts
+ebe42b2428f5,Buscar la primera letra de su nombre en un libro o un cartel.,frase,src/dominio/retos.ts
+4cd1817bb397,empareja los calcetines de la ropa limpia.,trozo,src/dominio/retos.ts
+95241d7ea87e,Emparejar calcetines de la ropa limpia.,frase,src/dominio/retos.ts
+b97b6ad5d0d3,da un abrazo a cada persona de tu casa y cuéntalos.,trozo,src/dominio/retos.ts
+1d19e95d1bfe,Dar un abrazo a cada persona de casa y contarlos.,frase,src/dominio/retos.ts
+0d8a54c0fe28,ponte a la pata coja mientras cuentas hasta cinco.,trozo,src/dominio/retos.ts
+00f22b621955,Aguantar a la pata coja contando hasta cinco.,frase,src/dominio/retos.ts
+165e74a75d87,busca algo de cada color del arcoíris.,trozo,src/dominio/retos.ts
+3fc548d3f1a4,Buscar algo de cada color del arcoíris.,frase,src/dominio/retos.ts
 c5525ece43f9,"Somos gatos: a cuatro patas, arqueamos la espalda hacia arriba, como un gato que se despierta.",frase,src/dominio/yoga.ts
 332605d4ee58,"Somos perros: manos y pies en el suelo y el culete bien alto, como una montaña.",frase,src/dominio/yoga.ts
 5afd3fc9748b,Somos ranas: nos agachamos con las rodillas abiertas y las manos en el suelo.,frase,src/dominio/yoga.ts
@@ -1159,13 +1191,16 @@ a32c8a6e5f50,las clases,trozo,src/escenas/cole.ts
 c45479ffa5f0,Las clases,trozo,src/escenas/cole.ts
 05999bcdbb62,el autobús de las excursiones,trozo,src/escenas/cole.ts
 4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts
+4e2af90d29d2,Cerrado,trozo,src/escenas/cole.ts
 82a8c9409b57,¡Muy pronto!,frase,src/escenas/cole.ts src/escenas/isla.ts src/escenas/patio.ts
 7dca4a766ce7,¡Bienvenido al cole,trozo,src/escenas/cole.ts
 c4e9ecc068a0,"! Aquí está el patio, para jugar y moverse. Muy pronto vendrán las excursiones en autobús y las clases. ¡Toca el patio!",trozo,src/escenas/cole.ts
+242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,frase,src/escenas/cole.ts
 33b763f6ed57,Toca el patio para jugar.,frase,src/escenas/cole.ts
 2417dfef0c3a, en obras. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/cole.ts
 a73566387de6,están,trozo,src/escenas/cole.ts
 093ed663c2df,está,trozo,src/escenas/cole.ts
+89b3f1dd7488,El patio está cerrado por ahora. ¡Hay muchas cosas más para jugar en el mapa!,frase,src/escenas/cole.ts
 047a6c123a1f,Este es tu diccionario de inglés. Ya conoces ,trozo,src/escenas/diccionario.ts
 d585c75f67ab,palabra,trozo,src/escenas/diccionario.ts
 0ecbc11e335f,palabras,trozo,src/escenas/diccionario.ts
@@ -1410,6 +1445,9 @@ c1e5adccd674,¡Hora de repasar! Tito eligió juegos que todavía cuestan un poqu
 faab64329823,Empieza por el primero.,frase,src/escenas/repaso.ts src/escenas/zonas.ts
 0454719b9a96,Repaso con Tito,trozo,src/escenas/repaso.ts
 c7921acb6557,Este todavía está cerrado. Primero termina el número ,trozo,src/escenas/repaso.ts src/escenas/zonas.ts
+108a30388cee,"Te dejo un reto para hacer en casa, sin pantalla: ",trozo,src/escenas/retos.ts
+274661fe2f2c,¡Me han contado que has hecho el reto en casa,trozo,src/escenas/retos.ts
+05bd86f3607a,! ¡Qué bien! Toma una pegatina.,trozo,src/escenas/retos.ts
 15d657aa9510,Un cuento extra antes de dormir,trozo,src/escenas/tienda.ts
 4bf721c805e2,Ir a jugar al parque,trozo,src/escenas/tienda.ts
 9255f2bf1f4b,Elegir a qué jugamos juntos,trozo,src/escenas/tienda.ts

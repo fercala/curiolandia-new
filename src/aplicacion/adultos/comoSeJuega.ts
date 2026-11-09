@@ -1,7 +1,8 @@
 // adultos/comoSeJuega.ts: página «Cómo se juega» de la zona de adultos (fase A1 de docs/PLAN-MENU-ADULTOS.md): modo de
 // juego (camino o libre), límite de tiempo, letras de la isla, estaciones (hemisferio) y paisaje. Antes estaban en las
 // secciones «Modo de juego», «Tiempo de juego» e «Idioma y voz» de aplicacion/adultos.ts. Guarda en S.unlockAll (con
-// S.seenOpen y S.woke), S.limit, S.tipoLetra, S.hemi y S.quiet3.
+// S.seenOpen y S.woke), S.limit, S.tipoLetra, S.hemi y S.quiet3. Desde la fase P4 de docs/IDEAS-MEJORA.md, «Juegos de
+// moverse»: el aviso de que hay juegos para moverse de verdad y la opción de quitarlos (S.sinMoverse).
 import type { Estado } from '../../nucleo/tipos.ts';
 import { S, save } from '../../nucleo/indice.ts';
 import { zoneOpen } from '../../escenas/zonas.ts';
@@ -40,6 +41,17 @@ export const COMO_SE_JUEGA: PaginaAdultos = {
      )
      .join('')}</div>
    <p class="note">Al llegar al límite, Tito se despide y se va a dormir. Para seguir, hay que abrir esta zona.</p></section>
+  <section><h3>Juegos de moverse</h3>
+   <div class="row">${[
+     ['si', '<b>Puestos</b>: el patio del cole y la pausa activa'],
+     ['no', '<b>Quitados</b>'],
+   ]
+     .map(
+       ([k, l]) =>
+         `<label class="opt"><input type="radio" name="a-mover" value="${k}" ${(S.sinMoverse ? 'no' : 'si') === k ? 'checked' : ''}> ${l}</label>`,
+     )
+     .join('')}</div>
+   <p class="note">En el patio del cole (¡Estatuas!, Tito dice y el yoga) el niño se mueve de verdad: baila, salta, se agacha... El juego no puede comprobarlo, solo propone y celebra. Conviene jugarlos con espacio alrededor y sin muebles cerca. A los 20 minutos de juego, Tito propone además una pausa activa para estirarse. Si los quitáis, el patio sale cerrado, no hay pausa activa y los retos en casa no son de moverse.</p></section>
   <section><h3>Isla de las Letras</h3>
    <div class="row"><span>Letras de la isla</span>${[
      ['mayus', 'Solo MAYÚSCULAS (para empezar)'],
@@ -84,6 +96,13 @@ export const COMO_SE_JUEGA: PaginaAdultos = {
     // Límite de tiempo en minutos (0 = sin límite).
     radios(el, 'a-lim', (v) => {
       S.limit = +v;
+      save();
+    });
+    // Juegos de moverse (fase P4 de docs/IDEAS-MEJORA.md): S.sinMoverse = true los quita (el patio del cole y la pausa
+    // activa); sin el campo, están puestos.
+    radios(el, 'a-mover', (v) => {
+      if (v === 'no') S.sinMoverse = true;
+      else delete S.sinMoverse;
       save();
     });
     // Letras de la isla (fase L7b): S.tipoLetra 'mayus' (solo mayúsculas) o 'ambas' (también minúsculas).

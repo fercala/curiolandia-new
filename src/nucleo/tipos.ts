@@ -115,6 +115,12 @@ export interface Estado {
   /** El cole (dominio/cole.ts, RegistroCole): el último día que se jugó en el patio, lo hecho ese día y cuántas veces
    * se ha hecho cada actividad. Desde la fase P1 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   cole?: { d: string; hechas: string[]; veces: Record<string, number> };
+  /** Los retos para hacer en casa (dominio/retos.ts, RegistroRetos): el último propuesto (día e id), si la familia lo
+   * marcó como hecho, si Tito ya lo celebró y cuántos se han hecho. Desde la fase P4 de docs/IDEAS-MEJORA.md; opcional. */
+  retos?: { d: string; id: string; hecho: boolean; celebrado: boolean; n: number };
+  /** true: la familia ha quitado los juegos de moverse (el patio del cole y la pausa activa), en la zona de adultos.
+   * Desde la fase P4 de docs/IDEAS-MEJORA.md; opcional (sin el campo, están puestos). */
+  sinMoverse?: boolean;
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;

@@ -63,7 +63,8 @@
  *   escenas/escenas2d.ts: el mapa dibuja la lupa del repaso, goSeguir pasa por el repaso y la casita vuelve a él. Desde la fase 4q
  *   ya no usa nada de escenas/tienda.ts, que va después: el cofre del tesoro pasa a escenas/cofre.ts y SHELLC al núcleo.
  *   Desde la fase P3 de docs/IDEAS-MEJORA.md, tocaPausaActiva de dominio/yoga.ts: a los 20 minutos de juego, el mapa
- *   propone la pausa activa (el yoga corto, VIVO.pausaHecha).
+ *   propone la pausa activa (el yoga corto, VIVO.pausaHecha). Desde la P4, moverseActivo de dominio/retos.ts y
+ *   celebrarRetoSiToca y fraseReto de escenas/retos.ts (los retos para hacer en casa).
  * Partes de S que toca: S.temas (solo lee), S.unlockAll (modo libre de la
  *   zona de adultos), S.seenOpen (lo último visto abierto, para animar
  *   candados), S.woke (zonas ya despertadas), S.first[zona], S.last,
@@ -183,6 +184,8 @@ import { repasoTerminado, seguirPorElRepaso, tocaRepasar } from '../aplicacion/r
 import { disposicion } from '../nucleo/disposicion.ts';
 import { mascotasMayores } from './casaMascotas.ts';
 import { tocaPausaActiva } from '../dominio/yoga.ts';
+import { moverseActivo } from '../dominio/retos.ts';
+import { celebrarRetoSiToca, fraseReto } from './retos.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -1401,8 +1404,10 @@ SCENES.map = {
   // 1) una zona que se acaba de despertar (S.woke) sin ser de su edad; 2) un sitio recién abierto (newlyOpen 'map');
   // 3) la casa de Tito ha crecido (S.houseSeen); 4) Pipo ha cambiado de etapa (S.petSeen); 5) flores nuevas (S.seenFl);
   // 6) si no hubo aviso, el regalo diario de 3 monedas (una vez al día, S.gift); 7) si no, saludo (o.hello).
-  // Tras 15 minutos de sesión propone descansar una vez; tras 20 (fase P3 de docs/IDEAS-MEJORA.md), la pausa activa: Tito
-  // propone estirarse y abre el yoga corto (SCENES.yoga con {pausa: true}).
+  // Tras 15 minutos de sesión propone descansar una vez (y, desde la fase P4 de docs/IDEAS-MEJORA.md, deja el reto de hoy
+  // para hacer en casa); tras 20 (fase P3), la pausa activa: Tito propone estirarse y abre el yoga corto (SCENES.yoga
+  // con {pausa: true}), salvo que la familia haya quitado los juegos de moverse. Desde la P4, si la familia ha marcado
+  // el reto como hecho en la zona de adultos, Tito lo celebra con una pegatina (celebrarRetoSiToca, escenas/retos.ts).
   enter(o: OpcionesEscena) {
     this.wake = null;
     this.unl = null;
@@ -1499,10 +1504,11 @@ SCENES.map = {
     if (VIVO.sessionT > 15 * 60 && !VIVO.restAsked && !S.limit) {
       VIVO.restAsked = true;
       later(3000, () => sayQ('Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.'));
+      later(3200, () => sayQ(fraseReto()));
     }
     // la pausa activa (fase P3 de docs/IDEAS-MEJORA.md): a los 20 minutos de juego seguido, Tito propone estirarse y
     // abre el yoga corto, si para entonces se sigue en el mapa (tocaPausaActiva, dominio/yoga.ts)
-    else if (tocaPausaActiva(VIVO.sessionT, VIVO.pausaHecha, S.limit || 0)) {
+    else if (moverseActivo(S.sinMoverse) && tocaPausaActiva(VIVO.sessionT, VIVO.pausaHecha, S.limit || 0)) {
       VIVO.pausaHecha = true;
       later(2500, () =>
         sayQ('¡Llevamos un buen rato jugando! Vamos a hacer una pausa para estirarnos como los animales.', () => {
@@ -1510,6 +1516,8 @@ SCENES.map = {
         }),
       );
     }
+    // el reto en casa hecho (fase P4): Tito lo celebra con una pegatina cuando acabe de hablar
+    celebrarRetoSiToca();
   },
   // ageZone(): zona que corresponde a la edad (ageZoneOpen). Hoy no la llama nadie (la capa 3D ya no la usa para colocar a
   // Tito).
