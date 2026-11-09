@@ -1177,3 +1177,13 @@ Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una 
 Toca una foto del álbum.
 Aquí irá la foto del zoo, cuando vayamos de excursión.
 ¡La granja escuela! Hemos ido una vez; la última, el 9 de noviembre. ¿Te acuerdas de Rosa?
+Hoy plantamos una semilla de manzano junto al granero. Cada día que vuelvas, crecerá un poco.
+¡Mira el manzano! De la semilla ha salido un brote.
+¡El manzano ya es un arbolito! Sigue creciendo.
+¡El manzano está lleno de flores! Pronto saldrán manzanas.
+¡El manzano ya tiene manzanas! Tócalo para que caigan.
+Aquí hemos plantado la semilla del manzano. Cada día que vengas a la granja crecerá un poco.
+Es un brote de manzano. Vuelve otro día y estará más grande.
+Es un arbolito. Cada día que vienes, crece un poco más.
+¡Qué flores tan bonitas! De las flores saldrán las manzanas.
+¡Manzanas! Se las llevamos a los animales.

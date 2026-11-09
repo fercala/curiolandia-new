@@ -13,8 +13,10 @@
  * tablas REACCIONES, COMBINACIONES, MASCOTAS, CUIDADOS, CUIDADOS_POR_DIA, DIAS_ETAPA, FLOR_DIAS y TOTAL_SORPRESAS; y
  * las reglas reaccionDe, combinacion, idSorpresa, descubrir, cuantasSorpresas, fichaNueva, fichaComprada,
  * fichaDe, etapaMascota, cuidadosDe, cuidar, quiereHoy, huertoNuevo, regar y etapaFlor.
- * No importa nada.
+ * Importa: contarDia y etapaPorDias de dominio/crecer.ts (desde la fase P8 de docs/IDEAS-MEJORA.md, la regla común de
+ * crecer por días).
  */
+import { contarDia, etapaPorDias } from './crecer.ts';
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de este archivo son las reglas mismas (días que pide
    cada etapa, cuidados por día), en tablas con nombre; sacarlos a otra constante solo repetiría el nombre. */
 
@@ -246,7 +248,7 @@ export function fichaDe(fichas: Readonly<Record<string, unknown>>, id: string): 
 
 // etapaMascota(dias): 0 bebé, 1 joven, 2 mayor: cuántos escalones de DIAS_ETAPA alcanza. Nunca baja.
 export function etapaMascota(dias: number): number {
-  return DIAS_ETAPA.filter((n) => dias >= n).length;
+  return etapaPorDias(dias, DIAS_ETAPA);
 }
 
 /** Lo que devuelve cuidar: la ficha nueva, si el día acaba de contar y si la mascota acaba de crecer. */
@@ -295,11 +297,11 @@ export const FLOR_DIAS: readonly number[] = [1, 3, 5, 8];
 
 // regar(huerto, hoy): el huerto tras regarlo hoy. Cuenta una vez al día; regar otra vez el mismo día no suma.
 export function regar(huerto: Huerto, hoy: string): { huerto: Huerto; cuenta: boolean } {
-  if (huerto.dia === hoy) return { huerto: { ...huerto }, cuenta: false };
-  return { huerto: { dias: huerto.dias + 1, dia: hoy }, cuenta: true };
+  const r = contarDia(huerto, hoy);
+  return { huerto: r.crecimiento, cuenta: r.cuenta };
 }
 
 // etapaFlor(dias): etapa de la flor (0 semilla a 4 flor abierta) con esos días regados.
 export function etapaFlor(dias: number): number {
-  return FLOR_DIAS.filter((n) => dias >= n).length;
+  return etapaPorDias(dias, FLOR_DIAS);
 }

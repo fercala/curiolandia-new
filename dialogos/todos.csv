@@ -1459,6 +1459,16 @@ a89e2a92fae0, huevos!,trozo,src/escenas/granja.ts
 8d7f7d7775a9,Aquí no hay ninguno.,frase,src/escenas/granja.ts
 38f0f4852ba0,¡Hemos recogido ,trozo,src/escenas/granja.ts src/escenas/granjaTalleres.ts
 4045646a31f9, huevos! Las gallinas están muy contentas.,trozo,src/escenas/granja.ts
+30263d9d6d18,¡Mira el manzano! De la semilla ha salido un brote.,frase,src/escenas/granjaManzano.ts
+23b1a71d21c3,¡El manzano ya es un arbolito! Sigue creciendo.,frase,src/escenas/granjaManzano.ts
+e7d226807eca,¡El manzano está lleno de flores! Pronto saldrán manzanas.,frase,src/escenas/granjaManzano.ts
+e23b0ac3a8d9,¡El manzano ya tiene manzanas! Tócalo para que caigan.,frase,src/escenas/granjaManzano.ts
+6be5ecfff6c0,Aquí hemos plantado la semilla del manzano. Cada día que vengas a la granja crecerá un poco.,frase,src/escenas/granjaManzano.ts
+d43bef78aa74,Es un brote de manzano. Vuelve otro día y estará más grande.,frase,src/escenas/granjaManzano.ts
+929286ea153f,"Es un arbolito. Cada día que vienes, crece un poco más.",frase,src/escenas/granjaManzano.ts
+98857d79ea43,¡Qué flores tan bonitas! De las flores saldrán las manzanas.,frase,src/escenas/granjaManzano.ts
+cbbc28cb81d2,¡Manzanas! Se las llevamos a los animales.,frase,src/escenas/granjaManzano.ts
+963839ee9380,"Hoy plantamos una semilla de manzano junto al granero. Cada día que vuelvas, crecerá un poco.",frase,src/escenas/granjaManzano.ts
 01ccbb716eab,"Primero, ordeñamos a la vaca. Toca la ubre para que caiga la leche en el cubo.",frase,src/escenas/granjaTalleres.ts
 920d0607c420,¡El cubo está lleno de leche! Ahora la echamos en la olla. Remueve: da vueltas con el dedo dentro de la olla.,frase,src/escenas/granjaTalleres.ts
 97ff442f50d7,¡La leche se ha puesto espesa! La metemos en el molde. Toca la prensa para apretar.,frase,src/escenas/granjaTalleres.ts

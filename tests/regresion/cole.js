@@ -413,6 +413,34 @@ const R = L.registro('cole');
         return (await escena()) === 'autobus' ? null : 'la casa del álbum no vuelve al autobús: ' + (await escena());
       },
     );
+    await caso(
+      'P14',
+      'el manzano de la granja cuenta un día por visita y, con 7 días, tiene manzanas que caen al tocarlo',
+      async () => {
+        const dias = () => p.evaluate(() => (__cl.S.crece && __cl.S.crece['granja:manzano']) || null);
+        const hoy = await dias();
+        if (!hoy || hoy.dias !== 1) return 'tras la primera visita, el manzano: ' + JSON.stringify(hoy);
+        // otra vez hoy: no suma
+        await p.evaluate(() => __cl.go('excursion', { exc: 'granja' }));
+        await p.waitForTimeout(1000);
+        if ((await dias()).dias !== 1) return 'el mismo día ha contado dos veces';
+        // como si hubiera venido 6 días antes: hoy cuenta el 7.º y salen manzanas
+        await p.evaluate(() => {
+          __cl.S.crece['granja:manzano'] = { dias: 6, dia: '2000-01-01' };
+          __cl.go('excursion', { exc: 'granja' });
+        });
+        await p.waitForTimeout(1500);
+        if ((await dias()).dias !== 7) return 'otro día no ha contado: ' + JSON.stringify(await dias());
+        if ((await p.evaluate(() => etapaManzano())) !== 4) return 'con 7 días no tiene manzanas';
+        await p.evaluate(() =>
+          PASEO.animales.forEach((a) => Object.assign(a, { x: 300, y: 820, tx: 300, ty: 820, hasta: 1e9 })),
+        );
+        const m = await p.evaluate(() => MANZANO_SITIO);
+        await L.clic(p, m.x, m.y - 150);
+        await p.waitForTimeout(300);
+        return (await escena()) === 'excursion' ? null : 'tocar el manzano ha cambiado de escena';
+      },
+    );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {
