@@ -7,6 +7,8 @@
 // Al cargar el módulo elige voz, carga el manifiesto de voces (si toca) y envuelve speechSynthesis.cancel.
 import { whenQuiet, sceneTok } from './escenas.ts';
 import { S } from './guardado.ts';
+import { IDIOMA, tr } from './traducir.ts';
+import { idioma } from '../dominio/idiomas.ts';
 import { VIVO } from './pantalla.ts';
 import { AC, initSonido, MUS } from './sonido.ts';
 import { pick } from './utilidades.ts';
@@ -71,19 +73,24 @@ export const vozCalidad = (v: SpeechSynthesisVoice): number =>
       : /google|siri/i.test(v.name)
         ? 2
         : 0;
-// vocesES(): las voces en español del navegador, de mejor a peor calidad (vozCalidad); a igual calidad, el orden del navegador.
+// vocesES(): las voces del navegador en el idioma del juego (desde la fase ID1 de docs/PLAN-IDIOMAS.md; en castellano,
+// las de español), de mejor a peor calidad (vozCalidad); a igual calidad, el orden del navegador. Una voz vale si su
+// lang empieza por uno de los prefijos del idioma (idioma().voces: 'ro-RO', 'ro'...).
 export function vocesES(): SpeechSynthesisVoice[] {
   if (!('speechSynthesis' in window)) return [];
+  const prefijos = idioma(IDIOMA).voces.map((p) => p.toLowerCase());
   return speechSynthesis
     .getVoices()
-    .filter((v) => /^es/i.test(v.lang))
+    .filter((v) => prefijos.some((p) => v.lang.replace('_', '-').toLowerCase().startsWith(p)))
     .map((v, i) => [v, i] as const)
     .sort((a, b) => vozCalidad(b[0]) - vozCalidad(a[0]) || a[1] - b[1])
     .map((a) => a[0]);
 }
-// pickVoice(): elige la voz del navegador. Si en la zona de adultos se eligió una (S.vozNav, su voiceURI o nombre) y está
-// en este aparato, usa esa. Si no, la automática: primero por país (España y, si no hay, las de otros países) y,
-// dentro del país, la de más calidad (vozCalidad). También elige la voz inglesa (británica si la hay).
+// pickVoice(): elige la voz del navegador, en el idioma del juego. Si en la zona de adultos se eligió una (S.vozNav, su
+// voiceURI o nombre) y está en este aparato y en ese idioma, usa esa. Si no, la automática: primero por país (en
+// castellano, España y, si no hay, las de otros países; los países salen de idioma().voces) y, dentro del país, la de
+// más calidad (vozCalidad). Sin voces del idioma, VOICE se queda en null (nunca una voz de otro idioma). También elige
+// la voz inglesa (británica si la hay).
 export function pickVoice(): void {
   if (!('speechSynthesis' in window)) return;
   const all = speechSynthesis.getVoices(),
@@ -102,7 +109,10 @@ export function pickVoice(): void {
     if (!VOICE_EN) VOICE_EN = en[0] as SpeechSynthesisVoice;
   }
   const vs = vocesES();
-  if (!vs.length) return;
+  if (!vs.length) {
+    VOICE = null;
+    return;
+  }
   if (typeof S.vozNav === 'string' && S.vozNav) {
     const nav = S.vozNav,
       v = vs.find((v) => v.voiceURI === nav || v.name === nav);
@@ -111,7 +121,7 @@ export function pickVoice(): void {
       return;
     }
   } // la elegida (si no está en este aparato, la automática)
-  const pref = ['es-ES', 'es-MX', 'es-US', 'es-419', 'es-AR'];
+  const pref = idioma(IDIOMA).voces;
   const L = (v: SpeechSynthesisVoice): string => v.lang.replace('_', '-');
   for (const p of pref) {
     const c = vs.find((v) => L(v).toLowerCase() === p.toLowerCase());
@@ -129,7 +139,7 @@ export function vozProbar(): void {
     speechSynthesis.cancel();
   } catch (e) {}
   const tok = ++VIVO.sayTok;
-  sayTTS('¡Hola! Soy Tito. ¿Jugamos? Toca la plaza.', tok, () => {});
+  sayTTS(tr('¡Hola! Soy Tito. ¿Jugamos? Toca la plaza.'), tok, () => {});
 }
 // Algunos navegadores cargan las voces tarde: se vuelve a elegir cuando avisan de que cambiaron.
 if ('speechSynthesis' in window) {
@@ -387,7 +397,7 @@ function sayTTS(tt: string, tok: number, next: () => void): void {
     if (VOICE) {
       u.voice = VOICE;
       u.lang = VOICE.lang;
-    } else u.lang = 'es-ES';
+    } else u.lang = idioma(IDIOMA).lang;
     u.rate = 0.9;
     u.pitch = 1.1;
     u.volume = S.vol.voz;
@@ -424,7 +434,8 @@ function vozSeq(plan: readonly TrozoVoz[], tok: number, fin: () => void, fail: (
   step(0);
 }
 /* say(texto, cb, o): Tito dice una frase. Es LA función de voz del juego.
-   - texto: en castellano de España (o en inglés, con o.en). Con él se busca un MP3 grabado (voz/manifest.json o
+   - texto: en castellano de España (o en inglés, con o.en). Se dice traducido al idioma del juego (tr, de
+     nucleo/traducir.ts; el inglés no se traduce), y es lo traducido lo que se apunta en __said. Con él se busca un MP3 grabado (voz/manifest.json o
      voz-fer/); si lo hay suena el MP3 y, si no, habla la voz del navegador (speechSynthesis).
      Si solo una parte está grabada, se mezclan: lo grabado con MP3 y el resto (datos que cambian, como fechas o
      monedas) con la voz del navegador (vozFile/vozSeq). Si lleva el nombre del niño (", nombre"), el nombre lo dice
@@ -436,6 +447,8 @@ function vozSeq(plan: readonly TrozoVoz[], tok: number, fin: () => void, fail: (
    REGLA: no cambies el texto de ninguna frase que ya exista: el MP3 se busca por el texto exacto y se perdería.
    Las frases nuevas se escriben en castellano de España y se apuntan para grabarlas. */
 export function say(t: string, cb?: (() => void) | null, o: OpcionesSay = {}): void {
+  // Desde la fase ID1 de docs/PLAN-IDIOMAS.md la frase se dice en el idioma del juego (tr; el inglés no se traduce).
+  if (!o.en) t = tr(t);
   const tok = ++VIVO.sayTok,
     my = sceneTok;
   let done = false;
@@ -476,7 +489,7 @@ export function say(t: string, cb?: (() => void) | null, o: OpcionesSay = {}): v
     if (vv) {
       u.voice = vv;
       u.lang = vv.lang;
-    } else u.lang = o.en ? 'en-GB' : 'es-ES';
+    } else u.lang = o.en ? 'en-GB' : idioma(IDIOMA).lang;
     u.rate = o.rate || 0.9;
     u.pitch = o.pitch || 1.1;
     u.volume = S.vol.voz;

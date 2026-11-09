@@ -16,7 +16,7 @@
  * Importa: el núcleo, src/nucleo/ (S, go, say, SCENES, T, VIVO, scene, sceneName) y TEMA y TEMAS de escenas/escenas2d.ts.
  */
 import type { Libre } from '../nucleo/tipos.ts';
-import { S, SCENES, T, VIVO, go, say, scene, sceneName } from '../nucleo/indice.ts';
+import { IDIOMA, S, SCENES, T, VIVO, go, say, scene, sceneName, sinTraducir } from '../nucleo/indice.ts';
 import { TEMA, TEMAS } from '../escenas/escenas2d.ts';
 import { closeAdult, openAdult } from './adultos/panel.ts';
 export { closeAdult, openAdult } from './adultos/panel.ts';
@@ -26,7 +26,9 @@ export { bkDecode, bkEncode } from './adultos/copiaSeguridad.ts';
 export { doReset, openNameDlg, openResetDlg } from './dialogos.ts';
 
 // window.__cl: puerta para las pruebas automáticas (y para depurar desde la consola): ir a escenas, leer S y la escena,
-// simular toques (tap), arrastres (drag) y ratón encima (hover), y abrir/cerrar la zona de adultos.
+// simular toques (tap), arrastres (drag) y ratón encima (hover), y abrir/cerrar la zona de adultos. Desde la fase ID1
+// de docs/PLAN-IDIOMAS.md, también el idioma del juego (idioma) y los textos pedidos que no tienen traducción
+// (sinTraducir()).
 window.__cl = {
   go: (n: string, o?: Libre) => go(n, o),
   get S() {
@@ -38,6 +40,10 @@ window.__cl = {
   get name() {
     return sceneName;
   },
+  get idioma() {
+    return IDIOMA;
+  },
+  sinTraducir: () => [...sinTraducir],
   SCENES,
   TEMA,
   TEMAS,

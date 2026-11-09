@@ -3919,8 +3919,11 @@ aea23489ce3a,Windows,adultos,src/aplicacion/adultos/titoYSonido.ts
 2b947836aaef,"Lo más fácil es abrir el juego en Microsoft Edge: trae voces naturales sin instalar nada (por ejemplo «Elvira» o «Álvaro», de España), aunque necesitan internet. En Chrome aparece «Google español». Para más voces de Windows: Configuración → Hora e idioma → Voz → Agregar voces → Español (España).",adultos,src/aplicacion/adultos/titoYSonido.ts
 303e121b7957,"Después de instalar una voz, cierra el navegador y vuelve a abrir el juego: la voz nueva aparece en la lista «Voz del navegador». Las marcadas con ★ son las más naturales.",adultos,src/aplicacion/adultos/titoYSonido.ts
 0e51b4596948, (este aparato),adultos,src/aplicacion/adultos/titoYSonido.ts
+d62a3259ece1,Idioma,adultos,src/aplicacion/adultos/titoYSonido.ts
+9ae2a404887c,Idioma del juego,adultos,src/aplicacion/adultos/titoYSonido.ts
+fd9c3f6ec8e0,"Al cambiarlo, el juego se vuelve a abrir en el idioma nuevo. El progreso no se pierde.",adultos,src/aplicacion/adultos/titoYSonido.ts
 841025c4ab7d,Tito y el sonido,adultos,src/aplicacion/adultos/titoYSonido.ts
-cb1a7cc7be72,no se encontró una voz en español en este dispositivo,adultos,src/aplicacion/adultos/titoYSonido.ts
+84fc2f756cc3,no se encontró una voz en el idioma del juego en este dispositivo,adultos,src/aplicacion/adultos/titoYSonido.ts
 704b4afcc10c,Automática (la mejor que haya),adultos,src/aplicacion/adultos/titoYSonido.ts
 798a47898c9c,Personaje de Tito,adultos,src/aplicacion/adultos/titoYSonido.ts
 b53b4d5c9a48,"Tito sigue llamándose Tito. La ropa y los colores de la tienda le quedan igual (en el erizo el color va en las púas, en la tortuga en el caparazón y en el conejo en la mochila).",adultos,src/aplicacion/adultos/titoYSonido.ts

@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hecha: **ID0** (v0.2.114, apartado 9). Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114) e **ID1** (v0.2.115), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -204,4 +204,28 @@ sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos de
   (62 y 16), `temas/letras.ts` (55 y 3), `temas/temas4.ts` (41 y 3), `juegos/comps.ts` (22 y 16), `escenas/escenas2d.ts`
   (32), `juegos/comps2.ts` (18 y 6), `escenas/zonas.ts` (19 y 1), `escenas/tienda.ts` (17 y 1) y `temas/temas.ts` (16 y 1).
 - Pruebas: `tests/unidad/idiomas.test.ts`, y `dialogos.test.ts` y `montaje.test.ts` amplían las suyas.
+
+### ID1 (v0.2.115): el núcleo de los idiomas
+
+- **Reglas** en `src/dominio/idiomas.ts` (pruebas en `tests/unidad/idiomasReglas.test.ts`): `IDIOMAS` (castellano
+  completo, rumano sin completar y el pseudoidioma de prueba `xx`), `idiomaActivo` (manda `?idioma=` en la dirección,
+  luego `S.idioma`, luego el navegador), `idiomasElegibles`, `rellena` (plantillas con `{huecos}`, para la ID2) y
+  `pseudo`.
+- **`src/nucleo/traducir.ts`**: `iniciarIdioma()` (lo llama el arranque, antes de nada; la primera vez guarda en
+  `S.idioma` el idioma del navegador), `tr(texto)` (busca el texto en castellano en la tabla del idioma; lo que no está
+  sale en castellano y se apunta en `sinTraducir`), `trHtml(raiz)` (traduce los textos y los atributos `title`,
+  `aria-label`, `placeholder` y `alt` de un trozo de HTML) y `ponIdioma(id)` (guarda y recarga). No se traducen nunca el
+  inglés (lo que empieza por `@`), lo que no lleva letras ni las letras sueltas (las de la Isla de las Letras).
+- **Dónde se traduce**: `say()` (y por ella `sayQ`, `say3`...), `sayTTS` (la prueba de voz), `text()` del lienzo, las
+  ventanas de `head.html` al arrancar y cada página y el menú de la zona de adultos al pintarlos. En castellano `tr` y
+  `trHtml` no hacen nada: el juego queda igual.
+- **La voz** se elige en el idioma del juego (`vocesES` y `pickVoice` miran `idioma().voces`; sin voz de ese idioma,
+  ninguna, nunca la de otro idioma).
+- **`S.idioma`** (`'es'` o `'ro'`, campo suelto, se conserva al empezar de nuevo). La tabla del rumano,
+  `src/idiomas/ro/textos.ts`, está vacía hasta la ID4.
+- **Selector** «Idioma» en «Tito y el sonido»: solo sale si hay más de un idioma que elegir (hoy, solo con
+  `?idioma=ro`). Al cambiarlo, el juego se recarga.
+- **Para probar**: `index.html?idioma=xx` enseña cada texto traducido entre ⟦ ⟧ y un 30 % más largo; lo que se ve sin
+  corchetes se escapa de la traducción (frases compuestas, ID2; rótulos 3D y textos que el HTML cambia después, ID3).
+  `index.html?idioma=ro` usa la tabla del rumano, y `__cl.sinTraducir()` lista lo que falta.
 
