@@ -15,10 +15,12 @@ revisarlas y para poder traducir el juego algún día. Todo está en castellano 
 - `trozo`: parte de una frase que se compone al jugar ("Hoy es " + el día) o un texto corto que se ve (botones, carteles).
 - `nombre`: el nombre con artículo de un dibujo (`LEX`: "el gato"), que se mete en las frases.
 - `inglés`: lo que se dice en inglés en el Rincón del inglés (empieza por `@`).
+- `adultos`: un texto de la zona de adultos o de las ventanas de `src/head.html` (desde la fase ID0 de
+  [docs/PLAN-IDIOMAS.md](../docs/PLAN-IDIOMAS.md)): no lo dice Tito, pero se ve y hay que traducirlo. De su HTML solo
+  sale lo que se lee.
 
 Las frases que se componen (por ejemplo "¡Hay tres globos!") no salen enteras: salen sus trozos y sus nombres.
-El catálogo deja fuera las claves de los dibujos (`'nene'`, `'hojaNaranja'`), los colores, las rutas y la zona de
-adultos (HTML para los mayores).
+El catálogo deja fuera las claves de los dibujos (`'nene'`, `'hojaNaranja'`), los colores y las rutas.
 
 ## Regla: cada diálogo nuevo o cambiado se apunta
 
