@@ -11,7 +11,7 @@
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones) y volverDeEstacion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
- * manzano que crece por días de escenas/granjaManzano.ts.
+ * manzano que crece por días de escenas/granjaManzano.ts, y desde la P9, las crías de escenas/granjaCrias.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -64,8 +64,9 @@ import {
   visitaDe,
 } from '../dominio/excursiones.ts';
 import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
-import { dibujaPaseo, empezarPaseo, moverPaseo, tocarPaseo } from './granjaAnimales.ts';
+import { dibujaPaseo, empezarPaseo, moverPaseo, ponerCrias, tocarPaseo } from './granjaAnimales.ts';
 import { cuidarManzano, dibujaManzano, tocarManzano } from './granjaManzano.ts';
+import { avisoCria, criasEnPaseo, dibujaBotonesCrias, tocarBotonesCrias } from './granjaCrias.ts';
 
 /* ---------- lo común ---------- */
 
@@ -405,14 +406,17 @@ SCENES['excursion'] = {
   music: 'jardin',
   // enter(o): la excursión o.exc. Si se vuelve de una estación (o.hecha), se apunta; si con eso la visita está completa,
   // la foto de grupo. Si no, el guía saluda (la primera vez, presentándose, S.first['exc:' + id]) o dice qué toca; desde
-  // la P8, en la granja el manzano cuenta el día y, si se planta o crece, el guía lo dice antes.
+  // la P8, en la granja el manzano cuenta el día y, si se planta o crece, el guía lo dice antes; desde la P9, las crías
+  // salen a pasear con su madre y, si a una le toca nacer, el guía avisa.
   enter(o: OpcionesEscena) {
     Object.assign(exc, { id: o.exc || exc.id, foto: -1, hecha: false });
     const e = excursionActual();
     empezarPaseo(e.id, e.animales ?? []);
-    // el manzano de la granja cuenta el día (una vez al día); si se planta o crece, Rosa lo dice antes de lo que toca
-    const arbol = cuidarManzano(e.id),
-      luego = (): void => (arbol ? sayQ(arbol, () => this.prompt!()) : this.prompt!());
+    if (e.id === 'granja') ponerCrias(criasEnPaseo());
+    // el manzano de la granja cuenta el día (una vez al día); si se planta o crece, Rosa lo dice antes de lo que toca, y
+    // si a una cría le toca nacer, también (desde la P9)
+    const avisos = [cuidarManzano(e.id), e.id === 'granja' ? avisoCria() : ''].filter((t) => t).join(' '),
+      luego = (): void => (avisos ? sayQ(avisos, () => this.prompt!()) : this.prompt!());
     if (o.hecha) {
       const v = terminarEstacion(visitaActual(), o.hecha);
       guardarVisita(v);
@@ -457,7 +461,8 @@ SCENES['excursion'] = {
   update() {
     moverPaseo();
   },
-  // draw(): la granja, el camino, el manzano (en la granja), los animales que pasean, las estaciones, el guía y Tito; tras la visita completa, la
+  // draw(): la granja, el camino, el manzano (en la granja), los animales que pasean, la estrella de la cría y el botón
+  // de las familias, las estaciones, el guía y Tito; tras la visita completa, la
   // foto de grupo.
   draw() {
     const e = excursionActual(),
@@ -466,6 +471,7 @@ SCENES['excursion'] = {
     caminoGranja(e);
     if (e.id === 'granja') dibujaManzano();
     dibujaPaseo();
+    if (e.id === 'granja' && exc.foto < 0) dibujaBotonesCrias();
     e.estaciones.forEach((s) => dibujaEstacion(s, v.vistas.includes(s.id)));
     pic(e.guia, GUIA.x, GUIA.y + Math.sin(T * 2) * 4, GUIA.s);
     drawTito(560, 380, 170);
@@ -474,7 +480,7 @@ SCENES['excursion'] = {
     drawCoinHUD();
   },
   // down(x, y): casa -> el cole; monedas -> tienda; una estación jugable -> su escena; una «muy pronto» -> el guía lo
-  // dice; el guía -> repite lo que toca; el manzano (en la granja) -> se mece y Tito dice cómo va; un animal que pasea
+  // dice; la estrella de la cría o el botón de las familias (desde la P9) -> su escena; el guía -> repite lo que toca; el manzano (en la granja) -> se mece y Tito dice cómo va; un animal que pasea
   // -> salta y hace su sonido.
   down(x: number, y: number) {
     if (atHome(x, y)) {
@@ -499,6 +505,7 @@ SCENES['excursion'] = {
       go(s.escena, { exc: exc.id, hello: true });
       return;
     }
+    if (excursionActual().id === 'granja' && tocarBotonesCrias(x, y)) return;
     if (dist(x, y, GUIA.x, GUIA.y) < GUIA.s / 2) {
       this.prompt!();
       return;

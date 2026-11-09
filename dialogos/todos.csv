@@ -942,6 +942,31 @@ aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
 db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
+25cbaa49e002,el pollito,trozo,src/dominio/crias.ts src/nucleo/idioma.ts
+fcbe927d0a34,la gallina,trozo,src/dominio/crias.ts src/escenas/granja.ts src/nucleo/idioma.ts
+ff3eef06c65b,Pío,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts
+b9576215f90e,Plumita,trozo,src/dominio/crias.ts
+911b4130e275,Amarillo,trozo,src/dominio/crias.ts
+41ae51097c2a,el corderito,trozo,src/dominio/crias.ts
+c30e1df93788,la oveja,trozo,src/dominio/crias.ts src/nucleo/idioma.ts
+f0fa8cf43bf1,Algodón,trozo,src/dominio/crias.ts
+76ef1ca88f5e,Rizos,trozo,src/dominio/crias.ts
+360e74874b9c,Copo,trozo,src/dominio/crias.ts
+49a427c25447,el ternero,trozo,src/dominio/crias.ts
+a59e6a93a8a7,la vaca,trozo,src/dominio/crias.ts src/escenas/granja.ts src/nucleo/idioma.ts
+382a109d2f0c,Manchitas,trozo,src/dominio/crias.ts
+fed8b33fc6da,Lucero,trozo,src/dominio/crias.ts
+aca4a53ef079,Canela,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts
+34acd710e108,el lechón,trozo,src/dominio/crias.ts
+5d6e543afd49,la cerda,trozo,src/dominio/crias.ts
+264910e59a63,Rosita,trozo,src/dominio/crias.ts
+06cb51ce0a98,Trufa,trozo,src/dominio/crias.ts
+80df4eacc146,Bellota,trozo,src/dominio/crias.ts
+88fa2570099f,el potro,trozo,src/dominio/crias.ts
+47257bac197a,la yegua,trozo,src/dominio/crias.ts
+36f318140d14,Rayo,trozo,src/dominio/crias.ts
+9e8b2523b157,Galope,trozo,src/dominio/crias.ts
+67df77b52f85,Estrella,trozo,src/dominio/crias.ts
 f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/casaAlbum.ts src/escenas/escenas2d.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 7327b8c0b779, veces,trozo,src/dominio/excursiones.ts
@@ -989,8 +1014,8 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.",frase,src/dominio/yoga.ts
 8c3d395b2a94,Aún no hemos ido,trozo,src/escenas/albumExcursiones.ts
 a8419088f339,El ,trozo,src/escenas/albumExcursiones.ts src/temas/temas4.ts
-beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/nucleo/idioma.ts src/temas/temas4.ts
-4d950250f975,de ,trozo,src/escenas/albumExcursiones.ts src/nucleo/idioma.ts
+beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/nucleo/idioma.ts
+4d950250f975,de ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/nucleo/idioma.ts
 6dc7ba9fac29,Aquí irá la foto ,trozo,src/escenas/albumExcursiones.ts
 66038aa12121,", cuando vayamos de excursión.",trozo,src/escenas/albumExcursiones.ts
 049bfc802dc7,! Hemos ido ,trozo,src/escenas/albumExcursiones.ts
@@ -1111,13 +1136,11 @@ a4c339cc5685,Hoy ya la hemos regado. ¡Mira qué bien está!,frase,src/escenas/c
 5c3476979642,Nube,trozo,src/escenas/casaMascotas.ts
 b916ee5b351a,Bigotes,trozo,src/escenas/casaMascotas.ts
 b6ef9705b1e5,Kiwi,trozo,src/escenas/casaMascotas.ts
-ff3eef06c65b,Pío,trozo,src/escenas/casaMascotas.ts
 0cb9cde516c3,Lima,trozo,src/escenas/casaMascotas.ts
 baf6ce981d60,Copito,trozo,src/escenas/casaMascotas.ts
 d63539b1281e,Nieve,trozo,src/escenas/casaMascotas.ts
 52532d86cd18,Saltarín,trozo,src/escenas/casaMascotas.ts
 81c33f936d71,Bolita,trozo,src/escenas/casaMascotas.ts
-aca4a53ef079,Canela,trozo,src/escenas/casaMascotas.ts
 268c0e859cac,Pipas,trozo,src/escenas/casaMascotas.ts
 2d546b700b63,Burbuja,trozo,src/escenas/casaMascotas.ts
 191a73270b90,Aleta,trozo,src/escenas/casaMascotas.ts
@@ -1139,9 +1162,9 @@ f883e5b1b641,¡Es la hora de beber agua!,frase,src/escenas/casaMascotas.ts
 4dfa0c9f61e1,¡Es la hora del baño!,frase,src/escenas/casaMascotas.ts
 718d9a419529,¡Es la hora de mirar cómo nadan!,frase,src/escenas/casaMascotas.ts
 cb3e1d8cc1ad,¡Hay que ponerle nombre! ¿,trozo,src/escenas/casaMascotas.ts
-057847a3ccfa, o ,trozo,src/escenas/casaMascotas.ts
+057847a3ccfa, o ,trozo,src/escenas/casaMascotas.ts src/escenas/granjaCrias.ts
 245c0670b666,? Toca el que más te guste.,trozo,src/escenas/casaMascotas.ts
-ded764e77023,"¡Hola, ",trozo,src/escenas/casaMascotas.ts src/escenas/escenas2d.ts
+ded764e77023,"¡Hola, ",trozo,src/escenas/casaMascotas.ts src/escenas/escenas2d.ts src/escenas/granjaCrias.ts
 0c0fd90703a0,¡Hoy ya está feliz!,frase,src/escenas/casaMascotas.ts
 8427906f77b8,Toca el nombre que más te guste.,frase,src/escenas/casaMascotas.ts
 6faaae0ebf6f, Toca los botones de abajo.,frase,src/escenas/casaMascotas.ts
@@ -1440,8 +1463,6 @@ d069f9dda463,", la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarm
 1e207c47883a,¡Vamos a ,trozo,src/escenas/excursion.ts
 a366267364b7,! Toca su dibujo.,trozo,src/escenas/excursion.ts
 67593e94c9e6,: ¡muy pronto podremos hacerlo!,trozo,src/escenas/excursion.ts
-a59e6a93a8a7,la vaca,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
-fcbe927d0a34,la gallina,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
 2951630908e0,el cerdo,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
 23b2349b49e4,el caballo,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
 41a2bd573755,¡Todos los animales tienen la barriga llena! ¡Muchas gracias por ayudar!,frase,src/escenas/granja.ts
@@ -1449,7 +1470,7 @@ fcbe927d0a34,la gallina,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
 998e47c8379e,¡Puaj! ,frase,src/escenas/granja.ts
 64d45deda38e, no le gusta eso. ,trozo,src/escenas/granja.ts
 9b22144c476d, come ,trozo,src/escenas/granja.ts
-cbdf67864202,el ,trozo,src/escenas/granja.ts src/temas/extras.ts src/temas/temas4.ts
+cbdf67864202,el ,trozo,src/escenas/granja.ts src/escenas/granjaCrias.ts src/temas/extras.ts
 d254aeefaf25,al ,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
 b1200f5b672d,Cada animal come una cosa. Arrastra su comida hasta su comedero.,frase,src/escenas/granja.ts
 4377d49bcfae,Arrastra la comida de cada animal hasta su comedero.,frase,src/escenas/granja.ts
@@ -1459,6 +1480,28 @@ a89e2a92fae0, huevos!,trozo,src/escenas/granja.ts
 8d7f7d7775a9,Aquí no hay ninguno.,frase,src/escenas/granja.ts
 38f0f4852ba0,¡Hemos recogido ,trozo,src/escenas/granja.ts src/escenas/granjaTalleres.ts
 4045646a31f9, huevos! Las gallinas están muy contentas.,trozo,src/escenas/granja.ts
+d70e49b99d57,¡Es ,trozo,src/escenas/granjaCrias.ts
+8c9d1b72fd5f,! Va siempre con su mamá.,trozo,src/escenas/granjaCrias.ts
+c5b26e0ef9e8,¡Tengo una sorpresa! Algo se mueve en la paja. Toca la estrella para verlo.,frase,src/escenas/granjaCrias.ts
+141a45cc4d0e,¡Ha nacido ,trozo,src/escenas/granjaCrias.ts
+dcd171731a3a,! Es la cría de ,trozo,src/escenas/granjaCrias.ts
+4564d3f40c5b,. ¿Cómo lo llamamos? ¿,trozo,src/escenas/granjaCrias.ts
+20bf68d2fcb1,? Toca un nombre.,trozo,src/escenas/granjaCrias.ts
+bf900913b7ee,"! Ya vive en la granja con su mamá. Cada día que vengas, ",trozo,src/escenas/granjaCrias.ts
+c6ca2edfe89b, estará más grande.,trozo,src/escenas/granjaCrias.ts
+bd808aa29a2f,¡El huevo de ,trozo,src/escenas/granjaCrias.ts
+fa72157e91be, se mueve! Tócalo para ayudar al pollito a salir.,trozo,src/escenas/granjaCrias.ts
+fcfd63465c1a,"¡Algo se mueve en la paja, al lado de ",trozo,src/escenas/granjaCrias.ts
+357837ef9096,! Toca la paja para ver qué es.,trozo,src/escenas/granjaCrias.ts
+99a8757923be,Toca el huevo.,frase,src/escenas/granjaCrias.ts
+471bd958d5f9,Toca la paja.,frase,src/escenas/granjaCrias.ts
+7728ee10cc15,Elige un nombre: ¿,trozo,src/escenas/granjaCrias.ts
+e5ec9d329c87,¡Cada cría está con su mamá! ¡Muy bien,trozo,src/escenas/granjaCrias.ts
+296b820dc1d8, está con ,trozo,src/escenas/granjaCrias.ts
+f196e4fc3ef0,Esa no es su mamá. La mamá ,trozo,src/escenas/granjaCrias.ts
+c9cb11cccccc, es ,trozo,src/escenas/granjaCrias.ts src/juegos/comps.ts src/temas/temas.ts
+9328fd956f45,Las crías se han despistado. Arrastra cada cría hasta su mamá.,frase,src/escenas/granjaCrias.ts
+615666ce3e91,Arrastra cada cría hasta su mamá.,frase,src/escenas/granjaCrias.ts
 30263d9d6d18,¡Mira el manzano! De la semilla ha salido un brote.,frase,src/escenas/granjaManzano.ts
 23b1a71d21c3,¡El manzano ya es un arbolito! Sigue creciendo.,frase,src/escenas/granjaManzano.ts
 e7d226807eca,¡El manzano está lleno de flores! Pronto saldrán manzanas.,frase,src/escenas/granjaManzano.ts
@@ -1829,7 +1872,6 @@ d9a85010429a,marrón,trozo,src/juegos/comps.ts
 0b3fdf6aa5f3,Primero toca un color.,frase,src/juegos/comps.ts
 7941a4f7a6a8,Primero pintamos ,trozo,src/juegos/comps.ts
 489e3e7a9749, son ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
-c9cb11cccccc, es ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
 822ae562234f, no es ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",frase,src/juegos/comps2.ts
 9232de82c9f9, no va con ,trozo,src/juegos/comps2.ts
@@ -2117,7 +2159,6 @@ dfdcf259ef90,el árbol,nombre,src/nucleo/idioma.ts
 ed28659f8b41,el elefante,nombre,src/nucleo/idioma.ts
 f07e8d524f80,la estrella,nombre,src/nucleo/idioma.ts
 2529b18c4b41,el oso,nombre,src/nucleo/idioma.ts
-c30e1df93788,la oveja,nombre,src/nucleo/idioma.ts
 f54868a1d1ff,las uvas,nombre,src/nucleo/idioma.ts
 4f41c68633d9,el pez,nombre,src/nucleo/idioma.ts
 9be3171c75b5,el caracol,nombre,src/nucleo/idioma.ts
@@ -2191,7 +2232,6 @@ c20e74cf4e4a,el inodoro,nombre,src/nucleo/idioma.ts
 cb985825235c,la tele,nombre,src/nucleo/idioma.ts
 7bb9977a0fab,el cepillo de dientes,nombre,src/nucleo/idioma.ts
 1a27518dc7d0,la olla,nombre,src/nucleo/idioma.ts
-25cbaa49e002,el pollito,nombre,src/nucleo/idioma.ts
 fee540b1f4eb,la mariquita,nombre,src/nucleo/idioma.ts
 ed0e23516cf6,el pájaro,nombre,src/nucleo/idioma.ts
 3b61dfa18dd5,la regadera,nombre,src/nucleo/idioma.ts

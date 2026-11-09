@@ -6,7 +6,8 @@
  * contenido/excursiones.ts): andan hasta un sitio del prado, se paran un rato y siguen; al tocarlos dan un salto y
  * hacen su sonido (SOUNDS y ONO). Las estaciones de la granja (escenas/granjaTalleres.ts) usan dibujaCuerpo.
  * Exporta: dibujaCuerpo, ANIMALES_GRANJA (cómo es cada uno), PASEO (los que pasean, para las pruebas) y empezarPaseo,
- * moverPaseo, dibujaPaseo y tocarPaseo (los usa SCENES.excursion de escenas/excursion.ts).
+ * ponerCrias (desde la P9, las crías que siguen a su madre; tipo CriaPaseo), moverPaseo, dibujaPaseo y tocarPaseo
+ * (los usa SCENES.excursion de escenas/excursion.ts) y, desde la P9, dibujaAnimal (un animal suelto, para las crías).
  * Importa: el núcleo (dibujo, voz, sonido) y el azar de los puertos.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños, colores y velocidades en la pantalla de 1600x900,
@@ -80,9 +81,14 @@ export const ANIMALES_GRANJA: Readonly<Record<string, AnimalGranja>> = {
 const PRADO = { x0: 160, x1: 1440, y0: 440, y1: 830 };
 
 /** Un animal que pasea: cómo es, dónde tiene los pies, adónde va, hacia dónde mira (-1 izquierda, 1 derecha), su
- * paso (para que no salten todos a la vez), cuándo lo han tocado y hasta cuándo se queda parado. */
+ * paso (para que no salten todos a la vez), cuándo lo han tocado y hasta cuándo se queda parado. Las crías (desde la
+ * fase P9) llevan además su tamaño (escala), la madre a la que siguen, su id y lo que dice Tito al tocarlas. */
 interface Paseante {
   readonly a: AnimalGranja;
+  readonly escala: number;
+  readonly sigue: Paseante | null;
+  readonly cria: string;
+  readonly dice: string;
   x: number;
   y: number;
   tx: number;
@@ -113,24 +119,79 @@ export function empezarPaseo(id: string, claves: readonly string[]): void {
     .map((a) => {
       const p = sitioAlAzar(),
         t = sitioAlAzar();
-      return { a, x: p.x, y: p.y, tx: t.x, ty: t.y, dir: -1, fase: azar() * 6, salto: -9, hasta: 0 };
+      return {
+        a,
+        escala: 1,
+        sigue: null,
+        cria: '',
+        dice: '',
+        x: p.x,
+        y: p.y,
+        tx: t.x,
+        ty: t.y,
+        dir: -1,
+        fase: azar() * 6,
+        salto: -9,
+        hasta: 0,
+      };
     });
 }
 
+/** Una cría para el paseo: su id, el animal con que se dibuja, el de su madre, su tamaño y lo que dice Tito al tocarla. */
+export interface CriaPaseo {
+  readonly id: string;
+  readonly animal: string;
+  readonly madre: string;
+  readonly escala: number;
+  readonly dice: string;
+}
+
+// ponerCrias(lista): pone en el paseo las crías de la lista (las que estaban se quitan y vuelven a ponerse con su tamaño
+// de ahora), cada una junto a su madre, a la que sigue. Si la madre no pasea, la cría no sale.
+export function ponerCrias(lista: readonly CriaPaseo[]): void {
+  const adultos = PASEO.animales.filter((p) => !p.cria);
+  const crias = lista.flatMap((c) => {
+    const a = ANIMALES_GRANJA[c.animal],
+      m = adultos.find((p) => p.a.k === c.madre);
+    if (!a || !m) return [];
+    return [
+      {
+        a,
+        escala: c.escala,
+        sigue: m,
+        cria: c.id,
+        dice: c.dice,
+        x: m.x + 60,
+        y: m.y + 15,
+        tx: m.x + 60,
+        ty: m.y + 15,
+        dir: m.dir,
+        fase: azar() * 6,
+        salto: -9,
+        hasta: 0,
+      },
+    ];
+  });
+  PASEO.animales = [...adultos, ...crias];
+}
+
 // moverPaseo(): cada animal anda hacia su sitio (mirando hacia donde va); al llegar, se queda parado de 1 a 4 segundos
-// y elige otro sitio del prado.
+// y elige otro sitio del prado. Las crías van siempre detrás de su madre (un poco más deprisa, para alcanzarla).
 export function moverPaseo(): void {
   const dt = Math.min(0.05, Math.max(0, T - PASEO.ultimo));
   PASEO.ultimo = T;
   PASEO.animales.forEach((p) => {
+    const m = p.sigue;
+    if (m) Object.assign(p, { tx: m.x - m.dir * anchoDe(m.a) * 0.55, ty: m.y + 15, hasta: 0 });
     if (T < p.hasta) return;
     const d = dist(p.x, p.y, p.tx, p.ty);
+    if (d < 4 && m) return;
     if (d < 4) {
       const t = sitioAlAzar();
       Object.assign(p, { tx: t.x, ty: t.y, hasta: T + 1 + azar() * 3 });
       return;
     }
-    const paso = Math.min(d, p.a.v * dt);
+    const paso = Math.min(d, p.a.v * (m ? 1.5 : 1) * dt);
     Object.assign(p, {
       dir: Math.abs(p.tx - p.x) > 2 ? Math.sign(p.tx - p.x) : p.dir,
       x: p.x + ((p.tx - p.x) / d) * paso,
@@ -144,24 +205,34 @@ const altoDe = (a: AnimalGranja): number => (a.cuerpo ? a.cuerpo.h * 1.5 + a.s *
 // anchoDe(a): lo ancho que es el animal a.
 const anchoDe = (a: AnimalGranja): number => (a.cuerpo ? a.cuerpo.w * 1.2 : a.s);
 
-// dibujaPaseante(p): el animal p con su sombra en los pies; si anda, da saltitos; si lo han tocado, un salto grande.
-// Mira hacia donde va (los dibujos miran a la izquierda; a la derecha, se da la vuelta).
+// dibujaPaseante(p): el animal p (a su tamaño: las crías, más pequeñas) con su sombra en los pies; si anda, da
+// saltitos; si lo han tocado, un salto grande. Mira hacia donde va (los dibujos miran a la izquierda; a la derecha, se
+// da la vuelta).
 function dibujaPaseante(p: Paseante): void {
   const anda = T >= p.hasta && dist(p.x, p.y, p.tx, p.ty) >= 4,
     ts = T - p.salto,
     salto = ts < 0.6 ? Math.sin((ts / 0.6) * Math.PI) * 70 : 0,
     bote = anda ? Math.abs(Math.sin(T * 9 + p.fase)) * 8 : 0,
-    w = anchoDe(p.a);
+    w = anchoDe(p.a) * p.escala;
   ctx.save();
   ctx.fillStyle = 'rgba(60,90,40,0.25)';
   ctx.beginPath();
   ctx.ellipse(p.x, p.y, w * 0.45 * (1 - salto / 200), 12, 0, 0, Math.PI * 2);
   ctx.fill();
-  ctx.translate(p.x, p.y - bote - salto);
-  ctx.scale(-p.dir, 1);
-  const c = p.a.cuerpo;
-  if (c) dibujaCuerpo(0, -c.h * 0.95, c.w, c.h, c.color, p.a.k, p.a.s);
-  else pic(p.a.k, 0, -p.a.s / 2, p.a.s);
+  ctx.restore();
+  dibujaAnimal(p.a.k, p.x, p.y - bote - salto, p.escala, p.dir);
+}
+
+// dibujaAnimal(k, x, y, escala, dir): el animal recortable k con los pies en (x, y), a ese tamaño y mirando a la
+// izquierda (dir -1) o a la derecha (dir 1). Si k no tiene recortable, su dibujo tal cual.
+export function dibujaAnimal(k: string, x: number, y: number, escala: number, dir: number): void {
+  const a = ANIMALES_GRANJA[k];
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(-dir * escala, escala);
+  const c = a?.cuerpo;
+  if (a && c) dibujaCuerpo(0, -c.h * 0.95, c.w, c.h, c.color, a.k, a.s);
+  else pic(k, 0, -(a?.s ?? 120) / 2, a?.s ?? 120);
   ctx.restore();
 }
 
@@ -170,15 +241,15 @@ export function dibujaPaseo(): void {
   [...PASEO.animales].sort((a, b) => a.y - b.y).forEach(dibujaPaseante);
 }
 
-// tocarPaseo(x, y): si en (x, y) hay un animal (el de más delante), salta y hace su sonido y su onomatopeya. Devuelve
-// si había alguno.
+// tocarPaseo(x, y): si en (x, y) hay un animal (el de más delante), salta y hace su sonido y su onomatopeya (una cría:
+// Tito dice cómo se llama). Devuelve si había alguno.
 export function tocarPaseo(x: number, y: number): boolean {
   const p = [...PASEO.animales]
     .sort((a, b) => b.y - a.y)
-    .find((z) => Math.abs(x - z.x) < anchoDe(z.a) / 2 && y < z.y + 20 && y > z.y - altoDe(z.a));
+    .find((z) => Math.abs(x - z.x) < (anchoDe(z.a) * z.escala) / 2 && y < z.y + 20 && y > z.y - altoDe(z.a) * z.escala);
   if (!p) return false;
   p.salto = T;
   playSound(p.a.k);
-  say(ONO[p.a.k] ?? '');
+  say(p.dice || (ONO[p.a.k] ?? ''));
   return true;
 }

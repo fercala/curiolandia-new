@@ -128,6 +128,9 @@ export interface Estado {
   /** Los seres vivos que crecen por días (dominio/crecer.ts, Crecimiento), por id ('granja:manzano'): los días que se
    * les ha cuidado y el último día que contó. Desde la fase P8 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   crece?: Record<string, { dias: number; dia: string }>;
+  /** Las crías nacidas en la granja escuela (dominio/crias.ts, CriaNacida), por id ('pollito'...): el nombre que les
+   * puso el niño y el día de granja en que nacieron. Desde la fase P9 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  crias?: Record<string, { nombre: string; d: number }>;
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;
