@@ -1,7 +1,8 @@
 /*
  * escenas/patio.ts: el patio del cole (fase P1 de docs/IDEAS-MEJORA.md), la escena SCENES.patio. Se llega desde el cole
  * (escenas/cole.ts). Tiene un botón grande por cada actividad del patio (ACTIVIDADES_PATIO, dominio/cole.ts): las que
- * ya tienen escena se juegan al tocarlas; las demás salen «¡Muy pronto!». Las actividades del patio son sobre todo
+ * ya tienen escena se juegan al tocarlas; las demás salen «¡Muy pronto!» (también las carreras, que son en 3D, si no
+ * hay WebGL). Las actividades del patio son sobre todo
  * juegos para moverse de verdad: Tito pone la música y las consignas, el niño se mueve y la pantalla lo acompaña.
  * Exporta: fondoPatio (el fondo del patio, que usan también las actividades), BOTONES_PATIO (dónde está cada botón) y
  * pone SCENES.patio al cargarse.
@@ -86,10 +87,14 @@ export function fondoPatio(): void {
   tree(1540, 450, 0.9, 'primavera');
 }
 
+// sePuede(a): ¿se puede jugar ya la actividad a? Si tiene escena y la escena existe (las carreras son en 3D: sin WebGL,
+// SCENES.carreras no existe y salen «¡Muy pronto!», como lo que aún no está hecho).
+const sePuede = (a: ActividadPatio): boolean => !!a.escena && !!SCENES[a.escena];
+
 // drawBoton(b, i): un botón del patio: tarjeta de color con el dibujo de la actividad que se mueve un poco y su nombre;
 // si aún no tiene escena, gris y con el cartel «¡Muy pronto!».
 function drawBoton(b: BotonPatio, i: number): void {
-  const lista = !!b.a.escena,
+  const lista = sePuede(b.a),
     s = hv('patio:' + b.a.id, hR(b.x, b.y, b.w, b.h)),
     cx = b.x + b.w / 2,
     cy = b.y + b.h / 2;
@@ -130,7 +135,7 @@ SCENES['patio'] = {
   },
   // hint(): el primer juego que ya se puede jugar.
   hint() {
-    const b = BOTONES_PATIO.find((x) => x.a.escena);
+    const b = BOTONES_PATIO.find((x) => sePuede(x.a));
     return b ? { x: b.x + b.w / 2, y: b.y + b.h / 2, r: b.w / 2 } : null;
   },
   // dwell(id): dice el nombre del juego que hay bajo el ratón.
@@ -166,7 +171,7 @@ SCENES['patio'] = {
     }
     const b = BOTONES_PATIO.find((q) => x > q.x && x < q.x + q.w && y > q.y && y < q.y + q.h);
     if (b) {
-      if (!b.a.escena) {
+      if (!b.a.escena || !sePuede(b.a)) {
         SFX.boing();
         burst(b.x + b.w / 2, b.y + 40, 10);
         say(`${b.a.nombre}: ¡muy pronto podrás jugar!`);

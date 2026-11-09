@@ -6,6 +6,8 @@
 // trampas bien puestas; el yoga (fase P3) se hace solo hasta el final y lo apunta, y a los 20 minutos el mapa abre la
 // pausa activa, que vuelve sola al mapa; al irse a dormir, Tito deja un reto en casa que la familia marca en la zona de
 // adultos y Tito celebra con una pegatina (fase P4); y sin juegos de moverse, el patio cierra y no hay pausa activa.
+// Y las carreras del patio en 3D (fase P10): con 5 años, siguiendo la ayuda, se salta todo, se va por el lado bueno del
+// cruce, se cogen los números del 1 al 5, Tito gana, da 3 monedas y lo apunta; «otra vez» empieza otra y la casa vuelve.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -492,6 +494,67 @@ const R = L.registro('cole');
         }
         for (let i = 0; i < 20 && (await escena()) === 'granjaFamilias'; i++) await p.waitForTimeout(500);
         return (await escena()) === 'excursion' ? null : 'las familias no terminan: ' + (await escena());
+      },
+    );
+    await caso(
+      'P16',
+      'con 5 años, las carreras del patio se corren hasta la meta saltando, por el cruce y con los números; podio y monedas',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 5;
+          save();
+          __cl.go('patio', {});
+        });
+        await p.waitForTimeout(1200);
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        const bt = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'carreras'));
+        await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
+        await p.waitForTimeout(1500);
+        if ((await escena()) !== 'carreras') return 'el botón de las carreras no abre la carrera: ' + (await escena());
+        // un niño que hace caso a la ayuda: en cada cuadro, si la escena pide un toque (saltar o el lado del cruce), lo da
+        await p.evaluate(() => {
+          const f = () => {
+            if (__cl.name !== 'carreras') return;
+            const sc = __cl.scene,
+              h = sc.hint && sc.hint();
+            if (h && sc.c.fase !== 'fin') sc.down(h.x, h.y);
+            requestAnimationFrame(f);
+          };
+          requestAnimationFrame(f);
+        });
+        // unos 20 s de carrera; sin tarjeta gráfica (GitHub Actions) el 3D va a pocos cuadros y se tarda más
+        let c = null;
+        for (let i = 0; i < 360 && !(c && c.fase === 'fin'); i++) {
+          await p.waitForTimeout(500);
+          c = await p.evaluate(() => {
+            const e = __cl.scene && __cl.scene.c;
+            return (
+              e && {
+                fase: e.fase,
+                orden: e.orden,
+                numeros: e.numeros,
+                tropiezos: e.tropiezos,
+                lado: e.lado,
+                bueno: e.plan.cruce && e.plan.cruce.bueno,
+              }
+            );
+          });
+        }
+        if (!c || c.fase !== 'fin') return 'la carrera no ha terminado: ' + JSON.stringify(c);
+        if (c.lado !== c.bueno) return 'en el cruce no ha ido por el lado de las estrellas: ' + JSON.stringify(c);
+        if (c.numeros.join() !== '1,2,3,4,5') return 'números cogidos: ' + c.numeros.join();
+        if (c.tropiezos || c.orden[0] !== 'tito') return 'saltando todo, Tito no gana: ' + JSON.stringify(c);
+        await p.waitForTimeout(2500);
+        const [despues, cole] = await p.evaluate(() => [__cl.S.coins || 0, __cl.S.cole]);
+        if (despues - monedas !== 3) return `monedas ${monedas} -> ${despues}`;
+        if (!cole || !cole.veces || cole.veces.carreras !== 1) return 'S.cole: ' + JSON.stringify(cole);
+        await p.evaluate(() => __cl.scene.down(1000, 700));
+        await p.waitForTimeout(800);
+        const otra = await p.evaluate(() => __cl.scene.c.fase);
+        if (otra !== 'salida' && otra !== 'corre') return 'el botón de otra vez no empieza otra carrera: ' + otra;
+        await L.clic(p, 90, 90);
+        await p.waitForTimeout(800);
+        return (await escena()) === 'patio' ? null : 'la casa no vuelve al patio: ' + (await escena());
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
