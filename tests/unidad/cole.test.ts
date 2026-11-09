@@ -5,12 +5,13 @@ import { describe, expect, test } from 'vitest';
 import { ACTIVIDADES_PATIO, COLE, actividadDelPatio, registroCole, terminarActividad } from '../../src/dominio/cole.ts';
 
 describe('el patio del cole', () => {
-  test('las actividades tienen ids distintos y ¡Estatuas!, Tito dice y el yoga ya se pueden jugar', () => {
+  test('las actividades tienen ids distintos y ¡Estatuas!, Tito dice, el yoga y las carreras ya se pueden jugar', () => {
     const ids = ACTIVIDADES_PATIO.map((a) => a.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(actividadDelPatio('estatuas')?.escena).toBe('estatuas');
     expect(actividadDelPatio('titoDice')?.escena).toBe('titoDice');
     expect(actividadDelPatio('yoga')?.escena).toBe('yoga');
+    expect(actividadDelPatio('carreras')?.escena).toBe('carreras');
     expect(actividadDelPatio('nada')).toBeUndefined();
   });
 
