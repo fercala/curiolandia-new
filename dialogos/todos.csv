@@ -938,6 +938,16 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
+df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts
+803b0d23fbee,Polly,trozo,src/dominio/carreras.ts
+a29d50ec9ee6,Lupi,trozo,src/dominio/carreras.ts
+80db790085db,Pipo,trozo,src/dominio/carreras.ts src/escenas/casaMascotas.ts
+200c4f38e2b8,primer lugar,trozo,src/dominio/carreras.ts
+254fcfee15a9,segundo lugar,trozo,src/dominio/carreras.ts
+95f622a25641,tercer lugar,trozo,src/dominio/carreras.ts
+b593f2534404,cuarto lugar,trozo,src/dominio/carreras.ts
+66aca70e07de,En ,trozo,src/dominio/carreras.ts src/escenas/casa.ts
+a02e8bf6d838,último lugar,trozo,src/dominio/carreras.ts
 1e86783773d9,¡Estatuas!,frase,src/dominio/cole.ts
 5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
@@ -1076,7 +1086,6 @@ b67a2d5f26ce,¿Ordeno la casa? Toca la varita otra vez.,frase,src/escenas/casa.t
 570b16eddb19,¡Aquí queda bien!,frase,src/escenas/casa.ts
 a06d8abe53a7,Aquí no hay sitio. Prueba en otra habitación.,frase,src/escenas/casa.ts
 8043389ba76c,¡Listo! Ya está en ,trozo,src/escenas/casa.ts
-66aca70e07de,En ,trozo,src/escenas/casa.ts
 95fb0b75108d, ya no hay sitio para eso.,trozo,src/escenas/casa.ts
 4e3a912fe554,¡Mi álbum de sorpresas! Ya has encontrado ,trozo,src/escenas/casaAlbum.ts
 38e404cc9811,. Toca una para recordarla.,trozo,src/escenas/casaAlbum.ts
@@ -1149,7 +1158,6 @@ d63539b1281e,Nieve,trozo,src/escenas/casaMascotas.ts
 a4b6ea5edb27,el pajarito,trozo,src/escenas/casaMascotas.ts
 1914ff5931b6,el conejito,trozo,src/escenas/casaMascotas.ts
 0ca598eb6ea7,los peces,trozo,src/escenas/casaMascotas.ts
-80db790085db,Pipo,trozo,src/escenas/casaMascotas.ts
 beb2407051f5,"¡Ñam, ñam! Le encanta su comida.",frase,src/escenas/casaMascotas.ts
 27f7fe9f5511,¡Qué fresquita el agua!,frase,src/escenas/casaMascotas.ts
 573beb1db739,¡Cómo se divierte!,frase,src/escenas/casaMascotas.ts
@@ -1956,6 +1964,26 @@ acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te l
 1819906d8c99,Lee la frase y toca el dibujo que dice.,frase,src/juegos/lectura.ts
 f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.",frase,src/juegos/lectura.ts
 ba20461b2d04,Te la leo:,trozo,src/juegos/lectura.ts
+b09361a94769,¡Meta!,frase,src/mundo3d/carreras3d.ts
+1ab6b48e4d16,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la ,trozo,src/mundo3d/carreras3d.ts
+d10934722e9d,¡Por la izquierda!,frase,src/mundo3d/carreras3d.ts
+ff395e918eb8,¡Por la derecha!,frase,src/mundo3d/carreras3d.ts
+d9a6e6e4c8ff," ¡Y has cogido todos los números, del uno al cinco!",frase,src/mundo3d/carreras3d.ts
+265c4de096dd, Has cogido ,trozo,src/mundo3d/carreras3d.ts
+932b4f79f9f3,un número,trozo,src/mundo3d/carreras3d.ts
+2932ffc85d37, números,trozo,src/mundo3d/carreras3d.ts
+11e45fce30f2, ¡Todos tenemos medalla!,frase,src/mundo3d/carreras3d.ts
+a1bba48ffc11,Has cogido ,trozo,src/mundo3d/carreras3d.ts
+58808f09e278,una estrella,trozo,src/mundo3d/carreras3d.ts
+31ef05eb2a5c, estrellas,trozo,src/mundo3d/carreras3d.ts
+0bbb44208a3b,"Preparados, listos...",frase,src/mundo3d/carreras3d.ts
+21ea0b8ed55f,¡Ya!,frase,src/mundo3d/carreras3d.ts
+5d838a1fcee3,¡Vamos a hacer una carrera! Toca la pantalla para que Tito salte los charcos y las piedras.,frase,src/mundo3d/carreras3d.ts
+8d35fd2b29fc," ¡Y coge los números del uno al cinco, saltando!",frase,src/mundo3d/carreras3d.ts
+7d318af9a085,¿Por dónde vamos? ¿Por la izquierda o por la derecha?,frase,src/mundo3d/carreras3d.ts
+7078ee4176af,¿Otra carrera? Toca la flecha verde.,frase,src/mundo3d/carreras3d.ts
+250b568f32ca,Toca la pantalla para que Tito salte.,frase,src/mundo3d/carreras3d.ts
+615877ee5d52,¿Por la izquierda o por la derecha? Toca una flecha.,frase,src/mundo3d/carreras3d.ts
 5763279c2112,"¡Mira mi casa en tres dimensiones! Toca el suelo para que ande, o toca una cosa para jugar.",frase,src/mundo3d/casa3d.ts
 e3440d61f42c,"Casa en 3D (prueba, muestra)",trozo,src/mundo3d/casa3d.ts
 d944573b21e0,Casa en 3D (prueba),trozo,src/mundo3d/casa3d.ts
@@ -2679,7 +2707,6 @@ ed98257fa8ae, empieza por ,trozo,src/temas/letras.ts
 42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,frase,src/temas/letras.ts
 572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,frase,src/temas/letras.ts
 ce178861ab46,TITO,trozo,src/temas/letras.ts
-df9276a6b0eb,Tito,trozo,src/temas/letras.ts
 42f800d88029,Este es tu nombre: ,trozo,src/temas/letras.ts
 3dcfb097d8b3,". Toca sus letras, una a una.",trozo,src/temas/letras.ts
 d9af4926bc7f,"Este es el nombre de Tito. Toca sus letras, una a una.",frase,src/temas/letras.ts

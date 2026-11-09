@@ -80,8 +80,8 @@
  *   juego sigue en 2D; si no, crea R3frame, llama a montarInteraccion, montarMapa3D, montarZonas3D, montarCasita3D,
  *   montarCofre3D y montarPortada3D (en el mismo orden en que antes estaban aquí sus envolturas), desde la fase L6
  *   montarIsla3D, desde la fase I6 de docs/PLAN-INGLES.md montarIslaIngles3D (islaIngles3d.ts, la Isla del Inglés),
- *   desde la fase M0 de docs/PLAN-CASA-MEJORA.md montarCasa3D (casa3d.ts, la casa de Tito en 3D de prueba), y pone
- *   __w3.ok.
+ *   desde la fase M0 de docs/PLAN-CASA-MEJORA.md montarCasa3D (casa3d.ts, la casa de Tito en 3D de prueba), desde la
+ *   fase P10 de docs/IDEAS-MEJORA.md montarCarreras3D (carreras3d.ts, las carreras del patio), y pone __w3.ok.
  * ========================================================================== */
 import { R, W3, camTick, fpsTick, montarMotor } from './motor.ts';
 import { scene } from '../nucleo/indice.ts';
@@ -94,6 +94,7 @@ import { montarPortada3D } from './portada3d.ts';
 import { montarIsla3D } from './isla3d.ts';
 import { montarIslaIngles3D } from './islaIngles3d.ts';
 import { montarCasa3D } from './casa3d.ts';
+import { montarCarreras3D } from './carreras3d.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea al montar la capa 3D (si no hay WebGL se queda
 // en null).
@@ -125,6 +126,7 @@ export let R3frame: ((dt: number) => void) | null = null;
   montarIsla3D();
   montarIslaIngles3D();
   montarCasa3D();
+  montarCarreras3D();
   // marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
   window.__w3.ok = true;
 })();
