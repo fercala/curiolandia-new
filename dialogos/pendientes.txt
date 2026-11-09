@@ -1217,3 +1217,6 @@ Toca la pantalla para que Tito salte.
 En primer lugar, Tito. En segundo lugar, Polly. En tercer lugar, Lupi. En cuarto lugar, Pipo. ¡Todos tenemos medalla!
 Has cogido 12 estrellas. ¡Y has cogido todos los números, del uno al cinco!
 Has cogido 9 estrellas. Has cogido 3 números.
+¿A qué jugamos? Toca una cosa.
+¡Vamos a jugar! ¿Con qué?
+¡Me encanta mi casa! ¿A qué jugamos?
