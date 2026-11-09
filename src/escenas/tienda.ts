@@ -156,6 +156,7 @@ export type Flecha = [number, number, number];
 //   (el id del objeto o 'a+b'); huerto: {dias, dia} días regados de la flor del huerto.
 //   Desde la fase M2 de docs/PLAN-CASA-MEJORA.md: casaVistos: {id:1} lo que ya se colocó alguna vez en la casa (lo del
 //   baúl que no está es nuevo); null hasta la primera vez que se entra en la casa (aplicacion/casa.ts).
+//   Desde la fase M3: casaEst: {id: número} el estado guardado de las cosas de la casa (dominio/casaToques.ts).
 // OJO: no cambies el formato de estos campos, hay partidas guardadas en los móviles.
 const DEF2 = {
   coins: 0,
@@ -178,6 +179,7 @@ const DEF2 = {
   sorpresas: {},
   huerto: { dias: 0, dia: '' },
   casaVistos: null,
+  casaEst: {},
 };
 // Se añaden a DEF (copia profunda) y se rellenan en S los que falten en partidas antiguas.
 Object.assign(DEF, copiaProfunda(DEF2));

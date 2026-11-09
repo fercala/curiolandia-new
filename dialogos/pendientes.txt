@@ -1201,3 +1201,6 @@ Arrastra cada cría hasta su mamá.
 ¡Pío está con la gallina!
 Esa no es su mamá. La mamá del corderito es la oveja.
 ¡Cada cría está con su mamá! ¡Muy bien!
+¿A qué jugamos? Toca una cosa.
+¡Vamos a jugar! ¿Con qué?
+¡Me encanta mi casa! ¿A qué jugamos?
