@@ -4,7 +4,8 @@
 // y da 3 monedas y apunta la actividad en S.cole; la casa vuelve de cada escena a la de antes (estatuas -> patio ->
 // cole -> mapa); y «Tito dice» (fase P2) se juega solo hasta el final y lo apunta, y su plan con 5 años tiene sus 3
 // trampas bien puestas; el yoga (fase P3) se hace solo hasta el final y lo apunta, y a los 20 minutos el mapa abre la
-// pausa activa, que vuelve sola al mapa.
+// pausa activa, que vuelve sola al mapa; al irse a dormir, Tito deja un reto en casa que la familia marca en la zona de
+// adultos y Tito celebra con una pegatina (fase P4); y sin juegos de moverse, el patio cierra y no hay pausa activa.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -157,6 +158,67 @@ const R = L.registro('cole');
       }
       return e === 'map' ? null : 'tras la pausa, escena ' + e;
     });
+    await caso(
+      'P9',
+      'al irse a dormir, Tito deja un reto; la familia lo marca y Tito lo celebra con una pegatina',
+      async () => {
+        await p.evaluate(() => {
+          delete __cl.S.retos;
+          __cl.go('dormir', {});
+        });
+        await p.waitForTimeout(2500);
+        const r = await p.evaluate(() => __cl.S.retos || null);
+        if (!r || !r.id) return 'no se ha propuesto ningún reto';
+        await p.evaluate(() => openAdult('resumen'));
+        await p.waitForTimeout(500);
+        const boton = p.locator('#a-reto-hecho');
+        if (!(await boton.count())) return 'no está el botón «¡Lo ha hecho!» en el Resumen';
+        await boton.click();
+        await p.waitForTimeout(300);
+        const hecho = await p.evaluate(() => __cl.S.retos.hecho && __cl.S.retos.n === 1);
+        if (!hecho) return 'el reto no ha quedado hecho: ' + JSON.stringify(await p.evaluate(() => __cl.S.retos));
+        const antes = await p.evaluate(() => (__cl.S.stk && __cl.S.stk.casa) || 0);
+        await p.evaluate(() => {
+          closeAdult();
+          __cl.go('map', {});
+        });
+        let despues = antes;
+        for (let i = 0; i < 30 && despues === antes; i++) {
+          await p.waitForTimeout(500);
+          despues = await p.evaluate(() => (__cl.S.stk && __cl.S.stk.casa) || 0);
+        }
+        if (despues !== antes + 1) return `pegatinas de la casa ${antes} -> ${despues}`;
+        return (await p.evaluate(() => __cl.S.retos.celebrado)) ? null : 'el reto no ha quedado celebrado';
+      },
+    );
+    await caso(
+      'P10',
+      'si la familia quita los juegos de moverse, el patio sale cerrado y no hay pausa activa',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.sinMoverse = true;
+          __cl.go('cole', {});
+        });
+        await p.waitForTimeout(1200);
+        const patio = await p.evaluate(() => COLE_SITIOS[0]);
+        await L.clic(p, patio.x, patio.y);
+        await p.waitForTimeout(800);
+        if ((await escena()) !== 'cole') return 'el patio cerrado ha abierto ' + (await escena());
+        await p.evaluate(() => {
+          VIVO.sessionT = 20 * 60 + 5;
+          VIVO.restAsked = true;
+          VIVO.pausaHecha = false;
+          __cl.go('map', {});
+        });
+        await p.waitForTimeout(8000);
+        const e = await escena();
+        await p.evaluate(() => {
+          delete __cl.S.sinMoverse;
+          save();
+        });
+        return e === 'map' ? null : 'con los juegos quitados, el mapa ha abierto ' + e;
+      },
+    );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {

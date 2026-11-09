@@ -1,7 +1,7 @@
 # Ideas para llevar Curiolandia a otro nivel
 
 **Estado: aprobado todo (8 de noviembre de 2026), en marcha de una idea en una.** Hechas: P1 (el cole, el patio y
-«¡Estatuas!», v0.2.102) P2 («Tito dice», v0.2.103) y P3 (yoga de los animales, rincón de la calma y pausa activa, v0.2.104). El orden y las fases, en el apartado 12. Fernando pide muchas ideas viables para que el juego sea más
+«¡Estatuas!», v0.2.102) P2 («Tito dice», v0.2.103) P3 (yoga de los animales, rincón de la calma y pausa activa, v0.2.104) y P4 (retos en casa y la opción de quitar los juegos de moverse, v0.2.105). El orden y las fases, en el apartado 12. Fernando pide muchas ideas viables para que el juego sea más
 rico, con juegos más largos y profundos, más uso del motor 3D y actividades nuevas (una visita del cole a la granja,
 carreras y juegos al aire libre...), **sin perder nada de lo que ya hay**. Este documento es el banco de ideas: Fernando
 eligió el 8 de noviembre de 2026 **hacerlas todas, de una en una** («Vamos a hacer todos, ve haciendo de uno a la vez»);
@@ -590,7 +590,7 @@ Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase 
 | **P1** | El cole en el mapa (2D y 3D: el edificio con el autobús), su escena con el patio y lo que viene «¡Muy pronto!», el patio con sus botones y el primer juego, «¡Estatuas!». Reglas en `dominio/cole.ts` (3 monedas la primera vez de cada día, `S.cole`). | 11 | Hecha (v0.2.102) |
 | **P2** | «Tito dice»: Tito da órdenes para moverse y un niño dibujado las hace con la parte del cuerpo iluminada; trampas sin «Tito dice» desde los 4 años (reglas en `dominio/titoDice.ts`). Lo común de los juegos del patio, en `escenas/patioComun.ts`. | 12 | Hecha (v0.2.103) |
 | **P3** | Yoga de los animales y el rincón de la calma: 8 posturas de animales con Tito en la esterilla y un aro que marca cuándo tomar y soltar el aire; respiraciones del globo y de la flor y la vela. Pausa activa corta a los 20 minutos de juego, que vuelve sola al mapa (reglas en `dominio/yoga.ts`). El yoga antes de dormir queda para cuando se haga la idea de la rutina de la noche. | 13 | Hecha (v0.2.104) |
-| P4 | Retos para hacer en casa, y en la zona de adultos el aviso de los juegos de moverse con la opción de quitarlos. | 37 | — |
+| **P4** | Retos para hacer en casa sin pantalla (16, uno por día): Tito lo deja al irse a dormir y al proponer descansar; la familia lo marca en el Resumen de la zona de adultos y Tito lo celebra con una pegatina. En «Cómo se juega», el aviso de los juegos de moverse y la opción de quitarlos (el patio cierra y no hay pausa activa). Reglas en `dominio/retos.ts`, `S.retos` y `S.sinMoverse`. | 37 | Hecha (v0.2.105) |
 | P5–P8 | La granja escuela: el motor de excursiones (B1) y el autobús del cole, los animales recortables (B2), las estaciones, y el crecer por días (B4). | 1 | — |
 | P9 | Crías y familias de animales. | 22 | — |
 | P10–P11 | El patio en 3D (B3) y las carreras de Tito; el gran día del deporte. | 10, 17 | — |

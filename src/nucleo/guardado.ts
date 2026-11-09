@@ -48,7 +48,8 @@ import { copiaProfunda } from './utilidades.ts';
  *   escenas/repaso.ts: kg {habilidad: [juegos donde sale]}, gs {'idTema#juego': {ok, err, d}} y rep (el repaso del día).
  *   Sueltos (pueden no existir): voz ('' o 'fer'), quiet3 (1 = Tito no comenta el paisaje 3D), last (último tema abierto),
  *            bkFecha (día de la última copia de seguridad, desde la fase A6 de docs/PLAN-MENU-ADULTOS.md),
- *            cole (lo jugado en el patio del cole, desde la fase P1 de docs/IDEAS-MEJORA.md).
+ *            cole (lo jugado en el patio del cole, desde la fase P1 de docs/IDEAS-MEJORA.md), retos y sinMoverse (los
+ *            retos en casa y el interruptor de los juegos de moverse, desde la P4).
  *
  * REGLA DE ORO: hay partidas guardadas en los móviles. Nunca cambies de forma incompatible un campo que ya existe
  * (ni su nombre, ni su tipo, ni lo que significan sus valores) ni la clave KEY. Para algo nuevo, añade un campo

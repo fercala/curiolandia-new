@@ -1,12 +1,15 @@
 // adultos/resumen.ts: página «Resumen» de la zona de adultos, la que se ve al entrar (fases A1 y A2 de
 // docs/PLAN-MENU-ADULTOS.md): quién juega, lo de hoy (minutos, monedas, estrellas y temas), los avisos que piden algo a la
 // familia (cada uno con un botón a su página), lo que sigue en el camino (suggestTema, escenas/zonas.ts) y los atajos
-// más usados. Las reglas (vales por entregar) están en dominio/zonaAdultos.ts.
-import { S, STARS, temasDone, today } from '../../nucleo/indice.ts';
+// más usados. Las reglas (vales por entregar) están en dominio/zonaAdultos.ts. Desde la fase P4 de docs/IDEAS-MEJORA.md,
+// «Reto en casa»: el reto sin pantalla que propuso Tito (S.retos, dominio/retos.ts) y el botón para marcarlo como hecho
+// (Tito lo celebra con una pegatina al volver al mapa).
+import { S, STARS, save, temasDone, today } from '../../nucleo/indice.ts';
 import { suggestTema } from '../../escenas/zonas.ts';
 import { valesPorEntregar } from '../../dominio/zonaAdultos.ts';
+import { marcarRetoHecho, registroRetos, retoPorId } from '../../dominio/retos.ts';
 import { copiaPendiente } from './copia.ts';
-import { esc } from './comun.ts';
+import { buscador, esc } from './comun.ts';
 import type { IdPagina, PaginaAdultos } from './tipos.ts';
 
 /** Un aviso del Resumen: el texto (HTML ya escapado) y la página a la que lleva su botón. */
@@ -48,13 +51,27 @@ function avisosResumen(): AvisoResumen[] {
   return r;
 }
 
+// retoHTML(): la sección «Reto en casa»: el último reto que propuso Tito (con su día), si ya se hizo o el botón para
+// marcarlo, y cuántos retos se han hecho. Sin reto propuesto todavía, explica cuándo sale.
+function retoHTML(): string {
+  const r = registroRetos(S.retos),
+    reto = retoPorId(r.id);
+  const cuenta = r.n ? ` Retos hechos hasta ahora: <b>${r.n}</b>.` : '';
+  if (!reto)
+    return `<section><h3>Reto en casa</h3><p class="note">Cuando Tito se despide (al acabar el tiempo de juego o al proponer descansar), deja un reto para hacer en casa sin pantalla. Saldrá aquí para marcarlo cuando lo hagáis.</p></section>`;
+  const estado = r.hecho
+    ? `<span>✅ Hecho.${r.celebrado ? '' : ' Tito lo celebrará con una pegatina al volver al mapa.'}</span>`
+    : `<button type="button" id="a-reto-hecho">¡Lo ha hecho!</button>`;
+  return `<section><h3>Reto en casa</h3><p><b>${esc(reto.adultos)}</b> <span class="note">(propuesto el ${esc(r.d.split('-').reverse().join('/'))})</span></p><div class="row">${estado}</div><p class="note">Un reto sin pantalla para llevar el juego a casa.${cuenta}</p></section>`;
+}
+
 export const RESUMEN: PaginaAdultos = {
   id: 'resumen',
   titulo: 'Resumen',
   corto: 'Resumen',
   icono: '🏠',
-  // html(): «Hoy», «Avisos» (si hay; sus botones data-ir los conecta el panel), «Lo que sigue» (si queda algún tema en
-  // el camino) y los atajos (data-go, también del panel).
+  // html(): «Hoy», «Avisos» (si hay; sus botones data-ir los conecta el panel), «Reto en casa» (desde la fase P4),
+  // «Lo que sigue» (si queda algún tema en el camino) y los atajos (data-go, también del panel).
   html() {
     const sug = suggestTema(),
       min = Math.round((S.days && S.days[today()]) || 0),
@@ -64,9 +81,19 @@ export const RESUMEN: PaginaAdultos = {
    <p><b>${S.name ? esc(S.name) : 'Sin nombre'}</b> · ${S.age ? S.age + ' años' : 'edad sin elegir'} · <b>${min}</b> ${min === 1 ? 'minuto' : 'minutos'} de juego hoy${S.limit ? ` (límite: ${S.limit} min por sesión)` : ''}</p>
    <div class="cifras"><span>🪙 <b>${S.coins}</b> monedas</span><span>⭐ <b>${STARS()}</b> estrellas</span><span>🌼 <b>${temasDone()}</b> temas terminados</span></div></section>
   ${avisos.length ? `<section><h3>Avisos</h3>${avisos.map((a) => `<div class="aviso"><span>${a.texto}</span><button type="button" data-ir="${a.ir}">Ver</button></div>`).join('')}</section>` : ''}
+  ${retoHTML()}
   ${sug ? `<section><h3>Lo que sigue</h3><p class="tip">Próximo tema del camino: <b>${esc(sug.n)}</b>. Para seguir fuera de la pantalla: ${esc(sug.tip || 'nombrar juntos las cosas del tema que encuentren en casa o en la calle.')}</p></section>` : ''}
   <section><h3>Ir a</h3><div class="row"><button data-go="map">Mapa</button><button data-go="asamblea">Asamblea</button><button data-go="tienda">Tienda</button><button data-go="casaTito">Casa de Tito</button><button data-go="album">Álbum</button></div><p class="note">Más sitios y cualquier tema, en «Copia y aparato».</p></section>`;
   },
-  // conectar(): los atajos y los botones de los avisos los conecta el panel; no hay nada más.
-  conectar() {},
+  // conectar(el, acciones): los atajos y los botones de los avisos los conecta el panel; aquí, el botón «¡Lo ha hecho!»
+  // del reto en casa: lo marca como hecho (marcarRetoHecho), guarda y vuelve a pintar la página.
+  conectar(el, acciones) {
+    const b = buscador(el)('#a-reto-hecho');
+    if (b)
+      b.onclick = () => {
+        S.retos = { ...marcarRetoHecho(S.retos) };
+        save();
+        acciones.rehacer();
+      };
+  },
 };

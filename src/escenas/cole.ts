@@ -6,11 +6,14 @@
  * Tito dice que está en obras.
  * Es una escena 2D, como la Isla de las Letras antes de su fase 3D.
  * Exporta: COLE_SITIOS (los sitios del cole) y pone SCENES.cole al cargarse.
- * Importa: el núcleo (dibujo, voz, toque, Tito).
+ * Desde la fase P4, si la familia ha quitado los juegos de moverse en la zona de adultos (S.sinMoverse), el patio sale
+ * cerrado (con su cartel) y, al tocarlo, Tito lo dice (moverseActivo, dominio/retos.ts).
+ * Importa: el núcleo (dibujo, voz, toque, Tito) y moverseActivo de dominio/retos.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900, como en el resto de
    las escenas. */
 import type { OpcionesEscena } from '../nucleo/tipos.ts';
+import { moverseActivo } from '../dominio/retos.ts';
 import {
   H,
   S,
@@ -112,8 +115,11 @@ function drawAutobus(x: number, y: number): void {
   pic('autobus', x, y + Math.sin(T * 30) * 1.5, 280);
 }
 
-// drawSitio(z): pinta el sitio z del cole (el patio, las clases o el autobús), con «¡Muy pronto!» si aún no tiene escena, y
-// debajo su cartel.
+// cerrado(z): ¿está cerrado el sitio z? El patio, si la familia ha quitado los juegos de moverse (S.sinMoverse).
+const cerrado = (z: SitioCole): boolean => z.id === 'patio' && !moverseActivo(S.sinMoverse);
+
+// drawSitio(z): pinta el sitio z del cole (el patio, las clases o el autobús), con «¡Muy pronto!» si aún no tiene escena
+// (o «Cerrado» si la familia ha cerrado el patio), y debajo su cartel.
 function drawSitio(z: SitioCole): void {
   const s = hv('cole:' + z.id, hC(z.x, z.y, z.r));
   ctx.save();
@@ -123,11 +129,11 @@ function drawSitio(z: SitioCole): void {
   if (z.id === 'patio') drawPatio(z.x, z.y);
   else if (z.id === 'clases') drawClases(z.x, z.y);
   else drawAutobus(z.x, z.y);
-  if (!z.escena) {
+  if (!z.escena || cerrado(z)) {
     card(z.x - 100, z.y - 190, 200, 50, '#FFD66B', 5, 25);
-    text('¡Muy pronto!', z.x, z.y - 155, 28);
+    text(cerrado(z) ? 'Cerrado' : '¡Muy pronto!', z.x, z.y - 155, 28);
   }
-  card(z.x - 110, z.y + 124, 220, 50, z.escena ? '#FFA94D' : '#B8B0A6', 5, 25);
+  card(z.x - 110, z.y + 124, 220, 50, z.escena && !cerrado(z) ? '#FFA94D' : '#B8B0A6', 5, 25);
   text(z.cartel, z.x, z.y + 160, 30, '#fff');
   ctx.restore();
 }
@@ -146,14 +152,15 @@ SCENES['cole'] = {
       );
     } else if (o.hello) later(400, () => this.prompt!());
   },
-  // prompt(): la consigna del cole.
+  // prompt(): la consigna del cole (con el patio cerrado, S.sinMoverse, que se vuelve al mapa).
   prompt() {
-    say('Toca el patio para jugar.');
+    if (cerrado(COLE_SITIOS[0]!)) say('El patio está cerrado por ahora. Toca la casa para volver al mapa.');
+    else say('Toca el patio para jugar.');
   },
-  // hint(): el patio, lo único que ya se puede jugar.
+  // hint(): el patio, lo único que ya se puede jugar (con el patio cerrado, nada).
   hint() {
-    const p = COLE_SITIOS[0];
-    return { x: p.x, y: p.y, r: p.r };
+    const p = COLE_SITIOS[0]!;
+    return cerrado(p) ? null : { x: p.x, y: p.y, r: p.r };
   },
   // dwell(id): dice el nombre de lo que hay bajo el ratón.
   dwell(id: string) {
@@ -168,7 +175,8 @@ SCENES['cole'] = {
     drawCoinHUD();
     drawTito(TITO.x, TITO.y, TITO.w);
   },
-  // down(x, y): casa -> el mapa; Tito -> consigna; monedas -> tienda; un sitio hecho -> su escena; en obras -> pronto.
+  // down(x, y): casa -> el mapa; Tito -> consigna; monedas -> tienda; un sitio hecho -> su escena; en obras -> pronto;
+  // el patio cerrado (S.sinMoverse) -> Tito lo dice.
   down(x: number, y: number) {
     if (atHome(x, y)) {
       SFX.whoosh();
@@ -190,6 +198,11 @@ SCENES['cole'] = {
         SFX.boing();
         burst(z.x, z.y - 60, 12);
         say(`${cap(z.name)} ${z.id === 'clases' ? 'están' : 'está'} en obras. ¡Muy pronto podrás jugar aquí!`);
+        return;
+      }
+      if (cerrado(z)) {
+        SFX.boing();
+        say('El patio está cerrado por ahora. ¡Hay muchas cosas más para jugar en el mapa!');
         return;
       }
       SFX.pop();

@@ -58,6 +58,7 @@
  *   aplicacion/premiosDelDia.ts; del núcleo, también REP_ON y las monedas
  *   (giveCoins, creditCoins, drawCoinHUD, alEmpezarJuego). Desde la fase 4p, openNameDlg y openResetDlg de
  *   aplicacion/dialogos.ts (antes de aplicacion/adultos.ts, que se carga después: eran globales tardías).
+ *   Desde la fase P4 de docs/IDEAS-MEJORA.md, fraseReto de escenas/retos.ts (el reto en casa al irse a dormir).
  * Partes de S que toca: S.age, S.name, S.first (askedName, wk),
  *   S.intro, S.temas[id] ({g:{índice: veces}, done}),
  *   S.stk (figuritas), S.asam[fecha] (asamblea del día), S.bdayDone (cumpleaños
@@ -169,6 +170,7 @@ import { premioDelCumple, terminarAsamblea } from '../aplicacion/premiosDelDia.t
 import type { CatalogoDeTemas } from '../aplicacion/repasoDelDia.ts';
 import { NUM, TUNES, drawFace, playTune } from '../juegos/indice.ts';
 import { esCumple } from '../dominio/progreso.ts';
+import { fraseReto } from './retos.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -1848,9 +1850,11 @@ SCENES.album = {
 // Tito duerme bajo la luna. No tiene down(): no se puede seguir jugando desde aquí.
 SCENES.dormir = {
   music: null,
-  // enter(): Tito se despide.
+  // enter(): Tito se despide y, desde la fase P4 de docs/IDEAS-MEJORA.md, deja el reto de hoy para hacer en casa sin
+  // pantalla (fraseReto, escenas/retos.ts).
   enter() {
     later(300, () => sayQ(`¡Qué bonito jugamos${kid()}! Ahora Tito se va a descansar. ¡Hasta mañana!`));
+    later(600, () => sayQ(fraseReto()));
   },
   // draw(): cielo de noche con estrellas que parpadean, luna, Tito dormido y "z" que suben.
   draw() {
