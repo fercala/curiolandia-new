@@ -1187,3 +1187,17 @@ Es un brote de manzano. Vuelve otro día y estará más grande.
 Es un arbolito. Cada día que vienes, crece un poco más.
 ¡Qué flores tan bonitas! De las flores saldrán las manzanas.
 ¡Manzanas! Se las llevamos a los animales.
+¡Tengo una sorpresa! Algo se mueve en la paja. Toca la estrella para verlo.
+¡El huevo de la gallina se mueve! Tócalo para ayudar al pollito a salir.
+¡Algo se mueve en la paja, al lado de la oveja! Toca la paja para ver qué es.
+Toca el huevo.
+Toca la paja.
+¡Ha nacido el pollito! Es la cría de la gallina. ¿Cómo lo llamamos? ¿Pío, Plumita o Amarillo? Toca un nombre.
+Elige un nombre: ¿Pío, Plumita o Amarillo?
+¡Hola, Pío! Ya vive en la granja con su mamá. Cada día que vengas, Pío estará más grande.
+¡Es Pío, el pollito! Va siempre con su mamá.
+Las crías se han despistado. Arrastra cada cría hasta su mamá.
+Arrastra cada cría hasta su mamá.
+¡Pío está con la gallina!
+Esa no es su mamá. La mamá del corderito es la oveja.
+¡Cada cría está con su mamá! ¡Muy bien!

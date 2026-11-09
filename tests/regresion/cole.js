@@ -40,9 +40,11 @@ const R = L.registro('cole');
       await p.waitForTimeout(2500);
       const z = await p.evaluate(() => mzOf('cole'));
       await L.clic(p, z.x, z.y);
-      // en 3D, Tito anda primero hasta el sitio y luego se entra
+      // en 3D, Tito anda primero hasta el sitio y luego se entra. Sin tarjeta gráfica (GitHub Actions dibuja el 3D con la
+      // CPU) el mapa va a pocos cuadros por segundo y se tarda: aquí, unos 5 s; en Actions, a veces más de 10. Se esperan
+      // hasta 30 s (con la CPU frenada 3 o 4 veces, unos 11 s; con el código de antes de la fase P9, igual).
       let e = 'map';
-      for (let i = 0; i < 20 && e === 'map'; i++) {
+      for (let i = 0; i < 60 && e === 'map'; i++) {
         await p.waitForTimeout(500);
         e = await escena();
       }
@@ -439,6 +441,57 @@ const R = L.registro('cole');
         await L.clic(p, m.x, m.y - 150);
         await p.waitForTimeout(300);
         return (await escena()) === 'excursion' ? null : 'tocar el manzano ha cambiado de escena';
+      },
+    );
+    await caso(
+      'P15',
+      'en la granja nacen crías (se destapan y se les pone nombre), pasean con su madre y se juega a cada cría con su mamá',
+      async () => {
+        // nacer(nombre): toca la estrella, destapa la cría con tres toques y elige el primer nombre
+        const nacer = async () => {
+          await p.evaluate(() => __cl.go('excursion', { exc: 'granja' }));
+          await p.waitForTimeout(1500);
+          const e = await p.evaluate(() => CRIA_ESTRELLA);
+          await L.clic(p, e.x, e.y);
+          await p.waitForTimeout(1200);
+          if ((await escena()) !== 'granjaNace') return 'la estrella no abre el nacimiento: ' + (await escena());
+          const n = await p.evaluate(() => ESTADO_CRIAS.NIDO);
+          for (let i = 0; i < 3; i++) {
+            await L.clic(p, n.x, n.y - 60);
+            await p.waitForTimeout(300);
+          }
+          await p.waitForTimeout(800);
+          const t = await p.evaluate(() => ESTADO_CRIAS.tarjeta(0));
+          await L.clic(p, t.x + t.w / 2, t.y + t.h / 2);
+          for (let i = 0; i < 30 && (await escena()) === 'granjaNace'; i++) await p.waitForTimeout(500);
+          return (await escena()) === 'excursion' ? null : 'tras el nombre, escena ' + (await escena());
+        };
+        let mal = await nacer();
+        if (mal) return mal;
+        mal = await nacer();
+        if (mal) return mal;
+        const crias = await p.evaluate(() => __cl.S.crias);
+        if (!crias || !crias.pollito || crias.pollito.nombre !== 'Pío' || !crias.cordero)
+          return 'crías guardadas: ' + JSON.stringify(crias);
+        await p.waitForTimeout(1500);
+        const enPaseo = await p.evaluate(() => PASEO.animales.filter((a) => a.cria).map((a) => a.cria));
+        if (enPaseo.length !== 2) return 'crías paseando: ' + JSON.stringify(enPaseo);
+        const b = await p.evaluate(() => FAMILIAS_BOTON);
+        await L.clic(p, b.x, b.y);
+        await p.waitForTimeout(1200);
+        if ((await escena()) !== 'granjaFamilias') return 'el botón de las familias no abre su juego';
+        const parejas = await p.evaluate(() =>
+          ESTADO_CRIAS.familias.crias.map((f) => {
+            const m = ESTADO_CRIAS.familias.madres.find((z) => z.c.id === f.c.id);
+            return [f.x0, f.y0 - 50, m.x, m.y - 120];
+          }),
+        );
+        for (const [x1, y1, x2, y2] of parejas) {
+          await L.arrastrar(p, x1, y1, x2, y2);
+          await p.waitForTimeout(700);
+        }
+        for (let i = 0; i < 20 && (await escena()) === 'granjaFamilias'; i++) await p.waitForTimeout(500);
+        return (await escena()) === 'excursion' ? null : 'las familias no terminan: ' + (await escena());
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
