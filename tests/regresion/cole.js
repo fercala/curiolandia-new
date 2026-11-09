@@ -221,7 +221,7 @@ const R = L.registro('cole');
     );
     await caso(
       'P11',
-      'el autobús lleva a la granja escuela; se da de comer, se recogen huevos y la foto da 5 monedas',
+      'el autobús lleva a la granja escuela; se da de comer y se recogen huevos (la visita sigue)',
       async () => {
         await p.evaluate(() => {
           __cl.S.age = 3;
@@ -275,6 +275,101 @@ const R = L.registro('cole');
         }
         for (let i = 0; i < 20 && (await escena()) === 'granjaHuevos'; i++) await p.waitForTimeout(500);
         if ((await escena()) !== 'excursion') return 'tras los huevos, escena ' + (await escena());
+        const v = await p.evaluate(() => __cl.S.exc && __cl.S.exc.granja);
+        return v && v.vistas.length === 2 && !v.veces && (await p.evaluate(() => __cl.S.coins || 0)) === antes
+          ? null
+          : 'tras dos estaciones: ' + JSON.stringify(v);
+      },
+    );
+    await caso(
+      'P12',
+      'en la granja se hace queso, se cepilla al caballo, se cosecha el huerto y se pasea en tractor; la foto da 5 monedas',
+      async () => {
+        const antes = await p.evaluate(() => __cl.S.coins || 0);
+        // pant(x, y): de la pantalla del juego (1600x900) a la de la página, para el ratón de verdad.
+        const pant = (x, y) => p.evaluate(([x, y]) => [OX + x * SC, OY + y * SC], [x, y]);
+        // abrirEstacion(i, nombre): toca la estación i del plano y comprueba que se abre su escena.
+        const abrirEstacion = async (i, nombre) => {
+          await p.waitForTimeout(1500);
+          const est = await p.evaluate((i) => DESTINOS[0].e.estaciones[i], i);
+          await L.clic(p, est.x, est.y);
+          await p.waitForTimeout(1200);
+          return (await escena()) === nombre ? null : 'no se ha abierto ' + nombre + ': ' + (await escena());
+        };
+        // alPlano(nombre): espera a que la estación termine y se vuelva al plano.
+        const alPlano = async (nombre) => {
+          for (let i = 0; i < 30 && (await escena()) === nombre; i++) await p.waitForTimeout(500);
+          return (await escena()) === 'excursion' ? null : 'tras ' + nombre + ', escena ' + (await escena());
+        };
+        let mal = await abrirEstacion(2, 'granjaQueso');
+        if (mal) return mal;
+        const Q = await p.evaluate(() => QUESO);
+        for (let i = 0; i < 5; i++) {
+          await L.clic(p, Q.ubre.x, Q.ubre.y + 20);
+          await p.waitForTimeout(300);
+        }
+        await p.waitForTimeout(800);
+        if ((await p.evaluate(() => ESTADO_TALLERES.queso.paso)) !== 1) return 'ordeñar no pasa a remover';
+        const pasos = Array.from({ length: 4 * 24 + 1 }, (_, i) => (i / 24) * Math.PI * 2);
+        const [cx, cy] = [Q.olla.x, Q.olla.y - 80];
+        const [a0, b0] = await pant(cx + 120, cy);
+        await p.mouse.move(a0, b0);
+        await p.mouse.down();
+        for (const a of pasos) {
+          const [x, y] = await pant(cx + Math.cos(a) * 120, cy + Math.sin(a) * 60);
+          await p.mouse.move(x, y);
+        }
+        await p.mouse.up();
+        await p.waitForTimeout(800);
+        if ((await p.evaluate(() => ESTADO_TALLERES.queso.paso)) !== 2) return 'remover no pasa al molde';
+        for (let i = 0; i < 4; i++) {
+          await L.clic(p, Q.molde.x, Q.molde.y - 200);
+          await p.waitForTimeout(300);
+        }
+        mal = await alPlano('granjaQueso');
+        if (mal) return mal;
+        // cepillar: se frota cada mancha yendo y viniendo
+        mal = await abrirEstacion(3, 'granjaCepillar');
+        if (mal) return mal;
+        const manchas = await p.evaluate(() => ESTADO_TALLERES.cepillo.manchas.map((m) => [m.x, m.y]));
+        for (const [x, y] of manchas) {
+          const [a, b] = await pant(x - 40, y);
+          const [c] = await pant(x + 40, y);
+          await p.mouse.move(a, b);
+          await p.mouse.down();
+          for (let k = 0; k < 4; k++) {
+            await p.mouse.move(c, b, { steps: 6 });
+            await p.mouse.move(a, b, { steps: 6 });
+          }
+          await p.mouse.up();
+        }
+        mal = await alPlano('granjaCepillar');
+        if (mal) return mal;
+        // el huerto: sembrar, regar y, cuando crecen, recoger
+        mal = await abrirEstacion(4, 'granjaHuerto');
+        if (mal) return mal;
+        const hoyos = await p.evaluate(() => ESTADO_TALLERES.huerto.hoyos.map((h) => [h.x, h.y - 30]));
+        for (let fase = 0; fase < 3; fase++) {
+          for (const [x, y] of hoyos) {
+            await L.clic(p, x, y);
+            await p.waitForTimeout(400);
+          }
+          for (let i = 0; i < 30 && fase === 1 && (await p.evaluate(() => ESTADO_TALLERES.huerto.fase)) !== 3; i++)
+            await p.waitForTimeout(500);
+        }
+        mal = await alPlano('granjaHuerto');
+        if (mal) return mal;
+        // el tractor: se toca cada bala y se espera a que la suba
+        mal = await abrirEstacion(5, 'granjaTractor');
+        if (mal) return mal;
+        const balas = await p.evaluate(() => ESTADO_TALLERES.tractor.balas.map((b) => [b.x, b.y]));
+        for (const [x, y] of balas) {
+          await L.clic(p, x, y);
+          for (let i = 0; i < 20 && (await p.evaluate(() => !!ESTADO_TALLERES.tractor.va)); i++)
+            await p.waitForTimeout(300);
+        }
+        mal = await alPlano('granjaTractor');
+        if (mal) return mal;
         let veces = 0;
         for (let i = 0; i < 20 && !veces; i++) {
           await p.waitForTimeout(500);

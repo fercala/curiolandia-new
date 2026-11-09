@@ -86,6 +86,10 @@ const ESCENAS = [
   ['excursion', { exc: 'granja' }], // la granja escuela
   ['granjaComer', { exc: 'granja' }],
   ['granjaHuevos', { exc: 'granja' }],
+  ['granjaQueso', { exc: 'granja' }],
+  ['granjaCepillar', { exc: 'granja' }],
+  ['granjaHuerto', { exc: 'granja' }],
+  ['granjaTractor', { exc: 'granja' }],
 ];
 
 (async () => {

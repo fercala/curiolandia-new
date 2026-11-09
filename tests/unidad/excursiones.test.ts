@@ -21,7 +21,14 @@ describe('las excursiones', () => {
     expect(new Set(ids).size).toBe(ids.length);
     const est = granja.estaciones.map((s) => s.id);
     expect(new Set(est).size).toBe(est.length);
-    expect(estacionesJugables(granja).map((s) => s.id)).toEqual(['comer', 'huevos']);
+    expect(estacionesJugables(granja).map((s) => s.id)).toEqual([
+      'comer',
+      'huevos',
+      'queso',
+      'cepillar',
+      'huerto',
+      'tractor',
+    ]);
   });
 
   test('lo guardado roto o de antes se lee como una visita vacía', () => {
@@ -37,8 +44,11 @@ describe('las excursiones', () => {
     expect(visitaCompleta(granja, v1)).toBe(false);
     expect(siguienteEstacion(granja, v1)?.id).toBe('huevos');
     const v2 = terminarEstacion(v1, 'huevos');
-    expect(visitaCompleta(granja, v2)).toBe(true);
-    expect(siguienteEstacion(granja, v2)).toBeUndefined();
+    expect(visitaCompleta(granja, v2)).toBe(false);
+    expect(siguienteEstacion(granja, v2)?.id).toBe('queso');
+    const v3 = ['queso', 'cepillar', 'huerto', 'tractor'].reduce(terminarEstacion, v2);
+    expect(visitaCompleta(granja, v3)).toBe(true);
+    expect(siguienteEstacion(granja, v3)).toBeUndefined();
   });
 
   test('terminar la visita da la foto y monedas la primera vez del día, y la siguiente empieza de cero', () => {

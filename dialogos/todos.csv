@@ -1441,8 +1441,24 @@ bd3aa671e645,Las gallinas han puesto huevos escondidos en la paja. ¡Toca la paj
 e2acef73fa15,Toca la paja para buscar los huevos.,frase,src/escenas/granja.ts
 a89e2a92fae0, huevos!,trozo,src/escenas/granja.ts
 8d7f7d7775a9,Aquí no hay ninguno.,frase,src/escenas/granja.ts
-38f0f4852ba0,¡Hemos recogido ,trozo,src/escenas/granja.ts
+38f0f4852ba0,¡Hemos recogido ,trozo,src/escenas/granja.ts src/escenas/granjaTalleres.ts
 4045646a31f9, huevos! Las gallinas están muy contentas.,trozo,src/escenas/granja.ts
+01ccbb716eab,"Primero, ordeñamos a la vaca. Toca la ubre para que caiga la leche en el cubo.",frase,src/escenas/granjaTalleres.ts
+920d0607c420,¡El cubo está lleno de leche! Ahora la echamos en la olla. Remueve: da vueltas con el dedo dentro de la olla.,frase,src/escenas/granjaTalleres.ts
+97ff442f50d7,¡La leche se ha puesto espesa! La metemos en el molde. Toca la prensa para apretar.,frase,src/escenas/granjaTalleres.ts
+78252a5e2ea2,¡Ya tenemos queso! La leche de la vaca se ha convertido en queso. ¡Qué rico!,frase,src/escenas/granjaTalleres.ts
+5236af5bb73c,¡Vamos a hacer queso con la leche de la vaca!,frase,src/escenas/granjaTalleres.ts
+e0f6e5af5869,¡Qué limpio y brillante está el caballo! Le ha encantado que lo cepilles.,frase,src/escenas/granjaTalleres.ts
+1baf73c1668d,¡Oh! El caballo se ha revolcado en el barro. Frota las manchas con el cepillo para dejarlo limpio.,frase,src/escenas/granjaTalleres.ts
+715bcf5b5b5d,Frota las manchas de barro con el dedo.,frase,src/escenas/granjaTalleres.ts
+eaf7862a678d,Vamos a plantar zanahorias. Toca cada hoyo para echar una semilla.,frase,src/escenas/granjaTalleres.ts
+bb5adb6f4073,¡Ya está todo sembrado! Ahora hay que regar. Toca cada hoyo para echarle agua.,frase,src/escenas/granjaTalleres.ts
+fb49428247ac,¡Mira cuánto han crecido! Toca las zanahorias para arrancarlas.,frase,src/escenas/granjaTalleres.ts
+ee08c0a0db56,Ahora el sol las calienta y el agua las alimenta. Esperamos un poquito...,frase,src/escenas/granjaTalleres.ts
+7f44813a57c8, zanahorias del huerto! ¡Qué buena cosecha!,trozo,src/escenas/granjaTalleres.ts
+da072783d684, balas de paja! Nos las llevamos al granero para los animales.,trozo,src/escenas/granjaTalleres.ts
+c65cb5f071b3,¡Subimos al tractor! Toca las balas de paja y el tractor irá a recogerlas.,frase,src/escenas/granjaTalleres.ts
+3387300ae1ed,Toca una bala de paja para que el tractor vaya a por ella.,frase,src/escenas/granjaTalleres.ts
 af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts

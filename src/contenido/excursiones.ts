@@ -1,8 +1,8 @@
 /*
  * contenido/excursiones.ts: las excursiones del autobús del cole (base B1 de docs/IDEAS-MEJORA.md, fase P5) y sus
  * estaciones. La granja escuela (idea 1) es la primera: la granjera Rosa enseña la granja; desde la P5 se puede dar de
- * comer a los animales y recoger huevos, y las demás estaciones (ordeñar y hacer queso, cepillar, el huerto, el paseo en
- * tractor y las crías) salen «¡Muy pronto!» hasta sus fases. El zoo y el bosque, sin estaciones todavía, salen en el
+ * comer a los animales y recoger huevos, y desde la P6 también hacer queso, cepillar al caballo, el huerto y el paseo en
+ * tractor (escenas/granjaTalleres.ts); las crías llegarán en su fase. El zoo y el bosque, sin estaciones todavía, salen en el
  * autobús como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
@@ -22,10 +22,10 @@ export const EXCURSIONES: readonly Excursion[] = [
     estaciones: [
       { id: 'comer', nombre: 'Dar de comer a los animales', escena: 'granjaComer', icono: 'zanahoria', x: 330, y: 560 },
       { id: 'huevos', nombre: 'Recoger huevos', escena: 'granjaHuevos', icono: 'huevo', x: 640, y: 690 },
-      { id: 'queso', nombre: 'Ordeñar y hacer queso', icono: 'queso', x: 950, y: 690 },
-      { id: 'cepillar', nombre: 'Cepillar al caballo', icono: 'caballo', x: 1260, y: 560 },
-      { id: 'huerto', nombre: 'El huerto', icono: 'lechuga', x: 1180, y: 330 },
-      { id: 'tractor', nombre: 'Paseo en tractor', icono: 'tractor', x: 420, y: 330 },
+      { id: 'queso', nombre: 'Ordeñar y hacer queso', escena: 'granjaQueso', icono: 'queso', x: 950, y: 690 },
+      { id: 'cepillar', nombre: 'Cepillar al caballo', escena: 'granjaCepillar', icono: 'caballo', x: 1260, y: 560 },
+      { id: 'huerto', nombre: 'El huerto', escena: 'granjaHuerto', icono: 'lechuga', x: 1180, y: 330 },
+      { id: 'tractor', nombre: 'Paseo en tractor', escena: 'granjaTractor', icono: 'tractor', x: 420, y: 330 },
     ],
   },
   { id: 'zoo', nombre: 'El zoo', icono: 'leon', guia: 'granjera', nombreGuia: '', estaciones: [] },
