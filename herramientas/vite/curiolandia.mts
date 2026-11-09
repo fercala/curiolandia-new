@@ -18,6 +18,9 @@ const CABECERA =
   '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" ' +
   'content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">';
 
+// Las letras del rumano que no están en el recorte «latin» de las fuentes: Ă ă, Ş ş, Ţ ţ, Ș ș y Ț ț.
+export const LETRAS_RO = 'U+0102-0103,U+015E-015F,U+0162-0163,U+0218-021B';
+
 // Lo que sustituye a la hoja de Google Fonts: manifiesto, iconos y datos de la app, y las fuentes locales.
 const META_WEB =
   '<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#7CC86E">' +
@@ -28,7 +31,14 @@ const META_WEB =
   ' (3, 4 y 5 años) con Tito el caracol, en un mundo en 3D.">' +
   '<style>@font-face{font-family:"Andika";font-weight:400 700;font-display:swap;' +
   'src:url(fonts/andika-700-latin.woff2) format("woff2")}@font-face{font-family:"Fredoka";' +
-  'font-weight:300 700;font-display:swap;src:url(fonts/fredoka-latin.woff2) format("woff2")}</style>';
+  'font-weight:300 700;font-display:swap;src:url(fonts/fredoka-latin.woff2) format("woff2")}' +
+  // Las letras del rumano que faltan en esos recortes «latin» (ă, ș, ț y sus mayúsculas, y las antiguas ş y ţ; fase
+  // ID0 de docs/PLAN-IDIOMAS.md): de Andika, su recorte latin-ext; Fredoka no las tiene, así que se toman de Baloo 2
+  // (redondeada y parecida). Con unicode-range el navegador solo usa estos archivos para esas letras.
+  `@font-face{font-family:"Andika";font-weight:400 700;font-display:swap;unicode-range:${LETRAS_RO};` +
+  'src:url(fonts/andika-700-ro.woff2) format("woff2")}' +
+  `@font-face{font-family:"Fredoka";font-weight:300 700;font-display:swap;unicode-range:${LETRAS_RO};` +
+  'src:url(fonts/baloo2-700-ro.woff2) format("woff2")}</style>';
 
 // En el servidor de desarrollo, el cliente de Vite (recarga la página al guardar). La página se pone después de que
 // Vite procese index.html, así que hay que añadirlo a mano.
@@ -86,7 +96,7 @@ export async function paginaJuego(o: OpcionesPagina): Promise<string> {
 // cachés viejas de este juego (PREFIJO_CACHE); al pedir algo de su ámbito responde desde la caché y, si no está, lo
 // descarga y lo guarda. Sin conexión y sin caché devuelve index.html.
 export function serviceWorker(cache: string): string {
-  return `const C='${cache}';const F=['./','index.html','manifest.webmanifest','fonts/andika-700-latin.woff2','fonts/fredoka-latin.woff2','icon-192.png','icon-512.png','apple-touch-icon.png'];
+  return `const C='${cache}';const F=['./','index.html','manifest.webmanifest','fonts/andika-700-latin.woff2','fonts/fredoka-latin.woff2','fonts/andika-700-ro.woff2','fonts/baloo2-700-ro.woff2','icon-192.png','icon-512.png','apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('${PREFIJO_CACHE}')&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||!e.request.url.startsWith(self.registration.scope))return;e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request).then(res=>{if(res.ok){const cp=res.clone();caches.open(C).then(c=>c.put(e.request,cp))}return res}).catch(()=>caches.match('index.html'))))});`;

@@ -4,8 +4,9 @@ Fernando lo pidió el 9 de noviembre de 2026: «quiero hacer que curiolandia-new
 incorporar además del castellano debería ser el rumano», y después: «crea un plan y revisa a fondo los cambios que hay que
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
-**Estado: propuesto, sin código.** Las decisiones del apartado 3 llevan una recomendada; hasta que Fernando las apruebe no
-se empieza ninguna fase. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
+**Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
+las decisiones del apartado 3. Hecha: **ID0** (v0.2.114, apartado 9). Si cambia una decisión, se apunta aquí y en
+`CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
 El castellano de España sigue siendo el idioma principal: es el que se escribe en el código y el que sale si no se elige
@@ -33,10 +34,12 @@ Todo lo que el niño **oye** y todo lo que el niño o el adulto **ve escrito**:
   trozos de frases que se componen o textos cortos que se ven, 332 nombres de dibujos con artículo y 26 en inglés. El
   catálogo **deja fuera la zona de adultos** y el HTML de `head.html`: también hay que traducirlos.
 - **Llamadas que hablan**: unas 610 a `say()` y sus hermanas; **llamadas que escriben**: unas 250 a `text()`.
-- **Frases que se componen pegando trozos**: unas 100 (67 con `'...' + x + '...'` y 34 con plantillas `` `...${x}` ``).
+- **Frases que se componen pegando trozos**: medidas en la ID0 con `npm run idiomas:compuestas`, **376** (contando
+  también las que se guardan en tablas y las que llevan `kid()`; la primera cuenta, mirando solo dentro de `say()`, daba
+  unas 100).
   Son el problema principal: «Guarda » + el nombre + « dentro de la mochila» solo funciona con el orden y la gramática del
   castellano.
-- **Trucos de gramática castellana en el código** (unos 45 usos en 11 archivos): `dela()` y `ala()` (del, al), `isPl()`
+- **Trucos de gramática castellana en el código** (57 en la medida de la ID0): `dela()` y `ala()` (del, al), `isPl()`
   (mira si el nombre empieza por «los»/«las»), `fem()` (por «la»/«las»), `esta()`, `eseEs()`, y reglas sueltas como
   `.replace(/ de el /, ' del ')` (`src/escenas/cofre.ts`), `.replace('Cuántos', fem(k) ? 'Cuántas' : 'Cuántos')`
   (`src/temas/temas5.ts`) o `/^l[ao]s /.test(z.name) ? 'abrieron ' : 'abrió '` (`src/escenas/zonas.ts`). En rumano el
@@ -142,7 +145,7 @@ castellano **no cambia nada** para el niño (se comprueba con las pruebas de reg
 | --- | --- | --- |
 | **ID0** | Letras de la página con ă, ș, ț (recorte latin-ext de Andika y Fredoka); el catálogo incluye la zona de adultos y `head.html`; lista medida de las frases compuestas y de los trucos de gramática. | No |
 | **ID1** | Núcleo de idiomas: `dominio/idioma.ts`, `nucleo/traducir.ts`, `S.idioma`, carga de las tablas, `<html lang>`, recarga al cambiar, `?idioma=` para probar. La voz elige por idioma (`pickVoice` con `ro-RO`). Un «pseudoidioma» de prueba que marca cada texto traducido (`⟦...⟧`) y lo alarga un 30 %, para ver en pantalla lo que se escapa sin traducir y lo que no cabe. | No |
-| **ID2** | Frases compuestas a plantillas (unas 100) y nombres de dibujos con formas por idioma: fuera `dela`, `ala`, `isPl`, `fem` y los `replace` de gramática. Números y fechas por idioma. | No (en castellano dice lo mismo) |
+| **ID2** | Frases compuestas a plantillas (376, en varios PR por grupos de archivos) y nombres de dibujos con formas por idioma: fuera `dela`, `ala`, `isPl`, `fem` y los `replace` de gramática. Números y fechas por idioma. | No (en castellano dice lo mismo) |
 | **ID3** | Textos en pantalla: `text()` con ancho máximo, rótulos 3D traducibles, HTML de la zona de adultos y de `head.html` por `tr()`. Repaso con el pseudoidioma de todas las escenas. | No |
 | **ID4** | Rumano, primera parte: portada, mapa, tienda, casa de Tito, cole, patio, excursiones, ventanas y zona de adultos, con el selector de idioma (oculto hasta la ID9 salvo con `?idioma=ro`) y el aviso de voz rumana. | Solo con `?idioma=ro` |
 | **ID5** | Rumano, segunda parte: los temas y sus juegos, y los cuentos. Hoja `dialogos/ro.csv` para la revisión. | Solo con `?idioma=ro` |
@@ -182,3 +185,23 @@ sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos de
 - Las partidas guardadas no se rompen: `S.idioma` es un campo nuevo con valor por defecto.
 - Las reglas de documentación y de diálogos siguen igual; el catálogo `todos.csv` sigue siendo la lista de todos los
   textos, ahora también la de lo que hay que traducir.
+
+## 9. Fases hechas
+
+### ID0 (v0.2.114): preparar sin cambiar el juego
+
+- **Letras del rumano en la página**: `public/fonts/andika-700-ro.woff2` (Andika, su recorte latin-ext) y
+  `public/fonts/baloo2-700-ro.woff2`, solo con Ă ă, Ș ș, Ț ț y las antiguas Ş ş, Ţ ţ (3,5 KB y 1,6 KB). Fredoka no tiene
+  esas letras en ninguna versión, así que se toman de **Baloo 2**, otra letra redondeada de Google Fonts (licencia OFL,
+  como las otras dos). Van como otra `@font-face` de «Andika» y de «Fredoka» con `unicode-range`
+  (`LETRAS_RO` en `herramientas/vite/curiolandia.mts`): el navegador las usa solo para esas letras, y el resto sigue
+  igual. `aplicacion/arranque.ts` las pide al cargar (con el texto `'Aaăș'`) y el service worker las guarda.
+- **El catálogo incluye la zona de adultos y `head.html`**: `herramientas/dialogos/catalogo.mts` los lee al final, con el
+  tipo `adultos`, y de su HTML saca solo lo que se lee (entre etiquetas y en `title`, `aria-label`, `placeholder` y
+  `alt`). Son unos 340 textos más: el catálogo pasa de 3.156 a 3.946.
+- **Lista de trabajo de la ID2**: `herramientas/idiomas/compuestas.mts` (`npm run idiomas:compuestas`, y con `-- --todo`
+  cada sitio con su línea): 376 frases compuestas y 57 trucos de gramática. Los archivos con más: `temas/temas5.ts`
+  (62 y 16), `temas/letras.ts` (55 y 3), `temas/temas4.ts` (41 y 3), `juegos/comps.ts` (22 y 16), `escenas/escenas2d.ts`
+  (32), `juegos/comps2.ts` (18 y 6), `escenas/zonas.ts` (19 y 1), `escenas/tienda.ts` (17 y 1) y `temas/temas.ts` (16 y 1).
+- Pruebas: `tests/unidad/idiomas.test.ts`, y `dialogos.test.ts` y `montaje.test.ts` amplían las suyas.
+
