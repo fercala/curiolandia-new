@@ -8,9 +8,9 @@
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), DESTINOS (dónde está cada cartel del
- * autobús), sitioEstacion (lo mismo para las estaciones) y volverDeEstacion; pone SCENES.autobus y SCENES.excursion.
+ * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones) y volverDeEstacion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
- * contenido/excursiones.ts.
+ * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -34,6 +34,7 @@ import {
   drawHome,
   drawTito,
   giveCoins,
+  giveSticker,
   go,
   hC,
   hv,
@@ -62,6 +63,7 @@ import {
   visitaDe,
 } from '../dominio/excursiones.ts';
 import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
+import { dibujaPaseo, empezarPaseo, moverPaseo, tocarPaseo } from './granjaAnimales.ts';
 
 /* ---------- lo común ---------- */
 
@@ -147,6 +149,23 @@ export const DESTINOS: readonly Destino[] = EXCURSIONES.map((e, i, todas) => {
 // enDestino(d, x, y): ¿se ha tocado el cartel d?
 const enDestino = (d: Destino, x: number, y: number): boolean => x > d.x && x < d.x + d.w && y > d.y && y < d.y + d.h;
 
+// ALBUM_EXC_BOTON: el botón del álbum de excursiones en el autobús (desde la P7; centro y radio).
+export const ALBUM_EXC_BOTON = { x: 250, y: 110, r: 62 };
+
+// dibujaBotonAlbum(): el botón del álbum de excursiones: un círculo blanco con un libro y «Álbum» debajo.
+function dibujaBotonAlbum(): void {
+  const b = ALBUM_EXC_BOTON,
+    k = hv('bus:album', hC(b.x, b.y, b.r));
+  ctx.save();
+  ctx.translate(b.x, b.y);
+  ctx.scale(k, k);
+  circ(0, 0, b.r, '#fff', 6);
+  pic('libro', 0, 0, 90);
+  card(-58, b.r - 6, 116, 40, '#FFD66B', 4, 20);
+  text('Álbum', 0, b.r + 22, 26);
+  ctx.restore();
+}
+
 /** El estado del autobús: eligiendo destino o viajando (hacia la excursión id, desde T = t0). */
 const bus = { fase: 'elige' as 'elige' | 'viaje', destino: '', t0: 0 };
 
@@ -192,8 +211,9 @@ SCENES['autobus'] = {
     const d = DESTINOS.find((x) => estacionesJugables(x.e).length);
     return bus.fase === 'elige' && d ? { x: d.x + d.w / 2, y: d.y + d.h / 2, r: 120 } : null;
   },
-  // dwell(id): dice el nombre de la excursión bajo el ratón.
+  // dwell(id): dice el nombre de la excursión (o del álbum) bajo el ratón.
   dwell(id: string) {
+    if (id === 'bus:album') say('El álbum de excursiones.');
     const d = DESTINOS.find((x) => 'bus:' + x.e.id === id);
     if (d) say(d.e.nombre + '.');
   },
@@ -228,11 +248,13 @@ SCENES['autobus'] = {
         ctx.restore();
       });
     else text('¡Nos vamos de excursión!', W / 2, 160, 56, '#4A3B2A');
+    if (!viaje) dibujaBotonAlbum();
     drawHome();
     drawCoinHUD();
     if (!viaje) drawTito(60, 640, 200);
   },
-  // down(x, y): casa -> el cole; monedas -> tienda; un cartel con estaciones -> ¡al viaje!; uno sin -> «muy pronto».
+  // down(x, y): casa -> el cole; monedas -> tienda; el álbum -> el álbum de excursiones; un cartel con estaciones -> ¡al
+  // viaje!; uno sin -> «muy pronto».
   down(x: number, y: number) {
     if (atHome(x, y)) {
       SFX.whoosh();
@@ -245,6 +267,11 @@ SCENES['autobus'] = {
       return;
     }
     if (bus.fase !== 'elige') return;
+    if (dist(x, y, ALBUM_EXC_BOTON.x, ALBUM_EXC_BOTON.y) < ALBUM_EXC_BOTON.r) {
+      SFX.pop();
+      go('albumExcursiones');
+      return;
+    }
     const d = DESTINOS.find((z) => enDestino(z, x, y));
     if (!d) {
       SFX.tap();
@@ -344,7 +371,8 @@ function dibujaFoto(): void {
 }
 
 // hacerFoto(): la visita está completa: la foto de grupo (flash y sonido de cámara), se apunta (terminarVisita), las
-// monedas la primera vez de cada día y la despedida del guía.
+// monedas la primera vez de cada día y la despedida del guía. Desde la P7, la foto va al álbum de excursiones
+// (SCENES.albumExcursiones) y la primera visita da la pegatina de la excursión (su dibujo, e.icono).
 function hacerFoto(): void {
   const e = excursionActual(),
     r = terminarVisita(visitaActual(), today());
@@ -358,8 +386,16 @@ function hacerFoto(): void {
   SFX.tada();
   burst(W / 2, 400, 60);
   if (r.monedas) later(1200, () => giveCoins(r.monedas, W / 2, 450, undefined, true));
+  const primera = r.visita.veces === 1;
+  if (primera) {
+    S.stk[e.icono] = (S.stk[e.icono] || 0) + 1;
+    save();
+  }
   say(
-    `¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. ${e.nombreGuia} nos espera otro día en ${e.nombre.toLowerCase()}. Toca la casa para volver al cole.`,
+    `¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. ${e.nombreGuia} nos espera otro día en ${e.nombre.toLowerCase()}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.`,
+    () => {
+      if (primera && sceneName === 'excursion') giveSticker(e.icono, true);
+    },
   );
 }
 
@@ -370,6 +406,7 @@ SCENES['excursion'] = {
   enter(o: OpcionesEscena) {
     Object.assign(exc, { id: o.exc || exc.id, foto: -1, hecha: false });
     const e = excursionActual();
+    empezarPaseo(e.id, e.animales ?? []);
     if (o.hecha) {
       const v = terminarEstacion(visitaActual(), o.hecha);
       guardarVisita(v);
@@ -410,12 +447,18 @@ SCENES['excursion'] = {
     const s = excursionActual().estaciones.find((x) => 'exc:' + x.id === id);
     if (s) say(s.nombre + '.');
   },
-  // draw(): la granja, el camino, las estaciones, el guía y Tito; tras la visita completa, la foto de grupo.
+  // update(): los animales pasean por el prado (desde la P7).
+  update() {
+    moverPaseo();
+  },
+  // draw(): la granja, el camino, los animales que pasean, las estaciones, el guía y Tito; tras la visita completa, la
+  // foto de grupo.
   draw() {
     const e = excursionActual(),
       v = visitaActual();
     fondoGranja();
     caminoGranja(e);
+    dibujaPaseo();
     e.estaciones.forEach((s) => dibujaEstacion(s, v.vistas.includes(s.id)));
     pic(e.guia, GUIA.x, GUIA.y + Math.sin(T * 2) * 4, GUIA.s);
     drawTito(560, 380, 170);
@@ -424,7 +467,7 @@ SCENES['excursion'] = {
     drawCoinHUD();
   },
   // down(x, y): casa -> el cole; monedas -> tienda; una estación jugable -> su escena; una «muy pronto» -> el guía lo
-  // dice; el guía -> repite lo que toca.
+  // dice; el guía -> repite lo que toca; un animal que pasea -> salta y hace su sonido.
   down(x: number, y: number) {
     if (atHome(x, y)) {
       SFX.whoosh();
@@ -452,6 +495,7 @@ SCENES['excursion'] = {
       this.prompt!();
       return;
     }
+    if (tocarPaseo(x, y)) return;
     SFX.tap();
     sparkles(x, y);
   },

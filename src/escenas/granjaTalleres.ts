@@ -15,7 +15,7 @@
  * Exporta: QUESO (dónde está cada cosa del queso) y ESTADO_TALLERES (el estado de las cuatro, para las pruebas,
  * docs/CONTRATO-PRUEBAS.md); pone SCENES.granjaQueso, granjaCepillar, granjaHuerto y granjaTractor al cargarse.
  * Importa: el núcleo (dibujo, voz, sonido, toque), NUM de juegos/, fondoGranja y volverDeEstacion de
- * escenas/excursion.ts y el azar de los puertos.
+ * escenas/excursion.ts, dibujaCuerpo de escenas/granjaAnimales.ts (desde la P7) y el azar de los puertos.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -46,6 +46,7 @@ import {
 } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { fondoGranja, volverDeEstacion } from './excursion.ts';
+import { dibujaCuerpo } from './granjaAnimales.ts';
 import { azar } from '../aplicacion/puertos.ts';
 
 // edad35(): la edad del niño entre 3 y 5 (para elegir cuántas cosas hay en cada estación).
@@ -70,41 +71,6 @@ function dibujaMarco(): void {
 function toqueSuelto(x: number, y: number): void {
   SFX.tap();
   sparkles(x, y);
-}
-
-// dibujaCuerpo(x, y, w, h, color, cabeza, s): un animal de la granja de lado, entero: el cuerpo (centro x, y; ancho w y
-// alto h) con sus patas y su cola, y delante, arriba a la izquierda, el dibujo de su cabeza (cabeza, de tamaño s). La
-// vaca (cuerpo blanco) lleva además sus manchas negras.
-function dibujaCuerpo(x: number, y: number, w: number, h: number, color: string, cabeza: string, s: number): void {
-  ctx.save();
-  ctx.strokeStyle = '#4A3B2A';
-  ctx.lineWidth = 6;
-  ctx.fillStyle = color;
-  [-0.36, -0.2, 0.22, 0.38].forEach((d) => {
-    ctx.fillRect(x + d * w - 18, y, 36, h * 0.95);
-    ctx.strokeRect(x + d * w - 18, y, 36, h * 0.95);
-  });
-  ctx.beginPath();
-  ctx.moveTo(x + w * 0.48, y - h * 0.2);
-  ctx.quadraticCurveTo(x + w * 0.62, y, x + w * 0.56, y + h * 0.45);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.ellipse(x, y, w / 2, h / 2, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.stroke();
-  if (cabeza === 'vaca')
-    [
-      [-0.15, -0.1, 0.12],
-      [0.2, 0.15, 0.1],
-      [0.05, -0.25, 0.07],
-    ].forEach(([dx = 0, dy = 0, r = 0]) => {
-      ctx.fillStyle = '#2E2A2A';
-      ctx.beginPath();
-      ctx.ellipse(x + dx * w, y + dy * h, r * w, r * w * 0.7, 0.3, 0, Math.PI * 2);
-      ctx.fill();
-    });
-  ctx.restore();
-  pic(cabeza, x - w * 0.55, y - h * 0.55, s);
 }
 
 /* ---------- hacer queso ---------- */

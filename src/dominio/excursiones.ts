@@ -7,7 +7,8 @@
  * Es DOMINIO: no sabe nada de pantalla ni de S y no cambia nada; las escenas (escenas/excursion.ts y las estaciones) le
  * pasan lo guardado (S.exc) y guardan lo que devuelve. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: los tipos Estacion, Excursion, VisitaExcursion y RegistroExcursiones, EXCURSION (los números de las reglas),
- * visitaDe, estacionesJugables, siguienteEstacion, terminarEstacion, visitaCompleta y terminarVisita.
+ * visitaDe, estacionesJugables, siguienteEstacion, terminarEstacion, visitaCompleta y terminarVisita, y desde la P7,
+ * para el álbum de excursiones, diaYMes y vecesTexto.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de EXCURSION son las reglas mismas, cada uno con su nombre. */
@@ -22,8 +23,8 @@ export interface Estacion {
   readonly x: number;
   readonly y: number;
 }
-/** Una excursión: su id, su nombre, el dibujo de su cartel, quién guía (el dibujo y su nombre) y sus estaciones. Sin
- * estaciones jugables, sale en el autobús como «¡Muy pronto!». */
+/** Una excursión: su id, su nombre, el dibujo de su cartel, quién guía (el dibujo y su nombre), sus estaciones y
+ * (desde la fase P7) los animales que pasean por su plano. Sin estaciones jugables, sale en el autobús como «¡Muy pronto!». */
 export interface Excursion {
   readonly id: string;
   readonly nombre: string;
@@ -31,6 +32,7 @@ export interface Excursion {
   readonly guia: string;
   readonly nombreGuia: string;
   readonly estaciones: readonly Estacion[];
+  readonly animales?: readonly string[];
 }
 /** Lo que se guarda de una excursión: las estaciones hechas en la visita de ahora, cuántas visitas se han terminado,
  * si ya hay foto de grupo y el último día que se terminó una visita. */
@@ -94,3 +96,14 @@ export function terminarVisita(v: VisitaExcursion, hoy: string): { visita: Visit
     monedas: v.d === hoy ? 0 : EXCURSION.monedasVisita,
   };
 }
+
+// diaYMes(d, meses): la fecha d ('2026-11-09') dicha como en el álbum, «9 de noviembre», con los nombres de los meses
+// meses (de enero a diciembre). Si d no es una fecha, ''.
+export function diaYMes(d: string, meses: readonly string[]): string {
+  const m = /^\d{4}-(\d{2})-(\d{2})$/.exec(d),
+    mes = m ? meses[Number(m[1]) - 1] : undefined;
+  return m && mes ? `${Number(m[2])} de ${mes}` : '';
+}
+
+// vecesTexto(n): cuántas veces, para decirlo: «una vez», «2 veces».
+export const vecesTexto = (n: number): string => (n === 1 ? 'una vez' : `${n} veces`);

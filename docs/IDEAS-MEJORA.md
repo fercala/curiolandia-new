@@ -1,7 +1,7 @@
 # Ideas para llevar Curiolandia a otro nivel
 
 **Estado: aprobado todo (8 de noviembre de 2026), en marcha de una idea en una.** Hechas: P1 (el cole, el patio y
-«¡Estatuas!», v0.2.102) P2 («Tito dice», v0.2.103) P3 (yoga de los animales, rincón de la calma y pausa activa, v0.2.104) P4 (retos en casa y la opción de quitar los juegos de moverse, v0.2.105) P5 (el autobús del cole y la granja escuela con sus dos primeras estaciones, v0.2.106) y P6 (el resto de las estaciones de la granja: queso, cepillar, huerto y tractor, v0.2.107). El orden y las fases, en el apartado 12. Fernando pide muchas ideas viables para que el juego sea más
+«¡Estatuas!», v0.2.102) P2 («Tito dice», v0.2.103) P3 (yoga de los animales, rincón de la calma y pausa activa, v0.2.104) P4 (retos en casa y la opción de quitar los juegos de moverse, v0.2.105) P5 (el autobús del cole y la granja escuela con sus dos primeras estaciones, v0.2.106) P6 (el resto de las estaciones de la granja: queso, cepillar, huerto y tractor, v0.2.107) y P7 (los animales recortables que pasean por la granja y el álbum de excursiones, v0.2.108). El orden y las fases, en el apartado 12. Fernando pide muchas ideas viables para que el juego sea más
 rico, con juegos más largos y profundos, más uso del motor 3D y actividades nuevas (una visita del cole a la granja,
 carreras y juegos al aire libre...), **sin perder nada de lo que ya hay**. Este documento es el banco de ideas: Fernando
 eligió el 8 de noviembre de 2026 **hacerlas todas, de una en una** («Vamos a hacer todos, ve haciendo de uno a la vez»);
@@ -593,7 +593,8 @@ Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase 
 | **P4** | Retos para hacer en casa sin pantalla (16, uno por día): Tito lo deja al irse a dormir y al proponer descansar; la familia lo marca en el Resumen de la zona de adultos y Tito lo celebra con una pegatina. En «Cómo se juega», el aviso de los juegos de moverse y la opción de quitarlos (el patio cierra y no hay pausa activa). Reglas en `dominio/retos.ts`, `S.retos` y `S.sinMoverse`. | 37 | Hecha (v0.2.105) |
 | **P5** | El motor de excursiones (B1: `dominio/excursiones.ts`, `contenido/excursiones.ts`, `escenas/excursion.ts`, `S.exc`), el autobús del cole (elegir destino y viaje; el zoo y el bosque, «¡Muy pronto!») y la granja escuela en 2D con la granjera Rosa y sus dos primeras estaciones: dar de comer y recoger huevos (`escenas/granja.ts`); al hacerlas todas, foto de grupo y 5 monedas la primera vez del día. | 1 | Hecha (v0.2.106) |
 | **P6** | El resto de las estaciones de la granja escuela, en 2D (`escenas/granjaTalleres.ts`): hacer queso (ordeñar, remover y apretar en el molde), cepillar al caballo (frotar el barro), el huerto (sembrar, regar y arrancar zanahorias) y el paseo en tractor (recoger balas de paja). La foto de grupo llega con las seis. | 1 | ✅ v0.2.107 |
-| P7–P8 | La granja escuela: los animales recortables (B2), el recuerdo en el álbum y el crecer por días (B4). | 1 | — |
+| **P7** | Los animales recortables (B2, en 2D: `escenas/granjaAnimales.ts`; la vaca, el caballo y el cerdo con cuerpo, sombra y saltito) que pasean por el plano de la granja y saltan y hacen su sonido al tocarlos, y el recuerdo: la foto de grupo va al álbum de excursiones (`escenas/albumExcursiones.ts`, botón en el autobús) y la primera visita da la pegatina de la excursión. Los recortables en 3D, con el patio 3D (B3). | 1 | ✅ v0.2.108 |
+| P8 | La granja escuela: el crecer por días (B4). | 1 | — |
 | P9 | Crías y familias de animales. | 22 | — |
 | P10–P11 | El patio en 3D (B3) y las carreras de Tito; el gran día del deporte. | 10, 17 | — |
 | P12 | Juegos de patio cortos (de dos en dos). | 16 | — |

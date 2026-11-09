@@ -90,6 +90,7 @@ const ESCENAS = [
   ['granjaCepillar', { exc: 'granja' }],
   ['granjaHuerto', { exc: 'granja' }],
   ['granjaTractor', { exc: 'granja' }],
+  ['albumExcursiones', {}], // el álbum de excursiones (P7)
 ];
 
 (async () => {
