@@ -12,8 +12,10 @@
 // en 3D de prueba (C26); desde la M2, la casa ordenada: al entrar cada cosa va a un sitio y lo que no cabe al baúl
 // (C27), lo comprado va al baúl y se coloca con un toque (C28), arrastrar del baúl a un sitio, al baúl y llevar un
 // mueble con algo encima (C29) y «¡Ordena, Tito!» (C30); desde la M3, los toques directos y los estados guardados, y
-// que Tito solo va a jugar si se le toca antes (C31) y el botón de la escena tras dos toques (C32). Desde la M3, C8, C11,
-// C13 y C20 tocan a Tito antes que al objeto. Desde la M2, lo comprado en la tienda va al baúl (C6).
+// que Tito solo va a jugar si se le toca antes (C31) y el botón de la escena tras dos toques (C32); desde la M3b, las
+// formas de jugar de Tito (C33), arrastrar a Tito (C34), la pista de pareja, la sorpresa al dejar algo encima de su
+// mueble y los 3 dibujos del cuadro (C35). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
+// C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -327,10 +329,13 @@ const temas = (n) => {
       await p.evaluate(() => {
         const sc = __cl.scene,
           o = S.home.telescopio;
-        // desde la fase M3 de PLAN-CASA-MEJORA.md, para que Tito vaya a jugar se le toca antes
-        sc.tocaTito();
+        // desde la fase M3b de PLAN-CASA-MEJORA.md, la escena se abre con su botón (dos toques seguidos)
         sc.down(o.x, o.y - 60);
         sc.up(o.x, o.y - 60);
+        sc.down(o.x, o.y - 60);
+        sc.up(o.x, o.y - 60);
+        const e = sc.botonEscena();
+        sc.down(e.x, e.y);
       });
       await p.waitForTimeout(6500);
       if ((await p.evaluate(() => sceneName)) !== 'casaCielo')
@@ -423,10 +428,13 @@ const temas = (n) => {
       await p.evaluate(() => {
         const sc = __cl.scene,
           o = S.home.xilofono;
-        // desde la fase M3 de PLAN-CASA-MEJORA.md, para que Tito vaya a jugar se le toca antes
-        sc.tocaTito();
+        // desde la fase M3b de PLAN-CASA-MEJORA.md, la escena se abre con su botón (dos toques seguidos)
         sc.down(o.x, o.y - 60);
         sc.up(o.x, o.y - 60);
+        sc.down(o.x, o.y - 60);
+        sc.up(o.x, o.y - 60);
+        const e = sc.botonEscena();
+        sc.down(e.x, e.y);
       });
       await p.waitForTimeout(6500);
       const r = await p.evaluate(() => [sceneName, __cl.scene.inst, __cl.scene.tiene && __cl.scene.tiene.join()]);
@@ -587,10 +595,13 @@ const temas = (n) => {
     await p.evaluate(() => {
       const sc = __cl.scene,
         o = S.home.gato;
-      // desde la fase M3 de PLAN-CASA-MEJORA.md, para que Tito vaya a jugar se le toca antes
-      sc.tocaTito();
+      // desde la fase M3b de PLAN-CASA-MEJORA.md, la escena se abre con su botón (dos toques seguidos)
       sc.down(o.x, o.y - 40);
       sc.up(o.x, o.y - 40);
+      sc.down(o.x, o.y - 40);
+      sc.up(o.x, o.y - 40);
+      const e = sc.botonEscena();
+      sc.down(e.x, e.y);
     });
     await p.waitForTimeout(7000);
     const r = await p.evaluate(() => [sceneName, __cl.scene.id, (__cl.scene.elige || []).join()]);
@@ -695,7 +706,8 @@ const temas = (n) => {
         sc.down(230 + (j % 8) * 163, 230 + Math.floor(j / 8) * 160);
         return [sc.pag, ENTRADAS_ALBUM.length, window.__said.join(' | ')];
       });
-      if (r[0] !== 1 || r[1] !== 63) return 'páginas: ' + JSON.stringify(r);
+      // 49 objetos y 27 combinaciones (14 de la fase C7 y 13 de la M3b de PLAN-CASA-MEJORA.md)
+      if (r[0] !== 1 || r[1] !== 76) return 'páginas: ' + JSON.stringify(r);
       if (!/telescopio.*Me siento a la mesa/.test(r[2])) return 'Tito dice: ' + r[2];
     },
   );
@@ -1033,6 +1045,122 @@ const temas = (n) => {
     const n = await p.evaluate(() => sceneName);
     if (n !== 'casaCielo') return 'tras el botón, la escena es ' + n;
   });
+
+  // prepara(ids, room, est): partida con todas las habitaciones, solo las cosas ids colocadas y la casa en room.
+  const prepara = (p, ids, room, est) =>
+    p.evaluate(
+      ([ids, room, est]) => {
+        const S = __cl.S;
+        S.temas = {};
+        for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
+        S.rooms = 7;
+        S.home = {};
+        S.sorpresas = {};
+        S.casaEst = est || {};
+        ids.forEach((id) => {
+          S.owned[id] = 1;
+          placeHome(id);
+        });
+        SCENES.casaTito.room = room;
+        __cl.go('casaTito', {});
+      },
+      [ids, room, est],
+    );
+  await caso('C33', 'Tito juega cada vez de otra forma con el mismo objeto, y sin abrir su escena', async (p) => {
+    await prepara(p, ['sofa', 'cama'], 'dormitorio');
+    await p.waitForTimeout(2500);
+    const vs = [];
+    for (let i = 0; i < 4; i++) {
+      await p.evaluate(() => {
+        window.__said = [];
+        __cl.scene.irA('cama');
+      });
+      await p.waitForTimeout(4200);
+      vs.push(await p.evaluate(() => [__cl.scene.va.accion, (window.__said || []).join(' | '), sceneName]));
+    }
+    const acc = vs.map((v) => v[0]).join();
+    if (acc !== 'tumbarse,saltar,tocar,tumbarse') return 'formas de jugar: ' + acc;
+    if (!/Salto en la cama/.test(vs[1][1]) || !/Hago la cama/.test(vs[2][1])) return 'frases: ' + JSON.stringify(vs);
+    if (vs.some((v) => v[2] !== 'casaTito')) return 'se abre una escena sin el botón: ' + JSON.stringify(vs);
+  });
+  await caso(
+    'C34',
+    'Arrastrar a Tito hasta un objeto hace que juegue con él; soltado en el aire, baja al suelo',
+    async (p) => {
+      await prepara(p, ['sofa', 'tele'], 'salon');
+      await p.waitForTimeout(2500);
+      const r = await p.evaluate(() => {
+        const sc = __cl.scene,
+          tx = sc.paseo.x1,
+          ty = sc.paseo.y1,
+          t = S.home.tele;
+        sc.down(tx, ty - 160);
+        sc.move(tx + 30, ty - 160);
+        sc.move(t.x, t.y - 80);
+        const sobre = sc.dragTito && sc.dragTito.sobre;
+        sc.up(t.x, t.y - 80);
+        return [sobre, sc.va && sc.va.id];
+      });
+      if (r.join() !== 'tele,tele') return 'soltado sobre la tele: ' + r.join();
+      await p.waitForTimeout(4000);
+      const q = await p.evaluate(() => {
+        const sc = __cl.scene,
+          tx = sc.paseo.x1,
+          ty = sc.paseo.y1;
+        sc.down(tx, ty - 160);
+        sc.move(tx + 30, ty - 160);
+        sc.move(700, 330);
+        sc.up(700, 330);
+        return [sc.paseo.y1 >= 600, sc.titoListo < 0];
+      });
+      if (q.join() !== 'true,true') return 'soltado en el aire: ' + q.join();
+      const t = await p.evaluate(() => {
+        const sc = __cl.scene,
+          tx = sc.paseo.x1,
+          ty = sc.paseo.y1;
+        sc.down(tx, ty - 160);
+        sc.up(tx, ty - 160);
+        return T - sc.titoListo < 1;
+      });
+      if (!t) return 'un toque a Tito sin arrastrar no lo deja listo';
+    },
+  );
+  await caso(
+    'C35',
+    'Arrastrando la tarta, la mesa guiña; dejarla encima da la sorpresa; el cuadro tiene 3 dibujos',
+    async (p) => {
+      await prepara(p, ['mesa', 'tarta'], 'cocina');
+      await p.waitForTimeout(2500);
+      const r = await p.evaluate(() => {
+        window.__said = [];
+        const sc = __cl.scene,
+          o = S.home.tarta,
+          m = S.home.mesa;
+        sc.down(o.x, o.y - 30);
+        sc.move(o.x + 30, o.y - 30);
+        sc.move(m.x + 40, m.y - 150);
+        const pareja = sc.pareja;
+        sc.up(m.x + 40, m.y - 150);
+        return [pareja, S.home.tarta.h.startsWith('cocina:mesa:'), !!S.sorpresas['tarta+mesa'], sc.pareja];
+      });
+      if (r.join() !== 'mesa,true,true,') return 'tarta y mesa: ' + r.join();
+      await prepara(p, ['cuadro'], 'salon');
+      await p.waitForTimeout(2500);
+      const c = await p.evaluate(() => {
+        const sc = __cl.scene,
+          o = S.home.cuadro,
+          e = [];
+        for (let i = 0; i < 3; i++) {
+          sc.down(o.x, o.y - 60);
+          sc.up(o.x, o.y - 60);
+          e.push(S.casaEst.cuadro);
+        }
+        return e.join();
+      });
+      if (c !== '1,2,0') return 'el cuadro pasa por ' + c;
+      if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
+    },
+  );
 
   R.guardar();
   await b.close();

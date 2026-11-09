@@ -9,9 +9,11 @@
  * nueva. La escena de la casa (escenas/tienda.ts) la usará desde la fase C2; dominio/partida.ts usa MASCOTAS y
  * fichaComprada en la migración 3 → 4.
  * Pruebas: tests/unidad/casa.test.ts.
+ * Desde la fase M3b de docs/PLAN-CASA-MEJORA.md, las otras formas de jugar de Tito con cada objeto (VARIANTES,
+ * variantesDe y varianteDe) y 13 combinaciones más.
  * Exporta: los tipos AccionTito, EscenaCasa, Reaccion, Combinacion, Cuidado, FichaMascota, Huerto y Cuidar; las
- * tablas REACCIONES, COMBINACIONES, MASCOTAS, CUIDADOS, CUIDADOS_POR_DIA, DIAS_ETAPA, FLOR_DIAS y TOTAL_SORPRESAS; y
- * las reglas reaccionDe, combinacion, idSorpresa, descubrir, cuantasSorpresas, fichaNueva, fichaComprada,
+ * tablas REACCIONES, VARIANTES, COMBINACIONES, MASCOTAS, CUIDADOS, CUIDADOS_POR_DIA, DIAS_ETAPA, FLOR_DIAS y TOTAL_SORPRESAS; y
+ * las reglas reaccionDe, variantesDe, varianteDe, combinacion, idSorpresa, descubrir, cuantasSorpresas, fichaNueva, fichaComprada,
  * fichaDe, etapaMascota, cuidadosDe, cuidar, quiereHoy, huertoNuevo, regar y etapaFlor.
  * Importa: contarDia y etapaPorDias de dominio/crecer.ts (desde la fase P8 de docs/IDEAS-MEJORA.md, la regla común de
  * crecer por días).
@@ -43,7 +45,8 @@ export type AccionTito =
   | 'pintar'
   | 'volar'
   | 'encender'
-  | 'croqueta';
+  | 'croqueta'
+  | 'saltar';
 
 /** Las escenas pequeñas que abren los objetos grandes (fases C3 a C5). */
 export type EscenaCasa =
@@ -121,6 +124,68 @@ export function reaccionDe(id: string): Reaccion | null {
   return Object.hasOwn(REACCIONES, id) ? REACCIONES[id] : null;
 }
 
+// VARIANTES: las otras formas de jugar de Tito con un objeto (capa 3 de docs/PLAN-CASA-MEJORA.md, desde la fase M3b),
+// además de la de REACCIONES, que es la primera. Cada vez que Tito juega con el mismo objeto hace la siguiente: se
+// sienta en el sofá, luego salta en él y luego se echa la siesta. Solo usan acciones de AccionTito que ya se dibujan;
+// lo que dice en cada una está en FRASES_VARIANTES (contenido/casa.ts), en el mismo orden.
+export const VARIANTES: Readonly<Record<string, readonly AccionTito[]>> = {
+  // torre de las estrellas
+  telescopio: ['girar'],
+  tierra: ['tocar'],
+  cohete: ['tocar'],
+  // salón
+  sofa: ['saltar', 'tumbarse'],
+  tele: ['bailar'],
+  alfombra: ['tumbarse'],
+  cuadro: ['tocar'],
+  plantaInterior: ['regar'],
+  estanteria: ['mirar'],
+  reloj: ['bailar'],
+  piano: ['bailar'],
+  fuente: ['secarse'],
+  // dormitorio
+  cama: ['saltar', 'tocar'],
+  cuento: ['tumbarse'],
+  estrellas: ['tocar'],
+  // cocina
+  mesa: ['tocar'],
+  nevera: ['comer'],
+  olla: ['soplar'],
+  // baño
+  banera: ['soplar'],
+  // cuarto de juegos
+  pelotaPlaya: ['empujar'],
+  bloques: ['tocar'],
+  peluche: ['bailar', 'tumbarse'],
+  xilofono: ['bailar'],
+  muneca: ['abrazar'],
+  robot: ['empujar'],
+  trenJuguete: ['tocar'],
+  guitarra: ['bailar'],
+  globo: ['volar'],
+  // jardín
+  arbol: ['mirar'],
+  columpio: ['bailar'],
+  castillo: ['empujar'],
+  piscina: ['bañarse'],
+};
+
+// variantesDe(id): todas las formas de jugar de Tito con id, la de REACCIONES primero; vacía si no tiene reacción.
+export function variantesDe(id: string): readonly AccionTito[] {
+  const r = reaccionDe(id);
+  if (!r) return [];
+  return [r.tito, ...(Object.hasOwn(VARIANTES, id) ? VARIANTES[id] : [])];
+}
+
+// varianteDe(id, vez): la forma de jugar que toca la vez número vez (0, 1, 2...) que Tito juega con id: su acción y su
+// número (n, 0 = la de REACCIONES), dando la vuelta al acabar. null si id no tiene reacción.
+export function varianteDe(id: string, vez: number): { accion: AccionTito; n: number } | null {
+  const v = variantesDe(id);
+  if (!v.length) return null;
+  const n = ((Math.floor(vez) % v.length) + v.length) % v.length;
+  return { accion: v[n], n };
+}
+
 /** Dos objetos que, si se juntan (uno arrastrado encima del otro, o los dos en la misma habitación), dan una sorpresa. */
 export interface Combinacion {
   readonly a: string;
@@ -143,6 +208,21 @@ export const COMBINACIONES: readonly Combinacion[] = [
   { a: 'mesa', b: 'silla' },
   { a: 'pinturas', b: 'pizarra' },
   { a: 'trenJuguete', b: 'tobogan' },
+  // desde la fase M3b de docs/PLAN-CASA-MEJORA.md: 13 más; las de un objeto pequeño y un mueble (la tarta y la mesa,
+  // el peluche y la cama...) salen también al dejarlo encima del mueble
+  { a: 'tarta', b: 'mesa' },
+  { a: 'olla', b: 'mesa' },
+  { a: 'peluche', b: 'cama' },
+  { a: 'cuento', b: 'sofa' },
+  { a: 'pato', b: 'piscina' },
+  { a: 'pelotaPlaya', b: 'piscina' },
+  { a: 'guitarra', b: 'tambor' },
+  { a: 'xilofono', b: 'piano' },
+  { a: 'cometa', b: 'arbol' },
+  { a: 'reloj', b: 'cama' },
+  { a: 'pajaro', b: 'arbol' },
+  { a: 'regadera', b: 'arbol' },
+  { a: 'globo', b: 'tarta' },
 ];
 
 // combinacion(x, y): la combinación de esos dos objetos (en cualquier orden), o null si no tienen.

@@ -4,6 +4,7 @@
 //   dibujarla, le pide aquí su movimiento (poseToque, con el Toque de dominio/casaToques.ts) y le dibuja encima lo de su
 //   estado guardado (dibujaEstado: la luz del farol, la tele encendida con su canal, el fuego de la olla, la torre de
 //   bloques...). Todo depende de la hora T: no hay física ni motor, para que vaya bien en los móviles.
+// Desde la fase M3b, los otros 2 dibujos del cuadro.
 // Exporta: DURACION_TOQUE, poseToque y dibujaEstado.
 // Importa: el núcleo (T, PI, ctx, circ, star) y los tipos Pose (escenas/casaReacciones.ts) y Toque.
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
@@ -151,6 +152,61 @@ const ESTADO_DIBUJO: Readonly<Record<string, (e: number, s: number) => void>> = 
         '#FFE08A',
         0,
       );
+  },
+  // el cuadro (desde la fase M3b): encima del campo con el sol de su dibujo, el mar con un barco (1) o la noche (2)
+  cuadro: (e, s) => {
+    if (e === 0) return;
+    const u = s / 124,
+      x = -43 * u,
+      y = -91 * u,
+      w = 86 * u,
+      h = 64 * u;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.clip();
+    if (e === 1) {
+      ctx.fillStyle = '#BFEAF7';
+      ctx.fillRect(x, y, w, h);
+      ctx.fillStyle = '#3D8FD1';
+      ctx.fillRect(x, y + h * 0.6, w, h * 0.4);
+      // el barco, que se mece
+      ctx.save();
+      ctx.translate(Math.sin(T * 1.5) * 4 * u, y + h * 0.6);
+      ctx.rotate(Math.sin(T * 2) * 0.06);
+      ctx.fillStyle = '#C0392B';
+      ctx.beginPath();
+      ctx.moveTo(-18 * u, 0);
+      ctx.lineTo(18 * u, 0);
+      ctx.lineTo(12 * u, 8 * u);
+      ctx.lineTo(-12 * u, 8 * u);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.moveTo(0, -2 * u);
+      ctx.lineTo(0, -26 * u);
+      ctx.lineTo(14 * u, -4 * u);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    } else {
+      ctx.fillStyle = '#2E3F7A';
+      ctx.fillRect(x, y, w, h);
+      circ(x + w * 0.72, y + h * 0.3, 10 * u, '#FFF3B0', 0);
+      circ(x + w * 0.76, y + h * 0.26, 9 * u, '#2E3F7A', 0);
+      for (let i = 0; i < 5; i++)
+        star(
+          x + w * (0.12 + i * 0.13),
+          y + h * (0.25 + (i % 2) * 0.35),
+          (3 + Math.abs(Math.sin(T * 3 + i)) * 2) * u,
+          '#FFE08A',
+          0,
+        );
+      ctx.fillStyle = '#1F2B57';
+      ctx.fillRect(x, y + h * 0.82, w, h * 0.18);
+    }
+    ctx.restore();
   },
   bloques: (e, s) => {
     for (let i = 0; i < e; i++) {
