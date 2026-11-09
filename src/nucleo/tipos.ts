@@ -121,6 +121,10 @@ export interface Estado {
   /** true: la familia ha quitado los juegos de moverse (el patio del cole y la pausa activa), en la zona de adultos.
    * Desde la fase P4 de docs/IDEAS-MEJORA.md; opcional (sin el campo, están puestos). */
   sinMoverse?: boolean;
+  /** Las excursiones del autobús del cole (dominio/excursiones.ts, VisitaExcursion), por id: las estaciones hechas en la
+   * visita de ahora, las visitas terminadas, si hay foto de grupo y el último día. Desde la fase P5 de
+   * docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  exc?: Record<string, { vistas: string[]; veces: number; foto: boolean; d: string }>;
   // escenas/repaso.ts
   kg?: Record<string, string[]>;
   gs?: Record<string, Cuenta & { d?: FechaDia }>;
@@ -166,6 +170,10 @@ export interface OpcionesEscena {
   inst?: string;
   /** En el yoga (fase P3 de docs/IDEAS-MEJORA.md): true = la pausa activa, corta, que vuelve sola al mapa. */
   pausa?: boolean;
+  /** En las excursiones (fase P5 de docs/IDEAS-MEJORA.md): id de la excursión (excursion y sus estaciones). */
+  exc?: string;
+  /** En la excursión: id de la estación que se acaba de terminar (se apunta al volver). */
+  hecha?: string;
 }
 
 /** Las opciones de las escenas que siempre se abren con un tema (la casita y el cofre): t es obligatorio. */

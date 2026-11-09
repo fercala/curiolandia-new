@@ -82,6 +82,10 @@ const ESCENAS = [
   ['titoDice'], // «Tito dice» (fase P2)
   ['yoga'], // el yoga de los animales (fase P3)
   ['yoga', { pausa: true }], // y la pausa activa
+  ['autobus'], // el autobús de las excursiones (fase P5)
+  ['excursion', { exc: 'granja' }], // la granja escuela
+  ['granjaComer', { exc: 'granja' }],
+  ['granjaHuevos', { exc: 'granja' }],
 ];
 
 (async () => {

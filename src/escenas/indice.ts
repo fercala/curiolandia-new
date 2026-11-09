@@ -16,7 +16,8 @@
 // iluminan). Desde la fase P1 de docs/IDEAS-MEJORA.md, cole.ts (el cole, SCENES.cole), patio.ts (su patio,
 // SCENES.patio) y estatuas.ts (el juego «¡Estatuas!»); desde la P2, patioComun.ts (lo
 // que comparten los juegos del patio) y titoDice.ts (el juego «Tito dice»); desde la P3, yoga.ts (el yoga de los animales
-// y el rincón de la calma), y desde la P4, retos.ts (los retos para hacer en casa).
+// y el rincón de la calma), y desde la P4, retos.ts (los retos para hacer en casa); desde la P5, excursion.ts (el
+// autobús y el motor de excursiones) y granja.ts (las estaciones de la granja escuela).
 // src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
@@ -47,3 +48,5 @@ export * from './estatuas.ts';
 export * from './titoDice.ts';
 export * from './yoga.ts';
 export * from './retos.ts';
+export * from './excursion.ts';
+export * from './granja.ts';

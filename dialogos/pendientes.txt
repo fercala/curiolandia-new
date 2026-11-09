@@ -1113,3 +1113,45 @@ Te dejo un reto para hacer en casa, sin pantalla:
 El patio está cerrado por ahora. ¡Hay muchas cosas más para jugar en el mapa!
 El patio está cerrado por ahora. Toca la casa para volver al mapa.
 Cerrado
+¡Sube al autobús! ¿Adónde nos vamos de excursión? Toca un cartel.
+La granja escuela
+El zoo
+El bosque
+¡Nos vamos de excursión!
+¡La granja escuela está en obras! Muy pronto podremos ir.
+¡El zoo está en obras! Muy pronto podremos ir.
+¡El bosque está en obras! Muy pronto podremos ir.
+¡Nos vamos a la granja escuela! ¡Brum, brum!
+¡Hola! Soy Rosa, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.
+¡Vamos a dar de comer a los animales! Toca su dibujo.
+¡Vamos a recoger huevos! Toca su dibujo.
+Dar de comer a los animales
+Recoger huevos
+Ordeñar y hacer queso
+Cepillar al caballo
+El huerto
+Paseo en tractor
+Ordeñar y hacer queso: ¡muy pronto podremos hacerlo!
+Cepillar al caballo: ¡muy pronto podremos hacerlo!
+El huerto: ¡muy pronto podremos hacerlo!
+Paseo en tractor: ¡muy pronto podremos hacerlo!
+¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. Rosa nos espera otro día en la granja escuela. Toca la casa para volver al cole.
+Toca la casa para volver al cole.
+¡Patata!
+Cada animal come una cosa. Arrastra su comida hasta su comedero.
+Arrastra la comida de cada animal hasta su comedero.
+¡Ñam, ñam! ¡Muy bien!
+¡Todos los animales tienen la barriga llena! ¡Muchas gracias por ayudar!
+¡Puaj! A la vaca no le gusta eso. La vaca come hierba.
+¡Puaj! A la gallina no le gusta eso. La gallina come trigo.
+¡Puaj! Al conejo no le gusta eso. El conejo come zanahorias.
+¡Puaj! Al cerdo no le gusta eso. El cerdo come manzanas.
+¡Puaj! Al caballo no le gusta eso. El caballo come heno.
+Las gallinas han puesto huevos escondidos en la paja. ¡Toca la paja para buscarlos y los guardamos en la cesta!
+Toca la paja para buscar los huevos.
+Aquí no hay ninguno.
+¡Hemos recogido tres huevos! Las gallinas están muy contentas.
+¡Hemos recogido cinco huevos! Las gallinas están muy contentas.
+¡Hemos recogido siete huevos! Las gallinas están muy contentas.
+¡Bienvenido al cole! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!
+Toca el patio para jugar, o el autobús para ir de excursión.

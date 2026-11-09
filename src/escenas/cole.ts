@@ -3,7 +3,7 @@
  * mapa, «El cole» (MZ2 en escenas/zonas.ts). Es el sitio que junta todo lo nuevo del banco de ideas sin llenar más el
  * mapa: el patio (juegos de moverse y, más adelante, las carreras), el autobús de las excursiones y las clases (los
  * rincones de lógica, experimentos y arte). Lo que aún no está hecho sale con el cartel «¡Muy pronto!» y, al tocarlo,
- * Tito dice que está en obras.
+ * Tito dice que está en obras. Desde la fase P5, el autobús lleva a las excursiones (escenas/excursion.ts).
  * Es una escena 2D, como la Isla de las Letras antes de su fase 3D.
  * Exporta: COLE_SITIOS (los sitios del cole) y pone SCENES.cole al cargarse.
  * Desde la fase P4, si la familia ha quitado los juegos de moverse en la zona de adultos (S.sinMoverse), el patio sale
@@ -61,12 +61,21 @@ interface SitioCole {
   readonly escena?: string;
 }
 
-// COLE_SITIOS: los sitios del cole. El patio, a la izquierda, ya se puede jugar; el autobús de las excursiones y las
-// clases llegan en las fases siguientes de docs/IDEAS-MEJORA.md.
+// COLE_SITIOS: los sitios del cole. El patio, a la izquierda, y desde la fase P5 el autobús de las excursiones
+// (SCENES.autobus, escenas/excursion.ts) ya se pueden jugar; las clases llegan en las fases siguientes de
+// docs/IDEAS-MEJORA.md.
 export const COLE_SITIOS: readonly SitioCole[] = [
   { id: 'patio', x: 400, y: 600, r: 170, name: 'el patio', cartel: 'El patio', escena: 'patio' },
   { id: 'clases', x: 830, y: 390, r: 170, name: 'las clases', cartel: 'Las clases' },
-  { id: 'autobus', x: 1250, y: 620, r: 160, name: 'el autobús de las excursiones', cartel: 'Excursiones' },
+  {
+    id: 'autobus',
+    x: 1250,
+    y: 620,
+    r: 160,
+    name: 'el autobús de las excursiones',
+    cartel: 'Excursiones',
+    escena: 'autobus',
+  },
 ];
 
 // fondoCole(): el cielo, la hierba y el suelo de arena del cole, con dos árboles a los lados.
@@ -147,7 +156,7 @@ SCENES['cole'] = {
       save();
       later(500, () =>
         sayQ(
-          `¡Bienvenido al cole${kid()}! Aquí está el patio, para jugar y moverse. Muy pronto vendrán las excursiones en autobús y las clases. ¡Toca el patio!`,
+          `¡Bienvenido al cole${kid()}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!`,
         ),
       );
     } else if (o.hello) later(400, () => this.prompt!());
@@ -155,7 +164,7 @@ SCENES['cole'] = {
   // prompt(): la consigna del cole (con el patio cerrado, S.sinMoverse, que se vuelve al mapa).
   prompt() {
     if (cerrado(COLE_SITIOS[0]!)) say('El patio está cerrado por ahora. Toca la casa para volver al mapa.');
-    else say('Toca el patio para jugar.');
+    else say('Toca el patio para jugar, o el autobús para ir de excursión.');
   },
   // hint(): el patio, lo único que ya se puede jugar (con el patio cerrado, nada).
   hint() {
