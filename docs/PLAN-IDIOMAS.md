@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114) e **ID1** (v0.2.115), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114) e **ID1** (v0.2.116), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -205,7 +205,7 @@ sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos de
   (32), `juegos/comps2.ts` (18 y 6), `escenas/zonas.ts` (19 y 1), `escenas/tienda.ts` (17 y 1) y `temas/temas.ts` (16 y 1).
 - Pruebas: `tests/unidad/idiomas.test.ts`, y `dialogos.test.ts` y `montaje.test.ts` amplían las suyas.
 
-### ID1 (v0.2.115): el núcleo de los idiomas
+### ID1 (v0.2.116): el núcleo de los idiomas
 
 - **Reglas** en `src/dominio/idiomas.ts` (pruebas en `tests/unidad/idiomasReglas.test.ts`): `IDIOMAS` (castellano
   completo, rumano sin completar y el pseudoidioma de prueba `xx`), `idiomaActivo` (manda `?idioma=` en la dirección,
