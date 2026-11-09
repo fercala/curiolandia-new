@@ -1,4 +1,5 @@
 id,texto,tipo,donde
+c8381bcbe32c,Aaăș,trozo,src/aplicacion/arranque.ts
 9c763d0ac223,(pointer:coarse),trozo,src/aplicacion/bucle.ts src/mundo3d/motor.ts
 70bf1ce400d3,Gira el móvil,trozo,src/aplicacion/bucle.ts
 1739af05fc06,(toca para seguir igual),trozo,src/aplicacion/bucle.ts
@@ -500,7 +501,7 @@ eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 cb525f817e00,Dad,trozo,src/contenido/ingles.ts
 6a5ddaf07455,Papá,trozo,src/contenido/ingles.ts
 a7b5bdb8cce7,Baby,trozo,src/contenido/ingles.ts
-47afaa827d38,Bebé,trozo,src/contenido/ingles.ts
+47afaa827d38,Bebé,trozo,src/contenido/ingles.ts src/aplicacion/adultos/progreso.ts
 e0efbdcea0ab,Brother,trozo,src/contenido/ingles.ts
 87d8d7228d6c,Hermano,trozo,src/contenido/ingles.ts
 19cda37369e2,Sister,trozo,src/contenido/ingles.ts
@@ -664,7 +665,7 @@ bd1777fec2f7,Primavera,trozo,src/contenido/ingles.ts
 95884b5232ea,Summer,trozo,src/contenido/ingles.ts
 a3c6b24fda3b,Verano,trozo,src/contenido/ingles.ts
 1e3576c804bb,Autumn,trozo,src/contenido/ingles.ts
-87ad485f96bb,Otoño,trozo,src/contenido/ingles.ts
+87ad485f96bb,Otoño,trozo,src/contenido/ingles.ts src/aplicacion/adultos/progreso.ts
 b18e66b41efd,Winter,trozo,src/contenido/ingles.ts
 9b8208544468,Invierno,trozo,src/contenido/ingles.ts
 cbb67c65f2ab,Doctor,trozo,src/contenido/ingles.ts
@@ -938,7 +939,7 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
-df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts
+df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/titoYSonido.ts
 803b0d23fbee,Polly,trozo,src/dominio/carreras.ts
 a29d50ec9ee6,Lupi,trozo,src/dominio/carreras.ts
 80db790085db,Pipo,trozo,src/dominio/carreras.ts src/escenas/casaMascotas.ts
@@ -1054,7 +1055,7 @@ db3901932d77,Tienes ,trozo,src/escenas/casa.ts src/escenas/tienda.ts
 9140cafcc0ac,Es el huevo de Pipo. Le ,trozo,src/escenas/casa.ts
 bb7038d611a3,falta un juego,trozo,src/escenas/casa.ts src/escenas/zonas.ts
 2abec8cebc64,faltan ,trozo,src/escenas/casa.ts src/escenas/cofre.ts src/escenas/tienda.ts
-01ea9c9ec5fa, juegos,trozo,src/escenas/casa.ts src/escenas/zonas.ts
+01ea9c9ec5fa, juegos,trozo,src/escenas/casa.ts src/escenas/zonas.ts src/aplicacion/adultos/progreso.ts
 280eedc40494, para abrirse.,trozo,src/escenas/casa.ts src/escenas/zonas.ts
 fb7be67627c2,¡Pipo te quiere mucho!,frase,src/escenas/casa.ts
 0013a067b269,Pipo dice: ¡grrr! Así saludan los dinosaurios.,frase,src/escenas/casa.ts
@@ -1273,7 +1274,7 @@ c869f565c17a,Juega: ,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 4f9ad52621f0,"¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.",frase,src/escenas/escenas2d.ts
 b98615f7a5dd,¿Cuántos años tiene quien va a jugar?,frase,src/escenas/escenas2d.ts
 217cdc5a1c62,(Lo elige un adulto. Se puede cambiar después.),trozo,src/escenas/escenas2d.ts
-a587736f77f4,años,trozo,src/escenas/escenas2d.ts
+a587736f77f4,años,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/quienJuega.ts
 a49638107f59,¡Hola! Yo soy Tito. ¿Cómo te llamas? Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
 d88671ed28a4,Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
 d616330452a9,! ¡Qué bonito nombre!,trozo,src/escenas/escenas2d.ts
@@ -1290,11 +1291,11 @@ ff43ee39bc35,¿Me ayudas a encontrar las respuestas,trozo,src/escenas/escenas2d.
 cedc92559668,? ¡Vamos a Curiolandia!,trozo,src/escenas/escenas2d.ts
 16d3bcd7a531,Conocer,trozo,src/escenas/escenas2d.ts
 85fe37a75fbc,¿Dónde está?,frase,src/escenas/escenas2d.ts src/temas/ingles.ts src/temas/letras.ts
-46f8e2e6bd7c,Memoria,trozo,src/escenas/escenas2d.ts
+46f8e2e6bd7c,Memoria,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/progreso.ts
 1c5c8a35ac55,¿Quién hace este sonido?,frase,src/escenas/escenas2d.ts
 8bf33debdf25,Mi cuerpo,trozo,src/escenas/escenas2d.ts src/temas/temas.ts
 1ba62a272479,Toca la parte del cuerpo,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
-c889527104a2,Rompecabezas,trozo,src/escenas/escenas2d.ts
+c889527104a2,Rompecabezas,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/progreso.ts
 587d88285a5c,Pintar,trozo,src/escenas/escenas2d.ts
 45ab42b1cc05,Las canastas,trozo,src/escenas/escenas2d.ts
 ee7e579795d2,Burbujas de colores,trozo,src/escenas/escenas2d.ts
@@ -1304,11 +1305,11 @@ c8e6ef92a485,Ordenar,trozo,src/escenas/escenas2d.ts
 07ae34616c9d,Arma tu familia,trozo,src/escenas/escenas2d.ts
 74db193d28bb,Hacer un muñeco de nieve,trozo,src/escenas/escenas2d.ts
 c21519a8a15e,Ensalada de frutas,trozo,src/escenas/escenas2d.ts
-8736fa4e92cb,Contar,trozo,src/escenas/escenas2d.ts src/temas/temas.ts
+8736fa4e92cb,Contar,trozo,src/escenas/escenas2d.ts src/temas/temas.ts src/aplicacion/adultos/progreso.ts
 c622d4ea3db9,Dentro y fuera del corral,trozo,src/escenas/escenas2d.ts
 5ac13ac4f562,Dentro y fuera,trozo,src/escenas/escenas2d.ts
 c3ed4f33f679,Regar las flores,trozo,src/escenas/escenas2d.ts
-7acaa2a7a446,Cavar en la arena,trozo,src/escenas/escenas2d.ts
+7acaa2a7a446,Cavar en la arena,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/progreso.ts
 d7d4ff5146b4,El cuento,trozo,src/escenas/escenas2d.ts src/temas/extras.ts
 87c8b1828e86,La canción,trozo,src/escenas/escenas2d.ts
 13250f5299c7,Trazos,trozo,src/escenas/escenas2d.ts
@@ -1451,7 +1452,7 @@ bfd08dda7379,"¡A las estatuas! Baila con la música y, cuando pare, ¡quieto!",
 eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts
 11f4179087e7,¡Baila con la música!,frase,src/escenas/estatuas.ts
 fd81e90ff876,Otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts src/escenas/yoga.ts
-d4fda45f4254,Álbum,trozo,src/escenas/excursion.ts
+d4fda45f4254,Álbum,trozo,src/escenas/excursion.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
 f5adb2b442a3,¡Sube al autobús,trozo,src/escenas/excursion.ts
 037b136c8996,! ¿Adónde nos vamos de excursión? Toca un cartel.,trozo,src/escenas/excursion.ts
 a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
@@ -1719,7 +1720,7 @@ e27cab0bb05c,"¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!",frase,s
 7ffa5443482f,¡Pipo salió del cascarón y ya camina!,frase,src/escenas/zonas.ts
 9f6308686375,¡Pipo está creciendo un montón!,frase,src/escenas/zonas.ts
 a8d752e847f8,¡Pipo es un dinosaurio grandote! ¡Y tiene corona!,frase,src/escenas/zonas.ts
-8167cdb73129,Casa de Tito,trozo,src/escenas/zonas.ts
+8167cdb73129,Casa de Tito,trozo,src/escenas/zonas.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/progreso.ts
 cfb13950107d,la plaza de la asamblea,trozo,src/escenas/zonas.ts
 d8f5db14848e,las canciones,trozo,src/escenas/zonas.ts
 02449fab297d,los trazos,trozo,src/escenas/zonas.ts
@@ -1730,7 +1731,7 @@ bf5fd63a874f,el globo de la Isla del Inglés,trozo,src/escenas/zonas.ts
 538329857e0b,el barco de la Isla de las Letras,trozo,src/escenas/zonas.ts
 d1660b9daa58,¡Terminaste todos los caminos,trozo,src/escenas/zonas.ts
 e12315af2ad6,! Puedes repetir lo que más te guste.,trozo,src/escenas/zonas.ts
-ba425b157dcd,Isla de las Letras,trozo,src/escenas/zonas.ts
+ba425b157dcd,Isla de las Letras,trozo,src/escenas/zonas.ts src/aplicacion/adultos/comoSeJuega.ts
 969e43db941b,El cole,trozo,src/escenas/zonas.ts
 a623a5ae7a4d,Isla del Inglés,trozo,src/escenas/zonas.ts
 df09140b08d5,3 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
@@ -2365,7 +2366,7 @@ c88f21d2975d,"Enero, ¡empieza el año!",frase,src/temas/extras.ts
 22728b440c5a,mojamos las manos,trozo,src/temas/extras.ts
 f7b8f8ae0470,nos enjuagamos,trozo,src/temas/extras.ts
 0e6078fd3c21,la sonrisa,trozo,src/temas/extras.ts
-7b203331b463,Rutinas y hábitos,trozo,src/temas/extras.ts
+7b203331b463,Rutinas y hábitos,trozo,src/temas/extras.ts src/aplicacion/adultos/progreso.ts
 1637550992bc,Las cosas que hacemos todos los días.,frase,src/temas/extras.ts
 6ba8d8ebc41a,Lavarse las manos,trozo,src/temas/extras.ts
 50dc675575ca,¿Cómo nos lavamos las manos? Ordena del primero al último.,frase,src/temas/extras.ts
@@ -2416,7 +2417,7 @@ f2c77ff57d23,Las canciones,trozo,src/temas/extras.ts
 c40377b59857,Los días de la semana,trozo,src/temas/extras.ts src/temas/inglesPueblo.ts src/temas/temas4.ts
 4f7a6919011c,Las estaciones,trozo,src/temas/extras.ts
 9574ef39a896,Los colores,trozo,src/temas/extras.ts src/temas/temas.ts
-50664bc74445,Los meses del año,trozo,src/temas/extras.ts src/temas/temas5.ts
+50664bc74445,Los meses del año,trozo,src/temas/extras.ts src/temas/temas5.ts src/aplicacion/adultos/progreso.ts
 ab7cdc83f7b7,El cumpleaños,trozo,src/temas/extras.ts
 ae91d300878a,¡Es una fiesta de cumpleaños! Sopla las velitas: toca cada una y contamos.,frase,src/temas/extras.ts
 31ae2b0c5508,Decorar la tarta,trozo,src/temas/extras.ts
@@ -3150,7 +3151,7 @@ f99be467a73d,Esa carita está ,trozo,src/temas/temas4.ts
 368b9f11e20a,Cada emoción en su frasco,trozo,src/temas/temas4.ts
 bf8fcd7bfb8a,Ese frasco es de ,trozo,src/temas/temas4.ts
 8ae670da97eb,Cada emoción tiene su color. Lleva cada carita a su frasco.,frase,src/temas/temas4.ts
-0e720f7ada04,Frutas y verduras,trozo,src/temas/temas4.ts
+0e720f7ada04,Frutas y verduras,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts
 92b74d3f163c,La zanahoria. Es una verdura naranja que crece bajo la tierra.,frase,src/temas/temas4.ts
 0874962836d0,"El tomate. Rojo y jugoso, para la ensalada.",frase,src/temas/temas4.ts
 fc1bb969492c,La lechuga. Sus hojas verdes van en la ensalada.,frase,src/temas/temas4.ts
@@ -3199,7 +3200,7 @@ bd8833aa0756,El cartero. Lleva las cartas a las casas.,frase,src/temas/temas4.ts
 5d70fceb9dee, no usa ,trozo,src/temas/temas4.ts
 c3efdd457963,¿Quién soy?,frase,src/temas/temas4.ts
 5638513fffd6,¡Sí! Soy ,trozo,src/temas/temas4.ts
-4fb23559ffd0,La calle y la ciudad,trozo,src/temas/temas4.ts
+4fb23559ffd0,La calle y la ciudad,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts
 62ec7af0ea3f,El semáforo. Rojo para frenar y verde para pasar.,frase,src/temas/temas4.ts
 38710886804e,El paso de cebra. Por aquí cruzamos la calle.,frase,src/temas/temas4.ts
 b1c4964ee9db,La tienda. Ahí compramos cosas.,frase,src/temas/temas4.ts
@@ -3214,7 +3215,7 @@ a33175126681,El autobús. Lleva a mucha gente por la ciudad.,frase,src/temas/tem
 e92e67b58d39,al parque,trozo,src/temas/temas4.ts
 8895f3425310,a la tienda,trozo,src/temas/temas4.ts
 6a8e063b34a1,¿Adónde va cada cosa? Llévala a su lugar de la ciudad.,frase,src/temas/temas4.ts
-b56959a374ec,Animales domésticos y salvajes,trozo,src/temas/temas4.ts
+b56959a374ec,Animales domésticos y salvajes,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts
 bae600c93807,El león. Es el rey de la sabana. ¡Grrr!,frase,src/temas/temas4.ts
 07a44e63bfef,El elefante. Tiene una trompa muy larga.,frase,src/temas/temas4.ts
 c075e060b342,La jirafa. Su cuello largo llega a las hojas más altas.,frase,src/temas/temas4.ts
@@ -3413,7 +3414,7 @@ c66a79a4e6a6,Llueve y hace fresquito. Viste al niño para salir en otoño.,frase
 15c42eb63cee,Las gafas de sol no hacen falta: está nublado.,frase,src/temas/temas5.ts
 0d32a150f9f5,Con camiseta vamos a tener frío.,frase,src/temas/temas5.ts
 3c4e63150f44,El bañador es para la piscina.,frase,src/temas/temas5.ts
-ee07de70e097,Comer sano,trozo,src/temas/temas5.ts
+ee07de70e097,Comer sano,trozo,src/temas/temas5.ts src/aplicacion/adultos/progreso.ts
 496a2c6634fe,El pescado. Nos da proteínas y viene del mar.,frase,src/temas/temas5.ts
 3333f1d134d2,La carne. Nos ayuda a crecer.,frase,src/temas/temas5.ts
 882ed1e78b32,El huevo. Lo pone la gallina.,frase,src/temas/temas5.ts
@@ -3629,3 +3630,318 @@ cb2a6eab6c52,más delgado,trozo,src/temas/temas5.ts
 a293fee7c2fa,¡Sí! Ese es ,trozo,src/temas/temas5.ts
 aaa5992e2a7b,Mira bien el ancho de cada uno. ¿Cuál es ,trozo,src/temas/temas5.ts
 57c04dfb0d77,Series difíciles,trozo,src/temas/temas5.ts
+e91fd1d1ccb0,Cómo se juega,adultos,src/aplicacion/adultos/comoSeJuega.ts
+b9d2e06207df,Juego,adultos,src/aplicacion/adultos/comoSeJuega.ts
+3b935a9f2fc8,Modo de juego,adultos,src/aplicacion/adultos/comoSeJuega.ts
+af8918cffa61,Más información,adultos,src/aplicacion/adultos/comoSeJuega.ts src/aplicacion/adultos/progreso.ts
+c08bc7545bd8,Camino:,adultos,src/aplicacion/adultos/comoSeJuega.ts
+c6c9d8a7d9d7,"los temas son un camino y se abren de uno en uno; dentro de cada tema, los juegos también se abren en orden. El botón verde del mapa lleva siempre al que sigue y lo ya jugado se puede repetir. El Bosque de 4 años y la Montaña de 5 años se abren con la edad elegida o al juntar 6 flores en la zona anterior. Las canciones se abren al terminar 1 tema del camino; las rutinas, al terminar 2; los trazos, 3, y los días especiales, 4. Las islas de las Letras y del Inglés están abiertas desde el principio.",adultos,src/aplicacion/adultos/comoSeJuega.ts
+adedbb8c5031,Libre:,adultos,src/aplicacion/adultos/comoSeJuega.ts
+edd005c6c4b9,"se puede elegir cualquier tema, cualquier juego y cualquier zona, también las de 4 y 5 años, sin importar la edad. Se puede cambiar en cualquier momento y no se pierde nada de lo jugado.",adultos,src/aplicacion/adultos/comoSeJuega.ts
+8c628cc8e4fe,Tiempo de juego,adultos,src/aplicacion/adultos/comoSeJuega.ts
+0a2181fc4bff,"Al llegar al límite, Tito se despide y se va a dormir. Para seguir, hay que abrir esta zona.",adultos,src/aplicacion/adultos/comoSeJuega.ts
+c311bcaa772f,Juegos de moverse,adultos,src/aplicacion/adultos/comoSeJuega.ts
+91e51e33648c,"En el patio del cole (¡Estatuas!, Tito dice y el yoga) el niño se mueve de verdad: baila, salta, se agacha... El juego no puede comprobarlo, solo propone y celebra. Conviene jugarlos con espacio alrededor y sin muebles cerca. A los 20 minutos de juego, Tito propone además una pausa activa para estirarse. Si los quitáis, el patio sale cerrado, no hay pausa activa y los retos en casa no son de moverse.",adultos,src/aplicacion/adultos/comoSeJuega.ts
+ce85f17fbc03,Letras de la isla,adultos,src/aplicacion/adultos/comoSeJuega.ts
+8faf0fa79f6c,"Con minúsculas, en la Isla de las Letras se conoce, se busca, se atrapa y se escribe también la letra pequeña, y el libro de letras las enseña juntas.",adultos,src/aplicacion/adultos/comoSeJuega.ts
+3a3da37e0c23,Estaciones del año,adultos,src/aplicacion/adultos/comoSeJuega.ts src/aplicacion/adultos/progreso.ts
+d203bf43c9b5,Estaciones,adultos,src/aplicacion/adultos/comoSeJuega.ts
+0a37eb074bb3,Paisaje,adultos,src/aplicacion/adultos/comoSeJuega.ts
+18844ba06f04,El juego ya está instalado en este dispositivo.,adultos,src/aplicacion/adultos/copia.ts
+b905261140e3,Instalar Curiolandia,adultos,src/aplicacion/adultos/copia.ts
+80c7f50ef34a,iPhone o iPad (Safari):,adultos,src/aplicacion/adultos/copia.ts
+b9f3ba2f0bb6,toca el botón Compartir (el cuadrado con la flecha) y elige «Añadir a pantalla de inicio».,adultos,src/aplicacion/adultos/copia.ts
+f0856662f08f,Android (Chrome):,adultos,src/aplicacion/adultos/copia.ts
+779424b5c9fa,menú ⋮ → «Instalar aplicación» o «Añadir a pantalla de inicio».,adultos,src/aplicacion/adultos/copia.ts
+b42c72918406,Ordenador (Chrome o Edge):,adultos,src/aplicacion/adultos/copia.ts
+f98179c5a893,el icono de instalar en la barra de direcciones.,adultos,src/aplicacion/adultos/copia.ts
+3414b7942702,"Una vez instalado, se abre a pantalla completa y funciona sin internet.",adultos,src/aplicacion/adultos/copia.ts
+a59c8b731067,En iPhone la voz depende de las voces en español instaladas en Ajustes → Accesibilidad → Contenido leído.,adultos,src/aplicacion/adultos/copia.ts
+d77d10cc9a90,Copia y aparato,adultos,src/aplicacion/adultos/copia.ts
+e5875df840b1,Copia,adultos,src/aplicacion/adultos/copia.ts
+b7a98e43db03,"Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia.",adultos,src/aplicacion/adultos/copia.ts
+df3692f3dcae,Copia de seguridad,adultos,src/aplicacion/adultos/copia.ts
+67e45aabeb73,"Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia de vez en cuando.",adultos,src/aplicacion/adultos/copia.ts
+10a88391506b,⬇️ Descargar copia,adultos,src/aplicacion/adultos/copia.ts
+0236dee00091,🔑 Ver código de copia,adultos,src/aplicacion/adultos/copia.ts
+9b6daccbdd3f,📂 Cargar archivo de copia,adultos,src/aplicacion/adultos/copia.ts
+6386b58bd1c4,📋 Copiar código,adultos,src/aplicacion/adultos/copia.ts
+dda9223f789e,♻️ Recuperar con este código,adultos,src/aplicacion/adultos/copia.ts
+1f17b00e097a,Instalar en el móvil o la tableta,adultos,src/aplicacion/adultos/copia.ts
+4a3330833560,Ir a,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
+8bf8348d95a1,Mapa,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
+5b8b250fed2b,Asamblea,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
+839809541d87,Jardín de 3 años,adultos,src/aplicacion/adultos/copia.ts
+71277ab82cf8,Bosque de 4 años,adultos,src/aplicacion/adultos/copia.ts
+4f46278d7973,Montaña de 5 años,adultos,src/aplicacion/adultos/copia.ts
+b2df064e0bf5,Días especiales,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/progreso.ts
+2e81eb4e952a,Tienda,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
+9f68e81d9178,Ver el cuento del inicio,adultos,src/aplicacion/adultos/copia.ts
+3b8d9cd05c98,Ir al tema,adultos,src/aplicacion/adultos/copia.ts
+30ec2963474c,Empezar de cero,adultos,src/aplicacion/adultos/copia.ts
+863e5bc1137a,Borrar todo el progreso,adultos,src/aplicacion/adultos/copia.ts
+10154cb74190,¿Seguro?,adultos,src/aplicacion/adultos/copia.ts
+777233f37eab,"Sí, borrar",adultos,src/aplicacion/adultos/copia.ts
+bafd7322c6e9,No,adultos,src/aplicacion/adultos/copia.ts src/head.html
+117ef289ce06,"Este código tiene todo el progreso. Cópialo y guárdalo, por ejemplo enviándotelo por mensaje.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
+7d0c39e9a8f2,✅ Código copiado.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+a603cb7cbfb3,Selecciona el código de arriba y cópialo a mano.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+e1c56245f607,"Si no se ha descargado nada, usa el código de copia.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
+46544259e3e9,Este navegador no puede abrir ese código. Prueba con el archivo de copia.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+034d08a8bf9c,❌ Eso no parece una copia de Curiolandia. Revisa que el código esté completo.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+dbc12d506f4c,Copia encontrada,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+df7465c108fb," temas terminados, ",adultos,src/aplicacion/adultos/copiaSeguridad.ts
+9f735a9de779, juegos jugados y ,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+c03643f22481,monedas.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+beb8bb5e505a,Reemplaza el progreso actual de este dispositivo.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+edebf8bc6646,"Sí, recuperar esta copia",adultos,src/aplicacion/adultos/copiaSeguridad.ts
+033828b51588,❌ No se pudo guardar en este navegador.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+fdc6446d8460,Premios y vales,adultos,src/aplicacion/adultos/premios.ts
+1548db2ef3d8,Premios,adultos,src/aplicacion/adultos/premios.ts
+f3176786e699,Entregado ✔,adultos,src/aplicacion/adultos/premios.ts
+741ff1b0620e,Monedas y estrellas,adultos,src/aplicacion/adultos/premios.ts
+af47433ab9f8,monedas,adultos,src/aplicacion/adultos/premios.ts src/aplicacion/adultos/resumen.ts
+e8d638c2ef44,Ha ganado,adultos,src/aplicacion/adultos/premios.ts
+08222e9d469c,en total,adultos,src/aplicacion/adultos/premios.ts
+91f680dd21bd,estrellas,adultos,src/aplicacion/adultos/premios.ts src/aplicacion/adultos/resumen.ts
+9250cee4b0d9,cofres abiertos,adultos,src/aplicacion/adultos/premios.ts
+92317adbd239,Cómo se ganan y en qué se gastan,adultos,src/aplicacion/adultos/premios.ts
+7d232440abb4,"Gana 1 moneda por cada acierto a la primera (hasta 5 por juego), 3 al terminar un juego nuevo, 2 al repetirlo, 10 en el cofre del tesoro al completar un tema (que además trae un regalo sorpresa para Tito o su casa), 3 de regalo al entrar cada día y 5 al terminar la Asamblea. Con las monedas compra ropa y colores para Tito, cosas para su casa, juguetes y mascotas. Las cosas más especiales se abren con estrellas (una por cada juego terminado). La casa de Tito crece en el mapa al terminar 2, 5, 9 y 14 temas; por dentro tiene siete habitaciones que se abren al terminar 1, 3, 5, 8, 11 y 14 temas (dormitorio, cocina, baño, cuarto de juegos, jardín y torre de las estrellas), y las cosas se llevan de una a otra arrastrándolas hasta el botón de la habitación; y Pipo, su dinosaurio, nace y crece con las estrellas (4, 15, 35 y 70). No hay compras con dinero real ni premios al azar.",adultos,src/aplicacion/adultos/premios.ts
+52548ee6a991,Vales para canjear en la vida real,adultos,src/aplicacion/adultos/premios.ts
+496e76e0949c,"Los vales marcados aparecen en la tienda. Cuando compre uno, sale arriba, en «Vales por entregar».",adultos,src/aplicacion/adultos/premios.ts
+ff29c01cdac6,Vales por entregar,adultos,src/aplicacion/adultos/premios.ts
+0fc5b82d0782,"Los ha comprado en la tienda: cuando se los des, toca «Entregado».",adultos,src/aplicacion/adultos/premios.ts
+faf9ac3b7a83,Inglés: saludos,adultos,src/aplicacion/adultos/progreso.ts
+1723a9e97797,Inglés: colores,adultos,src/aplicacion/adultos/progreso.ts
+b6a876ddd503,Inglés: números,adultos,src/aplicacion/adultos/progreso.ts
+7cc7381ff947,Inglés: contar,adultos,src/aplicacion/adultos/progreso.ts
+d47d0df30a3d,Inglés: animales,adultos,src/aplicacion/adultos/progreso.ts
+216df59d4dca,Inglés,adultos,src/aplicacion/adultos/progreso.ts
+cdca4baf501f,Inglés: la familia,adultos,src/aplicacion/adultos/progreso.ts
+9e265549d9a8,Inglés: el cuerpo,adultos,src/aplicacion/adultos/progreso.ts
+925f7f2d57c5,Inglés: los juguetes,adultos,src/aplicacion/adultos/progreso.ts
+c71af3f54459,Inglés: la fruta,adultos,src/aplicacion/adultos/progreso.ts
+0d2b3dd8d942,Inglés: las formas,adultos,src/aplicacion/adultos/progreso.ts
+05fa5200aaae,Inglés: la playa,adultos,src/aplicacion/adultos/progreso.ts
+1bdbc775b218,Inglés: la ropa,adultos,src/aplicacion/adultos/progreso.ts
+a4faa205d434,Inglés: la comida,adultos,src/aplicacion/adultos/progreso.ts
+5a6864857ea7,Inglés: la casa,adultos,src/aplicacion/adultos/progreso.ts
+03f9a3f68f8b,Inglés: el tiempo,adultos,src/aplicacion/adultos/progreso.ts
+d8be6aade62f,Inglés: los transportes,adultos,src/aplicacion/adultos/progreso.ts
+07b32d57d24d,Inglés: la granja,adultos,src/aplicacion/adultos/progreso.ts
+3c76b58574ad,Inglés: lo que hacemos,adultos,src/aplicacion/adultos/progreso.ts
+4bf4fab8a9cb,Inglés: los contrarios,adultos,src/aplicacion/adultos/progreso.ts
+1343a2180b00,Inglés: cómo me siento,adultos,src/aplicacion/adultos/progreso.ts
+fe5f03615c72,Inglés: el parque,adultos,src/aplicacion/adultos/progreso.ts
+a72dfff0304e,Inglés: los días,adultos,src/aplicacion/adultos/progreso.ts
+57ba8a898d4c,Inglés: las estaciones,adultos,src/aplicacion/adultos/progreso.ts
+978a69829daa,Inglés: dónde está,adultos,src/aplicacion/adultos/progreso.ts
+bec1b56e707c,Inglés: me gusta,adultos,src/aplicacion/adultos/progreso.ts
+8ebc7972191a,Inglés: ¿qué es?,adultos,src/aplicacion/adultos/progreso.ts
+664e798ef105,Inglés: cosas de colores,adultos,src/aplicacion/adultos/progreso.ts
+d78df3135c8e,Inglés: contar hasta 20,adultos,src/aplicacion/adultos/progreso.ts
+08ed4d3a9b0a,Inglés: los oficios,adultos,src/aplicacion/adultos/progreso.ts
+2111636e5f1a,Inglés: la tienda,adultos,src/aplicacion/adultos/progreso.ts
+a1654c5b78cd,Inglés: los cuentos,adultos,src/aplicacion/adultos/progreso.ts
+532c678aa64c,Inglés: el pueblo,adultos,src/aplicacion/adultos/progreso.ts
+ab8bfd5a62f9,Reconocer palabras (¿Dónde está?),adultos,src/aplicacion/adultos/progreso.ts
+008f447ff5f0,Sonidos de animales y transportes,adultos,src/aplicacion/adultos/progreso.ts
+c02a61845668,Partes del cuerpo,adultos,src/aplicacion/adultos/progreso.ts
+f689ca9a6118,Colores,adultos,src/aplicacion/adultos/progreso.ts
+c0631b2ea2fc,Regar,adultos,src/aplicacion/adultos/progreso.ts
+6320cb36c734,Dentro / fuera,adultos,src/aplicacion/adultos/progreso.ts
+af7cf254ba76,Ropa según el tiempo,adultos,src/aplicacion/adultos/progreso.ts
+e990833ce22c,"Transportes por tierra, aire y agua",adultos,src/aplicacion/adultos/progreso.ts
+1ed8c17d00b9,Grande / mediano / pequeño,adultos,src/aplicacion/adultos/progreso.ts
+f3aec7739d53,Seguir un pedido (frutas),adultos,src/aplicacion/adultos/progreso.ts
+35c236877647,Frío / calor,adultos,src/aplicacion/adultos/progreso.ts
+dcb708c05781,Formas,adultos,src/aplicacion/adultos/progreso.ts
+a80b4c72b9b4,Familia,adultos,src/aplicacion/adultos/progreso.ts
+c28905319959,Las partes de la casa,adultos,src/aplicacion/adultos/progreso.ts
+4b9d3479601d,Armar por partes,adultos,src/aplicacion/adultos/progreso.ts
+3d657e91a3fe,Arriba / abajo,adultos,src/aplicacion/adultos/progreso.ts
+52fcf69a8aba,Clasificar arrastrando,adultos,src/aplicacion/adultos/progreso.ts
+64229ae7e9ec,Atrapar lo que se pide,adultos,src/aplicacion/adultos/progreso.ts
+397f21cdf2ff,Asamblea: qué día es hoy,adultos,src/aplicacion/adultos/progreso.ts
+658d2b8e3db0,Asamblea: qué día es mañana,adultos,src/aplicacion/adultos/progreso.ts
+1326eab63d2d,Asamblea: el número del día,adultos,src/aplicacion/adultos/progreso.ts
+44df6414f707,Asamblea: día o noche,adultos,src/aplicacion/adultos/progreso.ts
+c734943333cd,Asamblea: ropa según el tiempo,adultos,src/aplicacion/adultos/progreso.ts
+3ae780ac37f4,Asamblea: estación del año,adultos,src/aplicacion/adultos/progreso.ts
+00ce2efed4b7,Asamblea: qué estación viene,adultos,src/aplicacion/adultos/progreso.ts
+14850077c629,Ahorrar agua y luz,adultos,src/aplicacion/adultos/progreso.ts
+e2333d722d29,Apagar lo que no se usa,adultos,src/aplicacion/adultos/progreso.ts
+8740fafd1336,Colores del arcoíris,adultos,src/aplicacion/adultos/progreso.ts
+6bceb6bbc70e,Canciones,adultos,src/aplicacion/adultos/progreso.ts
+3de93d7c3f49,Ciclos de vida,adultos,src/aplicacion/adultos/progreso.ts
+4e63171f95e9,Comidas,adultos,src/aplicacion/adultos/progreso.ts
+4a4dd7cd3777,El cuerpo por dentro,adultos,src/aplicacion/adultos/progreso.ts
+b087a8221d90,Derecha / izquierda,adultos,src/aplicacion/adultos/progreso.ts
+9c85cbfe870e,Día / noche,adultos,src/aplicacion/adultos/progreso.ts
+da68c64f2aff,Días de cole y fin de semana,adultos,src/aplicacion/adultos/progreso.ts
+f23d13acf447,Ordenar los días de la semana,adultos,src/aplicacion/adultos/progreso.ts
+e4f5a2530c35,Dinosaurios,adultos,src/aplicacion/adultos/progreso.ts
+d2770a6b63b8,Emociones,adultos,src/aplicacion/adultos/progreso.ts
+fd1cce4688f1,Fiestas del año,adultos,src/aplicacion/adultos/progreso.ts
+70eb85985a7d,Frotar y limpiar,adultos,src/aplicacion/adultos/progreso.ts
+3be5770383a0,Dónde vive cada animal,adultos,src/aplicacion/adultos/progreso.ts
+17e8979acae0,Buscar con la lupa,adultos,src/aplicacion/adultos/progreso.ts
+83b5ede4b185,Preparar la maleta,adultos,src/aplicacion/adultos/progreso.ts
+15a2c60db114,Huevo o panza,adultos,src/aplicacion/adultos/progreso.ts
+b96b46a23350,Oficios,adultos,src/aplicacion/adultos/progreso.ts
+a0979f1d4b27,De dónde vienen los alimentos,adultos,src/aplicacion/adultos/progreso.ts
+2588c5a62d49,Tocar las partes,adultos,src/aplicacion/adultos/progreso.ts
+a7d78c26601f,Partes de la planta,adultos,src/aplicacion/adultos/progreso.ts
+1e67e7f23b17,Seguir pedidos,adultos,src/aplicacion/adultos/progreso.ts
+3fe9e8e0cd59,Reciclar,adultos,src/aplicacion/adultos/progreso.ts
+2af7a111c8df,Ordenar lo que pasa primero y después,adultos,src/aplicacion/adultos/progreso.ts
+a712890a73e9,El semáforo,adultos,src/aplicacion/adultos/progreso.ts
+b32150d8e127,Seres vivos y cosas,adultos,src/aplicacion/adultos/progreso.ts
+6f792b85d831,Trazos (antes de escribir),adultos,src/aplicacion/adultos/progreso.ts
+08a46a29b86b,Unir parejas,adultos,src/aplicacion/adultos/progreso.ts
+8e8aecb22720,Entender cuentos,adultos,src/aplicacion/adultos/progreso.ts
+551f4e34add4,Letras (reconocerlas),adultos,src/aplicacion/adultos/progreso.ts
+c6fae679af48,Palmas (partir en sílabas),adultos,src/aplicacion/adultos/progreso.ts
+c72683f26f8f,Sílabas,adultos,src/aplicacion/adultos/progreso.ts
+b2b0a4487dc8,Leer palabras,adultos,src/aplicacion/adultos/progreso.ts
+89f719a6eb2e,Leer frases,adultos,src/aplicacion/adultos/progreso.ts
+beda55b47398,Recién empieza,adultos,src/aplicacion/adultos/progreso.ts
+d0b418d22957,Lo sabe,adultos,src/aplicacion/adultos/progreso.ts
+cec105c402fc,En camino,adultos,src/aplicacion/adultos/progreso.ts
+6369ca18fe96,Le cuesta,adultos,src/aplicacion/adultos/progreso.ts
+3594f6d01dfe,Temas,adultos,src/aplicacion/adultos/progreso.ts
+1c547cca5016,Cómo le va,adultos,src/aplicacion/adultos/progreso.ts
+dcc9e1b8c3e7,Letras,adultos,src/aplicacion/adultos/progreso.ts
+211e81e1e056,Asambleas,adultos,src/aplicacion/adultos/progreso.ts
+e52431c64d57,Minutos,adultos,src/aplicacion/adultos/progreso.ts
+d3b5799ad1a1,Progreso,adultos,src/aplicacion/adultos/progreso.ts
+430e57b5d6dc, · completo 🌼,adultos,src/aplicacion/adultos/progreso.ts
+a5eb89000d2b, temas · ,adultos,src/aplicacion/adultos/progreso.ts
+7b6391d99252,juegos,adultos,src/aplicacion/adultos/progreso.ts
+3884fb965017,Habilidad,adultos,src/aplicacion/adultos/progreso.ts
+e3b3b5987a4b,Aciertos,adultos,src/aplicacion/adultos/progreso.ts
+2fc2d9caa246,Intentos,adultos,src/aplicacion/adultos/progreso.ts
+8baf823e8f42,Ver todas (,adultos,src/aplicacion/adultos/progreso.ts
+0259c48b3d86,Sin empezar,adultos,src/aplicacion/adultos/progreso.ts
+47f8f24c8844,Aprendida,adultos,src/aplicacion/adultos/progreso.ts
+97bd3123fe1c,Perrito,adultos,src/aplicacion/adultos/progreso.ts
+b050efc46d74,Gatito,adultos,src/aplicacion/adultos/progreso.ts
+cff8209fc946,Pajarito,adultos,src/aplicacion/adultos/progreso.ts
+e82c2f9ce191,Conejito,adultos,src/aplicacion/adultos/progreso.ts
+0e016d893aa2,Hámster,adultos,src/aplicacion/adultos/progreso.ts
+e1a368b5be4c,Peces,adultos,src/aplicacion/adultos/progreso.ts
+25bdf465a97a,Joven,adultos,src/aplicacion/adultos/progreso.ts
+97620a9a64c0,Mayor,adultos,src/aplicacion/adultos/progreso.ts
+1c875c35d052,Todavía no hay asambleas.,adultos,src/aplicacion/adultos/progreso.ts
+d8bd79cc1319,min,adultos,src/aplicacion/adultos/progreso.ts
+888467d28f73,Todavía no hay datos.,adultos,src/aplicacion/adultos/progreso.ts
+2d06be7c5aac,Partes del progreso,adultos,src/aplicacion/adultos/progreso.ts
+5cced326fc6b,Temas por zona,adultos,src/aplicacion/adultos/progreso.ts
+24618e0027d4,Toca una zona para ver sus temas.,adultos,src/aplicacion/adultos/progreso.ts
+62204d495d31,Con esto Tito prepara cada día un,adultos,src/aplicacion/adultos/progreso.ts
+8f3701760115,repaso,adultos,src/aplicacion/adultos/progreso.ts
+0c9c9a6946e2,"de 3 juegos: primero los de lo que le cuesta y, si no hay, los que jugó hace más tiempo. El botón verde del mapa pasa una vez por día por el repaso cuando hay algo que cuesta; también se abre con la lupa de arriba del mapa.",adultos,src/aplicacion/adultos/progreso.ts
+9a061272fa96,Cómo va cada letra de la Isla de las Letras: los juegos hechos de su casita y los aciertos en ellos. Una letra está,adultos,src/aplicacion/adultos/progreso.ts
+f7cdbb9cfd88,aprendida,adultos,src/aplicacion/adultos/progreso.ts
+00b20df30839,con su casita terminada y el 80 % de aciertos o más. Las que cuestan entran en el repaso de cada día.,adultos,src/aplicacion/adultos/progreso.ts
+fe9866557ee1,Letra,adultos,src/aplicacion/adultos/progreso.ts
+6e9e431be89c,Juegos,adultos,src/aplicacion/adultos/progreso.ts
+fd8460803673,"Cómo va la Isla del Inglés: las casitas terminadas de cada zona y las palabras que ya están en «Mi diccionario de inglés» (en el álbum, el botón de Polly). Los juegos de inglés que cuestan entran en el repaso de cada día.",adultos,src/aplicacion/adultos/progreso.ts
+918a51f30ff7,Zona,adultos,src/aplicacion/adultos/progreso.ts
+dcc9751190f0,Casitas,adultos,src/aplicacion/adultos/progreso.ts
+44400a9340ca,Palabras,adultos,src/aplicacion/adultos/progreso.ts
+2beb5a41a6f1,El tiempo que eligió y cómo se sentía cada día.,adultos,src/aplicacion/adultos/progreso.ts
+ec7ad71ddfc2,Lo que ha descubierto jugando en la casa de Tito:,adultos,src/aplicacion/adultos/progreso.ts
+644ba27e88d3,sorpresas,adultos,src/aplicacion/adultos/progreso.ts
+fa1f4c078ec4,del álbum «Sorpresas de la casa».,adultos,src/aplicacion/adultos/progreso.ts
+46b8e509f2fb,La flor del huerto lleva,adultos,src/aplicacion/adultos/progreso.ts
+95ac5de81c0e, (etapa ,adultos,src/aplicacion/adultos/progreso.ts
+2901963d75de,"de 4). Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.",adultos,src/aplicacion/adultos/progreso.ts
+00062aa3fae7,Minutos de juego,adultos,src/aplicacion/adultos/progreso.ts
+e510d5e96470,Los minutos jugados en los últimos 7 días con datos.,adultos,src/aplicacion/adultos/progreso.ts
+949bc48ad3c7,Polly dice las palabras con la voz inglesa de este dispositivo.,adultos,src/aplicacion/adultos/progreso.ts
+9bcd4d8b8213,Este dispositivo no tiene voz inglesa,adultos,src/aplicacion/adultos/progreso.ts
+fda68721315c,: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.,adultos,src/aplicacion/adultos/progreso.ts
+d2dee6e34501,día regado,adultos,src/aplicacion/adultos/progreso.ts
+bc1b419a310f,días regados,adultos,src/aplicacion/adultos/progreso.ts
+4dfb02bdf81c,Mascota,adultos,src/aplicacion/adultos/progreso.ts
+4777bbaaa0ae,Nombre,adultos,src/aplicacion/adultos/progreso.ts src/head.html
+56823b1bc56d,Etapa,adultos,src/aplicacion/adultos/progreso.ts
+87ddc810298f,Días cuidados,adultos,src/aplicacion/adultos/progreso.ts
+976f31feca86,Todavía no tiene mascotas.,adultos,src/aplicacion/adultos/progreso.ts
+02abcbd7ccf6,"Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.",adultos,src/aplicacion/adultos/progreso.ts
+dd28901c98e3,Casa de Tito en 3D (prueba),adultos,src/aplicacion/adultos/progreso.ts
+17ee8b09c24a,Quién juega,adultos,src/aplicacion/adultos/quienJuega.ts
+720129ddfbf9,Quién,adultos,src/aplicacion/adultos/quienJuega.ts
+326ffa2886c3,Perfil,adultos,src/aplicacion/adultos/quienJuega.ts
+9b9a7d9a323e,Nombre de quien juega,adultos,src/aplicacion/adultos/quienJuega.ts
+6e8c6fb65870,Opcional,adultos,src/aplicacion/adultos/quienJuega.ts
+1100c0c0930d,Edad,adultos,src/aplicacion/adultos/quienJuega.ts
+97b18dcd7130,Cumpleaños,adultos,src/aplicacion/adultos/quienJuega.ts
+68c84823d4d7,"El día del cumpleaños, la Asamblea lo celebra con una tarta y velitas.",adultos,src/aplicacion/adultos/quienJuega.ts
+f63319b32f11,Hay,adultos,src/aplicacion/adultos/resumen.ts
+708ad25e017c,1 vale,adultos,src/aplicacion/adultos/resumen.ts
+dd2c960ecff0,por entregar.,adultos,src/aplicacion/adultos/resumen.ts
+ca24ce920d61,vales,adultos,src/aplicacion/adultos/resumen.ts
+ae1ac0ce9de1,Hace más de un mes de la última copia de seguridad: conviene hacer otra.,adultos,src/aplicacion/adultos/resumen.ts
+5ad0649658ae,"Todavía no hay ninguna copia de seguridad del progreso: si se borran los datos del navegador, se pierde.",adultos,src/aplicacion/adultos/resumen.ts
+87202834a84c,Este aparato no tiene voz inglesa: Polly dirá las palabras de la Isla del Inglés con acento castellano.,adultos,src/aplicacion/adultos/resumen.ts
+a3a3d392479a,Retos hechos hasta ahora:,adultos,src/aplicacion/adultos/resumen.ts
+190d793e9d36,Reto en casa,adultos,src/aplicacion/adultos/resumen.ts
+5e62c7a8a8fa,"Cuando Tito se despide (al acabar el tiempo de juego o al proponer descansar), deja un reto para hacer en casa sin pantalla. Saldrá aquí para marcarlo cuando lo hagáis.",adultos,src/aplicacion/adultos/resumen.ts
+8a07af8a7f73,✅ Hecho.,adultos,src/aplicacion/adultos/resumen.ts
+3f686d6a4a6f, Tito lo celebrará con una pegatina al volver al mapa.,adultos,src/aplicacion/adultos/resumen.ts
+24accad517d2,¡Lo ha hecho!,adultos,src/aplicacion/adultos/resumen.ts
+f10eb2d2706a,(propuesto el,adultos,src/aplicacion/adultos/resumen.ts
+88a539e7a04e,Un reto sin pantalla para llevar el juego a casa.,adultos,src/aplicacion/adultos/resumen.ts
+8332fbec31ac,Resumen,adultos,src/aplicacion/adultos/resumen.ts
+6368f56d1df8,Hoy,adultos,src/aplicacion/adultos/resumen.ts
+63137e9e1b70, de juego hoy,adultos,src/aplicacion/adultos/resumen.ts
+e4345b0fed66,temas terminados,adultos,src/aplicacion/adultos/resumen.ts
+44f469b75346,"Más sitios y cualquier tema, en «Copia y aparato».",adultos,src/aplicacion/adultos/resumen.ts
+4d0ebbbc1b0c,Sin nombre,adultos,src/aplicacion/adultos/resumen.ts
+f2ddb27a5c6d,edad sin elegir,adultos,src/aplicacion/adultos/resumen.ts
+117aeafa9b91, (límite: ,adultos,src/aplicacion/adultos/resumen.ts
+3c7a9b75b173, min por sesión),adultos,src/aplicacion/adultos/resumen.ts
+797023a93299,Avisos,adultos,src/aplicacion/adultos/resumen.ts
+862fa4aeaf78,Ver,adultos,src/aplicacion/adultos/resumen.ts
+f2b971eaf98a,Lo que sigue,adultos,src/aplicacion/adultos/resumen.ts
+1d616882cd6a,Próximo tema del camino:,adultos,src/aplicacion/adultos/resumen.ts
+ac6f20e5dacf,. Para seguir fuera de la pantalla:,adultos,src/aplicacion/adultos/resumen.ts
+0c7c2713e1fa,nombrar juntos las cosas del tema que encuentren en casa o en la calle.,adultos,src/aplicacion/adultos/resumen.ts
+42839bca8654,iPhone o iPad,adultos,src/aplicacion/adultos/titoYSonido.ts
+42bbe59bc8e0,Ajustes → Accesibilidad → Contenido leído → Voces → Español → España. Descarga una voz «mejorada» o «prémium» (por ejemplo Mónica o Jorge).,adultos,src/aplicacion/adultos/titoYSonido.ts
+1748c0644a50,Mac,adultos,src/aplicacion/adultos/titoYSonido.ts
+886e56c0e3d4,Ajustes del Sistema → Accesibilidad → Contenido leído → Voz del sistema → Gestionar voces → Español. Marca una voz mejorada o prémium y espera a que se descargue.,adultos,src/aplicacion/adultos/titoYSonido.ts
+e84e30b9390c,Android,adultos,src/aplicacion/adultos/titoYSonido.ts
+213b9d78c5eb,"Ajustes → Sistema → Idiomas → Salida de texto a voz. Elige el motor de Google, toca su rueda ⚙ → Instalar datos de voz → Español (España) y elige la voz que más te guste. Si no aparece, instala «Servicios de voz de Google» desde Google Play.",adultos,src/aplicacion/adultos/titoYSonido.ts
+aea23489ce3a,Windows,adultos,src/aplicacion/adultos/titoYSonido.ts
+2b947836aaef,"Lo más fácil es abrir el juego en Microsoft Edge: trae voces naturales sin instalar nada (por ejemplo «Elvira» o «Álvaro», de España), aunque necesitan internet. En Chrome aparece «Google español». Para más voces de Windows: Configuración → Hora e idioma → Voz → Agregar voces → Español (España).",adultos,src/aplicacion/adultos/titoYSonido.ts
+303e121b7957,"Después de instalar una voz, cierra el navegador y vuelve a abrir el juego: la voz nueva aparece en la lista «Voz del navegador». Las marcadas con ★ son las más naturales.",adultos,src/aplicacion/adultos/titoYSonido.ts
+0e51b4596948, (este aparato),adultos,src/aplicacion/adultos/titoYSonido.ts
+841025c4ab7d,Tito y el sonido,adultos,src/aplicacion/adultos/titoYSonido.ts
+cb1a7cc7be72,no se encontró una voz en español en este dispositivo,adultos,src/aplicacion/adultos/titoYSonido.ts
+704b4afcc10c,Automática (la mejor que haya),adultos,src/aplicacion/adultos/titoYSonido.ts
+798a47898c9c,Personaje de Tito,adultos,src/aplicacion/adultos/titoYSonido.ts
+b53b4d5c9a48,"Tito sigue llamándose Tito. La ropa y los colores de la tienda le quedan igual (en el erizo el color va en las púas, en la tortuga en el caparazón y en el conejo en la mochila).",adultos,src/aplicacion/adultos/titoYSonido.ts
+15fa29e2bc66,Voz,adultos,src/aplicacion/adultos/titoYSonido.ts
+4dbe02b3595d,Voz del navegador,adultos,src/aplicacion/adultos/titoYSonido.ts
+1097031e58b0,▶ Probar,adultos,src/aplicacion/adultos/titoYSonido.ts
+3e7d3d81872b,Cómo conseguir voces más naturales,adultos,src/aplicacion/adultos/titoYSonido.ts
+debaf06557cd,Tito habla con la voz del navegador. Voz del navegador:,adultos,src/aplicacion/adultos/titoYSonido.ts
+1861100288fe,Volumen,adultos,src/aplicacion/adultos/titoYSonido.ts
+275a856f57c3,Música,adultos,src/aplicacion/adultos/titoYSonido.ts
+538c8b0ed60f,Efectos,adultos,src/aplicacion/adultos/titoYSonido.ts
+010725dd136c,Categorías,adultos,src/head.html
+c59f3224b8bb,"con el juego (src/modulos.ts y todo lo que importa). Contiene: título, fuentes, estilos (CSS), los dos lienzos del juego, Three.js y los paneles HTML (nombre, empezar de nuevo y zona de adultos). El plugin cambia las fuentes de Google y Three.js por las copias locales de public/ para que la web funcione sin internet. -->",adultos,src/head.html
+fa63cadfb040,Curiolandia 3D,adultos,src/head.html
+3958e01c3ce3,¿Cómo se llama quien juega?,adultos,src/head.html
+fcbc6b49aed4,Tito lo va a decir en voz alta. Se puede dejar vacío.,adultos,src/head.html
+8ddd8d883918,Listo,adultos,src/head.html
+847607d75e50,Cancelar,adultos,src/head.html
+a2c7daf90cb2,¿Empezar de nuevo?,adultos,src/head.html
+4eb599073b48,"Se borra todo el progreso: temas, estrellas, pegatinas, asambleas, el nombre y la edad. Se conservan el idioma, el volumen y el límite de tiempo.",adultos,src/head.html
+33c59b640a5b,"Sí, borrar todo",adultos,src/head.html
+6647008ee668,‹ Categorías,adultos,src/head.html
+621191c27cfd,Zona de adultos,adultos,src/head.html
+e6f1c8dd903b,Volver al juego,adultos,src/head.html
