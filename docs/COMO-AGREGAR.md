@@ -22,6 +22,10 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 
 ## 1. El proceso de trabajo
 
+Este proceso es compartido por las personas, Claude y Codex. Para incorporar Codex, ver [AGENTS.md](../AGENTS.md),
+[CODEX.md](../CODEX.md) y [COLABORACION-CODEX.md](COLABORACION-CODEX.md): desarrollo en rama propia y documentación
+en las guías existentes; una petición de revisión de PR se mantiene sin modificaciones.
+
 ### Lo que necesitas
 - `git`, `sh`, Python 3, Node.js y un navegador.
 - Para las pruebas automáticas: `npm ci && npx playwright install chromium` (Playwright está fijado en `package.json`).

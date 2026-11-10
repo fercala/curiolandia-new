@@ -41,6 +41,7 @@ Características técnicas:
 ├── vite.config.mts, index.html  Vite; index.html es solo la entrada, la página la monta el plugin
 ├── herramientas/       vite/curiolandia.mts (el montaje), git-hooks/ (ganchos de commit), analisis/ y dialogos/ (catálogo de frases), idiomas/ (lista de trabajo para traducir)
 ├── CLAUDE.md           reglas cortas para trabajar con Claude Code
+├── AGENTS.md, CODEX.md  entrada y guía de Codex (mismos contratos y planes compartidos)
 └── README.md           presentación del proyecto
 ```
 

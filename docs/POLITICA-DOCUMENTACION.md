@@ -1,6 +1,6 @@
 # Política de documentación
 
-**Regla general: ningún cambio está terminado hasta que está documentado.** Vale para todos los que tocan el proyecto: personas y Claude. Un cambio sin su documentación no se publica.
+**Regla general: ningún cambio está terminado hasta que está documentado.** Vale para todos los que tocan el proyecto: personas, Claude y Codex. Un cambio sin su documentación no se publica.
 
 El objetivo es que cualquier programador, también uno que empieza, pueda abrir el proyecto en cualquier momento y entender cómo está hecho y cómo añadir cosas, sin tener que preguntar a nadie.
 
@@ -36,7 +36,7 @@ El objetivo es que cualquier programador, también uno que empieza, pueda abrir 
 | Diálogos nuevos o cambiados de `say()` | `dialogos/pendientes.txt` (una por línea, texto exacto) y el catálogo `dialogos/todos.csv` rehecho con `npm run dialogos`. Ver [dialogos/LEEME.md](../dialogos/LEEME.md) |
 | Arreglas un fallo de la lista, o encuentras uno que no arreglas | [PROBLEMAS-CONOCIDOS.md](PROBLEMAS-CONOCIDOS.md) (quítalo o añádelo) |
 | Una herramienta, una prueba o un comando nuevo | El README y la sección del proceso en COMO-AGREGAR.md |
-| Una regla de trabajo nueva | `CLAUDE.md` y esta política |
+| Una regla de trabajo nueva | `CLAUDE.md`, `AGENTS.md` y esta política; `CODEX.md` y `COLABORACION-CODEX.md` si cambia el procedimiento de Codex. Los planes son compartidos, no una copia por asistente. |
 
 Si ninguna fila encaja pero un programador nuevo necesitaría saberlo, escríbelo en el documento donde lo buscaría primero.
 
