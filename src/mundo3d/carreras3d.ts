@@ -19,7 +19,7 @@
 /* eslint-disable ts-patterns/no-magic-numbers -- las medidas de la pista y de la cámara y las posiciones en la pantalla
    de 1600x900 son el dibujo mismo. */
 import * as THREE from 'three';
-import type { Escena } from '../nucleo/tipos.ts';
+import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Mundo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
@@ -329,7 +329,8 @@ function fraseNumeros(e: EstadoCarrera): string {
   return ` Has cogido ${e.numeros.length === 1 ? 'un número' : e.numeros.length + ' números'}.`;
 }
 
-// acabar(st): han llegado todos: el podio, que Tito cuenta con los ordinales; todos tienen medalla. Luego, lo que ha
+// acabar(st): han llegado todos (desde la fase P11, si la carrera es del gran día del deporte, st.deporte, al acabar
+// se vuelve a la jornada con los puntos en vez de dar las monedas aquí): el podio, que Tito cuenta con los ordinales; todos tienen medalla. Luego, lo que ha
 // cogido el niño, las monedas (la primera vez de hoy) y el botón de otra vez.
 function acabar(st: Escena) {
   const e = st.c as EstadoCarrera;
@@ -344,6 +345,11 @@ function acabar(st: Escena) {
       if (sceneName !== 'carreras') return;
       sayQ(`Has cogido ${e.estrellas === 1 ? 'una estrella' : e.estrellas + ' estrellas'}${kid()}.${cogido}`, () => {
         if (sceneName !== 'carreras') return;
+        // en el gran día del deporte (fase P11), se vuelve a la jornada con los puntos: 4 menos el lugar de Tito
+        if (st.deporte) {
+          go('deporte', { prueba: 'carrera', puntos: 4 - (e.orden.indexOf('tito') + 1) });
+          return;
+        }
         e.fase = 'fin';
         terminarEnElPatio('carreras', 800, 450);
       });
@@ -456,9 +462,11 @@ export function montarCarreras3D(): void {
   SCENES.carreras = {
     three: true,
     music: 'jardin',
-    // enter(): una carrera nueva; Tito explica cómo se juega y empieza la cuenta atrás.
-    enter() {
+    // enter(o): una carrera nueva; Tito explica cómo se juega y empieza la cuenta atrás. Con o.deporte (fase P11), es
+    // la primera prueba del gran día del deporte: al acabar y con la casa se vuelve a la jornada (SCENES.deporte).
+    enter(o: OpcionesEscena) {
       const edad = AGE();
+      this.deporte = !!o.deporte;
       later(300, () =>
         sayQ(
           '¡Vamos a hacer una carrera! Toca la pantalla para que Tito salte los charcos y las piedras.' +
@@ -509,13 +517,13 @@ export function montarCarreras3D(): void {
       if (e.fase === 'fin') dibujaFinal();
       drawHome();
     },
-    // down(x, y): casa -> el patio; en el cruce, un lado; al final, otra vez; corriendo, Tito salta (si no está ya en
+    // down(x, y): casa -> el patio (o la jornada del día del deporte); en el cruce, un lado; al final, otra vez; corriendo, Tito salta (si no está ya en
     // el aire).
     down(x: number, y: number) {
       const e = this.c as EstadoCarrera;
       if (atHome(x, y)) {
         SFX.whoosh();
-        go('patio');
+        go(this.deporte ? 'deporte' : 'patio');
         return;
       }
       if (e.fase === 'cruce') {

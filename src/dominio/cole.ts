@@ -43,12 +43,14 @@ export const COLE = {
 
 // ACTIVIDADES_PATIO: las actividades del patio, en el orden de sus botones. Las que no tienen escena salen con un cartel
 // de «¡Muy pronto!» (se irán haciendo de una en una, en el orden de docs/IDEAS-MEJORA.md). Las carreras (fase P10) son
-// en 3D: sin WebGL su escena no existe y el patio también las enseña como «¡Muy pronto!» (escenas/patio.ts).
+// en 3D: sin WebGL su escena no existe y el patio también las enseña como «¡Muy pronto!» (escenas/patio.ts). El gran
+// día del deporte (fase P11) junta en una jornada la carrera y cuatro pruebas más (escenas/deporte.ts).
 export const ACTIVIDADES_PATIO: readonly ActividadPatio[] = [
   { id: 'estatuas', nombre: '¡Estatuas!', escena: 'estatuas', icono: 'notas' },
   { id: 'titoDice', nombre: 'Tito dice', escena: 'titoDice', icono: 'manos' },
   { id: 'yoga', nombre: 'Yoga de los animales', escena: 'yoga', icono: 'gato' },
   { id: 'carreras', nombre: 'Carreras', escena: 'carreras', icono: 'estrella' },
+  { id: 'deporte', nombre: 'Día del deporte', escena: 'deporte', icono: 'silbato' },
 ];
 
 // registroCole(r): el registro guardado si tiene la forma buena; si no (partidas de antes o algo roto), uno vacío.
