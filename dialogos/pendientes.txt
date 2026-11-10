@@ -1465,6 +1465,63 @@ Esa es {momento}.
 ¿Cuál es el árbol {estacion}?
 ¡Sí! Es el árbol {estacion}.
 Ese es el árbol {estacion}.
+{Meses}... ¿Qué mes viene después?
+¡Sí! Después de {mes} viene {otro}.
+{Mes} no. {Meses}... ¿y después?
+¡Sí! {Cosa}.
+{Cosa} viene de una planta.
+{Cosa} viene de un animal.
+{Cosa} viene {deOtra}.
+Mmm, {cosa} no viene {deOtra}.
+{Cosa} es rico, pero tiene mucha azúcar. Es para de vez en cuando.
+{Cosa} es sano. ¡Lo podemos comer todos los días!
+¡Sí! {Cosa} nos hace crecer sanos.
+¡Sí! {Cosa}, solo de vez en cuando.
+{Cosa}.
+{Cosa} comía carne.
+{Cosa} comía plantas.
+{Cosa} no vive en {sitio}.
+{Cosa} vive en {sitio}.
+{Cosa} crece en la panza de su mamá.
+{Cosa} nace de un huevo.
+{Cosa} crece en la tripa de su mamá.
+Mira bien la forma.
+{Cosa} no está vivo: no nace, no crece y no come.
+{Cosa} es un ser vivo: nace, crece y se alimenta.
+{Cosa} es un ser vivo.
+{Cosa} no está vivo.
+¡Sí!
+{Cosa} no hace falta para vivir.
+Mmm, {cosa} no va en {cubo}.
+{Cosa} va en {cubo}.
+Vamos a reciclar.
+{Cosa} es parte del parque. ¡Se queda!
+¡Sí! {Cosa}. ¡Así viajamos seguros!
+{Cosa} es para la nieve.
+{Cosa} es para la playa.
+{Cosa}, para la playa.
+{Cosa}, para la nieve.
+{Uno} y {otro} mezclados... ¿qué color hacen?
+¡Sí! {Uno} y {otro} hacen {mezcla}.
+Ese es el {color}. Piensa: {uno} y {otro}.
+¡Sí! {Forma}.
+Ese es {forma}.
+¡Sí! {A} más {b} son {n}.
+Mmm, cuenta todos juntos: {numeros}.
+Teníamos {a} globos y se volaron {b}. ¿Cuántos quedan?
+¡Sí! Quedan {n}.
+Los animales hacen fila para entrar a la casa. ¿Quién es {puesto} de la fila?
+¡Sí! {Cosa} es {puesto}.
+{Cosa} no es {puesto}. El primero es el que está más cerca de la casa.
+¿Quién está entre {uno} y {otro}?
+¿Quién está a la derecha {deCosa}?
+¿Quién está a la izquierda {deCosa}?
+¿Qué es {cual}?
+¡Sí! {Cosa} es {cual}.
+{Cosa} no es {cual}. ¿Qué es {cual}?
+¿Cuál es {cual}?
+¡Sí! Ese es {cual}.
+Mira bien el ancho de cada uno. ¿Cuál es {cual}?
 Juegos cortos
 ¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.
 Elige un juego corto.
