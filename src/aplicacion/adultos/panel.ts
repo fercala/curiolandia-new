@@ -9,7 +9,7 @@
 //     página elegida); al tocar una, se entra en ella y arriba sale «‹ Categorías».
 // La página abierta solo se recuerda mientras el panel está abierto: no se guarda en S.
 // Exporta openAdult(pagina?) y closeAdult(), que aplicacion/adultos.ts vuelve a exportar para el puente y __cl.
-import { S, VIVO, go, save, scene, sceneArg, sceneName } from '../../nucleo/indice.ts';
+import { S, VIVO, go, save, scene, sceneArg, sceneName, trHtml } from '../../nucleo/indice.ts';
 import { esPagina, PAGINAS_ADULTOS } from './paginas.ts';
 import type { AccionesPagina, IdPagina, PaginaAdultos } from './tipos.ts';
 
@@ -35,7 +35,7 @@ const cerrar = () => closeAdult();
 
 // pintarMenu(): un botón por página (icono, nombre y nombre corto; los estilos enseñan uno u otro según el ancho) y,
 // desde la fase A2, el número de pendientes de aviso() (vales por entregar...), que también se lee en voz alta («2
-// pendientes»). Conserva aria-current en la página que se ve.
+// pendientes»). Conserva aria-current en la página que se ve. Lo traduce al idioma del juego (trHtml, fase ID1).
 function pintarMenu() {
   const nav = panel().querySelector('nav.menu')!;
   nav.innerHTML = PAGINAS_ADULTOS.map((p) => {
@@ -46,11 +46,13 @@ function pintarMenu() {
     return `<button type="button" data-pag="${p.id}"${p.id === actual ? ' aria-current="page"' : ''}><span class="ico" aria-hidden="true">${p.icono}</span><span class="nom">${p.titulo}</span><span class="corto" aria-hidden="true">${p.corto}</span>${num}</button>`;
   }).join('');
   nav.querySelectorAll<HTMLButtonElement>('button').forEach((b) => (b.onclick = () => irA(b.dataset.pag as IdPagina)));
+  trHtml(nav);
 }
 
 // pintarPagina(p): vuelve a hacer el HTML de la página p dentro de su caja (div.pag) y conecta sus controles, sus
 // atajos «Ir a» (data-go: cierran el panel y van a esa escena con saludo) y, desde la fase A2, los botones que llevan
-// a otra página de la zona (data-ir, como los de los avisos del Resumen).
+// a otra página de la zona (data-ir, como los de los avisos del Resumen). Al final lo traduce al idioma del juego
+// (trHtml, desde la fase ID1 de docs/PLAN-IDIOMAS.md).
 function pintarPagina(p: PaginaAdultos) {
   const caja = panel().querySelector<HTMLElement>(`.pag[data-pag="${p.id}"]`)!;
   caja.innerHTML = `<h2 class="pag-t" tabindex="-1">${p.icono} ${p.titulo}</h2>` + p.html();
@@ -66,6 +68,7 @@ function pintarPagina(p: PaginaAdultos) {
         go(b.dataset.go!, { hello: true });
       }),
   );
+  trHtml(caja);
 }
 
 // irA(id, enfocar): enseña la página id (o la portada, con null): esconde las demás, marca su botón del menú con
