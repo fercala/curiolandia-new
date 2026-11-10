@@ -3,6 +3,11 @@
 Migración de Curiolandia 3D (juego de temas de Educación Infantil, 3 a 5 años, con Tito como guía) a TypeScript + Vite
 con arquitectura limpia. Se habla y se documenta en castellano.
 
+Codex también colabora en desarrollo, pruebas, documentación y revisión de PR desde el 10 de noviembre de 2026.
+La entrada es [AGENTS.md](AGENTS.md) y su guía [CODEX.md](CODEX.md); el protocolo compartido está en
+[docs/COLABORACION-CODEX.md](docs/COLABORACION-CODEX.md). Los planes y las reglas del juego son los mismos para ambos.
+Al cambiar una regla compartida, mantener coherentes esas entradas y la política de documentación; el resumen de fases sigue aquí y en sus planes.
+
 ## Antes de nada
 - **Estado: fase 4 (escenas sin capas) terminada el 26 de octubre de 2026; fase 5 (contenido como datos) en marcha.** Las fases 0 y 1 están publicadas.
   Desde la 2p todo el juego son módulos TypeScript (`src/modulos.ts` y lo que importa: los dibujos de `src/dibujos/`,
