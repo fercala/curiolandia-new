@@ -4,12 +4,13 @@
 //   dibujarla, le pide aquí su movimiento (poseToque, con el Toque de dominio/casaToques.ts) y le dibuja encima lo de su
 //   estado guardado (dibujaEstado: la luz del farol, la tele encendida con su canal, el fuego de la olla, la torre de
 //   bloques...). Todo depende de la hora T: no hay física ni motor, para que vaya bien en los móviles.
-// Desde la fase M3b, los otros 2 dibujos del cuadro.
+// Desde la fase M3b, los otros 2 dibujos del cuadro, y desde la M6, las agujas del reloj con la hora de verdad.
 // Exporta: DURACION_TOQUE, poseToque y dibujaEstado.
-// Importa: el núcleo (T, PI, ctx, circ, star) y los tipos Pose (escenas/casaReacciones.ts) y Toque.
+// Importa: el núcleo (T, PI, ctx, circ, star), ahora() (aplicacion/puertos.ts, desde la fase M6) y los tipos Pose (escenas/casaReacciones.ts) y Toque.
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
    1600×900, como el resto de src/escenas/: los números son posiciones, tamaños y ritmos, y los bucles dibujan. */
 import { PI, T, circ, ctx, star } from '../nucleo/indice.ts';
+import { ahora } from '../aplicacion/puertos.ts';
 import type { Pose } from './casaReacciones.ts';
 import type { Toque } from '../dominio/casaToques.ts';
 
@@ -206,6 +207,30 @@ const ESTADO_DIBUJO: Readonly<Record<string, (e: number, s: number) => void>> = 
       ctx.fillStyle = '#1F2B57';
       ctx.fillRect(x, y + h * 0.82, w, h * 0.18);
     }
+    ctx.restore();
+  },
+  // el reloj (desde la fase M6): sus agujas marcan la hora de verdad (ahora(), el reloj del juego)
+  reloj: (_e, s) => {
+    const u = s / 124,
+      d = ahora(),
+      h = (d.getHours() % 12) + d.getMinutes() / 60,
+      m = d.getMinutes();
+    ctx.save();
+    ctx.translate(0, -s / 2);
+    circ(0, 0, 30 * u, '#FFF6E6', 0);
+    ctx.strokeStyle = '#4A3428';
+    ctx.lineCap = 'round';
+    for (const [a, l, w] of [
+      [(h / 12) * PI * 2, 18, 7],
+      [(m / 60) * PI * 2, 26, 5],
+    ]) {
+      ctx.lineWidth = w * u;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(Math.sin(a) * l * u, -Math.cos(a) * l * u);
+      ctx.stroke();
+    }
+    circ(0, 0, 6 * u, '#FFC93C', 0);
     ctx.restore();
   },
   bloques: (e, s) => {
