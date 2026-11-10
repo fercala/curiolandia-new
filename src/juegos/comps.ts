@@ -69,7 +69,7 @@
 // correcto"), Busca, Sonido, Conocer, Cuerpo, Arrastra (arrastrar y soltar),
 // Atrapa, Memoria, Cuenta, Puzzle, Excava, Riega y Pinta. juegos/comps2.ts añade más.
 // MÓDULO (desde la fase 2e): exporta todo lo de arriba (thing, nameT, isPl, esta,
-// eseEs, NUM, plural, plW, fem, unN, KID_PARTS, KID_C, KID_FINE, drawKid,
+// eseEs, nombreCosa, NUM, plural, plW, fem, femPl, unN, KID_PARTS, KID_C, KID_FINE, drawKid,
 // kidPartAt, layoutChoice, drawChoice, hitItem, drawBasket, dotsCard, COLORES,
 // paintPot, colorAdj y todos los componentes), y el puente de src/modulos.ts lo
 // deja en globalThis.
@@ -93,7 +93,8 @@ import {
   T,
   VIVO,
   W,
-  W_,
+  IDIOMA,
+  LEX,
   Wn,
   back,
   burst,
@@ -106,6 +107,7 @@ import {
   ell,
   fillStroke,
   flower,
+  fmt,
   hC,
   hR,
   hv,
@@ -113,6 +115,7 @@ import {
   lerp,
   nOpts,
   nRounds,
+  nombreEn,
   onRight,
   onWrongTwice,
   parts,
@@ -137,6 +140,8 @@ import {
   whenQuiet,
 } from '../nucleo/indice.ts';
 import { drawFace } from './caras.ts';
+import { femenino, type Nombre } from '../dominio/idiomas.ts';
+import { NUM_RO, cantidadRo } from '../idiomas/ro/numeros.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
@@ -152,26 +157,46 @@ export function thing(k: Cosa, x: number, y: number, s: number): void {
   if (typeof k === 'string') pic(k, x, y, s);
   else k.draw(x, y, s);
 }
-// Nombre con artículo de una cosa k, para decirlo en voz alta ('el perro').
-// Si k es una clave usa W_() (nucleo/idioma.ts); si es un objeto usa su campo name.
-export const nameT = (k: Cosa): string => (typeof k === 'string' ? W_(k) : k.name);
+// nombreCosa(k): las formas del nombre de la cosa k en el idioma del juego (fase ID2 de docs/PLAN-IDIOMAS.md): de su
+// nombre en castellano, el de LEX si k es una clave o su campo name si es un objeto.
+export const nombreCosa = (k: Cosa): Nombre => nombreEn(typeof k === 'string' ? LEX[k] || k : k.name);
+// Nombre con artículo de una cosa k, para decirlo en voz alta ('el perro'), en el idioma del juego.
+export const nameT = (k: Cosa): string => nombreCosa(k).art;
 // true si el nombre de la cosa k va en plural ('los ojos', 'las uvas').
-export const isPl = (k: Cosa) => /^(los|las) /.test(nameT(k));
-// Pregunta "¿Dónde está el perro?" / "¿Dónde están los ojos?" para la cosa k.
-export const esta = (k: Cosa) => (isPl(k) ? '¿Dónde están ' : '¿Dónde está ') + nameT(k) + '?';
-// Frase "Ese es el perro" / "Esa es la mesa" / "Esos son..." según el artículo
-// de la cosa k. Se usa al tocar una opción equivocada.
+export const isPl = (k: Cosa) => nombreCosa(k).pl;
+// Pregunta "¿Dónde está el perro?" / "¿Dónde están los ojos?" para la cosa k (plantillas de fmt, desde la fase ID2).
+export const esta = (k: Cosa) => fmt(isPl(k) ? '¿Dónde están {cosa}?' : '¿Dónde está {cosa}?', { cosa: nameT(k) });
+// Frase "Ese es el perro" / "Esa es la mesa" / "Esos son..." según el género y el número de la cosa k (sin artículo,
+// "Es ..."). Se usa al tocar una opción equivocada. Desde la fase ID2, con plantillas de fmt.
 export const eseEs = (k: Cosa) => {
-  const n = nameT(k),
-    a = (n.match(/^(el|la|los|las) /) || [])[1];
-  return ({ el: 'Ese es ', la: 'Esa es ', los: 'Esos son ', las: 'Esas son ' }[a] || 'Es ') + n;
+  const n = nombreCosa(k);
+  const plantilla =
+    n.art === n.sin
+      ? 'Es {cosa}'
+      : n.pl
+        ? femenino(n)
+          ? 'Esas son {cosa}'
+          : 'Esos son {cosa}'
+        : femenino(n)
+          ? 'Esa es {cosa}'
+          : 'Ese es {cosa}';
+  return fmt(plantilla, { cosa: n.art });
 };
-// Números del 0 al 10 escritos en palabras (para decirlos con say()).
-export const NUM = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez'];
+// Números del 0 al 10 escritos en palabras (para decirlos con say()). Desde la fase ID2, en el idioma del juego (en
+// rumano, NUM_RO, hasta el 20): se elige al cargar, porque el idioma ya está decidido (nucleo/traducir.ts).
+export const NUM: readonly string[] =
+  IDIOMA === 'ro'
+    ? NUM_RO
+    : ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez'];
 // Plural de la palabra de la clave k sin artículo ('perros', 'lápices').
 // Usa una lista de excepciones (PLX) y, si la palabra tiene complemento
-// ('caja de lápices'), solo pone en plural la primera parte.
+// ('caja de lápices'), solo pone en plural la primera parte. En otro idioma (fase ID2), el plural de su tabla de nombres
+// (plu) o, si no lo tiene, el nombre sin artículo.
 function plural(k: Cosa) {
+  if (IDIOMA !== 'es' && IDIOMA !== 'xx') {
+    const n = nombreCosa(k);
+    return n.plu ?? n.sin;
+  }
   const PLX: Record<string, string> = {
     lapiz: 'lápices',
     pez: 'peces',
@@ -195,10 +220,16 @@ function plW(w: Cosa) {
   if (/z$/.test(w)) return w.slice(0, -1) + 'ces';
   return w.replace(/ón$/, 'on').replace(/ín$/, 'in').replace(/án$/, 'an') + 'es';
 }
-// true si la cosa k es femenina (su nombre empieza por 'la' o 'las').
-export const fem = (k: Cosa) => /^(la|las) /.test(nameT(k));
-// Cantidad en palabras: unN(1,k) → 'un perro' / 'una mesa'; unN(3,k) → 'tres perros'.
-export const unN = (n: number, k: Cosa) => (n === 1 ? (fem(k) ? 'una ' : 'un ') + Wn(k) : NUM[n] + ' ' + plural(k));
+// true si la cosa k es femenina (su nombre empieza por 'la' o 'las'; desde la fase ID2, su género en el idioma del
+// juego). femPl(k): si las palabras van en femenino al contar varias («¿cuántas?»): en rumano, también los neutros.
+export const fem = (k: Cosa) => femenino(nombreCosa(k), false);
+export const femPl = (k: Cosa) => femenino(nombreCosa(k), true);
+// Cantidad en palabras: unN(1,k) → 'un perro' / 'una mesa'; unN(3,k) → 'tres perros'. En rumano (fase ID2), el número
+// cambia con el género y desde el 20 lleva «de» (cantidadRo).
+export const unN = (n: number, k: Cosa) => {
+  if (IDIOMA === 'ro') return cantidadRo(n, n === 1 ? fem(k) : femPl(k)) + ' ' + (n === 1 ? Wn(k) : plural(k));
+  return n === 1 ? (fem(k) ? 'una ' : 'un ') + Wn(k) : NUM[n] + ' ' + plural(k);
+};
 
 /* ---------- el nene dibujado (para el cuerpo y para vestir) ---------- */
 // Partes del cuerpo del niño dibujado. Formato: {id, n}; id = nombre interno

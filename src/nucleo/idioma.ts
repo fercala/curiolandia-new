@@ -1,6 +1,9 @@
-// idioma.ts: los nombres de los dibujos (LEX, W_, Wn, art, dela, ala), con su artículo, para que Tito los diga.
+// idioma.ts: los nombres de los dibujos (LEX, nombreLex, W_, Wn, dela, ala), con su artículo, para que Tito los diga.
 // Todo el texto del juego está escrito en castellano de España: hasta la fase 5f se escribía en rioplatense y tx() lo
 // adaptaba al decirlo (docs/PLAN-MIGRACION.md). contenido/lex.ts añade más nombres a LEX.
+// Desde la fase ID2 de docs/PLAN-IDIOMAS.md, W_, Wn, dela y ala dan el nombre en el idioma del juego: LEX sigue en
+// castellano y es la clave para buscar sus formas en ese idioma (nombreEn, de nucleo/traducir.ts).
+import { nombreEn } from './traducir.ts';
 
 /* ---------- nombres de los dibujos ---------- */
 // LEX: nombre con artículo de cada dibujo. Formato {claveDelDibujo: 'el nombre'}.
@@ -149,22 +152,14 @@ Object.assign(LEX, {
   seta: 'la seta',
   sandia: 'la sandía',
 });
-// Para nombrar dibujos (k = clave del dibujo): W_ con artículo ('el gato'), de LEX; sin nombre en LEX, la clave.
-export const W_ = (k: string): string => LEX[k] || k; // con artículo
+// Para nombrar dibujos (k = clave del dibujo), en el idioma del juego (fase ID2): nombreLex(k) da sus formas (sale del
+// nombre en castellano de LEX; sin nombre en LEX, de la clave), W_ con artículo ('el gato'), Wn sin artículo ('gato'),
+// dela tras «de» ('del gato', 'de la luna') y ala tras «a» ('al gato', 'a la luna'). En castellano, como siempre.
+export const nombreLex = (k: string) => nombreEn(LEX[k] || k);
+export const W_ = (k: string): string => nombreLex(k).art; // con artículo
 // Wn(k): nombre sin artículo ('gato').
-export const Wn = (k: string): string => W_(k).replace(/^(el|la|los|las) /, ''); // sin artículo
-// art(k): solo el artículo ('el', 'la', 'los', 'las' o '').
-const art = (k: string): string => {
-  const m = W_(k).match(/^(el|la|los|las) /);
-  return m ? m[1] : '';
-};
+export const Wn = (k: string): string => nombreLex(k).sin; // sin artículo
 // dela(k): 'del gato', 'de la luna' (contrae de + el).
-export const dela = (k: string): string => {
-  const a = art(k);
-  return a === 'el' ? 'del ' + Wn(k) : a ? 'de ' + W_(k) : 'de ' + W_(k);
-};
+export const dela = (k: string): string => nombreLex(k).de;
 // ala(k): 'al gato', 'a la luna' (contrae a + el).
-export const ala = (k: string): string => {
-  const a = art(k);
-  return a === 'el' ? 'al ' + Wn(k) : 'a ' + W_(k);
-};
+export const ala = (k: string): string => nombreLex(k).a;

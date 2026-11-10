@@ -57,6 +57,8 @@ import {
   star,
   text,
   tone,
+  fmt,
+  nombreEn,
 } from '../nucleo/indice.ts';
 import { SHOP, casaEnS, drawItemPic, itemName, wear } from './tienda.ts';
 import { nuevoAlBaul } from '../aplicacion/casa.ts';
@@ -169,10 +171,15 @@ SCENES.cofre = {
     later(400, () => {
       SFX.tada();
       burst(800, 300, 70);
+      // Con «de» delante del nombre del tema ('del otoño', 'de la casa'; fase ID2 de docs/PLAN-IDIOMAS.md).
       say(
-        ('¡Terminaste todos los juegos de ' + n).replace(/ de el /, ' del ') +
-          kid() +
-          '! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.',
+        fmt(
+          '¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.',
+          {
+            tema: nombreEn(n).de,
+            nino: kid(),
+          },
+        ),
       );
     });
   },

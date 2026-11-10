@@ -157,6 +157,8 @@ import {
   titoPos,
   today,
   tree,
+  fmt,
+  nombreEn,
 } from '../nucleo/indice.ts';
 import { BG, NUM } from '../juegos/indice.ts';
 import {
@@ -1432,8 +1434,17 @@ SCENES.map = {
     if (!msg && nw.length) {
       const z = mzOf(nw[0]);
       this.unl = { id: z.id, t: T + 1 };
-      msg =
-        '¡Mira' + kid() + '! ¡Se ' + (/^l[ao]s /.test(z.name) ? 'abrieron ' : 'abrió ') + z.name + '! Toca para jugar.';
+      // En plural si el nombre de la zona lo es (fase ID2 de docs/PLAN-IDIOMAS.md: plantillas de fmt).
+      const zn = nombreEn(z.name);
+      msg = fmt(
+        zn.pl
+          ? '¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.'
+          : '¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.',
+        {
+          nino: kid(),
+          zona: zn.art,
+        },
+      );
       fx = () => {
         SFX.sparkle();
         const q = mzOf(z.id);
