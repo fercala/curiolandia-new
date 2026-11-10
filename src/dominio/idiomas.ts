@@ -7,7 +7,8 @@
  * va del texto en castellano a su traducción (src/idiomas/). El rumano es el primero que se añade.
  * Es DOMINIO: no sabe nada de pantalla, de navegador ni de S; quien traduce (nucleo/traducir.ts) le pregunta.
  * Pruebas: tests/unidad/idiomas.test.ts.
- * Exporta: los tipos IdIdioma, IdiomaGuardado e Idioma, IDIOMAS, IDIOMA_BASE, PARAMETRO_IDIOMA, esIdioma, idioma,
+ * Desde la fase ID2, también las formas de un nombre (Nombre) y cómo se sacan en castellano de su artículo (formasEs).
+ * Exporta: los tipos IdIdioma, IdiomaGuardado, Idioma y Nombre, formasEs, femenino, IDIOMAS, IDIOMA_BASE, PARAMETRO_IDIOMA, esIdioma, idioma,
  * idiomaDelNavegador, idiomaActivo, idiomasElegibles, rellena y pseudo.
  * No importa nada.
  */
@@ -78,11 +79,21 @@ export function idiomaActivo(guardado: unknown, parametro: string | null, langs:
   return idiomaDelNavegador(langs);
 }
 
-// rellena(plantilla, huecos): la plantilla con cada {nombre} cambiado por huecos[nombre]. Un hueco que no está se deja
-// como estaba, para que se vea el fallo. Es lo que usarán las frases compuestas desde la fase ID2.
+// rellena(plantilla, huecos): la plantilla con cada {nombre} cambiado por huecos[nombre]. Si el hueco se escribe con
+// mayúscula ({Cosa}) y solo existe en minúscula (cosa), va con la primera letra en mayúscula (para el principio de una
+// frase). Un hueco que no está se deja como estaba, para que se vea el fallo. Lo usan las frases compuestas desde la
+// fase ID2 (fmt, de nucleo/traducir.ts).
 // La regla de un hueco: {nombre} con letras, números o _ ('{cosa}' vale; '{ }' y '{la cosa}' no).
 export const rellena = (plantilla: string, huecos: Readonly<Record<string, string | number>>): string =>
-  plantilla.replace(/\{(\w+)\}/gu, (todo, n: string) => (n in huecos ? String(huecos[n]) : todo));
+  plantilla.replace(/\{(\w+)\}/gu, (todo, n: string) => {
+    if (n in huecos) return String(huecos[n]);
+    const min = n.charAt(0).toLowerCase() + n.slice(1);
+    if (min !== n && min in huecos) {
+      const v = String(huecos[min]);
+      return v.charAt(0).toUpperCase() + v.slice(1);
+    }
+    return todo;
+  });
 
 // Cuánto alarga el pseudoidioma cada texto: un 30 %, lo que puede crecer al traducirlo.
 const ALARGA = 0.3;
@@ -97,3 +108,38 @@ export function pseudo(t: string): string {
   if (!medio) return t;
   return `${antes}⟦${medio}${'·'.repeat(Math.ceil(medio.length * ALARGA))}⟧${despues}`;
 }
+
+/** Las formas de un nombre que piden las frases (fase ID2 de docs/PLAN-IDIOMAS.md), en el idioma del juego:
+ * con artículo (art: 'el gato'; en rumano, 'pisica'), sin él (sin: 'gato', 'pisică'), su género (g: 'm', 'f' o, en
+ * rumano, 'n', neutro) y si es plural (pl), su plural sin artículo (plu: 'gatos', 'pisici'), y cómo va detrás de «de» y
+ * de «a» (de: 'del gato', a: 'al gato'; en rumano, el genitivo y el dativo: 'pisicii'). */
+export interface Nombre {
+  readonly art: string;
+  readonly sin: string;
+  readonly g: 'm' | 'f' | 'n';
+  readonly pl: boolean;
+  readonly plu?: string;
+  readonly de: string;
+  readonly a: string;
+}
+
+// formasEs(frase): las formas de un nombre en castellano, sacadas de su artículo ('el gato', 'las uvas'). Sin artículo
+// (una clave sin nombre en LEX, o un nombre propio), masculino y singular, con «de» y «a» delante. Es lo que hacían
+// W_, Wn, dela, ala, isPl y fem hasta la fase ID2: el castellano sale igual que antes.
+export function formasEs(frase: string): Nombre {
+  // El artículo del principio: 'el gato' → 'el'; 'las uvas' → 'las'; 'elefante' no tiene (hace falta el espacio).
+  const a = /^(el|la|los|las) /u.exec(frase)?.[1] ?? '';
+  const sin = a ? frase.slice(a.length + 1) : frase;
+  return {
+    art: frase,
+    sin,
+    g: a === 'la' || a === 'las' ? 'f' : 'm',
+    pl: a === 'los' || a === 'las',
+    de: a === 'el' ? 'del ' + sin : 'de ' + frase,
+    a: a === 'el' ? 'al ' + sin : 'a ' + frase,
+  };
+}
+
+// femenino(n, plural): si las palabras que acompañan al nombre n van en femenino. En singular, solo los femeninos; en
+// plural (contar, «¿cuántas?»), también los neutros del rumano, que en plural se comportan como femeninos.
+export const femenino = (n: Nombre, plural = n.pl): boolean => n.g === 'f' || (plural && n.g === 'n');

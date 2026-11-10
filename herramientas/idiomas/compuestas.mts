@@ -13,8 +13,9 @@ import { join, relative } from 'node:path';
 import { parseSync } from 'rolldown/utils';
 import { archivos, hijosDe, noEsTexto, nombreDe, pareceClave, type Nodo } from '../dialogos/catalogo.mts';
 
-// Funciones que adivinan la gramática por el texto en castellano (src/nucleo/idioma.ts y src/juegos/comps.ts).
-const TRUCOS = new Set(['dela', 'ala', 'isPl', 'fem', 'esta', 'eseEs', 'art']);
+// Funciones que adivinan la gramática por el texto en castellano. Desde la fase ID2a, dela, ala, isPl, fem, esta y eseEs
+// (nucleo/idioma.ts y juegos/comps.ts) ya miran las formas del nombre en el idioma del juego: no son trucos.
+const TRUCOS = new Set<string>([]);
 // Una expresión regular que mira los artículos del castellano.
 const REGEX_ARTICULO = /\b(el|la|los|las|l\[ao\]s?|l\[oa\]s?|un|una)\b/u;
 // Un replace que arregla la gramática del texto: contracciones (de el, a el) o género (Cuántos/Cuántas...).

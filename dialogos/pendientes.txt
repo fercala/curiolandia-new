@@ -1255,3 +1255,19 @@ Cuando el siguiente brille, tócalo para pasarle el testigo.
 ¿A qué jugamos? Toca una cosa.
 ¡Vamos a jugar! ¿Con qué?
 ¡Me encanta mi casa! ¿A qué jugamos?
+Es {cosa}
+Esa es {cosa}
+Esas son {cosa}
+Ese es {cosa}
+Esos son {cosa}
+{A} y {b}. ¿Cuántas hay en total?
+{A} y {b}. ¿Cuántos hay en total?
+{Cosa} es para {sala}. {Sala} se abre cuando termines una casita.
+{Cosa} es para {sala}. {Sala} se abre cuando termines {n} casitas.
+{Cosa} son para {sala}. {Sala} se abre cuando termines una casita.
+{Cosa} son para {sala}. {Sala} se abre cuando termines {n} casitas.
+¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.
+¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.
+¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.
+¿Dónde está {cosa}?
+¿Dónde están {cosa}?

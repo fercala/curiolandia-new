@@ -1035,7 +1035,7 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.",frase,src/dominio/yoga.ts
 8c3d395b2a94,Aún no hemos ido,trozo,src/escenas/albumExcursiones.ts
 a8419088f339,El ,trozo,src/escenas/albumExcursiones.ts src/temas/temas4.ts
-beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/nucleo/idioma.ts
+beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/temas/temas4.ts
 6dc7ba9fac29,Aquí irá la foto ,trozo,src/escenas/albumExcursiones.ts
 66038aa12121,", cuando vayamos de excursión.",trozo,src/escenas/albumExcursiones.ts
 049bfc802dc7,! Hemos ido ,trozo,src/escenas/albumExcursiones.ts
@@ -1230,8 +1230,7 @@ bea586d1a053,Tito baila,trozo,src/escenas/casaTele.ts
 663c8b8f7035,Pipo salta,trozo,src/escenas/casaTele.ts
 96cdbc3a5457,¡Mi tele! Con el mando de la derecha cambias de canal.,frase,src/escenas/casaTele.ts
 f60c90a30a0e,Toca los botones del mando para cambiar de canal.,frase,src/escenas/casaTele.ts
-5c1d9a65d69e, del ,trozo,src/escenas/cofre.ts
-73c25bcef15e,! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,trozo,src/escenas/cofre.ts
+6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,frase,src/escenas/cofre.ts
 b02ec5f955d1,Toca el cofre para abrirlo. ¡Te ,trozo,src/escenas/cofre.ts
 b3e7a37ede15,falta un toque,trozo,src/escenas/cofre.ts
 332a79b2dba9, toques,trozo,src/escenas/cofre.ts
@@ -1540,7 +1539,7 @@ a366267364b7,! Toca su dibujo.,trozo,src/escenas/excursion.ts
 64d45deda38e, no le gusta eso. ,trozo,src/escenas/granja.ts
 9b22144c476d, come ,trozo,src/escenas/granja.ts
 cbdf67864202,el ,trozo,src/escenas/granja.ts src/escenas/granjaCrias.ts src/temas/extras.ts
-d254aeefaf25,al ,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
+d254aeefaf25,al ,trozo,src/escenas/granja.ts
 b1200f5b672d,Cada animal come una cosa. Arrastra su comida hasta su comedero.,frase,src/escenas/granja.ts
 4377d49bcfae,Arrastra la comida de cada animal hasta su comedero.,frase,src/escenas/granja.ts
 bd3aa671e645,Las gallinas han puesto huevos escondidos en la paja. ¡Toca la paja para buscarlos y los guardamos en la cesta!,frase,src/escenas/granja.ts
@@ -1686,11 +1685,10 @@ fb00ff6b58e0, estrellas. Las ganas terminando juegos.,trozo,src/escenas/tienda.t
 a7c65eea758b, se abre cuando tengas ,trozo,src/escenas/tienda.ts
 4d4cd9aa1701, estrellas. ¡Ya tienes ,trozo,src/escenas/tienda.ts
 3ac4c5f4bf44,! Ganas estrellas terminando juegos.,trozo,src/escenas/tienda.ts
-fee8fd330edf, son para ,trozo,src/escenas/tienda.ts
-1f4493d13f72, es para ,trozo,src/escenas/tienda.ts
-10f0df83ff39, se abre cuando termines ,trozo,src/escenas/tienda.ts
-3fb072a9295b,una casita.,trozo,src/escenas/tienda.ts
-0d3e37027fad, casitas.,trozo,src/escenas/tienda.ts
+67f29e54ce58,{Cosa} son para {sala}. {Sala} se abre cuando termines una casita.,trozo,src/escenas/tienda.ts
+c21d7f9fe027,{Cosa} es para {sala}. {Sala} se abre cuando termines una casita.,trozo,src/escenas/tienda.ts
+0479b935268f,{Cosa} son para {sala}. {Sala} se abre cuando termines {n} casitas.,trozo,src/escenas/tienda.ts
+f4e48959ce88,{Cosa} es para {sala}. {Sala} se abre cuando termines {n} casitas.,trozo,src/escenas/tienda.ts
 b1c410b8914e,¡Tito se puso ,trozo,src/escenas/tienda.ts
 6afc3ef24626,Tito se quitó ,trozo,src/escenas/tienda.ts
 7d56655642a2, ya es tuyo. Está en la casa de Tito.,trozo,src/escenas/tienda.ts
@@ -1801,10 +1799,8 @@ dcf5a6f7e26e,5 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 851c9032c1e6,¡Mira,trozo,src/escenas/zonas.ts
 bcfa7fa26ac9,! ¡Se despertó ,trozo,src/escenas/zonas.ts
 47713ef9554f,! Ahora puedes jugar ahí también.,trozo,src/escenas/zonas.ts
-806d89233c36,! ¡Se ,trozo,src/escenas/zonas.ts
-b265e603e565,abrieron ,trozo,src/escenas/zonas.ts
-a824cbed2166,abrió ,trozo,src/escenas/zonas.ts
-d6227a4f6b5f,! Toca para jugar.,trozo,src/escenas/zonas.ts
+d00ab6651ad0,¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.,frase,src/escenas/zonas.ts
+38acb0347a77,¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.,frase,src/escenas/zonas.ts
 919d2c0a7559,! ¡Tito tiene ,trozo,src/escenas/zonas.ts
 f4c14f67e00f, en su caparazón!,trozo,src/escenas/zonas.ts
 1a8d2e1cba2f,una flor,trozo,src/escenas/zonas.ts
@@ -1850,13 +1846,13 @@ a830de01ef81,miedo,trozo,src/juegos/caras.ts
 59e0f98e11ce,sorpresa,trozo,src/juegos/caras.ts
 9583efc731c9,calma,trozo,src/juegos/caras.ts
 8f586855bc67,vergüenza,trozo,src/juegos/caras.ts
-92969de44e23,¿Dónde están ,trozo,src/juegos/comps.ts
-a0099f02b7d9,¿Dónde está ,trozo,src/juegos/comps.ts src/temas/letras.ts
-2d64b95bc7d1,Ese es ,trozo,src/juegos/comps.ts src/temas/temas4.ts src/temas/temas5.ts
-db182603c659,Esa es ,trozo,src/juegos/comps.ts src/temas/letras.ts src/temas/temas4.ts
-2c5387f21255,Esos son ,trozo,src/juegos/comps.ts
-771384549337,Esas son ,trozo,src/juegos/comps.ts
-48148702c568,Es ,trozo,src/juegos/comps.ts
+0270ac831c9c,¿Dónde están {cosa}?,frase,src/juegos/comps.ts
+72929cf856e1,¿Dónde está {cosa}?,frase,src/juegos/comps.ts
+68072fb6617f,Es {cosa},trozo,src/juegos/comps.ts
+39f16812adf7,Esas son {cosa},trozo,src/juegos/comps.ts
+61b5758bf8a5,Esos son {cosa},trozo,src/juegos/comps.ts
+1676621c6ece,Esa es {cosa},trozo,src/juegos/comps.ts
+b3bf81a9905d,Ese es {cosa},trozo,src/juegos/comps.ts
 2a33451004a2,cero,trozo,src/juegos/comps.ts
 1eaa8bb19586,uno,trozo,src/juegos/comps.ts
 0196f6c4f97d,dos,trozo,src/juegos/comps.ts
@@ -2733,6 +2729,8 @@ a448fcd4ac0a,Y esta es ,trozo,src/temas/letras.ts
 e8bcbed12b85, minúscula.,trozo,src/temas/letras.ts
 ebb7fd71260d,¡Vamos a conocer ,trozo,src/temas/letras.ts
 9ff5786dd2b2,! Toca cada tarjeta.,trozo,src/temas/letras.ts
+a0099f02b7d9,¿Dónde está ,trozo,src/temas/letras.ts
+db182603c659,Esa es ,trozo,src/temas/letras.ts src/temas/temas4.ts
 006475045d1d,Vamos a escribir ,trozo,src/temas/letras.ts
 81fecf81b49b,. Empieza en el punto verde y sigue el camino con el dedo.,trozo,src/temas/letras.ts
 68a49ae177ac, minúscula. Empieza en el punto verde.,trozo,src/temas/letras.ts
@@ -3165,6 +3163,7 @@ e88b9cc36be8,La semana tiene siete días. Toca cada vagón para conocerlo.,frase
 47396d97afb2,"¡El tren está completo! Lunes, martes, miércoles, jueves, viernes, sábado y domingo.",frase,src/temas/temas4.ts
 cfe2c0069345,¿Qué día falta?,frase,src/temas/temas4.ts
 941ca6182d0b,¡Sí! Falta el ,trozo,src/temas/temas4.ts
+2d64b95bc7d1,Ese es ,trozo,src/temas/temas4.ts src/temas/temas5.ts
 3af9c4ff7375,Escuela o fin de semana,trozo,src/temas/temas4.ts
 60017e8c8aca, no hay escuela. ¡Es fin de semana!,trozo,src/temas/temas4.ts
 0f6ba9cb7091, es día de escuela.,trozo,src/temas/temas4.ts
@@ -3658,8 +3657,8 @@ d73723532be7, mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
 97eff4a59e77,. Piensa: ,trozo,src/temas/temas5.ts
 5bdfd02e6619,¿Qué forma tiene?,frase,src/temas/temas5.ts
 80eb5e440693,Sumar,trozo,src/temas/temas5.ts
-3b877fdc2391,Cuántos,trozo,src/temas/temas5.ts
-a71d3c8bd4e2,Cuántas,trozo,src/temas/temas5.ts
+29c3f9cda3d4,{A} y {b}. ¿Cuántas hay en total?,trozo,src/temas/temas5.ts
+cc118d2a2b10,{A} y {b}. ¿Cuántos hay en total?,trozo,src/temas/temas5.ts
 d1f4b8342a6c, más ,trozo,src/temas/temas5.ts
 d7f057053ae2,"Mmm, cuenta todos juntos: ",trozo,src/temas/temas5.ts
 f11dd8aae7d9,Restar,trozo,src/temas/temas5.ts

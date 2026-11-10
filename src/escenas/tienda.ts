@@ -84,6 +84,9 @@ import {
   text,
   titoKind,
   today,
+  fmt,
+  nombreEn,
+  LEX,
 } from '../nucleo/indice.ts';
 import { floor } from '../temas/indice.ts';
 import { drawTitoHouse, houseLevel, shellIcon } from './zonas.ts';
@@ -488,7 +491,7 @@ const shopItems = (cat: string): Articulo[] =>
         .map((v) => ({ id: 'vale:' + v.id, cat: 'vales', p: v.p!, tier: 1, vale: v, n: 'el vale: ' + v.txt }))
     : SHOP.filter((i) => i.cat === cat);
 // Nombre de un artículo para decirlo en voz alta (it.n o el nombre del diccionario W_).
-export const itemName = (it: Articulo) => (it.n ? it.n : W_(it.id));
+export const itemName = (it: Articulo) => (it.n ? nombreEn(it.n).art : W_(it.id));
 // ¿Tito lleva puesto ahora este artículo de ropa o color?
 export const isWorn = (it: Articulo) => {
   const t = S.tito!;
@@ -896,15 +899,17 @@ SCENES.tienda = {
     if (it.room && !roomOpen(it.room) && !S.owned![it.id]) {
       SFX.boing();
       const R = roomOf(it.room);
-      say(
-        cap(itemName(it)) +
-          (/^(las|los) /.test(itemName(it)) ? ' son para ' : ' es para ') +
-          R.n +
-          '. ' +
-          cap(R.n) +
-          ' se abre cuando termines ' +
-          (R.need === 1 ? 'una casita.' : R.need + ' casitas.'),
-      );
+      // Plantillas de fmt (fase ID2 de docs/PLAN-IDIOMAS.md): en plural si el nombre del artículo lo es.
+      const pl = nombreEn(it.n || LEX[it.id] || it.id).pl;
+      const plantilla =
+        R.need === 1
+          ? pl
+            ? '{Cosa} son para {sala}. {Sala} se abre cuando termines una casita.'
+            : '{Cosa} es para {sala}. {Sala} se abre cuando termines una casita.'
+          : pl
+            ? '{Cosa} son para {sala}. {Sala} se abre cuando termines {n} casitas.'
+            : '{Cosa} es para {sala}. {Sala} se abre cuando termines {n} casitas.';
+      say(fmt(plantilla, { cosa: itemName(it), sala: nombreEn(R.n).art, n: R.need }));
       return;
     }
     if (S.owned![it.id] && !it.vale) {
