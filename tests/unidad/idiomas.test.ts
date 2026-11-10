@@ -10,10 +10,10 @@ test('encuentra las frases compuestas y los trucos de gramática conocidos', () 
   const todos = sitios(RAIZ);
   const hay = (archivo: string, tipo: string, trozo: string): boolean =>
     todos.some((s) => s.archivo === archivo && s.tipo === tipo && s.codigo.includes(trozo));
-  // '¡Sí! Después de ' + MESES[seq[1]] + ' viene ' + MESES[ans] + '.': una frase compuesta (una sola, aunque tenga
-  // varios +)
-  expect(hay(join('src', 'temas', 'temas5.ts'), 'compuesta', "'¡Sí! Después de ' + MESES")).toBe(true);
-  expect(todos.filter((s) => s.codigo.startsWith("' viene '")).length).toBe(0);
+  // `Esta es ${L.nombre}. ...`: una frase compuesta, con ${} (en la Isla de las Letras, que tendrá su versión rumana)
+  expect(hay(join('src', 'temas', 'letras.ts'), 'compuesta', '`Esta es ${L.nombre}.')).toBe(true);
+  // desde la fase ID2e, las de los temas de 5 años son plantillas de fmt
+  expect(todos.some((s) => s.archivo === join('src', 'temas', 'temas5.ts'))).toBe(false);
   // desde la fase ID2b, las de la tienda son plantillas de fmt
   expect(hay(join('src', 'escenas', 'tienda.ts'), 'compuesta', "'Tienes ' + S.coins")).toBe(false);
   // .replace(/^(el|la|los|las) /, ''): un truco de gramática (en la Isla de las Letras, que tendrá su versión rumana)

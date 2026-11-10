@@ -1545,7 +1545,7 @@ fcfd63465c1a,"¡Algo se mueve en la paja, al lado de ",trozo,src/escenas/granjaC
 e5ec9d329c87,¡Cada cría está con su mamá! ¡Muy bien,trozo,src/escenas/granjaCrias.ts
 296b820dc1d8, está con ,trozo,src/escenas/granjaCrias.ts
 f196e4fc3ef0,Esa no es su mamá. La mamá ,trozo,src/escenas/granjaCrias.ts
-c9cb11cccccc, es ,trozo,src/escenas/granjaCrias.ts src/juegos/comps.ts src/temas/temas5.ts
+c9cb11cccccc, es ,trozo,src/escenas/granjaCrias.ts src/juegos/comps.ts
 9328fd956f45,Las crías se han despistado. Arrastra cada cría hasta su mamá.,frase,src/escenas/granjaCrias.ts
 615666ce3e91,Arrastra cada cría hasta su mamá.,frase,src/escenas/granjaCrias.ts
 30263d9d6d18,¡Mira el manzano! De la semilla ha salido un brote.,frase,src/escenas/granjaManzano.ts
@@ -1892,7 +1892,7 @@ d3b949def7a7,{Color}.,trozo,src/juegos/comps.ts
 837f3f748295,Ahora toca {cosa}.,frase,src/juegos/comps.ts
 0b3fdf6aa5f3,Primero toca un color.,frase,src/juegos/comps.ts
 59a705d15ada,Primero pintamos {cosa}.,frase,src/juegos/comps.ts
-489e3e7a9749, son ,trozo,src/juegos/comps.ts src/temas/temas5.ts
+489e3e7a9749, son ,trozo,src/juegos/comps.ts
 4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.",frase,src/juegos/comps.ts
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",frase,src/juegos/comps2.ts
 b974a22a57d1,"Mmm, {cosa} no va con {otra}.",frase,src/juegos/comps2.ts
@@ -2455,7 +2455,7 @@ e426d177ee65,"¡Muy bien! Paja, madera y ladrillo. ¡La casa de ladrillo no se c
 c4b832d5a4a0,¿Qué casa no se cayó?,frase,src/temas/extras.ts
 aae95e55c166,¿Qué casa se voló con un soplido?,frase,src/temas/extras.ts
 40aca82fdc2e,¿Quiénes construyeron las casas?,frase,src/temas/extras.ts
-86406a67c00d,¡Sí! ,frase,src/temas/extras.ts src/temas/temas5.ts
+86406a67c00d,¡Sí! ,frase,src/temas/extras.ts
 89c2b9e29f6f,el trenecito,nombre,src/temas/extras.ts
 21c2e59531c8,Z,trozo,src/temas/ingles.ts
 8b1a9953c461,Hello,trozo,src/temas/ingles.ts
@@ -3235,7 +3235,7 @@ f59e1517c433,{Cosa} es un animal salvaje. Vive en la selva o en la sabana.,trozo
 cfea328347c0,Los animales que viven con las personas van a la casa. Los animales salvajes van a la selva.,frase,src/temas/temas4.ts
 7fff108f0b60,¿De quién es la sombra?,frase,src/temas/temas4.ts src/temas/temas5.ts
 3c67741613fe,¿De quién es esta sombra?,frase,src/temas/temas4.ts src/temas/temas5.ts
-511ef0e3c4c0,¡Sí! Es la sombra {deCosa}.,frase,src/temas/temas4.ts
+511ef0e3c4c0,¡Sí! Es la sombra {deCosa}.,frase,src/temas/temas4.ts src/temas/temas5.ts
 94d64a2e0b72,Mira bien la forma de la sombra.,frase,src/temas/temas4.ts
 02efb65d00b8,Las plantas,trozo,src/temas/temas4.ts
 9f05e3de7435,"La semilla. Si la plantamos y la regamos, ¡crece una planta!",frase,src/temas/temas4.ts
@@ -3269,7 +3269,7 @@ ae3675b46ca3,El gusano. Vive bajo la tierra y la ayuda a estar sana.,frase,src/t
 33cbbf01111c,La oruga. Come hojas y un día será mariposa.,frase,src/temas/temas4.ts
 ac3f454cdd10,Busca con la lupa,trozo,src/temas/temas4.ts
 e8d46fa6b631,Hay bichitos escondidos en el pasto. Mira con la lupa y tócalos.,frase,src/temas/temas4.ts
-5242517c4a69,Busca {cosa}.,frase,src/temas/temas4.ts
+5242517c4a69,Busca {cosa}.,frase,src/temas/temas4.ts src/temas/temas5.ts
 3f2624351710,Más colores,trozo,src/temas/temas4.ts
 1351f175a77f,Las formas,trozo,src/temas/temas4.ts
 77182066b935,"Mmm, esa forma no es {forma}.",frase,src/temas/temas4.ts
@@ -3377,11 +3377,9 @@ b8cb19e5580a,Ese lugar es para otro mes. Piensa cuál viene antes y cuál despu�
 7ac9e521bb3d,A la fila de los meses le faltan algunos. Lleva cada mes a su lugar.,frase,src/temas/temas5.ts
 cb2431cf697d,"¡Muy bien! Enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre y diciembre.",frase,src/temas/temas5.ts
 1a223cd23534,¿Qué mes viene después?,frase,src/temas/temas5.ts
-781b9c99542a,... ¿Qué mes viene después?,trozo,src/temas/temas5.ts
-7596e0521428,¡Sí! Después de ,trozo,src/temas/temas5.ts
-386dd2850e85, viene ,trozo,src/temas/temas5.ts
-62f15a1d92cc, no. ,trozo,src/temas/temas5.ts
-ce5b27eef624,... ¿y después?,trozo,src/temas/temas5.ts
+831059ce6acd,{Meses}... ¿Qué mes viene después?,trozo,src/temas/temas5.ts
+42e0bfd1db15,¡Sí! Después de {mes} viene {otro}.,frase,src/temas/temas5.ts
+1b28849e3565,{Mes} no. {Meses}... ¿y después?,trozo,src/temas/temas5.ts
 a243e239692e,Mi cuerpo por dentro,trozo,src/temas/temas5.ts
 407b0d147534,"El esqueleto. Son todos los huesos juntos. Nos sostiene, ¡como el palo de una tienda de campaña!",frase,src/temas/temas5.ts
 4442aa628dd8,El hueso. Es duro y fuerte. Tomar leche ayuda a que crezca.,frase,src/temas/temas5.ts
@@ -3392,7 +3390,6 @@ a0d4f5fbc367,El estómago. Ahí va la comida cuando la tragamos.,frase,src/temas
 4bb5986f2f65,"El cerebro. Está adentro de la cabeza. Con él pensamos, aprendemos y soñamos.",frase,src/temas/temas5.ts
 1afa7a14a9ef,Los rayos X,trozo,src/temas/temas5.ts
 bcc8e559aac4,Esta es una máquina de rayos X. Mira adentro del cuerpo con la pantalla.,frase,src/temas/temas5.ts
-0981d7703d9e,Busca ,trozo,src/temas/temas5.ts
 5f17f2e706c2,¡El cerebro! Con él pensamos.,frase,src/temas/temas5.ts
 17cd3e7dd361,"¡El corazón! Pum, pum.",frase,src/temas/temas5.ts
 82adc1a9b56b,¡Los pulmones! Se llenan de aire.,frase,src/temas/temas5.ts
@@ -3404,6 +3401,7 @@ c88be7468274,¿Qué late y lleva la sangre por el cuerpo?,frase,src/temas/temas5
 e2d2b8e66996,¿Adónde va la comida cuando la tragamos?,frase,src/temas/temas5.ts
 471b65fb6658,¿Qué se pone fuerte cuando corremos y saltamos?,frase,src/temas/temas5.ts
 273ee210c6e8,¿Qué es duro y crece fuerte si tomamos leche?,frase,src/temas/temas5.ts
+f94eee9bbc0f,¡Sí! {Cosa}.,frase,src/temas/temas5.ts
 d1e74d0c58e4,El otoño y los cambios,trozo,src/temas/temas5.ts
 0c5b135ddd0a,La golondrina. En otoño se va volando a un lugar más calentito.,frase,src/temas/temas5.ts
 12ca9648a56a,El erizo. Duerme todo el invierno escondido entre las hojas.,frase,src/temas/temas5.ts
@@ -3433,18 +3431,18 @@ a44e8b99f2ee,El queso. Se hace con leche.,frase,src/temas/temas5.ts
 270ba6beba57,El aceite de oliva. Se hace con aceitunas.,frase,src/temas/temas5.ts
 3d009b42e439,"Las chucherías. Son ricas, pero son para de vez en cuando.",frase,src/temas/temas5.ts
 8ea822244fab,¿Animal o planta?,frase,src/temas/temas5.ts
-16862c2aa78a, viene de una planta.,trozo,src/temas/temas5.ts
-0544e4230b24, viene de un animal.,trozo,src/temas/temas5.ts
+2a5c8038e1b2,{Cosa} viene de una planta.,trozo,src/temas/temas5.ts
+c40b22dd9ec9,{Cosa} viene de un animal.,trozo,src/temas/temas5.ts
 b750e56403e9,¿De dónde viene cada comida? Lo que viene de los animales va con la vaca. Lo que viene de las plantas va con la planta.,frase,src/temas/temas5.ts
 660d441cc7eb,¿Quién nos lo da?,frase,src/temas/temas5.ts
 cd7a225bccfd,Une cada comida con quién nos la da. Arrastra de una a la otra.,frase,src/temas/temas5.ts
-31b4aed77ff1,"Mmm, ",trozo,src/temas/temas5.ts
-87acbc11f92d, no viene ,trozo,src/temas/temas5.ts
+41b6bab4b5f6,{Cosa} viene {deOtra}.,trozo,src/temas/temas5.ts
+a21a7979750b,"Mmm, {cosa} no viene {deOtra}.",frase,src/temas/temas5.ts
 dbf6dfc3f086,Todos los días o a veces,trozo,src/temas/temas5.ts
-e6726528de29," es rico, pero tiene mucha azúcar. Es para de vez en cuando.",trozo,src/temas/temas5.ts
-93e00c4555d1, es sano. ¡Lo podemos comer todos los días!,trozo,src/temas/temas5.ts
-9de58a5dd56b, nos hace crecer sanos.,trozo,src/temas/temas5.ts
-abb8f7a6590f,", solo de vez en cuando.",trozo,src/temas/temas5.ts
+cbb0032e8fd9,"{Cosa} es rico, pero tiene mucha azúcar. Es para de vez en cuando.",trozo,src/temas/temas5.ts
+b254e712b5fd,{Cosa} es sano. ¡Lo podemos comer todos los días!,trozo,src/temas/temas5.ts
+d4bdc2eae009,¡Sí! {Cosa} nos hace crecer sanos.,frase,src/temas/temas5.ts
+2ab158225206,"¡Sí! {Cosa}, solo de vez en cuando.",frase,src/temas/temas5.ts
 c1db478b962b,"Lo sano lo comemos todos los días. Los dulces, solo de vez en cuando. Lleva cada comida a su lugar.",frase,src/temas/temas5.ts
 6d45a8f1b68d,Las fiestas del año,trozo,src/temas/temas5.ts
 efdd99217b23,La corona. En enero llegan los Reyes Magos con regalos.,frase,src/temas/temas5.ts
@@ -3479,6 +3477,7 @@ af53620b60bd,Marte. Es el planeta rojo.,frase,src/temas/temas5.ts
 52be8076d08b,El día y la noche,trozo,src/temas/temas5.ts
 b9ab86aa5344,Contar estrellas,trozo,src/temas/temas5.ts
 2c0b9678eba8,Del más chico al más grande,trozo,src/temas/temas5.ts
+1b2aba04d04c,{Cosa}.,trozo,src/temas/temas5.ts
 53fc49c82868,Ordena los planetas del más chico al más grande.,frase,src/temas/temas5.ts
 fbe2945e4591,"¡Muy bien! La luna es más chica que la Tierra, y Júpiter es el más grande.",frase,src/temas/temas5.ts
 86b0a71efb69,"¡Muy bien! Marte es pequeñito, la Tierra es mediana y Júpiter es enorme.",frase,src/temas/temas5.ts
@@ -3493,8 +3492,8 @@ a0bd6a23b239,"El fósil. Es una huella de hace muchísimo tiempo, guardada en la
 e14de11068bc,Buscar fósiles,trozo,src/temas/temas5.ts
 647ee447996d,Somos paleontólogos. Frota la tierra para descubrir lo que dejaron los dinosaurios.,frase,src/temas/temas5.ts
 a7c79549d1fa,¿Qué comía?,frase,src/temas/temas5.ts
-868ede7e55b4, comía carne.,trozo,src/temas/temas5.ts
-cc25fa9d0a31, comía plantas.,trozo,src/temas/temas5.ts
+8fae69342cfb,{Cosa} comía carne.,trozo,src/temas/temas5.ts
+f30dfc57eaae,{Cosa} comía plantas.,trozo,src/temas/temas5.ts
 c045fc7b98e8,¿Qué comía cada dinosaurio? Los que comían plantas van con las hojas. Los que comían carne van con la carne.,frase,src/temas/temas5.ts
 3ffc359c9d8d,¡Muy bien! El diplodoco y el triceratops comían plantas. El tiranosaurio y el pterodáctilo comían carne.,frase,src/temas/temas5.ts
 f82a3fb78097,Los animales y dónde viven,trozo,src/temas/temas5.ts
@@ -3504,16 +3503,15 @@ a1df75c97845,El camello. Vive en el desierto y aguanta mucho sin tomar agua.,fra
 094ec90d8b84,El pingüino. Vive donde hace mucho frío.,frase,src/temas/temas5.ts
 b27823869eab,"El mono. Vive en la selva, entre los árboles.",frase,src/temas/temas5.ts
 173181299b75,El cocodrilo. Vive en los ríos de la selva.,frase,src/temas/temas5.ts
-f9e00ae1acbc, no vive en ,trozo,src/temas/temas5.ts
-3461e3eb47c4, vive en ,trozo,src/temas/temas5.ts
+fe906c563726,{Cosa} no vive en {sitio}.,trozo,src/temas/temas5.ts
+367f16fa0620,{Cosa} vive en {sitio}.,trozo,src/temas/temas5.ts
 8e274ed9be9d,¿Dónde vive cada animal? Llévalo a su casa.,frase,src/temas/temas5.ts
 d3fc77e8e82b,¿Huevo o panza?,frase,src/temas/temas5.ts
-4b543ac1c3c2, crece en la panza de su mamá.,trozo,src/temas/temas5.ts
-3402d8c7491d, nace de un huevo.,trozo,src/temas/temas5.ts
-fd1a42a3a5e9, crece en la tripa de su mamá.,trozo,src/temas/temas5.ts
+528ca9dc7160,{Cosa} crece en la panza de su mamá.,trozo,src/temas/temas5.ts
+62112f43e2c4,{Cosa} nace de un huevo.,trozo,src/temas/temas5.ts
+4f41f0fd343d,{Cosa} crece en la tripa de su mamá.,trozo,src/temas/temas5.ts
 ebb5ca44ac43,¿Cómo nacen? Algunos animales nacen de un huevo. Otros crecen en la tripa de su mamá.,frase,src/temas/temas5.ts
-a91d99d49be7,¡Sí! Es la sombra ,trozo,src/temas/temas5.ts
-1941891b92c6,. Mira bien la forma.,trozo,src/temas/temas5.ts
+b4efa123f573,Mira bien la forma.,frase,src/temas/temas5.ts
 cb1cb8253f78,El tiempo y el clima,trozo,src/temas/temas5.ts
 649c2f147ad2,Hace sol. Hace calor y el cielo está despejado.,frase,src/temas/temas5.ts
 d715e843d06c,Está nublado. Las nubes tapan el sol.,frase,src/temas/temas5.ts
@@ -3552,13 +3550,14 @@ dbe10bf7cdb5,"La oruga. Come hojas, come y come, y después hace un capullo.",fr
 f567275072bf,¿Cómo crece? Ordena del primero al último.,frase,src/temas/temas5.ts
 cc11d15de117,¡Muy bien! Así crecen los seres vivos.,frase,src/temas/temas5.ts
 4700cb5c04ea,¿Está vivo?,frase,src/temas/temas5.ts
-0e6f86fa4d45," no está vivo: no nace, no crece y no come.",trozo,src/temas/temas5.ts
-811a0605cd84," es un ser vivo: nace, crece y se alimenta.",trozo,src/temas/temas5.ts
-20b10e53b8b8, es un ser vivo.,trozo,src/temas/temas5.ts
-a6725d1a3655, no está vivo.,trozo,src/temas/temas5.ts
+f41e17b81f66,"{Cosa} no está vivo: no nace, no crece y no come.",trozo,src/temas/temas5.ts
+e405ff2995d4,"{Cosa} es un ser vivo: nace, crece y se alimenta.",trozo,src/temas/temas5.ts
+1addf78a757a,{Cosa} es un ser vivo.,trozo,src/temas/temas5.ts
+680acf9c956d,{Cosa} no está vivo.,trozo,src/temas/temas5.ts
 497a14e552c5,"Los seres vivos nacen, crecen y se alimentan. Lleva los seres vivos con el corazón y las cosas con la piedra.",frase,src/temas/temas5.ts
 52b09ee3dc92,¿Qué necesita para vivir?,frase,src/temas/temas5.ts
-7ce3671e4c04, no hace falta para vivir. ,trozo,src/temas/temas5.ts
+f4200102941f,¡Sí!,frase,src/temas/temas5.ts
+3324a7630250,{Cosa} no hace falta para vivir.,trozo,src/temas/temas5.ts
 c871bb3ec35c,Cuidamos el planeta,trozo,src/temas/temas5.ts
 e45db9f8fbe0,La botella de plástico. Va al contenedor amarillo.,frase,src/temas/temas5.ts
 7f48f4b0cc7f,La lata. También va al amarillo.,frase,src/temas/temas5.ts
@@ -3569,9 +3568,9 @@ d6b5226a3859,La botella de vidrio. Va al contenedor verde.,frase,src/temas/temas
 17dabb06494e,El grifo. Hay que cerrarlo para no gastar agua.,frase,src/temas/temas5.ts
 00200c2c64f1,La bombilla. Apagamos la luz cuando no la usamos.,frase,src/temas/temas5.ts
 d2cd8d8b9fd0,A reciclar,trozo,src/temas/temas5.ts
-b87c6ddabac0, no va en ,trozo,src/temas/temas5.ts
-86024117b50a, va en ,trozo,src/temas/temas5.ts
-69643a2d9703,Vamos a reciclar. ,frase,src/temas/temas5.ts
+af6c022db0bd,"Mmm, {cosa} no va en {cubo}.",frase,src/temas/temas5.ts
+f3cc736c2b01,{Cosa} va en {cubo}.,trozo,src/temas/temas5.ts
+34f19978ec42,Vamos a reciclar.,frase,src/temas/temas5.ts
 c362cac4812e,¡Ahora con los cuatro contenedores! Lleva cada cosa a su lugar.,frase,src/temas/temas5.ts
 b235c58571fa,Ahorramos agua y luz,trozo,src/temas/temas5.ts
 af49243fb6b1,Nadie está usando estas cosas. ¡Apaguémoslas para cuidar el planeta! Toca cada una.,frase,src/temas/temas5.ts
@@ -3580,7 +3579,7 @@ cd120c45aec3,¡Grifo cerrado! Así no se gasta el agua.,frase,src/temas/temas5.t
 a1409484b5aa,¡Tele apagada!,frase,src/temas/temas5.ts
 5b54a9400aa0,¡Muy bien! Así ahorramos agua y luz.,frase,src/temas/temas5.ts
 70de906a3d92,Limpiamos el parque,trozo,src/temas/temas5.ts
-ed0f9007852a, es parte del parque. ¡Se queda!,trozo,src/temas/temas5.ts
+a93ec5b73b87,{Cosa} es parte del parque. ¡Se queda!,trozo,src/temas/temas5.ts
 79d2bc6738dd,Eso va a la papelera.,frase,src/temas/temas5.ts
 867094fb3c92,¡Alguien dejó basura en el parque! Lleva la basura a la papelera. Las flores y los animales se quedan.,frase,src/temas/temas5.ts
 f7099339b565,¡El parque quedó limpito! Gracias por cuidar el planeta.,frase,src/temas/temas5.ts
@@ -3598,52 +3597,49 @@ d4b03b2c9561,¿Qué nos cuida?,frase,src/temas/temas5.ts
 6162f1c7e6bc,Subimos al coche. ¿Qué nos abrochamos?,frase,src/temas/temas5.ts
 3ec6a6efadaf,Queremos cruzar la calle. ¿Por dónde cruzamos?,frase,src/temas/temas5.ts
 0ed5166e8154,Vamos en moto. ¿Qué nos protege la cabeza?,frase,src/temas/temas5.ts
-9879c25db731,. ¡Así viajamos seguros!,trozo,src/temas/temas5.ts
+61b261d1a8d5,¡Sí! {Cosa}. ¡Así viajamos seguros!,frase,src/temas/temas5.ts
 56f047f634e4,Armamos la maleta,trozo,src/temas/temas5.ts
-37e969f784c7, es para la nieve.,trozo,src/temas/temas5.ts
-ce438d0734b0, es para la playa.,trozo,src/temas/temas5.ts
-9913a01017d0,", para la playa.",trozo,src/temas/temas5.ts
-be631597c498,", para la nieve.",trozo,src/temas/temas5.ts
+a425099c527a,{Cosa} es para la nieve.,trozo,src/temas/temas5.ts
+038d3c197808,{Cosa} es para la playa.,trozo,src/temas/temas5.ts
+91bc3a3be47e,"{Cosa}, para la playa.",trozo,src/temas/temas5.ts
+25f625459b08,"{Cosa}, para la nieve.",trozo,src/temas/temas5.ts
 8dcbe3caa5d0,Nos vamos de vacaciones. ¿Qué llevamos a la playa y qué llevamos a la nieve? Lleva cada cosa a su maleta.,frase,src/temas/temas5.ts
 a68c7ee407ba,Mezclar colores,trozo,src/temas/temas5.ts
-ee23c4f89cdc, y ,trozo,src/temas/temas5.ts
-d73723532be7, mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
-3c4eb3651ddc, hacen ,trozo,src/temas/temas5.ts
-cf239d64c398,Ese es el ,trozo,src/temas/temas5.ts
-97eff4a59e77,. Piensa: ,trozo,src/temas/temas5.ts
+7c6b6fac9c73,{Uno} y {otro} mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
+bbd2576991c0,¡Sí! {Uno} y {otro} hacen {mezcla}.,frase,src/temas/temas5.ts
+369d4d638a5c,Ese es el {color}. Piensa: {uno} y {otro}.,frase,src/temas/temas5.ts
 5bdfd02e6619,¿Qué forma tiene?,frase,src/temas/temas5.ts
-2d64b95bc7d1,Ese es ,trozo,src/temas/temas5.ts
+23c062dd0af8,¡Sí! {Forma}.,frase,src/temas/temas5.ts
+357568d5a113,Ese es {forma}.,frase,src/temas/temas5.ts
 80eb5e440693,Sumar,trozo,src/temas/temas5.ts
 29c3f9cda3d4,{A} y {b}. ¿Cuántas hay en total?,trozo,src/temas/temas5.ts
 cc118d2a2b10,{A} y {b}. ¿Cuántos hay en total?,trozo,src/temas/temas5.ts
-d1f4b8342a6c, más ,trozo,src/temas/temas5.ts
-d7f057053ae2,"Mmm, cuenta todos juntos: ",trozo,src/temas/temas5.ts
+5ead43111a0e,¡Sí! {A} más {b} son {n}.,frase,src/temas/temas5.ts
+70a440a06411,"Mmm, cuenta todos juntos: {numeros}.",frase,src/temas/temas5.ts
 f11dd8aae7d9,Restar,trozo,src/temas/temas5.ts
-6cc056981269,Teníamos ,trozo,src/temas/temas5.ts
-83b3f3a4c2d3, globos y se volaron ,trozo,src/temas/temas5.ts
-4d4e5acd535f,. ¿Cuántos quedan?,trozo,src/temas/temas5.ts
-5a2d33604a18,¡Sí! Quedan ,trozo,src/temas/temas5.ts
+f8097f90ac03,Teníamos {a} globos y se volaron {b}. ¿Cuántos quedan?,frase,src/temas/temas5.ts
+68b616bdb2a6,¡Sí! Quedan {n}.,frase,src/temas/temas5.ts
 39f62b76250d,"Mmm, cuenta solo los globos que quedaron.",frase,src/temas/temas5.ts
 0e6c5816e634,Primero y último,trozo,src/temas/temas5.ts
 674ee011803b,el último,trozo,src/temas/temas5.ts
-e8ba96a25ffa,Los animales hacen fila para entrar a la casa. ¿Quién es ,trozo,src/temas/temas5.ts
-54c91b7fe2bc, de la fila?,trozo,src/temas/temas5.ts
-822ae562234f, no es ,trozo,src/temas/temas5.ts
-f34a3b8f422c,. El primero es el que está más cerca de la casa.,trozo,src/temas/temas5.ts
+712219658342,Los animales hacen fila para entrar a la casa. ¿Quién es {puesto} de la fila?,frase,src/temas/temas5.ts
+fa6dbbb90bde,¡Sí! {Cosa} es {puesto}.,frase,src/temas/temas5.ts
+c63954c79c18,{Cosa} no es {puesto}. El primero es el que está más cerca de la casa.,trozo,src/temas/temas5.ts
 a4e05b8c29bb,"Derecha, izquierda y entre",trozo,src/temas/temas5.ts
-3f24215d170c,¿Quién está entre ,trozo,src/temas/temas5.ts
-cfd9759d2856,¿Quién está a la derecha ,trozo,src/temas/temas5.ts
-4ac433d9290e,¿Quién está a la izquierda ,trozo,src/temas/temas5.ts
+2b2d5e9fe4e2,¿Quién está entre {uno} y {otro}?,frase,src/temas/temas5.ts
+c64f14d4293f,¿Quién está a la derecha {deCosa}?,frase,src/temas/temas5.ts
+69884375bf59,¿Quién está a la izquierda {deCosa}?,frase,src/temas/temas5.ts
 d6c676bc4220,"Pesado, liviano, grueso y delgado",trozo,src/temas/temas5.ts
 96a5e5288a7b,más pesado,trozo,src/temas/temas5.ts
 c06e11b0b5cf,más ligero,trozo,src/temas/temas5.ts
-5a4e90f9d7d1,¿Qué es ,trozo,src/temas/temas5.ts
-5d5e749c1f42,. ¿Qué es ,trozo,src/temas/temas5.ts
+7338e3899a9f,¿Qué es {cual}?,frase,src/temas/temas5.ts
+bdcea20dcd68,¡Sí! {Cosa} es {cual}.,frase,src/temas/temas5.ts
+ba85679397d8,{Cosa} no es {cual}. ¿Qué es {cual}?,trozo,src/temas/temas5.ts
 053967a20f30,más grueso,trozo,src/temas/temas5.ts
 cb2a6eab6c52,más delgado,trozo,src/temas/temas5.ts
-a0bae866c997,¿Cuál es ,trozo,src/temas/temas5.ts
-a293fee7c2fa,¡Sí! Ese es ,trozo,src/temas/temas5.ts
-aaa5992e2a7b,Mira bien el ancho de cada uno. ¿Cuál es ,trozo,src/temas/temas5.ts
+02801b9b8997,¿Cuál es {cual}?,frase,src/temas/temas5.ts
+17871b283c71,¡Sí! Ese es {cual}.,frase,src/temas/temas5.ts
+e0bc3bd26583,Mira bien el ancho de cada uno. ¿Cuál es {cual}?,frase,src/temas/temas5.ts
 57c04dfb0d77,Series difíciles,trozo,src/temas/temas5.ts
 e91fd1d1ccb0,Cómo se juega,adultos,src/aplicacion/adultos/comoSeJuega.ts
 b9d2e06207df,Juego,adultos,src/aplicacion/adultos/comoSeJuega.ts

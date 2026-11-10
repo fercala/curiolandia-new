@@ -43,6 +43,8 @@ import {
   tree,
   fmt,
   nombreEn,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import {
   Apaga,
@@ -475,14 +477,15 @@ export const T5: Tema[] = [
                   others = shuffle([...Array(12).keys()].filter((x) => x !== ans && !seq.includes(x)))
                     .slice(0, nOpts() - 1)
                     .map(monthCard);
-                const read = seq.map((j) => MESES[j]).join(', ');
+                const read = seq.map((j) => tr(MESES[j]!)).join(', ');
                 return {
                   seq,
                   words: [A, ...others],
                   ok: [A],
-                  ask: cap(read) + '... ¿Qué mes viene después?',
-                  okSay: () => '¡Sí! Después de ' + MESES[seq[1]] + ' viene ' + MESES[ans] + '.',
-                  badSay: (w: Cosa) => cap(w.name) + ' no. ' + cap(read) + '... ¿y después?',
+                  ask: fmt('{Meses}... ¿Qué mes viene después?', { meses: read }),
+                  okSay: () =>
+                    fmt('¡Sí! Después de {mes} viene {otro}.', { mes: tr(MESES[seq[1]]!), otro: tr(MESES[ans]!) }),
+                  badSay: (w: Cosa) => fmt('{Mes} no. {Meses}... ¿y después?', { mes: tr(w.name), meses: read }),
                 };
               },
             },
@@ -541,7 +544,7 @@ export const T5: Tema[] = [
               ring: '#3E6B9A',
               key: 'cuerpo-dentro',
               intro: 'Esta es una máquina de rayos X. Mira adentro del cuerpo con la pantalla.',
-              ask: (k: Cosa) => 'Busca ' + W_(k) + '.',
+              ask: (k: Cosa) => fmt('Busca {cosa}.', { cosa: W_(k) }),
               foundSay: (k: Cosa) =>
                 (
                   ({
@@ -635,7 +638,7 @@ export const T5: Tema[] = [
                   words: [q[1], ...others],
                   ok: [q[1]],
                   ask: q[2],
-                  okSay: () => '¡Sí! ' + cap(nameT(q[1])) + '.',
+                  okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[1]) }),
                   badSay: (w: Cosa) => eseEs(w) + '. ' + q[2],
                 };
               },
@@ -732,7 +735,7 @@ export const T5: Tema[] = [
                   words: [q[0], ...q[2].slice(0, nOpts() - 1)],
                   ok: [q[0]],
                   ask: q[1],
-                  okSay: () => '¡Sí! ' + cap(nameT(q[0])) + '.',
+                  okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[0]) }),
                   badSay: (w: Cosa) => eseEs(w) + '. ' + q[1],
                 };
               },
@@ -794,10 +797,12 @@ export const T5: Tema[] = [
               bg: t.bg,
               why: (it: Libre, z: Libre) =>
                 z.id === 'animal'
-                  ? cap(nameT(it.k)) + ' viene de una planta.'
-                  : cap(nameT(it.k)) + ' viene de un animal.',
+                  ? fmt('{Cosa} viene de una planta.', { cosa: nameT(it.k) })
+                  : fmt('{Cosa} viene de un animal.', { cosa: nameT(it.k) }),
               placeSay: (it: Libre, z: Libre) =>
-                cap(nameT(it.k)) + (z.id === 'animal' ? ' viene de un animal.' : ' viene de una planta.'),
+                fmt(z.id === 'animal' ? '{Cosa} viene de un animal.' : '{Cosa} viene de una planta.', {
+                  cosa: nameT(it.k),
+                }),
               gen() {
                 const a = shuffle(['huevo', 'leche', 'queso', 'pescado', 'miel', 'carne']).slice(0, AGE() <= 4 ? 2 : 3),
                   p = shuffle(['arroz', 'legumbres', 'aceite', 'pan', 'manzana', 'zanahoria']).slice(
@@ -836,8 +841,8 @@ export const T5: Tema[] = [
               bg: t.bg,
               key: 'origen-alimentos',
               ask: 'Une cada comida con quién nos la da. Arrastra de una a la otra.',
-              okSay: (a: Cosa, b: string) => cap(nameT(a)) + ' viene ' + dela(b) + '.',
-              why: (a: Cosa, b: string) => 'Mmm, ' + nameT(a) + ' no viene ' + dela(b) + '.',
+              okSay: (a: Cosa, b: string) => fmt('{Cosa} viene {deOtra}.', { cosa: nameT(a), deOtra: dela(b) }),
+              why: (a: Cosa, b: string) => fmt('Mmm, {cosa} no viene {deOtra}.', { cosa: nameT(a), deOtra: dela(b) }),
             },
             d,
           ),
@@ -854,12 +859,12 @@ export const T5: Tema[] = [
               bg: t.bg,
               why: (it: Libre, z: Libre) =>
                 z.id === 'siempre'
-                  ? cap(nameT(it.k)) + ' es rico, pero tiene mucha azúcar. Es para de vez en cuando.'
-                  : cap(nameT(it.k)) + ' es sano. ¡Lo podemos comer todos los días!',
+                  ? fmt('{Cosa} es rico, pero tiene mucha azúcar. Es para de vez en cuando.', { cosa: nameT(it.k) })
+                  : fmt('{Cosa} es sano. ¡Lo podemos comer todos los días!', { cosa: nameT(it.k) }),
               placeSay: (it: Libre, z: Libre) =>
                 z.id === 'siempre'
-                  ? '¡Sí! ' + cap(nameT(it.k)) + ' nos hace crecer sanos.'
-                  : '¡Sí! ' + cap(nameT(it.k)) + ', solo de vez en cuando.',
+                  ? fmt('¡Sí! {Cosa} nos hace crecer sanos.', { cosa: nameT(it.k) })
+                  : fmt('¡Sí! {Cosa}, solo de vez en cuando.', { cosa: nameT(it.k) }),
               gen() {
                 const s = shuffle([
                     'manzana',
@@ -978,7 +983,7 @@ export const T5: Tema[] = [
                   words: [q[0], ...q[2].slice(0, nOpts() - 1)],
                   ok: [q[0]],
                   ask: q[1],
-                  okSay: () => '¡Sí! ' + cap(nameT(q[0])) + '.',
+                  okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[0]) }),
                   badSay: (w: Cosa) => eseEs(w) + '. ' + q[1],
                 };
               },
@@ -1037,7 +1042,7 @@ export const T5: Tema[] = [
               bg: t.bg,
               noCard: true,
               why: () => 'Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.',
-              placeSay: (it: Libre) => cap(nameT(it.k)) + '.',
+              placeSay: (it: Libre) => fmt('{Cosa}.', { cosa: nameT(it.k) }),
               gen(i: number) {
                 const set = i ? ['luna', 'tierra', 'jupiter'] : ['marte', 'tierra', 'jupiter'];
                 return {
@@ -1103,9 +1108,11 @@ export const T5: Tema[] = [
               key: 'dinos',
               bg: t.bg,
               why: (it: Libre, z: Libre) =>
-                z.id === 'plantas' ? cap(nameT(it.k)) + ' comía carne.' : cap(nameT(it.k)) + ' comía plantas.',
+                z.id === 'plantas'
+                  ? fmt('{Cosa} comía carne.', { cosa: nameT(it.k) })
+                  : fmt('{Cosa} comía plantas.', { cosa: nameT(it.k) }),
               placeSay: (it: Libre, z: Libre) =>
-                cap(nameT(it.k)) + (z.id === 'plantas' ? ' comía plantas.' : ' comía carne.'),
+                fmt(z.id === 'plantas' ? '{Cosa} comía plantas.' : '{Cosa} comía carne.', { cosa: nameT(it.k) }),
               gen() {
                 return {
                   ask: '¿Qué comía cada dinosaurio? Los que comían plantas van con las hojas. Los que comían carne van con la carne.',
@@ -1165,8 +1172,10 @@ export const T5: Tema[] = [
               rounds: AGE() >= 5 ? 3 : 2,
               key: 'habitats',
               bg: t.bg,
-              why: (it: Libre, z: Libre) => cap(nameT(it.k)) + ' no vive en ' + habZ[z.id].nm + '.',
-              placeSay: (it: Libre, z: Libre) => cap(nameT(it.k)) + ' vive en ' + habZ[z.id].nm + '.',
+              why: (it: Libre, z: Libre) =>
+                fmt('{Cosa} no vive en {sitio}.', { cosa: nameT(it.k), sitio: tr(habZ[z.id].nm) }),
+              placeSay: (it: Libre, z: Libre) =>
+                fmt('{Cosa} vive en {sitio}.', { cosa: nameT(it.k), sitio: tr(habZ[z.id].nm) }),
               gen(i: number) {
                 const zs = [
                     ['mar', 'polo'],
@@ -1210,10 +1219,12 @@ export const T5: Tema[] = [
               bg: BG.granja,
               why: (it: Libre, z: Libre) =>
                 z.id === 'huevo'
-                  ? cap(nameT(it.k)) + ' crece en la panza de su mamá.'
-                  : cap(nameT(it.k)) + ' nace de un huevo.',
+                  ? fmt('{Cosa} crece en la panza de su mamá.', { cosa: nameT(it.k) })
+                  : fmt('{Cosa} nace de un huevo.', { cosa: nameT(it.k) }),
               placeSay: (it: Libre, z: Libre) =>
-                cap(nameT(it.k)) + (z.id === 'huevo' ? ' nace de un huevo.' : ' crece en la tripa de su mamá.'),
+                fmt(z.id === 'huevo' ? '{Cosa} nace de un huevo.' : '{Cosa} crece en la tripa de su mamá.', {
+                  cosa: nameT(it.k),
+                }),
               gen() {
                 const h = shuffle(['gallina', 'pato', 'cocodrilo', 'pinguino', 'tortuga', 'pajaro', 'rana']).slice(
                     0,
@@ -1268,8 +1279,8 @@ export const T5: Tema[] = [
                   words: [k, ...others],
                   ok: [k],
                   ask: '¿De quién es esta sombra?',
-                  okSay: () => '¡Sí! Es la sombra ' + dela(k) + '.',
-                  badSay: (w: Cosa) => eseEs(w) + '. Mira bien la forma.',
+                  okSay: () => fmt('¡Sí! Es la sombra {deCosa}.', { deCosa: dela(k) }),
+                  badSay: (w: Cosa) => juntar(eseEs(w) + '.', tr('Mira bien la forma.')),
                 };
               },
             },
@@ -1336,7 +1347,7 @@ export const T5: Tema[] = [
                   words: [q[1], ...others],
                   ok: [q[1]],
                   ask: q[2],
-                  okSay: () => '¡Sí! ' + cap(nameT(q[1])) + '.',
+                  okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[1]) }),
                   badSay: (w: Cosa) => eseEs(w) + '. ' + q[2],
                 };
               },
@@ -1476,10 +1487,10 @@ export const T5: Tema[] = [
               bg: t.bg,
               why: (it: Libre, z: Libre) =>
                 z.id === 'vivo'
-                  ? cap(nameT(it.k)) + ' no está vivo: no nace, no crece y no come.'
-                  : cap(nameT(it.k)) + ' es un ser vivo: nace, crece y se alimenta.',
+                  ? fmt('{Cosa} no está vivo: no nace, no crece y no come.', { cosa: nameT(it.k) })
+                  : fmt('{Cosa} es un ser vivo: nace, crece y se alimenta.', { cosa: nameT(it.k) }),
               placeSay: (it: Libre, z: Libre) =>
-                cap(nameT(it.k)) + (z.id === 'vivo' ? ' es un ser vivo.' : ' no está vivo.'),
+                fmt(z.id === 'vivo' ? '{Cosa} es un ser vivo.' : '{Cosa} no está vivo.', { cosa: nameT(it.k) }),
               gen() {
                 const v = shuffle(pVivo).slice(0, AGE() <= 4 ? 2 : 3),
                   n = shuffle(pNoVivo).slice(0, 2);
@@ -1521,8 +1532,8 @@ export const T5: Tema[] = [
                   words: [ok, ...others],
                   ok: [ok],
                   ask: q[2][0],
-                  okSay: () => '¡Sí! ' + q[2][1],
-                  badSay: (w: Cosa) => cap(nameT(w)) + ' no hace falta para vivir. ' + q[2][0],
+                  okSay: () => juntar(tr('¡Sí!'), tr(q[2][1])),
+                  badSay: (w: Cosa) => juntar(fmt('{Cosa} no hace falta para vivir.', { cosa: nameT(w) }), tr(q[2][0])),
                 };
               },
             },
@@ -1564,8 +1575,12 @@ export const T5: Tema[] = [
               key: 'reciclar',
               bg: t.bg,
               why: (it: Libre, z: Libre) =>
-                'Mmm, ' + nameT(it.k) + ' no va en ' + BINS[z.id].n + '. ' + BINSAY[binOf(it.k)!],
-              placeSay: (it: Libre, z: Libre) => cap(nameT(it.k)) + ' va en ' + BINS[z.id].n + '.',
+                juntar(
+                  fmt('Mmm, {cosa} no va en {cubo}.', { cosa: nameT(it.k), cubo: nombreEn(BINS[z.id].n).art }),
+                  tr(BINSAY[binOf(it.k)!]!),
+                ),
+              placeSay: (it: Libre, z: Libre) =>
+                fmt('{Cosa} va en {cubo}.', { cosa: nameT(it.k), cubo: nombreEn(BINS[z.id].n).art }),
               gen(i: number) {
                 const bs = [
                     ['amarillo', 'azul'],
@@ -1582,7 +1597,7 @@ export const T5: Tema[] = [
                 return {
                   ask:
                     i < 2
-                      ? 'Vamos a reciclar. ' + BINSAY[bs[0]] + ' ' + BINSAY[bs[1]]
+                      ? juntar(tr('Vamos a reciclar.'), tr(BINSAY[bs[0]]!), tr(BINSAY[bs[1]]!))
                       : '¡Ahora con los cuatro contenedores! Lleva cada cosa a su lugar.',
                   zones: bs.map((b, j, a) => ({
                     id: b,
@@ -1642,7 +1657,9 @@ export const T5: Tema[] = [
               bg: t.bg,
               sayPick: false,
               why: (it: Libre) =>
-                it.zone === 'no' ? cap(nameT(it.k)) + ' es parte del parque. ¡Se queda!' : 'Eso va a la papelera.',
+                it.zone === 'no'
+                  ? fmt('{Cosa} es parte del parque. ¡Se queda!', { cosa: nameT(it.k) })
+                  : 'Eso va a la papelera.',
               gen() {
                 const P = shuffle([
                   [420, 560],
@@ -1743,7 +1760,7 @@ export const T5: Tema[] = [
                   words: [q[1], ...others],
                   ok: [q[1]],
                   ask: q[2],
-                  okSay: () => '¡Sí! ' + cap(nameT(q[1])) + '. ¡Así viajamos seguros!',
+                  okSay: () => fmt('¡Sí! {Cosa}. ¡Así viajamos seguros!', { cosa: nameT(q[1]) }),
                   badSay: (w: Cosa) => eseEs(w) + '. ' + q[2],
                 };
               },
@@ -1763,9 +1780,11 @@ export const T5: Tema[] = [
               key: 'maleta',
               bg: BG.casa,
               why: (it: Libre, z: Libre) =>
-                z.id === 'playa' ? cap(nameT(it.k)) + ' es para la nieve.' : cap(nameT(it.k)) + ' es para la playa.',
+                z.id === 'playa'
+                  ? fmt('{Cosa} es para la nieve.', { cosa: nameT(it.k) })
+                  : fmt('{Cosa} es para la playa.', { cosa: nameT(it.k) }),
               placeSay: (it: Libre, z: Libre) =>
-                cap(nameT(it.k)) + (z.id === 'playa' ? ', para la playa.' : ', para la nieve.'),
+                fmt(z.id === 'playa' ? '{Cosa}, para la playa.' : '{Cosa}, para la nieve.', { cosa: nameT(it.k) }),
               gen() {
                 const p = shuffle(['banador', 'gafas', 'crema', 'cubo', 'pelotaPlaya', 'gorra']).slice(
                     0,
@@ -1842,11 +1861,22 @@ export const C5: Tema = {
                 q,
                 words: [A, ...others],
                 ok: [A],
-                ask: cap(COLORES[q[0]].n) + ' y ' + COLORES[q[1]].n + ' mezclados... ¿qué color hacen?',
+                ask: fmt('{Uno} y {otro} mezclados... ¿qué color hacen?', {
+                  uno: tr(COLORES[q[0]].n),
+                  otro: tr(COLORES[q[1]].n),
+                }),
                 okSay: () =>
-                  '¡Sí! ' + cap(COLORES[q[0]].n) + ' y ' + COLORES[q[1]].n + ' hacen ' + COLORES[q[2]].n + '.',
+                  fmt('¡Sí! {Uno} y {otro} hacen {mezcla}.', {
+                    uno: tr(COLORES[q[0]].n),
+                    otro: tr(COLORES[q[1]].n),
+                    mezcla: tr(COLORES[q[2]].n),
+                  }),
                 badSay: (w: Cosa) =>
-                  'Ese es el ' + w.name + '. Piensa: ' + COLORES[q[0]].n + ' y ' + COLORES[q[1]].n + '.',
+                  fmt('Ese es el {color}. Piensa: {uno} y {otro}.', {
+                    color: tr(w.name),
+                    uno: tr(COLORES[q[0]].n),
+                    otro: tr(COLORES[q[1]].n),
+                  }),
               };
             },
           },
@@ -1888,8 +1918,8 @@ export const C5: Tema = {
                 words: [A, ...others],
                 ok: [A],
                 ask: q[2],
-                okSay: () => '¡Sí! ' + cap(A.name) + '.',
-                badSay: (w: Cosa) => 'Ese es ' + w.name + '. ' + q[2],
+                okSay: () => fmt('¡Sí! {Forma}.', { forma: nombreEn(A.name).art }),
+                badSay: (w: Cosa) => juntar(fmt('Ese es {forma}.', { forma: nombreEn(w.name).art }), tr(q[2])),
               };
             },
           },
@@ -1939,9 +1969,11 @@ export const C5: Tema = {
                   a: unN(a, k),
                   b: unN(b, k),
                 }),
-                okSay: () => '¡Sí! ' + cap(NUM[a]) + ' más ' + NUM[b] + ' son ' + NUM[n] + '.',
+                okSay: () => fmt('¡Sí! {A} más {b} son {n}.', { a: NUM[a]!, b: NUM[b]!, n: NUM[n]! }),
                 badSay: () =>
-                  'Mmm, cuenta todos juntos: ' + Array.from({ length: n }, (_, j) => NUM[j + 1]).join(', ') + '.',
+                  fmt('Mmm, cuenta todos juntos: {numeros}.', {
+                    numeros: Array.from({ length: n }, (_, j) => NUM[j + 1]).join(', '),
+                  }),
               };
             },
           },
@@ -1997,8 +2029,8 @@ export const C5: Tema = {
                 t0: T,
                 words: [A, ...ns.slice(1).map(numObj)],
                 ok: [A],
-                ask: 'Teníamos ' + NUM[a] + ' globos y se volaron ' + NUM[b] + '. ¿Cuántos quedan?',
-                okSay: () => '¡Sí! Quedan ' + NUM[n] + '.',
+                ask: fmt('Teníamos {a} globos y se volaron {b}. ¿Cuántos quedan?', { a: NUM[a]!, b: NUM[b]! }),
+                okSay: () => fmt('¡Sí! Quedan {n}.', { n: NUM[n]! }),
                 badSay: () => 'Mmm, cuenta solo los globos que quedaron.',
               };
             },
@@ -2032,15 +2064,20 @@ export const C5: Tema = {
                 q = i % 3 === 0 ? 0 : i % 3 === 1 ? n - 1 : ri(1, n - 2),
                 k = row[q],
                 others = shuffle(row.filter((x) => x !== k)).slice(0, nOpts() - 1),
-                pos = q === n - 1 ? 'el último' : ORD[q];
+                pos = nombreEn(q === n - 1 ? 'el último' : ORD[q]!).art;
               return {
                 row,
                 words: [k, ...others],
                 ok: [k],
-                ask: 'Los animales hacen fila para entrar a la casa. ¿Quién es ' + pos + ' de la fila?',
-                okSay: () => '¡Sí! ' + cap(nameT(k)) + ' es ' + pos + '.',
+                ask: fmt('Los animales hacen fila para entrar a la casa. ¿Quién es {puesto} de la fila?', {
+                  puesto: pos,
+                }),
+                okSay: () => fmt('¡Sí! {Cosa} es {puesto}.', { cosa: nameT(k), puesto: pos }),
                 badSay: (w: Cosa) =>
-                  cap(nameT(w)) + ' no es ' + pos + '. El primero es el que está más cerca de la casa.',
+                  fmt('{Cosa} no es {puesto}. El primero es el que está más cerca de la casa.', {
+                    cosa: nameT(w),
+                    puesto: pos,
+                  }),
               };
             },
           },
@@ -2070,10 +2107,10 @@ export const C5: Tema = {
                 k = q === 0 ? row[1] : q === 1 ? row[2] : row[0];
               const ask =
                 q === 0
-                  ? '¿Quién está entre ' + nameT(row[0]) + ' y ' + nameT(row[2]) + '?'
+                  ? fmt('¿Quién está entre {uno} y {otro}?', { uno: nameT(row[0]), otro: nameT(row[2]) })
                   : q === 1
-                    ? '¿Quién está a la derecha ' + dela(row[1]) + '?'
-                    : '¿Quién está a la izquierda ' + dela(row[1]) + '?';
+                    ? fmt('¿Quién está a la derecha {deCosa}?', { deCosa: dela(row[1]) })
+                    : fmt('¿Quién está a la izquierda {deCosa}?', { deCosa: dela(row[1]) });
               return {
                 row,
                 words: row.slice(0, Math.max(2, nOpts())).includes(k)
@@ -2081,7 +2118,7 @@ export const C5: Tema = {
                   : [k, ...row.filter((x) => x !== k).slice(0, 1)],
                 ok: [k],
                 ask,
-                okSay: () => '¡Sí! ' + cap(nameT(k)) + '.',
+                okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(k) }),
                 badSay: (w: Cosa) => eseEs(w) + '. ' + ask,
               };
             },
@@ -2112,9 +2149,9 @@ export const C5: Tema = {
                 return {
                   words: [A, B],
                   ok: [ok],
-                  ask: '¿Qué es ' + adj + '?',
-                  okSay: () => '¡Sí! ' + cap(nameT(ok)) + ' es ' + adj + '.',
-                  badSay: (w: Cosa) => cap(nameT(w)) + ' no es ' + adj + '. ¿Qué es ' + adj + '?',
+                  ask: fmt('¿Qué es {cual}?', { cual: tr(adj) }),
+                  okSay: () => fmt('¡Sí! {Cosa} es {cual}.', { cosa: nameT(ok), cual: tr(adj) }),
+                  badSay: (w: Cosa) => fmt('{Cosa} no es {cual}. ¿Qué es {cual}?', { cosa: nameT(w), cual: tr(adj) }),
                 };
               }
               const mk = azar() < 0.5 ? trunk : bookOf,
@@ -2125,9 +2162,9 @@ export const C5: Tema = {
               return {
                 words: [A, B],
                 ok: [ok],
-                ask: '¿Cuál es ' + adj + '?',
-                okSay: () => '¡Sí! Ese es ' + adj + '.',
-                badSay: () => 'Mira bien el ancho de cada uno. ¿Cuál es ' + adj + '?',
+                ask: fmt('¿Cuál es {cual}?', { cual: tr(adj) }),
+                okSay: () => fmt('¡Sí! Ese es {cual}.', { cual: tr(adj) }),
+                badSay: () => fmt('Mira bien el ancho de cada uno. ¿Cuál es {cual}?', { cual: tr(adj) }),
               };
             },
           },
