@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) e **ID2a** (v0.2.118), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118) e **ID2b** (v0.2.119), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -254,4 +254,21 @@ quedan: 383 al terminar la ID2a, con la P11).
   plantillas con las formas del nombre. Quedan los de la Isla de las Letras (`temas/letras.ts`, `juegos/lectura.ts`),
   que es propia del castellano y tendrá su versión rumana en la ID6.
 - En castellano el juego dice y escribe lo mismo que antes (lo comprueban `npm run test:pr` y las frases de `__said`).
+
+### ID2b (v0.2.119): las frases del mapa, la tienda, la asamblea y el cofre
+
+- **69 frases compuestas pasan a plantillas** de `fmt` en `escenas/zonas.ts`, `tienda.ts`, `escenas2d.ts` y
+  `cofre.ts`; quedan 314 (`npm run idiomas:compuestas`). Cada variante (uno o varios, masculino o femenino, se abre o se
+  abren) es una plantilla entera: el traductor ve la frase completa.
+- **`juntar(...trozos)`** (`nucleo/traducir.ts`): para las frases que se dicen seguidas y alguna depende de algo (el
+  saludo según la hora, la presentación del tema, «¡Ya tiene dos!» detrás de otra frase). Cada trozo va ya traducido
+  (`tr` o `fmt`) y el resultado no se traduce otra vez; en castellano sale lo mismo que pegarlos con un espacio.
+- **Fechas**: los días, los meses y las estaciones se traducen como palabras sueltas (`tr(DIASL[i])`) antes de ir a su
+  hueco. Las estaciones con artículo (`el otoño`, `la primavera`), para «después viene…» y «el árbol del…», son
+  nombres (`nombreEn`).
+- **Nombres de la tienda**: los caparazones y las bufandas de colores tienen su nombre entero escrito (`'el caparazón
+  rosa'`), para que esté en el catálogo y en la tabla de nombres; el del vale es una plantilla (`'el vale: {vale}'`).
+- `lowName(t)` (el nombre del tema en minúscula) y los nombres de los sitios del mapa salen en el idioma del juego, y el
+  «dormida/dormido» y el «se abre/se abren» se eligen por el género y el número del nombre.
+- Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
 
