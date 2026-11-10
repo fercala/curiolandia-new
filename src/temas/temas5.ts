@@ -41,6 +41,8 @@ import {
   shuffle,
   text,
   tree,
+  fmt,
+  nombreEn,
 } from '../nucleo/indice.ts';
 import {
   Apaga,
@@ -61,7 +63,6 @@ import {
   Une,
   drawKid,
   eseEs,
-  fem,
   nameT,
   numCard,
   picF,
@@ -69,6 +70,7 @@ import {
   refCard,
   thing,
   unN,
+  femPl,
 } from '../juegos/indice.ts';
 import { sizeSlot, swatch, vestir } from './temas.ts';
 import { ESTS, fern, palm, shape2, zoneIcon } from './temas4.ts';
@@ -1932,11 +1934,11 @@ export const C5: Tema = {
                 k,
                 words: [A, ...ns.slice(1).map(numObj)],
                 ok: [A],
-                ask:
-                  cap(unN(a, k)) +
-                  ' y ' +
-                  unN(b, k) +
-                  '. ¿Cuántos hay en total?'.replace('Cuántos', fem(k) ? 'Cuántas' : 'Cuántos'),
+                // En femenino si las cosas lo son al contarlas (femPl; fase ID2 de docs/PLAN-IDIOMAS.md).
+                ask: fmt(femPl(k) ? '{A} y {b}. ¿Cuántas hay en total?' : '{A} y {b}. ¿Cuántos hay en total?', {
+                  a: unN(a, k),
+                  b: unN(b, k),
+                }),
                 okSay: () => '¡Sí! ' + cap(NUM[a]) + ' más ' + NUM[b] + ' son ' + NUM[n] + '.',
                 badSay: () =>
                   'Mmm, cuenta todos juntos: ' + Array.from({ length: n }, (_, j) => NUM[j + 1]).join(', ') + '.',
@@ -2021,7 +2023,7 @@ export const C5: Tema = {
               r.row.forEach((k: Cosa, j: number) => {
                 const x = 1280 - j * 190;
                 picF(k, x, 320 + Math.sin(T * 4 + j) * 4, 150, true);
-                text(ORD[j].replace(/^el /, '').toUpperCase(), x, 430, 24, '#9B8AD9', { f: LF });
+                text(nombreEn(ORD[j]!).sin.toUpperCase(), x, 430, 24, '#9B8AD9', { f: LF });
               });
             },
             gen(i: number) {

@@ -5,12 +5,12 @@
  * las letras del rumano (para que los textos del lienzo no salgan con otra letra), pero como mucho 2,5 s (sin internet pueden no llegar nunca).
  * Después va a la portada (go('title')) y arranca el bucle de dibujo frame() de aplicacion/bucle.ts, que ya se repite
  * solo con requestAnimationFrame.
- * Antes de nada decide el idioma del juego (iniciarIdioma), vuelve a elegir la voz en ese idioma y traduce las ventanas
+ * Antes de nada vuelve a elegir la voz en el idioma del juego (que decide nucleo/traducir.ts al cargarse) y traduce las ventanas
  * de head.html (trHtml).
  * Desde la fase 2p es un módulo: era el último archivo global, así que ya no queda código global.
- * Exporta: arrancar. Importa: go, iniciarIdioma, pickVoice y trHtml (el núcleo, src/nucleo/), cofrePend (escenas/cofre.ts) y frame (aplicacion/bucle.ts).
+ * Exporta: arrancar. Importa: go, pickVoice y trHtml (el núcleo, src/nucleo/), cofrePend (escenas/cofre.ts) y frame (aplicacion/bucle.ts).
  */
-import { go, iniciarIdioma, pickVoice, trHtml } from '../nucleo/indice.ts';
+import { go, pickVoice, trHtml } from '../nucleo/indice.ts';
 import { cofrePend } from '../escenas/cofre.ts';
 import { frame } from './bucle.ts';
 
@@ -22,9 +22,8 @@ const PRUEBA_FUENTES = 'Aaăș';
 // arrancar(): pone el juego en marcha, una sola vez, al cargar la página. Primero entrega el premio de un cofre que se
 // quedó sin abrir (se cerró o recargó la página); luego espera a las fuentes y va a la portada (ver empezar).
 export function arrancar(): void {
-  // Lo primero, el idioma (fase ID1 de docs/PLAN-IDIOMAS.md): con él se eligen la voz y se traducen las ventanas de la
-  // página (head.html), antes de que salga nada.
-  iniciarIdioma();
+  // Lo primero, el idioma (fase ID1 de docs/PLAN-IDIOMAS.md; lo decide nucleo/traducir.ts al cargarse): con él se elige
+  // la voz y se traducen las ventanas de la página (head.html), antes de que salga nada.
   pickVoice();
   trHtml(document.body);
   cofrePend();

@@ -3,8 +3,11 @@
 Nueva versión de [Curiolandia 3D](https://github.com/fercala/curiolandia-3d), el juego de temas de Educación Infantil
 (3, 4 y 5 años) con Tito como guía, rehecha en TypeScript con arquitectura limpia.
 
-La migración va por la fase 2: el juego es el de `curiolandia-3d` (v1.592) sin voces grabadas, montado con Vite y
-publicado desde aquí con sus pruebas en cada PR. El plan está en [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md), los principios
+Todo el juego está en módulos TypeScript, con reglas de dominio y casos de uso separados del dibujo; usa solo voz
+del navegador. Se monta con Vite y tiene pruebas en cada PR. El estado de las fases está en [docs/PLAN-MIGRACION.md](docs/PLAN-MIGRACION.md), los principios
 en [docs/CONSTITUCION-BORRADOR.md](docs/CONSTITUCION-BORRADOR.md) y cómo funciona en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
-Web: https://fercala.github.io/curiolandia-new/ (cuando GitHub Pages esté activado con la fuente «GitHub Actions»).
+Web: https://fercala.github.io/curiolandia-new/
+
+Para colaborar: [CLAUDE.md](CLAUDE.md) y, con Codex, [AGENTS.md](AGENTS.md) y [CODEX.md](CODEX.md).
+Ambos siguen los mismos planes y la [política de documentación](docs/POLITICA-DOCUMENTACION.md).

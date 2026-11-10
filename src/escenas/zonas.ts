@@ -74,6 +74,7 @@
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena, OpcionesEscena, OpcionesTema } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
+import { femenino } from '../dominio/idiomas.ts';
 import { regaloDelDia } from '../aplicacion/premiosDelDia.ts';
 import { HOUSE_NEXT, PET_NEXT, etapaPipo, nivelCasa } from '../dominio/progreso.ts';
 import {
@@ -120,7 +121,6 @@ import {
   W,
   atHome,
   burst,
-  cap,
   card,
   circ,
   creditCoins,
@@ -157,6 +157,10 @@ import {
   titoPos,
   today,
   tree,
+  fmt,
+  juntar,
+  nombreEn,
+  tr,
 } from '../nucleo/indice.ts';
 import { BG, NUM } from '../juegos/indice.ts';
 import {
@@ -451,26 +455,22 @@ export function suggestTema(z?: string): Tema | null {
   return curTema(z || ageZoneOpen());
 }
 // lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
-export const lowName = (t: Tema) =>
-  t.concepts ? 'el Rincón de los Conceptos' : t.n.replace(/^./, (c) => c.toLowerCase());
+export const lowName = (t: Tema): string =>
+  nombreEn(t.concepts ? 'el Rincón de los Conceptos' : t.n.replace(/^./, (c) => c.toLowerCase())).art;
 // lockMsg(t): frase que dice Tito al tocar una casita cerrada, explicando qué hace falta para abrirla.
 function lockMsg(t: Tema) {
   const z = t.zone;
   if (t.concepts)
-    return (
-      'El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ' +
-      (NUM[pathDone(z)] || pathDone(z)) +
-      '!'
-    );
+    return fmt('El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste {n}!', {
+      n: NUM[pathDone(z)] || pathDone(z),
+    });
   if (z === 'fiestas' && mainDone() < NEED.fiestas)
     return 'Los días especiales se abren cuando termines cuatro casitas del camino.';
   const L = z === 'fiestas' ? FIESTAS : pathOf(z),
     prev = L[L.indexOf(t) - 1];
-  return (
-    'Esta casita todavía está cerrada. Primero termina ' +
-    (prev ? lowName(prev) : 'la anterior') +
-    '. ¡Sigue el camino!'
-  );
+  return prev
+    ? fmt('Esta casita todavía está cerrada. Primero termina {tema}. ¡Sigue el camino!', { tema: lowName(prev) })
+    : 'Esta casita todavía está cerrada. Primero termina la anterior. ¡Sigue el camino!';
 }
 
 /* ---------- dibujos del camino ---------- */
@@ -655,14 +655,16 @@ export function zoneScene(z: string): Escena {
         });
         later(500, () =>
           sayQ(
-            '¡Mira! ¡Se abrió ' +
-              (t.concepts ? 'el Rincón de los Conceptos' : 'una casita nueva: ' + lowName(t)) +
-              '! Tócala para jugar.',
+            t.concepts
+              ? '¡Mira! ¡Se abrió el Rincón de los Conceptos! Tócala para jugar.'
+              : fmt('¡Mira! ¡Se abrió una casita nueva: {tema}! Tócala para jugar.', { tema: lowName(t) }),
           ),
         );
       } else if (o.from && !this.cur)
         later(400, () =>
-          sayQ('¡Terminaste todo el camino' + kid() + '! ¡Increíble! Puedes repetir la casita que quieras.'),
+          sayQ(
+            fmt('¡Terminaste todo el camino{nino}! ¡Increíble! Puedes repetir la casita que quieras.', { nino: kid() }),
+          ),
         );
       else if (o.hello) later(400, () => this.prompt!(!S.first[z]));
       S.first[z] = 1;
@@ -672,10 +674,12 @@ export function zoneScene(z: string): Escena {
     prompt(long?: boolean) {
       const c = this.cur;
       say(
-        (long ? Z.hello : '') +
-          (c
-            ? 'Toca la casita que brilla: ' + lowName(c) + '.'
-            : '¡Terminaste todo el camino! Puedes repetir la casita que quieras.'),
+        juntar(
+          long ? tr(Z.hello.trim()) : '',
+          c
+            ? fmt('Toca la casita que brilla: {tema}.', { tema: lowName(c) })
+            : tr('¡Terminaste todo el camino! Puedes repetir la casita que quieras.'),
+        ),
       );
     },
     // hint(): señala la casita que toca.
@@ -1089,7 +1093,7 @@ export function goSeguir(): void {
   }
   const t = nextTema();
   if (!t) {
-    say('¡Terminaste todos los caminos' + kid() + '! Puedes repetir lo que más te guste.');
+    say(fmt('¡Terminaste todos los caminos{nino}! Puedes repetir lo que más te guste.', { nino: kid() }));
     return;
   }
   go('casita', { t: t.id, hello: true });
@@ -1421,7 +1425,10 @@ SCENES.map = {
         save();
         if (ZAGE[z] > AGE() && !S.unlockAll) {
           this.wake = { z, t: T + 1 };
-          msg = '¡Mira' + kid() + '! ¡Se despertó ' + mzOf(z).name + '! Ahora puedes jugar ahí también.';
+          msg = fmt('¡Mira{nino}! ¡Se despertó {zona}! Ahora puedes jugar ahí también.', {
+            nino: kid(),
+            zona: nombreEn(mzOf(z).name).art,
+          });
           break;
         }
       }
@@ -1432,8 +1439,17 @@ SCENES.map = {
     if (!msg && nw.length) {
       const z = mzOf(nw[0]);
       this.unl = { id: z.id, t: T + 1 };
-      msg =
-        '¡Mira' + kid() + '! ¡Se ' + (/^l[ao]s /.test(z.name) ? 'abrieron ' : 'abrió ') + z.name + '! Toca para jugar.';
+      // En plural si el nombre de la zona lo es (fase ID2 de docs/PLAN-IDIOMAS.md: plantillas de fmt).
+      const zn = nombreEn(z.name);
+      msg = fmt(
+        zn.pl
+          ? '¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.'
+          : '¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.',
+        {
+          nino: kid(),
+          zona: zn.art,
+        },
+      );
       fx = () => {
         SFX.sparkle();
         const q = mzOf(z.id);
@@ -1469,7 +1485,10 @@ SCENES.map = {
     if (!msg && n > S.seenFl) {
       S.seenFl = n;
       save();
-      msg = `¡Mira${kid()}! ¡Tito tiene ${n === 1 ? 'una flor' : (n <= 10 ? NUM[n] : n) + ' flores'} en su caparazón!`;
+      msg =
+        n === 1
+          ? fmt('¡Mira{nino}! ¡Tito tiene una flor en su caparazón!', { nino: kid() })
+          : fmt('¡Mira{nino}! ¡Tito tiene {n} flores en su caparazón!', { nino: kid(), n: n <= 10 ? NUM[n]! : n });
       fx = () => {
         SFX.sparkle();
         burst(130, 740, 40);
@@ -1494,7 +1513,7 @@ SCENES.map = {
       Object.assign(S, regalo.partida);
       creditCoins(regalo.monedas);
       save();
-      later(900, () => sayQ('¡Hola' + kid() + '! Te he guardado un regalito: ¡tres monedas!'));
+      later(900, () => sayQ(fmt('¡Hola{nino}! Te he guardado un regalito: ¡tres monedas!', { nino: kid() })));
       later(1400, () => {
         const tp = titoPos();
         giveCoins(regalo.monedas, tp.x + 150, tp.y + 40, undefined, true);
@@ -1527,12 +1546,15 @@ SCENES.map = {
   // prompt(first): saludo según la hora (si first) y consigna: asamblea si falta hoy; si no, el botón de seguir.
   prompt(first?: boolean) {
     const h = ahora().getHours(),
-      sal = h < 13 ? '¡Buen día' : h < 20 ? '¡Buenas tardes' : '¡Buenas noches';
-    if (!asamHoy()) say((first ? sal + kid() + '! ' : '') + 'Vamos a la plaza a hacer la asamblea. Toca la plaza.');
+      sal = h < 13 ? '¡Buen día{nino}!' : h < 20 ? '¡Buenas tardes{nino}!' : '¡Buenas noches{nino}!',
+      hola = first ? fmt(sal, { nino: kid() }) : '';
+    if (!asamHoy()) say(juntar(hola, tr('Vamos a la plaza a hacer la asamblea. Toca la plaza.')));
     else
       say(
-        (first ? sal + kid() + '! ' : '') +
-          'Toca el botón verde para seguir el camino. También puedes ir a la tienda o a la casa de Tito.',
+        juntar(
+          hola,
+          tr('Toca el botón verde para seguir el camino. También puedes ir a la tienda o a la casa de Tito.'),
+        ),
       );
   },
   // tocarPipo(): Pipo salta y dice cuánto le falta para nacer o saluda. Desde la fase 4k es un método aparte (lo llama
@@ -1543,9 +1565,9 @@ SCENES.map = {
     const ps = petStage();
     say(
       ps === 0
-        ? 'Es un huevo misterioso. Le ' +
-            (PET_NEXT[0] - STARS() === 1 ? 'falta un juego' : 'faltan ' + (PET_NEXT[0] - STARS()) + ' juegos') +
-            ' para abrirse.'
+        ? PET_NEXT[0] - STARS() === 1
+          ? 'Es un huevo misterioso. Le falta un juego para abrirse.'
+          : fmt('Es un huevo misterioso. Le faltan {n} juegos para abrirse.', { n: PET_NEXT[0] - STARS() })
         : '¡Hola! Soy Pipo, el dinosaurio de Tito.',
     );
   },
@@ -1576,12 +1598,16 @@ SCENES.map = {
     const z = MZ2.find((z) => 'mz' + z.id === id);
     if (z)
       say(
-        cap(z.name) +
-          (!spotOpen(z.id)
-            ? ZAGE[z.id]
-              ? '. Todavía ' + (z.id === 'montana' ? 'está dormida.' : 'está dormido.')
-              : '. Todavía está cerrado.'
-            : '.'),
+        fmt(
+          spotOpen(z.id)
+            ? '{Zona}.'
+            : !ZAGE[z.id]
+              ? '{Zona}. Todavía está cerrado.'
+              : femenino(nombreEn(z.name))
+                ? '{Zona}. Todavía está dormida.'
+                : '{Zona}. Todavía está dormido.',
+          { zona: nombreEn(z.name).art },
+        ),
       );
   },
   // draw(): mar, isla, caminos desde la plaza a cada sitio (curvas ligeramente torcidas), los sitios (drawZoneSpot),
@@ -1687,13 +1713,22 @@ SCENES.map = {
         SFX.boing();
         const prev = z.id === 'bosque' ? 'jardin' : 'bosque',
           f = flowersIn(prev);
+        const zn = nombreEn(z.name),
+          fem = femenino(zn),
+          jardin = prev === 'jardin';
+        // Cuatro plantillas (dormida o dormido, del jardín o del bosque) y, si ya tiene flores, cuántas.
+        const base = fem
+          ? jardin
+            ? '{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del jardín.'
+            : '{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del bosque.'
+          : jardin
+            ? '{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del jardín.'
+            : '{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del bosque.';
         say(
-          cap(z.name) +
-            ' todavía está ' +
-            (z.id === 'montana' ? 'dormida' : 'dormido') +
-            '. Se despierta cuando Tito tenga seis flores ' +
-            (prev === 'jardin' ? 'del jardín' : 'del bosque') +
-            (f ? '. ¡Ya tiene ' + (f === 1 ? 'una' : NUM[f] || f) + '!' : '.'),
+          juntar(
+            fmt(base, { zona: zn.art }),
+            !f ? '' : f === 1 ? tr('¡Ya tiene una!') : fmt('¡Ya tiene {n}!', { n: NUM[f] || f }),
+          ),
         );
         return;
       }
@@ -1702,13 +1737,20 @@ SCENES.map = {
         const n = spotNeed(z.id),
           d = mainDone();
         say(
-          cap(z.name) +
-            ' se ' +
-            (z.id === 'trazos' || z.id === 'fiestas' || z.id === 'canciones' || z.id === 'rutinas' ? 'abren' : 'abre') +
-            ' cuando termines ' +
-            (n === 1 ? 'una casita' : NUM[n] + ' casitas') +
-            ' del camino.' +
-            (d ? ' ¡Ya terminaste ' + (d === 1 ? 'una' : NUM[d] || d) + '!' : ''),
+          juntar(
+            fmt(
+              // Cuatro plantillas: se abre o se abren (según el nombre del sitio), y una casita o varias.
+              nombreEn(z.name).pl
+                ? n === 1
+                  ? '{Zona} se abren cuando termines una casita del camino.'
+                  : '{Zona} se abren cuando termines {n} casitas del camino.'
+                : n === 1
+                  ? '{Zona} se abre cuando termines una casita del camino.'
+                  : '{Zona} se abre cuando termines {n} casitas del camino.',
+              { zona: nombreEn(z.name).art, n: NUM[n]! },
+            ),
+            !d ? '' : d === 1 ? tr('¡Ya terminaste una!') : fmt('¡Ya terminaste {n}!', { n: NUM[d] || d }),
+          ),
         );
         return;
       }
@@ -1788,7 +1830,7 @@ SCENES.casita = {
         const [x, y] = stationPos(t, j);
         burst(x, y, 30);
       });
-      later(300, () => sayQ('¡Se abrió el juego número ' + (j + 1) + '! Tócalo para seguir.'));
+      later(300, () => sayQ(fmt('¡Se abrió el juego número {n}! Tócalo para seguir.', { n: j + 1 })));
     } else if (o.hello) later(300, () => this.prompt!(true));
   },
   // prompt(long): nombre e intro del tema (si long) y qué juego tocar.
@@ -1796,14 +1838,17 @@ SCENES.casita = {
     const t = this.t,
       nx = nextGameOf(t);
     say(
-      (long ? t.n + '. ' + (t.intro && !t.words ? t.intro + ' ' : '') : '') +
-        (nx === 0
+      juntar(
+        long ? tr(t.n) + '.' : '',
+        long && t.intro && !t.words ? tr(t.intro) : '',
+        nx === 0
           ? t.games[0].t === 'conocer'
-            ? 'Empieza por el primero: ¡vamos a conocer!'
-            : 'Empieza por el primero.'
+            ? tr('Empieza por el primero: ¡vamos a conocer!')
+            : tr('Empieza por el primero.')
           : nx > 0
-            ? 'Toca el que brilla, el número ' + (nx + 1) + '.'
-            : '¡Ya jugaste todos! Puedes repetir el que más te guste.'),
+            ? fmt('Toca el que brilla, el número {n}.', { n: nx + 1 })
+            : tr('¡Ya jugaste todos! Puedes repetir el que más te guste.'),
+      ),
     );
   },
   // hint(): señala el siguiente juego.
@@ -1867,7 +1912,7 @@ SCENES.casita = {
         if (stLocked(t, j)) {
           SFX.boing();
           const nx = nextGameOf(t);
-          say('Este todavía está cerrado. Primero termina el número ' + ((nx < 0 ? j - 1 : nx) + 1) + '.');
+          say(fmt('Este todavía está cerrado. Primero termina el número {n}.', { n: (nx < 0 ? j - 1 : nx) + 1 }));
           return;
         }
         SFX.pop();

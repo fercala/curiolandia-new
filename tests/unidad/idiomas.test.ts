@@ -10,12 +10,15 @@ test('encuentra las frases compuestas y los trucos de gramática conocidos', () 
   const todos = sitios(RAIZ);
   const hay = (archivo: string, tipo: string, trozo: string): boolean =>
     todos.some((s) => s.archivo === archivo && s.tipo === tipo && s.codigo.includes(trozo));
-  // 'Tienes ' + S.coins + ' monedas.': una frase compuesta (una sola, aunque tenga dos +)
-  expect(hay(join('src', 'escenas', 'tienda.ts'), 'compuesta', "'Tienes ' + S.coins")).toBe(true);
-  expect(todos.filter((s) => s.codigo.startsWith("' monedas.'")).length).toBe(0);
-  // .replace(/ de el /, ' del ') y fem(k): trucos de gramática
-  expect(hay(join('src', 'escenas', 'cofre.ts'), 'truco', '/ de el /')).toBe(true);
-  expect(hay(join('src', 'juegos', 'comps.ts'), 'truco', 'fem(')).toBe(true);
+  // 'Guarda ' + W_(s.k) + ' dentro de la mochila.': una frase compuesta (una sola, aunque tenga dos +)
+  expect(hay(join('src', 'temas', 'temas.ts'), 'compuesta', "'Guarda ' + W_(s.k)")).toBe(true);
+  expect(todos.filter((s) => s.codigo.startsWith("' dentro de la mochila.'")).length).toBe(0);
+  // desde la fase ID2b, las de la tienda son plantillas de fmt
+  expect(hay(join('src', 'escenas', 'tienda.ts'), 'compuesta', "'Tienes ' + S.coins")).toBe(false);
+  // .replace(/^(el|la|los|las) /, ''): un truco de gramática (en la Isla de las Letras, que tendrá su versión rumana)
+  expect(hay(join('src', 'juegos', 'lectura.ts'), 'truco', '/^(el|la|los|las) /')).toBe(true);
+  // desde la fase ID2a, el «de el» → «del» del cofre es una plantilla con el nombre en su forma «de»
+  expect(todos.some((s) => s.codigo.includes('/ de el /'))).toBe(false);
 });
 
 test('deja fuera el inglés, el CSS y los mensajes de error', () => {
