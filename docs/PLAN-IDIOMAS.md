@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119) e **ID2c** (v0.2.120), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120) e **ID2d** (v0.2.122), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -282,5 +282,14 @@ quedan: 383 al terminar la ID2a, con la P11).
   `sonidoSin(k)` (traducido, sin ¡ ! y en minúscula).
 - «¿Cuántos/Cuántas…?» y «Toca cada uno/una» se eligen con `femPl` (en rumano, los neutros cuentan como femeninos);
   «pintarlo/pintarla», con `fem`.
+- Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID2d (v0.2.122): los temas de 3 y 4 años
+
+- **57 frases compuestas** de `temas/temas.ts` y `temas/temas4.ts` pasan a plantillas; quedan 219 (las de los temas de
+  5 años, la Isla de las Letras y algunas escenas).
+- Los días (los vagones, «¿qué día falta?»), las emociones (`EMOADJ`, `EMO`), los sitios (`nm`) y las preguntas de las
+  tablas se traducen con `tr` antes de su hueco; las estaciones, los momentos del día y las formas son nombres
+  (`nombreEn`, con su forma «de»: «el árbol del otoño», «de la primavera»).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
 

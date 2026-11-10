@@ -1405,6 +1405,66 @@ Toca {carta}.
 Escucha el cuento: {titulo}.
 Ahora te pregunto.
 Mmm, no. Piensa en el cuento.
+Guarda {cosa} dentro de la mochila.
+Deja {cosa} fuera de la mochila, en la mesa.
+Mmm, {cosa} no es {color}. ¿De qué color es?
+{Cosa} son {color}.
+{Cosa} es {color}.
+¡Atrapa las burbujas de color {color}!
+{Cosa} es para cuando hace calor.
+{Cosa} es para cuando hace frío.
+Pon {cosa} en el bol.
+{Cosa} no va {sitio}.
+{Cosa} va {sitio}.
+Lleva {cosa} dentro del corral.
+Deja {cosa} fuera del corral, en el pasto.
+{Cosa} no vuela.
+{Cosa} no va por el agua.
+{Cosa} no va por la calle.
+¿Cuál es el más grande? Tócalo.
+Pon {cosa} arriba de la mesa.
+Pon {cosa} abajo de la mesa.
+Mmm, esa forma no es redonda.
+Mmm, esa forma no es un cuadrado.
+¡Sí! Falta el {dia}.
+El {dia} no hay escuela. ¡Es fin de semana!
+El {dia} es día de escuela.
+El {dia} vamos al cole.
+El {dia} es fin de semana.
+La ardilla necesita {n} frutos para el invierno. Lleva {n} a su casita del árbol.
+¡La ardilla tiene {n} frutos! Gracias.
+¿Quién está {emocion}? Toca la carita.
+¡Sí! Esa carita está {emocion}.
+Esa carita está {esa}. Busca la que está {emocion}.
+¡Sí! Se siente {emocion}.
+Mmm, piensa cómo te sentirías tú.
+Ese frasco es de {emocion}.
+{Emocion}.
+{Cosa} es una verdura.
+{Cosa} es una fruta.
+Pon {cosa} en la olla.
+{Cosa} vive donde hace calor.
+{Cosa} vive donde hace frío.
+{Cosa} usa {otra}.
+Mmm, {cosa} no usa {otra}.
+¡Sí! Soy {cosa}.
+{Cosa} es un animal salvaje. Vive en la selva o en la sabana.
+{Cosa} vive en casa o en la granja, con las personas.
+¡Sí! Es la sombra {deCosa}.
+Mira bien la forma de la sombra.
+{Cosa} no va por la tierra.
+Busca {cosa}.
+Mmm, esa forma no es {forma}.
+{Forma}.
+¡Sí! Ahí hay {n}, es más.
+¡Sí! Ahí hay {n}, es menos.
+¡Sí! {Sitio}.
+Ahí está {sitio}.
+¡Sí! {Momento}.
+Esa es {momento}.
+¿Cuál es el árbol {estacion}?
+¡Sí! Es el árbol {estacion}.
+Ese es el árbol {estacion}.
 ¡La tarta en la mesa! ¡Vamos a celebrar una fiesta!
 ¡La sopa, a la mesa! ¡Qué rica!
 ¡Mi peluche duerme conmigo en la cama!
