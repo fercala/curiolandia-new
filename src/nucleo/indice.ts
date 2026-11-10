@@ -6,6 +6,7 @@
 export * from './pantalla.ts';
 export * from './utilidades.ts';
 export * from './guardado.ts';
+export * from './traducir.ts';
 export * from './idioma.ts';
 export * from './imagenes.ts';
 export * from './dibujo.ts';

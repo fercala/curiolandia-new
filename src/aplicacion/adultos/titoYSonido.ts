@@ -1,8 +1,21 @@
 // adultos/titoYSonido.ts: página «Tito y el sonido» de la zona de adultos (fase A1 de docs/PLAN-MENU-ADULTOS.md):
 // personaje de Tito, voz del navegador (con «Probar» y la guía de voces) y volúmenes. Antes, las secciones «Personaje de
-// Tito» e «Idioma y voz» de aplicacion/adultos.ts. Guarda en S.tito.kind, S.vozNav y S.vol.
+// Tito» e «Idioma y voz» de aplicacion/adultos.ts. Guarda en S.tito.kind, S.vozNav y S.vol. Desde la fase ID1 de
+// docs/PLAN-IDIOMAS.md, también el idioma del juego (S.idioma, con ponIdioma, que recarga), si hay más de uno que elegir.
 import type { Tito, Volumenes } from '../../nucleo/tipos.ts';
-import { S, VOICE, pickVoice, save, setVol, vocesES, vozCalidad, vozProbar } from '../../nucleo/indice.ts';
+import {
+  IDIOMA,
+  S,
+  VOICE,
+  pickVoice,
+  ponIdioma,
+  save,
+  setVol,
+  vocesES,
+  vozCalidad,
+  vozProbar,
+} from '../../nucleo/indice.ts';
+import { idiomasElegibles, type IdiomaGuardado } from '../../dominio/idiomas.ts';
 import { buscador, esc, radios } from './comun.ts';
 import type { PaginaAdultos } from './tipos.ts';
 
@@ -40,6 +53,19 @@ function vozGuiaHTML() {
    <p class="note">Después de instalar una voz, cierra el navegador y vuelve a abrir el juego: la voz nueva aparece en la lista «Voz del navegador». Las marcadas con ★ son las más naturales.</p>`;
 }
 
+// idiomaHTML(): la sección «Idioma» (fase ID1 de docs/PLAN-IDIOMAS.md): un selector con los idiomas que se pueden
+// elegir (idiomasElegibles: los completos y el que se usa). Con uno solo no sale nada. Al cambiarlo se recarga el juego.
+function idiomaHTML(): string {
+  const ops = idiomasElegibles(IDIOMA);
+  if (ops.length < 2) return '';
+  const opciones = ops
+    .map((i) => `<option value="${i.id}" ${i.id === IDIOMA ? 'selected' : ''}>${i.bandera} ${esc(i.nombre)}</option>`)
+    .join('');
+  return `<section><h3>Idioma</h3>
+   <div class="row"><label for="a-idioma">Idioma del juego</label><select id="a-idioma">${opciones}</select></div>
+   <p class="note">Al cambiarlo, el juego se vuelve a abrir en el idioma nuevo. El progreso no se pierde.</p></section>`;
+}
+
 export const TITO_Y_SONIDO: PaginaAdultos = {
   id: 'titoYSonido',
   titulo: 'Tito y el sonido',
@@ -49,7 +75,9 @@ export const TITO_Y_SONIDO: PaginaAdultos = {
   // (la primera, «Automática», deja que elija pickVoice).
   html() {
     // vname: voz del navegador que se está usando (para el texto informativo).
-    const vname = VOICE ? `${VOICE.name} (${VOICE.lang})` : 'no se encontró una voz en español en este dispositivo';
+    const vname = VOICE
+      ? `${VOICE.name} (${VOICE.lang})`
+      : 'no se encontró una voz en el idioma del juego en este dispositivo';
     // vopts: la lista de voces en español de este aparato para elegir (la primera opción, «Automática», deja que elija pickVoice).
     const vopts =
       '<option value="">Automática (la mejor que haya)</option>' +
@@ -59,7 +87,7 @@ export const TITO_Y_SONIDO: PaginaAdultos = {
           return `<option value="${esc(id)}" ${S.vozNav === id ? 'selected' : ''}>${esc(v.name)} (${esc(v.lang)})${vozCalidad(v) >= 3 ? ' ★' : ''}</option>`;
         })
         .join('');
-    return `
+    return `${idiomaHTML()}
   <section><h3>Personaje de Tito</h3>
    <div class="row">${[
      ['caracol', '🐌 Caracol'],
@@ -94,6 +122,8 @@ export const TITO_Y_SONIDO: PaginaAdultos = {
         console.error(e);
       }
     });
+    const sel = el.querySelector<HTMLSelectElement>('#a-idioma');
+    if (sel) sel.onchange = () => ponIdioma(sel.value as IdiomaGuardado);
     q('#a-vnav').onchange = (e) => {
       S.vozNav = (e.target as HTMLInputElement).value;
       save();

@@ -56,6 +56,7 @@ Esta guía explica el **proceso de trabajo** (sección 1) y trae **recetas paso 
 ## 2. Reglas que no se pueden saltar
 
 1. **Cada diálogo nuevo o cambiado**, en castellano de España y apuntado en `dialogos/pendientes.txt`, con `dialogos/todos.csv` rehecho por `npm run dialogos` (aquí no hay MP3: los textos se pueden mejorar). → [dialogos/LEEME.md](../dialogos/LEEME.md)
+   **Para que se pueda traducir** ([PLAN-IDIOMAS.md](PLAN-IDIOMAS.md)): lo que se dice con `say()` o se escribe con `text()` se traduce solo, así que escribe frases enteras. Si la frase lleva algo que cambia (un número, un nombre), no la pegues a trozos (`'Tienes ' + n + ' monedas.'`): desde la fase ID2 se usan plantillas con huecos. El HTML nuevo de la zona de adultos se traduce con `trHtml` al pintarlo. Pruébalo con `?idioma=xx` en la dirección: lo que no sale entre ⟦ ⟧ no se traduciría.
 2. **No rompas las partidas guardadas**: no cambies el formato de `S`, ni `id` de temas, artículos o dibujos guardados; campos nuevos con valor por defecto; y si un formato tiene que cambiar, con una migración (`dominio/partida.ts`). → [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md)
 3. **Los juegos de un tema se guardan por posición**: no quites ni reordenes juegos publicados; los nuevos, al final (cuidado con el cuento: ver receta 5).
 4. **Sube `version` en `package.json`** cada vez que publiques.

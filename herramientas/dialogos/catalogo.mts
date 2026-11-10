@@ -36,7 +36,9 @@ export interface Frase {
 // Carpetas y archivos de src/ que no tienen diálogos: los dibujos y la zona de adultos (desde la fase A1 de
 // docs/PLAN-MENU-ADULTOS.md, adultos.ts y su carpeta). La zona de adultos se lee aparte (ADULTOS), con el tipo 'adultos'.
 const ADULTOS = [join('aplicacion', 'adultos.ts'), join('aplicacion', 'adultos')];
-export const FUERA = ['dibujos', ...ADULTOS];
+// Tampoco las tablas de los otros idiomas (src/idiomas/), los nombres de los idiomas (dominio/idiomas.ts) ni el código
+// que traduce (nucleo/traducir.ts), desde la fase ID1 de docs/PLAN-IDIOMAS.md: no se traducen.
+export const FUERA = ['dibujos', 'idiomas', join('dominio', 'idiomas.ts'), join('nucleo', 'traducir.ts'), ...ADULTOS];
 // Atributos del HTML cuyo valor se lee (o lo dice el lector de pantalla): también hay que traducirlos.
 const ATRIBUTOS_TEXTO = /\b(?:title|aria-label|placeholder|alt)="([^"]*)"/g;
 // Entidades del HTML que salen en los textos de la zona de adultos y de head.html.

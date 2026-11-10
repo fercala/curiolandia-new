@@ -57,6 +57,7 @@ export function doReset() {
     variant: S.variant,
     voz: S.voz,
     vozNav: S.vozNav,
+    idioma: S.idioma,
     hemi: S.hemi,
     vol: S.vol,
     limit: S.limit,

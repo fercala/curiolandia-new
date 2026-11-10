@@ -141,6 +141,8 @@ export interface Estado {
   // sueltos
   voz?: 'nav' | '' | 'fer';
   vozNav?: string;
+  /** Idioma del juego (fase ID1 de docs/PLAN-IDIOMAS.md): 'es' o 'ro'. Sin él, el del navegador la primera vez. */
+  idioma?: 'es' | 'ro';
   quiet3?: number;
   /** Día de la última copia de seguridad descargada, vista o copiada ('AAAA-MM-DD'); desde la fase A6 de docs/PLAN-MENU-ADULTOS.md. */
   bkFecha?: FechaDia;
