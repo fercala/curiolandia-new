@@ -92,7 +92,15 @@ export function andar(p: Paseo, x: number, y: number, ahora: number = T): Paseo 
 }
 
 // ENCIMA: acciones en las que Tito se pone sobre el objeto (se sienta en él, se mete, se tumba...), no a su lado.
-const ENCIMA: readonly AccionTito[] = ['sentarse', 'tumbarse', 'columpiarse', 'tirarse', 'bañarse', 'croqueta'];
+const ENCIMA: readonly AccionTito[] = [
+  'sentarse',
+  'tumbarse',
+  'columpiarse',
+  'tirarse',
+  'bañarse',
+  'croqueta',
+  'saltar',
+];
 
 // destinoJunto(p, x, y, s, accion): a dónde va Tito para jugar con un objeto con la base en (x, y) y de tamaño s:
 // encima (ENCIMA), debajo si cuelga de la pared (y < 600), o a su lado, por el lado por el que llega.
@@ -128,6 +136,8 @@ const POSE_TITO: Partial<Record<AccionTito, (u: number) => Partial<Pose>>> = {
   mirar: () => ({ rot: -0.12, dy: -8 }),
   secarse: (u) => ({ rot: Math.sin(u * 22) * 0.12 }),
   abrazar: (u) => ({ sq: 0.06 + Math.sin(u * 6) * 0.03 }),
+  // desde la fase M3b de docs/PLAN-CASA-MEJORA.md: saltar encima (del sofá, de la cama)
+  saltar: (u) => ({ dy: -20 + saltito(u, 6, 110), sq: Math.max(0, Math.sin(u * 12)) * 0.08 }),
 };
 
 // poseTito(a, ahora, paseo): cómo se pone Tito: andando, un saltito al paso; jugando, la pose de su acción.
@@ -152,6 +162,7 @@ const POSE_OBJETO: Partial<Record<AccionTito, (u: number) => Partial<Pose>>> = {
   tumbarse: () => ({}),
   croqueta: () => ({}),
   columpiarse: (u) => ({ rot: Math.sin(u * 5) * 0.12 }),
+  saltar: (u) => ({ sq: Math.abs(Math.cos(u * 6)) * 0.1 }),
 };
 
 // animObjeto(a, id, ahora): cómo se mueve el objeto id: solo si es el de la acción en curso; si no, quieto.

@@ -6,6 +6,8 @@
 //   baúl de Tito, con los casos de uso de aplicacion/casa.ts y la bandeja de escenas/casaBaul.ts. Lo de la tienda que
 //   usa la casa (SHOP, ROOMS, HSIZE, homeItems, homeRoom, habitualDe, casaEnS...) sigue en escenas/tienda.ts. Las
 //   reacciones de Tito están en escenas/casaReacciones.ts y las escenas pequeñas en los escenas/casa*.ts (ESCENA_CASA).
+//   Desde la fase M3 (M3a y M3b) los objetos responden al tocarlos (escenas/casaToques.ts), Tito juega de varias formas
+//   (VARIANTES), se le puede coger y llevar hasta una cosa, y las parejas de una combinación guiñan al acercarlas.
 //   escenas/indice.ts lo carga después de tienda.ts y el puente deja lo que exporta en globalThis para las pruebas.
 // Define: homeAction (sonido y frase al jugar con un objeto), ESCENA_CASA (la escena pequeña de cada objeto), homeLight
 //   (la luz de la lámpara), roomBg (el fondo de cada habitación), roomBtns, baulItems, baulNuevos, catDe, dibujaCosa, cosasDe,
@@ -77,11 +79,12 @@ import {
   descubrir,
   idSorpresa,
   reaccionDe,
+  varianteDe,
   type EscenaCasa,
 } from '../dominio/casa.ts';
 import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
-import { FRASES_CASA, FRASES_COMBINACION } from '../contenido/casa.ts';
+import { FRASES_CASA, FRASES_COMBINACION, FRASES_VARIANTES } from '../contenido/casa.ts';
 import {
   DURACION_ACCION,
   TITO_CASA,
@@ -139,11 +142,12 @@ import { dibujaEstado, poseToque } from './casaToques.ts';
 
 // Al jugar con un objeto de la casa (cuando Tito llega hasta él, desde la fase C2): chispitas, su sonido o acción
 // propia (tabla A) y Tito dice su frase (FRASES_CASA, contenido/casa.ts) o, si no tiene (las mascotas), su nombre.
-function homeAction(id: string, x: number, y: number) {
+// Desde la fase M3b, frase: lo que dice en otra forma de jugar (FRASES_VARIANTES), si no es la primera.
+function homeAction(id: string, x: number, y: number, frase?: string) {
   SFX.pop();
   sparkles(x, y, 8);
   sonidoDe(id);
-  say(FRASES_CASA[id] ?? cap(W_(id)) + '.');
+  say(frase ?? FRASES_CASA[id] ?? cap(W_(id)) + '.');
 }
 // sonidoDe(id): el sonido propio de un objeto de la casa (tabla A), si tiene. Lo usan homeAction (cuando Tito juega) y,
 // desde la fase M3 de docs/PLAN-CASA-MEJORA.md, el toque directo del niño (toca). La luz de la lámpara ya no la cambia
@@ -480,6 +484,11 @@ SCENES.casaTito = {
     this.titoListo = -9;
     this.ultimo = null;
     this.escena = null;
+    // desde la fase M3b: cuántas veces ha jugado Tito con cada objeto en esta visita (veces: para la forma de jugar
+    // siguiente, VARIANTES), Tito cogido con el dedo (dragTito) y la pareja que guiña al arrastrar una cosa (pareja)
+    this.veces = {};
+    this.dragTito = null;
+    this.pareja = '';
     this.paseo = o.volver ? paseoQuieto(440, 700) : andar(paseoQuieto(-120, 700), 440, 700);
     if (o.volver) return;
     const nv = o.nuevo && SHOP.find((i) => i.id === o.nuevo);
@@ -664,12 +673,22 @@ SCENES.casaTito = {
         b = o.id === 'hamster' ? Math.abs(Math.sin(T * 8)) * -6 : 0,
         s = dr ? 1.08 : hv('h:' + o.id, hC(o.x, o.y - o.s * 0.2, o.s * 0.45));
       // el movimiento: el de la acción de Tito con este objeto o, si no, el del toque directo del niño (desde la M3)
-      const pa = animObjeto(this.acc, o.id),
-        po = this.acc && this.acc.id === o.id ? pa : poseToque(toqueDe(o.id), this.toques[o.id] ?? -9);
+      const pa = animObjeto(this.acc, o.id);
+      const po = { ...(this.acc && this.acc.id === o.id ? pa : poseToque(toqueDe(o.id), this.toques[o.id] ?? -9)) };
       if (!dr && !this.acc && !andando(this.paseo) && this.cerca === o.id) {
         ctx.globalAlpha = 0.16 + 0.08 * Math.sin(T * 4);
         circ(o.x, o.y - o.s * 0.4, o.s * 0.55, '#FFF3B0', 0);
         ctx.globalAlpha = 1;
+      }
+      // desde la fase M3b: la pista de pareja (lo que se arrastra cerca de su pareja de una combinación: la pareja brilla
+      // y se mueve, guiña) y la cosa que tiene debajo Tito cogido (con ella jugará al soltarlo)
+      const guina = !dr && this.pareja === o.id,
+        bajoTito = this.dragTito && this.dragTito.sobre === o.id;
+      if (guina || bajoTito) {
+        ctx.globalAlpha = 0.35 + 0.2 * Math.sin(T * 9);
+        circ(o.x, o.y - o.s * 0.4, o.s * 0.6, guina ? '#FFB3D1' : '#FFE08A', 0);
+        ctx.globalAlpha = 1;
+        if (guina) po.rot += Math.sin(T * 12) * 0.08;
       }
       ctx.save();
       ctx.translate(o.x + ox + po.dx, o.y + b + po.dy);
@@ -954,10 +973,20 @@ SCENES.casaTito = {
     const eb = this.botonEscena!();
     if (eb && dist(x, y, eb.x, eb.y) < eb.r + 10) {
       this.escena = null;
-      this.irA!(eb.id);
+      this.irA!(eb.id, true);
       return;
     }
-    // los objetos se miran antes que Tito: uno soltado delante de él tiene que poder volver a moverse
+    // la cabeza de Tito va antes que los objetos (desde la fase M3b): así se le puede coger aunque esté encima del sofá
+    // o de la cama; el resto de su cuerpo, después
+    {
+      const [tx, ty] = posTito(this.paseo);
+      if (inR(x, y, tx, ty - TITO_CASA * 0.7, TITO_CASA * 0.6, TITO_CASA * 0.4)) {
+        this.dragTito = { sx: x, sy: y, dy: ty - y, moved: false, sobre: '' };
+        setCursor('grab');
+        return;
+      }
+    }
+    // los objetos se miran antes que el resto de Tito: uno soltado delante de él tiene que poder volver a moverse
     const o = this.itemAt(x, y);
     if (o) {
       this.drag = {
@@ -979,8 +1008,11 @@ SCENES.casaTito = {
     }
     {
       const [tx, ty] = posTito(this.paseo);
+      // desde la fase M3b, a Tito se le puede coger: si se le suelta encima de una cosa, juega con ella; si solo se le
+      // toca, se queda listo para jugar (tocaTito, al soltar)
       if (inR(x, y, tx, ty - TITO_CASA * 0.42, TITO_CASA * 0.9, TITO_CASA * 0.8)) {
-        this.tocaTito!();
+        this.dragTito = { sx: x, sy: y, dy: ty - y, moved: false, sobre: '' };
+        setCursor('grab');
         return;
       }
     }
@@ -1005,22 +1037,29 @@ SCENES.casaTito = {
     SFX.tap();
     sparkles(x, y, 3);
   },
-  // irA(id): Tito anda hasta el objeto id de la habitación (al lado, encima o debajo, según su acción: destinoJunto)
-  // y, al llegar, juega con él: la acción de REACCIONES (dominio/casa.ts; las mascotas, un saltito) y homeAction
-  // (sonido y frase), y apunta la sorpresa descubierta (S.sorpresas, para el álbum de la fase C7). Si el objeto tiene
-  // escena pequeña ya hecha (ESCENA_CASA), al acabar de jugar se abre; si es una mascota (desde la fase C6), su escena
-  // de cuidados (casaMascota). Si antes de llegar (o de que se abra la escena)
-  // se le manda a otro sitio, ya no juega (paseoTok). va: a qué objeto va y
-  // qué hará al llegar (lo miran las pruebas, tests/regresion/casa.js).
-  irA(id: string) {
+  // irA(id, conEscena): Tito anda hasta el objeto id de la habitación (al lado, encima o debajo, según su acción:
+  // destinoJunto) y, al llegar, juega con él con homeAction (sonido y frase) y apunta la sorpresa descubierta
+  // (S.sorpresas, para el álbum de la fase C7). Desde la fase M3b de docs/PLAN-CASA-MEJORA.md, cada vez que juega con
+  // el mismo objeto en la visita lo hace de otra forma (varianteDe de dominio/casa.ts, con su frase de
+  // FRASES_VARIANTES; las mascotas, un saltito), y la escena pequeña (ESCENA_CASA) o la de cuidados de una mascota solo
+  // se abre si conEscena (el botón grande de la escena, que juega de la primera forma). Sin escena, si la pareja de una
+  // combinación aún sin descubrir está en la habitación, al acabar la descubre. Si antes de llegar (o de que se abra
+  // la escena) se le manda a otro sitio, ya no juega (paseoTok). va: a qué objeto va, qué hará al llegar y de qué forma
+  // (n; lo miran las pruebas, tests/regresion/casa.js).
+  irA(id: string, conEscena = false) {
     const o = homeItems(this.room).find((i) => i.id === id);
     if (!o) return;
     const r = reaccionDe(id),
-      accion = r ? r.tito : 'tocar',
+      vez = conEscena ? 0 : (this.veces[id] ?? 0),
+      v = varianteDe(id, vez),
+      accion = v ? v.accion : 'tocar',
+      n = v ? v.n : 0,
+      frase = n > 0 ? FRASES_VARIANTES[id]?.[n - 1] : undefined,
       [dx, dy] = destinoJunto(this.paseo, o.x, o.y, o.s, accion);
+    if (!conEscena) this.veces[id] = vez + 1;
     SFX.pop();
     this.acc = null;
-    this.va = { id, accion };
+    this.va = { id, accion, n };
     this.paseo = andar(this.paseo, dx, dy);
     const tok = ++this.paseoTok,
       llega = this.paseo.dur;
@@ -1029,10 +1068,12 @@ SCENES.casaTito = {
       const p = S.home![id];
       if (!p) return;
       this.acc = { id, accion, t0: T, x: p.x, y: p.y, s: o.s };
-      homeAction(id, p.x, p.y - 80);
+      homeAction(id, p.x, p.y - 80, frase);
       S.sorpresas = descubrir(S.sorpresas || {}, id).sorpresas;
       save();
-      const esc = (r && r.escena && ESCENA_CASA[r.escena]) || (MASCOTAS.includes(id) ? 'casaMascota' : null);
+      const esc = conEscena
+        ? (r && r.escena && ESCENA_CASA[r.escena]) || (MASCOTAS.includes(id) ? 'casaMascota' : null)
+        : null;
       if (esc) {
         later(DURACION_ACCION * 1000, () => {
           if (tok === this.paseoTok && sceneName === 'casaTito') go(esc, { inst: id });
@@ -1222,7 +1263,22 @@ SCENES.casaTito = {
   // Arrastrar: a partir de 12 px se considera que se mueve y la cosa sigue al dedo (drag.px, drag.py: dónde se
   // dibuja; S.home no cambia hasta soltarla). Desde la fase M2, drag.cerca es el sitio libre donde caería (el que más
   // brilla). Puede subir hasta los botones de las habitaciones (para llevarla a otra) o bajar hasta el baúl.
+  // Desde la fase M3b, con Tito cogido (dragTito) Tito sigue al dedo y sobre es la cosa que tiene debajo.
   move(x, y) {
+    const dt = this.dragTito;
+    if (dt) {
+      if (Math.abs(x - dt.sx) + Math.abs(y - dt.sy) > 12 && !dt.moved) {
+        dt.moved = true;
+        this.paseoTok++;
+        this.acc = null;
+        this.titoListo = -9;
+      }
+      if (!dt.moved) return;
+      this.paseo = paseoQuieto(clamp(x, 60, 1540), clamp(y + dt.dy, 300, 860), this.paseo.flip);
+      const o = this.itemAt(x, y);
+      dt.sobre = o ? o.id : '';
+      return;
+    }
     const d = this.drag;
     if (!d) return;
     d.x = x;
@@ -1233,16 +1289,37 @@ SCENES.casaTito = {
     d.py = clamp(y - d.dy, 60, 880);
     const s = sitioCerca(d.id, this.room, d.px, d.py);
     d.cerca = s ? s.id : '';
+    // la pista de pareja (desde la fase M3b): la pareja de una combinación más cercana, si está a menos de 320 px
+    const pj = homeItems(this.room)
+      .filter((o) => o.id !== d.id && combinacion(d.id, o.id) && dist(d.px, d.py, o.x, o.y) < o.s * 0.5 + 320)
+      .sort((a, b) => dist(d.px, d.py, a.x, a.y) - dist(d.px, d.py, b.x, b.y))[0];
+    this.pareja = pj ? pj.id : '';
   },
   // Al soltar (desde la fase M2, con sitios): si no se movió, era un toque: Tito va a jugar con el objeto (irA) o, si
   // venía del baúl, se saca a un sitio libre (saca). Soltado en el baúl (su botón o la bandeja abierta), se guarda.
   // Sobre el botón de otra habitación abierta, va allí, a su sitio libre preferido (si no hay, Tito lo dice); sobre una
   // cerrada, se queda donde estaba. Si no, salta al sitio libre más cercano (sitioCerca); si no hay ninguno cerca, se
   // queda donde estaba (o en el baúl). Soltado al lado de su pareja de una combinación, la sorpresa.
+  // Desde la fase M3b, al soltar a Tito (dragTito): si no se movió, era un toque (tocaTito); encima de una cosa, juega
+  // con ella (irA); si no, baja andando al suelo.
   up(x, y) {
+    const dt = this.dragTito;
+    if (dt) {
+      this.dragTito = null;
+      setCursor('pt');
+      if (!dt.moved) this.tocaTito!();
+      else if (dt.sobre) this.irA!(dt.sobre);
+      else {
+        const [tx, ty] = posTito(this.paseo);
+        this.paseo = andar(this.paseo, tx, ty);
+        SFX.tap();
+      }
+      return;
+    }
     const d = this.drag;
     if (!d) return;
     this.drag = null;
+    this.pareja = '';
     VIVO.drag = null;
     setCursor('pt');
     if (!d.moved) {
@@ -1292,10 +1369,13 @@ SCENES.casaTito = {
     }
     SFX.snap();
     sparkles(s.x, s.y - 40, 6);
-    // soltado al lado de su pareja de una combinación (desde la fase C7): la sorpresa
-    const pj = homeItems(this.room).find(
-      (o) => o.id !== d.id && combinacion(d.id, o.id) && dist(s.x, s.y, o.x, o.y) < o.s * 0.5 + 200,
-    );
+    // soltado al lado de su pareja de una combinación (desde la fase C7): la sorpresa. Desde la fase M3b, también si se
+    // deja encima de un mueble que es su pareja (la tarta en la mesa, el peluche en la cama), aunque quede lejos.
+    const cosas = homeItems(this.room),
+      mueble = s.mueble && combinacion(d.id, s.mueble) ? cosas.find((o) => o.id === s.mueble) : undefined;
+    const pj =
+      mueble ||
+      cosas.find((o) => o.id !== d.id && combinacion(d.id, o.id) && dist(s.x, s.y, o.x, o.y) < o.s * 0.5 + 200);
     if (pj) this.combina!(d.id, pj.id, (s.x + pj.x) / 2, Math.min(s.y, pj.y) - 120);
   },
 };
