@@ -80,6 +80,9 @@ import {
   svgImg,
   text,
   tone,
+  fmt,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import { BG } from './fondos.ts';
 import { Arrastra, ChoiceGame, NUM, drawChoice, eseEs, hitItem, layoutChoice, nameT, thing } from './comps.ts';
@@ -436,7 +439,7 @@ export function Une(cfg: Config, onDone: AlTerminar): Juego {
         this.errs++;
         if (this.errs === 1) rec(cfg.key || 'une', false);
         this.sel = null;
-        say(cfg.why ? cfg.why(l.k, r.k) : 'Mmm, ' + nameT(l.k) + ' no va con ' + nameT(r.k) + '.');
+        say(cfg.why ? cfg.why(l.k, r.k) : fmt('Mmm, {cosa} no va con {otra}.', { cosa: nameT(l.k), otra: nameT(r.k) }));
         if (this.errs >= 2) {
           onWrongTwice();
           VIVO.idle = 12;
@@ -502,8 +505,8 @@ export function Series(cfg: Config, onDone: AlTerminar): Juego {
           words: opts,
           ok: [ans],
           ask: 'Mira la fila. ¿Qué viene después? Tócalo.',
-          okSay: (w: Cosa) => '¡Sí! Después va ' + nameT(w) + '.',
-          badSay: (w: Cosa) => 'Mmm, ' + nameT(w) + ' no. Mira cómo se repite la fila.',
+          okSay: (w: Cosa) => fmt('¡Sí! Después va {cosa}.', { cosa: nameT(w) }),
+          badSay: (w: Cosa) => fmt('Mmm, {cosa} no. Mira cómo se repite la fila.', { cosa: nameT(w) }),
         };
       },
     },
@@ -624,7 +627,7 @@ export function Lens(cfg: Config, onDone: AlTerminar): Juego {
       this.done++;
       scene!.starPop = T;
       this.busy = true;
-      say(cfg.foundSay ? cfg.foundSay(o.k) : '¡Encontraste ' + nameT(o.k) + '!', () =>
+      say(cfg.foundSay ? cfg.foundSay(o.k) : fmt('¡Encontraste {cosa}!', { cosa: nameT(o.k) }), () =>
         later(250, () => {
           this.busy = false;
           if (this.done >= R) {
@@ -677,11 +680,11 @@ export function TocaPartes(cfg: Config, onDone: AlTerminar): Juego {
     ask() {
       this.t = order[this.i % order.length];
       this.errs = 0;
-      say('Toca ' + this.t.n + '.');
+      say(fmt('Toca {parte}.', { parte: tr(this.t.n) }));
     },
     // Repite la parte que hay que tocar.
     prompt() {
-      this.t && say('Toca ' + this.t.n + '.');
+      this.t && say(fmt('Toca {parte}.', { parte: tr(this.t.n) }));
     },
     // Ayuda: el círculo de la parte objetivo.
     hint() {
@@ -742,7 +745,7 @@ export function TocaPartes(cfg: Config, onDone: AlTerminar): Juego {
         SFX.bad();
         this.errs++;
         if (this.errs === 1) rec(cfg.key || 'partes', false);
-        say(cap(p.n) + '. Busca ' + this.t.n + '.');
+        say(fmt('{Tocada}. Busca {parte}.', { tocada: tr(p.n), parte: tr(this.t.n) }));
         if (this.errs >= 2) {
           onWrongTwice();
           VIVO.idle = 12;
@@ -1546,12 +1549,16 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego {
       this.errs = 0;
       this.lock = false;
       later(300, () =>
-        sayQ('Vamos ' + ala(this.go < 0 ? this.L : this.Rr) + '. ¿Doblamos a la derecha o a la izquierda?'),
+        sayQ(
+          fmt('Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?', {
+            lugar: ala(this.go < 0 ? this.L : this.Rr),
+          }),
+        ),
       );
     },
     // Repite adónde queremos ir.
     prompt() {
-      say('Queremos ir ' + ala(this.go < 0 ? this.L : this.Rr) + '. ¿Derecha o izquierda?');
+      say(fmt('Queremos ir {lugar}. ¿Derecha o izquierda?', { lugar: ala(this.go < 0 ? this.L : this.Rr) }));
     },
     // Ayuda: la flecha correcta.
     hint() {
@@ -1634,12 +1641,12 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego {
         this.done++;
         scene!.starPop = T;
         say(
-          praise() +
-            ' ' +
-            (d < 0 ? 'Doblamos a la izquierda' : 'Doblamos a la derecha') +
-            ' y llegamos ' +
-            ala(d < 0 ? this.L : this.Rr) +
-            '.',
+          juntar(
+            tr(praise()),
+            fmt(d < 0 ? 'Doblamos a la izquierda y llegamos {lugar}.' : 'Doblamos a la derecha y llegamos {lugar}.', {
+              lugar: ala(d < 0 ? this.L : this.Rr),
+            }),
+          ),
           () =>
             later(700, () => {
               this.i++;
@@ -1652,11 +1659,10 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego {
         this.errs++;
         if (this.errs === 1) rec('derecha-izquierda', false);
         say(
-          'Por ahí vamos ' +
-            ala(d < 0 ? this.L : this.Rr) +
-            '. Queremos ir ' +
-            ala(this.go < 0 ? this.L : this.Rr) +
-            '.',
+          fmt('Por ahí vamos {lugar}. Queremos ir {destino}.', {
+            lugar: ala(d < 0 ? this.L : this.Rr),
+            destino: ala(this.go < 0 ? this.L : this.Rr),
+          }),
         );
       }
     },
@@ -1977,14 +1983,14 @@ export function Song(cfg: Config, onDone: AlTerminar): Juego {
     // Pide la siguiente tarjeta (en 'pedido') o pregunta cuál va primero.
     askNext() {
       const l = this.order[this.k];
-      if (cfg.mode === 'pedido') say('Toca ' + l.n + '.');
+      if (cfg.mode === 'pedido') say(fmt('Toca {carta}.', { carta: tr(l.n) }));
       else if (this.k === 0) say('¿Cuál va primero?');
     },
     // Repite qué tarjeta tocar (solo en la fase de jugar).
     prompt() {
       if (this.ph === 'play') {
         const l = this.order[this.k];
-        say(cfg.mode === 'pedido' ? 'Toca ' + l.n + '.' : '¿Cuál sigue? Toca ' + l.n + '.');
+        say(fmt(cfg.mode === 'pedido' ? 'Toca {carta}.' : '¿Cuál sigue? Toca {carta}.', { carta: tr(l.n) }));
       }
     },
     // Ayuda: la tarjeta que toca ahora.
@@ -2072,7 +2078,12 @@ export function Song(cfg: Config, onDone: AlTerminar): Juego {
         SFX.bad();
         l.jump = T;
         rec(cfg.key || 'cancion', false);
-        say(cap(l.n) + '. ' + (cfg.mode === 'pedido' ? 'Busca ' + want.n + '.' : 'Ese va después. ¿Cuál sigue?'));
+        say(
+          fmt(cfg.mode === 'pedido' ? '{Carta}. Busca {otra}.' : '{Carta}. Ese va después. ¿Cuál sigue?', {
+            carta: tr(l.n),
+            otra: tr(want.n),
+          }),
+        );
       }
     },
   };
@@ -2105,7 +2116,7 @@ export function Story(data: Cuento, _cfg: Config, onDone: AlTerminar): Juego {
       this.said = false;
       const p = P[i];
       later(i ? 250 : 400, () =>
-        sayQ((i === 0 ? 'Escucha el cuento: ' + data.title + '. ' : '') + p.say, () => {
+        sayQ(juntar(i === 0 ? fmt('Escucha el cuento: {titulo}.', { titulo: tr(data.title) }) : '', tr(p.say)), () => {
           this.said = T;
           later(900, () => {
             if (this.ph === 'read' && this.pi === i) this.turn();
@@ -2133,7 +2144,7 @@ export function Story(data: Cuento, _cfg: Config, onDone: AlTerminar): Juego {
       this.errs = 0;
       this.busy = false;
       this.items = layoutChoice(shuffle(q.opts), [q.ok], 660, false);
-      later(300, () => sayQ((i === 0 ? 'Ahora te pregunto. ' : '') + q.q));
+      later(300, () => sayQ(juntar(i === 0 ? tr('Ahora te pregunto.') : '', tr(q.q))));
     },
     // Repite la pregunta o la página actual.
     prompt() {
@@ -2252,7 +2263,7 @@ export function Story(data: Cuento, _cfg: Config, onDone: AlTerminar): Juego {
         it.shake = T;
         if (this.errs === 0) rec('cuentos', false);
         this.errs++;
-        say('Mmm, no. Piensa en el cuento. ' + q.q);
+        say(juntar(tr('Mmm, no. Piensa en el cuento.'), tr(q.q)));
         if (this.errs === 2) {
           const w = this.items.find((i: Libre) => !i.ok && !i.gone && i !== it);
           if (w && this.items.filter((i: Libre) => !i.gone && !i.ok).length > 1) w.gone = T;
