@@ -138,6 +138,8 @@ import {
   star,
   text,
   whenQuiet,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import { drawFace } from './caras.ts';
 import { femenino, type Nombre } from '../dominio/idiomas.ts';
@@ -220,6 +222,13 @@ function plW(w: Cosa) {
   if (/z$/.test(w)) return w.slice(0, -1) + 'ces';
   return w.replace(/ón$/, 'on').replace(/ín$/, 'in').replace(/án$/, 'an') + 'es';
 }
+// sonidoSin(k): el sonido del animal k (ONO) en el idioma del juego, sin los signos de exclamación y en minúscula, para
+// ponerlo en medio de una frase («¿Quién hace muuu?»).
+// Los signos que se quitan: ¡ y !, estén donde estén ('¡Muuu!' → 'Muuu').
+const sonidoSin = (k: Cosa): string =>
+  tr(ONO[k as string]!)
+    .replace(/[¡!]/g, '')
+    .toLowerCase();
 // true si la cosa k es femenina (su nombre empieza por 'la' o 'las'; desde la fase ID2, su género en el idioma del
 // juego). femPl(k): si las palabras van en femenino al contar varias («¿cuántas?»): en rumano, también los neutros.
 export const fem = (k: Cosa) => femenino(nombreCosa(k), false);
@@ -708,11 +717,11 @@ export function Sonido(cfg: Config, onDone: AlTerminar): Juego {
         return {
           words: [t, ...others],
           ok: [t],
-          ask: '¿Quién hace ' + ONO[t].replace(/[¡!]/g, '').toLowerCase() + '?',
+          ask: fmt('¿Quién hace {sonido}?', { sonido: sonidoSin(t) }),
           snd: () => playSound(t),
-          okSay: (w: Cosa) => praise() + ' ' + cap(nameT(w)) + ' hace ' + ONO[w],
-          badSay: (w: Cosa) =>
-            cap(nameT(w)) + ' hace ' + ONO[w].replace(/[¡!]/g, '').toLowerCase() + '. Escucha otra vez.',
+          okSay: (w: Cosa) =>
+            juntar(tr(praise()), fmt('{Cosa} hace {sonido}', { cosa: nameT(w), sonido: tr(ONO[w]!) })),
+          badSay: (w: Cosa) => fmt('{Cosa} hace {sonido}. Escucha otra vez.', { cosa: nameT(w), sonido: sonidoSin(w) }),
         };
       },
     },
@@ -914,12 +923,12 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego {
     ask() {
       this.t = order[this.i % order.length];
       this.errs = 0;
-      later(300, () => sayQ('Toca ' + this.t.n + '.'));
+      later(300, () => sayQ(fmt('Toca {parte}.', { parte: tr(this.t.n) })));
     },
     // Repite la consigna.
     prompt() {
       if (free) say('Toca una parte del cuerpo.');
-      else say('Toca ' + this.t.n + '.');
+      else say(fmt('Toca {parte}.', { parte: tr(this.t.n) }));
     },
     // Ayuda: centro de la parte objetivo (o de la primera no tocada en modo libre),
     // pasado de coordenadas del dibujo a pantalla con kx, ky y ks.
@@ -1000,7 +1009,7 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego {
         SFX.bad();
         this.errs++;
         if (this.errs === 1) rec('cuerpo', false);
-        say(cap(p.n).replace(/^(.)/, (c) => c) + '. Busca ' + this.t.n + '.');
+        say(fmt('{Tocada}. Busca {parte}.', { tocada: tr(p.n), parte: tr(this.t.n) }));
         if (this.errs >= 2) {
           onWrongTwice();
           VIVO.idle = 12;
@@ -1300,8 +1309,8 @@ export function Arrastra(cfg: Config, onDone: AlTerminar): Juego {
           : cfg.why
             ? cfg.why(it, z)
             : it.zone === 'no'
-              ? cap(nameT(it.k)) + ' no va.'
-              : 'Mmm, ' + nameT(it.k) + ' no va ahí. Prueba en otro lugar.';
+              ? fmt('{Cosa} no va.', { cosa: nameT(it.k) })
+              : fmt('Mmm, {cosa} no va ahí. Prueba en otro lugar.', { cosa: nameT(it.k) });
         say(why);
         if (this.errs >= 2) {
           onWrongTwice();
@@ -1747,7 +1756,9 @@ export function Cuenta(cfg: Config, onDone: AlTerminar): Juego {
         sayQ(
           cfg.one
             ? cfg.ask(this)
-            : 'Vamos a contar ' + plural(this.k) + '. Toca cada ' + (fem(this.k) ? 'una.' : 'uno.'),
+            : fmt(femPl(this.k) ? 'Vamos a contar {cosas}. Toca cada una.' : 'Vamos a contar {cosas}. Toca cada uno.', {
+                cosas: plural(this.k),
+              }),
         ),
       );
     },
@@ -1784,7 +1795,9 @@ export function Cuenta(cfg: Config, onDone: AlTerminar): Juego {
       say(
         cfg.one
           ? cfg.how(this)
-          : '¿' + (fem(this.k) ? 'Cuántas ' : 'Cuántos ') + plural(this.k) + ' hay? Toca el número.',
+          : fmt(femPl(this.k) ? '¿Cuántas {cosas} hay? Toca el número.' : '¿Cuántos {cosas} hay? Toca el número.', {
+              cosas: plural(this.k),
+            }),
       );
     },
     // Dibuja los objetos (los contados con su número en verde) y las tarjetas.
@@ -1860,19 +1873,24 @@ export function Cuenta(cfg: Config, onDone: AlTerminar): Juego {
         onRight(this.errs === 0);
         this.done++;
         scene!.starPop = T;
-        say(praise() + ' ' + (cfg.one ? cfg.okSay(this) : '¡Hay ' + unN(this.n, this.k) + '!'), () =>
-          later(400, () => {
-            this.busy = false;
-            this.i++;
-            if (this.i >= R) onDone();
-            else this.round();
-          }),
+        say(
+          juntar(
+            tr(praise()),
+            cfg.one ? tr(cfg.okSay(this)) : fmt('¡Hay {cuantos}!', { cuantos: unN(this.n, this.k) }),
+          ),
+          () =>
+            later(400, () => {
+              this.busy = false;
+              this.i++;
+              if (this.i >= R) onDone();
+              else this.round();
+            }),
         );
       } else {
         SFX.bad();
         this.errs++;
         if (this.errs === 1) rec('contar', false);
-        say('Ese es el ' + NUM[o.n] + '. Contamos ' + NUM[this.n] + '.');
+        say(fmt('Ese es el {n}. Contamos {m}.', { n: NUM[o.n]!, m: NUM[this.n]! }));
         if (this.errs >= 2) onWrongTwice();
       }
     },
@@ -2054,7 +2072,7 @@ export function Puzzle(cfg: Config, onDone: AlTerminar): Juego {
           burst(B.x, B.y, 50);
           this.done++;
           scene!.starPop = T;
-          say(praise() + ' ¡Es ' + nameT(this.k) + '!', () =>
+          say(juntar(tr(praise()), fmt('¡Es {cosa}!', { cosa: nameT(this.k) })), () =>
             later(900, () => {
               this.fin = 0;
               this.i++;
@@ -2169,7 +2187,7 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego {
           g.arc((o.x - A.x) * sc, (o.y - A.y) * sc, 120 * sc, 0, PI * 2);
           g.fill();
           g.globalCompositeOperation = 'source-over';
-          say('¡Encontraste ' + nameT(o.k) + '!', () => {
+          say(fmt('¡Encontraste {cosa}!', { cosa: nameT(o.k) }), () => {
             if (this.done >= objs.length && !this.fin) {
               this.fin = 1;
               later(500, onDone);
@@ -2490,15 +2508,18 @@ export function Pinta(cfg: Config, onDone: AlTerminar): Juego {
       const o = this.cur();
       if (!o) return;
       if (AGE() <= 3 || VIVO.REP === 0)
-        say('Vamos a pintar ' + nameT(o.k) + ' de ' + COLORES[o.c].n + '. Toca el ' + COLORES[o.c].n + '.');
-      else say('¿De qué color es ' + nameT(o.k) + '? Toca ese color y después ' + nameT(o.k) + '.');
+        say(fmt('Vamos a pintar {cosa} de {color}. Toca el {color}.', { cosa: nameT(o.k), color: tr(COLORES[o.c].n) }));
+      else say(fmt('¿De qué color es {cosa}? Toca ese color y después {cosa}.', { cosa: nameT(o.k) }));
     },
     // Repite: si no tiene el color bueno, "toca el ..."; si lo tiene, "toca el dibujo".
     prompt() {
       const o = this.cur();
       if (!o) return;
-      if (!this.brush || this.brush !== o.c) say('Toca el ' + COLORES[o.c].n + '.');
-      else say('Ahora toca ' + nameT(o.k) + ' para pintarla.'.replace('pintarla', fem(o.k) ? 'pintarla' : 'pintarlo'));
+      if (!this.brush || this.brush !== o.c) say(fmt('Toca el {color}.', { color: tr(COLORES[o.c].n) }));
+      else
+        say(
+          fmt(fem(o.k) ? 'Ahora toca {cosa} para pintarla.' : 'Ahora toca {cosa} para pintarlo.', { cosa: nameT(o.k) }),
+        );
     },
     // Ayuda: el bote correcto o, con el color ya cogido, el dibujo.
     hint() {
@@ -2557,11 +2578,11 @@ export function Pinta(cfg: Config, onDone: AlTerminar): Juego {
       if (p) {
         this.brush = p.c;
         SFX.drip();
-        say(cap(COLORES[p.c].n) + '.');
+        say(fmt('{Color}.', { color: tr(COLORES[p.c].n) }));
         const o = this.cur();
         if (o && p.c === o.c)
           later(700, () => {
-            if (this.brush === o.c && this.cur() === o) say('Ahora toca ' + nameT(o.k) + '.');
+            if (this.brush === o.c && this.cur() === o) say(fmt('Ahora toca {cosa}.', { cosa: nameT(o.k) }));
           });
         return;
       }
@@ -2578,7 +2599,7 @@ export function Pinta(cfg: Config, onDone: AlTerminar): Juego {
       }
       const t = this.cur();
       if (o !== t) {
-        say('Primero pintamos ' + nameT(t.k) + '.');
+        say(fmt('Primero pintamos {cosa}.', { cosa: nameT(t.k) }));
         return;
       }
       if (this.brush === o.c) {
@@ -2605,7 +2626,13 @@ export function Pinta(cfg: Config, onDone: AlTerminar): Juego {
         SFX.bad();
         this.errs++;
         rec('colores', false);
-        say('Mmm, ' + nameT(o.k) + ' no es ' + COLORES[this.brush].n + '. Toca el ' + COLORES[o.c].n + '.');
+        say(
+          fmt('Mmm, {cosa} no es {pincel}. Toca el {color}.', {
+            cosa: nameT(o.k),
+            pincel: tr(COLORES[this.brush].n),
+            color: tr(COLORES[o.c].n),
+          }),
+        );
         if (this.errs >= 2) {
           onWrongTwice();
           VIVO.idle = 7;

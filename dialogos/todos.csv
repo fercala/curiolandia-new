@@ -1279,7 +1279,7 @@ f90bb6c9a98d, pruebas y en cada una ganas una medalla. ¡Empezamos con ,trozo,sr
 2b556258d4e0,cuatro,trozo,src/escenas/deporte.ts src/juegos/comps.ts
 f780c4cce029,la primera,trozo,src/escenas/deporte.ts
 1c3a66c62bd3,¿Otra jornada? Toca la flecha verde.,frase,src/escenas/deporte.ts
-3d5f7fed128b,Ahora toca ,trozo,src/escenas/deporte.ts src/juegos/comps.ts
+3d5f7fed128b,Ahora toca ,trozo,src/escenas/deporte.ts
 65e04c7d6b48,Gran día del deporte,trozo,src/escenas/deporte.ts
 d042cf113afb, has ganado la medalla de ,trozo,src/escenas/deporte.ts
 0ab84a66fd9f,Las pruebas van en orden. Ahora toca ,trozo,src/escenas/deporte.ts
@@ -1834,9 +1834,9 @@ a23b046a69c8,la cabeza,trozo,src/juegos/comps.ts src/temas/temas.ts
 e06edd67f518,la barriga,trozo,src/juegos/comps.ts
 520840c38afd,las piernas,trozo,src/juegos/comps.ts
 58922db5bdb3,los pies,trozo,src/juegos/comps.ts
-681081a84503,¿Quién hace ,trozo,src/juegos/comps.ts
-412fe40b3dbd, hace ,trozo,src/juegos/comps.ts
-f177713c25ae,. Escucha otra vez.,trozo,src/juegos/comps.ts
+a1ce245c5798,¿Quién hace {sonido}?,frase,src/juegos/comps.ts
+3f8d8460c01b,{Cosa} hace {sonido},trozo,src/juegos/comps.ts
+8c6a031c8f02,{Cosa} hace {sonido}. Escucha otra vez.,trozo,src/juegos/comps.ts
 714b86e54bb8,Toca cada dibujo para conocerlo.,frase,src/juegos/comps.ts
 ae833f115d5d,Toca para cerrar.,frase,src/juegos/comps.ts src/temas/ingles.ts
 37c717e6b2c9,Toca un dibujo que todavía no tenga estrella.,frase,src/juegos/comps.ts src/temas/ingles.ts
@@ -1846,33 +1846,28 @@ d230a488d4a2,los codos,trozo,src/juegos/comps.ts
 3e02d5584d35,las rodillas,trozo,src/juegos/comps.ts
 7ac1412b3699,los tobillos,trozo,src/juegos/comps.ts
 cc3072654443,Este es mi cuerpo. Toca cada parte y te digo cómo se llama.,frase,src/juegos/comps.ts
-9980f35e1d18,Toca ,trozo,src/juegos/comps.ts src/juegos/comps2.ts
+375b92fae442,Toca {parte}.,frase,src/juegos/comps.ts src/juegos/comps2.ts
 1f0f8a00ada4,Toca una parte del cuerpo.,frase,src/juegos/comps.ts
-b30d2b45d8a7,. Busca ,trozo,src/juegos/comps.ts src/juegos/comps2.ts
-c300787197b5, no va.,trozo,src/juegos/comps.ts
-31b4aed77ff1,"Mmm, ",trozo,src/juegos/comps.ts src/juegos/comps2.ts src/temas/temas.ts
-20c6c0712100, no va ahí. Prueba en otro lugar.,trozo,src/juegos/comps.ts
+e6b06e7a9b3d,{Tocada}. Busca {parte}.,trozo,src/juegos/comps.ts src/juegos/comps2.ts
+8cbfab2e2624,{Cosa} no va.,trozo,src/juegos/comps.ts
+f73a1cc78d7a,"Mmm, {cosa} no va ahí. Prueba en otro lugar.",frase,src/juegos/comps.ts
 4b74d10bb0bc,Juego de memoria. Toca dos tarjetas y busca las que son iguales.,frase,src/juegos/comps.ts
 7437bb7068a9,Busca dos tarjetas iguales.,frase,src/juegos/comps.ts
-364cbbdb6807,Vamos a contar ,trozo,src/juegos/comps.ts
-8446a18e1dee,. Toca cada ,trozo,src/juegos/comps.ts
-140cc223d889,una.,trozo,src/juegos/comps.ts
-d6841152c7de,uno.,trozo,src/juegos/comps.ts
+d2f1d6bb4f4f,Vamos a contar {cosas}. Toca cada una.,frase,src/juegos/comps.ts
+ab092eb6d258,Vamos a contar {cosas}. Toca cada uno.,frase,src/juegos/comps.ts
 c3e230b3f653,Toca cada uno para contar.,frase,src/juegos/comps.ts
 bc5f0457c9e8,¿Cuántos hay?,frase,src/juegos/comps.ts
-4246de7ef201,Cuántas ,trozo,src/juegos/comps.ts
-341a3e418bc4,Cuántos ,trozo,src/juegos/comps.ts
-daec7543ea00, hay? Toca el número.,trozo,src/juegos/comps.ts
-cf9f40874519,¡Hay ,trozo,src/juegos/comps.ts
-cf239d64c398,Ese es el ,trozo,src/juegos/comps.ts src/temas/temas5.ts
-cfdf8da4302b,. Contamos ,trozo,src/juegos/comps.ts
+910c026f8a6b,¿Cuántas {cosas} hay? Toca el número.,frase,src/juegos/comps.ts
+72869a037442,¿Cuántos {cosas} hay? Toca el número.,frase,src/juegos/comps.ts
+e0f3fd7769a2,¡Hay {cuantos}!,frase,src/juegos/comps.ts
+1b64aabf6319,Ese es el {n}. Contamos {m}.,frase,src/juegos/comps.ts
 90434585d831,¡Otro rompecabezas! ¿Qué será?,frase,src/juegos/comps.ts
 343e2d82c374,Arma el rompecabezas. Arrastra cada pieza a su lugar.,frase,src/juegos/comps.ts
 dcf1a26b9eb1,Arrastra una pieza al cuadro.,frase,src/juegos/comps.ts
-8bb46ee01669, ¡Es ,trozo,src/juegos/comps.ts
+6ea2372a723f,¡Es {cosa}!,frase,src/juegos/comps.ts
 49b231efdd36,Hay cosas escondidas en la arena. Frota con el dedo para descubrirlas.,frase,src/juegos/comps.ts
 e24db3a2b340,Frota la arena para encontrar lo que está escondido.,frase,src/juegos/comps.ts
-fbb015116c73,¡Encontraste ,trozo,src/juegos/comps.ts src/juegos/comps2.ts
+ada3073d4499,¡Encontraste {cosa}!,frase,src/juegos/comps.ts src/juegos/comps2.ts
 1bba07c92d37,Las semillas tienen sed. Coge la regadera y llévala arriba de cada maceta.,frase,src/juegos/comps.ts
 25ba7413785b,Lleva la regadera arriba de una maceta para regarla.,frase,src/juegos/comps.ts
 a058a41bf807,¡Todas las flores crecieron!,frase,src/juegos/comps.ts
@@ -1888,24 +1883,26 @@ d4177dc752cd,verde,trozo,src/juegos/comps.ts
 84109ae4b417,rosa,trozo,src/juegos/comps.ts
 17163859b9c1,morado,trozo,src/juegos/comps.ts
 d9a85010429a,marrón,trozo,src/juegos/comps.ts
-020193cbd4b9,Vamos a pintar ,trozo,src/juegos/comps.ts
-68969e68c382,. Toca el ,trozo,src/juegos/comps.ts
-3a2cd8d889d8,¿De qué color es ,trozo,src/juegos/comps.ts
-0faf65fdb674,? Toca ese color y después ,trozo,src/juegos/comps.ts
-71f3d5dd20b0,Toca el ,trozo,src/juegos/comps.ts
+3629cf4ae133,Vamos a pintar {cosa} de {color}. Toca el {color}.,frase,src/juegos/comps.ts
+62d21bebdbea,¿De qué color es {cosa}? Toca ese color y después {cosa}.,frase,src/juegos/comps.ts
+95e2d47be1a2,Toca el {color}.,frase,src/juegos/comps.ts
+ccdf8340267b,Ahora toca {cosa} para pintarla.,frase,src/juegos/comps.ts
+344bdca150ee,Ahora toca {cosa} para pintarlo.,frase,src/juegos/comps.ts
+d3b949def7a7,{Color}.,trozo,src/juegos/comps.ts
+837f3f748295,Ahora toca {cosa}.,frase,src/juegos/comps.ts
 0b3fdf6aa5f3,Primero toca un color.,frase,src/juegos/comps.ts
-7941a4f7a6a8,Primero pintamos ,trozo,src/juegos/comps.ts
+59a705d15ada,Primero pintamos {cosa}.,frase,src/juegos/comps.ts
 489e3e7a9749, son ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
-822ae562234f, no es ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
+4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.",frase,src/juegos/comps.ts
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",frase,src/juegos/comps2.ts
-9232de82c9f9, no va con ,trozo,src/juegos/comps2.ts
+b974a22a57d1,"Mmm, {cosa} no va con {otra}.",frase,src/juegos/comps2.ts
 b86fc6b051f6,AB,trozo,src/juegos/comps2.ts
 902fbdd2b1df,ABC,trozo,src/juegos/comps2.ts src/mundo3d/interaccion.ts
 e934202c876b,AAB,trozo,src/juegos/comps2.ts
 8c0d39874f72,ABB,trozo,src/juegos/comps2.ts
 0cbecf00a88c,Mira la fila. ¿Qué viene después? Tócalo.,frase,src/juegos/comps2.ts
-1c3219fe663d,¡Sí! Después va ,trozo,src/juegos/comps2.ts
-834f4820120f, no. Mira cómo se repite la fila.,trozo,src/juegos/comps2.ts
+4e56bca326b5,¡Sí! Después va {cosa}.,frase,src/juegos/comps2.ts
+bc71a09a74a8,"Mmm, {cosa} no. Mira cómo se repite la fila.",frase,src/juegos/comps2.ts
 439cf0d01eb0,¡Chau!,frase,src/juegos/comps2.ts
 9c6920a1ec1c,¡Limpito!,frase,src/juegos/comps2.ts
 c782f0817147,¡Otro menos!,frase,src/juegos/comps2.ts
@@ -1930,28 +1927,25 @@ d932c002c659,CRUZAMOS,trozo,src/juegos/comps2.ts
 1fa58c29b0e9,¡Muy bien! Está rojo: esperamos en la acera.,frase,src/juegos/comps2.ts
 2a41a5ca28a9,¡Cuidado! Está rojo: los coches pasan. Esperamos.,frase,src/juegos/comps2.ts
 8735106217ae,Está verde para las personas. ¡Podemos cruzar!,frase,src/juegos/comps2.ts
-d0c75c622746,Vamos ,trozo,src/juegos/comps2.ts
-2d5dc7770e86,. ¿Doblamos a la derecha o a la izquierda?,trozo,src/juegos/comps2.ts
-e4cbfa5ae88c,Queremos ir ,trozo,src/juegos/comps2.ts
-48ee36893bdb,. ¿Derecha o izquierda?,trozo,src/juegos/comps2.ts
+5daf7956f87b,Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?,frase,src/juegos/comps2.ts
+b6dbd97e6b42,Queremos ir {lugar}. ¿Derecha o izquierda?,frase,src/juegos/comps2.ts
 fea23bdbcda1,IZQUIERDA,trozo,src/juegos/comps2.ts src/temas/temas5.ts
 7dab567f57bd,DERECHA,trozo,src/juegos/comps2.ts src/temas/temas5.ts
-e22afba83a94,Doblamos a la izquierda,trozo,src/juegos/comps2.ts
-2ae187d81001,Doblamos a la derecha,trozo,src/juegos/comps2.ts
-0854628330db, y llegamos ,trozo,src/juegos/comps2.ts
-325235ad7f7f,Por ahí vamos ,trozo,src/juegos/comps2.ts
-27ade7d3289d,. Queremos ir ,trozo,src/juegos/comps2.ts
+3bfb122608bd,Doblamos a la izquierda y llegamos {lugar}.,frase,src/juegos/comps2.ts
+712b1257e712,Doblamos a la derecha y llegamos {lugar}.,frase,src/juegos/comps2.ts
+6ef818b79f63,Por ahí vamos {lugar}. Queremos ir {destino}.,frase,src/juegos/comps2.ts
 9281b9963a54,Empieza en el punto verde.,frase,src/juegos/comps2.ts
 0c870da7abef,¡Vamos a cantar! Escucha la canción.,frase,src/juegos/comps2.ts
 c80425633a4f,"¡Ahora te toca a ti! Toca cada uno en orden, como en la canción.",frase,src/juegos/comps2.ts
+bccdcd71cff5,Toca {carta}.,frase,src/juegos/comps2.ts
 b667573ac818,¿Cuál va primero?,frase,src/juegos/comps2.ts
-b3810aa0a25f,¿Cuál sigue? Toca ,trozo,src/juegos/comps2.ts
+58d72a2fe497,¿Cuál sigue? Toca {carta}.,frase,src/juegos/comps2.ts
 217c9f25d7fa,¡Qué bien cantamos!,frase,src/juegos/comps2.ts
-0981d7703d9e,Busca ,trozo,src/juegos/comps2.ts src/temas/temas4.ts src/temas/temas5.ts
-9e4066c7891d,Ese va después. ¿Cuál sigue?,frase,src/juegos/comps2.ts
-43bb1b642cba,Escucha el cuento: ,trozo,src/juegos/comps2.ts
-0724a6ba0986,Ahora te pregunto. ,frase,src/juegos/comps2.ts
-df9bc8abab8f,"Mmm, no. Piensa en el cuento. ",frase,src/juegos/comps2.ts
+76a1b4fa11f2,{Carta}. Busca {otra}.,trozo,src/juegos/comps2.ts
+6767fff46413,{Carta}. Ese va después. ¿Cuál sigue?,trozo,src/juegos/comps2.ts
+c26e9fc0e00d,Escucha el cuento: {titulo}.,frase,src/juegos/comps2.ts
+6e787979a8ed,Ahora te pregunto.,frase,src/juegos/comps2.ts
+093a62ce5831,"Mmm, no. Piensa en el cuento.",frase,src/juegos/comps2.ts
 9ed0eb2cf404,uve doble,trozo,src/juegos/lectura.ts
 7d513e645434,i griega,trozo,src/juegos/lectura.ts
 87e2719d8e78,NFD,trozo,src/juegos/lectura.ts src/temas/letras.ts
@@ -2883,6 +2877,8 @@ d95c854e356e,Azul. Azul como el mar y la ballena.,frase,src/temas/temas.ts
 eea43d1bf02d,Amarillo. Amarillo como el sol y el plátano.,frase,src/temas/temas.ts
 1e8fb8523520,Verde. Verde como la rana y las hojas.,frase,src/temas/temas.ts
 003be69227e3,Estos son los colores. Toca cada uno para conocerlo.,frase,src/temas/temas.ts
+31b4aed77ff1,"Mmm, ",trozo,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts
+822ae562234f, no es ,trozo,src/temas/temas.ts src/temas/temas5.ts
 540c7adeed83,. ¿De qué color es?,trozo,src/temas/temas.ts
 82ea2156fa08,Pon cada cosa en la canasta de su color.,frase,src/temas/temas.ts
 bf5abb541843,¡Atrapa las burbujas de color ,trozo,src/temas/temas.ts
@@ -3284,6 +3280,7 @@ ae3675b46ca3,El gusano. Vive bajo la tierra y la ayuda a estar sana.,frase,src/t
 33cbbf01111c,La oruga. Come hojas y un día será mariposa.,frase,src/temas/temas4.ts
 ac3f454cdd10,Busca con la lupa,trozo,src/temas/temas4.ts
 e8d46fa6b631,Hay bichitos escondidos en el pasto. Mira con la lupa y tócalos.,frase,src/temas/temas4.ts
+0981d7703d9e,Busca ,trozo,src/temas/temas4.ts src/temas/temas5.ts
 3f2624351710,Más colores,trozo,src/temas/temas4.ts
 1351f175a77f,Las formas,trozo,src/temas/temas4.ts
 31c88945da67,"Mmm, esa forma no es ",trozo,src/temas/temas4.ts
@@ -3619,6 +3616,7 @@ a68c7ee407ba,Mezclar colores,trozo,src/temas/temas5.ts
 ee23c4f89cdc, y ,trozo,src/temas/temas5.ts
 d73723532be7, mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
 3c4eb3651ddc, hacen ,trozo,src/temas/temas5.ts
+cf239d64c398,Ese es el ,trozo,src/temas/temas5.ts
 97eff4a59e77,. Piensa: ,trozo,src/temas/temas5.ts
 5bdfd02e6619,¿Qué forma tiene?,frase,src/temas/temas5.ts
 80eb5e440693,Sumar,trozo,src/temas/temas5.ts
