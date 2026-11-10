@@ -26,3 +26,13 @@ test('cada id es único y los textos conocidos están (frase, trozo, nombre)', (
   expect(tipo('hojaNaranja')).toBeUndefined();
   expect(tipo('nene')).toBeUndefined();
 });
+
+test('la zona de adultos y las ventanas de head.html también salen, con el tipo adultos (fase ID0)', () => {
+  const frases = catalogo(RAIZ);
+  const tipo = (t: string): string | undefined => frases.find((f) => f.texto === t)?.tipo;
+  expect(tipo('Zona de adultos')).toBe('adultos');
+  expect(tipo('¿Empezar de nuevo?')).toBe('adultos');
+  expect(tipo('Copia de seguridad')).toBe('adultos');
+  // del HTML solo salen los textos: ni etiquetas, ni selectores, ni entidades
+  expect(frases.some((f) => f.tipo === 'adultos' && /<\/?[a-z]|^#[a-z]|^&\w+;$/u.test(f.texto))).toBe(false);
+});

@@ -31,7 +31,7 @@ Características técnicas:
 ```
 /
 ├── src/                EL CÓDIGO FUENTE (aquí es donde se trabaja)
-├── public/             lo que se copia tal cual a la web: fonts/, iconos, manifiesto
+├── public/             lo que se copia tal cual a la web: fonts/, iconos, manifiesto (fonts/*-ro.woff2: las letras ă ș ț del rumano)
 ├── dist/               la web montada (no está en git; la genera `npm run build` y la publica GitHub Actions)
 ├── tests/              humo.js, comentarios.py y regresion/ (ver tests/regresion/LEEME.md)
 ├── dialogos/           catálogo de frases (todos.csv, sale del código) y frases nuevas o cambiadas (pendientes.txt)
@@ -39,7 +39,7 @@ Características técnicas:
 ├── .github/workflows/  web.yml: pruebas en cada PR y publicación desde main
 ├── package.json        versión, órdenes (`npm run ...`) y herramientas: Vite, TypeScript, Vitest, Playwright
 ├── vite.config.mts, index.html  Vite; index.html es solo la entrada, la página la monta el plugin
-├── herramientas/       vite/curiolandia.mts (el montaje), git-hooks/ (ganchos de commit), analisis/ y dialogos/ (catálogo de frases)
+├── herramientas/       vite/curiolandia.mts (el montaje), git-hooks/ (ganchos de commit), analisis/ y dialogos/ (catálogo de frases), idiomas/ (lista de trabajo para traducir)
 ├── CLAUDE.md           reglas cortas para trabajar con Claude Code
 └── README.md           presentación del proyecto
 ```

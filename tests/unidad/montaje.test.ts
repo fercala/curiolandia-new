@@ -207,6 +207,10 @@ describe('paginaJuego', () => {
     expect(publicada).not.toContain('cdnjs.cloudflare.com');
     expect(publicada).not.toContain('three.min.js');
     expect(publicada).toContain('url(fonts/fredoka-latin.woff2)');
+    // Las letras del rumano (fase ID0 de docs/PLAN-IDIOMAS.md), en sus archivos y solo para esas letras.
+    expect(publicada).toContain('url(fonts/andika-700-ro.woff2)');
+    expect(publicada).toContain('url(fonts/baloo2-700-ro.woff2)');
+    expect(publicada).toContain('unicode-range:U+0102-0103');
     expect(publicada).toContain('<link rel="manifest" href="manifest.webmanifest">');
   });
 
