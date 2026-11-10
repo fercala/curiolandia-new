@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114) e **ID1** (v0.2.116), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119) e **ID2c** (v0.2.120), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -228,4 +228,59 @@ sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos de
 - **Para probar**: `index.html?idioma=xx` enseña cada texto traducido entre ⟦ ⟧ y un 30 % más largo; lo que se ve sin
   corchetes se escapa de la traducción (frases compuestas, ID2; rótulos 3D y textos que el HTML cambia después, ID3).
   `index.html?idioma=ro` usa la tabla del rumano, y `__cl.sinTraducir()` lista lo que falta.
+
+### ID2a (v0.2.118): la gramática por idioma
+
+La ID2 se parte: la **ID2a** pone la gramática de cada idioma y quita los trucos del castellano; las **ID2b** y
+siguientes pasan las frases compuestas a plantillas, por grupos de archivos (`npm run idiomas:compuestas` dice cuántas
+quedan: 383 al terminar la ID2a, con la P11).
+
+- **El idioma se decide al cargar** `nucleo/traducir.ts` (justo después de `guardado.ts`), así que las tablas que se
+  calculan al cargar ya salen en su idioma (`NUM`).
+- **`fmt(plantilla, huecos)`**: traduce la plantilla entera y rellena sus huecos (`'Tienes {n} monedas.'`). Un hueco
+  con mayúscula (`{Cosa}`) pone en mayúscula la primera letra de `cosa`, para empezar la frase. Lo que sale de `fmt`
+  (y de `nombreEn`) se recuerda como ya traducido, para que `say()` y `text()` no lo traduzcan otra vez.
+- **Los nombres, con sus formas** (`Nombre` en `dominio/idiomas.ts`: con artículo, sin él, género —en rumano también
+  neutro—, plural, su plural, y tras «de» y «a»). La clave es el nombre en castellano con su artículo (el de `LEX` o el
+  `name` de una cosa). `nombreEn(frase)` da las formas en el idioma del juego: en castellano salen del artículo
+  (`formasEs`, lo mismo que antes); en rumano, de `src/idiomas/ro/nombres.ts` (vacía hasta la ID4).
+- **`W_`, `Wn`, `dela`, `ala`** (`nucleo/idioma.ts`) y **`nameT`, `isPl`, `fem`, `esta`, `eseEs`, `plural`, `unN`**
+  (`juegos/comps.ts`) usan esas formas: ya no miran el artículo del texto. `femPl(k)` es el femenino al contar varias
+  (en rumano, también los neutros). `esta` y `eseEs` son plantillas de `fmt`.
+- **Números en rumano**: `NUM` es `NUM_RO` al jugar en rumano y `unN` usa `cantidadRo` (un/o, doi/două, «de» desde el
+  20), en `src/idiomas/ro/numeros.ts`.
+- **Trucos quitados**: el «de el» → «del» del cofre, el «se abrió/se abrieron» del mapa, el «es/son para» de la
+  tienda, el «Cuántos/Cuántas» de las sumas de `temas5.ts` y el «el primero» → «PRIMERO» de los ordinales: ahora son
+  plantillas con las formas del nombre. Quedan los de la Isla de las Letras (`temas/letras.ts`, `juegos/lectura.ts`),
+  que es propia del castellano y tendrá su versión rumana en la ID6.
+- En castellano el juego dice y escribe lo mismo que antes (lo comprueban `npm run test:pr` y las frases de `__said`).
+
+### ID2b (v0.2.119): las frases del mapa, la tienda, la asamblea y el cofre
+
+- **69 frases compuestas pasan a plantillas** de `fmt` en `escenas/zonas.ts`, `tienda.ts`, `escenas2d.ts` y
+  `cofre.ts`; quedan 314 (`npm run idiomas:compuestas`). Cada variante (uno o varios, masculino o femenino, se abre o se
+  abren) es una plantilla entera: el traductor ve la frase completa.
+- **`juntar(...trozos)`** (`nucleo/traducir.ts`): para las frases que se dicen seguidas y alguna depende de algo (el
+  saludo según la hora, la presentación del tema, «¡Ya tiene dos!» detrás de otra frase). Cada trozo va ya traducido
+  (`tr` o `fmt`) y el resultado no se traduce otra vez; en castellano sale lo mismo que pegarlos con un espacio.
+- **Fechas**: los días, los meses y las estaciones se traducen como palabras sueltas (`tr(DIASL[i])`) antes de ir a su
+  hueco. Las estaciones con artículo (`el otoño`, `la primavera`), para «después viene…» y «el árbol del…», son
+  nombres (`nombreEn`).
+- **Nombres de la tienda**: los caparazones y las bufandas de colores tienen su nombre entero escrito (`'el caparazón
+  rosa'`), para que esté en el catálogo y en la tabla de nombres; el del vale es una plantilla (`'el vale: {vale}'`).
+- `lowName(t)` (el nombre del tema en minúscula) y los nombres de los sitios del mapa salen en el idioma del juego, y el
+  «dormida/dormido» y el «se abre/se abren» se eligen por el género y el número del nombre.
+- Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID2c (v0.2.120): los juegos comunes
+
+- **38 frases compuestas** de `juegos/comps.ts` y `juegos/comps2.ts` (los juegos que usan muchos temas: contar,
+  pintar, sonidos de animales, partes del cuerpo, series, derecha e izquierda, tarjetas en orden y cuentos) pasan a
+  plantillas; quedan 276.
+- Lo que llega de las tablas de contenido (las partes del cuerpo, los colores, las tarjetas, los títulos y las páginas
+  de los cuentos, las preguntas) se traduce con `tr` antes de ir a su hueco. Los sonidos de los animales, con
+  `sonidoSin(k)` (traducido, sin ¡ ! y en minúscula).
+- «¿Cuántos/Cuántas…?» y «Toca cada uno/una» se eligen con `femPl` (en rumano, los neutros cuentan como femeninos);
+  «pintarlo/pintarla», con `fem`.
+- Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
 

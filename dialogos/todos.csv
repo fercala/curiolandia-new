@@ -988,8 +988,8 @@ ccd98cc10b24,el salto de longitud,trozo,src/dominio/deporte.ts
 23b166cd7f2b,medalla ,trozo,src/dominio/deporte.ts
 d119addd1941,medallas ,trozo,src/dominio/deporte.ts
 4d950250f975,de ,trozo,src/dominio/deporte.ts src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts
-db3901932d77,Tienes ,trozo,src/dominio/deporte.ts src/escenas/casa.ts src/escenas/tienda.ts
-f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/casaAlbum.ts src/escenas/escenas2d.ts
+db3901932d77,Tienes ,trozo,src/dominio/deporte.ts src/escenas/casa.ts
+f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/casaAlbum.ts src/escenas/libroLetras.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 7327b8c0b779, veces,trozo,src/dominio/excursiones.ts
 2f05391d7e51,La rayuela,trozo,src/dominio/juegosCortos.ts
@@ -1043,7 +1043,7 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.",frase,src/dominio/yoga.ts
 8c3d395b2a94,Aún no hemos ido,trozo,src/escenas/albumExcursiones.ts
 a8419088f339,El ,trozo,src/escenas/albumExcursiones.ts src/temas/temas4.ts
-beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/nucleo/idioma.ts
+beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/temas/temas4.ts
 6dc7ba9fac29,Aquí irá la foto ,trozo,src/escenas/albumExcursiones.ts
 66038aa12121,", cuando vayamos de excursión.",trozo,src/escenas/albumExcursiones.ts
 049bfc802dc7,! Hemos ido ,trozo,src/escenas/albumExcursiones.ts
@@ -1067,18 +1067,18 @@ edb2fcee1b5d,Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tóc
 5df1d9ff1461,Toca el carrito para ir a la tienda.,frase,src/escenas/casa.ts
 235209e89f65,Mi baúl.,frase,src/escenas/casa.ts
 4bc50e759b3d,"¡Ordena, Tito!",frase,src/escenas/casa.ts
-257573a18726, monedas.,trozo,src/escenas/casa.ts src/escenas/tienda.ts
+257573a18726, monedas.,trozo,src/escenas/casa.ts
 9140cafcc0ac,Es el huevo de Pipo. Le ,trozo,src/escenas/casa.ts
-bb7038d611a3,falta un juego,trozo,src/escenas/casa.ts src/escenas/zonas.ts
-2abec8cebc64,faltan ,trozo,src/escenas/casa.ts src/escenas/cofre.ts src/escenas/tienda.ts
-01ea9c9ec5fa, juegos,trozo,src/escenas/casa.ts src/escenas/zonas.ts src/aplicacion/adultos/progreso.ts
-280eedc40494, para abrirse.,trozo,src/escenas/casa.ts src/escenas/zonas.ts
+bb7038d611a3,falta un juego,trozo,src/escenas/casa.ts
+2abec8cebc64,faltan ,trozo,src/escenas/casa.ts
+01ea9c9ec5fa, juegos,trozo,src/escenas/casa.ts src/aplicacion/adultos/progreso.ts
+280eedc40494, para abrirse.,trozo,src/escenas/casa.ts
 fb7be67627c2,¡Pipo te quiere mucho!,frase,src/escenas/casa.ts
 0013a067b269,Pipo dice: ¡grrr! Así saludan los dinosaurios.,frase,src/escenas/casa.ts
 b54c63e0844d,¡Pipo crece cuando juegas! Le ,trozo,src/escenas/casa.ts
 ead7a91cfff9, para crecer.,trozo,src/escenas/casa.ts
 2bab99f7096c,¡Pipo es el dinosaurio más grande del mundo!,frase,src/escenas/casa.ts
-59719f502c20, todavía está ,trozo,src/escenas/casa.ts src/escenas/zonas.ts
+59719f502c20, todavía está ,trozo,src/escenas/casa.ts
 c8a3df90a37b,. Se abre cuando termines ,trozo,src/escenas/casa.ts
 5c8cea32aafb,una casita más.,trozo,src/escenas/casa.ts
 4c9d08c1a1bc, casitas más.,trozo,src/escenas/casa.ts
@@ -1188,7 +1188,7 @@ f883e5b1b641,¡Es la hora de beber agua!,frase,src/escenas/casaMascotas.ts
 cb3e1d8cc1ad,¡Hay que ponerle nombre! ¿,trozo,src/escenas/casaMascotas.ts
 057847a3ccfa, o ,trozo,src/escenas/casaMascotas.ts src/escenas/granjaCrias.ts
 245c0670b666,? Toca el que más te guste.,trozo,src/escenas/casaMascotas.ts
-ded764e77023,"¡Hola, ",trozo,src/escenas/casaMascotas.ts src/escenas/escenas2d.ts src/escenas/granjaCrias.ts
+ded764e77023,"¡Hola, ",trozo,src/escenas/casaMascotas.ts src/escenas/granjaCrias.ts
 0c0fd90703a0,¡Hoy ya está feliz!,frase,src/escenas/casaMascotas.ts
 8427906f77b8,Toca el nombre que más te guste.,frase,src/escenas/casaMascotas.ts
 6faaae0ebf6f, Toca los botones de abajo.,frase,src/escenas/casaMascotas.ts
@@ -1238,20 +1238,15 @@ bea586d1a053,Tito baila,trozo,src/escenas/casaTele.ts
 663c8b8f7035,Pipo salta,trozo,src/escenas/casaTele.ts
 96cdbc3a5457,¡Mi tele! Con el mando de la derecha cambias de canal.,frase,src/escenas/casaTele.ts
 f60c90a30a0e,Toca los botones del mando para cambiar de canal.,frase,src/escenas/casaTele.ts
-5c1d9a65d69e, del ,trozo,src/escenas/cofre.ts
-73c25bcef15e,! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,trozo,src/escenas/cofre.ts
-b02ec5f955d1,Toca el cofre para abrirlo. ¡Te ,trozo,src/escenas/cofre.ts
-b3e7a37ede15,falta un toque,trozo,src/escenas/cofre.ts
-332a79b2dba9, toques,trozo,src/escenas/cofre.ts
+6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,frase,src/escenas/cofre.ts
+5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,frase,src/escenas/cofre.ts
+ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,frase,src/escenas/cofre.ts
 f26df03b6930,"Toca la casa para ver tu regalo, o la flecha verde para seguir el camino.",frase,src/escenas/cofre.ts
 097c43172be9,La casa de Tito.,frase,src/escenas/cofre.ts
 763e0324aa03,Seguir el camino.,frase,src/escenas/cofre.ts src/escenas/zonas.ts
-2a22dc854209,¡Mira lo que había,trozo,src/escenas/cofre.ts
-ef0357cb4155,¡Tito ya se lo puso!,frase,src/escenas/cofre.ts
-8934aacc62fa,Ya está en la casa de Tito.,frase,src/escenas/cofre.ts
-659e946c02d1, ¡Y diez monedas!,frase,src/escenas/cofre.ts
-7e75fe732cc4,¡Mira cuántas monedas,trozo,src/escenas/cofre.ts
-ff3c9697a105,! ¡Veinte monedas!,trozo,src/escenas/cofre.ts
+b452820c55c6,¡Mira lo que había{nino}: {cosa}! ¡Tito ya se lo puso! ¡Y diez monedas!,frase,src/escenas/cofre.ts
+61a251cf6a4b,¡Mira lo que había{nino}: {cosa}! Ya está en la casa de Tito. ¡Y diez monedas!,frase,src/escenas/cofre.ts
+f9f93649a99e,¡Mira cuántas monedas{nino}! ¡Veinte monedas!,frase,src/escenas/cofre.ts
 721ba9ddae59,"Toca la casa para verlo, o la flecha verde para seguir el camino.",frase,src/escenas/cofre.ts
 82b808c124a3,Toca la flecha verde para seguir el camino.,frase,src/escenas/cofre.ts src/escenas/repaso.ts
 24166ed0d5a7,¡Otra vez!,frase,src/escenas/cofre.ts src/escenas/columpios.ts
@@ -1302,7 +1297,7 @@ f90bb6c9a98d, pruebas y en cada una ganas una medalla. ¡Empezamos con ,trozo,sr
 2b556258d4e0,cuatro,trozo,src/escenas/deporte.ts src/juegos/comps.ts
 f780c4cce029,la primera,trozo,src/escenas/deporte.ts
 1c3a66c62bd3,¿Otra jornada? Toca la flecha verde.,frase,src/escenas/deporte.ts
-3d5f7fed128b,Ahora toca ,trozo,src/escenas/deporte.ts src/juegos/comps.ts
+3d5f7fed128b,Ahora toca ,trozo,src/escenas/deporte.ts
 65e04c7d6b48,Gran día del deporte,trozo,src/escenas/deporte.ts
 d042cf113afb, has ganado la medalla de ,trozo,src/escenas/deporte.ts
 0ab84a66fd9f,Las pruebas van en orden. Ahora toca ,trozo,src/escenas/deporte.ts
@@ -1342,11 +1337,15 @@ d585c75f67ab,palabra,trozo,src/escenas/diccionario.ts
 534bd1d9551c,Mi diccionario de inglés,trozo,src/escenas/diccionario.ts
 cbde4daf3b50,Juega en la Isla del Inglés y aquí saldrán tus palabras,trozo,src/escenas/diccionario.ts
 273f135fe145,quiere decir ,trozo,src/escenas/diccionario.ts
+636e2ada0b6b,el otoño,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
+8a48a07dbd43,el invierno,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
+531b4cb67a30,la primavera,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
+8efcc680dab6,el verano,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
 5e99b98e216f,Curiolandia,trozo,src/escenas/escenas2d.ts
 0f0c9b9c836e,(display-mode: standalone),trozo,src/escenas/escenas2d.ts
 4cb72ca44f61,(display-mode: fullscreen),trozo,src/escenas/escenas2d.ts
 c046f6c492c5,Tito y las preguntas escondidas,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
-c869f565c17a,Juega: ,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
+e577921a91f3,Juega: {nombre},trozo,src/escenas/escenas2d.ts
 75b319068fef,¿Quién juega?,frase,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 0abfc7737a54,Empezar de nuevo,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 4b5f67b9d141,Instalar el juego,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
@@ -1356,7 +1355,7 @@ b98615f7a5dd,¿Cuántos años tiene quien va a jugar?,frase,src/escenas/escenas2
 a587736f77f4,años,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/quienJuega.ts
 a49638107f59,¡Hola! Yo soy Tito. ¿Cómo te llamas? Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
 d88671ed28a4,Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
-d616330452a9,! ¡Qué bonito nombre!,trozo,src/escenas/escenas2d.ts
+df0af9cb97f2,"¡Hola, {nombre}! ¡Qué bonito nombre!",frase,src/escenas/escenas2d.ts
 b5a266a1e5af,¿Cómo te llamas?,frase,src/escenas/escenas2d.ts
 ea877d21ec52,Escribir el nombre,trozo,src/escenas/escenas2d.ts
 a6e392419eb7,Saltar,trozo,src/escenas/escenas2d.ts
@@ -1366,8 +1365,7 @@ ad9841903519,"¡Hola! Yo soy Tito, la tortuga curiosa. En mi mochila guardo un m
 f09571148d3b,"¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.",frase,src/escenas/escenas2d.ts
 f8afbe0af743,Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!,frase,src/escenas/escenas2d.ts
 d19b87a375f0,¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?,frase,src/escenas/escenas2d.ts
-ff43ee39bc35,¿Me ayudas a encontrar las respuestas,trozo,src/escenas/escenas2d.ts
-cedc92559668,? ¡Vamos a Curiolandia!,trozo,src/escenas/escenas2d.ts
+f80e1dee1143,¿Me ayudas a encontrar las respuestas{nino}? ¡Vamos a Curiolandia!,frase,src/escenas/escenas2d.ts
 16d3bcd7a531,Conocer,trozo,src/escenas/escenas2d.ts
 85fe37a75fbc,¿Dónde está?,frase,src/escenas/escenas2d.ts src/temas/ingles.ts src/temas/letras.ts
 46f8e2e6bd7c,Memoria,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/progreso.ts
@@ -1397,10 +1395,9 @@ bb6ae0f28008,¿Qué viene después?,frase,src/escenas/escenas2d.ts src/temas/tem
 a3ff8d3f4e2d,Soplar las velitas,trozo,src/escenas/escenas2d.ts src/temas/extras.ts
 39c5c28de386,Decorar,trozo,src/escenas/escenas2d.ts
 0aa4c3795f07,¡Lo lograste! ¡Ganaste una estrella!,frase,src/escenas/escenas2d.ts
-d59b8c7a84e6,¡Muy bien,trozo,src/escenas/escenas2d.ts
-dc3e8543f143,! ¡Una estrella más!,trozo,src/escenas/escenas2d.ts
+4874851a686a,¡Muy bien{nino}! ¡Una estrella más!,frase,src/escenas/escenas2d.ts
 5728062439b3,¡Bravo! ¡Terminaste el juego!,frase,src/escenas/escenas2d.ts
-756c49a11cfb,Nivel ,trozo,src/escenas/escenas2d.ts
+54bfc6381735,Nivel {n},trozo,src/escenas/escenas2d.ts
 12e81fe4e9f7,¡Qué bueno! Hoy sientes alegría. ¡Yo también estoy feliz de verte!,frase,src/escenas/escenas2d.ts
 f7b012a9ec7f,Hoy sientes tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.,frase,src/escenas/escenas2d.ts
 2b5b424aa204,"Hoy sientes enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.",frase,src/escenas/escenas2d.ts
@@ -1418,36 +1415,27 @@ c9335f25333d,¡Hoy hay viento!,frase,src/escenas/escenas2d.ts
 396ab1beb7ce,¡Hoy nieva!,frase,src/escenas/escenas2d.ts
 75fd2d0c41c7,¡Hoy hay tormenta!,frase,src/escenas/escenas2d.ts
 92063f3a3c83,¡Hoy hay niebla!,frase,src/escenas/escenas2d.ts
-a2f49f874064,¡Buen día,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts
-597cf67a57b5,! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!,trozo,src/escenas/escenas2d.ts
-7d1e0e924834,¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños,trozo,src/escenas/escenas2d.ts
-203a1db18f24,! Sopla las velitas: toca cada una.,trozo,src/escenas/escenas2d.ts
+8bf0051f7dec,¡Buen día{nino}! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!,frase,src/escenas/escenas2d.ts
+d7f0d189979e,¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños{nino}! Sopla las velitas: toca cada una.,frase,src/escenas/escenas2d.ts
 9dd3c2353624,¿Ahora es de día o de noche?,frase,src/escenas/escenas2d.ts
 f814a57b27df,Cantemos los días de la semana.,frase,src/escenas/escenas2d.ts
-6427945daccf,Hoy es ,trozo,src/escenas/escenas2d.ts
-09dcac329a06,". ¡Toca el vagón de hoy, el que salta!",trozo,src/escenas/escenas2d.ts
-8f6888a52129,Ayer fue ,trozo,src/escenas/escenas2d.ts
-9bc309f831bb,. ¿Qué día es hoy? Toca el vagón.,trozo,src/escenas/escenas2d.ts
-b57dc105e029,. ¿Y mañana qué día será? Toca el vagón de mañana.,trozo,src/escenas/escenas2d.ts
-9559aeb568dc,Estamos en ,trozo,src/escenas/escenas2d.ts
-7b90170ca2ed,. Hoy es ,trozo,src/escenas/escenas2d.ts
-05378e5089c2,. Toca el número ,trozo,src/escenas/escenas2d.ts
-bf98c39c0239, en el calendario.,trozo,src/escenas/escenas2d.ts
+bf7b02dd4e83,"Hoy es {dia}. ¡Toca el vagón de hoy, el que salta!",frase,src/escenas/escenas2d.ts
+4211b82774e1,Ayer fue {dia}. ¿Qué día es hoy? Toca el vagón.,frase,src/escenas/escenas2d.ts
+a5666a5639df,Hoy es {dia}. ¿Y mañana qué día será? Toca el vagón de mañana.,frase,src/escenas/escenas2d.ts
+5c6fdd68f1b4,Estamos en {mes}. Hoy es {n}. Toca el número {n} en el calendario.,frase,src/escenas/escenas2d.ts
 15e00a1599c8,¿Qué tiempo hace hoy? Mira por la ventana de tu casa y toca el dibujo.,frase,src/escenas/escenas2d.ts
 003468209b2c,"Con este tiempo, ¿qué nos ponemos para salir?",frase,src/escenas/escenas2d.ts
 e2be685aa252,¿En qué estación estamos? Toca el árbol.,frase,src/escenas/escenas2d.ts
-8f40c9611f93,Ahora es ,trozo,src/escenas/escenas2d.ts
-65549acfe045,. ¿Qué estación viene después?,trozo,src/escenas/escenas2d.ts
+fec4ad117c94,Ahora es {estacion}. ¿Qué estación viene después?,frase,src/escenas/escenas2d.ts
 5c49d00746a6,¿Cómo te sientes hoy? Toca la carita.,frase,src/escenas/escenas2d.ts
-7bfb2d7190dc,¡Terminamos la asamblea,trozo,src/escenas/escenas2d.ts
-1992413cd17f,! ¡Ahora a jugar!,trozo,src/escenas/escenas2d.ts
+35660b9f1ec8,¡Terminamos la asamblea{nino}! ¡Ahora a jugar!,frase,src/escenas/escenas2d.ts
 d72502f35785,"¡Tres asambleas esta semana! ¡Ganaste una pegatina! Ahora, ¡a jugar!",frase,src/escenas/escenas2d.ts
 ef5011846c17,Toca las velitas para soplarlas.,frase,src/escenas/escenas2d.ts src/juegos/comps2.ts
 df9c098f49ae,¡Toca tu foto!,frase,src/escenas/escenas2d.ts
 949858af4a2b,Toca el vagón que salta.,frase,src/escenas/escenas2d.ts
-e03cfa4cbc46,. ¿Qué día es hoy?,trozo,src/escenas/escenas2d.ts
+4cee466b6819,Ayer fue {dia}. ¿Qué día es hoy?,frase,src/escenas/escenas2d.ts
 4ac926d96240,¿Qué día será mañana?,frase,src/escenas/escenas2d.ts
-12c57f87c995,Toca el número ,trozo,src/escenas/escenas2d.ts src/escenas/repaso.ts
+9101aa21a164,Toca el número {n}.,frase,src/escenas/escenas2d.ts
 a6236fa7060a,¿Qué tiempo hace hoy?,frase,src/escenas/escenas2d.ts
 02b2672621e4,¿Qué nos ponemos?,frase,src/escenas/escenas2d.ts src/temas/temas5.ts
 ce0153c35763,¿En qué estación estamos?,frase,src/escenas/escenas2d.ts
@@ -1456,57 +1444,46 @@ ce0153c35763,¿En qué estación estamos?,frase,src/escenas/escenas2d.ts
 ae2ec051bc54,ASAMBLEA,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 60ed6aff25c5,¡PRESENTE!,frase,src/escenas/escenas2d.ts
 474bef235f46,HOY,trozo,src/escenas/escenas2d.ts
-81b9b80c0ee9,HOY: ,trozo,src/escenas/escenas2d.ts
-07e8ad0ba84c,MAÑANA: ,trozo,src/escenas/escenas2d.ts
+7d147aa4a84e,HOY: {dia},trozo,src/escenas/escenas2d.ts
+074ec045b8ad,MAÑANA: {dia},trozo,src/escenas/escenas2d.ts
 5100c4241cf0,¡FELIZ CUMPLE!,frase,src/escenas/escenas2d.ts
-e0d380384870,Calendario del tiempo de ,trozo,src/escenas/escenas2d.ts
-cf239d64c398,Ese es el ,trozo,src/escenas/escenas2d.ts src/juegos/comps.ts src/temas/temas5.ts
-51531af23591,", el que salta.",trozo,src/escenas/escenas2d.ts
-e70d69a82a30,. Hoy es el que viene después.,trozo,src/escenas/escenas2d.ts
+5110877e217d,Calendario del tiempo de {mes},trozo,src/escenas/escenas2d.ts
+c2aee8eaada2,Ese es el {dia}.,frase,src/escenas/escenas2d.ts
+fcbb601a706e,"Hoy es {dia}, el que salta.",frase,src/escenas/escenas2d.ts
+b2e4aaf3929a,Ayer fue {dia}. Hoy es el que viene después.,frase,src/escenas/escenas2d.ts
 914b542f3afe,Mañana es el que viene después de hoy.,frase,src/escenas/escenas2d.ts
 f1e0a16ca9e7,¡Que los cumplas feliz! Tito te regala diez monedas.,frase,src/escenas/escenas2d.ts
 04ea2caaec11,¡Presente! Y hoy eres el encargado de la asamblea. ¡Te ganaste la gorra!,frase,src/escenas/escenas2d.ts
 5e34d0c270f9,¡Presente! ¡Qué bueno que estás aquí!,frase,src/escenas/escenas2d.ts
-0e8f8342c233, Hoy es ,trozo,src/escenas/escenas2d.ts
+0669749f8ce4,Hoy es {dia}.,frase,src/escenas/escenas2d.ts
+b4a7d4bd22fe,Mañana será {dia}.,frase,src/escenas/escenas2d.ts
 2c23d1f14a54,"¡Es fin de semana, no hay escuela!",frase,src/escenas/escenas2d.ts
 f6d69a9c5ea7,Es día de escuela.,frase,src/escenas/escenas2d.ts
-12dc139623b5, Mañana será ,trozo,src/escenas/escenas2d.ts
-a954a34f8c79,. Busca el ,trozo,src/escenas/escenas2d.ts
-878ee639f14d, Lo anotamos en el calendario del tiempo.,frase,src/escenas/escenas2d.ts
+74d2301785c8,Hoy es {dia} {n} de {mes}.,frase,src/escenas/escenas2d.ts
+bae7b1b47f0b,Ese es el {n}. Busca el {m}.,frase,src/escenas/escenas2d.ts
+2ccd1a276a62,Lo anotamos en el calendario del tiempo.,frase,src/escenas/escenas2d.ts
 f3c4a7693673,¡Sí! Ahora es de día.,frase,src/escenas/escenas2d.ts
 fb12e0513481,¡Sí! Ahora es de noche.,frase,src/escenas/escenas2d.ts
-e7210bb6c954,¡Sí! Nos ponemos ,trozo,src/escenas/escenas2d.ts
-3da734091c19,¡Sí! Estamos en ,trozo,src/escenas/escenas2d.ts
-743a4e156885, Las hojas se caen.,frase,src/escenas/escenas2d.ts
-0e229c10b270, Hace frío.,frase,src/escenas/escenas2d.ts
-434ff36951ec, Salen las flores.,frase,src/escenas/escenas2d.ts
-81e3495b99a4, Hace calor.,frase,src/escenas/escenas2d.ts
-b6613a687ef1,¡Sí! Después viene ,trozo,src/escenas/escenas2d.ts
-636e2ada0b6b,el otoño,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
-8a48a07dbd43,el invierno,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
-8efcc680dab6,el verano,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
-531b4cb67a30,la primavera,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
-b253c4f5508d,Mira por la ventana. ,frase,src/escenas/escenas2d.ts
+fc947b973bc2,¡Sí! Nos ponemos {cosa}.,frase,src/escenas/escenas2d.ts
+c2f31cb841d2,¡Sí! Estamos en {estacion}.,frase,src/escenas/escenas2d.ts
+54778864d3a8,Las hojas se caen.,frase,src/escenas/escenas2d.ts
+cf9859839ec0,Hace frío.,frase,src/escenas/escenas2d.ts
+3f0fc8011d61,Salen las flores.,frase,src/escenas/escenas2d.ts src/temas/temas4.ts
+269c1c735810,Hace calor.,frase,src/escenas/escenas2d.ts
+13b7079230c5,¡Sí! Después viene {estacion}.,frase,src/escenas/escenas2d.ts
+a1c59700d3d9,Mira por la ventana.,frase,src/escenas/escenas2d.ts
 62fad1c661bb,Ahora no hay sol.,frase,src/escenas/escenas2d.ts
 f28ae7dcec67,Ahora hay luz.,frase,src/escenas/escenas2d.ts
-be43951abc58, no va con este tiempo.,trozo,src/escenas/escenas2d.ts
-81cf520a9b5a,Ese es el árbol ,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
-aa2caee5e158,del otoño,trozo,src/escenas/escenas2d.ts
-1573b8fcc087,del invierno,trozo,src/escenas/escenas2d.ts
-b0b70a59dfb0,del verano,trozo,src/escenas/escenas2d.ts
-4bcf888a8419,de la primavera,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts
-c97245009036,. Prueba con otro.,trozo,src/escenas/escenas2d.ts
-455e8763e702,"Mmm, después de ",trozo,src/escenas/escenas2d.ts
-87acbc11f92d, no viene ,trozo,src/escenas/escenas2d.ts src/temas/temas5.ts
+2ab046595a28,{Cosa} no va con este tiempo.,trozo,src/escenas/escenas2d.ts
+b22009d14fa6,Ese es el árbol {estacion}. Prueba con otro.,frase,src/escenas/escenas2d.ts
+4d3b41c70a12,"Mmm, después de {antes} no viene {estacion}.",frase,src/escenas/escenas2d.ts
 5a554c79a44d,Prueba otra vez.,frase,src/escenas/escenas2d.ts
-e600c5b6efa2,Este es tu álbum. Tienes ,trozo,src/escenas/escenas2d.ts
-f57ad61913db, pegatina.,trozo,src/escenas/escenas2d.ts
-56e9f7df238a, pegatinas.,trozo,src/escenas/escenas2d.ts
+b161b0d177f7,Este es tu álbum. Tienes 1 pegatina.,frase,src/escenas/escenas2d.ts
+9e0e27175cc5,Este es tu álbum. Tienes {n} pegatinas.,frase,src/escenas/escenas2d.ts
 737c1f228bfe,Todavía no tienes pegatinas. ¡Las ganas terminando juegos!,frase,src/escenas/escenas2d.ts
 4e29bfdfc807,Mi álbum de pegatinas,trozo,src/escenas/escenas2d.ts
 5b3629e4ec0b,Esta todavía no la tienes.,frase,src/escenas/escenas2d.ts
-f2a070932858,¡Qué bonito jugamos,trozo,src/escenas/escenas2d.ts
-06747db549ea,! Ahora Tito se va a descansar. ¡Hasta mañana!,trozo,src/escenas/escenas2d.ts
+c4cf7542532e,¡Qué bonito jugamos{nino}! Ahora Tito se va a descansar. ¡Hasta mañana!,frase,src/escenas/escenas2d.ts
 fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/juegos/lectura.ts
 563528c57bb4,Es hora de descansar,trozo,src/escenas/escenas2d.ts
 fbc49c3eee3d,¡A bailar como un pingüino!,frase,src/escenas/estatuas.ts
@@ -1541,7 +1518,7 @@ f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 779ec98e0c31,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. ,frase,src/escenas/excursion.ts
 4bbaead2b9e7, nos espera otro día en ,trozo,src/escenas/excursion.ts
 c40d836c1a0d,. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,trozo,src/escenas/excursion.ts
-0f23f37661fd,¡Hola,trozo,src/escenas/excursion.ts src/escenas/zonas.ts
+0f23f37661fd,¡Hola,trozo,src/escenas/excursion.ts
 8a64e8d831eb,! Soy ,trozo,src/escenas/excursion.ts
 d069f9dda463,", la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.",trozo,src/escenas/excursion.ts
 41b12a8a9434,Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
@@ -1556,7 +1533,7 @@ a366267364b7,! Toca su dibujo.,trozo,src/escenas/excursion.ts
 64d45deda38e, no le gusta eso. ,trozo,src/escenas/granja.ts
 9b22144c476d, come ,trozo,src/escenas/granja.ts
 cbdf67864202,el ,trozo,src/escenas/granja.ts src/escenas/granjaCrias.ts src/temas/extras.ts
-d254aeefaf25,al ,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
+d254aeefaf25,al ,trozo,src/escenas/granja.ts
 b1200f5b672d,Cada animal come una cosa. Arrastra su comida hasta su comedero.,frase,src/escenas/granja.ts
 4377d49bcfae,Arrastra la comida de cada animal hasta su comedero.,frase,src/escenas/granja.ts
 bd3aa671e645,Las gallinas han puesto huevos escondidos en la paja. ¡Toca la paja para buscarlos y los guardamos en la cesta!,frase,src/escenas/granja.ts
@@ -1671,8 +1648,9 @@ f6ef622e9313,¡Ya hiciste el repaso de hoy! Mañana Tito prepara otro. Toca la f
 c1e5adccd674,¡Hora de repasar! Tito eligió juegos que todavía cuestan un poquito. ¡Practicando salen cada vez mejor! ,frase,src/escenas/repaso.ts
 5b264c644eaf,¡Hora de repasar! Tito eligió juegos que jugaste hace tiempo. ,frase,src/escenas/repaso.ts
 faab64329823,Empieza por el primero.,frase,src/escenas/repaso.ts src/escenas/zonas.ts
+12c57f87c995,Toca el número ,trozo,src/escenas/repaso.ts
 0454719b9a96,Repaso con Tito,trozo,src/escenas/repaso.ts
-c7921acb6557,Este todavía está cerrado. Primero termina el número ,trozo,src/escenas/repaso.ts src/escenas/zonas.ts
+c7921acb6557,Este todavía está cerrado. Primero termina el número ,trozo,src/escenas/repaso.ts
 108a30388cee,"Te dejo un reto para hacer en casa, sin pantalla: ",trozo,src/escenas/retos.ts
 274661fe2f2c,¡Me han contado que has hecho el reto en casa,trozo,src/escenas/retos.ts
 05bd86f3607a,! ¡Qué bien! Toma una pegatina.,trozo,src/escenas/retos.ts
@@ -1689,11 +1667,7 @@ b5dc3883524d,Juguetes,trozo,src/escenas/tienda.ts
 dedbc4a73d3d,Cosas para el jardín,trozo,src/escenas/tienda.ts
 5f8abfe22ddb,Mascotas,trozo,src/escenas/tienda.ts
 a6cad5ea73c4,Vales para canjear,trozo,src/escenas/tienda.ts
-dd05b187049d,el caparazón ,trozo,src/escenas/tienda.ts
-84109ae4b417,rosa,trozo,src/escenas/tienda.ts src/juegos/comps.ts
-d4177dc752cd,verde,trozo,src/escenas/tienda.ts src/juegos/comps.ts
-f97b08d81716,la bufanda ,trozo,src/escenas/tienda.ts
-3755934bfc90,el vale: ,trozo,src/escenas/tienda.ts
+5762690a4b37,el vale: {vale},trozo,src/escenas/tienda.ts
 e6f4c5cbbc9b,el salón,trozo,src/escenas/tienda.ts src/temas/temas.ts
 ebe1f28aef32,el dormitorio,trozo,src/escenas/tienda.ts src/temas/temas.ts
 943872e7810f,la cocina,trozo,src/escenas/tienda.ts src/temas/temas.ts
@@ -1701,36 +1675,28 @@ ab041433a678,el baño,trozo,src/escenas/tienda.ts src/temas/temas.ts
 6c0814ad5819,el cuarto de juegos,trozo,src/escenas/tienda.ts
 f94f62e3c49d,el jardín,trozo,src/escenas/tienda.ts
 06a07552e992,la torre de las estrellas,trozo,src/escenas/tienda.ts
-83c830667495,¡La tienda! Tienes ,trozo,src/escenas/tienda.ts
-36177cb022e0, monedas. Toca algo para ver cuánto cuesta.,trozo,src/escenas/tienda.ts
+2d7694144596,¡La tienda! Tienes {n} monedas. Toca algo para ver cuánto cuesta.,frase,src/escenas/tienda.ts
 f2f698a45200,"¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.",frase,src/escenas/tienda.ts
 cd250cb12ba5,¿Lo compras? Toca el verde para comprar o la cruz para volver.,frase,src/escenas/tienda.ts
-6b78f4086625,Toca algo para ver cuánto cuesta. Tienes ,trozo,src/escenas/tienda.ts
-4cdea8cacd98, Ya es tuyo.,frase,src/escenas/tienda.ts
-6b4e59a46738, Cuesta ,trozo,src/escenas/tienda.ts
+48b60179a463,Toca algo para ver cuánto cuesta. Tienes {n} monedas.,frase,src/escenas/tienda.ts
+c61a84e05bf6,{Cosa}. Ya es tuyo.,trozo,src/escenas/tienda.ts
+251b41bba91a,{Cosa}. Cuesta {n} monedas.,trozo,src/escenas/tienda.ts
+a977ae4a79a3,Tienes {n} monedas.,frase,src/escenas/tienda.ts
 422f5aabbe8d,La tienda,trozo,src/escenas/tienda.ts
 1612eda5416c,"Bueno, ¡otra vez será!",frase,src/escenas/tienda.ts
-fb00ff6b58e0, estrellas. Las ganas terminando juegos.,trozo,src/escenas/tienda.ts
-a7c65eea758b, se abre cuando tengas ,trozo,src/escenas/tienda.ts
-4d4cd9aa1701, estrellas. ¡Ya tienes ,trozo,src/escenas/tienda.ts
-3ac4c5f4bf44,! Ganas estrellas terminando juegos.,trozo,src/escenas/tienda.ts
-fee8fd330edf, son para ,trozo,src/escenas/tienda.ts
-1f4493d13f72, es para ,trozo,src/escenas/tienda.ts
-10f0df83ff39, se abre cuando termines ,trozo,src/escenas/tienda.ts
-3fb072a9295b,una casita.,trozo,src/escenas/tienda.ts
-0d3e37027fad, casitas.,trozo,src/escenas/tienda.ts
-b1c410b8914e,¡Tito se puso ,trozo,src/escenas/tienda.ts
-6afc3ef24626,Tito se quitó ,trozo,src/escenas/tienda.ts
-7d56655642a2, ya es tuyo. Está en la casa de Tito.,trozo,src/escenas/tienda.ts
-db9fb831ad07, cuesta ,trozo,src/escenas/tienda.ts
-2ce1c44a5a81, monedas. Te ,trozo,src/escenas/tienda.ts
-ca9935110707,falta una,trozo,src/escenas/tienda.ts
-8a3f5cff9e1e,. ¡Jugando ganas más!,trozo,src/escenas/tienda.ts
-a51e5eb5390d,¿Quieres comprar ,trozo,src/escenas/tienda.ts
-f0803078e0f3, por ,trozo,src/escenas/tienda.ts
-0562a581681c, monedas? Toca el verde para comprar.,trozo,src/escenas/tienda.ts
-d84fbe842a59,¡Compraste el vale! ,frase,src/escenas/tienda.ts
-d8434eee2baa,. Enséñaselo a un adulto de tu familia para canjearlo.,trozo,src/escenas/tienda.ts
+80a97e812421,Tienes {n} estrellas. Las ganas terminando juegos.,frase,src/escenas/tienda.ts
+31f98998ccca,{Cosa} se abre cuando tengas {n} estrellas. ¡Ya tienes {m}! Ganas estrellas terminando juegos.,trozo,src/escenas/tienda.ts
+67f29e54ce58,{Cosa} son para {sala}. {Sala} se abre cuando termines una casita.,trozo,src/escenas/tienda.ts
+c21d7f9fe027,{Cosa} es para {sala}. {Sala} se abre cuando termines una casita.,trozo,src/escenas/tienda.ts
+0479b935268f,{Cosa} son para {sala}. {Sala} se abre cuando termines {n} casitas.,trozo,src/escenas/tienda.ts
+f4e48959ce88,{Cosa} es para {sala}. {Sala} se abre cuando termines {n} casitas.,trozo,src/escenas/tienda.ts
+2685ee2ab041,¡Tito se puso {cosa}!,frase,src/escenas/tienda.ts
+bd8d5fb72180,Tito se quitó {cosa}.,frase,src/escenas/tienda.ts
+f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,trozo,src/escenas/tienda.ts
+94e40ceddf23,{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!,trozo,src/escenas/tienda.ts
+1040031103e2,{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!,trozo,src/escenas/tienda.ts
+e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,frase,src/escenas/tienda.ts
+a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,frase,src/escenas/tienda.ts
 a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,frase,src/escenas/tienda.ts
 f3fee113889f,¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.,frase,src/escenas/tienda.ts
 05a9f9871aab,¡salta tres veces!,trozo,src/escenas/titoDice.ts
@@ -1788,17 +1754,14 @@ e0ea41a6c7ea,¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras p
 a4060dd809b3,¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 b56f25d264e8,¡Bienvenido al Pueblo de los Cuentos! Aquí jugamos con frases y cuentos en inglés. Las casitas se abren de una en una. ,frase,src/escenas/zonas.ts
 e43303c24ba4,el Rincón de los Conceptos,trozo,src/escenas/zonas.ts
-ca6ec05b56e2,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste ,trozo,src/escenas/zonas.ts
+1746f9bdb598,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste {n}!,frase,src/escenas/zonas.ts
 4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,frase,src/escenas/zonas.ts
-3bed5faac62d,Esta casita todavía está cerrada. Primero termina ,trozo,src/escenas/zonas.ts
-4e9557de6aef,la anterior,trozo,src/escenas/zonas.ts
-95c648f53cba,. ¡Sigue el camino!,trozo,src/escenas/zonas.ts
-fd23b5581644,¡Mira! ¡Se abrió ,trozo,src/escenas/zonas.ts
-a68f0863b800,una casita nueva: ,trozo,src/escenas/zonas.ts
-99a6dc6bf148,! Tócala para jugar.,trozo,src/escenas/zonas.ts
-0937382c8f62,¡Terminaste todo el camino,trozo,src/escenas/zonas.ts
-9677b9603d05,! ¡Increíble! Puedes repetir la casita que quieras.,trozo,src/escenas/zonas.ts
-82bd53af9a8b,Toca la casita que brilla: ,trozo,src/escenas/zonas.ts
+2d6a70af59e3,Esta casita todavía está cerrada. Primero termina {tema}. ¡Sigue el camino!,frase,src/escenas/zonas.ts
+ed476938b767,Esta casita todavía está cerrada. Primero termina la anterior. ¡Sigue el camino!,frase,src/escenas/zonas.ts
+be06e3fb7b86,¡Mira! ¡Se abrió el Rincón de los Conceptos! Tócala para jugar.,frase,src/escenas/zonas.ts
+389e0dda8db2,¡Mira! ¡Se abrió una casita nueva: {tema}! Tócala para jugar.,frase,src/escenas/zonas.ts
+64baabf0ab07,¡Terminaste todo el camino{nino}! ¡Increíble! Puedes repetir la casita que quieras.,frase,src/escenas/zonas.ts
+79db86678453,Toca la casita que brilla: {tema}.,frase,src/escenas/zonas.ts
 d2c1ce7906cc,¡Terminaste todo el camino! Puedes repetir la casita que quieras.,frase,src/escenas/zonas.ts
 ab25e5c98beb,¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.,frase,src/escenas/zonas.ts
 336bb13b4c54,"¡La casa de Tito creció! Ahora tiene un piso más, con balcón.",frase,src/escenas/zonas.ts
@@ -1818,59 +1781,51 @@ b23b2e5c8973,las rutinas y los hábitos,trozo,src/escenas/zonas.ts
 bf5fd63a874f,el globo de la Isla del Inglés,trozo,src/escenas/zonas.ts
 47ff295173a9,la casa de Tito,trozo,src/escenas/zonas.ts
 538329857e0b,el barco de la Isla de las Letras,trozo,src/escenas/zonas.ts
-d1660b9daa58,¡Terminaste todos los caminos,trozo,src/escenas/zonas.ts
-e12315af2ad6,! Puedes repetir lo que más te guste.,trozo,src/escenas/zonas.ts
+f2ffb5dd6528,¡Terminaste todos los caminos{nino}! Puedes repetir lo que más te guste.,frase,src/escenas/zonas.ts
 ba425b157dcd,Isla de las Letras,trozo,src/escenas/zonas.ts src/aplicacion/adultos/comoSeJuega.ts
 969e43db941b,El cole,trozo,src/escenas/zonas.ts
 a623a5ae7a4d,Isla del Inglés,trozo,src/escenas/zonas.ts
 df09140b08d5,3 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 5d400baad9f7,4 años,trozo,src/escenas/zonas.ts
 dcf5a6f7e26e,5 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
-851c9032c1e6,¡Mira,trozo,src/escenas/zonas.ts
-bcfa7fa26ac9,! ¡Se despertó ,trozo,src/escenas/zonas.ts
-47713ef9554f,! Ahora puedes jugar ahí también.,trozo,src/escenas/zonas.ts
-806d89233c36,! ¡Se ,trozo,src/escenas/zonas.ts
-b265e603e565,abrieron ,trozo,src/escenas/zonas.ts
-a824cbed2166,abrió ,trozo,src/escenas/zonas.ts
-d6227a4f6b5f,! Toca para jugar.,trozo,src/escenas/zonas.ts
-919d2c0a7559,! ¡Tito tiene ,trozo,src/escenas/zonas.ts
-f4c14f67e00f, en su caparazón!,trozo,src/escenas/zonas.ts
-1a8d2e1cba2f,una flor,trozo,src/escenas/zonas.ts
-91c6057566ee, flores,trozo,src/escenas/zonas.ts
-5e31ad72fa7e,! Te he guardado un regalito: ¡tres monedas!,trozo,src/escenas/zonas.ts
+036a58dcb9fa,¡Mira{nino}! ¡Se despertó {zona}! Ahora puedes jugar ahí también.,frase,src/escenas/zonas.ts
+d00ab6651ad0,¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.,frase,src/escenas/zonas.ts
+38acb0347a77,¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.,frase,src/escenas/zonas.ts
+46406c5e9012,¡Mira{nino}! ¡Tito tiene una flor en su caparazón!,frase,src/escenas/zonas.ts
+0103f180a942,¡Mira{nino}! ¡Tito tiene {n} flores en su caparazón!,frase,src/escenas/zonas.ts
+e2a51fa2f264,¡Hola{nino}! Te he guardado un regalito: ¡tres monedas!,frase,src/escenas/zonas.ts
 03521cd42cf7,Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.,frase,src/escenas/zonas.ts
 e3cc98690991,¡Llevamos un buen rato jugando! Vamos a hacer una pausa para estirarnos como los animales.,frase,src/escenas/zonas.ts
-f028fdd87d5c,¡Buenas tardes,trozo,src/escenas/zonas.ts
-387949402ffb,¡Buenas noches,trozo,src/escenas/zonas.ts
+238add231fd9,¡Buen día{nino}!,frase,src/escenas/zonas.ts
+70dc954fdcea,¡Buenas tardes{nino}!,frase,src/escenas/zonas.ts
+1b91cc139297,¡Buenas noches{nino}!,frase,src/escenas/zonas.ts
 57f9fc8e4e5b,Vamos a la plaza a hacer la asamblea. Toca la plaza.,frase,src/escenas/zonas.ts
 a469c2f7ea48,Toca el botón verde para seguir el camino. También puedes ir a la tienda o a la casa de Tito.,frase,src/escenas/zonas.ts
-fbec7fab29a3,Es un huevo misterioso. Le ,trozo,src/escenas/zonas.ts
+73fc71292ec4,Es un huevo misterioso. Le falta un juego para abrirse.,frase,src/escenas/zonas.ts
+b1ef257178e3,Es un huevo misterioso. Le faltan {n} juegos para abrirse.,frase,src/escenas/zonas.ts
 f77f96541ebf,"¡Hola! Soy Pipo, el dinosaurio de Tito.",frase,src/escenas/zonas.ts
 1055c3e482d9,El repaso con Tito.,frase,src/escenas/zonas.ts
-266bc5a52afc,. Todavía ,trozo,src/escenas/zonas.ts
-acba72935050,está dormida.,trozo,src/escenas/zonas.ts
-ca252143eb3b,está dormido.,trozo,src/escenas/zonas.ts
-a11766f940ac,. Todavía está cerrado.,trozo,src/escenas/zonas.ts
-9557173b35b3,dormida,trozo,src/escenas/zonas.ts
-bd9dce21a40c,dormido,trozo,src/escenas/zonas.ts
-a843e9983f9d,. Se despierta cuando Tito tenga seis flores ,trozo,src/escenas/zonas.ts
-ce1726513432,del jardín,trozo,src/escenas/zonas.ts
-d2ba8f812817,del bosque,trozo,src/escenas/zonas.ts
-617bf61baccf,. ¡Ya tiene ,trozo,src/escenas/zonas.ts
-85758590dcd5,una,trozo,src/escenas/zonas.ts
-83517f1b51c0, se ,trozo,src/escenas/zonas.ts
-933353d16d66,abren,trozo,src/escenas/zonas.ts
-04a827e393d9,abre,trozo,src/escenas/zonas.ts
-b9a33bece663, cuando termines ,trozo,src/escenas/zonas.ts
-2ceacbefb015,una casita,trozo,src/escenas/zonas.ts
-f24be15f4814, casitas,trozo,src/escenas/zonas.ts
-251d62e8c52c, del camino.,trozo,src/escenas/zonas.ts
-11e3e9bf1904, ¡Ya terminaste ,trozo,src/escenas/zonas.ts
-9ecb98744e89,¡Se abrió el juego número ,trozo,src/escenas/zonas.ts
-a5bb21784f21,! Tócalo para seguir.,trozo,src/escenas/zonas.ts
+ca8785e7c22b,{Zona}.,trozo,src/escenas/zonas.ts
+58f5259a1110,{Zona}. Todavía está cerrado.,trozo,src/escenas/zonas.ts
+4079331a11a4,{Zona}. Todavía está dormida.,trozo,src/escenas/zonas.ts
+4f51c1b2ac9e,{Zona}. Todavía está dormido.,trozo,src/escenas/zonas.ts
+82d429ab2c37,{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del jardín.,trozo,src/escenas/zonas.ts
+15b49f8d6532,{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del bosque.,trozo,src/escenas/zonas.ts
+3ae81cccac0f,{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del jardín.,trozo,src/escenas/zonas.ts
+06710d31d070,{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del bosque.,trozo,src/escenas/zonas.ts
+427bb2e50029,¡Ya tiene una!,frase,src/escenas/zonas.ts
+29cfb8eeed5d,¡Ya tiene {n}!,frase,src/escenas/zonas.ts
+f9c97efa1c55,{Zona} se abren cuando termines una casita del camino.,trozo,src/escenas/zonas.ts
+900e1e2b3a46,{Zona} se abren cuando termines {n} casitas del camino.,trozo,src/escenas/zonas.ts
+7acaed80d468,{Zona} se abre cuando termines una casita del camino.,trozo,src/escenas/zonas.ts
+de60a4160049,{Zona} se abre cuando termines {n} casitas del camino.,trozo,src/escenas/zonas.ts
+0d05f9785ab8,¡Ya terminaste una!,frase,src/escenas/zonas.ts
+5f326102a124,¡Ya terminaste {n}!,frase,src/escenas/zonas.ts
+fe653b97deac,¡Se abrió el juego número {n}! Tócalo para seguir.,frase,src/escenas/zonas.ts
 4687dd09f4e8,Empieza por el primero: ¡vamos a conocer!,frase,src/escenas/zonas.ts
-117b1233bb48,"Toca el que brilla, el número ",trozo,src/escenas/zonas.ts
+76e0dc50891a,"Toca el que brilla, el número {n}.",frase,src/escenas/zonas.ts
 6a5f781c4d40,¡Ya jugaste todos! Puedes repetir el que más te guste.,frase,src/escenas/zonas.ts
+d85f6514ad06,Este todavía está cerrado. Primero termina el número {n}.,frase,src/escenas/zonas.ts
 ae1feb6d3998,alegría,trozo,src/juegos/caras.ts
 d9292c5677b5,tristeza,trozo,src/juegos/caras.ts
 fda493ccee18,enfado,trozo,src/juegos/caras.ts
@@ -1878,13 +1833,13 @@ a830de01ef81,miedo,trozo,src/juegos/caras.ts
 59e0f98e11ce,sorpresa,trozo,src/juegos/caras.ts
 9583efc731c9,calma,trozo,src/juegos/caras.ts
 8f586855bc67,vergüenza,trozo,src/juegos/caras.ts
-92969de44e23,¿Dónde están ,trozo,src/juegos/comps.ts
-a0099f02b7d9,¿Dónde está ,trozo,src/juegos/comps.ts src/temas/letras.ts
-2d64b95bc7d1,Ese es ,trozo,src/juegos/comps.ts src/temas/temas4.ts src/temas/temas5.ts
-db182603c659,Esa es ,trozo,src/juegos/comps.ts src/temas/letras.ts src/temas/temas4.ts
-2c5387f21255,Esos son ,trozo,src/juegos/comps.ts
-771384549337,Esas son ,trozo,src/juegos/comps.ts
-48148702c568,Es ,trozo,src/juegos/comps.ts
+0270ac831c9c,¿Dónde están {cosa}?,frase,src/juegos/comps.ts
+72929cf856e1,¿Dónde está {cosa}?,frase,src/juegos/comps.ts
+68072fb6617f,Es {cosa},trozo,src/juegos/comps.ts
+39f16812adf7,Esas son {cosa},trozo,src/juegos/comps.ts
+61b5758bf8a5,Esos son {cosa},trozo,src/juegos/comps.ts
+1676621c6ece,Esa es {cosa},trozo,src/juegos/comps.ts
+b3bf81a9905d,Ese es {cosa},trozo,src/juegos/comps.ts
 2a33451004a2,cero,trozo,src/juegos/comps.ts
 1eaa8bb19586,uno,trozo,src/juegos/comps.ts
 0196f6c4f97d,dos,trozo,src/juegos/comps.ts
@@ -1907,9 +1862,9 @@ a23b046a69c8,la cabeza,trozo,src/juegos/comps.ts src/temas/temas.ts
 e06edd67f518,la barriga,trozo,src/juegos/comps.ts
 520840c38afd,las piernas,trozo,src/juegos/comps.ts
 58922db5bdb3,los pies,trozo,src/juegos/comps.ts
-681081a84503,¿Quién hace ,trozo,src/juegos/comps.ts
-412fe40b3dbd, hace ,trozo,src/juegos/comps.ts
-f177713c25ae,. Escucha otra vez.,trozo,src/juegos/comps.ts
+a1ce245c5798,¿Quién hace {sonido}?,frase,src/juegos/comps.ts
+3f8d8460c01b,{Cosa} hace {sonido},trozo,src/juegos/comps.ts
+8c6a031c8f02,{Cosa} hace {sonido}. Escucha otra vez.,trozo,src/juegos/comps.ts
 714b86e54bb8,Toca cada dibujo para conocerlo.,frase,src/juegos/comps.ts
 ae833f115d5d,Toca para cerrar.,frase,src/juegos/comps.ts src/temas/ingles.ts
 37c717e6b2c9,Toca un dibujo que todavía no tenga estrella.,frase,src/juegos/comps.ts src/temas/ingles.ts
@@ -1919,32 +1874,28 @@ d230a488d4a2,los codos,trozo,src/juegos/comps.ts
 3e02d5584d35,las rodillas,trozo,src/juegos/comps.ts
 7ac1412b3699,los tobillos,trozo,src/juegos/comps.ts
 cc3072654443,Este es mi cuerpo. Toca cada parte y te digo cómo se llama.,frase,src/juegos/comps.ts
-9980f35e1d18,Toca ,trozo,src/juegos/comps.ts src/juegos/comps2.ts
+375b92fae442,Toca {parte}.,frase,src/juegos/comps.ts src/juegos/comps2.ts
 1f0f8a00ada4,Toca una parte del cuerpo.,frase,src/juegos/comps.ts
-b30d2b45d8a7,. Busca ,trozo,src/juegos/comps.ts src/juegos/comps2.ts
-c300787197b5, no va.,trozo,src/juegos/comps.ts
-31b4aed77ff1,"Mmm, ",trozo,src/juegos/comps.ts src/juegos/comps2.ts src/temas/temas.ts
-20c6c0712100, no va ahí. Prueba en otro lugar.,trozo,src/juegos/comps.ts
+e6b06e7a9b3d,{Tocada}. Busca {parte}.,trozo,src/juegos/comps.ts src/juegos/comps2.ts
+8cbfab2e2624,{Cosa} no va.,trozo,src/juegos/comps.ts
+f73a1cc78d7a,"Mmm, {cosa} no va ahí. Prueba en otro lugar.",frase,src/juegos/comps.ts
 4b74d10bb0bc,Juego de memoria. Toca dos tarjetas y busca las que son iguales.,frase,src/juegos/comps.ts
 7437bb7068a9,Busca dos tarjetas iguales.,frase,src/juegos/comps.ts
-364cbbdb6807,Vamos a contar ,trozo,src/juegos/comps.ts
-8446a18e1dee,. Toca cada ,trozo,src/juegos/comps.ts
-140cc223d889,una.,trozo,src/juegos/comps.ts
-d6841152c7de,uno.,trozo,src/juegos/comps.ts
+d2f1d6bb4f4f,Vamos a contar {cosas}. Toca cada una.,frase,src/juegos/comps.ts
+ab092eb6d258,Vamos a contar {cosas}. Toca cada uno.,frase,src/juegos/comps.ts
 c3e230b3f653,Toca cada uno para contar.,frase,src/juegos/comps.ts
 bc5f0457c9e8,¿Cuántos hay?,frase,src/juegos/comps.ts
-4246de7ef201,Cuántas ,trozo,src/juegos/comps.ts
-341a3e418bc4,Cuántos ,trozo,src/juegos/comps.ts
-daec7543ea00, hay? Toca el número.,trozo,src/juegos/comps.ts
-cf9f40874519,¡Hay ,trozo,src/juegos/comps.ts
-cfdf8da4302b,. Contamos ,trozo,src/juegos/comps.ts
+910c026f8a6b,¿Cuántas {cosas} hay? Toca el número.,frase,src/juegos/comps.ts
+72869a037442,¿Cuántos {cosas} hay? Toca el número.,frase,src/juegos/comps.ts
+e0f3fd7769a2,¡Hay {cuantos}!,frase,src/juegos/comps.ts
+1b64aabf6319,Ese es el {n}. Contamos {m}.,frase,src/juegos/comps.ts
 90434585d831,¡Otro rompecabezas! ¿Qué será?,frase,src/juegos/comps.ts
 343e2d82c374,Arma el rompecabezas. Arrastra cada pieza a su lugar.,frase,src/juegos/comps.ts
 dcf1a26b9eb1,Arrastra una pieza al cuadro.,frase,src/juegos/comps.ts
-8bb46ee01669, ¡Es ,trozo,src/juegos/comps.ts
+6ea2372a723f,¡Es {cosa}!,frase,src/juegos/comps.ts
 49b231efdd36,Hay cosas escondidas en la arena. Frota con el dedo para descubrirlas.,frase,src/juegos/comps.ts
 e24db3a2b340,Frota la arena para encontrar lo que está escondido.,frase,src/juegos/comps.ts
-fbb015116c73,¡Encontraste ,trozo,src/juegos/comps.ts src/juegos/comps2.ts
+ada3073d4499,¡Encontraste {cosa}!,frase,src/juegos/comps.ts src/juegos/comps2.ts
 1bba07c92d37,Las semillas tienen sed. Coge la regadera y llévala arriba de cada maceta.,frase,src/juegos/comps.ts
 25ba7413785b,Lleva la regadera arriba de una maceta para regarla.,frase,src/juegos/comps.ts
 a058a41bf807,¡Todas las flores crecieron!,frase,src/juegos/comps.ts
@@ -1955,27 +1906,31 @@ b98b6fe76217,Primero coge la regadera.,frase,src/juegos/comps.ts
 92c4cf9df4c0,rojo,trozo,src/juegos/comps.ts
 3b24fa7e1455,azul,trozo,src/juegos/comps.ts
 1ef4674feb1d,amarillo,trozo,src/juegos/comps.ts
+d4177dc752cd,verde,trozo,src/juegos/comps.ts
 091808fcfe95,naranja,trozo,src/juegos/comps.ts
+84109ae4b417,rosa,trozo,src/juegos/comps.ts
 17163859b9c1,morado,trozo,src/juegos/comps.ts
 d9a85010429a,marrón,trozo,src/juegos/comps.ts
-020193cbd4b9,Vamos a pintar ,trozo,src/juegos/comps.ts
-68969e68c382,. Toca el ,trozo,src/juegos/comps.ts
-3a2cd8d889d8,¿De qué color es ,trozo,src/juegos/comps.ts
-0faf65fdb674,? Toca ese color y después ,trozo,src/juegos/comps.ts
-71f3d5dd20b0,Toca el ,trozo,src/juegos/comps.ts
+3629cf4ae133,Vamos a pintar {cosa} de {color}. Toca el {color}.,frase,src/juegos/comps.ts
+62d21bebdbea,¿De qué color es {cosa}? Toca ese color y después {cosa}.,frase,src/juegos/comps.ts
+95e2d47be1a2,Toca el {color}.,frase,src/juegos/comps.ts
+ccdf8340267b,Ahora toca {cosa} para pintarla.,frase,src/juegos/comps.ts
+344bdca150ee,Ahora toca {cosa} para pintarlo.,frase,src/juegos/comps.ts
+d3b949def7a7,{Color}.,trozo,src/juegos/comps.ts
+837f3f748295,Ahora toca {cosa}.,frase,src/juegos/comps.ts
 0b3fdf6aa5f3,Primero toca un color.,frase,src/juegos/comps.ts
-7941a4f7a6a8,Primero pintamos ,trozo,src/juegos/comps.ts
+59a705d15ada,Primero pintamos {cosa}.,frase,src/juegos/comps.ts
 489e3e7a9749, son ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
-822ae562234f, no es ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
+4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.",frase,src/juegos/comps.ts
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",frase,src/juegos/comps2.ts
-9232de82c9f9, no va con ,trozo,src/juegos/comps2.ts
+b974a22a57d1,"Mmm, {cosa} no va con {otra}.",frase,src/juegos/comps2.ts
 b86fc6b051f6,AB,trozo,src/juegos/comps2.ts
 902fbdd2b1df,ABC,trozo,src/juegos/comps2.ts src/mundo3d/interaccion.ts
 e934202c876b,AAB,trozo,src/juegos/comps2.ts
 8c0d39874f72,ABB,trozo,src/juegos/comps2.ts
 0cbecf00a88c,Mira la fila. ¿Qué viene después? Tócalo.,frase,src/juegos/comps2.ts
-1c3219fe663d,¡Sí! Después va ,trozo,src/juegos/comps2.ts
-834f4820120f, no. Mira cómo se repite la fila.,trozo,src/juegos/comps2.ts
+4e56bca326b5,¡Sí! Después va {cosa}.,frase,src/juegos/comps2.ts
+bc71a09a74a8,"Mmm, {cosa} no. Mira cómo se repite la fila.",frase,src/juegos/comps2.ts
 439cf0d01eb0,¡Chau!,frase,src/juegos/comps2.ts
 9c6920a1ec1c,¡Limpito!,frase,src/juegos/comps2.ts
 c782f0817147,¡Otro menos!,frase,src/juegos/comps2.ts
@@ -2000,28 +1955,25 @@ d932c002c659,CRUZAMOS,trozo,src/juegos/comps2.ts
 1fa58c29b0e9,¡Muy bien! Está rojo: esperamos en la acera.,frase,src/juegos/comps2.ts
 2a41a5ca28a9,¡Cuidado! Está rojo: los coches pasan. Esperamos.,frase,src/juegos/comps2.ts
 8735106217ae,Está verde para las personas. ¡Podemos cruzar!,frase,src/juegos/comps2.ts
-d0c75c622746,Vamos ,trozo,src/juegos/comps2.ts
-2d5dc7770e86,. ¿Doblamos a la derecha o a la izquierda?,trozo,src/juegos/comps2.ts
-e4cbfa5ae88c,Queremos ir ,trozo,src/juegos/comps2.ts
-48ee36893bdb,. ¿Derecha o izquierda?,trozo,src/juegos/comps2.ts
+5daf7956f87b,Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?,frase,src/juegos/comps2.ts
+b6dbd97e6b42,Queremos ir {lugar}. ¿Derecha o izquierda?,frase,src/juegos/comps2.ts
 fea23bdbcda1,IZQUIERDA,trozo,src/juegos/comps2.ts src/temas/temas5.ts
 7dab567f57bd,DERECHA,trozo,src/juegos/comps2.ts src/temas/temas5.ts
-e22afba83a94,Doblamos a la izquierda,trozo,src/juegos/comps2.ts
-2ae187d81001,Doblamos a la derecha,trozo,src/juegos/comps2.ts
-0854628330db, y llegamos ,trozo,src/juegos/comps2.ts
-325235ad7f7f,Por ahí vamos ,trozo,src/juegos/comps2.ts
-27ade7d3289d,. Queremos ir ,trozo,src/juegos/comps2.ts
+3bfb122608bd,Doblamos a la izquierda y llegamos {lugar}.,frase,src/juegos/comps2.ts
+712b1257e712,Doblamos a la derecha y llegamos {lugar}.,frase,src/juegos/comps2.ts
+6ef818b79f63,Por ahí vamos {lugar}. Queremos ir {destino}.,frase,src/juegos/comps2.ts
 9281b9963a54,Empieza en el punto verde.,frase,src/juegos/comps2.ts
 0c870da7abef,¡Vamos a cantar! Escucha la canción.,frase,src/juegos/comps2.ts
 c80425633a4f,"¡Ahora te toca a ti! Toca cada uno en orden, como en la canción.",frase,src/juegos/comps2.ts
+bccdcd71cff5,Toca {carta}.,frase,src/juegos/comps2.ts
 b667573ac818,¿Cuál va primero?,frase,src/juegos/comps2.ts
-b3810aa0a25f,¿Cuál sigue? Toca ,trozo,src/juegos/comps2.ts
+58d72a2fe497,¿Cuál sigue? Toca {carta}.,frase,src/juegos/comps2.ts
 217c9f25d7fa,¡Qué bien cantamos!,frase,src/juegos/comps2.ts
-0981d7703d9e,Busca ,trozo,src/juegos/comps2.ts src/temas/temas4.ts src/temas/temas5.ts
-9e4066c7891d,Ese va después. ¿Cuál sigue?,frase,src/juegos/comps2.ts
-43bb1b642cba,Escucha el cuento: ,trozo,src/juegos/comps2.ts
-0724a6ba0986,Ahora te pregunto. ,frase,src/juegos/comps2.ts
-df9bc8abab8f,"Mmm, no. Piensa en el cuento. ",frase,src/juegos/comps2.ts
+76a1b4fa11f2,{Carta}. Busca {otra}.,trozo,src/juegos/comps2.ts
+6767fff46413,{Carta}. Ese va después. ¿Cuál sigue?,trozo,src/juegos/comps2.ts
+c26e9fc0e00d,Escucha el cuento: {titulo}.,frase,src/juegos/comps2.ts
+6e787979a8ed,Ahora te pregunto.,frase,src/juegos/comps2.ts
+093a62ce5831,"Mmm, no. Piensa en el cuento.",frase,src/juegos/comps2.ts
 9ed0eb2cf404,uve doble,trozo,src/juegos/lectura.ts
 7d513e645434,i griega,trozo,src/juegos/lectura.ts
 87e2719d8e78,NFD,trozo,src/juegos/lectura.ts src/temas/letras.ts
@@ -2251,6 +2203,7 @@ c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts
 087974002010,CONTENTO,trozo,src/mundo3d/objetos.ts
+c869f565c17a,Juega: ,trozo,src/mundo3d/portada3d.ts
 e86410fa2d6e,ABCDEFGHIJ,trozo,src/mundo3d/zonas3d.ts
 c48462232a6a,Rincón de los Conceptos,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts
 9617d12b8ae3,el gato,nombre,src/nucleo/idioma.ts
@@ -2761,6 +2714,8 @@ a448fcd4ac0a,Y esta es ,trozo,src/temas/letras.ts
 e8bcbed12b85, minúscula.,trozo,src/temas/letras.ts
 ebb7fd71260d,¡Vamos a conocer ,trozo,src/temas/letras.ts
 9ff5786dd2b2,! Toca cada tarjeta.,trozo,src/temas/letras.ts
+a0099f02b7d9,¿Dónde está ,trozo,src/temas/letras.ts
+db182603c659,Esa es ,trozo,src/temas/letras.ts src/temas/temas4.ts
 006475045d1d,Vamos a escribir ,trozo,src/temas/letras.ts
 81fecf81b49b,. Empieza en el punto verde y sigue el camino con el dedo.,trozo,src/temas/letras.ts
 68a49ae177ac, minúscula. Empieza en el punto verde.,trozo,src/temas/letras.ts
@@ -2950,6 +2905,8 @@ d95c854e356e,Azul. Azul como el mar y la ballena.,frase,src/temas/temas.ts
 eea43d1bf02d,Amarillo. Amarillo como el sol y el plátano.,frase,src/temas/temas.ts
 1e8fb8523520,Verde. Verde como la rana y las hojas.,frase,src/temas/temas.ts
 003be69227e3,Estos son los colores. Toca cada uno para conocerlo.,frase,src/temas/temas.ts
+31b4aed77ff1,"Mmm, ",trozo,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts
+822ae562234f, no es ,trozo,src/temas/temas.ts src/temas/temas5.ts
 540c7adeed83,. ¿De qué color es?,trozo,src/temas/temas.ts
 82ea2156fa08,Pon cada cosa en la canasta de su color.,frase,src/temas/temas.ts
 bf5abb541843,¡Atrapa las burbujas de color ,trozo,src/temas/temas.ts
@@ -3193,6 +3150,7 @@ e88b9cc36be8,La semana tiene siete días. Toca cada vagón para conocerlo.,frase
 47396d97afb2,"¡El tren está completo! Lunes, martes, miércoles, jueves, viernes, sábado y domingo.",frase,src/temas/temas4.ts
 cfe2c0069345,¿Qué día falta?,frase,src/temas/temas4.ts
 941ca6182d0b,¡Sí! Falta el ,trozo,src/temas/temas4.ts
+2d64b95bc7d1,Ese es ,trozo,src/temas/temas4.ts src/temas/temas5.ts
 3af9c4ff7375,Escuela o fin de semana,trozo,src/temas/temas4.ts
 60017e8c8aca, no hay escuela. ¡Es fin de semana!,trozo,src/temas/temas4.ts
 0f6ba9cb7091, es día de escuela.,trozo,src/temas/temas4.ts
@@ -3350,6 +3308,7 @@ ae3675b46ca3,El gusano. Vive bajo la tierra y la ayuda a estar sana.,frase,src/t
 33cbbf01111c,La oruga. Come hojas y un día será mariposa.,frase,src/temas/temas4.ts
 ac3f454cdd10,Busca con la lupa,trozo,src/temas/temas4.ts
 e8d46fa6b631,Hay bichitos escondidos en el pasto. Mira con la lupa y tócalos.,frase,src/temas/temas4.ts
+0981d7703d9e,Busca ,trozo,src/temas/temas4.ts src/temas/temas5.ts
 3f2624351710,Más colores,trozo,src/temas/temas4.ts
 1351f175a77f,Las formas,trozo,src/temas/temas4.ts
 31c88945da67,"Mmm, esa forma no es ",trozo,src/temas/temas4.ts
@@ -3390,11 +3349,12 @@ fff6c32cb595,¿Cuándo merendamos?,frase,src/temas/temas4.ts
 c2a87443362c,El árbol de las estaciones,trozo,src/temas/temas4.ts
 94a216ef8c9c,Las hojas se ponen naranjas y se caen.,frase,src/temas/temas4.ts
 1e2ff8de0445,Hace frío y a veces nieva.,frase,src/temas/temas4.ts
-3f0fc8011d61,Salen las flores.,frase,src/temas/temas4.ts
 50bdb7069b9b,Hace calor y hay frutas.,frase,src/temas/temas4.ts
 6c02faeb941d,¿Cuál es el árbol ,trozo,src/temas/temas4.ts
+4bcf888a8419,de la primavera,trozo,src/temas/temas4.ts
 dbfc4d7291ae,¡Sí! Es el árbol ,trozo,src/temas/temas4.ts
 493f9ad1656a,de la primavera.,trozo,src/temas/temas4.ts
+81cf520a9b5a,Ese es el árbol ,trozo,src/temas/temas4.ts
 5e6b3555cf22,Enero. Es el primer mes del año.,frase,src/temas/temas5.ts
 b47d8d5a2f1d,Febrero. Es el mes más cortito.,frase,src/temas/temas5.ts
 7c65d2e29a03,Marzo.,frase,src/temas/temas5.ts
@@ -3515,6 +3475,7 @@ a44e8b99f2ee,El queso. Se hace con leche.,frase,src/temas/temas5.ts
 b750e56403e9,¿De dónde viene cada comida? Lo que viene de los animales va con la vaca. Lo que viene de las plantas va con la planta.,frase,src/temas/temas5.ts
 660d441cc7eb,¿Quién nos lo da?,frase,src/temas/temas5.ts
 cd7a225bccfd,Une cada comida con quién nos la da. Arrastra de una a la otra.,frase,src/temas/temas5.ts
+87acbc11f92d, no viene ,trozo,src/temas/temas5.ts
 dbf6dfc3f086,Todos los días o a veces,trozo,src/temas/temas5.ts
 e6726528de29," es rico, pero tiene mucha azúcar. Es para de vez en cuando.",trozo,src/temas/temas5.ts
 93e00c4555d1, es sano. ¡Lo podemos comer todos los días!,trozo,src/temas/temas5.ts
@@ -3683,11 +3644,12 @@ a68c7ee407ba,Mezclar colores,trozo,src/temas/temas5.ts
 ee23c4f89cdc, y ,trozo,src/temas/temas5.ts
 d73723532be7, mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
 3c4eb3651ddc, hacen ,trozo,src/temas/temas5.ts
+cf239d64c398,Ese es el ,trozo,src/temas/temas5.ts
 97eff4a59e77,. Piensa: ,trozo,src/temas/temas5.ts
 5bdfd02e6619,¿Qué forma tiene?,frase,src/temas/temas5.ts
 80eb5e440693,Sumar,trozo,src/temas/temas5.ts
-3b877fdc2391,Cuántos,trozo,src/temas/temas5.ts
-a71d3c8bd4e2,Cuántas,trozo,src/temas/temas5.ts
+29c3f9cda3d4,{A} y {b}. ¿Cuántas hay en total?,trozo,src/temas/temas5.ts
+cc118d2a2b10,{A} y {b}. ¿Cuántos hay en total?,trozo,src/temas/temas5.ts
 d1f4b8342a6c, más ,trozo,src/temas/temas5.ts
 d7f057053ae2,"Mmm, cuenta todos juntos: ",trozo,src/temas/temas5.ts
 f11dd8aae7d9,Restar,trozo,src/temas/temas5.ts

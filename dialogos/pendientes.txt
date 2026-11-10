@@ -1255,6 +1255,156 @@ Cuando el siguiente brille, tócalo para pasarle el testigo.
 ¿A qué jugamos? Toca una cosa.
 ¡Vamos a jugar! ¿Con qué?
 ¡Me encanta mi casa! ¿A qué jugamos?
+Es {cosa}
+Esa es {cosa}
+Esas son {cosa}
+Ese es {cosa}
+Esos son {cosa}
+{A} y {b}. ¿Cuántas hay en total?
+{A} y {b}. ¿Cuántos hay en total?
+{Cosa} es para {sala}. {Sala} se abre cuando termines una casita.
+{Cosa} es para {sala}. {Sala} se abre cuando termines {n} casitas.
+{Cosa} son para {sala}. {Sala} se abre cuando termines una casita.
+{Cosa} son para {sala}. {Sala} se abre cuando termines {n} casitas.
+¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.
+¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.
+¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.
+¿Dónde está {cosa}?
+¿Dónde están {cosa}?
+Toca el cofre para abrirlo. ¡Te falta un toque!
+Toca el cofre para abrirlo. ¡Te faltan {n} toques!
+¡Mira lo que había{nino}: {cosa}! ¡Tito ya se lo puso! ¡Y diez monedas!
+¡Mira lo que había{nino}: {cosa}! Ya está en la casa de Tito. ¡Y diez monedas!
+¡Mira cuántas monedas{nino}! ¡Veinte monedas!
+Juega: {nombre}
+¡Hola, {nombre}! ¡Qué bonito nombre!
+¿Me ayudas a encontrar las respuestas{nino}? ¡Vamos a Curiolandia!
+¡Muy bien{nino}! ¡Una estrella más!
+Nivel {n}
+¡Buen día{nino}! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!
+¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños{nino}! Sopla las velitas: toca cada una.
+Hoy es {dia}. ¡Toca el vagón de hoy, el que salta!
+Ayer fue {dia}. ¿Qué día es hoy? Toca el vagón.
+Hoy es {dia}. ¿Y mañana qué día será? Toca el vagón de mañana.
+Estamos en {mes}. Hoy es {n}. Toca el número {n} en el calendario.
+Ahora es {estacion}. ¿Qué estación viene después?
+¡Terminamos la asamblea{nino}! ¡Ahora a jugar!
+Ayer fue {dia}. ¿Qué día es hoy?
+Toca el número {n}.
+HOY: {dia}
+MAÑANA: {dia}
+Calendario del tiempo de {mes}
+Ese es el {dia}.
+Hoy es {dia}, el que salta.
+Ayer fue {dia}. Hoy es el que viene después.
+Hoy es {dia}.
+Mañana será {dia}.
+Hoy es {dia} {n} de {mes}.
+Ese es el {n}. Busca el {m}.
+Lo anotamos en el calendario del tiempo.
+¡Sí! Nos ponemos {cosa}.
+¡Sí! Estamos en {estacion}.
+Las hojas se caen.
+Hace frío.
+Hace calor.
+¡Sí! Después viene {estacion}.
+Mira por la ventana.
+{Cosa} no va con este tiempo.
+Ese es el árbol {estacion}. Prueba con otro.
+Mmm, después de {antes} no viene {estacion}.
+Este es tu álbum. Tienes 1 pegatina.
+Este es tu álbum. Tienes {n} pegatinas.
+¡Qué bonito jugamos{nino}! Ahora Tito se va a descansar. ¡Hasta mañana!
+el vale: {vale}
+¡La tienda! Tienes {n} monedas. Toca algo para ver cuánto cuesta.
+Toca algo para ver cuánto cuesta. Tienes {n} monedas.
+{Cosa}. Ya es tuyo.
+{Cosa}. Cuesta {n} monedas.
+Tienes {n} monedas.
+Tienes {n} estrellas. Las ganas terminando juegos.
+{Cosa} se abre cuando tengas {n} estrellas. ¡Ya tienes {m}! Ganas estrellas terminando juegos.
+¡Tito se puso {cosa}!
+Tito se quitó {cosa}.
+{Cosa} ya es tuyo. Está en la casa de Tito.
+{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!
+{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!
+¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.
+¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.
+El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste {n}!
+Esta casita todavía está cerrada. Primero termina {tema}. ¡Sigue el camino!
+Esta casita todavía está cerrada. Primero termina la anterior. ¡Sigue el camino!
+¡Mira! ¡Se abrió el Rincón de los Conceptos! Tócala para jugar.
+¡Mira! ¡Se abrió una casita nueva: {tema}! Tócala para jugar.
+¡Terminaste todo el camino{nino}! ¡Increíble! Puedes repetir la casita que quieras.
+Toca la casita que brilla: {tema}.
+¡Terminaste todos los caminos{nino}! Puedes repetir lo que más te guste.
+¡Mira{nino}! ¡Se despertó {zona}! Ahora puedes jugar ahí también.
+¡Mira{nino}! ¡Tito tiene una flor en su caparazón!
+¡Mira{nino}! ¡Tito tiene {n} flores en su caparazón!
+¡Hola{nino}! Te he guardado un regalito: ¡tres monedas!
+¡Buen día{nino}!
+¡Buenas tardes{nino}!
+¡Buenas noches{nino}!
+Es un huevo misterioso. Le falta un juego para abrirse.
+Es un huevo misterioso. Le faltan {n} juegos para abrirse.
+{Zona}.
+{Zona}. Todavía está cerrado.
+{Zona}. Todavía está dormida.
+{Zona}. Todavía está dormido.
+{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del jardín.
+{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del bosque.
+{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del jardín.
+{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del bosque.
+¡Ya tiene una!
+¡Ya tiene {n}!
+{Zona} se abren cuando termines una casita del camino.
+{Zona} se abren cuando termines {n} casitas del camino.
+{Zona} se abre cuando termines una casita del camino.
+{Zona} se abre cuando termines {n} casitas del camino.
+¡Ya terminaste una!
+¡Ya terminaste {n}!
+¡Se abrió el juego número {n}! Tócalo para seguir.
+Toca el que brilla, el número {n}.
+Este todavía está cerrado. Primero termina el número {n}.
+¿Quién hace {sonido}?
+{Cosa} hace {sonido}
+{Cosa} hace {sonido}. Escucha otra vez.
+Toca {parte}.
+{Tocada}. Busca {parte}.
+{Cosa} no va.
+Mmm, {cosa} no va ahí. Prueba en otro lugar.
+Vamos a contar {cosas}. Toca cada una.
+Vamos a contar {cosas}. Toca cada uno.
+¿Cuántas {cosas} hay? Toca el número.
+¿Cuántos {cosas} hay? Toca el número.
+¡Hay {cuantos}!
+Ese es el {n}. Contamos {m}.
+¡Es {cosa}!
+¡Encontraste {cosa}!
+Vamos a pintar {cosa} de {color}. Toca el {color}.
+¿De qué color es {cosa}? Toca ese color y después {cosa}.
+Toca el {color}.
+Ahora toca {cosa} para pintarla.
+Ahora toca {cosa} para pintarlo.
+{Color}.
+Ahora toca {cosa}.
+Primero pintamos {cosa}.
+Mmm, {cosa} no es {pincel}. Toca el {color}.
+Mmm, {cosa} no va con {otra}.
+¡Sí! Después va {cosa}.
+Mmm, {cosa} no. Mira cómo se repite la fila.
+Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?
+Queremos ir {lugar}. ¿Derecha o izquierda?
+Doblamos a la izquierda y llegamos {lugar}.
+Doblamos a la derecha y llegamos {lugar}.
+Por ahí vamos {lugar}. Queremos ir {destino}.
+Toca {carta}.
+¿Cuál sigue? Toca {carta}.
+{Carta}. Busca {otra}.
+{Carta}. Ese va después. ¿Cuál sigue?
+Escucha el cuento: {titulo}.
+Ahora te pregunto.
+Mmm, no. Piensa en el cuento.
 Juegos cortos
 ¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.
 Elige un juego corto.

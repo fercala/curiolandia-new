@@ -8,6 +8,8 @@ import {
   idiomaActivo,
   idiomaDelNavegador,
   idiomasElegibles,
+  formasEs,
+  femenino,
   pseudo,
   rellena,
 } from '../../src/dominio/idiomas.ts';
@@ -48,6 +50,30 @@ describe('idiomas', () => {
   test('rellena los huecos de una plantilla y deja a la vista los que faltan', () => {
     expect(rellena('Tienes {n} monedas, {nombre}.', { n: 3, nombre: 'Ana' })).toBe('Tienes 3 monedas, Ana.');
     expect(rellena('Busca {cosa}.', {})).toBe('Busca {cosa}.');
+    // {Cosa}: el hueco cosa con mayúscula, para empezar la frase
+    expect(rellena('{Cosa} es para {sala}.', { cosa: 'el gorro', sala: 'la cocina' })).toBe(
+      'El gorro es para la cocina.',
+    );
+  });
+
+  test('las formas de un nombre en castellano salen de su artículo, como antes', () => {
+    expect(formasEs('el gato')).toEqual({
+      art: 'el gato',
+      sin: 'gato',
+      g: 'm',
+      pl: false,
+      de: 'del gato',
+      a: 'al gato',
+    });
+    expect(formasEs('las uvas')).toMatchObject({ sin: 'uvas', g: 'f', pl: true, de: 'de las uvas', a: 'a las uvas' });
+    expect(formasEs('elefante')).toMatchObject({ art: 'elefante', sin: 'elefante', g: 'm', de: 'de elefante' });
+  });
+
+  test('el neutro del rumano va en masculino en singular y en femenino en plural', () => {
+    const scaun = { art: 'scaunul', sin: 'scaun', g: 'n', pl: false, de: 'scaunului', a: 'scaunului' } as const;
+    expect(femenino(scaun)).toBe(false);
+    expect(femenino(scaun, true)).toBe(true);
+    expect(femenino(formasEs('la luna'))).toBe(true);
   });
 
   test('el pseudoidioma marca el texto, lo alarga y deja fuera los espacios', () => {

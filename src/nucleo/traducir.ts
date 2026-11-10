@@ -5,7 +5,13 @@
  * text() (dibujo.ts) y el HTML de las ventanas y de la zona de adultos (trHtml). En castellano tr no hace nada.
  * Lo que no está en la tabla sale en castellano y se apunta en sinTraducir (las pruebas lo leen en window.__cl).
  * Cambiar de idioma guarda la partida y recarga la página (ponIdioma): así no quedan tablas ni rótulos a medio traducir.
- * Exporta: IDIOMA, sinTraducir, iniciarIdioma, tr, trHtml, ponIdioma.
+ * El idioma se decide al cargar este módulo (justo después de guardado.ts, antes que el resto del juego), así que las
+ * tablas que se calculan al cargar (NUM, los días...) ya pueden salir en su idioma.
+ * Desde la fase ID2: fmt(plantilla, huecos), para las frases con partes que cambian, y nombreEn(frase), las formas de
+ * un nombre en el idioma del juego. Lo que ya sale traducido de fmt y de nombreEn se recuerda (yaTraducido), para que
+ * say() y text() no lo vuelvan a traducir.
+ * Desde la ID2b, juntar(...trozos): frases que se dicen seguidas, cada una ya traducida.
+ * Exporta: IDIOMA, sinTraducir, iniciarIdioma, tr, fmt, juntar, nombreEn, trHtml, ponIdioma.
  * Importa: S y save (guardado.ts), las reglas de dominio/idiomas.ts y las tablas de src/idiomas/.
  */
 import { S, save } from './guardado.ts';
@@ -15,27 +21,37 @@ import {
   idioma,
   idiomaActivo,
   idiomaDelNavegador,
+  formasEs,
   pseudo,
+  rellena,
   type IdIdioma,
+  type Nombre,
   type IdiomaGuardado,
 } from '../dominio/idiomas.ts';
 import { TEXTOS_RO } from '../idiomas/ro/textos.ts';
+import { NOMBRES_RO } from '../idiomas/ro/nombres.ts';
 
 // TABLAS: la tabla de cada idioma que tiene (el castellano no la necesita y el pseudoidioma se calcula).
 const TABLAS: Partial<Record<IdIdioma, Readonly<Record<string, string>>>> = { ro: TEXTOS_RO };
+// NOMBRES: los nombres con sus formas, de cada idioma que los tiene.
+const NOMBRES: Partial<Record<IdIdioma, Readonly<Record<string, Nombre>>>> = { ro: NOMBRES_RO };
+// Cuántos textos ya traducidos se recuerdan como mucho (yaTraducido): al pasar de aquí se empieza de cero.
+const MAX_RECORDADOS = 2000;
 // Atributos del HTML que se leen o que dice el lector de pantalla: también se traducen.
 const ATRIBUTOS = ['title', 'aria-label', 'placeholder', 'alt'] as const;
 // Las etiquetas cuyo texto no se traduce: código, estilos y lo que escribe quien juega.
 const SIN_TRADUCIR = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'CODE']);
 
-/** El idioma con el que se juega. Lo pone iniciarIdioma() al arrancar y no cambia hasta recargar. */
+/** El idioma con el que se juega. Lo pone iniciarIdioma() al cargar este módulo y no cambia hasta recargar. */
 export let IDIOMA: IdIdioma = IDIOMA_BASE;
 /** Los textos que se han pedido en otro idioma y no tienen traducción (sin repetir). */
 export const sinTraducir = new Set<string>();
 // Los nodos de texto ya traducidos por trHtml: si se vuelve a pasar por la misma página, no se traducen dos veces.
 const hechos = new WeakSet<Node>();
+// Los textos que ya salen traducidos de fmt y de nombreEn: tr los deja como están.
+const yaTraducido = new Set<string>();
 
-// iniciarIdioma(): decide el idioma al arrancar (aplicacion/arranque.ts), con idiomaActivo: el de la dirección
+// iniciarIdioma(): decide el idioma al cargar este módulo, con idiomaActivo: el de la dirección
 // (?idioma=ro), el guardado o, la primera vez, el del navegador. La primera vez se guarda en S.idioma el del navegador
 // (el de la dirección no se guarda nunca: es para probar). Pone el lang de la página. Mira si hay location, navigator y
 // documentElement: en las pruebas que cargan el juego en node:vm pueden faltar.
@@ -48,7 +64,8 @@ export function iniciarIdioma(): void {
     S.idioma = idiomaDelNavegador(langs);
     save();
   }
-  if (document.documentElement) document.documentElement.lang = idioma(IDIOMA).lang.split('-')[0] ?? IDIOMA_BASE;
+  if (typeof document === 'object' && document?.documentElement)
+    document.documentElement.lang = idioma(IDIOMA).lang.split('-')[0] ?? IDIOMA_BASE;
 }
 
 // parametroIdioma(busqueda): el valor de ?idioma= en la parte de búsqueda de la dirección, o null. Sin URLSearchParams,
@@ -64,12 +81,46 @@ function parametroIdioma(busqueda: string): string | null {
 // No se traducen nunca: lo que empieza por @, que es inglés (Polly, la Isla del Inglés), lo que no tiene letras (números,
 // signos) ni las letras sueltas (las de la Isla de las Letras, las del título que se pinta letra a letra).
 export function tr(t: string): string {
-  if (IDIOMA === IDIOMA_BASE || t.trim().length < 2 || t.startsWith('@') || !/\p{L}/u.test(t)) return t;
+  if (IDIOMA === IDIOMA_BASE || t.trim().length < 2 || t.startsWith('@') || !/\p{L}/u.test(t) || yaTraducido.has(t))
+    return t;
   if (IDIOMA === 'xx') return pseudo(t);
   const r = TABLAS[IDIOMA]?.[t];
   if (r !== undefined) return r;
   sinTraducir.add(t);
   return t;
+}
+
+// recuerda(t): apunta t como ya traducido (si se juega en otro idioma) y lo devuelve.
+function recuerda(t: string): string {
+  if (IDIOMA === IDIOMA_BASE) return t;
+  if (yaTraducido.size >= MAX_RECORDADOS) yaTraducido.clear();
+  yaTraducido.add(t);
+  return t;
+}
+
+// fmt(plantilla, huecos): una frase con partes que cambian (fase ID2 de docs/PLAN-IDIOMAS.md): traduce la plantilla
+// entera ('Tienes {n} monedas.') y después rellena sus huecos (rellena, de dominio/idiomas.ts). Los huecos ya van en el
+// idioma del juego (números, nombres de nombreEn...). El resultado no se vuelve a traducir al decirlo o escribirlo.
+export const fmt = (plantilla: string, huecos: Readonly<Record<string, string | number>>): string =>
+  recuerda(rellena(tr(plantilla), huecos));
+
+// juntar(...trozos): las frases trozos, ya traducidas (con tr o fmt), seguidas y separadas por un espacio; las vacías
+// se saltan. Para cuando se dicen varias frases juntas y alguna depende de algo (un saludo, el nombre del tema...): cada
+// una se traduce entera y el resultado no se vuelve a traducir. En castellano sale lo mismo que pegarlas con espacios.
+export const juntar = (...trozos: readonly string[]): string => recuerda(trozos.filter(Boolean).join(' '));
+
+// nombreEn(frase): las formas (Nombre) del nombre frase, que es el nombre en castellano con su artículo ('el gato'), en
+// el idioma del juego. En castellano salen de su artículo (formasEs); en el pseudoidioma, marcadas; en otro idioma, de su
+// tabla (src/idiomas/ro/nombres.ts) o, si no está, en castellano (y la frase se apunta en sinTraducir).
+export function nombreEn(frase: string): Nombre {
+  const es = formasEs(frase);
+  if (IDIOMA === IDIOMA_BASE) return es;
+  const n: Nombre =
+    IDIOMA === 'xx'
+      ? { ...es, art: pseudo(es.art), sin: pseudo(es.sin), de: pseudo(es.de), a: pseudo(es.a) }
+      : (NOMBRES[IDIOMA]?.[frase] ?? (sinTraducir.add(frase), es));
+  [n.art, n.sin, n.de, n.a, n.plu ?? ''].forEach((f) => f && recuerda(f));
+  return n;
 }
 
 // trTrozo(t): tr de un texto con espacios alrededor (los del HTML): traduce lo de dentro y deja los espacios.
@@ -109,3 +160,6 @@ export function ponIdioma(id: IdiomaGuardado): void {
   u.searchParams.delete(PARAMETRO_IDIOMA);
   location.replace(u.href);
 }
+
+// Se decide el idioma al cargar el módulo (ver la cabecera).
+iniciarIdioma();

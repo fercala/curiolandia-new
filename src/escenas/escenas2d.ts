@@ -139,6 +139,10 @@ import {
   tree,
   whenQuiet,
   ymd,
+  fmt,
+  juntar,
+  nombreEn,
+  tr,
 } from '../nucleo/indice.ts';
 import {
   C3,
@@ -178,6 +182,16 @@ import { fraseReto } from './retos.ts';
 // hint() -> {x,y,r} o null, prompt() (repite la consigna), dwell(id) (dice el nombre de lo que hay bajo el ratón)}.
 // TEMAS: lista de todos los temas en orden (desde la fase L2, también los de la Isla de las Letras, TEMAS_LETRAS). TEMA: el mismo tema buscado por su id (TEMA['3A-T1']).
 // Formato de un tema: el tipo Tema de juegos/tipos.ts, con un comentario por campo. Cada tema trae su zone (fase 5a).
+// ESTACION_ART: cada estación con su artículo, la clave de su nombre (nombreEn).
+const ESTACION_ART: Readonly<Record<string, string>> = {
+  otoño: 'el otoño',
+  invierno: 'el invierno',
+  primavera: 'la primavera',
+  verano: 'el verano',
+};
+// nombreEstacion(e): las formas (con artículo, tras «de»...) de la estación e ('otoño', 'primavera'...) en el idioma del
+// juego, para las frases de la asamblea (fase ID2b de docs/PLAN-IDIOMAS.md).
+const nombreEstacion = (e: string) => nombreEn(ESTACION_ART[e] ?? e);
 export const TEMAS: Tema[] = [
     ...T3,
     C3,
@@ -310,7 +324,7 @@ SCENES.title = {
     fillStroke('#fff', 6);
     ctx.restore();
     if (S.age) {
-      pill(205, 830, 330, 80, S.name ? 'Juega: ' + S.name : '¿Quién juega?');
+      pill(205, 830, 330, 80, S.name ? fmt('Juega: {nombre}', { nombre: S.name }) : '¿Quién juega?');
       pill(1395, 830, 330, 80, 'Empezar de nuevo', '#fff', '#C0473C');
     }
     if (document.fullscreenEnabled && !standalone()) {
@@ -448,7 +462,9 @@ SCENES.quien = {
     if (v) {
       SFX.tada();
       burst(800, 400, 50);
-      say(`¡Hola, ${v}! ¡Qué bonito nombre!`, () => later(400, () => go(S.intro ? 'map' : 'intro', { hello: true })));
+      say(fmt('¡Hola, {nombre}! ¡Qué bonito nombre!', { nombre: v }), () =>
+        later(400, () => go(S.intro ? 'map' : 'intro', { hello: true })),
+      );
     } else go(S.intro ? 'map' : 'intro', { hello: true });
   },
   // down(x, y): botón "Escribir el nombre" -> abre el diálogo; "Saltar" -> marca S.first.askedName para no
@@ -505,7 +521,7 @@ SCENES.intro = {
       )[titoKind()] || '¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.',
       'Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!',
       '¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?',
-      '¿Me ayudas a encontrar las respuestas' + kid() + '? ¡Vamos a Curiolandia!',
+      fmt('¿Me ayudas a encontrar las respuestas{nino}? ¡Vamos a Curiolandia!', { nino: kid() }),
     ];
     if (this.ph >= lines.length) {
       S.intro = true;
@@ -780,7 +796,7 @@ export function finishGame(t: Tema, gi: number): void {
   sayQ(
     pick([
       '¡Lo lograste! ¡Ganaste una estrella!',
-      '¡Muy bien' + kid() + '! ¡Una estrella más!',
+      fmt('¡Muy bien{nino}! ¡Una estrella más!', { nino: kid() }),
       '¡Bravo! ¡Terminaste el juego!',
     ]),
     () => later(600, () => go('casita', { t: t.id, fin: r.fin })),
@@ -830,7 +846,7 @@ SCENES.juego = {
     if (this.g.total) drawRounds(Math.min(this.g.done, this.g.total), this.g.total);
     if (VIVO.REP > 0) {
       card(1400, 140, 160, 56, '#9B8AD9', 5, 28);
-      text('Nivel ' + (VIVO.REP + 1), 1480, 180, 30, '#fff');
+      text(fmt('Nivel {n}', { n: VIVO.REP + 1 }), 1480, 180, 30, '#fff');
     }
     drawTito(TITO.x, TITO.y, TITO.w);
     drawCoinHUD();
@@ -1000,7 +1016,7 @@ SCENES.asamblea = {
   },
   // in_hola(): paso 1, pasar lista: tocar la foto propia.
   in_hola() {
-    this.ask(() => say(`¡Buen día${kid()}! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!`));
+    this.ask(() => say(fmt('¡Buen día{nino}! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!', { nino: kid() })));
   },
   // in_cumple(): crea una vela por año (this.vs, máximo 7), toca la canción y pide soplarlas.
   in_cumple() {
@@ -1010,9 +1026,12 @@ SCENES.asamblea = {
     later(300, () => {
       playTune(TUNES.cumple);
       say(
-        '¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños' +
-          kid() +
-          '! Sopla las velitas: toca cada una.',
+        fmt(
+          '¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños{nino}! Sopla las velitas: toca cada una.',
+          {
+            nino: kid(),
+          },
+        ),
       );
     });
   },
@@ -1041,22 +1060,24 @@ SCENES.asamblea = {
         sayQ('Cantemos los días de la semana.', () =>
           this.sing(() => {
             this.bounce = this.ti;
-            say('Hoy es ' + DIASL[this.ti] + '. ¡Toca el vagón de hoy, el que salta!', () => {
+            say(fmt('Hoy es {dia}. ¡Toca el vagón de hoy, el que salta!', { dia: tr(DIASL[this.ti]!) }), () => {
               this.busy = false;
             });
           }),
         ),
       );
     } else {
-      const y = DIASL[(this.ti + 6) % 7];
-      this.ask(() => say('Ayer fue ' + y + '. ¿Qué día es hoy? Toca el vagón.'));
+      const y = tr(DIASL[(this.ti + 6) % 7]!);
+      this.ask(() => say(fmt('Ayer fue {dia}. ¿Qué día es hoy? Toca el vagón.', { dia: y })));
     }
   },
   // in_manana(): (5 años) el tren con "HOY" marcado; hay que tocar mañana.
   in_manana() {
     this.wag = DIASL.map((_d, i) => ({ x: 330 + i * 168, y: 520, i }));
     this.mark = this.ti;
-    this.ask(() => say('Hoy es ' + DIASL[this.ti] + '. ¿Y mañana qué día será? Toca el vagón de mañana.'));
+    this.ask(() =>
+      say(fmt('Hoy es {dia}. ¿Y mañana qué día será? Toca el vagón de mañana.', { dia: tr(DIASL[this.ti]!) })),
+    );
   },
   // in_mes(): (5 años) calendario del mes (this.cal: {n, x, y} por día, empezando en lunes); hay que tocar el número de hoy.
   in_mes() {
@@ -1071,13 +1092,10 @@ SCENES.asamblea = {
     }
     this.ask(() =>
       say(
-        'Estamos en ' +
-          MESES[d.getMonth()] +
-          '. Hoy es ' +
-          d.getDate() +
-          '. Toca el número ' +
-          d.getDate() +
-          ' en el calendario.',
+        fmt('Estamos en {mes}. Hoy es {n}. Toca el número {n} en el calendario.', {
+          mes: tr(MESES[d.getMonth()]!),
+          n: d.getDate(),
+        }),
       ),
     );
   },
@@ -1139,7 +1157,7 @@ SCENES.asamblea = {
       520,
       250,
     );
-    this.ask(() => say('Ahora es ' + e + '. ¿Qué estación viene después?'));
+    this.ask(() => say(fmt('Ahora es {estacion}. ¿Qué estación viene después?', { estacion: tr(e) })));
   },
   // in_emocion(): ¿cómo te sientes? Caritas según la edad; todas valen.
   in_emocion() {
@@ -1171,7 +1189,7 @@ SCENES.asamblea = {
     save();
     SFX.tada();
     burst(800, 400, 80);
-    let line = '¡Terminamos la asamblea' + kid() + '! ¡Ahora a jugar!';
+    let line = fmt('¡Terminamos la asamblea{nino}! ¡Ahora a jugar!', { nino: kid() });
     if (fin.figurita) {
       giveSticker('estrella');
       line = '¡Tres asambleas esta semana! ¡Ganaste una pegatina! Ahora, ¡a jugar!';
@@ -1212,9 +1230,12 @@ SCENES.asamblea = {
       {
         hola: '¡Toca tu foto!',
         dianoche: '¿Ahora es de día o de noche?',
-        dia: AGE() <= 3 ? 'Toca el vagón que salta.' : 'Ayer fue ' + DIASL[(this.ti + 6) % 7] + '. ¿Qué día es hoy?',
+        dia:
+          AGE() <= 3
+            ? 'Toca el vagón que salta.'
+            : fmt('Ayer fue {dia}. ¿Qué día es hoy?', { dia: tr(DIASL[(this.ti + 6) % 7]!) }),
         manana: '¿Qué día será mañana?',
-        mes: 'Toca el número ' + this.d.getDate() + '.',
+        mes: fmt('Toca el número {n}.', { n: this.d.getDate() }),
         tiempo: '¿Qué tiempo hace hoy?',
         ropa: '¿Qué nos ponemos?',
         estacion: '¿En qué estación estamos?',
@@ -1336,7 +1357,9 @@ SCENES.asamblea = {
       }
       if (this.sel != null && this.sel !== false) {
         text(
-          s === 'dia' ? 'HOY: ' + DIASL[this.ti].toUpperCase() : 'MAÑANA: ' + DIASL[(this.ti + 1) % 7].toUpperCase(),
+          s === 'dia'
+            ? fmt('HOY: {dia}', { dia: tr(DIASL[this.ti]!).toUpperCase() })
+            : fmt('MAÑANA: {dia}', { dia: tr(DIASL[(this.ti + 1) % 7]!).toUpperCase() }),
           800,
           760,
           54,
@@ -1443,7 +1466,7 @@ SCENES.asamblea = {
     const d = this.d,
       n = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     card(300, 180, 1000, 200, '#fff', 6, 24);
-    text('Calendario del tiempo de ' + MESES[d.getMonth()], 800, 220, 28, K);
+    text(fmt('Calendario del tiempo de {mes}', { mes: tr(MESES[d.getMonth()]!) }), 800, 220, 28, K);
     for (let i = 1; i <= n; i++) {
       const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`,
         r = S.asam[k] || (k === today() ? this.rec : null),
@@ -1461,14 +1484,14 @@ SCENES.asamblea = {
     this.errs++;
     SFX.bad();
     say(
-      'Ese es el ' +
-        nm +
-        '. ' +
-        (this.s === 'dia'
+      juntar(
+        fmt('Ese es el {dia}.', { dia: tr(nm!) }),
+        this.s === 'dia'
           ? AGE() <= 3
-            ? 'Hoy es ' + DIASL[this.ti] + ', el que salta.'
-            : 'Ayer fue ' + DIASL[(this.ti + 6) % 7] + '. Hoy es el que viene después.'
-          : 'Mañana es el que viene después de hoy.'),
+            ? fmt('Hoy es {dia}, el que salta.', { dia: tr(DIASL[this.ti]!) })
+            : fmt('Ayer fue {dia}. Hoy es el que viene después.', { dia: tr(DIASL[(this.ti + 6) % 7]!) })
+          : tr('Mañana es el que viene después de hoy.'),
+      ),
     );
     if (this.errs >= 1) this.bounce = target;
   },
@@ -1560,10 +1583,13 @@ SCENES.asamblea = {
         this.rec.dia = DIASL[this.ti];
         const we = this.ti >= 5;
         say(
-          praise() +
-            (s === 'dia'
-              ? ' Hoy es ' + DIASL[this.ti] + '. ' + (we ? '¡Es fin de semana, no hay escuela!' : 'Es día de escuela.')
-              : ' Mañana será ' + DIASL[target] + '.'),
+          juntar(
+            tr(praise()),
+            s === 'dia'
+              ? fmt('Hoy es {dia}.', { dia: tr(DIASL[this.ti]!) })
+              : fmt('Mañana será {dia}.', { dia: tr(DIASL[target]!) }),
+            s !== 'dia' ? '' : we ? tr('¡Es fin de semana, no hay escuela!') : tr('Es día de escuela.'),
+          ),
           () => later(500, () => this.next()),
         );
       } else this.wrongDay(w.i, target);
@@ -1581,13 +1607,17 @@ SCENES.asamblea = {
         SFX.good();
         burst(c.x, c.y, 30);
         rec('calendario', this.errs === 0);
-        say(praise() + ' Hoy es ' + DIASL[this.ti] + ' ' + c.n + ' de ' + MESES[this.d.getMonth()] + '.', () =>
-          later(500, () => this.next()),
+        say(
+          juntar(
+            tr(praise()),
+            fmt('Hoy es {dia} {n} de {mes}.', { dia: tr(DIASL[this.ti]!), n: c.n, mes: tr(MESES[this.d.getMonth()]!) }),
+          ),
+          () => later(500, () => this.next()),
         );
       } else {
         this.errs++;
         SFX.bad();
-        say('Ese es el ' + c.n + '. Busca el ' + this.d.getDate() + '.');
+        say(fmt('Ese es el {n}. Busca el {m}.', { n: c.n, m: this.d.getDate() }));
       }
       return;
     }
@@ -1606,7 +1636,7 @@ SCENES.asamblea = {
       save();
       SFX.good();
       burst(o.x, o.y, 30);
-      say(WX[o.v].s + ' Lo anotamos en el calendario del tiempo.', () =>
+      say(juntar(tr(WX[o.v].s), tr('Lo anotamos en el calendario del tiempo.')), () =>
         later(AGE() >= 5 ? 1500 : 500, () => this.next()),
       );
       return;
@@ -1629,32 +1659,24 @@ SCENES.asamblea = {
       const ok = (
         {
           dianoche: o.v === 'dia' ? '¡Sí! Ahora es de día.' : '¡Sí! Ahora es de noche.',
-          ropa: '¡Sí! Nos ponemos ' + W_(o.v) + '.',
-          estacion:
-            '¡Sí! Estamos en ' +
-            o.v +
-            '.' +
-            (
-              {
-                otoño: ' Las hojas se caen.',
-                invierno: ' Hace frío.',
-                primavera: ' Salen las flores.',
-                verano: ' Hace calor.',
-              } as Record<string, string>
-            )[o.v],
-          siguiente:
-            '¡Sí! Después viene ' +
-            (o.v === 'otoño'
-              ? 'el otoño'
-              : o.v === 'invierno'
-                ? 'el invierno'
-                : o.v === 'verano'
-                  ? 'el verano'
-                  : 'la primavera') +
-            '.',
+          ropa: fmt('¡Sí! Nos ponemos {cosa}.', { cosa: W_(o.v) }),
+          estacion: juntar(
+            fmt('¡Sí! Estamos en {estacion}.', { estacion: tr(o.v) }),
+            tr(
+              (
+                {
+                  otoño: 'Las hojas se caen.',
+                  invierno: 'Hace frío.',
+                  primavera: 'Salen las flores.',
+                  verano: 'Hace calor.',
+                } as Record<string, string>
+              )[o.v] ?? '',
+            ),
+          ),
+          siguiente: fmt('¡Sí! Después viene {estacion}.', { estacion: nombreEstacion(o.v).art }),
         } as Record<string, string>
       )[s];
-      say(praise() + ' ' + ok, () => later(500, () => this.next()));
+      say(juntar(tr(praise()), ok ?? ''), () => later(500, () => this.next()));
     }
     // Tras dos fallos se pone idle = 7 para que la ayuda (brillo) aparezca enseguida.
     else {
@@ -1663,19 +1685,13 @@ SCENES.asamblea = {
       SFX.bad();
       const bad = (
         {
-          dianoche: 'Mira por la ventana. ' + (o.v === 'dia' ? 'Ahora no hay sol.' : 'Ahora hay luz.'),
-          ropa: cap(W_(o.v)) + ' no va con este tiempo.',
-          estacion:
-            'Ese es el árbol ' +
-            (o.v === 'otoño'
-              ? 'del otoño'
-              : o.v === 'invierno'
-                ? 'del invierno'
-                : o.v === 'verano'
-                  ? 'del verano'
-                  : 'de la primavera') +
-            '. Prueba con otro.',
-          siguiente: 'Mmm, después de ' + estacionDe(this.d) + ' no viene ' + o.v + '.',
+          dianoche: juntar(tr('Mira por la ventana.'), o.v === 'dia' ? tr('Ahora no hay sol.') : tr('Ahora hay luz.')),
+          ropa: fmt('{Cosa} no va con este tiempo.', { cosa: W_(o.v) }),
+          estacion: fmt('Ese es el árbol {estacion}. Prueba con otro.', { estacion: nombreEstacion(o.v).de }),
+          siguiente: fmt('Mmm, después de {antes} no viene {estacion}.', {
+            antes: tr(estacionDe(this.d)),
+            estacion: tr(o.v),
+          }),
         } as Record<string, string>
       )[s];
       say(bad || 'Prueba otra vez.');
@@ -1711,7 +1727,9 @@ SCENES.album = {
     later(300, () =>
       sayQ(
         n
-          ? 'Este es tu álbum. Tienes ' + n + (n === 1 ? ' pegatina.' : ' pegatinas.')
+          ? n === 1
+            ? 'Este es tu álbum. Tienes 1 pegatina.'
+            : fmt('Este es tu álbum. Tienes {n} pegatinas.', { n })
           : 'Todavía no tienes pegatinas. ¡Las ganas terminando juegos!',
       ),
     );
@@ -1853,7 +1871,9 @@ SCENES.dormir = {
   // enter(): Tito se despide y, desde la fase P4 de docs/IDEAS-MEJORA.md, deja el reto de hoy para hacer en casa sin
   // pantalla (fraseReto, escenas/retos.ts).
   enter() {
-    later(300, () => sayQ(`¡Qué bonito jugamos${kid()}! Ahora Tito se va a descansar. ¡Hasta mañana!`));
+    later(300, () =>
+      sayQ(fmt('¡Qué bonito jugamos{nino}! Ahora Tito se va a descansar. ¡Hasta mañana!', { nino: kid() })),
+    );
     later(600, () => sayQ(fraseReto()));
   },
   // draw(): cielo de noche con estrellas que parpadean, luna, Tito dormido y "z" que suben.
