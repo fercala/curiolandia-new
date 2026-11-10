@@ -1366,6 +1366,45 @@ Es un huevo misterioso. Le faltan {n} juegos para abrirse.
 ¡Se abrió el juego número {n}! Tócalo para seguir.
 Toca el que brilla, el número {n}.
 Este todavía está cerrado. Primero termina el número {n}.
+¿Quién hace {sonido}?
+{Cosa} hace {sonido}
+{Cosa} hace {sonido}. Escucha otra vez.
+Toca {parte}.
+{Tocada}. Busca {parte}.
+{Cosa} no va.
+Mmm, {cosa} no va ahí. Prueba en otro lugar.
+Vamos a contar {cosas}. Toca cada una.
+Vamos a contar {cosas}. Toca cada uno.
+¿Cuántas {cosas} hay? Toca el número.
+¿Cuántos {cosas} hay? Toca el número.
+¡Hay {cuantos}!
+Ese es el {n}. Contamos {m}.
+¡Es {cosa}!
+¡Encontraste {cosa}!
+Vamos a pintar {cosa} de {color}. Toca el {color}.
+¿De qué color es {cosa}? Toca ese color y después {cosa}.
+Toca el {color}.
+Ahora toca {cosa} para pintarla.
+Ahora toca {cosa} para pintarlo.
+{Color}.
+Ahora toca {cosa}.
+Primero pintamos {cosa}.
+Mmm, {cosa} no es {pincel}. Toca el {color}.
+Mmm, {cosa} no va con {otra}.
+¡Sí! Después va {cosa}.
+Mmm, {cosa} no. Mira cómo se repite la fila.
+Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?
+Queremos ir {lugar}. ¿Derecha o izquierda?
+Doblamos a la izquierda y llegamos {lugar}.
+Doblamos a la derecha y llegamos {lugar}.
+Por ahí vamos {lugar}. Queremos ir {destino}.
+Toca {carta}.
+¿Cuál sigue? Toca {carta}.
+{Carta}. Busca {otra}.
+{Carta}. Ese va después. ¿Cuál sigue?
+Escucha el cuento: {titulo}.
+Ahora te pregunto.
+Mmm, no. Piensa en el cuento.
 ¡La tarta en la mesa! ¡Vamos a celebrar una fiesta!
 ¡La sopa, a la mesa! ¡Qué rica!
 ¡Mi peluche duerme conmigo en la cama!

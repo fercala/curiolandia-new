@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118) e **ID2b** (v0.2.119), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119) e **ID2c** (v0.2.120), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -270,5 +270,17 @@ quedan: 383 al terminar la ID2a, con la P11).
   rosa'`), para que esté en el catálogo y en la tabla de nombres; el del vale es una plantilla (`'el vale: {vale}'`).
 - `lowName(t)` (el nombre del tema en minúscula) y los nombres de los sitios del mapa salen en el idioma del juego, y el
   «dormida/dormido» y el «se abre/se abren» se eligen por el género y el número del nombre.
+- Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID2c (v0.2.120): los juegos comunes
+
+- **38 frases compuestas** de `juegos/comps.ts` y `juegos/comps2.ts` (los juegos que usan muchos temas: contar,
+  pintar, sonidos de animales, partes del cuerpo, series, derecha e izquierda, tarjetas en orden y cuentos) pasan a
+  plantillas; quedan 276.
+- Lo que llega de las tablas de contenido (las partes del cuerpo, los colores, las tarjetas, los títulos y las páginas
+  de los cuentos, las preguntas) se traduce con `tr` antes de ir a su hueco. Los sonidos de los animales, con
+  `sonidoSin(k)` (traducido, sin ¡ ! y en minúscula).
+- «¿Cuántos/Cuántas…?» y «Toca cada uno/una» se eligen con `femPl` (en rumano, los neutros cuentan como femeninos);
+  «pintarlo/pintarla», con `fem`.
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
 
