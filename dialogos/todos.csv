@@ -78,6 +78,53 @@ c6709b37763d,¡Con el telescopio veo los anillos de Saturno!,frase,src/contenido
 25066c041d0d,¡Me siento a la mesa! ¿Qué hay de comer?,frase,src/contenido/casa.ts
 f16765290dae,"¡Con las pinturas, la pizarra se llena de colores!",frase,src/contenido/casa.ts
 fff1b02b8dbb,¡El tren baja por el tobogán! ¡Chuuu!,frase,src/contenido/casa.ts
+8964eda2ae71,¡La tarta en la mesa! ¡Vamos a celebrar una fiesta!,frase,src/contenido/casa.ts
+bc3ab04c1843,"¡La sopa, a la mesa! ¡Qué rica!",frase,src/contenido/casa.ts
+2ed7e068e36e,¡Mi peluche duerme conmigo en la cama!,frase,src/contenido/casa.ts
+f86723617eb1,Leo un cuento en el sofá. ¡Qué a gusto!,frase,src/contenido/casa.ts
+b44c09da6ca0,¡El patito nada en la piscina!,frase,src/contenido/casa.ts
+8cc9005dce54,¡La pelota flota en la piscina!,frase,src/contenido/casa.ts
+a9788529cebb,¡Guitarra y tambor! ¡Somos una orquesta!,frase,src/contenido/casa.ts
+8544431e3945,¡Música con dos instrumentos! ¡Qué bonita suena!,frase,src/contenido/casa.ts
+0daad72a0918,"¡Oh, no! La cometa se ha quedado en el árbol.",frase,src/contenido/casa.ts
+2a3092559c0e,¡Riiing! El reloj me despierta. ¡Buenos días!,frase,src/contenido/casa.ts
+ea9770da440b,"¡El pájaro canta en el árbol! Pío, pío.",frase,src/contenido/casa.ts
+fe5d8cb427b3,¡Riego el árbol para que crezca mucho!,frase,src/contenido/casa.ts
+5519a2a3794d,¡Globos y tarta! ¡Es una fiesta!,frase,src/contenido/casa.ts
+d87b35107ee7,Giro el telescopio hacia la ventana.,frase,src/contenido/casa.ts
+511a31dbbb72,¡Aquí está España! Aquí vivo yo.,frase,src/contenido/casa.ts
+67a2d1bf61f5,"Diez, nueve, ocho... ¡Todavía no despega!",frase,src/contenido/casa.ts
+27d222d56172,"¡Salto en el sofá! ¡Boing, boing!",frase,src/contenido/casa.ts
+dca16bd6f685,Una siestecita en el sofá.,frase,src/contenido/casa.ts
+cfde5046b225,¡Bailo con la música de la tele!,frase,src/contenido/casa.ts
+3293ca47f9f7,Me tumbo en la alfombra. ¡Qué suave!,frase,src/contenido/casa.ts
+5d8902fb2bad,El cuadro estaba torcido. ¡Ya está derecho!,frase,src/contenido/casa.ts
+2688ffe5caaf,Riego mi planta un poquito.,frase,src/contenido/casa.ts
+5433a8e6a432,Leo un libro de dinosaurios. ¡Como yo!,frase,src/contenido/casa.ts
+5456b94a47cf,"¡Bailo al ritmo del tic, tac!",frase,src/contenido/casa.ts
+ce301519388e,¡Bailo con la música del piano!,frase,src/contenido/casa.ts
+5bd92d6ae56a,¡Me he mojado! Me sacudo el agua.,frase,src/contenido/casa.ts
+660c87496a6a,¡Salto en la cama! ¡Boing!,frase,src/contenido/casa.ts
+204b709c468c,Hago la cama. ¡Qué ordenada!,frase,src/contenido/casa.ts
+a8b8b76f978e,Leo el cuento tumbado. Había una vez...,frase,src/contenido/casa.ts
+d8d73e2d70cc,"Cuento las estrellas: una, dos, tres, cuatro y cinco.",frase,src/contenido/casa.ts
+a7fbcc763acd,"Pongo la mesa: el plato, el vaso y la cuchara.",frase,src/contenido/casa.ts
+8a1fcb6380b0,"¡Una manzana! Ñam, ñam.",frase,src/contenido/casa.ts
+288814394160,"Soplo, que la sopa quema. ¡Fiuuu!",frase,src/contenido/casa.ts
+8bc495f04103,¡Hago burbujas con la espuma!,frase,src/contenido/casa.ts
+0b1aee384ff9,"Hago rodar la pelota. ¡Rueda, rueda!",frase,src/contenido/casa.ts
+6bcb3b1d4c1e,Pongo un bloque encima de otro. ¡Una torre!,frase,src/contenido/casa.ts
+d7c96f18f71c,¡Bailo con mi peluche!,frase,src/contenido/casa.ts
+45d6646e2224,Me duermo abrazado a mi peluche.,frase,src/contenido/casa.ts
+175d8c6b1cab,¡Bailo con la música del xilófono!,frase,src/contenido/casa.ts
+9da7803c4a79,"Acuno a la muñeca. A la nanita, nana.",frase,src/contenido/casa.ts
+e644337b895e,Le doy cuerda al robot y anda solo.,frase,src/contenido/casa.ts
+a55ded38befd,¡Piii! Toco el pito del tren.,frase,src/contenido/casa.ts
+decbb93dbc70,¡Bailo con la música de la guitarra!,frase,src/contenido/casa.ts
+306d62c60614,¡El globo me lleva volando!,frase,src/contenido/casa.ts
+e4b3234adee4,Me escondo detrás del árbol. ¿Me ves?,frase,src/contenido/casa.ts
+b71f5174110e,¡Oh! Se le ha caído una torre al castillo.,frase,src/contenido/casa.ts
+0bbf5363ae84,"¡Chapoteo en la piscina! ¡Plof, plof!",frase,src/contenido/casa.ts
 46a9c845ed04,La mochila de Teo,trozo,src/contenido/cuentos.ts
 63dc4af5492e,Teo llegó al cole con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!,frase,src/contenido/cuentos.ts
 e94285781b6f,"Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!",frase,src/contenido/cuentos.ts

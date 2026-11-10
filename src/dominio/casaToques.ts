@@ -93,7 +93,8 @@ export const TOQUES: Readonly<Record<string, Toque>> = {
 //   tele: 0 apagada, 1 a 3 el canal (globos, peces o Tito bailando, como la escena de la tele);
 //   cama: 0 hecha, 1 deshecha; olla: 0 sin fuego, 1 con fuego; tarta: 0 sin velas encendidas, 1 encendidas;
 //   banera: 0 vacía, 1 con agua; regadera: 0 vacía, 1 llena; fuente: 0 tranquila, 1 echando chorros;
-//   estrellas: 0 apagadas, 1 brillando; bloques: la altura de la torre, de 0 a 5 (el toque siguiente la tira).
+//   estrellas: 0 apagadas, 1 brillando; bloques: la altura de la torre, de 0 a 5 (el toque siguiente la tira);
+//   cuadro (desde la fase M3b): cuál de sus 3 dibujos enseña (0 el campo con el sol, 1 el mar con un barco, 2 la noche).
 export const ESTADOS: Readonly<Record<string, number>> = {
   lampara: 2,
   farol: 2,
@@ -106,6 +107,7 @@ export const ESTADOS: Readonly<Record<string, number>> = {
   fuente: 2,
   estrellas: 2,
   bloques: 6,
+  cuadro: 3,
 };
 
 // toqueDe(id): cómo se mueve id al tocarlo; 'late' si no está en la tabla (un objeto nuevo sin apuntar).

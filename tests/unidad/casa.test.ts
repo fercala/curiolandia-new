@@ -1,6 +1,6 @@
 // Pruebas de las reglas de la casa de Tito interactiva y de las mascotas que crecen (src/dominio/casa.ts, fase C1 de
 // docs/PLAN-CASA.md): que cada objeto de la casa de la tienda tiene su reacción, las combinaciones, el álbum de
-// sorpresas, cómo se cuidan y crecen las mascotas (sin restar nunca) y la flor del huerto. Sin navegador: los objetos
+// sorpresas, cómo se cuidan y crecen las mascotas (sin restar nunca) y la flor del huerto; desde la fase M3b de docs/PLAN-CASA-MEJORA.md, las formas de jugar de Tito (VARIANTES). Sin navegador: los objetos
 // de la tienda se leen de SHOP (escenas/tienda.ts) cargando el juego con ejecutaModulos, como en contenido.test.ts.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (días, etapas): leerlos tal
    cual en la prueba es más claro que darles un nombre. */
@@ -14,6 +14,7 @@ import {
   MASCOTAS,
   REACCIONES,
   TOTAL_SORPRESAS,
+  VARIANTES,
   combinacion,
   cuantasSorpresas,
   cuidadosDe,
@@ -28,9 +29,11 @@ import {
   idSorpresa,
   quiereHoy,
   reaccionDe,
+  varianteDe,
+  variantesDe,
   regar,
 } from '../../src/dominio/casa.ts';
-import { FRASES_CASA, FRASES_COMBINACION } from '../../src/contenido/casa.ts';
+import { FRASES_CASA, FRASES_COMBINACION, FRASES_VARIANTES } from '../../src/contenido/casa.ts';
 import { ejecutaModulos } from './juegoEnVm.ts';
 
 // Artículos de la tienda tal como los ve el juego: id, si es ropa (slot) y su categoría.
@@ -89,6 +92,29 @@ describe('los objetos de la casa', () => {
     expect(combinacion('pato', 'sofa')).toBeNull();
     expect(idSorpresa('banera', 'pato')).toBe('pato+banera');
     expect(idSorpresa('piano')).toBe('piano');
+  });
+});
+
+describe('las formas de jugar de Tito (fase M3b de docs/PLAN-CASA-MEJORA.md)', () => {
+  test('cada objeto con variantes tiene reacción y una frase por variante', () => {
+    for (const [id, v] of Object.entries(VARIANTES)) {
+      expect(reaccionDe(id), id).not.toBeNull();
+      expect(FRASES_VARIANTES[id]?.length, id).toBe(v.length);
+    }
+    expect(Object.keys(FRASES_VARIANTES).sort()).toEqual(Object.keys(VARIANTES).sort());
+  });
+  test('la primera es la de REACCIONES y luego van por turno, dando la vuelta', () => {
+    expect(variantesDe('sofa')).toEqual(['sentarse', 'saltar', 'tumbarse']);
+    expect([0, 1, 2, 3].map((v) => varianteDe('sofa', v)?.accion)).toEqual([
+      'sentarse',
+      'saltar',
+      'tumbarse',
+      'sentarse',
+    ]);
+    expect(varianteDe('sofa', 4)?.n).toBe(1);
+    expect(varianteDe('saturno', 5)).toEqual({ accion: 'girar', n: 0 });
+    expect(varianteDe('gato', 0)).toBeNull();
+    expect(variantesDe('desconocido')).toEqual([]);
   });
 });
 

@@ -6,7 +6,9 @@
  * Pruebas: tests/unidad/casa.test.ts (que cada objeto con reacción tiene su frase).
  * Desde la fase C3, también los sitios de la escena Vuelta al mundo (LUGARES), con sus dibujos y su frase.
  * Desde la fase C7, lo que dice Tito al descubrir cada combinación de dos objetos (FRASES_COMBINACION).
- * Exporta: FRASES_CASA, el tipo LugarMundo, LUGARES y FRASES_COMBINACION.
+ * Desde la fase M3b de docs/PLAN-CASA-MEJORA.md, lo que dice en las otras formas de jugar (FRASES_VARIANTES) y las
+ * frases de 13 combinaciones más.
+ * Exporta: FRASES_CASA, el tipo LugarMundo, LUGARES, FRASES_COMBINACION y FRASES_VARIANTES.
  * No importa nada.
  */
 
@@ -144,4 +146,62 @@ export const FRASES_COMBINACION: Readonly<Record<string, string>> = {
   'mesa+silla': '¡Me siento a la mesa! ¿Qué hay de comer?',
   'pinturas+pizarra': '¡Con las pinturas, la pizarra se llena de colores!',
   'trenJuguete+tobogan': '¡El tren baja por el tobogán! ¡Chuuu!',
+  // desde la fase M3b de docs/PLAN-CASA-MEJORA.md
+  'tarta+mesa': '¡La tarta en la mesa! ¡Vamos a celebrar una fiesta!',
+  'olla+mesa': '¡La sopa, a la mesa! ¡Qué rica!',
+  'peluche+cama': '¡Mi peluche duerme conmigo en la cama!',
+  'cuento+sofa': 'Leo un cuento en el sofá. ¡Qué a gusto!',
+  'pato+piscina': '¡El patito nada en la piscina!',
+  'pelotaPlaya+piscina': '¡La pelota flota en la piscina!',
+  'guitarra+tambor': '¡Guitarra y tambor! ¡Somos una orquesta!',
+  'xilofono+piano': '¡Música con dos instrumentos! ¡Qué bonita suena!',
+  'cometa+arbol': '¡Oh, no! La cometa se ha quedado en el árbol.',
+  'reloj+cama': '¡Riiing! El reloj me despierta. ¡Buenos días!',
+  'pajaro+arbol': '¡El pájaro canta en el árbol! Pío, pío.',
+  'regadera+arbol': '¡Riego el árbol para que crezca mucho!',
+  'globo+tarta': '¡Globos y tarta! ¡Es una fiesta!',
+};
+
+// FRASES_VARIANTES: lo que dice Tito en las otras formas de jugar con cada objeto (VARIANTES en dominio/casa.ts), en
+// el mismo orden; la primera forma dice la frase de FRASES_CASA. Desde la fase M3b de docs/PLAN-CASA-MEJORA.md.
+export const FRASES_VARIANTES: Readonly<Record<string, readonly string[]>> = {
+  // torre de las estrellas
+  telescopio: ['Giro el telescopio hacia la ventana.'],
+  tierra: ['¡Aquí está España! Aquí vivo yo.'],
+  cohete: ['Diez, nueve, ocho... ¡Todavía no despega!'],
+  // salón
+  sofa: ['¡Salto en el sofá! ¡Boing, boing!', 'Una siestecita en el sofá.'],
+  tele: ['¡Bailo con la música de la tele!'],
+  alfombra: ['Me tumbo en la alfombra. ¡Qué suave!'],
+  cuadro: ['El cuadro estaba torcido. ¡Ya está derecho!'],
+  plantaInterior: ['Riego mi planta un poquito.'],
+  estanteria: ['Leo un libro de dinosaurios. ¡Como yo!'],
+  reloj: ['¡Bailo al ritmo del tic, tac!'],
+  piano: ['¡Bailo con la música del piano!'],
+  fuente: ['¡Me he mojado! Me sacudo el agua.'],
+  // dormitorio
+  cama: ['¡Salto en la cama! ¡Boing!', 'Hago la cama. ¡Qué ordenada!'],
+  cuento: ['Leo el cuento tumbado. Había una vez...'],
+  estrellas: ['Cuento las estrellas: una, dos, tres, cuatro y cinco.'],
+  // cocina
+  mesa: ['Pongo la mesa: el plato, el vaso y la cuchara.'],
+  nevera: ['¡Una manzana! Ñam, ñam.'],
+  olla: ['Soplo, que la sopa quema. ¡Fiuuu!'],
+  // baño
+  banera: ['¡Hago burbujas con la espuma!'],
+  // cuarto de juegos
+  pelotaPlaya: ['Hago rodar la pelota. ¡Rueda, rueda!'],
+  bloques: ['Pongo un bloque encima de otro. ¡Una torre!'],
+  peluche: ['¡Bailo con mi peluche!', 'Me duermo abrazado a mi peluche.'],
+  xilofono: ['¡Bailo con la música del xilófono!'],
+  muneca: ['Acuno a la muñeca. A la nanita, nana.'],
+  robot: ['Le doy cuerda al robot y anda solo.'],
+  trenJuguete: ['¡Piii! Toco el pito del tren.'],
+  guitarra: ['¡Bailo con la música de la guitarra!'],
+  globo: ['¡El globo me lleva volando!'],
+  // jardín
+  arbol: ['Me escondo detrás del árbol. ¿Me ves?'],
+  columpio: ['¡Más alto, más alto!'],
+  castillo: ['¡Oh! Se le ha caído una torre al castillo.'],
+  piscina: ['¡Chapoteo en la piscina! ¡Plof, plof!'],
 };
