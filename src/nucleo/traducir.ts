@@ -10,7 +10,8 @@
  * Desde la fase ID2: fmt(plantilla, huecos), para las frases con partes que cambian, y nombreEn(frase), las formas de
  * un nombre en el idioma del juego. Lo que ya sale traducido de fmt y de nombreEn se recuerda (yaTraducido), para que
  * say() y text() no lo vuelvan a traducir.
- * Exporta: IDIOMA, sinTraducir, iniciarIdioma, tr, fmt, nombreEn, trHtml, ponIdioma.
+ * Desde la ID2b, juntar(...trozos): frases que se dicen seguidas, cada una ya traducida.
+ * Exporta: IDIOMA, sinTraducir, iniciarIdioma, tr, fmt, juntar, nombreEn, trHtml, ponIdioma.
  * Importa: S y save (guardado.ts), las reglas de dominio/idiomas.ts y las tablas de src/idiomas/.
  */
 import { S, save } from './guardado.ts';
@@ -102,6 +103,11 @@ function recuerda(t: string): string {
 // idioma del juego (números, nombres de nombreEn...). El resultado no se vuelve a traducir al decirlo o escribirlo.
 export const fmt = (plantilla: string, huecos: Readonly<Record<string, string | number>>): string =>
   recuerda(rellena(tr(plantilla), huecos));
+
+// juntar(...trozos): las frases trozos, ya traducidas (con tr o fmt), seguidas y separadas por un espacio; las vacías
+// se saltan. Para cuando se dicen varias frases juntas y alguna depende de algo (un saludo, el nombre del tema...): cada
+// una se traduce entera y el resultado no se vuelve a traducir. En castellano sale lo mismo que pegarlas con espacios.
+export const juntar = (...trozos: readonly string[]): string => recuerda(trozos.filter(Boolean).join(' '));
 
 // nombreEn(frase): las formas (Nombre) del nombre frase, que es el nombre en castellano con su artículo ('el gato'), en
 // el idioma del juego. En castellano salen de su artículo (formasEs); en el pseudoidioma, marcadas; en otro idioma, de su

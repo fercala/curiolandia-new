@@ -50,7 +50,6 @@ import {
   atHome,
   back,
   burst,
-  cap,
   card,
   circ,
   clamp,
@@ -345,21 +344,21 @@ export const SHOP: Articulo[] = [
   ).map(([id, p, tier, slot]) => ({ id, cat: 'ropa', slot: slot || 'hat', p, tier })),
   ...(
     [
-      ['naranja', 0, 1],
-      ['azul', 15, 1],
-      ['rosa', 15, 2],
-      ['verde', 20, 2],
-      ['violeta', 25, 3],
-      ['dorado', 40, 3],
-    ] as [string, number, number][]
-  ).map(([c, p, tier]) => ({
+      ['naranja', 0, 1, 'el caparazón naranja'],
+      ['azul', 15, 1, 'el caparazón azul'],
+      ['rosa', 15, 2, 'el caparazón rosa'],
+      ['verde', 20, 2, 'el caparazón verde'],
+      ['violeta', 25, 3, 'el caparazón violeta'],
+      ['dorado', 40, 3, 'el caparazón dorado'],
+    ] as [string, number, number, string][]
+  ).map(([c, p, tier, n]) => ({
     id: 'caparazon:' + c,
     cat: 'colores',
     slot: 'shell',
     v: c,
     p,
     tier,
-    n: 'el caparazón ' + (c === 'rosa' ? 'rosa' : c === 'verde' ? 'verde' : c),
+    n,
     draw: (x: number, y: number, s: number) => {
       if (titoKind() !== 'caracol') return shellIcon(x, y, s * 0.36, c);
       circ(x, y, s * 0.36, SHELLC[c][0], 6);
@@ -377,19 +376,19 @@ export const SHOP: Articulo[] = [
   })),
   ...(
     [
-      ['roja', 0, 1],
-      ['azul', 8, 1],
-      ['amarilla', 8, 1],
-      ['violeta', 10, 2],
-    ] as [string, number, number][]
-  ).map(([c, p, tier]) => ({
+      ['roja', 0, 1, 'la bufanda roja'],
+      ['azul', 8, 1, 'la bufanda azul'],
+      ['amarilla', 8, 1, 'la bufanda amarilla'],
+      ['violeta', 10, 2, 'la bufanda violeta'],
+    ] as [string, number, number, string][]
+  ).map(([c, p, tier, n]) => ({
     id: 'bufanda:' + c,
     cat: 'colores',
     slot: 'scarf',
     v: c,
     p,
     tier,
-    n: 'la bufanda ' + c,
+    n,
     draw: (x: number, y: number, s: number) => {
       ctx.save();
       ctx.translate(x, y);
@@ -488,10 +487,12 @@ const shopItems = (cat: string): Articulo[] =>
   cat === 'vales'
     ? S.vales!.filter((v) => v.on)
         .slice(0, 10)
-        .map((v) => ({ id: 'vale:' + v.id, cat: 'vales', p: v.p!, tier: 1, vale: v, n: 'el vale: ' + v.txt }))
+        .map((v) => ({ id: 'vale:' + v.id, cat: 'vales', p: v.p!, tier: 1, vale: v }))
     : SHOP.filter((i) => i.cat === cat);
-// Nombre de un artículo para decirlo en voz alta (it.n o el nombre del diccionario W_).
-export const itemName = (it: Articulo) => (it.n ? nombreEn(it.n).art : W_(it.id));
+// Nombre de un artículo para decirlo en voz alta: el de un vale (con su texto), it.n en el idioma del juego o el del
+// diccionario W_.
+export const itemName = (it: Articulo): string =>
+  it.vale ? fmt('el vale: {vale}', { vale: it.vale.txt ?? '' }) : it.n ? nombreEn(it.n).art : W_(it.id);
 // ¿Tito lleva puesto ahora este artículo de ropa o color?
 export const isWorn = (it: Articulo) => {
   const t = S.tito!;
@@ -589,7 +590,7 @@ SCENES.tienda = {
     later(300, () =>
       sayQ(
         seen
-          ? '¡La tienda! Tienes ' + S.coins + ' monedas. Toca algo para ver cuánto cuesta.'
+          ? fmt('¡La tienda! Tienes {n} monedas. Toca algo para ver cuánto cuesta.', { n: S.coins! })
           : '¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.',
       ),
     );
@@ -627,7 +628,7 @@ SCENES.tienda = {
   // Tito repite qué hay que hacer (al tocar a Tito o tras un rato sin tocar).
   prompt() {
     if (this.conf) say('¿Lo compras? Toca el verde para comprar o la cruz para volver.');
-    else say('Toca algo para ver cuánto cuesta. Tienes ' + S.coins + ' monedas.');
+    else say(fmt('Toca algo para ver cuánto cuesta. Tienes {n} monedas.', { n: S.coins! }));
   },
   // Pista: en la confirmación señala el botón verde de comprar.
   hint() {
@@ -643,11 +644,11 @@ SCENES.tienda = {
       const g = this.grid().find((g: Casilla) => g.it.id === id.slice(3));
       if (g)
         say(
-          cap(itemName(g.it)) +
-            '.' +
-            (S.owned![g.it.id] && !g.it.vale ? ' Ya es tuyo.' : ' Cuesta ' + g.it.p + ' monedas.'),
+          S.owned![g.it.id] && !g.it.vale
+            ? fmt('{Cosa}. Ya es tuyo.', { cosa: itemName(g.it) })
+            : fmt('{Cosa}. Cuesta {n} monedas.', { cosa: itemName(g.it), n: g.it.p }),
         );
-    } else if (id === 'coins') say('Tienes ' + S.coins + ' monedas.');
+    } else if (id === 'coins') say(fmt('Tienes {n} monedas.', { n: S.coins! }));
   },
   // Dibuja la tienda: toldo, título, botón de la casa, estrellas, pestañas y artículos.
   // Cada artículo muestra check verde (ya es tuyo), precio (fondo amarillo si llegan las monedas) o candado con
@@ -854,11 +855,11 @@ SCENES.tienda = {
       return;
     }
     if (inCoinHUD(x, y)) {
-      say('Tienes ' + S.coins + ' monedas.');
+      say(fmt('Tienes {n} monedas.', { n: S.coins! }));
       return;
     }
     if (inR(x, y, 1087, 70, 150, 60)) {
-      say('Tienes ' + STARS() + ' estrellas. Las ganas terminando juegos.');
+      say(fmt('Tienes {n} estrellas. Las ganas terminando juegos.', { n: STARS() }));
       return;
     }
     const tb = this.tabs().find((t: Pestana) => inR(x, y, t.x, t.y, t.w, 110));
@@ -886,12 +887,11 @@ SCENES.tienda = {
     if (!nivelAbierto(it.tier, STARS())) {
       SFX.boing();
       say(
-        cap(itemName(it)) +
-          ' se abre cuando tengas ' +
-          need +
-          ' estrellas. ¡Ya tienes ' +
-          STARS() +
-          '! Ganas estrellas terminando juegos.',
+        fmt('{Cosa} se abre cuando tengas {n} estrellas. ¡Ya tienes {m}! Ganas estrellas terminando juegos.', {
+          cosa: itemName(it),
+          n: need,
+          m: STARS(),
+        }),
       );
       return;
     }
@@ -918,30 +918,27 @@ SCENES.tienda = {
         wear(it, on);
         SFX.pop();
         sparkles(TITO.x + 150, TITO.y + 40, 12);
-        say(on ? '¡Tito se puso ' + itemName(it) + '!' : 'Tito se quitó ' + itemName(it) + '.');
+        say(fmt(on ? '¡Tito se puso {cosa}!' : 'Tito se quitó {cosa}.', { cosa: itemName(it) }));
         return;
       }
       SFX.pop();
-      say(cap(itemName(it)) + ' ya es tuyo. Está en la casa de Tito.');
+      say(fmt('{Cosa} ya es tuyo. Está en la casa de Tito.', { cosa: itemName(it) }));
       return;
     }
     if (!alcanza(S.coins!, it.p)) {
       SFX.boing();
       const f = it.p - S.coins!;
       say(
-        cap(itemName(it)) +
-          ' cuesta ' +
-          it.p +
-          ' monedas. Te ' +
-          (f === 1 ? 'falta una' : 'faltan ' + f) +
-          '. ¡Jugando ganas más!',
+        f === 1
+          ? fmt('{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!', { cosa: itemName(it), n: it.p })
+          : fmt('{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!', { cosa: itemName(it), n: it.p, f }),
       );
       return;
     }
     SFX.pop();
     this.conf = it;
     this.confT = T;
-    say('¿Quieres comprar ' + itemName(it) + ' por ' + it.p + ' monedas? Toca el verde para comprar.');
+    say(fmt('¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.', { cosa: itemName(it), n: it.p }));
   },
   // Compra el artículo con el caso de uso comprar (aplicacion/comprar.ts): gasta las monedas, celebra y lo da. Un vale
   // se apunta en S.valesLog (para que el adulto lo canjee); la ropa se pone a Tito; lo demás se coloca en la casa y hace
@@ -961,7 +958,11 @@ SCENES.tienda = {
     Object.assign(S, c.partida);
     if (c.tipo === 'vale') {
       save();
-      say('¡Compraste el vale! ' + it.vale!.txt + '. Enséñaselo a un adulto de tu familia para canjearlo.');
+      say(
+        fmt('¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.', {
+          vale: it.vale!.txt ?? '',
+        }),
+      );
       return;
     }
     // desde la fase C6, una mascota nueva nace bebé y sin nombre (fichaNueva)

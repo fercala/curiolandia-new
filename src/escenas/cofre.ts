@@ -215,9 +215,9 @@ SCENES.cofre = {
   prompt() {
     if (!this.openT)
       say(
-        'Toca el cofre para abrirlo. ¡Te ' +
-          (3 - this.taps === 1 ? 'falta un toque' : 'faltan ' + (3 - this.taps) + ' toques') +
-          '!',
+        3 - this.taps === 1
+          ? 'Toca el cofre para abrirlo. ¡Te falta un toque!'
+          : fmt('Toca el cofre para abrirlo. ¡Te faltan {n} toques!', { n: 3 - this.taps }),
       );
     else say('Toca la casa para ver tu regalo, o la flecha verde para seguir el camino.');
   },
@@ -339,14 +339,13 @@ SCENES.cofre = {
           later(1300, () =>
             sayQ(
               it
-                ? '¡Mira lo que había' +
-                    kid() +
-                    ': ' +
-                    itemName(it) +
-                    '! ' +
-                    (it.slot ? '¡Tito ya se lo puso!' : 'Ya está en la casa de Tito.') +
-                    ' ¡Y diez monedas!'
-                : '¡Mira cuántas monedas' + kid() + '! ¡Veinte monedas!',
+                ? fmt(
+                    it.slot
+                      ? '¡Mira lo que había{nino}: {cosa}! ¡Tito ya se lo puso! ¡Y diez monedas!'
+                      : '¡Mira lo que había{nino}: {cosa}! Ya está en la casa de Tito. ¡Y diez monedas!',
+                    { nino: kid(), cosa: itemName(it) },
+                  )
+                : fmt('¡Mira cuántas monedas{nino}! ¡Veinte monedas!', { nino: kid() }),
               () =>
                 later(300, () =>
                   sayQ(
