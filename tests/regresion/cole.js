@@ -8,6 +8,8 @@
 // adultos y Tito celebra con una pegatina (fase P4); y sin juegos de moverse, el patio cierra y no hay pausa activa.
 // Y las carreras del patio en 3D (fase P10): con 5 años, siguiendo la ayuda, se salta todo, se va por el lado bueno del
 // cruce, se cogen los números del 1 al 5, Tito gana, da 3 monedas y lo apunta; «otra vez» empieza otra y la casa vuelve.
+// Y el día del deporte (fase P11): con 4 años, siguiendo la ayuda, las cinco pruebas seguidas dan cinco oros, el
+// medallero, la copa de la semana (S.deporte) y 3 monedas; «otra vez» empieza otra jornada y la casa vuelve al patio.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -552,6 +554,65 @@ const R = L.registro('cole');
         await p.waitForTimeout(800);
         const otra = await p.evaluate(() => __cl.scene.c.fase);
         if (otra !== 'salida' && otra !== 'corre') return 'el botón de otra vez no empieza otra carrera: ' + otra;
+        await L.clic(p, 90, 90);
+        await p.waitForTimeout(800);
+        return (await escena()) === 'patio' ? null : 'la casa no vuelve al patio: ' + (await escena());
+      },
+    );
+    await caso(
+      'P17',
+      'con 4 años, el día del deporte: las cinco pruebas seguidas, sus medallas, el medallero, la copa y las monedas',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 4;
+          delete __cl.S.deporte;
+          save();
+          __cl.go('patio', {});
+        });
+        await p.waitForTimeout(1200);
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        const bt = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'deporte'));
+        if (!bt) return 'no hay botón del día del deporte en el patio';
+        await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
+        await p.waitForTimeout(1500);
+        if ((await escena()) !== 'deporte') return 'el botón no abre el día del deporte: ' + (await escena());
+        // un niño que hace caso a la ayuda en todas las pruebas (con un respiro entre toques), hasta el medallero
+        await p.evaluate(() => {
+          let ultimo = 0;
+          const f = () => {
+            if (JORNADA.fin) return;
+            const sc = __cl.scene,
+              h = sc && sc.hint && sc.hint(),
+              ahora = performance.now();
+            if (h && !(sc.c && sc.c.fase === 'fin') && ahora - ultimo > 150) {
+              ultimo = ahora;
+              sc.down(h.x, h.y);
+            }
+            requestAnimationFrame(f);
+          };
+          requestAnimationFrame(f);
+        });
+        // unos dos minutos de jornada; sin tarjeta gráfica (GitHub Actions) la carrera en 3D tarda más
+        let j = null;
+        for (let i = 0; i < 1200 && !(j && j.fin); i++) {
+          await p.waitForTimeout(500);
+          j = await p.evaluate(() => ({ medallas: JORNADA.medallas, fin: JORNADA.fin, escena: __cl.name }));
+        }
+        if (!j || !j.fin) return 'la jornada no termina: ' + JSON.stringify(j);
+        const ids = Object.keys(j.medallas).sort().join();
+        if (ids !== 'carrera,equilibrio,punteria,relevos,salto') return 'pruebas con medalla: ' + ids;
+        if (Object.values(j.medallas).some((m) => m !== 'oro'))
+          return 'haciendo caso a la ayuda no son todas de oro: ' + JSON.stringify(j.medallas);
+        if (j.escena !== 'deporte') return 'el medallero no está en la jornada: ' + j.escena;
+        await p.waitForTimeout(2500);
+        const [despues, cole, dep] = await p.evaluate(() => [__cl.S.coins || 0, __cl.S.cole, __cl.S.deporte]);
+        if (despues - monedas !== 3) return `monedas ${monedas} -> ${despues}`;
+        if (!cole || !cole.veces || cole.veces.deporte !== 1) return 'S.cole: ' + JSON.stringify(cole);
+        if (!dep || dep.copas !== 1 || !dep.semana) return 'S.deporte: ' + JSON.stringify(dep);
+        await p.evaluate(() => __cl.scene.down(1000, 700));
+        await p.waitForTimeout(800);
+        const nueva = await p.evaluate(() => [JORNADA.fin, Object.keys(JORNADA.medallas).length]);
+        if (nueva[0] || nueva[1]) return 'el botón de otra vez no empieza otra jornada: ' + JSON.stringify(nueva);
         await L.clic(p, 90, 90);
         await p.waitForTimeout(800);
         return (await escena()) === 'patio' ? null : 'la casa no vuelve al patio: ' + (await escena());

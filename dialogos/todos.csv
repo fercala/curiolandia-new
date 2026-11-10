@@ -947,12 +947,13 @@ a29d50ec9ee6,Lupi,trozo,src/dominio/carreras.ts
 254fcfee15a9,segundo lugar,trozo,src/dominio/carreras.ts
 95f622a25641,tercer lugar,trozo,src/dominio/carreras.ts
 b593f2534404,cuarto lugar,trozo,src/dominio/carreras.ts
-66aca70e07de,En ,trozo,src/dominio/carreras.ts src/escenas/casa.ts
+66aca70e07de,En ,trozo,src/dominio/carreras.ts src/escenas/casa.ts src/escenas/deporte.ts
 a02e8bf6d838,último lugar,trozo,src/dominio/carreras.ts
 1e86783773d9,¡Estatuas!,frase,src/dominio/cole.ts
 5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
 db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
+83d5c96d00d0,Día del deporte,trozo,src/dominio/cole.ts
 25cbaa49e002,el pollito,trozo,src/dominio/crias.ts src/nucleo/idioma.ts
 fcbe927d0a34,la gallina,trozo,src/dominio/crias.ts src/escenas/granja.ts src/nucleo/idioma.ts
 ff3eef06c65b,Pío,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts
@@ -978,6 +979,15 @@ aca4a53ef079,Canela,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts
 36f318140d14,Rayo,trozo,src/dominio/crias.ts
 9e8b2523b157,Galope,trozo,src/dominio/crias.ts
 67df77b52f85,Estrella,trozo,src/dominio/crias.ts
+0d380c66df27,la carrera,trozo,src/dominio/deporte.ts
+ccd98cc10b24,el salto de longitud,trozo,src/dominio/deporte.ts
+6ad1760128f6,la puntería,trozo,src/dominio/deporte.ts
+7e7779f9155a,el equilibrio,trozo,src/dominio/deporte.ts
+8235effea212,los relevos,trozo,src/dominio/deporte.ts
+23b166cd7f2b,medalla ,trozo,src/dominio/deporte.ts
+d119addd1941,medallas ,trozo,src/dominio/deporte.ts
+4d950250f975,de ,trozo,src/dominio/deporte.ts src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts
+db3901932d77,Tienes ,trozo,src/dominio/deporte.ts src/escenas/casa.ts src/escenas/tienda.ts
 f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/casaAlbum.ts src/escenas/escenas2d.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 7327b8c0b779, veces,trozo,src/dominio/excursiones.ts
@@ -1026,7 +1036,6 @@ c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela des
 8c3d395b2a94,Aún no hemos ido,trozo,src/escenas/albumExcursiones.ts
 a8419088f339,El ,trozo,src/escenas/albumExcursiones.ts src/temas/temas4.ts
 beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/nucleo/idioma.ts
-4d950250f975,de ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/nucleo/idioma.ts
 6dc7ba9fac29,Aquí irá la foto ,trozo,src/escenas/albumExcursiones.ts
 66038aa12121,", cuando vayamos de excursión.",trozo,src/escenas/albumExcursiones.ts
 049bfc802dc7,! Hemos ido ,trozo,src/escenas/albumExcursiones.ts
@@ -1050,7 +1059,6 @@ edb2fcee1b5d,Arrastra las cosas para acomodar la casa. Abajo está mi ropa: tóc
 5df1d9ff1461,Toca el carrito para ir a la tienda.,frase,src/escenas/casa.ts
 235209e89f65,Mi baúl.,frase,src/escenas/casa.ts
 4bc50e759b3d,"¡Ordena, Tito!",frase,src/escenas/casa.ts
-db3901932d77,Tienes ,trozo,src/escenas/casa.ts src/escenas/tienda.ts
 257573a18726, monedas.,trozo,src/escenas/casa.ts src/escenas/tienda.ts
 9140cafcc0ac,Es el huevo de Pipo. Le ,trozo,src/escenas/casa.ts
 bb7038d611a3,falta un juego,trozo,src/escenas/casa.ts src/escenas/zonas.ts
@@ -1256,6 +1264,59 @@ f780cf0b3b7a,"Toca el patio para jugar, o el autobús para ir de excursión.",fr
 a73566387de6,están,trozo,src/escenas/cole.ts
 093ed663c2df,está,trozo,src/escenas/cole.ts
 89b3f1dd7488,El patio está cerrado por ahora. ¡Hay muchas cosas más para jugar en el mapa!,frase,src/escenas/cole.ts
+88084c247f32,¡Medallero!,frase,src/escenas/deporte.ts
+15b8d74100c6,¡Copa nueva!,frase,src/escenas/deporte.ts
+be78d79af6a8,¡Y ganas la copa de esta semana! Ya ,trozo,src/escenas/deporte.ts
+9e49f28b9fd0,tienes una copa,trozo,src/escenas/deporte.ts
+5f7eddd94a0e,tienes ,trozo,src/escenas/deporte.ts
+4f61c1641944, copas,trozo,src/escenas/deporte.ts
+dcf7de3d307a,La copa de esta semana ya es tuya. ¡Vuelve la semana que viene a por otra!,frase,src/escenas/deporte.ts
+8ea53374fbb7,¡Has terminado el gran día del deporte,trozo,src/escenas/deporte.ts
+6b2113b3f44d,¡Medalla de ,trozo,src/escenas/deporte.ts
+58fc22d6c099, en ,trozo,src/escenas/deporte.ts
+945f28c8cb11,la prueba,trozo,src/escenas/deporte.ts
+b3ba0ae1c94e,"Ahora, ",trozo,src/escenas/deporte.ts src/temas/letras.ts
+128e6f9481e6,. Toca su tarjeta.,trozo,src/escenas/deporte.ts
+111a746316eb,¡Hoy es el gran día del deporte! Hay ,trozo,src/escenas/deporte.ts
+f90bb6c9a98d, pruebas y en cada una ganas una medalla. ¡Empezamos con ,trozo,src/escenas/deporte.ts
+3cec08efb072,! Toca su tarjeta.,trozo,src/escenas/deporte.ts
+64e38e70efb8,cinco,trozo,src/escenas/deporte.ts src/juegos/comps.ts
+2b556258d4e0,cuatro,trozo,src/escenas/deporte.ts src/juegos/comps.ts
+f780c4cce029,la primera,trozo,src/escenas/deporte.ts
+1c3a66c62bd3,¿Otra jornada? Toca la flecha verde.,frase,src/escenas/deporte.ts
+3d5f7fed128b,Ahora toca ,trozo,src/escenas/deporte.ts src/juegos/comps.ts
+65e04c7d6b48,Gran día del deporte,trozo,src/escenas/deporte.ts
+d042cf113afb, has ganado la medalla de ,trozo,src/escenas/deporte.ts
+0ab84a66fd9f,Las pruebas van en orden. Ahora toca ,trozo,src/escenas/deporte.ts
+ecb03b853a47,la siguiente,trozo,src/escenas/deporte.ts
+708195d8298b, palmos!,trozo,src/escenas/deportePruebas.ts
+e99df050a082, Tu mejor salto: ,trozo,src/escenas/deportePruebas.ts
+86946611d823, palmos.,trozo,src/escenas/deportePruebas.ts
+557bf487a24b,¡El salto de longitud! Tito corre hacia la raya blanca. Toca para saltar justo antes de la raya.,frase,src/escenas/deportePruebas.ts
+6850c7eb7d6d,Toca para saltar justo antes de la raya blanca.,frase,src/escenas/deportePruebas.ts
+9f05c826f606,El salto de longitud,trozo,src/escenas/deportePruebas.ts
+810523a90360,¡Canasta!,frase,src/escenas/deportePruebas.ts
+8418001a5774,¡Casi!,frase,src/escenas/deportePruebas.ts
+5af15a95b240, Has metido ,trozo,src/escenas/deportePruebas.ts
+02e42b33c581,una canasta,trozo,src/escenas/deportePruebas.ts
+2378d21d464f, canastas,trozo,src/escenas/deportePruebas.ts
+201dc191a246,¡La puntería! La canasta se mueve. Toca para lanzar la pelota cuando la canasta esté justo encima.,frase,src/escenas/deportePruebas.ts
+7c6cce5df522,Toca para lanzar cuando la canasta esté encima de la pelota.,frase,src/escenas/deportePruebas.ts
+2369d667a8ae,La puntería,trozo,src/escenas/deportePruebas.ts
+099dfce4f21a,¡Qué equilibrio! Has aguantado con los dos pies.,frase,src/escenas/deportePruebas.ts
+908a9e65fd5a,"¡Muy bien! Ahora, con el otro pie. ¿Preparados?",frase,src/escenas/deportePruebas.ts
+df3221c63325,"¡El equilibrio! Ponte de pie, levanta un pie y aguanta a la pata coja mientras yo cuento.",frase,src/escenas/deportePruebas.ts
+07ecbf03466b,¡A la pata coja! Aguanta mientras cuento.,frase,src/escenas/deportePruebas.ts
+e341563ba2dd,¡Con el otro pie!,frase,src/escenas/deportePruebas.ts
+78b49b26404e,¡A la pata coja!,frase,src/escenas/deportePruebas.ts
+23cc5bade9e7,El equilibrio,trozo,src/escenas/deportePruebas.ts
+01dbab09928f,¡Pase perfecto!,frase,src/escenas/deportePruebas.ts
+0b9cdc9df592,¡Meta! Has hecho ,trozo,src/escenas/deportePruebas.ts
+98c8d75f8ef4,un pase perfecto,trozo,src/escenas/deportePruebas.ts
+e305af390f24, pases perfectos,trozo,src/escenas/deportePruebas.ts
+7e65ff75a791,"¡Los relevos! Cada uno corre un trozo y le pasa el testigo al siguiente. Cuando el siguiente brille, tócalo para pasarle el testigo.",frase,src/escenas/deportePruebas.ts
+a0185476a01c,"Cuando el siguiente brille, tócalo para pasarle el testigo.",frase,src/escenas/deportePruebas.ts
+9325ba5e4639,Los relevos,trozo,src/escenas/deportePruebas.ts
 047a6c123a1f,Este es tu diccionario de inglés. Ya conoces ,trozo,src/escenas/diccionario.ts
 d585c75f67ab,palabra,trozo,src/escenas/diccionario.ts
 0ecbc11e335f,palabras,trozo,src/escenas/diccionario.ts
@@ -1800,8 +1861,6 @@ db182603c659,Esa es ,trozo,src/juegos/comps.ts src/temas/letras.ts src/temas/tem
 1eaa8bb19586,uno,trozo,src/juegos/comps.ts
 0196f6c4f97d,dos,trozo,src/juegos/comps.ts
 1798c7d9bd5a,tres,trozo,src/juegos/comps.ts
-2b556258d4e0,cuatro,trozo,src/juegos/comps.ts
-64e38e70efb8,cinco,trozo,src/juegos/comps.ts
 73e8e81b99c3,seis,trozo,src/juegos/comps.ts
 f5368e0c8f91,siete,trozo,src/juegos/comps.ts
 c312b0fa2f86,ocho,trozo,src/juegos/comps.ts
@@ -1876,7 +1935,6 @@ d9a85010429a,marrón,trozo,src/juegos/comps.ts
 3a2cd8d889d8,¿De qué color es ,trozo,src/juegos/comps.ts
 0faf65fdb674,? Toca ese color y después ,trozo,src/juegos/comps.ts
 71f3d5dd20b0,Toca el ,trozo,src/juegos/comps.ts
-3d5f7fed128b,Ahora toca ,trozo,src/juegos/comps.ts
 0b3fdf6aa5f3,Primero toca un color.,frase,src/juegos/comps.ts
 7941a4f7a6a8,Primero pintamos ,trozo,src/juegos/comps.ts
 489e3e7a9749, son ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
@@ -2677,7 +2735,6 @@ ebb7fd71260d,¡Vamos a conocer ,trozo,src/temas/letras.ts
 9ff5786dd2b2,! Toca cada tarjeta.,trozo,src/temas/letras.ts
 006475045d1d,Vamos a escribir ,trozo,src/temas/letras.ts
 81fecf81b49b,. Empieza en el punto verde y sigue el camino con el dedo.,trozo,src/temas/letras.ts
-b3ba0ae1c94e,"Ahora, ",trozo,src/temas/letras.ts
 68a49ae177ac, minúscula. Empieza en el punto verde.,trozo,src/temas/letras.ts
 1adeb906cc07,"Ahora, el siguiente trazo. Empieza en el punto verde.",frase,src/temas/letras.ts
 efb17f22a082,¡Muy bien! ¡Ya sabes escribir ,trozo,src/temas/letras.ts
