@@ -1042,8 +1042,8 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 775469420154,Ahora inflamos un globo en la barriga: tomamos aire despacito y la barriga se hincha. Luego lo soltamos.,frase,src/dominio/yoga.ts
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.",frase,src/dominio/yoga.ts
 8c3d395b2a94,Aún no hemos ido,trozo,src/escenas/albumExcursiones.ts
-a8419088f339,El ,trozo,src/escenas/albumExcursiones.ts src/temas/temas4.ts
-beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts src/temas/temas4.ts
+a8419088f339,El ,trozo,src/escenas/albumExcursiones.ts
+beafd999592c,del ,trozo,src/escenas/albumExcursiones.ts src/escenas/granjaCrias.ts
 6dc7ba9fac29,Aquí irá la foto ,trozo,src/escenas/albumExcursiones.ts
 66038aa12121,", cuando vayamos de excursión.",trozo,src/escenas/albumExcursiones.ts
 049bfc802dc7,! Hemos ido ,trozo,src/escenas/albumExcursiones.ts
@@ -1448,7 +1448,7 @@ ae2ec051bc54,ASAMBLEA,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/mu
 074ec045b8ad,MAÑANA: {dia},trozo,src/escenas/escenas2d.ts
 5100c4241cf0,¡FELIZ CUMPLE!,frase,src/escenas/escenas2d.ts
 5110877e217d,Calendario del tiempo de {mes},trozo,src/escenas/escenas2d.ts
-c2aee8eaada2,Ese es el {dia}.,frase,src/escenas/escenas2d.ts
+c2aee8eaada2,Ese es el {dia}.,frase,src/escenas/escenas2d.ts src/temas/temas4.ts
 fcbb601a706e,"Hoy es {dia}, el que salta.",frase,src/escenas/escenas2d.ts
 b2e4aaf3929a,Ayer fue {dia}. Hoy es el que viene después.,frase,src/escenas/escenas2d.ts
 914b542f3afe,Mañana es el que viene después de hoy.,frase,src/escenas/escenas2d.ts
@@ -1561,7 +1561,7 @@ fcfd63465c1a,"¡Algo se mueve en la paja, al lado de ",trozo,src/escenas/granjaC
 e5ec9d329c87,¡Cada cría está con su mamá! ¡Muy bien,trozo,src/escenas/granjaCrias.ts
 296b820dc1d8, está con ,trozo,src/escenas/granjaCrias.ts
 f196e4fc3ef0,Esa no es su mamá. La mamá ,trozo,src/escenas/granjaCrias.ts
-c9cb11cccccc, es ,trozo,src/escenas/granjaCrias.ts src/juegos/comps.ts src/temas/temas.ts
+c9cb11cccccc, es ,trozo,src/escenas/granjaCrias.ts src/juegos/comps.ts src/temas/temas5.ts
 9328fd956f45,Las crías se han despistado. Arrastra cada cría hasta su mamá.,frase,src/escenas/granjaCrias.ts
 615666ce3e91,Arrastra cada cría hasta su mamá.,frase,src/escenas/granjaCrias.ts
 30263d9d6d18,¡Mira el manzano! De la semilla ha salido un brote.,frase,src/escenas/granjaManzano.ts
@@ -1920,7 +1920,7 @@ d3b949def7a7,{Color}.,trozo,src/juegos/comps.ts
 837f3f748295,Ahora toca {cosa}.,frase,src/juegos/comps.ts
 0b3fdf6aa5f3,Primero toca un color.,frase,src/juegos/comps.ts
 59a705d15ada,Primero pintamos {cosa}.,frase,src/juegos/comps.ts
-489e3e7a9749, son ,trozo,src/juegos/comps.ts src/temas/temas.ts src/temas/temas5.ts
+489e3e7a9749, son ,trozo,src/juegos/comps.ts src/temas/temas5.ts
 4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.",frase,src/juegos/comps.ts
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",frase,src/juegos/comps2.ts
 b974a22a57d1,"Mmm, {cosa} no va con {otra}.",frase,src/juegos/comps2.ts
@@ -2483,7 +2483,7 @@ e426d177ee65,"¡Muy bien! Paja, madera y ladrillo. ¡La casa de ladrillo no se c
 c4b832d5a4a0,¿Qué casa no se cayó?,frase,src/temas/extras.ts
 aae95e55c166,¿Qué casa se voló con un soplido?,frase,src/temas/extras.ts
 40aca82fdc2e,¿Quiénes construyeron las casas?,frase,src/temas/extras.ts
-86406a67c00d,¡Sí! ,frase,src/temas/extras.ts src/temas/temas4.ts src/temas/temas5.ts
+86406a67c00d,¡Sí! ,frase,src/temas/extras.ts src/temas/temas5.ts
 89c2b9e29f6f,el trenecito,nombre,src/temas/extras.ts
 21c2e59531c8,Z,trozo,src/temas/ingles.ts
 8b1a9953c461,Hello,trozo,src/temas/ingles.ts
@@ -2715,7 +2715,7 @@ e8bcbed12b85, minúscula.,trozo,src/temas/letras.ts
 ebb7fd71260d,¡Vamos a conocer ,trozo,src/temas/letras.ts
 9ff5786dd2b2,! Toca cada tarjeta.,trozo,src/temas/letras.ts
 a0099f02b7d9,¿Dónde está ,trozo,src/temas/letras.ts
-db182603c659,Esa es ,trozo,src/temas/letras.ts src/temas/temas4.ts
+db182603c659,Esa es ,trozo,src/temas/letras.ts
 006475045d1d,Vamos a escribir ,trozo,src/temas/letras.ts
 81fecf81b49b,. Empieza en el punto verde y sigue el camino con el dedo.,trozo,src/temas/letras.ts
 68a49ae177ac, minúscula. Empieza en el punto verde.,trozo,src/temas/letras.ts
@@ -2894,10 +2894,8 @@ cdd695153709,El cuento. La profe nos lee cuentos.,frase,src/temas/temas.ts
 a64f3bb20351,El tobogán. ¡Me tiro por el tobogán! ¡Uiii!,frase,src/temas/temas.ts
 583f8568b461,La profe. Nos enseña y nos cuida.,frase,src/temas/temas.ts
 f82da239984d,Vamos a ordenar. Escucha bien dónde va cada cosa.,frase,src/temas/temas.ts
-578a8bbce7fa,Guarda ,trozo,src/temas/temas.ts
-67b4da681ca8, dentro de la mochila.,trozo,src/temas/temas.ts
-abbefd6b8fed,Deja ,trozo,src/temas/temas.ts
-e18b2cce6025," fuera de la mochila, en la mesa.",trozo,src/temas/temas.ts
+7ee8046f9d16,Guarda {cosa} dentro de la mochila.,frase,src/temas/temas.ts
+21cc1e9370e0,"Deja {cosa} fuera de la mochila, en la mesa.",frase,src/temas/temas.ts
 3d1ce5bb3340,¡Muy bien! Está dentro de la mochila.,frase,src/temas/temas.ts
 308c92be2060,¡Muy bien! Está fuera de la mochila.,frase,src/temas/temas.ts
 bd395967284a,Rojo. Rojo como la fresa y el tomate.,frase,src/temas/temas.ts
@@ -2905,11 +2903,11 @@ d95c854e356e,Azul. Azul como el mar y la ballena.,frase,src/temas/temas.ts
 eea43d1bf02d,Amarillo. Amarillo como el sol y el plátano.,frase,src/temas/temas.ts
 1e8fb8523520,Verde. Verde como la rana y las hojas.,frase,src/temas/temas.ts
 003be69227e3,Estos son los colores. Toca cada uno para conocerlo.,frase,src/temas/temas.ts
-31b4aed77ff1,"Mmm, ",trozo,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts
-822ae562234f, no es ,trozo,src/temas/temas.ts src/temas/temas5.ts
-540c7adeed83,. ¿De qué color es?,trozo,src/temas/temas.ts
+b88eb29120bb,"Mmm, {cosa} no es {color}. ¿De qué color es?",frase,src/temas/temas.ts
+8ccafacc389e,{Cosa} son {color}.,trozo,src/temas/temas.ts
+cff7c8592ad0,{Cosa} es {color}.,trozo,src/temas/temas.ts
 82ea2156fa08,Pon cada cosa en la canasta de su color.,frase,src/temas/temas.ts
-bf5abb541843,¡Atrapa las burbujas de color ,trozo,src/temas/temas.ts
+730f3e03364c,¡Atrapa las burbujas de color {color}!,frase,src/temas/temas.ts
 a21979c53fa3,El otoño,trozo,src/temas/temas.ts
 5f01c0ceea38,hoja,trozo,src/temas/temas.ts
 db0e892bf814,"Las hojas. En otoño se ponen naranjas, rojas y marrones, ¡y se caen de los árboles!",frase,src/temas/temas.ts
@@ -2950,8 +2948,8 @@ b5a4a980c302,¡Hace mucho frío! Viste al niño para salir a la nieve.,frase,src
 aeeb67d14888,Las gafas de sol son para el verano.,frase,src/temas/temas.ts
 c19e7999ddec,Con camiseta tenemos frío. Busquemos ropa abrigada.,frase,src/temas/temas.ts
 2216a6e48308,La gorra es para el sol. Para el frío mejor el gorro.,frase,src/temas/temas.ts
-21aac6657e2d, es para cuando hace calor.,trozo,src/temas/temas.ts
-1181f00193fd, es para cuando hace frío.,trozo,src/temas/temas.ts
+07e667efe900,{Cosa} es para cuando hace calor.,trozo,src/temas/temas.ts
+9cc4dad7d268,{Cosa} es para cuando hace frío.,trozo,src/temas/temas.ts
 296df621f1d8,¿Frío o calor? Las cosas del frío van con la nieve. Las del calor van con el sol.,frase,src/temas/temas.ts
 7054c3fd6930,Esa pieza va en otro lugar. ¡Mira la sombra!,frase,src/temas/temas.ts
 a0daa578006b,¡Hagamos un muñeco de nieve! Arrastra cada parte a su sombra.,frase,src/temas/temas.ts
@@ -2967,8 +2965,7 @@ b68a272e1846,La leche. Para el desayuno.,frase,src/temas/temas.ts
 7e55ef320b5b,El pan. Rico en el desayuno.,frase,src/temas/temas.ts
 f165fdf7e84f,El zumo de naranja. ¡Mmm!,frase,src/temas/temas.ts
 97becefb52d1,¡Hagamos una ensalada de frutas! Te digo qué fruta va en el bol.,frase,src/temas/temas.ts
-d34dcdcfa4a7,Pon ,trozo,src/temas/temas.ts src/temas/temas4.ts
-779a0f4b04b2, en el bol.,trozo,src/temas/temas.ts
+dfbd64d79e65,Pon {cosa} en el bol.,frase,src/temas/temas.ts
 6e0a083ca2dd,"¡Mmm, qué rico!",frase,src/temas/temas.ts src/temas/temas4.ts
 4a275abebffe,Mi casa,trozo,src/temas/temas.ts
 cfe2fad60e64,La cama. Aquí dormimos.,frase,src/temas/temas.ts
@@ -2980,8 +2977,8 @@ d69cf1640420,El cepillo de dientes. ¡A lavarse los dientes!,frase,src/temas/tem
 46e59e9446c1,La nevera. Guarda la comida fresquita.,frase,src/temas/temas.ts
 747f56737f73,La olla. Para cocinar.,frase,src/temas/temas.ts
 21a658c1c562,La tele. Para ver dibujitos un ratito.,frase,src/temas/temas.ts
-2daf0654222e, no va ,trozo,src/temas/temas.ts src/temas/temas4.ts
-1332e1eb2a4a, va ,trozo,src/temas/temas.ts src/temas/temas4.ts
+1c74ca39bb04,{Cosa} no va {sitio}.,trozo,src/temas/temas.ts src/temas/temas4.ts
+e28ac4b67ccf,{Cosa} va {sitio}.,trozo,src/temas/temas.ts src/temas/temas4.ts
 6f72acb7803f,en la cocina,trozo,src/temas/temas.ts
 c71265f3d7c4,en el baño,trozo,src/temas/temas.ts
 b03bbf33bdf8,en el dormitorio,trozo,src/temas/temas.ts
@@ -2998,9 +2995,8 @@ d616d7c85538,"El pato. Nada en el agua. ¡Cuac, cuac!",frase,src/temas/temas.ts
 1be5636ef847,El gato. ¡Miau!,frase,src/temas/temas.ts
 b2a93769d460,"El pollito. Es el bebé de la gallina. ¡Pío, pío!",frase,src/temas/temas.ts
 73c41f90d800,Es de noche y los animales van a dormir. Escucha bien.,frase,src/temas/temas.ts
-1bb0808d6e5c,Lleva ,trozo,src/temas/temas.ts
-30327d1f4e70, dentro del corral.,trozo,src/temas/temas.ts
-bb8912532d20," fuera del corral, en el pasto.",trozo,src/temas/temas.ts
+ea4eafb6908e,Lleva {cosa} dentro del corral.,frase,src/temas/temas.ts
+0fd24c328bbd,"Deja {cosa} fuera del corral, en el pasto.",frase,src/temas/temas.ts
 2222c94d1381,¡Eso! Dentro del corral.,frase,src/temas/temas.ts
 b76872246981,¡Eso! Fuera del corral.,frase,src/temas/temas.ts
 d6baf6bc3f24,La primavera,trozo,src/temas/temas.ts
@@ -3016,9 +3012,9 @@ ea7783e1ef6b,El sol. En primavera hay más sol.,frase,src/temas/temas.ts
 592ab0109f55,"La bici. ¡Pedaleamos! ¡Rin, rin!",frase,src/temas/temas.ts
 b6477c135ad0,"La moto. ¡Brum, brum!",frase,src/temas/temas.ts
 fd9b31fe99f0,El helicóptero. Vuela y hace mucho ruido.,frase,src/temas/temas.ts
-1d6b5f40e679, no vuela.,trozo,src/temas/temas.ts src/temas/temas4.ts
-b30daef8f2c4, no va por el agua.,trozo,src/temas/temas.ts src/temas/temas4.ts
-d5154fdd9f3b, no va por la calle.,trozo,src/temas/temas.ts
+887a27b2b6e5,{Cosa} no vuela.,trozo,src/temas/temas.ts src/temas/temas4.ts
+e87364270899,{Cosa} no va por el agua.,trozo,src/temas/temas.ts src/temas/temas4.ts
+b78aa3ba20fd,{Cosa} no va por la calle.,trozo,src/temas/temas.ts
 d5d9e9a9c63a,tierra,trozo,src/temas/temas.ts
 be7740aa9d6f,cielo,trozo,src/temas/temas.ts
 edbce914409a,agua,trozo,src/temas/temas.ts
@@ -3042,9 +3038,7 @@ eaac9bd0d608,La bufanda es para el invierno.,frase,src/temas/temas.ts
 e01789a5369c,Los guantes son para el frío.,frase,src/temas/temas.ts
 5393719f51fc,el grande,trozo,src/temas/temas.ts
 3b66fc47b650,el pequeño,trozo,src/temas/temas.ts
-a0bae866c997,¿Cuál es ,trozo,src/temas/temas.ts src/temas/temas5.ts
-8862d40eb322,el más grande,trozo,src/temas/temas.ts
-f24853cebd15,? Tócalo.,trozo,src/temas/temas.ts
+e63ad099588a,¿Cuál es el más grande? Tócalo.,frase,src/temas/temas.ts
 1620237b843e,¿Cuál es el más pequeño? Tócalo.,frase,src/temas/temas.ts
 de7b9d919fb5,¡Ese es el grande!,frase,src/temas/temas.ts
 52031cc5a683,¡Ese es el pequeño!,frase,src/temas/temas.ts
@@ -3052,13 +3046,13 @@ aad3c0163ab8,Ese es pequeñito. Busca el grande.,frase,src/temas/temas.ts
 0c7d5882293f,Ese es grande. Busca el pequeño.,frase,src/temas/temas.ts
 5709a4d8618e,Arriba y abajo,trozo,src/temas/temas.ts
 f0c974bc66f0,Escucha dónde va cada cosa: arriba o abajo de la mesa.,frase,src/temas/temas.ts
-44fdd06202f2, arriba de la mesa.,trozo,src/temas/temas.ts
-88aea0d96139, abajo de la mesa.,trozo,src/temas/temas.ts
+55d4955a9b70,Pon {cosa} arriba de la mesa.,frase,src/temas/temas.ts
+f1eb9f8d669a,Pon {cosa} abajo de la mesa.,frase,src/temas/temas.ts
 7726a3dfc393,¡Muy bien! Arriba de la mesa.,frase,src/temas/temas.ts
 14c166cb727d,¡Muy bien! Abajo de la mesa.,frase,src/temas/temas.ts
 e49adce42bc3,Círculo y cuadrado,trozo,src/temas/temas.ts
-9f3867f085e8,esa forma no es redonda.,trozo,src/temas/temas.ts
-8a1415b2e977,esa forma no es un cuadrado.,trozo,src/temas/temas.ts
+0220468a3e75,"Mmm, esa forma no es redonda.",frase,src/temas/temas.ts
+5562b3fe2778,"Mmm, esa forma no es un cuadrado.",frase,src/temas/temas.ts
 b572bb1f83bd,Círculo.,frase,src/temas/temas.ts
 3b6599d2e314,Cuadrado.,frase,src/temas/temas.ts
 64bdc911a319,Los círculos van con el círculo. Los cuadrados van con el cuadrado.,frase,src/temas/temas.ts
@@ -3149,13 +3143,12 @@ e88b9cc36be8,La semana tiene siete días. Toca cada vagón para conocerlo.,frase
 540e53604363,"Al tren de los días le faltan vagones. Lleva cada día a su lugar, en orden.",frase,src/temas/temas4.ts
 47396d97afb2,"¡El tren está completo! Lunes, martes, miércoles, jueves, viernes, sábado y domingo.",frase,src/temas/temas4.ts
 cfe2c0069345,¿Qué día falta?,frase,src/temas/temas4.ts
-941ca6182d0b,¡Sí! Falta el ,trozo,src/temas/temas4.ts
-2d64b95bc7d1,Ese es ,trozo,src/temas/temas4.ts src/temas/temas5.ts
+74addce316c6,¡Sí! Falta el {dia}.,frase,src/temas/temas4.ts
 3af9c4ff7375,Escuela o fin de semana,trozo,src/temas/temas4.ts
-60017e8c8aca, no hay escuela. ¡Es fin de semana!,trozo,src/temas/temas4.ts
-0f6ba9cb7091, es día de escuela.,trozo,src/temas/temas4.ts
-dfd94a305928, vamos al cole.,trozo,src/temas/temas4.ts
-77f8dc38731f, es fin de semana.,trozo,src/temas/temas4.ts
+da324e53069b,El {dia} no hay escuela. ¡Es fin de semana!,frase,src/temas/temas4.ts
+f77c8f44485c,El {dia} es día de escuela.,frase,src/temas/temas4.ts
+7a191396979f,El {dia} vamos al cole.,frase,src/temas/temas4.ts
+af157b1eb0b0,El {dia} es fin de semana.,frase,src/temas/temas4.ts
 ec388c948949,Los días de escuela van con el cole. Los días del fin de semana van con el parque.,frase,src/temas/temas4.ts
 b148cc4dcb01,Mi cuerpo y los sentidos,trozo,src/temas/temas4.ts
 6e716549b83d,Los ojos. Con los ojos vemos los colores y las formas.,frase,src/temas/temas4.ts
@@ -3175,24 +3168,20 @@ a7571674010d,El erizo. Se esconde entre las hojas secas.,frase,src/temas/temas4.
 8b870e44469f,¡Se caen los frutos del otoño! Atrapa las bellotas.,frase,src/temas/temas4.ts
 d22a631a52e4,¡Y ahora las nueces!,frase,src/temas/temas4.ts
 ddcf0bdb8355,La despensa de la ardilla,trozo,src/temas/temas4.ts
-798b7e8b145f,La ardilla necesita ,trozo,src/temas/temas4.ts
-65410d8f455d, frutos para el invierno. Lleva ,trozo,src/temas/temas4.ts
-fde92957aab8, a su casita del árbol.,trozo,src/temas/temas4.ts
-b9c801d7de1c,¡La ardilla tiene ,trozo,src/temas/temas4.ts
-2a0cffc67e78, frutos! Gracias.,trozo,src/temas/temas4.ts
+2204c1fe3668,La ardilla necesita {n} frutos para el invierno. Lleva {n} a su casita del árbol.,frase,src/temas/temas4.ts
+0e57ea06aec0,¡La ardilla tiene {n} frutos! Gracias.,frase,src/temas/temas4.ts
 d1153cb14a5f,Las emociones,trozo,src/temas/temas4.ts
 4406a6aac9d2,Todos sentimos emociones. Toca cada carita.,frase,src/temas/temas4.ts
 4f429c02ce11,¿Cómo se siente?,frase,src/temas/temas4.ts
-f1636d0114e9,¿Quién está ,trozo,src/temas/temas4.ts
-7c8ef17f900a,? Toca la carita.,trozo,src/temas/temas4.ts
-3f815e6a9dd0,¡Sí! Esa carita está ,trozo,src/temas/temas4.ts
-f99be467a73d,Esa carita está ,trozo,src/temas/temas4.ts
-28fbcb428272,. Busca la que está ,trozo,src/temas/temas4.ts
+51ba89ee029d,¿Quién está {emocion}? Toca la carita.,frase,src/temas/temas4.ts
+981090600ea2,¡Sí! Esa carita está {emocion}.,frase,src/temas/temas4.ts
+7f65595f207f,Esa carita está {esa}. Busca la que está {emocion}.,frase,src/temas/temas4.ts
 3173a98e79f7,¿Qué le pasa?,frase,src/temas/temas4.ts
-6a52c3597195,¡Sí! Se siente ,trozo,src/temas/temas4.ts
-3b0a82d30fe6,"Mmm, piensa cómo te sentirías tú. ",frase,src/temas/temas4.ts
+b07edcb3424a,¡Sí! Se siente {emocion}.,frase,src/temas/temas4.ts
+feb3f41ee35e,"Mmm, piensa cómo te sentirías tú.",frase,src/temas/temas4.ts
 368b9f11e20a,Cada emoción en su frasco,trozo,src/temas/temas4.ts
-bf8fcd7bfb8a,Ese frasco es de ,trozo,src/temas/temas4.ts
+a7b8b0a4e026,Ese frasco es de {emocion}.,frase,src/temas/temas4.ts
+5b2c3b968aca,{Emocion}.,trozo,src/temas/temas4.ts
 8ae670da97eb,Cada emoción tiene su color. Lleva cada carita a su frasco.,frase,src/temas/temas4.ts
 0e720f7ada04,Frutas y verduras,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts
 92b74d3f163c,La zanahoria. Es una verdura naranja que crece bajo la tierra.,frase,src/temas/temas4.ts
@@ -3205,12 +3194,12 @@ fc1bb969492c,La lechuga. Sus hojas verdes van en la ensalada.,frase,src/temas/te
 2941babd0579,La sandía. Una fruta grande y fresquita para el verano.,frase,src/temas/temas4.ts
 a151ca531f07,El kiwi. Por fuera es marrón y por dentro es verde.,frase,src/temas/temas4.ts
 4d1c28275464,Fruta o verdura,trozo,src/temas/temas4.ts
-970092ea5d88, es una verdura.,trozo,src/temas/temas4.ts
-5a607cb70382, es una fruta.,trozo,src/temas/temas4.ts
+93cfb3e635be,{Cosa} es una verdura.,trozo,src/temas/temas4.ts
+b3bb8aec1d8a,{Cosa} es una fruta.,trozo,src/temas/temas4.ts
 3a9c74ce616d,"Las frutas van en la canasta de las frutas. Las verduras, en la de las verduras.",frase,src/temas/temas4.ts
 a3d0c7a59602,Una sopa de verduras,trozo,src/temas/temas4.ts
 64897b25c9ef,¡Hagamos una sopa de verduras! Escucha qué verdura va en la olla.,frase,src/temas/temas4.ts
-9bb34d41a005, en la olla.,trozo,src/temas/temas4.ts
+7dc5ca9d41f0,Pon {cosa} en la olla.,frase,src/temas/temas4.ts
 440985552261,Las comidas del día,trozo,src/temas/temas4.ts
 77e7a0ecf9be,"Ordena las comidas del día. ¿Cuál comemos primero, cuando nos levantamos?",frase,src/temas/temas4.ts
 49abcdc99bfd,"¡Muy bien! Desayuno, comida, merienda y cena.",frase,src/temas/temas4.ts
@@ -3224,8 +3213,8 @@ a117554bd118,El oso polar. Tiene pelo blanco y grueso para no tener frío.,frase
 617bd60783ef,"La gorra es para el sol. Para el frío, el gorro de lana.",frase,src/temas/temas4.ts
 390b3b242219,Contar pingüinos,trozo,src/temas/temas4.ts
 680d7e061a10,¿Frío o calor?,frase,src/temas/temas4.ts src/temas/temas5.ts
-7f09700c15dd, vive donde hace calor.,trozo,src/temas/temas4.ts
-d2c62e9fe022, vive donde hace frío.,trozo,src/temas/temas4.ts
+80f5c103b89a,{Cosa} vive donde hace calor.,trozo,src/temas/temas4.ts
+28492683507a,{Cosa} vive donde hace frío.,trozo,src/temas/temas4.ts
 fd9e69d1db80,¿Dónde vive cada animal? Los del frío van con la nieve. Los del calor van con el sol.,frase,src/temas/temas4.ts
 4e67faf7ebeb,Los oficios,trozo,src/temas/temas4.ts
 3cba4801c502,La bombera. Apaga incendios con la manguera.,frase,src/temas/temas4.ts
@@ -3239,10 +3228,10 @@ bd8833aa0756,El cartero. Lleva las cartas a las casas.,frase,src/temas/temas4.ts
 8ae3e139badb,El peluquero. Nos corta el pelo.,frase,src/temas/temas4.ts
 067618d7c05e,¿Con qué trabaja?,frase,src/temas/temas4.ts
 3022e7c43920,Une a cada persona con lo que usa para trabajar. Arrastra de una a la otra.,frase,src/temas/temas4.ts
-1f08b32ae1f2, usa ,trozo,src/temas/temas4.ts
-5d70fceb9dee, no usa ,trozo,src/temas/temas4.ts
+43ceadff3ca7,{Cosa} usa {otra}.,trozo,src/temas/temas4.ts
+dd775fc82a40,"Mmm, {cosa} no usa {otra}.",frase,src/temas/temas4.ts
 c3efdd457963,¿Quién soy?,frase,src/temas/temas4.ts
-5638513fffd6,¡Sí! Soy ,trozo,src/temas/temas4.ts
+5394c12958bb,¡Sí! Soy {cosa}.,frase,src/temas/temas4.ts
 4fb23559ffd0,La calle y la ciudad,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts
 62ec7af0ea3f,El semáforo. Rojo para frenar y verde para pasar.,frase,src/temas/temas4.ts
 38710886804e,El paso de cebra. Por aquí cruzamos la calle.,frase,src/temas/temas4.ts
@@ -3269,13 +3258,13 @@ dc8b3281cf4f,La cebra. Tiene rayas blancas y negras.,frase,src/temas/temas4.ts
 4206d1be5d2e,El perro. Vive con nosotros en casa.,frase,src/temas/temas4.ts
 f71a64b9e544,El gato. Le gusta dormir al sol.,frase,src/temas/temas4.ts
 09df832c4665,¿Dónde vive?,frase,src/temas/temas4.ts src/temas/temas5.ts
-3e275da9978e, es un animal salvaje. Vive en la selva o en la sabana.,trozo,src/temas/temas4.ts
-37afc42c330e," vive en casa o en la granja, con las personas.",trozo,src/temas/temas4.ts
+f59e1517c433,{Cosa} es un animal salvaje. Vive en la selva o en la sabana.,trozo,src/temas/temas4.ts
+419b3fe9ef3b,"{Cosa} vive en casa o en la granja, con las personas.",trozo,src/temas/temas4.ts
 cfea328347c0,Los animales que viven con las personas van a la casa. Los animales salvajes van a la selva.,frase,src/temas/temas4.ts
 7fff108f0b60,¿De quién es la sombra?,frase,src/temas/temas4.ts src/temas/temas5.ts
 3c67741613fe,¿De quién es esta sombra?,frase,src/temas/temas4.ts src/temas/temas5.ts
-a91d99d49be7,¡Sí! Es la sombra ,trozo,src/temas/temas4.ts src/temas/temas5.ts
-3788895806a1,. Mira bien la forma de la sombra.,trozo,src/temas/temas4.ts
+511ef0e3c4c0,¡Sí! Es la sombra {deCosa}.,frase,src/temas/temas4.ts
+94d64a2e0b72,Mira bien la forma de la sombra.,frase,src/temas/temas4.ts
 02efb65d00b8,Las plantas,trozo,src/temas/temas4.ts
 9f05e3de7435,"La semilla. Si la plantamos y la regamos, ¡crece una planta!",frase,src/temas/temas4.ts
 477c443cc2a4,El brote. Es la plantita recién nacida.,frase,src/temas/temas4.ts
@@ -3294,7 +3283,7 @@ bf6b9c888fa8,El camión de bomberos. Va rápido a apagar el fuego.,frase,src/tem
 d6ac6a72898f,El submarino. Navega debajo del agua.,frase,src/temas/temas4.ts
 4d555af3b5ae,El tractor. Trabaja en el campo.,frase,src/temas/temas4.ts
 5dd08e08c828,El metro. Es un tren que va por debajo de la ciudad.,frase,src/temas/temas4.ts
-286aa34e6c39, no va por la tierra.,trozo,src/temas/temas4.ts
+4ae28fc97035,{Cosa} no va por la tierra.,trozo,src/temas/temas4.ts
 beab6377dc65,"¿Por dónde va cada uno? Por tierra, por el aire o por el agua.",frase,src/temas/temas4.ts
 281ae3049d12,¿Quién suena así?,frase,src/temas/temas4.ts
 25950aeb26e8,Del más corto al más largo,trozo,src/temas/temas4.ts
@@ -3308,17 +3297,17 @@ ae3675b46ca3,El gusano. Vive bajo la tierra y la ayuda a estar sana.,frase,src/t
 33cbbf01111c,La oruga. Come hojas y un día será mariposa.,frase,src/temas/temas4.ts
 ac3f454cdd10,Busca con la lupa,trozo,src/temas/temas4.ts
 e8d46fa6b631,Hay bichitos escondidos en el pasto. Mira con la lupa y tócalos.,frase,src/temas/temas4.ts
-0981d7703d9e,Busca ,trozo,src/temas/temas4.ts src/temas/temas5.ts
+5242517c4a69,Busca {cosa}.,frase,src/temas/temas4.ts
 3f2624351710,Más colores,trozo,src/temas/temas4.ts
 1351f175a77f,Las formas,trozo,src/temas/temas4.ts
-31c88945da67,"Mmm, esa forma no es ",trozo,src/temas/temas4.ts
+77182066b935,"Mmm, esa forma no es {forma}.",frase,src/temas/temas4.ts
+4623ff519575,{Forma}.,trozo,src/temas/temas4.ts
 3f7a8122f920,Cada forma va con su forma. Arrástralas.,frase,src/temas/temas4.ts
 ab75b02cefba,Más y menos,trozo,src/temas/temas4.ts
 dcf94cf6e6ab,¿Dónde hay más? Toca el plato.,frase,src/temas/temas4.ts
 1045d0ed8f5c,¿Dónde hay menos? Toca el plato.,frase,src/temas/temas4.ts
-9cd6c0e766bd,¡Sí! Ahí hay ,trozo,src/temas/temas4.ts
-a8159556a059,", es más.",trozo,src/temas/temas4.ts
-ffe65fc4eae2,", es menos.",trozo,src/temas/temas4.ts
+cca433929516,"¡Sí! Ahí hay {n}, es más.",frase,src/temas/temas4.ts
+6a8d89edb85a,"¡Sí! Ahí hay {n}, es menos.",frase,src/temas/temas4.ts
 0ccce6dbcf89,Ahí hay menos. Cuenta y busca donde hay más.,frase,src/temas/temas4.ts
 df3ac1167761,Ahí hay más. Cuenta y busca donde hay menos.,frase,src/temas/temas4.ts
 5f08664fafef,"Alto, bajo, largo y corto",trozo,src/temas/temas4.ts
@@ -3339,22 +3328,23 @@ ef72ae3c3d9a,¡Sí! Ese es el más corto.,frase,src/temas/temas4.ts
 8dc475f7fbe8,¿Dónde está la pelota debajo de la mesa?,frase,src/temas/temas4.ts
 760ce8aa7ec0,¿Dónde está el perro cerca de la casa?,frase,src/temas/temas4.ts
 720995ad3898,¿Dónde está el perro lejos de la casa?,frase,src/temas/temas4.ts
-6fd3d000298a,Ahí está ,trozo,src/temas/temas4.ts
+96d7f1a5055f,¡Sí! {Sitio}.,frase,src/temas/temas4.ts
+558fe1350fd5,Ahí está {sitio}.,frase,src/temas/temas4.ts
 33081cdb07d6,"Mañana, tarde y noche",trozo,src/temas/temas4.ts
 f2e2a988fe8e,¿Cuándo desayunamos?,frase,src/temas/temas4.ts
 fff6c32cb595,¿Cuándo merendamos?,frase,src/temas/temas4.ts
 75b78786de27,¿Cuándo se ven las estrellas?,frase,src/temas/temas4.ts
 3db5fce59854,¿Cuándo jugamos en el parque después de comer?,frase,src/temas/temas4.ts
+4a7579e18a56,¡Sí! {Momento}.,frase,src/temas/temas4.ts
+6335d836e483,Esa es {momento}.,frase,src/temas/temas4.ts
 9d948e617b08,Series,trozo,src/temas/temas4.ts
 c2a87443362c,El árbol de las estaciones,trozo,src/temas/temas4.ts
 94a216ef8c9c,Las hojas se ponen naranjas y se caen.,frase,src/temas/temas4.ts
 1e2ff8de0445,Hace frío y a veces nieva.,frase,src/temas/temas4.ts
 50bdb7069b9b,Hace calor y hay frutas.,frase,src/temas/temas4.ts
-6c02faeb941d,¿Cuál es el árbol ,trozo,src/temas/temas4.ts
-4bcf888a8419,de la primavera,trozo,src/temas/temas4.ts
-dbfc4d7291ae,¡Sí! Es el árbol ,trozo,src/temas/temas4.ts
-493f9ad1656a,de la primavera.,trozo,src/temas/temas4.ts
-81cf520a9b5a,Ese es el árbol ,trozo,src/temas/temas4.ts
+6cff982cb061,¿Cuál es el árbol {estacion}?,frase,src/temas/temas4.ts
+be13c5c7acc1,¡Sí! Es el árbol {estacion}.,frase,src/temas/temas4.ts
+e157dde6762c,Ese es el árbol {estacion}.,frase,src/temas/temas4.ts
 5e6b3555cf22,Enero. Es el primer mes del año.,frase,src/temas/temas5.ts
 b47d8d5a2f1d,Febrero. Es el mes más cortito.,frase,src/temas/temas5.ts
 7c65d2e29a03,Marzo.,frase,src/temas/temas5.ts
@@ -3430,6 +3420,7 @@ a0d4f5fbc367,El estómago. Ahí va la comida cuando la tragamos.,frase,src/temas
 4bb5986f2f65,"El cerebro. Está adentro de la cabeza. Con él pensamos, aprendemos y soñamos.",frase,src/temas/temas5.ts
 1afa7a14a9ef,Los rayos X,trozo,src/temas/temas5.ts
 bcc8e559aac4,Esta es una máquina de rayos X. Mira adentro del cuerpo con la pantalla.,frase,src/temas/temas5.ts
+0981d7703d9e,Busca ,trozo,src/temas/temas5.ts
 5f17f2e706c2,¡El cerebro! Con él pensamos.,frase,src/temas/temas5.ts
 17cd3e7dd361,"¡El corazón! Pum, pum.",frase,src/temas/temas5.ts
 82adc1a9b56b,¡Los pulmones! Se llenan de aire.,frase,src/temas/temas5.ts
@@ -3475,6 +3466,7 @@ a44e8b99f2ee,El queso. Se hace con leche.,frase,src/temas/temas5.ts
 b750e56403e9,¿De dónde viene cada comida? Lo que viene de los animales va con la vaca. Lo que viene de las plantas va con la planta.,frase,src/temas/temas5.ts
 660d441cc7eb,¿Quién nos lo da?,frase,src/temas/temas5.ts
 cd7a225bccfd,Une cada comida con quién nos la da. Arrastra de una a la otra.,frase,src/temas/temas5.ts
+31b4aed77ff1,"Mmm, ",trozo,src/temas/temas5.ts
 87acbc11f92d, no viene ,trozo,src/temas/temas5.ts
 dbf6dfc3f086,Todos los días o a veces,trozo,src/temas/temas5.ts
 e6726528de29," es rico, pero tiene mucha azúcar. Es para de vez en cuando.",trozo,src/temas/temas5.ts
@@ -3548,6 +3540,7 @@ d3fc77e8e82b,¿Huevo o panza?,frase,src/temas/temas5.ts
 3402d8c7491d, nace de un huevo.,trozo,src/temas/temas5.ts
 fd1a42a3a5e9, crece en la tripa de su mamá.,trozo,src/temas/temas5.ts
 ebb5ca44ac43,¿Cómo nacen? Algunos animales nacen de un huevo. Otros crecen en la tripa de su mamá.,frase,src/temas/temas5.ts
+a91d99d49be7,¡Sí! Es la sombra ,trozo,src/temas/temas5.ts
 1941891b92c6,. Mira bien la forma.,trozo,src/temas/temas5.ts
 cb1cb8253f78,El tiempo y el clima,trozo,src/temas/temas5.ts
 649c2f147ad2,Hace sol. Hace calor y el cielo está despejado.,frase,src/temas/temas5.ts
@@ -3647,6 +3640,7 @@ d73723532be7, mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
 cf239d64c398,Ese es el ,trozo,src/temas/temas5.ts
 97eff4a59e77,. Piensa: ,trozo,src/temas/temas5.ts
 5bdfd02e6619,¿Qué forma tiene?,frase,src/temas/temas5.ts
+2d64b95bc7d1,Ese es ,trozo,src/temas/temas5.ts
 80eb5e440693,Sumar,trozo,src/temas/temas5.ts
 29c3f9cda3d4,{A} y {b}. ¿Cuántas hay en total?,trozo,src/temas/temas5.ts
 cc118d2a2b10,{A} y {b}. ¿Cuántos hay en total?,trozo,src/temas/temas5.ts
@@ -3662,6 +3656,7 @@ f11dd8aae7d9,Restar,trozo,src/temas/temas5.ts
 674ee011803b,el último,trozo,src/temas/temas5.ts
 e8ba96a25ffa,Los animales hacen fila para entrar a la casa. ¿Quién es ,trozo,src/temas/temas5.ts
 54c91b7fe2bc, de la fila?,trozo,src/temas/temas5.ts
+822ae562234f, no es ,trozo,src/temas/temas5.ts
 f34a3b8f422c,. El primero es el que está más cerca de la casa.,trozo,src/temas/temas5.ts
 a4e05b8c29bb,"Derecha, izquierda y entre",trozo,src/temas/temas5.ts
 3f24215d170c,¿Quién está entre ,trozo,src/temas/temas5.ts
@@ -3674,6 +3669,7 @@ c06e11b0b5cf,más ligero,trozo,src/temas/temas5.ts
 5d5e749c1f42,. ¿Qué es ,trozo,src/temas/temas5.ts
 053967a20f30,más grueso,trozo,src/temas/temas5.ts
 cb2a6eab6c52,más delgado,trozo,src/temas/temas5.ts
+a0bae866c997,¿Cuál es ,trozo,src/temas/temas5.ts
 a293fee7c2fa,¡Sí! Ese es ,trozo,src/temas/temas5.ts
 aaa5992e2a7b,Mira bien el ancho de cada uno. ¿Cuál es ,trozo,src/temas/temas5.ts
 57c04dfb0d77,Series difíciles,trozo,src/temas/temas5.ts
