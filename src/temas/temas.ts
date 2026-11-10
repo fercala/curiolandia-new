@@ -53,6 +53,8 @@ import {
   sky,
   star,
   text,
+  fmt,
+  tr,
 } from '../nucleo/indice.ts';
 import {
   Arrastra,
@@ -766,8 +768,8 @@ export const T3: Tema[] = [
                     zone: s.zone,
                     say:
                       s.zone === 'dentro'
-                        ? 'Guarda ' + W_(s.k) + ' dentro de la mochila.'
-                        : 'Deja ' + W_(s.k) + ' fuera de la mochila, en la mesa.',
+                        ? fmt('Guarda {cosa} dentro de la mochila.', { cosa: W_(s.k) })
+                        : fmt('Deja {cosa} fuera de la mochila, en la mesa.', { cosa: W_(s.k) }),
                     ok:
                       s.zone === 'dentro'
                         ? '¡Muy bien! Está dentro de la mochila.'
@@ -866,9 +868,13 @@ export const T3: Tema[] = [
               rounds: 3,
               key: 'colores',
               bg: t.bg,
-              why: (it: Libre, z: Libre) => 'Mmm, ' + nameT(it.k) + ' no es ' + COLORES[z.id].n + '. ¿De qué color es?',
+              why: (it: Libre, z: Libre) =>
+                fmt('Mmm, {cosa} no es {color}. ¿De qué color es?', { cosa: nameT(it.k), color: tr(COLORES[z.id].n) }),
               placeSay: (it: Libre, z: Libre) =>
-                cap(nameT(it.k)) + (isPl(it.k) ? ' son ' : ' es ') + colorAdj(z.id, it.k) + '.',
+                fmt(isPl(it.k) ? '{Cosa} son {color}.' : '{Cosa} es {color}.', {
+                  cosa: nameT(it.k),
+                  color: tr(colorAdj(z.id, it.k)),
+                }),
               gen(i: number) {
                 const cs = shuffle(['rojo', 'azul', 'amarillo', 'verde']).slice(0, AGE() <= 3 && i < 2 ? 2 : 3);
                 const its: Libre[] = [];
@@ -905,7 +911,7 @@ export const T3: Tema[] = [
               targets: shuffle(['rojo', 'amarillo', 'azul', 'verde'])
                 .slice(0, AGE() <= 3 ? 3 : 4)
                 .map((c) => ({
-                  ask: '¡Atrapa las burbujas de color ' + COLORES[c].n + '!',
+                  ask: fmt('¡Atrapa las burbujas de color {color}!', { color: tr(COLORES[c].n) }),
                   is: (k: Cosa) => (COLS3.find((q) => q[0] === k) || [])[1] === c,
                   label: '',
                   icon: (x: number, y: number, s: number) => swatch(c).draw(x - 180, y, s * 1.1),
@@ -1116,8 +1122,8 @@ export const T3: Tema[] = [
               bg: t.bg,
               why: (it: Libre, z: Libre) =>
                 z.id === 'frio'
-                  ? cap(nameT(it.k)) + ' es para cuando hace calor.'
-                  : cap(nameT(it.k)) + ' es para cuando hace frío.',
+                  ? fmt('{Cosa} es para cuando hace calor.', { cosa: nameT(it.k) })
+                  : fmt('{Cosa} es para cuando hace frío.', { cosa: nameT(it.k) }),
               gen() {
                 const fr = shuffle(['abrigo', 'gorro', 'bufanda', 'guantes', 'muneco']).slice(0, 2),
                   ca = shuffle(['remera', 'gafas', 'gorra', 'helado', 'sandia']).slice(0, 2);
@@ -1268,7 +1274,7 @@ export const T3: Tema[] = [
                   steps: st.map((k) => ({
                     k,
                     zone: 'bol',
-                    say: 'Pon ' + W_(k) + ' en el bol.',
+                    say: fmt('Pon {cosa} en el bol.', { cosa: W_(k) }),
                     ok: pick(['¡Mmm, qué rico!', '¡Muy bien!', '¡Eso es!']),
                   })),
                   onPlace: () => SFX.munch(),
@@ -1316,8 +1322,8 @@ export const T3: Tema[] = [
               rounds: AGE() <= 3 ? 2 : 3,
               key: 'casa',
               bg: t.bg,
-              why: (it: Libre, z: Libre) => cap(nameT(it.k)) + ' no va ' + z.nm[1] + '.',
-              placeSay: (it: Libre, z: Libre) => cap(nameT(it.k)) + ' va ' + z.nm[1] + '.',
+              why: (it: Libre, z: Libre) => fmt('{Cosa} no va {sitio}.', { cosa: nameT(it.k), sitio: tr(z.nm[1]) }),
+              placeSay: (it: Libre, z: Libre) => fmt('{Cosa} va {sitio}.', { cosa: nameT(it.k), sitio: tr(z.nm[1]) }),
               gen(i: number) {
                 const R: Record<string, Libre> = {
                   cocina: { c: '#FFE3E0', ic: 'olla', it: ['nevera', 'olla'], nm: ['la cocina', 'en la cocina'] },
@@ -1412,8 +1418,8 @@ export const T3: Tema[] = [
                     zone: s.zone,
                     say:
                       s.zone === 'dentro'
-                        ? 'Lleva ' + W_(s.k) + ' dentro del corral.'
-                        : 'Deja ' + W_(s.k) + ' fuera del corral, en el pasto.',
+                        ? fmt('Lleva {cosa} dentro del corral.', { cosa: W_(s.k) })
+                        : fmt('Deja {cosa} fuera del corral, en el pasto.', { cosa: W_(s.k) }),
                     ok: s.zone === 'dentro' ? '¡Eso! Dentro del corral.' : '¡Eso! Fuera del corral.',
                   })),
                 };
@@ -1515,9 +1521,9 @@ export const T3: Tema[] = [
               why: (it: Libre, z: Libre) =>
                 (
                   ({
-                    cielo: cap(nameT(it.k)) + ' no vuela.',
-                    agua: cap(nameT(it.k)) + ' no va por el agua.',
-                    tierra: cap(nameT(it.k)) + ' no va por la calle.',
+                    cielo: fmt('{Cosa} no vuela.', { cosa: nameT(it.k) }),
+                    agua: fmt('{Cosa} no va por el agua.', { cosa: nameT(it.k) }),
+                    tierra: fmt('{Cosa} no va por la calle.', { cosa: nameT(it.k) }),
                   }) as Record<string, string>
                 )[z.id],
               gen(i: number) {
@@ -1703,7 +1709,7 @@ export const C3: Tema = {
               return {
                 words: [B, S_],
                 ok: [big ? B : S_],
-                ask: big ? '¿Cuál es ' + 'el más grande' + '? Tócalo.' : '¿Cuál es el más pequeño? Tócalo.',
+                ask: big ? '¿Cuál es el más grande? Tócalo.' : '¿Cuál es el más pequeño? Tócalo.',
                 okSay: () => (big ? '¡Ese es el grande!' : '¡Ese es el pequeño!'),
                 badSay: () => (big ? 'Ese es pequeñito. Busca el grande.' : 'Ese es grande. Busca el pequeño.'),
               };
@@ -1776,7 +1782,9 @@ export const C3: Tema = {
                 steps: st.map((s) => ({
                   k: s.k,
                   zone: s.zone,
-                  say: 'Pon ' + W_(s.k) + (s.zone === 'arriba' ? ' arriba de la mesa.' : ' abajo de la mesa.'),
+                  say: fmt(s.zone === 'arriba' ? 'Pon {cosa} arriba de la mesa.' : 'Pon {cosa} abajo de la mesa.', {
+                    cosa: W_(s.k),
+                  }),
                   ok: s.zone === 'arriba' ? '¡Muy bien! Arriba de la mesa.' : '¡Muy bien! Abajo de la mesa.',
                 })),
               };
@@ -1803,7 +1811,7 @@ export const C3: Tema = {
             key: 'formas',
             bg: t.bg,
             why: (_it: Libre, z: Libre) =>
-              'Mmm, ' + (z.id === 'circulo' ? 'esa forma no es redonda.' : 'esa forma no es un cuadrado.'),
+              z.id === 'circulo' ? 'Mmm, esa forma no es redonda.' : 'Mmm, esa forma no es un cuadrado.',
             placeSay: (_it: Libre, z: Libre) => (z.id === 'circulo' ? 'Círculo.' : 'Cuadrado.'),
             gen() {
               const cs = shuffle(['#FF5A5A', '#5B8DEF', '#FFD66B', '#7CC86E', '#F58BB4', '#FFA94D']);
