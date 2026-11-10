@@ -4,6 +4,7 @@ import { K } from '../dibujos/todos.ts';
 import { IMG } from './imagenes.ts';
 import { ctx, DF, H, T, W } from './pantalla.ts';
 import { PI } from './utilidades.ts';
+import { tr } from './traducir.ts';
 
 /** Opciones de text(): grosor de letra, fuente, alineación, línea base y contorno (grosor y color). */
 export interface OpcionesTexto {
@@ -79,7 +80,8 @@ export function ell(
   ctx.ellipse(x, y, rx, ry, 0, 0, PI * 2);
   fillStroke(f, lw, s);
 }
-// text(texto,x,y,tamaño,color,o): escribe texto. Opciones o: w (grosor de letra), f (fuente), al (alineación),
+// text(texto,x,y,tamaño,color,o): escribe texto, traducido al idioma del juego (tr, desde la fase ID1 de
+// docs/PLAN-IDIOMAS.md; los números no). Opciones o: w (grosor de letra), f (fuente), al (alineación),
 // bl (línea base), st (grosor del contorno; sin él no hay contorno), sc (color del contorno).
 export function text(
   t: string | number,
@@ -89,6 +91,7 @@ export function text(
   color: string | CanvasGradient = K,
   o: OpcionesTexto = {},
 ): void {
+  if (typeof t === 'string') t = tr(t);
   ctx.font = `${o.w || 700} ${size}px ${o.f || DF}`;
   ctx.textAlign = o.al || 'center';
   ctx.textBaseline = o.bl || 'alphabetic';

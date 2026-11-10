@@ -20,6 +20,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | `TEMAS`, `TEMA`, `SCENES` | Los temas con sus juegos, el tema por id y las escenas. | 6 |
 | `tap(x, y)`, `drag(x1, y1, x2, y2)`, `hover(x, y)` | Toques en coordenadas de la pantalla lógica de 1600x900. | — |
 | `T()` | Tiempo de juego en segundos. | — |
+| `idioma`, `sinTraducir()` | Desde la fase ID1 de [PLAN-IDIOMAS.md](PLAN-IDIOMAS.md): el idioma con el que se juega (`'es'`, `'ro'` o el pseudoidioma `'xx'`) y la lista de textos pedidos en otro idioma que no tienen traducción. El idioma se elige para una prueba con `index.html?idioma=ro` (no se guarda). | — |
 | `say`, `openAdult(pagina?)`, `closeAdult` | Hablar y abrir/cerrar la zona de adultos. Desde la fase A1 de [PLAN-MENU-ADULTOS.md](PLAN-MENU-ADULTOS.md), `openAdult` abre una página concreta si se le pasa su id (`'resumen'`, `'quienJuega'`, `'comoSeJuega'`, `'titoYSonido'`, `'progreso'`, `'premios'`, `'copia'`): lo necesitan las pruebas que pulsan con Playwright, que solo ve lo que está a la vista (`cobertura.js`, `ampliada.js`, `adultos.js`). | — |
 
 ## Lo que las pruebas leen fuera de `__cl`
@@ -27,7 +28,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | Nombre | Dónde está | Para qué |
 | --- | --- | --- |
 | `window.__fast` | lo ponen las pruebas | Modo rápido: `say()` no habla y acaba en 30 ms. |
-| `window.__said` | lo ponen las pruebas | `say()` apunta ahí cada frase en modo rápido. |
+| `window.__said` | lo ponen las pruebas | `say()` apunta ahí cada frase en modo rápido, ya traducida al idioma del juego (en castellano, igual que antes). |
 | `window.__w3` (`ok`, `W`, `retito`, `FPS`, `pickAt`, `proj`...) | `src/mundo3d/interaccion.ts` (`montarInteraccion`; `ok` lo pone `src/mundo3d/mundo3d.ts`) | Saber si hay 3D y leer el mundo 3D. |
 | `#adult` (elemento HTML) | `src/head.html` | Ver si la zona de adultos está abierta (`hidden`). Desde la fase A1, dentro: `#a-close`, `#a-atras`, `nav.menu button[data-pag]` y una caja `.pag[data-pag]` por página; los controles conservan sus `id` y `name` de siempre (`#a-name`, `[name=a-age]`, `[name=a-mode]`, `#a-vnav`, `#a-mus`, `[data-von]`, `[data-vgive]`, `#a-bk-txt`, `#a-tema`...), y todas las páginas están en el DOM aunque no se vean. Desde la fase A4, la guía de voces es `details.guia-voces` (`voces.js`), porque hay otros `details` («Más información») antes. |
 | `save`, `doReset`, `go`, `sceneName`, `scene`, `S` | `nucleo/guardado.ts`, `nucleo/escenas.ts`, `aplicacion/adultos.ts` | Guardar, borrar todo, cambiar de escena. |
