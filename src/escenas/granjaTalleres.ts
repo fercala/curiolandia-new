@@ -43,6 +43,7 @@ import {
   say,
   sparkles,
   text,
+  fmt,
 } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { fondoGranja, volverDeEstacion } from './excursion.ts';
@@ -470,7 +471,7 @@ function faseHuerto(n: number): void {
     huerto.fin = true;
     SFX.tada();
     later(800, () =>
-      say(`¡Hemos recogido ${NUM[huerto.cogidas]} zanahorias del huerto! ¡Qué buena cosecha!`, () =>
+      say(fmt('¡Hemos recogido {n} zanahorias del huerto! ¡Qué buena cosecha!', { n: NUM[huerto.cogidas]! }), () =>
         volverDeEstacion('granja', 'huerto'),
       ),
     );
@@ -614,7 +615,7 @@ function subirBala(b: Bala): void {
   later(900, () => {
     playSound('tractor');
     tractor.meta = W + 500;
-    say(`¡${NUM[tractor.subidas]} balas de paja! Nos las llevamos al granero para los animales.`, () =>
+    say(fmt('¡{N} balas de paja! Nos las llevamos al granero para los animales.', { n: NUM[tractor.subidas]! }), () =>
       volverDeEstacion('granja', 'tractor'),
     );
   });

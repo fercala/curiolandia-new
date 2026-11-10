@@ -194,7 +194,7 @@ export const NUM: readonly string[] =
 // Usa una lista de excepciones (PLX) y, si la palabra tiene complemento
 // ('caja de lápices'), solo pone en plural la primera parte. En otro idioma (fase ID2), el plural de su tabla de nombres
 // (plu) o, si no lo tiene, el nombre sin artículo.
-function plural(k: Cosa) {
+export function plural(k: Cosa) {
   if (IDIOMA !== 'es' && IDIOMA !== 'xx') {
     const n = nombreCosa(k);
     return n.plu ?? n.sin;

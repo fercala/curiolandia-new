@@ -8,7 +8,7 @@
  * Es una regla pura, sin dibujo ni S: la escena (mundo3d/carreras3d.ts) le pide el plan y le pregunta qué pasa.
  * Pruebas: tests/unidad/carreras.test.ts.
  * Exporta: los tipos Obstaculo, Premio, Cruce, PlanCarrera y Corredor, CARRERA (los números de las reglas),
- * CORREDORES, LUGARES, planCarrera, enElAire, choca, velocidad, podio y fraseLugar.
+ * CORREDORES, LUGARES, planCarrera, enElAire, choca, velocidad, podio y lugaresDelPodio.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son las reglas mismas (largo de la pista, velocidades,
@@ -184,12 +184,12 @@ export function podio(ids: readonly string[], llegadas: Readonly<Record<string, 
   });
 }
 
-// fraseLugar(ids): lo que dice Tito en el podio, los ordinales de uno en uno: «En primer lugar, Polly. En segundo
-// lugar, Tito...». Los ids que no son corredores no salen.
-export function fraseLugar(ids: readonly string[]): string {
+// lugaresDelPodio(ids): el lugar de cada corredor del podio, en orden: [{ lugar: 'primer lugar', nombre: 'Polly' }...],
+// para que Tito lo diga con los ordinales (fraseLugar, en mundo3d/carreras3d.ts: la frase se traduce allí, fase ID2f de
+// docs/PLAN-IDIOMAS.md). Los ids que no son corredores no salen; desde el quinto, 'último lugar'.
+export function lugaresDelPodio(ids: readonly string[]): { lugar: string; nombre: string }[] {
   return ids
     .map((id) => CORREDORES.find((c) => c.id === id))
     .filter((c): c is Corredor => !!c)
-    .map((c, i) => `En ${LUGARES[i] ?? 'último lugar'}, ${c.nombre}.`)
-    .join(' ');
+    .map((c, i) => ({ lugar: LUGARES[i] ?? 'último lugar', nombre: c.nombre }));
 }

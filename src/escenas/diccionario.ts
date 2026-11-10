@@ -35,6 +35,8 @@ import {
   sparkles,
   star,
   text,
+  fmt,
+  tr,
 } from '../nucleo/indice.ts';
 import { EN, ING, ING_PARQUE, enCard, enItems, sayMix, type PalabraEn } from '../temas/ingles.ts';
 import { ING_PUEBLO } from '../temas/inglesPueblo.ts';
@@ -114,7 +116,9 @@ SCENES.diccionario = {
     later(300, () =>
       sayQ(
         n
-          ? `Este es tu diccionario de inglés. Ya conoces ${n} ${n === 1 ? 'palabra' : 'palabras'}.`
+          ? n === 1
+            ? 'Este es tu diccionario de inglés. Ya conoces 1 palabra.'
+            : fmt('Este es tu diccionario de inglés. Ya conoces {n} palabras.', { n })
           : 'Tu diccionario de inglés está vacío. ¡Polly te espera en la Isla del Inglés!',
       ),
     );
@@ -179,7 +183,7 @@ SCENES.diccionario = {
       if (Math.abs(x - px) > DICCIONARIO.lado / 2 || Math.abs(y - py) > DICCIONARIO.lado / 2) return;
       SFX.pop();
       sparkles(px, py, 6);
-      sayMix(['@' + w.en, `quiere decir ${w.es.toLowerCase()}.`]);
+      sayMix(['@' + w.en, fmt('quiere decir {palabra}.', { palabra: tr(w.es).toLowerCase() })]);
     });
   },
 };

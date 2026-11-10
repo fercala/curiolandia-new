@@ -52,6 +52,8 @@ import {
   sparkles,
   text,
   tree,
+  fmt,
+  nombreEn,
 } from '../nucleo/indice.ts';
 import { SEGUIR, ZONES, drawSeguir, nextIngles, zoneOpen } from './zonas.ts';
 import { drawObras, fondo } from './isla.ts';
@@ -204,7 +206,10 @@ SCENES['islaIngles'] = {
       save();
       later(500, () =>
         sayQ(
-          `¡Llegamos a la Isla del Inglés${kid()}! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.`,
+          fmt(
+            '¡Llegamos a la Isla del Inglés{nino}! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.',
+            { nino: kid() },
+          ),
         ),
       );
     } else if (o.hello) later(400, () => this.prompt!());
@@ -284,12 +289,12 @@ SCENES['islaIngles'] = {
     if (z) {
       if (!hecha(z.id)) {
         SFX.boing();
-        say(`Polly está preparando ${z.name}. ¡Muy pronto podrás jugar aquí!`);
+        say(fmt('Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!', { zona: nombreEn(z.name).art }));
         return;
       }
       if (!zoneOpen(z.id)) {
         SFX.boing();
-        say(`${cap(z.name)} todavía no se ha abierto.`);
+        say(fmt('{Zona} todavía no se ha abierto.', { zona: nombreEn(z.name).art }));
         return;
       }
       SFX.pop();

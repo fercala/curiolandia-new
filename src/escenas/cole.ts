@@ -47,6 +47,8 @@ import {
   sparkles,
   text,
   tree,
+  fmt,
+  nombreEn,
 } from '../nucleo/indice.ts';
 
 /** Un sitio del cole: su id, dónde está, su radio tocable, su nombre para la voz, el cartel y la escena a la que lleva
@@ -156,7 +158,10 @@ SCENES['cole'] = {
       save();
       later(500, () =>
         sayQ(
-          `¡Bienvenido al cole${kid()}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!`,
+          fmt(
+            '¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!',
+            { nino: kid() },
+          ),
         ),
       );
     } else if (o.hello) later(400, () => this.prompt!());
@@ -206,7 +211,16 @@ SCENES['cole'] = {
       if (!z.escena) {
         SFX.boing();
         burst(z.x, z.y - 60, 12);
-        say(`${cap(z.name)} ${z.id === 'clases' ? 'están' : 'está'} en obras. ¡Muy pronto podrás jugar aquí!`);
+        // están o está, por el número del nombre del sitio en el idioma del juego
+        const sitio = nombreEn(z.name);
+        say(
+          fmt(
+            sitio.pl
+              ? '{Sitio} están en obras. ¡Muy pronto podrás jugar aquí!'
+              : '{Sitio} está en obras. ¡Muy pronto podrás jugar aquí!',
+            { sitio: sitio.art },
+          ),
+        );
         return;
       }
       if (cerrado(z)) {

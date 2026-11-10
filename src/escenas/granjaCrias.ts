@@ -45,6 +45,8 @@ import {
   say,
   sparkles,
   text,
+  fmt,
+  nombreEn,
 } from '../nucleo/indice.ts';
 import { type Cria, criaPendiente, criaPorId, criasDe, etapaCria, familiasListas, nacer } from '../dominio/crias.ts';
 import { crecimientoDe } from '../dominio/crecer.ts';
@@ -86,7 +88,7 @@ export function criasEnPaseo(): CriaPaseo[] {
         animal: dibujoCria(c),
         madre: c.madre,
         escala: escalaCria(c, etapaCria(dias, n)),
-        dice: `¡Es ${n.nombre}, ${c.nombre}! Va siempre con su mamá.`,
+        dice: fmt('¡Es {nombre}, {cria}! Va siempre con su mamá.', { nombre: n.nombre, cria: nombreEn(c.nombre).art }),
       },
     ];
   });
@@ -219,7 +221,13 @@ function naceCria(): void {
   playSound(c.dibujo ?? c.madre);
   later(700, () =>
     say(
-      `¡Ha nacido ${c.nombre}! Es la cría de ${c.nombreMadre}. ¿Cómo lo llamamos? ¿${c.nombres[0]}, ${c.nombres[1]} o ${c.nombres[2]}? Toca un nombre.`,
+      fmt('¡Ha nacido {cria}! Es la cría {madre}. ¿Cómo lo llamamos? ¿{a}, {b} o {c}? Toca un nombre.', {
+        cria: nombreEn(c.nombre).art,
+        madre: nombreEn(c.nombreMadre).de,
+        a: c.nombres[0]!,
+        b: c.nombres[1]!,
+        c: c.nombres[2]!,
+      }),
     ),
   );
 }
@@ -234,8 +242,11 @@ function ponerNombre(i: number): void {
   save();
   SFX.good();
   sparkles(NIDO.x, NIDO.y - 120, 16);
-  say(`¡Hola, ${nombre}! Ya vive en la granja con su mamá. Cada día que vengas, ${nombre} estará más grande.`, () =>
-    go('excursion', { exc: 'granja' }),
+  say(
+    fmt('¡Hola, {nombre}! Ya vive en la granja con su mamá. Cada día que vengas, {nombre} estará más grande.', {
+      nombre,
+    }),
+    () => go('excursion', { exc: 'granja' }),
   );
 }
 
@@ -258,8 +269,12 @@ SCENES['granjaNace'] = {
     later(400, () =>
       say(
         c.dibujo
-          ? `¡El huevo de ${c.nombreMadre} se mueve! Tócalo para ayudar al pollito a salir.`
-          : `¡Algo se mueve en la paja, al lado de ${c.nombreMadre}! Toca la paja para ver qué es.`,
+          ? fmt('¡El huevo {madre} se mueve! Tócalo para ayudar al pollito a salir.', {
+              madre: nombreEn(c.nombreMadre).de,
+            })
+          : fmt('¡Algo se mueve en la paja, al lado de {madre}! Toca la paja para ver qué es.', {
+              madre: nombreEn(c.nombreMadre).art,
+            }),
       ),
     );
   },
@@ -268,7 +283,7 @@ SCENES['granjaNace'] = {
     const c = nace.cria;
     if (!c || nace.nombrada) return;
     if (nace.nacio < 0) say(c.dibujo ? 'Toca el huevo.' : 'Toca la paja.');
-    else say(`Elige un nombre: ¿${c.nombres[0]}, ${c.nombres[1]} o ${c.nombres[2]}?`);
+    else say(fmt('Elige un nombre: ¿{a}, {b} o {c}?', { a: c.nombres[0]!, b: c.nombres[1]!, c: c.nombres[2]! }));
   },
   // hint(): la paja (o el huevo) y, cuando ya ha nacido, el primer nombre.
   hint() {
@@ -384,9 +399,6 @@ function prepararFamilias(): void {
   familias.fin = false;
 }
 
-// deCria(c): «de» delante del nombre de la cría c con su artículo: «del corderito» (todas empiezan por «el»).
-const deCria = (c: Cria): string => (c.nombre.startsWith('el ') ? 'del ' + c.nombre.slice(3) : 'de ' + c.nombre);
-
 // soltarCria(f): se suelta la cría f: si está sobre su madre, se queda con ella (sonido y Rosa dice su nombre); si está
 // sobre otra madre, «esa no es su mamá» y vuelve; si no, vuelve sin más. Con todas, se termina.
 function soltarCria(f: PiezaFamilia): void {
@@ -399,14 +411,21 @@ function soltarCria(f: PiezaFamilia): void {
     if (familias.crias.every((z) => z.puesta)) {
       familias.fin = true;
       later(800, () =>
-        say(`¡Cada cría está con su mamá! ¡Muy bien${kid()}!`, () => go('excursion', { exc: 'granja' })),
+        say(fmt('¡Cada cría está con su mamá! ¡Muy bien{nino}!', { nino: kid() }), () =>
+          go('excursion', { exc: 'granja' }),
+        ),
       );
-    } else say(`¡${f.nombre} está con ${f.c.nombreMadre}!`);
+    } else say(fmt('¡{nombre} está con {madre}!', { nombre: f.nombre, madre: nombreEn(f.c.nombreMadre).art }));
     return;
   }
   if (m) {
     SFX.boing();
-    say(`Esa no es su mamá. La mamá ${deCria(f.c)} es ${f.c.nombreMadre}.`);
+    say(
+      fmt('Esa no es su mamá. La mamá {cria} es {madre}.', {
+        cria: nombreEn(f.c.nombre).de,
+        madre: nombreEn(f.c.nombreMadre).art,
+      }),
+    );
   }
   Object.assign(f, { x: f.x0, y: f.y0 });
 }

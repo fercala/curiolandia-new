@@ -24,6 +24,7 @@ import {
   dist,
   drawHome,
   drawTito,
+  fmt,
   go,
   later,
   pic,
@@ -299,7 +300,7 @@ SCENES.casaCielo = {
         say(
           this.fugaces === 1
             ? '¡Una estrella fugaz! ¡Pide un deseo!'
-            : '¡Otra estrella fugaz! Ya van ' + this.fugaces + '.',
+            : fmt('¡Otra estrella fugaz! Ya van {n}.', { n: this.fugaces }),
         );
         return;
       }

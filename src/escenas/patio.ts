@@ -42,6 +42,8 @@ import {
   sparkles,
   text,
   tree,
+  fmt,
+  tr,
 } from '../nucleo/indice.ts';
 import { ACTIVIDADES_PATIO, type ActividadPatio } from '../dominio/cole.ts';
 
@@ -127,7 +129,10 @@ SCENES['patio'] = {
       save();
       later(500, () =>
         sayQ(
-          `¡Al patio${kid()}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?`,
+          fmt(
+            '¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?',
+            { nino: kid() },
+          ),
         ),
       );
     } else if (o.hello) later(400, () => this.prompt!());
@@ -177,7 +182,7 @@ SCENES['patio'] = {
       if (!b.a.escena || !sePuede(b.a)) {
         SFX.boing();
         burst(b.x + b.w / 2, b.y + 40, 10);
-        say(`${b.a.nombre}: ¡muy pronto podrás jugar!`);
+        say(fmt('{juego}: ¡muy pronto podrás jugar!', { juego: tr(b.a.nombre) }));
         return;
       }
       SFX.pop();

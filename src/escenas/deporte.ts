@@ -45,6 +45,10 @@ import {
   star,
   text,
   today,
+  fmt,
+  juntar,
+  nombreEn,
+  tr,
 } from '../nucleo/indice.ts';
 import { fondoPatio } from './patio.ts';
 import { dibujaFinal, enOtraVez, terminarEnElPatio } from './patioComun.ts';
@@ -232,9 +236,19 @@ function acabarJornada(): void {
   Object.assign(JORNADA, { fin: true, copaNueva: r.nueva });
   terminarEnElPatio('deporte', W / 2, 450);
   const copa = r.nueva
-    ? `¡Y ganas la copa de esta semana! Ya ${r.registro.copas === 1 ? 'tienes una copa' : 'tienes ' + r.registro.copas + ' copas'}.`
-    : 'La copa de esta semana ya es tuya. ¡Vuelve la semana que viene a por otra!';
-  later(600, () => sayQ(`¡Has terminado el gran día del deporte${kid()}! ${fraseMedallero(JORNADA.medallas)} ${copa}`));
+    ? r.registro.copas === 1
+      ? tr('¡Y ganas la copa de esta semana! Ya tienes una copa.')
+      : fmt('¡Y ganas la copa de esta semana! Ya tienes {n} copas.', { n: r.registro.copas })
+    : tr('La copa de esta semana ya es tuya. ¡Vuelve la semana que viene a por otra!');
+  later(600, () =>
+    sayQ(
+      juntar(
+        fmt('¡Has terminado el gran día del deporte{nino}!', { nino: kid() }),
+        fraseMedallero(JORNADA.medallas, tr),
+        copa,
+      ),
+    ),
+  );
 }
 
 SCENES['deporte'] = {
@@ -250,10 +264,16 @@ SCENES['deporte'] = {
       burst(W / 2, 400, 40);
       const sig = siguiente();
       later(500, () =>
-        sayQ(`¡Medalla de ${m} en ${p ? p.nombre : 'la prueba'}!`, () => {
-          if (!sig) acabarJornada();
-          else say(`Ahora, ${sig.nombre}. Toca su tarjeta.`);
-        }),
+        sayQ(
+          fmt('¡Medalla de {medalla} en {prueba}!', {
+            medalla: tr(m),
+            prueba: nombreEn(p ? p.nombre : 'la prueba').art,
+          }),
+          () => {
+            if (!sig) acabarJornada();
+            else say(fmt('Ahora, {prueba}. Toca su tarjeta.', { prueba: nombreEn(sig.nombre).art }));
+          },
+        ),
       );
       return;
     }
@@ -262,7 +282,12 @@ SCENES['deporte'] = {
       const ps = pruebasDeHoy();
       later(400, () =>
         sayQ(
-          `¡Hoy es el gran día del deporte! Hay ${ps.length === 5 ? 'cinco' : 'cuatro'} pruebas y en cada una ganas una medalla. ¡Empezamos con ${ps[0]?.nombre ?? 'la primera'}! Toca su tarjeta.`,
+          fmt(
+            ps.length === 5
+              ? '¡Hoy es el gran día del deporte! Hay cinco pruebas y en cada una ganas una medalla. ¡Empezamos con {prueba}! Toca su tarjeta.'
+              : '¡Hoy es el gran día del deporte! Hay cuatro pruebas y en cada una ganas una medalla. ¡Empezamos con {prueba}! Toca su tarjeta.',
+            { prueba: ps[0] ? nombreEn(ps[0].nombre).art : tr('la primera') },
+          ),
         ),
       );
     } else if (o.hello) later(400, () => this.prompt!());
@@ -271,7 +296,7 @@ SCENES['deporte'] = {
   prompt() {
     const sig = siguiente();
     if (JORNADA.fin) say('¿Otra jornada? Toca la flecha verde.');
-    else if (sig) say(`Ahora toca ${sig.nombre}. Toca su tarjeta.`);
+    else if (sig) say(fmt('Ahora toca {prueba}. Toca su tarjeta.', { prueba: nombreEn(sig.nombre).art }));
   },
   // hint(): la tarjeta de la prueba que toca; al final, el botón de otra vez.
   hint() {
@@ -328,10 +353,20 @@ SCENES['deporte'] = {
     }
     const sig = siguiente();
     if (t.p === sig) empezarPrueba(t.p);
-    else if (JORNADA.medallas[t.p.id]) say(`En ${t.p.nombre} has ganado la medalla de ${JORNADA.medallas[t.p.id]}.`);
+    else if (JORNADA.medallas[t.p.id])
+      say(
+        fmt('En {prueba} has ganado la medalla de {medalla}.', {
+          prueba: nombreEn(t.p.nombre).art,
+          medalla: tr(JORNADA.medallas[t.p.id]!),
+        }),
+      );
     else {
       SFX.boing();
-      say(`Las pruebas van en orden. Ahora toca ${sig ? sig.nombre : 'la siguiente'}.`);
+      say(
+        fmt('Las pruebas van en orden. Ahora toca {prueba}.', {
+          prueba: sig ? nombreEn(sig.nombre).art : tr('la siguiente'),
+        }),
+      );
     }
   },
 };

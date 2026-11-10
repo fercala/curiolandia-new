@@ -37,6 +37,9 @@ import {
   say,
   sparkles,
   text,
+  fmt,
+  nombreEn,
+  tr,
 } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/indice.ts';
 import { fondoGranja, volverDeEstacion } from './excursion.ts';
@@ -158,16 +161,17 @@ function soltarComida(f: ComidaEnPantalla): void {
   if (a) {
     a.raro = T;
     SFX.boing();
-    say(`¡Puaj! ${cap1(alAnimal(a.c.nombre))} no le gusta eso. ${cap1(a.c.nombre)} come ${a.c.nombreComida}.`);
+    const animal = nombreEn(a.c.nombre);
+    say(
+      fmt('¡Puaj! {AlAnimal} no le gusta eso. {Animal} come {comida}.', {
+        alAnimal: animal.a,
+        animal: animal.art,
+        comida: tr(a.c.nombreComida),
+      }),
+    );
   }
   Object.assign(f, { x: f.x0, y: f.y0 });
 }
-
-// alAnimal(n): «a» delante del nombre del animal con su artículo: «a la vaca», «al conejo».
-const alAnimal = (n: string): string => (n.startsWith('el ') ? 'al ' + n.slice(3) : 'a ' + n);
-
-// cap1(t): t con la primera letra en mayúscula.
-const cap1 = (t: string): string => t.charAt(0).toUpperCase() + t.slice(1);
 
 SCENES['granjaComer'] = {
   music: 'jardin',
@@ -373,7 +377,7 @@ SCENES['granjaHuevos'] = {
     dibujaCesta();
     if (huevos.fin) {
       card(W / 2 - 260, 150, 520, 90, '#fff', 6, 45);
-      text(`¡${huevos.total} huevos!`, W / 2, 212, 50);
+      text(fmt('¡{n} huevos!', { n: huevos.total }), W / 2, 212, 50);
     }
     drawTito(14, 720, 170);
     drawHome();
@@ -407,7 +411,7 @@ SCENES['granjaHuevos'] = {
       huevos.fin = true;
       playSound('gallina');
       later(1000, () =>
-        say(`¡Hemos recogido ${NUM[huevos.total]} huevos! Las gallinas están muy contentas.`, () =>
+        say(fmt('¡Hemos recogido {n} huevos! Las gallinas están muy contentas.', { n: NUM[huevos.total]! }), () =>
           volverDeEstacion('granja', 'huevos'),
         ),
       );

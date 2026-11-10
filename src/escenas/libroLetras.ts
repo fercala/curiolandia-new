@@ -40,6 +40,7 @@ import {
   sparkles,
   star,
   text,
+  fmt,
 } from '../nucleo/indice.ts';
 import { ambas, casitaDeLetra, dibujaLetra } from '../temas/letras.ts';
 import { TEMA, tst } from './escenas2d.ts';
@@ -115,7 +116,9 @@ SCENES.libroLetras = {
     later(300, () =>
       sayQ(
         n
-          ? `Este es tu libro de letras. Ya conoces ${n} ${n === 1 ? 'letra' : 'letras'}.`
+          ? n === 1
+            ? 'Este es tu libro de letras. Ya conoces 1 letra.'
+            : fmt('Este es tu libro de letras. Ya conoces {n} letras.', { n })
           : 'Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!',
       ),
     );

@@ -32,10 +32,12 @@ import {
   say,
   sparkles,
   text,
+  fmt,
+  tr,
 } from '../nucleo/indice.ts';
 import { type Excursion, diaYMes, vecesTexto, visitaDe } from '../dominio/excursiones.ts';
 import { EXCURSIONES } from '../contenido/excursiones.ts';
-import { fondoGranja } from './excursion.ts';
+import { fondoGranja, nombreExcursion } from './excursion.ts';
 
 /** Un marco del álbum: de qué excursión es y dónde está (esquina de arriba a la izquierda, ancho y alto). */
 interface MarcoAlbum {
@@ -118,14 +120,27 @@ function dibujaMarco(m: MarcoAlbum, i: number): void {
   ctx.restore();
 }
 
-// deNombre(n): «de» delante del nombre de la excursión con su artículo, en minúscula: «del zoo», «de la granja escuela».
-const deNombre = (n: string): string => (n.startsWith('El ') ? 'del ' + n.slice(3) : 'de ' + n.toLowerCase());
-
-// recuerdo(e): lo que cuenta Tito al tocar el marco de la excursión e.
+// recuerdo(e): lo que cuenta Tito al tocar el marco de la excursión e, en el idioma del juego (desde la fase ID2f de
+// docs/PLAN-IDIOMAS.md: plantillas de fmt; el nombre de la excursión, de nombreExcursion; los meses, traducidos).
 function recuerdo(e: Excursion): string {
-  const v = visitaDe(S.exc, e.id);
-  if (!v.veces) return `Aquí irá la foto ${deNombre(e.nombre)}, cuando vayamos de excursión.`;
-  return `¡${e.nombre}! Hemos ido ${vecesTexto(v.veces)}; la última, el ${diaYMes(v.d, MESES)}. ¿Te acuerdas de ${e.nombreGuia}?`;
+  const v = visitaDe(S.exc, e.id),
+    excursion = nombreExcursion(e);
+  if (!v.veces) return fmt('Aquí irá la foto {excursion}, cuando vayamos de excursión.', { excursion: excursion.de });
+  const huecos = {
+    excursion: excursion.art,
+    n: v.veces,
+    fecha: diaYMes(
+      v.d,
+      MESES.map((m) => tr(m)),
+    ),
+    guia: e.nombreGuia,
+  };
+  return fmt(
+    v.veces === 1
+      ? '¡{Excursion}! Hemos ido una vez; la última, el {fecha}. ¿Te acuerdas de {guia}?'
+      : '¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te acuerdas de {guia}?',
+    huecos,
+  );
 }
 
 SCENES['albumExcursiones'] = {
