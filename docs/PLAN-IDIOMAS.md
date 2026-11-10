@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) e **ID2a** (v0.2.117), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) e **ID2a** (v0.2.118), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -229,11 +229,11 @@ sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos de
   corchetes se escapa de la traducción (frases compuestas, ID2; rótulos 3D y textos que el HTML cambia después, ID3).
   `index.html?idioma=ro` usa la tabla del rumano, y `__cl.sinTraducir()` lista lo que falta.
 
-### ID2a (v0.2.117): la gramática por idioma
+### ID2a (v0.2.118): la gramática por idioma
 
 La ID2 se parte: la **ID2a** pone la gramática de cada idioma y quita los trucos del castellano; las **ID2b** y
 siguientes pasan las frases compuestas a plantillas, por grupos de archivos (`npm run idiomas:compuestas` dice cuántas
-quedan: 370 al terminar la ID2a).
+quedan: 383 al terminar la ID2a, con la P11).
 
 - **El idioma se decide al cargar** `nucleo/traducir.ts` (justo después de `guardado.ts`), así que las tablas que se
   calculan al cargar ya salen en su idioma (`NUM`).
