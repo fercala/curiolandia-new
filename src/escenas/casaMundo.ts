@@ -27,6 +27,7 @@ import {
   go,
   hC,
   hv,
+  juntar,
   later,
   pic,
   say,
@@ -34,6 +35,7 @@ import {
   sky,
   sparkles,
   text,
+  tr,
 } from '../nucleo/indice.ts';
 import { LUGARES, type LugarMundo } from '../contenido/casa.ts';
 import { azar } from '../aplicacion/puertos.ts';
@@ -205,7 +207,7 @@ SCENES.casaMundo = {
         say('¡Muy bien! Esa es España, donde vivimos.');
       } else {
         SFX.boing();
-        say(lugar(reto[i]).n + '. ¡Busca el castillo y el sol!');
+        say(juntar(tr(lugar(reto[i]).n) + '.', tr('¡Busca el castillo y el sol!')));
       }
       return;
     }

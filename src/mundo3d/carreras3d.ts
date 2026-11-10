@@ -48,6 +48,9 @@ import {
   sparkles,
   star,
   text,
+  fmt,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import { azar } from '../aplicacion/puertos.ts';
 import { drawPet, petStage } from '../escenas/zonas.ts';
@@ -60,7 +63,7 @@ import {
   type Premio,
   choca,
   enElAire,
-  fraseLugar,
+  lugaresDelPodio,
   planCarrera,
   podio,
   velocidad,
@@ -308,7 +311,11 @@ function avanza(st: Escena, dt: number) {
   const c = e.plan.cruce;
   if (c && !e.lado && dT >= c.d - 3) {
     e.fase = 'cruce';
-    say(`¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la ${c.bueno}.`);
+    say(
+      c.bueno === 'izquierda'
+        ? '¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la izquierda.'
+        : '¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la derecha.',
+    );
   }
   if (e.corren.every((x) => e.llegadas[x.id] !== undefined)) acabar(st);
 }
@@ -322,11 +329,20 @@ function elegir(st: Escena, lado: 'izquierda' | 'derecha') {
   say(lado === 'izquierda' ? '¡Por la izquierda!' : '¡Por la derecha!');
 }
 
-// fraseNumeros(e): lo que dice Tito de los números cogidos (solo a los 5 años, cuando hay números; si no, '').
+// fraseNumeros(e): lo que dice Tito de los números cogidos (solo a los 5 años, cuando hay números; si no, ''), ya en
+// el idioma del juego (desde la fase ID2f de docs/PLAN-IDIOMAS.md, sin el espacio del principio: se junta con juntar).
 function fraseNumeros(e: EstadoCarrera): string {
   if (!e.plan.numeros) return '';
-  if (e.numeros.length === 5) return ' ¡Y has cogido todos los números, del uno al cinco!';
-  return ` Has cogido ${e.numeros.length === 1 ? 'un número' : e.numeros.length + ' números'}.`;
+  if (e.numeros.length === 5) return tr('¡Y has cogido todos los números, del uno al cinco!');
+  return e.numeros.length === 1 ? tr('Has cogido un número.') : fmt('Has cogido {n} números.', { n: e.numeros.length });
+}
+
+// fraseLugar(ids): lo que dice Tito en el podio, los ordinales de uno en uno: «En primer lugar, Polly. En segundo
+// lugar, Tito...» (los lugares, de lugaresDelPodio en dominio/carreras.ts), en el idioma del juego.
+function fraseLugar(ids: readonly string[]): string {
+  return juntar(
+    ...lugaresDelPodio(ids).map((p) => fmt('En {lugar}, {nombre}.', { lugar: tr(p.lugar), nombre: p.nombre })),
+  );
 }
 
 // acabar(st): han llegado todos (desde la fase P11, si la carrera es del gran día del deporte, st.deporte, al acabar
@@ -341,9 +357,13 @@ function acabar(st: Escena) {
   );
   const cogido = fraseNumeros(e);
   later(900, () =>
-    sayQ(fraseLugar(e.orden) + ' ¡Todos tenemos medalla!', () => {
+    sayQ(juntar(fraseLugar(e.orden), tr('¡Todos tenemos medalla!')), () => {
       if (sceneName !== 'carreras') return;
-      sayQ(`Has cogido ${e.estrellas === 1 ? 'una estrella' : e.estrellas + ' estrellas'}${kid()}.${cogido}`, () => {
+      const estrellas =
+        e.estrellas === 1
+          ? fmt('Has cogido una estrella{nino}.', { nino: kid() })
+          : fmt('Has cogido {n} estrellas{nino}.', { n: e.estrellas, nino: kid() });
+      sayQ(juntar(estrellas, cogido), () => {
         if (sceneName !== 'carreras') return;
         // en el gran día del deporte (fase P11), se vuelve a la jornada con los puntos: 4 menos el lugar de Tito
         if (st.deporte) {
@@ -469,8 +489,10 @@ export function montarCarreras3D(): void {
       this.deporte = !!o.deporte;
       later(300, () =>
         sayQ(
-          '¡Vamos a hacer una carrera! Toca la pantalla para que Tito salte los charcos y las piedras.' +
-            (edad >= 5 ? ' ¡Y coge los números del uno al cinco, saltando!' : ''),
+          juntar(
+            tr('¡Vamos a hacer una carrera! Toca la pantalla para que Tito salte los charcos y las piedras.'),
+            edad >= 5 ? tr('¡Y coge los números del uno al cinco, saltando!') : '',
+          ),
           () => {
             if (sceneName === 'carreras') empezar(this);
           },

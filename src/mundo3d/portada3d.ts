@@ -11,7 +11,24 @@ import * as THREE from 'three';
 import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
 import type { Nodo } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { FLC, LF, PI, S, SCENES, T, VIVO, card, circ, ctx, fillStroke, hC, hR, hv, text } from '../nucleo/indice.ts';
+import {
+  FLC,
+  LF,
+  PI,
+  S,
+  SCENES,
+  T,
+  VIVO,
+  card,
+  circ,
+  ctx,
+  fillStroke,
+  hC,
+  hR,
+  hv,
+  text,
+  fmt,
+} from '../nucleo/indice.ts';
 import { LOGOC, drawLogo, pill, standalone } from '../escenas/escenas2d.ts';
 import { W3, camRig, newWorld, projO, setWorld } from './motor.ts';
 import { Cyl, V3, canvasTex, gradTex, mk, spr } from './materiales.ts';
@@ -130,7 +147,7 @@ export function montarPortada3D(): void {
       fillStroke('#fff', 6);
       ctx.restore();
       if (S.age) {
-        pill(205, 830, 330, 80, S.name ? 'Juega: ' + S.name : '¿Quién juega?');
+        pill(205, 830, 330, 80, S.name ? fmt('Juega: {nombre}', { nombre: S.name }) : '¿Quién juega?');
         pill(1395, 830, 330, 80, 'Empezar de nuevo', '#fff', '#C0473C');
       }
       if (document.fullscreenEnabled && !standalone()) {
