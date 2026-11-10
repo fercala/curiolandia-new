@@ -43,6 +43,9 @@ import {
   sceneName,
   sparkles,
   text,
+  fmt,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import { NUM } from '../juegos/comps.ts';
 import { fondoPatio } from './patio.ts';
@@ -106,9 +109,9 @@ function aterrizar(): void {
   Object.assign(s, { fase: 'cae', hechos, mejor, t0: T });
   SFX.good();
   burst(SALTO.raya + s.palmos * SALTO.palmo, SALTO.suelo - 20, 18);
-  const frase = `¡${NUM[s.palmos] ?? s.palmos} palmos!`;
+  const frase = fmt('¡{n} palmos!', { n: NUM[s.palmos] ?? s.palmos });
   if (hechos >= SALTO.intentos)
-    volverAJornada('salto', mejor, `${frase} Tu mejor salto: ${NUM[mejor] ?? mejor} palmos.`);
+    volverAJornada('salto', mejor, juntar(frase, fmt('Tu mejor salto: {n} palmos.', { n: NUM[mejor] ?? mejor })));
   else
     sayQ(frase, () => {
       if (sceneName === 'deporteSalto') carrerilla();
@@ -229,7 +232,12 @@ function llegaPelota(): void {
     volverAJornada(
       'punteria',
       canastas,
-      `${frase} Has metido ${canastas === 1 ? 'una canasta' : (NUM[canastas] ?? canastas) + ' canastas'}.`,
+      juntar(
+        tr(frase),
+        canastas === 1
+          ? tr('Has metido una canasta.')
+          : fmt('Has metido {n} canastas.', { n: NUM[canastas] ?? canastas }),
+      ),
     );
   else
     say(frase, () => {
@@ -465,7 +473,9 @@ function llegaMeta(): void {
   volverAJornada(
     'relevos',
     s.buenos,
-    `¡Meta! Has hecho ${s.buenos === 1 ? 'un pase perfecto' : (NUM[s.buenos] ?? s.buenos) + ' pases perfectos'}.`,
+    s.buenos === 1
+      ? '¡Meta! Has hecho un pase perfecto.'
+      : fmt('¡Meta! Has hecho {n} pases perfectos.', { n: NUM[s.buenos] ?? s.buenos }),
   );
 }
 

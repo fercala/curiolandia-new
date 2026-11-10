@@ -29,9 +29,11 @@ import {
   dist,
   drawHome,
   drawTito,
+  fmt,
   go,
   hC,
   hv,
+  juntar,
   later,
   parts,
   pic,
@@ -43,6 +45,7 @@ import {
   star,
   text,
   today,
+  tr,
 } from '../nucleo/indice.ts';
 import {
   DIAS_ETAPA,
@@ -129,8 +132,12 @@ export function fichaMascota(id: string): FichaMascota {
 export function etapaDe(id: string): number {
   return etapaMascota(fichaMascota(id).dias);
 }
-// nombreDe(id): el nombre que le puso el niño, o cómo se dice la mascota si aún no tiene.
-const nombreDe = (id: string): string => fichaMascota(id).nombre || ESPECIE[id] || id;
+// nombreDe(id): el nombre que le puso el niño, o cómo se dice la mascota si aún no tiene (desde la fase ID2f de
+// docs/PLAN-IDIOMAS.md, en el idioma del juego).
+const nombreDe = (id: string): string => {
+  const e = ESPECIE[id];
+  return fichaMascota(id).nombre || (e ? tr(e) : id);
+};
 // mayuscula(t): t con la primera letra en mayúscula.
 const mayuscula = (t: string): string => t.charAt(0).toUpperCase() + t.slice(1);
 
@@ -263,7 +270,9 @@ SCENES.casaMascota = {
     const n = this.elige as readonly string[] | null;
     if (n) {
       later(400, () =>
-        sayQ('¡Hay que ponerle nombre! ¿' + n[0] + ', ' + n[1] + ' o ' + n[2] + '? Toca el que más te guste.'),
+        sayQ(
+          fmt('¡Hay que ponerle nombre! ¿{a}, {b} o {c}? Toca el que más te guste.', { a: n[0]!, b: n[1]!, c: n[2]! }),
+        ),
       );
       return;
     }
@@ -273,7 +282,7 @@ SCENES.casaMascota = {
   saluda() {
     const id = this.id as string,
       c = quiereHoy(fichaMascota(id), id, today());
-    sayQ('¡Hola, ' + nombreDe(id) + '! ' + (c ? PIDE[c] : '¡Hoy ya está feliz!'));
+    sayQ(juntar(fmt('¡Hola, {nombre}!', { nombre: nombreDe(id) }), tr(c ? PIDE[c] : '¡Hoy ya está feliz!')));
   },
   // prompt(): elegir nombre, o lo que pide la mascota.
   prompt() {
@@ -283,7 +292,7 @@ SCENES.casaMascota = {
     }
     const id = this.id as string,
       c = quiereHoy(fichaMascota(id), id, today());
-    say(c ? PIDE[c] + ' Toca los botones de abajo.' : 'Hoy ya está feliz. Puedes seguir jugando.');
+    say(c ? juntar(tr(PIDE[c]), tr('Toca los botones de abajo.')) : 'Hoy ya está feliz. Puedes seguir jugando.');
   },
   // draw(): el cuarto, la mascota en grande (saltando al jugar o en la fiesta), lo que se le está dando, su nombre y
   // sus corazones, los botones de cuidados, el bocadillo, Tito, la casa y, si toca, los tres nombres para elegir.
@@ -383,7 +392,7 @@ SCENES.casaMascota = {
       this.elige = null;
       SFX.tada();
       burst(PANTALLA.x, PANTALLA.y - 200, 30);
-      say('¡Se llama ' + n[i] + '! ¡Qué nombre tan bonito!', () => this.saluda!());
+      say(fmt('¡Se llama {nombre}! ¡Qué nombre tan bonito!', { nombre: n[i]! }), () => this.saluda!());
       return;
     }
     const b = botones(id).find((k) => dist(x, y, k.x, k.y) < PANTALLA.botones.r + 10);
@@ -447,11 +456,16 @@ SCENES.casaMascota = {
         this.fiesta = T;
         SFX.tada();
         burst(PANTALLA.x, PANTALLA.y - 250, 60);
-        say('¡' + mayuscula(nombreDe(id)) + ' ha crecido! ' + (e === 2 ? '¡Ya es mayor!' : 'Ya no es un bebé.'));
+        say(
+          juntar(
+            fmt('¡{Nombre} ha crecido!', { nombre: nombreDe(id) }),
+            tr(e === 2 ? '¡Ya es mayor!' : 'Ya no es un bebé.'),
+          ),
+        );
       });
       say(FRASE_CUIDADO[c]);
       return;
     }
-    say(FRASE_CUIDADO[c] + (r.cuenta ? ' ¡Hoy ya está feliz! Mañana, más mimos.' : ''));
+    say(juntar(tr(FRASE_CUIDADO[c]), r.cuenta ? tr('¡Hoy ya está feliz! Mañana, más mimos.') : ''));
   },
 };

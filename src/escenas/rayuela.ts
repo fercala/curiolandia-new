@@ -28,6 +28,7 @@ import {
   drawCoinHUD,
   drawHome,
   drawTito,
+  fmt,
   go,
   inCoinHUD,
   later,
@@ -97,7 +98,7 @@ const sigue = (): boolean => sceneName === 'rayuela';
 // pedir(): empieza una ronda: Tito pide el número y espera a que se toque una casilla.
 function pedir(): void {
   Object.assign(RAYUELA_ST, { fase: 'pide', t0: T, en: 0, piedra: 0 });
-  say(`Tira la piedra a la casilla del ${NUM[objetivo()]}.`);
+  say(fmt('Tira la piedra a la casilla del {n}.', { n: NUM[objetivo()]! }));
 }
 
 // tirar(c): se ha tocado la casilla c: la piedra vuela hasta ella.
@@ -115,15 +116,18 @@ function caePiedra(): void {
   Object.assign(s, { fase: 'espera', t0: T });
   if (s.piedra === objetivo()) {
     SFX.good();
-    sayQ(`¡Muy bien, en el ${NUM[s.piedra]}! ¡A la pata coja, salta conmigo y cuenta!`, () => {
+    sayQ(fmt('¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!', { n: NUM[s.piedra]! }), () => {
       if (sigue()) Object.assign(s, { fase: 'salta', t0: T, en: 0 });
     });
     return;
   }
   SFX.boing();
-  sayQ(`Esa es la casilla del ${NUM[s.piedra]}. Busca la del ${NUM[objetivo()]}.`, () => {
-    if (sigue()) Object.assign(s, { fase: 'pide', t0: T, piedra: 0 });
-  });
+  sayQ(
+    fmt('Esa es la casilla del {n}. Busca la del {objetivo}.', { n: NUM[s.piedra]!, objetivo: NUM[objetivo()]! }),
+    () => {
+      if (sigue()) Object.assign(s, { fase: 'pide', t0: T, piedra: 0 });
+    },
+  );
 }
 
 // saltito(): Tito salta a la casilla siguiente y la cuenta en voz alta; en la de la piedra, la recoge y vuelve.
@@ -244,7 +248,7 @@ SCENES['rayuela'] = {
   prompt() {
     const s = RAYUELA_ST;
     if (s.fase === 'fin') say('Toca la flecha para jugar otra vez.');
-    else if (s.fase === 'pide') say(`Toca la casilla del ${NUM[objetivo()]}.`);
+    else if (s.fase === 'pide') say(fmt('Toca la casilla del {n}.', { n: NUM[objetivo()]! }));
     else say('¡Salta a la pata coja y cuenta conmigo!');
   },
   // hint(): mientras se pide, la casilla buena; al final, el botón de otra vez.

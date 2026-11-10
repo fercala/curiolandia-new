@@ -8,10 +8,10 @@
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), DESTINOS (dónde está cada cartel del
- * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones) y volverDeEstacion; pone SCENES.autobus y SCENES.excursion.
+ * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
- * manzano que crece por días de escenas/granjaManzano.ts, y desde la P9, las crías de escenas/granjaCrias.ts.
+ * manzano que crece por días de escenas/granjaManzano.ts, y desde la P9, las crías de escenas/granjaCrias.ts; desde la ID2f, el tipo Nombre de dominio/idiomas.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -52,6 +52,9 @@ import {
   text,
   today,
   tone,
+  fmt,
+  nombreEn,
+  tr,
 } from '../nucleo/indice.ts';
 import {
   type Estacion,
@@ -63,6 +66,7 @@ import {
   visitaCompleta,
   visitaDe,
 } from '../dominio/excursiones.ts';
+import type { Nombre } from '../dominio/idiomas.ts';
 import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
 import { dibujaPaseo, empezarPaseo, moverPaseo, ponerCrias, tocarPaseo } from './granjaAnimales.ts';
 import { cuidarManzano, dibujaManzano, tocarManzano } from './granjaManzano.ts';
@@ -78,6 +82,11 @@ function cielo(a: string, b: string, alto: number): void {
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, alto);
 }
+
+// nombreExcursion(e): las formas (nombreEn) del nombre de la excursión e en el idioma del juego. El nombre se escribe
+// con mayúscula ('La granja escuela') y la tabla de nombres lo guarda en minúscula, como los demás ('la granja escuela').
+// Desde la fase ID2f de docs/PLAN-IDIOMAS.md; lo usa también el álbum de excursiones.
+export const nombreExcursion = (e: Excursion): Nombre => nombreEn(e.nombre.charAt(0).toLowerCase() + e.nombre.slice(1));
 
 // fondoGranja(): la granja: el cielo, el prado, el granero rojo con su tejado, la valla y el camino de tierra. Lo usan la
 // excursión de la granja y sus estaciones.
@@ -207,7 +216,8 @@ SCENES['autobus'] = {
   },
   // prompt(): la consigna, mientras se elige.
   prompt() {
-    if (bus.fase === 'elige') say(`¡Sube al autobús${kid()}! ¿Adónde nos vamos de excursión? Toca un cartel.`);
+    if (bus.fase === 'elige')
+      say(fmt('¡Sube al autobús{nino}! ¿Adónde nos vamos de excursión? Toca un cartel.', { nino: kid() }));
   },
   // hint(): la primera excursión que ya se puede hacer.
   hint() {
@@ -283,13 +293,13 @@ SCENES['autobus'] = {
     }
     if (!estacionesJugables(d.e).length) {
       SFX.boing();
-      say(`¡${d.e.nombre} está en obras! Muy pronto podremos ir.`);
+      say(fmt('¡{Excursion} está en obras! Muy pronto podremos ir.', { excursion: nombreExcursion(d.e).art }));
       return;
     }
     SFX.pop();
     Object.assign(bus, { fase: 'viaje', destino: d.e.id, t0: T });
     tone(180, 0.5, 'sawtooth', 0.15);
-    say(`¡Nos vamos a ${d.e.nombre.toLowerCase()}! ¡Brum, brum!`);
+    say(fmt('¡Nos vamos {excursion}! ¡Brum, brum!', { excursion: nombreExcursion(d.e).a }));
   },
 };
 
@@ -395,7 +405,10 @@ function hacerFoto(): void {
     save();
   }
   say(
-    `¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. ${e.nombreGuia} nos espera otro día en ${e.nombre.toLowerCase()}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.`,
+    fmt(
+      '¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.',
+      { guia: e.nombreGuia, excursion: nombreExcursion(e).art },
+    ),
     () => {
       if (primera && sceneName === 'excursion') giveSticker(e.icono, true);
     },
@@ -432,7 +445,10 @@ SCENES['excursion'] = {
       save();
       later(500, () =>
         sayQ(
-          `¡Hola${kid()}! Soy ${e.nombreGuia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.`,
+          fmt(
+            '¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.',
+            { nino: kid(), guia: e.nombreGuia },
+          ),
           luego,
         ),
       );
@@ -445,7 +461,7 @@ SCENES['excursion'] = {
       return;
     }
     const s = siguienteEstacion(excursionActual(), visitaActual());
-    if (s) say(`¡Vamos a ${s.nombre.toLowerCase()}! Toca su dibujo.`);
+    if (s) say(fmt('¡Vamos a {estacion}! Toca su dibujo.', { estacion: tr(s.nombre).toLowerCase() }));
   },
   // hint(): la siguiente estación por hacer; tras la foto, nada.
   hint() {
@@ -498,7 +514,7 @@ SCENES['excursion'] = {
     if (s) {
       if (!s.escena) {
         SFX.boing();
-        say(`${s.nombre}: ¡muy pronto podremos hacerlo!`);
+        say(fmt('{estacion}: ¡muy pronto podremos hacerlo!', { estacion: tr(s.nombre) }));
         return;
       }
       SFX.pop();

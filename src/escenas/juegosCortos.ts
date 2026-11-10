@@ -24,6 +24,7 @@ import {
   drawCoinHUD,
   drawHome,
   drawTito,
+  fmt,
   go,
   hR,
   hv,
@@ -36,6 +37,7 @@ import {
   sayQ,
   sparkles,
   text,
+  tr,
 } from '../nucleo/indice.ts';
 import { JUEGOS_CORTOS, type JuegoCorto } from '../dominio/juegosCortos.ts';
 import { fondoPatio } from './patio.ts';
@@ -153,7 +155,7 @@ SCENES['juegosCortos'] = {
       if (!t.j.escena || !sePuedeCorto(t.j)) {
         SFX.boing();
         burst(t.x + t.w / 2, t.y + 40, 10);
-        say(`${t.j.nombre}: ¡muy pronto podrás jugar!`);
+        say(fmt('{juego}: ¡muy pronto podrás jugar!', { juego: tr(t.j.nombre) }));
         return;
       }
       SFX.pop();

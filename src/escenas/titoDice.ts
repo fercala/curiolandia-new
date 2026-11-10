@@ -37,6 +37,9 @@ import {
   sparkles,
   text,
   tone,
+  fmt,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import { drawKid } from '../juegos/indice.ts';
 import { fondoPatio } from './patio.ts';
@@ -129,7 +132,9 @@ const paso = (): PasoPlan | undefined => st.plan[st.i];
 function decir(): void {
   const p = paso()!;
   Object.assign(st, { fase: 'dice', t0: T, dur: 9e9 });
-  say(p.trampa ? conMayuscula(p.orden.frase) : 'Tito dice: ' + p.orden.frase, () => {
+  // la orden, en el idioma del juego; juntar la apunta como ya traducida (con su mayúscula, no se vuelve a traducir)
+  const orden = tr(p.orden.frase);
+  say(p.trampa ? juntar(conMayuscula(orden)) : fmt('Tito dice: {orden}', { orden }), () => {
     const cuenta = p.orden.veces * TIEMPOS.cuenta + 0.6;
     Object.assign(st, {
       fase: 'hace',
