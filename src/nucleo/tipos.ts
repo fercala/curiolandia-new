@@ -115,6 +115,9 @@ export interface Estado {
   /** Los estados guardados de las cosas de la casa de Tito: {id: número}, 0 = el normal (dominio/casaToques.ts: la
    * lámpara, la tele, la cama, la torre de bloques...). Desde la fase M3 de docs/PLAN-CASA-MEJORA.md. */
   casaEst?: Record<string, number>;
+  /** Las rutinas del día de la casa de Tito hechas hoy (dominio/casaDia.ts, CasaDia): el día y sus ids. Otro día o un
+   * valor que no vale, día vacío. Desde la fase M6 de docs/PLAN-CASA-MEJORA.md; opcional, sin migración. */
+  casaDia?: { d: string; hechas: readonly string[] };
   /** El cole (dominio/cole.ts, RegistroCole): el último día que se jugó en el patio, lo hecho ese día y cuántas veces
    * se ha hecho cada actividad. Desde la fase P1 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   cole?: { d: string; hechas: string[]; veces: Record<string, number> };

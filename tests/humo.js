@@ -102,6 +102,8 @@ const ESCENAS = [
   ['juegosCortos', {}], // los juegos cortos del patio (P12)
   ['rayuela', {}],
   ['columpios', {}],
+  ['penaltis', {}], // P12b
+  ['pompas', {}],
 ];
 
 (async () => {

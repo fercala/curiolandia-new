@@ -125,6 +125,32 @@ decbb93dbc70,¡Bailo con la música de la guitarra!,frase,src/contenido/casa.ts
 e4b3234adee4,Me escondo detrás del árbol. ¿Me ves?,frase,src/contenido/casa.ts
 b71f5174110e,¡Oh! Se le ha caído una torre al castillo.,frase,src/contenido/casa.ts
 0bbf5363ae84,"¡Chapoteo en la piscina! ¡Plof, plof!",frase,src/contenido/casa.ts
+1b748d0b6a0c,¡Buenos días! Es la hora del desayuno. ¿Me llevas a la nevera o a la mesa?,frase,src/contenido/casa.ts
+ce0a8968af37,¡Qué rico desayuno! Ya tengo fuerzas para todo el día. Toma una pegatina.,frase,src/contenido/casa.ts
+cf873a75df85,¡Es la hora de jugar! ¿Me llevas a un juguete?,frase,src/contenido/casa.ts
+b8470c198c9e,¡Qué bien lo hemos pasado jugando! Toma una pegatina.,frase,src/contenido/casa.ts
+37c9cdfebc46,¡Es la hora de comer! ¿Me llevas a la mesa o a la olla?,frase,src/contenido/casa.ts
+06d1ba28f0fe,¡Qué buena estaba la comida! Toma una pegatina.,frase,src/contenido/casa.ts
+4ade5a95c272,Uaaah... Es la hora de la siesta. ¿Me llevas a la cama o al sofá?,frase,src/contenido/casa.ts
+e99f44b2ba3b,¡Qué siesta tan buena! Ya estoy despierto. Toma una pegatina.,frase,src/contenido/casa.ts
+103b3900cfe8,¡Es la hora del baño! ¿Me llevas a la bañera?,frase,src/contenido/casa.ts
+c4fde6c1b7d1,¡Ya estoy limpito! Toma una pegatina.,frase,src/contenido/casa.ts
+1fe00cc2dce5,¡Es la hora de cenar! ¿Me llevas a la mesa?,frase,src/contenido/casa.ts
+233cbfed192c,¡Qué buena cena! Toma una pegatina.,frase,src/contenido/casa.ts
+19d66a415fad,Ya es de noche. Es la hora de dormir. ¿Me llevas a la cama?,frase,src/contenido/casa.ts
+aa7cfbb697ac,Buenas noches. ¡Hasta mañana! Toma una pegatina.,frase,src/contenido/casa.ts
+5048aef750cd,"Tic, tac. Son las doce.",frase,src/contenido/casa.ts
+00395e8ce9c4,"Tic, tac. Es la una.",frase,src/contenido/casa.ts
+f2120af6a510,"Tic, tac. Son las dos.",frase,src/contenido/casa.ts
+72965e87e8a7,"Tic, tac. Son las tres.",frase,src/contenido/casa.ts
+da1805d5dd8e,"Tic, tac. Son las cuatro.",frase,src/contenido/casa.ts
+1655a09e5471,"Tic, tac. Son las cinco.",frase,src/contenido/casa.ts
+04a5d783116b,"Tic, tac. Son las seis.",frase,src/contenido/casa.ts
+cc6fe6212473,"Tic, tac. Son las siete.",frase,src/contenido/casa.ts
+29ff058cf8ef,"Tic, tac. Son las ocho.",frase,src/contenido/casa.ts
+8d313f91301b,"Tic, tac. Son las nueve.",frase,src/contenido/casa.ts
+2399ea68bdc5,"Tic, tac. Son las diez.",frase,src/contenido/casa.ts
+c8c7744b59d2,"Tic, tac. Son las once.",frase,src/contenido/casa.ts
 46a9c845ed04,La mochila de Teo,trozo,src/contenido/cuentos.ts
 63dc4af5492e,Teo llegó al cole con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!,frase,src/contenido/cuentos.ts
 e94285781b6f,"Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!",frase,src/contenido/cuentos.ts
@@ -1047,6 +1073,14 @@ df787b379967,{n} veces,trozo,src/dominio/excursiones.ts
 8fbd08ad3d52,La cometa,trozo,src/dominio/juegosCortos.ts
 210d1bebbc85,El pañuelo,trozo,src/dominio/juegosCortos.ts
 88d5988c508b,Las sillas,trozo,src/dominio/juegosCortos.ts
+1927bfb65307,¡Explota las pompas rojas!,frase,src/dominio/juegosCortos.ts
+0ac8f501655c,Esa pompa es roja.,frase,src/dominio/juegosCortos.ts
+8c679283ca8f,¡Explota las pompas azules!,frase,src/dominio/juegosCortos.ts
+31faf7ec6515,Esa pompa es azul.,frase,src/dominio/juegosCortos.ts
+f1567e03c207,¡Explota las pompas amarillas!,frase,src/dominio/juegosCortos.ts
+2dbd69f7501c,Esa pompa es amarilla.,frase,src/dominio/juegosCortos.ts
+4da332214aea,¡Explota las pompas verdes!,frase,src/dominio/juegosCortos.ts
+db5f7a946e23,Esa pompa es verde.,frase,src/dominio/juegosCortos.ts
 0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
 e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
 6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
@@ -1304,9 +1338,9 @@ b271ba1d0f83,¡Espera a que vuelva hacia ti!,frase,src/escenas/columpios.ts
 b99ddbc4b11a,¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!,frase,src/escenas/columpios.ts
 0973858a9230,¡Qué bien me has columpiado! ¿Jugamos otra vez?,frase,src/escenas/columpios.ts
 249b3d3ca207,"¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.",frase,src/escenas/columpios.ts
-eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/rayuela.ts
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/penaltis.ts
 5aed92d6a158,Toca la mano para empujar cuando el columpio llegue hasta ella.,frase,src/escenas/columpios.ts
-fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/rayuela.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/penaltis.ts
 88084c247f32,¡Medallero!,frase,src/escenas/deporte.ts
 15b8d74100c6,¡Copa nueva!,frase,src/escenas/deporte.ts
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,frase,src/escenas/deporte.ts
@@ -1625,6 +1659,30 @@ f4b7f5c009fb, de ,trozo,src/escenas/libroLetras.ts src/temas/letras.ts src/aplic
 351fb9238b96,¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?,frase,src/escenas/patio.ts
 0c447c76243e,Elige un juego del patio.,frase,src/escenas/patio.ts
 be997aa77b53,¡Lo has hecho genial!,frase,src/escenas/patioComun.ts
+bebab5422711,¡A la izquierda!,frase,src/escenas/penaltis.ts
+aaae4a7a597f,¡A la derecha!,frase,src/escenas/penaltis.ts
+f7836efa05cc,¡Arriba!,frase,src/escenas/penaltis.ts
+8212451be145,¡Gol!,frase,src/escenas/penaltis.ts
+41df3a925666,¡Golazo!,frase,src/escenas/penaltis.ts
+434da71a5ba0,"¡Gol, gol, gol!",frase,src/escenas/penaltis.ts
+7894bf3f6cc3,"¡Uy, lo ha parado Lupi!",frase,src/escenas/penaltis.ts
+fe2da7260047,¡Qué parada! Otra vez será.,frase,src/escenas/penaltis.ts
+73c19e720d21,"¿Hacia dónde chuto? ¿Izquierda, derecha o arriba?",frase,src/escenas/penaltis.ts
+0522c9339164,¿Hacia dónde chuto? ¿Izquierda o derecha?,frase,src/escenas/penaltis.ts
+7ffa50426c81,¡Lupi lo ha parado todo! La próxima vez seguro que metemos gol.,frase,src/escenas/penaltis.ts
+8974ee47e6ec,¡Has metido un gol! ¿Jugamos otra vez?,frase,src/escenas/penaltis.ts
+10723df1cfb0,¡Has metido {n} goles! ¿Jugamos otra vez?,frase,src/escenas/penaltis.ts
+6489e94c3f30,¡A los penaltis! Lupi es la portera. Tú eliges hacia dónde chuto: toca un lado de la portería.,frase,src/escenas/penaltis.ts
+31823571f5ea,Toca un lado de la portería para chutar.,frase,src/escenas/penaltis.ts
+f498f42ecc18,Izquierda.,frase,src/escenas/penaltis.ts
+5bfdd29982c3,Derecha.,frase,src/escenas/penaltis.ts
+4f9410833aab,Arriba.,frase,src/escenas/penaltis.ts
+7976e8a26f61,× {n},trozo,src/escenas/penaltis.ts
+f42bfe48c304,¡GOL!,frase,src/escenas/penaltis.ts
+0dccf65f49f2,"¡Muy bien! Ahora, otro color.",frase,src/escenas/pompas.ts
+92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,frase,src/escenas/pompas.ts
+aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.",frase,src/escenas/pompas.ts
+02fdbb032ecb,{a} / {b},trozo,src/escenas/pompas.ts
 cfd249310611,Tira la piedra a la casilla del {n}.,frase,src/escenas/rayuela.ts
 fe267e4ae7ab,"¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!",frase,src/escenas/rayuela.ts
 d40cd42c4fad,Esa es la casilla del {n}. Busca la del {objetivo}.,frase,src/escenas/rayuela.ts
