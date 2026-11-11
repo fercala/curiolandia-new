@@ -104,6 +104,8 @@ const ESCENAS = [
   ['columpios', {}],
   ['penaltis', {}], // P12b
   ['pompas', {}],
+  ['cometa', {}],
+  ['panuelo', {}],
 ];
 
 (async () => {
