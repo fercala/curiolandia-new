@@ -13,12 +13,19 @@
  *     pequeños). Cinco tiros; cuentan los goles.
  *   - Las pompas de jabón (P12b): suben pompas de colores y Tito pide un color; se explotan solo las de ese color.
  *     Tres rondas, cada una con su color (planPompas).
+ *   - La cometa (P12c): Tito sujeta la cometa y se lleva con el dedo hasta las estrellas del cielo, sin que toque los
+ *     árboles; el viento sopla hacia un lado y cambia de vez en cuando (más fuerte con los mayores). Tocar un árbol no
+ *     quita nada: la cometa rebota hacia arriba (planCometa da las estrellas, lejos de los árboles).
+ *   - El pañuelo (P12c): Tito está en el medio con el pañuelo y hay dos equipos de amigos con números. Tito dice un
+ *     número y se toca al amigo de nuestro equipo que lo lleva: corre, coge el pañuelo y gana el punto. Con 3 años, 3
+ *     amigos; con 5, cinco y descolocados (planPanuelo).
  * Al terminar cada juego, como las demás actividades del patio, 3 monedas la primera vez de cada día (dominio/cole.ts,
  * con el id del juego).
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/juegosCortos.test.ts.
- * Exporta: los tipos JuegoCorto, CasillaRayuela, LadoPenalti, ColorPompa y RondaPompas, JUEGOS_CORTOS, RAYUELA,
- * COLUMPIO, PENALTIS, POMPAS, COLORES_POMPAS, juegoCorto, casillasRayuela, planRayuela, empujonBueno, ladosPenalti,
- * paradaDe y planPompas.
+ * Exporta: los tipos JuegoCorto, CasillaRayuela, LadoPenalti, ColorPompa, RondaPompas, Punto y ArbolCometa,
+ * JUEGOS_CORTOS, RAYUELA, COLUMPIO, PENALTIS, POMPAS, COLORES_POMPAS, COMETA, ARBOLES_COMETA, PANUELO, juegoCorto,
+ * casillasRayuela, planRayuela, empujonBueno, ladosPenalti, paradaDe, planPompas, tocaArbol, planCometa, vientoEn y
+ * planPanuelo.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son las reglas mismas (cuántas casillas y rondas según la
@@ -47,8 +54,8 @@ export const JUEGOS_CORTOS: readonly JuegoCorto[] = [
   { id: 'columpios', nombre: 'Los columpios', escena: 'columpios', icono: 'columpio' },
   { id: 'penaltis', nombre: 'Los penaltis', escena: 'penaltis', icono: 'pelota' },
   { id: 'pompas', nombre: 'Las pompas', escena: 'pompas', icono: 'pelotaPlaya' },
-  { id: 'cometa', nombre: 'La cometa', icono: 'cometa' },
-  { id: 'panuelo', nombre: 'El pañuelo', icono: 'manos' },
+  { id: 'cometa', nombre: 'La cometa', escena: 'cometa', icono: 'cometa' },
+  { id: 'panuelo', nombre: 'El pañuelo', escena: 'panuelo', icono: 'manos' },
   { id: 'sillas', nombre: 'Las sillas', icono: 'silla' },
 ];
 
@@ -181,4 +188,97 @@ export function planPompas(edad: number, azar: () => number): { colores: string[
       (color): RondaPompas => ({ color, cuantas }),
     );
   return { colores, rondas };
+}
+
+/** Un punto de la pantalla (de 1600x900). */
+export interface Punto {
+  readonly x: number;
+  readonly y: number;
+}
+/** La copa de un árbol de la cometa: su centro y su radio. */
+export interface ArbolCometa extends Punto {
+  readonly r: number;
+}
+
+// COMETA: las reglas de la cometa: las estrellas que hay que coger según la edad, lo fuerte que sopla el viento (en
+// píxeles por segundo), cada cuántos segundos cambia, lo cerca que hay que pasar de una estrella para cogerla, la zona
+// del cielo donde salen las estrellas y lo lejos que sale cada una de la anterior y de los árboles.
+export const COMETA = {
+  estrellas: { 3: 4, 4: 5, 5: 6 } as Readonly<Record<number, number>>,
+  viento: { 3: 45, 4: 75, 5: 105 } as Readonly<Record<number, number>>,
+  cambia: 5,
+  coge: 80,
+  cielo: { x0: 220, x1: 1380, y0: 190, y1: 470 },
+  lejos: 320,
+  margen: 70,
+} as const;
+
+// ARBOLES_COMETA: las copas de los árboles del prado de la cometa (abajo, a los lados y en medio).
+export const ARBOLES_COMETA: readonly ArbolCometa[] = [
+  { x: 170, y: 560, r: 130 },
+  { x: 560, y: 650, r: 95 },
+  { x: 1070, y: 640, r: 100 },
+  { x: 1440, y: 545, r: 135 },
+];
+
+// tocaArbol(p, holgura): el árbol que toca el punto p (con holgura píxeles de más), o undefined.
+export function tocaArbol(p: Punto, holgura = 0): ArbolCometa | undefined {
+  return ARBOLES_COMETA.find((a) => Math.hypot(p.x - a.x, p.y - a.y) < a.r + holgura);
+}
+
+// sitioEstrella(azar): un sitio al azar de la zona del cielo de la cometa.
+function sitioEstrella(azar: () => number): Punto {
+  const c = COMETA.cielo;
+  return { x: Math.round(c.x0 + azar() * (c.x1 - c.x0)), y: Math.round(c.y0 + azar() * (c.y1 - c.y0)) };
+}
+
+// planCometa(edad, azar): las estrellas de una partida de la cometa, en orden: COMETA.estrellas según la edad, cada
+// una lejos de la anterior (para que haya que llevar la cometa de un lado a otro) y de los árboles. Prueba hasta 30
+// sitios por estrella y, si ninguno vale, se queda con el último que no toca un árbol (o el centro del cielo).
+export function planCometa(edad: number, azar: () => number): Punto[] {
+  const n = COMETA.estrellas[edadDe(edad)] ?? 5,
+    centro = { x: (COMETA.cielo.x0 + COMETA.cielo.x1) / 2, y: COMETA.cielo.y0 };
+  return Array.from({ length: n }).reduce<Punto[]>((hechas) => {
+    const antes = hechas[hechas.length - 1],
+      sitios = Array.from({ length: 30 }, () => sitioEstrella(azar)).filter((p) => !tocaArbol(p, COMETA.margen)),
+      bueno = sitios.find((p) => !antes || Math.hypot(p.x - antes.x, p.y - antes.y) >= COMETA.lejos);
+    return [...hechas, bueno ?? sitios[sitios.length - 1] ?? centro];
+  }, []);
+}
+
+// vientoEn(t, edad, lados): el viento en el segundo t de la partida, en píxeles por segundo (positivo: hacia la
+// derecha). Cambia cada COMETA.cambia segundos, hacia el lado que diga la lista lados (1 o -1, en bucle).
+export function vientoEn(t: number, edad: number, lados: readonly number[]): number {
+  const tramo = Math.floor(Math.max(0, t) / COMETA.cambia),
+    lado = lados.length ? (lados[tramo % lados.length] ?? 1) : 1;
+  return lado * (COMETA.viento[edadDe(edad)] ?? 75);
+}
+
+// PANUELO: las reglas del pañuelo: las rondas (números que dice Tito) de una partida y los amigos de cada equipo
+// según la edad (cada uno con un número, del 1 al que haya).
+export const PANUELO = {
+  rondas: 4,
+  equipo: { 3: 3, 4: 4, 5: 5 } as Readonly<Record<number, number>>,
+} as const;
+
+// planPanuelo(edad, azar): una partida del pañuelo: los números de los amigos de nuestro equipo, en su orden en la
+// fila (con 3 y 4 años, en orden; con 5, descolocados), y los números que dice Tito en cada ronda (PANUELO.rondas, sin
+// repetir el de justo antes). azar() da un número en [0, 1).
+export function planPanuelo(edad: number, azar: () => number): { fila: number[]; pedidos: number[] } {
+  const e = edadDe(edad),
+    n = PANUELO.equipo[e] ?? 4,
+    numeros = Array.from({ length: n }, (_, i) => i + 1),
+    fila =
+      e >= 5
+        ? numeros
+            .map((k) => ({ k, a: azar() }))
+            .sort((a, b) => a.a - b.a)
+            .map((x) => x.k)
+        : numeros,
+    pedidos = Array.from({ length: PANUELO.rondas }).reduce<number[]>((hechos) => {
+      const antes = hechos[hechos.length - 1],
+        otros = numeros.filter((k) => k !== antes);
+      return [...hechos, otros[Math.floor(azar() * otros.length)] ?? otros[0] ?? 1];
+    }, []);
+  return { fila, pedidos };
 }

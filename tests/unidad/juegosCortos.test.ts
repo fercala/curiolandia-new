@@ -1,10 +1,13 @@
 // Pruebas de las reglas de los juegos cortos del patio (src/dominio/juegosCortos.ts, fase P12 de docs/IDEAS-MEJORA.md):
 // la lista de juegos, las casillas y el plan de la rayuela, el momento bueno del columpio, la portera de los penaltis y el
-// plan de las pompas. Sin navegador.
+// plan de las pompas, las estrellas y el viento de la cometa y el plan del pañuelo. Sin navegador.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso: leerlos tal cual es más claro. */
 import { describe, expect, test } from 'vitest';
 import {
+  ARBOLES_COMETA,
+  COMETA,
   JUEGOS_CORTOS,
+  PANUELO,
   PENALTIS,
   POMPAS,
   RAYUELA,
@@ -13,8 +16,12 @@ import {
   juegoCorto,
   ladosPenalti,
   paradaDe,
+  planCometa,
+  planPanuelo,
   planPompas,
   planRayuela,
+  tocaArbol,
+  vientoEn,
 } from '../../src/dominio/juegosCortos.ts';
 
 // azarFijo(valores): un azar de prueba que va dando esos valores, en bucle.
@@ -24,7 +31,7 @@ const azarFijo = (valores: readonly number[]) => {
 };
 
 describe('los juegos cortos del patio', () => {
-  test('son siete con ids distintos; la rayuela, los columpios, los penaltis y las pompas ya tienen escena', () => {
+  test('son siete con ids distintos; todos menos las sillas ya tienen escena', () => {
     const ids = JUEGOS_CORTOS.map((j) => j.id);
     expect(ids).toHaveLength(7);
     expect(new Set(ids).size).toBe(7);
@@ -32,7 +39,9 @@ describe('los juegos cortos del patio', () => {
     expect(juegoCorto('columpios')?.escena).toBe('columpios');
     expect(juegoCorto('penaltis')?.escena).toBe('penaltis');
     expect(juegoCorto('pompas')?.escena).toBe('pompas');
-    expect(juegoCorto('cometa')?.escena).toBeUndefined();
+    expect(juegoCorto('cometa')?.escena).toBe('cometa');
+    expect(juegoCorto('panuelo')?.escena).toBe('panuelo');
+    expect(juegoCorto('sillas')?.escena).toBeUndefined();
     expect(juegoCorto('nada')).toBeUndefined();
   });
 
@@ -96,5 +105,53 @@ describe('los juegos cortos del patio', () => {
         if (i > 0) expect(r.color).not.toBe(rondas[i - 1]!.color);
       });
     });
+  });
+
+  test('la cometa: las estrellas de la edad, en el cielo, lejos de los árboles y de la anterior', () => {
+    let semilla = 3;
+    const azar = () => (semilla = (semilla * 9301 + 49297) % 233280) / 233280;
+    [3, 4, 5].forEach((edad) =>
+      Array.from({ length: 20 }).forEach(() => {
+        const plan = planCometa(edad, azar);
+        expect(plan).toHaveLength(COMETA.estrellas[edad] ?? 0);
+        plan.forEach((p, i) => {
+          expect(tocaArbol(p, COMETA.margen)).toBeUndefined();
+          expect(p.y).toBeGreaterThanOrEqual(COMETA.cielo.y0);
+          expect(p.y).toBeLessThanOrEqual(COMETA.cielo.y1);
+          const antes = plan[i - 1];
+          if (antes) expect(Math.hypot(p.x - antes.x, p.y - antes.y)).toBeGreaterThanOrEqual(COMETA.lejos);
+        });
+      }),
+    );
+    // un azar que siempre da lo mismo: no puede alejarse, pero no se queda sin estrellas
+    expect(planCometa(4, () => 0.5)).toHaveLength(5);
+  });
+
+  test('la cometa: los árboles se tocan cerca de su copa; el viento cambia de lado y sopla más con 5 años', () => {
+    const a = ARBOLES_COMETA[0]!;
+    expect(tocaArbol({ x: a.x, y: a.y })).toBe(a);
+    expect(tocaArbol({ x: 800, y: 250 })).toBeUndefined();
+    expect(vientoEn(0, 3, [1, -1])).toBe(COMETA.viento[3]);
+    expect(vientoEn(COMETA.cambia + 0.1, 3, [1, -1])).toBe(-(COMETA.viento[3] ?? 0));
+    expect(vientoEn(COMETA.cambia * 2 + 0.1, 5, [1, -1])).toBe(COMETA.viento[5]);
+    expect(Math.abs(vientoEn(1, 5, [1]))).toBeGreaterThan(Math.abs(vientoEn(1, 3, [1])));
+    expect(vientoEn(-3, 4, [])).toBe(COMETA.viento[4]);
+  });
+
+  test('el pañuelo: los amigos de la edad (con 5 años, descolocados) y números que no se repiten seguidos', () => {
+    [3, 4, 5].forEach((edad) =>
+      [0.1, 0.5, 0.9].forEach((a) => {
+        const { fila, pedidos } = planPanuelo(edad, azarFijo([a, 0.7, 0.2, 0.95, 0.4]));
+        const n = PANUELO.equipo[edad] ?? 0;
+        expect([...fila].sort()).toEqual(Array.from({ length: n }, (_, i) => i + 1));
+        expect(pedidos).toHaveLength(PANUELO.rondas);
+        pedidos.forEach((k, i) => {
+          expect(fila).toContain(k);
+          if (i > 0) expect(k).not.toBe(pedidos[i - 1]);
+        });
+      }),
+    );
+    expect(planPanuelo(3, () => 0.5).fila).toEqual([1, 2, 3]);
+    expect(planPanuelo(5, azarFijo([0.9, 0.1, 0.5, 0.3, 0.7])).fila).toEqual([2, 4, 3, 5, 1]);
   });
 });
