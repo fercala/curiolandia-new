@@ -99,6 +99,9 @@ const ESCENAS = [
   ['deportePunteria', { deporte: true }],
   ['deporteEquilibrio', { deporte: true }],
   ['deporteRelevos', { deporte: true }],
+  ['juegosCortos', {}], // los juegos cortos del patio (P12)
+  ['rayuela', {}],
+  ['columpios', {}],
 ];
 
 (async () => {

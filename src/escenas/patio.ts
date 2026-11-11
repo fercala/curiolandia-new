@@ -56,13 +56,13 @@ interface BotonPatio {
   readonly h: number;
 }
 
-// Medidas de los botones: ancho (como mucho; desde la fase P11, con cinco botones, algo menos para que quepan), alto,
+// Medidas de los botones: ancho (como mucho; desde la fase P11, con cinco botones o más, algo menos para que quepan), alto,
 // separación y altura de su borde de arriba. Se centran en la pantalla.
 const BOTON = { w: 290, h: 320, sep: 32, y: 330 };
 // anchoBoton: el ancho de cada botón, para que quepan todos con 80 de margen a cada lado.
 const anchoBoton = Math.min(BOTON.w, (W - 160 - (ACTIVIDADES_PATIO.length - 1) * BOTON.sep) / ACTIVIDADES_PATIO.length);
 // COLORES: el color de cada botón, en orden.
-const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E', '#FFA94D'];
+const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E', '#FFA94D', '#E07BB5'];
 
 // BOTONES_PATIO: un botón por actividad del patio, en fila y centrados.
 export const BOTONES_PATIO: readonly BotonPatio[] = ACTIVIDADES_PATIO.map((a, i, todas) => {

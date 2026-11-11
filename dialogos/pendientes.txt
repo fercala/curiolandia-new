@@ -1682,3 +1682,31 @@ Has cogido una estrella{nino}.
 Has cogido {n} estrellas{nino}.
 ¡Y coge los números del uno al cinco, saltando!
 {N}. ¡Hay {n}!
+Juegos cortos
+¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.
+Elige un juego corto.
+La rayuela
+Los columpios
+Los penaltis
+Las pompas
+La cometa
+El pañuelo
+Las sillas
+{juego}: ¡muy pronto podrás jugar!
+¡A la rayuela! Tira la piedra a la casilla que te diga y luego saltamos a la pata coja, contando. ¡Salta tú también!
+Tira la piedra a la casilla del {n}.
+¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!
+Esa es la casilla del {n}. Busca la del {objetivo}.
+¡La piedra!
+¡Qué bien saltas a la pata coja! Hemos jugado a la rayuela. ¿Jugamos otra vez?
+Toca la casilla del {n}.
+¡Salta a la pata coja y cuenta conmigo!
+¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.
+¡Más alto!
+¡Uy, qué alto!
+¡Otra vez!
+¡Qué bien empujas!
+¡Espera a que vuelva hacia ti!
+¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!
+¡Qué bien me has columpiado! ¿Jugamos otra vez?
+Toca la mano para empujar cuando el columpio llegue hasta ella.

@@ -1000,6 +1000,7 @@ a02e8bf6d838,último lugar,trozo,src/dominio/carreras.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
 db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
 83d5c96d00d0,Día del deporte,trozo,src/dominio/cole.ts
+45e64e64f7e3,Juegos cortos,trozo,src/dominio/cole.ts src/escenas/juegosCortos.ts
 25cbaa49e002,el pollito,trozo,src/dominio/crias.ts src/nucleo/idioma.ts
 fcbe927d0a34,la gallina,trozo,src/dominio/crias.ts src/escenas/granja.ts src/nucleo/idioma.ts
 ff3eef06c65b,Pío,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts
@@ -1039,6 +1040,13 @@ e4967d139c87,{lista} y {ultimo},trozo,src/dominio/deporte.ts
 f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/libroLetras.ts src/escenas/yoga.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 7327b8c0b779, veces,trozo,src/dominio/excursiones.ts
+2f05391d7e51,La rayuela,trozo,src/dominio/juegosCortos.ts
+99b376c14d04,Los columpios,trozo,src/dominio/juegosCortos.ts src/escenas/columpios.ts
+6bda4ebc15a3,Los penaltis,trozo,src/dominio/juegosCortos.ts
+1d4e8cddd4be,Las pompas,trozo,src/dominio/juegosCortos.ts
+8fbd08ad3d52,La cometa,trozo,src/dominio/juegosCortos.ts
+210d1bebbc85,El pañuelo,trozo,src/dominio/juegosCortos.ts
+88d5988c508b,Las sillas,trozo,src/dominio/juegosCortos.ts
 0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
 e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
 6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
@@ -1273,7 +1281,7 @@ b452820c55c6,¡Mira lo que había{nino}: {cosa}! ¡Tito ya se lo puso! ¡Y diez 
 f9f93649a99e,¡Mira cuántas monedas{nino}! ¡Veinte monedas!,frase,src/escenas/cofre.ts
 721ba9ddae59,"Toca la casa para verlo, o la flecha verde para seguir el camino.",frase,src/escenas/cofre.ts
 82b808c124a3,Toca la flecha verde para seguir el camino.,frase,src/escenas/cofre.ts src/escenas/repaso.ts
-24166ed0d5a7,¡Otra vez!,frase,src/escenas/cofre.ts
+24166ed0d5a7,¡Otra vez!,frase,src/escenas/cofre.ts src/escenas/columpios.ts
 86cc9c3caa41,¡Una vez más!,frase,src/escenas/cofre.ts
 a97c66fedfb2,el patio,trozo,src/escenas/cole.ts
 b44e34d68b1b,El patio,trozo,src/escenas/cole.ts src/escenas/patio.ts
@@ -1289,6 +1297,16 @@ f780cf0b3b7a,"Toca el patio para jugar, o el autobús para ir de excursión.",fr
 6fb2d58eed45,{Sitio} están en obras. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/cole.ts
 8ac8aeea9a0b,{Sitio} está en obras. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/cole.ts
 89b3f1dd7488,El patio está cerrado por ahora. ¡Hay muchas cosas más para jugar en el mapa!,frase,src/escenas/cole.ts
+124b1e8fb55c,¡Más alto!,frase,src/escenas/columpios.ts
+4bc0e9630ab8,"¡Uy, qué alto!",frase,src/escenas/columpios.ts
+834f4433b5b2,¡Qué bien empujas!,frase,src/escenas/columpios.ts
+b271ba1d0f83,¡Espera a que vuelva hacia ti!,frase,src/escenas/columpios.ts
+b99ddbc4b11a,¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!,frase,src/escenas/columpios.ts
+0973858a9230,¡Qué bien me has columpiado! ¿Jugamos otra vez?,frase,src/escenas/columpios.ts
+249b3d3ca207,"¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.",frase,src/escenas/columpios.ts
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/rayuela.ts
+5aed92d6a158,Toca la mano para empujar cuando el columpio llegue hasta ella.,frase,src/escenas/columpios.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/rayuela.ts
 88084c247f32,¡Medallero!,frase,src/escenas/deporte.ts
 15b8d74100c6,¡Copa nueva!,frase,src/escenas/deporte.ts
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,frase,src/escenas/deporte.ts
@@ -1506,9 +1524,7 @@ cbd3842a2878,¡Estatua!,frase,src/escenas/estatuas.ts
 8ce3b84b1194,"¡Vamos a jugar a las estatuas! Cuando suene la música, baila conmigo. Cuando pare, ¡nos quedamos quietos como estatuas!",frase,src/escenas/estatuas.ts
 bfd08dda7379,"¡A las estatuas! Baila con la música y, cuando pare, ¡quieto!",frase,src/escenas/estatuas.ts
 15d248e5be3a,¡Quietos como estatuas!,frase,src/escenas/estatuas.ts
-eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts
 11f4179087e7,¡Baila con la música!,frase,src/escenas/estatuas.ts
-fd81e90ff876,Otra vez.,frase,src/escenas/estatuas.ts src/escenas/titoDice.ts src/escenas/yoga.ts
 d4fda45f4254,Álbum,trozo,src/escenas/excursion.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
 773c440fc57f,¡Sube al autobús{nino}! ¿Adónde nos vamos de excursión? Toca un cartel.,frase,src/escenas/excursion.ts
 a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
@@ -1597,6 +1613,9 @@ f9a7ebd038f4,el Pueblo de los Cuentos,trozo,src/escenas/islaIngles.ts src/escena
 645bd7ef79e7,¡Terminaste todo el inglés que hay por ahora! Puedes repetir lo que quieras.,frase,src/escenas/islaIngles.ts
 739343dc1545,"Hello! Soy Polly, la lorita. Vivo en esta isla y hablo inglés. ¡Vamos a aprender juntos!",frase,src/escenas/islaIngles.ts
 ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,frase,src/escenas/islaIngles.ts
+2289289d6344,"¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.",frase,src/escenas/juegosCortos.ts
+d9cb034d851e,Elige un juego corto.,frase,src/escenas/juegosCortos.ts
+f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts
 4a117af24ff3,Este es tu libro de letras. Ya conoces 1 letra.,frase,src/escenas/libroLetras.ts
 2482d82c1265,Este es tu libro de letras. Ya conoces {n} letras.,frase,src/escenas/libroLetras.ts
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
@@ -1604,8 +1623,15 @@ e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 351fb9238b96,¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?,frase,src/escenas/patio.ts
 0c447c76243e,Elige un juego del patio.,frase,src/escenas/patio.ts
-f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/patio.ts
 be997aa77b53,¡Lo has hecho genial!,frase,src/escenas/patioComun.ts
+cfd249310611,Tira la piedra a la casilla del {n}.,frase,src/escenas/rayuela.ts
+fe267e4ae7ab,"¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!",frase,src/escenas/rayuela.ts
+d40cd42c4fad,Esa es la casilla del {n}. Busca la del {objetivo}.,frase,src/escenas/rayuela.ts
+311a032ce40c,¡La piedra!,frase,src/escenas/rayuela.ts
+844bff51d8e1,¡Qué bien saltas a la pata coja! Hemos jugado a la rayuela. ¿Jugamos otra vez?,frase,src/escenas/rayuela.ts
+cea641e76947,"¡A la rayuela! Tira la piedra a la casilla que te diga y luego saltamos a la pata coja, contando. ¡Salta tú también!",frase,src/escenas/rayuela.ts
+d41c3895defd,Toca la casilla del {n}.,frase,src/escenas/rayuela.ts
+3d1853b869fb,¡Salta a la pata coja y cuenta conmigo!,frase,src/escenas/rayuela.ts
 f21ce998bcf3,¡Terminaste el repaso de hoy{nino}! Tito te regala cinco monedas.,frase,src/escenas/repaso.ts
 56820d319133,¡Muy bien! Ahora el número {n}.,frase,src/escenas/repaso.ts
 bbc05e480894,Todavía no hay nada para repasar. ¡Primero juega algunos juegos del camino!,frase,src/escenas/repaso.ts
