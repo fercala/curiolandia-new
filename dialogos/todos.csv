@@ -1073,6 +1073,14 @@ f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/libroLetras.ts sr
 8fbd08ad3d52,La cometa,trozo,src/dominio/juegosCortos.ts
 210d1bebbc85,El pañuelo,trozo,src/dominio/juegosCortos.ts
 88d5988c508b,Las sillas,trozo,src/dominio/juegosCortos.ts
+1927bfb65307,¡Explota las pompas rojas!,frase,src/dominio/juegosCortos.ts
+0ac8f501655c,Esa pompa es roja.,frase,src/dominio/juegosCortos.ts
+8c679283ca8f,¡Explota las pompas azules!,frase,src/dominio/juegosCortos.ts
+31faf7ec6515,Esa pompa es azul.,frase,src/dominio/juegosCortos.ts
+f1567e03c207,¡Explota las pompas amarillas!,frase,src/dominio/juegosCortos.ts
+2dbd69f7501c,Esa pompa es amarilla.,frase,src/dominio/juegosCortos.ts
+4da332214aea,¡Explota las pompas verdes!,frase,src/dominio/juegosCortos.ts
+db5f7a946e23,Esa pompa es verde.,frase,src/dominio/juegosCortos.ts
 0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
 e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
 6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
@@ -1330,9 +1338,9 @@ b271ba1d0f83,¡Espera a que vuelva hacia ti!,frase,src/escenas/columpios.ts
 b99ddbc4b11a,¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!,frase,src/escenas/columpios.ts
 0973858a9230,¡Qué bien me has columpiado! ¿Jugamos otra vez?,frase,src/escenas/columpios.ts
 249b3d3ca207,"¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.",frase,src/escenas/columpios.ts
-eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/rayuela.ts
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/penaltis.ts
 5aed92d6a158,Toca la mano para empujar cuando el columpio llegue hasta ella.,frase,src/escenas/columpios.ts
-fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/rayuela.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/penaltis.ts
 88084c247f32,¡Medallero!,frase,src/escenas/deporte.ts
 15b8d74100c6,¡Copa nueva!,frase,src/escenas/deporte.ts
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,frase,src/escenas/deporte.ts
@@ -1650,6 +1658,30 @@ b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de l
 351fb9238b96,¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?,frase,src/escenas/patio.ts
 0c447c76243e,Elige un juego del patio.,frase,src/escenas/patio.ts
 be997aa77b53,¡Lo has hecho genial!,frase,src/escenas/patioComun.ts
+bebab5422711,¡A la izquierda!,frase,src/escenas/penaltis.ts
+aaae4a7a597f,¡A la derecha!,frase,src/escenas/penaltis.ts
+f7836efa05cc,¡Arriba!,frase,src/escenas/penaltis.ts
+8212451be145,¡Gol!,frase,src/escenas/penaltis.ts
+41df3a925666,¡Golazo!,frase,src/escenas/penaltis.ts
+434da71a5ba0,"¡Gol, gol, gol!",frase,src/escenas/penaltis.ts
+7894bf3f6cc3,"¡Uy, lo ha parado Lupi!",frase,src/escenas/penaltis.ts
+fe2da7260047,¡Qué parada! Otra vez será.,frase,src/escenas/penaltis.ts
+73c19e720d21,"¿Hacia dónde chuto? ¿Izquierda, derecha o arriba?",frase,src/escenas/penaltis.ts
+0522c9339164,¿Hacia dónde chuto? ¿Izquierda o derecha?,frase,src/escenas/penaltis.ts
+7ffa50426c81,¡Lupi lo ha parado todo! La próxima vez seguro que metemos gol.,frase,src/escenas/penaltis.ts
+8974ee47e6ec,¡Has metido un gol! ¿Jugamos otra vez?,frase,src/escenas/penaltis.ts
+10723df1cfb0,¡Has metido {n} goles! ¿Jugamos otra vez?,frase,src/escenas/penaltis.ts
+6489e94c3f30,¡A los penaltis! Lupi es la portera. Tú eliges hacia dónde chuto: toca un lado de la portería.,frase,src/escenas/penaltis.ts
+31823571f5ea,Toca un lado de la portería para chutar.,frase,src/escenas/penaltis.ts
+f498f42ecc18,Izquierda.,frase,src/escenas/penaltis.ts
+5bfdd29982c3,Derecha.,frase,src/escenas/penaltis.ts
+4f9410833aab,Arriba.,frase,src/escenas/penaltis.ts
+7976e8a26f61,× {n},trozo,src/escenas/penaltis.ts
+f42bfe48c304,¡GOL!,frase,src/escenas/penaltis.ts
+0dccf65f49f2,"¡Muy bien! Ahora, otro color.",frase,src/escenas/pompas.ts
+92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,frase,src/escenas/pompas.ts
+aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.",frase,src/escenas/pompas.ts
+02fdbb032ecb,{a} / {b},trozo,src/escenas/pompas.ts
 cfd249310611,Tira la piedra a la casilla del {n}.,frase,src/escenas/rayuela.ts
 fe267e4ae7ab,"¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!",frase,src/escenas/rayuela.ts
 d40cd42c4fad,Esa es la casilla del {n}. Busca la del {objetivo}.,frase,src/escenas/rayuela.ts

@@ -1,13 +1,19 @@
 // Pruebas de las reglas de los juegos cortos del patio (src/dominio/juegosCortos.ts, fase P12 de docs/IDEAS-MEJORA.md):
-// la lista de juegos, las casillas y el plan de la rayuela y el momento bueno del columpio. Sin navegador.
+// la lista de juegos, las casillas y el plan de la rayuela, el momento bueno del columpio, la portera de los penaltis y el
+// plan de las pompas. Sin navegador.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso: leerlos tal cual es más claro. */
 import { describe, expect, test } from 'vitest';
 import {
   JUEGOS_CORTOS,
+  PENALTIS,
+  POMPAS,
   RAYUELA,
   casillasRayuela,
   empujonBueno,
   juegoCorto,
+  ladosPenalti,
+  paradaDe,
+  planPompas,
   planRayuela,
 } from '../../src/dominio/juegosCortos.ts';
 
@@ -18,13 +24,15 @@ const azarFijo = (valores: readonly number[]) => {
 };
 
 describe('los juegos cortos del patio', () => {
-  test('son siete con ids distintos; la rayuela y los columpios ya tienen escena', () => {
+  test('son siete con ids distintos; la rayuela, los columpios, los penaltis y las pompas ya tienen escena', () => {
     const ids = JUEGOS_CORTOS.map((j) => j.id);
     expect(ids).toHaveLength(7);
     expect(new Set(ids).size).toBe(7);
     expect(juegoCorto('rayuela')?.escena).toBe('rayuela');
     expect(juegoCorto('columpios')?.escena).toBe('columpios');
-    expect(juegoCorto('penaltis')?.escena).toBeUndefined();
+    expect(juegoCorto('penaltis')?.escena).toBe('penaltis');
+    expect(juegoCorto('pompas')?.escena).toBe('pompas');
+    expect(juegoCorto('cometa')?.escena).toBeUndefined();
     expect(juegoCorto('nada')).toBeUndefined();
   });
 
@@ -60,5 +68,33 @@ describe('los juegos cortos del patio', () => {
     expect(empujonBueno(0.75, 3)).toBe(false);
     expect(empujonBueno(1.25, 4)).toBe(true);
     expect(empujonBueno(-0.75, 4)).toBe(true);
+  });
+
+  test('los penaltis: izquierda y derecha (con 5 años, también arriba) y la portera para pocas veces', () => {
+    expect(ladosPenalti(3)).toEqual(['izquierda', 'derecha']);
+    expect(ladosPenalti(5)).toEqual(['izquierda', 'arriba', 'derecha']);
+    // azar por debajo de lo que para con 4 años (22 de 100): se tira al mismo lado
+    expect(paradaDe('izquierda', 4, azarFijo([0.1]))).toBe('izquierda');
+    // si no, se tira al otro lado: gol
+    expect(paradaDe('izquierda', 4, azarFijo([0.9, 0]))).toBe('derecha');
+    expect(paradaDe('arriba', 5, azarFijo([0.5, 0.99]))).not.toBe('arriba');
+    // contando muchas veces, la portera para menos que lo que dice PENALTIS.para (con un poco de margen)
+    let semilla = 7;
+    const azar = () => (semilla = (semilla * 9301 + 49297) % 233280) / 233280;
+    const paradas = Array.from({ length: 1000 }, () => paradaDe('derecha', 3, azar)).filter((l) => l === 'derecha');
+    expect(paradas.length).toBeLessThan((PENALTIS.para[3] ?? 15) * 10 + 50);
+  });
+
+  test('las pompas: los colores de la edad, una ronda por color sin repetir seguido', () => {
+    [3, 4, 5].forEach((edad) => {
+      const { colores, rondas } = planPompas(edad, azarFijo([0.3, 0.8, 0.1, 0.6]));
+      expect(colores).toHaveLength(POMPAS.colores[edad] ?? 0);
+      expect(rondas).toHaveLength(POMPAS.rondas);
+      rondas.forEach((r, i) => {
+        expect(colores).toContain(r.color);
+        expect(r.cuantas).toBe(POMPAS.cuantas[edad]);
+        if (i > 0) expect(r.color).not.toBe(rondas[i - 1]!.color);
+      });
+    });
   });
 });
