@@ -1866,7 +1866,8 @@ SCENES.casita = {
     t.bg();
     {
       ctx.font = `600 54px ${DF}`;
-      const tw = Math.min(900, ctx.measureText(t.n).width);
+      // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
+      const tw = Math.min(900, ctx.measureText(tr(t.n)).width);
       card(170, 34, tw + 190, 112, '#fff', 6, 56);
       pic(t.icon, 250, 90, 90);
       text(t.n, 310 + tw / 2, 110, 54, K, { w: 600 });

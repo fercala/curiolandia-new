@@ -1766,6 +1766,10 @@ Esa pompa es amarilla.
 Esa pompa es verde.
 ¡Muy bien! Ahora, otro color.
 ¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?
+{dia} de {mes}
+{n} veces
+{n} años
+{n} de {total}
 ¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!
 ¡El viento sopla hacia la derecha!
 ¡El viento sopla hacia la izquierda!

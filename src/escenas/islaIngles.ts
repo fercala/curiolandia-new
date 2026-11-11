@@ -177,7 +177,7 @@ function drawSitio(z: SitioIsla, brilla: boolean): void {
   else drawPueblo(z.x, z.y, abierta);
   if (!hecha(z.id)) drawObras(z.x, z.y);
   card(z.x - 60, z.y + 104, 120, 46, abierta ? (['#FF8A7A', '#7CC86E', '#5B8DEF'][z.edad - 3] ?? K) : '#B8B0A6', 5, 23);
-  text(z.edad + ' años', z.x, z.y + 137, 26, '#fff');
+  text(fmt('{n} años', { n: z.edad }), z.x, z.y + 137, 26, '#fff');
   ctx.restore();
 }
 

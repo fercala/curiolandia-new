@@ -109,16 +109,20 @@ export function ganarCopa(r: unknown, hoy: string): { registro: RegistroDeporte;
   return { registro: { copas: reg.copas + 1, semana }, nueva: true };
 }
 
+// NOMBRES_NUMERO: cómo se dicen en castellano los números de medallas de una clase, de 2 a 5 (el 1 va en la plantilla).
+const NOMBRES_NUMERO: Readonly<Record<number, string>> = { 2: 'dos', 3: 'tres', 4: 'cuatro', 5: 'cinco' };
+
 // fraseMedallero(medallas, t): lo que dice Tito en el medallero: cuántas medallas de cada clase («Tienes tres medallas
 // de oro, una de plata...»), solo las que hay. medallas: id de la prueba -> medalla. t: cómo se traduce cada texto
 // (desde la fase ID2f de docs/PLAN-IDIOMAS.md, tr de nucleo/traducir.ts; sin t, en castellano): la frase se hace con
-// plantillas enteras, rellenas con rellena.
+// plantillas enteras, rellenas con rellena. numero: cómo se dice el
+// número de 2 a 5 (desde la fase ID3, en femenino en el idioma del juego: «două medalii»; sin él, NOMBRES_NUMERO con t).
 export function fraseMedallero(
   medallas: Readonly<Record<string, Medalla>>,
   t: (texto: string) => string = (x) => x,
+  numero: (n: number) => string | number = (n) => (NOMBRES_NUMERO[n] ? t(NOMBRES_NUMERO[n]) : n),
 ): string {
   const cuenta = (m: Medalla) => Object.values(medallas).filter((x) => x === m).length,
-    nombres: Readonly<Record<number, string>> = { 2: 'dos', 3: 'tres', 4: 'cuatro', 5: 'cinco' },
     // la primera clase lleva la palabra medalla («dos medallas de oro»); las demás no («una de plata»)
     partes = MEDALLAS.map((m) => [m, cuenta(m)] as const)
       .filter(([, n]) => n > 0)
@@ -126,7 +130,7 @@ export function fraseMedallero(
         n === 1
           ? rellena(t(i === 0 ? 'una medalla de {medalla}' : 'una de {medalla}'), { medalla: t(m) })
           : rellena(t(i === 0 ? '{n} medallas de {medalla}' : '{n} de {medalla}'), {
-              n: nombres[n] ? t(nombres[n]) : n,
+              n: numero(n),
               medalla: t(m),
             }),
       );

@@ -464,6 +464,8 @@ export function say(t: string, cb?: (() => void) | null, o: OpcionesSay = {}): v
   const est = 900 + (t.length * 85) / (o.rate || 1);
   if (window.__fast) {
     if (window.__said) window.__said.push(t);
+    // lo que se dice en inglés, aparte (desde la fase ID3 de docs/PLAN-IDIOMAS.md: no se traduce, y la prueba de idiomas lo salta)
+    if (o.en && window.__saidEn) window.__saidEn.push(t);
     VIVO.talking = true;
     setTimeout(fin, 30);
     return;

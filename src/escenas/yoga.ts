@@ -43,6 +43,7 @@ import {
   tone,
   juntar,
   tr,
+  fmt,
 } from '../nucleo/indice.ts';
 import { fondoPatio } from './patio.ts';
 import { OTRA_VEZ, dibujaFinal, dibujaRondas, enOtraVez, sombra, terminarEnElPatio } from './patioComun.ts';
@@ -197,7 +198,7 @@ function dibujaTarjeta(): void {
   if (st.fase === 'respira') {
     const n = Math.floor((T - st.t0) / CICLO) + 1;
     text(tomando() ? 'Toma aire...' : 'Suelta el aire...', x, y + lado / 2 + 70, 46, '#3E5C8A');
-    text(n + ' de ' + p.respiros, x, y - lado / 2 - 24, 34, '#3E5C8A');
+    text(fmt('{n} de {total}', { n, total: p.respiros }), x, y - lado / 2 - 24, 34, '#3E5C8A');
   }
 }
 

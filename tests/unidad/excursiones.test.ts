@@ -83,6 +83,11 @@ describe('las excursiones', () => {
     expect(diaYMes('2026-13-01', meses)).toBe('');
     expect(vecesTexto(1)).toBe('una vez');
     expect(vecesTexto(3)).toBe('3 veces');
+    // desde la fase ID3 de docs/PLAN-IDIOMAS.md, con la función que traduce: las plantillas pasan por ella
+    const t = (x: string) => ({ '{dia} de {mes}': '{mes} {dia}', 'una vez': 'once', '{n} veces': '{n} times' })[x] ?? x;
+    expect(diaYMes('2026-11-09', meses, t)).toBe('noviembre 9');
+    expect(vecesTexto(1, t)).toBe('once');
+    expect(vecesTexto(3, t)).toBe('3 times');
   });
 
   test('la granja tiene animales que pasean, sin repetir', () => {

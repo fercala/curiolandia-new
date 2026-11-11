@@ -142,7 +142,7 @@ function drawSitio(z: SitioCole): void {
   else drawAutobus(z.x, z.y);
   if (!z.escena || cerrado(z)) {
     card(z.x - 100, z.y - 190, 200, 50, '#FFD66B', 5, 25);
-    text(cerrado(z) ? 'Cerrado' : '¡Muy pronto!', z.x, z.y - 155, 28);
+    text(cerrado(z) ? 'Cerrado' : '¡Muy pronto!', z.x, z.y - 155, 28, undefined, { max: 184 });
   }
   card(z.x - 110, z.y + 124, 220, 50, z.escena && !cerrado(z) ? '#FFA94D' : '#B8B0A6', 5, 25);
   text(z.cartel, z.x, z.y + 160, 30, '#fff');
