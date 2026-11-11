@@ -1766,3 +1766,21 @@ Esa pompa es amarilla.
 Esa pompa es verde.
 ¡Muy bien! Ahora, otro color.
 ¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?
+¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!
+¡El viento sopla hacia la derecha!
+¡El viento sopla hacia la izquierda!
+¡Cuidado con el árbol!
+¡Una estrella!
+¡Qué bien vuela!
+¡Otra más!
+¡Muy bien llevada!
+¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?
+Lleva la cometa con el dedo hasta la estrella.
+La cometa
+¡A jugar al pañuelo! Cuando diga un número, toca al amigo de tu equipo que lo lleva, y correrá a por el pañuelo.
+¡El número {n}!
+Yo llevo el {n}. Busca el {m}.
+¡Punto para nuestro equipo!
+¡Qué rápido! ¡Otro punto!
+¡Lo has cogido! ¡Muy bien!
+¡Hemos ganado todos los puntos! Conoces muy bien los números. ¿Jugamos otra vez?

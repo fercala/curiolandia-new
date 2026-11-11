@@ -1070,7 +1070,7 @@ f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/libroLetras.ts sr
 99b376c14d04,Los columpios,trozo,src/dominio/juegosCortos.ts src/escenas/columpios.ts
 6bda4ebc15a3,Los penaltis,trozo,src/dominio/juegosCortos.ts
 1d4e8cddd4be,Las pompas,trozo,src/dominio/juegosCortos.ts
-8fbd08ad3d52,La cometa,trozo,src/dominio/juegosCortos.ts
+8fbd08ad3d52,La cometa,trozo,src/dominio/juegosCortos.ts src/escenas/cometa.ts
 210d1bebbc85,El pañuelo,trozo,src/dominio/juegosCortos.ts
 88d5988c508b,Las sillas,trozo,src/dominio/juegosCortos.ts
 1927bfb65307,¡Explota las pompas rojas!,frase,src/dominio/juegosCortos.ts
@@ -1338,9 +1338,19 @@ b271ba1d0f83,¡Espera a que vuelva hacia ti!,frase,src/escenas/columpios.ts
 b99ddbc4b11a,¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!,frase,src/escenas/columpios.ts
 0973858a9230,¡Qué bien me has columpiado! ¿Jugamos otra vez?,frase,src/escenas/columpios.ts
 249b3d3ca207,"¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.",frase,src/escenas/columpios.ts
-eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/penaltis.ts
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/estatuas.ts
 5aed92d6a158,Toca la mano para empujar cuando el columpio llegue hasta ella.,frase,src/escenas/columpios.ts
-fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/estatuas.ts src/escenas/penaltis.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/estatuas.ts
+07bdde380441,¡Una estrella!,frase,src/escenas/cometa.ts
+3cb5f1027583,¡Qué bien vuela!,frase,src/escenas/cometa.ts
+e2970e7fe5be,¡Otra más!,frase,src/escenas/cometa.ts
+7f466e6442aa,¡Muy bien llevada!,frase,src/escenas/cometa.ts
+fa80ee037e45,¡El viento sopla hacia la derecha!,frase,src/escenas/cometa.ts
+08dd3eced851,¡El viento sopla hacia la izquierda!,frase,src/escenas/cometa.ts
+929654c7fb18,¡Cuidado con el árbol!,frase,src/escenas/cometa.ts
+6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,frase,src/escenas/cometa.ts
+a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!",frase,src/escenas/cometa.ts
+7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,frase,src/escenas/cometa.ts
 88084c247f32,¡Medallero!,frase,src/escenas/deporte.ts
 15b8d74100c6,¡Copa nueva!,frase,src/escenas/deporte.ts
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,frase,src/escenas/deporte.ts
@@ -1655,6 +1665,13 @@ f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
+7d441d06e300,¡Punto para nuestro equipo!,frase,src/escenas/panuelo.ts
+37b8fed7c382,¡Qué rápido! ¡Otro punto!,frase,src/escenas/panuelo.ts
+67c01ef33db6,¡Lo has cogido! ¡Muy bien!,frase,src/escenas/panuelo.ts
+a3d0c8e1610b,¡El número {n}!,frase,src/escenas/panuelo.ts
+6b09297cfb1c,Yo llevo el {n}. Busca el {m}.,frase,src/escenas/panuelo.ts
+97ff5bcb3d82,¡Hemos ganado todos los puntos! Conoces muy bien los números. ¿Jugamos otra vez?,frase,src/escenas/panuelo.ts
+1f3276e44758,"¡A jugar al pañuelo! Cuando diga un número, toca al amigo de tu equipo que lo lleva, y correrá a por el pañuelo.",frase,src/escenas/panuelo.ts
 351fb9238b96,¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?,frase,src/escenas/patio.ts
 0c447c76243e,Elige un juego del patio.,frase,src/escenas/patio.ts
 be997aa77b53,¡Lo has hecho genial!,frase,src/escenas/patioComun.ts
