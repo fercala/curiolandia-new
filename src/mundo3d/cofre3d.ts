@@ -36,6 +36,7 @@ import {
   speaker,
   text,
   titoPos,
+  tr,
 } from '../nucleo/indice.ts';
 import { drawTitoHouse, houseLevel } from '../escenas/zonas.ts';
 import { drawItemPic, itemName } from '../escenas/tienda.ts';
@@ -217,8 +218,9 @@ export function montarCofre3D(): void {
         }
         if (k > 1.1 && this.gift) {
           ctx.font = `600 44px ${DF}`;
+          // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
           const nm = cap(itemName(this.gift)),
-            tw = ctx.measureText(nm).width;
+            tw = ctx.measureText(tr(nm)).width;
           card(800 - tw / 2 - 40, 96, tw + 80, 84, '#fff', 6, 42);
           text(nm, 800, 152, 44, K, { w: 600 });
         }

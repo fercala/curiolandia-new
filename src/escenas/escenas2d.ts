@@ -252,14 +252,14 @@ export function drawLogo(x: number, y: number, s: number) {
 }
 // pill(x, y, w, h, t, f, c, sz): botón redondeado ("píldora") centrado en (x, y) de w x h con el texto t.
 // f = color de fondo, c = color del texto, sz = tamaño de letra. Crece un poco al pasar el ratón (hv). Solo dibuja;
-// el toque se comprueba aparte en down().
+// el toque se comprueba aparte en down(). Desde la fase ID3 de docs/PLAN-IDIOMAS.md, el texto se encoge si no cabe.
 export function pill(x: number, y: number, w: number, h: number, t: string, f = '#fff', c = K, sz = 32) {
   const s = hv('pill' + x + y, hR(x, y, w, h));
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(s, s);
   card(-w / 2, -h / 2, w, h, f, 5, h / 2);
-  text(t, 0, sz * 0.36, sz, c, { w: 600 });
+  text(t, 0, sz * 0.36, sz, c, { w: 600, max: w - 24 });
   ctx.restore();
 }
 // deferredInstall: el aviso del navegador para instalar el juego como app (PWA). Se guarda al llegar el

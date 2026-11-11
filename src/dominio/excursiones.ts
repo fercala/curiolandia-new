@@ -9,8 +9,9 @@
  * Exporta: los tipos Estacion, Excursion, VisitaExcursion y RegistroExcursiones, EXCURSION (los números de las reglas),
  * visitaDe, estacionesJugables, siguienteEstacion, terminarEstacion, visitaCompleta y terminarVisita, y desde la P7,
  * para el álbum de excursiones, diaYMes y vecesTexto; desde la P8, MANZANO (el manzano de la granja que crece por días).
- * No importa nada.
+ * Importa: rellena, de dominio/idiomas.ts (desde la fase ID3).
  */
+import { rellena } from './idiomas.ts';
 /* eslint-disable ts-patterns/no-magic-numbers -- los números de EXCURSION son las reglas mismas, cada uno con su nombre. */
 
 /** Una estación de una excursión: su id, su nombre (lo dice el guía), la escena que la juega (sin escena: «¡Muy
@@ -97,16 +98,18 @@ export function terminarVisita(v: VisitaExcursion, hoy: string): { visita: Visit
   };
 }
 
-// diaYMes(d, meses): la fecha d ('2026-11-09') dicha como en el álbum, «9 de noviembre», con los nombres de los meses
-// meses (de enero a diciembre). Si d no es una fecha, ''.
-export function diaYMes(d: string, meses: readonly string[]): string {
+// diaYMes(d, meses, t): la fecha d ('2026-11-09') dicha como en el álbum, «9 de noviembre», con los nombres de los
+// meses meses (de enero a diciembre). Si d no es una fecha, ''. t: cómo se traduce la plantilla (desde la fase ID3 de
+// docs/PLAN-IDIOMAS.md, tr de nucleo/traducir.ts; sin t, en castellano).
+export function diaYMes(d: string, meses: readonly string[], t: (texto: string) => string = (x) => x): string {
   const m = /^\d{4}-(\d{2})-(\d{2})$/.exec(d),
     mes = m ? meses[Number(m[1]) - 1] : undefined;
-  return m && mes ? `${Number(m[2])} de ${mes}` : '';
+  return m && mes ? rellena(t('{dia} de {mes}'), { dia: Number(m[2]), mes }) : '';
 }
 
-// vecesTexto(n): cuántas veces, para decirlo: «una vez», «2 veces».
-export const vecesTexto = (n: number): string => (n === 1 ? 'una vez' : `${n} veces`);
+// vecesTexto(n, t): cuántas veces, para decirlo: «una vez», «2 veces». t: cómo se traduce (como en diaYMes).
+export const vecesTexto = (n: number, t: (texto: string) => string = (x) => x): string =>
+  n === 1 ? t('una vez') : rellena(t('{n} veces'), { n });
 
 // MANZANO: el manzano de la granja escuela (desde la fase P8, crecer por días, dominio/crecer.ts): de qué excursión es,
 // con qué id se guarda en S.crece y los días de visita que pide cada etapa (0 semilla recién plantada, 1 brote,

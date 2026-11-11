@@ -6,7 +6,8 @@ import { ctx, DF, H, T, W } from './pantalla.ts';
 import { PI } from './utilidades.ts';
 import { tr } from './traducir.ts';
 
-/** Opciones de text(): grosor de letra, fuente, alineación, línea base y contorno (grosor y color). */
+/** Opciones de text(): grosor de letra, fuente, alineación, línea base, contorno (grosor y color) y, desde la fase ID3
+ * de docs/PLAN-IDIOMAS.md, el ancho máximo (max): si el texto no cabe, la letra se hace más pequeña. */
 export interface OpcionesTexto {
   w?: number | string;
   f?: string;
@@ -14,7 +15,10 @@ export interface OpcionesTexto {
   bl?: CanvasTextBaseline;
   st?: number;
   sc?: string;
+  max?: number;
 }
+// MENOR_LETRA: lo más que se encoge la letra para que un texto quepa en su ancho máximo (o.max de text): la mitad.
+const MENOR_LETRA = 0.5;
 /* ---------- dibujo básico ---------- */
 // rr(x,y,ancho,alto,radio): traza (sin pintarlo) un rectángulo con esquinas redondeadas; después hay que rellenar o bordear.
 export function rr(x: number, y: number, w: number, h: number, r: number): void {
@@ -82,7 +86,8 @@ export function ell(
 }
 // text(texto,x,y,tamaño,color,o): escribe texto, traducido al idioma del juego (tr, desde la fase ID1 de
 // docs/PLAN-IDIOMAS.md; los números no). Opciones o: w (grosor de letra), f (fuente), al (alineación),
-// bl (línea base), st (grosor del contorno; sin él no hay contorno), sc (color del contorno).
+// bl (línea base), st (grosor del contorno; sin él no hay contorno), sc (color del contorno) y max (ancho máximo, desde
+// la fase ID3: en otro idioma un texto puede ser más largo; si no cabe, la letra se encoge hasta la mitad).
 export function text(
   t: string | number,
   x: number,
@@ -93,6 +98,14 @@ export function text(
 ): void {
   if (typeof t === 'string') t = tr(t);
   ctx.font = `${o.w || 700} ${size}px ${o.f || DF}`;
+  // si no cabe en o.max, la letra se encoge en proporción (como mucho, a MENOR_LETRA); lo que ya cabe no cambia
+  if (o.max) {
+    const ancho = ctx.measureText(String(t)).width;
+    if (ancho > o.max) {
+      size = Math.max(size * MENOR_LETRA, Math.floor((size * o.max) / ancho));
+      ctx.font = `${o.w || 700} ${size}px ${o.f || DF}`;
+    }
+  }
   ctx.textAlign = o.al || 'center';
   ctx.textBaseline = o.bl || 'alphabetic';
   if (o.st) {

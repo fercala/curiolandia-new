@@ -710,7 +710,7 @@ export function TocaPartes(cfg: Config, onDone: AlTerminar): Juego {
         ctx.globalAlpha = 0.5;
         for (const q of cfg.parts) if (q.id === p.id) circ(q.x, q.y, q.r, null, 10, '#FFC93C');
         ctx.globalAlpha = 1;
-        text(Wn(p.n).toUpperCase(), cfg.lx || 420, cfg.ly || 300, 64, K, { f: LF });
+        text(juntar(Wn(p.n).toUpperCase()), cfg.lx || 420, cfg.ly || 300, 64, K, { f: LF });
       }
     },
     // Toque: acierto → estrella y siguiente parte (u onDone); fallo → Tito dice

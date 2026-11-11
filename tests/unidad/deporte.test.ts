@@ -46,5 +46,13 @@ describe('el gran día del deporte', () => {
     );
     expect(fraseMedallero({ a: 'plata' })).toBe('Tienes una medalla de plata.');
     expect(fraseMedallero({})).toBe('');
+    // desde la fase ID3 de docs/PLAN-IDIOMAS.md, el número lo puede decir quien llama (en rumano, en femenino)
+    expect(
+      fraseMedallero(
+        { a: 'oro', b: 'oro' },
+        (x) => x,
+        (n) => '#' + n,
+      ),
+    ).toBe('Tienes #2 medallas de oro.');
   });
 });

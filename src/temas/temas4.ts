@@ -383,8 +383,10 @@ export const dayCard = (i: number) => ({
   draw: (x: number, y: number, s: number) => {
     card(x - s * 0.44, y - s * 0.34, s * 0.88, s * 0.62, DIAC[i], 6, s * 0.1);
     card(x - s * 0.36, y - s * 0.26, s * 0.72, s * 0.32, '#fff', 4, s * 0.06);
-    const nm = DIASL[i].toUpperCase();
-    text(nm, x, y - s * 0.03, s * (nm.length > 7 ? 0.12 : 0.15), K, { f: LF });
+    // el día en el idioma del juego y en mayúsculas (desde la fase ID3 de docs/PLAN-IDIOMAS.md; juntar: ya traducido);
+    // si aun así no cabe en la tarjeta, la letra se encoge
+    const nm = juntar(tr(DIASL[i]!).toUpperCase());
+    text(nm, x, y - s * 0.03, s * (nm.length > 7 ? 0.12 : 0.15), K, { f: LF, max: s * 0.7 });
     circ(x - s * 0.24, y + s * 0.3, s * 0.08, '#5B5F6B', 4);
     circ(x + s * 0.24, y + s * 0.3, s * 0.08, '#5B5F6B', 4);
     if (i >= 5) star(x + s * 0.3, y - s * 0.36, s * 0.08, '#FFC93C', 3);

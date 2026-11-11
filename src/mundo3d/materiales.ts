@@ -12,7 +12,7 @@
 import * as THREE from 'three';
 import type { OpcionesPieza, OpcionesPlano, OpcionesSprite, PiezaUnida, TexturaDibujada, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, IMG, LF, PI, VIVO, card, ctx, flower, ponCtx, text } from '../nucleo/indice.ts';
+import { DF, IMG, LF, PI, VIVO, card, ctx, flower, juntar, ponCtx, text, tr } from '../nucleo/indice.ts';
 
 // V3(x,y,z): atajo para crear un vector 3D de Three.js.
 export const V3 = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
@@ -337,16 +337,18 @@ export function plane(tex: THREE.Texture, w: number, h: number, o: OpcionesPlano
   return m;
 }
 // cartel en forma de píldora: [texto, fondo, color del texto]
-// pillTex(t,bg,fg,sz): textura de 512x128 con el texto t sobre un cartel redondeado; se guarda en caché.
+// pillTex(t,bg,fg,sz): textura de 512x128 con el texto t (traducido) sobre un cartel redondeado; se guarda en caché.
 export function pillTex(t: string, bg = '#fff', fg = K, sz = 56) {
   return canvasTex(
     512,
     128,
     (g) => {
+      // se mide el texto ya traducido (desde la fase ID3 de docs/PLAN-IDIOMAS.md) y, si no cabe, la letra se encoge
+      const tt = tr(t);
       g.font = `700 ${sz}px ${DF}`;
-      const tw = Math.min(470, g.measureText(t).width + 60);
+      const tw = Math.min(470, g.measureText(tt).width + 60);
       card(256 - tw / 2, 14, tw, 100, bg, 8, 50);
-      text(t, 256, 64 + sz * 0.36, sz, fg);
+      text(juntar(tt), 256, 64 + sz * 0.36, sz, fg, { max: 430 });
     },
     'pill:' + t + bg + fg + sz,
   );

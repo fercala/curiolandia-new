@@ -1710,3 +1710,7 @@ Toca la casilla del {n}.
 ¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!
 ¡Qué bien me has columpiado! ¿Jugamos otra vez?
 Toca la mano para empujar cuando el columpio llegue hasta ella.
+{dia} de {mes}
+{n} veces
+{n} años
+{n} de {total}

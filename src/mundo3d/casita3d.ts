@@ -41,6 +41,7 @@ import {
   speaker,
   text,
   titoPos,
+  tr,
 } from '../nucleo/indice.ts';
 import { GNAME, drawStation, tst, ultimoJuego } from '../escenas/escenas2d.ts';
 import { gameOpen, nextGameOf } from '../escenas/zonas.ts';
@@ -319,7 +320,8 @@ export function montarCasita3D(): void {
       this.hovTito = hT;
       {
         ctx.font = `600 54px ${DF}`;
-        const tw = Math.min(900, ctx.measureText(t.n).width);
+        // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
+        const tw = Math.min(900, ctx.measureText(tr(t.n)).width);
         card(170, 34, tw + 190, 112, '#fff', 6, 56);
         pic(t.icon, 250, 90, 90);
         text(t.n, 310 + tw / 2, 110, 54, K, { w: 600 });
@@ -330,7 +332,8 @@ export function montarCasita3D(): void {
           p = w!.st![hv_].p2;
         if (nm) {
           ctx.font = `600 32px ${DF}`;
-          const tw = ctx.measureText(nm).width;
+          // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
+          const tw = ctx.measureText(tr(nm)).width;
           card(p[0] - tw / 2 - 24, p[1] + 120, tw + 48, 54, 'rgba(255,255,255,.92)', 5, 27);
           text(nm, p[0], p[1] + 158, 32, K, { w: 600 });
         }

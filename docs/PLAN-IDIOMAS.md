@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124) e **ID2f** (v0.2.127), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.130), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,4 +324,29 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID3 (v0.2.130): los textos de pantalla
+
+- Medido con el pseudoidioma en las 63 escenas, los tres primeros juegos de cada casita y la zona de adultos: todo lo
+  que se pinta y se dice ya pasaba por `tr` (desde la ID1, `text()`, los carteles 3D, `head.html` y la zona de adultos),
+  y ningún texto se sale de la pantalla aunque sea un 30 % más largo. Lo que fallaba era lo que no cabe en su cartel.
+- **`text()` con ancho máximo** (`{ max }`, `nucleo/dibujo.ts`): si el texto no cabe, la letra se encoge (hasta la
+  mitad); lo que ya cabe no cambia. Lo llevan `pill()`, los carteles 3D (`pillTex`, que además mide el texto
+  traducido), las tarjetas del autobús, del patio y del deporte (antes, la letra se elegía por el largo en castellano),
+  los «¡Muy pronto!», el título del repaso y los días y meses de las tarjetas.
+- **Carteles medidos ya traducidos**: los que se hacen a la medida de su texto (el nombre de la casita, de la zona y del
+  lugar bajo el ratón en el mapa y las islas, el regalo del cofre, el repaso) miden `tr(texto)`, que es lo que se pinta.
+- **Días y meses** de las tarjetas: `tr(DIASL[i]).toUpperCase()` (antes se buscaba «LUNES» en la tabla). Las palabras en
+  mayúsculas ya traducidas se apuntan con `juntar` para no traducirlas otra vez.
+- Frases pintadas que se pegaban a trozos: «{n} años» de las islas y «{n} de {total}» del yoga.
+- **Fechas del álbum de excursiones**: `diaYMes` y `vecesTexto` (`dominio/excursiones.ts`) reciben la función que traduce
+  («{dia} de {mes}», «{n} veces»). **Medallas**: `fraseMedallero` recibe también cómo se dice el número; en rumano, en
+  femenino (`cantidadRo`: «două medalii»).
+- **Pseudoidioma**: `plural()` marca entero el plural castellano (antes, «⟦pelota··⟧es»).
+- **Prueba nueva** `tests/regresion/idiomas.js` (en `npm run test:pr`): con `?idioma=xx` recorre todo y falla si Tito
+  dice o se pinta algo sin traducir, si un texto se sale de la pantalla o si la zona de adultos enseña algo sin traducir.
+  Lo dicho en inglés va también a `window.__saidEn` (no se traduce; `docs/CONTRATO-PRUEBAS.md`). La Isla de las Letras
+  se salta hasta la ID6.
+- Versión: la v0.2.128 la lleva el PR #127 (P12a). En castellano el juego dice lo mismo; solo cambia el tamaño de algún
+  texto que antes no cabía en su cartel.
 

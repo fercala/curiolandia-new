@@ -29,6 +29,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | --- | --- | --- |
 | `window.__fast` | lo ponen las pruebas | Modo rápido: `say()` no habla y acaba en 30 ms. |
 | `window.__said` | lo ponen las pruebas | `say()` apunta ahí cada frase en modo rápido, ya traducida al idioma del juego (en castellano, igual que antes). |
+| `window.__saidEn` | lo ponen las pruebas | Desde la fase ID3 de [PLAN-IDIOMAS.md](PLAN-IDIOMAS.md): `say()` apunta ahí, además de en `__said`, lo que se dice en inglés (que no se traduce). Lo usa `tests/regresion/idiomas.js`. |
 | `window.__w3` (`ok`, `W`, `retito`, `FPS`, `pickAt`, `proj`...) | `src/mundo3d/interaccion.ts` (`montarInteraccion`; `ok` lo pone `src/mundo3d/mundo3d.ts`) | Saber si hay 3D y leer el mundo 3D. |
 | `#adult` (elemento HTML) | `src/head.html` | Ver si la zona de adultos está abierta (`hidden`). Desde la fase A1, dentro: `#a-close`, `#a-atras`, `nav.menu button[data-pag]` y una caja `.pag[data-pag]` por página; los controles conservan sus `id` y `name` de siempre (`#a-name`, `[name=a-age]`, `[name=a-mode]`, `#a-vnav`, `#a-mus`, `[data-von]`, `[data-vgive]`, `#a-bk-txt`, `#a-tema`...), y todas las páginas están en el DOM aunque no se vean. Desde la fase A4, la guía de voces es `details.guia-voces` (`voces.js`), porque hay otros `details` («Más información») antes. |
 | `save`, `doReset`, `go`, `sceneName`, `scene`, `S` | `nucleo/guardado.ts`, `nucleo/escenas.ts`, `aplicacion/adultos.ts` | Guardar, borrar todo, cambiar de escena. |

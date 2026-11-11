@@ -39,6 +39,7 @@ import {
   speaker,
   text,
   titoPos,
+  tr,
 } from '../nucleo/indice.ts';
 import { FIESTAS } from '../temas/indice.ts';
 import { TEMA, gDone, isBday, tst } from '../escenas/escenas2d.ts';
@@ -1044,7 +1045,8 @@ export function montarZonas3D(): void {
         {
           const nm = cap(Z.name);
           ctx.font = `600 44px ${DF}`;
-          const tw = Math.min(900, ctx.measureText(nm).width);
+          // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
+          const tw = Math.min(900, ctx.measureText(tr(nm)).width);
           card(800 - tw / 2 - 40, 26, tw + 80, 80, 'rgba(255,255,255,.92)', 6, 40);
           text(nm, 800, 82, 44, K, { w: 600 });
         }
@@ -1053,8 +1055,9 @@ export function montarZonas3D(): void {
           const t = TEMA[hv_],
             p = casitaPos(z, hv_);
           ctx.font = `600 32px ${DF}`;
+          // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
           const nm = t.concepts ? 'Rincón de los Conceptos' : t.n,
-            tw = ctx.measureText(nm).width,
+            tw = ctx.measureText(tr(nm)).width,
             cy = Math.max(p.y - 178, 116);
           card(p.x - tw / 2 - 24, cy, tw + 48, 54, 'rgba(255,255,255,.92)', 5, 27);
           text(nm, p.x, cy + 38, 32, K, { w: 600 });

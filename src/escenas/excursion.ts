@@ -253,10 +253,11 @@ SCENES['autobus'] = {
         ctx.translate(-d.x - d.w / 2, -d.y - d.h / 2);
         card(d.x, d.y, d.w, d.h, lista ? '#fff' : '#EEE8DE', 6, 30);
         pic(d.e.icono, d.x + d.w / 2, d.y + 140, 190, lista ? 1 : 0.45);
-        text(d.e.nombre, d.x + d.w / 2, d.y + d.h - 40, 30, lista ? '#4A3B2A' : '#9A9086');
+        // los textos se encogen si no caben en su tarjeta (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
+        text(d.e.nombre, d.x + d.w / 2, d.y + d.h - 40, 30, lista ? '#4A3B2A' : '#9A9086', { max: d.w - 30 });
         if (!lista) {
           card(d.x + d.w / 2 - 100, d.y - 26, 200, 50, '#FFD66B', 5, 25);
-          text('¡Muy pronto!', d.x + d.w / 2, d.y + 9, 28);
+          text('¡Muy pronto!', d.x + d.w / 2, d.y + 9, 28, undefined, { max: 180 });
         }
         ctx.restore();
       });
@@ -348,7 +349,7 @@ function dibujaEstacion(s: Estacion, hecha: boolean): void {
   }
   if (!lista) {
     card(-90, -z.r - 40, 180, 44, '#FFD66B', 5, 22);
-    text('¡Muy pronto!', 0, -z.r - 9, 24);
+    text('¡Muy pronto!', 0, -z.r - 9, 24, undefined, { max: 164 });
   }
   ctx.restore();
 }

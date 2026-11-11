@@ -33,6 +33,7 @@ import {
   sparkles,
   text,
   fmt,
+  juntar,
   tr,
 } from '../nucleo/indice.ts';
 import { type Excursion, diaYMes, vecesTexto, visitaDe } from '../dominio/excursiones.ts';
@@ -108,7 +109,8 @@ function dibujaMarco(m: MarcoAlbum, i: number): void {
   const cx = m.x + m.w / 2,
     y0 = m.y + FOTO.m + FOTO.alto;
   text(m.e.nombre, cx, y0 + 60, 32, hecha ? '#4A3B2A' : '#9A9086');
-  if (hecha) text(`${vecesTexto(v.veces)} · ${diaYMes(v.d, MESES)}`, cx, y0 + 105, 26, '#7A6A5A');
+  // las veces y la fecha, cada una en el idioma del juego (juntar: no se vuelven a traducir)
+  if (hecha) text(juntar(vecesTexto(v.veces, tr), '·', fechaDe(v.d)), cx, y0 + 105, 26, '#7A6A5A');
   else text('Aún no hemos ido', cx, y0 + 105, 26, '#9A9086');
   const est = m.e.estaciones,
     paso = Math.min(62, (m.w - 40) / Math.max(1, est.length));
@@ -120,6 +122,14 @@ function dibujaMarco(m: MarcoAlbum, i: number): void {
   ctx.restore();
 }
 
+// fechaDe(d): la fecha d de una visita («9 de noviembre») en el idioma del juego: la plantilla y el mes traducidos.
+const fechaDe = (d: string): string =>
+  diaYMes(
+    d,
+    MESES.map((m) => tr(m)),
+    tr,
+  );
+
 // recuerdo(e): lo que cuenta Tito al tocar el marco de la excursión e, en el idioma del juego (desde la fase ID2f de
 // docs/PLAN-IDIOMAS.md: plantillas de fmt; el nombre de la excursión, de nombreExcursion; los meses, traducidos).
 function recuerdo(e: Excursion): string {
@@ -129,10 +139,7 @@ function recuerdo(e: Excursion): string {
   const huecos = {
     excursion: excursion.art,
     n: v.veces,
-    fecha: diaYMes(
-      v.d,
-      MESES.map((m) => tr(m)),
-    ),
+    fecha: fechaDe(v.d),
     guia: e.nombreGuia,
   };
   return fmt(
