@@ -68,14 +68,17 @@ import {
   star,
   temasDone,
   text,
+  today,
   tone,
+  giveSticker,
   tr,
 } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, houseLevel, petStage } from './zonas.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
-import { azar } from '../aplicacion/puertos.ts';
+import { ahora, azar } from '../aplicacion/puertos.ts';
+import { cumple, hacerRutina, hechaHoy, momentoDe, rutinaDe, type Momento, type Rutina } from '../dominio/casaDia.ts';
 import {
   MASCOTAS,
   combinacion,
@@ -88,7 +91,7 @@ import {
 } from '../dominio/casa.ts';
 import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
-import { FRASES_CASA, FRASES_COMBINACION, FRASES_VARIANTES } from '../contenido/casa.ts';
+import { FRASES_CASA, FRASES_COMBINACION, FRASES_HORA, FRASES_RUTINA, FRASES_VARIANTES } from '../contenido/casa.ts';
 import {
   DURACION_ACCION,
   TITO_CASA,
@@ -221,14 +224,26 @@ const ESCENA_CASA: Partial<Record<EscenaCasa, string>> = {
 // Luz de la habitación que se dibuja: desde la fase M3, apagada si en ella está la lámpara y su estado guardado es
 // «apagada» (S.casaEst, dominio/casaToques.ts); la calcula draw() en cada cuadro. Antes no se guardaba.
 let homeLight = true;
+// Momento del día que se dibuja (desde la fase M6, dominio/casaDia.ts): por la ventana se ve la mañana, la tarde o la
+// noche según la hora de verdad; lo calcula draw() en cada cuadro.
+let homeMomento: Momento = 'manana';
+// horaCasa(): la hora de ahora con sus minutos, como número (8.5 son las ocho y media), del reloj del juego (ahora()).
+const horaCasa = (): number => {
+  const d = ahora();
+  return d.getHours() + d.getMinutes() / 60;
+};
 // roomBg(id, hl): dibuja el fondo fijo de la habitación id de la casa de Tito (pared, ventana, suelo y adornos propios);
 // hl es el nivel de la casa (houseLevel): en el salón añade flores, banderines y arcoíris como antes. El suelo empieza
-// siempre en y = 600 (los objetos se colocan del 420 al 780). Con la luz apagada (homeLight) se ve la noche.
+// siempre en y = 600 (los objetos se colocan del 420 al 780). Con la luz apagada (homeLight) se ve la noche; desde la
+// fase M6, por la ventana (y en el cielo del jardín) se ve también el momento del día (homeMomento): la mañana, la
+// tarde (cielo naranja y el sol bajo) o la noche (luna, y la habitación un poco más oscura).
 function roomBg(id: string, hl: number) {
+  const noche = !homeLight || homeMomento === 'noche',
+    tarde = !noche && homeMomento === 'tarde';
   const win = (x: number, y: number, w: number, h: number, cort?: string) => {
-    card(x, y, w, h, homeLight ? '#BFEAF7' : '#2E3F7A', 8, 16);
-    if (homeLight) pic('sol', x + w / 3, y + 70, 90);
-    else pic('luna', x + w / 3, y + 70, 80);
+    card(x, y, w, h, noche ? '#2E3F7A' : tarde ? '#FFC98A' : '#BFEAF7', 8, 16);
+    if (noche) pic('luna', x + w / 3, y + 70, 80);
+    else pic('sol', x + w / 3, y + (tarde ? h - 60 : 70), tarde ? 80 : 90);
     ctx.beginPath();
     ctx.moveTo(x + w / 2, y);
     ctx.lineTo(x + w / 2, y + h);
@@ -364,9 +379,9 @@ function roomBg(id: string, hl: number) {
     ctx.strokeRect(-2, 600, W + 4, H);
     card(-10, 588, W + 20, 20, '#fff', 5, 6);
   } else if (id === 'jardin') {
-    sky(homeLight ? '#9FDDF5' : '#2E3F7A', homeLight ? '#E2F6FF' : '#55639A');
-    if (homeLight) {
-      pic('sol', 1430, 190, 130);
+    sky(noche ? '#2E3F7A' : tarde ? '#FFA56B' : '#9FDDF5', noche ? '#55639A' : tarde ? '#FFE2C2' : '#E2F6FF');
+    if (!noche) {
+      pic('sol', 1430, tarde ? 330 : 190, 130);
       pic('nube', 300, 220, 180);
       pic('nube', 820, 170, 140);
     } else pic('luna', 1430, 190, 110);
@@ -390,8 +405,8 @@ function roomBg(id: string, hl: number) {
     for (let i = 0; i < 8; i++) star(1220 + ((i * 53) % 220), 180 + ((i * 71) % 200), 5, '#FFE08A', 0);
     wood('#8C6A4E');
   }
-  if (!homeLight && id !== 'torre') {
-    ctx.fillStyle = 'rgba(30,30,70,.25)';
+  if (noche && id !== 'torre') {
+    ctx.fillStyle = homeLight ? 'rgba(30,30,70,.12)' : 'rgba(30,30,70,.25)';
     ctx.fillRect(0, 0, W, H);
   }
 }
@@ -542,6 +557,11 @@ SCENES.casaTito = {
       return;
     }
     const enElBaul = baulItems().length;
+    // desde la fase M6: después de saludar, Tito propone la rutina de la hora, si se puede hacer y no está hecha
+    later(3500, () => {
+      const b = sceneName === 'casaTito' && this.bocadilloRutina!();
+      if (b) sayQ(FRASES_RUTINA[b.rutina.id]?.pide ?? '');
+    });
     later(300, () => {
       if (guardadas > 0) sayQ('¡He ordenado mi casa! Lo que no cabía está guardado en mi baúl.');
       else if (n) sayQ('¡Esta es mi casa! Puedes mover las cosas arrastrándolas, y tocarlas para jugar.');
@@ -608,6 +628,7 @@ SCENES.casaTito = {
     const hl = houseLevel(),
       R = roomOf(this.room);
     homeLight = !(homeRoom('lampara') === R.id && S.owned!.lampara && estadoDe(S.casaEst, 'lampara') === 1);
+    homeMomento = momentoDe(horaCasa());
     roomBg(R.id, hl);
     card(170, 44, 450, 100, '#fff', 6, 50);
     titoHouseIc(230, 94, 80);
@@ -755,6 +776,17 @@ SCENES.casaTito = {
     }
     dibujaTitoCasa(this.paseo, this.acc, tb);
     efectosAccion(this.acc);
+    // el bocadillo de la rutina de la hora (desde la fase M6): lo que Tito quiere hacer ahora, si aún no se ha hecho hoy
+    {
+      const b = this.bocadilloRutina!();
+      if (b) {
+        const sube = Math.sin(T * 2.5) * 5;
+        circ(b.x - 34, b.y + 50 + sube, 10, '#FFFFFF', 3);
+        circ(b.x - 50, b.y + 70 + sube, 6, '#FFFFFF', 3);
+        circ(b.x, b.y + sube, b.r, '#FFFFFF', 4);
+        pic(b.rutina.icono, b.x, b.y + sube, b.r * 1.3);
+      }
+    }
     // el objeto más cercano a Tito parado brilla un poco, para invitar a tocarlo (decisión 1 del plan)
     {
       const [tx, ty] = posTito(this.paseo),
@@ -1001,6 +1033,15 @@ SCENES.casaTito = {
       this.irA!(eb.id, true);
       return;
     }
+    // el bocadillo de la rutina (desde la fase M6): Tito dice lo que quiere hacer
+    {
+      const b = this.bocadilloRutina!();
+      if (b && dist(x, y, b.x, b.y) < b.r + 10) {
+        SFX.pop();
+        say(FRASES_RUTINA[b.rutina.id]?.pide ?? '');
+        return;
+      }
+    }
     // la cabeza de Tito va antes que los objetos (desde la fase M3b): así se le puede coger aunque esté encima del sofá
     // o de la cama; el resto de su cuerpo, después
     {
@@ -1105,6 +1146,8 @@ SCENES.casaTito = {
         });
         return;
       }
+      // desde la fase M6: si con este objeto se hace la rutina de la hora, Tito la celebra con su pegatina
+      if (this.haceRutina!(id, tok)) return;
       // sin escena: si su pareja de una combinación aún sin descubrir está en la misma habitación, al acabar la descubre
       const pareja = homeItems(this.room).find(
         (i) => i.id !== id && combinacion(id, i.id) && !Object.hasOwn(S.sorpresas || {}, idSorpresa(id, i.id)),
@@ -1115,6 +1158,35 @@ SCENES.casaTito = {
             this.combina!(id, pareja.id, (p.x + pareja.x) / 2, Math.min(p.y, pareja.y) - 120);
         });
     });
+  },
+  // bocadilloRutina(): el bocadillo de la rutina de la hora (desde la fase M6, dominio/casaDia.ts), junto a la cabeza
+  // de Tito: su centro, su radio y la rutina; null si ya se hizo hoy, si Tito anda cogido con el dedo o si en la casa
+  // no hay nada con que hacerla (para no pedir lo que no se tiene).
+  bocadilloRutina(): { x: number; y: number; r: number; rutina: Rutina } | null {
+    const rutina = rutinaDe(horaCasa());
+    if (this.dragTito || hechaHoy(S.casaDia, today(), rutina.id)) return null;
+    if (!homeItems().some((o) => cumple(rutina, o.id))) return null;
+    const [tx, ty] = posTito(this.paseo);
+    return { x: clamp(tx + 130, 80, 1520), y: clamp(ty - TITO_CASA - 40, 200, 760), r: 46, rutina };
+  },
+  // haceRutina(id, tok): Tito acaba de llegar a id; si con él se hace la rutina de la hora y aún no se ha hecho hoy, se
+  // apunta (S.casaDia), se suma la pegatina (S.stk, la del dibujo de la rutina) y se guarda al momento; al acabar de
+  // jugar, Tito lo celebra (FRASES_RUTINA) y sale el aviso de la pegatina. Devuelve si la ha hecho.
+  haceRutina(id: string, tok: number): boolean {
+    const rutina = rutinaDe(horaCasa());
+    if (!cumple(rutina, id)) return false;
+    const h = hacerRutina(S.casaDia, today(), rutina.id);
+    if (!h.nueva) return false;
+    S.casaDia = h.dia;
+    S.stk[rutina.icono] = (S.stk[rutina.icono] || 0) + 1;
+    save();
+    later(DURACION_ACCION * 1000, () => {
+      if (tok !== this.paseoTok || sceneName !== 'casaTito') return;
+      this.jump = T;
+      SFX.tada();
+      sayQ(FRASES_RUTINA[rutina.id]?.hecha ?? '', () => giveSticker(rutina.icono, true));
+    });
+    return true;
   },
   // combina(a, b, x, y): la sorpresa de juntar a y b (desde la fase C7): brillos y corazones en (x, y), Tito dice su
   // frase (FRASES_COMBINACION) y se apunta en S.sorpresas; si es nueva, Tito avisa de que va al álbum.
@@ -1176,6 +1248,11 @@ SCENES.casaTito = {
     if (doble && conEscena && o) {
       this.escena = { id, t: T };
       SFX.sparkle();
+      return;
+    }
+    // el reloj dice la hora de verdad (desde la fase M6)
+    if (id === 'reloj') {
+      say(FRASES_HORA[Math.floor(horaCasa()) % 12] ?? '');
       return;
     }
     this.dichos = this.dichos || {};

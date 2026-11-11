@@ -8,7 +8,8 @@
  * Desde la fase C7, lo que dice Tito al descubrir cada combinación de dos objetos (FRASES_COMBINACION).
  * Desde la fase M3b de docs/PLAN-CASA-MEJORA.md, lo que dice en las otras formas de jugar (FRASES_VARIANTES) y las
  * frases de 13 combinaciones más.
- * Exporta: FRASES_CASA, el tipo LugarMundo, LUGARES, FRASES_COMBINACION y FRASES_VARIANTES.
+ * Desde la fase M6, lo que dice de las rutinas del día (FRASES_RUTINA) y el reloj (FRASES_HORA).
+ * Exporta: FRASES_CASA, el tipo LugarMundo, LUGARES, FRASES_COMBINACION, FRASES_VARIANTES, FRASES_RUTINA y FRASES_HORA.
  * No importa nada.
  */
 
@@ -205,3 +206,53 @@ export const FRASES_VARIANTES: Readonly<Record<string, readonly string[]>> = {
   castillo: ['¡Oh! Se le ha caído una torre al castillo.'],
   piscina: ['¡Chapoteo en la piscina! ¡Plof, plof!'],
 };
+
+// FRASES_RUTINA: lo que dice Tito de cada rutina del día (RUTINAS en dominio/casaDia.ts): pide, para proponerla (al
+// entrar en la casa o al tocar su bocadillo), y hecha, al hacerla (con la pegatina del día). Desde la fase M6 de
+// docs/PLAN-CASA-MEJORA.md.
+export const FRASES_RUTINA: Readonly<Record<string, { readonly pide: string; readonly hecha: string }>> = {
+  desayuno: {
+    pide: '¡Buenos días! Es la hora del desayuno. ¿Me llevas a la nevera o a la mesa?',
+    hecha: '¡Qué rico desayuno! Ya tengo fuerzas para todo el día. Toma una pegatina.',
+  },
+  jugar: {
+    pide: '¡Es la hora de jugar! ¿Me llevas a un juguete?',
+    hecha: '¡Qué bien lo hemos pasado jugando! Toma una pegatina.',
+  },
+  comida: {
+    pide: '¡Es la hora de comer! ¿Me llevas a la mesa o a la olla?',
+    hecha: '¡Qué buena estaba la comida! Toma una pegatina.',
+  },
+  siesta: {
+    pide: 'Uaaah... Es la hora de la siesta. ¿Me llevas a la cama o al sofá?',
+    hecha: '¡Qué siesta tan buena! Ya estoy despierto. Toma una pegatina.',
+  },
+  bano: {
+    pide: '¡Es la hora del baño! ¿Me llevas a la bañera?',
+    hecha: '¡Ya estoy limpito! Toma una pegatina.',
+  },
+  cena: {
+    pide: '¡Es la hora de cenar! ¿Me llevas a la mesa?',
+    hecha: '¡Qué buena cena! Toma una pegatina.',
+  },
+  dormir: {
+    pide: 'Ya es de noche. Es la hora de dormir. ¿Me llevas a la cama?',
+    hecha: 'Buenas noches. ¡Hasta mañana! Toma una pegatina.',
+  },
+};
+
+// FRASES_HORA: lo que dice el reloj de la casa al tocarlo, según la hora (de 0 a 11: 0 son las doce). Desde la fase M6.
+export const FRASES_HORA: readonly string[] = [
+  'Tic, tac. Son las doce.',
+  'Tic, tac. Es la una.',
+  'Tic, tac. Son las dos.',
+  'Tic, tac. Son las tres.',
+  'Tic, tac. Son las cuatro.',
+  'Tic, tac. Son las cinco.',
+  'Tic, tac. Son las seis.',
+  'Tic, tac. Son las siete.',
+  'Tic, tac. Son las ocho.',
+  'Tic, tac. Son las nueve.',
+  'Tic, tac. Son las diez.',
+  'Tic, tac. Son las once.',
+];

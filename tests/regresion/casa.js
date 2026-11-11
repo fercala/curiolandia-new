@@ -14,7 +14,8 @@
 // mueble con algo encima (C29) y «¡Ordena, Tito!» (C30); desde la M3, los toques directos y los estados guardados, y
 // que Tito solo va a jugar si se le toca antes (C31) y el botón de la escena tras dos toques (C32); desde la M3b, las
 // formas de jugar de Tito (C33), arrastrar a Tito (C34), la pista de pareja, la sorpresa al dejar algo encima de su
-// mueble y los 3 dibujos del cuadro (C35). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
+// mueble y los 3 dibujos del cuadro (C35); desde la M6, «Un día con Tito»: la rutina de la hora con su bocadillo y su
+// pegatina, una vez al día (C36), y la noche por la ventana y el reloj que dice la hora (C37). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
 // C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
@@ -1160,6 +1161,69 @@ const temas = (n) => {
       if (c !== '1,2,0') return 'el cuadro pasa por ' + c;
       if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
     },
+  );
+
+  await caso(
+    'C36',
+    'A las 8 Tito pide desayunar con un bocadillo; ir a la nevera hace la rutina una vez al día y da su pegatina',
+    async (p) => {
+      await prepara(p, ['nevera', 'mesa'], 'cocina');
+      await p.waitForTimeout(2500);
+      const r = await p.evaluate(() => {
+        window.__said = [];
+        const sc = __cl.scene,
+          b = sc.bocadilloRutina();
+        if (!b) return 'sin bocadillo';
+        sc.down(b.x, b.y);
+        sc.up(b.x, b.y);
+        S.casaDia = { d: '', hechas: [] };
+        S.stk.nevera = 0;
+        sc.irA('nevera');
+        return [b.rutina.id, window.__said.some((f) => f.includes('desayuno'))].join();
+      });
+      if (r !== 'desayuno,true') return 'el bocadillo: ' + r;
+      await p.waitForTimeout(6000);
+      const h = await p.evaluate(() => {
+        const sc = __cl.scene;
+        const hecha = [S.casaDia.hechas.join(), S.stk.nevera, !sc.bocadilloRutina()];
+        sc.irA('mesa');
+        return hecha;
+      });
+      if (h.join() !== 'desayuno,1,true') return 'tras la nevera: ' + h.join();
+      await p.waitForTimeout(5000);
+      const d = await p.evaluate(() => S.stk.nevera);
+      if (d !== 1) return 'la rutina da la pegatina dos veces: ' + d;
+      if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
+    },
+    { hora: 8 },
+  );
+  await caso(
+    'C37',
+    'A las 22 se ve la noche por la ventana, Tito pide dormir y el reloj dice la hora',
+    async (p) => {
+      await prepara(p, ['reloj', 'cama'], 'dormitorio');
+      await p.waitForTimeout(2500);
+      const r = await p.evaluate(() => {
+        window.__said = [];
+        const sc = __cl.scene,
+          b = sc.bocadilloRutina(),
+          o = S.home.reloj;
+        sc.toca('reloj');
+        // color de la ventana del dormitorio (en 1210, 160, 280 x 210): el azul de la noche
+        // (el lienzo 2D del juego: el de la capa 3D no tiene contexto 2D)
+        const px = [...document.querySelectorAll('canvas')]
+          .map((c) => [c, c.getContext('2d')])
+          .filter(([c, k]) => k && c.width > 0)
+          .map(([c, k]) => k.getImageData((1400 * c.width) / 1600, (330 * c.height) / 900, 1, 1).data)
+          .find((d) => d[3] > 0);
+        return [b && b.rutina.id, window.__said.join('|'), !!px && px[2] > px[0], !!o];
+      });
+      if (r[0] !== 'dormir') return 'la rutina de las 22: ' + r[0];
+      if (!String(r[1]).includes('Son las diez')) return 'el reloj dice: ' + r[1];
+      if (!r[2]) return 'la ventana no se ve de noche';
+      if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
+    },
+    { hora: 22 },
   );
 
   R.guardar();
