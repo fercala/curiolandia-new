@@ -1770,3 +1770,22 @@ Esa pompa es verde.
 {n} veces
 {n} años
 {n} de {total}
+Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.
+Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.
+{n}/{total} juegos
+· completo 🌼
+{a}/{b} temas · {c}/{d} juegos
+Ver todas ({n})
+Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.
+{n} de {total} sorpresas
+La flor del huerto lleva {n} día regado (etapa {etapa} de 4).
+La flor del huerto lleva {n} días regados (etapa {etapa} de 4).
+Hay {vales} por entregar.
+{n} vales
+Este aparato no tiene voz en el idioma del juego: Tito hablará con otra voz. En «Tito y el sonido» se explica cómo instalarla.
+(propuesto el {fecha})
+{n} minuto de juego hoy
+{n} minutos de juego hoy
+(límite: {n} min por sesión)
+Para seguir fuera de la pantalla: {tip}
+Tito habla con la voz del navegador. Voz del navegador: {voz}.

@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,32 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID4a (v0.2.134): la zona de adultos en rumano, el aviso de voz y la hoja de revisión
+
+- La ID4 es sobre todo traducción (unos 1.500 textos fuera de los temas, los juegos y las islas): va en partes. **ID4a**:
+  la zona de adultos, las ventanas de `head.html` y el núcleo (días, meses, sonidos de los animales, felicitaciones).
+  Siguen ID4b (portada, mapa, tienda, cofre, asamblea y los nombres de los temas), ID4c (la casa de Tito) e ID4d (el cole,
+  el patio, las excursiones y el deporte).
+- **Las tablas del rumano por partes**: `src/idiomas/ro/adultos.ts` (`ADULTOS_RO`), que `textos.ts` junta con las demás.
+  Es un borrador de Claude, con el registro de la zona de adultos (de usted no: tuteando a la familia, como en
+  castellano), y lo revisa una persona que hable rumano en la ID9.
+- **`tr` encuentra un texto envuelto**: con un dibujo o signos delante («🏠 Resumen», el menú) o puntuación detrás
+  («iPhone o iPad:»), busca lo de dentro y deja lo demás (`ENVOLTURA`, en `nucleo/traducir.ts`).
+- **Frases de la zona de adultos con números o negritas dentro**: el HTML se traducía por nodos de texto, y «3/5
+  juegos» o «Hay <b>3 vales</b> por entregar.» no se podían traducir. Ahora van con `fmtHtml(plantilla, huecos)` (fmt
+  ya marcado) y `hecho(html)` (un trozo ya traducido), que `trHtml` no vuelve a tocar (`data-traducido`); en castellano
+  no añaden nada y la página queda igual. Los mensajes de la copia de seguridad (`#a-bk-msg`) se traducen al salir.
+- **Aviso de voz rumana**: en el Resumen, si se juega en otro idioma y el aparato no tiene voz de ese idioma
+  (`hayVozDelIdioma`), con su botón a «Tito y el sonido»; la guía de voces, en rumano, explica cómo instalar una voz
+  rumana en cada aparato.
+- **Hoja de revisión `dialogos/ro.csv`** (adelantada de la ID5): la escribe `npm run dialogos` (`hojaIdioma` y
+  `csvIdioma`, `herramientas/dialogos/catalogo.mts`): cada texto del catálogo con su traducción, su tipo, dónde sale y
+  su estado (`borrador` o `falta`), y al final los textos de la tabla que no salen en el catálogo (plantillas y trozos
+  del HTML, tipo `tabla`). `tests/unidad/dialogos.test.ts` comprueba que está al día.
+- **Prueba**: `tests/regresion/idiomas.js` gana la I5: la zona de adultos con `?idioma=ro`, página a página, sin nada en
+  `sinTraducir` salvo los nombres de los temas (ID4b y ID5) y el nombre del niño.
+- Versión: la v0.2.133 la lleva el PR #137 (P12c). En castellano todo sigue igual.
 
 ### ID3 (v0.2.132): los textos de pantalla
 

@@ -248,3 +248,47 @@ const campoCsv = (v: string): string => (/[",\n]/.test(v) ? `"${v.replace(/"/g, 
 export function csv(frases: readonly Frase[]): string {
   return ['id,texto,tipo,donde', ...frases.map((f) => [f.id, f.texto, f.tipo, f.donde.join(' ')].map(campoCsv).join(','))].join('\n') + '\n';
 }
+
+/** Una fila de la hoja de revisión del rumano: el texto en castellano, su traducción (vacía si falta) y si ya está. */
+export interface FilaIdioma {
+  readonly id: string;
+  readonly texto: string;
+  readonly traduccion: string;
+  readonly tipo: string;
+  readonly donde: string;
+  readonly estado: 'borrador' | 'falta';
+}
+
+/**
+ * hojaIdioma(frases, textos, nombres): las filas de la hoja de revisión de un idioma (dialogos/ro.csv, fase ID4 de
+ * docs/PLAN-IDIOMAS.md): cada texto del catálogo con su traducción de la tabla textos (o, si es un nombre, la forma con
+ * artículo de nombres) y, al final, los textos de la tabla que no están en el catálogo (plantillas y trozos del HTML,
+ * con tipo «tabla»). Lo traducido sale como «borrador» hasta que lo revise una persona que hable el idioma (ID9).
+ */
+export function hojaIdioma(
+  frases: readonly Frase[],
+  textos: Readonly<Record<string, string>>,
+  nombres: Readonly<Record<string, { readonly art: string }>>,
+): FilaIdioma[] {
+  const fila = (id: string, texto: string, tipo: string, donde: string): FilaIdioma => {
+    const t = textos[texto.trim()] ?? nombres[texto]?.art ?? '';
+    return { id, texto, traduccion: t, tipo, donde, estado: t ? 'borrador' : 'falta' };
+  };
+  const enCatalogo = new Set(frases.map((f) => f.texto.trim()));
+  return [
+    ...frases.map((f) => fila(f.id, f.texto, f.tipo, f.donde.join(' '))),
+    ...Object.keys(textos)
+      .filter((t) => !enCatalogo.has(t))
+      .map((t) => fila(createHash('md5').update(t).digest('hex').slice(0, LARGO_ID), t, 'tabla', '')),
+  ];
+}
+
+/** csvIdioma(filas, idioma): el texto de la hoja de revisión: cabecera id,castellano,<idioma>,tipo,donde,estado. */
+export function csvIdioma(filas: readonly FilaIdioma[], idioma: string): string {
+  return (
+    [
+      `id,castellano,${idioma},tipo,donde,estado`,
+      ...filas.map((f) => [f.id, f.texto, f.traduccion, f.tipo, f.donde, f.estado].map(campoCsv).join(',')),
+    ].join('\n') + '\n'
+  );
+}

@@ -11,7 +11,10 @@
  * un nombre en el idioma del juego. Lo que ya sale traducido de fmt y de nombreEn se recuerda (yaTraducido), para que
  * say() y text() no lo vuelvan a traducir.
  * Desde la ID2b, juntar(...trozos): frases que se dicen seguidas, cada una ya traducida.
- * Exporta: IDIOMA, sinTraducir, iniciarIdioma, tr, fmt, juntar, nombreEn, trHtml, ponIdioma.
+ * Desde la ID4 (el rumano): tr encuentra también un texto con un dibujo o signos delante («🏠 Resumen») o puntuación
+ * detrás («iPhone o iPad:»), y hecho(html) y fmtHtml(plantilla, huecos) marcan un trozo de HTML ya traducido, para las
+ * frases de la zona de adultos con números o negritas dentro, que trHtml ya no toca.
+ * Exporta: IDIOMA, sinTraducir, iniciarIdioma, tr, fmt, juntar, nombreEn, hecho, fmtHtml, trHtml, ponIdioma.
  * Importa: S y save (guardado.ts), las reglas de dominio/idiomas.ts y las tablas de src/idiomas/.
  */
 import { S, save } from './guardado.ts';
@@ -50,6 +53,11 @@ export const sinTraducir = new Set<string>();
 const hechos = new WeakSet<Node>();
 // Los textos que ya salen traducidos de fmt y de nombreEn: tr los deja como están.
 const yaTraducido = new Set<string>();
+// Atributo que marca el HTML ya traducido (hecho): trHtml no entra en él.
+const HECHO = 'data-traducido';
+// Un texto con un dibujo o signos delante y puntuación detrás: casa '🏠 Resumen' (delante '🏠 ', el texto 'Resumen') e
+// 'iPhone o iPad:' (detrás ':'); lo de delante no lleva letras, números ni ¿ ¡ « (, que son parte de la frase.
+const ENVOLTURA = /^([^\p{L}\p{N}¿¡«(]*)(.*?)([\s:.,;]*)$/u;
 
 // iniciarIdioma(): decide el idioma al cargar este módulo, con idiomaActivo: el de la dirección
 // (?idioma=ro), el guardado o, la primera vez, el del navegador. La primera vez se guarda en S.idioma el del navegador
@@ -84,8 +92,13 @@ export function tr(t: string): string {
   if (IDIOMA === IDIOMA_BASE || t.trim().length < 2 || t.startsWith('@') || !/\p{L}/u.test(t) || yaTraducido.has(t))
     return t;
   if (IDIOMA === 'xx') return pseudo(t);
-  const r = TABLAS[IDIOMA]?.[t];
+  const tabla = TABLAS[IDIOMA],
+    r = tabla?.[t];
   if (r !== undefined) return r;
+  // si no está tal cual, se busca sin lo de delante (un dibujo, signos) ni la puntuación de detrás (desde la ID4)
+  const m = ENVOLTURA.exec(t);
+  const dentro = m?.[2] && (m[1] || m[3]) ? tabla?.[m[2]] : undefined;
+  if (m && dentro !== undefined) return (m[1] ?? '') + dentro + (m[3] ?? '');
   sinTraducir.add(t);
   return t;
 }
@@ -123,6 +136,15 @@ export function nombreEn(frase: string): Nombre {
   return n;
 }
 
+// hecho(html): el trozo de HTML html, que ya está traducido (con tr o fmt), marcado para que trHtml no lo vuelva a
+// traducir (desde la fase ID4). En castellano, el mismo html, sin marca: la página queda igual que antes.
+export const hecho = (html: string): string => (IDIOMA === IDIOMA_BASE ? html : `<span ${HECHO}>${html}</span>`);
+
+// fmtHtml(plantilla, huecos): fmt para el HTML de la zona de adultos: la frase con sus huecos (que pueden llevar HTML,
+// como un número en negrita) ya traducida y marcada con hecho. Los huecos con palabras se traducen antes, con tr o fmt.
+export const fmtHtml = (plantilla: string, huecos: Readonly<Record<string, string | number>>): string =>
+  hecho(fmt(plantilla, huecos));
+
 // trTrozo(t): tr de un texto con espacios alrededor (los del HTML): traduce lo de dentro y deja los espacios.
 function trTrozo(t: string): string {
   const dentro = t.trim();
@@ -133,12 +155,13 @@ function trTrozo(t: string): string {
 
 // trHtml(raiz): traduce el HTML de raiz (una ventana de head.html o una página de la zona de adultos) después de
 // pintarlo: cada nodo de texto y los ATRIBUTOS que se leen. Los nodos ya traducidos se saltan (hechos) y los atributos
-// se marcan con data-tr. En castellano no hace nada.
+// se marcan con data-tr; lo marcado con hecho() (desde la ID4) no se toca. En castellano no hace nada.
 export function trHtml(raiz: ParentNode): void {
   if (IDIOMA === IDIOMA_BASE) return;
   const paseo = document.createTreeWalker(raiz as Node, NodeFilter.SHOW_TEXT);
   for (let n = paseo.nextNode(); n; n = paseo.nextNode()) {
-    if (hechos.has(n) || SIN_TRADUCIR.has(n.parentElement?.tagName ?? '')) continue;
+    if (hechos.has(n) || SIN_TRADUCIR.has(n.parentElement?.tagName ?? '') || n.parentElement?.closest(`[${HECHO}]`))
+      continue;
     hechos.add(n);
     n.nodeValue = trTrozo(n.nodeValue ?? '');
   }

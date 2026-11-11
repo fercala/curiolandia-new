@@ -7,6 +7,7 @@ revisarlas y para poder traducir el juego algún día. Todo está en castellano 
 | Archivo | Qué es |
 |---|---|
 | `todos.csv` | **Catálogo de todos los textos del juego**, sacado del código con `npm run dialogos` (`herramientas/dialogos/catalogo.mts`, desde la fase 5g). No se edita a mano. Columnas: `id` (las 12 primeras letras del md5 del texto), `texto`, `tipo` y `donde` (los archivos donde está, hasta tres). |
+| `ro.csv` | **Hoja de revisión del rumano** (desde la fase ID4a de [docs/PLAN-IDIOMAS.md](../docs/PLAN-IDIOMAS.md)), también de `npm run dialogos`: cada texto del catálogo con su traducción de `src/idiomas/ro/` y su estado (`borrador`, hasta que lo revise una persona que hable rumano, o `falta`), y al final los textos de la tabla que no están en el catálogo (tipo `tabla`). No se edita a mano: las correcciones van a las tablas de `src/idiomas/ro/`. |
 | `pendientes.txt` | **Diálogos nuevos o cambiados**, una frase por línea, con el texto exacto que dice Tito (sin el nombre del niño), para revisarlos. |
 
 ## Los tipos del catálogo

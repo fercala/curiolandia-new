@@ -6,7 +6,7 @@
 // Usa las reglas del progreso por letra (dominio/letras.ts) y de la casa (dominio/casa.ts), palabrasDe
 // (escenas/diccionario.ts) para el inglés y los temas de temas/indice.ts.
 import type { Tema } from '../../juegos/tipos.ts';
-import { DIASL, S, SCENES } from '../../nucleo/indice.ts';
+import { DIASL, S, SCENES, fmtHtml, hecho, tr } from '../../nucleo/indice.ts';
 import {
   C3,
   C4,
@@ -205,7 +205,7 @@ export const PROGRESO: PaginaAdultos = {
       L.map((t) => {
         const n = gDone(t),
           N = t.games.length;
-        return `<div class="tm ${tst(t.id).done ? 'done' : ''}"><b>${esc(t.n)}</b>${n}/${N} juegos${tst(t.id).done ? ' · completo 🌼' : ''}<div class="bar"><i style="width:${Math.round((n / N) * 100)}%"></i></div></div>`;
+        return `<div class="tm ${tst(t.id).done ? 'done' : ''}"><b>${esc(t.n)}</b>${fmtHtml('{n}/{total} juegos', { n, total: N })}${tst(t.id).done ? ' ' + hecho(tr('· completo 🌼')) : ''}<div class="bar"><i style="width:${Math.round((n / N) * 100)}%"></i></div></div>`;
       }).join('');
     // tm: una fila plegable por zona (details): al cerrarla se ve su nombre, temas terminados, juegos hechos y una barra;
     // al abrirla, la tarjeta de cada tema.
@@ -228,7 +228,7 @@ export const PROGRESO: PaginaAdultos = {
         const r = resumenZona(
           L.map((t) => ({ hechos: gDone(t), juegos: t.games.length, terminado: !!tst(t.id).done })),
         );
-        return `<details class="zona"><summary><b>${h}</b><span>${r.terminados}/${r.temas} temas · ${r.hechos}/${r.juegos} juegos</span><div class="bar"><i style="width:${r.juegos ? Math.round((r.hechos / r.juegos) * 100) : 0}%"></i></div></summary><div class="temas">${tmOf(L)}</div></details>`;
+        return `<details class="zona"><summary><b>${h}</b><span>${fmtHtml('{a}/{b} temas · {c}/{d} juegos', { a: r.terminados, b: r.temas, c: r.hechos, d: r.juegos })}</span><div class="bar"><i style="width:${r.juegos ? Math.round((r.hechos / r.juegos) * 100) : 0}%"></i></div></summary><div class="temas">${tmOf(L)}</div></details>`;
       })
       .join('');
     // fila(k): la fila de una habilidad: nombre (SKILL), porcentaje de aciertos, intentos y su etiqueta.
@@ -244,7 +244,7 @@ export const PROGRESO: PaginaAdultos = {
       sk = orden.slice(0, ZONA_ADULTOS.habilidadesVisibles).map(fila).join(''),
       resto = orden.slice(ZONA_ADULTOS.habilidadesVisibles),
       skMas = resto.length
-        ? `<details><summary>Ver todas (${orden.length})</summary><table>${cabeza}<tbody>${resto.map(fila).join('')}</tbody></table></details>`
+        ? `<details><summary>${fmtHtml('Ver todas ({n})', { n: orden.length })}</summary><table>${cabeza}<tbody>${resto.map(fila).join('')}</tbody></table></details>`
         : '';
     // ESTADO_L: el texto y la clase de la etiqueta de cada estado de una letra (dominio/letras.ts, fase L7).
     const ESTADO_L: Record<EstadoLetra, [string, string]> = {
@@ -322,7 +322,7 @@ export const PROGRESO: PaginaAdultos = {
   <section id="p-letras"><h3>Letras</h3><p class="note">Cómo va cada letra de la Isla de las Letras: los juegos hechos de su casita y los aciertos en ellos. Una letra está <b>aprendida</b> con su casita terminada y el 80 % de aciertos o más. Las que cuestan entran en el repaso de cada día.</p><table><thead><tr><th>Letra</th><th>Juegos</th><th>Aciertos</th><th></th></tr></thead><tbody>${letras}</tbody></table></section>
   <section id="p-ingles"><h3>Inglés</h3><p class="note">Cómo va la Isla del Inglés: las casitas terminadas de cada zona y las palabras que ya están en «Mi diccionario de inglés» (en el álbum, el botón de Polly). Los juegos de inglés que cuestan entran en el repaso de cada día. ${vozEn ? 'Polly dice las palabras con la voz inglesa de este dispositivo.' : '<b>Este dispositivo no tiene voz inglesa</b>: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.'}</p><table><thead><tr><th>Zona</th><th>Casitas</th><th>Palabras</th></tr></thead><tbody>${ingles}</tbody></table></section>
   <section id="p-asambleas"><h3>Asambleas</h3><p class="note">El tiempo que eligió y cómo se sentía cada día.</p><div class="cal">${cal}</div></section>
-  <section id="p-casa"><h3>Casa de Tito</h3><p class="note">Lo que ha descubierto jugando en la casa de Tito: <b>${cuantasSorpresas(S.sorpresas || {})} de ${TOTAL_SORPRESAS} sorpresas</b> del álbum «Sorpresas de la casa».</p><details><summary>Más información</summary><p class="note">La flor del huerto lleva ${huertoDias} ${huertoDias === 1 ? 'día regado' : 'días regados'} (etapa ${etapaFlor(huertoDias)} de 4). Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.</p></details>${casa ? `<table><thead><tr><th>Mascota</th><th>Nombre</th><th>Etapa</th><th>Días cuidados</th></tr></thead><tbody>${casa}</tbody></table>` : '<p class="note">Todavía no tiene mascotas.</p>'}${SCENES.casa3dPrueba ? '<p class="note">Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.</p><div class="row"><button data-go="casa3dPrueba">Casa de Tito en 3D (prueba)</button></div>' : ''}</section>
+  <section id="p-casa"><h3>Casa de Tito</h3><p class="note">Lo que ha descubierto jugando en la casa de Tito: <b>${fmtHtml('{n} de {total} sorpresas', { n: cuantasSorpresas(S.sorpresas || {}), total: TOTAL_SORPRESAS })}</b> del álbum «Sorpresas de la casa».</p><details><summary>Más información</summary><p class="note">${fmtHtml(huertoDias === 1 ? 'La flor del huerto lleva {n} día regado (etapa {etapa} de 4).' : 'La flor del huerto lleva {n} días regados (etapa {etapa} de 4).', { n: huertoDias, etapa: etapaFlor(huertoDias) })} Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.</p></details>${casa ? `<table><thead><tr><th>Mascota</th><th>Nombre</th><th>Etapa</th><th>Días cuidados</th></tr></thead><tbody>${casa}</tbody></table>` : '<p class="note">Todavía no tiene mascotas.</p>'}${SCENES.casa3dPrueba ? '<p class="note">Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.</p><div class="row"><button data-go="casa3dPrueba">Casa de Tito en 3D (prueba)</button></div>' : ''}</section>
   <section id="p-minutos"><h3>Minutos de juego</h3><p class="note">Los minutos jugados en los últimos 7 días con datos.</p><div class="days">${days}</div></section>`;
   },
   // conectar(el): no hay nada que guardar; los botones del índice llevan a su parte (scrollIntoView, sin animación si se
