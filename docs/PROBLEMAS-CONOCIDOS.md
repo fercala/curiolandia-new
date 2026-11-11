@@ -11,6 +11,20 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 | aplicacion/bucle.ts, `frame()` | El candado de adultos cuenta como mucho 0,25 s por fotograma (`VIVO.lockHold`): en un aparato que vaya a menos de 4 FPS (el mapa sin tarjeta gráfica va a unos 3) hay que mantenerlo pulsado más de 3 s. Visto en las pruebas de la fase 0 (B5 de `informe-b.js`, que ahora espera hasta 10 s). |
 | temas/extras.ts + temas | El cuento se añade al final de `games` al cargar: añadir un juego al final de un tema con cuento desplaza el progreso guardado del cuento (ver COMO-AGREGAR.md, receta 5). |
 
+### G1. La tienda cobra dos veces por el mismo artículo en dos pestañas
+
+**Estado:** pendiente. Reproducido en Chromium con la v0.2.134 (`13c943e`).
+
+1. Abre la misma partida con al menos 12 monedas en dos pestañas y entra en la tienda en ambas.
+2. Toca el gorro de fiesta en cada pestaña para dejar abiertas las dos confirmaciones.
+3. Confirma en la primera. Espera a que la segunda reciba la compra y confirma también allí. Recarga.
+
+**Esperado:** se cobran 6 monedas y queda un gorro. **Observado:** con 100 monedas, el saldo pasa a 94 y después a 88. Sigue habiendo un solo gorro. La pérdida persiste al recargar.
+
+La tienda comprueba si el artículo ya es del niño y si le alcanza el saldo al abrir la confirmación. Al aceptarla, `buy()` en `src/escenas/tienda.ts` no vuelve a comprobar esas dos condiciones antes de gastar. Un posible arreglo es validarlas al confirmar, antes de modificar la partida. Eso cubriría este caso, donde la segunda pestaña ya recibió la compra. Dos escrituras que ocurran antes de que se notifique a la otra pestaña requieren una prueba aparte.
+
+Reproducción automatizada: `node tests/regresion/cobertura.js dist guardado-compra-doble` después de compilar. El caso falla hasta que se corrija la compra.
+
 ## Límites que conviene saber
 
 - Cada camino de edad admite 12 casitas (`zonePos()` en escenas/zonas.ts) y cada casita unos 8 juegos (`st3Pos()` en mundo3d/casita3d.ts).
