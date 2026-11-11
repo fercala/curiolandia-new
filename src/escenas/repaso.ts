@@ -203,7 +203,7 @@ SCENES.repaso = {
     floor(760, '#E6DCC8');
     card(170, 34, 600, 112, '#fff', 6, 56);
     pic('lupa', 250, 90, 90);
-    text('Repaso con Tito', 490, 112, 52, K, { w: 600 });
+    text('Repaso con Tito', 490, 112, 52, K, { w: 600, max: 420 });
     const pts = this.L.map((_id: string, j: number) => this.pos(j)),
       nx = this.next();
     if (pts.length > 1) drawRoad(pts, nx < 0 ? pts.length - 1 : nx, 150);
@@ -216,8 +216,9 @@ SCENES.repaso = {
       drawStation(t, +g, x, y, { s: lk ? 1 : hv('r:' + j, hC(x, y, 130)) });
       const nm = t.n;
       ctx.font = `600 28px ${DF}`;
-      const fs = Math.min(28, (28 * 230) / Math.max(1, ctx.measureText(nm).width)),
-        tw = Math.min(230, ctx.measureText(nm).width);
+      // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
+      const fs = Math.min(28, (28 * 230) / Math.max(1, ctx.measureText(tr(nm)).width)),
+        tw = Math.min(230, ctx.measureText(tr(nm)).width);
       card(x - tw / 2 - 48, y + 156, tw + 96, 58, '#fff', 5, 29);
       pic(t.icon, x - tw / 2 - 14, y + 185, 42);
       text(nm, x + 20, y + 185 + fs * 0.36, fs, K, { w: 600 });

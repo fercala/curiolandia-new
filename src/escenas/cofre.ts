@@ -59,6 +59,7 @@ import {
   tone,
   fmt,
   nombreEn,
+  tr,
 } from '../nucleo/indice.ts';
 import { SHOP, casaEnS, drawItemPic, itemName, wear } from './tienda.ts';
 import { nuevoAlBaul } from '../aplicacion/casa.ts';
@@ -258,8 +259,9 @@ SCENES.cofre = {
       }
       if (k > 1.1 && this.gift) {
         ctx.font = `600 44px ${DF}`;
+        // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
         const nm = cap(itemName(this.gift)),
-          tw = ctx.measureText(nm).width;
+          tw = ctx.measureText(tr(nm)).width;
         card(800 - tw / 2 - 40, 96, tw + 80, 84, '#fff', 6, 42);
         text(nm, 800, 152, 44, K, { w: 600 });
       }

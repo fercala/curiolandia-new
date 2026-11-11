@@ -1063,9 +1063,9 @@ ccd9d9bd53d0,{n} medallas de {medalla},trozo,src/dominio/deporte.ts
 d6aab1bb5737,{n} de {medalla},trozo,src/dominio/deporte.ts
 e4967d139c87,{lista} y {ultimo},trozo,src/dominio/deporte.ts
 5778faca132a,Tienes {lista}.,frase,src/dominio/deporte.ts
-f4b7f5c009fb, de ,trozo,src/dominio/excursiones.ts src/escenas/libroLetras.ts src/escenas/yoga.ts
+17eb8962117b,{dia} de {mes},trozo,src/dominio/excursiones.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
-7327b8c0b779, veces,trozo,src/dominio/excursiones.ts
+df787b379967,{n} veces,trozo,src/dominio/excursiones.ts
 2f05391d7e51,La rayuela,trozo,src/dominio/juegosCortos.ts
 99b376c14d04,Los columpios,trozo,src/dominio/juegosCortos.ts src/escenas/columpios.ts
 6bda4ebc15a3,Los penaltis,trozo,src/dominio/juegosCortos.ts
@@ -1627,7 +1627,7 @@ af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts
-8510453fad10, años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/mundo3d/isla3d.ts
+96b00383b22b,{n} años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts
 8393ff8607d7,"¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",frase,src/escenas/isla.ts
 6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,frase,src/escenas/isla.ts
 b2b4b96d3c6d,"Lupi, la lechuza.",frase,src/escenas/isla.ts
@@ -1655,6 +1655,7 @@ f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
+f4b7f5c009fb, de ,trozo,src/escenas/libroLetras.ts src/temas/letras.ts src/aplicacion/adultos/progreso.ts
 351fb9238b96,¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?,frase,src/escenas/patio.ts
 0c447c76243e,Elige un juego del patio.,frase,src/escenas/patio.ts
 be997aa77b53,¡Lo has hecho genial!,frase,src/escenas/patioComun.ts
@@ -1779,6 +1780,7 @@ a1def823d62e,¡Así se hace!,frase,src/escenas/titoDice.ts
 5d61522c0ea1,¡Qué tranquilos estamos! Has hecho yoga como los animales. ¿Lo hacemos otra vez?,frase,src/escenas/yoga.ts
 53b7bf180dca,Toma aire...,frase,src/escenas/yoga.ts
 32703f74daff,Suelta el aire...,frase,src/escenas/yoga.ts
+408e922ebcc9,{n} de {total},trozo,src/escenas/yoga.ts
 95ff847d13da,"¡Vamos a estirarnos como los animales! Ponte de pie, con espacio a tu alrededor.",frase,src/escenas/yoga.ts
 de6cc558aff1,¡Bienvenido al rincón de la calma! Vamos a hacer yoga como los animales. Despacito y respirando tranquilos.,frase,src/escenas/yoga.ts
 9a76d92c378b,Mira lo que hago y hazlo conmigo.,frase,src/escenas/yoga.ts
@@ -2246,6 +2248,7 @@ a3ab49ee4618,@Hello,inglés,src/mundo3d/interaccion.ts
 eb61eead90e3,HELLO,trozo,src/mundo3d/interaccion.ts src/mundo3d/islaIngles3d.ts
 c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
 0346395fbbe7,MPL,trozo,src/mundo3d/isla3d.ts
+8510453fad10, años,trozo,src/mundo3d/isla3d.ts src/mundo3d/islaIngles3d.ts src/aplicacion/adultos/resumen.ts
 0cc175b9c0f1,a,trozo,src/mundo3d/mapa3d.ts
 6aaa0c8b5072,"attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}",trozo,src/mundo3d/materiales.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts

@@ -112,10 +112,11 @@ function drawBoton(b: BotonPatio, i: number): void {
   ctx.globalAlpha = lista ? 1 : 0.45;
   pic(b.a.icono, cx, b.y + 24 + (b.h - 120) / 2 - (lista ? Math.abs(Math.sin(T * 3 + i)) * 10 : 0), 150);
   ctx.globalAlpha = 1;
-  text(b.a.nombre, cx, b.y + b.h - 44, b.a.nombre.length > 12 ? 26 : 34, '#fff', { st: 6, sc: 'rgba(0,0,0,.25)' });
+  // el nombre se encoge si no cabe en el botón (desde la fase ID3 de docs/PLAN-IDIOMAS.md; antes, por su largo en castellano)
+  text(b.a.nombre, cx, b.y + b.h - 44, 34, '#fff', { st: 6, sc: 'rgba(0,0,0,.25)', max: b.w - 30 });
   if (!lista) {
     card(cx - 100, b.y - 26, 200, 48, '#FFD66B', 5, 24);
-    text('¡Muy pronto!', cx, b.y + 8, 26);
+    text('¡Muy pronto!', cx, b.y + 8, 26, undefined, { max: 184 });
   }
   ctx.restore();
 }

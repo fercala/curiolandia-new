@@ -381,6 +381,8 @@ declare global {
     __fast?: number;
     /** Frases que dice Tito en modo rápido. */
     __said?: string[];
+    /** Lo que se dice en inglés (también está en __said), si la prueba lo pide (fase ID3 de docs/PLAN-IDIOMAS.md). */
+    __saidEn?: string[];
     /** Puerta para las pruebas automáticas (aplicacion/adultos.ts; docs/CONTRATO-PRUEBAS.md). */
     __cl: PuertaPruebas;
     /** Lo que la capa 3D ofrece al resto del juego (lo pone montarInteraccion, en mundo3d/interaccion.ts). */

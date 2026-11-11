@@ -1766,3 +1766,7 @@ Esa pompa es amarilla.
 Esa pompa es verde.
 ¡Muy bien! Ahora, otro color.
 ¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?
+{dia} de {mes}
+{n} veces
+{n} años
+{n} de {total}

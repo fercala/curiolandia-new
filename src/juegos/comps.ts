@@ -142,7 +142,7 @@ import {
   tr,
 } from '../nucleo/indice.ts';
 import { drawFace } from './caras.ts';
-import { femenino, type Nombre } from '../dominio/idiomas.ts';
+import { femenino, formasEs, pseudo, type Nombre } from '../dominio/idiomas.ts';
 import { NUM_RO, cantidadRo } from '../idiomas/ro/numeros.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
@@ -193,12 +193,17 @@ export const NUM: readonly string[] =
 // Plural de la palabra de la clave k sin artículo ('perros', 'lápices').
 // Usa una lista de excepciones (PLX) y, si la palabra tiene complemento
 // ('caja de lápices'), solo pone en plural la primera parte. En otro idioma (fase ID2), el plural de su tabla de nombres
-// (plu) o, si no lo tiene, el nombre sin artículo.
+// (plu) o, si no lo tiene, el nombre sin artículo; en castellano, pluralEs.
 export function plural(k: Cosa) {
-  if (IDIOMA !== 'es' && IDIOMA !== 'xx') {
-    const n = nombreCosa(k);
-    return n.plu ?? n.sin;
-  }
+  if (IDIOMA === 'es') return pluralEs(k);
+  // en el pseudoidioma, el plural castellano marcado entero (desde la fase ID3; antes, «⟦pelota··⟧es»)
+  if (IDIOMA === 'xx') return pseudo(pluralEs(k));
+  const n = nombreCosa(k);
+  return n.plu ?? n.sin;
+}
+// pluralEs(k): el plural en castellano de la palabra de la clave k sin artículo, con las excepciones (PLX) y la regla
+// de plW; si la palabra tiene complemento ('caja de lápices'), solo la primera parte.
+function pluralEs(k: Cosa): string {
   const PLX: Record<string, string> = {
     lapiz: 'lápices',
     pez: 'peces',
@@ -210,7 +215,7 @@ export function plural(k: Cosa) {
     gafas: 'gafas',
   };
   if (PLX[k]) return PLX[k];
-  const w = Wn(k),
+  const w = formasEs(LEX[k] || k).sin,
     i = w.search(/ (de|del|para|con) /);
   if (i > 0) return plW(w.slice(0, i)) + w.slice(i);
   return plW(w);
@@ -960,7 +965,7 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego {
           circ(kx - a * ks, ky + b * ks, 46, null, 10, '#FFC93C');
           ctx.globalAlpha = 1;
         }
-        text(Wn(p.n).toUpperCase(), 520, 360, 72, K, { f: LF });
+        text(juntar(Wn(p.n).toUpperCase()), 520, 360, 72, K, { f: LF });
       }
     },
     // Toque: averigua la parte tocada. Modo libre: dice su nombre y suma estrella

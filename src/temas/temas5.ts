@@ -97,8 +97,13 @@ export const monthCard = (i: number) => ({
     circ(x - s * 0.26, y - s * 0.34, s * 0.04, '#fff', 3);
     circ(x + s * 0.26, y - s * 0.34, s * 0.04, '#fff', 3);
     pic(SEAS_IC[e], x - s * 0.27, y + s * 0.12, s * 0.28);
-    const nm = MESES[i].toUpperCase();
-    text(nm, x + s * 0.1, y + s * 0.18, s * (nm.length > 7 ? 0.105 : nm.length > 5 ? 0.13 : 0.15), K, { f: LF });
+    // el mes en el idioma del juego y en mayúsculas (desde la fase ID3 de docs/PLAN-IDIOMAS.md; juntar: ya traducido);
+    // si aun así no cabe en la hoja, la letra se encoge
+    const nm = juntar(tr(MESES[i]!).toUpperCase());
+    text(nm, x + s * 0.1, y + s * 0.18, s * (nm.length > 7 ? 0.105 : nm.length > 5 ? 0.13 : 0.15), K, {
+      f: LF,
+      max: s * 0.66,
+    });
   },
 });
 // Tarjeta con el número n: {name (el número en palabras, NUM), n, draw}. Para sumar y restar.
@@ -2055,7 +2060,7 @@ export const C5: Tema = {
               r.row.forEach((k: Cosa, j: number) => {
                 const x = 1280 - j * 190;
                 picF(k, x, 320 + Math.sin(T * 4 + j) * 4, 150, true);
-                text(nombreEn(ORD[j]!).sin.toUpperCase(), x, 430, 24, '#9B8AD9', { f: LF });
+                text(juntar(nombreEn(ORD[j]!).sin.toUpperCase()), x, 430, 24, '#9B8AD9', { f: LF });
               });
             },
             gen(i: number) {

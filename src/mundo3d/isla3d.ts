@@ -40,6 +40,7 @@ import {
   speaker,
   text,
   titoPos,
+  tr,
 } from '../nucleo/indice.ts';
 import { BARCO, ISLA, LUPI } from '../escenas/isla.ts';
 import { SEGUIR, ZONES, drawSeguir, nextLetra, zoneOpen } from '../escenas/zonas.ts';
@@ -364,8 +365,9 @@ export function montarIsla3D(): void {
         const z = ISLA.find((s) => s.id === hov)!,
           p = IP[hov]!;
         ctx.font = `600 34px ${DF}`;
+        // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
         const tt = cap(z.name),
-          tw = ctx.measureText(tt).width,
+          tw = ctx.measureText(tr(tt)).width,
           cy = Math.max(p.y - p.r - 70, 118);
         card(p.x - tw / 2 - 26, cy, tw + 52, 58, 'rgba(255,255,255,.92)', 5, 29);
         text(tt, p.x, cy + 41, 34, K, { w: 600 });

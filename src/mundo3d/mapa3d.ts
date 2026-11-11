@@ -43,6 +43,7 @@ import {
   speaker,
   text,
   titoPos,
+  tr,
 } from '../nucleo/indice.ts';
 import { asamHoy, drawLogoSmall } from '../escenas/escenas2d.ts';
 import { mascotasMayores } from '../escenas/casaMascotas.ts';
@@ -999,8 +1000,9 @@ export function montarMapa3D(): void {
       if (hv_) {
         const z = mzOf(hv_);
         ctx.font = `600 34px ${DF}`;
+        // se mide el texto traducido, que es el que pinta text() (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
         const t = cap(z.name),
-          tw = ctx.measureText(t).width;
+          tw = ctx.measureText(tr(t)).width;
         const cy = Math.max(z.y - z.r - 70, 118);
         card(z.x - tw / 2 - 26, cy, tw + 52, 58, 'rgba(255,255,255,.92)', 5, 29);
         text(t, z.x, cy + 41, 34, K, { w: 600 });

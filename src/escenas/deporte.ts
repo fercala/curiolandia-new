@@ -49,7 +49,10 @@ import {
   juntar,
   nombreEn,
   tr,
+  IDIOMA,
 } from '../nucleo/indice.ts';
+import { NUM } from '../juegos/indice.ts';
+import { cantidadRo } from '../idiomas/ro/numeros.ts';
 import { fondoPatio } from './patio.ts';
 import { dibujaFinal, enOtraVez, terminarEnElPatio } from './patioComun.ts';
 import {
@@ -192,7 +195,8 @@ function dibujaTarjeta(t: TarjetaDeporte, i: number): void {
   ctx.globalAlpha = 1;
   text(String(i + 1), t.x + 34, t.y + 56, 34, '#C9C2B8');
   const nombre = t.p.nombre.charAt(0).toUpperCase() + t.p.nombre.slice(1);
-  text(nombre, cx, t.y + t.h - 40, nombre.length > 14 ? 24 : 30, '#fff', { st: 6, sc: 'rgba(0,0,0,.25)' });
+  // el nombre se encoge si no cabe en la tarjeta (desde la fase ID3 de docs/PLAN-IDIOMAS.md; antes, por su largo en castellano)
+  text(nombre, cx, t.y + t.h - 40, 30, '#fff', { st: 6, sc: 'rgba(0,0,0,.25)', max: t.w - 30 });
   ctx.restore();
   if (m) dibujaMedalla(t.x + t.w - 40, t.y + 70, 34, m);
 }
@@ -227,6 +231,10 @@ function empezarPrueba(p: PruebaDeporte): void {
   go(p.escena, { deporte: true, hello: true });
 }
 
+// numeroMedallas(n): cuántas medallas (de 2 a 5) en palabras, en el idioma del juego y en femenino, como «medalla»
+// (desde la fase ID3 de docs/PLAN-IDIOMAS.md: en rumano, «două medalii»; en castellano, «dos medallas»).
+const numeroMedallas = (n: number): string => (IDIOMA === 'ro' ? cantidadRo(n, true) : String(NUM[n] ?? n));
+
 // acabarJornada(): todas las pruebas hechas: la copa (la primera vez de la semana; se guarda en S.deporte), el
 // medallero dicho por Tito y lo de todos los juegos del patio (terminarEnElPatio: apuntarlo y las monedas de hoy).
 function acabarJornada(): void {
@@ -244,7 +252,7 @@ function acabarJornada(): void {
     sayQ(
       juntar(
         fmt('¡Has terminado el gran día del deporte{nino}!', { nino: kid() }),
-        fraseMedallero(JORNADA.medallas, tr),
+        fraseMedallero(JORNADA.medallas, tr, numeroMedallas),
         copa,
       ),
     ),
