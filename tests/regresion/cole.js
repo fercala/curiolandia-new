@@ -11,7 +11,8 @@
 // Y el día del deporte (fase P11): con 4 años, siguiendo la ayuda, las cinco pruebas seguidas dan cinco oros, el
 // medallero, la copa de la semana (S.deporte) y 3 monedas; «otra vez» empieza otra jornada y la casa vuelve al patio.
 // Y los juegos cortos del patio (fase P12a): desde su menú, la rayuela y los columpios se juegan solos hasta el final
-// siguiendo la ayuda, dan 3 monedas cada uno y se apuntan; lo que aún no está hecho no lleva a ninguna parte.
+// siguiendo la ayuda, dan 3 monedas cada uno y se apuntan; lo que aún no está hecho no lleva a ninguna parte. Y lo
+// mismo con los penaltis y las pompas (fase P12b).
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -636,10 +637,10 @@ const R = L.registro('cole');
         await p.waitForTimeout(1500);
         if ((await escena()) !== 'juegosCortos') return 'el botón no abre los juegos cortos: ' + (await escena());
         // lo que aún no está hecho sale «muy pronto» y no lleva a ninguna parte
-        const pronto = await p.evaluate(() => TARJETAS_CORTOS.find((x) => x.j.id === 'penaltis'));
+        const pronto = await p.evaluate(() => TARJETAS_CORTOS.find((x) => x.j.id === 'sillas'));
         await L.clic(p, pronto.x + pronto.w / 2, pronto.y + pronto.h / 2);
         await p.waitForTimeout(800);
-        if ((await escena()) !== 'juegosCortos') return 'los penaltis, aún en obras, llevan a: ' + (await escena());
+        if ((await escena()) !== 'juegosCortos') return 'las sillas, aún en obras, llevan a: ' + (await escena());
         for (const id of ['rayuela', 'columpios']) {
           const monedas = await p.evaluate(() => __cl.S.coins || 0);
           const t = await p.evaluate((i) => TARJETAS_CORTOS.find((x) => x.j.id === i), id);
@@ -695,6 +696,76 @@ const R = L.registro('cole');
           : 'la casa de los juegos cortos no vuelve al patio: ' + (await escena());
       },
     );
+    await caso('P19', 'con 4 años, los penaltis y las pompas se juegan hasta el final, con sus monedas', async () => {
+      await p.evaluate(() => {
+        __cl.S.age = 4;
+        save();
+        __cl.go('patio', {});
+      });
+      await p.waitForTimeout(1200);
+      const bt = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'juegosCortos'));
+      if (!bt) return 'no hay botón de juegos cortos en el patio';
+      await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
+      await p.waitForTimeout(1500);
+      if ((await escena()) !== 'juegosCortos') return 'el botón no abre los juegos cortos: ' + (await escena());
+      // lo que aún no está hecho sale «muy pronto» y no lleva a ninguna parte
+      const pronto = await p.evaluate(() => TARJETAS_CORTOS.find((x) => x.j.id === 'cometa'));
+      await L.clic(p, pronto.x + pronto.w / 2, pronto.y + pronto.h / 2);
+      await p.waitForTimeout(800);
+      if ((await escena()) !== 'juegosCortos') return 'la cometa, aún en obras, lleva a: ' + (await escena());
+      for (const id of ['penaltis', 'pompas']) {
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        const t = await p.evaluate((i) => TARJETAS_CORTOS.find((x) => x.j.id === i), id);
+        await L.clic(p, t.x + t.w / 2, t.y + t.h / 2);
+        await p.waitForTimeout(1500);
+        if ((await escena()) !== id) return `la tarjeta de ${id} lleva a: ` + (await escena());
+        // un niño que hace caso a la ayuda (con un respiro entre toques), hasta el final
+        await p.evaluate((i) => {
+          let ultimo = 0;
+          const f = () => {
+            if (__cl.name !== i) return;
+            const sc = __cl.scene,
+              st = i === 'penaltis' ? PENALTIS_ST : POMPAS_ST,
+              h = sc.hint && sc.hint(),
+              ahora = performance.now();
+            if (st.fase === 'fin') return;
+            if (h && ahora - ultimo > 200) {
+              ultimo = ahora;
+              sc.down(h.x, h.y);
+            }
+            requestAnimationFrame(f);
+          };
+          requestAnimationFrame(f);
+        }, id);
+        let st = null;
+        for (let i = 0; i < 240 && !(st && st.fase === 'fin'); i++) {
+          await p.waitForTimeout(500);
+          st = await p.evaluate((i) => {
+            const s = i === 'penaltis' ? PENALTIS_ST : POMPAS_ST;
+            return { fase: s.fase, ronda: s.ronda, tiros: s.tiros };
+          }, id);
+        }
+        if (!st || st.fase !== 'fin') return `${id} no termina: ` + JSON.stringify(st);
+        if (id === 'rayuela' && st.ronda !== 3) return 'la rayuela acaba sin sus tres rondas: ' + JSON.stringify(st);
+        if (id === 'columpios' && st.hechos !== 6) return 'con 4 años, el columpio sube con 6 empujones: ' + st.hechos;
+        await p.waitForTimeout(2500);
+        const [despues, cole] = await p.evaluate(() => [__cl.S.coins || 0, __cl.S.cole]);
+        if (despues - monedas !== 3) return `${id}: monedas ${monedas} -> ${despues}`;
+        if (!cole || !cole.veces || cole.veces[id] !== 1) return `${id}: S.cole ` + JSON.stringify(cole);
+        await p.evaluate(() => __cl.scene.down(1000, 700));
+        await p.waitForTimeout(800);
+        const otra = await p.evaluate((i) => (i === 'penaltis' ? PENALTIS_ST : POMPAS_ST).fase, id);
+        if (otra === 'fin') return `el botón de otra vez no vuelve a empezar ${id}`;
+        await L.clic(p, 90, 90);
+        await p.waitForTimeout(1000);
+        if ((await escena()) !== 'juegosCortos') return `la casa de ${id} no vuelve a los juegos cortos`;
+      }
+      await L.clic(p, 90, 90);
+      await p.waitForTimeout(800);
+      return (await escena()) === 'patio'
+        ? null
+        : 'la casa de los juegos cortos no vuelve al patio: ' + (await escena());
+    });
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {

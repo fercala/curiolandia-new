@@ -1710,3 +1710,33 @@ Toca la casilla del {n}.
 ¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!
 ¡Qué bien me has columpiado! ¿Jugamos otra vez?
 Toca la mano para empujar cuando el columpio llegue hasta ella.
+¡A los penaltis! Lupi es la portera. Tú eliges hacia dónde chuto: toca un lado de la portería.
+¿Hacia dónde chuto? ¿Izquierda o derecha?
+¿Hacia dónde chuto? ¿Izquierda, derecha o arriba?
+¡A la izquierda!
+¡A la derecha!
+¡Arriba!
+¡Gol!
+¡Golazo!
+¡Gol, gol, gol!
+¡Uy, lo ha parado Lupi!
+¡Qué parada! Otra vez será.
+¡Lupi lo ha parado todo! La próxima vez seguro que metemos gol.
+¡Has metido un gol! ¿Jugamos otra vez?
+¡Has metido {n} goles! ¿Jugamos otra vez?
+Toca un lado de la portería para chutar.
+Izquierda.
+Derecha.
+Arriba.
+¡GOL!
+¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.
+¡Explota las pompas rojas!
+¡Explota las pompas azules!
+¡Explota las pompas amarillas!
+¡Explota las pompas verdes!
+Esa pompa es roja.
+Esa pompa es azul.
+Esa pompa es amarilla.
+Esa pompa es verde.
+¡Muy bien! Ahora, otro color.
+¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?
