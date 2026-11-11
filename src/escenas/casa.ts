@@ -44,12 +44,15 @@ import {
   drawHome,
   fillStroke,
   flower,
+  fmt,
   go,
   hC,
   hv,
   inCoinHUD,
   inR,
+  juntar,
   later,
+  nombreEn,
   noise,
   parts,
   pic,
@@ -68,6 +71,7 @@ import {
   today,
   tone,
   giveSticker,
+  tr,
 } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
@@ -128,6 +132,7 @@ import {
   ordenarCasa,
   type Colocado,
 } from '../aplicacion/casa.ts';
+import { femenino } from '../dominio/idiomas.ts';
 import { EN_BAUL, PLANO, libres, sitioMasCercano, type Sitio } from '../dominio/casaSitios.ts';
 import {
   BANDEJA,
@@ -520,14 +525,16 @@ SCENES.casaTito = {
       later(300, () => {
         SFX.sparkle();
         say(
-          '¡Aquí está ' +
-            itemName(it) +
-            '! ' +
-            (it.slot
-              ? '¡Mira qué bonito me queda!'
-              : this.baul
-                ? '¿Dónde lo ponemos? Arrástralo a un sitio que brille.'
-                : 'Puedes cambiar las cosas de lugar arrastrándolas.'),
+          juntar(
+            fmt('¡Aquí está {cosa}!', { cosa: itemName(it) }),
+            tr(
+              it.slot
+                ? '¡Mira qué bonito me queda!'
+                : this.baul
+                  ? '¿Dónde lo ponemos? Arrástralo a un sitio que brille.'
+                  : 'Puedes cambiar las cosas de lugar arrastrándolas.',
+            ),
+          ),
         );
       });
       return;
@@ -541,7 +548,11 @@ SCENES.casaTito = {
       later(300, () => {
         SFX.tada();
         burst(800, 400, 50);
-        sayQ('¡Mi casa creció! Tiene una habitación nueva: ' + R.n + '. Arriba puedes elegir a qué habitación ir.');
+        sayQ(
+          fmt('¡Mi casa creció! Tiene una habitación nueva: {sala}. Arriba puedes elegir a qué habitación ir.', {
+            sala: nombreEn(R.n).art,
+          }),
+        );
       });
       return;
     }
@@ -917,7 +928,7 @@ SCENES.casaTito = {
       return;
     }
     if (inCoinHUD(x, y)) {
-      say('Tienes ' + S.coins + ' monedas.');
+      say(fmt('Tienes {n} monedas.', { n: S.coins! }));
       return;
     }
     if (dist(x, y, 190, 790) < 85) {
@@ -934,14 +945,16 @@ SCENES.casaTito = {
       const f = ps < 4 ? PET_NEXT[ps] - STARS() : 0;
       say(
         ps === 0
-          ? 'Es el huevo de Pipo. Le ' + (f === 1 ? 'falta un juego' : 'faltan ' + f + ' juegos') + ' para abrirse.'
+          ? f === 1
+            ? 'Es el huevo de Pipo. Le falta un juego para abrirse.'
+            : fmt('Es el huevo de Pipo. Le faltan {n} juegos para abrirse.', { n: f })
           : ps < 4
             ? pick([
                 '¡Pipo te quiere mucho!',
                 'Pipo dice: ¡grrr! Así saludan los dinosaurios.',
-                '¡Pipo crece cuando juegas! Le ' +
-                  (f === 1 ? 'falta un juego' : 'faltan ' + f + ' juegos') +
-                  ' para crecer.',
+                f === 1
+                  ? '¡Pipo crece cuando juegas! Le falta un juego para crecer.'
+                  : fmt('¡Pipo crece cuando juegas! Le faltan {n} juegos para crecer.', { n: f }),
               ])
             : '¡Pipo es el dinosaurio más grande del mundo!',
       );
@@ -953,12 +966,24 @@ SCENES.casaTito = {
       if (!roomOpen(R.id)) {
         SFX.boing();
         const f = R.need - temasDone();
+        // cerrada o cerrado, por el género del nombre de la habitación en el idioma del juego
+        const nombre = nombreEn(R.n),
+          sala = nombre.art,
+          fem = femenino(nombre);
         say(
-          cap(R.n) +
-            ' todavía está ' +
-            R.cer +
-            '. Se abre cuando termines ' +
-            (f === 1 ? 'una casita más.' : f + ' casitas más.'),
+          f === 1
+            ? fmt(
+                fem
+                  ? '{Sala} todavía está cerrada. Se abre cuando termines una casita más.'
+                  : '{Sala} todavía está cerrado. Se abre cuando termines una casita más.',
+                { sala },
+              )
+            : fmt(
+                fem
+                  ? '{Sala} todavía está cerrada. Se abre cuando termines {n} casitas más.'
+                  : '{Sala} todavía está cerrado. Se abre cuando termines {n} casitas más.',
+                { sala, n: f },
+              ),
         );
         return;
       }
@@ -967,7 +992,7 @@ SCENES.casaTito = {
         this.room = R.id;
         this.newRoom = -9;
       }
-      say(cap(R.n) + '.');
+      say(fmt('{Sala}.', { sala: nombreEn(R.n).art }));
       return;
     }
     if (inR(x, y, 395, 94, 450, 100)) {
@@ -976,9 +1001,9 @@ SCENES.casaTito = {
         f = hl < 4 ? HOUSE_NEXT[hl] - temasDone() : 0;
       say(
         hl < 4
-          ? 'La casa de Tito crece cuando terminas casitas. ' +
-              (f === 1 ? 'Falta una' : 'Faltan ' + f) +
-              ' para que crezca.'
+          ? f === 1
+            ? 'La casa de Tito crece cuando terminas casitas. Falta una para que crezca.'
+            : fmt('La casa de Tito crece cuando terminas casitas. Faltan {n} para que crezca.', { n: f })
           : '¡La casa de Tito ya es un castillo!',
       );
       return;
@@ -1064,7 +1089,7 @@ SCENES.casaTito = {
       wear(it, on);
       SFX.pop();
       this.jump = T;
-      say(on ? '¡Me puse ' + itemName(it) + '!' : 'Me quité ' + itemName(it) + '.');
+      say(fmt(on ? '¡Me puse {cosa}!' : 'Me quité {cosa}.', { cosa: itemName(it) }));
       return;
     }
     // el suelo (desde la fase C2): Tito anda hasta allí; en otro sitio, unos brillos
@@ -1429,11 +1454,11 @@ SCENES.casaTito = {
       if (s && this.colocar!(d.id, s.id)) {
         SFX.whoosh();
         sparkles(rb.x, rb.y, 10);
-        say('¡Listo! Ya está en ' + rb.R.n + '.');
+        say(fmt('¡Listo! Ya está en {sala}.', { sala: nombreEn(rb.R.n).art }));
         return;
       }
       SFX.boing();
-      say('En ' + rb.R.n + ' ya no hay sitio para eso.');
+      say(fmt('En {sala} ya no hay sitio para eso.', { sala: nombreEn(rb.R.n).art }));
       return;
     }
     const s = sitioCerca(d.id, this.room, d.px, d.py);

@@ -41,6 +41,8 @@ import {
   sparkles,
   text,
   tone,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import { fondoPatio } from './patio.ts';
 import { OTRA_VEZ, dibujaFinal, dibujaRondas, enOtraVez, sombra, terminarEnElPatio } from './patioComun.ts';
@@ -91,7 +93,7 @@ function explicar(): void {
   const p = paso()!;
   Object.assign(st, { fase: 'explica', t0: T, respiro: -1 });
   const frase = p.tipo === 'postura' ? p.postura.frase : p.respiracion.frase;
-  say(frase + ' Respira conmigo.', () => Object.assign(st, { fase: 'respira', t0: T, respiro: -1 }));
+  say(juntar(tr(frase), tr('Respira conmigo.')), () => Object.assign(st, { fase: 'respira', t0: T, respiro: -1 }));
 }
 
 // siguiente(): Tito celebra el paso hecho y pasa al siguiente o al final.
@@ -268,7 +270,9 @@ SCENES['yoga'] = {
       modo === 'pausa'
         ? '¡Vamos a estirarnos como los animales! Ponte de pie, con espacio a tu alrededor.'
         : '¡Bienvenido al rincón de la calma! Vamos a hacer yoga como los animales. Despacito y respirando tranquilos.';
-    later(400, () => say(primera ? intro + ' Mira lo que hago y hazlo conmigo.' : intro, () => explicar()));
+    later(400, () =>
+      say(primera ? juntar(tr(intro), tr('Mira lo que hago y hazlo conmigo.')) : intro, () => explicar()),
+    );
   },
   // update(): mientras se respira, un sonido suave al empezar a tomar aire y otro al soltarlo; al acabar los respiros
   // del paso, se celebra. La ayuda automática no sale (VIVO.idle a 0).

@@ -7,7 +7,8 @@
  *   pide removerla, y al dar vueltas con el dedo dentro de la olla la sopa se hace y cambia de color. Luego, otra.
  * Ninguna tiene fallos ni tiempo. La casa (arriba a la izquierda) vuelve a la casa de Tito.
  * Exporta: COCINA (dónde están la fruta, el plato, las verduras y la olla) y pone SCENES.casaMerienda y SCENES.casaSopa.
- * Importa: el núcleo (dibujo, voz, sonido, toque, nombres de los dibujos) y el azar de los puertos.
+ * Importa: el núcleo (dibujo, voz, sonido, toque, nombres de los dibujos) y el azar de los puertos; desde la fase ID2f de docs/PLAN-IDIOMAS.md, unN y plural de
+ * juegos/comps.ts, para contar las frutas en el idioma del juego.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -24,6 +25,7 @@ import {
   dist,
   drawHome,
   drawTito,
+  fmt,
   go,
   hC,
   hv,
@@ -35,6 +37,7 @@ import {
   sayQ,
   sparkles,
 } from '../nucleo/indice.ts';
+import { plural, unN } from '../juegos/indice.ts';
 import { azar } from '../aplicacion/puertos.ts';
 
 // COCINA: la fruta de la merienda (en la balda, desde x0 cada dx), el plato, las verduras de la sopa y la olla.
@@ -45,23 +48,6 @@ export const COCINA = {
   verduras: ['zanahoria', 'patata', 'tomate', 'pimiento', 'brocoli', 'calabaza'],
   cesta: { x0: 410, dx: 160, y: 230 },
   olla: { x: 800, y: 640, r: 230 },
-};
-// NUMEROS: cómo se dicen las cantidades que pide Tito. PLURAL: el plural de cada fruta (sin artículo). Todas las
-// frutas de COCINA son femeninas: «una fresa», «una manzana».
-const NUMEROS = ['', 'una', 'dos', 'tres', 'cuatro'];
-const SINGULAR: Readonly<Record<string, string>> = {
-  fresa: 'fresa',
-  manzana: 'manzana',
-  pera: 'pera',
-  naranja: 'naranja',
-  sandia: 'sandía',
-};
-const PLURAL: Readonly<Record<string, string>> = {
-  fresa: 'fresas',
-  manzana: 'manzanas',
-  pera: 'peras',
-  naranja: 'naranjas',
-  sandia: 'sandías',
 };
 // COLOR_SOPA: de qué color se pone la sopa al removerla, según la primera verdura que se echó.
 const COLOR_SOPA: Readonly<Record<string, string>> = {
@@ -97,10 +83,9 @@ function fondoCocina(): void {
   card(300, 160, 1000, 150, '#C99A68', 5, 16);
 }
 
-// cuantas(n, fruta): «tres fresas», «una manzana».
-const cuantas = (n: number, f: string): string => NUMEROS[n] + ' ' + (n === 1 ? SINGULAR[f] : PLURAL[f]);
-// mayuscula(t): t con la primera letra en mayúscula.
-const mayuscula = (t: string): string => t.charAt(0).toUpperCase() + t.slice(1);
+// cuantas(n, fruta): «tres fresas», «una manzana», en el idioma del juego (unN, de juegos/comps.ts; desde la fase ID2f de
+// docs/PLAN-IDIOMAS.md, antes con sus propias tablas de números y plurales en castellano).
+const cuantas = (n: number, f: string): string => unN(n, f);
 
 // LA MERIENDA: estado: plato (las frutas que hay), pide ({f: fruta, n: cuántas} o null cuando ya merendó) y come (hora
 // T a la que empezó a comer, para la animación).
@@ -117,12 +102,12 @@ SCENES.casaMerienda = {
     const f = COCINA.frutas[Math.floor(azar() * COCINA.frutas.length)],
       n = 2 + Math.floor(azar() * 3);
     this.pide = { f, n };
-    later(400, () => sayQ('¡Qué hambre! ¿Me das ' + cuantas(n, f) + '?'));
+    later(400, () => sayQ(fmt('¡Qué hambre! ¿Me das {cosas}?', { cosas: cuantas(n, f) })));
   },
   // prompt(): lo que pide, o qué hacer si ya merendó.
   prompt() {
     const p = this.pide as { f: string; n: number } | null;
-    say(p ? '¿Me das ' + cuantas(p.n, p.f) + '? Tócalas en la balda.' : 'Toca la fruta y me la como.');
+    say(p ? fmt('¿Me das {cosas}? Tócalas en la balda.', { cosas: cuantas(p.n, p.f) }) : 'Toca la fruta y me la como.');
   },
   // hint(): la fruta que pide, en la balda.
   hint() {
@@ -191,7 +176,7 @@ SCENES.casaMerienda = {
     }
     if (f !== p.f) {
       SFX.boing();
-      say('Eso es ' + W_(f) + '. ¡Yo quería ' + PLURAL[p.f] + '!');
+      say(fmt('Eso es {cosa}. ¡Yo quería {cosas}!', { cosa: W_(f), cosas: plural(p.f) }));
       return;
     }
     SFX.pop();
@@ -201,7 +186,7 @@ SCENES.casaMerienda = {
     this.pide = null;
     SFX.tada();
     burst(COCINA.plato.x, COCINA.plato.y - 60, 30);
-    say('¡' + mayuscula(cuantas(p.n, p.f)) + '! ¡Gracias!', () => {
+    say(fmt('¡{Cosas}! ¡Gracias!', { cosas: cuantas(p.n, p.f) }), () => {
       this.come = T;
       SFX.munch();
       this.plato = [];

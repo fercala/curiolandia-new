@@ -58,6 +58,7 @@ import {
   star,
   text,
   tone,
+  fmt,
 } from '../nucleo/indice.ts';
 import { BG, NUM, drawFace } from '../juegos/indice.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
@@ -997,7 +998,7 @@ export function EnCuenta(cfg: Config, onDone: AlTerminar): Juego {
         scene!.starPop = T;
         burst(900, 300, 40);
         later(900, () =>
-          sayMix(['@' + EN.numbers[this.n - 1].en + '!', cap(NUM[this.n]) + '. ¡Hay ' + NUM[this.n] + '!'], () =>
+          sayMix(['@' + EN.numbers[this.n - 1].en + '!', fmt('{N}. ¡Hay {n}!', { n: NUM[this.n]! })], () =>
             later(500, () => {
               this.i++;
               if (this.i >= R) onDone();

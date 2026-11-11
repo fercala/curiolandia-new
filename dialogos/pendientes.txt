@@ -1570,6 +1570,146 @@ Me escondo detrás del árbol. ¿Me ves?
 ¡Más alto, más alto!
 ¡Oh! Se le ha caído una torre al castillo.
 ¡Chapoteo en la piscina! ¡Plof, plof!
+una medalla de {medalla}
+una de {medalla}
+{n} medallas de {medalla}
+{n} de {medalla}
+{lista} y {ultimo}
+Tienes {lista}.
+Aquí irá la foto {excursion}, cuando vayamos de excursión.
+¡{Excursion}! Hemos ido una vez; la última, el {fecha}. ¿Te acuerdas de {guia}?
+¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te acuerdas de {guia}?
+¡Aquí está {cosa}!
+¡Mi casa creció! Tiene una habitación nueva: {sala}. Arriba puedes elegir a qué habitación ir.
+Es el huevo de Pipo. Le falta un juego para abrirse.
+Es el huevo de Pipo. Le faltan {n} juegos para abrirse.
+¡Pipo crece cuando juegas! Le falta un juego para crecer.
+¡Pipo crece cuando juegas! Le faltan {n} juegos para crecer.
+{Sala} todavía está cerrada. Se abre cuando termines una casita más.
+{Sala} todavía está cerrado. Se abre cuando termines una casita más.
+{Sala} todavía está cerrada. Se abre cuando termines {n} casitas más.
+{Sala} todavía está cerrado. Se abre cuando termines {n} casitas más.
+{Sala}.
+La casa de Tito crece cuando terminas casitas. Falta una para que crezca.
+La casa de Tito crece cuando terminas casitas. Faltan {n} para que crezca.
+¡Me puse {cosa}!
+Me quité {cosa}.
+¡Listo! Ya está en {sala}.
+En {sala} ya no hay sitio para eso.
+¡Mi álbum de sorpresas! Ya has encontrado {n} de {total}. Toca una para recordarla.
+¡Ya has explotado {n} burbujas!
+¡Otra estrella fugaz! Ya van {n}.
+¡Qué hambre! ¿Me das {cosas}?
+¿Me das {cosas}? Tócalas en la balda.
+Eso es {cosa}. ¡Yo quería {cosas}!
+¡{Cosas}! ¡Gracias!
+¡Hay que ponerle nombre! ¿{a}, {b} o {c}? Toca el que más te guste.
+¡Hola, {nombre}!
+Toca los botones de abajo.
+¡Se llama {nombre}! ¡Qué nombre tan bonito!
+¡{Nombre} ha crecido!
+¡Hoy ya está feliz! Mañana, más mimos.
+¡Busca el castillo y el sol!
+¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!
+{Sitio} están en obras. ¡Muy pronto podrás jugar aquí!
+{Sitio} está en obras. ¡Muy pronto podrás jugar aquí!
+¡Y ganas la copa de esta semana! Ya tienes una copa.
+¡Y ganas la copa de esta semana! Ya tienes {n} copas.
+¡Has terminado el gran día del deporte{nino}!
+¡Medalla de {medalla} en {prueba}!
+Ahora, {prueba}. Toca su tarjeta.
+¡Hoy es el gran día del deporte! Hay cinco pruebas y en cada una ganas una medalla. ¡Empezamos con {prueba}! Toca su tarjeta.
+¡Hoy es el gran día del deporte! Hay cuatro pruebas y en cada una ganas una medalla. ¡Empezamos con {prueba}! Toca su tarjeta.
+Ahora toca {prueba}. Toca su tarjeta.
+En {prueba} has ganado la medalla de {medalla}.
+Las pruebas van en orden. Ahora toca {prueba}.
+¡{n} palmos!
+Tu mejor salto: {n} palmos.
+Has metido una canasta.
+Has metido {n} canastas.
+¡Meta! Has hecho un pase perfecto.
+¡Meta! Has hecho {n} pases perfectos.
+Este es tu diccionario de inglés. Ya conoces 1 palabra.
+Este es tu diccionario de inglés. Ya conoces {n} palabras.
+quiere decir {palabra}.
+¡Sube al autobús{nino}! ¿Adónde nos vamos de excursión? Toca un cartel.
+¡{Excursion} está en obras! Muy pronto podremos ir.
+¡Nos vamos {excursion}! ¡Brum, brum!
+¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.
+¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.
+¡Vamos a {estacion}! Toca su dibujo.
+{estacion}: ¡muy pronto podremos hacerlo!
+¡Puaj! {AlAnimal} no le gusta eso. {Animal} come {comida}.
+¡{n} huevos!
+¡Hemos recogido {n} huevos! Las gallinas están muy contentas.
+¡Es {nombre}, {cria}! Va siempre con su mamá.
+¡Ha nacido {cria}! Es la cría {madre}. ¿Cómo lo llamamos? ¿{a}, {b} o {c}? Toca un nombre.
+¡Hola, {nombre}! Ya vive en la granja con su mamá. Cada día que vengas, {nombre} estará más grande.
+¡El huevo {madre} se mueve! Tócalo para ayudar al pollito a salir.
+¡Algo se mueve en la paja, al lado de {madre}! Toca la paja para ver qué es.
+Elige un nombre: ¿{a}, {b} o {c}?
+¡Cada cría está con su mamá! ¡Muy bien{nino}!
+¡{nombre} está con {madre}!
+Esa no es su mamá. La mamá {cria} es {madre}.
+¡Hemos recogido {n} zanahorias del huerto! ¡Qué buena cosecha!
+¡{N} balas de paja! Nos las llevamos al granero para los animales.
+¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.
+Lupi está preparando {zona}. ¡Muy pronto podrás jugar aquí!
+{Zona} todavía no se ha abierto.
+¡Llegamos a la Isla del Inglés{nino}! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.
+Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!
+Este es tu libro de letras. Ya conoces 1 letra.
+Este es tu libro de letras. Ya conoces {n} letras.
+¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?
+{juego}: ¡muy pronto podrás jugar!
+¡Terminaste el repaso de hoy{nino}! Tito te regala cinco monedas.
+¡Muy bien! Ahora el número {n}.
+¡Hora de repasar! Tito eligió juegos que todavía cuestan un poquito. ¡Practicando salen cada vez mejor!
+¡Hora de repasar! Tito eligió juegos que jugaste hace tiempo.
+Te dejo un reto para hacer en casa, sin pantalla: {reto}
+¡Me han contado que has hecho el reto en casa{nino}! ¡Qué bien! Toma una pegatina.
+Tito dice: {orden}
+Respira conmigo.
+Mira lo que hago y hazlo conmigo.
+¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la izquierda.
+¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la derecha.
+¡Y has cogido todos los números, del uno al cinco!
+Has cogido un número.
+Has cogido {n} números.
+En {lugar}, {nombre}.
+¡Todos tenemos medalla!
+Has cogido una estrella{nino}.
+Has cogido {n} estrellas{nino}.
+¡Y coge los números del uno al cinco, saltando!
+{N}. ¡Hay {n}!
+Juegos cortos
+¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.
+Elige un juego corto.
+La rayuela
+Los columpios
+Los penaltis
+Las pompas
+La cometa
+El pañuelo
+Las sillas
+{juego}: ¡muy pronto podrás jugar!
+¡A la rayuela! Tira la piedra a la casilla que te diga y luego saltamos a la pata coja, contando. ¡Salta tú también!
+Tira la piedra a la casilla del {n}.
+¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!
+Esa es la casilla del {n}. Busca la del {objetivo}.
+¡La piedra!
+¡Qué bien saltas a la pata coja! Hemos jugado a la rayuela. ¿Jugamos otra vez?
+Toca la casilla del {n}.
+¡Salta a la pata coja y cuenta conmigo!
+¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.
+¡Más alto!
+¡Uy, qué alto!
+¡Otra vez!
+¡Qué bien empujas!
+¡Espera a que vuelva hacia ti!
+¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!
+¡Qué bien me has columpiado! ¿Jugamos otra vez?
+Toca la mano para empujar cuando el columpio llegue hasta ella.
 ¡Buenos días! Es la hora del desayuno. ¿Me llevas a la nevera o a la mesa?
 ¡Qué rico desayuno! Ya tengo fuerzas para todo el día. Toma una pegatina.
 ¡Es la hora de jugar! ¿Me llevas a un juguete?

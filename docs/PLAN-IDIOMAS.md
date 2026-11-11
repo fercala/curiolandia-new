@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122) e **ID2e** (v0.2.124), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124) e **ID2f** (v0.2.127), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -301,5 +301,27 @@ quedan: 383 al terminar la ID2a, con la P11).
   hueco; los contenedores, las formas y los puestos de la fila («el primero», «el último») son nombres (`nombreEn`).
 - La v0.2.123 se deja para el PR #127 (P12a), que aún tenía la v0.2.122.
 - Visto con `?idioma=xx`: en el pseudoidioma, `plural()` añade la terminación castellana al nombre ya marcado («⟦pelota··⟧es»). Solo afecta a la prueba (en rumano sale el `plu` de la tabla); se arreglará en la ID3 con los demás detalles de pantalla.
+- Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID2f (v0.2.127): la casa, la granja, el deporte y las demás escenas
+
+- **92 frases compuestas** de las escenas sueltas pasan a plantillas: la casa de Tito (habitaciones, Pipo, la cocina,
+  las mascotas, el baño, el cielo, el álbum y el globo), el repaso, los retos, el yoga, «Tito dice», las carreras, el
+  cole, el patio, las dos islas, el diccionario, el libro de letras, la excursión, la granja y sus crías y talleres, el
+  gran día del deporte y sus pruebas, el álbum de excursiones y la portada. **Fuera de la Isla de las Letras ya no queda
+  ninguna** (`tests/unidad/idiomas.test.ts` lo comprueba); quedan las 66 de `letras.ts` y `lectura.ts`, para la ID6.
+- Los nombres con artículo (las habitaciones, los animales, las crías y sus madres, las pruebas, las excursiones, las
+  zonas de las islas) van con `nombreEn`, y las formas «a» y «de» sustituyen a los arreglos castellanos (`alAnimal`,
+  `deCria`, `deNombre`, que se quitan). `nombreExcursion(e)` (`escenas/excursion.ts`) saca las formas del nombre de una
+  excursión, que se escribe con mayúscula. «Cerrada» o «cerrado» y «está» o «están» salen del género y el número del
+  nombre en el idioma del juego (`femenino`, `.pl`).
+- La cocina de Tito cuenta las frutas con `unN` (y su `plural`, que ahora se exporta) en lugar de sus tablas de números
+  y plurales en castellano.
+- En el dominio, que no traduce: `fraseLugar` de las carreras pasa a `mundo3d/carreras3d.ts` y el dominio solo da los
+  lugares (`lugaresDelPodio`); `fraseMedallero` del deporte recibe la función que traduce (`tr`) y monta la frase con
+  plantillas y `rellena` (sin ella, en castellano, como antes).
+- Pendiente para la ID3: las fechas del álbum de excursiones («9 de noviembre», `diaYMes` y `vecesTexto` del dominio)
+  llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
+- La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
 

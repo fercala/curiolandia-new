@@ -7,8 +7,9 @@
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/deporte.test.ts.
  * Exporta: los tipos Medalla, PruebaDeporte y RegistroDeporte, MEDALLAS, PRUEBAS_DEPORTE, medallaDe, semanaDe,
  * registroDeporte, ganarCopa y fraseMedallero.
- * No importa nada.
+ * Importa: rellena, de dominio/idiomas.ts (desde la fase ID2f).
  */
+import { rellena } from './idiomas.ts';
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son las reglas mismas (lo que pide cada medalla según la
    edad y las cuentas del calendario), en tablas con nombre. */
 
@@ -108,18 +109,31 @@ export function ganarCopa(r: unknown, hoy: string): { registro: RegistroDeporte;
   return { registro: { copas: reg.copas + 1, semana }, nueva: true };
 }
 
-// palabraMedalla(n): «medalla » o «medallas » (con el espacio) según cuántas sean.
-const palabraMedalla = (n: number): string => (n === 1 ? 'medalla ' : 'medallas ');
-
-// fraseMedallero(medallas): lo que dice Tito en el medallero: cuántas medallas de cada clase («Tienes tres medallas de
-// oro, una de plata...»), solo las que hay. medallas: id de la prueba -> medalla.
-export function fraseMedallero(medallas: Readonly<Record<string, Medalla>>): string {
+// fraseMedallero(medallas, t): lo que dice Tito en el medallero: cuántas medallas de cada clase («Tienes tres medallas
+// de oro, una de plata...»), solo las que hay. medallas: id de la prueba -> medalla. t: cómo se traduce cada texto
+// (desde la fase ID2f de docs/PLAN-IDIOMAS.md, tr de nucleo/traducir.ts; sin t, en castellano): la frase se hace con
+// plantillas enteras, rellenas con rellena.
+export function fraseMedallero(
+  medallas: Readonly<Record<string, Medalla>>,
+  t: (texto: string) => string = (x) => x,
+): string {
   const cuenta = (m: Medalla) => Object.values(medallas).filter((x) => x === m).length,
-    nombres: Readonly<Record<number, string>> = { 1: 'una', 2: 'dos', 3: 'tres', 4: 'cuatro', 5: 'cinco' },
+    nombres: Readonly<Record<number, string>> = { 2: 'dos', 3: 'tres', 4: 'cuatro', 5: 'cinco' },
+    // la primera clase lleva la palabra medalla («dos medallas de oro»); las demás no («una de plata»)
     partes = MEDALLAS.map((m) => [m, cuenta(m)] as const)
       .filter(([, n]) => n > 0)
-      .map(([m, n], i) => `${nombres[n] ?? n} ${i === 0 ? palabraMedalla(n) : ''}de ${m}`);
+      .map(([m, n], i) =>
+        n === 1
+          ? rellena(t(i === 0 ? 'una medalla de {medalla}' : 'una de {medalla}'), { medalla: t(m) })
+          : rellena(t(i === 0 ? '{n} medallas de {medalla}' : '{n} de {medalla}'), {
+              n: nombres[n] ? t(nombres[n]) : n,
+              medalla: t(m),
+            }),
+      );
   if (!partes.length) return '';
-  const lista = partes.length === 1 ? partes[0] : partes.slice(0, -1).join(', ') + ' y ' + partes[partes.length - 1];
-  return `Tienes ${lista}.`;
+  const lista =
+    partes.length === 1
+      ? partes[0]!
+      : rellena(t('{lista} y {ultimo}'), { lista: partes.slice(0, -1).join(', '), ultimo: partes[partes.length - 1]! });
+  return rellena(t('Tienes {lista}.'), { lista });
 }

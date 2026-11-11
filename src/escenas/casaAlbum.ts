@@ -24,6 +24,7 @@ import {
   dist,
   drawHome,
   drawTito,
+  fmt,
   go,
   hC,
   hv,
@@ -93,7 +94,10 @@ SCENES.sorpresasCasa = {
     later(400, () =>
       sayQ(
         n
-          ? '¡Mi álbum de sorpresas! Ya has encontrado ' + n + ' de ' + TOTAL_SORPRESAS + '. Toca una para recordarla.'
+          ? fmt('¡Mi álbum de sorpresas! Ya has encontrado {n} de {total}. Toca una para recordarla.', {
+              n,
+              total: TOTAL_SORPRESAS,
+            })
           : '¡Mi álbum de sorpresas! Juega con las cosas de mi casa para llenarlo.',
       ),
     );

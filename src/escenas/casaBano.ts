@@ -23,6 +23,7 @@ import {
   dist,
   drawHome,
   drawTito,
+  fmt,
   go,
   hC,
   hv,
@@ -145,7 +146,7 @@ SCENES.casaBano = {
       sparkles(x, y, 4);
       bs.splice(i, 1);
       this.explotadas++;
-      if (this.explotadas % 10 === 0) say('¡Ya has explotado ' + this.explotadas + ' burbujas!');
+      if (this.explotadas % 10 === 0) say(fmt('¡Ya has explotado {n} burbujas!', { n: this.explotadas }));
       return;
     }
     if (dist(x, y, BANO.jabon.x, BANO.jabon.y) < 80) {

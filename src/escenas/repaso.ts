@@ -61,6 +61,9 @@ import {
   sparkles,
   text,
   today,
+  fmt,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import { floor } from '../temas/indice.ts';
 import { CATALOGO, GNAME, TEMA, drawStation } from './escenas2d.ts';
@@ -119,7 +122,7 @@ SCENES.repaso = {
         SFX.tada();
         burst(800, 350, 90);
         giveSticker('lupa', true);
-        say('¡Terminaste el repaso de hoy' + kid() + '! Tito te regala cinco monedas.', () => {
+        say(fmt('¡Terminaste el repaso de hoy{nino}! Tito te regala cinco monedas.', { nino: kid() }), () => {
           giveCoins(pr.monedas, 800, 420, undefined, true);
           later(900, () => sayQ('Toca la flecha verde para seguir el camino.'));
         });
@@ -134,7 +137,7 @@ SCENES.repaso = {
         const [x, y] = this.pos(nx);
         burst(x, y, 30);
       });
-      later(300, () => sayQ('¡Muy bien! Ahora el número ' + (nx + 1) + '.'));
+      later(300, () => sayQ(fmt('¡Muy bien! Ahora el número {n}.', { n: nx + 1 })));
       return;
     }
     later(300, () => this.prompt!(!o.back));
@@ -165,11 +168,16 @@ SCENES.repaso = {
       return;
     }
     say(
-      (long
-        ? R.weak
-          ? '¡Hora de repasar! Tito eligió juegos que todavía cuestan un poquito. ¡Practicando salen cada vez mejor! '
-          : '¡Hora de repasar! Tito eligió juegos que jugaste hace tiempo. '
-        : '') + (nx === 0 ? 'Empieza por el primero.' : 'Toca el número ' + (nx + 1) + '.'),
+      juntar(
+        long
+          ? tr(
+              R.weak
+                ? '¡Hora de repasar! Tito eligió juegos que todavía cuestan un poquito. ¡Practicando salen cada vez mejor!'
+                : '¡Hora de repasar! Tito eligió juegos que jugaste hace tiempo.',
+            )
+          : '',
+        nx === 0 ? tr('Empieza por el primero.') : fmt('Toca el número {n}.', { n: nx + 1 }),
+      ),
     );
   },
   // Pista (círculo que parpadea): la siguiente estación o, si se ha terminado, la flecha verde.
@@ -280,7 +288,7 @@ SCENES.repaso = {
       if (dist(x, y, gx, gy) < 140) {
         if (!this.open(j)) {
           SFX.boing();
-          say('Este todavía está cerrado. Primero termina el número ' + ((nx < 0 ? j - 1 : nx) + 1) + '.');
+          say(fmt('Este todavía está cerrado. Primero termina el número {n}.', { n: (nx < 0 ? j - 1 : nx) + 1 }));
           return;
         }
         const [tid, g] = this.L[j].split('#');

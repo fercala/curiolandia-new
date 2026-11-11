@@ -14,6 +14,10 @@ test('encuentra las frases compuestas y los trucos de gramática conocidos', () 
   expect(hay(join('src', 'temas', 'letras.ts'), 'compuesta', '`Esta es ${L.nombre}.')).toBe(true);
   // desde la fase ID2e, las de los temas de 5 años son plantillas de fmt
   expect(todos.some((s) => s.archivo === join('src', 'temas', 'temas5.ts'))).toBe(false);
+  // desde la fase ID2f, fuera de la Isla de las Letras (letras.ts y lectura.ts) ya no queda ninguna
+  const fueraDeLetras = (s: { archivo: string }) =>
+    s.archivo !== join('src', 'temas', 'letras.ts') && s.archivo !== join('src', 'juegos', 'lectura.ts');
+  expect(todos.filter(fueraDeLetras).map((s) => s.archivo + ':' + s.linea)).toEqual([]);
   // desde la fase ID2b, las de la tienda son plantillas de fmt
   expect(hay(join('src', 'escenas', 'tienda.ts'), 'compuesta', "'Tienes ' + S.coins")).toBe(false);
   // .replace(/^(el|la|los|las) /, ''): un truco de gramática (en la Isla de las Letras, que tendrá su versión rumana)

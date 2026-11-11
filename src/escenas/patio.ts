@@ -42,6 +42,8 @@ import {
   sparkles,
   text,
   tree,
+  fmt,
+  tr,
 } from '../nucleo/indice.ts';
 import { ACTIVIDADES_PATIO, type ActividadPatio } from '../dominio/cole.ts';
 
@@ -54,13 +56,13 @@ interface BotonPatio {
   readonly h: number;
 }
 
-// Medidas de los botones: ancho (como mucho; desde la fase P11, con cinco botones, algo menos para que quepan), alto,
+// Medidas de los botones: ancho (como mucho; desde la fase P11, con cinco botones o más, algo menos para que quepan), alto,
 // separación y altura de su borde de arriba. Se centran en la pantalla.
 const BOTON = { w: 290, h: 320, sep: 32, y: 330 };
 // anchoBoton: el ancho de cada botón, para que quepan todos con 80 de margen a cada lado.
 const anchoBoton = Math.min(BOTON.w, (W - 160 - (ACTIVIDADES_PATIO.length - 1) * BOTON.sep) / ACTIVIDADES_PATIO.length);
 // COLORES: el color de cada botón, en orden.
-const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E', '#FFA94D'];
+const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E', '#FFA94D', '#E07BB5'];
 
 // BOTONES_PATIO: un botón por actividad del patio, en fila y centrados.
 export const BOTONES_PATIO: readonly BotonPatio[] = ACTIVIDADES_PATIO.map((a, i, todas) => {
@@ -127,7 +129,10 @@ SCENES['patio'] = {
       save();
       later(500, () =>
         sayQ(
-          `¡Al patio${kid()}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?`,
+          fmt(
+            '¡Al patio{nino}! Aquí jugamos a juegos para movernos de verdad. Busca un sitio con espacio a tu alrededor. ¿Empezamos con las estatuas?',
+            { nino: kid() },
+          ),
         ),
       );
     } else if (o.hello) later(400, () => this.prompt!());
@@ -177,7 +182,7 @@ SCENES['patio'] = {
       if (!b.a.escena || !sePuede(b.a)) {
         SFX.boing();
         burst(b.x + b.w / 2, b.y + 40, 10);
-        say(`${b.a.nombre}: ¡muy pronto podrás jugar!`);
+        say(fmt('{juego}: ¡muy pronto podrás jugar!', { juego: tr(b.a.nombre) }));
         return;
       }
       SFX.pop();

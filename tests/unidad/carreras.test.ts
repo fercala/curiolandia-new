@@ -6,7 +6,7 @@ import {
   CORREDORES,
   choca,
   enElAire,
-  fraseLugar,
+  lugaresDelPodio,
   planCarrera,
   podio,
   velocidad,
@@ -86,6 +86,9 @@ describe('carreras de Tito', () => {
     const ids = ['tito', 'polly', 'lupi'];
     expect(podio(ids, { tito: 17, polly: 16, lupi: 19 })).toEqual(['polly', 'tito', 'lupi']);
     expect(podio(ids, { lupi: 3 })).toEqual(['lupi', 'tito', 'polly']);
-    expect(fraseLugar(['polly', 'tito', 'nadie'])).toBe('En primer lugar, Polly. En segundo lugar, Tito.');
+    expect(lugaresDelPodio(['polly', 'tito', 'nadie'])).toEqual([
+      { lugar: 'primer lugar', nombre: 'Polly' },
+      { lugar: 'segundo lugar', nombre: 'Tito' },
+    ]);
   });
 });
