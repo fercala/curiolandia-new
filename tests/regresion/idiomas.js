@@ -5,6 +5,8 @@
 //   I2: se pinta en el lienzo un texto con letras sin traducir;
 //   I3: un texto pintado se sale de la pantalla;
 //   I4: la zona de adultos o las ventanas de la página enseñan un texto sin traducir;
+//   I5: (desde la fase ID4) la zona de adultos en rumano (?idioma=ro) deja algo sin traducir: todo menos los nombres
+//       de los temas y de sus casitas, que son de la ID5, y el nombre del niño;
 //   I0: hay errores de JavaScript.
 // La Isla de las Letras (sus letras, sílabas y palabras para leer) tendrá su versión rumana en la ID6: no se mira aquí.
 // Uso: node tests/regresion/idiomas.js <carpeta web>
@@ -119,7 +121,7 @@ const LETRAS = /^L\d-|lectura|letras/i;
           const t = n.textContent.trim(),
             el = n.parentElement;
           if (!el || el.closest('script,style') || !el.offsetParent) continue;
-          if (/\p{L}{2}/u.test(t) && !t.includes('⟦')) malos.add(t.slice(0, 60));
+          if (/\p{L}{2}/u.test(t) && !t.includes('⟦') && !t.includes('⟧')) malos.add(t.slice(0, 60));
         }
       };
       openAdult();
@@ -137,6 +139,35 @@ const LETRAS = /^L\d-|lectura|letras/i;
     const adultos = sinMarca.filter((t) => t !== 'Ana');
     if (adultos.length) R.apuntar('I4', 'alta', 'la zona de adultos enseña textos sin traducir', adultos.slice(0, 10));
     else R.bien('I4', 'la zona de adultos está traducida entera');
+    // la zona de adultos en rumano: cada página, con sus partes plegadas abiertas, sin nada en sinTraducir
+    const pr = await L.abrir(b, srv.port, { rapido: true, parametros: '?idioma=ro' });
+    const faltan = await pr.evaluate(async () => {
+      const S = __cl.S;
+      S.intro = true;
+      S.age = 5;
+      S.name = 'Ana';
+      S.first.askedName = 1;
+      save();
+      const antes = new Set(__cl.sinTraducir());
+      openAdult();
+      await new Promise((ok) => setTimeout(ok, 150));
+      const paginas = [...document.querySelectorAll('#adult nav button[data-pag]')].map((x) => x.dataset.pag);
+      for (const pg of paginas) {
+        openAdult(pg);
+        await new Promise((ok) => setTimeout(ok, 150));
+        document.querySelectorAll('#adult details').forEach((d) => (d.open = true));
+      }
+      closeAdult();
+      // los nombres de los temas (y «La A», «(abeja)»... de las letras) se traducen en la ID5 y la ID6
+      const temas = new Set(TEMAS.map((t) => t.n));
+      return __cl
+        .sinTraducir()
+        .filter((t) => !antes.has(t) && !temas.has(t) && t !== 'Ana' && !/^La \p{Lu}$|^\(.*\)$/u.test(t));
+    });
+    if (faltan.length)
+      R.apuntar('I5', 'alta', 'la zona de adultos en rumano deja textos sin traducir', faltan.slice(0, 10));
+    else R.bien('I5', 'la zona de adultos está en rumano');
+    p.errs.push(...pr.errs);
     if (p.errs.length) R.apuntar('I0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('I0', 'sin errores de JavaScript');
   } catch (e) {

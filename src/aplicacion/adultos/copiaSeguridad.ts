@@ -3,7 +3,7 @@
 // revés, y bkWire conecta los botones de la página «Copia y aparato». Usa esPartida (dominio/partida.ts) y
 // escribirGuardado (aplicacion/puertos.ts).
 import type { Libre } from '../../nucleo/tipos.ts';
-import { KEY, S, save, today } from '../../nucleo/indice.ts';
+import { KEY, S, fmtHtml, save, today, trHtml } from '../../nucleo/indice.ts';
 import { esPartida } from '../../dominio/partida.ts';
 import { escribirGuardado } from '../puertos.ts';
 import { esc } from './comun.ts';
@@ -57,6 +57,7 @@ export async function bkDecode(code: string): Promise<Libre> {
 export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => void = () => {}) {
   const msg = (h: string) => {
       q('#a-bk-msg').innerHTML = h;
+      trHtml(q('#a-bk-msg'));
     },
     ta = q('#a-bk-txt');
   // hecha(): apunta hoy como día de la última copia (S.bkFecha, fase A6) y avisa a la página (para quitar el número
@@ -118,7 +119,7 @@ export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => v
     const nT = Object.values<Libre>(d.temas || {}).filter((t) => t && t.done).length,
       nG = Object.values<Libre>(d.temas || {}).reduce((a: number, t) => a + Object.keys((t && t.g) || {}).length, 0);
     msg(
-      `Copia encontrada${d.name ? ' de <b>' + esc(d.name) + '</b>' : ''}: ${nT} temas terminados, ${nG} juegos jugados y ${Math.max(0, Math.floor(+d.coins) || 0)} monedas. <b>Reemplaza el progreso actual de este dispositivo.</b> <button id="a-bk-ok" class="danger">Sí, recuperar esta copia</button>`,
+      `${fmtHtml(d.name ? 'Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.' : 'Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.', { nombre: '<b>' + esc(d.name || '') + '</b>', temas: nT, juegos: nG, monedas: Math.max(0, Math.floor(+d.coins) || 0) })} <b>Reemplaza el progreso actual de este dispositivo.</b> <button id="a-bk-ok" class="danger">Sí, recuperar esta copia</button>`,
     );
     q('#a-bk-ok').onclick = () => {
       if (!escribirGuardado(KEY, JSON.stringify(d))) {

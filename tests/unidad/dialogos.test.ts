@@ -3,7 +3,9 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, test } from 'vitest';
-import { catalogo, csv } from '../../herramientas/dialogos/catalogo.mts';
+import { catalogo, csv, csvIdioma, hojaIdioma } from '../../herramientas/dialogos/catalogo.mts';
+import { TEXTOS_RO } from '../../src/idiomas/ro/textos.ts';
+import { NOMBRES_RO } from '../../src/idiomas/ro/nombres.ts';
 
 const RAIZ = join(import.meta.dirname, '..', '..');
 // Por debajo de este número de frases, el catálogo ha dejado de encontrar textos (hoy hay unas 2500).
@@ -13,6 +15,12 @@ test('dialogos/todos.csv está al día con el código (si no: npm run dialogos)'
   const frases = catalogo(RAIZ);
   expect(frases.length).toBeGreaterThan(MIN_FRASES);
   expect(readFileSync(join(RAIZ, 'dialogos', 'todos.csv'), 'utf8')).toBe(csv(frases));
+});
+
+test('dialogos/ro.csv, la hoja de revisión del rumano, está al día con el catálogo y las tablas (fase ID4)', () => {
+  const hoja = hojaIdioma(catalogo(RAIZ), TEXTOS_RO, NOMBRES_RO);
+  expect(readFileSync(join(RAIZ, 'dialogos', 'ro.csv'), 'utf8')).toBe(csvIdioma(hoja, 'rumano'));
+  expect(hoja.find((f) => f.texto === 'Zona de adultos')?.traduccion).toBe('Zona adulților');
 });
 
 test('cada id es único y los textos conocidos están (frase, trozo, nombre)', () => {

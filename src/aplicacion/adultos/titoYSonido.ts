@@ -7,10 +7,12 @@ import {
   IDIOMA,
   S,
   VOICE,
+  fmtHtml,
   pickVoice,
   ponIdioma,
   save,
   setVol,
+  tr,
   vocesES,
   vozCalidad,
   vozProbar,
@@ -74,10 +76,10 @@ export const TITO_Y_SONIDO: PaginaAdultos = {
   // html(): personaje, voz y volumen. vname: la voz que se está usando; vopts: las voces en español de este aparato
   // (la primera, «Automática», deja que elija pickVoice).
   html() {
-    // vname: voz del navegador que se está usando (para el texto informativo).
+    // vname: voz del navegador que se está usando (para el texto informativo), ya traducida (fmtHtml, fase ID4).
     const vname = VOICE
       ? `${VOICE.name} (${VOICE.lang})`
-      : 'no se encontró una voz en el idioma del juego en este dispositivo';
+      : tr('no se encontró una voz en el idioma del juego en este dispositivo');
     // vopts: la lista de voces en español de este aparato para elegir (la primera opción, «Automática», deja que elija pickVoice).
     const vopts =
       '<option value="">Automática (la mejor que haya)</option>' +
@@ -104,7 +106,7 @@ export const TITO_Y_SONIDO: PaginaAdultos = {
   <section><h3>Voz</h3>
    <div class="row"><span>Voz del navegador</span><select id="a-vnav" style="max-width:100%">${vopts}</select><button id="a-vprueba" type="button">▶ Probar</button></div>
    <details class="guia-voces"><summary>Cómo conseguir voces más naturales</summary>${vozGuiaHTML()}</details>
-   <p class="note">Tito habla con la voz del navegador. Voz del navegador: ${esc(vname)}.</p></section>
+   <p class="note">${fmtHtml('Tito habla con la voz del navegador. Voz del navegador: {voz}.', { voz: esc(vname) })}</p></section>
   <section><h3>Volumen</h3>
    ${(['voz', 'mus', 'fx'] as (keyof Volumenes)[]).map((k) => `<label class="rng">${{ voz: 'Voz', mus: 'Música', fx: 'Efectos' }[k]} <input type="range" id="a-${k}" min="0" max="1" step="0.05" value="${S.vol[k]}"></label>`).join('')}</section>`;
   },

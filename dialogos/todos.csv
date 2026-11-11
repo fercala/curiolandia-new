@@ -1415,7 +1415,7 @@ e577921a91f3,Juega: {nombre},trozo,src/escenas/escenas2d.ts src/mundo3d/portada3
 4f9ad52621f0,"¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.",frase,src/escenas/escenas2d.ts
 b98615f7a5dd,¿Cuántos años tiene quien va a jugar?,frase,src/escenas/escenas2d.ts
 217cdc5a1c62,(Lo elige un adulto. Se puede cambiar después.),trozo,src/escenas/escenas2d.ts
-a587736f77f4,años,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/quienJuega.ts
+a587736f77f4,años,trozo,src/escenas/escenas2d.ts
 a49638107f59,¡Hola! Yo soy Tito. ¿Cómo te llamas? Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
 d88671ed28a4,Pídele a un mayor que escriba tu nombre.,frase,src/escenas/escenas2d.ts
 df0af9cb97f2,"¡Hola, {nombre}! ¡Qué bonito nombre!",frase,src/escenas/escenas2d.ts
@@ -1637,7 +1637,7 @@ af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts
-96b00383b22b,{n} años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts
+96b00383b22b,{n} años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/aplicacion/adultos/quienJuega.ts
 8393ff8607d7,"¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",frase,src/escenas/isla.ts
 6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,frase,src/escenas/isla.ts
 b2b4b96d3c6d,"Lupi, la lechuza.",frase,src/escenas/isla.ts
@@ -1665,7 +1665,7 @@ f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
-f4b7f5c009fb, de ,trozo,src/escenas/libroLetras.ts src/temas/letras.ts src/aplicacion/adultos/progreso.ts
+f4b7f5c009fb, de ,trozo,src/escenas/libroLetras.ts src/temas/letras.ts
 7d441d06e300,¡Punto para nuestro equipo!,frase,src/escenas/panuelo.ts
 37b8fed7c382,¡Qué rápido! ¡Otro punto!,frase,src/escenas/panuelo.ts
 67c01ef33db6,¡Lo has cogido! ¡Muy bien!,frase,src/escenas/panuelo.ts
@@ -2265,7 +2265,7 @@ a3ab49ee4618,@Hello,inglés,src/mundo3d/interaccion.ts
 eb61eead90e3,HELLO,trozo,src/mundo3d/interaccion.ts src/mundo3d/islaIngles3d.ts
 c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
 0346395fbbe7,MPL,trozo,src/mundo3d/isla3d.ts
-8510453fad10, años,trozo,src/mundo3d/isla3d.ts src/mundo3d/islaIngles3d.ts src/aplicacion/adultos/resumen.ts
+8510453fad10, años,trozo,src/mundo3d/isla3d.ts src/mundo3d/islaIngles3d.ts
 0cc175b9c0f1,a,trozo,src/mundo3d/mapa3d.ts
 6aaa0c8b5072,"attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}",trozo,src/mundo3d/materiales.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts
@@ -3796,12 +3796,10 @@ a603cb7cbfb3,Selecciona el código de arriba y cópialo a mano.,adultos,src/apli
 e1c56245f607,"Si no se ha descargado nada, usa el código de copia.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
 46544259e3e9,Este navegador no puede abrir ese código. Prueba con el archivo de copia.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
 034d08a8bf9c,❌ Eso no parece una copia de Curiolandia. Revisa que el código esté completo.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
-dbc12d506f4c,Copia encontrada,adultos,src/aplicacion/adultos/copiaSeguridad.ts
-df7465c108fb," temas terminados, ",adultos,src/aplicacion/adultos/copiaSeguridad.ts
-9f735a9de779, juegos jugados y ,adultos,src/aplicacion/adultos/copiaSeguridad.ts
-c03643f22481,monedas.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
 beb8bb5e505a,Reemplaza el progreso actual de este dispositivo.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
 edebf8bc6646,"Sí, recuperar esta copia",adultos,src/aplicacion/adultos/copiaSeguridad.ts
+4bbf011d7eec,"Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
+3bc31b6cd427,"Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
 033828b51588,❌ No se pudo guardar en este navegador.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
 fdc6446d8460,Premios y vales,adultos,src/aplicacion/adultos/premios.ts
 1548db2ef3d8,Premios,adultos,src/aplicacion/adultos/premios.ts
@@ -3922,14 +3920,13 @@ dcc9e1b8c3e7,Letras,adultos,src/aplicacion/adultos/progreso.ts
 211e81e1e056,Asambleas,adultos,src/aplicacion/adultos/progreso.ts
 e52431c64d57,Minutos,adultos,src/aplicacion/adultos/progreso.ts
 d3b5799ad1a1,Progreso,adultos,src/aplicacion/adultos/progreso.ts
-01ea9c9ec5fa, juegos,adultos,src/aplicacion/adultos/progreso.ts
-430e57b5d6dc, · completo 🌼,adultos,src/aplicacion/adultos/progreso.ts
-a5eb89000d2b, temas · ,adultos,src/aplicacion/adultos/progreso.ts
-7b6391d99252,juegos,adultos,src/aplicacion/adultos/progreso.ts
+6de675469e88,{n}/{total} juegos,adultos,src/aplicacion/adultos/progreso.ts
+77b3293c98d4,· completo 🌼,adultos,src/aplicacion/adultos/progreso.ts
+f981b9f00004,{a}/{b} temas · {c}/{d} juegos,adultos,src/aplicacion/adultos/progreso.ts
 3884fb965017,Habilidad,adultos,src/aplicacion/adultos/progreso.ts
 e3b3b5987a4b,Aciertos,adultos,src/aplicacion/adultos/progreso.ts
 2fc2d9caa246,Intentos,adultos,src/aplicacion/adultos/progreso.ts
-8baf823e8f42,Ver todas (,adultos,src/aplicacion/adultos/progreso.ts
+b745fd487416,Ver todas ({n}),adultos,src/aplicacion/adultos/progreso.ts
 0259c48b3d86,Sin empezar,adultos,src/aplicacion/adultos/progreso.ts
 47f8f24c8844,Aprendida,adultos,src/aplicacion/adultos/progreso.ts
 97bd3123fe1c,Perrito,adultos,src/aplicacion/adultos/progreso.ts
@@ -3960,18 +3957,16 @@ dcc9751190f0,Casitas,adultos,src/aplicacion/adultos/progreso.ts
 44400a9340ca,Palabras,adultos,src/aplicacion/adultos/progreso.ts
 2beb5a41a6f1,El tiempo que eligió y cómo se sentía cada día.,adultos,src/aplicacion/adultos/progreso.ts
 ec7ad71ddfc2,Lo que ha descubierto jugando en la casa de Tito:,adultos,src/aplicacion/adultos/progreso.ts
-644ba27e88d3,sorpresas,adultos,src/aplicacion/adultos/progreso.ts
 fa1f4c078ec4,del álbum «Sorpresas de la casa».,adultos,src/aplicacion/adultos/progreso.ts
-46b8e509f2fb,La flor del huerto lleva,adultos,src/aplicacion/adultos/progreso.ts
-95ac5de81c0e, (etapa ,adultos,src/aplicacion/adultos/progreso.ts
-2901963d75de,"de 4). Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.",adultos,src/aplicacion/adultos/progreso.ts
+2718d85e96a6,"Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.",adultos,src/aplicacion/adultos/progreso.ts
 00062aa3fae7,Minutos de juego,adultos,src/aplicacion/adultos/progreso.ts
 e510d5e96470,Los minutos jugados en los últimos 7 días con datos.,adultos,src/aplicacion/adultos/progreso.ts
 949bc48ad3c7,Polly dice las palabras con la voz inglesa de este dispositivo.,adultos,src/aplicacion/adultos/progreso.ts
 9bcd4d8b8213,Este dispositivo no tiene voz inglesa,adultos,src/aplicacion/adultos/progreso.ts
 fda68721315c,: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.,adultos,src/aplicacion/adultos/progreso.ts
-d2dee6e34501,día regado,adultos,src/aplicacion/adultos/progreso.ts
-bc1b419a310f,días regados,adultos,src/aplicacion/adultos/progreso.ts
+b1bd1be340c4,{n} de {total} sorpresas,adultos,src/aplicacion/adultos/progreso.ts
+110def22e6eb,La flor del huerto lleva {n} día regado (etapa {etapa} de 4).,adultos,src/aplicacion/adultos/progreso.ts
+693af392063f,La flor del huerto lleva {n} días regados (etapa {etapa} de 4).,adultos,src/aplicacion/adultos/progreso.ts
 4dfb02bdf81c,Mascota,adultos,src/aplicacion/adultos/progreso.ts
 4777bbaaa0ae,Nombre,adultos,src/aplicacion/adultos/progreso.ts src/head.html
 56823b1bc56d,Etapa,adultos,src/aplicacion/adultos/progreso.ts
@@ -3990,9 +3985,11 @@ dd28901c98e3,Casa de Tito en 3D (prueba),adultos,src/aplicacion/adultos/progreso
 f63319b32f11,Hay,adultos,src/aplicacion/adultos/resumen.ts
 708ad25e017c,1 vale,adultos,src/aplicacion/adultos/resumen.ts
 dd2c960ecff0,por entregar.,adultos,src/aplicacion/adultos/resumen.ts
-ca24ce920d61,vales,adultos,src/aplicacion/adultos/resumen.ts
+8906bcfc7315,Hay {vales} por entregar.,adultos,src/aplicacion/adultos/resumen.ts
+6235e8267c8a,{n} vales,adultos,src/aplicacion/adultos/resumen.ts
 ae1ac0ce9de1,Hace más de un mes de la última copia de seguridad: conviene hacer otra.,adultos,src/aplicacion/adultos/resumen.ts
 5ad0649658ae,"Todavía no hay ninguna copia de seguridad del progreso: si se borran los datos del navegador, se pierde.",adultos,src/aplicacion/adultos/resumen.ts
+c239fcfe3687,Este aparato no tiene voz en el idioma del juego: Tito hablará con otra voz. En «Tito y el sonido» se explica cómo instalarla.,adultos,src/aplicacion/adultos/resumen.ts
 87202834a84c,Este aparato no tiene voz inglesa: Polly dirá las palabras de la Isla del Inglés con acento castellano.,adultos,src/aplicacion/adultos/resumen.ts
 a3a3d392479a,Retos hechos hasta ahora:,adultos,src/aplicacion/adultos/resumen.ts
 190d793e9d36,Reto en casa,adultos,src/aplicacion/adultos/resumen.ts
@@ -4000,22 +3997,22 @@ a3a3d392479a,Retos hechos hasta ahora:,adultos,src/aplicacion/adultos/resumen.ts
 8a07af8a7f73,✅ Hecho.,adultos,src/aplicacion/adultos/resumen.ts
 3f686d6a4a6f, Tito lo celebrará con una pegatina al volver al mapa.,adultos,src/aplicacion/adultos/resumen.ts
 24accad517d2,¡Lo ha hecho!,adultos,src/aplicacion/adultos/resumen.ts
-f10eb2d2706a,(propuesto el,adultos,src/aplicacion/adultos/resumen.ts
 88a539e7a04e,Un reto sin pantalla para llevar el juego a casa.,adultos,src/aplicacion/adultos/resumen.ts
+52d5fa93d860,(propuesto el {fecha}),adultos,src/aplicacion/adultos/resumen.ts
 8332fbec31ac,Resumen,adultos,src/aplicacion/adultos/resumen.ts
 6368f56d1df8,Hoy,adultos,src/aplicacion/adultos/resumen.ts
-63137e9e1b70, de juego hoy,adultos,src/aplicacion/adultos/resumen.ts
 e4345b0fed66,temas terminados,adultos,src/aplicacion/adultos/resumen.ts
 44f469b75346,"Más sitios y cualquier tema, en «Copia y aparato».",adultos,src/aplicacion/adultos/resumen.ts
 4d0ebbbc1b0c,Sin nombre,adultos,src/aplicacion/adultos/resumen.ts
 f2ddb27a5c6d,edad sin elegir,adultos,src/aplicacion/adultos/resumen.ts
-117aeafa9b91, (límite: ,adultos,src/aplicacion/adultos/resumen.ts
-3c7a9b75b173, min por sesión),adultos,src/aplicacion/adultos/resumen.ts
+694f4075be0c,{n} minuto de juego hoy,adultos,src/aplicacion/adultos/resumen.ts
+2f13014f7bdc,{n} minutos de juego hoy,adultos,src/aplicacion/adultos/resumen.ts
+5267c70be537,(límite: {n} min por sesión),adultos,src/aplicacion/adultos/resumen.ts
 797023a93299,Avisos,adultos,src/aplicacion/adultos/resumen.ts
 862fa4aeaf78,Ver,adultos,src/aplicacion/adultos/resumen.ts
 f2b971eaf98a,Lo que sigue,adultos,src/aplicacion/adultos/resumen.ts
 1d616882cd6a,Próximo tema del camino:,adultos,src/aplicacion/adultos/resumen.ts
-ac6f20e5dacf,. Para seguir fuera de la pantalla:,adultos,src/aplicacion/adultos/resumen.ts
+5c92d140edfb,Para seguir fuera de la pantalla: {tip},adultos,src/aplicacion/adultos/resumen.ts
 0c7c2713e1fa,nombrar juntos las cosas del tema que encuentren en casa o en la calle.,adultos,src/aplicacion/adultos/resumen.ts
 42839bca8654,iPhone o iPad,adultos,src/aplicacion/adultos/titoYSonido.ts
 42bbe59bc8e0,Ajustes → Accesibilidad → Contenido leído → Voces → Español → España. Descarga una voz «mejorada» o «prémium» (por ejemplo Mónica o Jorge).,adultos,src/aplicacion/adultos/titoYSonido.ts
@@ -4039,8 +4036,8 @@ b53b4d5c9a48,"Tito sigue llamándose Tito. La ropa y los colores de la tienda le
 4dbe02b3595d,Voz del navegador,adultos,src/aplicacion/adultos/titoYSonido.ts
 1097031e58b0,▶ Probar,adultos,src/aplicacion/adultos/titoYSonido.ts
 3e7d3d81872b,Cómo conseguir voces más naturales,adultos,src/aplicacion/adultos/titoYSonido.ts
-debaf06557cd,Tito habla con la voz del navegador. Voz del navegador:,adultos,src/aplicacion/adultos/titoYSonido.ts
 1861100288fe,Volumen,adultos,src/aplicacion/adultos/titoYSonido.ts
+32b2e246c62c,Tito habla con la voz del navegador. Voz del navegador: {voz}.,adultos,src/aplicacion/adultos/titoYSonido.ts
 275a856f57c3,Música,adultos,src/aplicacion/adultos/titoYSonido.ts
 538c8b0ed60f,Efectos,adultos,src/aplicacion/adultos/titoYSonido.ts
 010725dd136c,Categorías,adultos,src/head.html
