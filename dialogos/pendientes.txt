@@ -1710,3 +1710,29 @@ Toca la casilla del {n}.
 ¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!
 ¡Qué bien me has columpiado! ¿Jugamos otra vez?
 Toca la mano para empujar cuando el columpio llegue hasta ella.
+¡Buenos días! Es la hora del desayuno. ¿Me llevas a la nevera o a la mesa?
+¡Qué rico desayuno! Ya tengo fuerzas para todo el día. Toma una pegatina.
+¡Es la hora de jugar! ¿Me llevas a un juguete?
+¡Qué bien lo hemos pasado jugando! Toma una pegatina.
+¡Es la hora de comer! ¿Me llevas a la mesa o a la olla?
+¡Qué buena estaba la comida! Toma una pegatina.
+Uaaah... Es la hora de la siesta. ¿Me llevas a la cama o al sofá?
+¡Qué siesta tan buena! Ya estoy despierto. Toma una pegatina.
+¡Es la hora del baño! ¿Me llevas a la bañera?
+¡Ya estoy limpito! Toma una pegatina.
+¡Es la hora de cenar! ¿Me llevas a la mesa?
+¡Qué buena cena! Toma una pegatina.
+Ya es de noche. Es la hora de dormir. ¿Me llevas a la cama?
+Buenas noches. ¡Hasta mañana! Toma una pegatina.
+Tic, tac. Son las doce.
+Tic, tac. Es la una.
+Tic, tac. Son las dos.
+Tic, tac. Son las tres.
+Tic, tac. Son las cuatro.
+Tic, tac. Son las cinco.
+Tic, tac. Son las seis.
+Tic, tac. Son las siete.
+Tic, tac. Son las ocho.
+Tic, tac. Son las nueve.
+Tic, tac. Son las diez.
+Tic, tac. Son las once.

@@ -125,6 +125,32 @@ decbb93dbc70,¡Bailo con la música de la guitarra!,frase,src/contenido/casa.ts
 e4b3234adee4,Me escondo detrás del árbol. ¿Me ves?,frase,src/contenido/casa.ts
 b71f5174110e,¡Oh! Se le ha caído una torre al castillo.,frase,src/contenido/casa.ts
 0bbf5363ae84,"¡Chapoteo en la piscina! ¡Plof, plof!",frase,src/contenido/casa.ts
+1b748d0b6a0c,¡Buenos días! Es la hora del desayuno. ¿Me llevas a la nevera o a la mesa?,frase,src/contenido/casa.ts
+ce0a8968af37,¡Qué rico desayuno! Ya tengo fuerzas para todo el día. Toma una pegatina.,frase,src/contenido/casa.ts
+cf873a75df85,¡Es la hora de jugar! ¿Me llevas a un juguete?,frase,src/contenido/casa.ts
+b8470c198c9e,¡Qué bien lo hemos pasado jugando! Toma una pegatina.,frase,src/contenido/casa.ts
+37c9cdfebc46,¡Es la hora de comer! ¿Me llevas a la mesa o a la olla?,frase,src/contenido/casa.ts
+06d1ba28f0fe,¡Qué buena estaba la comida! Toma una pegatina.,frase,src/contenido/casa.ts
+4ade5a95c272,Uaaah... Es la hora de la siesta. ¿Me llevas a la cama o al sofá?,frase,src/contenido/casa.ts
+e99f44b2ba3b,¡Qué siesta tan buena! Ya estoy despierto. Toma una pegatina.,frase,src/contenido/casa.ts
+103b3900cfe8,¡Es la hora del baño! ¿Me llevas a la bañera?,frase,src/contenido/casa.ts
+c4fde6c1b7d1,¡Ya estoy limpito! Toma una pegatina.,frase,src/contenido/casa.ts
+1fe00cc2dce5,¡Es la hora de cenar! ¿Me llevas a la mesa?,frase,src/contenido/casa.ts
+233cbfed192c,¡Qué buena cena! Toma una pegatina.,frase,src/contenido/casa.ts
+19d66a415fad,Ya es de noche. Es la hora de dormir. ¿Me llevas a la cama?,frase,src/contenido/casa.ts
+aa7cfbb697ac,Buenas noches. ¡Hasta mañana! Toma una pegatina.,frase,src/contenido/casa.ts
+5048aef750cd,"Tic, tac. Son las doce.",frase,src/contenido/casa.ts
+00395e8ce9c4,"Tic, tac. Es la una.",frase,src/contenido/casa.ts
+f2120af6a510,"Tic, tac. Son las dos.",frase,src/contenido/casa.ts
+72965e87e8a7,"Tic, tac. Son las tres.",frase,src/contenido/casa.ts
+da1805d5dd8e,"Tic, tac. Son las cuatro.",frase,src/contenido/casa.ts
+1655a09e5471,"Tic, tac. Son las cinco.",frase,src/contenido/casa.ts
+04a5d783116b,"Tic, tac. Son las seis.",frase,src/contenido/casa.ts
+cc6fe6212473,"Tic, tac. Son las siete.",frase,src/contenido/casa.ts
+29ff058cf8ef,"Tic, tac. Son las ocho.",frase,src/contenido/casa.ts
+8d313f91301b,"Tic, tac. Son las nueve.",frase,src/contenido/casa.ts
+2399ea68bdc5,"Tic, tac. Son las diez.",frase,src/contenido/casa.ts
+c8c7744b59d2,"Tic, tac. Son las once.",frase,src/contenido/casa.ts
 46a9c845ed04,La mochila de Teo,trozo,src/contenido/cuentos.ts
 63dc4af5492e,Teo llegó al cole con su mochila nueva. ¡Era azul y tenía un bolsillo secreto!,frase,src/contenido/cuentos.ts
 e94285781b6f,"Teo sacó todo: el lápiz, las pinturas y el cuento. ¡Y lo dejó todo tirado por la mesa! ¡Qué lío!",frase,src/contenido/cuentos.ts
