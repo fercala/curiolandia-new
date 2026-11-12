@@ -40,6 +40,7 @@ en las guías existentes; una petición de revisión de PR se mantiene sin modif
    - Trucos de consola: `__cl.S.age=5; __cl.S.unlockAll=true; __cl.go('map')` (todo abierto); `__cl.go('casita',{t:'3A-T1'})` (ir a un tema); `window.__fast=1; window.__said=[]` (la voz no espera y `__said` guarda lo que dice Tito: útil para copiar frases exactas).
    - Para probar de noche sin esperar: en la consola, `Date.prototype.getHours=()=>22; __cl.go('map')`.
 6. **Prueba automática**: `npm run test:humo` (debe terminar con `TODO BIEN`; capturas en `tests/capturas/`) y `npm run test:pr`, lo mismo que pasa GitHub Actions en cada PR (unos minutos; las pruebas de una en una, nunca a la vez).
+   Para investigar el guardado, ejecuta `node tests/regresion/cobertura.js dist guardado-` tras compilar. Consulta [cobertura de guardado](COBERTURA-PRUEBAS.md#guardado-y-recuperación-11-de-noviembre-de-2026) para distinguir los fallos conocidos de los errores del guion.
 7. **Prueba en un móvil** si has tocado algo visual o de rendimiento (el 3D es lo más pesado).
 8. **Frases nuevas o cambiadas**: apúntalas en `dialogos/pendientes.txt` y rehaz `dialogos/todos.csv` con `npm run dialogos` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
 9. **Formato y linter**: `npm run formato` y `npm run lint` (sin avisos); el gancho de commit y GitHub Actions lo comprueban. Ver [FORMATO-Y-LINTER.md](FORMATO-Y-LINTER.md).

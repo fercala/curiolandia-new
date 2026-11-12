@@ -1,4 +1,4 @@
-// Huecos de cobertura: varias pestañas, salidas del repaso, reloj, PWA y recompensas.
+// Huecos de cobertura: guardado y recuperación, varias pestañas, salidas del repaso, reloj, PWA y recompensas.
 // node tests/regresion/lanzar.js cobertura.js . [filtro]
 const L = require('./lib'),
   fs = require('fs'),
@@ -67,7 +67,8 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
         const status = detail.fail || errors.length ? 'FAIL' : 'PASS';
         report.results.push({ id, title, status, detail, errors, ms: Date.now() - start });
         console.log(status, id, JSON.stringify(detail).slice(0, 700));
-        if (status === 'FAIL') await p.screenshot({ path: path.join(L.SAL, name + '-' + id + '.png') });
+        if (status === 'FAIL' && !p.isClosed())
+          await p.screenshot({ path: path.join(L.SAL, name + '-' + id + '.png') });
       } catch (e) {
         report.results.push({ id, title, status: 'ERROR_HARNESS', error: String(e), ms: Date.now() - start });
         console.log('ERROR_HARNESS', id, String(e).slice(0, 300));
@@ -132,6 +133,117 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
         return { fail: after.played !== before.played || after.coins !== before.coins, before, after };
       },
     );
+    // Abre otra página con la partida del mismo contexto, sin volver a sembrar el almacenamiento.
+    async function abrirOtra(contexto, errores) {
+      const otra = await contexto.newPage();
+      otra.on('pageerror', (e) => errores.push(String(e).split('\n')[0]));
+      await otra.addInitScript(() => {
+        window.__fast = 1;
+      });
+      await otra.goto(`http://localhost:${server.port}/index.html`);
+      await otra.waitForFunction(() => window.__cl && sceneName === 'title');
+      return otra;
+    }
+
+    // Lee el saldo y el total ganado del estado activo para comparar antes y después de recargar.
+    const monedero = (p) => p.evaluate(() => ({ saldo: S.coins, total: S.coinsTot }));
+
+    await test(
+      'guardado-cierre-moneda',
+      'Cerrar la pestaña tras ganar una moneda conserva saldo y total',
+      async (p) => {
+        const contexto = p.context();
+        await p.evaluate(() => __cl.go('juego', { t: '3A-T1', g: 1 }));
+        if (!(await L.conducir(p, () => S.coins > 100, 35000, { real: true, azar: 0 })))
+          throw new Error('No se ganó ninguna moneda en el juego');
+        const antes = await monedero(p);
+        await p.close({ runBeforeUnload: false });
+        const nueva = await abrirOtra(contexto, p.errs);
+        const despues = await monedero(nueva);
+        return { fail: despues.saldo !== antes.saldo || despues.total !== antes.total, antes, despues };
+      },
+    );
+
+    await test('guardado-compra-doble', 'Confirmar el mismo artículo en dos pestañas cobra una sola vez', async (p) => {
+      const otra = await abrirOtra(p.context(), p.errs);
+      for (const pagina of [p, otra]) {
+        await pagina.evaluate(() => __cl.go('tienda', {}));
+        await pagina.waitForFunction(() => sceneName === 'tienda' && VIVO.fade < 0.5);
+        const casilla = await pagina.evaluate(() => {
+          const casilla = scene.grid().find((g) => g.it.id === 'gorroFiesta');
+          return casilla && { x: casilla.x, y: casilla.y, precio: casilla.it.p };
+        });
+        if (!casilla) throw new Error('El gorro de fiesta no está en la primera página');
+        await L.clic(pagina, casilla.x, casilla.y);
+        await pagina.waitForFunction(() => scene.conf?.id === 'gorroFiesta' && T - scene.confT >= 0.3);
+      }
+      const precio = await p.evaluate(() => scene.conf.p);
+      await L.clic(p, 680, 690);
+      // Espera a que la segunda pestaña reciba el evento real de almacenamiento antes de confirmar.
+      await otra.waitForFunction(() => S.owned.gorroFiesta && S.coins < 100);
+      const primera = await monedero(otra);
+      if (primera.saldo !== 100 - precio) throw new Error('La primera compra no cobró el precio esperado');
+      await L.clic(otra, 680, 690);
+      await otra.waitForFunction(() => !scene.conf);
+      await otra.reload();
+      await otra.waitForFunction(() => window.__cl && sceneName === 'title');
+      const despues = await otra.evaluate(() => ({ saldo: S.coins, tieneGorro: !!S.owned.gorroFiesta }));
+      return { fail: despues.saldo !== 100 - precio || !despues.tieneGorro, precio, primera, despues };
+    });
+
+    await test(
+      'guardado-escritura-fallida',
+      'Si falla la escritura queda la última partida válida y se recupera el guardado al volver a escribir',
+      async (p) => {
+        const antes = await monedero(p);
+        await p.evaluate(() => {
+          const escribir = Storage.prototype.setItem;
+          window.__restaurarGuardado = () => {
+            Storage.prototype.setItem = escribir;
+          };
+          window.__escriturasRechazadas = 0;
+          Storage.prototype.setItem = function (clave, valor) {
+            if (this === localStorage && clave === KEY) {
+              window.__escriturasRechazadas++;
+              throw new DOMException('Sin espacio (prueba)', 'QuotaExceededError');
+            }
+            return escribir.call(this, clave, valor);
+          };
+          __cl.go('juego', { t: '3A-T1', g: 1 });
+        });
+        if (!(await L.conducir(p, () => S.coins > 100, 35000, { real: true, azar: 0 })))
+          throw new Error('No se ganó ninguna moneda con el guardado bloqueado');
+        const memoria = await monedero(p);
+        const rechazadas = await p.evaluate(() => window.__escriturasRechazadas);
+        if (!rechazadas) throw new Error('No se provocó ningún fallo de escritura');
+        const nueva = await abrirOtra(p.context(), p.errs);
+        const durante = await monedero(nueva);
+        await p.evaluate(() => {
+          window.__restaurarGuardado();
+          openAdult();
+        });
+        await p.locator('#a-mus').evaluate((el) => {
+          el.value = '.2';
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+        await nueva.reload();
+        await nueva.waitForFunction(() => window.__cl && sceneName === 'title');
+        const recuperado = await monedero(nueva);
+        return {
+          fail:
+            durante.saldo !== antes.saldo ||
+            durante.total !== antes.total ||
+            recuperado.saldo !== memoria.saldo ||
+            recuperado.total !== memoria.total,
+          antes,
+          memoria,
+          durante,
+          recuperado,
+          rechazadas,
+        };
+      },
+    );
+
     const prepareReview = (p) =>
       p.evaluate(() => {
         S.temas['3A-T1'] = { g: { 1: 1 }, done: 0 };

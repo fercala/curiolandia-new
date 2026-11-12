@@ -66,3 +66,15 @@ Para Chrome instalado, definir `PLAYWRIGHT_CHANNEL=chrome`; para Edge, `msedge`.
 
 La preparación utiliza partidas sintéticas en contextos aislados y no representa todo el avance previo como jugado. Los cambios de preferencias emplean sus controles DOM; los juegos, velas y compras indicados envían eventos reales al lienzo. No se utiliza la partida personal del navegador.
 
+### Guardado y recuperación (11 de noviembre de 2026)
+
+En Chromium, sobre la v0.2.134 (`13c943e`), con partidas sintéticas y almacenamiento real salvo el fallo de escritura inyectado:
+
+| Caso | Resultado |
+|---|---|
+| `guardado-cierre-moneda` | Cerrar la pestaña sin ejecutar `beforeunload` justo después del primer acierto conserva el saldo y las monedas ganadas. Ambos valores pasan de 100 a 101 y siguen en 101 al abrir otra página. |
+| `guardado-compra-doble` | Falla. Dos confirmaciones abiertas para el mismo gorro cobran 6 monedas cada una, incluso cuando la segunda pestaña ya recibió la primera compra. Véase [G1](PROBLEMAS-CONOCIDOS.md#g1-la-tienda-cobra-dos-veces-por-el-mismo-artículo-en-dos-pestañas). |
+| `guardado-escritura-fallida` | Se simula `QuotaExceededError` al guardar la partida. Una página nueva carga el último saldo válido (100), mientras la original conserva 101 en memoria. Al permitir las escrituras y cambiar un ajuste, el saldo 101 se recupera al recargar. |
+
+Ejecutar tras `npm run build` con `node tests/regresion/cobertura.js dist guardado-`. El informe queda en `tests/regresion/salida/cobertura-guardado-.json`. El caso G1 hace que la batería salga con código 1 mientras siga pendiente. Esta prueba de cierre mantiene vivo el navegador, y la de recuperación mantiene abierta la página que conserva la partida en memoria.
+

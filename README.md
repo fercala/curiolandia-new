@@ -11,3 +11,5 @@ Web: https://fercala.github.io/curiolandia-new/
 
 Para colaborar: [CLAUDE.md](CLAUDE.md) y, con Codex, [AGENTS.md](AGENTS.md) y [CODEX.md](CODEX.md).
 Ambos siguen los mismos planes y la [política de documentación](docs/POLITICA-DOCUMENTACION.md).
+
+Las pruebas de [guardado y recuperación](docs/COBERTURA-PRUEBAS.md#guardado-y-recuperación-11-de-noviembre-de-2026) se ejecutan después de compilar con `node tests/regresion/cobertura.js dist guardado-`.
