@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136) e **ID4c** (v0.2.138), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,27 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID4d (v0.2.140): el cole, el patio, las excursiones y el deporte en rumano
+
+- **Tabla nueva `src/idiomas/ro/cole.ts`** (`COLE_RO`, unos 450 textos): el cole y el patio, las estatuas, «Tito
+  dice» y sus órdenes, el yoga de los animales, los retos en casa (lo que dice Tito y la lista de la zona de adultos),
+  las carreras 3D con los lugares del podio, el gran día del deporte y sus cuatro pruebas, los juegos cortos (rayuela,
+  columpios, penaltis, pompas, cometa, pañuelo y sillas), el escondite, el autobús, el álbum de excursiones y la granja
+  escuela (comer, huevos, queso, cepillar, huerto, tractor, el manzano y las crías con sus nombres). Y lo poco que
+  quedaba fuera de los temas: los nombres de juegos que salen en el repaso, las emociones y los planetas del cielo 3D.
+  Con esto, **la ID4 está completa**: fuera de los temas, los juegos y las islas solo quedan sin traducir las palabras
+  sueltas en inglés y las letras de los carteles (de la ID6 y la ID7).
+- **Nombres con sus formas** (`nombres.ts`): los sitios del cole, las pruebas del deporte, las excursiones (su `a` es
+  lo que va tras «Mergem»: «la ferma-școală»), los animales de la granja y sus crías.
+- **Las plantillas rumanas del deporte** ponen la prueba delante («{Prueba}: medalie de {medalla}!»): tras «la» o «în»
+  el rumano quiere el nombre sin artículo, y el hueco lleva el artículo.
+- **Arreglos que salieron al traducir**: los nombres de las crías se guardan en castellano y se decían sin traducir
+  (ahora con `tr`, `escenas/granjaCrias.ts`); las cuentas (el equilibrio, la rayuela, el escondite...) dicen `NUM`, ya
+  en rumano, y `tr` las apuntaba como sin traducir: `textos.ts` lleva los números rumanos como ya traducidos.
+- **Prueba**: la I5 de `tests/regresion/idiomas.js` recorre también estas escenas (`escena:x` abre la excursión x).
+- Versión: la v0.2.139 queda para el PR #144 (P13b, el circuito), cuyas frases nuevas se traducen después. En
+  castellano todo sigue igual.
 
 ### ID4c (v0.2.138): la casa de Tito en rumano
 

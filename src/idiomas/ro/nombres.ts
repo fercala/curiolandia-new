@@ -8,7 +8,8 @@
  * haga falta («copacul {estacion}» con de: «copacul toamnei»).
  * Desde la fase ID4b: las cosas de la tienda y la ropa de la asamblea, las estaciones, las zonas del mapa, las
  * habitaciones de la casa y los temas (sus formas salen de TEMAS_RO, de escenas.ts). Lo que aún no está sale en
- * castellano (nucleo/traducir.ts lo apunta en sinTraducir). Desde la ID4c, las frutas de la merienda de la casa.
+ * castellano (nucleo/traducir.ts lo apunta en sinTraducir). Desde la ID4c, las frutas de la merienda de la casa, y desde la
+ * ID4d, el cole, las pruebas del deporte, las excursiones y los animales de la granja con sus crías.
  * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts) y TEMAS_RO (escenas.ts).
  */
 import type { Nombre } from '../../dominio/idiomas.ts';
@@ -222,4 +223,35 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   'la pera': N('para', 'pară', 'f', 'perei', 'pere'),
   'la naranja': N('portocala', 'portocală', 'f', 'portocalei', 'portocale'),
   'la sandía': N('pepenele verde', 'pepene verde', 'm', 'pepenelui verde', 'pepeni verzi'),
+  // desde la fase ID4d: los sitios del cole (escenas/cole.ts), las pruebas del deporte (dominio/deporte.ts), las
+  // excursiones (contenido/excursiones.ts; a, tras «Mergem»: «la ferma-școală»), los animales de la granja y sus crías
+  // (escenas/granja.ts, dominio/crias.ts) y Júpiter
+  'el patio': N('curtea', 'curte', 'f', 'curții', 'curți'),
+  'las clases': N('clasele', 'clase', 'f', 'claselor', 'clase', true),
+  'el autobús de las excursiones': N('autobuzul de excursii', 'autobuz de excursii', 'n', 'autobuzului de excursii'),
+  'la carrera': N('cursa', 'cursă', 'f', 'cursei', 'curse'),
+  'el salto de longitud': N('săritura în lungime', 'săritură în lungime', 'f', 'săriturii în lungime'),
+  'la puntería': N('aruncarea la țintă', 'aruncare la țintă', 'f', 'aruncării la țintă'),
+  'el equilibrio': N('echilibrul', 'echilibru', 'n', 'echilibrului'),
+  'los relevos': N('ștafeta', 'ștafetă', 'f', 'ștafetei', 'ștafete'),
+  'la prueba': N('proba', 'probă', 'f', 'probei', 'probe'),
+  'la granja escuela': { ...N('ferma-școală', 'fermă-școală', 'f', 'de la ferma-școală'), a: 'la ferma-școală' },
+  'el zoo': {
+    ...N('grădina zoologică', 'grădină zoologică', 'f', 'de la grădina zoologică'),
+    a: 'la grădina zoologică',
+  },
+  'el bosque': { ...N('pădurea', 'pădure', 'f', 'din pădure'), a: 'în pădure' },
+  'la gallina': N('găina', 'găină', 'f', 'găinii', 'găini'),
+  'la vaca': N('vaca', 'vacă', 'f', 'vacii', 'vaci'),
+  'la oveja': N('oaia', 'oaie', 'f', 'oii', 'oi'),
+  'la cerda': N('scroafa', 'scroafă', 'f', 'scroafei', 'scroafe'),
+  'la yegua': N('iapa', 'iapă', 'f', 'iepei', 'iepe'),
+  'el cerdo': N('porcul', 'porc', 'm', 'porcului', 'porci'),
+  'el caballo': N('calul', 'cal', 'm', 'calului', 'cai'),
+  'el pollito': N('puișorul', 'puișor', 'm', 'puișorului', 'puișori'),
+  'el corderito': N('mieluțul', 'mieluț', 'm', 'mieluțului', 'mieluți'),
+  'el ternero': N('vițelul', 'vițel', 'm', 'vițelului', 'viței'),
+  'el lechón': N('purcelușul', 'purceluș', 'm', 'purcelușului', 'purceluși'),
+  'el potro': N('mânzul', 'mânz', 'm', 'mânzului', 'mânji'),
+  Júpiter: N('Jupiter', 'Jupiter', 'm', 'lui Jupiter'),
 };
