@@ -8,7 +8,7 @@
  * Es DOMINIO: no sabe nada de pantalla, de navegador ni de S; quien traduce (nucleo/traducir.ts) le pregunta.
  * Pruebas: tests/unidad/idiomas.test.ts.
  * Desde la fase ID2, también las formas de un nombre (Nombre) y cómo se sacan en castellano de su artículo (formasEs).
- * Exporta: los tipos IdIdioma, IdiomaGuardado, Idioma y Nombre, formasEs, femenino, IDIOMAS, IDIOMA_BASE, PARAMETRO_IDIOMA, esIdioma, idioma,
+ * Exporta: los tipos IdIdioma, IdiomaGuardado, Idioma y Nombre, formasEs, femenino, deRumano, IDIOMAS, IDIOMA_BASE, PARAMETRO_IDIOMA, esIdioma, idioma,
  * idiomaDelNavegador, idiomaActivo, idiomasElegibles, rellena y pseudo.
  * No importa nada.
  */
@@ -83,9 +83,13 @@ export function idiomaActivo(guardado: unknown, parametro: string | null, langs:
 // mayúscula ({Cosa}) y solo existe en minúscula (cosa), va con la primera letra en mayúscula (para el principio de una
 // frase). Un hueco que no está se deja como estaba, para que se vea el fallo. Lo usan las frases compuestas desde la
 // fase ID2 (fmt, de nucleo/traducir.ts).
-// La regla de un hueco: {nombre} con letras, números o _ ('{cosa}' vale; '{ }' y '{la cosa}' no).
+// Desde la ID4b, {nombre:de} es la partícula «de» del rumano que va entre un número y lo que cuenta: «de » si el número
+// del hueco nombre lo pide (deRumano: «douăzeci de monede») y nada si no («trei monede»). Solo la usan las plantillas
+// rumanas: 'Costă {n} {n:de}monede.'.
+// La regla de un hueco: {nombre} o {nombre:de}, con letras, números o _ ('{cosa}' vale; '{ }' y '{la cosa}' no).
 export const rellena = (plantilla: string, huecos: Readonly<Record<string, string | number>>): string =>
-  plantilla.replace(/\{(\w+)\}/gu, (todo, n: string) => {
+  plantilla.replace(/\{(\w+)(:de)?\}/gu, (todo, n: string, de?: string) => {
+    if (de) return n in huecos ? (deRumano(Number(huecos[n])) ? 'de ' : '') : todo;
     if (n in huecos) return String(huecos[n]);
     const min = n.charAt(0).toLowerCase() + n.slice(1);
     if (min !== n && min in huecos) {
@@ -94,6 +98,10 @@ export const rellena = (plantilla: string, huecos: Readonly<Record<string, strin
     }
     return todo;
   });
+
+// deRumano(n): si en rumano el número n lleva «de» delante de lo que cuenta: desde 20, cuando sus dos últimas cifras son
+// 00 o de 20 en adelante («douăzeci de mere», «o sută de mere»; pero «o sută unu mere», «cinci mere»). No numérico: no.
+export const deRumano = (n: number): boolean => Number.isInteger(n) && n >= 20 && (n % 100 === 0 || n % 100 >= 20);
 
 // Cuánto alarga el pseudoidioma cada texto: un 30 %, lo que puede crecer al traducirlo.
 const ALARGA = 0.3;

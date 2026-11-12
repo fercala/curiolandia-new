@@ -57,6 +57,9 @@ export const ADULTOS_RO: Readonly<Record<string, string>> = {
   '¡U, u, a, a!': 'U, u, a, a!',
   // nucleo/voz.ts: el saludo y las felicitaciones
   '¡Hola! Soy Tito. ¿Jugamos? Toca la plaza.': 'Bună! Eu sunt Tito. Ne jucăm? Atinge piața.',
+  '¡Muy bien!': 'Foarte bine!',
+  '¡Genial!': 'Grozav!',
+  '¡Eso es!': 'Asta e!',
   '¡Bravo!': 'Bravo!',
   '¡Excelente!': 'Excelent!',
   '¡Qué bien!': 'Ce bine!',

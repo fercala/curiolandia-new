@@ -786,10 +786,10 @@ e49e72e2c77c,la be,,trozo,src/contenido/letras.ts,falta
 e5baa22d9f17,la uve,,trozo,src/contenido/letras.ts,falta
 00b9518e9743,la eñe,,trozo,src/contenido/letras.ts,falta
 9d9ccca0dcbc,el ñu,,nombre,src/contenido/lex.ts,falta
-7d9347a6d663,el cole,,nombre,src/contenido/lex.ts src/escenas/zonas.ts,falta
+7d9347a6d663,el cole,grădinița,nombre,src/contenido/lex.ts src/escenas/zonas.ts,borrador
 0609b4925b7c,el parque,,nombre,src/contenido/lex.ts,falta
-2112e12d7425,la piscina,,nombre,src/contenido/lex.ts,falta
-a4d0bed226e5,la tienda,,nombre,src/contenido/lex.ts src/escenas/zonas.ts,falta
+2112e12d7425,la piscina,piscina,nombre,src/contenido/lex.ts,borrador
+a4d0bed226e5,la tienda,magazinul,nombre,src/contenido/lex.ts src/escenas/zonas.ts,borrador
 d87061e165de,el hospital,,nombre,src/contenido/lex.ts,falta
 6c9aaf60a01d,el calendario,,nombre,src/contenido/lex.ts,falta
 0a5bf82a6282,el semáforo,,nombre,src/contenido/lex.ts,falta
@@ -818,7 +818,7 @@ fb8570237398,el globo aerostático,,nombre,src/contenido/lex.ts,falta
 c729d913ec26,el camión,,nombre,src/contenido/lex.ts,falta
 c8804516325a,la lupa,,nombre,src/contenido/lex.ts,falta
 a5a403933a91,la campana,,nombre,src/contenido/lex.ts,falta
-94f3e14279a7,el tambor,,nombre,src/contenido/lex.ts,falta
+94f3e14279a7,el tambor,toba,nombre,src/contenido/lex.ts,borrador
 6bd135f6caca,el perfume,,nombre,src/contenido/lex.ts,falta
 7530979f7d2f,el cactus,,nombre,src/contenido/lex.ts,falta
 58c941ad26d1,el astronauta,,nombre,src/contenido/lex.ts,falta
@@ -855,20 +855,20 @@ b1244101d8cf,la jirafa,,nombre,src/contenido/lex.ts,falta
 be28b65d453e,la cebra,,nombre,src/contenido/lex.ts,falta
 79ed7b17d4ef,el cocodrilo,,nombre,src/contenido/lex.ts,falta
 bc7e665f9481,el tigre,,nombre,src/contenido/lex.ts,falta
-337861eec0a2,el conejo,,nombre,src/contenido/lex.ts src/escenas/granja.ts,falta
+337861eec0a2,el conejo,iepurașul,nombre,src/contenido/lex.ts src/escenas/granja.ts,borrador
 269fc9de731d,la hormiga,,nombre,src/contenido/lex.ts,falta
 3400abd8dec4,la araña,,nombre,src/contenido/lex.ts,falta
 71daf92e518a,el gusano,,nombre,src/contenido/lex.ts,falta
 c2f282f9ef07,la oruga,,nombre,src/contenido/lex.ts,falta
 74bd77d479bc,la semilla,,nombre,src/contenido/lex.ts,falta
 2941145b2116,el brote,,nombre,src/contenido/lex.ts,falta
-3ab1b851bb5d,la planta,,nombre,src/contenido/lex.ts,falta
-eecd7e3d24b4,la flor,,nombre,src/contenido/lex.ts src/nucleo/idioma.ts src/temas/temas4.ts,falta
+3ab1b851bb5d,la planta,planta,nombre,src/contenido/lex.ts,borrador
+eecd7e3d24b4,la flor,floarea,nombre,src/contenido/lex.ts src/nucleo/idioma.ts src/temas/temas4.ts,borrador
 ae50a1440436,el fruto,,nombre,src/contenido/lex.ts src/temas/temas4.ts,falta
 0a96d76abc35,el helado en el piso,,nombre,src/contenido/lex.ts,falta
 7eb927fa19a7,la torre rota,,nombre,src/contenido/lex.ts,falta
 dc1afb413a31,la caja sorpresa,,nombre,src/contenido/lex.ts,falta
-8e64c7c636e2,las emociones,,nombre,src/contenido/lex.ts,falta
+8e64c7c636e2,las emociones,Emoțiile,nombre,src/contenido/lex.ts,borrador
 36dc537d9687,el esqueleto,,nombre,src/contenido/lex.ts,falta
 0bc008fd519b,el hueso,,nombre,src/contenido/lex.ts,falta
 24c3c543363e,los pulmones,,nombre,src/contenido/lex.ts,falta
@@ -891,7 +891,7 @@ eb203bf5d3c3,el aceite,,nombre,src/contenido/lex.ts,falta
 39f52c618a41,la Tierra,,nombre,src/contenido/lex.ts,falta
 364fa34268b2,Marte,,nombre,src/contenido/lex.ts,falta
 f70d750afbd6,Júpiter,,nombre,src/contenido/lex.ts src/mundo3d/interaccion.ts,falta
-8c1bef4ac142,Saturno,,nombre,src/contenido/lex.ts src/mundo3d/interaccion.ts,falta
+8c1bef4ac142,Saturno,Saturn,nombre,src/contenido/lex.ts src/mundo3d/interaccion.ts,borrador
 b98fcb10d9ab,el tiranosaurio,,nombre,src/contenido/lex.ts,falta
 fe85c0f9f133,el diplodoco,,nombre,src/contenido/lex.ts,falta
 658066e63813,el triceratops,,nombre,src/contenido/lex.ts,falta
@@ -921,19 +921,19 @@ a8e3a54fa370,la grifo,,nombre,src/contenido/lex.ts,falta
 dc3cf89b497b,el trineo,,nombre,src/contenido/lex.ts,falta
 45bffde295ff,la pluma,,nombre,src/contenido/lex.ts,falta
 07eb4f805168,la piedra,,nombre,src/contenido/lex.ts,falta
-737846cbe85c,la corona,,nombre,src/contenido/lex.ts,falta
+737846cbe85c,la corona,coroana,nombre,src/contenido/lex.ts,borrador
 1c05838959bf,el antifaz,,nombre,src/contenido/lex.ts,falta
-4f95704acea4,la tarta de cumpleaños,,nombre,src/contenido/lex.ts,falta
+4f95704acea4,la tarta de cumpleaños,tortul aniversar,nombre,src/contenido/lex.ts,borrador
 22bf8164a9da,el árbol de Navidad,,nombre,src/contenido/lex.ts,falta
 a2d86bf7df84,la rosa,,nombre,src/contenido/lex.ts,falta
 ff117b994238,los fuegos artificiales,,nombre,src/contenido/lex.ts,falta
 823714a883ec,el libro,,nombre,src/contenido/lex.ts,falta
 24931fa0c675,la bola de Navidad,,nombre,src/contenido/lex.ts,falta
 b5dd32882ae6,el reno,,nombre,src/contenido/lex.ts,falta
-b6a25e4b6386,el gorro de Navidad,,nombre,src/contenido/lex.ts,falta
+b6a25e4b6386,el gorro de Navidad,căciula de Crăciun,nombre,src/contenido/lex.ts,borrador
 9629835a36a8,la vela,,nombre,src/contenido/lex.ts,falta
 9f83482a68ab,la serpentina,,nombre,src/contenido/lex.ts,falta
-ab611ff6a28c,el sombrero de pirata,,nombre,src/contenido/lex.ts,falta
+ab611ff6a28c,el sombrero de pirata,pălăria de pirat,nombre,src/contenido/lex.ts,borrador
 3cf3a189b73f,la capa,,nombre,src/contenido/lex.ts,falta
 15bc4f1b9851,la nariz de payaso,,nombre,src/contenido/lex.ts,falta
 2e74f2ebf852,la varita mágica,,nombre,src/contenido/lex.ts,falta
@@ -941,42 +941,42 @@ ab611ff6a28c,el sombrero de pirata,,nombre,src/contenido/lex.ts,falta
 838702af2d1d,la casa de paja,,nombre,src/contenido/lex.ts,falta
 09997c48f4f4,la casa de madera,,nombre,src/contenido/lex.ts,falta
 43d7bac79790,la casa de ladrillos,,nombre,src/contenido/lex.ts,falta
-d242347853e9,el jabón,,nombre,src/contenido/lex.ts src/temas/extras.ts,falta
+d242347853e9,el jabón,săpunul,nombre,src/contenido/lex.ts src/temas/extras.ts,borrador
 a8ebf54b35af,la pasta de dientes,,nombre,src/contenido/lex.ts src/temas/extras.ts,falta
 b9a82a1375f5,el vaso,,nombre,src/contenido/lex.ts,falta
-e2f5e5583cde,el baúl de los juguetes,,nombre,src/contenido/lex.ts,falta
-947a86205910,los bloques,,nombre,src/contenido/lex.ts src/temas/extras.ts,falta
+e2f5e5583cde,el baúl de los juguetes,lada cu jucării,nombre,src/contenido/lex.ts,borrador
+947a86205910,los bloques,cuburile,nombre,src/contenido/lex.ts src/temas/extras.ts,borrador
 bf4ac384bab5,el pijama,,nombre,src/contenido/lex.ts,falta
-5ecc7529531a,la alfombra,,nombre,src/contenido/lex.ts,falta
-eddb6325c575,la lámpara,,nombre,src/contenido/lex.ts,falta
-fcfa7bb1e232,el cuadro,,nombre,src/contenido/lex.ts,falta
+5ecc7529531a,la alfombra,covorul,nombre,src/contenido/lex.ts,borrador
+eddb6325c575,la lámpara,lampa,nombre,src/contenido/lex.ts,borrador
+fcfa7bb1e232,el cuadro,tabloul,nombre,src/contenido/lex.ts,borrador
 b02fc49ddc18,la biblioteca,,nombre,src/contenido/lex.ts,falta
-18de99b789b7,la cometa,,nombre,src/contenido/lex.ts,falta
-e9aa4c14c4ca,el peluche,,nombre,src/contenido/lex.ts,falta
-59e153adeb08,el columpio,,nombre,src/contenido/lex.ts,falta
-d3e992f9011b,la fuente,,nombre,src/contenido/lex.ts,falta
-c890c4877b43,la pecera,,nombre,src/contenido/lex.ts,falta
-eb9cffd2c254,la guitarra,,nombre,src/contenido/lex.ts,falta
-7c400ca914fe,el xilófono,,nombre,src/contenido/lex.ts,falta
-69a9257193f1,el robot,,nombre,src/contenido/lex.ts,falta
-adc2b818ca34,la muñeca,,nombre,src/contenido/lex.ts,falta
-896f35f84778,la pelota de playa,,nombre,src/contenido/lex.ts,falta
-c27f46ae7dc3,el telescopio,,nombre,src/contenido/lex.ts,falta
+18de99b789b7,la cometa,zmeul,nombre,src/contenido/lex.ts,borrador
+e9aa4c14c4ca,el peluche,ursulețul de pluș,nombre,src/contenido/lex.ts,borrador
+59e153adeb08,el columpio,leagănul,nombre,src/contenido/lex.ts,borrador
+d3e992f9011b,la fuente,fântâna,nombre,src/contenido/lex.ts,borrador
+c890c4877b43,la pecera,acvariul,nombre,src/contenido/lex.ts,borrador
+eb9cffd2c254,la guitarra,chitara,nombre,src/contenido/lex.ts,borrador
+7c400ca914fe,el xilófono,xilofonul,nombre,src/contenido/lex.ts,borrador
+69a9257193f1,el robot,robotul,nombre,src/contenido/lex.ts,borrador
+adc2b818ca34,la muñeca,păpușa,nombre,src/contenido/lex.ts,borrador
+896f35f84778,la pelota de playa,mingea de plajă,nombre,src/contenido/lex.ts,borrador
+c27f46ae7dc3,el telescopio,telescopul,nombre,src/contenido/lex.ts,borrador
 d00d65df1e94,el tren de juguete,,nombre,src/contenido/lex.ts,falta
-d27d46ebb89f,el reloj,,nombre,src/contenido/lex.ts,falta
-eed5d65ca376,el hámster,,nombre,src/contenido/lex.ts src/escenas/casaMascotas.ts,falta
-4a4543bfbe07,la casita del perro,,nombre,src/contenido/lex.ts,falta
-57aa54a7b1c4,el banco,,nombre,src/contenido/lex.ts,falta
-cdbbfec23326,el farol,,nombre,src/contenido/lex.ts,falta
-d3551f7d9068,el piano,,nombre,src/contenido/lex.ts,falta
+d27d46ebb89f,el reloj,ceasul,nombre,src/contenido/lex.ts,borrador
+eed5d65ca376,el hámster,hamsterul,nombre,src/contenido/lex.ts src/escenas/casaMascotas.ts,borrador
+4a4543bfbe07,la casita del perro,cușca cățelului,nombre,src/contenido/lex.ts,borrador
+57aa54a7b1c4,el banco,banca,nombre,src/contenido/lex.ts,borrador
+cdbbfec23326,el farol,felinarul,nombre,src/contenido/lex.ts,borrador
+d3551f7d9068,el piano,pianul,nombre,src/contenido/lex.ts,borrador
 036265d42b36,la moneda,,nombre,src/contenido/lex.ts,falta
 7031d290b4fe,las monedas,,nombre,src/contenido/lex.ts,falta
 7e59aeea63f1,el vale,,nombre,src/contenido/lex.ts,falta
 75eb0d60f049,el candado,,nombre,src/contenido/lex.ts,falta
 ff6db8bd2c3f,el cofre del tesoro,,nombre,src/contenido/lex.ts,falta
-805833265c56,el sombrero de copa,,nombre,src/contenido/lex.ts,falta
-5e121b0f6364,el lazo,,nombre,src/contenido/lex.ts,falta
-b694d8486a52,el gorrito de fiesta,,nombre,src/contenido/lex.ts,falta
+805833265c56,el sombrero de copa,jobenul,nombre,src/contenido/lex.ts,borrador
+5e121b0f6364,el lazo,fundița,nombre,src/contenido/lex.ts,borrador
+b694d8486a52,el gorrito de fiesta,coifulețul de petrecere,nombre,src/contenido/lex.ts,borrador
 532f17637cb5,la alegría,,nombre,src/contenido/lex.ts,falta
 f9ca886869fa,la tristeza,,nombre,src/contenido/lex.ts,falta
 90069499abe6,el enojo,,nombre,src/contenido/lex.ts,falta
@@ -990,7 +990,7 @@ c951f28564c9,la señal de stop,,nombre,src/contenido/lex.ts,falta
 01a8607a1724,el brik de leche,,nombre,src/contenido/lex.ts,falta
 7a7d2bba405d,la piel del plátano,,nombre,src/contenido/lex.ts,falta
 30b6a3a5f0f0,el grifo,,nombre,src/contenido/lex.ts,falta
-2e4523e533f8,la estantería,,nombre,src/contenido/lex.ts,falta
+2e4523e533f8,la estantería,raftul,nombre,src/contenido/lex.ts,borrador
 fa5b309d7bf0,el enfado,,nombre,src/contenido/lex.ts,falta
 06596ae00580,la comida,,nombre,src/contenido/lex.ts,falta
 9ae6022864ba,"¡Niinoo, niinoo!",,frase,src/contenido/lex.ts,falta
@@ -1312,19 +1312,19 @@ bea586d1a053,Tito baila,,trozo,src/escenas/casaTele.ts,falta
 663c8b8f7035,Pipo salta,,trozo,src/escenas/casaTele.ts,falta
 96cdbc3a5457,¡Mi tele! Con el mando de la derecha cambias de canal.,,frase,src/escenas/casaTele.ts,falta
 f60c90a30a0e,Toca los botones del mando para cambiar de canal.,,frase,src/escenas/casaTele.ts,falta
-6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,,frase,src/escenas/cofre.ts,falta
-5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,,frase,src/escenas/cofre.ts,falta
-ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,,frase,src/escenas/cofre.ts,falta
-f26df03b6930,"Toca la casa para ver tu regalo, o la flecha verde para seguir el camino.",,frase,src/escenas/cofre.ts,falta
-097c43172be9,La casa de Tito.,,frase,src/escenas/cofre.ts,falta
-763e0324aa03,Seguir el camino.,,frase,src/escenas/cofre.ts src/escenas/zonas.ts,falta
-b452820c55c6,¡Mira lo que había{nino}: {cosa}! ¡Tito ya se lo puso! ¡Y diez monedas!,,frase,src/escenas/cofre.ts,falta
-61a251cf6a4b,¡Mira lo que había{nino}: {cosa}! Ya está en la casa de Tito. ¡Y diez monedas!,,frase,src/escenas/cofre.ts,falta
-f9f93649a99e,¡Mira cuántas monedas{nino}! ¡Veinte monedas!,,frase,src/escenas/cofre.ts,falta
-721ba9ddae59,"Toca la casa para verlo, o la flecha verde para seguir el camino.",,frase,src/escenas/cofre.ts,falta
-82b808c124a3,Toca la flecha verde para seguir el camino.,,frase,src/escenas/cofre.ts src/escenas/repaso.ts,falta
+6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,Ai terminat toate jocurile {tema}{nino}! Ai câștigat un cufăr cu comori! Atinge-l de trei ori ca să-l deschizi.,frase,src/escenas/cofre.ts,borrador
+5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,Atinge cufărul ca să-l deschizi. Mai trebuie o atingere!,frase,src/escenas/cofre.ts,borrador
+ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,Atinge cufărul ca să-l deschizi. Mai trebuie {n} atingeri!,frase,src/escenas/cofre.ts,borrador
+f26df03b6930,"Toca la casa para ver tu regalo, o la flecha verde para seguir el camino.",Atinge casa ca să-ți vezi cadoul sau săgeata verde ca să mergi mai departe pe drum.,frase,src/escenas/cofre.ts,borrador
+097c43172be9,La casa de Tito.,Casa lui Tito.,frase,src/escenas/cofre.ts,borrador
+763e0324aa03,Seguir el camino.,Mergi mai departe pe drum.,frase,src/escenas/cofre.ts src/escenas/zonas.ts,borrador
+b452820c55c6,¡Mira lo que había{nino}: {cosa}! ¡Tito ya se lo puso! ¡Y diez monedas!,Uite ce era înăuntru{nino}: {cosa}! Tito și l-a pus deja! Și zece monede!,frase,src/escenas/cofre.ts,borrador
+61a251cf6a4b,¡Mira lo que había{nino}: {cosa}! Ya está en la casa de Tito. ¡Y diez monedas!,Uite ce era înăuntru{nino}: {cosa}! E deja în casa lui Tito. Și zece monede!,frase,src/escenas/cofre.ts,borrador
+f9f93649a99e,¡Mira cuántas monedas{nino}! ¡Veinte monedas!,Uite câte monede{nino}! Douăzeci de monede!,frase,src/escenas/cofre.ts,borrador
+721ba9ddae59,"Toca la casa para verlo, o la flecha verde para seguir el camino.",Atinge casa ca să-l vezi sau săgeata verde ca să mergi mai departe pe drum.,frase,src/escenas/cofre.ts,borrador
+82b808c124a3,Toca la flecha verde para seguir el camino.,Atinge săgeata verde ca să mergi mai departe pe drum.,frase,src/escenas/cofre.ts src/escenas/repaso.ts,borrador
 24166ed0d5a7,¡Otra vez!,,frase,src/escenas/cofre.ts src/escenas/columpios.ts,falta
-86cc9c3caa41,¡Una vez más!,,frase,src/escenas/cofre.ts,falta
+86cc9c3caa41,¡Una vez más!,Încă o dată!,frase,src/escenas/cofre.ts,borrador
 a97c66fedfb2,el patio,,trozo,src/escenas/cole.ts,falta
 b44e34d68b1b,El patio,,trozo,src/escenas/cole.ts src/escenas/patio.ts,falta
 a32c8a6e5f50,las clases,,trozo,src/escenas/cole.ts,falta
@@ -1402,161 +1402,161 @@ e341563ba2dd,¡Con el otro pie!,,frase,src/escenas/deportePruebas.ts,falta
 7e65ff75a791,"¡Los relevos! Cada uno corre un trozo y le pasa el testigo al siguiente. Cuando el siguiente brille, tócalo para pasarle el testigo.",,frase,src/escenas/deportePruebas.ts,falta
 a0185476a01c,"Cuando el siguiente brille, tócalo para pasarle el testigo.",,frase,src/escenas/deportePruebas.ts,falta
 9325ba5e4639,Los relevos,,trozo,src/escenas/deportePruebas.ts,falta
-9192ecff8e35,Este es tu diccionario de inglés. Ya conoces 1 palabra.,,frase,src/escenas/diccionario.ts,falta
-dfdd92d63bd7,Este es tu diccionario de inglés. Ya conoces {n} palabras.,,frase,src/escenas/diccionario.ts,falta
-5500a4d3fb9c,Tu diccionario de inglés está vacío. ¡Polly te espera en la Isla del Inglés!,,frase,src/escenas/diccionario.ts,falta
-534bd1d9551c,Mi diccionario de inglés,,trozo,src/escenas/diccionario.ts,falta
-cbde4daf3b50,Juega en la Isla del Inglés y aquí saldrán tus palabras,,trozo,src/escenas/diccionario.ts,falta
-627fbed4ab8e,quiere decir {palabra}.,,trozo,src/escenas/diccionario.ts,falta
-636e2ada0b6b,el otoño,,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
-8a48a07dbd43,el invierno,,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
-531b4cb67a30,la primavera,,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
-8efcc680dab6,el verano,,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
-5e99b98e216f,Curiolandia,,trozo,src/escenas/escenas2d.ts,falta
+9192ecff8e35,Este es tu diccionario de inglés. Ya conoces 1 palabra.,Acesta e dicționarul tău de engleză. Știi deja un cuvânt.,frase,src/escenas/diccionario.ts,borrador
+dfdd92d63bd7,Este es tu diccionario de inglés. Ya conoces {n} palabras.,Acesta e dicționarul tău de engleză. Știi deja {n} {n:de}cuvinte.,frase,src/escenas/diccionario.ts,borrador
+5500a4d3fb9c,Tu diccionario de inglés está vacío. ¡Polly te espera en la Isla del Inglés!,Dicționarul tău de engleză e gol. Polly te așteaptă pe Insula Englezei!,frase,src/escenas/diccionario.ts,borrador
+534bd1d9551c,Mi diccionario de inglés,Dicționarul meu de engleză,trozo,src/escenas/diccionario.ts,borrador
+cbde4daf3b50,Juega en la Isla del Inglés y aquí saldrán tus palabras,Joacă-te pe Insula Englezei și aici vor apărea cuvintele tale,trozo,src/escenas/diccionario.ts,borrador
+627fbed4ab8e,quiere decir {palabra}.,înseamnă {palabra}.,trozo,src/escenas/diccionario.ts,borrador
+636e2ada0b6b,el otoño,toamna,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,borrador
+8a48a07dbd43,el invierno,iarna,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,borrador
+531b4cb67a30,la primavera,primăvara,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,borrador
+8efcc680dab6,el verano,vara,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,borrador
+5e99b98e216f,Curiolandia,Curiolandia,trozo,src/escenas/escenas2d.ts,borrador
 0f0c9b9c836e,(display-mode: standalone),,trozo,src/escenas/escenas2d.ts,falta
 4cb72ca44f61,(display-mode: fullscreen),,trozo,src/escenas/escenas2d.ts,falta
-c046f6c492c5,Tito y las preguntas escondidas,,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,falta
+c046f6c492c5,Tito y las preguntas escondidas,Tito și întrebările ascunse,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
 e577921a91f3,Juega: {nombre},Se joacă: {nombre},trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
 75b319068fef,¿Quién juega?,Cine se joacă?,frase,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
 0abfc7737a54,Empezar de nuevo,Începe din nou,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
-4b5f67b9d141,Instalar el juego,,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,falta
-4f9ad52621f0,"¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.",,frase,src/escenas/escenas2d.ts,falta
-b98615f7a5dd,¿Cuántos años tiene quien va a jugar?,,frase,src/escenas/escenas2d.ts,falta
-217cdc5a1c62,(Lo elige un adulto. Se puede cambiar después.),,trozo,src/escenas/escenas2d.ts,falta
-a587736f77f4,años,,trozo,src/escenas/escenas2d.ts,falta
-a49638107f59,¡Hola! Yo soy Tito. ¿Cómo te llamas? Pídele a un mayor que escriba tu nombre.,,frase,src/escenas/escenas2d.ts,falta
-d88671ed28a4,Pídele a un mayor que escriba tu nombre.,,frase,src/escenas/escenas2d.ts,falta
-df0af9cb97f2,"¡Hola, {nombre}! ¡Qué bonito nombre!",,frase,src/escenas/escenas2d.ts,falta
-b5a266a1e5af,¿Cómo te llamas?,,frase,src/escenas/escenas2d.ts,falta
-ea877d21ec52,Escribir el nombre,,trozo,src/escenas/escenas2d.ts,falta
-a6e392419eb7,Saltar,,trozo,src/escenas/escenas2d.ts,falta
-9afb951a4f35,"¡Hola! Yo soy Tito, el erizo curioso. En mi mochila guardo un montón de preguntas.",,frase,src/escenas/escenas2d.ts,falta
-ad9841903519,"¡Hola! Yo soy Tito, la tortuga curiosa. En mi mochila guardo un montón de preguntas.",,frase,src/escenas/escenas2d.ts,falta
-3a860ed6933b,"¡Hola! Yo soy Tito, el conejo curioso. En mi mochila guardo un montón de preguntas.",,frase,src/escenas/escenas2d.ts,falta
-f09571148d3b,"¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.",,frase,src/escenas/escenas2d.ts,falta
-f8afbe0af743,Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!,,frase,src/escenas/escenas2d.ts,falta
-d19b87a375f0,¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?,,frase,src/escenas/escenas2d.ts,falta
-f80e1dee1143,¿Me ayudas a encontrar las respuestas{nino}? ¡Vamos a Curiolandia!,,frase,src/escenas/escenas2d.ts,falta
-16d3bcd7a531,Conocer,,trozo,src/escenas/escenas2d.ts,falta
+4b5f67b9d141,Instalar el juego,Instalează jocul,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
+4f9ad52621f0,"¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.","Bună! Ca să începem, un adult trebuie să atingă vârsta celui care se va juca.",frase,src/escenas/escenas2d.ts,borrador
+b98615f7a5dd,¿Cuántos años tiene quien va a jugar?,Câți ani are cel care se va juca?,frase,src/escenas/escenas2d.ts,borrador
+217cdc5a1c62,(Lo elige un adulto. Se puede cambiar después.),(Alege un adult. Se poate schimba după aceea.),trozo,src/escenas/escenas2d.ts,borrador
+a587736f77f4,años,ani,trozo,src/escenas/escenas2d.ts,borrador
+a49638107f59,¡Hola! Yo soy Tito. ¿Cómo te llamas? Pídele a un mayor que escriba tu nombre.,Bună! Eu sunt Tito. Cum te cheamă? Roagă un adult să-ți scrie numele.,frase,src/escenas/escenas2d.ts,borrador
+d88671ed28a4,Pídele a un mayor que escriba tu nombre.,Roagă un adult să-ți scrie numele.,frase,src/escenas/escenas2d.ts,borrador
+df0af9cb97f2,"¡Hola, {nombre}! ¡Qué bonito nombre!","Bună, {nombre}! Ce nume frumos!",frase,src/escenas/escenas2d.ts,borrador
+b5a266a1e5af,¿Cómo te llamas?,Cum te cheamă?,frase,src/escenas/escenas2d.ts,borrador
+ea877d21ec52,Escribir el nombre,Scrie numele,trozo,src/escenas/escenas2d.ts,borrador
+a6e392419eb7,Saltar,Sari peste,trozo,src/escenas/escenas2d.ts,borrador
+9afb951a4f35,"¡Hola! Yo soy Tito, el erizo curioso. En mi mochila guardo un montón de preguntas.","Bună! Eu sunt Tito, ariciul curios. În rucsacul meu țin o mulțime de întrebări.",frase,src/escenas/escenas2d.ts,borrador
+ad9841903519,"¡Hola! Yo soy Tito, la tortuga curiosa. En mi mochila guardo un montón de preguntas.","Bună! Eu sunt Tito, broasca țestoasă curioasă. În rucsacul meu țin o mulțime de întrebări.",frase,src/escenas/escenas2d.ts,borrador
+3a860ed6933b,"¡Hola! Yo soy Tito, el conejo curioso. En mi mochila guardo un montón de preguntas.","Bună! Eu sunt Tito, iepurașul curios. În rucsacul meu țin o mulțime de întrebări.",frase,src/escenas/escenas2d.ts,borrador
+f09571148d3b,"¡Hola! Yo soy Tito, el caracol curioso. En mi mochila guardo un montón de preguntas.","Bună! Eu sunt Tito, melcul curios. În rucsacul meu țin o mulțime de întrebări.",frase,src/escenas/escenas2d.ts,borrador
+f8afbe0af743,Pero hoy la mochila se abrió... ¡y las preguntas se escaparon por todo el pueblo!,Dar azi rucsacul s-a deschis... și întrebările au fugit prin tot orășelul!,frase,src/escenas/escenas2d.ts,borrador
+d19b87a375f0,¿Qué día es hoy? ¿De qué color es el cielo? ¿Qué come la vaca?,Ce zi e azi? Ce culoare are cerul? Ce mănâncă vaca?,frase,src/escenas/escenas2d.ts,borrador
+f80e1dee1143,¿Me ayudas a encontrar las respuestas{nino}? ¡Vamos a Curiolandia!,Mă ajuți să găsesc răspunsurile{nino}? Hai în Curiolandia!,frase,src/escenas/escenas2d.ts,borrador
+16d3bcd7a531,Conocer,Cunoaște,trozo,src/escenas/escenas2d.ts,borrador
 85fe37a75fbc,¿Dónde está?,,frase,src/escenas/escenas2d.ts src/temas/ingles.ts src/temas/letras.ts,falta
 46f8e2e6bd7c,Memoria,,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/progreso.ts,falta
-1c5c8a35ac55,¿Quién hace este sonido?,,frase,src/escenas/escenas2d.ts,falta
-8bf33debdf25,Mi cuerpo,,trozo,src/escenas/escenas2d.ts src/temas/temas.ts,falta
+1c5c8a35ac55,¿Quién hace este sonido?,Cine face sunetul acesta?,frase,src/escenas/escenas2d.ts,borrador
+8bf33debdf25,Mi cuerpo,Corpul meu,trozo,src/escenas/escenas2d.ts src/temas/temas.ts,borrador
 1ba62a272479,Toca la parte del cuerpo,,trozo,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
 c889527104a2,Rompecabezas,,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/progreso.ts,falta
-587d88285a5c,Pintar,,trozo,src/escenas/escenas2d.ts,falta
-45ab42b1cc05,Las canastas,,trozo,src/escenas/escenas2d.ts,falta
-ee7e579795d2,Burbujas de colores,,trozo,src/escenas/escenas2d.ts,falta
-98a991b31c82,¡Atrápalas!,,frase,src/escenas/escenas2d.ts,falta
-9744e6ef9c54,Vestir al niño,,trozo,src/escenas/escenas2d.ts,falta
-c8e6ef92a485,Ordenar,,trozo,src/escenas/escenas2d.ts,falta
-07ae34616c9d,Arma tu familia,,trozo,src/escenas/escenas2d.ts,falta
-74db193d28bb,Hacer un muñeco de nieve,,trozo,src/escenas/escenas2d.ts,falta
-c21519a8a15e,Ensalada de frutas,,trozo,src/escenas/escenas2d.ts,falta
+587d88285a5c,Pintar,Colorează,trozo,src/escenas/escenas2d.ts,borrador
+45ab42b1cc05,Las canastas,Coșurile,trozo,src/escenas/escenas2d.ts,borrador
+ee7e579795d2,Burbujas de colores,Baloane de săpun colorate,trozo,src/escenas/escenas2d.ts,borrador
+98a991b31c82,¡Atrápalas!,Prinde-le!,frase,src/escenas/escenas2d.ts,borrador
+9744e6ef9c54,Vestir al niño,Îmbracă copilul,trozo,src/escenas/escenas2d.ts,borrador
+c8e6ef92a485,Ordenar,Ordonează,trozo,src/escenas/escenas2d.ts,borrador
+07ae34616c9d,Arma tu familia,Fă-ți familia,trozo,src/escenas/escenas2d.ts,borrador
+74db193d28bb,Hacer un muñeco de nieve,Facem un om de zăpadă,trozo,src/escenas/escenas2d.ts,borrador
+c21519a8a15e,Ensalada de frutas,Salată de fructe,trozo,src/escenas/escenas2d.ts,borrador
 8736fa4e92cb,Contar,,trozo,src/escenas/escenas2d.ts src/temas/temas.ts src/aplicacion/adultos/progreso.ts,falta
-c622d4ea3db9,Dentro y fuera del corral,,trozo,src/escenas/escenas2d.ts,falta
-5ac13ac4f562,Dentro y fuera,,trozo,src/escenas/escenas2d.ts,falta
-c3ed4f33f679,Regar las flores,,trozo,src/escenas/escenas2d.ts,falta
+c622d4ea3db9,Dentro y fuera del corral,Înăuntrul și în afara țarcului,trozo,src/escenas/escenas2d.ts,borrador
+5ac13ac4f562,Dentro y fuera,Înăuntru și afară,trozo,src/escenas/escenas2d.ts,borrador
+c3ed4f33f679,Regar las flores,Udăm florile,trozo,src/escenas/escenas2d.ts,borrador
 7acaa2a7a446,Cavar en la arena,,trozo,src/escenas/escenas2d.ts src/aplicacion/adultos/progreso.ts,falta
 d7d4ff5146b4,El cuento,,trozo,src/escenas/escenas2d.ts src/temas/extras.ts,falta
-87c8b1828e86,La canción,,trozo,src/escenas/escenas2d.ts,falta
-13250f5299c7,Trazos,,trozo,src/escenas/escenas2d.ts,falta
-b5dff235910b,¿Qué va primero?,,frase,src/escenas/escenas2d.ts,falta
+87c8b1828e86,La canción,Cântecul,trozo,src/escenas/escenas2d.ts,borrador
+13250f5299c7,Trazos,Linii,trozo,src/escenas/escenas2d.ts,borrador
+b5dff235910b,¿Qué va primero?,Ce vine mai întâi?,frase,src/escenas/escenas2d.ts,borrador
 bb6ae0f28008,¿Qué viene después?,,frase,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
 a3ff8d3f4e2d,Soplar las velitas,,trozo,src/escenas/escenas2d.ts src/temas/extras.ts,falta
-39c5c28de386,Decorar,,trozo,src/escenas/escenas2d.ts,falta
-0aa4c3795f07,¡Lo lograste! ¡Ganaste una estrella!,,frase,src/escenas/escenas2d.ts,falta
-4874851a686a,¡Muy bien{nino}! ¡Una estrella más!,,frase,src/escenas/escenas2d.ts,falta
-5728062439b3,¡Bravo! ¡Terminaste el juego!,,frase,src/escenas/escenas2d.ts,falta
-54bfc6381735,Nivel {n},,trozo,src/escenas/escenas2d.ts,falta
-12e81fe4e9f7,¡Qué bueno! Hoy sientes alegría. ¡Yo también estoy feliz de verte!,,frase,src/escenas/escenas2d.ts,falta
-f7b012a9ec7f,Hoy sientes tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.,,frase,src/escenas/escenas2d.ts,falta
-2b5b424aa204,"Hoy sientes enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.",,frase,src/escenas/escenas2d.ts,falta
-f552282baa41,"Hoy sientes miedo. Si tienes miedo, busca a un mayor que te cuide.",,frase,src/escenas/escenas2d.ts,falta
-3500c32c2756,¡Hoy sientes sorpresa! ¡Qué emocionante!,,frase,src/escenas/escenas2d.ts,falta
-37ee12ada775,Hoy sientes calma. ¡Qué bonito sentirse así!,,frase,src/escenas/escenas2d.ts,falta
-f49a9379c7b6,Hoy sientes vergüenza. Nos pasa a todos. Respira hondo y sonríe.,,frase,src/escenas/escenas2d.ts,falta
-1e170ac2fed9, Puedes contarle a alguien lo que te pasa.,,frase,src/escenas/escenas2d.ts,falta
-7f4b5aec399c, Y después cuenta lo que te enojó con palabras.,,frase,src/escenas/escenas2d.ts,falta
-5d8fa96659b9, Hablar de lo que da miedo lo hace más pequeñito.,,frase,src/escenas/escenas2d.ts,falta
-b0841a6d43f5,¡Hoy hace sol!,,frase,src/escenas/escenas2d.ts,falta
-002872881be2,¡Hoy está nublado!,,frase,src/escenas/escenas2d.ts,falta
-f83e691f9416,¡Hoy llueve!,,frase,src/escenas/escenas2d.ts,falta
-c9335f25333d,¡Hoy hay viento!,,frase,src/escenas/escenas2d.ts,falta
-396ab1beb7ce,¡Hoy nieva!,,frase,src/escenas/escenas2d.ts,falta
-75fd2d0c41c7,¡Hoy hay tormenta!,,frase,src/escenas/escenas2d.ts,falta
-92063f3a3c83,¡Hoy hay niebla!,,frase,src/escenas/escenas2d.ts,falta
-8bf0051f7dec,¡Buen día{nino}! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!,,frase,src/escenas/escenas2d.ts,falta
-d7f0d189979e,¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños{nino}! Sopla las velitas: toca cada una.,,frase,src/escenas/escenas2d.ts,falta
-9dd3c2353624,¿Ahora es de día o de noche?,,frase,src/escenas/escenas2d.ts,falta
-f814a57b27df,Cantemos los días de la semana.,,frase,src/escenas/escenas2d.ts,falta
-bf7b02dd4e83,"Hoy es {dia}. ¡Toca el vagón de hoy, el que salta!",,frase,src/escenas/escenas2d.ts,falta
-4211b82774e1,Ayer fue {dia}. ¿Qué día es hoy? Toca el vagón.,,frase,src/escenas/escenas2d.ts,falta
-a5666a5639df,Hoy es {dia}. ¿Y mañana qué día será? Toca el vagón de mañana.,,frase,src/escenas/escenas2d.ts,falta
-5c6fdd68f1b4,Estamos en {mes}. Hoy es {n}. Toca el número {n} en el calendario.,,frase,src/escenas/escenas2d.ts,falta
-15e00a1599c8,¿Qué tiempo hace hoy? Mira por la ventana de tu casa y toca el dibujo.,,frase,src/escenas/escenas2d.ts,falta
-003468209b2c,"Con este tiempo, ¿qué nos ponemos para salir?",,frase,src/escenas/escenas2d.ts,falta
-e2be685aa252,¿En qué estación estamos? Toca el árbol.,,frase,src/escenas/escenas2d.ts,falta
-fec4ad117c94,Ahora es {estacion}. ¿Qué estación viene después?,,frase,src/escenas/escenas2d.ts,falta
-5c49d00746a6,¿Cómo te sientes hoy? Toca la carita.,,frase,src/escenas/escenas2d.ts,falta
-35660b9f1ec8,¡Terminamos la asamblea{nino}! ¡Ahora a jugar!,,frase,src/escenas/escenas2d.ts,falta
-d72502f35785,"¡Tres asambleas esta semana! ¡Ganaste una pegatina! Ahora, ¡a jugar!",,frase,src/escenas/escenas2d.ts,falta
+39c5c28de386,Decorar,Decorează,trozo,src/escenas/escenas2d.ts,borrador
+0aa4c3795f07,¡Lo lograste! ¡Ganaste una estrella!,Ai reușit! Ai câștigat o stea!,frase,src/escenas/escenas2d.ts,borrador
+4874851a686a,¡Muy bien{nino}! ¡Una estrella más!,Foarte bine{nino}! Încă o stea!,frase,src/escenas/escenas2d.ts,borrador
+5728062439b3,¡Bravo! ¡Terminaste el juego!,Bravo! Ai terminat jocul!,frase,src/escenas/escenas2d.ts,borrador
+54bfc6381735,Nivel {n},Nivelul {n},trozo,src/escenas/escenas2d.ts,borrador
+12e81fe4e9f7,¡Qué bueno! Hoy sientes alegría. ¡Yo también estoy feliz de verte!,Ce bine! Azi simți bucurie. Și eu sunt fericit să te văd!,frase,src/escenas/escenas2d.ts,borrador
+f7b012a9ec7f,Hoy sientes tristeza. Está bien estar triste a veces. Un abrazo ayuda mucho.,Azi simți tristețe. E în regulă să fii trist uneori. O îmbrățișare ajută mult.,frase,src/escenas/escenas2d.ts,borrador
+2b5b424aa204,"Hoy sientes enojo. Cuando me enojo, respiro como un globo: inflo, inflo... y suelto despacito.","Azi simți furie. Când mă supăr, respir ca un balon: umflu, umflu... și dau drumul încet.",frase,src/escenas/escenas2d.ts,borrador
+f552282baa41,"Hoy sientes miedo. Si tienes miedo, busca a un mayor que te cuide.","Azi simți frică. Dacă ți-e frică, caută un adult care să aibă grijă de tine.",frase,src/escenas/escenas2d.ts,borrador
+3500c32c2756,¡Hoy sientes sorpresa! ¡Qué emocionante!,Azi simți surpriză! Ce emoționant!,frase,src/escenas/escenas2d.ts,borrador
+37ee12ada775,Hoy sientes calma. ¡Qué bonito sentirse así!,Azi simți liniște. Ce frumos e să te simți așa!,frase,src/escenas/escenas2d.ts,borrador
+f49a9379c7b6,Hoy sientes vergüenza. Nos pasa a todos. Respira hondo y sonríe.,Azi simți rușine. Ni se întâmplă tuturor. Respiră adânc și zâmbește.,frase,src/escenas/escenas2d.ts,borrador
+1e170ac2fed9, Puedes contarle a alguien lo que te pasa.,Poți să-i spui cuiva ce simți.,frase,src/escenas/escenas2d.ts,borrador
+7f4b5aec399c, Y después cuenta lo que te enojó con palabras.,Și apoi spune în cuvinte ce te-a supărat.,frase,src/escenas/escenas2d.ts,borrador
+5d8fa96659b9, Hablar de lo que da miedo lo hace más pequeñito.,"Când vorbești despre ce te sperie, frica se face mai mică.",frase,src/escenas/escenas2d.ts,borrador
+b0841a6d43f5,¡Hoy hace sol!,Azi e soare!,frase,src/escenas/escenas2d.ts,borrador
+002872881be2,¡Hoy está nublado!,Azi e înnorat!,frase,src/escenas/escenas2d.ts,borrador
+f83e691f9416,¡Hoy llueve!,Azi plouă!,frase,src/escenas/escenas2d.ts,borrador
+c9335f25333d,¡Hoy hay viento!,Azi bate vântul!,frase,src/escenas/escenas2d.ts,borrador
+396ab1beb7ce,¡Hoy nieva!,Azi ninge!,frase,src/escenas/escenas2d.ts,borrador
+75fd2d0c41c7,¡Hoy hay tormenta!,Azi e furtună!,frase,src/escenas/escenas2d.ts,borrador
+92063f3a3c83,¡Hoy hay niebla!,Azi e ceață!,frase,src/escenas/escenas2d.ts,borrador
+8bf0051f7dec,¡Buen día{nino}! Empieza la asamblea. ¿Estás aquí? ¡Toca tu foto!,Bună dimineața{nino}! Începe întâlnirea de dimineață. Ești aici? Atinge-ți poza!,frase,src/escenas/escenas2d.ts,borrador
+d7f0d189979e,¡Hoy es un día muy especial... ¡es tu cumpleaños! ¡Feliz cumpleaños{nino}! Sopla las velitas: toca cada una.,Azi e o zi foarte specială... e ziua ta de naștere! La mulți ani{nino}! Suflă în lumânări: atinge-le pe fiecare.,frase,src/escenas/escenas2d.ts,borrador
+9dd3c2353624,¿Ahora es de día o de noche?,Acum e zi sau noapte?,frase,src/escenas/escenas2d.ts,borrador
+f814a57b27df,Cantemos los días de la semana.,Hai să cântăm zilele săptămânii.,frase,src/escenas/escenas2d.ts,borrador
+bf7b02dd4e83,"Hoy es {dia}. ¡Toca el vagón de hoy, el que salta!","Azi este {dia}. Atinge vagonul de azi, cel care sare!",frase,src/escenas/escenas2d.ts,borrador
+4211b82774e1,Ayer fue {dia}. ¿Qué día es hoy? Toca el vagón.,Ieri a fost {dia}. Ce zi e azi? Atinge vagonul.,frase,src/escenas/escenas2d.ts,borrador
+a5666a5639df,Hoy es {dia}. ¿Y mañana qué día será? Toca el vagón de mañana.,Azi este {dia}. Și mâine ce zi va fi? Atinge vagonul de mâine.,frase,src/escenas/escenas2d.ts,borrador
+5c6fdd68f1b4,Estamos en {mes}. Hoy es {n}. Toca el número {n} en el calendario.,Suntem în luna {mes}. Azi este {n}. Atinge numărul {n} din calendar.,frase,src/escenas/escenas2d.ts,borrador
+15e00a1599c8,¿Qué tiempo hace hoy? Mira por la ventana de tu casa y toca el dibujo.,Cum e vremea azi? Uită-te pe fereastra casei tale și atinge desenul.,frase,src/escenas/escenas2d.ts,borrador
+003468209b2c,"Con este tiempo, ¿qué nos ponemos para salir?","Pe vremea asta, ce ne punem ca să ieșim afară?",frase,src/escenas/escenas2d.ts,borrador
+e2be685aa252,¿En qué estación estamos? Toca el árbol.,În ce anotimp suntem? Atinge copacul.,frase,src/escenas/escenas2d.ts,borrador
+fec4ad117c94,Ahora es {estacion}. ¿Qué estación viene después?,Acum e {estacion}. Ce anotimp vine după?,frase,src/escenas/escenas2d.ts,borrador
+5c49d00746a6,¿Cómo te sientes hoy? Toca la carita.,Cum te simți azi? Atinge fețișoara.,frase,src/escenas/escenas2d.ts,borrador
+35660b9f1ec8,¡Terminamos la asamblea{nino}! ¡Ahora a jugar!,"Am terminat întâlnirea{nino}! Acum, la joacă!",frase,src/escenas/escenas2d.ts,borrador
+d72502f35785,"¡Tres asambleas esta semana! ¡Ganaste una pegatina! Ahora, ¡a jugar!","Trei întâlniri săptămâna asta! Ai câștigat un abțibild! Acum, la joacă!",frase,src/escenas/escenas2d.ts,borrador
 ef5011846c17,Toca las velitas para soplarlas.,,frase,src/escenas/escenas2d.ts src/juegos/comps2.ts,falta
-df9c098f49ae,¡Toca tu foto!,,frase,src/escenas/escenas2d.ts,falta
-949858af4a2b,Toca el vagón que salta.,,frase,src/escenas/escenas2d.ts,falta
-4cee466b6819,Ayer fue {dia}. ¿Qué día es hoy?,,frase,src/escenas/escenas2d.ts,falta
-4ac926d96240,¿Qué día será mañana?,,frase,src/escenas/escenas2d.ts,falta
-9101aa21a164,Toca el número {n}.,,frase,src/escenas/escenas2d.ts src/escenas/repaso.ts,falta
-a6236fa7060a,¿Qué tiempo hace hoy?,,frase,src/escenas/escenas2d.ts,falta
+df9c098f49ae,¡Toca tu foto!,Atinge-ți poza!,frase,src/escenas/escenas2d.ts,borrador
+949858af4a2b,Toca el vagón que salta.,Atinge vagonul care sare.,frase,src/escenas/escenas2d.ts,borrador
+4cee466b6819,Ayer fue {dia}. ¿Qué día es hoy?,Ieri a fost {dia}. Ce zi e azi?,frase,src/escenas/escenas2d.ts,borrador
+4ac926d96240,¿Qué día será mañana?,Ce zi va fi mâine?,frase,src/escenas/escenas2d.ts,borrador
+9101aa21a164,Toca el número {n}.,Atinge numărul {n}.,frase,src/escenas/escenas2d.ts src/escenas/repaso.ts,borrador
+a6236fa7060a,¿Qué tiempo hace hoy?,Cum e vremea azi?,frase,src/escenas/escenas2d.ts,borrador
 02b2672621e4,¿Qué nos ponemos?,,frase,src/escenas/escenas2d.ts src/temas/temas5.ts,falta
-ce0153c35763,¿En qué estación estamos?,,frase,src/escenas/escenas2d.ts,falta
-129dc29390d2,¿Qué estación viene después?,,frase,src/escenas/escenas2d.ts,falta
-5d699349b4f7,¿Cómo te sientes hoy?,,frase,src/escenas/escenas2d.ts,falta
-ae2ec051bc54,ASAMBLEA,,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts,falta
-60ed6aff25c5,¡PRESENTE!,,frase,src/escenas/escenas2d.ts,falta
-474bef235f46,HOY,,trozo,src/escenas/escenas2d.ts,falta
-7d147aa4a84e,HOY: {dia},,trozo,src/escenas/escenas2d.ts,falta
-074ec045b8ad,MAÑANA: {dia},,trozo,src/escenas/escenas2d.ts,falta
-5100c4241cf0,¡FELIZ CUMPLE!,,frase,src/escenas/escenas2d.ts,falta
-5110877e217d,Calendario del tiempo de {mes},,trozo,src/escenas/escenas2d.ts,falta
+ce0153c35763,¿En qué estación estamos?,În ce anotimp suntem?,frase,src/escenas/escenas2d.ts,borrador
+129dc29390d2,¿Qué estación viene después?,Ce anotimp vine după?,frase,src/escenas/escenas2d.ts,borrador
+5d699349b4f7,¿Cómo te sientes hoy?,Cum te simți azi?,frase,src/escenas/escenas2d.ts,borrador
+ae2ec051bc54,ASAMBLEA,ÎNTÂLNIREA,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
+60ed6aff25c5,¡PRESENTE!,PREZENT!,frase,src/escenas/escenas2d.ts,borrador
+474bef235f46,HOY,AZI,trozo,src/escenas/escenas2d.ts,borrador
+7d147aa4a84e,HOY: {dia},AZI: {dia},trozo,src/escenas/escenas2d.ts,borrador
+074ec045b8ad,MAÑANA: {dia},MÂINE: {dia},trozo,src/escenas/escenas2d.ts,borrador
+5100c4241cf0,¡FELIZ CUMPLE!,LA MULȚI ANI!,frase,src/escenas/escenas2d.ts,borrador
+5110877e217d,Calendario del tiempo de {mes},Calendarul vremii din {mes},trozo,src/escenas/escenas2d.ts,borrador
 c2aee8eaada2,Ese es el {dia}.,,frase,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
-fcbb601a706e,"Hoy es {dia}, el que salta.",,frase,src/escenas/escenas2d.ts,falta
-b2e4aaf3929a,Ayer fue {dia}. Hoy es el que viene después.,,frase,src/escenas/escenas2d.ts,falta
-914b542f3afe,Mañana es el que viene después de hoy.,,frase,src/escenas/escenas2d.ts,falta
-f1e0a16ca9e7,¡Que los cumplas feliz! Tito te regala diez monedas.,,frase,src/escenas/escenas2d.ts,falta
-04ea2caaec11,¡Presente! Y hoy eres el encargado de la asamblea. ¡Te ganaste la gorra!,,frase,src/escenas/escenas2d.ts,falta
-5e34d0c270f9,¡Presente! ¡Qué bueno que estás aquí!,,frase,src/escenas/escenas2d.ts,falta
-0669749f8ce4,Hoy es {dia}.,,frase,src/escenas/escenas2d.ts,falta
-b4a7d4bd22fe,Mañana será {dia}.,,frase,src/escenas/escenas2d.ts,falta
-2c23d1f14a54,"¡Es fin de semana, no hay escuela!",,frase,src/escenas/escenas2d.ts,falta
-f6d69a9c5ea7,Es día de escuela.,,frase,src/escenas/escenas2d.ts,falta
-74d2301785c8,Hoy es {dia} {n} de {mes}.,,frase,src/escenas/escenas2d.ts,falta
-bae7b1b47f0b,Ese es el {n}. Busca el {m}.,,frase,src/escenas/escenas2d.ts,falta
-2ccd1a276a62,Lo anotamos en el calendario del tiempo.,,frase,src/escenas/escenas2d.ts,falta
-f3c4a7693673,¡Sí! Ahora es de día.,,frase,src/escenas/escenas2d.ts,falta
-fb12e0513481,¡Sí! Ahora es de noche.,,frase,src/escenas/escenas2d.ts,falta
-fc947b973bc2,¡Sí! Nos ponemos {cosa}.,,frase,src/escenas/escenas2d.ts,falta
-c2f31cb841d2,¡Sí! Estamos en {estacion}.,,frase,src/escenas/escenas2d.ts,falta
-54778864d3a8,Las hojas se caen.,,frase,src/escenas/escenas2d.ts,falta
-cf9859839ec0,Hace frío.,,frase,src/escenas/escenas2d.ts,falta
-3f0fc8011d61,Salen las flores.,,frase,src/escenas/escenas2d.ts src/temas/temas4.ts,falta
-269c1c735810,Hace calor.,,frase,src/escenas/escenas2d.ts,falta
-13b7079230c5,¡Sí! Después viene {estacion}.,,frase,src/escenas/escenas2d.ts,falta
-a1c59700d3d9,Mira por la ventana.,,frase,src/escenas/escenas2d.ts,falta
-62fad1c661bb,Ahora no hay sol.,,frase,src/escenas/escenas2d.ts,falta
-f28ae7dcec67,Ahora hay luz.,,frase,src/escenas/escenas2d.ts,falta
-2ab046595a28,{Cosa} no va con este tiempo.,,trozo,src/escenas/escenas2d.ts,falta
-b22009d14fa6,Ese es el árbol {estacion}. Prueba con otro.,,frase,src/escenas/escenas2d.ts,falta
-4d3b41c70a12,"Mmm, después de {antes} no viene {estacion}.",,frase,src/escenas/escenas2d.ts,falta
-5a554c79a44d,Prueba otra vez.,,frase,src/escenas/escenas2d.ts,falta
-b161b0d177f7,Este es tu álbum. Tienes 1 pegatina.,,frase,src/escenas/escenas2d.ts,falta
-9e0e27175cc5,Este es tu álbum. Tienes {n} pegatinas.,,frase,src/escenas/escenas2d.ts,falta
-737c1f228bfe,Todavía no tienes pegatinas. ¡Las ganas terminando juegos!,,frase,src/escenas/escenas2d.ts,falta
-4e29bfdfc807,Mi álbum de pegatinas,,trozo,src/escenas/escenas2d.ts,falta
-5b3629e4ec0b,Esta todavía no la tienes.,,frase,src/escenas/escenas2d.ts,falta
-c4cf7542532e,¡Qué bonito jugamos{nino}! Ahora Tito se va a descansar. ¡Hasta mañana!,,frase,src/escenas/escenas2d.ts,falta
+fcbb601a706e,"Hoy es {dia}, el que salta.","Azi este {dia}, cel care sare.",frase,src/escenas/escenas2d.ts,borrador
+b2e4aaf3929a,Ayer fue {dia}. Hoy es el que viene después.,Ieri a fost {dia}. Azi este cel care vine după.,frase,src/escenas/escenas2d.ts,borrador
+914b542f3afe,Mañana es el que viene después de hoy.,Mâine este cel care vine după azi.,frase,src/escenas/escenas2d.ts,borrador
+f1e0a16ca9e7,¡Que los cumplas feliz! Tito te regala diez monedas.,La mulți ani! Tito îți dăruiește zece monede.,frase,src/escenas/escenas2d.ts,borrador
+04ea2caaec11,¡Presente! Y hoy eres el encargado de la asamblea. ¡Te ganaste la gorra!,Prezent! Și azi tu ești responsabilul întâlnirii. Ai câștigat șapca!,frase,src/escenas/escenas2d.ts,borrador
+5e34d0c270f9,¡Presente! ¡Qué bueno que estás aquí!,Prezent! Ce bine că ești aici!,frase,src/escenas/escenas2d.ts,borrador
+0669749f8ce4,Hoy es {dia}.,Azi este {dia}.,frase,src/escenas/escenas2d.ts,borrador
+b4a7d4bd22fe,Mañana será {dia}.,Mâine va fi {dia}.,frase,src/escenas/escenas2d.ts,borrador
+2c23d1f14a54,"¡Es fin de semana, no hay escuela!","E weekend, nu mergem la grădiniță!",frase,src/escenas/escenas2d.ts,borrador
+f6d69a9c5ea7,Es día de escuela.,E zi de grădiniță.,frase,src/escenas/escenas2d.ts,borrador
+74d2301785c8,Hoy es {dia} {n} de {mes}.,"Azi este {dia}, {n} {mes}.",frase,src/escenas/escenas2d.ts,borrador
+bae7b1b47f0b,Ese es el {n}. Busca el {m}.,Acela e {n}. Caută-l pe {m}.,frase,src/escenas/escenas2d.ts,borrador
+2ccd1a276a62,Lo anotamos en el calendario del tiempo.,Îl notăm în calendarul vremii.,frase,src/escenas/escenas2d.ts,borrador
+f3c4a7693673,¡Sí! Ahora es de día.,Da! Acum e zi.,frase,src/escenas/escenas2d.ts,borrador
+fb12e0513481,¡Sí! Ahora es de noche.,Da! Acum e noapte.,frase,src/escenas/escenas2d.ts,borrador
+fc947b973bc2,¡Sí! Nos ponemos {cosa}.,Da! Ne punem {cosa}.,frase,src/escenas/escenas2d.ts,borrador
+c2f31cb841d2,¡Sí! Estamos en {estacion}.,Da! Acum e {estacion}.,frase,src/escenas/escenas2d.ts,borrador
+54778864d3a8,Las hojas se caen.,Frunzele cad.,frase,src/escenas/escenas2d.ts,borrador
+cf9859839ec0,Hace frío.,E frig.,frase,src/escenas/escenas2d.ts,borrador
+3f0fc8011d61,Salen las flores.,Ies florile.,frase,src/escenas/escenas2d.ts src/temas/temas4.ts,borrador
+269c1c735810,Hace calor.,E cald.,frase,src/escenas/escenas2d.ts,borrador
+13b7079230c5,¡Sí! Después viene {estacion}.,Da! După aceea vine {estacion}.,frase,src/escenas/escenas2d.ts,borrador
+a1c59700d3d9,Mira por la ventana.,Uită-te pe fereastră.,frase,src/escenas/escenas2d.ts,borrador
+62fad1c661bb,Ahora no hay sol.,Acum nu e soare.,frase,src/escenas/escenas2d.ts,borrador
+f28ae7dcec67,Ahora hay luz.,Acum e lumină.,frase,src/escenas/escenas2d.ts,borrador
+2ab046595a28,{Cosa} no va con este tiempo.,{Cosa} nu se potrivește cu vremea asta.,trozo,src/escenas/escenas2d.ts,borrador
+b22009d14fa6,Ese es el árbol {estacion}. Prueba con otro.,Acela e copacul {estacion}. Încearcă altul.,frase,src/escenas/escenas2d.ts,borrador
+4d3b41c70a12,"Mmm, después de {antes} no viene {estacion}.","Mmm, după {antes} nu vine {estacion}.",frase,src/escenas/escenas2d.ts,borrador
+5a554c79a44d,Prueba otra vez.,Mai încearcă o dată.,frase,src/escenas/escenas2d.ts,borrador
+b161b0d177f7,Este es tu álbum. Tienes 1 pegatina.,Acesta e albumul tău. Ai un abțibild.,frase,src/escenas/escenas2d.ts,borrador
+9e0e27175cc5,Este es tu álbum. Tienes {n} pegatinas.,Acesta e albumul tău. Ai {n} {n:de}abțibilduri.,frase,src/escenas/escenas2d.ts,borrador
+737c1f228bfe,Todavía no tienes pegatinas. ¡Las ganas terminando juegos!,Încă nu ai abțibilduri. Le câștigi când termini jocuri!,frase,src/escenas/escenas2d.ts,borrador
+4e29bfdfc807,Mi álbum de pegatinas,Albumul meu cu abțibilduri,trozo,src/escenas/escenas2d.ts,borrador
+5b3629e4ec0b,Esta todavía no la tienes.,Pe acesta încă nu-l ai.,frase,src/escenas/escenas2d.ts,borrador
+c4cf7542532e,¡Qué bonito jugamos{nino}! Ahora Tito se va a descansar. ¡Hasta mañana!,Ce frumos ne-am jucat{nino}! Acum Tito se duce să se odihnească. Pe mâine!,frase,src/escenas/escenas2d.ts,borrador
 fbade9e36a3f,z,,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/juegos/lectura.ts,falta
-563528c57bb4,Es hora de descansar,,trozo,src/escenas/escenas2d.ts,falta
+563528c57bb4,Es hora de descansar,E timpul să ne odihnim,trozo,src/escenas/escenas2d.ts,borrador
 7d956ad9df91,¡Te encontré!,,frase,src/escenas/escondite.ts,falta
 d7bae933e928,¡Aquí estás!,,frase,src/escenas/escondite.ts,falta
 e262bc709e85,¡Pillado!,,frase,src/escenas/escondite.ts,falta
@@ -1654,30 +1654,30 @@ ee08c0a0db56,Ahora el sol las calienta y el agua las alimenta. Esperamos un poqu
 327cd9b65400,¡{N} balas de paja! Nos las llevamos al granero para los animales.,,trozo,src/escenas/granjaTalleres.ts,falta
 c65cb5f071b3,¡Subimos al tractor! Toca las balas de paja y el tractor irá a recogerlas.,,frase,src/escenas/granjaTalleres.ts,falta
 3387300ae1ed,Toca una bala de paja para que el tractor vaya a por ella.,,frase,src/escenas/granjaTalleres.ts,falta
-af3dcd1e7280,la Playa de los Sonidos,,trozo,src/escenas/isla.ts src/escenas/zonas.ts,falta
-7e09422c6dd0,el Bosque de las Letras,,trozo,src/escenas/isla.ts src/escenas/zonas.ts,falta
-ea2cc9107450,el Pueblo de las Palabras,,trozo,src/escenas/isla.ts src/escenas/zonas.ts,falta
+af3dcd1e7280,la Playa de los Sonidos,Plaja Sunetelor,trozo,src/escenas/isla.ts src/escenas/zonas.ts,borrador
+7e09422c6dd0,el Bosque de las Letras,Pădurea Literelor,trozo,src/escenas/isla.ts src/escenas/zonas.ts,borrador
+ea2cc9107450,el Pueblo de las Palabras,Satul Cuvintelor,trozo,src/escenas/isla.ts src/escenas/zonas.ts,borrador
 7fc56270e7a7,A,,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts,falta
 96b00383b22b,{n} años,{n} ani,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/aplicacion/adultos/quienJuega.ts,borrador
-8393ff8607d7,"¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",,frase,src/escenas/isla.ts,falta
-6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,,frase,src/escenas/isla.ts,falta
-b2b4b96d3c6d,"Lupi, la lechuza.",,frase,src/escenas/isla.ts,falta
-64f14c61b0d3,Seguir con las letras.,,frase,src/escenas/isla.ts,falta
-1ad8c3cff60b,¡Terminaste todas las letras que hay por ahora! Puedes repetir las que quieras.,,frase,src/escenas/isla.ts,falta
-71d864795142,"¡Hola! Soy Lupi, la lechuza. Cuido las letras de esta isla. ¡Vamos a aprenderlas juntos!",,frase,src/escenas/isla.ts,falta
-1905fdc55b8d,Lupi está preparando {zona}. ¡Muy pronto podrás jugar aquí!,,frase,src/escenas/isla.ts,falta
-7694e0786fa7,{Zona} todavía no se ha abierto.,,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts,falta
-8c59a66df767,la Playa Hello,,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts,falta
-9de5f3445da2,el Parque de Londres,,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts,falta
-f9a7ebd038f4,el Pueblo de los Cuentos,,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts,falta
+8393ff8607d7,"¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.","Am ajuns pe Insula Literelor{nino}! Uite, e Lupi, bufnița care are grijă de litere. Aici o să învățăm să citim. Atinge butonul verde ca să începem.",frase,src/escenas/isla.ts,borrador
+6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,Atinge butonul verde ca să continui cu literele. Sau atinge o zonă a insulei.,frase,src/escenas/isla.ts,borrador
+b2b4b96d3c6d,"Lupi, la lechuza.","Lupi, bufnița.",frase,src/escenas/isla.ts,borrador
+64f14c61b0d3,Seguir con las letras.,Continuăm cu literele.,frase,src/escenas/isla.ts,borrador
+1ad8c3cff60b,¡Terminaste todas las letras que hay por ahora! Puedes repetir las que quieras.,Ai terminat toate literele care există deocamdată! Le poți repeta pe care vrei.,frase,src/escenas/isla.ts,borrador
+71d864795142,"¡Hola! Soy Lupi, la lechuza. Cuido las letras de esta isla. ¡Vamos a aprenderlas juntos!","Bună! Sunt Lupi, bufnița. Am grijă de literele acestei insule. Hai să le învățăm împreună!",frase,src/escenas/isla.ts,borrador
+1905fdc55b8d,Lupi está preparando {zona}. ¡Muy pronto podrás jugar aquí!,Lupi pregătește {zona}. Foarte curând te vei putea juca aici!,frase,src/escenas/isla.ts,borrador
+7694e0786fa7,{Zona} todavía no se ha abierto.,{Zona} încă nu s-a deschis.,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts,borrador
+8c59a66df767,la Playa Hello,Plaja Hello,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts,borrador
+9de5f3445da2,el Parque de Londres,Parcul Londrei,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts,borrador
+f9a7ebd038f4,el Pueblo de los Cuentos,Satul Poveștilor,trozo,src/escenas/islaIngles.ts src/escenas/zonas.ts,borrador
 952d2c56d048,Hello!,,frase,src/escenas/islaIngles.ts,falta
-7e3e0218766a,"¡Llegamos a la Isla del Inglés{nino}! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.",,frase,src/escenas/islaIngles.ts,falta
-67cc5a360054,Toca el botón verde para seguir con el inglés. O toca una zona de la isla.,,frase,src/escenas/islaIngles.ts,falta
-79033b942cf3,"Polly, la lorita.",,frase,src/escenas/islaIngles.ts,falta
-7665111d836a,Seguir con el inglés.,,frase,src/escenas/islaIngles.ts,falta
-645bd7ef79e7,¡Terminaste todo el inglés que hay por ahora! Puedes repetir lo que quieras.,,frase,src/escenas/islaIngles.ts,falta
-739343dc1545,"Hello! Soy Polly, la lorita. Vivo en esta isla y hablo inglés. ¡Vamos a aprender juntos!",,frase,src/escenas/islaIngles.ts,falta
-ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,,frase,src/escenas/islaIngles.ts,falta
+7e3e0218766a,"¡Llegamos a la Isla del Inglés{nino}! Mira, es Polly, la lorita. Polly habla inglés y nos va a enseñar muchas palabras. Toca el botón verde para empezar.","Am ajuns pe Insula Englezei{nino}! Uite, e Polly, papagalul. Polly vorbește engleză și ne va învăța multe cuvinte. Atinge butonul verde ca să începem.",frase,src/escenas/islaIngles.ts,borrador
+67cc5a360054,Toca el botón verde para seguir con el inglés. O toca una zona de la isla.,Atinge butonul verde ca să continui cu engleza. Sau atinge o zonă a insulei.,frase,src/escenas/islaIngles.ts,borrador
+79033b942cf3,"Polly, la lorita.","Polly, papagalul.",frase,src/escenas/islaIngles.ts,borrador
+7665111d836a,Seguir con el inglés.,Continuăm cu engleza.,frase,src/escenas/islaIngles.ts,borrador
+645bd7ef79e7,¡Terminaste todo el inglés que hay por ahora! Puedes repetir lo que quieras.,Ai terminat toată engleza care există deocamdată! Poți repeta ce vrei.,frase,src/escenas/islaIngles.ts,borrador
+739343dc1545,"Hello! Soy Polly, la lorita. Vivo en esta isla y hablo inglés. ¡Vamos a aprender juntos!","Hello! Sunt Polly, papagalul. Locuiesc pe această insulă și vorbesc engleză. Hai să învățăm împreună!",frase,src/escenas/islaIngles.ts,borrador
+ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,Polly pregătește {zona}. Foarte curând te vei putea juca aici!,frase,src/escenas/islaIngles.ts,borrador
 2289289d6344,"¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.",,frase,src/escenas/juegosCortos.ts,falta
 d9cb034d851e,Elige un juego corto.,,frase,src/escenas/juegosCortos.ts,falta
 f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts,falta
@@ -1729,15 +1729,15 @@ d40cd42c4fad,Esa es la casilla del {n}. Busca la del {objetivo}.,,frase,src/esce
 cea641e76947,"¡A la rayuela! Tira la piedra a la casilla que te diga y luego saltamos a la pata coja, contando. ¡Salta tú también!",,frase,src/escenas/rayuela.ts,falta
 d41c3895defd,Toca la casilla del {n}.,,frase,src/escenas/rayuela.ts,falta
 3d1853b869fb,¡Salta a la pata coja y cuenta conmigo!,,frase,src/escenas/rayuela.ts,falta
-f21ce998bcf3,¡Terminaste el repaso de hoy{nino}! Tito te regala cinco monedas.,,frase,src/escenas/repaso.ts,falta
-56820d319133,¡Muy bien! Ahora el número {n}.,,frase,src/escenas/repaso.ts,falta
-bbc05e480894,Todavía no hay nada para repasar. ¡Primero juega algunos juegos del camino!,,frase,src/escenas/repaso.ts,falta
-f6ef622e9313,¡Ya hiciste el repaso de hoy! Mañana Tito prepara otro. Toca la flecha verde para seguir el camino.,,frase,src/escenas/repaso.ts,falta
-0840f4b92657,¡Hora de repasar! Tito eligió juegos que todavía cuestan un poquito. ¡Practicando salen cada vez mejor!,,frase,src/escenas/repaso.ts,falta
-ff7a134b9098,¡Hora de repasar! Tito eligió juegos que jugaste hace tiempo.,,frase,src/escenas/repaso.ts,falta
-faab64329823,Empieza por el primero.,,frase,src/escenas/repaso.ts src/escenas/zonas.ts,falta
-0454719b9a96,Repaso con Tito,,trozo,src/escenas/repaso.ts,falta
-d85f6514ad06,Este todavía está cerrado. Primero termina el número {n}.,,frase,src/escenas/repaso.ts src/escenas/zonas.ts,falta
+f21ce998bcf3,¡Terminaste el repaso de hoy{nino}! Tito te regala cinco monedas.,Ai terminat recapitularea de azi{nino}! Tito îți dăruiește cinci monede.,frase,src/escenas/repaso.ts,borrador
+56820d319133,¡Muy bien! Ahora el número {n}.,Foarte bine! Acum numărul {n}.,frase,src/escenas/repaso.ts,borrador
+bbc05e480894,Todavía no hay nada para repasar. ¡Primero juega algunos juegos del camino!,Încă nu e nimic de recapitulat. Mai întâi joacă niște jocuri de pe drum!,frase,src/escenas/repaso.ts,borrador
+f6ef622e9313,¡Ya hiciste el repaso de hoy! Mañana Tito prepara otro. Toca la flecha verde para seguir el camino.,Ai făcut deja recapitularea de azi! Mâine Tito pregătește alta. Atinge săgeata verde ca să mergi mai departe pe drum.,frase,src/escenas/repaso.ts,borrador
+0840f4b92657,¡Hora de repasar! Tito eligió juegos que todavía cuestan un poquito. ¡Practicando salen cada vez mejor!,E timpul să recapitulăm! Tito a ales jocuri care încă îți vin puțin greu. Cu exercițiu ies tot mai bine!,frase,src/escenas/repaso.ts,borrador
+ff7a134b9098,¡Hora de repasar! Tito eligió juegos que jugaste hace tiempo.,E timpul să recapitulăm! Tito a ales jocuri pe care le-ai jucat demult.,frase,src/escenas/repaso.ts,borrador
+faab64329823,Empieza por el primero.,Începe cu primul.,frase,src/escenas/repaso.ts src/escenas/zonas.ts,borrador
+0454719b9a96,Repaso con Tito,Recapitulare cu Tito,trozo,src/escenas/repaso.ts,borrador
+d85f6514ad06,Este todavía está cerrado. Primero termina el número {n}.,Acesta încă e închis. Mai întâi termină numărul {n}.,frase,src/escenas/repaso.ts src/escenas/zonas.ts,borrador
 4b2a945b371e,"Te dejo un reto para hacer en casa, sin pantalla: {reto}",,trozo,src/escenas/retos.ts,falta
 7a1f66efc5ae,¡Me han contado que has hecho el reto en casa{nino}! ¡Qué bien! Toma una pegatina.,,frase,src/escenas/retos.ts,falta
 a1cfe0ffe045,¡Nadie se queda sin silla! Nos sentamos unos encima de otros.,,frase,src/escenas/sillas.ts,falta
@@ -1751,50 +1751,50 @@ c169da87dd43,"¡Las sillas musicales! Baila con nosotros mientras suena la músi
 8782931894f8,Toca la silla libre para que me siente.,,frase,src/escenas/sillas.ts,falta
 76fb7b106917,¡Baila mientras suena la música!,,frase,src/escenas/sillas.ts,falta
 e1e276c85846,¡Todavía suena la música! Sigue bailando.,,frase,src/escenas/sillas.ts,falta
-15d657aa9510,Un cuento extra antes de dormir,,trozo,src/escenas/tienda.ts,falta
-4bf721c805e2,Ir a jugar al parque,,trozo,src/escenas/tienda.ts,falta
-9255f2bf1f4b,Elegir a qué jugamos juntos,,trozo,src/escenas/tienda.ts,falta
-7a6f037aa1a9,Cocinar algo rico juntos,,trozo,src/escenas/tienda.ts,falta
-2039a7d4c02a,Elegir la película del fin de semana,,trozo,src/escenas/tienda.ts,falta
-b05403f6a072,Un abrazo de oso gigante,,trozo,src/escenas/tienda.ts,falta
-7205d9f23e9c,Ropa para Tito,,trozo,src/escenas/tienda.ts,falta
-355db5ea2c02,Colores para Tito,,trozo,src/escenas/tienda.ts,falta
-a8a5e67250a6,Cosas para la casa,,trozo,src/escenas/tienda.ts,falta
-b5dc3883524d,Juguetes,,trozo,src/escenas/tienda.ts,falta
-dedbc4a73d3d,Cosas para el jardín,,trozo,src/escenas/tienda.ts,falta
-5f8abfe22ddb,Mascotas,,trozo,src/escenas/tienda.ts,falta
-a6cad5ea73c4,Vales para canjear,,trozo,src/escenas/tienda.ts,falta
-5762690a4b37,el vale: {vale},,trozo,src/escenas/tienda.ts,falta
-e6f4c5cbbc9b,el salón,,trozo,src/escenas/tienda.ts src/temas/temas.ts,falta
-ebe1f28aef32,el dormitorio,,trozo,src/escenas/tienda.ts src/temas/temas.ts,falta
-943872e7810f,la cocina,,trozo,src/escenas/tienda.ts src/temas/temas.ts,falta
-ab041433a678,el baño,,trozo,src/escenas/tienda.ts src/temas/temas.ts,falta
-6c0814ad5819,el cuarto de juegos,,trozo,src/escenas/tienda.ts,falta
-f94f62e3c49d,el jardín,,trozo,src/escenas/tienda.ts,falta
-06a07552e992,la torre de las estrellas,,trozo,src/escenas/tienda.ts,falta
-2d7694144596,¡La tienda! Tienes {n} monedas. Toca algo para ver cuánto cuesta.,,frase,src/escenas/tienda.ts,falta
-f2f698a45200,"¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.",,frase,src/escenas/tienda.ts,falta
-cd250cb12ba5,¿Lo compras? Toca el verde para comprar o la cruz para volver.,,frase,src/escenas/tienda.ts,falta
-48b60179a463,Toca algo para ver cuánto cuesta. Tienes {n} monedas.,,frase,src/escenas/tienda.ts,falta
-c61a84e05bf6,{Cosa}. Ya es tuyo.,,trozo,src/escenas/tienda.ts,falta
-251b41bba91a,{Cosa}. Cuesta {n} monedas.,,trozo,src/escenas/tienda.ts,falta
-422f5aabbe8d,La tienda,,trozo,src/escenas/tienda.ts,falta
-1612eda5416c,"Bueno, ¡otra vez será!",,frase,src/escenas/tienda.ts,falta
-80a97e812421,Tienes {n} estrellas. Las ganas terminando juegos.,,frase,src/escenas/tienda.ts,falta
-31f98998ccca,{Cosa} se abre cuando tengas {n} estrellas. ¡Ya tienes {m}! Ganas estrellas terminando juegos.,,trozo,src/escenas/tienda.ts,falta
-67f29e54ce58,{Cosa} son para {sala}. {Sala} se abre cuando termines una casita.,,trozo,src/escenas/tienda.ts,falta
-c21d7f9fe027,{Cosa} es para {sala}. {Sala} se abre cuando termines una casita.,,trozo,src/escenas/tienda.ts,falta
-0479b935268f,{Cosa} son para {sala}. {Sala} se abre cuando termines {n} casitas.,,trozo,src/escenas/tienda.ts,falta
-f4e48959ce88,{Cosa} es para {sala}. {Sala} se abre cuando termines {n} casitas.,,trozo,src/escenas/tienda.ts,falta
-2685ee2ab041,¡Tito se puso {cosa}!,,frase,src/escenas/tienda.ts,falta
-bd8d5fb72180,Tito se quitó {cosa}.,,frase,src/escenas/tienda.ts,falta
-f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,,trozo,src/escenas/tienda.ts,falta
-94e40ceddf23,{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!,,trozo,src/escenas/tienda.ts,falta
-1040031103e2,{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!,,trozo,src/escenas/tienda.ts,falta
-e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,,frase,src/escenas/tienda.ts,falta
-a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,,frase,src/escenas/tienda.ts,falta
-a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,,frase,src/escenas/tienda.ts,falta
-f3fee113889f,¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.,,frase,src/escenas/tienda.ts,falta
+15d657aa9510,Un cuento extra antes de dormir,O poveste în plus înainte de culcare,trozo,src/escenas/tienda.ts,borrador
+4bf721c805e2,Ir a jugar al parque,Mergem să ne jucăm în parc,trozo,src/escenas/tienda.ts,borrador
+9255f2bf1f4b,Elegir a qué jugamos juntos,Alegi cu ce ne jucăm împreună,trozo,src/escenas/tienda.ts,borrador
+7a6f037aa1a9,Cocinar algo rico juntos,Gătim ceva bun împreună,trozo,src/escenas/tienda.ts,borrador
+2039a7d4c02a,Elegir la película del fin de semana,Alegi filmul de weekend,trozo,src/escenas/tienda.ts,borrador
+b05403f6a072,Un abrazo de oso gigante,O îmbrățișare uriașă de urs,trozo,src/escenas/tienda.ts,borrador
+7205d9f23e9c,Ropa para Tito,Haine pentru Tito,trozo,src/escenas/tienda.ts,borrador
+355db5ea2c02,Colores para Tito,Culori pentru Tito,trozo,src/escenas/tienda.ts,borrador
+a8a5e67250a6,Cosas para la casa,Lucruri pentru casă,trozo,src/escenas/tienda.ts,borrador
+b5dc3883524d,Juguetes,Jucării,trozo,src/escenas/tienda.ts,borrador
+dedbc4a73d3d,Cosas para el jardín,Lucruri pentru grădină,trozo,src/escenas/tienda.ts,borrador
+5f8abfe22ddb,Mascotas,Animăluțe,trozo,src/escenas/tienda.ts,borrador
+a6cad5ea73c4,Vales para canjear,Tichete de folosit,trozo,src/escenas/tienda.ts,borrador
+5762690a4b37,el vale: {vale},tichetul: {vale},trozo,src/escenas/tienda.ts,borrador
+e6f4c5cbbc9b,el salón,sufrageria,trozo,src/escenas/tienda.ts src/temas/temas.ts,borrador
+ebe1f28aef32,el dormitorio,dormitorul,trozo,src/escenas/tienda.ts src/temas/temas.ts,borrador
+943872e7810f,la cocina,bucătăria,trozo,src/escenas/tienda.ts src/temas/temas.ts,borrador
+ab041433a678,el baño,baia,trozo,src/escenas/tienda.ts src/temas/temas.ts,borrador
+6c0814ad5819,el cuarto de juegos,camera de joacă,trozo,src/escenas/tienda.ts,borrador
+f94f62e3c49d,el jardín,grădina,trozo,src/escenas/tienda.ts,borrador
+06a07552e992,la torre de las estrellas,turnul stelelor,trozo,src/escenas/tienda.ts,borrador
+2d7694144596,¡La tienda! Tienes {n} monedas. Toca algo para ver cuánto cuesta.,Magazinul! Ai {n} {n:de}monede. Atinge ceva ca să vezi cât costă.,frase,src/escenas/tienda.ts,borrador
+f2f698a45200,"¡Bienvenido a la tienda! Con las monedas que ganas jugando, puedes comprar cosas para mí y para mi casa. Arriba eliges qué mirar.",Bine ai venit la magazin! Cu monedele pe care le câștigi jucându-te poți cumpăra lucruri pentru mine și pentru casa mea. Sus alegi ce să vezi.,frase,src/escenas/tienda.ts,borrador
+cd250cb12ba5,¿Lo compras? Toca el verde para comprar o la cruz para volver.,Îl cumperi? Atinge verdele ca să cumperi sau crucea ca să te întorci.,frase,src/escenas/tienda.ts,borrador
+48b60179a463,Toca algo para ver cuánto cuesta. Tienes {n} monedas.,Atinge ceva ca să vezi cât costă. Ai {n} {n:de}monede.,frase,src/escenas/tienda.ts,borrador
+c61a84e05bf6,{Cosa}. Ya es tuyo.,{Cosa}. E deja al tău.,trozo,src/escenas/tienda.ts,borrador
+251b41bba91a,{Cosa}. Cuesta {n} monedas.,{Cosa}. Costă {n} {n:de}monede.,trozo,src/escenas/tienda.ts,borrador
+422f5aabbe8d,La tienda,Magazinul,trozo,src/escenas/tienda.ts,borrador
+1612eda5416c,"Bueno, ¡otra vez será!","Bine, altă dată!",frase,src/escenas/tienda.ts,borrador
+80a97e812421,Tienes {n} estrellas. Las ganas terminando juegos.,Ai {n} {n:de}stele. Le câștigi când termini jocuri.,frase,src/escenas/tienda.ts,borrador
+31f98998ccca,{Cosa} se abre cuando tengas {n} estrellas. ¡Ya tienes {m}! Ganas estrellas terminando juegos.,{Cosa} se deschide când ai {n} {n:de}stele. Ai deja {m}! Câștigi stele când termini jocuri.,trozo,src/escenas/tienda.ts,borrador
+67f29e54ce58,{Cosa} son para {sala}. {Sala} se abre cuando termines una casita.,{Cosa} sunt pentru {sala}. {Sala} se deschide când termini o căsuță.,trozo,src/escenas/tienda.ts,borrador
+c21d7f9fe027,{Cosa} es para {sala}. {Sala} se abre cuando termines una casita.,{Cosa} este pentru {sala}. {Sala} se deschide când termini o căsuță.,trozo,src/escenas/tienda.ts,borrador
+0479b935268f,{Cosa} son para {sala}. {Sala} se abre cuando termines {n} casitas.,{Cosa} sunt pentru {sala}. {Sala} se deschide când termini {n} {n:de}căsuțe.,trozo,src/escenas/tienda.ts,borrador
+f4e48959ce88,{Cosa} es para {sala}. {Sala} se abre cuando termines {n} casitas.,{Cosa} este pentru {sala}. {Sala} se deschide când termini {n} {n:de}căsuțe.,trozo,src/escenas/tienda.ts,borrador
+2685ee2ab041,¡Tito se puso {cosa}!,Tito și-a pus {cosa}!,frase,src/escenas/tienda.ts,borrador
+bd8d5fb72180,Tito se quitó {cosa}.,Tito și-a scos {cosa}.,frase,src/escenas/tienda.ts,borrador
+f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,{Cosa} e deja al tău. E în casa lui Tito.,trozo,src/escenas/tienda.ts,borrador
+94e40ceddf23,{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!,{Cosa} costă {n} {n:de}monede. Îți mai trebuie una. Jucându-te câștigi mai multe!,trozo,src/escenas/tienda.ts,borrador
+1040031103e2,{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!,{Cosa} costă {n} {n:de}monede. Îți mai trebuie {f}. Jucându-te câștigi mai multe!,trozo,src/escenas/tienda.ts,borrador
+e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,Vrei să cumperi {cosa} cu {n} {n:de}monede? Atinge verdele ca să cumperi.,frase,src/escenas/tienda.ts,borrador
+a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,Ai cumpărat tichetul! {vale}. Arată-l unui adult din familie ca să-l folosești.,frase,src/escenas/tienda.ts,borrador
+a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,E al tău! Uite ce frumos îi stă lui Tito!,frase,src/escenas/tienda.ts,borrador
+f3fee113889f,¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.,E al tău! E deja în casa lui Tito. Atinge căsuța de sus ca să-l vezi.,frase,src/escenas/tienda.ts,borrador
 05a9f9871aab,¡salta tres veces!,,trozo,src/escenas/titoDice.ts,falta
 7745f6cc2488,¡da cuatro palmadas!,,trozo,src/escenas/titoDice.ts,falta
 85545d54e6fb,¡tócate la nariz!,,trozo,src/escenas/titoDice.ts,falta
@@ -1810,9 +1810,9 @@ b539e633e8c2,¡da una vuelta!,,trozo,src/escenas/titoDice.ts,falta
 6265102db719,¡cierra los ojos!,,trozo,src/escenas/titoDice.ts,falta
 9bbb2936abe1,¡abre mucho la boca!,,trozo,src/escenas/titoDice.ts,falta
 221ef7bf31d6,¡da cinco pisotones!,,trozo,src/escenas/titoDice.ts,falta
-b1a35e44836a,¡Eso es!,,frase,src/escenas/titoDice.ts src/nucleo/voz.ts src/temas/temas.ts,falta
-1178ef73e06c,¡Muy bien!,,frase,src/escenas/titoDice.ts src/escenas/yoga.ts src/juegos/comps2.ts,falta
-ba8de4499a6c,¡Genial!,,frase,src/escenas/titoDice.ts src/nucleo/voz.ts,falta
+b1a35e44836a,¡Eso es!,Asta e!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts src/temas/temas.ts,borrador
+1178ef73e06c,¡Muy bien!,Foarte bine!,frase,src/escenas/titoDice.ts src/escenas/yoga.ts src/juegos/comps2.ts,borrador
+ba8de4499a6c,¡Genial!,Grozav!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts,borrador
 a1def823d62e,¡Así se hace!,,frase,src/escenas/titoDice.ts,falta
 6d6b7169ae0d,"¡Je, je! No he dicho «Tito dice». Si no te has movido, ¡muy bien!",,frase,src/escenas/titoDice.ts,falta
 4e740ad4ecc0,¡Vamos a jugar a «Tito dice»! Escucha bien y haz lo que diga Tito. ¡Yo lo hago contigo!,,frase,src/escenas/titoDice.ts,falta
@@ -1836,92 +1836,92 @@ de6cc558aff1,¡Bienvenido al rincón de la calma! Vamos a hacer yoga como los an
 daba4ff4cfc0,Ahora volvemos al mapa.,,frase,src/escenas/yoga.ts,falta
 10d7b53d8c96,Toca la flecha para hacerlo otra vez.,,frase,src/escenas/yoga.ts,falta
 649e41640e91,Mira a Tito y respira despacito.,,frase,src/escenas/yoga.ts,falta
-e788e52029f2,el Jardín de los 3 años,,trozo,src/escenas/zonas.ts,falta
-03b508b84ab7,¡Bienvenido al Jardín de los 3 años! Sigue el camino: las casitas se abren de a una. ,,frase,src/escenas/zonas.ts,falta
-b19795e88a5d,el Bosque de los 4 años,,trozo,src/escenas/zonas.ts,falta
-3822284d5b02,¡Bienvenido al Bosque de los 4 años! Sigue el camino: las casitas se abren de a una. ,,frase,src/escenas/zonas.ts,falta
-1c86ce9df424,la Montaña de los 5 años,,trozo,src/escenas/zonas.ts,falta
-9c14df0e321d,¡Bienvenido a la Montaña de los 5 años! Sigue el camino: las casitas se abren de a una. ,,frase,src/escenas/zonas.ts,falta
-cd31ebc2e43d,los días especiales,,trozo,src/escenas/zonas.ts,falta
-4777b56bd48a,"¡Los días especiales! Se abren de a una, como un camino. ",,frase,src/escenas/zonas.ts,falta
-af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ,,frase,src/escenas/zonas.ts,falta
-819111bf6ccc,¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ,,frase,src/escenas/zonas.ts,falta
-e0ea41a6c7ea,¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ,,frase,src/escenas/zonas.ts,falta
-99c13b9da39c,¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ,,frase,src/escenas/zonas.ts,falta
-a4060dd809b3,¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ,,frase,src/escenas/zonas.ts,falta
-b56f25d264e8,¡Bienvenido al Pueblo de los Cuentos! Aquí jugamos con frases y cuentos en inglés. Las casitas se abren de una en una. ,,frase,src/escenas/zonas.ts,falta
-e43303c24ba4,el Rincón de los Conceptos,,trozo,src/escenas/zonas.ts,falta
-1746f9bdb598,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste {n}!,,frase,src/escenas/zonas.ts,falta
-4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,,frase,src/escenas/zonas.ts,falta
-2d6a70af59e3,Esta casita todavía está cerrada. Primero termina {tema}. ¡Sigue el camino!,,frase,src/escenas/zonas.ts,falta
-ed476938b767,Esta casita todavía está cerrada. Primero termina la anterior. ¡Sigue el camino!,,frase,src/escenas/zonas.ts,falta
-be06e3fb7b86,¡Mira! ¡Se abrió el Rincón de los Conceptos! Tócala para jugar.,,frase,src/escenas/zonas.ts,falta
-389e0dda8db2,¡Mira! ¡Se abrió una casita nueva: {tema}! Tócala para jugar.,,frase,src/escenas/zonas.ts,falta
-64baabf0ab07,¡Terminaste todo el camino{nino}! ¡Increíble! Puedes repetir la casita que quieras.,,frase,src/escenas/zonas.ts,falta
-79db86678453,Toca la casita que brilla: {tema}.,,frase,src/escenas/zonas.ts,falta
-d2c1ce7906cc,¡Terminaste todo el camino! Puedes repetir la casita que quieras.,,frase,src/escenas/zonas.ts,falta
-ab25e5c98beb,¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.,,frase,src/escenas/zonas.ts,falta
-336bb13b4c54,"¡La casa de Tito creció! Ahora tiene un piso más, con balcón.",,frase,src/escenas/zonas.ts,falta
-e877ccf4b4e7,¡La casa de Tito creció! Ahora tiene una torre con bandera.,,frase,src/escenas/zonas.ts,falta
-b2a6a82fd16b,¡La casa de Tito es un castillo! Tiene estrella y arcoíris.,,frase,src/escenas/zonas.ts,falta
-1a6156ee2b97,"¡Mira! En el jardín de Tito apareció un huevo misterioso. ¡Si juegas, se va a abrir!",,frase,src/escenas/zonas.ts,falta
-e27cab0bb05c,"¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!",,frase,src/escenas/zonas.ts,falta
-7ffa5443482f,¡Pipo salió del cascarón y ya camina!,,frase,src/escenas/zonas.ts,falta
-9f6308686375,¡Pipo está creciendo un montón!,,frase,src/escenas/zonas.ts,falta
-a8d752e847f8,¡Pipo es un dinosaurio grandote! ¡Y tiene corona!,,frase,src/escenas/zonas.ts,falta
+e788e52029f2,el Jardín de los 3 años,Grădina de 3 ani,trozo,src/escenas/zonas.ts,borrador
+03b508b84ab7,¡Bienvenido al Jardín de los 3 años! Sigue el camino: las casitas se abren de a una. ,Bine ai venit în Grădina de 3 ani! Urmează drumul: căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+b19795e88a5d,el Bosque de los 4 años,Pădurea de 4 ani,trozo,src/escenas/zonas.ts,borrador
+3822284d5b02,¡Bienvenido al Bosque de los 4 años! Sigue el camino: las casitas se abren de a una. ,Bine ai venit în Pădurea de 4 ani! Urmează drumul: căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+1c86ce9df424,la Montaña de los 5 años,Muntele de 5 ani,trozo,src/escenas/zonas.ts,borrador
+9c14df0e321d,¡Bienvenido a la Montaña de los 5 años! Sigue el camino: las casitas se abren de a una. ,Bine ai venit pe Muntele de 5 ani! Urmează drumul: căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+cd31ebc2e43d,los días especiales,zilele speciale,trozo,src/escenas/zonas.ts,borrador
+4777b56bd48a,"¡Los días especiales! Se abren de a una, como un camino. ","Zilele speciale! Se deschid pe rând, ca un drum.",frase,src/escenas/zonas.ts,borrador
+af7dea4b709f,¡Bienvenido a la Playa de los Sonidos! Aquí conocemos las letras. Las casitas se abren de una en una. ,Bine ai venit pe Plaja Sunetelor! Aici cunoaștem literele. Căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+819111bf6ccc,¡Bienvenido al Bosque de las Letras! Aquí aprendemos letras nuevas. Las casitas se abren de una en una. ,Bine ai venit în Pădurea Literelor! Aici învățăm litere noi. Căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+e0ea41a6c7ea,¡Bienvenido al Pueblo de las Palabras! Aquí juntamos las letras para leer palabras. Las casitas se abren de una en una. ,Bine ai venit în Satul Cuvintelor! Aici unim literele ca să citim cuvinte. Căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+99c13b9da39c,¡Bienvenido a la Playa Hello! Aquí aprendemos palabras en inglés con Polly. Las casitas se abren de una en una. ,Bine ai venit pe Plaja Hello! Aici învățăm cuvinte în engleză cu Polly. Căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+a4060dd809b3,¡Bienvenido al Parque de Londres! Aquí aprendemos más palabras en inglés con Polly. Las casitas se abren de una en una. ,Bine ai venit în Parcul Londrei! Aici învățăm mai multe cuvinte în engleză cu Polly. Căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+b56f25d264e8,¡Bienvenido al Pueblo de los Cuentos! Aquí jugamos con frases y cuentos en inglés. Las casitas se abren de una en una. ,Bine ai venit în Satul Poveștilor! Aici ne jucăm cu propoziții și povești în engleză. Căsuțele se deschid pe rând.,frase,src/escenas/zonas.ts,borrador
+e43303c24ba4,el Rincón de los Conceptos,Colțul noțiunilor,trozo,src/escenas/zonas.ts,borrador
+1746f9bdb598,El Rincón de los Conceptos se abre cuando termines tres casitas del camino. ¡Ya terminaste {n}!,Colțul noțiunilor se deschide când termini trei căsuțe de pe drum. Ai terminat deja {n}!,frase,src/escenas/zonas.ts,borrador
+4f51607be6c0,Los días especiales se abren cuando termines cuatro casitas del camino.,Zilele speciale se deschid când termini patru căsuțe de pe drum.,frase,src/escenas/zonas.ts,borrador
+2d6a70af59e3,Esta casita todavía está cerrada. Primero termina {tema}. ¡Sigue el camino!,Căsuța aceasta încă e închisă. Mai întâi termină căsuța {tema}. Urmează drumul!,frase,src/escenas/zonas.ts,borrador
+ed476938b767,Esta casita todavía está cerrada. Primero termina la anterior. ¡Sigue el camino!,Căsuța aceasta încă e închisă. Mai întâi termin-o pe cea dinainte. Urmează drumul!,frase,src/escenas/zonas.ts,borrador
+be06e3fb7b86,¡Mira! ¡Se abrió el Rincón de los Conceptos! Tócala para jugar.,Uite! S-a deschis Colțul noțiunilor! Atinge-l ca să te joci.,frase,src/escenas/zonas.ts,borrador
+389e0dda8db2,¡Mira! ¡Se abrió una casita nueva: {tema}! Tócala para jugar.,Uite! S-a deschis o căsuță nouă: {tema}! Atinge-o ca să te joci.,frase,src/escenas/zonas.ts,borrador
+64baabf0ab07,¡Terminaste todo el camino{nino}! ¡Increíble! Puedes repetir la casita que quieras.,Ai terminat tot drumul{nino}! Incredibil! Poți repeta căsuța pe care o vrei.,frase,src/escenas/zonas.ts,borrador
+79db86678453,Toca la casita que brilla: {tema}.,Atinge căsuța care strălucește: {tema}.,frase,src/escenas/zonas.ts,borrador
+d2c1ce7906cc,¡Terminaste todo el camino! Puedes repetir la casita que quieras.,Ai terminat tot drumul! Poți repeta căsuța pe care o vrei.,frase,src/escenas/zonas.ts,borrador
+ab25e5c98beb,¡La casa de Tito creció! Ahora tiene un jardín con cerca y flores.,Casa lui Tito a crescut! Acum are o grădină cu gard și flori.,frase,src/escenas/zonas.ts,borrador
+336bb13b4c54,"¡La casa de Tito creció! Ahora tiene un piso más, con balcón.","Casa lui Tito a crescut! Acum are încă un etaj, cu balcon.",frase,src/escenas/zonas.ts,borrador
+e877ccf4b4e7,¡La casa de Tito creció! Ahora tiene una torre con bandera.,Casa lui Tito a crescut! Acum are un turn cu steag.,frase,src/escenas/zonas.ts,borrador
+b2a6a82fd16b,¡La casa de Tito es un castillo! Tiene estrella y arcoíris.,Casa lui Tito e un castel! Are stea și curcubeu.,frase,src/escenas/zonas.ts,borrador
+1a6156ee2b97,"¡Mira! En el jardín de Tito apareció un huevo misterioso. ¡Si juegas, se va a abrir!","Uite! În grădina lui Tito a apărut un ou misterios. Dacă te joci, o să se deschidă!",frase,src/escenas/zonas.ts,borrador
+e27cab0bb05c,"¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!","Oul s-a deschis! S-a născut Pipo, un pui de dinozaur!",frase,src/escenas/zonas.ts,borrador
+7ffa5443482f,¡Pipo salió del cascarón y ya camina!,Pipo a ieșit din găoace și deja merge!,frase,src/escenas/zonas.ts,borrador
+9f6308686375,¡Pipo está creciendo un montón!,Pipo crește foarte mult!,frase,src/escenas/zonas.ts,borrador
+a8d752e847f8,¡Pipo es un dinosaurio grandote! ¡Y tiene corona!,Pipo e un dinozaur mare de tot! Și are coroană!,frase,src/escenas/zonas.ts,borrador
 8167cdb73129,Casa de Tito,Casa lui Tito,trozo,src/escenas/zonas.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/progreso.ts,borrador
-cfb13950107d,la plaza de la asamblea,,trozo,src/escenas/zonas.ts,falta
-d8f5db14848e,las canciones,,trozo,src/escenas/zonas.ts,falta
-02449fab297d,los trazos,,trozo,src/escenas/zonas.ts,falta
-b23b2e5c8973,las rutinas y los hábitos,,trozo,src/escenas/zonas.ts,falta
-5e97168da8a5,el álbum,,trozo,src/escenas/zonas.ts,falta
-bf5fd63a874f,el globo de la Isla del Inglés,,trozo,src/escenas/zonas.ts,falta
-47ff295173a9,la casa de Tito,,trozo,src/escenas/zonas.ts,falta
-538329857e0b,el barco de la Isla de las Letras,,trozo,src/escenas/zonas.ts,falta
-f2ffb5dd6528,¡Terminaste todos los caminos{nino}! Puedes repetir lo que más te guste.,,frase,src/escenas/zonas.ts,falta
+cfb13950107d,la plaza de la asamblea,piața întâlnirii,trozo,src/escenas/zonas.ts,borrador
+d8f5db14848e,las canciones,cântecele,trozo,src/escenas/zonas.ts,borrador
+02449fab297d,los trazos,liniile,trozo,src/escenas/zonas.ts,borrador
+b23b2e5c8973,las rutinas y los hábitos,rutinele și obiceiurile,trozo,src/escenas/zonas.ts,borrador
+5e97168da8a5,el álbum,albumul,trozo,src/escenas/zonas.ts,borrador
+bf5fd63a874f,el globo de la Isla del Inglés,balonul Insulei Englezei,trozo,src/escenas/zonas.ts,borrador
+47ff295173a9,la casa de Tito,casa lui Tito,trozo,src/escenas/zonas.ts,borrador
+538329857e0b,el barco de la Isla de las Letras,barca Insulei Literelor,trozo,src/escenas/zonas.ts,borrador
+f2ffb5dd6528,¡Terminaste todos los caminos{nino}! Puedes repetir lo que más te guste.,Ai terminat toate drumurile{nino}! Poți repeta ce îți place cel mai mult.,frase,src/escenas/zonas.ts,borrador
 ba425b157dcd,Isla de las Letras,Insula Literelor,trozo,src/escenas/zonas.ts src/aplicacion/adultos/comoSeJuega.ts,borrador
-969e43db941b,El cole,,trozo,src/escenas/zonas.ts,falta
-a623a5ae7a4d,Isla del Inglés,,trozo,src/escenas/zonas.ts,falta
-df09140b08d5,3 años,,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,falta
-5d400baad9f7,4 años,,trozo,src/escenas/zonas.ts,falta
-dcf5a6f7e26e,5 años,,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,falta
-036a58dcb9fa,¡Mira{nino}! ¡Se despertó {zona}! Ahora puedes jugar ahí también.,,frase,src/escenas/zonas.ts,falta
-d00ab6651ad0,¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.,,frase,src/escenas/zonas.ts,falta
-38acb0347a77,¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.,,frase,src/escenas/zonas.ts,falta
-46406c5e9012,¡Mira{nino}! ¡Tito tiene una flor en su caparazón!,,frase,src/escenas/zonas.ts,falta
-0103f180a942,¡Mira{nino}! ¡Tito tiene {n} flores en su caparazón!,,frase,src/escenas/zonas.ts,falta
-e2a51fa2f264,¡Hola{nino}! Te he guardado un regalito: ¡tres monedas!,,frase,src/escenas/zonas.ts,falta
-03521cd42cf7,Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.,,frase,src/escenas/zonas.ts,falta
-e3cc98690991,¡Llevamos un buen rato jugando! Vamos a hacer una pausa para estirarnos como los animales.,,frase,src/escenas/zonas.ts,falta
-238add231fd9,¡Buen día{nino}!,,frase,src/escenas/zonas.ts,falta
-70dc954fdcea,¡Buenas tardes{nino}!,,frase,src/escenas/zonas.ts,falta
-1b91cc139297,¡Buenas noches{nino}!,,frase,src/escenas/zonas.ts,falta
-57f9fc8e4e5b,Vamos a la plaza a hacer la asamblea. Toca la plaza.,,frase,src/escenas/zonas.ts,falta
-a469c2f7ea48,Toca el botón verde para seguir el camino. También puedes ir a la tienda o a la casa de Tito.,,frase,src/escenas/zonas.ts,falta
-73fc71292ec4,Es un huevo misterioso. Le falta un juego para abrirse.,,frase,src/escenas/zonas.ts,falta
-b1ef257178e3,Es un huevo misterioso. Le faltan {n} juegos para abrirse.,,frase,src/escenas/zonas.ts,falta
-f77f96541ebf,"¡Hola! Soy Pipo, el dinosaurio de Tito.",,frase,src/escenas/zonas.ts,falta
-1055c3e482d9,El repaso con Tito.,,frase,src/escenas/zonas.ts,falta
-ca8785e7c22b,{Zona}.,,trozo,src/escenas/zonas.ts,falta
-58f5259a1110,{Zona}. Todavía está cerrado.,,trozo,src/escenas/zonas.ts,falta
-4079331a11a4,{Zona}. Todavía está dormida.,,trozo,src/escenas/zonas.ts,falta
-4f51c1b2ac9e,{Zona}. Todavía está dormido.,,trozo,src/escenas/zonas.ts,falta
-82d429ab2c37,{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del jardín.,,trozo,src/escenas/zonas.ts,falta
-15b49f8d6532,{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del bosque.,,trozo,src/escenas/zonas.ts,falta
-3ae81cccac0f,{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del jardín.,,trozo,src/escenas/zonas.ts,falta
-06710d31d070,{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del bosque.,,trozo,src/escenas/zonas.ts,falta
-427bb2e50029,¡Ya tiene una!,,frase,src/escenas/zonas.ts,falta
-29cfb8eeed5d,¡Ya tiene {n}!,,frase,src/escenas/zonas.ts,falta
-f9c97efa1c55,{Zona} se abren cuando termines una casita del camino.,,trozo,src/escenas/zonas.ts,falta
-900e1e2b3a46,{Zona} se abren cuando termines {n} casitas del camino.,,trozo,src/escenas/zonas.ts,falta
-7acaed80d468,{Zona} se abre cuando termines una casita del camino.,,trozo,src/escenas/zonas.ts,falta
-de60a4160049,{Zona} se abre cuando termines {n} casitas del camino.,,trozo,src/escenas/zonas.ts,falta
-0d05f9785ab8,¡Ya terminaste una!,,frase,src/escenas/zonas.ts,falta
-5f326102a124,¡Ya terminaste {n}!,,frase,src/escenas/zonas.ts,falta
-fe653b97deac,¡Se abrió el juego número {n}! Tócalo para seguir.,,frase,src/escenas/zonas.ts,falta
-4687dd09f4e8,Empieza por el primero: ¡vamos a conocer!,,frase,src/escenas/zonas.ts,falta
-76e0dc50891a,"Toca el que brilla, el número {n}.",,frase,src/escenas/zonas.ts,falta
-6a5f781c4d40,¡Ya jugaste todos! Puedes repetir el que más te guste.,,frase,src/escenas/zonas.ts,falta
+969e43db941b,El cole,Grădinița,trozo,src/escenas/zonas.ts,borrador
+a623a5ae7a4d,Isla del Inglés,Insula Englezei,trozo,src/escenas/zonas.ts,borrador
+df09140b08d5,3 años,3 ani,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
+5d400baad9f7,4 años,4 ani,trozo,src/escenas/zonas.ts,borrador
+dcf5a6f7e26e,5 años,5 ani,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
+036a58dcb9fa,¡Mira{nino}! ¡Se despertó {zona}! Ahora puedes jugar ahí también.,Uite{nino}! S-a trezit {zona}! Acum te poți juca și acolo.,frase,src/escenas/zonas.ts,borrador
+d00ab6651ad0,¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.,Uite{nino}! S-au deschis {zona}! Atinge ca să te joci.,frase,src/escenas/zonas.ts,borrador
+38acb0347a77,¡Mira{nino}! ¡Se abrió {zona}! Toca para jugar.,Uite{nino}! S-a deschis {zona}! Atinge ca să te joci.,frase,src/escenas/zonas.ts,borrador
+46406c5e9012,¡Mira{nino}! ¡Tito tiene una flor en su caparazón!,Uite{nino}! Tito are o floare pe căsuța lui!,frase,src/escenas/zonas.ts,borrador
+0103f180a942,¡Mira{nino}! ¡Tito tiene {n} flores en su caparazón!,Uite{nino}! Tito are {n} {n:de}flori pe căsuța lui!,frase,src/escenas/zonas.ts,borrador
+e2a51fa2f264,¡Hola{nino}! Te he guardado un regalito: ¡tres monedas!,Bună{nino}! Ți-am păstrat un cădouaș: trei monede!,frase,src/escenas/zonas.ts,borrador
+03521cd42cf7,Jugamos un montón. ¿Descansamos un ratito? Tito te espera cuando quieras.,Ne-am jucat foarte mult. Ne odihnim puțin? Tito te așteaptă când vrei.,frase,src/escenas/zonas.ts,borrador
+e3cc98690991,¡Llevamos un buen rato jugando! Vamos a hacer una pausa para estirarnos como los animales.,Ne jucăm de mult timp! Hai să facem o pauză ca să ne întindem ca animalele.,frase,src/escenas/zonas.ts,borrador
+238add231fd9,¡Buen día{nino}!,Bună dimineața{nino}!,frase,src/escenas/zonas.ts,borrador
+70dc954fdcea,¡Buenas tardes{nino}!,Bună ziua{nino}!,frase,src/escenas/zonas.ts,borrador
+1b91cc139297,¡Buenas noches{nino}!,Bună seara{nino}!,frase,src/escenas/zonas.ts,borrador
+57f9fc8e4e5b,Vamos a la plaza a hacer la asamblea. Toca la plaza.,Hai în piață la întâlnirea de dimineață. Atinge piața.,frase,src/escenas/zonas.ts,borrador
+a469c2f7ea48,Toca el botón verde para seguir el camino. También puedes ir a la tienda o a la casa de Tito.,Atinge butonul verde ca să mergi mai departe pe drum. Poți merge și la magazin sau la casa lui Tito.,frase,src/escenas/zonas.ts,borrador
+73fc71292ec4,Es un huevo misterioso. Le falta un juego para abrirse.,E un ou misterios. Mai trebuie un joc ca să se deschidă.,frase,src/escenas/zonas.ts,borrador
+b1ef257178e3,Es un huevo misterioso. Le faltan {n} juegos para abrirse.,E un ou misterios. Mai trebuie {n} {n:de}jocuri ca să se deschidă.,frase,src/escenas/zonas.ts,borrador
+f77f96541ebf,"¡Hola! Soy Pipo, el dinosaurio de Tito.","Bună! Sunt Pipo, dinozaurul lui Tito.",frase,src/escenas/zonas.ts,borrador
+1055c3e482d9,El repaso con Tito.,Recapitularea cu Tito.,frase,src/escenas/zonas.ts,borrador
+ca8785e7c22b,{Zona}.,{Zona}.,trozo,src/escenas/zonas.ts,borrador
+58f5259a1110,{Zona}. Todavía está cerrado.,{Zona}. Încă e închis.,trozo,src/escenas/zonas.ts,borrador
+4079331a11a4,{Zona}. Todavía está dormida.,{Zona}. Încă doarme.,trozo,src/escenas/zonas.ts,borrador
+4f51c1b2ac9e,{Zona}. Todavía está dormido.,{Zona}. Încă doarme.,trozo,src/escenas/zonas.ts,borrador
+82d429ab2c37,{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del jardín.,{Zona} încă doarme. Se trezește când Tito are șase flori din grădină.,trozo,src/escenas/zonas.ts,borrador
+15b49f8d6532,{Zona} todavía está dormida. Se despierta cuando Tito tenga seis flores del bosque.,{Zona} încă doarme. Se trezește când Tito are șase flori din pădure.,trozo,src/escenas/zonas.ts,borrador
+3ae81cccac0f,{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del jardín.,{Zona} încă doarme. Se trezește când Tito are șase flori din grădină.,trozo,src/escenas/zonas.ts,borrador
+06710d31d070,{Zona} todavía está dormido. Se despierta cuando Tito tenga seis flores del bosque.,{Zona} încă doarme. Se trezește când Tito are șase flori din pădure.,trozo,src/escenas/zonas.ts,borrador
+427bb2e50029,¡Ya tiene una!,Are deja una!,frase,src/escenas/zonas.ts,borrador
+29cfb8eeed5d,¡Ya tiene {n}!,Are deja {n}!,frase,src/escenas/zonas.ts,borrador
+f9c97efa1c55,{Zona} se abren cuando termines una casita del camino.,{Zona} se deschid când termini o căsuță de pe drum.,trozo,src/escenas/zonas.ts,borrador
+900e1e2b3a46,{Zona} se abren cuando termines {n} casitas del camino.,{Zona} se deschid când termini {n} {n:de}căsuțe de pe drum.,trozo,src/escenas/zonas.ts,borrador
+7acaed80d468,{Zona} se abre cuando termines una casita del camino.,{Zona} se deschide când termini o căsuță de pe drum.,trozo,src/escenas/zonas.ts,borrador
+de60a4160049,{Zona} se abre cuando termines {n} casitas del camino.,{Zona} se deschide când termini {n} {n:de}căsuțe de pe drum.,trozo,src/escenas/zonas.ts,borrador
+0d05f9785ab8,¡Ya terminaste una!,Ai terminat deja una!,frase,src/escenas/zonas.ts,borrador
+5f326102a124,¡Ya terminaste {n}!,Ai terminat deja {n}!,frase,src/escenas/zonas.ts,borrador
+fe653b97deac,¡Se abrió el juego número {n}! Tócalo para seguir.,S-a deschis jocul numărul {n}! Atinge-l ca să continui.,frase,src/escenas/zonas.ts,borrador
+4687dd09f4e8,Empieza por el primero: ¡vamos a conocer!,Începe cu primul: hai să cunoaștem!,frase,src/escenas/zonas.ts,borrador
+76e0dc50891a,"Toca el que brilla, el número {n}.","Atinge-l pe cel care strălucește, numărul {n}.",frase,src/escenas/zonas.ts,borrador
+6a5f781c4d40,¡Ya jugaste todos! Puedes repetir el que más te guste.,Le-ai jucat pe toate! Îl poți repeta pe cel care îți place.,frase,src/escenas/zonas.ts,borrador
 ae1feb6d3998,alegría,,trozo,src/juegos/caras.ts,falta
 d9292c5677b5,tristeza,,trozo,src/juegos/caras.ts,falta
 fda493ccee18,enfado,,trozo,src/juegos/caras.ts,falta
@@ -2278,18 +2278,18 @@ bffcca40c528,Amarillo.,,frase,src/mundo3d/cielo.ts,falta
 9102ab9d227c,Azul.,,frase,src/mundo3d/cielo.ts,falta
 5430939c3f48,Morado.,,frase,src/mundo3d/cielo.ts,falta
 a4183cea0cae,El sol. Es una estrella gigante que nos da luz y calor.,,frase,src/mundo3d/interaccion.ts src/temas/temas5.ts,falta
-46ba9eba2f4b,SOL,,trozo,src/mundo3d/interaccion.ts,falta
+46ba9eba2f4b,SOL,SOARE,trozo,src/mundo3d/interaccion.ts,borrador
 dde882c0b4ec,@Good morning,,inglés,src/mundo3d/interaccion.ts,falta
-9fe56ef26899,Buenos días.,,frase,src/mundo3d/interaccion.ts,falta
+9fe56ef26899,Buenos días.,Bună dimineața.,frase,src/mundo3d/interaccion.ts,borrador
 b7b54534adf8,Saturno. Tiene unos anillos enormes.,,frase,src/mundo3d/interaccion.ts src/temas/temas5.ts,falta
-a4ff99cc10e2,SATURNO,,trozo,src/mundo3d/interaccion.ts,falta
+a4ff99cc10e2,SATURNO,SATURN,trozo,src/mundo3d/interaccion.ts,borrador
 a51e4e06e1f8,Júpiter. Es el planeta más grande de todos.,,frase,src/mundo3d/interaccion.ts src/temas/temas5.ts,falta
-cc06d1ecdf91,Júpiter.,,frase,src/mundo3d/interaccion.ts,falta
-48cfc7cf580d,JÚPITER,,trozo,src/mundo3d/interaccion.ts,falta
+cc06d1ecdf91,Júpiter.,Jupiter.,frase,src/mundo3d/interaccion.ts,borrador
+48cfc7cf580d,JÚPITER,JUPITER,trozo,src/mundo3d/interaccion.ts,borrador
 c74aac81b8a1,La luna. Gira alrededor de la Tierra. De noche la vemos brillar.,,frase,src/mundo3d/interaccion.ts src/temas/temas5.ts,falta
-7e015e3ed140,LUNA,,trozo,src/mundo3d/interaccion.ts,falta
+7e015e3ed140,LUNA,LUNA,trozo,src/mundo3d/interaccion.ts,borrador
 cd2dc1f511e3,@Good night,,inglés,src/mundo3d/interaccion.ts,falta
-ac57245d48c4,Buenas noches.,,frase,src/mundo3d/interaccion.ts,falta
+ac57245d48c4,Buenas noches.,Noapte bună.,frase,src/mundo3d/interaccion.ts,borrador
 7987cc08e29b,@Red,,inglés,src/mundo3d/interaccion.ts,falta
 b08b80509591,@White,,inglés,src/mundo3d/interaccion.ts,falta
 a39f206ba401,@Blue,,inglés,src/mundo3d/interaccion.ts,falta
@@ -2297,19 +2297,19 @@ a3ab49ee4618,@Hello,,inglés,src/mundo3d/interaccion.ts,falta
 eb61eead90e3,HELLO,,trozo,src/mundo3d/interaccion.ts src/mundo3d/islaIngles3d.ts,falta
 c958e8f13e00,AEIOU,,trozo,src/mundo3d/isla3d.ts,falta
 0346395fbbe7,MPL,,trozo,src/mundo3d/isla3d.ts,falta
-8510453fad10, años,,trozo,src/mundo3d/isla3d.ts src/mundo3d/islaIngles3d.ts,falta
+8510453fad10, años,ani,trozo,src/mundo3d/isla3d.ts src/mundo3d/islaIngles3d.ts,borrador
 0cc175b9c0f1,a,,trozo,src/mundo3d/mapa3d.ts,falta
 6aaa0c8b5072,"attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}",,trozo,src/mundo3d/materiales.ts,falta
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",,trozo,src/mundo3d/materiales.ts,falta
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.",,frase,src/mundo3d/objetos.ts src/temas/temas4.ts,falta
-087974002010,CONTENTO,,trozo,src/mundo3d/objetos.ts,falta
+087974002010,CONTENTO,VESEL,trozo,src/mundo3d/objetos.ts,borrador
 e86410fa2d6e,ABCDEFGHIJ,,trozo,src/mundo3d/zonas3d.ts,falta
-c48462232a6a,Rincón de los Conceptos,,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts,falta
-9617d12b8ae3,el gato,,nombre,src/nucleo/idioma.ts,falta
+c48462232a6a,Rincón de los Conceptos,Colțul noțiunilor,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts,borrador
+9617d12b8ae3,el gato,pisica,nombre,src/nucleo/idioma.ts,borrador
 0ce429fe7971,el pato,,nombre,src/nucleo/idioma.ts,falta
 61aa2b3d1373,el sol,,nombre,src/nucleo/idioma.ts,falta
 72e2d1cc143f,la luna,,nombre,src/nucleo/idioma.ts,falta
-08493e9db561,la mesa,,nombre,src/nucleo/idioma.ts,falta
+08493e9db561,la mesa,masa,nombre,src/nucleo/idioma.ts,borrador
 9d00fce7bc6a,la fresa,,nombre,src/nucleo/idioma.ts,falta
 25f2381de627,la casa,,nombre,src/nucleo/idioma.ts,falta
 b63605dc8a2a,la bota,,nombre,src/nucleo/idioma.ts,falta
@@ -2321,7 +2321,7 @@ a2e12c3dd40e,la mariposa,,nombre,src/nucleo/idioma.ts,falta
 8a64e9d65fec,el león,,nombre,src/nucleo/idioma.ts,falta
 077e166e6146,la abeja,,nombre,src/nucleo/idioma.ts,falta
 4b7fa3bc6f49,el avión,,nombre,src/nucleo/idioma.ts,falta
-dfdcf259ef90,el árbol,,nombre,src/nucleo/idioma.ts,falta
+dfdcf259ef90,el árbol,copacul,nombre,src/nucleo/idioma.ts,borrador
 ed28659f8b41,el elefante,,nombre,src/nucleo/idioma.ts,falta
 f07e8d524f80,la estrella,,nombre,src/nucleo/idioma.ts,falta
 2529b18c4b41,el oso,,nombre,src/nucleo/idioma.ts,falta
@@ -2337,21 +2337,21 @@ b4ae8e622fee,el dinosaurio,,nombre,src/nucleo/idioma.ts,falta
 f9a0fd76cf91,la foca,,nombre,src/nucleo/idioma.ts,falta
 9598d7609c8b,el perro,,nombre,src/nucleo/idioma.ts,falta
 876665517f21,el coche,,nombre,src/nucleo/idioma.ts,falta
-7730fbc8ee43,la cama,,nombre,src/nucleo/idioma.ts,falta
-8cb09e5ea056,la silla,,nombre,src/nucleo/idioma.ts,falta
+7730fbc8ee43,la cama,patul,nombre,src/nucleo/idioma.ts,borrador
+8cb09e5ea056,la silla,scaunul,nombre,src/nucleo/idioma.ts,borrador
 ea72ecca2fdb,el zapato,,nombre,src/nucleo/idioma.ts,falta
 005014269f7c,el plátano,,nombre,src/nucleo/idioma.ts,falta
 3eb92e0764c5,el helado,,nombre,src/nucleo/idioma.ts,falta
 c1b72d9f6e28,la pera,,nombre,src/nucleo/idioma.ts,falta
 268372c5eea1,la leche,,nombre,src/nucleo/idioma.ts,falta
-a5774b205887,el globo,,nombre,src/nucleo/idioma.ts,falta
+a5774b205887,el globo,balonul,nombre,src/nucleo/idioma.ts,borrador
 f379de3d4ed3,el barco,,nombre,src/nucleo/idioma.ts,falta
 978c46837b8b,el tren,,nombre,src/nucleo/idioma.ts,falta
 c07f8725dd44,la rana,,nombre,src/nucleo/idioma.ts,falta
 a20f8fbebd9f,la mano,,nombre,src/nucleo/idioma.ts,falta
 acd1d6f476d6,el pie,,nombre,src/nucleo/idioma.ts,falta
 e6b0fe94cfd4,la sandía,,nombre,src/nucleo/idioma.ts,falta
-5a3d5ea83531,el cohete,,nombre,src/nucleo/idioma.ts,falta
+5a3d5ea83531,el cohete,racheta,nombre,src/nucleo/idioma.ts,borrador
 e4eb34e21b10,el regalo,,nombre,src/nucleo/idioma.ts,falta
 ec04449cb0ae,el pino,,nombre,src/nucleo/idioma.ts,falta
 7c907536c221,la moto,,nombre,src/nucleo/idioma.ts,falta
@@ -2361,17 +2361,17 @@ ec04449cb0ae,el pino,,nombre,src/nucleo/idioma.ts,falta
 bb603486053d,la hoja roja,,nombre,src/nucleo/idioma.ts,falta
 d20db51331bf,la hoja marrón,,nombre,src/nucleo/idioma.ts,falta
 fbe4b319d6c2,la mochila,,nombre,src/nucleo/idioma.ts,falta
-10653f49a56f,las pinturas,,nombre,src/nucleo/idioma.ts src/temas/temas.ts,falta
-a7e3d3b0167a,el cuento,,nombre,src/nucleo/idioma.ts,falta
-634f50611dae,el tobogán,,nombre,src/nucleo/idioma.ts,falta
+10653f49a56f,las pinturas,creioanele colorate,nombre,src/nucleo/idioma.ts src/temas/temas.ts,borrador
+a7e3d3b0167a,el cuento,povestea,nombre,src/nucleo/idioma.ts,borrador
+634f50611dae,el tobogán,toboganul,nombre,src/nucleo/idioma.ts,borrador
 1370c19cc66e,la oreja,,nombre,src/nucleo/idioma.ts,falta
 db727127b435,la cara,,nombre,src/nucleo/idioma.ts,falta
 9884da4ed78a,la gota de agua,,nombre,src/nucleo/idioma.ts,falta
 16440421074f,la ballena,,nombre,src/nucleo/idioma.ts,falta
 cf4982de29c2,la castaña,,nombre,src/nucleo/idioma.ts,falta
 859c40d11be3,la seta,,nombre,src/nucleo/idioma.ts,falta
-21fa632eccd8,el paraguas,,nombre,src/nucleo/idioma.ts,falta
-e0f5f3abc58b,las botas de lluvia,,nombre,src/nucleo/idioma.ts,falta
+21fa632eccd8,el paraguas,umbrela,nombre,src/nucleo/idioma.ts,borrador
+e0f5f3abc58b,las botas de lluvia,cizmele de cauciuc,nombre,src/nucleo/idioma.ts,borrador
 1a2c1baac3d2,la lluvia,,nombre,src/nucleo/idioma.ts,falta
 96346fd418f6,las nubes,,nombre,src/nucleo/idioma.ts,falta
 ba9d7b0369c0,la nieve,,nombre,src/nucleo/idioma.ts,falta
@@ -2380,33 +2380,33 @@ dbae7d848872,el viento,,nombre,src/nucleo/idioma.ts,falta
 a75a90bfe60c,la niebla,,nombre,src/nucleo/idioma.ts,falta
 7930db79320b,el arcoíris,,nombre,src/nucleo/idioma.ts,falta
 de1f99c7f312,la ardilla,,nombre,src/nucleo/idioma.ts,falta
-ebae60d4734f,el abrigo,,nombre,src/nucleo/idioma.ts,falta
-f397f9524ded,el gorro,,nombre,src/nucleo/idioma.ts src/temas/ingles.ts,falta
-5ead4eb037c9,la bufanda,,nombre,src/nucleo/idioma.ts src/temas/ingles.ts,falta
-215279598c24,los guantes,,nombre,src/nucleo/idioma.ts,falta
+ebae60d4734f,el abrigo,haina groasă,nombre,src/nucleo/idioma.ts,borrador
+f397f9524ded,el gorro,căciula,nombre,src/nucleo/idioma.ts src/temas/ingles.ts,borrador
+5ead4eb037c9,la bufanda,fularul,nombre,src/nucleo/idioma.ts src/temas/ingles.ts,borrador
+215279598c24,los guantes,mănușile,nombre,src/nucleo/idioma.ts,borrador
 53f2f867f10c,el copo de nieve,,nombre,src/nucleo/idioma.ts,falta
 4ebe57bdd86a,el muñeco de nieve,,nombre,src/nucleo/idioma.ts,falta
-64e173d43d18,la camiseta,,nombre,src/nucleo/idioma.ts,falta
-ea8b37aad071,las gafas de sol,,nombre,src/nucleo/idioma.ts,falta
-7654077cbabe,la gorra,,nombre,src/nucleo/idioma.ts,falta
+64e173d43d18,la camiseta,tricoul,nombre,src/nucleo/idioma.ts,borrador
+ea8b37aad071,las gafas de sol,ochelarii de soare,nombre,src/nucleo/idioma.ts,borrador
+7654077cbabe,la gorra,șapca,nombre,src/nucleo/idioma.ts,borrador
 8788c62bbba1,la naranja,,nombre,src/nucleo/idioma.ts,falta
 638eda8c7e1d,el zumo,,nombre,src/nucleo/idioma.ts,falta
-214182b263b1,la bañera,,nombre,src/nucleo/idioma.ts,falta
-c99b32680719,la nevera,,nombre,src/nucleo/idioma.ts,falta
+214182b263b1,la bañera,cada,nombre,src/nucleo/idioma.ts,borrador
+c99b32680719,la nevera,frigiderul,nombre,src/nucleo/idioma.ts,borrador
 1dce612fca9d,el sillón,,nombre,src/nucleo/idioma.ts,falta
 c20e74cf4e4a,el inodoro,,nombre,src/nucleo/idioma.ts,falta
-cb985825235c,la tele,,nombre,src/nucleo/idioma.ts,falta
+cb985825235c,la tele,televizorul,nombre,src/nucleo/idioma.ts,borrador
 7bb9977a0fab,el cepillo de dientes,,nombre,src/nucleo/idioma.ts,falta
-1a27518dc7d0,la olla,,nombre,src/nucleo/idioma.ts,falta
+1a27518dc7d0,la olla,oala,nombre,src/nucleo/idioma.ts,borrador
 fee540b1f4eb,la mariquita,,nombre,src/nucleo/idioma.ts,falta
-ed0e23516cf6,el pájaro,,nombre,src/nucleo/idioma.ts,falta
-3b61dfa18dd5,la regadera,,nombre,src/nucleo/idioma.ts,falta
+ed0e23516cf6,el pájaro,pasărea,nombre,src/nucleo/idioma.ts,borrador
+3b61dfa18dd5,la regadera,stropitoarea,nombre,src/nucleo/idioma.ts,borrador
 1fe77ddaa918,el autobús,,nombre,src/nucleo/idioma.ts,falta
 b3a8be78cab8,la bici,,nombre,src/nucleo/idioma.ts,falta
 fbe7e531bdd8,el cubo,,nombre,src/nucleo/idioma.ts,falta
-7a3095614bbf,la toalla,,nombre,src/nucleo/idioma.ts,falta
+7a3095614bbf,la toalla,prosopul,nombre,src/nucleo/idioma.ts,borrador
 42d85bb73c62,la crema para el sol,,nombre,src/nucleo/idioma.ts,falta
-fb35cf0da7a9,el castillo de arena,,nombre,src/nucleo/idioma.ts,falta
+fb35cf0da7a9,el castillo de arena,castelul de nisip,nombre,src/nucleo/idioma.ts,borrador
 72a5998bd0d7,la concha,,nombre,src/nucleo/idioma.ts,falta
 282f964e58a5,la galleta,,nombre,src/nucleo/idioma.ts,falta
 c1b8c585945f,el plato,,nombre,src/nucleo/idioma.ts,falta
@@ -2421,11 +2421,11 @@ cd4fccdcf9e8,el abuelo,,nombre,src/nucleo/idioma.ts,falta
 38875cc61704,la abuela,,nombre,src/nucleo/idioma.ts,falta
 71fa1fe1b157,la maestra,,nombre,src/nucleo/idioma.ts,falta
 81a682f9356f,el niño,,nombre,src/nucleo/idioma.ts,falta
-57d549b0f4a4,el sofá,,nombre,src/nucleo/idioma.ts,falta
+57d549b0f4a4,el sofá,canapeaua,nombre,src/nucleo/idioma.ts,borrador
 3cf70ad18865,la macedonia,,nombre,src/nucleo/idioma.ts,falta
 104b369a6454,la crema solar,,nombre,src/nucleo/idioma.ts,falta
 8b2d4920f262,la profe,,nombre,src/nucleo/idioma.ts,falta
-f901712955e8,las botas de agua,,nombre,src/nucleo/idioma.ts,falta
+f901712955e8,las botas de agua,cizmele de cauciuc,nombre,src/nucleo/idioma.ts,borrador
 b26324d56117,"data:image/svg+xml;charset=utf-8,",,trozo,src/nucleo/imagenes.ts,falta
 b24d974bd1ca,¡Pegatina nueva!,Abțibild nou!,frase,src/nucleo/interfaz.ts,borrador
 4e5c18e09ebf,lunes,luni,trozo,src/nucleo/interfaz.ts,borrador
@@ -2505,7 +2505,7 @@ c88f21d2975d,"Enero, ¡empieza el año!",,frase,src/temas/extras.ts,falta
 22728b440c5a,mojamos las manos,,trozo,src/temas/extras.ts,falta
 f7b8f8ae0470,nos enjuagamos,,trozo,src/temas/extras.ts,falta
 0e6078fd3c21,la sonrisa,,trozo,src/temas/extras.ts,falta
-7b203331b463,Rutinas y hábitos,,trozo,src/temas/extras.ts src/aplicacion/adultos/progreso.ts,falta
+7b203331b463,Rutinas y hábitos,Rutine și obiceiuri,trozo,src/temas/extras.ts src/aplicacion/adultos/progreso.ts,borrador
 1637550992bc,Las cosas que hacemos todos los días.,,frase,src/temas/extras.ts,falta
 6ba8d8ebc41a,Lavarse las manos,,trozo,src/temas/extras.ts,falta
 50dc675575ca,¿Cómo nos lavamos las manos? Ordena del primero al último.,,frase,src/temas/extras.ts,falta
@@ -2549,15 +2549,15 @@ e60b2057154f,"¡Otra vez, con muchas vueltas!",,frase,src/temas/extras.ts,falta
 62e7be8d583e,Espiral,,trozo,src/temas/extras.ts,falta
 10020e94f75a,El caracol va dando vueltas hasta la lechuga del medio. Sigue la espiral.,,frase,src/temas/extras.ts,falta
 8597cf92f493,¡Lo lograste! Con estos trazos tu mano ya está lista para escribir letras. ¡Pruébalas en Letrilandia!,,frase,src/temas/extras.ts,falta
-a59cbbd4bf1d,Los trazos,,trozo,src/temas/extras.ts,falta
+a59cbbd4bf1d,Los trazos,Liniile,trozo,src/temas/extras.ts,borrador
 fb8547b20d6b,"Con los trazos preparamos la mano para escribir. Se juegan en orden: cuando terminas uno, se abre el siguiente.",,frase,src/temas/extras.ts,falta
 107312298d7f,Sigue el camino con el dedo.,,frase,src/temas/extras.ts,falta
-f2c77ff57d23,Las canciones,,trozo,src/temas/extras.ts,falta
-c40377b59857,Los días de la semana,,trozo,src/temas/extras.ts src/temas/inglesPueblo.ts src/temas/temas4.ts,falta
+f2c77ff57d23,Las canciones,Cântecele,trozo,src/temas/extras.ts,borrador
+c40377b59857,Los días de la semana,Zilele săptămânii,trozo,src/temas/extras.ts src/temas/inglesPueblo.ts src/temas/temas4.ts,borrador
 4f7a6919011c,Las estaciones,,trozo,src/temas/extras.ts,falta
-9574ef39a896,Los colores,,trozo,src/temas/extras.ts src/temas/temas.ts,falta
-50664bc74445,Los meses del año,,trozo,src/temas/extras.ts src/temas/temas5.ts src/aplicacion/adultos/progreso.ts,falta
-ab7cdc83f7b7,El cumpleaños,,trozo,src/temas/extras.ts,falta
+9574ef39a896,Los colores,Culorile,trozo,src/temas/extras.ts src/temas/temas.ts,borrador
+50664bc74445,Los meses del año,Lunile anului,trozo,src/temas/extras.ts src/temas/temas5.ts src/aplicacion/adultos/progreso.ts,borrador
+ab7cdc83f7b7,El cumpleaños,Ziua de naștere,trozo,src/temas/extras.ts,borrador
 ae91d300878a,¡Es una fiesta de cumpleaños! Sopla las velitas: toca cada una y contamos.,,frase,src/temas/extras.ts,falta
 31ae2b0c5508,Decorar la tarta,,trozo,src/temas/extras.ts,falta
 f40c365001a0,"¡Decoremos la tarta! Pon encima lo que más te guste. Cuando termines, toca el botón verde.",,frase,src/temas/extras.ts,falta
@@ -2565,16 +2565,16 @@ f40c365001a0,"¡Decoremos la tarta! Pon encima lo que más te guste. Cuando term
 b8a5504a5ecf,Preparamos la fiesta,,trozo,src/temas/extras.ts,falta
 0e337f3cb81d,¿Cómo preparamos la fiesta? Primero invitamos a los amigos con una carta. Ordena lo que viene después.,,frase,src/temas/extras.ts,falta
 12d52b10aadf,"¡Muy bien! Invitamos, decoramos con globos, soplamos las velas y abrimos los regalos.",,frase,src/temas/extras.ts,falta
-aa01cd1fce4d,La Navidad,,trozo,src/temas/extras.ts,falta
+aa01cd1fce4d,La Navidad,Crăciunul,trozo,src/temas/extras.ts,borrador
 d1d37c56f5b7,Decorar el árbol,,trozo,src/temas/extras.ts,falta
 af51e1aa2765,"¡Decoremos el árbol de Navidad! Pon los adornos donde quieras. Cuando termines, toca el botón verde.",,frase,src/temas/extras.ts,falta
-8b75bc832842,El carnaval,,trozo,src/temas/extras.ts,falta
+8b75bc832842,El carnaval,Carnavalul,trozo,src/temas/extras.ts,borrador
 bd6b08660df9,Disfrazarse,,trozo,src/temas/extras.ts,falta
 7bb1ae00dd1d,"¡Es carnaval! Disfraza al niño como quieras. Cuando termines, toca el botón verde.",,frase,src/temas/extras.ts,falta
 185aef99d784,¡Atrápalos!,,frase,src/temas/extras.ts,falta
 ecfffa59d269,¡Atrapa los antifaces!,,frase,src/temas/extras.ts,falta
 888aa07f247e,¡Ahora las narices de payaso!,,frase,src/temas/extras.ts,falta
-083b63ffb835,El Día del Libro,,trozo,src/temas/extras.ts,falta
+083b63ffb835,El Día del Libro,Ziua Cărții,trozo,src/temas/extras.ts,borrador
 a43edf98221a,Los tres cerditos,,trozo,src/temas/extras.ts,falta
 877a7854ff5c,¿Te acuerdas del cuento de los tres cerditos? El lobo sopló las casas. Ordénalas como en el cuento: primero la de paja.,,frase,src/temas/extras.ts,falta
 e426d177ee65,"¡Muy bien! Paja, madera y ladrillo. ¡La casa de ladrillo no se cayó!",,frase,src/temas/extras.ts,falta
@@ -2584,7 +2584,7 @@ c4b832d5a4a0,¿Qué casa no se cayó?,,frase,src/temas/extras.ts,falta
 aae95e55c166,¿Qué casa se voló con un soplido?,,frase,src/temas/extras.ts,falta
 40aca82fdc2e,¿Quiénes construyeron las casas?,,frase,src/temas/extras.ts,falta
 f94eee9bbc0f,¡Sí! {Cosa}.,,frase,src/temas/extras.ts src/temas/temas5.ts,falta
-89c2b9e29f6f,el trenecito,,nombre,src/temas/extras.ts,falta
+89c2b9e29f6f,el trenecito,trenulețul,nombre,src/temas/extras.ts,borrador
 21c2e59531c8,Z,,trozo,src/temas/ingles.ts,falta
 8b1a9953c461,Hello,,trozo,src/temas/ingles.ts,falta
 f688ae26e9cf,Hola,,trozo,src/temas/ingles.ts,falta
@@ -2644,68 +2644,68 @@ df9ef7929c5b,Repite conmigo,,trozo,src/temas/ingles.ts,falta
 301b703476f1,Canta los saludos,,trozo,src/temas/ingles.ts,falta
 224483f417bb,Canta los colores,,trozo,src/temas/ingles.ts,falta
 a069fa16a69a,Canta los números,,trozo,src/temas/ingles.ts,falta
-8ad4c7d09071,Los saludos en inglés,,trozo,src/temas/ingles.ts,falta
+8ad4c7d09071,Los saludos en inglés,Salutul în engleză,trozo,src/temas/ingles.ts,borrador
 5d41402abc4b,hello,,trozo,src/temas/ingles.ts,falta
 a3f22fa4c974,"saludarse en inglés al llegar y al irse: hello, good morning, good night.",,trozo,src/temas/ingles.ts,falta
-0dd5cf3bface,Los colores en inglés,,trozo,src/temas/ingles.ts,falta
+0dd5cf3bface,Los colores en inglés,Culorile în engleză,trozo,src/temas/ingles.ts,borrador
 62848e3ce580,colors,,trozo,src/temas/ingles.ts,falta
 4c996b8ad967,"jugar a ""I spy"": buscar en casa cosas red, blue, yellow...",,trozo,src/temas/ingles.ts,falta
-4ea2dd70b7dd,Los números en inglés,,trozo,src/temas/ingles.ts,falta
+4ea2dd70b7dd,Los números en inglés,Numerele în engleză,trozo,src/temas/ingles.ts,borrador
 ee5c35ce3d08,numbers,,trozo,src/temas/ingles.ts,falta
 6bf2ec704f83,"contar en inglés los escalones o los juguetes: one, two, three...",,trozo,src/temas/ingles.ts,falta
-645863de3566,Los animales en inglés,,trozo,src/temas/ingles.ts,falta
+645863de3566,Los animales en inglés,Animalele în engleză,trozo,src/temas/ingles.ts,borrador
 a723e3dfb497,animals,,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts,falta
 3e5165059ba5,mirar un libro de animales y nombrarlos en inglés.,,trozo,src/temas/ingles.ts,falta
-2cb50c9115bd,La familia en inglés,,trozo,src/temas/ingles.ts,falta
+2cb50c9115bd,La familia en inglés,Familia în engleză,trozo,src/temas/ingles.ts,borrador
 0d3fda0bdbb9,family,,trozo,src/temas/ingles.ts,falta
 addb03cbb121,"nombrar en inglés a la familia en las fotos de casa: mum, dad, baby...",,trozo,src/temas/ingles.ts,falta
-b3be0f9a1383,Mi cuerpo en inglés,,trozo,src/temas/ingles.ts,falta
+b3be0f9a1383,Mi cuerpo en inglés,Corpul meu în engleză,trozo,src/temas/ingles.ts,borrador
 841a2d689ad8,body,,trozo,src/temas/ingles.ts,falta
 e7166427bdf9,"jugar a tocarse la nariz, los ojos o las manos diciéndolo en inglés.",,trozo,src/temas/ingles.ts,falta
-a88a306561d0,Los juguetes en inglés,,trozo,src/temas/ingles.ts,falta
+a88a306561d0,Los juguetes en inglés,Jucăriile în engleză,trozo,src/temas/ingles.ts,borrador
 efacc1763324,toys,,trozo,src/temas/ingles.ts,falta
 dd042cc8b5c0,"al recoger, pedir los juguetes en inglés: the ball, please.",,trozo,src/temas/ingles.ts,falta
-f2c569afc34d,La fruta en inglés,,trozo,src/temas/ingles.ts,falta
+f2c569afc34d,La fruta en inglés,Fructele în engleză,trozo,src/temas/ingles.ts,borrador
 e0deff349b2c,fruit,,trozo,src/temas/ingles.ts,falta
 c68f9f85b008,"en la compra o en la merienda, decir la fruta en inglés: apple, banana...",,trozo,src/temas/ingles.ts,falta
-a8e2a84b819c,Las formas en inglés,,trozo,src/temas/ingles.ts,falta
+a8e2a84b819c,Las formas en inglés,Formele în engleză,trozo,src/temas/ingles.ts,borrador
 8a995d2704d5,shapes,,trozo,src/temas/ingles.ts,falta
 959fe4f01139,"buscar formas por la calle: a circle, a square, a triangle.",,trozo,src/temas/ingles.ts,falta
-5d028fdf62dd,Fiesta de la playa,,trozo,src/temas/ingles.ts,falta
+5d028fdf62dd,Fiesta de la playa,Petrecerea de pe plajă,trozo,src/temas/ingles.ts,borrador
 7193529abbf9,beach,,trozo,src/temas/ingles.ts,falta
 b2440786e29a,repasar con la familia las palabras en inglés que ya sabe.,,trozo,src/temas/ingles.ts,falta
-b27b4c65e425,Repaso de la playa,,trozo,src/temas/ingles.ts,falta
+b27b4c65e425,Repaso de la playa,Recapitularea de pe plajă,trozo,src/temas/ingles.ts,borrador
 ec66a1f345ea,preguntar en inglés por lo que ya sabe: what colour is it?,,trozo,src/temas/ingles.ts,falta
-d1ce7db9239c,La ropa en inglés,,trozo,src/temas/ingles.ts,falta
+d1ce7db9239c,La ropa en inglés,Hainele în engleză,trozo,src/temas/ingles.ts,borrador
 e7a80f49aaf2,clothes,,trozo,src/temas/ingles.ts,falta
 eb23e419b364,"al vestirse, nombrar la ropa en inglés: put on your coat!",,trozo,src/temas/ingles.ts,falta
-79f639841891,La comida en inglés,,trozo,src/temas/ingles.ts,falta
+79f639841891,La comida en inglés,Mâncarea în engleză,trozo,src/temas/ingles.ts,borrador
 62506be34d57,food,,trozo,src/temas/ingles.ts,falta
 b9e9c9684cb2,"en la mesa, pedir las cosas en inglés: milk, please.",,trozo,src/temas/ingles.ts,falta
-d0577b674b50,Mi casa en inglés,,trozo,src/temas/ingles.ts,falta
+d0577b674b50,Mi casa en inglés,Casa mea în engleză,trozo,src/temas/ingles.ts,borrador
 2ca63cddd54f,house,,trozo,src/temas/ingles.ts,falta
 7d992c112cab,"buscar por casa la bed, la table o el sofa.",,trozo,src/temas/ingles.ts,falta
-27883af102e0,El tiempo en inglés,,trozo,src/temas/ingles.ts,falta
+27883af102e0,El tiempo en inglés,Vremea în engleză,trozo,src/temas/ingles.ts,borrador
 aab92e69374e,weather,,trozo,src/temas/ingles.ts,falta
 c21a5e7f425e,"mirar por la ventana y decir qué tiempo hace: sunny, rainy...",,trozo,src/temas/ingles.ts,falta
-818762406f83,Los transportes en inglés,,trozo,src/temas/ingles.ts,falta
+818762406f83,Los transportes en inglés,Transportul în engleză,trozo,src/temas/ingles.ts,borrador
 7b334b726036,transport,,trozo,src/temas/ingles.ts,falta
 ce45e1eb30d5,"por la calle, nombrar los coches, autobuses y bicis en inglés.",,trozo,src/temas/ingles.ts,falta
-45654c8772bc,La granja en inglés,,trozo,src/temas/ingles.ts,falta
+45654c8772bc,La granja en inglés,Ferma în engleză,trozo,src/temas/ingles.ts,borrador
 e67ed91b512d,farm,,trozo,src/temas/ingles.ts,falta
 368a9b87fa64,imitar a los animales en inglés: the cow says moo.,,trozo,src/temas/ingles.ts,falta
-b29b9b7d7dd5,Lo que hacemos,,trozo,src/temas/ingles.ts,falta
+b29b9b7d7dd5,Lo que hacemos,Ce facem,trozo,src/temas/ingles.ts,borrador
 ebb67a4271ab,actions,,trozo,src/temas/ingles.ts,falta
 a17d7d233413,"jugar a hacer lo que se dice en inglés: run, jump, sleep.",,trozo,src/temas/ingles.ts,falta
-52c646563dd1,Grande y pequeño,,trozo,src/temas/ingles.ts src/temas/temas.ts,falta
+52c646563dd1,Grande y pequeño,Mare și mic,trozo,src/temas/ingles.ts src/temas/temas.ts,borrador
 8ab0b4ecc974,opposites,,trozo,src/temas/ingles.ts,falta
 ed70dbe315a7,buscar cosas big y small en casa.,,trozo,src/temas/ingles.ts,falta
-4896f9e7b3fe,Cómo me siento,,trozo,src/temas/ingles.ts,falta
+4896f9e7b3fe,Cómo me siento,Cum mă simt,trozo,src/temas/ingles.ts,borrador
 aa9009f64655,feelings,,trozo,src/temas/ingles.ts,falta
 36c6bc8c0404,preguntar cada día en inglés: are you happy?,,trozo,src/temas/ingles.ts,falta
-276ad8d9fb34,Canciones del parque,,trozo,src/temas/ingles.ts,falta
+276ad8d9fb34,Canciones del parque,Cântecele parcului,trozo,src/temas/ingles.ts,borrador
 e31b7b47c61a,cantar juntos en inglés los colores y los números.,,trozo,src/temas/ingles.ts,falta
-c9cd30b044fe,Fiesta del parque,,trozo,src/temas/ingles.ts,falta
+c9cd30b044fe,Fiesta del parque,Petrecerea din parc,trozo,src/temas/ingles.ts,borrador
 fb45615cea11,park,,trozo,src/temas/ingles.ts,falta
 7d233def8cf8,repasar con la familia las palabras en inglés del parque.,,trozo,src/temas/ingles.ts,falta
 b8f0ad4d81f0,"Haz lo que diga Polly, pero solo si empieza con «Polly says». Si no lo dice, toca la señal de stop.",,frase,src/temas/inglesPueblo.ts,falta
@@ -2769,42 +2769,42 @@ db693f59a494,Tito se comió la,,trozo,src/temas/inglesPueblo.ts,falta
 9eeb2d1ea83c,y le dijo a Polly:,,trozo,src/temas/inglesPueblo.ts,falta
 e1a81bacfe3c,"@Thank you, Polly!",,inglés,src/temas/inglesPueblo.ts,falta
 3e70bf6d557a,¿Te has fijado? Ahora te pregunto.,,frase,src/temas/inglesPueblo.ts,falta
-d35194692d29,Polly says,,trozo,src/temas/inglesPueblo.ts,falta
+d35194692d29,Polly says,Polly says,trozo,src/temas/inglesPueblo.ts,borrador
 f88c70634ad1,Me gusta,,trozo,src/temas/inglesPueblo.ts,falta
-6d07b621f405,What is it?,,frase,src/temas/inglesPueblo.ts,falta
+6d07b621f405,What is it?,What is it?,frase,src/temas/inglesPueblo.ts,borrador
 6b99fc04045e,Bingo,,trozo,src/temas/inglesPueblo.ts,falta
 795767f7fb3f,El autobús de Londres,,trozo,src/temas/inglesPueblo.ts,falta
 8b9c2403d1b0,Canta los días,,trozo,src/temas/inglesPueblo.ts,falta
 44fdec47036f,days,,trozo,src/temas/inglesPueblo.ts,falta
 5631d1852805,decir cada mañana qué día es en inglés: today is Monday.,,trozo,src/temas/inglesPueblo.ts,falta
-5c52ec57a520,Las estaciones en inglés,,trozo,src/temas/inglesPueblo.ts,falta
+5c52ec57a520,Las estaciones en inglés,Anotimpurile în engleză,trozo,src/temas/inglesPueblo.ts,borrador
 85ed15c4d405,seasons,,trozo,src/temas/inglesPueblo.ts,falta
 0ba4255c2c7b,"al salir a la calle, decir en qué estación estamos: autumn, winter...",,trozo,src/temas/inglesPueblo.ts,falta
-ead4122d0054,"¿Dónde está? In, on, under",,trozo,src/temas/inglesPueblo.ts,falta
+ead4122d0054,"¿Dónde está? In, on, under","Unde este? In, on, under",trozo,src/temas/inglesPueblo.ts,borrador
 567904efe9e6,where,,trozo,src/temas/inglesPueblo.ts,falta
 bc6a9a8c2544,"esconder un juguete y decir dónde está: in the box, under the table.",,trozo,src/temas/inglesPueblo.ts,falta
 be8bc8e88c8c,jugar a «Polly says» en casa: Polly says touch your nose!,,trozo,src/temas/inglesPueblo.ts,falta
-bad232322424,Me gusta: I like,,trozo,src/temas/inglesPueblo.ts,falta
+bad232322424,Me gusta: I like,Îmi place: I like,trozo,src/temas/inglesPueblo.ts,borrador
 cc71d8f3dc88,likes,,trozo,src/temas/inglesPueblo.ts,falta
 87afd5054780,"en la comida, decir lo que nos gusta: I like apples!",,trozo,src/temas/inglesPueblo.ts,falta
 5bd304e39125,whatis,,trozo,src/temas/inglesPueblo.ts,falta
 988392ad5634,"tapar un dibujo con la mano, enseñar un trozo y preguntar: what is it?",,trozo,src/temas/inglesPueblo.ts,falta
-9856d478c657,Cosas de colores,,trozo,src/temas/inglesPueblo.ts,falta
+9856d478c657,Cosas de colores,Lucruri colorate,trozo,src/temas/inglesPueblo.ts,borrador
 c0d6b124854b,colourThings,,trozo,src/temas/inglesPueblo.ts,falta
 c3eff7184d32,"nombrar las cosas con su color en inglés: a red apple, a yellow banana.",,trozo,src/temas/inglesPueblo.ts,falta
-62da6c4a236d,Contar hasta 20,,trozo,src/temas/inglesPueblo.ts,falta
+62da6c4a236d,Contar hasta 20,Numărăm până la 20,trozo,src/temas/inglesPueblo.ts,borrador
 ffc8da13f1b7,numbers20,,trozo,src/temas/inglesPueblo.ts,falta
 0f7af59ad1e4,"contar en inglés más allá del diez: eleven, twelve, thirteen...",,trozo,src/temas/inglesPueblo.ts,falta
-830906548f04,Los oficios en inglés,,trozo,src/temas/inglesPueblo.ts,falta
+830906548f04,Los oficios en inglés,Meseriile în engleză,trozo,src/temas/inglesPueblo.ts,borrador
 27a06a9e3d5e,jobs,,trozo,src/temas/inglesPueblo.ts,falta
 edd8f707a991,"al ver a alguien trabajando, decir su oficio: a doctor, a farmer...",,trozo,src/temas/inglesPueblo.ts,falta
-0c483b89843e,La tienda de Polly,,trozo,src/temas/inglesPueblo.ts,falta
+0c483b89843e,La tienda de Polly,Magazinul lui Polly,trozo,src/temas/inglesPueblo.ts,borrador
 fb54f3c5992b,shop,,trozo,src/temas/inglesPueblo.ts,falta
 c84430fadcdc,"jugar a las tiendas pidiendo en inglés: an apple, please.",,trozo,src/temas/inglesPueblo.ts,falta
-074101ec4775,Cuentos en inglés,,trozo,src/temas/inglesPueblo.ts,falta
+074101ec4775,Cuentos en inglés,Povești în engleză,trozo,src/temas/inglesPueblo.ts,borrador
 bec670e5a554,story,,trozo,src/temas/inglesPueblo.ts,falta
 0d08074802f3,contar cuentos de siempre metiendo alguna palabra en inglés.,,trozo,src/temas/inglesPueblo.ts,falta
-355858f4157e,Gran fiesta del inglés,,trozo,src/temas/inglesPueblo.ts,falta
+355858f4157e,Gran fiesta del inglés,Marea petrecere a englezei,trozo,src/temas/inglesPueblo.ts,borrador
 7198cda575b5,town,,trozo,src/temas/inglesPueblo.ts,falta
 bc9202a22afa,celebrar todo lo aprendido: repasar juntos las palabras en inglés.,,trozo,src/temas/inglesPueblo.ts,falta
 0351bae97d6a,empieza por ,,trozo,src/temas/letras.ts,falta
@@ -2973,7 +2973,7 @@ e9ac2f996044,L5-FIE,,trozo,src/temas/letras.ts,falta
 83b033c3b049,La canción del abecedario,,trozo,src/temas/letras.ts,falta
 e067f26392e3,la lancha,,nombre,src/temas/temas.ts,falta
 50c036b75e36,el helicóptero,,nombre,src/temas/temas.ts,falta
-1eec213e0e4e,A  B  C  1  2  3,,trozo,src/temas/temas.ts,falta
+1eec213e0e4e,A  B  C  1  2  3,A  B  C  1  2  3,trozo,src/temas/temas.ts,borrador
 6a22bb6b5e52,el círculo,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
 524ba4cafebd,el cuadrado,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
 461b851bffae,la bola grande,,trozo,src/temas/temas.ts,falta
@@ -2985,7 +2985,7 @@ dd917ce16c79,pocas galletas,,trozo,src/temas/temas.ts,falta
 5d367381c91d,de día,,trozo,src/temas/temas.ts,falta
 9ec589aaf5a5,de noche,,trozo,src/temas/temas.ts,falta
 5a1290b98ad9,¡Listo! ¡Quedó muy bien vestido!,,frase,src/temas/temas.ts,falta
-09703ef8e6b3,Mi cole,,trozo,src/temas/temas.ts,falta
+09703ef8e6b3,Mi cole,Grădinița mea,trozo,src/temas/temas.ts,borrador
 66d0085fd2e4,La mochila. Aquí llevo mis cosas al cole.,,frase,src/temas/temas.ts,falta
 441d8638cb44,La mesa. En la mesa pintamos y comemos.,,frase,src/temas/temas.ts,falta
 ecfb33471ae3,La silla. Me siento en la silla.,,frase,src/temas/temas.ts,falta
@@ -3009,7 +3009,7 @@ b88eb29120bb,"Mmm, {cosa} no es {color}. ¿De qué color es?",,frase,src/temas/t
 cff7c8592ad0,{Cosa} es {color}.,,trozo,src/temas/temas.ts,falta
 82ea2156fa08,Pon cada cosa en la canasta de su color.,,frase,src/temas/temas.ts,falta
 730f3e03364c,¡Atrapa las burbujas de color {color}!,,frase,src/temas/temas.ts,falta
-a21979c53fa3,El otoño,,trozo,src/temas/temas.ts,falta
+a21979c53fa3,El otoño,Toamna,trozo,src/temas/temas.ts,borrador
 5f01c0ceea38,hoja,,trozo,src/temas/temas.ts,falta
 db0e892bf814,"Las hojas. En otoño se ponen naranjas, rojas y marrones, ¡y se caen de los árboles!",,frase,src/temas/temas.ts,falta
 a9780a07ab0c,La castaña. Es un fruto del otoño.,,frase,src/temas/temas.ts src/temas/temas5.ts,falta
@@ -3024,7 +3024,7 @@ fcc42166d918,La ardilla. Junta comida para el invierno.,,frase,src/temas/temas.t
 55adfb4c4ecb,Con camiseta nos mojamos y tenemos frío.,,frase,src/temas/temas.ts,falta
 aaa7ffe0da9d,La gorra es para el sol. Con lluvia mejor el paraguas.,,frase,src/temas/temas.ts,falta
 33522db5910f,Eso no va.,,frase,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts,falta
-fdb4e6f1aa42,Mi familia,,trozo,src/temas/temas.ts,falta
+fdb4e6f1aa42,Mi familia,Familia mea,trozo,src/temas/temas.ts,borrador
 b5d23eeec14f,Mamá.,,frase,src/temas/temas.ts,falta
 5464d1062c45,Papá.,,frase,src/temas/temas.ts,falta
 0209544e924f,El hermano.,,frase,src/temas/temas.ts,falta
@@ -3037,7 +3037,7 @@ bc776cfb5fdc,"Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.",,frase,
 952c89d473c6,Ordena de más pequeñito a más grande. El más pequeñito va primero.,,frase,src/temas/temas.ts,falta
 94f67b84edc0,¡Muy bien! Del más pequeñito al más grande.,,frase,src/temas/temas.ts,falta
 d32a0fea72b0,"¡Arma tu familia! Lleva a la casa a las personas que viven con tú. Cuando termines, toca el botón verde.",,frase,src/temas/temas.ts,falta
-3f43728a9d04,El invierno y la ropa,,trozo,src/temas/temas.ts,falta
+3f43728a9d04,El invierno y la ropa,Iarna și hainele,trozo,src/temas/temas.ts,borrador
 ab34eeffd26b,La nieve. En invierno hace mucho frío y a veces nieva.,,frase,src/temas/temas.ts,falta
 4aa1a25638e2,El muñeco de nieve. ¡Lo hacemos con nieve!,,frase,src/temas/temas.ts,falta
 f7fb1ce3d988,El abrigo. Nos da calorcito.,,frase,src/temas/temas.ts,falta
@@ -3055,7 +3055,7 @@ c19e7999ddec,Con camiseta tenemos frío. Busquemos ropa abrigada.,,frase,src/tem
 7054c3fd6930,Esa pieza va en otro lugar. ¡Mira la sombra!,,frase,src/temas/temas.ts,falta
 a0daa578006b,¡Hagamos un muñeco de nieve! Arrastra cada parte a su sombra.,,frase,src/temas/temas.ts,falta
 f53bed9cf6e0,¡Qué bonito muñeco de nieve!,,frase,src/temas/temas.ts,falta
-852f3bb5c72f,Las frutas y el desayuno,,trozo,src/temas/temas.ts,falta
+852f3bb5c72f,Las frutas y el desayuno,Fructele și micul dejun,trozo,src/temas/temas.ts,borrador
 91b4377ee746,La manzana. ¡Crunch!,,frase,src/temas/temas.ts,falta
 777696f4e56b,El plátano. Se pela y se come.,,frase,src/temas/temas.ts,falta
 ce29048ff5ed,La naranja. Con la naranja hacemos zumo.,,frase,src/temas/temas.ts,falta
@@ -3068,7 +3068,7 @@ f165fdf7e84f,El zumo de naranja. ¡Mmm!,,frase,src/temas/temas.ts,falta
 97becefb52d1,¡Hagamos una ensalada de frutas! Te digo qué fruta va en el bol.,,frase,src/temas/temas.ts,falta
 dfbd64d79e65,Pon {cosa} en el bol.,,frase,src/temas/temas.ts,falta
 6e0a083ca2dd,"¡Mmm, qué rico!",,frase,src/temas/temas.ts src/temas/temas4.ts,falta
-4a275abebffe,Mi casa,,trozo,src/temas/temas.ts,falta
+4a275abebffe,Mi casa,Casa mea,trozo,src/temas/temas.ts,borrador
 cfe2fad60e64,La cama. Aquí dormimos.,,frase,src/temas/temas.ts,falta
 4f258f0a507e,El sofá. Para sentarnos todos juntos.,,frase,src/temas/temas.ts,falta
 f031654a0314,La mesa. Aquí comemos.,,frase,src/temas/temas.ts,falta
@@ -3085,7 +3085,7 @@ c71265f3d7c4,en el baño,,trozo,src/temas/temas.ts,falta
 b03bbf33bdf8,en el dormitorio,,trozo,src/temas/temas.ts,falta
 7a36a41788e2,en el salón,,trozo,src/temas/temas.ts,falta
 9552d04211c5,Cada cosa va en su lugar de la casa. ¡Llévalas a su cuarto!,,frase,src/temas/temas.ts,falta
-51590486d6ce,Los animales de la granja,,trozo,src/temas/temas.ts,falta
+51590486d6ce,Los animales de la granja,Animalele de la fermă,trozo,src/temas/temas.ts,borrador
 f5944e17c60b,La vaca. Nos da leche. ¡Muuu!,,frase,src/temas/temas.ts,falta
 cb1780c4881d,"El cerdo. Le encanta el barro. ¡Oinc, oinc!",,frase,src/temas/temas.ts,falta
 5e08f05aa7e2,"La gallina. Pone huevos. ¡Clo, clo!",,frase,src/temas/temas.ts,falta
@@ -3100,12 +3100,12 @@ ea4eafb6908e,Lleva {cosa} dentro del corral.,,frase,src/temas/temas.ts,falta
 0fd24c328bbd,"Deja {cosa} fuera del corral, en el pasto.",,frase,src/temas/temas.ts,falta
 2222c94d1381,¡Eso! Dentro del corral.,,frase,src/temas/temas.ts,falta
 b76872246981,¡Eso! Fuera del corral.,,frase,src/temas/temas.ts,falta
-d6baf6bc3f24,La primavera,,trozo,src/temas/temas.ts,falta
+d6baf6bc3f24,La primavera,Primăvara,trozo,src/temas/temas.ts,borrador
 a81f3adb4dc6,La flor. En primavera salen muchas flores.,,frase,src/temas/temas.ts,falta
 cfba9845e2be,La abeja. Hace miel. ¡Bzzz!,,frase,src/temas/temas.ts,falta
 305dab6cc4e3,El pájaro. Canta en primavera.,,frase,src/temas/temas.ts,falta
 ea7783e1ef6b,El sol. En primavera hay más sol.,,frase,src/temas/temas.ts,falta
-6ed3e5a9275d,Los transportes,,trozo,src/temas/temas.ts,falta
+6ed3e5a9275d,Los transportes,Mijloacele de transport,trozo,src/temas/temas.ts,borrador
 55206d35dabc,"El coche. Va por la calle. ¡Bip, bip!",,frase,src/temas/temas.ts,falta
 3ee6d9580dee,El autobús. Lleva a mucha gente.,,frase,src/temas/temas.ts,falta
 4ade1010c1b7,"El tren. Va por las vías. ¡Chu, chu!",,frase,src/temas/temas.ts,falta
@@ -3122,7 +3122,7 @@ edbce914409a,agua,,trozo,src/temas/temas.ts,falta
 0d06e220cef4,"¿Por dónde va? Por la calle, por el cielo o por el agua.",,frase,src/temas/temas.ts,falta
 d8a96aae08c7,¿Va por la calle o vuela por el cielo?,,frase,src/temas/temas.ts,falta
 85df3aa66375,¿Va por la calle o por el agua?,,frase,src/temas/temas.ts,falta
-67f3646fd53f,El verano y la playa,,trozo,src/temas/temas.ts,falta
+67f3646fd53f,El verano y la playa,Vara și plaja,trozo,src/temas/temas.ts,borrador
 e7d0c4ac0b4d,El sol. En verano hace mucho calor.,,frase,src/temas/temas.ts,falta
 dfee2e67815a,El cubo. Para llevar arena y agua.,,frase,src/temas/temas.ts,falta
 2b5620ab2246,La pala. Para cavar en la arena.,,frase,src/temas/temas.ts,falta
@@ -3251,7 +3251,7 @@ f77c8f44485c,El {dia} es día de escuela.,,frase,src/temas/temas4.ts,falta
 7a191396979f,El {dia} vamos al cole.,,frase,src/temas/temas4.ts,falta
 af157b1eb0b0,El {dia} es fin de semana.,,frase,src/temas/temas4.ts,falta
 ec388c948949,Los días de escuela van con el cole. Los días del fin de semana van con el parque.,,frase,src/temas/temas4.ts,falta
-b148cc4dcb01,Mi cuerpo y los sentidos,,trozo,src/temas/temas4.ts,falta
+b148cc4dcb01,Mi cuerpo y los sentidos,Corpul meu și simțurile,trozo,src/temas/temas4.ts,borrador
 6e716549b83d,Los ojos. Con los ojos vemos los colores y las formas.,,frase,src/temas/temas4.ts,falta
 11e0e6b6d411,Las orejas. Con las orejas oímos los sonidos.,,frase,src/temas/temas4.ts,falta
 1cdb36989a15,La nariz. Con la nariz olemos las flores y la comida.,,frase,src/temas/temas4.ts,falta
@@ -3259,7 +3259,7 @@ badf907df104,"La boca. Con la boca saboreamos lo dulce, lo salado y lo ácido.",
 3b003605abf5,"Las manos. Con las manos tocamos: suave, áspero, frío y caliente.",,frase,src/temas/temas4.ts,falta
 0cd9f08c872b,Tenemos cinco sentidos. Toca cada uno para conocerlo.,,frase,src/temas/temas4.ts,falta
 2569474e9cfa,¿Con qué lo sabemos?,,frase,src/temas/temas4.ts,falta
-783f6e7daa5f,El otoño y sus frutos,,trozo,src/temas/temas4.ts,falta
+783f6e7daa5f,El otoño y sus frutos,Toamna și roadele ei,trozo,src/temas/temas4.ts,borrador
 4dca9caaf71f,La castaña. Se come asada en otoño.,,frase,src/temas/temas4.ts,falta
 b9b0c8c762d9,La nuez. Tiene una cáscara muy dura.,,frase,src/temas/temas4.ts,falta
 7862db181c23,La granada. Adentro tiene muchas semillitas rojas.,,frase,src/temas/temas4.ts,falta
@@ -3271,7 +3271,7 @@ d22a631a52e4,¡Y ahora las nueces!,,frase,src/temas/temas4.ts,falta
 ddcf0bdb8355,La despensa de la ardilla,,trozo,src/temas/temas4.ts,falta
 2204c1fe3668,La ardilla necesita {n} frutos para el invierno. Lleva {n} a su casita del árbol.,,frase,src/temas/temas4.ts,falta
 0e57ea06aec0,¡La ardilla tiene {n} frutos! Gracias.,,frase,src/temas/temas4.ts,falta
-d1153cb14a5f,Las emociones,,trozo,src/temas/temas4.ts,falta
+d1153cb14a5f,Las emociones,Emoțiile,trozo,src/temas/temas4.ts,borrador
 4406a6aac9d2,Todos sentimos emociones. Toca cada carita.,,frase,src/temas/temas4.ts,falta
 4f429c02ce11,¿Cómo se siente?,,frase,src/temas/temas4.ts,falta
 51ba89ee029d,¿Quién está {emocion}? Toca la carita.,,frase,src/temas/temas4.ts,falta
@@ -3284,7 +3284,7 @@ feb3f41ee35e,"Mmm, piensa cómo te sentirías tú.",,frase,src/temas/temas4.ts,f
 a7b8b0a4e026,Ese frasco es de {emocion}.,,frase,src/temas/temas4.ts,falta
 5b2c3b968aca,{Emocion}.,,trozo,src/temas/temas4.ts,falta
 8ae670da97eb,Cada emoción tiene su color. Lleva cada carita a su frasco.,,frase,src/temas/temas4.ts,falta
-0e720f7ada04,Frutas y verduras,,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts,falta
+0e720f7ada04,Frutas y verduras,Fructe și legume,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts,borrador
 92b74d3f163c,La zanahoria. Es una verdura naranja que crece bajo la tierra.,,frase,src/temas/temas4.ts,falta
 0874962836d0,"El tomate. Rojo y jugoso, para la ensalada.",,frase,src/temas/temas4.ts,falta
 fc1bb969492c,La lechuga. Sus hojas verdes van en la ensalada.,,frase,src/temas/temas4.ts,falta
@@ -3304,7 +3304,7 @@ a3d0c7a59602,Una sopa de verduras,,trozo,src/temas/temas4.ts,falta
 440985552261,Las comidas del día,,trozo,src/temas/temas4.ts,falta
 77e7a0ecf9be,"Ordena las comidas del día. ¿Cuál comemos primero, cuando nos levantamos?",,frase,src/temas/temas4.ts,falta
 49abcdc99bfd,"¡Muy bien! Desayuno, comida, merienda y cena.",,frase,src/temas/temas4.ts,falta
-b14761eeee62,El invierno y el polo,,trozo,src/temas/temas4.ts,falta
+b14761eeee62,El invierno y el polo,Iarna și polul,trozo,src/temas/temas4.ts,borrador
 43985f399e34,El hielo. Es agua muy fría que se puso dura.,,frase,src/temas/temas4.ts,falta
 a117554bd118,El oso polar. Tiene pelo blanco y grueso para no tener frío.,,frase,src/temas/temas4.ts,falta
 1275cd2eeb31,La morsa. Tiene dos colmillos largos.,,frase,src/temas/temas4.ts,falta
@@ -3317,7 +3317,7 @@ a117554bd118,El oso polar. Tiene pelo blanco y grueso para no tener frío.,,fras
 80f5c103b89a,{Cosa} vive donde hace calor.,,trozo,src/temas/temas4.ts,falta
 28492683507a,{Cosa} vive donde hace frío.,,trozo,src/temas/temas4.ts,falta
 fd9e69d1db80,¿Dónde vive cada animal? Los del frío van con la nieve. Los del calor van con el sol.,,frase,src/temas/temas4.ts,falta
-4e67faf7ebeb,Los oficios,,trozo,src/temas/temas4.ts,falta
+4e67faf7ebeb,Los oficios,Meseriile,trozo,src/temas/temas4.ts,borrador
 3cba4801c502,La bombera. Apaga incendios con la manguera.,,frase,src/temas/temas4.ts,falta
 765d76c15de4,El médico. Nos cura cuando estamos enfermos.,,frase,src/temas/temas4.ts,falta
 8504df366885,La policía. Cuida la calle y nos ayuda.,,frase,src/temas/temas4.ts,falta
@@ -3333,7 +3333,7 @@ bd8833aa0756,El cartero. Lleva las cartas a las casas.,,frase,src/temas/temas4.t
 dd775fc82a40,"Mmm, {cosa} no usa {otra}.",,frase,src/temas/temas4.ts,falta
 c3efdd457963,¿Quién soy?,,frase,src/temas/temas4.ts,falta
 5394c12958bb,¡Sí! Soy {cosa}.,,frase,src/temas/temas4.ts,falta
-4fb23559ffd0,La calle y la ciudad,,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts,falta
+4fb23559ffd0,La calle y la ciudad,Strada și orașul,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts,borrador
 62ec7af0ea3f,El semáforo. Rojo para frenar y verde para pasar.,,frase,src/temas/temas4.ts,falta
 38710886804e,El paso de cebra. Por aquí cruzamos la calle.,,frase,src/temas/temas4.ts,falta
 b1c4964ee9db,La tienda. Ahí compramos cosas.,,frase,src/temas/temas4.ts,falta
@@ -3348,7 +3348,7 @@ a33175126681,El autobús. Lleva a mucha gente por la ciudad.,,frase,src/temas/te
 e92e67b58d39,al parque,,trozo,src/temas/temas4.ts,falta
 8895f3425310,a la tienda,,trozo,src/temas/temas4.ts,falta
 6a8e063b34a1,¿Adónde va cada cosa? Llévala a su lugar de la ciudad.,,frase,src/temas/temas4.ts,falta
-b56959a374ec,Animales domésticos y salvajes,,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts,falta
+b56959a374ec,Animales domésticos y salvajes,Animale domestice și sălbatice,trozo,src/temas/temas4.ts src/aplicacion/adultos/progreso.ts,borrador
 bae600c93807,El león. Es el rey de la sabana. ¡Grrr!,,frase,src/temas/temas4.ts,falta
 07a44e63bfef,El elefante. Tiene una trompa muy larga.,,frase,src/temas/temas4.ts,falta
 c075e060b342,La jirafa. Su cuello largo llega a las hojas más altas.,,frase,src/temas/temas4.ts,falta
@@ -3366,7 +3366,7 @@ cfea328347c0,Los animales que viven con las personas van a la casa. Los animales
 3c67741613fe,¿De quién es esta sombra?,,frase,src/temas/temas4.ts src/temas/temas5.ts,falta
 511ef0e3c4c0,¡Sí! Es la sombra {deCosa}.,,frase,src/temas/temas4.ts src/temas/temas5.ts,falta
 94d64a2e0b72,Mira bien la forma de la sombra.,,frase,src/temas/temas4.ts,falta
-02efb65d00b8,Las plantas,,trozo,src/temas/temas4.ts,falta
+02efb65d00b8,Las plantas,Plantele,trozo,src/temas/temas4.ts,borrador
 9f05e3de7435,"La semilla. Si la plantamos y la regamos, ¡crece una planta!",,frase,src/temas/temas4.ts,falta
 477c443cc2a4,El brote. Es la plantita recién nacida.,,frase,src/temas/temas4.ts,falta
 64f7816bb4f0,El fruto. Adentro tiene semillas nuevas.,,frase,src/temas/temas4.ts,falta
@@ -3376,7 +3376,7 @@ e95b1f1a8724,Esta es una planta. Vamos a conocer sus partes.,,frase,src/temas/te
 b0678b2185b6,¿Cómo crece?,,frase,src/temas/temas4.ts,falta
 ac4679f8350e,¿Cómo crece una planta? Ordena del primero al último.,,frase,src/temas/temas4.ts,falta
 972ac74fbd57,"¡Muy bien! Primero la semilla, después crece la planta y al final sale la flor.",,frase,src/temas/temas4.ts,falta
-fd8f37b586c2,"Los transportes por tierra, mar y aire",,trozo,src/temas/temas4.ts,falta
+fd8f37b586c2,"Los transportes por tierra, mar y aire","Transportul pe uscat, pe mare și în aer",trozo,src/temas/temas4.ts,borrador
 e9b1d477c483,La ambulancia. Lleva a los enfermos al hospital. ¡Niinoo!,,frase,src/temas/temas4.ts,falta
 bf6b9c888fa8,El camión de bomberos. Va rápido a apagar el fuego.,,frase,src/temas/temas4.ts,falta
 9d63fdc4c755,El coche de policía. Lo usa la policía.,,frase,src/temas/temas4.ts,falta
@@ -3390,7 +3390,7 @@ beab6377dc65,"¿Por dónde va cada uno? Por tierra, por el aire o por el agua.",
 25950aeb26e8,Del más corto al más largo,,trozo,src/temas/temas4.ts,falta
 b05395786566,Ordena del más corto al más largo. El más corto va primero.,,frase,src/temas/temas4.ts,falta
 1b634eb60aa8,¡Muy bien! Del más corto al más largo.,,frase,src/temas/temas4.ts,falta
-5b214f0f5ff3,Los bichitos y el verano,,trozo,src/temas/temas4.ts,falta
+5b214f0f5ff3,Los bichitos y el verano,Gâzele și vara,trozo,src/temas/temas4.ts,borrador
 7c7036f44ccd,"El caracol. Lleva su casa en la espalda, ¡como yo!",,frase,src/temas/temas4.ts,falta
 6876de092390,La mariposa. Antes fue una oruga.,,frase,src/temas/temas4.ts,falta
 9dcd4ff20614,La araña. Tiene ocho patas y teje su tela.,,frase,src/temas/temas4.ts,falta
@@ -3509,7 +3509,7 @@ cb2431cf697d,"¡Muy bien! Enero, febrero, marzo, abril, mayo, junio, julio, agos
 831059ce6acd,{Meses}... ¿Qué mes viene después?,,trozo,src/temas/temas5.ts,falta
 42e0bfd1db15,¡Sí! Después de {mes} viene {otro}.,,frase,src/temas/temas5.ts,falta
 1b28849e3565,{Mes} no. {Meses}... ¿y después?,,trozo,src/temas/temas5.ts,falta
-a243e239692e,Mi cuerpo por dentro,,trozo,src/temas/temas5.ts,falta
+a243e239692e,Mi cuerpo por dentro,Corpul meu pe dinăuntru,trozo,src/temas/temas5.ts,borrador
 407b0d147534,"El esqueleto. Son todos los huesos juntos. Nos sostiene, ¡como el palo de una tienda de campaña!",,frase,src/temas/temas5.ts,falta
 4442aa628dd8,El hueso. Es duro y fuerte. Tomar leche ayuda a que crezca.,,frase,src/temas/temas5.ts,falta
 8fedc759a69a,El músculo. Nos ayuda a movernos. Se pone fuerte cuando jugamos y corremos.,,frase,src/temas/temas5.ts,falta
@@ -3530,7 +3530,7 @@ c88be7468274,¿Qué late y lleva la sangre por el cuerpo?,,frase,src/temas/temas
 e2d2b8e66996,¿Adónde va la comida cuando la tragamos?,,frase,src/temas/temas5.ts,falta
 471b65fb6658,¿Qué se pone fuerte cuando corremos y saltamos?,,frase,src/temas/temas5.ts,falta
 273ee210c6e8,¿Qué es duro y crece fuerte si tomamos leche?,,frase,src/temas/temas5.ts,falta
-d1e74d0c58e4,El otoño y los cambios,,trozo,src/temas/temas5.ts,falta
+d1e74d0c58e4,El otoño y los cambios,Toamna și schimbările,trozo,src/temas/temas5.ts,borrador
 0c5b135ddd0a,La golondrina. En otoño se va volando a un lugar más calentito.,,frase,src/temas/temas5.ts,falta
 12ca9648a56a,El erizo. Duerme todo el invierno escondido entre las hojas.,,frase,src/temas/temas5.ts,falta
 884ff5be38d4,La seta. Sale con la lluvia de otoño.,,frase,src/temas/temas5.ts,falta
@@ -3548,7 +3548,7 @@ c66a79a4e6a6,Llueve y hace fresquito. Viste al niño para salir en otoño.,,fras
 15c42eb63cee,Las gafas de sol no hacen falta: está nublado.,,frase,src/temas/temas5.ts,falta
 0d32a150f9f5,Con camiseta vamos a tener frío.,,frase,src/temas/temas5.ts,falta
 3c4e63150f44,El bañador es para la piscina.,,frase,src/temas/temas5.ts,falta
-ee07de70e097,Comer sano,,trozo,src/temas/temas5.ts src/aplicacion/adultos/progreso.ts,falta
+ee07de70e097,Comer sano,Mâncăm sănătos,trozo,src/temas/temas5.ts src/aplicacion/adultos/progreso.ts,borrador
 496a2c6634fe,El pescado. Nos da proteínas y viene del mar.,,frase,src/temas/temas5.ts,falta
 3333f1d134d2,La carne. Nos ayuda a crecer.,,frase,src/temas/temas5.ts,falta
 882ed1e78b32,El huevo. Lo pone la gallina.,,frase,src/temas/temas5.ts,falta
@@ -3572,7 +3572,7 @@ b254e712b5fd,{Cosa} es sano. ¡Lo podemos comer todos los días!,,trozo,src/tema
 d4bdc2eae009,¡Sí! {Cosa} nos hace crecer sanos.,,frase,src/temas/temas5.ts,falta
 2ab158225206,"¡Sí! {Cosa}, solo de vez en cuando.",,frase,src/temas/temas5.ts,falta
 c1db478b962b,"Lo sano lo comemos todos los días. Los dulces, solo de vez en cuando. Lleva cada comida a su lugar.",,frase,src/temas/temas5.ts,falta
-6d45a8f1b68d,Las fiestas del año,,trozo,src/temas/temas5.ts,falta
+6d45a8f1b68d,Las fiestas del año,Sărbătorile anului,trozo,src/temas/temas5.ts,borrador
 efdd99217b23,La corona. En enero llegan los Reyes Magos con regalos.,,frase,src/temas/temas5.ts,falta
 2c93a4502565,El antifaz. En carnaval nos disfrazamos.,,frase,src/temas/temas5.ts,falta
 c079422f2ea5,El libro. El Día del Libro regalamos cuentos.,,frase,src/temas/temas5.ts,falta
@@ -3581,9 +3581,9 @@ eed3083bbb27,El árbol de Navidad. En diciembre lo decoramos con luces.,,frase,s
 1acd2a91185c,Los fuegos artificiales. Iluminan el cielo en las fiestas.,,frase,src/temas/temas5.ts,falta
 82e1a1a9adb7,Las fiestas en orden,,trozo,src/temas/temas5.ts,falta
 2172e8d67afb,los Reyes,,trozo,src/temas/temas5.ts,falta
-a9130938aee6,el carnaval,,trozo,src/temas/temas5.ts,falta
-26f72df97ca5,el Día del Libro,,trozo,src/temas/temas5.ts,falta
-fc427e99edc9,la Navidad,,trozo,src/temas/temas5.ts,falta
+a9130938aee6,el carnaval,Carnavalul,trozo,src/temas/temas5.ts,borrador
+26f72df97ca5,el Día del Libro,Ziua Cărții,trozo,src/temas/temas5.ts,borrador
+fc427e99edc9,la Navidad,Crăciunul,trozo,src/temas/temas5.ts,borrador
 122f761f22f1,ENERO,,trozo,src/temas/temas5.ts,falta
 ef045a214b9a,FEBRERO,,trozo,src/temas/temas5.ts,falta
 59749ebfff35,ABRIL,,trozo,src/temas/temas5.ts,falta
@@ -3596,7 +3596,7 @@ a7b22e2c8898,¿Qué decoramos en Navidad?,,frase,src/temas/temas5.ts,falta
 58b5198c7e08,¿Qué regalamos el Día del Libro?,,frase,src/temas/temas5.ts,falta
 57c386cc6b11,¿Qué tiene velitas en el cumpleaños?,,frase,src/temas/temas5.ts,falta
 650930048f7d,¿Qué llevan los Reyes Magos en la cabeza?,,frase,src/temas/temas5.ts,falta
-a9cd154aca7a,El universo,,trozo,src/temas/temas5.ts,falta
+a9cd154aca7a,El universo,Universul,trozo,src/temas/temas5.ts,borrador
 b87680c87f3d,La Tierra. Es nuestro planeta. Gira y gira alrededor del sol.,,frase,src/temas/temas5.ts,falta
 af53620b60bd,Marte. Es el planeta rojo.,,frase,src/temas/temas5.ts,falta
 643083790f97,El cohete. Lleva a los astronautas al espacio.,,frase,src/temas/temas5.ts,falta
@@ -3609,7 +3609,7 @@ b9ab86aa5344,Contar estrellas,,trozo,src/temas/temas5.ts,falta
 53fc49c82868,Ordena los planetas del más chico al más grande.,,frase,src/temas/temas5.ts,falta
 fbe2945e4591,"¡Muy bien! La luna es más chica que la Tierra, y Júpiter es el más grande.",,frase,src/temas/temas5.ts,falta
 86b0a71efb69,"¡Muy bien! Marte es pequeñito, la Tierra es mediana y Júpiter es enorme.",,frase,src/temas/temas5.ts,falta
-2abf9f2ff8de,Los dinosaurios,,trozo,src/temas/temas5.ts,falta
+2abf9f2ff8de,Los dinosaurios,Dinozaurii,trozo,src/temas/temas5.ts,borrador
 9d45f986e51c,El tiranosaurio. Tenía dientes enormes y comía carne.,,frase,src/temas/temas5.ts,falta
 c7e5a2279e4a,El diplodoco. Tenía un cuello larguísimo y comía hojas.,,frase,src/temas/temas5.ts,falta
 d7602c4d1711,El triceratops. Tenía tres cuernos en la cabeza y comía plantas.,,frase,src/temas/temas5.ts,falta
@@ -3624,7 +3624,7 @@ a7c79549d1fa,¿Qué comía?,,frase,src/temas/temas5.ts,falta
 f30dfc57eaae,{Cosa} comía plantas.,,trozo,src/temas/temas5.ts,falta
 c045fc7b98e8,¿Qué comía cada dinosaurio? Los que comían plantas van con las hojas. Los que comían carne van con la carne.,,frase,src/temas/temas5.ts,falta
 3ffc359c9d8d,¡Muy bien! El diplodoco y el triceratops comían plantas. El tiranosaurio y el pterodáctilo comían carne.,,frase,src/temas/temas5.ts,falta
-f82a3fb78097,Los animales y dónde viven,,trozo,src/temas/temas5.ts,falta
+f82a3fb78097,Los animales y dónde viven,Animalele și unde trăiesc,trozo,src/temas/temas5.ts,borrador
 5efe5f44af85,El pulpo. Vive en el mar y tiene ocho brazos.,,frase,src/temas/temas5.ts,falta
 a1df75c97845,El camello. Vive en el desierto y aguanta mucho sin tomar agua.,,frase,src/temas/temas5.ts,falta
 5d6e5d66f991,El lobo. Vive en el bosque y aúlla a la luna.,,frase,src/temas/temas5.ts,falta
@@ -3640,7 +3640,7 @@ d3fc77e8e82b,¿Huevo o panza?,,frase,src/temas/temas5.ts,falta
 4f41f0fd343d,{Cosa} crece en la tripa de su mamá.,,trozo,src/temas/temas5.ts,falta
 ebb5ca44ac43,¿Cómo nacen? Algunos animales nacen de un huevo. Otros crecen en la tripa de su mamá.,,frase,src/temas/temas5.ts,falta
 b4efa123f573,Mira bien la forma.,,frase,src/temas/temas5.ts,falta
-cb1cb8253f78,El tiempo y el clima,,trozo,src/temas/temas5.ts,falta
+cb1cb8253f78,El tiempo y el clima,Vremea și clima,trozo,src/temas/temas5.ts,borrador
 649c2f147ad2,Hace sol. Hace calor y el cielo está despejado.,,frase,src/temas/temas5.ts,falta
 d715e843d06c,Está nublado. Las nubes tapan el sol.,,frase,src/temas/temas5.ts,falta
 5a851eef5472,Llueve. Caen gotas de agua de las nubes.,,frase,src/temas/temas5.ts,falta
@@ -3667,7 +3667,7 @@ ef806547908d,Nos ponemos guantes porque hace frío. ¿Cómo está el termómetro
 fbca4dd7167b,"¡Sí! Cuando hace frío, el rojo baja.",,frase,src/temas/temas5.ts,falta
 934f046264f1,"Ese termómetro marca frío. Cuando hace calor, el rojo sube.",,frase,src/temas/temas5.ts,falta
 4965c73b835e,"Ese termómetro marca calor. Cuando hace frío, el rojo baja.",,frase,src/temas/temas5.ts,falta
-a5ea935cbb95,Los seres vivos,,trozo,src/temas/temas5.ts,falta
+a5ea935cbb95,Los seres vivos,Ființele vii,trozo,src/temas/temas5.ts,borrador
 3cb389109ccb,La planta con frutos. Los frutos guardan semillas.,,frase,src/temas/temas5.ts,falta
 24a07a1e7688,El huevo. Adentro crece el pollito.,,frase,src/temas/temas5.ts,falta
 8b15a08e0d53,El pollito. Sale del huevo y crece hasta ser gallina.,,frase,src/temas/temas5.ts,falta
@@ -3686,7 +3686,7 @@ e405ff2995d4,"{Cosa} es un ser vivo: nace, crece y se alimenta.",,trozo,src/tema
 52b09ee3dc92,¿Qué necesita para vivir?,,frase,src/temas/temas5.ts,falta
 f4200102941f,¡Sí!,,frase,src/temas/temas5.ts,falta
 3324a7630250,{Cosa} no hace falta para vivir.,,trozo,src/temas/temas5.ts,falta
-c871bb3ec35c,Cuidamos el planeta,,trozo,src/temas/temas5.ts,falta
+c871bb3ec35c,Cuidamos el planeta,Avem grijă de planetă,trozo,src/temas/temas5.ts,borrador
 e45db9f8fbe0,La botella de plástico. Va al contenedor amarillo.,,frase,src/temas/temas5.ts,falta
 7f48f4b0cc7f,La lata. También va al amarillo.,,frase,src/temas/temas5.ts,falta
 ebdaa7dc3cf3,El periódico. El papel va al contenedor azul.,,frase,src/temas/temas5.ts,falta
@@ -3711,7 +3711,7 @@ a93ec5b73b87,{Cosa} es parte del parque. ¡Se queda!,,trozo,src/temas/temas5.ts,
 79d2bc6738dd,Eso va a la papelera.,,frase,src/temas/temas5.ts,falta
 867094fb3c92,¡Alguien dejó basura en el parque! Lleva la basura a la papelera. Las flores y los animales se quedan.,,frase,src/temas/temas5.ts,falta
 f7099339b565,¡El parque quedó limpito! Gracias por cuidar el planeta.,,frase,src/temas/temas5.ts,falta
-fd72d072af27,De viaje con cuidado,,trozo,src/temas/temas5.ts,falta
+fd72d072af27,De viaje con cuidado,Călătorim cu grijă,trozo,src/temas/temas5.ts,borrador
 06a8e5df98da,"El semáforo. Verde, podemos cruzar. Rojo, esperamos.",,frase,src/temas/temas5.ts,falta
 2a7b7ec5fa54,"El paso de cebra. Cruzamos por aquí, de la mano de un adulto.",,frase,src/temas/temas5.ts,falta
 b0778ce65461,La señal de stop. Los coches tienen que parar.,,frase,src/temas/temas5.ts,falta
@@ -4126,3 +4126,18 @@ aa598997f6bd,iPhone o iPad (este aparato),iPhone sau iPad (acest dispozitiv),tab
 42724256b5d4,Mac (este aparato),Mac (acest dispozitiv),tabla,,borrador
 80b305b06f67,Android (este aparato),Android (acest dispozitiv),tabla,,borrador
 7ded20a8b862,Windows (este aparato),Windows (acest dispozitiv),tabla,,borrador
+06041ce120a9,otoño,toamnă,tabla,,borrador
+9e8354fefdf8,invierno,iarnă,tabla,,borrador
+6cae5deced2f,primavera,primăvară,tabla,,borrador
+23804201a613,verano,vară,tabla,,borrador
+9c30186ad090,El Jardín de los 3 años,Grădina de 3 ani,tabla,,borrador
+096c51890179,El Bosque de los 4 años,Pădurea de 4 ani,tabla,,borrador
+ef660e1c4aee,La Montaña de los 5 años,Muntele de 5 ani,tabla,,borrador
+44f7687996fd,Los días especiales,Zilele speciale,tabla,,borrador
+2317acd2aef7,La Playa de los Sonidos,Plaja Sunetelor,tabla,,borrador
+c44394738542,El Bosque de las Letras,Pădurea Literelor,tabla,,borrador
+679a01d0337d,El Pueblo de las Palabras,Satul Cuvintelor,tabla,,borrador
+9f7bce0d350e,La Playa Hello,Plaja Hello,tabla,,borrador
+633c399a08ab,El Parque de Londres,Parcul Londrei,tabla,,borrador
+6b712b93d768,El Pueblo de los Cuentos,Satul Poveștilor,tabla,,borrador
+d509c0e7379e,El Rincón de los Conceptos,Colțul noțiunilor,tabla,,borrador
