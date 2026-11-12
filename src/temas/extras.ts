@@ -39,6 +39,8 @@ import {
   star,
   tree,
   fmt,
+  juntar,
+  tr,
 } from '../nucleo/indice.ts';
 import {
   Arrastra,
@@ -1039,7 +1041,7 @@ export const FIESTAS: Tema[] = [
                   ok: [q[0]],
                   ask: q[1],
                   okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[0]) }),
-                  badSay: (w: string) => eseEs(w) + '. ' + q[1],
+                  badSay: (w: string) => juntar(eseEs(w) + '.', tr(q[1] as string)),
                 };
               },
             },

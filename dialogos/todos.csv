@@ -2018,8 +2018,8 @@ d3b949def7a7,{Color}.,trozo,src/juegos/comps.ts
 837f3f748295,Ahora toca {cosa}.,frase,src/juegos/comps.ts
 0b3fdf6aa5f3,Primero toca un color.,frase,src/juegos/comps.ts
 59a705d15ada,Primero pintamos {cosa}.,frase,src/juegos/comps.ts
-489e3e7a9749, son ,trozo,src/juegos/comps.ts
-c9cb11cccccc, es ,trozo,src/juegos/comps.ts
+8ccafacc389e,{Cosa} son {color}.,trozo,src/juegos/comps.ts src/temas/temas.ts
+cff7c8592ad0,{Cosa} es {color}.,trozo,src/juegos/comps.ts src/temas/temas.ts
 4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.",frase,src/juegos/comps.ts
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",frase,src/juegos/comps2.ts
 b974a22a57d1,"Mmm, {cosa} no va con {otra}.",frase,src/juegos/comps2.ts
@@ -3005,8 +3005,6 @@ eea43d1bf02d,Amarillo. Amarillo como el sol y el plátano.,frase,src/temas/temas
 1e8fb8523520,Verde. Verde como la rana y las hojas.,frase,src/temas/temas.ts
 003be69227e3,Estos son los colores. Toca cada uno para conocerlo.,frase,src/temas/temas.ts
 b88eb29120bb,"Mmm, {cosa} no es {color}. ¿De qué color es?",frase,src/temas/temas.ts
-8ccafacc389e,{Cosa} son {color}.,trozo,src/temas/temas.ts
-cff7c8592ad0,{Cosa} es {color}.,trozo,src/temas/temas.ts
 82ea2156fa08,Pon cada cosa en la canasta de su color.,frase,src/temas/temas.ts
 730f3e03364c,¡Atrapa las burbujas de color {color}!,frase,src/temas/temas.ts
 a21979c53fa3,El otoño,trozo,src/temas/temas.ts

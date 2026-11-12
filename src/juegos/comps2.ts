@@ -615,7 +615,7 @@ export function Lens(cfg: Config, onDone: AlTerminar): Juego {
       const t = this.cur();
       if (t && o !== t) {
         SFX.boing();
-        say(eseEs(o.k) + '. ' + cfg.ask(t.k));
+        say(juntar(eseEs(o.k) + '.', tr(cfg.ask(t.k))));
         rec(cfg.key || 'lupa', false);
         return;
       }
@@ -733,7 +733,7 @@ export function TocaPartes(cfg: Config, onDone: AlTerminar): Juego {
         onRight(this.errs === 0);
         this.done++;
         scene!.starPop = T;
-        say(praise() + ' ' + cap(p.n) + '.' + (p.say ? ' ' + p.say : ''), () =>
+        say(juntar(praise(), cap(tr(p.n)) + '.', p.say ? tr(p.say) : ''), () =>
           later(350, () => {
             this.busy = false;
             this.i++;

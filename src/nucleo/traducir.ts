@@ -99,6 +99,8 @@ export function tr(t: string): string {
   const m = ENVOLTURA.exec(t);
   const dentro = m?.[2] && (m[1] || m[3]) ? tabla?.[m[2]] : undefined;
   if (m && dentro !== undefined) return (m[1] ?? '') + dentro + (m[3] ?? '');
+  // lo de dentro ya está traducido (un nombre con su punto: «Mărul.», desde la ID5b): se deja como está
+  if (m?.[2] && (m[1] || m[3]) && yaTraducido.has(m[2])) return t;
   sinTraducir.add(t);
   return t;
 }
@@ -121,6 +123,10 @@ export const fmt = (plantilla: string, huecos: Readonly<Record<string, string | 
 // se saltan. Para cuando se dicen varias frases juntas y alguna depende de algo (un saludo, el nombre del tema...): cada
 // una se traduce entera y el resultado no se vuelve a traducir. En castellano sale lo mismo que pegarlas con espacios.
 export const juntar = (...trozos: readonly string[]): string => recuerda(trozos.filter(Boolean).join(' '));
+
+// estaTraducido(t): true si t ya salió traducido (de fmt, juntar o nombreEn) y no hay que volver a traducirlo. En
+// castellano, siempre false. Desde la ID5b, para que cap() (nucleo/voz.ts) conserve la marca al poner la mayúscula.
+export const estaTraducido = (t: string): boolean => yaTraducido.has(t);
 
 // nombreEn(frase): las formas (Nombre) del nombre frase, que es el nombre en castellano con su artículo ('el gato'), en
 // el idioma del juego. En castellano salen de su artículo (formasEs); en el pseudoidioma, marcadas; en otro idioma, de su
