@@ -5,8 +5,10 @@
 //   I2: se pinta en el lienzo un texto con letras sin traducir;
 //   I3: un texto pintado se sale de la pantalla;
 //   I4: la zona de adultos o las ventanas de la página enseñan un texto sin traducir;
-//   I5: (desde la fase ID4) la zona de adultos en rumano (?idioma=ro) deja algo sin traducir: todo menos los nombres
-//       de los temas y de sus casitas, que son de la ID5, y el nombre del niño;
+//   I5: (desde la fase ID4) lo que ya está en rumano (?idioma=ro) deja algo sin traducir: la zona de adultos (ID4a) y,
+//       desde la ID4b, la portada, el mapa y sus zonas, la casita, la asamblea, el álbum, la tienda, el cofre, el repaso
+//       y las islas; menos las casitas de la Isla de las Letras (ID6), el nombre del niño y las palabras sueltas de los
+//       carteles de las islas (de la ID6 y del inglés, que no se traduce);
 //   I0: hay errores de JavaScript.
 // La Isla de las Letras (sus letras, sílabas y palabras para leer) tendrá su versión rumana en la ID6: no se mira aquí.
 // Uso: node tests/regresion/idiomas.js <carpeta web>
@@ -15,6 +17,24 @@ const [raiz] = process.argv.slice(2);
 const R = L.registro('idiomas');
 // FUERA: escenas que no se miran: la de juego (se abre con cada casita) y la casa en 3D de prueba (solo para medir FPS).
 const FUERA = new Set(['juego', 'casa3dPrueba']);
+// ESCENAS_RO: las escenas que ya están en rumano (I5), desde la fase ID4b.
+const ESCENAS_RO = [
+  'portada',
+  'map',
+  'asamblea',
+  'album',
+  'tienda',
+  'cofre',
+  'repaso',
+  'isla',
+  'islaIngles',
+  'diccionario',
+  'jardin',
+  'bosque',
+  'montana',
+  'fiestas',
+  'casita',
+];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).
 const LETRAS = /^L\d-|lectura|letras/i;
@@ -141,7 +161,7 @@ const LETRAS = /^L\d-|lectura|letras/i;
     else R.bien('I4', 'la zona de adultos está traducida entera');
     // la zona de adultos en rumano: cada página, con sus partes plegadas abiertas, sin nada en sinTraducir
     const pr = await L.abrir(b, srv.port, { rapido: true, parametros: '?idioma=ro' });
-    const faltan = await pr.evaluate(async () => {
+    const faltan = await pr.evaluate(async (ESCENAS_RO) => {
       const S = __cl.S;
       S.intro = true;
       S.age = 5;
@@ -158,15 +178,27 @@ const LETRAS = /^L\d-|lectura|letras/i;
         document.querySelectorAll('#adult details').forEach((d) => (d.open = true));
       }
       closeAdult();
-      // los nombres de los temas (y «La A», «(abeja)»... de las letras) se traducen en la ID5 y la ID6
-      const temas = new Set(TEMAS.map((t) => t.n));
+      // las escenas que ya están en rumano (desde la ID4b), con lo que dice Tito al entrar
+      for (const e of ESCENAS_RO) {
+        try {
+          __cl.go(e, { hello: true, t: TEMAS[0].id });
+        } catch (x) {}
+        await new Promise((ok) => setTimeout(ok, 700));
+        try {
+          SCENES[__cl.name]?.prompt?.();
+        } catch (x) {}
+        await new Promise((ok) => setTimeout(ok, 250));
+      }
+      // las casitas de la Isla de las Letras («La A», «(abeja)»...) se traducen en la ID6
+      const temas = new Set(TEMAS.filter((t) => /^L\d-/.test(t.id)).map((t) => t.n));
       return __cl
         .sinTraducir()
-        .filter((t) => !antes.has(t) && !temas.has(t) && t !== 'Ana' && !/^La \p{Lu}$|^\(.*\)$/u.test(t));
-    });
-    if (faltan.length)
-      R.apuntar('I5', 'alta', 'la zona de adultos en rumano deja textos sin traducir', faltan.slice(0, 10));
-    else R.bien('I5', 'la zona de adultos está en rumano');
+        .filter(
+          (t) => !antes.has(t) && !temas.has(t) && !/^ana$/i.test(t) && !/^La \p{Lu}$|^\(.*\)$|^\p{Lu}{2,4}$/u.test(t),
+        );
+    }, ESCENAS_RO);
+    if (faltan.length) R.apuntar('I5', 'alta', 'lo hecho en rumano deja textos sin traducir', faltan.slice(0, 10));
+    else R.bien('I5', 'la zona de adultos y las escenas de la ID4 están en rumano');
     p.errs.push(...pr.errs);
     if (p.errs.length) R.apuntar('I0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('I0', 'sin errores de JavaScript');

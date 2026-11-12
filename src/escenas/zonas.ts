@@ -40,7 +40,7 @@
  * Lo que exporta y usan otros archivos (además de los tipos Zona y PosCasita):
  *   ZAGE, ZONES, MAINZ, flowersIn, pathOf, pathDone, mainDone,
  *   zoneOpen, NEED, started, temaOpen, gameOpen, nextGameOf,
- *   ageZoneOpen, curTema, nextTema, lowName, lockMsg, drawRoad, lockOver,
+ *   ageZoneOpen, curTema, nextTema, claveTema, lowName, lockMsg, drawRoad, lockOver,
  *   unlockFx, arrowAt, zonePos, ZPOS, casitaPos, newlyOpen, zoneScene, HOUSE_AT, casaPos,
  *   houseLevel, HOUSE_NEXT, petStage, PET_NEXT, drawPet, shellIcon,
  *   drawTitoHouse, MZ2, SEGUIR, mzOf, spotOpen, spotNeed, repDue, repAllDone, goSeguir,
@@ -454,9 +454,12 @@ export const nextIngles = (): Tema | null => siguienteDeIsla(PARTIDA, MAPA, 'ing
 export function suggestTema(z?: string): Tema | null {
   return curTema(z || ageZoneOpen());
 }
-// lowName(t): nombre del tema para meterlo en medio de una frase (con minúscula inicial).
-export const lowName = (t: Tema): string =>
-  nombreEn(t.concepts ? 'el Rincón de los Conceptos' : t.n.replace(/^./, (c) => c.toLowerCase())).art;
+// claveTema(t): el nombre del tema en castellano para meterlo en medio de una frase (con minúscula inicial), que es la
+// clave de sus formas en cada idioma (nombreEn; desde la fase ID4b de docs/PLAN-IDIOMAS.md, para pedir también su «de»).
+export const claveTema = (t: Tema): string =>
+  t.concepts ? 'el Rincón de los Conceptos' : t.n.replace(/^./, (c) => c.toLowerCase());
+// lowName(t): nombre del tema para meterlo en medio de una frase, en el idioma del juego.
+export const lowName = (t: Tema): string => nombreEn(claveTema(t)).art;
 // lockMsg(t): frase que dice Tito al tocar una casita cerrada, explicando qué hace falta para abrirla.
 function lockMsg(t: Tema) {
   const z = t.zone;

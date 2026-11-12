@@ -1647,7 +1647,10 @@ SCENES.asamblea = {
       this.rec.emo = o.v;
       SFX.good();
       sparkles(o.x, o.y, 10);
-      say(EMO_SAY[o.v] + (AGE() >= 5 && EMO_TIP[o.v] ? EMO_TIP[o.v] : ''), () => later(500, () => this.next()));
+      // la emoción y, con 5 años, su consejo: dos frases, cada una traducida entera (juntar, desde la fase ID4b)
+      say(juntar(tr(EMO_SAY[o.v]!), AGE() >= 5 && EMO_TIP[o.v] ? tr(EMO_TIP[o.v]!.trim()) : ''), () =>
+        later(500, () => this.next()),
+      );
       return;
     }
     if (o.ok) {
@@ -1658,7 +1661,8 @@ SCENES.asamblea = {
       rec('asamblea-' + s, this.errs === 0);
       const ok = (
         {
-          dianoche: o.v === 'dia' ? '¡Sí! Ahora es de día.' : '¡Sí! Ahora es de noche.',
+          // ya traducida, porque va dentro de juntar (desde la fase ID4b; antes salía en castellano)
+          dianoche: tr(o.v === 'dia' ? '¡Sí! Ahora es de día.' : '¡Sí! Ahora es de noche.'),
           ropa: fmt('¡Sí! Nos ponemos {cosa}.', { cosa: W_(o.v) }),
           estacion: juntar(
             fmt('¡Sí! Estamos en {estacion}.', { estacion: tr(o.v) }),
