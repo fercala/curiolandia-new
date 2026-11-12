@@ -1027,6 +1027,8 @@ a02e8bf6d838,último lugar,trozo,src/dominio/carreras.ts
 db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
 83d5c96d00d0,Día del deporte,trozo,src/dominio/cole.ts
 45e64e64f7e3,Juegos cortos,trozo,src/dominio/cole.ts src/escenas/juegosCortos.ts
+ef81314d65d9,El escondite,trozo,src/dominio/cole.ts src/escenas/escondite.ts
+c13fd3832755,El circuito,trozo,src/dominio/cole.ts
 25cbaa49e002,el pollito,trozo,src/dominio/crias.ts src/nucleo/idioma.ts
 fcbe927d0a34,la gallina,trozo,src/dominio/crias.ts src/escenas/granja.ts src/nucleo/idioma.ts
 ff3eef06c65b,Pío,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts
@@ -1063,6 +1065,12 @@ ccd9d9bd53d0,{n} medallas de {medalla},trozo,src/dominio/deporte.ts
 d6aab1bb5737,{n} de {medalla},trozo,src/dominio/deporte.ts
 e4967d139c87,{lista} y {ultimo},trozo,src/dominio/deporte.ts
 5778faca132a,Tienes {lista}.,frase,src/dominio/deporte.ts
+e15ad32125de,¡Está detrás del árbol!,frase,src/dominio/escondite.ts
+79a63b160235,¡Está debajo del tobogán!,frase,src/dominio/escondite.ts
+feee6dd228f8,¡Está dentro de la casita!,frase,src/dominio/escondite.ts
+24686970d2fe,¡Está detrás del arbusto!,frase,src/dominio/escondite.ts
+de864576d32c,¡Está debajo del banco!,frase,src/dominio/escondite.ts
+f73b6c2f7d1b,¡Está dentro de la caja!,frase,src/dominio/escondite.ts
 17eb8962117b,{dia} de {mes},trozo,src/dominio/excursiones.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 df787b379967,{n} veces,trozo,src/dominio/excursiones.ts
@@ -1338,9 +1346,9 @@ b271ba1d0f83,¡Espera a que vuelva hacia ti!,frase,src/escenas/columpios.ts
 b99ddbc4b11a,¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!,frase,src/escenas/columpios.ts
 0973858a9230,¡Qué bien me has columpiado! ¿Jugamos otra vez?,frase,src/escenas/columpios.ts
 249b3d3ca207,"¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.",frase,src/escenas/columpios.ts
-eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/estatuas.ts
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/escondite.ts
 5aed92d6a158,Toca la mano para empujar cuando el columpio llegue hasta ella.,frase,src/escenas/columpios.ts
-fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/estatuas.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/escondite.ts
 07bdde380441,¡Una estrella!,frase,src/escenas/cometa.ts
 3cb5f1027583,¡Qué bien vuela!,frase,src/escenas/cometa.ts
 e2970e7fe5be,¡Otra más!,frase,src/escenas/cometa.ts
@@ -1549,6 +1557,19 @@ b161b0d177f7,Este es tu álbum. Tienes 1 pegatina.,frase,src/escenas/escenas2d.t
 c4cf7542532e,¡Qué bonito jugamos{nino}! Ahora Tito se va a descansar. ¡Hasta mañana!,frase,src/escenas/escenas2d.ts
 fbade9e36a3f,z,trozo,src/escenas/escenas2d.ts src/escenas/zonas.ts src/juegos/lectura.ts
 563528c57bb4,Es hora de descansar,trozo,src/escenas/escenas2d.ts
+7d956ad9df91,¡Te encontré!,frase,src/escenas/escondite.ts
+d7bae933e928,¡Aquí estás!,frase,src/escenas/escondite.ts
+e262bc709e85,¡Pillado!,frase,src/escenas/escondite.ts
+bf375b139a95,¡Ya te he visto!,frase,src/escenas/escondite.ts
+14ae6b22b9a4,¡Aquí no hay nadie!,frase,src/escenas/escondite.ts
+6f6680797cf0,¡Os he encontrado a todos! Ahora me escondo yo. Toca dónde quieres que me esconda.,frase,src/escenas/escondite.ts
+6be42ffd3aee,¡Chis! Lupi cuenta y viene a buscarme.,frase,src/escenas/escondite.ts
+ddffa5a2bdbc,¡Lupi me ha encontrado!,frase,src/escenas/escondite.ts
+d016b49d10c5,¿Estará aquí? ¡No!,frase,src/escenas/escondite.ts
+46d79a7d2703,¡Qué bien nos lo hemos pasado jugando al escondite! ¿Jugamos otra vez?,frase,src/escenas/escondite.ts
+571c877a1eee,¡Vamos a jugar al escondite! Mis amigos se esconden y yo cuento hasta diez. Cuenta conmigo.,frase,src/escenas/escondite.ts
+d7f12be26eb5,¡Allá voy! ¿Dónde se habrán escondido?,frase,src/escenas/escondite.ts
+ac3ca2f196f4,Toca dónde quieres que me esconda.,frase,src/escenas/escondite.ts
 fbc49c3eee3d,¡A bailar como un pingüino!,frase,src/escenas/estatuas.ts
 e9e0a80c11e3,¡Ahora saltamos como las ranas!,frase,src/escenas/estatuas.ts
 59d3cb6ed21a,¡A bailar como un mono!,frase,src/escenas/estatuas.ts

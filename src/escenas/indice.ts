@@ -23,7 +23,8 @@
 // granjaManzano.ts (el manzano de la granja, que crece por días), y desde la P9, granjaCrias.ts (las crías y familias);
 // desde la P11, deporte.ts (el gran día del deporte) y deportePruebas.ts (sus pruebas en 2D); desde la P12,
 // juegosCortos.ts (el menú de los juegos cortos del patio), rayuela.ts y columpios.ts (P12a), penaltis.ts y pompas.ts
-// (P12b), cometa.ts y panuelo.ts (P12c) y sillas.ts (P12d).
+// (P12b), cometa.ts y panuelo.ts (P12c) y sillas.ts (P12d);
+// desde la P13a, escondite.ts (el escondite).
 // src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
@@ -71,3 +72,4 @@ export * from './pompas.ts';
 export * from './cometa.ts';
 export * from './panuelo.ts';
 export * from './sillas.ts';
+export * from './escondite.ts';
