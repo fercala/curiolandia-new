@@ -42,6 +42,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 | `bkEncode`, `bkDecode` | `aplicacion/adultos/copiaSeguridad.ts` (los vuelve a exportar `aplicacion/adultos.ts`) | Copias de seguridad. |
 | `VIVO.MX`, `T` | `nucleo/puntero.ts`, `nucleo/pantalla.ts` | Posición del ratón y reloj de juego. |
 | `localStorage['curiolandia-new.v1']` | `nucleo/guardado.ts` (`KEY`) | Escribir partidas de prueba antes de cargar. |
+| `SCENES.tienda` (o `scene` en la tienda): `grid()`, `conf`, `confT` | `escenas/tienda.ts` | En `cobertura.js`, localizar una casilla por `it.id` y pulsar sus coordenadas `x, y` en el lienzo. `conf` identifica el artículo pendiente y `T - confT` indica cuándo se puede confirmar. |
 | `localStorage['curiolandia.v1']` | `nucleo/guardado.ts` (`KEY_VIEJA`) | La partida de curiolandia-3d que se copia (`guardado-viejo.js`). |
 | `SCENES.casaTito`: `paseo`, `acc`, `va`, `irA(id)`, `paseoTok` | `escenas/casa.ts` (desde la fase C2 de PLAN-CASA.md; hasta la fase M1 de PLAN-CASA-MEJORA.md, en `escenas/tienda.ts`) | Que Tito ande hasta lo que se toca y juegue (`casa.js`, C8 a C10): `paseo` (`x1`, `y1`, `dur`), la acción en curso (`acc.id`, `acc.accion`) y a qué va (`va.accion`). |
 | `SCENES.casaMascota`: `id`, `elige`, `fiesta`, `cuida(c)`; `etapaDe(id)` | `escenas/casaMascotas.ts` (desde la fase C6 de PLAN-CASA.md) | Que las mascotas se cuiden, tengan nombre y crezcan (`casa.js`, C20 a C22). |
