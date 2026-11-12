@@ -47,6 +47,7 @@ import {
   text,
   fmt,
   nombreEn,
+  tr,
 } from '../nucleo/indice.ts';
 import { type Cria, criaPendiente, criaPorId, criasDe, etapaCria, familiasListas, nacer } from '../dominio/crias.ts';
 import { crecimientoDe } from '../dominio/crecer.ts';
@@ -88,7 +89,10 @@ export function criasEnPaseo(): CriaPaseo[] {
         animal: dibujoCria(c),
         madre: c.madre,
         escala: escalaCria(c, etapaCria(dias, n)),
-        dice: fmt('¡Es {nombre}, {cria}! Va siempre con su mamá.', { nombre: n.nombre, cria: nombreEn(c.nombre).art }),
+        dice: fmt('¡Es {nombre}, {cria}! Va siempre con su mamá.', {
+          nombre: tr(n.nombre),
+          cria: nombreEn(c.nombre).art,
+        }),
       },
     ];
   });
@@ -224,9 +228,9 @@ function naceCria(): void {
       fmt('¡Ha nacido {cria}! Es la cría {madre}. ¿Cómo lo llamamos? ¿{a}, {b} o {c}? Toca un nombre.', {
         cria: nombreEn(c.nombre).art,
         madre: nombreEn(c.nombreMadre).de,
-        a: c.nombres[0]!,
-        b: c.nombres[1]!,
-        c: c.nombres[2]!,
+        a: tr(c.nombres[0]!),
+        b: tr(c.nombres[1]!),
+        c: tr(c.nombres[2]!),
       }),
     ),
   );
@@ -244,7 +248,7 @@ function ponerNombre(i: number): void {
   sparkles(NIDO.x, NIDO.y - 120, 16);
   say(
     fmt('¡Hola, {nombre}! Ya vive en la granja con su mamá. Cada día que vengas, {nombre} estará más grande.', {
-      nombre,
+      nombre: tr(nombre),
     }),
     () => go('excursion', { exc: 'granja' }),
   );
@@ -283,7 +287,10 @@ SCENES['granjaNace'] = {
     const c = nace.cria;
     if (!c || nace.nombrada) return;
     if (nace.nacio < 0) say(c.dibujo ? 'Toca el huevo.' : 'Toca la paja.');
-    else say(fmt('Elige un nombre: ¿{a}, {b} o {c}?', { a: c.nombres[0]!, b: c.nombres[1]!, c: c.nombres[2]! }));
+    else
+      say(
+        fmt('Elige un nombre: ¿{a}, {b} o {c}?', { a: tr(c.nombres[0]!), b: tr(c.nombres[1]!), c: tr(c.nombres[2]!) }),
+      );
   },
   // hint(): la paja (o el huevo) y, cuando ya ha nacido, el primer nombre.
   hint() {
@@ -415,7 +422,7 @@ function soltarCria(f: PiezaFamilia): void {
           go('excursion', { exc: 'granja' }),
         ),
       );
-    } else say(fmt('¡{nombre} está con {madre}!', { nombre: f.nombre, madre: nombreEn(f.c.nombreMadre).art }));
+    } else say(fmt('¡{nombre} está con {madre}!', { nombre: tr(f.nombre), madre: nombreEn(f.c.nombreMadre).art }));
     return;
   }
   if (m) {
