@@ -133,10 +133,12 @@ export function etapaDe(id: string): number {
   return etapaMascota(fichaMascota(id).dias);
 }
 // nombreDe(id): el nombre que le puso el niño, o cómo se dice la mascota si aún no tiene (desde la fase ID2f de
-// docs/PLAN-IDIOMAS.md, en el idioma del juego).
+// docs/PLAN-IDIOMAS.md, en el idioma del juego). Desde la ID4c, también el nombre elegido, que se guarda en castellano
+// (NOMBRES_MASCOTA), sale traducido; juntar lo marca como ya traducido para que text() no lo traduzca otra vez.
 const nombreDe = (id: string): string => {
-  const e = ESPECIE[id];
-  return fichaMascota(id).nombre || (e ? tr(e) : id);
+  const e = ESPECIE[id],
+    nombre = fichaMascota(id).nombre;
+  return juntar(nombre ? tr(nombre) : e ? tr(e) : id);
 };
 // mayuscula(t): t con la primera letra en mayúscula.
 const mayuscula = (t: string): string => t.charAt(0).toUpperCase() + t.slice(1);
@@ -271,7 +273,11 @@ SCENES.casaMascota = {
     if (n) {
       later(400, () =>
         sayQ(
-          fmt('¡Hay que ponerle nombre! ¿{a}, {b} o {c}? Toca el que más te guste.', { a: n[0]!, b: n[1]!, c: n[2]! }),
+          fmt('¡Hay que ponerle nombre! ¿{a}, {b} o {c}? Toca el que más te guste.', {
+            a: tr(n[0]!),
+            b: tr(n[1]!),
+            c: tr(n[2]!),
+          }),
         ),
       );
       return;
@@ -337,7 +343,7 @@ SCENES.casaMascota = {
         iconoCuidado('mirar', id, P.x + Math.cos(T * 2) * 120, P.y - 260 + Math.sin(T * 2) * 60, 120);
     }
     card(P.x - 230, 30, 460, 90, '#FFFFFF', 5, 30);
-    text(mayuscula(nombreDe(id)), P.x, 84, 48, '#3A281E');
+    text(juntar(mayuscula(nombreDe(id))), P.x, 84, 48, '#3A281E');
     if (id !== 'pipo') corazones(id, P.x, 170);
     if (!this.elige) {
       botones(id).forEach((b) => {
@@ -392,7 +398,7 @@ SCENES.casaMascota = {
       this.elige = null;
       SFX.tada();
       burst(PANTALLA.x, PANTALLA.y - 200, 30);
-      say(fmt('¡Se llama {nombre}! ¡Qué nombre tan bonito!', { nombre: n[i]! }), () => this.saluda!());
+      say(fmt('¡Se llama {nombre}! ¡Qué nombre tan bonito!', { nombre: tr(n[i]!) }), () => this.saluda!());
       return;
     }
     const b = botones(id).find((k) => dist(x, y, k.x, k.y) < PANTALLA.botones.r + 10);
