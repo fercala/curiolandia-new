@@ -1072,7 +1072,7 @@ df787b379967,{n} veces,,trozo,src/dominio/excursiones.ts,falta
 1d4e8cddd4be,Las pompas,,trozo,src/dominio/juegosCortos.ts,falta
 8fbd08ad3d52,La cometa,,trozo,src/dominio/juegosCortos.ts src/escenas/cometa.ts,falta
 210d1bebbc85,El pañuelo,,trozo,src/dominio/juegosCortos.ts,falta
-88d5988c508b,Las sillas,,trozo,src/dominio/juegosCortos.ts,falta
+88d5988c508b,Las sillas,,trozo,src/dominio/juegosCortos.ts src/escenas/sillas.ts,falta
 1927bfb65307,¡Explota las pompas rojas!,,frase,src/dominio/juegosCortos.ts,falta
 0ac8f501655c,Esa pompa es roja.,,frase,src/dominio/juegosCortos.ts,falta
 8c679283ca8f,¡Explota las pompas azules!,,frase,src/dominio/juegosCortos.ts,falta
@@ -1719,6 +1719,17 @@ faab64329823,Empieza por el primero.,,frase,src/escenas/repaso.ts src/escenas/zo
 d85f6514ad06,Este todavía está cerrado. Primero termina el número {n}.,,frase,src/escenas/repaso.ts src/escenas/zonas.ts,falta
 4b2a945b371e,"Te dejo un reto para hacer en casa, sin pantalla: {reto}",,trozo,src/escenas/retos.ts,falta
 7a1f66efc5ae,¡Me han contado que has hecho el reto en casa{nino}! ¡Qué bien! Toma una pegatina.,,frase,src/escenas/retos.ts,falta
+a1cfe0ffe045,¡Nadie se queda sin silla! Nos sentamos unos encima de otros.,,frase,src/escenas/sillas.ts,falta
+a8206f590efb,¡Aquí cabemos todos! Qué risa.,,frase,src/escenas/sillas.ts,falta
+6ca3f386e616,"¡Una silla menos, pero cabemos todos!",,frase,src/escenas/sillas.ts,falta
+32ce1ea05784,¡Se para la música! ¡Toca la silla libre para que me siente!,,frase,src/escenas/sillas.ts,falta
+3ab82fec5044,¡Ya estamos todos sentados!,,frase,src/escenas/sillas.ts,falta
+8f2de584873c,Quito una silla. ¡Otra vez música!,,frase,src/escenas/sillas.ts,falta
+a319ecbf2a91,¡Siempre hay sitio para todos! Ha sido muy divertido. ¿Jugamos otra vez?,,frase,src/escenas/sillas.ts,falta
+c169da87dd43,"¡Las sillas musicales! Baila con nosotros mientras suena la música. Cuando pare, toca la silla libre para que me siente. ¡Aquí nadie se queda fuera!",,frase,src/escenas/sillas.ts,falta
+8782931894f8,Toca la silla libre para que me siente.,,frase,src/escenas/sillas.ts,falta
+76fb7b106917,¡Baila mientras suena la música!,,frase,src/escenas/sillas.ts,falta
+e1e276c85846,¡Todavía suena la música! Sigue bailando.,,frase,src/escenas/sillas.ts,falta
 15d657aa9510,Un cuento extra antes de dormir,,trozo,src/escenas/tienda.ts,falta
 4bf721c805e2,Ir a jugar al parque,,trozo,src/escenas/tienda.ts,falta
 9255f2bf1f4b,Elegir a qué jugamos juntos,,trozo,src/escenas/tienda.ts,falta
