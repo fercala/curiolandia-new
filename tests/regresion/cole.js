@@ -12,7 +12,9 @@
 // medallero, la copa de la semana (S.deporte) y 3 monedas; «otra vez» empieza otra jornada y la casa vuelve al patio.
 // Y los juegos cortos del patio (fase P12a): desde su menú, la rayuela y los columpios se juegan solos hasta el final
 // siguiendo la ayuda, dan 3 monedas cada uno y se apuntan. Y lo mismo con los penaltis y las pompas (fase P12b), con la
-// cometa y el pañuelo (fase P12c) y con las sillas musicales, sin eliminar a nadie (fase P12d).
+// cometa y el pañuelo (fase P12c) y con las sillas musicales, sin eliminar a nadie (fase P12d). Y el escondite (fase
+// P13a): con 5 años, Tito cuenta y encuentra a los cuatro amigos con las pistas (un sitio vacío no vale) y Lupi lo
+// encuentra a él en la casita; el circuito sale aún «muy pronto» y los botones del patio van en dos filas.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -888,6 +890,80 @@ const R = L.registro('cole');
         return (await escena()) === 'patio'
           ? null
           : 'la casa de los juegos cortos no vuelve al patio: ' + (await escena());
+      },
+    );
+    await caso(
+      'P22',
+      'con 5 años, el escondite: Tito cuenta, encuentra a los cuatro amigos con las pistas y Lupi lo encuentra a él',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 5;
+          save();
+          __cl.go('patio', {});
+        });
+        await p.waitForTimeout(1200);
+        const bt = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'escondite'));
+        if (!bt) return 'no hay botón del escondite en el patio';
+        const circuito = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'circuito'));
+        if (!circuito || circuito.y <= bt.y - 10) return 'con ocho actividades, los botones van en dos filas';
+        await L.clic(p, circuito.x + circuito.w / 2, circuito.y + circuito.h / 2);
+        await p.waitForTimeout(800);
+        if ((await escena()) !== 'patio') return 'el circuito, aún en obras, lleva a: ' + (await escena());
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
+        await p.waitForTimeout(1500);
+        if ((await escena()) !== 'escondite') return 'el botón del escondite lleva a: ' + (await escena());
+        // con 5 años no asoman: un sitio vacío no vale, y Tito no pasa al siguiente
+        await p.evaluate(() => {
+          let ultimo = 0,
+            fallado = false;
+          const f = () => {
+            if (__cl.name !== 'escondite') return;
+            const sc = __cl.scene,
+              st = ESCONDITE_ST,
+              h = sc.hint && sc.hint(),
+              ahora = performance.now();
+            if (st.fase === 'fin') return;
+            if (h && ahora - ultimo > 200) {
+              ultimo = ahora;
+              if (st.fase === 'busca' && st.i === 0 && !fallado) {
+                fallado = true;
+                const otro = SITIOS.find((q) => q.id !== st.plan[0].sitio);
+                sc.down(otro.x, otro.y);
+                window.__fallo = ESCONDITE_ST.i;
+              } else sc.down(h.x, h.y);
+            }
+            requestAnimationFrame(f);
+          };
+          requestAnimationFrame(f);
+        });
+        let st = null;
+        for (let i = 0; i < 240 && !(st && st.fase === 'fin'); i++) {
+          await p.waitForTimeout(500);
+          st = await p.evaluate(() => ({
+            fase: ESCONDITE_ST.fase,
+            i: ESCONDITE_ST.i,
+            plan: ESCONDITE_ST.plan.length,
+            ruta: ESCONDITE_ST.ruta,
+            tito: ESCONDITE_ST.sitioTito,
+            fallo: window.__fallo,
+          }));
+        }
+        if (!st || st.fase !== 'fin') return 'el escondite no termina: ' + JSON.stringify(st);
+        if (st.fallo !== 0) return 'un sitio vacío no debe contar como encontrado: ' + JSON.stringify(st);
+        if (st.plan !== 4 || st.i !== 4) return 'con 5 años se esconden cuatro amigos: ' + JSON.stringify(st);
+        if (st.tito !== 'casita' || st.ruta.length !== 3 || st.ruta[2] !== 'casita')
+          return 'Lupi mira en dos sitios y encuentra a Tito en el suyo: ' + JSON.stringify(st);
+        await p.waitForTimeout(2500);
+        const [despues, cole] = await p.evaluate(() => [__cl.S.coins || 0, __cl.S.cole]);
+        if (despues - monedas !== 3) return `escondite: monedas ${monedas} -> ${despues}`;
+        if (!cole || !cole.veces || cole.veces.escondite !== 1) return 'escondite: S.cole ' + JSON.stringify(cole);
+        await p.evaluate(() => __cl.scene.down(1000, 700));
+        await p.waitForTimeout(800);
+        if ((await p.evaluate(() => ESCONDITE_ST.fase)) === 'fin') return 'el botón de otra vez no vuelve a empezar';
+        await L.clic(p, 90, 90);
+        await p.waitForTimeout(1000);
+        return (await escena()) === 'patio' ? null : 'la casa del escondite no vuelve al patio: ' + (await escena());
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
