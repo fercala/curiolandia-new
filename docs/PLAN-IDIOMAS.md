@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134) e **ID4b** (v0.2.136), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136) e **ID4c** (v0.2.138), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,20 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID4c (v0.2.138): la casa de Tito en rumano
+
+- **Tabla nueva `src/idiomas/ro/casa.ts`** (`CASA_RO`, unos 340 textos): lo que dice Tito con cada cosa, sus otras
+  formas de jugar, las combinaciones, las rutinas del día y el reloj (`contenido/casa.ts`); la casa, el baúl y los
+  nombres de las habitaciones en su título; el álbum de sorpresas; las escenas del telescopio, el globo terráqueo, el
+  piano, la pizarra, la tele, la merienda, la sopa, el baño, las buenas noches y el huerto; las mascotas (sus nombres
+  para elegir, traducidos a nombres rumanos de mascota donde el castellano lo es: Copito, «Fulguț») y la casa 3D de
+  prueba. Las frutas de la merienda tienen sus formas en `nombres.ts`.
+- **Arreglo que salió al traducir**: el nombre elegido de la mascota se guarda en castellano (así no se pierde si se
+  cambia de idioma) y se decía sin traducir; ahora `nombreDe` (`escenas/casaMascotas.ts`) lo traduce y lo marca con
+  `juntar`, y el título de la mascota ya no se traducía dos veces.
+- **Prueba**: la I5 de `tests/regresion/idiomas.js` recorre también la casa, sus escenas y cada mascota (`escena:inst`).
+- Versión: la v0.2.137 queda para el PR #142 (P13a). En castellano todo sigue igual.
 
 ### ID4b (v0.2.136): la portada, el mapa, la asamblea, la tienda, el cofre, el repaso y las islas en rumano
 
