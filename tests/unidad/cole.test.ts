@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest';
 import { ACTIVIDADES_PATIO, COLE, actividadDelPatio, registroCole, terminarActividad } from '../../src/dominio/cole.ts';
 
 describe('el patio del cole', () => {
-  test('las actividades tienen ids distintos y ¡Estatuas!, Tito dice, el yoga, las carreras, el día del deporte, los juegos cortos y el escondite ya se pueden jugar (el circuito, aún no)', () => {
+  test('las actividades tienen ids distintos y ¡Estatuas!, Tito dice, el yoga, las carreras, el día del deporte, los juegos cortos, el escondite y el circuito ya se pueden jugar', () => {
     const ids = ACTIVIDADES_PATIO.map((a) => a.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(actividadDelPatio('estatuas')?.escena).toBe('estatuas');
@@ -15,7 +15,7 @@ describe('el patio del cole', () => {
     expect(actividadDelPatio('deporte')?.escena).toBe('deporte');
     expect(actividadDelPatio('juegosCortos')?.escena).toBe('juegosCortos');
     expect(actividadDelPatio('escondite')?.escena).toBe('escondite');
-    expect(actividadDelPatio('circuito')?.escena).toBeUndefined();
+    expect(actividadDelPatio('circuito')?.escena).toBe('circuito');
     expect(actividadDelPatio('nada')).toBeUndefined();
   });
 

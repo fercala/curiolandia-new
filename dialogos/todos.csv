@@ -1021,6 +1021,31 @@ a29d50ec9ee6,Lupi,trozo,src/dominio/carreras.ts
 95f622a25641,tercer lugar,trozo,src/dominio/carreras.ts
 b593f2534404,cuarto lugar,trozo,src/dominio/carreras.ts
 a02e8bf6d838,último lugar,trozo,src/dominio/carreras.ts
+063d8992503f,Los aros,trozo,src/dominio/circuito.ts
+055dd754f3e8,¡Saltando dentro de los aros!,frase,src/dominio/circuito.ts
+73a9ae22e970,"Primero, los aros.",frase,src/dominio/circuito.ts
+7ee07c7b19c2,"Después, los aros.",frase,src/dominio/circuito.ts
+b4103b199519,"Y al final, los aros.",frase,src/dominio/circuito.ts
+ce4b806fd40f,El túnel,trozo,src/dominio/circuito.ts
+2aa43dd87c31,¡Por dentro del túnel!,frase,src/dominio/circuito.ts
+0e176812ae1a,"Primero, el túnel.",frase,src/dominio/circuito.ts
+db49ddbecc55,"Después, el túnel.",frase,src/dominio/circuito.ts
+491ca8514775,"Y al final, el túnel.",frase,src/dominio/circuito.ts
+e6cb6903d39c,El banco,trozo,src/dominio/circuito.ts
+25167d5a3254,¡Por encima del banco!,frase,src/dominio/circuito.ts
+d5393bb84ce6,"Primero, el banco.",frase,src/dominio/circuito.ts
+399824b74862,"Después, el banco.",frase,src/dominio/circuito.ts
+94b5f7f95df9,"Y al final, el banco.",frase,src/dominio/circuito.ts
+25d60ebb2e50,Los conos,trozo,src/dominio/circuito.ts
+3b2195641a30,¡Alrededor de los conos!,frase,src/dominio/circuito.ts
+00da6f177a20,"Primero, los conos.",frase,src/dominio/circuito.ts
+700ec1939125,"Después, los conos.",frase,src/dominio/circuito.ts
+f62f1eca2f27,"Y al final, los conos.",frase,src/dominio/circuito.ts
+9d532420b800,La colchoneta,trozo,src/dominio/circuito.ts
+05876cefa015,¡Una voltereta en la colchoneta!,frase,src/dominio/circuito.ts
+043b182069a9,"Primero, la colchoneta.",frase,src/dominio/circuito.ts
+a1df26074b72,"Después, la colchoneta.",frase,src/dominio/circuito.ts
+6d27a9376b35,"Y al final, la colchoneta.",frase,src/dominio/circuito.ts
 1e86783773d9,¡Estatuas!,frase,src/dominio/cole.ts
 5a35caaa1a4e,Tito dice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts
 0c1cd1201d35,Yoga de los animales,trozo,src/dominio/cole.ts
@@ -1028,7 +1053,7 @@ db65ad4c1c64,Carreras,trozo,src/dominio/cole.ts
 83d5c96d00d0,Día del deporte,trozo,src/dominio/cole.ts
 45e64e64f7e3,Juegos cortos,trozo,src/dominio/cole.ts src/escenas/juegosCortos.ts
 ef81314d65d9,El escondite,trozo,src/dominio/cole.ts src/escenas/escondite.ts
-c13fd3832755,El circuito,trozo,src/dominio/cole.ts
+c13fd3832755,El circuito,trozo,src/dominio/cole.ts src/escenas/circuito.ts
 25cbaa49e002,el pollito,trozo,src/dominio/crias.ts src/nucleo/idioma.ts
 fcbe927d0a34,la gallina,trozo,src/dominio/crias.ts src/escenas/granja.ts src/nucleo/idioma.ts
 ff3eef06c65b,Pío,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts
@@ -1312,6 +1337,14 @@ bea586d1a053,Tito baila,trozo,src/escenas/casaTele.ts
 663c8b8f7035,Pipo salta,trozo,src/escenas/casaTele.ts
 96cdbc3a5457,¡Mi tele! Con el mando de la derecha cambias de canal.,frase,src/escenas/casaTele.ts
 f60c90a30a0e,Toca los botones del mando para cambiar de canal.,frase,src/escenas/casaTele.ts
+df6d9ad08567,¡Te toca! Toca los obstáculos en orden.,frase,src/escenas/circuito.ts
+55d22d2c6f81,¡Ese no toca ahora! Escucha otra vez.,frase,src/escenas/circuito.ts
+0e33fa2d7a76,¡Ya está! Allá voy.,frase,src/escenas/circuito.ts
+029ed0455d10,¡Muy bien! Vamos con otra vuelta.,frase,src/escenas/circuito.ts
+825f4ade62b8,¡Qué buen circuito hemos hecho! ¿Lo hacemos otra vez?,frase,src/escenas/circuito.ts
+207be087d209,¡Vamos a hacer el circuito! Escucha a la profe y toca los obstáculos en el orden que diga.,frase,src/escenas/circuito.ts
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts
+fd81e90ff876,Otra vez.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts
 6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,frase,src/escenas/cofre.ts
 5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,frase,src/escenas/cofre.ts
 ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,frase,src/escenas/cofre.ts
@@ -1346,9 +1379,7 @@ b271ba1d0f83,¡Espera a que vuelva hacia ti!,frase,src/escenas/columpios.ts
 b99ddbc4b11a,¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!,frase,src/escenas/columpios.ts
 0973858a9230,¡Qué bien me has columpiado! ¿Jugamos otra vez?,frase,src/escenas/columpios.ts
 249b3d3ca207,"¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.",frase,src/escenas/columpios.ts
-eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/escondite.ts
 5aed92d6a158,Toca la mano para empujar cuando el columpio llegue hasta ella.,frase,src/escenas/columpios.ts
-fd81e90ff876,Otra vez.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/escondite.ts
 07bdde380441,¡Una estrella!,frase,src/escenas/cometa.ts
 3cb5f1027583,¡Qué bien vuela!,frase,src/escenas/cometa.ts
 e2970e7fe5be,¡Otra más!,frase,src/escenas/cometa.ts
