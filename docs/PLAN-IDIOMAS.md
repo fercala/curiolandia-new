@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134) e **ID4b** (v0.2.136), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,25 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID4b (v0.2.136): la portada, el mapa, la asamblea, la tienda, el cofre, el repaso y las islas en rumano
+
+- **Tabla nueva `src/idiomas/ro/escenas.ts`** (`ESCENAS_RO`, unos 320 textos): la portada (edad, nombre y el cuento del
+  principio), el mapa y sus zonas, la casita de cada tema, la asamblea (emociones, tiempo, días, calendario, estaciones),
+  el álbum, la tienda, el cofre, el repaso, la Isla de las Letras y la del Inglés (sus casitas, en la ID6 y la ID7), el
+  diccionario de inglés y los carteles 3D del cielo. Y **`TEMAS_RO`**: los nombres de los temas (menos las casitas de la
+  Isla de las Letras, que son de la ID6).
+- **Nombres con sus formas** (`src/idiomas/ro/nombres.ts`): las cosas de la tienda y la ropa de la asamblea, las
+  estaciones, las zonas y los sitios del mapa, las habitaciones de la casa y los temas (sus formas salen de `TEMAS_RO`:
+  «de» es «din căsuța …»). En rumano, `art` es la forma con el artículo detrás («șapca») y `de` y `a` la del genitivo y
+  dativo («șepcii»): las plantillas rumanas ponen delante lo que haga falta.
+- **`{n:de}` en las plantillas** (`rellena`, `dominio/idiomas.ts`): la «de» del rumano entre un número y lo que cuenta,
+  que va desde el 20 («Costă 30 de monede», pero «8 monede»; `deRumano`, con su prueba de Vitest).
+- **Arreglos que salieron al traducir**: el cofre buscaba las formas del tema por su nombre ya traducido (ahora por el
+  castellano, `claveTema`, `escenas/zonas.ts`); en la asamblea, la emoción y su consejo de 5 años se pegaban con `+` y
+  el acierto de «¿día o noche?» salía sin traducir (ahora con `juntar` y `tr`).
+- **Prueba**: la I5 de `tests/regresion/idiomas.js` recorre también estas escenas con `?idioma=ro`.
+- Versión: la v0.2.135 la lleva el PR #140 (P12d). En castellano todo sigue igual.
 
 ### ID4a (v0.2.134): la zona de adultos en rumano, el aviso de voz y la hoja de revisión
 

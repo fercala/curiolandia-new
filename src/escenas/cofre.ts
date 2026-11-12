@@ -64,7 +64,7 @@ import {
 import { SHOP, casaEnS, drawItemPic, itemName, wear } from './tienda.ts';
 import { nuevoAlBaul } from '../aplicacion/casa.ts';
 import { TEMA } from './escenas2d.ts';
-import { ZONES, drawTitoHouse, houseLevel, lowName } from './zonas.ts';
+import { ZONES, claveTema, drawTitoHouse, houseLevel } from './zonas.ts';
 import { GIFTS, siguienteRegalo } from '../dominio/progreso.ts';
 import { ganar } from '../dominio/monedas.ts';
 import { abrirCofre, ganarCofre, sinPendiente } from '../aplicacion/abrirCofre.ts';
@@ -168,11 +168,12 @@ SCENES.cofre = {
     this.busy = false;
     Object.assign(S, ganarCofre(S, this.t.id));
     save();
-    const n = lowName(this.t);
+    const n = claveTema(this.t);
     later(400, () => {
       SFX.tada();
       burst(800, 300, 70);
-      // Con «de» delante del nombre del tema ('del otoño', 'de la casa'; fase ID2 de docs/PLAN-IDIOMAS.md).
+      // Con «de» delante del nombre del tema ('del otoño', 'de la casa'; fase ID2 de docs/PLAN-IDIOMAS.md), buscado por
+      // su nombre en castellano (claveTema, desde la ID4b: antes, el nombre ya traducido).
       say(
         fmt(
           '¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.',
