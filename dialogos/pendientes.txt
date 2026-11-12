@@ -1807,3 +1807,15 @@ Este aparato no tiene voz en el idioma del juego: Tito hablará con otra voz. En
 (límite: {n} min por sesión)
 Para seguir fuera de la pantalla: {tip}
 Tito habla con la voz del navegador. Voz del navegador: {voz}.
+¡Las sillas musicales! Baila con nosotros mientras suena la música. Cuando pare, toca la silla libre para que me siente. ¡Aquí nadie se queda fuera!
+¡Se para la música! ¡Toca la silla libre para que me siente!
+¡Ya estamos todos sentados!
+¡Nadie se queda sin silla! Nos sentamos unos encima de otros.
+¡Aquí cabemos todos! Qué risa.
+¡Una silla menos, pero cabemos todos!
+Quito una silla. ¡Otra vez música!
+¡Siempre hay sitio para todos! Ha sido muy divertido. ¿Jugamos otra vez?
+Toca la silla libre para que me siente.
+¡Baila mientras suena la música!
+¡Todavía suena la música! Sigue bailando.
+Las sillas

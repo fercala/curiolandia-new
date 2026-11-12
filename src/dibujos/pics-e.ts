@@ -7,7 +7,7 @@
 // se llaman al cargar, para construir los dibujos. Depende de K, sw() y eye() de pics-base.ts.
 // Ayudas (prefijo PE_): PE_star, PE_coin, PE_flat, PE_pile, PE_book, PE_bar, PE_beach, PE_clip.
 // Dibujos: moneda, monedas, cofre, vale, candado, muebles y adornos de la casa de Tito, juguetes,
-// instrumentos, mascota, cosas del jardín y sombreros.
+// instrumentos, mascota, cosas del jardín (y la silla de los juegos del patio) y sombreros.
 // ==========================================================================
 /* ---------- Dibujos de la tienda de Tito (prefijo PE_) ---------- */
 // Devuelve los puntos (texto 'x,y ...') de una estrella de n puntas en (cx,cy), radios R y r.
@@ -328,6 +328,10 @@ Object.assign(PICS, {
       .map((y) => `<rect x="-56" y="${y}" width="112" height="12" rx="4" fill="#C98A4B" ${sw(4)}/>`)
       .join('') +
     `<path d="M-50 22 L-56 52 M50 22 L56 52" ${sw(8)}/><path d="M-50 22 L-56 52 M50 22 L56 52" stroke="#5B5F6B" stroke-width="3"/><path d="M-56 8 H56 L58 18 H-58 Z" fill="#E8A95B" ${sw(4)}/><rect x="-58" y="18" width="116" height="9" rx="3" fill="#C98A4B" ${sw(4)}/><circle cx="-44" cy="-34" r="2" fill="${K}"/><circle cx="44" cy="-34" r="2" fill="${K}"/><circle cx="-44" cy="-18" r="2" fill="${K}"/><circle cx="44" cy="-18" r="2" fill="${K}"/><circle cx="-44" cy="-2" r="2" fill="${K}"/><circle cx="44" cy="-2" r="2" fill="${K}"/>`,
+  silla:
+    `<path d="M-30 6 L-34 54 M30 6 L34 54 M-22 14 L-24 46 M22 14 L24 46" ${sw(7)}/><path d="M-30 6 L-34 54 M30 6 L34 54" stroke="#4DA6FF" stroke-width="3"/>` +
+    `<rect x="-32" y="-54" width="64" height="40" rx="12" fill="#FF6B6B" ${sw(5)}/><path d="M-26 -14 V2 M26 -14 V2" ${sw(6)}/>` +
+    `<path d="M-40 0 H40 L34 14 H-34 Z" fill="#FFD23F" ${sw(5)}/><circle cx="0" cy="-34" r="7" fill="#FFF3D6" ${sw(3)}/>`,
   farol:
     `<g transform="translate(0 2)"><path d="M-16 54 H16 L10 42 H-10 Z" fill="#5B5F6B" ${sw(4)}/><rect x="-5" y="-16" width="10" height="60" fill="#5B5F6B" ${sw(4)}/><rect x="-24" y="-14" width="48" height="6" rx="3" fill="#5B5F6B" ${sw(3.5)}/>` +
     `<path d="M-14 -16 H14 L20 -46 H-20 Z" fill="#FFE08A" ${sw(4)}/><path d="M0 -16 V-46 M-17 -31 H17" stroke="${K}" stroke-width="3"/><ellipse cx="0" cy="-30" rx="5" ry="8" fill="#FFC93C"/><rect x="-18" y="-20" width="36" height="6" rx="2" fill="#5B5F6B" ${sw(3.5)}/><path d="M-26 -46 H26 L0 -57 Z" fill="#5B5F6B" ${sw(4)}/><circle cx="0" cy="-57" r="3" fill="#5B5F6B" ${sw(2.5)}/>` +
