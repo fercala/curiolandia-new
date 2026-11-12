@@ -95,6 +95,8 @@ export const ESCENAS_RO: Readonly<Record<string, string>> = {
   ...TEMAS_RO,
   // escenas/escenas2d.ts: la portada, la edad, el nombre y el cuento del principio
   Curiolandia: 'Curiolandia',
+  // el cartel «3D» de la portada (desde la ID5a)
+  '3D': '3D',
   'Tito y las preguntas escondidas': 'Tito și întrebările ascunse',
   'Instalar el juego': 'Instalează jocul',
   '¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.':
