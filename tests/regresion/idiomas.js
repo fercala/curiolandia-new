@@ -7,7 +7,7 @@
 //   I4: la zona de adultos o las ventanas de la página enseñan un texto sin traducir;
 //   I5: (desde la fase ID4) lo que ya está en rumano (?idioma=ro) deja algo sin traducir: la zona de adultos (ID4a) y,
 //       desde la ID4b, la portada, el mapa y sus zonas, la casita, la asamblea, el álbum, la tienda, el cofre, el repaso
-//       y las islas; menos las casitas de la Isla de las Letras (ID6), el nombre del niño y las palabras sueltas de los
+//       y las islas, y desde la ID4c la casa de Tito y sus escenas; menos las casitas de la Isla de las Letras (ID6), el nombre del niño y las palabras sueltas de los
 //       carteles de las islas (de la ID6 y del inglés, que no se traduce);
 //   I0: hay errores de JavaScript.
 // La Isla de las Letras (sus letras, sílabas y palabras para leer) tendrá su versión rumana en la ID6: no se mira aquí.
@@ -17,7 +17,7 @@ const [raiz] = process.argv.slice(2);
 const R = L.registro('idiomas');
 // FUERA: escenas que no se miran: la de juego (se abre con cada casita) y la casa en 3D de prueba (solo para medir FPS).
 const FUERA = new Set(['juego', 'casa3dPrueba']);
-// ESCENAS_RO: las escenas que ya están en rumano (I5), desde la fase ID4b.
+// ESCENAS_RO: las escenas que ya están en rumano (I5), desde la fase ID4b; «escena:inst» la abre con ese inst.
 const ESCENAS_RO = [
   'portada',
   'map',
@@ -34,6 +34,27 @@ const ESCENAS_RO = [
   'montana',
   'fiestas',
   'casita',
+  // desde la ID4c, la casa de Tito y sus escenas
+  'casaTito',
+  'sorpresasCasa',
+  'casaBano',
+  'casaCielo',
+  'casaMerienda',
+  'casaSopa',
+  'casaHuerto',
+  'casaMundo',
+  'casaMusica',
+  'casaNoches',
+  'casaPizarra',
+  'casaTele',
+  // cada mascota (escena:inst), con su nombre por elegir
+  'casaMascota:casitaPerro',
+  'casaMascota:gato',
+  'casaMascota:pajaro',
+  'casaMascota:conejo',
+  'casaMascota:hamster',
+  'casaMascota:pecera',
+  'casaMascota:pipo',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).
@@ -180,8 +201,9 @@ const LETRAS = /^L\d-|lectura|letras/i;
       closeAdult();
       // las escenas que ya están en rumano (desde la ID4b), con lo que dice Tito al entrar
       for (const e of ESCENAS_RO) {
+        const [escena, inst] = e.split(':');
         try {
-          __cl.go(e, { hello: true, t: TEMAS[0].id });
+          __cl.go(escena, { hello: true, t: TEMAS[0].id, inst });
         } catch (x) {}
         await new Promise((ok) => setTimeout(ok, 700));
         try {

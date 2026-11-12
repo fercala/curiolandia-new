@@ -8,7 +8,7 @@
  * haga falta («copacul {estacion}» con de: «copacul toamnei»).
  * Desde la fase ID4b: las cosas de la tienda y la ropa de la asamblea, las estaciones, las zonas del mapa, las
  * habitaciones de la casa y los temas (sus formas salen de TEMAS_RO, de escenas.ts). Lo que aún no está sale en
- * castellano (nucleo/traducir.ts lo apunta en sinTraducir).
+ * castellano (nucleo/traducir.ts lo apunta en sinTraducir). Desde la ID4c, las frutas de la merienda de la casa.
  * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts) y TEMAS_RO (escenas.ts).
  */
 import type { Nombre } from '../../dominio/idiomas.ts';
@@ -216,4 +216,10 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   'el gato': N('pisica', 'pisică', 'f', 'pisicii', 'pisici'),
   'el pájaro': N('pasărea', 'pasăre', 'f', 'păsării', 'păsări'),
   'el conejo': N('iepurașul', 'iepuraș', 'm', 'iepurașului', 'iepurași'),
+  // las frutas de la merienda de la casa (escenas/casaCocina.ts: COCINA.frutas), desde la fase ID4c
+  'la fresa': N('căpșuna', 'căpșună', 'f', 'căpșunii', 'căpșuni'),
+  'la manzana': N('mărul', 'măr', 'n', 'mărului', 'mere'),
+  'la pera': N('para', 'pară', 'f', 'perei', 'pere'),
+  'la naranja': N('portocala', 'portocală', 'f', 'portocalei', 'portocale'),
+  'la sandía': N('pepenele verde', 'pepene verde', 'm', 'pepenelui verde', 'pepeni verzi'),
 };
