@@ -12,6 +12,7 @@ import {
   femenino,
   pseudo,
   rellena,
+  deRumano,
 } from '../../src/dominio/idiomas.ts';
 
 describe('idiomas', () => {
@@ -54,6 +55,24 @@ describe('idiomas', () => {
     expect(rellena('{Cosa} es para {sala}.', { cosa: 'el gorro', sala: 'la cocina' })).toBe(
       'El gorro es para la cocina.',
     );
+  });
+
+  test('{n:de}: la «de» del rumano entre un número y lo que cuenta (fase ID4b)', () => {
+    expect([1, 5, 19, 20, 25, 100, 101, 119, 120, 1000].map(deRumano)).toEqual([
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+    ]);
+    expect(rellena('Costă {n} {n:de}monede.', { n: 30 })).toBe('Costă 30 de monede.');
+    expect(rellena('Costă {n} {n:de}monede.', { n: 8 })).toBe('Costă 8 monede.');
+    expect(rellena('Costă {m:de}monede.', { n: 8 })).toBe('Costă {m:de}monede.');
   });
 
   test('las formas de un nombre en castellano salen de su artículo, como antes', () => {
