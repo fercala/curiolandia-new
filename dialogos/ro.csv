@@ -785,172 +785,172 @@ e49e72e2c77c,la be,,trozo,src/contenido/letras.ts,falta
 1739f4c02ee6,la jota,,trozo,src/contenido/letras.ts,falta
 e5baa22d9f17,la uve,,trozo,src/contenido/letras.ts,falta
 00b9518e9743,la eñe,,trozo,src/contenido/letras.ts,falta
-9d9ccca0dcbc,el ñu,,nombre,src/contenido/lex.ts,falta
+9d9ccca0dcbc,el ñu,gnul,nombre,src/contenido/lex.ts,borrador
 7d9347a6d663,el cole,grădinița,nombre,src/contenido/lex.ts src/escenas/zonas.ts,borrador
-0609b4925b7c,el parque,,nombre,src/contenido/lex.ts,falta
+0609b4925b7c,el parque,parcul,nombre,src/contenido/lex.ts,borrador
 2112e12d7425,la piscina,piscina,nombre,src/contenido/lex.ts,borrador
 a4d0bed226e5,la tienda,magazinul,nombre,src/contenido/lex.ts src/escenas/zonas.ts,borrador
-d87061e165de,el hospital,,nombre,src/contenido/lex.ts,falta
-6c9aaf60a01d,el calendario,,nombre,src/contenido/lex.ts,falta
-0a5bf82a6282,el semáforo,,nombre,src/contenido/lex.ts,falta
-804a3f89b162,el paso de cebra,,nombre,src/contenido/lex.ts,falta
-dcc075f0d71c,la bombera,,nombre,src/contenido/lex.ts,falta
-0fd4cfc0d157,el médico,,nombre,src/contenido/lex.ts,falta
-d3e35d941f5f,la policía,,nombre,src/contenido/lex.ts,falta
-c4147c6e88e2,el panadero,,nombre,src/contenido/lex.ts,falta
-dba2185000a6,la cocinera,,nombre,src/contenido/lex.ts,falta
-9aacaa567765,el cartero,,nombre,src/contenido/lex.ts,falta
-06d1edc4eb35,la granjera,,nombre,src/contenido/lex.ts,falta
-392231973151,el peluquero,,nombre,src/contenido/lex.ts,falta
-b91143f353da,la manguera,,nombre,src/contenido/lex.ts,falta
-8a8b3529242b,el estetoscopio,,nombre,src/contenido/lex.ts,falta
-a263733e0c11,el silbato,,nombre,src/contenido/lex.ts,falta
-452c8580a85f,la carta,,nombre,src/contenido/lex.ts,falta
-d8fba9325a62,las tijeras,,nombre,src/contenido/lex.ts,falta
-be04e7303d2d,la sartén,,nombre,src/contenido/lex.ts,falta
-a2dedcb98357,la ambulancia,,nombre,src/contenido/lex.ts,falta
-32240e509132,el camión de bomberos,,nombre,src/contenido/lex.ts,falta
-050da5093d25,el patrullero,,nombre,src/contenido/lex.ts,falta
-705a6e27e77b,el submarino,,nombre,src/contenido/lex.ts,falta
-fb8570237398,el globo aerostático,,nombre,src/contenido/lex.ts,falta
-8096ceda88c6,el tractor,,nombre,src/contenido/lex.ts,falta
-4f0b5810b1c6,el metro,,nombre,src/contenido/lex.ts,falta
-c729d913ec26,el camión,,nombre,src/contenido/lex.ts,falta
-c8804516325a,la lupa,,nombre,src/contenido/lex.ts,falta
-a5a403933a91,la campana,,nombre,src/contenido/lex.ts,falta
+d87061e165de,el hospital,spitalul,nombre,src/contenido/lex.ts,borrador
+6c9aaf60a01d,el calendario,calendarul,nombre,src/contenido/lex.ts,borrador
+0a5bf82a6282,el semáforo,semaforul,nombre,src/contenido/lex.ts,borrador
+804a3f89b162,el paso de cebra,trecerea de pietoni,nombre,src/contenido/lex.ts,borrador
+dcc075f0d71c,la bombera,pompiera,nombre,src/contenido/lex.ts,borrador
+0fd4cfc0d157,el médico,doctorul,nombre,src/contenido/lex.ts,borrador
+d3e35d941f5f,la policía,polițista,nombre,src/contenido/lex.ts,borrador
+c4147c6e88e2,el panadero,brutarul,nombre,src/contenido/lex.ts,borrador
+dba2185000a6,la cocinera,bucătăreasa,nombre,src/contenido/lex.ts,borrador
+9aacaa567765,el cartero,poștașul,nombre,src/contenido/lex.ts,borrador
+06d1edc4eb35,la granjera,fermiera,nombre,src/contenido/lex.ts,borrador
+392231973151,el peluquero,frizerul,nombre,src/contenido/lex.ts,borrador
+b91143f353da,la manguera,furtunul,nombre,src/contenido/lex.ts,borrador
+8a8b3529242b,el estetoscopio,stetoscopul,nombre,src/contenido/lex.ts,borrador
+a263733e0c11,el silbato,fluierul,nombre,src/contenido/lex.ts,borrador
+452c8580a85f,la carta,scrisoarea,nombre,src/contenido/lex.ts,borrador
+d8fba9325a62,las tijeras,foarfeca,nombre,src/contenido/lex.ts,borrador
+be04e7303d2d,la sartén,tigaia,nombre,src/contenido/lex.ts,borrador
+a2dedcb98357,la ambulancia,ambulanța,nombre,src/contenido/lex.ts,borrador
+32240e509132,el camión de bomberos,mașina de pompieri,nombre,src/contenido/lex.ts,borrador
+050da5093d25,el patrullero,mașina de poliție,nombre,src/contenido/lex.ts,borrador
+705a6e27e77b,el submarino,submarinul,nombre,src/contenido/lex.ts,borrador
+fb8570237398,el globo aerostático,balonul cu aer cald,nombre,src/contenido/lex.ts,borrador
+8096ceda88c6,el tractor,tractorul,nombre,src/contenido/lex.ts,borrador
+4f0b5810b1c6,el metro,metroul,nombre,src/contenido/lex.ts,borrador
+c729d913ec26,el camión,camionul,nombre,src/contenido/lex.ts,borrador
+c8804516325a,la lupa,lupa,nombre,src/contenido/lex.ts,borrador
+a5a403933a91,la campana,clopotul,nombre,src/contenido/lex.ts,borrador
 94f3e14279a7,el tambor,toba,nombre,src/contenido/lex.ts,borrador
-6bd135f6caca,el perfume,,nombre,src/contenido/lex.ts,falta
-7530979f7d2f,el cactus,,nombre,src/contenido/lex.ts,falta
-58c941ad26d1,el astronauta,,nombre,src/contenido/lex.ts,falta
-8fb57c36260a,el cinturón,,nombre,src/contenido/lex.ts,falta
-d173777c3ce9,el casco,,nombre,src/contenido/lex.ts,falta
-fc1b5058f168,la señal de pare,,nombre,src/contenido/lex.ts,falta
-093b6c90052a,el mapa,,nombre,src/contenido/lex.ts,falta
-b2a278f16a7f,la maleta,,nombre,src/contenido/lex.ts,falta
-184e5a65c533,la nuez,,nombre,src/contenido/lex.ts,falta
-9be901483d6f,la granada,,nombre,src/contenido/lex.ts,falta
-5e37665b0e94,la calabaza,,nombre,src/contenido/lex.ts,falta
-b07ea1080cf8,la bellota,,nombre,src/contenido/lex.ts,falta
-3f9b2f37d4b1,el erizo,,nombre,src/contenido/lex.ts,falta
-27c840de4e7d,la zanahoria,,nombre,src/contenido/lex.ts,falta
-20de2162a835,la lechuga,,nombre,src/contenido/lex.ts,falta
-130dd4fe69f4,la patata,,nombre,src/contenido/lex.ts,falta
-27967cf81320,el brócoli,,nombre,src/contenido/lex.ts,falta
-a9bc6728c7aa,el pimiento,,nombre,src/contenido/lex.ts,falta
-b5b374538b25,la piña,,nombre,src/contenido/lex.ts,falta
-f8a4c1e7a9f8,el kiwi,,nombre,src/contenido/lex.ts,falta
-057e346fb48d,el limón,,nombre,src/contenido/lex.ts,falta
-fd8a9385f91e,la berenjena,,nombre,src/contenido/lex.ts,falta
-9e599da83e5d,el chocolate,,nombre,src/contenido/lex.ts,falta
-f6c217ceb892,el desayuno,,nombre,src/contenido/lex.ts,falta
-54281988828b,el almuerzo,,nombre,src/contenido/lex.ts,falta
-9d1173236bc4,la merienda,,nombre,src/contenido/lex.ts,falta
-49415896442e,la cena,,nombre,src/contenido/lex.ts,falta
-bb25bc39ab49,el pingüino,,nombre,src/contenido/lex.ts,falta
-00a444768a21,el oso polar,,nombre,src/contenido/lex.ts,falta
-60da03cd2211,la morsa,,nombre,src/contenido/lex.ts,falta
-cad3607745ed,el iglú,,nombre,src/contenido/lex.ts,falta
-f23d2a8ac2c7,el hielo,,nombre,src/contenido/lex.ts,falta
-b1244101d8cf,la jirafa,,nombre,src/contenido/lex.ts,falta
-be28b65d453e,la cebra,,nombre,src/contenido/lex.ts,falta
-79ed7b17d4ef,el cocodrilo,,nombre,src/contenido/lex.ts,falta
-bc7e665f9481,el tigre,,nombre,src/contenido/lex.ts,falta
+6bd135f6caca,el perfume,parfumul,nombre,src/contenido/lex.ts,borrador
+7530979f7d2f,el cactus,cactusul,nombre,src/contenido/lex.ts,borrador
+58c941ad26d1,el astronauta,astronautul,nombre,src/contenido/lex.ts,borrador
+8fb57c36260a,el cinturón,centura,nombre,src/contenido/lex.ts,borrador
+d173777c3ce9,el casco,casca,nombre,src/contenido/lex.ts,borrador
+fc1b5058f168,la señal de pare,semnul de stop,nombre,src/contenido/lex.ts,borrador
+093b6c90052a,el mapa,harta,nombre,src/contenido/lex.ts,borrador
+b2a278f16a7f,la maleta,valiza,nombre,src/contenido/lex.ts,borrador
+184e5a65c533,la nuez,nuca,nombre,src/contenido/lex.ts,borrador
+9be901483d6f,la granada,rodia,nombre,src/contenido/lex.ts,borrador
+5e37665b0e94,la calabaza,dovleacul,nombre,src/contenido/lex.ts,borrador
+b07ea1080cf8,la bellota,ghinda,nombre,src/contenido/lex.ts,borrador
+3f9b2f37d4b1,el erizo,ariciul,nombre,src/contenido/lex.ts,borrador
+27c840de4e7d,la zanahoria,morcovul,nombre,src/contenido/lex.ts,borrador
+20de2162a835,la lechuga,salata verde,nombre,src/contenido/lex.ts,borrador
+130dd4fe69f4,la patata,cartoful,nombre,src/contenido/lex.ts,borrador
+27967cf81320,el brócoli,broccoli,nombre,src/contenido/lex.ts,borrador
+a9bc6728c7aa,el pimiento,ardeiul,nombre,src/contenido/lex.ts,borrador
+b5b374538b25,la piña,ananasul,nombre,src/contenido/lex.ts,borrador
+f8a4c1e7a9f8,el kiwi,kiwiul,nombre,src/contenido/lex.ts,borrador
+057e346fb48d,el limón,lămâia,nombre,src/contenido/lex.ts,borrador
+fd8a9385f91e,la berenjena,vânăta,nombre,src/contenido/lex.ts,borrador
+9e599da83e5d,el chocolate,ciocolata,nombre,src/contenido/lex.ts,borrador
+f6c217ceb892,el desayuno,micul dejun,nombre,src/contenido/lex.ts,borrador
+54281988828b,el almuerzo,prânzul,nombre,src/contenido/lex.ts,borrador
+9d1173236bc4,la merienda,gustarea,nombre,src/contenido/lex.ts,borrador
+49415896442e,la cena,cina,nombre,src/contenido/lex.ts,borrador
+bb25bc39ab49,el pingüino,pinguinul,nombre,src/contenido/lex.ts,borrador
+00a444768a21,el oso polar,ursul polar,nombre,src/contenido/lex.ts,borrador
+60da03cd2211,la morsa,morsa,nombre,src/contenido/lex.ts,borrador
+cad3607745ed,el iglú,iglul,nombre,src/contenido/lex.ts,borrador
+f23d2a8ac2c7,el hielo,gheața,nombre,src/contenido/lex.ts,borrador
+b1244101d8cf,la jirafa,girafa,nombre,src/contenido/lex.ts,borrador
+be28b65d453e,la cebra,zebra,nombre,src/contenido/lex.ts,borrador
+79ed7b17d4ef,el cocodrilo,crocodilul,nombre,src/contenido/lex.ts,borrador
+bc7e665f9481,el tigre,tigrul,nombre,src/contenido/lex.ts,borrador
 337861eec0a2,el conejo,iepurașul,nombre,src/contenido/lex.ts src/escenas/granja.ts,borrador
-269fc9de731d,la hormiga,,nombre,src/contenido/lex.ts,falta
-3400abd8dec4,la araña,,nombre,src/contenido/lex.ts,falta
-71daf92e518a,el gusano,,nombre,src/contenido/lex.ts,falta
-c2f282f9ef07,la oruga,,nombre,src/contenido/lex.ts,falta
-74bd77d479bc,la semilla,,nombre,src/contenido/lex.ts,falta
-2941145b2116,el brote,,nombre,src/contenido/lex.ts,falta
+269fc9de731d,la hormiga,furnica,nombre,src/contenido/lex.ts,borrador
+3400abd8dec4,la araña,păianjenul,nombre,src/contenido/lex.ts,borrador
+71daf92e518a,el gusano,viermele,nombre,src/contenido/lex.ts,borrador
+c2f282f9ef07,la oruga,omida,nombre,src/contenido/lex.ts,borrador
+74bd77d479bc,la semilla,sămânța,nombre,src/contenido/lex.ts,borrador
+2941145b2116,el brote,mugurele,nombre,src/contenido/lex.ts,borrador
 3ab1b851bb5d,la planta,planta,nombre,src/contenido/lex.ts,borrador
 eecd7e3d24b4,la flor,floarea,nombre,src/contenido/lex.ts src/nucleo/idioma.ts src/temas/temas4.ts,borrador
-ae50a1440436,el fruto,,nombre,src/contenido/lex.ts src/temas/temas4.ts,falta
-0a96d76abc35,el helado en el piso,,nombre,src/contenido/lex.ts,falta
-7eb927fa19a7,la torre rota,,nombre,src/contenido/lex.ts,falta
-dc1afb413a31,la caja sorpresa,,nombre,src/contenido/lex.ts,falta
+ae50a1440436,el fruto,fructul,nombre,src/contenido/lex.ts src/temas/temas4.ts,borrador
+0a96d76abc35,el helado en el piso,înghețata căzută pe jos,nombre,src/contenido/lex.ts,borrador
+7eb927fa19a7,la torre rota,turnul dărâmat,nombre,src/contenido/lex.ts,borrador
+dc1afb413a31,la caja sorpresa,cutia cu surprize,nombre,src/contenido/lex.ts,borrador
 8e64c7c636e2,las emociones,Emoțiile,nombre,src/contenido/lex.ts,borrador
-36dc537d9687,el esqueleto,,nombre,src/contenido/lex.ts,falta
-0bc008fd519b,el hueso,,nombre,src/contenido/lex.ts,falta
-24c3c543363e,los pulmones,,nombre,src/contenido/lex.ts,falta
-a0b42327f682,el estómago,,nombre,src/contenido/lex.ts,falta
-944300e227c6,el cerebro,,nombre,src/contenido/lex.ts,falta
-534d99d84ccf,el músculo,,nombre,src/contenido/lex.ts,falta
-41bff1b4cb01,el corazón,,nombre,src/contenido/lex.ts src/nucleo/idioma.ts,falta
-2c22569a9087,la bombilla,,nombre,src/contenido/lex.ts,falta
-63276f92a6c1,el pescado,,nombre,src/contenido/lex.ts,falta
-f23f6f15e576,la carne,,nombre,src/contenido/lex.ts,falta
-4b7d29f26aea,el huevo,,nombre,src/contenido/lex.ts,falta
-f1dbb5a4457c,las legumbres,,nombre,src/contenido/lex.ts,falta
-ee308151004a,el arroz,,nombre,src/contenido/lex.ts,falta
-eb203bf5d3c3,el aceite,,nombre,src/contenido/lex.ts,falta
-344aeac3652f,el queso,,nombre,src/contenido/lex.ts,falta
-9c4a1db29afe,las chucherías,,nombre,src/contenido/lex.ts,falta
-4639263bbad6,la miel,,nombre,src/contenido/lex.ts,falta
-9b8d78423705,la aceituna,,nombre,src/contenido/lex.ts,falta
-7b85cd9f0705,el trigo,,nombre,src/contenido/lex.ts,falta
-39f52c618a41,la Tierra,,nombre,src/contenido/lex.ts,falta
-364fa34268b2,Marte,,nombre,src/contenido/lex.ts,falta
+36dc537d9687,el esqueleto,scheletul,nombre,src/contenido/lex.ts,borrador
+0bc008fd519b,el hueso,osul,nombre,src/contenido/lex.ts,borrador
+24c3c543363e,los pulmones,plămânii,nombre,src/contenido/lex.ts,borrador
+a0b42327f682,el estómago,stomacul,nombre,src/contenido/lex.ts,borrador
+944300e227c6,el cerebro,creierul,nombre,src/contenido/lex.ts,borrador
+534d99d84ccf,el músculo,mușchiul,nombre,src/contenido/lex.ts,borrador
+41bff1b4cb01,el corazón,inima,nombre,src/contenido/lex.ts src/nucleo/idioma.ts,borrador
+2c22569a9087,la bombilla,becul,nombre,src/contenido/lex.ts,borrador
+63276f92a6c1,el pescado,peștele,nombre,src/contenido/lex.ts,borrador
+f23f6f15e576,la carne,carnea,nombre,src/contenido/lex.ts,borrador
+4b7d29f26aea,el huevo,oul,nombre,src/contenido/lex.ts,borrador
+f1dbb5a4457c,las legumbres,leguminoasele,nombre,src/contenido/lex.ts,borrador
+ee308151004a,el arroz,orezul,nombre,src/contenido/lex.ts,borrador
+eb203bf5d3c3,el aceite,uleiul,nombre,src/contenido/lex.ts,borrador
+344aeac3652f,el queso,brânza,nombre,src/contenido/lex.ts,borrador
+9c4a1db29afe,las chucherías,dulciurile,nombre,src/contenido/lex.ts,borrador
+4639263bbad6,la miel,mierea,nombre,src/contenido/lex.ts,borrador
+9b8d78423705,la aceituna,măslina,nombre,src/contenido/lex.ts,borrador
+7b85cd9f0705,el trigo,grâul,nombre,src/contenido/lex.ts,borrador
+39f52c618a41,la Tierra,Pământul,nombre,src/contenido/lex.ts,borrador
+364fa34268b2,Marte,Marte,nombre,src/contenido/lex.ts,borrador
 f70d750afbd6,Júpiter,Jupiter,nombre,src/contenido/lex.ts src/mundo3d/interaccion.ts,borrador
 8c1bef4ac142,Saturno,Saturn,nombre,src/contenido/lex.ts src/mundo3d/interaccion.ts,borrador
-b98fcb10d9ab,el tiranosaurio,,nombre,src/contenido/lex.ts,falta
-fe85c0f9f133,el diplodoco,,nombre,src/contenido/lex.ts,falta
-658066e63813,el triceratops,,nombre,src/contenido/lex.ts,falta
-0bbfda20224b,el pterodáctilo,,nombre,src/contenido/lex.ts,falta
-69bc9d9a1dea,el huevo de dinosaurio,,nombre,src/contenido/lex.ts,falta
-1b73123a0593,el fósil,,nombre,src/contenido/lex.ts,falta
-e2ab2cb8bcfc,el volcán,,nombre,src/contenido/lex.ts,falta
-dc394d1ac8ee,el rayo,,nombre,src/contenido/lex.ts,falta
-439e36da259e,el termómetro,,nombre,src/contenido/lex.ts,falta
-84e225b2138a,el camello,,nombre,src/contenido/lex.ts,falta
-f346ecde2480,el pulpo,,nombre,src/contenido/lex.ts,falta
-0cfd4289e220,el búho,,nombre,src/contenido/lex.ts,falta
-d83a0294c4d8,el lobo,,nombre,src/contenido/lex.ts,falta
-7b0b92b3e191,la golondrina,,nombre,src/contenido/lex.ts,falta
-b9e852a3fc4b,la botella de plástico,,nombre,src/contenido/lex.ts,falta
-40a5a0a18334,la lata,,nombre,src/contenido/lex.ts,falta
-99a249338f98,el cartón de leche,,nombre,src/contenido/lex.ts,falta
-491b9ff1394e,el periódico,,nombre,src/contenido/lex.ts,falta
-d6ea1081b26a,la caja de cartón,,nombre,src/contenido/lex.ts,falta
-fdeae4b94370,la botella de vidrio,,nombre,src/contenido/lex.ts,falta
-303706282813,el frasco,,nombre,src/contenido/lex.ts,falta
-831c5428465e,la cáscara de plátano,,nombre,src/contenido/lex.ts,falta
-12bbfc4c0653,el corazón de la manzana,,nombre,src/contenido/lex.ts,falta
-a8e3a54fa370,la grifo,,nombre,src/contenido/lex.ts,falta
-1742ec5bb64a,el bañador,,nombre,src/contenido/lex.ts,falta
-6b1a309c5862,los esquís,,nombre,src/contenido/lex.ts,falta
-dc3cf89b497b,el trineo,,nombre,src/contenido/lex.ts,falta
-45bffde295ff,la pluma,,nombre,src/contenido/lex.ts,falta
-07eb4f805168,la piedra,,nombre,src/contenido/lex.ts,falta
+b98fcb10d9ab,el tiranosaurio,tiranozaurul,nombre,src/contenido/lex.ts,borrador
+fe85c0f9f133,el diplodoco,diplodocul,nombre,src/contenido/lex.ts,borrador
+658066e63813,el triceratops,triceratopsul,nombre,src/contenido/lex.ts,borrador
+0bbfda20224b,el pterodáctilo,pterodactilul,nombre,src/contenido/lex.ts,borrador
+69bc9d9a1dea,el huevo de dinosaurio,oul de dinozaur,nombre,src/contenido/lex.ts,borrador
+1b73123a0593,el fósil,fosila,nombre,src/contenido/lex.ts,borrador
+e2ab2cb8bcfc,el volcán,vulcanul,nombre,src/contenido/lex.ts,borrador
+dc394d1ac8ee,el rayo,fulgerul,nombre,src/contenido/lex.ts,borrador
+439e36da259e,el termómetro,termometrul,nombre,src/contenido/lex.ts,borrador
+84e225b2138a,el camello,cămila,nombre,src/contenido/lex.ts,borrador
+f346ecde2480,el pulpo,caracatița,nombre,src/contenido/lex.ts,borrador
+0cfd4289e220,el búho,bufnița,nombre,src/contenido/lex.ts,borrador
+d83a0294c4d8,el lobo,lupul,nombre,src/contenido/lex.ts,borrador
+7b0b92b3e191,la golondrina,rândunica,nombre,src/contenido/lex.ts,borrador
+b9e852a3fc4b,la botella de plástico,sticla de plastic,nombre,src/contenido/lex.ts,borrador
+40a5a0a18334,la lata,conserva,nombre,src/contenido/lex.ts,borrador
+99a249338f98,el cartón de leche,cutia de lapte,nombre,src/contenido/lex.ts,borrador
+491b9ff1394e,el periódico,ziarul,nombre,src/contenido/lex.ts,borrador
+d6ea1081b26a,la caja de cartón,cutia de carton,nombre,src/contenido/lex.ts,borrador
+fdeae4b94370,la botella de vidrio,sticla de sticlă,nombre,src/contenido/lex.ts,borrador
+303706282813,el frasco,borcanul,nombre,src/contenido/lex.ts,borrador
+831c5428465e,la cáscara de plátano,coaja de banană,nombre,src/contenido/lex.ts,borrador
+12bbfc4c0653,el corazón de la manzana,cotorul de măr,nombre,src/contenido/lex.ts,borrador
+a8e3a54fa370,la grifo,robinetul,nombre,src/contenido/lex.ts,borrador
+1742ec5bb64a,el bañador,costumul de baie,nombre,src/contenido/lex.ts,borrador
+6b1a309c5862,los esquís,schiurile,nombre,src/contenido/lex.ts,borrador
+dc3cf89b497b,el trineo,sania,nombre,src/contenido/lex.ts,borrador
+45bffde295ff,la pluma,pana,nombre,src/contenido/lex.ts,borrador
+07eb4f805168,la piedra,piatra,nombre,src/contenido/lex.ts,borrador
 737846cbe85c,la corona,coroana,nombre,src/contenido/lex.ts,borrador
-1c05838959bf,el antifaz,,nombre,src/contenido/lex.ts,falta
+1c05838959bf,el antifaz,masca,nombre,src/contenido/lex.ts,borrador
 4f95704acea4,la tarta de cumpleaños,tortul aniversar,nombre,src/contenido/lex.ts,borrador
-22bf8164a9da,el árbol de Navidad,,nombre,src/contenido/lex.ts,falta
-a2d86bf7df84,la rosa,,nombre,src/contenido/lex.ts,falta
-ff117b994238,los fuegos artificiales,,nombre,src/contenido/lex.ts,falta
-823714a883ec,el libro,,nombre,src/contenido/lex.ts,falta
-24931fa0c675,la bola de Navidad,,nombre,src/contenido/lex.ts,falta
-b5dd32882ae6,el reno,,nombre,src/contenido/lex.ts,falta
+22bf8164a9da,el árbol de Navidad,bradul de Crăciun,nombre,src/contenido/lex.ts,borrador
+a2d86bf7df84,la rosa,trandafirul,nombre,src/contenido/lex.ts,borrador
+ff117b994238,los fuegos artificiales,artificiile,nombre,src/contenido/lex.ts,borrador
+823714a883ec,el libro,cartea,nombre,src/contenido/lex.ts,borrador
+24931fa0c675,la bola de Navidad,globul de Crăciun,nombre,src/contenido/lex.ts,borrador
+b5dd32882ae6,el reno,renul,nombre,src/contenido/lex.ts,borrador
 b6a25e4b6386,el gorro de Navidad,căciula de Crăciun,nombre,src/contenido/lex.ts,borrador
-9629835a36a8,la vela,,nombre,src/contenido/lex.ts,falta
-9f83482a68ab,la serpentina,,nombre,src/contenido/lex.ts,falta
+9629835a36a8,la vela,lumânarea,nombre,src/contenido/lex.ts,borrador
+9f83482a68ab,la serpentina,serpentina,nombre,src/contenido/lex.ts,borrador
 ab611ff6a28c,el sombrero de pirata,pălăria de pirat,nombre,src/contenido/lex.ts,borrador
-3cf3a189b73f,la capa,,nombre,src/contenido/lex.ts,falta
-15bc4f1b9851,la nariz de payaso,,nombre,src/contenido/lex.ts,falta
-2e74f2ebf852,la varita mágica,,nombre,src/contenido/lex.ts,falta
-124425d34262,el cerdito,,nombre,src/contenido/lex.ts src/temas/extras.ts,falta
-838702af2d1d,la casa de paja,,nombre,src/contenido/lex.ts,falta
-09997c48f4f4,la casa de madera,,nombre,src/contenido/lex.ts,falta
-43d7bac79790,la casa de ladrillos,,nombre,src/contenido/lex.ts,falta
+3cf3a189b73f,la capa,pelerina,nombre,src/contenido/lex.ts,borrador
+15bc4f1b9851,la nariz de payaso,nasul de clovn,nombre,src/contenido/lex.ts,borrador
+2e74f2ebf852,la varita mágica,bagheta magică,nombre,src/contenido/lex.ts,borrador
+124425d34262,el cerdito,purcelușul,nombre,src/contenido/lex.ts src/temas/extras.ts,borrador
+838702af2d1d,la casa de paja,casa de paie,nombre,src/contenido/lex.ts,borrador
+09997c48f4f4,la casa de madera,casa de lemn,nombre,src/contenido/lex.ts,borrador
+43d7bac79790,la casa de ladrillos,casa de cărămidă,nombre,src/contenido/lex.ts,borrador
 d242347853e9,el jabón,săpunul,nombre,src/contenido/lex.ts src/temas/extras.ts,borrador
-a8ebf54b35af,la pasta de dientes,,nombre,src/contenido/lex.ts src/temas/extras.ts,falta
-b9a82a1375f5,el vaso,,nombre,src/contenido/lex.ts,falta
+a8ebf54b35af,la pasta de dientes,pasta de dinți,nombre,src/contenido/lex.ts src/temas/extras.ts,borrador
+b9a82a1375f5,el vaso,paharul,nombre,src/contenido/lex.ts,borrador
 e2f5e5583cde,el baúl de los juguetes,lada cu jucării,nombre,src/contenido/lex.ts,borrador
 947a86205910,los bloques,cuburile,nombre,src/contenido/lex.ts src/temas/extras.ts,borrador
-bf4ac384bab5,el pijama,,nombre,src/contenido/lex.ts,falta
+bf4ac384bab5,el pijama,pijamaua,nombre,src/contenido/lex.ts,borrador
 5ecc7529531a,la alfombra,covorul,nombre,src/contenido/lex.ts,borrador
 eddb6325c575,la lámpara,lampa,nombre,src/contenido/lex.ts,borrador
 fcfa7bb1e232,el cuadro,tabloul,nombre,src/contenido/lex.ts,borrador
-b02fc49ddc18,la biblioteca,,nombre,src/contenido/lex.ts,falta
+b02fc49ddc18,la biblioteca,biblioteca,nombre,src/contenido/lex.ts,borrador
 18de99b789b7,la cometa,zmeul,nombre,src/contenido/lex.ts,borrador
 e9aa4c14c4ca,el peluche,ursulețul de pluș,nombre,src/contenido/lex.ts,borrador
 59e153adeb08,el columpio,leagănul,nombre,src/contenido/lex.ts,borrador
@@ -962,56 +962,56 @@ eb9cffd2c254,la guitarra,chitara,nombre,src/contenido/lex.ts,borrador
 adc2b818ca34,la muñeca,păpușa,nombre,src/contenido/lex.ts,borrador
 896f35f84778,la pelota de playa,mingea de plajă,nombre,src/contenido/lex.ts,borrador
 c27f46ae7dc3,el telescopio,telescopul,nombre,src/contenido/lex.ts,borrador
-d00d65df1e94,el tren de juguete,,nombre,src/contenido/lex.ts,falta
+d00d65df1e94,el tren de juguete,trenulețul de jucărie,nombre,src/contenido/lex.ts,borrador
 d27d46ebb89f,el reloj,ceasul,nombre,src/contenido/lex.ts,borrador
 eed5d65ca376,el hámster,hamsterul,nombre,src/contenido/lex.ts src/escenas/casaMascotas.ts,borrador
 4a4543bfbe07,la casita del perro,cușca cățelului,nombre,src/contenido/lex.ts,borrador
 57aa54a7b1c4,el banco,banca,nombre,src/contenido/lex.ts,borrador
 cdbbfec23326,el farol,felinarul,nombre,src/contenido/lex.ts,borrador
 d3551f7d9068,el piano,pianul,nombre,src/contenido/lex.ts,borrador
-036265d42b36,la moneda,,nombre,src/contenido/lex.ts,falta
-7031d290b4fe,las monedas,,nombre,src/contenido/lex.ts,falta
-7e59aeea63f1,el vale,,nombre,src/contenido/lex.ts,falta
-75eb0d60f049,el candado,,nombre,src/contenido/lex.ts,falta
-ff6db8bd2c3f,el cofre del tesoro,,nombre,src/contenido/lex.ts,falta
+036265d42b36,la moneda,moneda,nombre,src/contenido/lex.ts,borrador
+7031d290b4fe,las monedas,monedele,nombre,src/contenido/lex.ts,borrador
+7e59aeea63f1,el vale,bonul,nombre,src/contenido/lex.ts,borrador
+75eb0d60f049,el candado,lacătul,nombre,src/contenido/lex.ts,borrador
+ff6db8bd2c3f,el cofre del tesoro,cufărul cu comori,nombre,src/contenido/lex.ts,borrador
 805833265c56,el sombrero de copa,jobenul,nombre,src/contenido/lex.ts,borrador
 5e121b0f6364,el lazo,fundița,nombre,src/contenido/lex.ts,borrador
 b694d8486a52,el gorrito de fiesta,coifulețul de petrecere,nombre,src/contenido/lex.ts,borrador
-532f17637cb5,la alegría,,nombre,src/contenido/lex.ts,falta
-f9ca886869fa,la tristeza,,nombre,src/contenido/lex.ts,falta
-90069499abe6,el enojo,,nombre,src/contenido/lex.ts,falta
-1dfdde9f83b1,el miedo,,nombre,src/contenido/lex.ts,falta
-5ea055a79a15,la sorpresa,,nombre,src/contenido/lex.ts,falta
-09c56cc8a822,la calma,,nombre,src/contenido/lex.ts,falta
-8f1031a19488,la vergüenza,,nombre,src/contenido/lex.ts,falta
-c901d08f1e9f,el fonendo,,nombre,src/contenido/lex.ts,falta
-879034e3a11a,el coche de policía,,nombre,src/contenido/lex.ts,falta
-c951f28564c9,la señal de stop,,nombre,src/contenido/lex.ts,falta
-01a8607a1724,el brik de leche,,nombre,src/contenido/lex.ts,falta
-7a7d2bba405d,la piel del plátano,,nombre,src/contenido/lex.ts,falta
-30b6a3a5f0f0,el grifo,,nombre,src/contenido/lex.ts,falta
+532f17637cb5,la alegría,bucuria,nombre,src/contenido/lex.ts,borrador
+f9ca886869fa,la tristeza,tristețea,nombre,src/contenido/lex.ts,borrador
+90069499abe6,el enojo,furia,nombre,src/contenido/lex.ts,borrador
+1dfdde9f83b1,el miedo,frica,nombre,src/contenido/lex.ts,borrador
+5ea055a79a15,la sorpresa,surpriza,nombre,src/contenido/lex.ts,borrador
+09c56cc8a822,la calma,calmul,nombre,src/contenido/lex.ts,borrador
+8f1031a19488,la vergüenza,rușinea,nombre,src/contenido/lex.ts,borrador
+c901d08f1e9f,el fonendo,stetoscopul,nombre,src/contenido/lex.ts,borrador
+879034e3a11a,el coche de policía,mașina de poliție,nombre,src/contenido/lex.ts,borrador
+c951f28564c9,la señal de stop,semnul de stop,nombre,src/contenido/lex.ts,borrador
+01a8607a1724,el brik de leche,cutia de lapte,nombre,src/contenido/lex.ts,borrador
+7a7d2bba405d,la piel del plátano,coaja de banană,nombre,src/contenido/lex.ts,borrador
+30b6a3a5f0f0,el grifo,robinetul,nombre,src/contenido/lex.ts,borrador
 2e4523e533f8,la estantería,raftul,nombre,src/contenido/lex.ts,borrador
-fa5b309d7bf0,el enfado,,nombre,src/contenido/lex.ts,falta
-06596ae00580,la comida,,nombre,src/contenido/lex.ts,falta
-9ae6022864ba,"¡Niinoo, niinoo!",,frase,src/contenido/lex.ts,falta
-36fa8515a751,¡Uuuiiiuuu!,,frase,src/contenido/lex.ts,falta
-3adf539bdc8e,"¡Uiu, uiu, uiu!",,frase,src/contenido/lex.ts,falta
-bfc498e56fb9,¡Tacatacataca!,,frase,src/contenido/lex.ts,falta
-de25bcb9c83f,¡Piiing!,,frase,src/contenido/lex.ts,falta
-57ea88c62a9c,"¡Put, put, put!",,frase,src/contenido/lex.ts,falta
-806c9a29306c,¡Fsssh!,,frase,src/contenido/lex.ts,falta
-5a2f6c4e9630,"¡Tucutú, tucutú!",,frase,src/contenido/lex.ts,falta
-8dd38a0f94ea,"¡Talán, talán!",,frase,src/contenido/lex.ts,falta
-de91d2a4b61c,"¡Cua, cua!",,frase,src/contenido/lex.ts,falta
-e97bbf56b361,¡Grrrooo!,,frase,src/contenido/lex.ts,falta
-9c4613d1302a,¡Auuuuu!,,frase,src/contenido/lex.ts,falta
-ce66f6123c85,"¡Uh, uh!",,frase,src/contenido/lex.ts,falta
-d222d292e535,¡Grrraaa!,,frase,src/contenido/lex.ts,falta
-d2a5b459beb5,"¡Snif, snif!",,frase,src/contenido/lex.ts,falta
-18059f401258,"¡Clac, clac!",,frase,src/contenido/lex.ts,falta
-aab7ce644962,¡Gruuu!,,frase,src/contenido/lex.ts,falta
-80f629ca5039,"¡Oh, oh!",,frase,src/contenido/lex.ts,falta
-5ff26ee03cc5,¡Iiiii!,,frase,src/contenido/lex.ts,falta
+fa5b309d7bf0,el enfado,furia,nombre,src/contenido/lex.ts,borrador
+06596ae00580,la comida,mâncarea,nombre,src/contenido/lex.ts,borrador
+9ae6022864ba,"¡Niinoo, niinoo!","Niinoo, niinoo!",frase,src/contenido/lex.ts,borrador
+36fa8515a751,¡Uuuiiiuuu!,Uuuiiiuuu!,frase,src/contenido/lex.ts,borrador
+3adf539bdc8e,"¡Uiu, uiu, uiu!","Uiu, uiu, uiu!",frase,src/contenido/lex.ts,borrador
+bfc498e56fb9,¡Tacatacataca!,Tacatacataca!,frase,src/contenido/lex.ts,borrador
+de25bcb9c83f,¡Piiing!,Piiing!,frase,src/contenido/lex.ts,borrador
+57ea88c62a9c,"¡Put, put, put!","Put, put, put!",frase,src/contenido/lex.ts,borrador
+806c9a29306c,¡Fsssh!,Fsssh!,frase,src/contenido/lex.ts,borrador
+5a2f6c4e9630,"¡Tucutú, tucutú!","Tropa, tropa!",frase,src/contenido/lex.ts,borrador
+8dd38a0f94ea,"¡Talán, talán!","Dang, dang!",frase,src/contenido/lex.ts,borrador
+de91d2a4b61c,"¡Cua, cua!","Mac, mac!",frase,src/contenido/lex.ts,borrador
+e97bbf56b361,¡Grrrooo!,Grrrooo!,frase,src/contenido/lex.ts,borrador
+9c4613d1302a,¡Auuuuu!,Auuuuu!,frase,src/contenido/lex.ts,borrador
+ce66f6123c85,"¡Uh, uh!","Hu, hu!",frase,src/contenido/lex.ts,borrador
+d222d292e535,¡Grrraaa!,Grrraaa!,frase,src/contenido/lex.ts,borrador
+d2a5b459beb5,"¡Snif, snif!","Sniff, sniff!",frase,src/contenido/lex.ts,borrador
+18059f401258,"¡Clac, clac!","Clac, clac!",frase,src/contenido/lex.ts,borrador
+aab7ce644962,¡Gruuu!,Gruuu!,frase,src/contenido/lex.ts,borrador
+80f629ca5039,"¡Oh, oh!","Oh, oh!",frase,src/contenido/lex.ts,borrador
+5ff26ee03cc5,¡Iiiii!,Iiiii!,frase,src/contenido/lex.ts,borrador
 df9276a6b0eb,Tito,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/titoYSonido.ts,borrador
 803b0d23fbee,Polly,Polly,trozo,src/dominio/carreras.ts,borrador
 a29d50ec9ee6,Lupi,Lupi,trozo,src/dominio/carreras.ts,borrador
@@ -1929,150 +1929,150 @@ a830de01ef81,miedo,frică,trozo,src/juegos/caras.ts,borrador
 59e0f98e11ce,sorpresa,surpriză,trozo,src/juegos/caras.ts,borrador
 9583efc731c9,calma,calm,trozo,src/juegos/caras.ts,borrador
 8f586855bc67,vergüenza,rușine,trozo,src/juegos/caras.ts,borrador
-0270ac831c9c,¿Dónde están {cosa}?,,frase,src/juegos/comps.ts,falta
-72929cf856e1,¿Dónde está {cosa}?,,frase,src/juegos/comps.ts,falta
-68072fb6617f,Es {cosa},,trozo,src/juegos/comps.ts,falta
-39f16812adf7,Esas son {cosa},,trozo,src/juegos/comps.ts,falta
-61b5758bf8a5,Esos son {cosa},,trozo,src/juegos/comps.ts,falta
-1676621c6ece,Esa es {cosa},,trozo,src/juegos/comps.ts,falta
-b3bf81a9905d,Ese es {cosa},,trozo,src/juegos/comps.ts,falta
-2a33451004a2,cero,,trozo,src/juegos/comps.ts,falta
-1eaa8bb19586,uno,,trozo,src/juegos/comps.ts,falta
-0196f6c4f97d,dos,,trozo,src/juegos/comps.ts,falta
-1798c7d9bd5a,tres,,trozo,src/juegos/comps.ts,falta
-2b556258d4e0,cuatro,,trozo,src/juegos/comps.ts,falta
-64e38e70efb8,cinco,,trozo,src/juegos/comps.ts,falta
-73e8e81b99c3,seis,,trozo,src/juegos/comps.ts,falta
-f5368e0c8f91,siete,,trozo,src/juegos/comps.ts,falta
-c312b0fa2f86,ocho,,trozo,src/juegos/comps.ts,falta
-002f93898b52,nueve,,trozo,src/juegos/comps.ts,falta
-18fba322fcb9,diez,,trozo,src/juegos/comps.ts,falta
+0270ac831c9c,¿Dónde están {cosa}?,Unde sunt {cosa}?,frase,src/juegos/comps.ts,borrador
+72929cf856e1,¿Dónde está {cosa}?,Unde e {cosa}?,frase,src/juegos/comps.ts,borrador
+68072fb6617f,Es {cosa},E {cosa},trozo,src/juegos/comps.ts,borrador
+39f16812adf7,Esas son {cosa},Acelea sunt {cosa},trozo,src/juegos/comps.ts,borrador
+61b5758bf8a5,Esos son {cosa},Aceia sunt {cosa},trozo,src/juegos/comps.ts,borrador
+1676621c6ece,Esa es {cosa},Aceea e {cosa},trozo,src/juegos/comps.ts,borrador
+b3bf81a9905d,Ese es {cosa},Acela e {cosa},trozo,src/juegos/comps.ts,borrador
+2a33451004a2,cero,zero,trozo,src/juegos/comps.ts,borrador
+1eaa8bb19586,uno,unu,trozo,src/juegos/comps.ts,borrador
+0196f6c4f97d,dos,doi,trozo,src/juegos/comps.ts,borrador
+1798c7d9bd5a,tres,trei,trozo,src/juegos/comps.ts,borrador
+2b556258d4e0,cuatro,patru,trozo,src/juegos/comps.ts,borrador
+64e38e70efb8,cinco,cinci,trozo,src/juegos/comps.ts,borrador
+73e8e81b99c3,seis,șase,trozo,src/juegos/comps.ts,borrador
+f5368e0c8f91,siete,șapte,trozo,src/juegos/comps.ts,borrador
+c312b0fa2f86,ocho,opt,trozo,src/juegos/comps.ts,borrador
+002f93898b52,nueve,nouă,trozo,src/juegos/comps.ts,borrador
+18fba322fcb9,diez,zece,trozo,src/juegos/comps.ts,borrador
 21eb96a2c526,una ,,trozo,src/juegos/comps.ts,falta
 61dfd5bf20ee,un ,,trozo,src/juegos/comps.ts,falta
-3a969781087e,los ojos,,trozo,src/juegos/comps.ts src/nucleo/idioma.ts,falta
-75812ae5711b,la nariz,,trozo,src/juegos/comps.ts src/nucleo/idioma.ts,falta
-aaff0ac62a82,la boca,,trozo,src/juegos/comps.ts src/nucleo/idioma.ts,falta
-6fb6a818f76e,las orejas,,trozo,src/juegos/comps.ts,falta
-73bd9708529e,el pelo,,trozo,src/juegos/comps.ts,falta
-a23b046a69c8,la cabeza,,trozo,src/juegos/comps.ts src/temas/temas.ts,falta
-5d556504cd6a,las manos,,trozo,src/juegos/comps.ts,falta
-2ea3631ed182,los brazos,,trozo,src/juegos/comps.ts,falta
-e06edd67f518,la barriga,,trozo,src/juegos/comps.ts,falta
-520840c38afd,las piernas,,trozo,src/juegos/comps.ts,falta
-58922db5bdb3,los pies,,trozo,src/juegos/comps.ts,falta
-a1ce245c5798,¿Quién hace {sonido}?,,frase,src/juegos/comps.ts,falta
-3f8d8460c01b,{Cosa} hace {sonido},,trozo,src/juegos/comps.ts,falta
-8c6a031c8f02,{Cosa} hace {sonido}. Escucha otra vez.,,trozo,src/juegos/comps.ts,falta
-714b86e54bb8,Toca cada dibujo para conocerlo.,,frase,src/juegos/comps.ts,falta
-ae833f115d5d,Toca para cerrar.,,frase,src/juegos/comps.ts src/temas/ingles.ts,falta
-37c717e6b2c9,Toca un dibujo que todavía no tenga estrella.,,frase,src/juegos/comps.ts src/temas/ingles.ts,falta
-d2c1aae82170,el cuello,,trozo,src/juegos/comps.ts,falta
-9679e45daa2a,los hombros,,trozo,src/juegos/comps.ts,falta
-d230a488d4a2,los codos,,trozo,src/juegos/comps.ts,falta
-3e02d5584d35,las rodillas,,trozo,src/juegos/comps.ts,falta
-7ac1412b3699,los tobillos,,trozo,src/juegos/comps.ts,falta
-cc3072654443,Este es mi cuerpo. Toca cada parte y te digo cómo se llama.,,frase,src/juegos/comps.ts,falta
-375b92fae442,Toca {parte}.,,frase,src/juegos/comps.ts src/juegos/comps2.ts,falta
-1f0f8a00ada4,Toca una parte del cuerpo.,,frase,src/juegos/comps.ts,falta
-e6b06e7a9b3d,{Tocada}. Busca {parte}.,,trozo,src/juegos/comps.ts src/juegos/comps2.ts,falta
-8cbfab2e2624,{Cosa} no va.,,trozo,src/juegos/comps.ts,falta
-f73a1cc78d7a,"Mmm, {cosa} no va ahí. Prueba en otro lugar.",,frase,src/juegos/comps.ts,falta
-4b74d10bb0bc,Juego de memoria. Toca dos tarjetas y busca las que son iguales.,,frase,src/juegos/comps.ts,falta
-7437bb7068a9,Busca dos tarjetas iguales.,,frase,src/juegos/comps.ts,falta
-d2f1d6bb4f4f,Vamos a contar {cosas}. Toca cada una.,,frase,src/juegos/comps.ts,falta
-ab092eb6d258,Vamos a contar {cosas}. Toca cada uno.,,frase,src/juegos/comps.ts,falta
-c3e230b3f653,Toca cada uno para contar.,,frase,src/juegos/comps.ts,falta
-bc5f0457c9e8,¿Cuántos hay?,,frase,src/juegos/comps.ts,falta
-910c026f8a6b,¿Cuántas {cosas} hay? Toca el número.,,frase,src/juegos/comps.ts,falta
-72869a037442,¿Cuántos {cosas} hay? Toca el número.,,frase,src/juegos/comps.ts,falta
-e0f3fd7769a2,¡Hay {cuantos}!,,frase,src/juegos/comps.ts,falta
-1b64aabf6319,Ese es el {n}. Contamos {m}.,,frase,src/juegos/comps.ts,falta
-90434585d831,¡Otro rompecabezas! ¿Qué será?,,frase,src/juegos/comps.ts,falta
-343e2d82c374,Arma el rompecabezas. Arrastra cada pieza a su lugar.,,frase,src/juegos/comps.ts,falta
-dcf1a26b9eb1,Arrastra una pieza al cuadro.,,frase,src/juegos/comps.ts,falta
-6ea2372a723f,¡Es {cosa}!,,frase,src/juegos/comps.ts,falta
-49b231efdd36,Hay cosas escondidas en la arena. Frota con el dedo para descubrirlas.,,frase,src/juegos/comps.ts,falta
-e24db3a2b340,Frota la arena para encontrar lo que está escondido.,,frase,src/juegos/comps.ts,falta
-ada3073d4499,¡Encontraste {cosa}!,,frase,src/juegos/comps.ts src/juegos/comps2.ts,falta
-1bba07c92d37,Las semillas tienen sed. Coge la regadera y llévala arriba de cada maceta.,,frase,src/juegos/comps.ts,falta
-25ba7413785b,Lleva la regadera arriba de una maceta para regarla.,,frase,src/juegos/comps.ts,falta
-a058a41bf807,¡Todas las flores crecieron!,,frase,src/juegos/comps.ts,falta
-7ced3743d2fe,¡Salió una flor!,,frase,src/juegos/comps.ts,falta
-be8b747a503a,¡Mira qué bonita flor!,,frase,src/juegos/comps.ts,falta
-60d568dff702,¡Creció!,,frase,src/juegos/comps.ts,falta
-b98b6fe76217,Primero coge la regadera.,,frase,src/juegos/comps.ts,falta
-92c4cf9df4c0,rojo,,trozo,src/juegos/comps.ts,falta
-3b24fa7e1455,azul,,trozo,src/juegos/comps.ts,falta
-1ef4674feb1d,amarillo,,trozo,src/juegos/comps.ts,falta
-d4177dc752cd,verde,,trozo,src/juegos/comps.ts,falta
-091808fcfe95,naranja,,trozo,src/juegos/comps.ts,falta
-84109ae4b417,rosa,,trozo,src/juegos/comps.ts,falta
-17163859b9c1,morado,,trozo,src/juegos/comps.ts,falta
-d9a85010429a,marrón,,trozo,src/juegos/comps.ts,falta
-3629cf4ae133,Vamos a pintar {cosa} de {color}. Toca el {color}.,,frase,src/juegos/comps.ts,falta
-62d21bebdbea,¿De qué color es {cosa}? Toca ese color y después {cosa}.,,frase,src/juegos/comps.ts,falta
-95e2d47be1a2,Toca el {color}.,,frase,src/juegos/comps.ts,falta
-ccdf8340267b,Ahora toca {cosa} para pintarla.,,frase,src/juegos/comps.ts,falta
-344bdca150ee,Ahora toca {cosa} para pintarlo.,,frase,src/juegos/comps.ts,falta
-d3b949def7a7,{Color}.,,trozo,src/juegos/comps.ts,falta
-837f3f748295,Ahora toca {cosa}.,,frase,src/juegos/comps.ts,falta
-0b3fdf6aa5f3,Primero toca un color.,,frase,src/juegos/comps.ts,falta
-59a705d15ada,Primero pintamos {cosa}.,,frase,src/juegos/comps.ts,falta
+3a969781087e,los ojos,ochii,trozo,src/juegos/comps.ts src/nucleo/idioma.ts,borrador
+75812ae5711b,la nariz,nasul,trozo,src/juegos/comps.ts src/nucleo/idioma.ts,borrador
+aaff0ac62a82,la boca,gura,trozo,src/juegos/comps.ts src/nucleo/idioma.ts,borrador
+6fb6a818f76e,las orejas,urechile,trozo,src/juegos/comps.ts,borrador
+73bd9708529e,el pelo,părul,trozo,src/juegos/comps.ts,borrador
+a23b046a69c8,la cabeza,capul,trozo,src/juegos/comps.ts src/temas/temas.ts,borrador
+5d556504cd6a,las manos,mâinile,trozo,src/juegos/comps.ts,borrador
+2ea3631ed182,los brazos,brațele,trozo,src/juegos/comps.ts,borrador
+e06edd67f518,la barriga,burtica,trozo,src/juegos/comps.ts,borrador
+520840c38afd,las piernas,picioarele,trozo,src/juegos/comps.ts,borrador
+58922db5bdb3,los pies,tălpile,trozo,src/juegos/comps.ts,borrador
+a1ce245c5798,¿Quién hace {sonido}?,Cine face {sonido}?,frase,src/juegos/comps.ts,borrador
+3f8d8460c01b,{Cosa} hace {sonido},{Cosa} face {sonido},trozo,src/juegos/comps.ts,borrador
+8c6a031c8f02,{Cosa} hace {sonido}. Escucha otra vez.,{Cosa} face {sonido}. Mai ascultă o dată.,trozo,src/juegos/comps.ts,borrador
+714b86e54bb8,Toca cada dibujo para conocerlo.,Atinge fiecare desen ca să-l cunoști.,frase,src/juegos/comps.ts,borrador
+ae833f115d5d,Toca para cerrar.,Atinge ca să închizi.,frase,src/juegos/comps.ts src/temas/ingles.ts,borrador
+37c717e6b2c9,Toca un dibujo que todavía no tenga estrella.,Atinge un desen care încă nu are stea.,frase,src/juegos/comps.ts src/temas/ingles.ts,borrador
+d2c1aae82170,el cuello,gâtul,trozo,src/juegos/comps.ts,borrador
+9679e45daa2a,los hombros,umerii,trozo,src/juegos/comps.ts,borrador
+d230a488d4a2,los codos,coatele,trozo,src/juegos/comps.ts,borrador
+3e02d5584d35,las rodillas,genunchii,trozo,src/juegos/comps.ts,borrador
+7ac1412b3699,los tobillos,gleznele,trozo,src/juegos/comps.ts,borrador
+cc3072654443,Este es mi cuerpo. Toca cada parte y te digo cómo se llama.,Acesta e corpul meu. Atinge fiecare parte și îți spun cum se numește.,frase,src/juegos/comps.ts,borrador
+375b92fae442,Toca {parte}.,Atinge {parte}.,frase,src/juegos/comps.ts src/juegos/comps2.ts,borrador
+1f0f8a00ada4,Toca una parte del cuerpo.,Atinge o parte a corpului.,frase,src/juegos/comps.ts,borrador
+e6b06e7a9b3d,{Tocada}. Busca {parte}.,{Tocada}. Caută {parte}.,trozo,src/juegos/comps.ts src/juegos/comps2.ts,borrador
+8cbfab2e2624,{Cosa} no va.,{Cosa} nu merge aici.,trozo,src/juegos/comps.ts,borrador
+f73a1cc78d7a,"Mmm, {cosa} no va ahí. Prueba en otro lugar.","Mmm, {cosa} nu merge aici. Încearcă în alt loc.",frase,src/juegos/comps.ts,borrador
+4b74d10bb0bc,Juego de memoria. Toca dos tarjetas y busca las que son iguales.,Joc de memorie. Atinge două cartonașe și caută-le pe cele la fel.,frase,src/juegos/comps.ts,borrador
+7437bb7068a9,Busca dos tarjetas iguales.,Caută două cartonașe la fel.,frase,src/juegos/comps.ts,borrador
+d2f1d6bb4f4f,Vamos a contar {cosas}. Toca cada una.,Hai să numărăm {cosas}. Atinge-le pe fiecare.,frase,src/juegos/comps.ts,borrador
+ab092eb6d258,Vamos a contar {cosas}. Toca cada uno.,Hai să numărăm {cosas}. Atinge-i pe fiecare.,frase,src/juegos/comps.ts,borrador
+c3e230b3f653,Toca cada uno para contar.,Atinge-i pe fiecare ca să numărăm.,frase,src/juegos/comps.ts,borrador
+bc5f0457c9e8,¿Cuántos hay?,Câți sunt?,frase,src/juegos/comps.ts,borrador
+910c026f8a6b,¿Cuántas {cosas} hay? Toca el número.,Câte {cosas} sunt? Atinge numărul.,frase,src/juegos/comps.ts,borrador
+72869a037442,¿Cuántos {cosas} hay? Toca el número.,Câți {cosas} sunt? Atinge numărul.,frase,src/juegos/comps.ts,borrador
+e0f3fd7769a2,¡Hay {cuantos}!,Sunt {cuantos}!,frase,src/juegos/comps.ts,borrador
+1b64aabf6319,Ese es el {n}. Contamos {m}.,Acela e {n}. Am numărat {m}.,frase,src/juegos/comps.ts,borrador
+90434585d831,¡Otro rompecabezas! ¿Qué será?,Încă un puzzle! Ce o fi?,frase,src/juegos/comps.ts,borrador
+343e2d82c374,Arma el rompecabezas. Arrastra cada pieza a su lugar.,Fă puzzle-ul. Trage fiecare piesă la locul ei.,frase,src/juegos/comps.ts,borrador
+dcf1a26b9eb1,Arrastra una pieza al cuadro.,Trage o piesă în cadru.,frase,src/juegos/comps.ts,borrador
+6ea2372a723f,¡Es {cosa}!,E {cosa}!,frase,src/juegos/comps.ts,borrador
+49b231efdd36,Hay cosas escondidas en la arena. Frota con el dedo para descubrirlas.,Sunt lucruri ascunse în nisip. Freacă cu degetul ca să le descoperi.,frase,src/juegos/comps.ts,borrador
+e24db3a2b340,Frota la arena para encontrar lo que está escondido.,Freacă nisipul ca să găsești ce e ascuns.,frase,src/juegos/comps.ts,borrador
+ada3073d4499,¡Encontraste {cosa}!,Ai găsit {cosa}!,frase,src/juegos/comps.ts src/juegos/comps2.ts,borrador
+1bba07c92d37,Las semillas tienen sed. Coge la regadera y llévala arriba de cada maceta.,Semințelor le e sete. Ia stropitoarea și du-o deasupra fiecărui ghiveci.,frase,src/juegos/comps.ts,borrador
+25ba7413785b,Lleva la regadera arriba de una maceta para regarla.,Du stropitoarea deasupra unui ghiveci ca să-l uzi.,frase,src/juegos/comps.ts,borrador
+a058a41bf807,¡Todas las flores crecieron!,Au crescut toate florile!,frase,src/juegos/comps.ts,borrador
+7ced3743d2fe,¡Salió una flor!,A ieșit o floare!,frase,src/juegos/comps.ts,borrador
+be8b747a503a,¡Mira qué bonita flor!,Uite ce floare frumoasă!,frase,src/juegos/comps.ts,borrador
+60d568dff702,¡Creció!,A crescut!,frase,src/juegos/comps.ts,borrador
+b98b6fe76217,Primero coge la regadera.,Mai întâi ia stropitoarea.,frase,src/juegos/comps.ts,borrador
+92c4cf9df4c0,rojo,roșu,trozo,src/juegos/comps.ts,borrador
+3b24fa7e1455,azul,albastru,trozo,src/juegos/comps.ts,borrador
+1ef4674feb1d,amarillo,galben,trozo,src/juegos/comps.ts,borrador
+d4177dc752cd,verde,verde,trozo,src/juegos/comps.ts,borrador
+091808fcfe95,naranja,portocaliu,trozo,src/juegos/comps.ts,borrador
+84109ae4b417,rosa,roz,trozo,src/juegos/comps.ts,borrador
+17163859b9c1,morado,mov,trozo,src/juegos/comps.ts,borrador
+d9a85010429a,marrón,maro,trozo,src/juegos/comps.ts,borrador
+3629cf4ae133,Vamos a pintar {cosa} de {color}. Toca el {color}.,Hai să colorăm {cosa} cu {color}. Atinge culoarea {color}.,frase,src/juegos/comps.ts,borrador
+62d21bebdbea,¿De qué color es {cosa}? Toca ese color y después {cosa}.,Ce culoare are {cosa}? Atinge culoarea aceea și apoi {cosa}.,frase,src/juegos/comps.ts,borrador
+95e2d47be1a2,Toca el {color}.,Atinge culoarea {color}.,frase,src/juegos/comps.ts,borrador
+ccdf8340267b,Ahora toca {cosa} para pintarla.,Acum atinge {cosa} ca s-o colorezi.,frase,src/juegos/comps.ts,borrador
+344bdca150ee,Ahora toca {cosa} para pintarlo.,Acum atinge {cosa} ca să-l colorezi.,frase,src/juegos/comps.ts,borrador
+d3b949def7a7,{Color}.,{Color}.,trozo,src/juegos/comps.ts,borrador
+837f3f748295,Ahora toca {cosa}.,Acum atinge {cosa}.,frase,src/juegos/comps.ts,borrador
+0b3fdf6aa5f3,Primero toca un color.,Mai întâi atinge o culoare.,frase,src/juegos/comps.ts,borrador
+59a705d15ada,Primero pintamos {cosa}.,Mai întâi colorăm {cosa}.,frase,src/juegos/comps.ts,borrador
 489e3e7a9749, son ,,trozo,src/juegos/comps.ts,falta
 c9cb11cccccc, es ,,trozo,src/juegos/comps.ts,falta
-4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.",,frase,src/juegos/comps.ts,falta
-b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?",,frase,src/juegos/comps2.ts,falta
-b974a22a57d1,"Mmm, {cosa} no va con {otra}.",,frase,src/juegos/comps2.ts,falta
+4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.","Mmm, {cosa} nu e de culoarea {pincel}. Atinge culoarea {color}.",frase,src/juegos/comps.ts,borrador
+b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?","Mmm, asta nu merge aici. Ce se întâmplă mai întâi? Și apoi?",frase,src/juegos/comps2.ts,borrador
+b974a22a57d1,"Mmm, {cosa} no va con {otra}.","Mmm, {cosa} nu merge cu {otra}.",frase,src/juegos/comps2.ts,borrador
 b86fc6b051f6,AB,,trozo,src/juegos/comps2.ts,falta
 902fbdd2b1df,ABC,,trozo,src/juegos/comps2.ts src/mundo3d/interaccion.ts,falta
 e934202c876b,AAB,,trozo,src/juegos/comps2.ts,falta
 8c0d39874f72,ABB,,trozo,src/juegos/comps2.ts,falta
-0cbecf00a88c,Mira la fila. ¿Qué viene después? Tócalo.,,frase,src/juegos/comps2.ts,falta
-4e56bca326b5,¡Sí! Después va {cosa}.,,frase,src/juegos/comps2.ts,falta
-bc71a09a74a8,"Mmm, {cosa} no. Mira cómo se repite la fila.",,frase,src/juegos/comps2.ts,falta
-439cf0d01eb0,¡Chau!,,frase,src/juegos/comps2.ts,falta
-9c6920a1ec1c,¡Limpito!,,frase,src/juegos/comps2.ts,falta
-c782f0817147,¡Otro menos!,,frase,src/juegos/comps2.ts,falta
-29bd2334e6ed,¡Es la fiesta de cumpleaños! Sopla las velitas: toca cada una y contamos.,,frase,src/juegos/comps2.ts,falta
-31ec235f7611,¡Feliz cumpleaños! ¡Que los cumplas feliz!,,frase,src/juegos/comps2.ts,falta
-484f1c0659f1,Gira la Tierra para que sea de noche donde está Leo. ¡Que no le dé el sol!,,frase,src/juegos/comps2.ts,falta
-58397d783697,Ahora gira la Tierra para que sea de día donde está Leo. ¡Que le dé el sol!,,frase,src/juegos/comps2.ts,falta
-47826cbb6c9b,Gira la Tierra hasta que Leo quede del lado oscuro.,,frase,src/juegos/comps2.ts,falta
-70b6593e9fcc,Gira la Tierra hasta que Leo quede del lado del sol.,,frase,src/juegos/comps2.ts,falta
-e9c15c0d7be4,DÍA,,trozo,src/juegos/comps2.ts,falta
-bf1b45342f6b,NOCHE,,trozo,src/juegos/comps2.ts,falta
-87348537331d,¡Sí! Ahora Leo está del lado oscuro: es de noche y ve la luna.,,frase,src/juegos/comps2.ts,falta
-0ed30beb55b8,¡Sí! Ahora a Leo le da el sol: es de día.,,frase,src/juegos/comps2.ts,falta
-dcabffa0a075,"Ahí le da el sol, es de día. Sigue girando.",,frase,src/juegos/comps2.ts,falta
-01a1ee0f7d87,"Ahí no le da el sol, es de noche. Sigue girando.",,frase,src/juegos/comps2.ts,falta
-9296b02ffcd0,Mira el semáforo de las personas. ¿Cruzamos o esperamos?,,frase,src/juegos/comps2.ts,falta
-27c9888226f1,Mira el semáforo. ¿Cruzamos o esperamos?,,frase,src/juegos/comps2.ts,falta
-af98353eab8d,¿Cruzamos o esperamos? Mira el color del semáforo.,,frase,src/juegos/comps2.ts,falta
-d932c002c659,CRUZAMOS,,trozo,src/juegos/comps2.ts,falta
-9abd3390b8dd,ESPERAMOS,,trozo,src/juegos/comps2.ts,falta
-8100981196f9,"¡Muy bien! Está verde: cruzamos por el paso de cebra, mirando a los dos lados.",,frase,src/juegos/comps2.ts,falta
-1fa58c29b0e9,¡Muy bien! Está rojo: esperamos en la acera.,,frase,src/juegos/comps2.ts,falta
-2a41a5ca28a9,¡Cuidado! Está rojo: los coches pasan. Esperamos.,,frase,src/juegos/comps2.ts,falta
-8735106217ae,Está verde para las personas. ¡Podemos cruzar!,,frase,src/juegos/comps2.ts,falta
-5daf7956f87b,Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?,,frase,src/juegos/comps2.ts,falta
-b6dbd97e6b42,Queremos ir {lugar}. ¿Derecha o izquierda?,,frase,src/juegos/comps2.ts,falta
-fea23bdbcda1,IZQUIERDA,,trozo,src/juegos/comps2.ts src/temas/temas5.ts,falta
-7dab567f57bd,DERECHA,,trozo,src/juegos/comps2.ts src/temas/temas5.ts,falta
-3bfb122608bd,Doblamos a la izquierda y llegamos {lugar}.,,frase,src/juegos/comps2.ts,falta
-712b1257e712,Doblamos a la derecha y llegamos {lugar}.,,frase,src/juegos/comps2.ts,falta
-6ef818b79f63,Por ahí vamos {lugar}. Queremos ir {destino}.,,frase,src/juegos/comps2.ts,falta
-9281b9963a54,Empieza en el punto verde.,,frase,src/juegos/comps2.ts,falta
-0c870da7abef,¡Vamos a cantar! Escucha la canción.,,frase,src/juegos/comps2.ts,falta
-c80425633a4f,"¡Ahora te toca a ti! Toca cada uno en orden, como en la canción.",,frase,src/juegos/comps2.ts,falta
-bccdcd71cff5,Toca {carta}.,,frase,src/juegos/comps2.ts,falta
-b667573ac818,¿Cuál va primero?,,frase,src/juegos/comps2.ts,falta
-58d72a2fe497,¿Cuál sigue? Toca {carta}.,,frase,src/juegos/comps2.ts,falta
-217c9f25d7fa,¡Qué bien cantamos!,,frase,src/juegos/comps2.ts,falta
-76a1b4fa11f2,{Carta}. Busca {otra}.,,trozo,src/juegos/comps2.ts,falta
-6767fff46413,{Carta}. Ese va después. ¿Cuál sigue?,,trozo,src/juegos/comps2.ts,falta
-c26e9fc0e00d,Escucha el cuento: {titulo}.,,frase,src/juegos/comps2.ts,falta
-6e787979a8ed,Ahora te pregunto.,,frase,src/juegos/comps2.ts,falta
-093a62ce5831,"Mmm, no. Piensa en el cuento.",,frase,src/juegos/comps2.ts,falta
+0cbecf00a88c,Mira la fila. ¿Qué viene después? Tócalo.,Uită-te la șir. Ce urmează? Atinge-l.,frase,src/juegos/comps2.ts,borrador
+4e56bca326b5,¡Sí! Después va {cosa}.,Da! Urmează {cosa}.,frase,src/juegos/comps2.ts,borrador
+bc71a09a74a8,"Mmm, {cosa} no. Mira cómo se repite la fila.","Mmm, {cosa} nu. Uite cum se repetă șirul.",frase,src/juegos/comps2.ts,borrador
+439cf0d01eb0,¡Chau!,Pa!,frase,src/juegos/comps2.ts,borrador
+9c6920a1ec1c,¡Limpito!,Curat!,frase,src/juegos/comps2.ts,borrador
+c782f0817147,¡Otro menos!,Încă unul mai puțin!,frase,src/juegos/comps2.ts,borrador
+29bd2334e6ed,¡Es la fiesta de cumpleaños! Sopla las velitas: toca cada una y contamos.,E petrecerea de ziua de naștere! Suflă în lumânări: atinge-le pe fiecare și numărăm.,frase,src/juegos/comps2.ts,borrador
+31ec235f7611,¡Feliz cumpleaños! ¡Que los cumplas feliz!,La mulți ani! Să trăiești fericit!,frase,src/juegos/comps2.ts,borrador
+484f1c0659f1,Gira la Tierra para que sea de noche donde está Leo. ¡Que no le dé el sol!,Învârte Pământul ca să fie noapte acolo unde e Leo. Să nu-l bată soarele!,frase,src/juegos/comps2.ts,borrador
+58397d783697,Ahora gira la Tierra para que sea de día donde está Leo. ¡Que le dé el sol!,Acum învârte Pământul ca să fie zi acolo unde e Leo. Să-l bată soarele!,frase,src/juegos/comps2.ts,borrador
+47826cbb6c9b,Gira la Tierra hasta que Leo quede del lado oscuro.,Învârte Pământul până când Leo ajunge în partea întunecată.,frase,src/juegos/comps2.ts,borrador
+70b6593e9fcc,Gira la Tierra hasta que Leo quede del lado del sol.,Învârte Pământul până când Leo ajunge în partea cu soare.,frase,src/juegos/comps2.ts,borrador
+e9c15c0d7be4,DÍA,ZI,trozo,src/juegos/comps2.ts,borrador
+bf1b45342f6b,NOCHE,NOAPTE,trozo,src/juegos/comps2.ts,borrador
+87348537331d,¡Sí! Ahora Leo está del lado oscuro: es de noche y ve la luna.,Da! Acum Leo e în partea întunecată: e noapte și vede luna.,frase,src/juegos/comps2.ts,borrador
+0ed30beb55b8,¡Sí! Ahora a Leo le da el sol: es de día.,Da! Acum pe Leo îl bate soarele: e zi.,frase,src/juegos/comps2.ts,borrador
+dcabffa0a075,"Ahí le da el sol, es de día. Sigue girando.","Acolo îl bate soarele, e zi. Învârte mai departe.",frase,src/juegos/comps2.ts,borrador
+01a1ee0f7d87,"Ahí no le da el sol, es de noche. Sigue girando.","Acolo nu-l bate soarele, e noapte. Învârte mai departe.",frase,src/juegos/comps2.ts,borrador
+9296b02ffcd0,Mira el semáforo de las personas. ¿Cruzamos o esperamos?,Uită-te la semaforul pentru pietoni. Traversăm sau așteptăm?,frase,src/juegos/comps2.ts,borrador
+27c9888226f1,Mira el semáforo. ¿Cruzamos o esperamos?,Uită-te la semafor. Traversăm sau așteptăm?,frase,src/juegos/comps2.ts,borrador
+af98353eab8d,¿Cruzamos o esperamos? Mira el color del semáforo.,Traversăm sau așteptăm? Uită-te la culoarea semaforului.,frase,src/juegos/comps2.ts,borrador
+d932c002c659,CRUZAMOS,TRAVERSĂM,trozo,src/juegos/comps2.ts,borrador
+9abd3390b8dd,ESPERAMOS,AȘTEPTĂM,trozo,src/juegos/comps2.ts,borrador
+8100981196f9,"¡Muy bien! Está verde: cruzamos por el paso de cebra, mirando a los dos lados.","Foarte bine! E verde: traversăm pe trecerea de pietoni, uitându-ne în ambele părți.",frase,src/juegos/comps2.ts,borrador
+1fa58c29b0e9,¡Muy bien! Está rojo: esperamos en la acera.,Foarte bine! E roșu: așteptăm pe trotuar.,frase,src/juegos/comps2.ts,borrador
+2a41a5ca28a9,¡Cuidado! Está rojo: los coches pasan. Esperamos.,Atenție! E roșu: trec mașinile. Așteptăm.,frase,src/juegos/comps2.ts,borrador
+8735106217ae,Está verde para las personas. ¡Podemos cruzar!,E verde pentru pietoni. Putem traversa!,frase,src/juegos/comps2.ts,borrador
+5daf7956f87b,Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?,Mergem la {sitio}. Facem la dreapta sau la stânga?,frase,src/juegos/comps2.ts,borrador
+b6dbd97e6b42,Queremos ir {lugar}. ¿Derecha o izquierda?,Vrem să mergem la {sitio}. Dreapta sau stânga?,frase,src/juegos/comps2.ts,borrador
+fea23bdbcda1,IZQUIERDA,STÂNGA,trozo,src/juegos/comps2.ts src/temas/temas5.ts,borrador
+7dab567f57bd,DERECHA,DREAPTA,trozo,src/juegos/comps2.ts src/temas/temas5.ts,borrador
+3bfb122608bd,Doblamos a la izquierda y llegamos {lugar}.,Facem la stânga și ajungem la {sitio}.,frase,src/juegos/comps2.ts,borrador
+712b1257e712,Doblamos a la derecha y llegamos {lugar}.,Facem la dreapta și ajungem la {sitio}.,frase,src/juegos/comps2.ts,borrador
+6ef818b79f63,Por ahí vamos {lugar}. Queremos ir {destino}.,Pe acolo mergem la {sitio}. Vrem să mergem la {sitioDestino}.,frase,src/juegos/comps2.ts,borrador
+9281b9963a54,Empieza en el punto verde.,Începe de la punctul verde.,frase,src/juegos/comps2.ts,borrador
+0c870da7abef,¡Vamos a cantar! Escucha la canción.,Hai să cântăm! Ascultă cântecul.,frase,src/juegos/comps2.ts,borrador
+c80425633a4f,"¡Ahora te toca a ti! Toca cada uno en orden, como en la canción.","Acum e rândul tău! Atinge-i pe fiecare în ordine, ca în cântec.",frase,src/juegos/comps2.ts,borrador
+bccdcd71cff5,Toca {carta}.,Atinge {carta}.,frase,src/juegos/comps2.ts,borrador
+b667573ac818,¿Cuál va primero?,Care e primul?,frase,src/juegos/comps2.ts,borrador
+58d72a2fe497,¿Cuál sigue? Toca {carta}.,Care urmează? Atinge {carta}.,frase,src/juegos/comps2.ts,borrador
+217c9f25d7fa,¡Qué bien cantamos!,Ce frumos cântăm!,frase,src/juegos/comps2.ts,borrador
+76a1b4fa11f2,{Carta}. Busca {otra}.,{Carta}. Caută {otra}.,trozo,src/juegos/comps2.ts,borrador
+6767fff46413,{Carta}. Ese va después. ¿Cuál sigue?,{Carta}. Acela vine mai târziu. Care urmează?,trozo,src/juegos/comps2.ts,borrador
+c26e9fc0e00d,Escucha el cuento: {titulo}.,Ascultă povestea: {titulo}.,frase,src/juegos/comps2.ts,borrador
+6e787979a8ed,Ahora te pregunto.,Acum te întreb eu.,frase,src/juegos/comps2.ts,borrador
+093a62ce5831,"Mmm, no. Piensa en el cuento.","Mmm, nu. Gândește-te la poveste.",frase,src/juegos/comps2.ts,borrador
 9ed0eb2cf404,uve doble,,trozo,src/juegos/lectura.ts,falta
 7d513e645434,i griega,,trozo,src/juegos/lectura.ts,falta
 87e2719d8e78,NFD,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
@@ -2306,125 +2306,125 @@ c958e8f13e00,AEIOU,,trozo,src/mundo3d/isla3d.ts,falta
 e86410fa2d6e,ABCDEFGHIJ,,trozo,src/mundo3d/zonas3d.ts,falta
 c48462232a6a,Rincón de los Conceptos,Colțul noțiunilor,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts,borrador
 9617d12b8ae3,el gato,pisica,nombre,src/nucleo/idioma.ts,borrador
-0ce429fe7971,el pato,,nombre,src/nucleo/idioma.ts,falta
-61aa2b3d1373,el sol,,nombre,src/nucleo/idioma.ts,falta
-72e2d1cc143f,la luna,,nombre,src/nucleo/idioma.ts,falta
+0ce429fe7971,el pato,rața,nombre,src/nucleo/idioma.ts,borrador
+61aa2b3d1373,el sol,soarele,nombre,src/nucleo/idioma.ts,borrador
+72e2d1cc143f,la luna,luna,nombre,src/nucleo/idioma.ts,borrador
 08493e9db561,la mesa,masa,nombre,src/nucleo/idioma.ts,borrador
 9d00fce7bc6a,la fresa,căpșuna,nombre,src/nucleo/idioma.ts,borrador
-25f2381de627,la casa,,nombre,src/nucleo/idioma.ts,falta
-b63605dc8a2a,la bota,,nombre,src/nucleo/idioma.ts,falta
-93864f8ffcbf,la pelota,,nombre,src/nucleo/idioma.ts,falta
-32de17344726,el mono,,nombre,src/nucleo/idioma.ts,falta
-8fed913df038,el pan,,nombre,src/nucleo/idioma.ts,falta
+25f2381de627,la casa,casa,nombre,src/nucleo/idioma.ts,borrador
+b63605dc8a2a,la bota,cizma,nombre,src/nucleo/idioma.ts,borrador
+93864f8ffcbf,la pelota,mingea,nombre,src/nucleo/idioma.ts,borrador
+32de17344726,el mono,maimuța,nombre,src/nucleo/idioma.ts,borrador
+8fed913df038,el pan,pâinea,nombre,src/nucleo/idioma.ts,borrador
 7a85c93edb6d,la manzana,mărul,nombre,src/nucleo/idioma.ts,borrador
-a2e12c3dd40e,la mariposa,,nombre,src/nucleo/idioma.ts,falta
-8a64e9d65fec,el león,,nombre,src/nucleo/idioma.ts,falta
-077e166e6146,la abeja,,nombre,src/nucleo/idioma.ts,falta
-4b7fa3bc6f49,el avión,,nombre,src/nucleo/idioma.ts,falta
+a2e12c3dd40e,la mariposa,fluturele,nombre,src/nucleo/idioma.ts,borrador
+8a64e9d65fec,el león,leul,nombre,src/nucleo/idioma.ts,borrador
+077e166e6146,la abeja,albina,nombre,src/nucleo/idioma.ts,borrador
+4b7fa3bc6f49,el avión,avionul,nombre,src/nucleo/idioma.ts,borrador
 dfdcf259ef90,el árbol,copacul,nombre,src/nucleo/idioma.ts,borrador
-ed28659f8b41,el elefante,,nombre,src/nucleo/idioma.ts,falta
-f07e8d524f80,la estrella,,nombre,src/nucleo/idioma.ts,falta
-2529b18c4b41,el oso,,nombre,src/nucleo/idioma.ts,falta
-f54868a1d1ff,las uvas,,nombre,src/nucleo/idioma.ts,falta
-4f41c68633d9,el pez,,nombre,src/nucleo/idioma.ts,falta
-9be3171c75b5,el caracol,,nombre,src/nucleo/idioma.ts,falta
-7444ddaaecfd,el lápiz,,nombre,src/nucleo/idioma.ts,falta
-d66a7aacafd9,la tortuga,,nombre,src/nucleo/idioma.ts,falta
-2df364e00a12,el tomate,,nombre,src/nucleo/idioma.ts,falta
-b6928adec1d5,la nube,,nombre,src/nucleo/idioma.ts,falta
-3289a87c118c,el nido,,nombre,src/nucleo/idioma.ts,falta
-b4ae8e622fee,el dinosaurio,,nombre,src/nucleo/idioma.ts,falta
-f9a0fd76cf91,la foca,,nombre,src/nucleo/idioma.ts,falta
-9598d7609c8b,el perro,,nombre,src/nucleo/idioma.ts,falta
-876665517f21,el coche,,nombre,src/nucleo/idioma.ts,falta
+ed28659f8b41,el elefante,elefantul,nombre,src/nucleo/idioma.ts,borrador
+f07e8d524f80,la estrella,steaua,nombre,src/nucleo/idioma.ts,borrador
+2529b18c4b41,el oso,ursul,nombre,src/nucleo/idioma.ts,borrador
+f54868a1d1ff,las uvas,strugurii,nombre,src/nucleo/idioma.ts,borrador
+4f41c68633d9,el pez,peștele,nombre,src/nucleo/idioma.ts,borrador
+9be3171c75b5,el caracol,melcul,nombre,src/nucleo/idioma.ts,borrador
+7444ddaaecfd,el lápiz,creionul,nombre,src/nucleo/idioma.ts,borrador
+d66a7aacafd9,la tortuga,broasca țestoasă,nombre,src/nucleo/idioma.ts,borrador
+2df364e00a12,el tomate,roșia,nombre,src/nucleo/idioma.ts,borrador
+b6928adec1d5,la nube,norul,nombre,src/nucleo/idioma.ts,borrador
+3289a87c118c,el nido,cuibul,nombre,src/nucleo/idioma.ts,borrador
+b4ae8e622fee,el dinosaurio,dinozaurul,nombre,src/nucleo/idioma.ts,borrador
+f9a0fd76cf91,la foca,foca,nombre,src/nucleo/idioma.ts,borrador
+9598d7609c8b,el perro,câinele,nombre,src/nucleo/idioma.ts,borrador
+876665517f21,el coche,mașina,nombre,src/nucleo/idioma.ts,borrador
 7730fbc8ee43,la cama,patul,nombre,src/nucleo/idioma.ts,borrador
 8cb09e5ea056,la silla,scaunul,nombre,src/nucleo/idioma.ts,borrador
-ea72ecca2fdb,el zapato,,nombre,src/nucleo/idioma.ts,falta
-005014269f7c,el plátano,,nombre,src/nucleo/idioma.ts,falta
-3eb92e0764c5,el helado,,nombre,src/nucleo/idioma.ts,falta
+ea72ecca2fdb,el zapato,pantoful,nombre,src/nucleo/idioma.ts,borrador
+005014269f7c,el plátano,banana,nombre,src/nucleo/idioma.ts,borrador
+3eb92e0764c5,el helado,înghețata,nombre,src/nucleo/idioma.ts,borrador
 c1b72d9f6e28,la pera,para,nombre,src/nucleo/idioma.ts,borrador
-268372c5eea1,la leche,,nombre,src/nucleo/idioma.ts,falta
+268372c5eea1,la leche,laptele,nombre,src/nucleo/idioma.ts,borrador
 a5774b205887,el globo,balonul,nombre,src/nucleo/idioma.ts,borrador
-f379de3d4ed3,el barco,,nombre,src/nucleo/idioma.ts,falta
-978c46837b8b,el tren,,nombre,src/nucleo/idioma.ts,falta
-c07f8725dd44,la rana,,nombre,src/nucleo/idioma.ts,falta
-a20f8fbebd9f,la mano,,nombre,src/nucleo/idioma.ts,falta
-acd1d6f476d6,el pie,,nombre,src/nucleo/idioma.ts,falta
+f379de3d4ed3,el barco,barca,nombre,src/nucleo/idioma.ts,borrador
+978c46837b8b,el tren,trenul,nombre,src/nucleo/idioma.ts,borrador
+c07f8725dd44,la rana,broasca,nombre,src/nucleo/idioma.ts,borrador
+a20f8fbebd9f,la mano,mâna,nombre,src/nucleo/idioma.ts,borrador
+acd1d6f476d6,el pie,piciorul,nombre,src/nucleo/idioma.ts,borrador
 e6b0fe94cfd4,la sandía,pepenele verde,nombre,src/nucleo/idioma.ts,borrador
 5a3d5ea83531,el cohete,racheta,nombre,src/nucleo/idioma.ts,borrador
-e4eb34e21b10,el regalo,,nombre,src/nucleo/idioma.ts,falta
-ec04449cb0ae,el pino,,nombre,src/nucleo/idioma.ts,falta
-7c907536c221,la moto,,nombre,src/nucleo/idioma.ts,falta
-6944ad93bb98,la pala,,nombre,src/nucleo/idioma.ts,falta
-9f3eeede95cf,la hoja,,nombre,src/nucleo/idioma.ts src/temas/temas5.ts,falta
-9ff9a059bca5,la hoja naranja,,nombre,src/nucleo/idioma.ts,falta
-bb603486053d,la hoja roja,,nombre,src/nucleo/idioma.ts,falta
-d20db51331bf,la hoja marrón,,nombre,src/nucleo/idioma.ts,falta
-fbe4b319d6c2,la mochila,,nombre,src/nucleo/idioma.ts,falta
+e4eb34e21b10,el regalo,cadoul,nombre,src/nucleo/idioma.ts,borrador
+ec04449cb0ae,el pino,pinul,nombre,src/nucleo/idioma.ts,borrador
+7c907536c221,la moto,motocicleta,nombre,src/nucleo/idioma.ts,borrador
+6944ad93bb98,la pala,lopata,nombre,src/nucleo/idioma.ts,borrador
+9f3eeede95cf,la hoja,frunza,nombre,src/nucleo/idioma.ts src/temas/temas5.ts,borrador
+9ff9a059bca5,la hoja naranja,frunza portocalie,nombre,src/nucleo/idioma.ts,borrador
+bb603486053d,la hoja roja,frunza roșie,nombre,src/nucleo/idioma.ts,borrador
+d20db51331bf,la hoja marrón,frunza maro,nombre,src/nucleo/idioma.ts,borrador
+fbe4b319d6c2,la mochila,ghiozdanul,nombre,src/nucleo/idioma.ts,borrador
 10653f49a56f,las pinturas,creioanele colorate,nombre,src/nucleo/idioma.ts src/temas/temas.ts,borrador
 a7e3d3b0167a,el cuento,povestea,nombre,src/nucleo/idioma.ts,borrador
 634f50611dae,el tobogán,toboganul,nombre,src/nucleo/idioma.ts,borrador
-1370c19cc66e,la oreja,,nombre,src/nucleo/idioma.ts,falta
-db727127b435,la cara,,nombre,src/nucleo/idioma.ts,falta
-9884da4ed78a,la gota de agua,,nombre,src/nucleo/idioma.ts,falta
-16440421074f,la ballena,,nombre,src/nucleo/idioma.ts,falta
-cf4982de29c2,la castaña,,nombre,src/nucleo/idioma.ts,falta
-859c40d11be3,la seta,,nombre,src/nucleo/idioma.ts,falta
+1370c19cc66e,la oreja,urechea,nombre,src/nucleo/idioma.ts,borrador
+db727127b435,la cara,fața,nombre,src/nucleo/idioma.ts,borrador
+9884da4ed78a,la gota de agua,picătura de apă,nombre,src/nucleo/idioma.ts,borrador
+16440421074f,la ballena,balena,nombre,src/nucleo/idioma.ts,borrador
+cf4982de29c2,la castaña,castana,nombre,src/nucleo/idioma.ts,borrador
+859c40d11be3,la seta,ciuperca,nombre,src/nucleo/idioma.ts,borrador
 21fa632eccd8,el paraguas,umbrela,nombre,src/nucleo/idioma.ts,borrador
 e0f5f3abc58b,las botas de lluvia,cizmele de cauciuc,nombre,src/nucleo/idioma.ts,borrador
-1a2c1baac3d2,la lluvia,,nombre,src/nucleo/idioma.ts,falta
-96346fd418f6,las nubes,,nombre,src/nucleo/idioma.ts,falta
-ba9d7b0369c0,la nieve,,nombre,src/nucleo/idioma.ts,falta
-bd29fac15457,la tormenta,,nombre,src/nucleo/idioma.ts,falta
-dbae7d848872,el viento,,nombre,src/nucleo/idioma.ts,falta
-a75a90bfe60c,la niebla,,nombre,src/nucleo/idioma.ts,falta
-7930db79320b,el arcoíris,,nombre,src/nucleo/idioma.ts,falta
-de1f99c7f312,la ardilla,,nombre,src/nucleo/idioma.ts,falta
+1a2c1baac3d2,la lluvia,ploaia,nombre,src/nucleo/idioma.ts,borrador
+96346fd418f6,las nubes,norii,nombre,src/nucleo/idioma.ts,borrador
+ba9d7b0369c0,la nieve,zăpada,nombre,src/nucleo/idioma.ts,borrador
+bd29fac15457,la tormenta,furtuna,nombre,src/nucleo/idioma.ts,borrador
+dbae7d848872,el viento,vântul,nombre,src/nucleo/idioma.ts,borrador
+a75a90bfe60c,la niebla,ceața,nombre,src/nucleo/idioma.ts,borrador
+7930db79320b,el arcoíris,curcubeul,nombre,src/nucleo/idioma.ts,borrador
+de1f99c7f312,la ardilla,veverița,nombre,src/nucleo/idioma.ts,borrador
 ebae60d4734f,el abrigo,haina groasă,nombre,src/nucleo/idioma.ts,borrador
 f397f9524ded,el gorro,căciula,nombre,src/nucleo/idioma.ts src/temas/ingles.ts,borrador
 5ead4eb037c9,la bufanda,fularul,nombre,src/nucleo/idioma.ts src/temas/ingles.ts,borrador
 215279598c24,los guantes,mănușile,nombre,src/nucleo/idioma.ts,borrador
-53f2f867f10c,el copo de nieve,,nombre,src/nucleo/idioma.ts,falta
-4ebe57bdd86a,el muñeco de nieve,,nombre,src/nucleo/idioma.ts,falta
+53f2f867f10c,el copo de nieve,fulgul de zăpadă,nombre,src/nucleo/idioma.ts,borrador
+4ebe57bdd86a,el muñeco de nieve,omul de zăpadă,nombre,src/nucleo/idioma.ts,borrador
 64e173d43d18,la camiseta,tricoul,nombre,src/nucleo/idioma.ts,borrador
 ea8b37aad071,las gafas de sol,ochelarii de soare,nombre,src/nucleo/idioma.ts,borrador
 7654077cbabe,la gorra,șapca,nombre,src/nucleo/idioma.ts,borrador
 8788c62bbba1,la naranja,portocala,nombre,src/nucleo/idioma.ts,borrador
-638eda8c7e1d,el zumo,,nombre,src/nucleo/idioma.ts,falta
+638eda8c7e1d,el zumo,sucul,nombre,src/nucleo/idioma.ts,borrador
 214182b263b1,la bañera,cada,nombre,src/nucleo/idioma.ts,borrador
 c99b32680719,la nevera,frigiderul,nombre,src/nucleo/idioma.ts,borrador
-1dce612fca9d,el sillón,,nombre,src/nucleo/idioma.ts,falta
-c20e74cf4e4a,el inodoro,,nombre,src/nucleo/idioma.ts,falta
+1dce612fca9d,el sillón,fotoliul,nombre,src/nucleo/idioma.ts,borrador
+c20e74cf4e4a,el inodoro,toaleta,nombre,src/nucleo/idioma.ts,borrador
 cb985825235c,la tele,televizorul,nombre,src/nucleo/idioma.ts,borrador
-7bb9977a0fab,el cepillo de dientes,,nombre,src/nucleo/idioma.ts,falta
+7bb9977a0fab,el cepillo de dientes,periuța de dinți,nombre,src/nucleo/idioma.ts,borrador
 1a27518dc7d0,la olla,oala,nombre,src/nucleo/idioma.ts,borrador
-fee540b1f4eb,la mariquita,,nombre,src/nucleo/idioma.ts,falta
+fee540b1f4eb,la mariquita,buburuza,nombre,src/nucleo/idioma.ts,borrador
 ed0e23516cf6,el pájaro,pasărea,nombre,src/nucleo/idioma.ts,borrador
 3b61dfa18dd5,la regadera,stropitoarea,nombre,src/nucleo/idioma.ts,borrador
-1fe77ddaa918,el autobús,,nombre,src/nucleo/idioma.ts,falta
-b3a8be78cab8,la bici,,nombre,src/nucleo/idioma.ts,falta
-fbe7e531bdd8,el cubo,,nombre,src/nucleo/idioma.ts,falta
+1fe77ddaa918,el autobús,autobuzul,nombre,src/nucleo/idioma.ts,borrador
+b3a8be78cab8,la bici,bicicleta,nombre,src/nucleo/idioma.ts,borrador
+fbe7e531bdd8,el cubo,găleata,nombre,src/nucleo/idioma.ts,borrador
 7a3095614bbf,la toalla,prosopul,nombre,src/nucleo/idioma.ts,borrador
-42d85bb73c62,la crema para el sol,,nombre,src/nucleo/idioma.ts,falta
+42d85bb73c62,la crema para el sol,crema de soare,nombre,src/nucleo/idioma.ts,borrador
 fb35cf0da7a9,el castillo de arena,castelul de nisip,nombre,src/nucleo/idioma.ts,borrador
-72a5998bd0d7,la concha,,nombre,src/nucleo/idioma.ts,falta
-282f964e58a5,la galleta,,nombre,src/nucleo/idioma.ts,falta
-c1b8c585945f,el plato,,nombre,src/nucleo/idioma.ts,falta
-3b9d9da95339,el bol,,nombre,src/nucleo/idioma.ts,falta
-19c5d413891b,la ensalada de frutas,,nombre,src/nucleo/idioma.ts,falta
-e9bf7dc75ad2,la maceta,,nombre,src/nucleo/idioma.ts,falta
-dd8095efbe03,la estrella de mar,,nombre,src/nucleo/idioma.ts,falta
-af7669a9b1a6,el hermano,,nombre,src/nucleo/idioma.ts,falta
-c1adabe9fc03,la hermana,,nombre,src/nucleo/idioma.ts,falta
-c2258f7a6836,el bebé,,nombre,src/nucleo/idioma.ts,falta
-cd4fccdcf9e8,el abuelo,,nombre,src/nucleo/idioma.ts,falta
-38875cc61704,la abuela,,nombre,src/nucleo/idioma.ts,falta
-71fa1fe1b157,la maestra,,nombre,src/nucleo/idioma.ts,falta
-81a682f9356f,el niño,,nombre,src/nucleo/idioma.ts,falta
+72a5998bd0d7,la concha,scoica,nombre,src/nucleo/idioma.ts,borrador
+282f964e58a5,la galleta,biscuitul,nombre,src/nucleo/idioma.ts,borrador
+c1b8c585945f,el plato,farfuria,nombre,src/nucleo/idioma.ts,borrador
+3b9d9da95339,el bol,castronul,nombre,src/nucleo/idioma.ts,borrador
+19c5d413891b,la ensalada de frutas,salata de fructe,nombre,src/nucleo/idioma.ts,borrador
+e9bf7dc75ad2,la maceta,ghiveciul,nombre,src/nucleo/idioma.ts,borrador
+dd8095efbe03,la estrella de mar,steaua de mare,nombre,src/nucleo/idioma.ts,borrador
+af7669a9b1a6,el hermano,fratele,nombre,src/nucleo/idioma.ts,borrador
+c1adabe9fc03,la hermana,sora,nombre,src/nucleo/idioma.ts,borrador
+c2258f7a6836,el bebé,bebelușul,nombre,src/nucleo/idioma.ts,borrador
+cd4fccdcf9e8,el abuelo,bunicul,nombre,src/nucleo/idioma.ts,borrador
+38875cc61704,la abuela,bunica,nombre,src/nucleo/idioma.ts,borrador
+71fa1fe1b157,la maestra,educatoarea,nombre,src/nucleo/idioma.ts,borrador
+81a682f9356f,el niño,copilul,nombre,src/nucleo/idioma.ts,borrador
 57d549b0f4a4,el sofá,canapeaua,nombre,src/nucleo/idioma.ts,borrador
-3cf70ad18865,la macedonia,,nombre,src/nucleo/idioma.ts,falta
-104b369a6454,la crema solar,,nombre,src/nucleo/idioma.ts,falta
-8b2d4920f262,la profe,,nombre,src/nucleo/idioma.ts,falta
+3cf70ad18865,la macedonia,salata de fructe,nombre,src/nucleo/idioma.ts,borrador
+104b369a6454,la crema solar,crema de soare,nombre,src/nucleo/idioma.ts,borrador
+8b2d4920f262,la profe,educatoarea,nombre,src/nucleo/idioma.ts,borrador
 f901712955e8,las botas de agua,cizmele de cauciuc,nombre,src/nucleo/idioma.ts,borrador
 b26324d56117,"data:image/svg+xml;charset=utf-8,",,trozo,src/nucleo/imagenes.ts,falta
 b24d974bd1ca,¡Pegatina nueva!,Abțibild nou!,frase,src/nucleo/interfaz.ts,borrador
@@ -4147,6 +4147,7 @@ aa598997f6bd,iPhone o iPad (este aparato),iPhone sau iPad (acest dispozitiv),tab
 42724256b5d4,Mac (este aparato),Mac (acest dispozitiv),tabla,,borrador
 80b305b06f67,Android (este aparato),Android (acest dispozitiv),tabla,,borrador
 7ded20a8b862,Windows (este aparato),Windows (acest dispozitiv),tabla,,borrador
+76aa96369abb,3D,3D,tabla,,borrador
 06041ce120a9,otoño,toamnă,tabla,,borrador
 9e8354fefdf8,invierno,iarnă,tabla,,borrador
 6cae5deced2f,primavera,primăvară,tabla,,borrador

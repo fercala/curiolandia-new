@@ -10,10 +10,12 @@
  * habitaciones de la casa y los temas (sus formas salen de TEMAS_RO, de escenas.ts). Lo que aún no está sale en
  * castellano (nucleo/traducir.ts lo apunta en sinTraducir). Desde la ID4c, las frutas de la merienda de la casa, y desde la
  * ID4d, el cole, las pruebas del deporte, las excursiones y los animales de la granja con sus crías.
- * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts) y TEMAS_RO (escenas.ts).
+ * Desde la ID5a, junta también los nombres de los dibujos (LEX_RO, de lex.ts).
+ * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts), TEMAS_RO (escenas.ts) y LEX_RO (lex.ts).
  */
 import type { Nombre } from '../../dominio/idiomas.ts';
 import { TEMAS_RO } from './escenas.ts';
+import { LEX_RO } from './lex.ts';
 
 // N(art, sin, g, de, plu, pl): un nombre con sus formas; el dativo es igual que el genitivo (de). pl si el nombre está en
 // plural (las gafas: «ochelarii»).
@@ -42,6 +44,8 @@ const DE_TEMAS: Record<string, Nombre> = Object.fromEntries(
 /** Del nombre en castellano con artículo a sus formas en rumano. */
 export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   ...DE_TEMAS,
+  // los nombres de los dibujos (desde la fase ID5a; lo de aquí abajo manda)
+  ...LEX_RO,
   // el tema «Rincón de los Conceptos» y las zonas y sitios del mapa (zonas.ts: ZONES y los sitios del mapa)
   'el Rincón de los Conceptos': N('Colțul noțiunilor', 'Colțul noțiunilor', 'n', 'din Colțul noțiunilor'),
   'el Jardín de los 3 años': N('Grădina de 3 ani', 'Grădina de 3 ani', 'f', 'Grădinii de 3 ani'),

@@ -1528,6 +1528,8 @@ export function Semaforo(cfg: Config, onDone: AlTerminar): Juego {
 // COMPONENTE Cruce: un coche llega a un cruce; hay que elegir derecha o
 // izquierda para llegar al sitio pedido. cfg.places: claves de lugares (se
 // usan 2 por ronda), rounds (4). Ignora cfg.bg.
+// Las frases llevan el sitio de dos formas (desde la fase ID5a de docs/PLAN-IDIOMAS.md): {lugar} tras «a» en castellano
+// («al parque», ala) y {sitio} sin artículo, para el rumano («la parc», Wn); cada idioma usa la que le hace falta.
 export function Cruce(cfg: Config, onDone: AlTerminar): Juego {
   const R = cfg.rounds || 4,
     places = cfg.places;
@@ -1552,13 +1554,19 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego {
         sayQ(
           fmt('Vamos {lugar}. ¿Doblamos a la derecha o a la izquierda?', {
             lugar: ala(this.go < 0 ? this.L : this.Rr),
+            sitio: Wn(this.go < 0 ? this.L : this.Rr),
           }),
         ),
       );
     },
     // Repite adónde queremos ir.
     prompt() {
-      say(fmt('Queremos ir {lugar}. ¿Derecha o izquierda?', { lugar: ala(this.go < 0 ? this.L : this.Rr) }));
+      say(
+        fmt('Queremos ir {lugar}. ¿Derecha o izquierda?', {
+          lugar: ala(this.go < 0 ? this.L : this.Rr),
+          sitio: Wn(this.go < 0 ? this.L : this.Rr),
+        }),
+      );
     },
     // Ayuda: la flecha correcta.
     hint() {
@@ -1645,6 +1653,7 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego {
             tr(praise()),
             fmt(d < 0 ? 'Doblamos a la izquierda y llegamos {lugar}.' : 'Doblamos a la derecha y llegamos {lugar}.', {
               lugar: ala(d < 0 ? this.L : this.Rr),
+              sitio: Wn(d < 0 ? this.L : this.Rr),
             }),
           ),
           () =>
@@ -1662,6 +1671,8 @@ export function Cruce(cfg: Config, onDone: AlTerminar): Juego {
           fmt('Por ahí vamos {lugar}. Queremos ir {destino}.', {
             lugar: ala(d < 0 ? this.L : this.Rr),
             destino: ala(this.go < 0 ? this.L : this.Rr),
+            sitio: Wn(d < 0 ? this.L : this.Rr),
+            sitioDestino: Wn(this.go < 0 ? this.L : this.Rr),
           }),
         );
       }
