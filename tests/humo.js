@@ -107,6 +107,7 @@ const ESCENAS = [
   ['cometa', {}],
   ['panuelo', {}],
   ['sillas', {}],
+  ['escondite', {}],
 ];
 
 (async () => {

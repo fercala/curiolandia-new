@@ -2,7 +2,8 @@
  * escenas/patio.ts: el patio del cole (fase P1 de docs/IDEAS-MEJORA.md), la escena SCENES.patio. Se llega desde el cole
  * (escenas/cole.ts). Tiene un botón grande por cada actividad del patio (ACTIVIDADES_PATIO, dominio/cole.ts): las que
  * ya tienen escena se juegan al tocarlas; las demás salen «¡Muy pronto!» (también las carreras, que son en 3D, si no
- * hay WebGL). Las actividades del patio son sobre todo
+ * hay WebGL). Con más de seis actividades (desde la fase P13a), los botones van en dos filas. Las actividades del
+ * patio son sobre todo
  * juegos para moverse de verdad: Tito pone la música y las consignas, el niño se mueve y la pantalla lo acompaña.
  * Exporta: fondoPatio (el fondo del patio, que usan también las actividades), BOTONES_PATIO (dónde está cada botón) y
  * pone SCENES.patio al cargarse.
@@ -57,17 +58,32 @@ interface BotonPatio {
 }
 
 // Medidas de los botones: ancho (como mucho; desde la fase P11, con cinco botones o más, algo menos para que quepan), alto,
-// separación y altura de su borde de arriba. Se centran en la pantalla.
+// separación y altura de su borde de arriba. Se centran en la pantalla. Desde la fase P13a, con más de seis
+// actividades van en dos filas (DOS_FILAS: el ancho, el alto y el borde de arriba de cada fila, que dejan sitio a Tito
+// abajo a la izquierda).
 const BOTON = { w: 290, h: 320, sep: 32, y: 330 };
-// anchoBoton: el ancho de cada botón, para que quepan todos con 80 de margen a cada lado.
-const anchoBoton = Math.min(BOTON.w, (W - 160 - (ACTIVIDADES_PATIO.length - 1) * BOTON.sep) / ACTIVIDADES_PATIO.length);
+const DOS_FILAS = { w: 250, h: 270, y: [228, 540] };
+// filas: en cuántas filas van los botones, y porFila: cuántos caben en cada una.
+const filas = ACTIVIDADES_PATIO.length > 6 ? 2 : 1,
+  porFila = Math.ceil(ACTIVIDADES_PATIO.length / filas);
+// anchoBoton: el ancho de cada botón, para que quepan todos los de una fila con 80 de margen a cada lado.
+const anchoBoton = Math.min(filas > 1 ? DOS_FILAS.w : BOTON.w, (W - 160 - (porFila - 1) * BOTON.sep) / porFila);
 // COLORES: el color de cada botón, en orden.
-const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E', '#FFA94D', '#E07BB5'];
+const COLORES = ['#FF8A7A', '#5BB8E6', '#9B8AD9', '#7CC86E', '#FFA94D', '#E07BB5', '#4FC1A6', '#F2B84B'];
 
-// BOTONES_PATIO: un botón por actividad del patio, en fila y centrados.
+// BOTONES_PATIO: un botón por actividad del patio, en una fila (o en dos, si son más de seis), centrados en cada fila.
 export const BOTONES_PATIO: readonly BotonPatio[] = ACTIVIDADES_PATIO.map((a, i, todas) => {
-  const ancho = todas.length * anchoBoton + (todas.length - 1) * BOTON.sep;
-  return { a, x: (W - ancho) / 2 + i * (anchoBoton + BOTON.sep), y: BOTON.y, w: anchoBoton, h: BOTON.h };
+  const fila = Math.floor(i / porFila),
+    enFila = Math.min(porFila, todas.length - fila * porFila),
+    ancho = enFila * anchoBoton + (enFila - 1) * BOTON.sep,
+    col = i - fila * porFila;
+  return {
+    a,
+    x: (W - ancho) / 2 + col * (anchoBoton + BOTON.sep),
+    y: filas > 1 ? (DOS_FILAS.y[fila] ?? BOTON.y) : BOTON.y,
+    w: anchoBoton,
+    h: filas > 1 ? DOS_FILAS.h : BOTON.h,
+  };
 });
 
 // fondoPatio(): el patio: el cielo, la valla, la hierba, el suelo de arena con la pista de colores y dos árboles. Lo
@@ -110,7 +126,12 @@ function drawBoton(b: BotonPatio, i: number): void {
   card(b.x, b.y, b.w, b.h, lista ? (COLORES[i % COLORES.length] ?? '#FFA94D') : '#D8D2C8', 7, 36);
   card(b.x + 24, b.y + 24, b.w - 48, b.h - 120, '#fff', 5, 26);
   ctx.globalAlpha = lista ? 1 : 0.45;
-  pic(b.a.icono, cx, b.y + 24 + (b.h - 120) / 2 - (lista ? Math.abs(Math.sin(T * 3 + i)) * 10 : 0), 150);
+  pic(
+    b.a.icono,
+    cx,
+    b.y + 24 + (b.h - 120) / 2 - (lista ? Math.abs(Math.sin(T * 3 + i)) * 10 : 0),
+    Math.min(150, b.h - 130),
+  );
   ctx.globalAlpha = 1;
   // el nombre se encoge si no cabe en el botón (desde la fase ID3 de docs/PLAN-IDIOMAS.md; antes, por su largo en castellano)
   text(b.a.nombre, cx, b.y + b.h - 44, 34, '#fff', { st: 6, sc: 'rgba(0,0,0,.25)', max: b.w - 30 });
