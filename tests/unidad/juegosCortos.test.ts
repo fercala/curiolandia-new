@@ -1,6 +1,6 @@
 // Pruebas de las reglas de los juegos cortos del patio (src/dominio/juegosCortos.ts, fase P12 de docs/IDEAS-MEJORA.md):
 // la lista de juegos, las casillas y el plan de la rayuela, el momento bueno del columpio, la portera de los penaltis y el
-// plan de las pompas, las estrellas y el viento de la cometa y el plan del pañuelo. Sin navegador.
+// plan de las pompas, las estrellas y el viento de la cometa, el plan del pañuelo y las sillas musicales. Sin navegador.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso: leerlos tal cual es más claro. */
 import { describe, expect, test } from 'vitest';
 import {
@@ -8,6 +8,7 @@ import {
   COMETA,
   JUEGOS_CORTOS,
   PANUELO,
+  SILLAS,
   PENALTIS,
   POMPAS,
   RAYUELA,
@@ -20,6 +21,8 @@ import {
   planPanuelo,
   planPompas,
   planRayuela,
+  planSillas,
+  repartoSillas,
   tocaArbol,
   vientoEn,
 } from '../../src/dominio/juegosCortos.ts';
@@ -31,7 +34,7 @@ const azarFijo = (valores: readonly number[]) => {
 };
 
 describe('los juegos cortos del patio', () => {
-  test('son siete con ids distintos; todos menos las sillas ya tienen escena', () => {
+  test('son siete con ids distintos y todos tienen escena', () => {
     const ids = JUEGOS_CORTOS.map((j) => j.id);
     expect(ids).toHaveLength(7);
     expect(new Set(ids).size).toBe(7);
@@ -41,7 +44,8 @@ describe('los juegos cortos del patio', () => {
     expect(juegoCorto('pompas')?.escena).toBe('pompas');
     expect(juegoCorto('cometa')?.escena).toBe('cometa');
     expect(juegoCorto('panuelo')?.escena).toBe('panuelo');
-    expect(juegoCorto('sillas')?.escena).toBeUndefined();
+    expect(juegoCorto('sillas')?.escena).toBe('sillas');
+    expect(JUEGOS_CORTOS.every((j) => j.escena)).toBe(true);
     expect(juegoCorto('nada')).toBeUndefined();
   });
 
@@ -153,5 +157,32 @@ describe('los juegos cortos del patio', () => {
     );
     expect(planPanuelo(3, () => 0.5).fila).toEqual([1, 2, 3]);
     expect(planPanuelo(5, azarFijo([0.9, 0.1, 0.5, 0.3, 0.7])).fila).toEqual([2, 4, 3, 5, 1]);
+  });
+
+  test('las sillas: rondas según la edad, una silla menos cada vez hasta dos, y música que dura distinto', () => {
+    [3, 4, 5].forEach((edad) => {
+      const { amigos, rondas } = planSillas(edad, azarFijo([0, 0.5, 0.99, 0.25]));
+      const n = SILLAS.rondas[edad] ?? 0;
+      expect(rondas).toHaveLength(n);
+      expect(amigos).toBe(n + 1);
+      expect(rondas[0]!.sillas).toBe(amigos);
+      expect(rondas[rondas.length - 1]!.sillas).toBe(2);
+      rondas.forEach((r, i) => {
+        if (i > 0) expect(r.sillas).toBe(rondas[i - 1]!.sillas - 1);
+        expect(r.musica).toBeGreaterThanOrEqual(SILLAS.musica.min);
+        expect(r.musica).toBeLessThanOrEqual(SILLAS.musica.max);
+      });
+    });
+  });
+
+  test('las sillas: nadie se queda fuera; la última silla es para Tito y los que sobran se sientan encima', () => {
+    // 4 amigos y 5 sillas: uno en cada una de las cuatro primeras
+    expect(repartoSillas(4, 5)).toEqual([0, 1, 2, 3].map((silla) => ({ silla, encima: 0 })));
+    // 4 amigos y 2 sillas: todos en la primera, uno encima de otro
+    expect(repartoSillas(4, 2).map((s) => s.encima)).toEqual([0, 1, 2, 3]);
+    const seis = repartoSillas(6, 3);
+    expect(seis).toHaveLength(6);
+    seis.forEach((s) => expect(s.silla).toBeLessThan(2));
+    expect(Math.max(...seis.map((s) => s.encima))).toBe(2);
   });
 });

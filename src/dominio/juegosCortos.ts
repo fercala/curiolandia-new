@@ -2,7 +2,7 @@
  * dominio/juegosCortos.ts: las reglas de los juegos cortos del patio del cole (idea 16 de docs/IDEAS-MEJORA.md, fase
  * P12, que se hace de dos en dos juegos: P12a, P12b...). Son juegos pequeños que se abren desde el botón «Juegos cortos»
  * del patio (escenas/juegosCortos.ts): la rayuela, los columpios, los penaltis, las pompas de jabón, la cometa, el
- * pañuelo y las sillas musicales. Los que aún no tienen escena salen «¡Muy pronto!».
+ * pañuelo y las sillas musicales. Todos tienen ya su escena (desde la P12d; uno sin escena saldría «¡Muy pronto!»).
  *   - La rayuela: Tito dice un número, se toca su casilla para tirar la piedra y Tito va saltando a la pata coja,
  *     contando, hasta la piedra (el niño salta con él). Las casillas, como en la tiza del patio: 1, 2 y 3 sueltas, 4 y 5
  *     juntas, 6 suelta, 7 y 8 juntas, 9 y 10 sueltas; con 3 años hasta el 5 y con 4 hasta el 8.
@@ -19,13 +19,17 @@
  *   - El pañuelo (P12c): Tito está en el medio con el pañuelo y hay dos equipos de amigos con números. Tito dice un
  *     número y se toca al amigo de nuestro equipo que lo lleva: corre, coge el pañuelo y gana el punto. Con 3 años, 3
  *     amigos; con 5, cinco y descolocados (planPanuelo).
+ *   - Las sillas musicales (P12d), sin eliminar a nadie: Tito y sus amigos bailan alrededor de las sillas mientras suena
+ *     la música (el niño baila con ellos); cuando para, los amigos se sientan y se toca la silla libre para que se siente
+ *     Tito. En cada ronda hay una silla menos, pero nadie se va: los que se quedan sin silla se sientan encima de otro
+ *     (repartoSillas), y al final todos caben en dos sillas. Con 3 años, tres rondas; con 5, cinco (planSillas).
  * Al terminar cada juego, como las demás actividades del patio, 3 monedas la primera vez de cada día (dominio/cole.ts,
  * con el id del juego).
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/juegosCortos.test.ts.
- * Exporta: los tipos JuegoCorto, CasillaRayuela, LadoPenalti, ColorPompa, RondaPompas, Punto y ArbolCometa,
- * JUEGOS_CORTOS, RAYUELA, COLUMPIO, PENALTIS, POMPAS, COLORES_POMPAS, COMETA, ARBOLES_COMETA, PANUELO, juegoCorto,
- * casillasRayuela, planRayuela, empujonBueno, ladosPenalti, paradaDe, planPompas, tocaArbol, planCometa, vientoEn y
- * planPanuelo.
+ * Exporta: los tipos JuegoCorto, CasillaRayuela, LadoPenalti, ColorPompa, RondaPompas, Punto, ArbolCometa, RondaSillas
+ * y SitioSilla, JUEGOS_CORTOS, RAYUELA, COLUMPIO, PENALTIS, POMPAS, COLORES_POMPAS, COMETA, ARBOLES_COMETA, PANUELO,
+ * SILLAS, juegoCorto, casillasRayuela, planRayuela, empujonBueno, ladosPenalti, paradaDe, planPompas, tocaArbol,
+ * planCometa, vientoEn, planPanuelo, planSillas y repartoSillas.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son las reglas mismas (cuántas casillas y rondas según la
@@ -56,7 +60,7 @@ export const JUEGOS_CORTOS: readonly JuegoCorto[] = [
   { id: 'pompas', nombre: 'Las pompas', escena: 'pompas', icono: 'pelotaPlaya' },
   { id: 'cometa', nombre: 'La cometa', escena: 'cometa', icono: 'cometa' },
   { id: 'panuelo', nombre: 'El pañuelo', escena: 'panuelo', icono: 'manos' },
-  { id: 'sillas', nombre: 'Las sillas', icono: 'silla' },
+  { id: 'sillas', nombre: 'Las sillas', escena: 'sillas', icono: 'silla' },
 ];
 
 /** Hacia dónde se chuta un penalti (y hacia dónde se tira la portera). */
@@ -281,4 +285,44 @@ export function planPanuelo(edad: number, azar: () => number): { fila: number[];
       return [...hechos, otros[Math.floor(azar() * otros.length)] ?? otros[0] ?? 1];
     }, []);
   return { fila, pedidos };
+}
+
+/** Una ronda de las sillas musicales: las sillas que hay y los segundos que suena la música. */
+export interface RondaSillas {
+  readonly sillas: number;
+  readonly musica: number;
+}
+/** Dónde se sienta un amigo al parar la música: en qué silla y encima de cuántos (0: en la silla misma). */
+export interface SitioSilla {
+  readonly silla: number;
+  readonly encima: number;
+}
+
+// SILLAS: las reglas de las sillas musicales: las rondas según la edad (en la última quedan dos sillas) y lo que suena
+// la música en cada ronda (entre min y max segundos, al azar, para que no se sepa cuándo para).
+export const SILLAS = {
+  rondas: { 3: 3, 4: 4, 5: 5 } as Readonly<Record<number, number>>,
+  musica: { min: 3.5, max: 7 },
+} as const;
+
+// planSillas(edad, azar): una partida de las sillas: los amigos que juegan con Tito (uno más que las rondas) y las
+// rondas, de más sillas a dos (una menos cada vez; al empezar, una por amigo), con lo que suena la música en cada una.
+export function planSillas(edad: number, azar: () => number): { amigos: number; rondas: RondaSillas[] } {
+  const n = SILLAS.rondas[edadDe(edad)] ?? 4,
+    m = SILLAS.musica;
+  return {
+    amigos: n + 1,
+    rondas: Array.from({ length: n }, (_, i): RondaSillas => ({
+      sillas: n + 1 - i,
+      musica: Math.round((m.min + azar() * (m.max - m.min)) * 10) / 10,
+    })),
+  };
+}
+
+// repartoSillas(amigos, sillas): dónde se sienta cada amigo al parar la música, sin que nadie se quede fuera. La última
+// silla queda libre para Tito; los amigos van a las demás por turnos y, si no hay bastantes, se sientan encima de otro
+// (encima cuenta cuántos hay debajo).
+export function repartoSillas(amigos: number, sillas: number): SitioSilla[] {
+  const libres = Math.max(1, sillas - 1);
+  return Array.from({ length: amigos }, (_, i): SitioSilla => ({ silla: i % libres, encima: Math.floor(i / libres) }));
 }
