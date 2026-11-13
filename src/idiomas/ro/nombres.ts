@@ -11,7 +11,8 @@
  * castellano (nucleo/traducir.ts lo apunta en sinTraducir). Desde la ID4c, las frutas de la merienda de la casa, y desde la
  * ID4d, el cole, las pruebas del deporte, las excursiones y los animales de la granja con sus crías.
  * Desde la ID5a, junta también los nombres de los dibujos (LEX_RO, de lex.ts), y desde la ID5b, los de los temas de 3
- * años (las piezas del muñeco de nieve, las formas, las viñetas de las rutinas...).
+ * años (las piezas del muñeco de nieve, las formas, las viñetas de las rutinas...), y desde la ID5c, los de 4 años (las
+ * formas, las partes de la planta, las torres y los lápices, la mañana, la tarde y la noche).
  * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts), TEMAS_RO (escenas.ts) y LEX_RO (lex.ts).
  */
 import type { Nombre } from '../../dominio/idiomas.ts';
@@ -282,5 +283,46 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   'cepillamos': N('periem', 'periem', 'f', 'periem'),
   'nos enjuagamos': N('ne clătim', 'ne clătim', 'f', 'ne clătim'),
   'la sonrisa': N('zâmbetul', 'zâmbet', 'n', 'zâmbetului', 'zâmbete'),
+  // los temas de 4 años (desde la fase ID5c)
+  'el triángulo': N('triunghiul', 'triunghi', 'n', 'triunghiului', 'triunghiuri'),
+  'el rectángulo': N('dreptunghiul', 'dreptunghi', 'n', 'dreptunghiului', 'dreptunghiuri'),
+  'el óvalo': N('ovalul', 'oval', 'n', 'ovalului', 'ovale'),
+  'el rombo': N('rombul', 'romb', 'n', 'rombului', 'romburi'),
+  'la raíz': N('rădăcina', 'rădăcină', 'f', 'rădăcinii', 'rădăcini'),
+  'el tallo': N('tulpina', 'tulpină', 'f', 'tulpinii', 'tulpini'),
+  'las hojas': N('frunzele', 'frunze', 'f', 'frunzelor', 'frunze', true),
+  'la torre alta': N('turnul înalt', 'turn înalt', 'n', 'turnului înalt', 'turnuri înalte'),
+  'la torre baja': N('turnul scund', 'turn scund', 'n', 'turnului scund', 'turnuri scunde'),
+  'el lápiz largo': N('creionul lung', 'creion lung', 'n', 'creionului lung', 'creioane lungi'),
+  'el lápiz corto': N('creionul scurt', 'creion scurt', 'n', 'creionului scurt', 'creioane scurte'),
+  'la mañana': N('dimineața', 'dimineață', 'f', 'dimineții', 'dimineți'),
+  'la tarde': N('după-amiaza', 'după-amiază', 'f', 'după-amiezii', 'după-amiezi'),
+  'la noche': N('noaptea', 'noapte', 'f', 'nopții', 'nopți'),
+  // los días (las tarjetas del tren de los días), los colores (las series) y las posiciones, como nombres (ID5c)
+  'el lunes': N('luni', 'luni', 'f', 'zilei de luni'),
+  'el martes': N('marți', 'marți', 'f', 'zilei de marți'),
+  'el miércoles': N('miercuri', 'miercuri', 'f', 'zilei de miercuri'),
+  'el jueves': N('joi', 'joi', 'f', 'zilei de joi'),
+  'el viernes': N('vineri', 'vineri', 'f', 'zilei de vineri'),
+  'el sábado': N('sâmbătă', 'sâmbătă', 'f', 'zilei de sâmbătă'),
+  'el domingo': N('duminică', 'duminică', 'f', 'zilei de duminică'),
+  'rojo': N('roșu', 'roșu', 'm', 'culorii roșu'),
+  'azul': N('albastru', 'albastru', 'm', 'culorii albastru'),
+  'amarillo': N('galben', 'galben', 'm', 'culorii galben'),
+  'verde': N('verde', 'verde', 'm', 'culorii verde'),
+  'naranja': N('portocaliu', 'portocaliu', 'm', 'culorii portocaliu'),
+  'rosa': N('roz', 'roz', 'm', 'culorii roz'),
+  'morado': N('mov', 'mov', 'm', 'culorii mov'),
+  'marrón': N('maro', 'maro', 'm', 'culorii maro'),
+  'gris': N('gri', 'gri', 'm', 'culorii gri'),
+  'blanco': N('alb', 'alb', 'm', 'culorii alb'),
+  'negro': N('negru', 'negru', 'm', 'culorii negru'),
+  'celeste': N('bleu', 'bleu', 'm', 'culorii bleu'),
+  'delante': N('în față', 'în față', 'm', 'în față'),
+  'detrás': N('în spate', 'în spate', 'm', 'în spate'),
+  'encima': N('deasupra', 'deasupra', 'm', 'deasupra'),
+  'debajo': N('dedesubt', 'dedesubt', 'm', 'dedesubt'),
+  'cerca': N('aproape', 'aproape', 'm', 'aproape'),
+  'lejos': N('departe', 'departe', 'm', 'departe'),
   Júpiter: N('Jupiter', 'Jupiter', 'm', 'lui Jupiter'),
 };

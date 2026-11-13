@@ -239,9 +239,9 @@ const sonidoSin = (k: Cosa): string =>
 export const fem = (k: Cosa) => femenino(nombreCosa(k), false);
 export const femPl = (k: Cosa) => femenino(nombreCosa(k), true);
 // Cantidad en palabras: unN(1,k) → 'un perro' / 'una mesa'; unN(3,k) → 'tres perros'. En rumano (fase ID2), el número
-// cambia con el género y desde el 20 lleva «de» (cantidadRo).
+// cambia con el género y desde el 20 lleva «de» (cantidadRo); desde la ID5c sale marcado como ya traducido (juntar).
 export const unN = (n: number, k: Cosa) => {
-  if (IDIOMA === 'ro') return cantidadRo(n, n === 1 ? fem(k) : femPl(k)) + ' ' + (n === 1 ? Wn(k) : plural(k));
+  if (IDIOMA === 'ro') return juntar(cantidadRo(n, n === 1 ? fem(k) : femPl(k)) + ' ' + (n === 1 ? Wn(k) : plural(k)));
   return n === 1 ? (fem(k) ? 'una ' : 'un ') + Wn(k) : NUM[n] + ' ' + plural(k);
 };
 
