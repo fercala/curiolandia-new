@@ -12,12 +12,15 @@
  * ID4d, el cole, las pruebas del deporte, las excursiones y los animales de la granja con sus crías.
  * Desde la ID5a, junta también los nombres de los dibujos (LEX_RO, de lex.ts), y desde la ID5b, los de los temas de 3
  * años (las piezas del muñeco de nieve, las formas, las viñetas de las rutinas...), y desde la ID5c, los de 4 años (las
- * formas, las partes de la planta, las torres y los lápices, la mañana, la tarde y la noche).
- * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts), TEMAS_RO (escenas.ts) y LEX_RO (lex.ts).
+ * formas, las partes de la planta, las torres y los lápices, la mañana, la tarde y la noche), y desde la ID5d, los de
+ * 5 años (los contenedores, los puestos de la fila, los termómetros, los troncos y los libros...).
+ * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts), TEMAS_RO (escenas.ts), LEX_RO (lex.ts) y NUM_RO
+ * (numeros.ts).
  */
 import type { Nombre } from '../../dominio/idiomas.ts';
 import { TEMAS_RO } from './escenas.ts';
 import { LEX_RO } from './lex.ts';
+import { NUM_RO } from './numeros.ts';
 
 // N(art, sin, g, de, plu, pl): un nombre con sus formas; el dativo es igual que el genitivo (de). pl si el nombre está en
 // plural (las gafas: «ochelarii»).
@@ -43,11 +46,37 @@ const DE_TEMAS: Record<string, Nombre> = Object.fromEntries(
   ]),
 );
 
+// DE_NUMEROS: las tarjetas de número (temas/temas5.ts) se llaman como el número, que en rumano ya es rumano («zece»):
+// cada uno es su propio nombre (desde la ID5d).
+const DE_NUMEROS: Record<string, Nombre> = Object.fromEntries(NUM_RO.map((n) => [n, N(n, n, 'm', n)]));
+
+// MESES_RO: las tarjetas de mes (temas/temas5.ts) se llaman como el mes en castellano: su nombre en rumano (desde la ID5d).
+const MESES_RO: Record<string, Nombre> = Object.fromEntries(
+  (
+    [
+      ['enero', 'ianuarie'],
+      ['febrero', 'februarie'],
+      ['marzo', 'martie'],
+      ['abril', 'aprilie'],
+      ['mayo', 'mai'],
+      ['junio', 'iunie'],
+      ['julio', 'iulie'],
+      ['agosto', 'august'],
+      ['septiembre', 'septembrie'],
+      ['octubre', 'octombrie'],
+      ['noviembre', 'noiembrie'],
+      ['diciembre', 'decembrie'],
+    ] as const
+  ).map(([es, ro]) => [es, N(ro, ro, 'f', `lunii ${ro}`)]),
+);
+
 /** Del nombre en castellano con artículo a sus formas en rumano. */
 export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   ...DE_TEMAS,
   // los nombres de los dibujos (desde la fase ID5a; lo de aquí abajo manda)
   ...LEX_RO,
+  ...DE_NUMEROS,
+  ...MESES_RO,
   // el tema «Rincón de los Conceptos» y las zonas y sitios del mapa (zonas.ts: ZONES y los sitios del mapa)
   'el Rincón de los Conceptos': N('Colțul noțiunilor', 'Colțul noțiunilor', 'n', 'din Colțul noțiunilor'),
   'el Jardín de los 3 años': N('Grădina de 3 ani', 'Grădina de 3 ani', 'f', 'Grădinii de 3 ani'),
@@ -324,5 +353,35 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   'debajo': N('dedesubt', 'dedesubt', 'm', 'dedesubt'),
   'cerca': N('aproape', 'aproape', 'm', 'aproape'),
   'lejos': N('departe', 'departe', 'm', 'departe'),
+  // los temas de 5 años (desde la fase ID5d)
+  'el termómetro alto': N(
+    'termometrul care arată cald',
+    'termometru care arată cald',
+    'n',
+    'termometrului care arată cald',
+  ),
+  'el termómetro bajo': N(
+    'termometrul care arată frig',
+    'termometru care arată frig',
+    'n',
+    'termometrului care arată frig',
+  ),
+  'el contenedor amarillo': N('containerul galben', 'container galben', 'n', 'containerului galben'),
+  'el contenedor azul': N('containerul albastru', 'container albastru', 'n', 'containerului albastru'),
+  'el contenedor verde': N('containerul verde', 'container verde', 'n', 'containerului verde'),
+  'el contenedor marrón': N('containerul maro', 'container maro', 'n', 'containerului maro'),
+  'el capullo': N('coconul', 'cocon', 'm', 'coconului', 'coconi'),
+  'los huevitos en la hoja': N('ouăle de pe frunză', 'ouă pe frunză', 'n', 'ouălor de pe frunză', undefined, true),
+  'el primero': N('primul', 'primul', 'm', 'primului'),
+  'el segundo': N('al doilea', 'al doilea', 'm', 'celui de-al doilea'),
+  'el tercero': N('al treilea', 'al treilea', 'm', 'celui de-al treilea'),
+  'el cuarto': N('al patrulea', 'al patrulea', 'm', 'celui de-al patrulea'),
+  'el quinto': N('al cincilea', 'al cincilea', 'm', 'celui de-al cincilea'),
+  'el último': N('ultimul', 'ultimul', 'm', 'ultimului'),
+  'el tronco grueso': N('trunchiul gros', 'trunchi gros', 'n', 'trunchiului gros'),
+  'el tronco delgado': N('trunchiul subțire', 'trunchi subțire', 'n', 'trunchiului subțire'),
+  'el libro grueso': N('cartea groasă', 'carte groasă', 'f', 'cărții groase'),
+  'el libro delgado': N('cartea subțire', 'carte subțire', 'f', 'cărții subțiri'),
+  'los Reyes': N('Magii', 'Magi', 'm', 'Magilor', 'Magi', true),
   Júpiter: N('Jupiter', 'Jupiter', 'm', 'lui Jupiter'),
 };
