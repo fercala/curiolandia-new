@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142) e **ID5b** (v0.2.144), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144) e **ID5c** (v0.2.145), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,22 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID5c (v0.2.145): los temas de 4 años en rumano
+
+- **Tabla nueva `src/idiomas/ro/temas4.ts`** (`TEMAS4_RO`, unos 300 textos): los doce temas de 4 años y su Rincón de los
+  Conceptos (`temas/temas4.ts`). Las emociones van en masculino («vesel», «speriat») y las plantillas rumanas las ponen
+  tras «cineva» o «se simte» («Acolo e cineva vesel»), para no concordarlas con «fețișoara»; quien revise el rumano
+  puede afinarlo.
+- `nombres.ts`: las formas (triángulo, rectángulo, óvalo, rombo), las partes de la planta, las torres y los lápices,
+  la mañana, la tarde y la noche, y, como nombres de tarjeta, los días («el lunes»), los colores de las series y las
+  posiciones («delante»).
+- Frases compuestas: `unN` (`juegos/comps.ts`, «patru struguri») sale marcada como ya traducida, y la respuesta
+  equivocada de los cinco sentidos se junta con `juntar`. En la ciudad y en la casa, la plantilla rumana dice «merge»
+  («Mingea merge în parc»; antes, en la casa, «stă»).
+- Jugando con `?idioma=ro`, con 4 y con 5 años, cada juego de estos temas con toques al azar, solo quedan los cuentos
+  (ID5e). Queda para la revisión un caso raro: con una sola uva sale «un struguri» (el rumano dice «un strugure»).
+- Versión: la v0.2.143 la lleva el PR #144 (P13b, el circuito). En castellano todo sigue igual.
 
 ### ID5b (v0.2.144): los temas de 3 años y los especiales en rumano
 

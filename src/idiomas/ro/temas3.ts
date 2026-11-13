@@ -337,8 +337,8 @@ export const TEMAS3_RO: Readonly<Record<string, string>> = {
   'La nevera. Guarda la comida fresquita.': 'Frigiderul. Ține mâncarea rece.',
   'La olla. Para cocinar.': 'Oala. Pentru gătit.',
   'La tele. Para ver dibujitos un ratito.': 'Televizorul. Ca să ne uităm puțin la desene.',
-  '{Cosa} no va {sitio}.': '{Cosa} nu stă {sitio}.',
-  '{Cosa} va {sitio}.': '{Cosa} stă {sitio}.',
+  '{Cosa} no va {sitio}.': '{Cosa} nu merge {sitio}.',
+  '{Cosa} va {sitio}.': '{Cosa} merge {sitio}.',
   'Cada cosa va en su lugar de la casa. ¡Llévalas a su cuarto!':
     'Fiecare lucru are locul lui în casă. Du-le în camera lor!',
 

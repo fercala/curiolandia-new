@@ -994,7 +994,7 @@ export const T4: Tema[] = [
                   ok: [q[1]],
                   ask: q[2],
                   okSay: () => SENT[q[1]],
-                  badSay: (w: Cosa) => SENT[w] + ' ' + q[2],
+                  badSay: (w: Cosa) => juntar(tr(SENT[w]!), tr(q[2]!)),
                 };
               },
             },
