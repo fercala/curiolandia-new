@@ -29,6 +29,7 @@ import {
   circ,
   ctx,
   dela,
+  Wn,
   ell,
   estacionDe,
   fillStroke,
@@ -644,7 +645,7 @@ export const T5: Tema[] = [
                   ok: [q[1]],
                   ask: q[2],
                   okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[1]) }),
-                  badSay: (w: Cosa) => eseEs(w) + '. ' + q[2],
+                  badSay: (w: Cosa) => juntar(eseEs(w) + '.', tr(q[2])),
                 };
               },
             },
@@ -741,7 +742,7 @@ export const T5: Tema[] = [
                   ok: [q[0]],
                   ask: q[1],
                   okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[0]) }),
-                  badSay: (w: Cosa) => eseEs(w) + '. ' + q[1],
+                  badSay: (w: Cosa) => juntar(eseEs(w) + '.', tr(q[1] as string)),
                 };
               },
             },
@@ -846,8 +847,11 @@ export const T5: Tema[] = [
               bg: t.bg,
               key: 'origen-alimentos',
               ask: 'Une cada comida con quién nos la da. Arrastra de una a la otra.',
-              okSay: (a: Cosa, b: string) => fmt('{Cosa} viene {deOtra}.', { cosa: nameT(a), deOtra: dela(b) }),
-              why: (a: Cosa, b: string) => fmt('Mmm, {cosa} no viene {deOtra}.', { cosa: nameT(a), deOtra: dela(b) }),
+              // {origen}: el nombre sin artículo, para el rumano («vine de la vacă»); el castellano usa {deOtra}
+              okSay: (a: Cosa, b: string) =>
+                fmt('{Cosa} viene {deOtra}.', { cosa: nameT(a), deOtra: dela(b), origen: Wn(b) }),
+              why: (a: Cosa, b: string) =>
+                fmt('Mmm, {cosa} no viene {deOtra}.', { cosa: nameT(a), deOtra: dela(b), origen: Wn(b) }),
             },
             d,
           ),
@@ -989,7 +993,7 @@ export const T5: Tema[] = [
                   ok: [q[0]],
                   ask: q[1],
                   okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[0]) }),
-                  badSay: (w: Cosa) => eseEs(w) + '. ' + q[1],
+                  badSay: (w: Cosa) => juntar(eseEs(w) + '.', tr(q[1] as string)),
                 };
               },
             },
@@ -1353,7 +1357,7 @@ export const T5: Tema[] = [
                   ok: [q[1]],
                   ask: q[2],
                   okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(q[1]) }),
-                  badSay: (w: Cosa) => eseEs(w) + '. ' + q[2],
+                  badSay: (w: Cosa) => juntar(eseEs(w) + '.', tr(q[2])),
                 };
               },
             },
@@ -1766,7 +1770,7 @@ export const T5: Tema[] = [
                   ok: [q[1]],
                   ask: q[2],
                   okSay: () => fmt('¡Sí! {Cosa}. ¡Así viajamos seguros!', { cosa: nameT(q[1]) }),
-                  badSay: (w: Cosa) => eseEs(w) + '. ' + q[2],
+                  badSay: (w: Cosa) => juntar(eseEs(w) + '.', tr(q[2])),
                 };
               },
             },
@@ -2124,7 +2128,7 @@ export const C5: Tema = {
                 ok: [k],
                 ask,
                 okSay: () => fmt('¡Sí! {Cosa}.', { cosa: nameT(k) }),
-                badSay: (w: Cosa) => eseEs(w) + '. ' + ask,
+                badSay: (w: Cosa) => juntar(eseEs(w) + '.', tr(ask)),
               };
             },
           },

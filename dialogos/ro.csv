@@ -428,7 +428,7 @@ fd5636cd8570,¡El cerebro! Piensa y manda.,,frase,src/contenido/cuentos.ts,falta
 e86b307e63e7,¿Qué se infla como un globo para tomar aire?,,frase,src/contenido/cuentos.ts,falta
 acb38981a744,¡Los pulmones! Sirven para respirar.,,frase,src/contenido/cuentos.ts,falta
 e427f7fccb33,¿Qué convirtió el plátano en energía?,,frase,src/contenido/cuentos.ts,falta
-820e64ee7ad6,¡El estómago! Ahí va la comida.,,frase,src/contenido/cuentos.ts src/temas/temas5.ts,falta
+820e64ee7ad6,¡El estómago! Ahí va la comida.,Stomacul! Acolo merge mâncarea.,frase,src/contenido/cuentos.ts src/temas/temas5.ts,borrador
 09b1c37a6296,La golondrina de Lucía,,trozo,src/contenido/cuentos.ts,falta
 3af265505b6a,"Debajo del techo de la casa de Lucía vivía una golondrina, en su nido de barro. ¡Todo el verano cantó, pío, pío!",,frase,src/contenido/cuentos.ts,falta
 982ff5fe2874,Pero llegó el otoño. Los días se hicieron más cortos y empezó a hacer fresco. Lucía sacó la bufanda.,,frase,src/contenido/cuentos.ts,falta
@@ -2148,7 +2148,7 @@ ad23549c6177,PINGÜINO,,trozo,src/mundo3d/cielo.ts,falta
 6a4a4ca9bb5e,"El pingüino. Es un pájaro que no vuela, ¡pero nada muy bien!","Pinguinul. E o pasăre care nu zboară, dar înoată foarte bine!",frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 b99e1c20b1ea,El muñeco de nieve.,,frase,src/mundo3d/cielo.ts,falta
 5ec796c6e54a,MUÑECO,,trozo,src/mundo3d/cielo.ts,falta
-a344730983bb,Nieva. Caen copos de nieve cuando hace mucho frío.,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+a344730983bb,Nieva. Caen copos de nieve cuando hace mucho frío.,Ninge. Cad fulgi de zăpadă când e foarte frig.,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 2281d0348687,COPO,,trozo,src/mundo3d/cielo.ts,falta
 fe89b9062bf7,La abeja. Hace miel con las flores.,Albina. Face miere din flori.,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 a0cb3a4bb3dc,ABEJA,,trozo,src/mundo3d/cielo.ts,falta
@@ -2159,7 +2159,7 @@ f179d1aa13c4,El pájaro.,,frase,src/mundo3d/cielo.ts,falta
 b32b48974116,PÁJARO,,trozo,src/mundo3d/cielo.ts,falta
 87bf64b0ae01,La ballena.,,frase,src/mundo3d/cielo.ts,falta
 b02dfd912d17,BALLENA,,trozo,src/mundo3d/cielo.ts,falta
-6c6bd011db00,"La ballena. Vive en el mar, pero respira aire.",,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+6c6bd011db00,"La ballena. Vive en el mar, pero respira aire.","Balena. Trăiește în mare, dar respiră aer.",frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 d4d67aaafb15,El castillo de arena.,Castelul de nisip.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 564275a09b6c,CASTILLO,,trozo,src/mundo3d/cielo.ts,falta
 4b5a2909f3f7,La pelota de playa.,,frase,src/mundo3d/cielo.ts,falta
@@ -2167,17 +2167,17 @@ b351b43c4eb1,PELOTA,,trozo,src/mundo3d/cielo.ts,falta
 0ced1549bfc6,La pelota. En el recreo jugamos a la pelota.,Mingea. În pauză ne jucăm cu mingea.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 a6a1b45e4718,La tarta de cumpleaños.,,frase,src/mundo3d/cielo.ts,falta
 0b5faad59fb7,TARTA,,trozo,src/mundo3d/cielo.ts,falta
-ebc3f7a8ec9b,La tarta. En el cumpleaños soplamos las velas.,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+ebc3f7a8ec9b,La tarta. En el cumpleaños soplamos las velas.,Tortul. La ziua de naștere suflăm în lumânări.,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 fa33bc1a217d,La estrella.,,frase,src/mundo3d/cielo.ts,falta
 047b6250f3a5,ESTRELLA,,trozo,src/mundo3d/cielo.ts,falta
 f7e1b4c5c0cf,La bola de Navidad.,,frase,src/mundo3d/cielo.ts,falta
 d26fc4ec2bd0,BOLA,,trozo,src/mundo3d/cielo.ts,falta
 e97f7a9d6a00,La hoja.,,frase,src/mundo3d/cielo.ts,falta
 242d2d20424d,HOJA,,trozo,src/mundo3d/cielo.ts,falta
-cf05cbd38ac3,"Las hojas. En otoño se ponen naranjas y amarillas, y se caen.",,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+cf05cbd38ac3,"Las hojas. En otoño se ponen naranjas y amarillas, y se caen.","Frunzele. Toamna se fac portocalii și galbene, și cad.",frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 e60ee323cc59,La gota de agua.,,frase,src/mundo3d/cielo.ts,falta
 c27d7e104a9e,GOTA,,trozo,src/mundo3d/cielo.ts,falta
-411926fe454e,El arcoíris. Sale cuando hay sol y lluvia a la vez.,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+411926fe454e,El arcoíris. Sale cuando hay sol y lluvia a la vez.,Curcubeul. Apare când e soare și plouă în același timp.,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 6b3888ef8214,ARCOÍRIS,,trozo,src/mundo3d/cielo.ts,falta
 6b7914c5ac26,La seta. Crece cuando llueve.,Ciuperca. Crește când plouă.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 6da09d212788,SETA,,trozo,src/mundo3d/cielo.ts,falta
@@ -2187,7 +2187,7 @@ c27d7e104a9e,GOTA,,trozo,src/mundo3d/cielo.ts,falta
 628ecdb1ce92,ARDILLA,,trozo,src/mundo3d/cielo.ts,falta
 881c2c06f582,La bellota. Es el fruto del roble. ¡A las ardillas les encanta!,Ghinda. E fructul stejarului. Veverițelor le place mult!,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 3592b47d6008,BELLOTA,,trozo,src/mundo3d/cielo.ts,falta
-067671ec1fda,El búho. Vive en el bosque y sale de noche.,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+067671ec1fda,El búho. Vive en el bosque y sale de noche.,Bufnița. Trăiește în pădure și iese noaptea.,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 7afa5778c660,BÚHO,,trozo,src/mundo3d/cielo.ts,falta
 d2f8b61fd168,La hormiga. Trabaja en equipo y es muy fuerte.,Furnica. Lucrează în echipă și e foarte puternică.,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 ffe7cd8bfc3d,HORMIGA,,trozo,src/mundo3d/cielo.ts,falta
@@ -2196,7 +2196,7 @@ f867f379be43,El nido. La casita de los pájaros.,Cuibul. Căsuța păsărelelor.
 523e87669c2a,La mariquita. Tiene puntitos negros.,Buburuza. Are bulinuțe negre.,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 86f7e1088be2,MARIQUITA,,trozo,src/mundo3d/cielo.ts,falta
 3406a45ab993,La mariquita. Es roja con puntitos.,Buburuza. E roșie cu bulinuțe.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
-929ad6ef8e9b,El regalo. ¡Qué bonito es regalar!,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+929ad6ef8e9b,El regalo. ¡Qué bonito es regalar!,Cadoul. Ce frumos e să dăruim!,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 fe82e90c08e5,REGALO,,trozo,src/mundo3d/cielo.ts,falta
 637d0850f2da,El barco. Navega por el agua.,Barca. Plutește pe apă.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 28e0c1976363,BARCO,,trozo,src/mundo3d/cielo.ts,falta
@@ -2216,7 +2216,7 @@ ba9f293c88bf,El globo aerostático. Vuela con aire caliente.,Balonul cu aer cald
 b07b65f9ed3d,GLOBO,,trozo,src/mundo3d/cielo.ts,falta
 6016124defcd,"La planta. Tiene raíz, tallo y hojas.","Planta. Are rădăcină, tulpină și frunze.",frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 3796f0bb0017,PLANTA,,trozo,src/mundo3d/cielo.ts,falta
-8220bd7b86e5,La semilla. De ella nace una planta nueva.,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+8220bd7b86e5,La semilla. De ella nace una planta nueva.,Sămânța. Din ea se naște o plantă nouă.,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 bbce8a102692,SEMILLA,,trozo,src/mundo3d/cielo.ts,falta
 f501a0605a09,¡Súper! ¡La cometa! Con el viento vuela alto.,,frase,src/mundo3d/cielo.ts,falta
 830ea455c1ad,COMETA,,trozo,src/mundo3d/cielo.ts,falta
@@ -2268,7 +2268,7 @@ f76534faa31c,CO PO,,trozo,src/mundo3d/cielo.ts,falta
 149dfd70262c,VIEN TO,,trozo,src/mundo3d/cielo.ts,falta
 0cb14ca42ca6,BE LLO TA,,trozo,src/mundo3d/cielo.ts,falta
 bd8ab28e3f34,SE MI LLA,,trozo,src/mundo3d/cielo.ts,falta
-79b2af7f9968,"Las estrellas. Están muy, muy lejos. ¡Por eso las vemos pequeñitas!",,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
+79b2af7f9968,"Las estrellas. Están muy, muy lejos. ¡Por eso las vemos pequeñitas!","Stelele. Sunt foarte, foarte departe. De aceea le vedem micuțe!",frase,src/mundo3d/cielo.ts src/temas/temas5.ts,borrador
 d9ece30008b5,La nieve. Es agua congelada que cae del cielo.,Zăpada. E apă înghețată care cade din cer.,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 d9c2b19d3944,NIEVE,,trozo,src/mundo3d/cielo.ts,falta
 e946c52237b2,Rojo.,,frase,src/mundo3d/cielo.ts,falta
@@ -3444,329 +3444,329 @@ c2a87443362c,El árbol de las estaciones,Copacul anotimpurilor,trozo,src/temas/t
 6cff982cb061,¿Cuál es el árbol {estacion}?,Care e copacul {estacion}?,frase,src/temas/temas4.ts,borrador
 be13c5c7acc1,¡Sí! Es el árbol {estacion}.,Da! E copacul {estacion}.,frase,src/temas/temas4.ts,borrador
 e157dde6762c,Ese es el árbol {estacion}.,Acela e copacul {estacion}.,frase,src/temas/temas4.ts,borrador
-5e6b3555cf22,Enero. Es el primer mes del año.,,frase,src/temas/temas5.ts,falta
-b47d8d5a2f1d,Febrero. Es el mes más cortito.,,frase,src/temas/temas5.ts,falta
-7c65d2e29a03,Marzo.,,frase,src/temas/temas5.ts,falta
-72b85a039176,Abril.,,frase,src/temas/temas5.ts,falta
-cf005b9484ca,Mayo.,,frase,src/temas/temas5.ts,falta
-1060158831a4,Junio.,,frase,src/temas/temas5.ts,falta
-bcab8941673b,Julio.,,frase,src/temas/temas5.ts,falta
-2c03a5409608,Agosto.,,frase,src/temas/temas5.ts,falta
-8713b741525c,Septiembre.,,frase,src/temas/temas5.ts,falta
-bb63ac224496,Octubre.,,frase,src/temas/temas5.ts,falta
-bf6788ee915b,Noviembre.,,frase,src/temas/temas5.ts,falta
-ececf25d27d0,Diciembre. Es el último mes del año.,,frase,src/temas/temas5.ts,falta
-7f1a8c927706,el termómetro alto,,trozo,src/temas/temas5.ts,falta
-f94c8281a1dc,el termómetro bajo,,trozo,src/temas/temas5.ts,falta
-3c6b6cc6052f,el contenedor amarillo,,trozo,src/temas/temas5.ts,falta
-187d3a26ec87,el contenedor azul,,trozo,src/temas/temas5.ts,falta
-5bd11b761f48,el contenedor verde,,trozo,src/temas/temas5.ts,falta
-8aca759b6a4f,el contenedor marrón,,trozo,src/temas/temas5.ts,falta
-98d1648ef2c1,"En el amarillo van los envases: botellas de plástico, latas y cartones de leche.",,frase,src/temas/temas5.ts,falta
-d24225fe9a53,En el azul va el papel y el cartón.,,frase,src/temas/temas5.ts,falta
-49bf5910c494,En el verde va el vidrio.,,frase,src/temas/temas5.ts,falta
-13a0c82a15a8,En el marrón van los restos de comida.,,frase,src/temas/temas5.ts,falta
-c29dd4b4b3df,el mar,,trozo,src/temas/temas5.ts,falta
-be823bb0038e,el polo,,trozo,src/temas/temas5.ts,falta
-504d42b9e6f2,la selva,,trozo,src/temas/temas5.ts,falta
-c275b54d9d0d,el bosque,pădurea,trozo,src/temas/temas5.ts,borrador
-019e075a749b,el desierto,,trozo,src/temas/temas5.ts,falta
-3f02514a3505,el capullo,,trozo,src/temas/temas5.ts,falta
-6f36e9c11c5f,los huevitos en la hoja,,trozo,src/temas/temas5.ts,falta
-f40ad97c3151,¿Qué necesita la planta para vivir?,,frase,src/temas/temas5.ts,falta
-d73c12d4a8a4,La planta necesita agua y sol.,,frase,src/temas/temas5.ts,falta
-538ffc53b247,¿Qué necesita el perro para vivir?,,frase,src/temas/temas5.ts,falta
-fc42871dafce,El perro necesita comida y agua.,,frase,src/temas/temas5.ts,falta
-a1accc26f159,¿Qué necesita el pez para vivir?,,frase,src/temas/temas5.ts,falta
-34b724b2447b,El pez necesita agua limpia y comida.,,frase,src/temas/temas5.ts,falta
-b7a93f8f3e31,¿Qué necesitamos las personas para vivir?,,frase,src/temas/temas5.ts,falta
-fa4ad5c6aa1f,Necesitamos comer y dormir.,,frase,src/temas/temas5.ts,falta
-d33325260650,¿Qué forma tiene el huevo?,,frase,src/temas/temas5.ts,falta
-ef7065fb0765,¿Qué forma tiene la cometa?,,frase,src/temas/temas5.ts,falta
-96c16fca3496,¿Qué forma tiene la pelota?,,frase,src/temas/temas5.ts,falta
-dc7670c95746,¿Qué forma tiene el reloj?,,frase,src/temas/temas5.ts,falta
-d1f8d287bb4a,¿Qué forma tiene el libro?,,frase,src/temas/temas5.ts,falta
-55b7a55fbb30,¿Qué forma tiene el gorro de fiesta?,,frase,src/temas/temas5.ts,falta
-f0270d402e37,¿Qué forma tiene el cuadro?,,frase,src/temas/temas5.ts,falta
-e387d2227f1d,¿Qué forma tiene la sandía?,,frase,src/temas/temas5.ts,falta
-3612c54a7ea4,el primero,,trozo,src/temas/temas5.ts,falta
-bfaa27142c63,el segundo,,trozo,src/temas/temas5.ts,falta
-989ea54b91f2,el tercero,,trozo,src/temas/temas5.ts,falta
-372a3d595c77,el cuarto,,trozo,src/temas/temas5.ts,falta
-e0c71d4f26dd,el quinto,,trozo,src/temas/temas5.ts,falta
-60ca696225c0,el tronco grueso,,trozo,src/temas/temas5.ts,falta
-3d6f740d7a98,el tronco delgado,,trozo,src/temas/temas5.ts,falta
-df39d0b65d6d,el libro grueso,,trozo,src/temas/temas5.ts,falta
-f5e48181eb8c,el libro delgado,,trozo,src/temas/temas5.ts,falta
-39010e0474a4,El año tiene doce meses. Toca cada uno para conocerlo.,,frase,src/temas/temas5.ts,falta
-dcf9b8fa742c,Los meses en orden,,trozo,src/temas/temas5.ts,falta
-b8cb19e5580a,Ese lugar es para otro mes. Piensa cuál viene antes y cuál después.,,frase,src/temas/temas5.ts,falta
-7ac9e521bb3d,A la fila de los meses le faltan algunos. Lleva cada mes a su lugar.,,frase,src/temas/temas5.ts,falta
-cb2431cf697d,"¡Muy bien! Enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre y diciembre.",,frase,src/temas/temas5.ts,falta
-1a223cd23534,¿Qué mes viene después?,,frase,src/temas/temas5.ts,falta
-831059ce6acd,{Meses}... ¿Qué mes viene después?,,trozo,src/temas/temas5.ts,falta
-42e0bfd1db15,¡Sí! Después de {mes} viene {otro}.,,frase,src/temas/temas5.ts,falta
-1b28849e3565,{Mes} no. {Meses}... ¿y después?,,trozo,src/temas/temas5.ts,falta
+5e6b3555cf22,Enero. Es el primer mes del año.,Ianuarie. E prima lună a anului.,frase,src/temas/temas5.ts,borrador
+b47d8d5a2f1d,Febrero. Es el mes más cortito.,Februarie. E luna cea mai scurtă.,frase,src/temas/temas5.ts,borrador
+7c65d2e29a03,Marzo.,Martie.,frase,src/temas/temas5.ts,borrador
+72b85a039176,Abril.,Aprilie.,frase,src/temas/temas5.ts,borrador
+cf005b9484ca,Mayo.,Mai.,frase,src/temas/temas5.ts,borrador
+1060158831a4,Junio.,Iunie.,frase,src/temas/temas5.ts,borrador
+bcab8941673b,Julio.,Iulie.,frase,src/temas/temas5.ts,borrador
+2c03a5409608,Agosto.,August.,frase,src/temas/temas5.ts,borrador
+8713b741525c,Septiembre.,Septembrie.,frase,src/temas/temas5.ts,borrador
+bb63ac224496,Octubre.,Octombrie.,frase,src/temas/temas5.ts,borrador
+bf6788ee915b,Noviembre.,Noiembrie.,frase,src/temas/temas5.ts,borrador
+ececf25d27d0,Diciembre. Es el último mes del año.,Decembrie. E ultima lună a anului.,frase,src/temas/temas5.ts,borrador
+7f1a8c927706,el termómetro alto,termometrul care arată cald,trozo,src/temas/temas5.ts,borrador
+f94c8281a1dc,el termómetro bajo,termometrul care arată frig,trozo,src/temas/temas5.ts,borrador
+3c6b6cc6052f,el contenedor amarillo,containerul galben,trozo,src/temas/temas5.ts,borrador
+187d3a26ec87,el contenedor azul,containerul albastru,trozo,src/temas/temas5.ts,borrador
+5bd11b761f48,el contenedor verde,containerul verde,trozo,src/temas/temas5.ts,borrador
+8aca759b6a4f,el contenedor marrón,containerul maro,trozo,src/temas/temas5.ts,borrador
+98d1648ef2c1,"En el amarillo van los envases: botellas de plástico, latas y cartones de leche.","În cel galben merg ambalajele: sticle de plastic, doze și cutii de lapte.",frase,src/temas/temas5.ts,borrador
+d24225fe9a53,En el azul va el papel y el cartón.,În cel albastru merg hârtia și cartonul.,frase,src/temas/temas5.ts,borrador
+49bf5910c494,En el verde va el vidrio.,În cel verde merge sticla.,frase,src/temas/temas5.ts,borrador
+13a0c82a15a8,En el marrón van los restos de comida.,În cel maro merg resturile de mâncare.,frase,src/temas/temas5.ts,borrador
+c29dd4b4b3df,el mar,în mare,trozo,src/temas/temas5.ts,borrador
+be823bb0038e,el polo,la pol,trozo,src/temas/temas5.ts,borrador
+504d42b9e6f2,la selva,în junglă,trozo,src/temas/temas5.ts,borrador
+c275b54d9d0d,el bosque,în pădure,trozo,src/temas/temas5.ts,borrador
+019e075a749b,el desierto,în deșert,trozo,src/temas/temas5.ts,borrador
+3f02514a3505,el capullo,coconul,trozo,src/temas/temas5.ts,borrador
+6f36e9c11c5f,los huevitos en la hoja,ouăle de pe frunză,trozo,src/temas/temas5.ts,borrador
+f40ad97c3151,¿Qué necesita la planta para vivir?,De ce are nevoie planta ca să trăiască?,frase,src/temas/temas5.ts,borrador
+d73c12d4a8a4,La planta necesita agua y sol.,Planta are nevoie de apă și soare.,frase,src/temas/temas5.ts,borrador
+538ffc53b247,¿Qué necesita el perro para vivir?,De ce are nevoie câinele ca să trăiască?,frase,src/temas/temas5.ts,borrador
+fc42871dafce,El perro necesita comida y agua.,Câinele are nevoie de mâncare și apă.,frase,src/temas/temas5.ts,borrador
+a1accc26f159,¿Qué necesita el pez para vivir?,De ce are nevoie peștele ca să trăiască?,frase,src/temas/temas5.ts,borrador
+34b724b2447b,El pez necesita agua limpia y comida.,Peștele are nevoie de apă curată și mâncare.,frase,src/temas/temas5.ts,borrador
+b7a93f8f3e31,¿Qué necesitamos las personas para vivir?,"De ce avem nevoie noi, oamenii, ca să trăim?",frase,src/temas/temas5.ts,borrador
+fa4ad5c6aa1f,Necesitamos comer y dormir.,Avem nevoie să mâncăm și să dormim.,frase,src/temas/temas5.ts,borrador
+d33325260650,¿Qué forma tiene el huevo?,Ce formă are oul?,frase,src/temas/temas5.ts,borrador
+ef7065fb0765,¿Qué forma tiene la cometa?,Ce formă are zmeul?,frase,src/temas/temas5.ts,borrador
+96c16fca3496,¿Qué forma tiene la pelota?,Ce formă are mingea?,frase,src/temas/temas5.ts,borrador
+dc7670c95746,¿Qué forma tiene el reloj?,Ce formă are ceasul?,frase,src/temas/temas5.ts,borrador
+d1f8d287bb4a,¿Qué forma tiene el libro?,Ce formă are cartea?,frase,src/temas/temas5.ts,borrador
+55b7a55fbb30,¿Qué forma tiene el gorro de fiesta?,Ce formă are coiful de petrecere?,frase,src/temas/temas5.ts,borrador
+f0270d402e37,¿Qué forma tiene el cuadro?,Ce formă are tabloul?,frase,src/temas/temas5.ts,borrador
+e387d2227f1d,¿Qué forma tiene la sandía?,Ce formă are pepenele verde?,frase,src/temas/temas5.ts,borrador
+3612c54a7ea4,el primero,primul,trozo,src/temas/temas5.ts,borrador
+bfaa27142c63,el segundo,al doilea,trozo,src/temas/temas5.ts,borrador
+989ea54b91f2,el tercero,al treilea,trozo,src/temas/temas5.ts,borrador
+372a3d595c77,el cuarto,al patrulea,trozo,src/temas/temas5.ts,borrador
+e0c71d4f26dd,el quinto,al cincilea,trozo,src/temas/temas5.ts,borrador
+60ca696225c0,el tronco grueso,trunchiul gros,trozo,src/temas/temas5.ts,borrador
+3d6f740d7a98,el tronco delgado,trunchiul subțire,trozo,src/temas/temas5.ts,borrador
+df39d0b65d6d,el libro grueso,cartea groasă,trozo,src/temas/temas5.ts,borrador
+f5e48181eb8c,el libro delgado,cartea subțire,trozo,src/temas/temas5.ts,borrador
+39010e0474a4,El año tiene doce meses. Toca cada uno para conocerlo.,Anul are douăsprezece luni. Atinge-le pe fiecare ca să le cunoști.,frase,src/temas/temas5.ts,borrador
+dcf9b8fa742c,Los meses en orden,Lunile în ordine,trozo,src/temas/temas5.ts,borrador
+b8cb19e5580a,Ese lugar es para otro mes. Piensa cuál viene antes y cuál después.,Locul acela e pentru altă lună. Gândește-te care vine înainte și care după.,frase,src/temas/temas5.ts,borrador
+7ac9e521bb3d,A la fila de los meses le faltan algunos. Lleva cada mes a su lugar.,Din șirul lunilor lipsesc câteva. Du fiecare lună la locul ei.,frase,src/temas/temas5.ts,borrador
+cb2431cf697d,"¡Muy bien! Enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre y diciembre.","Foarte bine! Ianuarie, februarie, martie, aprilie, mai, iunie, iulie, august, septembrie, octombrie, noiembrie și decembrie.",frase,src/temas/temas5.ts,borrador
+1a223cd23534,¿Qué mes viene después?,Ce lună vine după?,frase,src/temas/temas5.ts,borrador
+831059ce6acd,{Meses}... ¿Qué mes viene después?,{Meses}... Ce lună vine după?,trozo,src/temas/temas5.ts,borrador
+42e0bfd1db15,¡Sí! Después de {mes} viene {otro}.,Da! După {mes} vine {otro}.,frase,src/temas/temas5.ts,borrador
+1b28849e3565,{Mes} no. {Meses}... ¿y después?,{Mes} nu. {Meses}... și după?,trozo,src/temas/temas5.ts,borrador
 a243e239692e,Mi cuerpo por dentro,Corpul meu pe dinăuntru,trozo,src/temas/temas5.ts,borrador
-407b0d147534,"El esqueleto. Son todos los huesos juntos. Nos sostiene, ¡como el palo de una tienda de campaña!",,frase,src/temas/temas5.ts,falta
-4442aa628dd8,El hueso. Es duro y fuerte. Tomar leche ayuda a que crezca.,,frase,src/temas/temas5.ts,falta
-8fedc759a69a,El músculo. Nos ayuda a movernos. Se pone fuerte cuando jugamos y corremos.,,frase,src/temas/temas5.ts,falta
-df0ca27db30d,"El corazón. Late, pum pum, y lleva la sangre por todo el cuerpo.",,frase,src/temas/temas5.ts,falta
-0ba707f9de37,Los pulmones. Se llenan de aire cuando respiramos. ¡Infla la panza!,,frase,src/temas/temas5.ts,falta
-a0d4f5fbc367,El estómago. Ahí va la comida cuando la tragamos.,,frase,src/temas/temas5.ts,falta
-4bb5986f2f65,"El cerebro. Está adentro de la cabeza. Con él pensamos, aprendemos y soñamos.",,frase,src/temas/temas5.ts,falta
-1afa7a14a9ef,Los rayos X,,trozo,src/temas/temas5.ts,falta
-bcc8e559aac4,Esta es una máquina de rayos X. Mira adentro del cuerpo con la pantalla.,,frase,src/temas/temas5.ts,falta
-5f17f2e706c2,¡El cerebro! Con él pensamos.,,frase,src/temas/temas5.ts,falta
-17cd3e7dd361,"¡El corazón! Pum, pum.",,frase,src/temas/temas5.ts,falta
-82adc1a9b56b,¡Los pulmones! Se llenan de aire.,,frase,src/temas/temas5.ts,falta
-d10072726b09,¡Un hueso de la pierna! Es duro y fuerte.,,frase,src/temas/temas5.ts,falta
-0dcc42e6df17,¿Para qué sirve?,,frase,src/temas/temas5.ts,falta
-699fd6e67acb,¿Con qué pensamos y aprendemos?,,frase,src/temas/temas5.ts,falta
-c88be7468274,¿Qué late y lleva la sangre por el cuerpo?,,frase,src/temas/temas5.ts,falta
-178204e65ae6,¿Con qué respiramos el aire?,,frase,src/temas/temas5.ts,falta
-e2d2b8e66996,¿Adónde va la comida cuando la tragamos?,,frase,src/temas/temas5.ts,falta
-471b65fb6658,¿Qué se pone fuerte cuando corremos y saltamos?,,frase,src/temas/temas5.ts,falta
-273ee210c6e8,¿Qué es duro y crece fuerte si tomamos leche?,,frase,src/temas/temas5.ts,falta
+407b0d147534,"El esqueleto. Son todos los huesos juntos. Nos sostiene, ¡como el palo de una tienda de campaña!","Scheletul. Sunt toate oasele împreună. Ne ține drepți, ca bățul unui cort!",frase,src/temas/temas5.ts,borrador
+4442aa628dd8,El hueso. Es duro y fuerte. Tomar leche ayuda a que crezca.,Osul. E tare și puternic. Laptele îl ajută să crească.,frase,src/temas/temas5.ts,borrador
+8fedc759a69a,El músculo. Nos ayuda a movernos. Se pone fuerte cuando jugamos y corremos.,Mușchiul. Ne ajută să ne mișcăm. Se face puternic când ne jucăm și alergăm.,frase,src/temas/temas5.ts,borrador
+df0ca27db30d,"El corazón. Late, pum pum, y lleva la sangre por todo el cuerpo.","Inima. Bate, bum bum, și duce sângele prin tot corpul.",frase,src/temas/temas5.ts,borrador
+0ba707f9de37,Los pulmones. Se llenan de aire cuando respiramos. ¡Infla la panza!,Plămânii. Se umplu cu aer când respirăm. Umflă burtica!,frase,src/temas/temas5.ts,borrador
+a0d4f5fbc367,El estómago. Ahí va la comida cuando la tragamos.,Stomacul. Acolo merge mâncarea când o înghițim.,frase,src/temas/temas5.ts,borrador
+4bb5986f2f65,"El cerebro. Está adentro de la cabeza. Con él pensamos, aprendemos y soñamos.","Creierul. E înăuntrul capului. Cu el gândim, învățăm și visăm.",frase,src/temas/temas5.ts,borrador
+1afa7a14a9ef,Los rayos X,Razele X,trozo,src/temas/temas5.ts,borrador
+bcc8e559aac4,Esta es una máquina de rayos X. Mira adentro del cuerpo con la pantalla.,Acesta e un aparat cu raze X. Uită-te înăuntrul corpului cu ecranul.,frase,src/temas/temas5.ts,borrador
+5f17f2e706c2,¡El cerebro! Con él pensamos.,Creierul! Cu el gândim.,frase,src/temas/temas5.ts,borrador
+17cd3e7dd361,"¡El corazón! Pum, pum.","Inima! Bum, bum.",frase,src/temas/temas5.ts,borrador
+82adc1a9b56b,¡Los pulmones! Se llenan de aire.,Plămânii! Se umplu cu aer.,frase,src/temas/temas5.ts,borrador
+d10072726b09,¡Un hueso de la pierna! Es duro y fuerte.,Un os de la picior! E tare și puternic.,frase,src/temas/temas5.ts,borrador
+0dcc42e6df17,¿Para qué sirve?,La ce folosește?,frase,src/temas/temas5.ts,borrador
+699fd6e67acb,¿Con qué pensamos y aprendemos?,Cu ce gândim și învățăm?,frase,src/temas/temas5.ts,borrador
+c88be7468274,¿Qué late y lleva la sangre por el cuerpo?,Ce bate și duce sângele prin corp?,frase,src/temas/temas5.ts,borrador
+178204e65ae6,¿Con qué respiramos el aire?,Cu ce respirăm aerul?,frase,src/temas/temas5.ts,borrador
+e2d2b8e66996,¿Adónde va la comida cuando la tragamos?,Unde merge mâncarea când o înghițim?,frase,src/temas/temas5.ts,borrador
+471b65fb6658,¿Qué se pone fuerte cuando corremos y saltamos?,Ce se face puternic când alergăm și sărim?,frase,src/temas/temas5.ts,borrador
+273ee210c6e8,¿Qué es duro y crece fuerte si tomamos leche?,Ce e tare și crește puternic dacă bem lapte?,frase,src/temas/temas5.ts,borrador
 d1e74d0c58e4,El otoño y los cambios,Toamna și schimbările,trozo,src/temas/temas5.ts,borrador
-0c5b135ddd0a,La golondrina. En otoño se va volando a un lugar más calentito.,,frase,src/temas/temas5.ts,falta
-12ca9648a56a,El erizo. Duerme todo el invierno escondido entre las hojas.,,frase,src/temas/temas5.ts,falta
-884ff5be38d4,La seta. Sale con la lluvia de otoño.,,frase,src/temas/temas5.ts,falta
-557c42f261a5,El paraguas. En otoño llueve más.,,frase,src/temas/temas5.ts,falta
-b806f9d176ab,El viento. Sopla fuerte y hace volar las hojas.,,frase,src/temas/temas5.ts,falta
-707a8e8cd78d,El árbol durante el año,,trozo,src/temas/temas5.ts,falta
-d2a29a611c6d,Así cambia el árbol durante el año. Empezamos en otoño. Ordena lo que viene después.,,frase,src/temas/temas5.ts,falta
-4b27a5f165f9,"¡Muy bien! Otoño, invierno, primavera y verano. ¡Y después vuelve el otoño!",,frase,src/temas/temas5.ts,falta
-8142f6e800d6,¿Qué hacen los animales?,,frase,src/temas/temas5.ts,falta
-46517aba302a,¿Quién se va volando a un lugar calentito?,,frase,src/temas/temas5.ts,falta
-d99ea68b1f63,¿Quién guarda bellotas para el invierno?,,frase,src/temas/temas5.ts,falta
-59b85fea0dff,¿Quién duerme todo el invierno?,,frase,src/temas/temas5.ts,falta
-8c661f8a326e,¿Quién lleva comida a su casa bajo la tierra?,,frase,src/temas/temas5.ts,falta
-c66a79a4e6a6,Llueve y hace fresquito. Viste al niño para salir en otoño.,,frase,src/temas/temas5.ts,falta
-15c42eb63cee,Las gafas de sol no hacen falta: está nublado.,,frase,src/temas/temas5.ts,falta
-0d32a150f9f5,Con camiseta vamos a tener frío.,,frase,src/temas/temas5.ts,falta
-3c4e63150f44,El bañador es para la piscina.,,frase,src/temas/temas5.ts,falta
+0c5b135ddd0a,La golondrina. En otoño se va volando a un lugar más calentito.,Rândunica. Toamna zboară într-un loc mai călduț.,frase,src/temas/temas5.ts,borrador
+12ca9648a56a,El erizo. Duerme todo el invierno escondido entre las hojas.,Ariciul. Doarme toată iarna ascuns printre frunze.,frase,src/temas/temas5.ts,borrador
+884ff5be38d4,La seta. Sale con la lluvia de otoño.,Ciuperca. Răsare după ploaia de toamnă.,frase,src/temas/temas5.ts,borrador
+557c42f261a5,El paraguas. En otoño llueve más.,Umbrela. Toamna plouă mai mult.,frase,src/temas/temas5.ts,borrador
+b806f9d176ab,El viento. Sopla fuerte y hace volar las hojas.,Vântul. Suflă tare și face frunzele să zboare.,frase,src/temas/temas5.ts,borrador
+707a8e8cd78d,El árbol durante el año,Copacul de-a lungul anului,trozo,src/temas/temas5.ts,borrador
+d2a29a611c6d,Así cambia el árbol durante el año. Empezamos en otoño. Ordena lo que viene después.,Așa se schimbă copacul de-a lungul anului. Începem cu toamna. Pune în ordine ce urmează.,frase,src/temas/temas5.ts,borrador
+4b27a5f165f9,"¡Muy bien! Otoño, invierno, primavera y verano. ¡Y después vuelve el otoño!","Foarte bine! Toamna, iarna, primăvara și vara. Și apoi vine iar toamna!",frase,src/temas/temas5.ts,borrador
+8142f6e800d6,¿Qué hacen los animales?,Ce fac animalele?,frase,src/temas/temas5.ts,borrador
+46517aba302a,¿Quién se va volando a un lugar calentito?,Cine zboară într-un loc călduț?,frase,src/temas/temas5.ts,borrador
+d99ea68b1f63,¿Quién guarda bellotas para el invierno?,Cine păstrează ghinde pentru iarnă?,frase,src/temas/temas5.ts,borrador
+59b85fea0dff,¿Quién duerme todo el invierno?,Cine doarme toată iarna?,frase,src/temas/temas5.ts,borrador
+8c661f8a326e,¿Quién lleva comida a su casa bajo la tierra?,Cine duce mâncare în casa lui de sub pământ?,frase,src/temas/temas5.ts,borrador
+c66a79a4e6a6,Llueve y hace fresquito. Viste al niño para salir en otoño.,Plouă și e răcoare. Îmbracă copilul ca să iasă toamna.,frase,src/temas/temas5.ts,borrador
+15c42eb63cee,Las gafas de sol no hacen falta: está nublado.,Nu e nevoie de ochelari de soare: e înnorat.,frase,src/temas/temas5.ts,borrador
+0d32a150f9f5,Con camiseta vamos a tener frío.,În tricou o să ne fie frig.,frase,src/temas/temas5.ts,borrador
+3c4e63150f44,El bañador es para la piscina.,Costumul de baie e pentru piscină.,frase,src/temas/temas5.ts,borrador
 ee07de70e097,Comer sano,Mâncăm sănătos,trozo,src/temas/temas5.ts src/aplicacion/adultos/progreso.ts,borrador
-496a2c6634fe,El pescado. Nos da proteínas y viene del mar.,,frase,src/temas/temas5.ts,falta
-3333f1d134d2,La carne. Nos ayuda a crecer.,,frase,src/temas/temas5.ts,falta
-882ed1e78b32,El huevo. Lo pone la gallina.,,frase,src/temas/temas5.ts,falta
-2dff37688ab0,Las legumbres: lentejas y garbanzos. ¡Dan mucha energía!,,frase,src/temas/temas5.ts,falta
-4b7e6f3123fd,El arroz. Es una semilla que crece en el agua.,,frase,src/temas/temas5.ts,falta
-a44e8b99f2ee,El queso. Se hace con leche.,,frase,src/temas/temas5.ts,falta
-998ab1d1d17b,La miel. La hacen las abejas.,,frase,src/temas/temas5.ts,falta
-270ba6beba57,El aceite de oliva. Se hace con aceitunas.,,frase,src/temas/temas5.ts,falta
-3d009b42e439,"Las chucherías. Son ricas, pero son para de vez en cuando.",,frase,src/temas/temas5.ts,falta
-8ea822244fab,¿Animal o planta?,,frase,src/temas/temas5.ts,falta
-2a5c8038e1b2,{Cosa} viene de una planta.,,trozo,src/temas/temas5.ts,falta
-c40b22dd9ec9,{Cosa} viene de un animal.,,trozo,src/temas/temas5.ts,falta
-b750e56403e9,¿De dónde viene cada comida? Lo que viene de los animales va con la vaca. Lo que viene de las plantas va con la planta.,,frase,src/temas/temas5.ts,falta
-660d441cc7eb,¿Quién nos lo da?,,frase,src/temas/temas5.ts,falta
-cd7a225bccfd,Une cada comida con quién nos la da. Arrastra de una a la otra.,,frase,src/temas/temas5.ts,falta
-41b6bab4b5f6,{Cosa} viene {deOtra}.,,trozo,src/temas/temas5.ts,falta
-a21a7979750b,"Mmm, {cosa} no viene {deOtra}.",,frase,src/temas/temas5.ts,falta
-dbf6dfc3f086,Todos los días o a veces,,trozo,src/temas/temas5.ts,falta
-cbb0032e8fd9,"{Cosa} es rico, pero tiene mucha azúcar. Es para de vez en cuando.",,trozo,src/temas/temas5.ts,falta
-b254e712b5fd,{Cosa} es sano. ¡Lo podemos comer todos los días!,,trozo,src/temas/temas5.ts,falta
-d4bdc2eae009,¡Sí! {Cosa} nos hace crecer sanos.,,frase,src/temas/temas5.ts,falta
-2ab158225206,"¡Sí! {Cosa}, solo de vez en cuando.",,frase,src/temas/temas5.ts,falta
-c1db478b962b,"Lo sano lo comemos todos los días. Los dulces, solo de vez en cuando. Lleva cada comida a su lugar.",,frase,src/temas/temas5.ts,falta
+496a2c6634fe,El pescado. Nos da proteínas y viene del mar.,Peștele. Ne dă proteine și vine din mare.,frase,src/temas/temas5.ts,borrador
+3333f1d134d2,La carne. Nos ayuda a crecer.,Carnea. Ne ajută să creștem.,frase,src/temas/temas5.ts,borrador
+882ed1e78b32,El huevo. Lo pone la gallina.,Oul. Îl face găina.,frase,src/temas/temas5.ts,borrador
+2dff37688ab0,Las legumbres: lentejas y garbanzos. ¡Dan mucha energía!,Leguminoasele: linte și năut. Dau multă energie!,frase,src/temas/temas5.ts,borrador
+4b7e6f3123fd,El arroz. Es una semilla que crece en el agua.,Orezul. E o sămânță care crește în apă.,frase,src/temas/temas5.ts,borrador
+a44e8b99f2ee,El queso. Se hace con leche.,Brânza. Se face din lapte.,frase,src/temas/temas5.ts,borrador
+998ab1d1d17b,La miel. La hacen las abejas.,Mierea. O fac albinele.,frase,src/temas/temas5.ts,borrador
+270ba6beba57,El aceite de oliva. Se hace con aceitunas.,Uleiul de măsline. Se face din măsline.,frase,src/temas/temas5.ts,borrador
+3d009b42e439,"Las chucherías. Son ricas, pero son para de vez en cuando.","Dulciurile. Sunt bune, dar sunt doar din când în când.",frase,src/temas/temas5.ts,borrador
+8ea822244fab,¿Animal o planta?,Animal sau plantă?,frase,src/temas/temas5.ts,borrador
+2a5c8038e1b2,{Cosa} viene de una planta.,{Cosa} vine de la o plantă.,trozo,src/temas/temas5.ts,borrador
+c40b22dd9ec9,{Cosa} viene de un animal.,{Cosa} vine de la un animal.,trozo,src/temas/temas5.ts,borrador
+b750e56403e9,¿De dónde viene cada comida? Lo que viene de los animales va con la vaca. Lo que viene de las plantas va con la planta.,De unde vine fiecare mâncare? Ce vine de la animale merge la vacă. Ce vine de la plante merge la plantă.,frase,src/temas/temas5.ts,borrador
+660d441cc7eb,¿Quién nos lo da?,Cine ne-o dă?,frase,src/temas/temas5.ts,borrador
+cd7a225bccfd,Une cada comida con quién nos la da. Arrastra de una a la otra.,Unește fiecare mâncare cu cine ne-o dă. Trage de la una la cealaltă.,frase,src/temas/temas5.ts,borrador
+41b6bab4b5f6,{Cosa} viene {deOtra}.,{Cosa} vine de la {origen}.,trozo,src/temas/temas5.ts,borrador
+a21a7979750b,"Mmm, {cosa} no viene {deOtra}.","Mmm, {cosa} nu vine de la {origen}.",frase,src/temas/temas5.ts,borrador
+dbf6dfc3f086,Todos los días o a veces,În fiecare zi sau uneori,trozo,src/temas/temas5.ts,borrador
+cbb0032e8fd9,"{Cosa} es rico, pero tiene mucha azúcar. Es para de vez en cuando.","{Cosa} are gust bun, dar are mult zahăr. E doar din când în când.",trozo,src/temas/temas5.ts,borrador
+b254e712b5fd,{Cosa} es sano. ¡Lo podemos comer todos los días!,{Cosa} face bine la sănătate. Putem mânca asta în fiecare zi!,trozo,src/temas/temas5.ts,borrador
+d4bdc2eae009,¡Sí! {Cosa} nos hace crecer sanos.,Da! {Cosa} ne ajută să creștem sănătoși.,frase,src/temas/temas5.ts,borrador
+2ab158225206,"¡Sí! {Cosa}, solo de vez en cuando.","Da! {Cosa}, doar din când în când.",frase,src/temas/temas5.ts,borrador
+c1db478b962b,"Lo sano lo comemos todos los días. Los dulces, solo de vez en cuando. Lleva cada comida a su lugar.","Ce e sănătos mâncăm în fiecare zi. Dulciurile, doar din când în când. Du fiecare mâncare la locul ei.",frase,src/temas/temas5.ts,borrador
 6d45a8f1b68d,Las fiestas del año,Sărbătorile anului,trozo,src/temas/temas5.ts,borrador
-efdd99217b23,La corona. En enero llegan los Reyes Magos con regalos.,,frase,src/temas/temas5.ts,falta
-2c93a4502565,El antifaz. En carnaval nos disfrazamos.,,frase,src/temas/temas5.ts,falta
-c079422f2ea5,El libro. El Día del Libro regalamos cuentos.,,frase,src/temas/temas5.ts,falta
-6c37743be6d0,La rosa. En Sant Jordi se regala una rosa y un libro.,,frase,src/temas/temas5.ts,falta
-eed3083bbb27,El árbol de Navidad. En diciembre lo decoramos con luces.,,frase,src/temas/temas5.ts,falta
-1acd2a91185c,Los fuegos artificiales. Iluminan el cielo en las fiestas.,,frase,src/temas/temas5.ts,falta
-82e1a1a9adb7,Las fiestas en orden,,trozo,src/temas/temas5.ts,falta
-2172e8d67afb,los Reyes,,trozo,src/temas/temas5.ts,falta
+efdd99217b23,La corona. En enero llegan los Reyes Magos con regalos.,Coroana. În ianuarie vin cei trei Magi cu cadouri.,frase,src/temas/temas5.ts,borrador
+2c93a4502565,El antifaz. En carnaval nos disfrazamos.,Masca. La carnaval ne costumăm.,frase,src/temas/temas5.ts,borrador
+c079422f2ea5,El libro. El Día del Libro regalamos cuentos.,Cartea. De Ziua Cărții dăruim povești.,frase,src/temas/temas5.ts,borrador
+6c37743be6d0,La rosa. En Sant Jordi se regala una rosa y un libro.,Trandafirul. De Sant Jordi se dăruiesc un trandafir și o carte.,frase,src/temas/temas5.ts,borrador
+eed3083bbb27,El árbol de Navidad. En diciembre lo decoramos con luces.,Bradul de Crăciun. În decembrie îl decorăm cu luminițe.,frase,src/temas/temas5.ts,borrador
+1acd2a91185c,Los fuegos artificiales. Iluminan el cielo en las fiestas.,Artificiile. Luminează cerul de sărbători.,frase,src/temas/temas5.ts,borrador
+82e1a1a9adb7,Las fiestas en orden,Sărbătorile în ordine,trozo,src/temas/temas5.ts,borrador
+2172e8d67afb,los Reyes,Magii,trozo,src/temas/temas5.ts,borrador
 a9130938aee6,el carnaval,Carnavalul,trozo,src/temas/temas5.ts,borrador
 26f72df97ca5,el Día del Libro,Ziua Cărții,trozo,src/temas/temas5.ts,borrador
 fc427e99edc9,la Navidad,Crăciunul,trozo,src/temas/temas5.ts,borrador
-122f761f22f1,ENERO,,trozo,src/temas/temas5.ts,falta
-ef045a214b9a,FEBRERO,,trozo,src/temas/temas5.ts,falta
-59749ebfff35,ABRIL,,trozo,src/temas/temas5.ts,falta
-dd56342d74ee,DICIEMBRE,,trozo,src/temas/temas5.ts,falta
-a8308b3fa67e,Ordena las fiestas del año. Empezamos en enero con los Reyes Magos.,,frase,src/temas/temas5.ts,falta
-41ffa461813c,"¡Muy bien! Los Reyes en enero, el carnaval en febrero, el Día del Libro en abril y la Navidad en diciembre.",,frase,src/temas/temas5.ts,falta
-bb33d76504e5,¿Qué usamos en la fiesta?,,frase,src/temas/temas5.ts,falta
-5b4b84ee5d94,¿Qué nos ponemos en carnaval?,,frase,src/temas/temas5.ts,falta
-a7b22e2c8898,¿Qué decoramos en Navidad?,,frase,src/temas/temas5.ts,falta
-58b5198c7e08,¿Qué regalamos el Día del Libro?,,frase,src/temas/temas5.ts,falta
-57c386cc6b11,¿Qué tiene velitas en el cumpleaños?,,frase,src/temas/temas5.ts,falta
-650930048f7d,¿Qué llevan los Reyes Magos en la cabeza?,,frase,src/temas/temas5.ts,falta
+122f761f22f1,ENERO,IANUARIE,trozo,src/temas/temas5.ts,borrador
+ef045a214b9a,FEBRERO,FEBRUARIE,trozo,src/temas/temas5.ts,borrador
+59749ebfff35,ABRIL,APRILIE,trozo,src/temas/temas5.ts,borrador
+dd56342d74ee,DICIEMBRE,DECEMBRIE,trozo,src/temas/temas5.ts,borrador
+a8308b3fa67e,Ordena las fiestas del año. Empezamos en enero con los Reyes Magos.,Pune în ordine sărbătorile anului. Începem în ianuarie cu cei trei Magi.,frase,src/temas/temas5.ts,borrador
+41ffa461813c,"¡Muy bien! Los Reyes en enero, el carnaval en febrero, el Día del Libro en abril y la Navidad en diciembre.","Foarte bine! Magii în ianuarie, carnavalul în februarie, Ziua Cărții în aprilie și Crăciunul în decembrie.",frase,src/temas/temas5.ts,borrador
+bb33d76504e5,¿Qué usamos en la fiesta?,Ce folosim la sărbătoare?,frase,src/temas/temas5.ts,borrador
+5b4b84ee5d94,¿Qué nos ponemos en carnaval?,Ce ne punem la carnaval?,frase,src/temas/temas5.ts,borrador
+a7b22e2c8898,¿Qué decoramos en Navidad?,Ce decorăm de Crăciun?,frase,src/temas/temas5.ts,borrador
+58b5198c7e08,¿Qué regalamos el Día del Libro?,Ce dăruim de Ziua Cărții?,frase,src/temas/temas5.ts,borrador
+57c386cc6b11,¿Qué tiene velitas en el cumpleaños?,Ce are lumânărele la ziua de naștere?,frase,src/temas/temas5.ts,borrador
+650930048f7d,¿Qué llevan los Reyes Magos en la cabeza?,Ce poartă Magii pe cap?,frase,src/temas/temas5.ts,borrador
 a9cd154aca7a,El universo,Universul,trozo,src/temas/temas5.ts,borrador
-b87680c87f3d,La Tierra. Es nuestro planeta. Gira y gira alrededor del sol.,,frase,src/temas/temas5.ts,falta
-af53620b60bd,Marte. Es el planeta rojo.,,frase,src/temas/temas5.ts,falta
-643083790f97,El cohete. Lleva a los astronautas al espacio.,,frase,src/temas/temas5.ts,falta
-66d547db23b9,La astronauta. Viaja al espacio con un traje especial.,,frase,src/temas/temas5.ts,falta
-5e28eaf29e58,El telescopio. Sirve para mirar las estrellas de cerca.,,frase,src/temas/temas5.ts,falta
-52be8076d08b,El día y la noche,,trozo,src/temas/temas5.ts,falta
-b9ab86aa5344,Contar estrellas,,trozo,src/temas/temas5.ts,falta
-2c0b9678eba8,Del más chico al más grande,,trozo,src/temas/temas5.ts,falta
-1b2aba04d04c,{Cosa}.,,trozo,src/temas/temas5.ts,falta
-53fc49c82868,Ordena los planetas del más chico al más grande.,,frase,src/temas/temas5.ts,falta
-fbe2945e4591,"¡Muy bien! La luna es más chica que la Tierra, y Júpiter es el más grande.",,frase,src/temas/temas5.ts,falta
-86b0a71efb69,"¡Muy bien! Marte es pequeñito, la Tierra es mediana y Júpiter es enorme.",,frase,src/temas/temas5.ts,falta
+b87680c87f3d,La Tierra. Es nuestro planeta. Gira y gira alrededor del sol.,Pământul. E planeta noastră. Se tot învârte în jurul soarelui.,frase,src/temas/temas5.ts,borrador
+af53620b60bd,Marte. Es el planeta rojo.,Marte. E planeta roșie.,frase,src/temas/temas5.ts,borrador
+643083790f97,El cohete. Lleva a los astronautas al espacio.,Racheta. Îi duce pe astronauți în spațiu.,frase,src/temas/temas5.ts,borrador
+66d547db23b9,La astronauta. Viaja al espacio con un traje especial.,Astronauta. Călătorește în spațiu cu un costum special.,frase,src/temas/temas5.ts,borrador
+5e28eaf29e58,El telescopio. Sirve para mirar las estrellas de cerca.,Telescopul. Ne ajută să vedem stelele de aproape.,frase,src/temas/temas5.ts,borrador
+52be8076d08b,El día y la noche,Ziua și noaptea,trozo,src/temas/temas5.ts,borrador
+b9ab86aa5344,Contar estrellas,Numărăm stelele,trozo,src/temas/temas5.ts,borrador
+2c0b9678eba8,Del más chico al más grande,De la cel mai mic la cel mai mare,trozo,src/temas/temas5.ts,borrador
+1b2aba04d04c,{Cosa}.,{Cosa}.,trozo,src/temas/temas5.ts,borrador
+53fc49c82868,Ordena los planetas del más chico al más grande.,"Pune planetele în ordine, de la cea mai mică la cea mai mare.",frase,src/temas/temas5.ts,borrador
+fbe2945e4591,"¡Muy bien! La luna es más chica que la Tierra, y Júpiter es el más grande.","Foarte bine! Luna e mai mică decât Pământul, iar Jupiter e cea mai mare.",frase,src/temas/temas5.ts,borrador
+86b0a71efb69,"¡Muy bien! Marte es pequeñito, la Tierra es mediana y Júpiter es enorme.","Foarte bine! Marte e micuț, Pământul e mijlociu și Jupiter e uriaș.",frase,src/temas/temas5.ts,borrador
 2abf9f2ff8de,Los dinosaurios,Dinozaurii,trozo,src/temas/temas5.ts,borrador
-9d45f986e51c,El tiranosaurio. Tenía dientes enormes y comía carne.,,frase,src/temas/temas5.ts,falta
-c7e5a2279e4a,El diplodoco. Tenía un cuello larguísimo y comía hojas.,,frase,src/temas/temas5.ts,falta
-d7602c4d1711,El triceratops. Tenía tres cuernos en la cabeza y comía plantas.,,frase,src/temas/temas5.ts,falta
-4ef2f71ffb03,El pterodáctilo. Volaba por el cielo con sus alas grandes.,,frase,src/temas/temas5.ts,falta
-df607f34ff28,El huevo de dinosaurio. Los dinosaurios nacían de huevos.,,frase,src/temas/temas5.ts,falta
-a0bd6a23b239,"El fósil. Es una huella de hace muchísimo tiempo, guardada en la piedra.",,frase,src/temas/temas5.ts,falta
-8b49ef4dde2a,El volcán. En la época de los dinosaurios había muchos.,,frase,src/temas/temas5.ts,falta
-e14de11068bc,Buscar fósiles,,trozo,src/temas/temas5.ts,falta
-647ee447996d,Somos paleontólogos. Frota la tierra para descubrir lo que dejaron los dinosaurios.,,frase,src/temas/temas5.ts,falta
-a7c79549d1fa,¿Qué comía?,,frase,src/temas/temas5.ts,falta
-8fae69342cfb,{Cosa} comía carne.,,trozo,src/temas/temas5.ts,falta
-f30dfc57eaae,{Cosa} comía plantas.,,trozo,src/temas/temas5.ts,falta
-c045fc7b98e8,¿Qué comía cada dinosaurio? Los que comían plantas van con las hojas. Los que comían carne van con la carne.,,frase,src/temas/temas5.ts,falta
-3ffc359c9d8d,¡Muy bien! El diplodoco y el triceratops comían plantas. El tiranosaurio y el pterodáctilo comían carne.,,frase,src/temas/temas5.ts,falta
+9d45f986e51c,El tiranosaurio. Tenía dientes enormes y comía carne.,Tiranozaurul. Avea dinți uriași și mânca carne.,frase,src/temas/temas5.ts,borrador
+c7e5a2279e4a,El diplodoco. Tenía un cuello larguísimo y comía hojas.,Diplodocul. Avea un gât foarte lung și mânca frunze.,frase,src/temas/temas5.ts,borrador
+d7602c4d1711,El triceratops. Tenía tres cuernos en la cabeza y comía plantas.,Triceratopsul. Avea trei coarne pe cap și mânca plante.,frase,src/temas/temas5.ts,borrador
+4ef2f71ffb03,El pterodáctilo. Volaba por el cielo con sus alas grandes.,Pterodactilul. Zbura pe cer cu aripile lui mari.,frase,src/temas/temas5.ts,borrador
+df607f34ff28,El huevo de dinosaurio. Los dinosaurios nacían de huevos.,Oul de dinozaur. Dinozaurii ieșeau din ouă.,frase,src/temas/temas5.ts,borrador
+a0bd6a23b239,"El fósil. Es una huella de hace muchísimo tiempo, guardada en la piedra.","Fosila. E o urmă de acum foarte, foarte mult timp, păstrată în piatră.",frase,src/temas/temas5.ts,borrador
+8b49ef4dde2a,El volcán. En la época de los dinosaurios había muchos.,Vulcanul. Pe vremea dinozaurilor erau mulți.,frase,src/temas/temas5.ts,borrador
+e14de11068bc,Buscar fósiles,Căutăm fosile,trozo,src/temas/temas5.ts,borrador
+647ee447996d,Somos paleontólogos. Frota la tierra para descubrir lo que dejaron los dinosaurios.,Suntem paleontologi. Freacă pământul ca să descoperi ce au lăsat dinozaurii.,frase,src/temas/temas5.ts,borrador
+a7c79549d1fa,¿Qué comía?,Ce mânca?,frase,src/temas/temas5.ts,borrador
+8fae69342cfb,{Cosa} comía carne.,{Cosa} mânca carne.,trozo,src/temas/temas5.ts,borrador
+f30dfc57eaae,{Cosa} comía plantas.,{Cosa} mânca plante.,trozo,src/temas/temas5.ts,borrador
+c045fc7b98e8,¿Qué comía cada dinosaurio? Los que comían plantas van con las hojas. Los que comían carne van con la carne.,Ce mânca fiecare dinozaur? Cei care mâncau plante merg la frunze. Cei care mâncau carne merg la carne.,frase,src/temas/temas5.ts,borrador
+3ffc359c9d8d,¡Muy bien! El diplodoco y el triceratops comían plantas. El tiranosaurio y el pterodáctilo comían carne.,Foarte bine! Diplodocul și triceratopsul mâncau plante. Tiranozaurul și pterodactilul mâncau carne.,frase,src/temas/temas5.ts,borrador
 f82a3fb78097,Los animales y dónde viven,Animalele și unde trăiesc,trozo,src/temas/temas5.ts,borrador
-5efe5f44af85,El pulpo. Vive en el mar y tiene ocho brazos.,,frase,src/temas/temas5.ts,falta
-a1df75c97845,El camello. Vive en el desierto y aguanta mucho sin tomar agua.,,frase,src/temas/temas5.ts,falta
-5d6e5d66f991,El lobo. Vive en el bosque y aúlla a la luna.,,frase,src/temas/temas5.ts,falta
-094ec90d8b84,El pingüino. Vive donde hace mucho frío.,,frase,src/temas/temas5.ts,falta
-b27823869eab,"El mono. Vive en la selva, entre los árboles.",,frase,src/temas/temas5.ts,falta
-173181299b75,El cocodrilo. Vive en los ríos de la selva.,,frase,src/temas/temas5.ts,falta
-fe906c563726,{Cosa} no vive en {sitio}.,,trozo,src/temas/temas5.ts,falta
-367f16fa0620,{Cosa} vive en {sitio}.,,trozo,src/temas/temas5.ts,falta
-8e274ed9be9d,¿Dónde vive cada animal? Llévalo a su casa.,,frase,src/temas/temas5.ts,falta
-d3fc77e8e82b,¿Huevo o panza?,,frase,src/temas/temas5.ts,falta
-528ca9dc7160,{Cosa} crece en la panza de su mamá.,,trozo,src/temas/temas5.ts,falta
-62112f43e2c4,{Cosa} nace de un huevo.,,trozo,src/temas/temas5.ts,falta
-4f41f0fd343d,{Cosa} crece en la tripa de su mamá.,,trozo,src/temas/temas5.ts,falta
-ebb5ca44ac43,¿Cómo nacen? Algunos animales nacen de un huevo. Otros crecen en la tripa de su mamá.,,frase,src/temas/temas5.ts,falta
-b4efa123f573,Mira bien la forma.,,frase,src/temas/temas5.ts,falta
+5efe5f44af85,El pulpo. Vive en el mar y tiene ocho brazos.,Caracatița. Trăiește în mare și are opt brațe.,frase,src/temas/temas5.ts,borrador
+a1df75c97845,El camello. Vive en el desierto y aguanta mucho sin tomar agua.,Cămila. Trăiește în deșert și rezistă mult fără să bea apă.,frase,src/temas/temas5.ts,borrador
+5d6e5d66f991,El lobo. Vive en el bosque y aúlla a la luna.,Lupul. Trăiește în pădure și urlă la lună.,frase,src/temas/temas5.ts,borrador
+094ec90d8b84,El pingüino. Vive donde hace mucho frío.,Pinguinul. Trăiește unde e foarte frig.,frase,src/temas/temas5.ts,borrador
+b27823869eab,"El mono. Vive en la selva, entre los árboles.","Maimuța. Trăiește în junglă, printre copaci.",frase,src/temas/temas5.ts,borrador
+173181299b75,El cocodrilo. Vive en los ríos de la selva.,Crocodilul. Trăiește în râurile din junglă.,frase,src/temas/temas5.ts,borrador
+fe906c563726,{Cosa} no vive en {sitio}.,{Cosa} nu trăiește {sitio}.,trozo,src/temas/temas5.ts,borrador
+367f16fa0620,{Cosa} vive en {sitio}.,{Cosa} trăiește {sitio}.,trozo,src/temas/temas5.ts,borrador
+8e274ed9be9d,¿Dónde vive cada animal? Llévalo a su casa.,Unde trăiește fiecare animal? Du-l la casa lui.,frase,src/temas/temas5.ts,borrador
+d3fc77e8e82b,¿Huevo o panza?,Ou sau burtică?,frase,src/temas/temas5.ts,borrador
+528ca9dc7160,{Cosa} crece en la panza de su mamá.,{Cosa} crește în burtica mamei.,trozo,src/temas/temas5.ts,borrador
+62112f43e2c4,{Cosa} nace de un huevo.,{Cosa} iese dintr-un ou.,trozo,src/temas/temas5.ts,borrador
+4f41f0fd343d,{Cosa} crece en la tripa de su mamá.,{Cosa} crește în burtica mamei.,trozo,src/temas/temas5.ts,borrador
+ebb5ca44ac43,¿Cómo nacen? Algunos animales nacen de un huevo. Otros crecen en la tripa de su mamá.,Cum se nasc? Unele animale ies dintr-un ou. Altele cresc în burtica mamei.,frase,src/temas/temas5.ts,borrador
+b4efa123f573,Mira bien la forma.,Uită-te bine la formă.,frase,src/temas/temas5.ts,borrador
 cb1cb8253f78,El tiempo y el clima,Vremea și clima,trozo,src/temas/temas5.ts,borrador
-649c2f147ad2,Hace sol. Hace calor y el cielo está despejado.,,frase,src/temas/temas5.ts,falta
-d715e843d06c,Está nublado. Las nubes tapan el sol.,,frase,src/temas/temas5.ts,falta
-5a851eef5472,Llueve. Caen gotas de agua de las nubes.,,frase,src/temas/temas5.ts,falta
-1ba201e6d29c,Hay viento. El aire sopla fuerte.,,frase,src/temas/temas5.ts,falta
-fa072b2647bf,"La tormenta. Hay rayos, truenos y mucha lluvia.",,frase,src/temas/temas5.ts,falta
-551790e0a0d1,El termómetro. Nos dice si hace frío o calor.,,frase,src/temas/temas5.ts,falta
-a6a9204ad0a5,Hace mucho sol. ¿Qué nos ponemos en la cabeza?,,frase,src/temas/temas5.ts,falta
-6e12b704117b,Llueve. ¿Qué llevamos para no mojarnos?,,frase,src/temas/temas5.ts,falta
-af66bc243f38,Nieva. ¿Qué nos ponemos en las manos?,,frase,src/temas/temas5.ts,falta
-443d60c95f77,Hay viento frío. ¿Qué nos ponemos en el cuello?,,frase,src/temas/temas5.ts,falta
-a9a9ddb19eea,Hay mucha luz de sol. ¿Qué nos ponemos en los ojos?,,frase,src/temas/temas5.ts,falta
-4aada9d4c874,Llueve y hay charcos. ¿Qué nos ponemos en los pies?,,frase,src/temas/temas5.ts,falta
-1a327cf23ac1,Los colores del arcoíris,,trozo,src/temas/temas5.ts,falta
-37b2faee1694,Ordena los colores del arcoíris. Arriba de todo va el rojo.,,frase,src/temas/temas5.ts,falta
-fab014b6004b,"¡Muy bien! Rojo, naranja, amarillo, verde y azul.",,frase,src/temas/temas5.ts,falta
-72fa04265dce,"¡Muy bien! Rojo, naranja, amarillo, verde, celeste, azul y violeta.",,frase,src/temas/temas5.ts,falta
-660f3a00255a,En la playa hace calor. ¿Cómo está el termómetro?,,frase,src/temas/temas5.ts,falta
-17987c25bc16,Hicimos un muñeco de nieve. ¿Cómo está el termómetro?,,frase,src/temas/temas5.ts,falta
-6b0ed7eba14d,Tomamos helado porque hace calor. ¿Cómo está el termómetro?,,frase,src/temas/temas5.ts,falta
-8df3b618e833,En el polo hace mucho frío. ¿Cómo está el termómetro?,,frase,src/temas/temas5.ts,falta
-e05a795ba582,Nos ponemos el bañador porque hace calor. ¿Cómo está el termómetro?,,frase,src/temas/temas5.ts,falta
-ef806547908d,Nos ponemos guantes porque hace frío. ¿Cómo está el termómetro?,,frase,src/temas/temas5.ts,falta
-39908fcefc13,"¡Sí! Cuando hace calor, el rojo sube.",,frase,src/temas/temas5.ts,falta
-fbca4dd7167b,"¡Sí! Cuando hace frío, el rojo baja.",,frase,src/temas/temas5.ts,falta
-934f046264f1,"Ese termómetro marca frío. Cuando hace calor, el rojo sube.",,frase,src/temas/temas5.ts,falta
-4965c73b835e,"Ese termómetro marca calor. Cuando hace frío, el rojo baja.",,frase,src/temas/temas5.ts,falta
+649c2f147ad2,Hace sol. Hace calor y el cielo está despejado.,E soare. E cald și cerul e senin.,frase,src/temas/temas5.ts,borrador
+d715e843d06c,Está nublado. Las nubes tapan el sol.,E înnorat. Norii acoperă soarele.,frase,src/temas/temas5.ts,borrador
+5a851eef5472,Llueve. Caen gotas de agua de las nubes.,Plouă. Cad picături de apă din nori.,frase,src/temas/temas5.ts,borrador
+1ba201e6d29c,Hay viento. El aire sopla fuerte.,E vânt. Aerul suflă tare.,frase,src/temas/temas5.ts,borrador
+fa072b2647bf,"La tormenta. Hay rayos, truenos y mucha lluvia.","Furtuna. Sunt fulgere, tunete și multă ploaie.",frase,src/temas/temas5.ts,borrador
+551790e0a0d1,El termómetro. Nos dice si hace frío o calor.,Termometrul. Ne spune dacă e frig sau cald.,frase,src/temas/temas5.ts,borrador
+a6a9204ad0a5,Hace mucho sol. ¿Qué nos ponemos en la cabeza?,E mult soare. Ce ne punem pe cap?,frase,src/temas/temas5.ts,borrador
+6e12b704117b,Llueve. ¿Qué llevamos para no mojarnos?,Plouă. Ce luăm ca să nu ne udăm?,frase,src/temas/temas5.ts,borrador
+af66bc243f38,Nieva. ¿Qué nos ponemos en las manos?,Ninge. Ce ne punem pe mâini?,frase,src/temas/temas5.ts,borrador
+443d60c95f77,Hay viento frío. ¿Qué nos ponemos en el cuello?,E vânt rece. Ce ne punem la gât?,frase,src/temas/temas5.ts,borrador
+a9a9ddb19eea,Hay mucha luz de sol. ¿Qué nos ponemos en los ojos?,E multă lumină de soare. Ce ne punem la ochi?,frase,src/temas/temas5.ts,borrador
+4aada9d4c874,Llueve y hay charcos. ¿Qué nos ponemos en los pies?,Plouă și sunt bălți. Ce ne punem în picioare?,frase,src/temas/temas5.ts,borrador
+1a327cf23ac1,Los colores del arcoíris,Culorile curcubeului,trozo,src/temas/temas5.ts,borrador
+37b2faee1694,Ordena los colores del arcoíris. Arriba de todo va el rojo.,Pune în ordine culorile curcubeului. Cel mai sus e roșul.,frase,src/temas/temas5.ts,borrador
+fab014b6004b,"¡Muy bien! Rojo, naranja, amarillo, verde y azul.","Foarte bine! Roșu, portocaliu, galben, verde și albastru.",frase,src/temas/temas5.ts,borrador
+72fa04265dce,"¡Muy bien! Rojo, naranja, amarillo, verde, celeste, azul y violeta.","Foarte bine! Roșu, portocaliu, galben, verde, bleu, albastru și violet.",frase,src/temas/temas5.ts,borrador
+660f3a00255a,En la playa hace calor. ¿Cómo está el termómetro?,La plajă e cald. Cum e termometrul?,frase,src/temas/temas5.ts,borrador
+17987c25bc16,Hicimos un muñeco de nieve. ¿Cómo está el termómetro?,Am făcut un om de zăpadă. Cum e termometrul?,frase,src/temas/temas5.ts,borrador
+6b0ed7eba14d,Tomamos helado porque hace calor. ¿Cómo está el termómetro?,Mâncăm înghețată pentru că e cald. Cum e termometrul?,frase,src/temas/temas5.ts,borrador
+8df3b618e833,En el polo hace mucho frío. ¿Cómo está el termómetro?,La pol e foarte frig. Cum e termometrul?,frase,src/temas/temas5.ts,borrador
+e05a795ba582,Nos ponemos el bañador porque hace calor. ¿Cómo está el termómetro?,Ne punem costumul de baie pentru că e cald. Cum e termometrul?,frase,src/temas/temas5.ts,borrador
+ef806547908d,Nos ponemos guantes porque hace frío. ¿Cómo está el termómetro?,Ne punem mănușile pentru că e frig. Cum e termometrul?,frase,src/temas/temas5.ts,borrador
+39908fcefc13,"¡Sí! Cuando hace calor, el rojo sube.","Da! Când e cald, roșul urcă.",frase,src/temas/temas5.ts,borrador
+fbca4dd7167b,"¡Sí! Cuando hace frío, el rojo baja.","Da! Când e frig, roșul coboară.",frase,src/temas/temas5.ts,borrador
+934f046264f1,"Ese termómetro marca frío. Cuando hace calor, el rojo sube.","Termometrul acela arată frig. Când e cald, roșul urcă.",frase,src/temas/temas5.ts,borrador
+4965c73b835e,"Ese termómetro marca calor. Cuando hace frío, el rojo baja.","Termometrul acela arată cald. Când e frig, roșul coboară.",frase,src/temas/temas5.ts,borrador
 a5ea935cbb95,Los seres vivos,Ființele vii,trozo,src/temas/temas5.ts,borrador
-3cb389109ccb,La planta con frutos. Los frutos guardan semillas.,,frase,src/temas/temas5.ts,falta
-24a07a1e7688,El huevo. Adentro crece el pollito.,,frase,src/temas/temas5.ts,falta
-8b15a08e0d53,El pollito. Sale del huevo y crece hasta ser gallina.,,frase,src/temas/temas5.ts,falta
-d907c3334a7f,"La gallina. Pone huevos, y así empieza otra vez.",,frase,src/temas/temas5.ts,falta
-dbe10bf7cdb5,"La oruga. Come hojas, come y come, y después hace un capullo.",,frase,src/temas/temas5.ts,falta
-30517d25d8ad,La mariposa. Sale del capullo con sus alas nuevas.,,frase,src/temas/temas5.ts,falta
-00bef516ee3a,El ciclo de la vida,,trozo,src/temas/temas5.ts,falta
-f567275072bf,¿Cómo crece? Ordena del primero al último.,,frase,src/temas/temas5.ts,falta
-cc11d15de117,¡Muy bien! Así crecen los seres vivos.,,frase,src/temas/temas5.ts,falta
-4700cb5c04ea,¿Está vivo?,,frase,src/temas/temas5.ts,falta
-f41e17b81f66,"{Cosa} no está vivo: no nace, no crece y no come.",,trozo,src/temas/temas5.ts,falta
-e405ff2995d4,"{Cosa} es un ser vivo: nace, crece y se alimenta.",,trozo,src/temas/temas5.ts,falta
-1addf78a757a,{Cosa} es un ser vivo.,,trozo,src/temas/temas5.ts,falta
-680acf9c956d,{Cosa} no está vivo.,,trozo,src/temas/temas5.ts,falta
-497a14e552c5,"Los seres vivos nacen, crecen y se alimentan. Lleva los seres vivos con el corazón y las cosas con la piedra.",,frase,src/temas/temas5.ts,falta
-52b09ee3dc92,¿Qué necesita para vivir?,,frase,src/temas/temas5.ts,falta
-f4200102941f,¡Sí!,,frase,src/temas/temas5.ts,falta
-3324a7630250,{Cosa} no hace falta para vivir.,,trozo,src/temas/temas5.ts,falta
+3cb389109ccb,La planta con frutos. Los frutos guardan semillas.,Planta cu fructe. Fructele păstrează semințe.,frase,src/temas/temas5.ts,borrador
+24a07a1e7688,El huevo. Adentro crece el pollito.,Oul. Înăuntru crește puișorul.,frase,src/temas/temas5.ts,borrador
+8b15a08e0d53,El pollito. Sale del huevo y crece hasta ser gallina.,Puișorul. Iese din ou și crește până devine găină.,frase,src/temas/temas5.ts,borrador
+d907c3334a7f,"La gallina. Pone huevos, y así empieza otra vez.","Găina. Face ouă, și așa începe din nou.",frase,src/temas/temas5.ts,borrador
+dbe10bf7cdb5,"La oruga. Come hojas, come y come, y después hace un capullo.","Omida. Mănâncă frunze, mănâncă și iar mănâncă, și apoi își face un cocon.",frase,src/temas/temas5.ts,borrador
+30517d25d8ad,La mariposa. Sale del capullo con sus alas nuevas.,Fluturele. Iese din cocon cu aripile lui noi.,frase,src/temas/temas5.ts,borrador
+00bef516ee3a,El ciclo de la vida,Ciclul vieții,trozo,src/temas/temas5.ts,borrador
+f567275072bf,¿Cómo crece? Ordena del primero al último.,"Cum crește? Pune în ordine, de la primul la ultimul.",frase,src/temas/temas5.ts,borrador
+cc11d15de117,¡Muy bien! Así crecen los seres vivos.,Foarte bine! Așa cresc ființele vii.,frase,src/temas/temas5.ts,borrador
+4700cb5c04ea,¿Está vivo?,E viu?,frase,src/temas/temas5.ts,borrador
+f41e17b81f66,"{Cosa} no está vivo: no nace, no crece y no come.","{Cosa} nu e o ființă vie: nu se naște, nu crește și nu mănâncă.",trozo,src/temas/temas5.ts,borrador
+e405ff2995d4,"{Cosa} es un ser vivo: nace, crece y se alimenta.","{Cosa} e o ființă vie: se naște, crește și se hrănește.",trozo,src/temas/temas5.ts,borrador
+1addf78a757a,{Cosa} es un ser vivo.,{Cosa} e o ființă vie.,trozo,src/temas/temas5.ts,borrador
+680acf9c956d,{Cosa} no está vivo.,{Cosa} nu e o ființă vie.,trozo,src/temas/temas5.ts,borrador
+497a14e552c5,"Los seres vivos nacen, crecen y se alimentan. Lleva los seres vivos con el corazón y las cosas con la piedra.","Ființele vii se nasc, cresc și se hrănesc. Du ființele vii la inimă și lucrurile la piatră.",frase,src/temas/temas5.ts,borrador
+52b09ee3dc92,¿Qué necesita para vivir?,De ce are nevoie ca să trăiască?,frase,src/temas/temas5.ts,borrador
+f4200102941f,¡Sí!,Da!,frase,src/temas/temas5.ts,borrador
+3324a7630250,{Cosa} no hace falta para vivir.,{Cosa} nu e necesar pentru viață.,trozo,src/temas/temas5.ts,borrador
 c871bb3ec35c,Cuidamos el planeta,Avem grijă de planetă,trozo,src/temas/temas5.ts,borrador
-e45db9f8fbe0,La botella de plástico. Va al contenedor amarillo.,,frase,src/temas/temas5.ts,falta
-7f48f4b0cc7f,La lata. También va al amarillo.,,frase,src/temas/temas5.ts,falta
-ebdaa7dc3cf3,El periódico. El papel va al contenedor azul.,,frase,src/temas/temas5.ts,falta
-6b6735f69fcd,La caja de cartón. Va al azul.,,frase,src/temas/temas5.ts,falta
-d6b5226a3859,La botella de vidrio. Va al contenedor verde.,,frase,src/temas/temas5.ts,falta
-3b4b7167317a,Los restos de comida van al contenedor marrón.,,frase,src/temas/temas5.ts,falta
-17dabb06494e,El grifo. Hay que cerrarlo para no gastar agua.,,frase,src/temas/temas5.ts,falta
-00200c2c64f1,La bombilla. Apagamos la luz cuando no la usamos.,,frase,src/temas/temas5.ts,falta
-d2cd8d8b9fd0,A reciclar,,trozo,src/temas/temas5.ts,falta
-af6c022db0bd,"Mmm, {cosa} no va en {cubo}.",,frase,src/temas/temas5.ts,falta
-f3cc736c2b01,{Cosa} va en {cubo}.,,trozo,src/temas/temas5.ts,falta
-34f19978ec42,Vamos a reciclar.,,frase,src/temas/temas5.ts,falta
-c362cac4812e,¡Ahora con los cuatro contenedores! Lleva cada cosa a su lugar.,,frase,src/temas/temas5.ts,falta
-b235c58571fa,Ahorramos agua y luz,,trozo,src/temas/temas5.ts,falta
-af49243fb6b1,Nadie está usando estas cosas. ¡Apaguémoslas para cuidar el planeta! Toca cada una.,,frase,src/temas/temas5.ts,falta
-27c44768e24b,¡Luz apagada!,,frase,src/temas/temas5.ts,falta
-cd120c45aec3,¡Grifo cerrado! Así no se gasta el agua.,,frase,src/temas/temas5.ts,falta
-a1409484b5aa,¡Tele apagada!,,frase,src/temas/temas5.ts,falta
-5b54a9400aa0,¡Muy bien! Así ahorramos agua y luz.,,frase,src/temas/temas5.ts,falta
-70de906a3d92,Limpiamos el parque,,trozo,src/temas/temas5.ts,falta
-a93ec5b73b87,{Cosa} es parte del parque. ¡Se queda!,,trozo,src/temas/temas5.ts,falta
-79d2bc6738dd,Eso va a la papelera.,,frase,src/temas/temas5.ts,falta
-867094fb3c92,¡Alguien dejó basura en el parque! Lleva la basura a la papelera. Las flores y los animales se quedan.,,frase,src/temas/temas5.ts,falta
-f7099339b565,¡El parque quedó limpito! Gracias por cuidar el planeta.,,frase,src/temas/temas5.ts,falta
+e45db9f8fbe0,La botella de plástico. Va al contenedor amarillo.,Sticla de plastic. Merge în containerul galben.,frase,src/temas/temas5.ts,borrador
+7f48f4b0cc7f,La lata. También va al amarillo.,Doza. Merge tot în cel galben.,frase,src/temas/temas5.ts,borrador
+ebdaa7dc3cf3,El periódico. El papel va al contenedor azul.,Ziarul. Hârtia merge în containerul albastru.,frase,src/temas/temas5.ts,borrador
+6b6735f69fcd,La caja de cartón. Va al azul.,Cutia de carton. Merge în cel albastru.,frase,src/temas/temas5.ts,borrador
+d6b5226a3859,La botella de vidrio. Va al contenedor verde.,Sticla de geam. Merge în containerul verde.,frase,src/temas/temas5.ts,borrador
+3b4b7167317a,Los restos de comida van al contenedor marrón.,Resturile de mâncare merg în containerul maro.,frase,src/temas/temas5.ts,borrador
+17dabb06494e,El grifo. Hay que cerrarlo para no gastar agua.,Robinetul. Trebuie închis ca să nu risipim apa.,frase,src/temas/temas5.ts,borrador
+00200c2c64f1,La bombilla. Apagamos la luz cuando no la usamos.,Becul. Stingem lumina când nu o folosim.,frase,src/temas/temas5.ts,borrador
+d2cd8d8b9fd0,A reciclar,La reciclat,trozo,src/temas/temas5.ts,borrador
+af6c022db0bd,"Mmm, {cosa} no va en {cubo}.","Mmm, {cosa} nu merge în {cubo}.",frase,src/temas/temas5.ts,borrador
+f3cc736c2b01,{Cosa} va en {cubo}.,{Cosa} merge în {cubo}.,trozo,src/temas/temas5.ts,borrador
+34f19978ec42,Vamos a reciclar.,Hai să reciclăm.,frase,src/temas/temas5.ts,borrador
+c362cac4812e,¡Ahora con los cuatro contenedores! Lleva cada cosa a su lugar.,Acum cu toate cele patru containere! Du fiecare lucru la locul lui.,frase,src/temas/temas5.ts,borrador
+b235c58571fa,Ahorramos agua y luz,Economisim apă și lumină,trozo,src/temas/temas5.ts,borrador
+af49243fb6b1,Nadie está usando estas cosas. ¡Apaguémoslas para cuidar el planeta! Toca cada una.,Nimeni nu folosește lucrurile astea. Hai să le oprim ca să avem grijă de planetă! Atinge-le pe fiecare.,frase,src/temas/temas5.ts,borrador
+27c44768e24b,¡Luz apagada!,Lumina e stinsă!,frase,src/temas/temas5.ts,borrador
+cd120c45aec3,¡Grifo cerrado! Así no se gasta el agua.,Robinetul e închis! Așa nu se risipește apa.,frase,src/temas/temas5.ts,borrador
+a1409484b5aa,¡Tele apagada!,Televizorul e oprit!,frase,src/temas/temas5.ts,borrador
+5b54a9400aa0,¡Muy bien! Así ahorramos agua y luz.,Foarte bine! Așa economisim apă și lumină.,frase,src/temas/temas5.ts,borrador
+70de906a3d92,Limpiamos el parque,Curățăm parcul,trozo,src/temas/temas5.ts,borrador
+a93ec5b73b87,{Cosa} es parte del parque. ¡Se queda!,{Cosa} face parte din parc. Rămâne aici!,trozo,src/temas/temas5.ts,borrador
+79d2bc6738dd,Eso va a la papelera.,Asta merge la coșul de gunoi.,frase,src/temas/temas5.ts,borrador
+867094fb3c92,¡Alguien dejó basura en el parque! Lleva la basura a la papelera. Las flores y los animales se quedan.,Cineva a lăsat gunoi în parc! Du gunoiul la coș. Florile și animalele rămân.,frase,src/temas/temas5.ts,borrador
+f7099339b565,¡El parque quedó limpito! Gracias por cuidar el planeta.,Parcul a rămas curat! Mulțumesc că ai grijă de planetă.,frase,src/temas/temas5.ts,borrador
 fd72d072af27,De viaje con cuidado,Călătorim cu grijă,trozo,src/temas/temas5.ts,borrador
-06a8e5df98da,"El semáforo. Verde, podemos cruzar. Rojo, esperamos.",,frase,src/temas/temas5.ts,falta
-2a7b7ec5fa54,"El paso de cebra. Cruzamos por aquí, de la mano de un adulto.",,frase,src/temas/temas5.ts,falta
-b0778ce65461,La señal de stop. Los coches tienen que parar.,,frase,src/temas/temas5.ts,falta
-6b7c8280b708,El casco. Lo usamos para andar en bici.,,frase,src/temas/temas5.ts,falta
-b64b34622a4c,El cinturón. En el coche siempre lo abrochamos.,,frase,src/temas/temas5.ts,falta
-dd0789e0e6ab,La maleta. Guardamos la ropa para el viaje.,,frase,src/temas/temas5.ts,falta
-55464b271e19,El mapa. Nos muestra el camino.,,frase,src/temas/temas5.ts,falta
-95d07c971588,¿Derecha o izquierda?,,frase,src/temas/temas5.ts,falta
-d4b03b2c9561,¿Qué nos cuida?,,frase,src/temas/temas5.ts,falta
-522aa1c869a0,Vamos en bici. ¿Qué nos ponemos en la cabeza?,,frase,src/temas/temas5.ts,falta
-6162f1c7e6bc,Subimos al coche. ¿Qué nos abrochamos?,,frase,src/temas/temas5.ts,falta
-3ec6a6efadaf,Queremos cruzar la calle. ¿Por dónde cruzamos?,,frase,src/temas/temas5.ts,falta
-0ed5166e8154,Vamos en moto. ¿Qué nos protege la cabeza?,,frase,src/temas/temas5.ts,falta
-61b261d1a8d5,¡Sí! {Cosa}. ¡Así viajamos seguros!,,frase,src/temas/temas5.ts,falta
-56f047f634e4,Armamos la maleta,,trozo,src/temas/temas5.ts,falta
-a425099c527a,{Cosa} es para la nieve.,,trozo,src/temas/temas5.ts,falta
-038d3c197808,{Cosa} es para la playa.,,trozo,src/temas/temas5.ts,falta
-91bc3a3be47e,"{Cosa}, para la playa.",,trozo,src/temas/temas5.ts,falta
-25f625459b08,"{Cosa}, para la nieve.",,trozo,src/temas/temas5.ts,falta
-8dcbe3caa5d0,Nos vamos de vacaciones. ¿Qué llevamos a la playa y qué llevamos a la nieve? Lleva cada cosa a su maleta.,,frase,src/temas/temas5.ts,falta
-a68c7ee407ba,Mezclar colores,,trozo,src/temas/temas5.ts,falta
-7c6b6fac9c73,{Uno} y {otro} mezclados... ¿qué color hacen?,,trozo,src/temas/temas5.ts,falta
-bbd2576991c0,¡Sí! {Uno} y {otro} hacen {mezcla}.,,frase,src/temas/temas5.ts,falta
-369d4d638a5c,Ese es el {color}. Piensa: {uno} y {otro}.,,frase,src/temas/temas5.ts,falta
-5bdfd02e6619,¿Qué forma tiene?,,frase,src/temas/temas5.ts,falta
-23c062dd0af8,¡Sí! {Forma}.,,frase,src/temas/temas5.ts,falta
-357568d5a113,Ese es {forma}.,,frase,src/temas/temas5.ts,falta
-80eb5e440693,Sumar,,trozo,src/temas/temas5.ts,falta
-29c3f9cda3d4,{A} y {b}. ¿Cuántas hay en total?,,trozo,src/temas/temas5.ts,falta
-cc118d2a2b10,{A} y {b}. ¿Cuántos hay en total?,,trozo,src/temas/temas5.ts,falta
-5ead43111a0e,¡Sí! {A} más {b} son {n}.,,frase,src/temas/temas5.ts,falta
-70a440a06411,"Mmm, cuenta todos juntos: {numeros}.",,frase,src/temas/temas5.ts,falta
-f11dd8aae7d9,Restar,,trozo,src/temas/temas5.ts,falta
-f8097f90ac03,Teníamos {a} globos y se volaron {b}. ¿Cuántos quedan?,,frase,src/temas/temas5.ts,falta
-68b616bdb2a6,¡Sí! Quedan {n}.,,frase,src/temas/temas5.ts,falta
-39f62b76250d,"Mmm, cuenta solo los globos que quedaron.",,frase,src/temas/temas5.ts,falta
-0e6c5816e634,Primero y último,,trozo,src/temas/temas5.ts,falta
-674ee011803b,el último,,trozo,src/temas/temas5.ts,falta
-712219658342,Los animales hacen fila para entrar a la casa. ¿Quién es {puesto} de la fila?,,frase,src/temas/temas5.ts,falta
-fa6dbbb90bde,¡Sí! {Cosa} es {puesto}.,,frase,src/temas/temas5.ts,falta
-c63954c79c18,{Cosa} no es {puesto}. El primero es el que está más cerca de la casa.,,trozo,src/temas/temas5.ts,falta
-a4e05b8c29bb,"Derecha, izquierda y entre",,trozo,src/temas/temas5.ts,falta
-2b2d5e9fe4e2,¿Quién está entre {uno} y {otro}?,,frase,src/temas/temas5.ts,falta
-c64f14d4293f,¿Quién está a la derecha {deCosa}?,,frase,src/temas/temas5.ts,falta
-69884375bf59,¿Quién está a la izquierda {deCosa}?,,frase,src/temas/temas5.ts,falta
-d6c676bc4220,"Pesado, liviano, grueso y delgado",,trozo,src/temas/temas5.ts,falta
-96a5e5288a7b,más pesado,,trozo,src/temas/temas5.ts,falta
-c06e11b0b5cf,más ligero,,trozo,src/temas/temas5.ts,falta
-7338e3899a9f,¿Qué es {cual}?,,frase,src/temas/temas5.ts,falta
-bdcea20dcd68,¡Sí! {Cosa} es {cual}.,,frase,src/temas/temas5.ts,falta
-ba85679397d8,{Cosa} no es {cual}. ¿Qué es {cual}?,,trozo,src/temas/temas5.ts,falta
-053967a20f30,más grueso,,trozo,src/temas/temas5.ts,falta
-cb2a6eab6c52,más delgado,,trozo,src/temas/temas5.ts,falta
-02801b9b8997,¿Cuál es {cual}?,,frase,src/temas/temas5.ts,falta
-17871b283c71,¡Sí! Ese es {cual}.,,frase,src/temas/temas5.ts,falta
-e0bc3bd26583,Mira bien el ancho de cada uno. ¿Cuál es {cual}?,,frase,src/temas/temas5.ts,falta
-57c04dfb0d77,Series difíciles,,trozo,src/temas/temas5.ts,falta
+06a8e5df98da,"El semáforo. Verde, podemos cruzar. Rojo, esperamos.","Semaforul. Verde, putem trece. Roșu, așteptăm.",frase,src/temas/temas5.ts,borrador
+2a7b7ec5fa54,"El paso de cebra. Cruzamos por aquí, de la mano de un adulto.","Trecerea de pietoni. Traversăm pe aici, de mână cu un adult.",frase,src/temas/temas5.ts,borrador
+b0778ce65461,La señal de stop. Los coches tienen que parar.,Semnul de stop. Mașinile trebuie să oprească.,frase,src/temas/temas5.ts,borrador
+6b7c8280b708,El casco. Lo usamos para andar en bici.,Casca. O purtăm când mergem cu bicicleta.,frase,src/temas/temas5.ts,borrador
+b64b34622a4c,El cinturón. En el coche siempre lo abrochamos.,Centura. În mașină o punem mereu.,frase,src/temas/temas5.ts,borrador
+dd0789e0e6ab,La maleta. Guardamos la ropa para el viaje.,Valiza. Punem în ea hainele pentru călătorie.,frase,src/temas/temas5.ts,borrador
+55464b271e19,El mapa. Nos muestra el camino.,Harta. Ne arată drumul.,frase,src/temas/temas5.ts,borrador
+95d07c971588,¿Derecha o izquierda?,Dreapta sau stânga?,frase,src/temas/temas5.ts,borrador
+d4b03b2c9561,¿Qué nos cuida?,Ce ne protejează?,frase,src/temas/temas5.ts,borrador
+522aa1c869a0,Vamos en bici. ¿Qué nos ponemos en la cabeza?,Mergem cu bicicleta. Ce ne punem pe cap?,frase,src/temas/temas5.ts,borrador
+6162f1c7e6bc,Subimos al coche. ¿Qué nos abrochamos?,Urcăm în mașină. Ce ne punem?,frase,src/temas/temas5.ts,borrador
+3ec6a6efadaf,Queremos cruzar la calle. ¿Por dónde cruzamos?,Vrem să traversăm strada. Pe unde traversăm?,frase,src/temas/temas5.ts,borrador
+0ed5166e8154,Vamos en moto. ¿Qué nos protege la cabeza?,Mergem cu motocicleta. Ce ne protejează capul?,frase,src/temas/temas5.ts,borrador
+61b261d1a8d5,¡Sí! {Cosa}. ¡Así viajamos seguros!,Da! {Cosa}. Așa călătorim în siguranță!,frase,src/temas/temas5.ts,borrador
+56f047f634e4,Armamos la maleta,Facem bagajul,trozo,src/temas/temas5.ts,borrador
+a425099c527a,{Cosa} es para la nieve.,{Cosa} e pentru zăpadă.,trozo,src/temas/temas5.ts,borrador
+038d3c197808,{Cosa} es para la playa.,{Cosa} e pentru plajă.,trozo,src/temas/temas5.ts,borrador
+91bc3a3be47e,"{Cosa}, para la playa.","{Cosa}, pentru plajă.",trozo,src/temas/temas5.ts,borrador
+25f625459b08,"{Cosa}, para la nieve.","{Cosa}, pentru zăpadă.",trozo,src/temas/temas5.ts,borrador
+8dcbe3caa5d0,Nos vamos de vacaciones. ¿Qué llevamos a la playa y qué llevamos a la nieve? Lleva cada cosa a su maleta.,Plecăm în vacanță. Ce luăm la plajă și ce luăm la zăpadă? Du fiecare lucru la valiza lui.,frase,src/temas/temas5.ts,borrador
+a68c7ee407ba,Mezclar colores,Amestecăm culori,trozo,src/temas/temas5.ts,borrador
+7c6b6fac9c73,{Uno} y {otro} mezclados... ¿qué color hacen?,{Uno} și {otro} amestecate... ce culoare fac?,trozo,src/temas/temas5.ts,borrador
+bbd2576991c0,¡Sí! {Uno} y {otro} hacen {mezcla}.,Da! {Uno} și {otro} fac {mezcla}.,frase,src/temas/temas5.ts,borrador
+369d4d638a5c,Ese es el {color}. Piensa: {uno} y {otro}.,Aceea e culoarea {color}. Gândește-te: {uno} și {otro}.,frase,src/temas/temas5.ts,borrador
+5bdfd02e6619,¿Qué forma tiene?,Ce formă are?,frase,src/temas/temas5.ts,borrador
+23c062dd0af8,¡Sí! {Forma}.,Da! {Forma}.,frase,src/temas/temas5.ts,borrador
+357568d5a113,Ese es {forma}.,Acela e {forma}.,frase,src/temas/temas5.ts,borrador
+80eb5e440693,Sumar,Adunăm,trozo,src/temas/temas5.ts,borrador
+29c3f9cda3d4,{A} y {b}. ¿Cuántas hay en total?,{A} și {b}. Câte sunt în total?,trozo,src/temas/temas5.ts,borrador
+cc118d2a2b10,{A} y {b}. ¿Cuántos hay en total?,{A} și {b}. Câți sunt în total?,trozo,src/temas/temas5.ts,borrador
+5ead43111a0e,¡Sí! {A} más {b} son {n}.,Da! {A} plus {b} fac {n}.,frase,src/temas/temas5.ts,borrador
+70a440a06411,"Mmm, cuenta todos juntos: {numeros}.","Mmm, numără-le pe toate: {numeros}.",frase,src/temas/temas5.ts,borrador
+f11dd8aae7d9,Restar,Scădem,trozo,src/temas/temas5.ts,borrador
+f8097f90ac03,Teníamos {a} globos y se volaron {b}. ¿Cuántos quedan?,Aveam {a} {a:de}baloane și au zburat {b}. Câte au rămas?,frase,src/temas/temas5.ts,borrador
+68b616bdb2a6,¡Sí! Quedan {n}.,Da! Au rămas {n}.,frase,src/temas/temas5.ts,borrador
+39f62b76250d,"Mmm, cuenta solo los globos que quedaron.","Mmm, numără doar baloanele care au rămas.",frase,src/temas/temas5.ts,borrador
+0e6c5816e634,Primero y último,Primul și ultimul,trozo,src/temas/temas5.ts,borrador
+674ee011803b,el último,ultimul,trozo,src/temas/temas5.ts,borrador
+712219658342,Los animales hacen fila para entrar a la casa. ¿Quién es {puesto} de la fila?,Animalele stau la rând ca să intre în casă. Cine e {puesto} din rând?,frase,src/temas/temas5.ts,borrador
+fa6dbbb90bde,¡Sí! {Cosa} es {puesto}.,Da! {Cosa} e {puesto}.,frase,src/temas/temas5.ts,borrador
+c63954c79c18,{Cosa} no es {puesto}. El primero es el que está más cerca de la casa.,{Cosa} nu e {puesto}. Primul e cel care e cel mai aproape de casă.,trozo,src/temas/temas5.ts,borrador
+a4e05b8c29bb,"Derecha, izquierda y entre","Dreapta, stânga și între",trozo,src/temas/temas5.ts,borrador
+2b2d5e9fe4e2,¿Quién está entre {uno} y {otro}?,Cine e între {uno} și {otro}?,frase,src/temas/temas5.ts,borrador
+c64f14d4293f,¿Quién está a la derecha {deCosa}?,Cine e în dreapta {deCosa}?,frase,src/temas/temas5.ts,borrador
+69884375bf59,¿Quién está a la izquierda {deCosa}?,Cine e în stânga {deCosa}?,frase,src/temas/temas5.ts,borrador
+d6c676bc4220,"Pesado, liviano, grueso y delgado","Greu, ușor, gros și subțire",trozo,src/temas/temas5.ts,borrador
+96a5e5288a7b,más pesado,mai greu,trozo,src/temas/temas5.ts,borrador
+c06e11b0b5cf,más ligero,mai ușor,trozo,src/temas/temas5.ts,borrador
+7338e3899a9f,¿Qué es {cual}?,Ce e {cual}?,frase,src/temas/temas5.ts,borrador
+bdcea20dcd68,¡Sí! {Cosa} es {cual}.,Da! {Cosa} e {cual}.,frase,src/temas/temas5.ts,borrador
+ba85679397d8,{Cosa} no es {cual}. ¿Qué es {cual}?,{Cosa} nu e {cual}. Ce e {cual}?,trozo,src/temas/temas5.ts,borrador
+053967a20f30,más grueso,mai gros,trozo,src/temas/temas5.ts,borrador
+cb2a6eab6c52,más delgado,mai subțire,trozo,src/temas/temas5.ts,borrador
+02801b9b8997,¿Cuál es {cual}?,Care e {cual}?,frase,src/temas/temas5.ts,borrador
+17871b283c71,¡Sí! Ese es {cual}.,Da! Acela e {cual}.,frase,src/temas/temas5.ts,borrador
+e0bc3bd26583,Mira bien el ancho de cada uno. ¿Cuál es {cual}?,Uită-te bine cât de lat e fiecare. Care e {cual}?,frase,src/temas/temas5.ts,borrador
+57c04dfb0d77,Series difíciles,Șiruri grele,trozo,src/temas/temas5.ts,borrador
 e91fd1d1ccb0,Cómo se juega,Cum se joacă,adultos,src/aplicacion/adultos/comoSeJuega.ts,borrador
 b9d2e06207df,Juego,Joc,adultos,src/aplicacion/adultos/comoSeJuega.ts,borrador
 3b935a9f2fc8,Modo de juego,Modul de joc,adultos,src/aplicacion/adultos/comoSeJuega.ts,borrador
