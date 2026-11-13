@@ -674,8 +674,9 @@ export function Busca(cfg: Config, onDone: AlTerminar): Juego {
           ok: [t],
           ask: cfg.ask ? cfg.ask(t) : esta(t),
           snd: cfg.sound && SOUNDS[t] ? () => playSound(t) : null,
-          okSay: (w: Cosa) => praise() + ' ' + (cfg.okSay ? cfg.okSay(w) : cap(nameT(w)) + '.'),
-          badSay: (w: Cosa) => eseEs(w) + '. ' + (cfg.ask ? cfg.ask(t) : esta(t)),
+          // las dos partes, ya traducidas, juntas (la pregunta de cfg.ask puede venir en castellano: tr)
+          okSay: (w: Cosa) => juntar(praise(), cfg.okSay ? tr(cfg.okSay(w)) : cap(nameT(w)) + '.'),
+          badSay: (w: Cosa) => juntar(eseEs(w) + '.', cfg.ask ? tr(cfg.ask(t)) : esta(t)),
         };
       },
     },
@@ -839,7 +840,8 @@ export function Conocer(cfg: Config, onDone: AlTerminar): Juego {
         card(-260, -280, 520, 560, '#FFF6E6', 8, 50);
         if (it.draw) it.draw(0, -40, 380);
         else thing(it.k, 0, -40, 380);
-        const lb = (it.label ? it.label : Wn(it.k || '')).toUpperCase();
+        // El rótulo, traducido y en mayúsculas: juntar lo marca como ya traducido (en mayúsculas ya no está en la tabla).
+        const lb = juntar((it.label ? tr(it.label) : Wn(it.k || '')).toUpperCase());
         text(lb, 0, 230, lb.length > 12 ? 50 : 64, K, { f: LF });
         if (it.ex)
           it.ex.forEach((e: Cosa, j: number) => {
@@ -984,7 +986,7 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego {
       if (free) {
         SFX.pop();
         sparkles(x, y, 5);
-        say(cap(p.n) + '.');
+        say(juntar(cap(tr(p.n)) + '.'));
         if (!this.seen[id] && parts.includes(p)) {
           this.seen[id] = 1;
           this.done++;
@@ -1002,7 +1004,7 @@ export function Cuerpo(cfg: Config, onDone: AlTerminar): Juego {
         onRight(this.errs === 0);
         this.done++;
         scene!.starPop = T;
-        say(praise() + ' ' + cap(p.n) + '.', () =>
+        say(juntar(praise(), cap(tr(p.n)) + '.'), () =>
           later(400, () => {
             this.busy = false;
             this.i++;
@@ -1307,7 +1309,7 @@ export function Arrastra(cfg: Config, onDone: AlTerminar): Juego {
         if (this.errs === 1) rec(cfg.key || 'arrastra', false);
         const why = s
           ? it.k !== s.k
-            ? eseEs(it.k) + '. ' + s.say
+            ? juntar(eseEs(it.k) + '.', tr(s.say))
             : cfg.wrongZone
               ? cfg.wrongZone(it, z, s)
               : s.say
@@ -1539,7 +1541,7 @@ export function Atrapa(cfg: Config, onDone: AlTerminar): Juego {
         b.vx = (b.x < x ? -1 : 1) * -260;
         SFX.boing();
         rec(cfg.key || 'atrapa', false);
-        say(eseEs(b.k) + '. ' + t.ask);
+        say(juntar(eseEs(b.k) + '.', tr(t.ask)));
       }
     },
   };
@@ -2617,15 +2619,23 @@ export function Pinta(cfg: Config, onDone: AlTerminar): Juego {
         scene!.starPop = T;
         this.errs = 0;
         this.busy = true;
-        say(praise() + ' ' + cap(nameT(o.k)) + (isPl(o.k) ? ' son ' : ' es ') + colorAdj(o.c, o.k) + '.', () =>
-          later(300, () => {
-            this.busy = false;
-            if (!this.cur()) {
-              this.i++;
-              if (this.i >= R) onDone();
-              else this.load();
-            } else this.ask();
-          }),
+        say(
+          juntar(
+            praise(),
+            fmt(isPl(o.k) ? '{Cosa} son {color}.' : '{Cosa} es {color}.', {
+              cosa: nameT(o.k),
+              color: tr(colorAdj(o.c, o.k)),
+            }),
+          ),
+          () =>
+            later(300, () => {
+              this.busy = false;
+              if (!this.cur()) {
+                this.i++;
+                if (this.i >= R) onDone();
+                else this.load();
+              } else this.ask();
+            }),
         );
       } else {
         SFX.bad();

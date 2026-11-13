@@ -7,7 +7,7 @@
 // Al cargar el módulo elige voz, carga el manifiesto de voces (si toca) y envuelve speechSynthesis.cancel.
 import { whenQuiet, sceneTok } from './escenas.ts';
 import { S } from './guardado.ts';
-import { IDIOMA, tr } from './traducir.ts';
+import { IDIOMA, tr, juntar, estaTraducido } from './traducir.ts';
 import { idioma } from '../dominio/idiomas.ts';
 import { VIVO } from './pantalla.ts';
 import { AC, initSonido, MUS } from './sonido.ts';
@@ -532,10 +532,15 @@ const PRAISE = [
   '¡Súper!',
   '¡Lo encontraste!',
 ];
-// praise(): una felicitación al azar; la mitad de las veces le añade el nombre del niño.
+// praise(): una felicitación al azar, ya en el idioma del juego (desde la ID5b); la mitad de las veces le añade el
+// nombre del niño antes del signo final («¡Muy bien, Ana!», «Foarte bine, Ana!»). Sale marcada como ya traducida.
 export const praise = (): string => {
-  const p = pick(PRAISE);
-  return S.name && azar() < 0.5 ? p.slice(0, -1) + ', ' + S.name + '!' : p;
+  const p = tr(pick(PRAISE));
+  return juntar(S.name && azar() < 0.5 ? p.slice(0, -1) + ', ' + S.name + '!' : p);
 };
-// cap(texto): pone en mayúscula la primera letra.
-export const cap = (s: string): string => (s ? (s[0] as string).toUpperCase() + s.slice(1) : s);
+// cap(texto): pone en mayúscula la primera letra. Si texto ya estaba traducido (un nombre de nombreEn, una frase de
+// fmt), el resultado también queda marcado como traducido (desde la ID5b), para que say() y text() no lo busquen.
+export const cap = (s: string): string => {
+  const c = s ? (s[0] as string).toUpperCase() + s.slice(1) : s;
+  return c !== s && estaTraducido(s) ? juntar(c) : c;
+};

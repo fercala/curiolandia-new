@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142) e **ID5b** (v0.2.144), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,32 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID5b (v0.2.144): los temas de 3 años y los especiales en rumano
+
+- **Tabla nueva `src/idiomas/ro/temas3.ts`** (`TEMAS3_RO`, unos 350 textos): los doce temas de 3 años y el Rincón de los
+  Conceptos (`temas/temas.ts`), y los especiales de `temas/extras.ts` (las canciones, las rutinas, los trazos, el
+  cumpleaños, la Navidad, el carnaval y el Día del Libro). Lleva también lo que el código compone y el catálogo no ve:
+  los días y los colores de las canciones con su artículo («el lunes», «el rojo»), los días y los meses con mayúscula,
+  los versos de las canciones de los colores y de las estaciones, y los colores concordados (`colorAdj`: «roja»,
+  «amarillas»), que en rumano van tras «culoarea» con su nombre («are culoarea roșu»). Lo que no está en el catálogo
+  sale en `dialogos/ro.csv` con el tipo «tabla», para que también lo revise quien hable rumano.
+- `nombres.ts`: mamá y papá, la lancha y el helicóptero, las piezas del muñeco de nieve, el círculo y el cuadrado, las
+  viñetas de las rutinas y las opciones del Rincón de los Conceptos («muchas galletas», «de día», «el grande»).
+- **Frases compuestas que se escapaban** (salían bien en castellano, pero en rumano se quedaban a medias o se apuntaban
+  como sin traducir; se ven jugando, no al abrir el juego):
+  - `praise()` (`nucleo/voz.ts`) da la felicitación ya traducida: «¡Muy bien, Ana!» se quedaba en castellano, porque con
+    el nombre ya no estaba en la tabla.
+  - `cap()` conserva la marca de «ya traducido» (`estaTraducido`, `nucleo/traducir.ts`), y `tr` deja como está un texto
+    ya traducido con un punto detrás («Mărul.»).
+  - Las felicitaciones con el nombre de la cosa, la parte del cuerpo o el color (`juegos/comps.ts` y `comps2.ts`) y los
+    «Esa es la pera. ¿Dónde está...?» de las respuestas equivocadas se juntan con `juntar`, y la pregunta pasa por `tr`
+    (en temas/extras.ts también; en temas5.ts, en la ID5d). «La fresa es roja» va con plantilla (`fmt`).
+  - El rótulo de las tarjetas de «Conocer» (`juegos/comps.ts`) se traduce antes de ponerlo en mayúsculas.
+  - Los números en rumano, también con mayúscula («Unu»), como ya traducidos (`textos.ts`).
+- Jugando con `?idioma=ro`, con 3 y con 5 años, cada juego de estos temas con toques al azar, lo único que queda sin
+  traducir son los cuentos (ID5e).
+- Versión: la v0.2.143 la lleva el PR #144 (P13b, el circuito). En castellano todo sigue igual.
 
 ### ID5a (v0.2.142): los nombres de los dibujos y los juegos comunes en rumano
 
