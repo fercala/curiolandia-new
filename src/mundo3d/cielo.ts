@@ -14,6 +14,7 @@ import * as THREE from 'three';
 import type { OpcionesSay } from '../nucleo/voz.ts';
 import type { Mundo, Nodo } from './tipos.ts';
 import { PI, S, SCENES, T, noise, parts, rnd, say, sceneName, tone } from '../nucleo/indice.ts';
+import { tr } from '../nucleo/traducir.ts';
 import { sayMix } from '../temas/indice.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
 // Date() y Math.random()).
@@ -117,11 +118,12 @@ export const NAMES3: [string, string, string, number?, string?, string?][] = [
   ['flower', 'La flor. Muchas plantas tienen flores.', 'FLOR', 0, 'La planta es un ser vivo.', 'PLANTA'],
 ]; /* cosas que Tito nombra (frases ya grabadas, algunas con una explicación); 1 = animal que de noche duerme, 2 = el búho, que de día duerme. Gana la primera fila cuya marca tenga el objeto: 'bee' va antes que 'bfly' porque las abejas llevan las dos marcas */
 // sylClap(x,y,wd): palabra wd dividida en sílabas (SYL3): por cada sílaba suena una palmada, sale la sílaba escrita
-// flotando cerca de (x,y) y Tito da un saltito (st.hop=T). Se corta si cambia la escena.
+// flotando cerca de (x,y) y Tito da un saltito (st.hop=T). Se corta si cambia la escena. Desde la ID5e, las sílabas pasan
+// por tr() enteras ('RA NA' → 'BROAS CĂ' en rumano, idiomas/ro/cielo.ts), así que se palmean las del idioma del juego.
 export function sylClap(x: number, y: number, wd: string) {
   // una palmada por sílaba, con la sílaba escrita, y Tito salta con cada una
   const sc0 = sceneName,
-    Y = (SYL3[wd] || wd).split(' '),
+    Y = tr(SYL3[wd] || wd).split(' '),
     n = Y.length,
     X = Math.min(1480 - n * 65, Math.max(120 + n * 65, x));
   Y.forEach((sy, i) =>
@@ -207,7 +209,7 @@ export function sayNum(n: number, cb?: (() => void) | null) {
   else say3(NUM10[n - 1], cb);
 }
 // numPop(x,y,n,tx): hace salir flotando en (x,y) de 1600x900 el número n (con n puntitos) o el texto tx en grande.
-// Sin tx, suena una nota más aguda cuanto mayor es n. Usa la lista de partículas parts de nucleo/escenas.ts.
+// Desde la ID5e, tx pasa por tr() (sale en el idioma del juego). Sin tx, suena una nota más aguda cuanto mayor es n. Usa la lista de partículas parts de nucleo/escenas.ts.
 export function numPop(x: number, y: number, n: number, tx?: string) {
   // el número contado aparece flotando
   parts.push({
@@ -221,7 +223,7 @@ export function numPop(x: number, y: number, n: number, tx?: string) {
     r: tx ? 28 : 38,
     rot: 0,
     k: 't',
-    tx: tx || String(n),
+    tx: tx ? tr(tx) : String(n),
     dots: tx ? 0 : n,
     g: 0,
   });
@@ -415,7 +417,7 @@ export function skyTap(x: number, y: number, w: Mundo) {
                 r: 22,
                 rot: 0,
                 k: 't',
-                tx: en ? ne : n.slice(0, -1),
+                tx: en ? ne : tr(n).slice(0, -1),
                 g: 0,
               });
               k++;
