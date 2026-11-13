@@ -10,7 +10,8 @@
  * habitaciones de la casa y los temas (sus formas salen de TEMAS_RO, de escenas.ts). Lo que aún no está sale en
  * castellano (nucleo/traducir.ts lo apunta en sinTraducir). Desde la ID4c, las frutas de la merienda de la casa, y desde la
  * ID4d, el cole, las pruebas del deporte, las excursiones y los animales de la granja con sus crías.
- * Desde la ID5a, junta también los nombres de los dibujos (LEX_RO, de lex.ts).
+ * Desde la ID5a, junta también los nombres de los dibujos (LEX_RO, de lex.ts), y desde la ID5b, los de los temas de 3
+ * años (las piezas del muñeco de nieve, las formas, las viñetas de las rutinas...).
  * Exporta: NOMBRES_RO. Importa el tipo Nombre (dominio/idiomas.ts), TEMAS_RO (escenas.ts) y LEX_RO (lex.ts).
  */
 import type { Nombre } from '../../dominio/idiomas.ts';
@@ -257,5 +258,29 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   'el ternero': N('vițelul', 'vițel', 'm', 'vițelului', 'viței'),
   'el lechón': N('purcelușul', 'purceluș', 'm', 'purcelușului', 'purceluși'),
   'el potro': N('mânzul', 'mânz', 'm', 'mânzului', 'mânji'),
+  // los temas de 3 años (desde la fase ID5b): transportes, las piezas del muñeco de nieve, las formas, las viñetas de
+  // las rutinas y las opciones del Rincón de los Conceptos
+  'mamá': N('mama', 'mamă', 'f', 'mamei', 'mame'),
+  'papá': N('tata', 'tată', 'm', 'tatălui', 'tați'),
+  'la lancha': N('barca cu motor', 'barcă cu motor', 'f', 'bărcii cu motor', 'bărci cu motor'),
+  'el helicóptero': N('elicopterul', 'elicopter', 'n', 'elicopterului', 'elicoptere'),
+  'la bola grande': N('bulgărele mare', 'bulgăre mare', 'm', 'bulgărelui mare', 'bulgări mari'),
+  'la bola mediana': N('bulgărele mijlociu', 'bulgăre mijlociu', 'm', 'bulgărelui mijlociu', 'bulgări mijlocii'),
+  'el sombrero': N('pălăria', 'pălărie', 'f', 'pălăriei', 'pălării'),
+  'la nariz de zanahoria': N('nasul de morcov', 'nas de morcov', 'n', 'nasului de morcov', 'nasuri de morcov'),
+  'el círculo': N('cercul', 'cerc', 'n', 'cercului', 'cercuri'),
+  'el cuadrado': N('pătratul', 'pătrat', 'n', 'pătratului', 'pătrate'),
+  'muchas galletas': N('mulți biscuiți', 'mulți biscuiți', 'm', 'multor biscuiți', undefined, true),
+  'pocas galletas': N('puțini biscuiți', 'puțini biscuiți', 'm', 'puținilor biscuiți', undefined, true),
+  'de día': N('ziua', 'zi', 'f', 'zilei', 'zile'),
+  'de noche': N('noaptea', 'noapte', 'f', 'nopții', 'nopți'),
+  'el grande': N('cel mare', 'cel mare', 'm', 'celui mare'),
+  'el pequeño': N('cel mic', 'cel mic', 'm', 'celui mic'),
+  'mojamos las manos': N('ne udăm mâinile', 'ne udăm mâinile', 'f', 'ne udăm mâinile'),
+  'frotamos': N('frecăm', 'frecăm', 'f', 'frecăm'),
+  'secamos': N('ne ștergem', 'ne ștergem', 'f', 'ne ștergem'),
+  'cepillamos': N('periem', 'periem', 'f', 'periem'),
+  'nos enjuagamos': N('ne clătim', 'ne clătim', 'f', 'ne clătim'),
+  'la sonrisa': N('zâmbetul', 'zâmbet', 'n', 'zâmbetului', 'zâmbete'),
   Júpiter: N('Jupiter', 'Jupiter', 'm', 'lui Jupiter'),
 };

@@ -2049,8 +2049,8 @@ d3b949def7a7,{Color}.,{Color}.,trozo,src/juegos/comps.ts,borrador
 837f3f748295,Ahora toca {cosa}.,Acum atinge {cosa}.,frase,src/juegos/comps.ts,borrador
 0b3fdf6aa5f3,Primero toca un color.,Mai întâi atinge o culoare.,frase,src/juegos/comps.ts,borrador
 59a705d15ada,Primero pintamos {cosa}.,Mai întâi colorăm {cosa}.,frase,src/juegos/comps.ts,borrador
-489e3e7a9749, son ,,trozo,src/juegos/comps.ts,falta
-c9cb11cccccc, es ,,trozo,src/juegos/comps.ts,falta
+8ccafacc389e,{Cosa} son {color}.,{Cosa} au culoarea {color}.,trozo,src/juegos/comps.ts src/temas/temas.ts,borrador
+cff7c8592ad0,{Cosa} es {color}.,{Cosa} are culoarea {color}.,trozo,src/juegos/comps.ts src/temas/temas.ts,borrador
 4f5b95807851,"Mmm, {cosa} no es {pincel}. Toca el {color}.","Mmm, {cosa} nu e de culoarea {pincel}. Atinge culoarea {color}.",frase,src/juegos/comps.ts,borrador
 b56d3b03c5c7,"Mmm, eso no va ahí. ¿Qué pasa primero? ¿Y después?","Mmm, asta nu merge aici. Ce se întâmplă mai întâi? Și apoi?",frase,src/juegos/comps2.ts,borrador
 b974a22a57d1,"Mmm, {cosa} no va con {otra}.","Mmm, {cosa} nu merge cu {otra}.",frase,src/juegos/comps2.ts,borrador
@@ -2172,7 +2172,7 @@ eded0f9de06e,Rana.,,frase,src/mundo3d/cielo.ts,falta
 9237831b12ac,La rana es verde.,,frase,src/mundo3d/cielo.ts,falta
 4ee3c0959612,El árbol.,,frase,src/mundo3d/cielo.ts,falta
 af4602d6ea4d,ÁRBOL,,trozo,src/mundo3d/cielo.ts,falta
-bac5c3c6248b,El viento. ¡Sopla y se llevan las hojas! Fiuuu.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+bac5c3c6248b,El viento. ¡Sopla y se llevan las hojas! Fiuuu.,Vântul. Suflă și ia frunzele cu el! Fiuuu.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 78fbb8912f3f,VIENTO,,trozo,src/mundo3d/cielo.ts,falta
 24d0aa9d526c,El pingüino.,,frase,src/mundo3d/cielo.ts,falta
 ad23549c6177,PINGÜINO,,trozo,src/mundo3d/cielo.ts,falta
@@ -2185,17 +2185,17 @@ fe89b9062bf7,La abeja. Hace miel con las flores.,,frase,src/mundo3d/cielo.ts src
 a0cb3a4bb3dc,ABEJA,,trozo,src/mundo3d/cielo.ts,falta
 5699bd00c78a,La mariposa.,,frase,src/mundo3d/cielo.ts,falta
 ffe216841786,MARIPOSA,,trozo,src/mundo3d/cielo.ts,falta
-e8349d923a34,La mariposa. Vuela de flor en flor.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+e8349d923a34,La mariposa. Vuela de flor en flor.,Fluturele. Zboară din floare în floare.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 f179d1aa13c4,El pájaro.,,frase,src/mundo3d/cielo.ts,falta
 b32b48974116,PÁJARO,,trozo,src/mundo3d/cielo.ts,falta
 87bf64b0ae01,La ballena.,,frase,src/mundo3d/cielo.ts,falta
 b02dfd912d17,BALLENA,,trozo,src/mundo3d/cielo.ts,falta
 6c6bd011db00,"La ballena. Vive en el mar, pero respira aire.",,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
-d4d67aaafb15,El castillo de arena.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+d4d67aaafb15,El castillo de arena.,Castelul de nisip.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 564275a09b6c,CASTILLO,,trozo,src/mundo3d/cielo.ts,falta
 4b5a2909f3f7,La pelota de playa.,,frase,src/mundo3d/cielo.ts,falta
 b351b43c4eb1,PELOTA,,trozo,src/mundo3d/cielo.ts,falta
-0ced1549bfc6,La pelota. En el recreo jugamos a la pelota.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+0ced1549bfc6,La pelota. En el recreo jugamos a la pelota.,Mingea. În pauză ne jucăm cu mingea.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 a6a1b45e4718,La tarta de cumpleaños.,,frase,src/mundo3d/cielo.ts,falta
 0b5faad59fb7,TARTA,,trozo,src/mundo3d/cielo.ts,falta
 ebc3f7a8ec9b,La tarta. En el cumpleaños soplamos las velas.,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
@@ -2210,7 +2210,7 @@ e60ee323cc59,La gota de agua.,,frase,src/mundo3d/cielo.ts,falta
 c27d7e104a9e,GOTA,,trozo,src/mundo3d/cielo.ts,falta
 411926fe454e,El arcoíris. Sale cuando hay sol y lluvia a la vez.,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
 6b3888ef8214,ARCOÍRIS,,trozo,src/mundo3d/cielo.ts,falta
-6b7914c5ac26,La seta. Crece cuando llueve.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+6b7914c5ac26,La seta. Crece cuando llueve.,Ciuperca. Crește când plouă.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 6da09d212788,SETA,,trozo,src/mundo3d/cielo.ts,falta
 1513ccf5a2d5,La calabaza. Es grande y naranja.,,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,falta
 8f0bff76cc22,CALABAZA,,trozo,src/mundo3d/cielo.ts,falta
@@ -2222,14 +2222,14 @@ c27d7e104a9e,GOTA,,trozo,src/mundo3d/cielo.ts,falta
 7afa5778c660,BÚHO,,trozo,src/mundo3d/cielo.ts,falta
 d2f8b61fd168,La hormiga. Trabaja en equipo y es muy fuerte.,,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,falta
 ffe7cd8bfc3d,HORMIGA,,trozo,src/mundo3d/cielo.ts,falta
-f867f379be43,El nido. La casita de los pájaros.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+f867f379be43,El nido. La casita de los pájaros.,Cuibul. Căsuța păsărelelor.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 2b85c3b7b02c,NIDO,,trozo,src/mundo3d/cielo.ts,falta
 523e87669c2a,La mariquita. Tiene puntitos negros.,,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,falta
 86f7e1088be2,MARIQUITA,,trozo,src/mundo3d/cielo.ts,falta
-3406a45ab993,La mariquita. Es roja con puntitos.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+3406a45ab993,La mariquita. Es roja con puntitos.,Buburuza. E roșie cu bulinuțe.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 929ad6ef8e9b,El regalo. ¡Qué bonito es regalar!,,frase,src/mundo3d/cielo.ts src/temas/temas5.ts,falta
 fe82e90c08e5,REGALO,,trozo,src/mundo3d/cielo.ts,falta
-637d0850f2da,El barco. Navega por el agua.,,frase,src/mundo3d/cielo.ts src/temas/temas.ts,falta
+637d0850f2da,El barco. Navega por el agua.,Barca. Plutește pe apă.,frase,src/mundo3d/cielo.ts src/temas/temas.ts,borrador
 28e0c1976363,BARCO,,trozo,src/mundo3d/cielo.ts,falta
 64ff0c0e5647,El conejo. Come zanahorias y salta.,,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,falta
 ec81e32a8441,CONEJO,,trozo,src/mundo3d/cielo.ts,falta
@@ -2510,111 +2510,111 @@ dee95bf60166,¡Excelente!,Excelent!,frase,src/nucleo/voz.ts,borrador
 2890ba425933,¡Qué bien!,Ce bine!,frase,src/nucleo/voz.ts,borrador
 4419f03afad2,¡Súper!,Super!,frase,src/nucleo/voz.ts,borrador
 1c336675427f,¡Lo encontraste!,L-ai găsit!,frase,src/nucleo/voz.ts,borrador
-b0c834bdd81d,"Lunes, empieza la semana.",,frase,src/temas/extras.ts,falta
-e28c42d3be2a,"Martes, jugamos con ganas.",,frase,src/temas/extras.ts,falta
-4a9088efcddf,"Miércoles, ¡ya estamos en la mitad!",,frase,src/temas/extras.ts,falta
-9ad9b474c8e7,"Jueves, ¡qué bien se está!",,frase,src/temas/extras.ts,falta
-acd298e8e456,"Viernes, último día de cole.",,frase,src/temas/extras.ts,falta
-dec6a56942b6,"Sábado, ¡a jugar y a pasear!",,frase,src/temas/extras.ts,falta
-a0dfd03cdc8d,"Domingo, en familia a descansar.",,frase,src/temas/extras.ts,falta
-3c0fc30af60d,¡Vamos a cantar la canción de los días de la semana! Escucha.,,frase,src/temas/extras.ts,falta
-427e2fef5ede,"¡Ahora te toca a ti! Toca los días en orden, empezando por el lunes.",,frase,src/temas/extras.ts,falta
-6760837016f6,¡Bravo! ¡Los siete días de la semana!,,frase,src/temas/extras.ts,falta
+b0c834bdd81d,"Lunes, empieza la semana.","Luni, începe săptămâna.",frase,src/temas/extras.ts,borrador
+e28c42d3be2a,"Martes, jugamos con ganas.","Marți, ne jucăm cu poftă.",frase,src/temas/extras.ts,borrador
+4a9088efcddf,"Miércoles, ¡ya estamos en la mitad!","Miercuri, am ajuns la jumătate!",frase,src/temas/extras.ts,borrador
+9ad9b474c8e7,"Jueves, ¡qué bien se está!","Joi, ce bine ne e!",frase,src/temas/extras.ts,borrador
+acd298e8e456,"Viernes, último día de cole.","Vineri, ultima zi de grădiniță.",frase,src/temas/extras.ts,borrador
+dec6a56942b6,"Sábado, ¡a jugar y a pasear!","Sâmbătă, la joacă și la plimbare!",frase,src/temas/extras.ts,borrador
+a0dfd03cdc8d,"Domingo, en familia a descansar.","Duminică, ne odihnim în familie.",frase,src/temas/extras.ts,borrador
+3c0fc30af60d,¡Vamos a cantar la canción de los días de la semana! Escucha.,Hai să cântăm cântecul zilelor săptămânii! Ascultă.,frase,src/temas/extras.ts,borrador
+427e2fef5ede,"¡Ahora te toca a ti! Toca los días en orden, empezando por el lunes.","Acum e rândul tău! Atinge zilele în ordine, începând cu luni.",frase,src/temas/extras.ts,borrador
+6760837016f6,¡Bravo! ¡Los siete días de la semana!,Bravo! Cele șapte zile ale săptămânii!,frase,src/temas/extras.ts,borrador
 cbdf67864202,el ,,trozo,src/temas/extras.ts src/temas/temas4.ts,falta
-447ffd615d62,¡La canción de las estaciones! Escucha.,,frase,src/temas/extras.ts,falta
-bfa0d3c66324,¡Ahora jugamos! Toca la estación que te digo.,,frase,src/temas/extras.ts,falta
-33eb835d8653,"¡Ahora te toca a ti! Toca las estaciones en orden, como en la canción.",,frase,src/temas/extras.ts,falta
-12a9cb7654b7,"¡Qué bien! Otoño, invierno, primavera y verano.",,frase,src/temas/extras.ts,falta
-7b4041059425,¡La canción de los colores! Escucha.,,frase,src/temas/extras.ts,falta
-442e2ad64968,¡Ahora jugamos! Toca el color que te digo.,,frase,src/temas/extras.ts,falta
-ad89da49a30a,¡Qué bien! ¡Sabes un montón de colores!,,frase,src/temas/extras.ts,falta
-d96bed0f1b5b,¡La canción de los meses del año! Escucha.,,frase,src/temas/extras.ts,falta
-a980eeb96a27,"¡Ahora te toca a ti! Toca los meses en orden, empezando por enero.",,frase,src/temas/extras.ts,falta
-9a1dd3de6c05,¡Bravo! ¡Los doce meses del año!,,frase,src/temas/extras.ts,falta
-c88f21d2975d,"Enero, ¡empieza el año!",,frase,src/temas/extras.ts,falta
-4dcdb4988305,"Y diciembre, ¡termina el año!",,frase,src/temas/extras.ts,falta
-22728b440c5a,mojamos las manos,,trozo,src/temas/extras.ts,falta
-f7b8f8ae0470,nos enjuagamos,,trozo,src/temas/extras.ts,falta
-0e6078fd3c21,la sonrisa,,trozo,src/temas/extras.ts,falta
+447ffd615d62,¡La canción de las estaciones! Escucha.,Cântecul anotimpurilor! Ascultă.,frase,src/temas/extras.ts,borrador
+bfa0d3c66324,¡Ahora jugamos! Toca la estación que te digo.,Acum ne jucăm! Atinge anotimpul pe care ți-l spun.,frase,src/temas/extras.ts,borrador
+33eb835d8653,"¡Ahora te toca a ti! Toca las estaciones en orden, como en la canción.","Acum e rândul tău! Atinge anotimpurile în ordine, ca în cântec.",frase,src/temas/extras.ts,borrador
+12a9cb7654b7,"¡Qué bien! Otoño, invierno, primavera y verano.","Ce bine! Toamna, iarna, primăvara și vara.",frase,src/temas/extras.ts,borrador
+7b4041059425,¡La canción de los colores! Escucha.,Cântecul culorilor! Ascultă.,frase,src/temas/extras.ts,borrador
+442e2ad64968,¡Ahora jugamos! Toca el color que te digo.,Acum ne jucăm! Atinge culoarea pe care ți-o spun.,frase,src/temas/extras.ts,borrador
+ad89da49a30a,¡Qué bien! ¡Sabes un montón de colores!,Ce bine! Știi o mulțime de culori!,frase,src/temas/extras.ts,borrador
+d96bed0f1b5b,¡La canción de los meses del año! Escucha.,Cântecul lunilor anului! Ascultă.,frase,src/temas/extras.ts,borrador
+a980eeb96a27,"¡Ahora te toca a ti! Toca los meses en orden, empezando por enero.","Acum e rândul tău! Atinge lunile în ordine, începând cu ianuarie.",frase,src/temas/extras.ts,borrador
+9a1dd3de6c05,¡Bravo! ¡Los doce meses del año!,Bravo! Cele douăsprezece luni ale anului!,frase,src/temas/extras.ts,borrador
+c88f21d2975d,"Enero, ¡empieza el año!","Ianuarie, începe anul!",frase,src/temas/extras.ts,borrador
+4dcdb4988305,"Y diciembre, ¡termina el año!","Și decembrie, se termină anul!",frase,src/temas/extras.ts,borrador
+22728b440c5a,mojamos las manos,ne udăm mâinile,trozo,src/temas/extras.ts,borrador
+f7b8f8ae0470,nos enjuagamos,ne clătim,trozo,src/temas/extras.ts,borrador
+0e6078fd3c21,la sonrisa,zâmbetul,trozo,src/temas/extras.ts,borrador
 7b203331b463,Rutinas y hábitos,Rutine și obiceiuri,trozo,src/temas/extras.ts src/aplicacion/adultos/progreso.ts,borrador
-1637550992bc,Las cosas que hacemos todos los días.,,frase,src/temas/extras.ts,falta
-6ba8d8ebc41a,Lavarse las manos,,trozo,src/temas/extras.ts,falta
-50dc675575ca,¿Cómo nos lavamos las manos? Ordena del primero al último.,,frase,src/temas/extras.ts,falta
-c9891c2f2dbd,"¡Muy bien! Mojamos, ponemos jabón, frotamos y secamos. ¡Manos limpitas!",,frase,src/temas/extras.ts,falta
-cc75d97d3658,"¡Chau, bichitos!",,frase,src/temas/extras.ts,falta
-ea884c25b2bc,¡Las manos tienen bichitos! Frota con el jabón hasta que no quede ninguno.,,frase,src/temas/extras.ts,falta
-d27021373be7,"¡Manos limpitas! Antes de comer y después de ir al baño, nos lavamos las manos.",,frase,src/temas/extras.ts,falta
-9ecdb4ded658,Lavarse los dientes,,trozo,src/temas/extras.ts,falta
-86c9549a4801,¿Cómo nos lavamos los dientes? Ordena del primero al último.,,frase,src/temas/extras.ts,falta
-11bd48b9e0c0,"¡Muy bien! Pasta, cepillo, agua... ¡y una sonrisa brillante!",,frase,src/temas/extras.ts,falta
-61f9751b040d,Dientes limpitos,,trozo,src/temas/extras.ts,falta
-32e2ef13cd0d,¡Hay bichitos en los dientes! Cepilla arriba y abajo hasta que se vayan.,,frase,src/temas/extras.ts,falta
-d5a75804f6d9,¡Dientes limpitos! Nos cepillamos después de comer y antes de dormir.,,frase,src/temas/extras.ts,falta
-62bcd76b5993,Ordenar los juguetes,,trozo,src/temas/extras.ts,falta
-716d2fe8023f,¡Qué lío! Guardemos los juguetes en el baúl.,,frase,src/temas/extras.ts,falta
-ddc523288aad,¡Todo ordenado! ¡Qué bonito queda el cuarto!,,frase,src/temas/extras.ts,falta
-90f9d4b78f50,Antes de dormir,,trozo,src/temas/extras.ts,falta
-b72d78da59cd,¿Qué hacemos antes de dormir? Ordena del primero al último.,,frase,src/temas/extras.ts,falta
-d5e54d716194,"¡Muy bien! Y al final, a la cama. ¡Buenas noches!",,frase,src/temas/extras.ts,falta
-ac753c02b405,Líneas acostadas,,trozo,src/temas/extras.ts,falta
-37fde2f10bf1,¡Otra abeja! Llévala a su flor.,,frase,src/temas/extras.ts,falta
-44a48dc5b847,La abeja quiere llegar a la flor. Empieza en el punto verde y sigue el camino.,,frase,src/temas/extras.ts,falta
-002733b4ee16,Líneas paradas,,trozo,src/temas/extras.ts,falta
-fcf49ae80c35,Otra gota. ¡De arriba para abajo!,,frase,src/temas/extras.ts,falta
-0a4410079bf8,"¡Hagamos llover! Lleva la gota desde la nube hasta la maceta, de arriba para abajo.",,frase,src/temas/extras.ts,falta
-b494dfe3dec4,Líneas inclinadas,,trozo,src/temas/extras.ts,falta
-6d5d5b025009,¡Otra vez! Lleva la pelota hasta el perro.,,frase,src/temas/extras.ts,falta
-3041a338cad5,La pelota baja por el tobogán. Llévala hasta el perro.,,frase,src/temas/extras.ts,falta
-4e8fd617f633,Curvas,,trozo,src/temas/extras.ts,falta
-b319f6c4d83d,¡Otro color del arcoíris!,,frase,src/temas/extras.ts,falta
-633279c07d9a,¡Pintemos un arcoíris! Sigue la curva de un lado al otro.,,frase,src/temas/extras.ts,falta
-14673dedf83b,Olas,,trozo,src/temas/extras.ts,falta
-5d3d7dfd14f2,¡Otra ola!,,frase,src/temas/extras.ts,falta
-e0504671abf4,El barco navega sobre las olas. Sigue el camino que sube y baja.,,frase,src/temas/extras.ts,falta
-4fae8be981bd,Zigzag,,trozo,src/temas/extras.ts,falta
-7936b8529764,¡Otra montaña!,,frase,src/temas/extras.ts,falta
-9d7cc6174a31,"El conejo salta las montañas. Sube y baja, en zigzag.",,frase,src/temas/extras.ts,falta
-87c9a4298dc5,Bucles,,trozo,src/temas/extras.ts,falta
-e60b2057154f,"¡Otra vez, con muchas vueltas!",,frase,src/temas/extras.ts,falta
-6e23693be31f,La mariposa vuela dando vueltitas. Sigue el camino con rulos.,,frase,src/temas/extras.ts,falta
-62e7be8d583e,Espiral,,trozo,src/temas/extras.ts,falta
-10020e94f75a,El caracol va dando vueltas hasta la lechuga del medio. Sigue la espiral.,,frase,src/temas/extras.ts,falta
-8597cf92f493,¡Lo lograste! Con estos trazos tu mano ya está lista para escribir letras. ¡Pruébalas en Letrilandia!,,frase,src/temas/extras.ts,falta
+1637550992bc,Las cosas que hacemos todos los días.,Lucrurile pe care le facem în fiecare zi.,frase,src/temas/extras.ts,borrador
+6ba8d8ebc41a,Lavarse las manos,Spălatul pe mâini,trozo,src/temas/extras.ts,borrador
+50dc675575ca,¿Cómo nos lavamos las manos? Ordena del primero al último.,"Cum ne spălăm pe mâini? Pune în ordine, de la primul la ultimul.",frase,src/temas/extras.ts,borrador
+c9891c2f2dbd,"¡Muy bien! Mojamos, ponemos jabón, frotamos y secamos. ¡Manos limpitas!","Foarte bine! Udăm, punem săpun, frecăm și ștergem. Mânuțe curate!",frase,src/temas/extras.ts,borrador
+cc75d97d3658,"¡Chau, bichitos!","Pa, microbi!",frase,src/temas/extras.ts,borrador
+ea884c25b2bc,¡Las manos tienen bichitos! Frota con el jabón hasta que no quede ninguno.,Mâinile au microbi! Freacă cu săpun până nu mai rămâne niciunul.,frase,src/temas/extras.ts,borrador
+d27021373be7,"¡Manos limpitas! Antes de comer y después de ir al baño, nos lavamos las manos.","Mânuțe curate! Înainte de masă și după ce mergem la baie, ne spălăm pe mâini.",frase,src/temas/extras.ts,borrador
+9ecdb4ded658,Lavarse los dientes,Spălatul pe dinți,trozo,src/temas/extras.ts,borrador
+86c9549a4801,¿Cómo nos lavamos los dientes? Ordena del primero al último.,"Cum ne spălăm pe dinți? Pune în ordine, de la primul la ultimul.",frase,src/temas/extras.ts,borrador
+11bd48b9e0c0,"¡Muy bien! Pasta, cepillo, agua... ¡y una sonrisa brillante!","Foarte bine! Pastă, periuță, apă... și un zâmbet strălucitor!",frase,src/temas/extras.ts,borrador
+61f9751b040d,Dientes limpitos,Dinți curați,trozo,src/temas/extras.ts,borrador
+32e2ef13cd0d,¡Hay bichitos en los dientes! Cepilla arriba y abajo hasta que se vayan.,Sunt microbi pe dinți! Periază sus și jos până pleacă.,frase,src/temas/extras.ts,borrador
+d5a75804f6d9,¡Dientes limpitos! Nos cepillamos después de comer y antes de dormir.,Dinți curați! Ne periem după masă și înainte de culcare.,frase,src/temas/extras.ts,borrador
+62bcd76b5993,Ordenar los juguetes,Strângem jucăriile,trozo,src/temas/extras.ts,borrador
+716d2fe8023f,¡Qué lío! Guardemos los juguetes en el baúl.,Ce dezordine! Hai să punem jucăriile în cufăr.,frase,src/temas/extras.ts,borrador
+ddc523288aad,¡Todo ordenado! ¡Qué bonito queda el cuarto!,Totul e în ordine! Ce frumoasă e camera!,frase,src/temas/extras.ts,borrador
+90f9d4b78f50,Antes de dormir,Înainte de culcare,trozo,src/temas/extras.ts,borrador
+b72d78da59cd,¿Qué hacemos antes de dormir? Ordena del primero al último.,"Ce facem înainte de culcare? Pune în ordine, de la primul la ultimul.",frase,src/temas/extras.ts,borrador
+d5e54d716194,"¡Muy bien! Y al final, a la cama. ¡Buenas noches!","Foarte bine! Și la sfârșit, la culcare. Noapte bună!",frase,src/temas/extras.ts,borrador
+ac753c02b405,Líneas acostadas,Linii culcate,trozo,src/temas/extras.ts,borrador
+37fde2f10bf1,¡Otra abeja! Llévala a su flor.,Încă o albină! Du-o la floarea ei.,frase,src/temas/extras.ts,borrador
+44a48dc5b847,La abeja quiere llegar a la flor. Empieza en el punto verde y sigue el camino.,Albina vrea să ajungă la floare. Începe de la punctul verde și urmează drumul.,frase,src/temas/extras.ts,borrador
+002733b4ee16,Líneas paradas,Linii în picioare,trozo,src/temas/extras.ts,borrador
+fcf49ae80c35,Otra gota. ¡De arriba para abajo!,Încă o picătură. De sus în jos!,frase,src/temas/extras.ts,borrador
+0a4410079bf8,"¡Hagamos llover! Lleva la gota desde la nube hasta la maceta, de arriba para abajo.","Hai să facem să plouă! Du picătura de la nor până la ghiveci, de sus în jos.",frase,src/temas/extras.ts,borrador
+b494dfe3dec4,Líneas inclinadas,Linii înclinate,trozo,src/temas/extras.ts,borrador
+6d5d5b025009,¡Otra vez! Lleva la pelota hasta el perro.,Încă o dată! Du mingea până la cățel.,frase,src/temas/extras.ts,borrador
+3041a338cad5,La pelota baja por el tobogán. Llévala hasta el perro.,Mingea coboară pe tobogan. Du-o până la cățel.,frase,src/temas/extras.ts,borrador
+4e8fd617f633,Curvas,Curbe,trozo,src/temas/extras.ts,borrador
+b319f6c4d83d,¡Otro color del arcoíris!,Încă o culoare a curcubeului!,frase,src/temas/extras.ts,borrador
+633279c07d9a,¡Pintemos un arcoíris! Sigue la curva de un lado al otro.,Hai să pictăm un curcubeu! Urmează curba de la o parte la alta.,frase,src/temas/extras.ts,borrador
+14673dedf83b,Olas,Valuri,trozo,src/temas/extras.ts,borrador
+5d3d7dfd14f2,¡Otra ola!,Încă un val!,frase,src/temas/extras.ts,borrador
+e0504671abf4,El barco navega sobre las olas. Sigue el camino que sube y baja.,Barca plutește pe valuri. Urmează drumul care urcă și coboară.,frase,src/temas/extras.ts,borrador
+4fae8be981bd,Zigzag,Zigzag,trozo,src/temas/extras.ts,borrador
+7936b8529764,¡Otra montaña!,Încă un munte!,frase,src/temas/extras.ts,borrador
+9d7cc6174a31,"El conejo salta las montañas. Sube y baja, en zigzag.","Iepurașul sare peste munți. Urcă și coboară, în zigzag.",frase,src/temas/extras.ts,borrador
+87c9a4298dc5,Bucles,Bucle,trozo,src/temas/extras.ts,borrador
+e60b2057154f,"¡Otra vez, con muchas vueltas!","Încă o dată, cu multe ture!",frase,src/temas/extras.ts,borrador
+6e23693be31f,La mariposa vuela dando vueltitas. Sigue el camino con rulos.,Fluturele zboară făcând cerculețe. Urmează drumul cu bucle.,frase,src/temas/extras.ts,borrador
+62e7be8d583e,Espiral,Spirală,trozo,src/temas/extras.ts,borrador
+10020e94f75a,El caracol va dando vueltas hasta la lechuga del medio. Sigue la espiral.,Melcul se tot învârte până la salata din mijloc. Urmează spirala.,frase,src/temas/extras.ts,borrador
+8597cf92f493,¡Lo lograste! Con estos trazos tu mano ya está lista para escribir letras. ¡Pruébalas en Letrilandia!,Ai reușit! Cu aceste linii mâna ta e gata să scrie litere. Încearcă-le în Letrilandia!,frase,src/temas/extras.ts,borrador
 a59cbbd4bf1d,Los trazos,Liniile,trozo,src/temas/extras.ts,borrador
-fb8547b20d6b,"Con los trazos preparamos la mano para escribir. Se juegan en orden: cuando terminas uno, se abre el siguiente.",,frase,src/temas/extras.ts,falta
-107312298d7f,Sigue el camino con el dedo.,,frase,src/temas/extras.ts,falta
+fb8547b20d6b,"Con los trazos preparamos la mano para escribir. Se juegan en orden: cuando terminas uno, se abre el siguiente.","Cu liniile ne pregătim mâna pentru scris. Se joacă în ordine: când termini unul, se deschide următorul.",frase,src/temas/extras.ts,borrador
+107312298d7f,Sigue el camino con el dedo.,Urmează drumul cu degetul.,frase,src/temas/extras.ts,borrador
 f2c77ff57d23,Las canciones,Cântecele,trozo,src/temas/extras.ts,borrador
 c40377b59857,Los días de la semana,Zilele săptămânii,trozo,src/temas/extras.ts src/temas/inglesPueblo.ts src/temas/temas4.ts,borrador
-4f7a6919011c,Las estaciones,,trozo,src/temas/extras.ts,falta
+4f7a6919011c,Las estaciones,Anotimpurile,trozo,src/temas/extras.ts,borrador
 9574ef39a896,Los colores,Culorile,trozo,src/temas/extras.ts src/temas/temas.ts,borrador
 50664bc74445,Los meses del año,Lunile anului,trozo,src/temas/extras.ts src/temas/temas5.ts src/aplicacion/adultos/progreso.ts,borrador
 ab7cdc83f7b7,El cumpleaños,Ziua de naștere,trozo,src/temas/extras.ts,borrador
-ae91d300878a,¡Es una fiesta de cumpleaños! Sopla las velitas: toca cada una y contamos.,,frase,src/temas/extras.ts,falta
-31ae2b0c5508,Decorar la tarta,,trozo,src/temas/extras.ts,falta
-f40c365001a0,"¡Decoremos la tarta! Pon encima lo que más te guste. Cuando termines, toca el botón verde.",,frase,src/temas/extras.ts,falta
-9e2636432969,Contar regalos,,trozo,src/temas/extras.ts,falta
-b8a5504a5ecf,Preparamos la fiesta,,trozo,src/temas/extras.ts,falta
-0e337f3cb81d,¿Cómo preparamos la fiesta? Primero invitamos a los amigos con una carta. Ordena lo que viene después.,,frase,src/temas/extras.ts,falta
-12d52b10aadf,"¡Muy bien! Invitamos, decoramos con globos, soplamos las velas y abrimos los regalos.",,frase,src/temas/extras.ts,falta
+ae91d300878a,¡Es una fiesta de cumpleaños! Sopla las velitas: toca cada una y contamos.,E o petrecere de ziua de naștere! Suflă în lumânărele: atinge-le pe fiecare și numărăm.,frase,src/temas/extras.ts,borrador
+31ae2b0c5508,Decorar la tarta,Decorăm tortul,trozo,src/temas/extras.ts,borrador
+f40c365001a0,"¡Decoremos la tarta! Pon encima lo que más te guste. Cuando termines, toca el botón verde.","Hai să decorăm tortul! Pune deasupra ce-ți place cel mai mult. Când termini, atinge butonul verde.",frase,src/temas/extras.ts,borrador
+9e2636432969,Contar regalos,Numărăm cadourile,trozo,src/temas/extras.ts,borrador
+b8a5504a5ecf,Preparamos la fiesta,Pregătim petrecerea,trozo,src/temas/extras.ts,borrador
+0e337f3cb81d,¿Cómo preparamos la fiesta? Primero invitamos a los amigos con una carta. Ordena lo que viene después.,Cum pregătim petrecerea? Mai întâi îi invităm pe prieteni cu o scrisoare. Pune în ordine ce urmează.,frase,src/temas/extras.ts,borrador
+12d52b10aadf,"¡Muy bien! Invitamos, decoramos con globos, soplamos las velas y abrimos los regalos.","Foarte bine! Invităm, decorăm cu baloane, suflăm în lumânări și deschidem cadourile.",frase,src/temas/extras.ts,borrador
 aa01cd1fce4d,La Navidad,Crăciunul,trozo,src/temas/extras.ts,borrador
-d1d37c56f5b7,Decorar el árbol,,trozo,src/temas/extras.ts,falta
-af51e1aa2765,"¡Decoremos el árbol de Navidad! Pon los adornos donde quieras. Cuando termines, toca el botón verde.",,frase,src/temas/extras.ts,falta
+d1d37c56f5b7,Decorar el árbol,Decorăm bradul,trozo,src/temas/extras.ts,borrador
+af51e1aa2765,"¡Decoremos el árbol de Navidad! Pon los adornos donde quieras. Cuando termines, toca el botón verde.","Hai să decorăm bradul de Crăciun! Pune podoabele unde vrei. Când termini, atinge butonul verde.",frase,src/temas/extras.ts,borrador
 8b75bc832842,El carnaval,Carnavalul,trozo,src/temas/extras.ts,borrador
-bd6b08660df9,Disfrazarse,,trozo,src/temas/extras.ts,falta
-7bb1ae00dd1d,"¡Es carnaval! Disfraza al niño como quieras. Cuando termines, toca el botón verde.",,frase,src/temas/extras.ts,falta
-185aef99d784,¡Atrápalos!,,frase,src/temas/extras.ts,falta
-ecfffa59d269,¡Atrapa los antifaces!,,frase,src/temas/extras.ts,falta
-888aa07f247e,¡Ahora las narices de payaso!,,frase,src/temas/extras.ts,falta
+bd6b08660df9,Disfrazarse,Ne costumăm,trozo,src/temas/extras.ts,borrador
+7bb1ae00dd1d,"¡Es carnaval! Disfraza al niño como quieras. Cuando termines, toca el botón verde.","E carnaval! Costumează copilul cum vrei. Când termini, atinge butonul verde.",frase,src/temas/extras.ts,borrador
+185aef99d784,¡Atrápalos!,Prinde-i!,frase,src/temas/extras.ts,borrador
+ecfffa59d269,¡Atrapa los antifaces!,Prinde măștile!,frase,src/temas/extras.ts,borrador
+888aa07f247e,¡Ahora las narices de payaso!,Acum nasurile de clovn!,frase,src/temas/extras.ts,borrador
 083b63ffb835,El Día del Libro,Ziua Cărții,trozo,src/temas/extras.ts,borrador
-a43edf98221a,Los tres cerditos,,trozo,src/temas/extras.ts,falta
-877a7854ff5c,¿Te acuerdas del cuento de los tres cerditos? El lobo sopló las casas. Ordénalas como en el cuento: primero la de paja.,,frase,src/temas/extras.ts,falta
-e426d177ee65,"¡Muy bien! Paja, madera y ladrillo. ¡La casa de ladrillo no se cayó!",,frase,src/temas/extras.ts,falta
-10221c4c3f06,Preguntas del cuento,,trozo,src/temas/extras.ts,falta
-31b409020be8,¿Quién sopló y sopló?,,frase,src/temas/extras.ts,falta
-c4b832d5a4a0,¿Qué casa no se cayó?,,frase,src/temas/extras.ts,falta
-aae95e55c166,¿Qué casa se voló con un soplido?,,frase,src/temas/extras.ts,falta
-40aca82fdc2e,¿Quiénes construyeron las casas?,,frase,src/temas/extras.ts,falta
-f94eee9bbc0f,¡Sí! {Cosa}.,,frase,src/temas/extras.ts src/temas/temas5.ts,falta
+a43edf98221a,Los tres cerditos,Cei trei purceluși,trozo,src/temas/extras.ts,borrador
+877a7854ff5c,¿Te acuerdas del cuento de los tres cerditos? El lobo sopló las casas. Ordénalas como en el cuento: primero la de paja.,Îți amintești povestea celor trei purceluși? Lupul a suflat în căsuțe. Pune-le în ordine ca în poveste: mai întâi cea de paie.,frase,src/temas/extras.ts,borrador
+e426d177ee65,"¡Muy bien! Paja, madera y ladrillo. ¡La casa de ladrillo no se cayó!","Foarte bine! Paie, lemn și cărămidă. Casa de cărămidă nu a căzut!",frase,src/temas/extras.ts,borrador
+10221c4c3f06,Preguntas del cuento,Întrebări despre poveste,trozo,src/temas/extras.ts,borrador
+31b409020be8,¿Quién sopló y sopló?,Cine a suflat și a suflat?,frase,src/temas/extras.ts,borrador
+c4b832d5a4a0,¿Qué casa no se cayó?,Care casă nu a căzut?,frase,src/temas/extras.ts,borrador
+aae95e55c166,¿Qué casa se voló con un soplido?,Care casă a zburat dintr-o suflare?,frase,src/temas/extras.ts,borrador
+40aca82fdc2e,¿Quiénes construyeron las casas?,Cine a construit căsuțele?,frase,src/temas/extras.ts,borrador
+f94eee9bbc0f,¡Sí! {Cosa}.,Da! {Cosa}.,frase,src/temas/extras.ts src/temas/temas5.ts,borrador
 89c2b9e29f6f,el trenecito,trenulețul,nombre,src/temas/extras.ts,borrador
 21c2e59531c8,Z,,trozo,src/temas/ingles.ts,falta
 8b1a9953c461,Hello,,trozo,src/temas/ingles.ts,falta
@@ -3002,210 +3002,208 @@ e9ac2f996044,L5-FIE,,trozo,src/temas/letras.ts,falta
 6112046404d0,Fiesta del abecedario,,trozo,src/temas/letras.ts,falta
 1e80a86086ff,¡Es la fiesta del abecedario!,,frase,src/temas/letras.ts,falta
 83b033c3b049,La canción del abecedario,,trozo,src/temas/letras.ts,falta
-e067f26392e3,la lancha,,nombre,src/temas/temas.ts,falta
-50c036b75e36,el helicóptero,,nombre,src/temas/temas.ts,falta
+e067f26392e3,la lancha,barca cu motor,nombre,src/temas/temas.ts,borrador
+50c036b75e36,el helicóptero,elicopterul,nombre,src/temas/temas.ts,borrador
 1eec213e0e4e,A  B  C  1  2  3,A  B  C  1  2  3,trozo,src/temas/temas.ts,borrador
-6a22bb6b5e52,el círculo,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
-524ba4cafebd,el cuadrado,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
-461b851bffae,la bola grande,,trozo,src/temas/temas.ts,falta
-7b2ffbe877c2,la bola mediana,,trozo,src/temas/temas.ts,falta
-8fe200dd5a36,el sombrero,,trozo,src/temas/temas.ts,falta
-13c145d629f6,la nariz de zanahoria,,trozo,src/temas/temas.ts,falta
-73fdc8fdf5d8,muchas galletas,,trozo,src/temas/temas.ts,falta
-dd917ce16c79,pocas galletas,,trozo,src/temas/temas.ts,falta
-5d367381c91d,de día,,trozo,src/temas/temas.ts,falta
-9ec589aaf5a5,de noche,,trozo,src/temas/temas.ts,falta
-5a1290b98ad9,¡Listo! ¡Quedó muy bien vestido!,,frase,src/temas/temas.ts,falta
+6a22bb6b5e52,el círculo,cercul,trozo,src/temas/temas.ts src/temas/temas4.ts,borrador
+524ba4cafebd,el cuadrado,pătratul,trozo,src/temas/temas.ts src/temas/temas4.ts,borrador
+461b851bffae,la bola grande,bulgărele mare,trozo,src/temas/temas.ts,borrador
+7b2ffbe877c2,la bola mediana,bulgărele mijlociu,trozo,src/temas/temas.ts,borrador
+8fe200dd5a36,el sombrero,pălăria,trozo,src/temas/temas.ts,borrador
+13c145d629f6,la nariz de zanahoria,nasul de morcov,trozo,src/temas/temas.ts,borrador
+73fdc8fdf5d8,muchas galletas,mulți biscuiți,trozo,src/temas/temas.ts,borrador
+dd917ce16c79,pocas galletas,puțini biscuiți,trozo,src/temas/temas.ts,borrador
+5d367381c91d,de día,ziua,trozo,src/temas/temas.ts,borrador
+9ec589aaf5a5,de noche,noaptea,trozo,src/temas/temas.ts,borrador
+5a1290b98ad9,¡Listo! ¡Quedó muy bien vestido!,Gata! E foarte bine îmbrăcat!,frase,src/temas/temas.ts,borrador
 09703ef8e6b3,Mi cole,Grădinița mea,trozo,src/temas/temas.ts,borrador
-66d0085fd2e4,La mochila. Aquí llevo mis cosas al cole.,,frase,src/temas/temas.ts,falta
-441d8638cb44,La mesa. En la mesa pintamos y comemos.,,frase,src/temas/temas.ts,falta
-ecfb33471ae3,La silla. Me siento en la silla.,,frase,src/temas/temas.ts,falta
-0ff6726aab7a,El lápiz. Con el lápiz dibujo.,,frase,src/temas/temas.ts,falta
-7b3a183a9a1f,Las pinturas. ¡Pintamos de colores!,,frase,src/temas/temas.ts,falta
-cdd695153709,El cuento. La profe nos lee cuentos.,,frase,src/temas/temas.ts,falta
-a64f3bb20351,El tobogán. ¡Me tiro por el tobogán! ¡Uiii!,,frase,src/temas/temas.ts,falta
-583f8568b461,La profe. Nos enseña y nos cuida.,,frase,src/temas/temas.ts,falta
-f82da239984d,Vamos a ordenar. Escucha bien dónde va cada cosa.,,frase,src/temas/temas.ts,falta
-7ee8046f9d16,Guarda {cosa} dentro de la mochila.,,frase,src/temas/temas.ts,falta
-21cc1e9370e0,"Deja {cosa} fuera de la mochila, en la mesa.",,frase,src/temas/temas.ts,falta
-3d1ce5bb3340,¡Muy bien! Está dentro de la mochila.,,frase,src/temas/temas.ts,falta
-308c92be2060,¡Muy bien! Está fuera de la mochila.,,frase,src/temas/temas.ts,falta
-bd395967284a,Rojo. Rojo como la fresa y el tomate.,,frase,src/temas/temas.ts,falta
-d95c854e356e,Azul. Azul como el mar y la ballena.,,frase,src/temas/temas.ts,falta
-eea43d1bf02d,Amarillo. Amarillo como el sol y el plátano.,,frase,src/temas/temas.ts,falta
-1e8fb8523520,Verde. Verde como la rana y las hojas.,,frase,src/temas/temas.ts,falta
-003be69227e3,Estos son los colores. Toca cada uno para conocerlo.,,frase,src/temas/temas.ts,falta
-b88eb29120bb,"Mmm, {cosa} no es {color}. ¿De qué color es?",,frase,src/temas/temas.ts,falta
-8ccafacc389e,{Cosa} son {color}.,,trozo,src/temas/temas.ts,falta
-cff7c8592ad0,{Cosa} es {color}.,,trozo,src/temas/temas.ts,falta
-82ea2156fa08,Pon cada cosa en la canasta de su color.,,frase,src/temas/temas.ts,falta
-730f3e03364c,¡Atrapa las burbujas de color {color}!,,frase,src/temas/temas.ts,falta
+66d0085fd2e4,La mochila. Aquí llevo mis cosas al cole.,Ghiozdanul. În el îmi duc lucrurile la grădiniță.,frase,src/temas/temas.ts,borrador
+441d8638cb44,La mesa. En la mesa pintamos y comemos.,Masa. La masă desenăm și mâncăm.,frase,src/temas/temas.ts,borrador
+ecfb33471ae3,La silla. Me siento en la silla.,Scaunul. Mă așez pe scaun.,frase,src/temas/temas.ts,borrador
+0ff6726aab7a,El lápiz. Con el lápiz dibujo.,Creionul. Cu creionul desenez.,frase,src/temas/temas.ts,borrador
+7b3a183a9a1f,Las pinturas. ¡Pintamos de colores!,Creioanele colorate. Colorăm în multe culori!,frase,src/temas/temas.ts,borrador
+cdd695153709,El cuento. La profe nos lee cuentos.,Povestea. Doamna educatoare ne citește povești.,frase,src/temas/temas.ts,borrador
+a64f3bb20351,El tobogán. ¡Me tiro por el tobogán! ¡Uiii!,Toboganul. Mă dau pe tobogan! Uiii!,frase,src/temas/temas.ts,borrador
+583f8568b461,La profe. Nos enseña y nos cuida.,Doamna educatoare. Ne învață și are grijă de noi.,frase,src/temas/temas.ts,borrador
+f82da239984d,Vamos a ordenar. Escucha bien dónde va cada cosa.,Hai să facem ordine. Ascultă bine unde merge fiecare lucru.,frase,src/temas/temas.ts,borrador
+7ee8046f9d16,Guarda {cosa} dentro de la mochila.,Pune {cosa} în ghiozdan.,frase,src/temas/temas.ts,borrador
+21cc1e9370e0,"Deja {cosa} fuera de la mochila, en la mesa.","Lasă {cosa} afară din ghiozdan, pe masă.",frase,src/temas/temas.ts,borrador
+3d1ce5bb3340,¡Muy bien! Está dentro de la mochila.,Foarte bine! E în ghiozdan.,frase,src/temas/temas.ts,borrador
+308c92be2060,¡Muy bien! Está fuera de la mochila.,Foarte bine! E afară din ghiozdan.,frase,src/temas/temas.ts,borrador
+bd395967284a,Rojo. Rojo como la fresa y el tomate.,Roșu. Roșu ca o căpșună și ca roșia.,frase,src/temas/temas.ts,borrador
+d95c854e356e,Azul. Azul como el mar y la ballena.,Albastru. Albastru ca marea și ca balena.,frase,src/temas/temas.ts,borrador
+eea43d1bf02d,Amarillo. Amarillo como el sol y el plátano.,Galben. Galben ca soarele și ca banana.,frase,src/temas/temas.ts,borrador
+1e8fb8523520,Verde. Verde como la rana y las hojas.,Verde. Verde ca broscuța și ca frunzele.,frase,src/temas/temas.ts,borrador
+003be69227e3,Estos son los colores. Toca cada uno para conocerlo.,Acestea sunt culorile. Atinge-le pe fiecare ca să le cunoști.,frase,src/temas/temas.ts,borrador
+b88eb29120bb,"Mmm, {cosa} no es {color}. ¿De qué color es?","Mmm, {cosa} nu are culoarea {color}. Ce culoare are?",frase,src/temas/temas.ts,borrador
+82ea2156fa08,Pon cada cosa en la canasta de su color.,Pune fiecare lucru în coșul culorii lui.,frase,src/temas/temas.ts,borrador
+730f3e03364c,¡Atrapa las burbujas de color {color}!,Prinde bulele de culoare {color}!,frase,src/temas/temas.ts,borrador
 a21979c53fa3,El otoño,Toamna,trozo,src/temas/temas.ts,borrador
-5f01c0ceea38,hoja,,trozo,src/temas/temas.ts,falta
-db0e892bf814,"Las hojas. En otoño se ponen naranjas, rojas y marrones, ¡y se caen de los árboles!",,frase,src/temas/temas.ts,falta
-a9780a07ab0c,La castaña. Es un fruto del otoño.,,frase,src/temas/temas.ts src/temas/temas5.ts,falta
-604ad0534ae0,La lluvia. En otoño llueve mucho.,,frase,src/temas/temas.ts,falta
-4bc4f87d9b38,El paraguas. Nos tapa de la lluvia.,,frase,src/temas/temas.ts,falta
-2dc59dcc3b20,Las botas de agua. ¡Para saltar en los charcos!,,frase,src/temas/temas.ts,falta
-fcc42166d918,La ardilla. Junta comida para el invierno.,,frase,src/temas/temas.ts src/temas/temas5.ts,falta
-82ac729fdafd,¡Se caen las hojas! Atrapa las hojas.,,frase,src/temas/temas.ts,falta
-33096b7d4f0d,¡Ahora atrapa las castañas!,,frase,src/temas/temas.ts src/temas/temas4.ts,falta
-926497ac08f6,¡Está lloviendo! Viste al niño para salir con lluvia. Arrastra la ropa hasta el niño.,,frase,src/temas/temas.ts,falta
-8a436f12994a,"Las gafas de sol son para cuando hay sol, no para la lluvia.",,frase,src/temas/temas.ts,falta
-55adfb4c4ecb,Con camiseta nos mojamos y tenemos frío.,,frase,src/temas/temas.ts,falta
-aaa7ffe0da9d,La gorra es para el sol. Con lluvia mejor el paraguas.,,frase,src/temas/temas.ts,falta
-33522db5910f,Eso no va.,,frase,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts,falta
+5f01c0ceea38,hoja,frunză,trozo,src/temas/temas.ts,borrador
+db0e892bf814,"Las hojas. En otoño se ponen naranjas, rojas y marrones, ¡y se caen de los árboles!","Frunzele. Toamna se fac portocalii, roșii și maro, și cad din copaci!",frase,src/temas/temas.ts,borrador
+a9780a07ab0c,La castaña. Es un fruto del otoño.,Castana. E un fruct al toamnei.,frase,src/temas/temas.ts src/temas/temas5.ts,borrador
+604ad0534ae0,La lluvia. En otoño llueve mucho.,Ploaia. Toamna plouă mult.,frase,src/temas/temas.ts,borrador
+4bc4f87d9b38,El paraguas. Nos tapa de la lluvia.,Umbrela. Ne apără de ploaie.,frase,src/temas/temas.ts,borrador
+2dc59dcc3b20,Las botas de agua. ¡Para saltar en los charcos!,Cizmele de cauciuc. Ca să sărim în bălți!,frase,src/temas/temas.ts,borrador
+fcc42166d918,La ardilla. Junta comida para el invierno.,Veverița. Strânge mâncare pentru iarnă.,frase,src/temas/temas.ts src/temas/temas5.ts,borrador
+82ac729fdafd,¡Se caen las hojas! Atrapa las hojas.,Cad frunzele! Prinde frunzele.,frase,src/temas/temas.ts,borrador
+33096b7d4f0d,¡Ahora atrapa las castañas!,Acum prinde castanele!,frase,src/temas/temas.ts src/temas/temas4.ts,borrador
+926497ac08f6,¡Está lloviendo! Viste al niño para salir con lluvia. Arrastra la ropa hasta el niño.,Plouă! Îmbracă copilul ca să iasă pe ploaie. Trage hainele până la copil.,frase,src/temas/temas.ts,borrador
+8a436f12994a,"Las gafas de sol son para cuando hay sol, no para la lluvia.","Ochelarii de soare sunt pentru când e soare, nu pentru ploaie.",frase,src/temas/temas.ts,borrador
+55adfb4c4ecb,Con camiseta nos mojamos y tenemos frío.,În tricou ne udăm și ne e frig.,frase,src/temas/temas.ts,borrador
+aaa7ffe0da9d,La gorra es para el sol. Con lluvia mejor el paraguas.,Șapca e pentru soare. Pe ploaie e mai bună umbrela.,frase,src/temas/temas.ts,borrador
+33522db5910f,Eso no va.,Asta nu merge.,frase,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts,borrador
 fdb4e6f1aa42,Mi familia,Familia mea,trozo,src/temas/temas.ts,borrador
-b5d23eeec14f,Mamá.,,frase,src/temas/temas.ts,falta
-5464d1062c45,Papá.,,frase,src/temas/temas.ts,falta
-0209544e924f,El hermano.,,frase,src/temas/temas.ts,falta
-f906ff7d6c8c,La hermana.,,frase,src/temas/temas.ts,falta
-d54e4e0bd98b,El bebé. Es pequeñito y toma leche.,,frase,src/temas/temas.ts,falta
-993a25393c10,El abuelo. Es el papá de papá o de mamá.,,frase,src/temas/temas.ts,falta
-806e4d312383,La abuela. Es la mamá de mamá o de papá.,,frase,src/temas/temas.ts,falta
-50cbdc70a9f1,"Esta es una familia. Todas las familias son distintas, ¡y todas son bonitas! Toca a cada uno.",,frase,src/temas/temas.ts,falta
-bc776cfb5fdc,"Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.",,frase,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts,falta
-952c89d473c6,Ordena de más pequeñito a más grande. El más pequeñito va primero.,,frase,src/temas/temas.ts,falta
-94f67b84edc0,¡Muy bien! Del más pequeñito al más grande.,,frase,src/temas/temas.ts,falta
-d32a0fea72b0,"¡Arma tu familia! Lleva a la casa a las personas que viven con tú. Cuando termines, toca el botón verde.",,frase,src/temas/temas.ts,falta
+b5d23eeec14f,Mamá.,Mama.,frase,src/temas/temas.ts,borrador
+5464d1062c45,Papá.,Tata.,frase,src/temas/temas.ts,borrador
+0209544e924f,El hermano.,Fratele.,frase,src/temas/temas.ts,borrador
+f906ff7d6c8c,La hermana.,Sora.,frase,src/temas/temas.ts,borrador
+d54e4e0bd98b,El bebé. Es pequeñito y toma leche.,Bebelușul. E micuț și bea lapte.,frase,src/temas/temas.ts,borrador
+993a25393c10,El abuelo. Es el papá de papá o de mamá.,Bunicul. E tatăl lui tata sau al mamei.,frase,src/temas/temas.ts,borrador
+806e4d312383,La abuela. Es la mamá de mamá o de papá.,Bunica. E mama mamei sau a lui tata.,frase,src/temas/temas.ts,borrador
+50cbdc70a9f1,"Esta es una familia. Todas las familias son distintas, ¡y todas son bonitas! Toca a cada uno.","Aceasta e o familie. Toate familiile sunt diferite, și toate sunt frumoase! Atinge-i pe fiecare.",frase,src/temas/temas.ts,borrador
+bc776cfb5fdc,"Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.","Mmm, locul acela e de altă mărime. Uită-te bine la pătrate.",frase,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts,borrador
+952c89d473c6,Ordena de más pequeñito a más grande. El más pequeñito va primero.,Pune în ordine de la cel mai mic la cel mai mare. Cel mai mic merge primul.,frase,src/temas/temas.ts,borrador
+94f67b84edc0,¡Muy bien! Del más pequeñito al más grande.,Foarte bine! De la cel mai mic la cel mai mare.,frase,src/temas/temas.ts,borrador
+d32a0fea72b0,"¡Arma tu familia! Lleva a la casa a las personas que viven con tú. Cuando termines, toca el botón verde.","Fă-ți familia! Du în casă persoanele care locuiesc cu tine. Când termini, atinge butonul verde.",frase,src/temas/temas.ts,borrador
 3f43728a9d04,El invierno y la ropa,Iarna și hainele,trozo,src/temas/temas.ts,borrador
-ab34eeffd26b,La nieve. En invierno hace mucho frío y a veces nieva.,,frase,src/temas/temas.ts,falta
-4aa1a25638e2,El muñeco de nieve. ¡Lo hacemos con nieve!,,frase,src/temas/temas.ts,falta
-f7fb1ce3d988,El abrigo. Nos da calorcito.,,frase,src/temas/temas.ts,falta
-4d9b4b132891,El gorro. Para la cabeza.,,frase,src/temas/temas.ts,falta
-05b0a3dc388d,La bufanda. Para el cuello.,,frase,src/temas/temas.ts,falta
-f4f8ecd3a189,Los guantes. Para las manos.,,frase,src/temas/temas.ts,falta
-4c97d62d34d3,Las botas. Para los pies.,,frase,src/temas/temas.ts,falta
-b5a4a980c302,¡Hace mucho frío! Viste al niño para salir a la nieve.,,frase,src/temas/temas.ts,falta
-aeeb67d14888,Las gafas de sol son para el verano.,,frase,src/temas/temas.ts,falta
-c19e7999ddec,Con camiseta tenemos frío. Busquemos ropa abrigada.,,frase,src/temas/temas.ts,falta
-2216a6e48308,La gorra es para el sol. Para el frío mejor el gorro.,,frase,src/temas/temas.ts,falta
-07e667efe900,{Cosa} es para cuando hace calor.,,trozo,src/temas/temas.ts,falta
-9cc4dad7d268,{Cosa} es para cuando hace frío.,,trozo,src/temas/temas.ts,falta
-296df621f1d8,¿Frío o calor? Las cosas del frío van con la nieve. Las del calor van con el sol.,,frase,src/temas/temas.ts,falta
-7054c3fd6930,Esa pieza va en otro lugar. ¡Mira la sombra!,,frase,src/temas/temas.ts,falta
-a0daa578006b,¡Hagamos un muñeco de nieve! Arrastra cada parte a su sombra.,,frase,src/temas/temas.ts,falta
-f53bed9cf6e0,¡Qué bonito muñeco de nieve!,,frase,src/temas/temas.ts,falta
+ab34eeffd26b,La nieve. En invierno hace mucho frío y a veces nieva.,Zăpada. Iarna e foarte frig și uneori ninge.,frase,src/temas/temas.ts,borrador
+4aa1a25638e2,El muñeco de nieve. ¡Lo hacemos con nieve!,Omul de zăpadă. Îl facem din zăpadă!,frase,src/temas/temas.ts,borrador
+f7fb1ce3d988,El abrigo. Nos da calorcito.,Haina. Ne ține de cald.,frase,src/temas/temas.ts,borrador
+4d9b4b132891,El gorro. Para la cabeza.,Căciula. Pentru cap.,frase,src/temas/temas.ts,borrador
+05b0a3dc388d,La bufanda. Para el cuello.,Fularul. Pentru gât.,frase,src/temas/temas.ts,borrador
+f4f8ecd3a189,Los guantes. Para las manos.,Mănușile. Pentru mâini.,frase,src/temas/temas.ts,borrador
+4c97d62d34d3,Las botas. Para los pies.,Cizmele. Pentru picioare.,frase,src/temas/temas.ts,borrador
+b5a4a980c302,¡Hace mucho frío! Viste al niño para salir a la nieve.,E foarte frig! Îmbracă copilul ca să iasă în zăpadă.,frase,src/temas/temas.ts,borrador
+aeeb67d14888,Las gafas de sol son para el verano.,Ochelarii de soare sunt pentru vară.,frase,src/temas/temas.ts,borrador
+c19e7999ddec,Con camiseta tenemos frío. Busquemos ropa abrigada.,În tricou ne e frig. Hai să căutăm haine groase.,frase,src/temas/temas.ts,borrador
+2216a6e48308,La gorra es para el sol. Para el frío mejor el gorro.,Șapca e pentru soare. Pentru frig e mai bună căciula.,frase,src/temas/temas.ts,borrador
+07e667efe900,{Cosa} es para cuando hace calor.,{Cosa} e pentru când e cald.,trozo,src/temas/temas.ts,borrador
+9cc4dad7d268,{Cosa} es para cuando hace frío.,{Cosa} e pentru când e frig.,trozo,src/temas/temas.ts,borrador
+296df621f1d8,¿Frío o calor? Las cosas del frío van con la nieve. Las del calor van con el sol.,Frig sau cald? Lucrurile pentru frig merg la zăpadă. Cele pentru cald merg la soare.,frase,src/temas/temas.ts,borrador
+7054c3fd6930,Esa pieza va en otro lugar. ¡Mira la sombra!,Bucata aceea merge în alt loc. Uită-te la umbră!,frase,src/temas/temas.ts,borrador
+a0daa578006b,¡Hagamos un muñeco de nieve! Arrastra cada parte a su sombra.,Hai să facem un om de zăpadă! Trage fiecare parte la umbra ei.,frase,src/temas/temas.ts,borrador
+f53bed9cf6e0,¡Qué bonito muñeco de nieve!,Ce om de zăpadă frumos!,frase,src/temas/temas.ts,borrador
 852f3bb5c72f,Las frutas y el desayuno,Fructele și micul dejun,trozo,src/temas/temas.ts,borrador
-91b4377ee746,La manzana. ¡Crunch!,,frase,src/temas/temas.ts,falta
-777696f4e56b,El plátano. Se pela y se come.,,frase,src/temas/temas.ts,falta
-ce29048ff5ed,La naranja. Con la naranja hacemos zumo.,,frase,src/temas/temas.ts,falta
-9939b9c65167,La pera. Es dulce y jugosa.,,frase,src/temas/temas.ts,falta
-2881765379d7,La fresa. Es roja y pequeñita.,,frase,src/temas/temas.ts,falta
-ca68be866b5e,Las uvas. Crecen en racimos.,,frase,src/temas/temas.ts,falta
-b68a272e1846,La leche. Para el desayuno.,,frase,src/temas/temas.ts,falta
-7e55ef320b5b,El pan. Rico en el desayuno.,,frase,src/temas/temas.ts,falta
-f165fdf7e84f,El zumo de naranja. ¡Mmm!,,frase,src/temas/temas.ts,falta
-97becefb52d1,¡Hagamos una ensalada de frutas! Te digo qué fruta va en el bol.,,frase,src/temas/temas.ts,falta
-dfbd64d79e65,Pon {cosa} en el bol.,,frase,src/temas/temas.ts,falta
-6e0a083ca2dd,"¡Mmm, qué rico!",,frase,src/temas/temas.ts src/temas/temas4.ts,falta
+91b4377ee746,La manzana. ¡Crunch!,Mărul. Crunci!,frase,src/temas/temas.ts,borrador
+777696f4e56b,El plátano. Se pela y se come.,Banana. Se curăță de coajă și se mănâncă.,frase,src/temas/temas.ts,borrador
+ce29048ff5ed,La naranja. Con la naranja hacemos zumo.,Portocala. Din portocală facem suc.,frase,src/temas/temas.ts,borrador
+9939b9c65167,La pera. Es dulce y jugosa.,Para. E dulce și zemoasă.,frase,src/temas/temas.ts,borrador
+2881765379d7,La fresa. Es roja y pequeñita.,Căpșuna. E roșie și micuță.,frase,src/temas/temas.ts,borrador
+ca68be866b5e,Las uvas. Crecen en racimos.,Strugurii. Cresc în ciorchini.,frase,src/temas/temas.ts,borrador
+b68a272e1846,La leche. Para el desayuno.,Laptele. Pentru micul dejun.,frase,src/temas/temas.ts,borrador
+7e55ef320b5b,El pan. Rico en el desayuno.,Pâinea. Gustoasă la micul dejun.,frase,src/temas/temas.ts,borrador
+f165fdf7e84f,El zumo de naranja. ¡Mmm!,Sucul de portocale. Mmm!,frase,src/temas/temas.ts,borrador
+97becefb52d1,¡Hagamos una ensalada de frutas! Te digo qué fruta va en el bol.,Hai să facem o salată de fructe! Îți spun ce fruct merge în bol.,frase,src/temas/temas.ts,borrador
+dfbd64d79e65,Pon {cosa} en el bol.,Pune {cosa} în bol.,frase,src/temas/temas.ts,borrador
+6e0a083ca2dd,"¡Mmm, qué rico!","Mmm, ce bun!",frase,src/temas/temas.ts src/temas/temas4.ts,borrador
 4a275abebffe,Mi casa,Casa mea,trozo,src/temas/temas.ts,borrador
-cfe2fad60e64,La cama. Aquí dormimos.,,frase,src/temas/temas.ts,falta
-4f258f0a507e,El sofá. Para sentarnos todos juntos.,,frase,src/temas/temas.ts,falta
-f031654a0314,La mesa. Aquí comemos.,,frase,src/temas/temas.ts,falta
-1dded55b9750,La bañera. Para bañarnos con burbujas.,,frase,src/temas/temas.ts,falta
-cfc305edf2b7,El inodoro. Para hacer pis y caca.,,frase,src/temas/temas.ts,falta
-d69cf1640420,El cepillo de dientes. ¡A lavarse los dientes!,,frase,src/temas/temas.ts,falta
-46e59e9446c1,La nevera. Guarda la comida fresquita.,,frase,src/temas/temas.ts,falta
-747f56737f73,La olla. Para cocinar.,,frase,src/temas/temas.ts,falta
-21a658c1c562,La tele. Para ver dibujitos un ratito.,,frase,src/temas/temas.ts,falta
-1c74ca39bb04,{Cosa} no va {sitio}.,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
-e28ac4b67ccf,{Cosa} va {sitio}.,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
-6f72acb7803f,en la cocina,,trozo,src/temas/temas.ts,falta
-c71265f3d7c4,en el baño,,trozo,src/temas/temas.ts,falta
-b03bbf33bdf8,en el dormitorio,,trozo,src/temas/temas.ts,falta
-7a36a41788e2,en el salón,,trozo,src/temas/temas.ts,falta
-9552d04211c5,Cada cosa va en su lugar de la casa. ¡Llévalas a su cuarto!,,frase,src/temas/temas.ts,falta
+cfe2fad60e64,La cama. Aquí dormimos.,Patul. Aici dormim.,frase,src/temas/temas.ts,borrador
+4f258f0a507e,El sofá. Para sentarnos todos juntos.,Canapeaua. Ca să stăm toți împreună.,frase,src/temas/temas.ts,borrador
+f031654a0314,La mesa. Aquí comemos.,Masa. Aici mâncăm.,frase,src/temas/temas.ts,borrador
+1dded55b9750,La bañera. Para bañarnos con burbujas.,Cada. Ca să facem baie cu spumă.,frase,src/temas/temas.ts,borrador
+cfc305edf2b7,El inodoro. Para hacer pis y caca.,Toaleta. Ca să facem pipi și caca.,frase,src/temas/temas.ts,borrador
+d69cf1640420,El cepillo de dientes. ¡A lavarse los dientes!,Periuța de dinți. Hai la spălat pe dinți!,frase,src/temas/temas.ts,borrador
+46e59e9446c1,La nevera. Guarda la comida fresquita.,Frigiderul. Ține mâncarea rece.,frase,src/temas/temas.ts,borrador
+747f56737f73,La olla. Para cocinar.,Oala. Pentru gătit.,frase,src/temas/temas.ts,borrador
+21a658c1c562,La tele. Para ver dibujitos un ratito.,Televizorul. Ca să ne uităm puțin la desene.,frase,src/temas/temas.ts,borrador
+1c74ca39bb04,{Cosa} no va {sitio}.,{Cosa} nu stă {sitio}.,trozo,src/temas/temas.ts src/temas/temas4.ts,borrador
+e28ac4b67ccf,{Cosa} va {sitio}.,{Cosa} stă {sitio}.,trozo,src/temas/temas.ts src/temas/temas4.ts,borrador
+6f72acb7803f,en la cocina,în bucătărie,trozo,src/temas/temas.ts,borrador
+c71265f3d7c4,en el baño,în baie,trozo,src/temas/temas.ts,borrador
+b03bbf33bdf8,en el dormitorio,în dormitor,trozo,src/temas/temas.ts,borrador
+7a36a41788e2,en el salón,în sufragerie,trozo,src/temas/temas.ts,borrador
+9552d04211c5,Cada cosa va en su lugar de la casa. ¡Llévalas a su cuarto!,Fiecare lucru are locul lui în casă. Du-le în camera lor!,frase,src/temas/temas.ts,borrador
 51590486d6ce,Los animales de la granja,Animalele de la fermă,trozo,src/temas/temas.ts,borrador
-f5944e17c60b,La vaca. Nos da leche. ¡Muuu!,,frase,src/temas/temas.ts,falta
-cb1780c4881d,"El cerdo. Le encanta el barro. ¡Oinc, oinc!",,frase,src/temas/temas.ts,falta
-5e08f05aa7e2,"La gallina. Pone huevos. ¡Clo, clo!",,frase,src/temas/temas.ts,falta
-eb56b26202db,La oveja. Tiene lana. ¡Beee!,,frase,src/temas/temas.ts,falta
-6fbfb09fe246,El caballo. Corre muy rápido. ¡Iiiii!,,frase,src/temas/temas.ts,falta
-d616d7c85538,"El pato. Nada en el agua. ¡Cuac, cuac!",,frase,src/temas/temas.ts,falta
-1c309659048d,El perro. Cuida la granja. ¡Guau!,,frase,src/temas/temas.ts,falta
-1be5636ef847,El gato. ¡Miau!,,frase,src/temas/temas.ts,falta
-b2a93769d460,"El pollito. Es el bebé de la gallina. ¡Pío, pío!",,frase,src/temas/temas.ts,falta
-73c41f90d800,Es de noche y los animales van a dormir. Escucha bien.,,frase,src/temas/temas.ts,falta
-ea4eafb6908e,Lleva {cosa} dentro del corral.,,frase,src/temas/temas.ts,falta
-0fd24c328bbd,"Deja {cosa} fuera del corral, en el pasto.",,frase,src/temas/temas.ts,falta
-2222c94d1381,¡Eso! Dentro del corral.,,frase,src/temas/temas.ts,falta
-b76872246981,¡Eso! Fuera del corral.,,frase,src/temas/temas.ts,falta
+f5944e17c60b,La vaca. Nos da leche. ¡Muuu!,Vaca. Ne dă lapte. Muuu!,frase,src/temas/temas.ts,borrador
+cb1780c4881d,"El cerdo. Le encanta el barro. ¡Oinc, oinc!","Porcul. Îi place mult noroiul. Oinc, oinc!",frase,src/temas/temas.ts,borrador
+5e08f05aa7e2,"La gallina. Pone huevos. ¡Clo, clo!","Găina. Face ouă. Cot, cot!",frase,src/temas/temas.ts,borrador
+eb56b26202db,La oveja. Tiene lana. ¡Beee!,Oaia. Are lână. Beee!,frase,src/temas/temas.ts,borrador
+6fbfb09fe246,El caballo. Corre muy rápido. ¡Iiiii!,Calul. Aleargă foarte repede. Iiiii!,frase,src/temas/temas.ts,borrador
+d616d7c85538,"El pato. Nada en el agua. ¡Cuac, cuac!","Rața. Înoată în apă. Mac, mac!",frase,src/temas/temas.ts,borrador
+1c309659048d,El perro. Cuida la granja. ¡Guau!,Câinele. Păzește ferma. Ham!,frase,src/temas/temas.ts,borrador
+1be5636ef847,El gato. ¡Miau!,Pisica. Miau!,frase,src/temas/temas.ts,borrador
+b2a93769d460,"El pollito. Es el bebé de la gallina. ¡Pío, pío!","Puișorul. E puiul găinii. Piu, piu!",frase,src/temas/temas.ts,borrador
+73c41f90d800,Es de noche y los animales van a dormir. Escucha bien.,E noapte și animalele merg la culcare. Ascultă bine.,frase,src/temas/temas.ts,borrador
+ea4eafb6908e,Lleva {cosa} dentro del corral.,Du {cosa} în țarc.,frase,src/temas/temas.ts,borrador
+0fd24c328bbd,"Deja {cosa} fuera del corral, en el pasto.","Lasă {cosa} afară din țarc, pe pășune.",frase,src/temas/temas.ts,borrador
+2222c94d1381,¡Eso! Dentro del corral.,Așa! În țarc.,frase,src/temas/temas.ts,borrador
+b76872246981,¡Eso! Fuera del corral.,Așa! Afară din țarc.,frase,src/temas/temas.ts,borrador
 d6baf6bc3f24,La primavera,Primăvara,trozo,src/temas/temas.ts,borrador
-a81f3adb4dc6,La flor. En primavera salen muchas flores.,,frase,src/temas/temas.ts,falta
-cfba9845e2be,La abeja. Hace miel. ¡Bzzz!,,frase,src/temas/temas.ts,falta
-305dab6cc4e3,El pájaro. Canta en primavera.,,frase,src/temas/temas.ts,falta
-ea7783e1ef6b,El sol. En primavera hay más sol.,,frase,src/temas/temas.ts,falta
+a81f3adb4dc6,La flor. En primavera salen muchas flores.,Floarea. Primăvara ies multe flori.,frase,src/temas/temas.ts,borrador
+cfba9845e2be,La abeja. Hace miel. ¡Bzzz!,Albina. Face miere. Bzzz!,frase,src/temas/temas.ts,borrador
+305dab6cc4e3,El pájaro. Canta en primavera.,Pasărea. Cântă primăvara.,frase,src/temas/temas.ts,borrador
+ea7783e1ef6b,El sol. En primavera hay más sol.,Soarele. Primăvara e mai mult soare.,frase,src/temas/temas.ts,borrador
 6ed3e5a9275d,Los transportes,Mijloacele de transport,trozo,src/temas/temas.ts,borrador
-55206d35dabc,"El coche. Va por la calle. ¡Bip, bip!",,frase,src/temas/temas.ts,falta
-3ee6d9580dee,El autobús. Lleva a mucha gente.,,frase,src/temas/temas.ts,falta
-4ade1010c1b7,"El tren. Va por las vías. ¡Chu, chu!",,frase,src/temas/temas.ts,falta
-7ee064f2b3a2,El avión. Vuela por el cielo.,,frase,src/temas/temas.ts,falta
-592ab0109f55,"La bici. ¡Pedaleamos! ¡Rin, rin!",,frase,src/temas/temas.ts,falta
-b6477c135ad0,"La moto. ¡Brum, brum!",,frase,src/temas/temas.ts,falta
-fd9b31fe99f0,El helicóptero. Vuela y hace mucho ruido.,,frase,src/temas/temas.ts,falta
-887a27b2b6e5,{Cosa} no vuela.,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
-e87364270899,{Cosa} no va por el agua.,,trozo,src/temas/temas.ts src/temas/temas4.ts,falta
-b78aa3ba20fd,{Cosa} no va por la calle.,,trozo,src/temas/temas.ts,falta
-d5d9e9a9c63a,tierra,,trozo,src/temas/temas.ts,falta
-be7740aa9d6f,cielo,,trozo,src/temas/temas.ts,falta
-edbce914409a,agua,,trozo,src/temas/temas.ts,falta
-0d06e220cef4,"¿Por dónde va? Por la calle, por el cielo o por el agua.",,frase,src/temas/temas.ts,falta
-d8a96aae08c7,¿Va por la calle o vuela por el cielo?,,frase,src/temas/temas.ts,falta
-85df3aa66375,¿Va por la calle o por el agua?,,frase,src/temas/temas.ts,falta
+55206d35dabc,"El coche. Va por la calle. ¡Bip, bip!","Mașina. Merge pe stradă. Bip, bip!",frase,src/temas/temas.ts,borrador
+3ee6d9580dee,El autobús. Lleva a mucha gente.,Autobuzul. Duce mulți oameni.,frase,src/temas/temas.ts,borrador
+4ade1010c1b7,"El tren. Va por las vías. ¡Chu, chu!","Trenul. Merge pe șine. Ciu, ciu!",frase,src/temas/temas.ts,borrador
+7ee064f2b3a2,El avión. Vuela por el cielo.,Avionul. Zboară pe cer.,frase,src/temas/temas.ts,borrador
+592ab0109f55,"La bici. ¡Pedaleamos! ¡Rin, rin!","Bicicleta. Pedalăm! Cling, cling!",frase,src/temas/temas.ts,borrador
+b6477c135ad0,"La moto. ¡Brum, brum!","Motocicleta. Brum, brum!",frase,src/temas/temas.ts,borrador
+fd9b31fe99f0,El helicóptero. Vuela y hace mucho ruido.,Elicopterul. Zboară și face mult zgomot.,frase,src/temas/temas.ts,borrador
+887a27b2b6e5,{Cosa} no vuela.,{Cosa} nu zboară.,trozo,src/temas/temas.ts src/temas/temas4.ts,borrador
+e87364270899,{Cosa} no va por el agua.,{Cosa} nu merge pe apă.,trozo,src/temas/temas.ts src/temas/temas4.ts,borrador
+b78aa3ba20fd,{Cosa} no va por la calle.,{Cosa} nu merge pe stradă.,trozo,src/temas/temas.ts,borrador
+d5d9e9a9c63a,tierra,pământ,trozo,src/temas/temas.ts,borrador
+be7740aa9d6f,cielo,cer,trozo,src/temas/temas.ts,borrador
+edbce914409a,agua,apă,trozo,src/temas/temas.ts,borrador
+0d06e220cef4,"¿Por dónde va? Por la calle, por el cielo o por el agua.","Pe unde merge? Pe stradă, pe cer sau pe apă.",frase,src/temas/temas.ts,borrador
+d8a96aae08c7,¿Va por la calle o vuela por el cielo?,Merge pe stradă sau zboară pe cer?,frase,src/temas/temas.ts,borrador
+85df3aa66375,¿Va por la calle o por el agua?,Merge pe stradă sau pe apă?,frase,src/temas/temas.ts,borrador
 67f3646fd53f,El verano y la playa,Vara și plaja,trozo,src/temas/temas.ts,borrador
-e7d0c4ac0b4d,El sol. En verano hace mucho calor.,,frase,src/temas/temas.ts,falta
-dfee2e67815a,El cubo. Para llevar arena y agua.,,frase,src/temas/temas.ts,falta
-2b5620ab2246,La pala. Para cavar en la arena.,,frase,src/temas/temas.ts,falta
-d9aef35f9a13,La toalla. Para secarnos.,,frase,src/temas/temas.ts,falta
-47aaec7db13d,Las gafas de sol. Cuidan los ojos del sol.,,frase,src/temas/temas.ts,falta
-1fadad4d1ba0,La gorra. Nos tapa la cabeza del sol.,,frase,src/temas/temas.ts,falta
-dd6d208b9f9c,La crema solar. ¡Para no quemarnos!,,frase,src/temas/temas.ts,falta
-3b9d13436d6c,El helado. ¡Fresquito!,,frase,src/temas/temas.ts,falta
-dbc5f1c6f853,La concha. La encontramos en la arena.,,frase,src/temas/temas.ts,falta
-eba610bf7f95,¡Hace mucho calor! Preparemos al niño para ir a la playa.,,frase,src/temas/temas.ts,falta
-e18e00acead4,¡Con abrigo en la playa tendríamos mucho calor!,,frase,src/temas/temas.ts,falta
-c93ecdea64fb,El gorro de lana es para el frío. Mejor la gorra.,,frase,src/temas/temas.ts,falta
-eaac9bd0d608,La bufanda es para el invierno.,,frase,src/temas/temas.ts,falta
-e01789a5369c,Los guantes son para el frío.,,frase,src/temas/temas.ts,falta
-5393719f51fc,el grande,,trozo,src/temas/temas.ts,falta
-3b66fc47b650,el pequeño,,trozo,src/temas/temas.ts,falta
-e63ad099588a,¿Cuál es el más grande? Tócalo.,,frase,src/temas/temas.ts,falta
-1620237b843e,¿Cuál es el más pequeño? Tócalo.,,frase,src/temas/temas.ts,falta
-de7b9d919fb5,¡Ese es el grande!,,frase,src/temas/temas.ts,falta
-52031cc5a683,¡Ese es el pequeño!,,frase,src/temas/temas.ts,falta
-aad3c0163ab8,Ese es pequeñito. Busca el grande.,,frase,src/temas/temas.ts,falta
-0c7d5882293f,Ese es grande. Busca el pequeño.,,frase,src/temas/temas.ts,falta
-5709a4d8618e,Arriba y abajo,,trozo,src/temas/temas.ts,falta
-f0c974bc66f0,Escucha dónde va cada cosa: arriba o abajo de la mesa.,,frase,src/temas/temas.ts,falta
-55d4955a9b70,Pon {cosa} arriba de la mesa.,,frase,src/temas/temas.ts,falta
-f1eb9f8d669a,Pon {cosa} abajo de la mesa.,,frase,src/temas/temas.ts,falta
-7726a3dfc393,¡Muy bien! Arriba de la mesa.,,frase,src/temas/temas.ts,falta
-14c166cb727d,¡Muy bien! Abajo de la mesa.,,frase,src/temas/temas.ts,falta
-e49adce42bc3,Círculo y cuadrado,,trozo,src/temas/temas.ts,falta
-0220468a3e75,"Mmm, esa forma no es redonda.",,frase,src/temas/temas.ts,falta
-5562b3fe2778,"Mmm, esa forma no es un cuadrado.",,frase,src/temas/temas.ts,falta
-b572bb1f83bd,Círculo.,,frase,src/temas/temas.ts,falta
-3b6599d2e314,Cuadrado.,,frase,src/temas/temas.ts,falta
-64bdc911a319,Los círculos van con el círculo. Los cuadrados van con el cuadrado.,,frase,src/temas/temas.ts,falta
-635e30c1c154,Mucho y poco,,trozo,src/temas/temas.ts,falta
-92c475b42299,¿Dónde hay muchas galletas?,,frase,src/temas/temas.ts,falta
-75cc8dcd04d2,¿Dónde hay pocas galletas?,,frase,src/temas/temas.ts,falta
-4cab35fcfbd4,¡Ahí hay muchas!,,frase,src/temas/temas.ts,falta
-20d6eb5120e1,¡Ahí hay poquitas!,,frase,src/temas/temas.ts,falta
-f38a22cce856,Ahí hay pocas. Busca donde hay muchas.,,frase,src/temas/temas.ts,falta
-a45b85476253,Ahí hay muchas. Busca donde hay pocas.,,frase,src/temas/temas.ts,falta
-d1d2ad93cef4,Día y noche,,trozo,src/temas/temas.ts,falta
-7427a9544c9a,¿Cuándo sale el sol?,,frase,src/temas/temas.ts src/temas/temas4.ts,falta
-b3596eed8f63,¿Cuándo salen las estrellas y la luna?,,frase,src/temas/temas.ts,falta
-d52a8b1f2a35,¿Cuándo dormimos?,,frase,src/temas/temas.ts src/temas/temas4.ts,falta
-3ec0faacf1fb,¿Cuándo vamos al cole?,,frase,src/temas/temas.ts,falta
-a76999c48f67,¿Cuándo jugamos en el parque?,,frase,src/temas/temas.ts,falta
-824ce25a07ca,¿Cuándo está oscuro?,,frase,src/temas/temas.ts,falta
-9cd3be39afef,¡De día!,,frase,src/temas/temas.ts,falta
-ee8a3f78a8a5,¡De noche!,,frase,src/temas/temas.ts,falta
-cd60ba4955bb,Ese es de noche. Mira el otro.,,frase,src/temas/temas.ts,falta
-c2f8f4101c56,Ese es de día. Mira el otro.,,frase,src/temas/temas.ts,falta
+e7d0c4ac0b4d,El sol. En verano hace mucho calor.,Soarele. Vara e foarte cald.,frase,src/temas/temas.ts,borrador
+dfee2e67815a,El cubo. Para llevar arena y agua.,Găletușa. Ca să cărăm nisip și apă.,frase,src/temas/temas.ts,borrador
+2b5620ab2246,La pala. Para cavar en la arena.,Lopățica. Ca să săpăm în nisip.,frase,src/temas/temas.ts,borrador
+d9aef35f9a13,La toalla. Para secarnos.,Prosopul. Ca să ne ștergem.,frase,src/temas/temas.ts,borrador
+47aaec7db13d,Las gafas de sol. Cuidan los ojos del sol.,Ochelarii de soare. Ne apără ochii de soare.,frase,src/temas/temas.ts,borrador
+1fadad4d1ba0,La gorra. Nos tapa la cabeza del sol.,Șapca. Ne apără capul de soare.,frase,src/temas/temas.ts,borrador
+dd6d208b9f9c,La crema solar. ¡Para no quemarnos!,Crema de soare. Ca să nu ne ardem!,frase,src/temas/temas.ts,borrador
+3b9d13436d6c,El helado. ¡Fresquito!,Înghețata. Răcoroasă!,frase,src/temas/temas.ts,borrador
+dbc5f1c6f853,La concha. La encontramos en la arena.,Scoica. O găsim în nisip.,frase,src/temas/temas.ts,borrador
+eba610bf7f95,¡Hace mucho calor! Preparemos al niño para ir a la playa.,E foarte cald! Hai să pregătim copilul pentru plajă.,frase,src/temas/temas.ts,borrador
+e18e00acead4,¡Con abrigo en la playa tendríamos mucho calor!,Cu haina groasă la plajă ne-ar fi foarte cald!,frase,src/temas/temas.ts,borrador
+c93ecdea64fb,El gorro de lana es para el frío. Mejor la gorra.,Căciula de lână e pentru frig. Mai bună e șapca.,frase,src/temas/temas.ts,borrador
+eaac9bd0d608,La bufanda es para el invierno.,Fularul e pentru iarnă.,frase,src/temas/temas.ts,borrador
+e01789a5369c,Los guantes son para el frío.,Mănușile sunt pentru frig.,frase,src/temas/temas.ts,borrador
+5393719f51fc,el grande,cel mare,trozo,src/temas/temas.ts,borrador
+3b66fc47b650,el pequeño,cel mic,trozo,src/temas/temas.ts,borrador
+e63ad099588a,¿Cuál es el más grande? Tócalo.,Care e cel mai mare? Atinge-l.,frase,src/temas/temas.ts,borrador
+1620237b843e,¿Cuál es el más pequeño? Tócalo.,Care e cel mai mic? Atinge-l.,frase,src/temas/temas.ts,borrador
+de7b9d919fb5,¡Ese es el grande!,Acela e cel mare!,frase,src/temas/temas.ts,borrador
+52031cc5a683,¡Ese es el pequeño!,Acela e cel mic!,frase,src/temas/temas.ts,borrador
+aad3c0163ab8,Ese es pequeñito. Busca el grande.,Acela e micuț. Caută-l pe cel mare.,frase,src/temas/temas.ts,borrador
+0c7d5882293f,Ese es grande. Busca el pequeño.,Acela e mare. Caută-l pe cel mic.,frase,src/temas/temas.ts,borrador
+5709a4d8618e,Arriba y abajo,Sus și jos,trozo,src/temas/temas.ts,borrador
+f0c974bc66f0,Escucha dónde va cada cosa: arriba o abajo de la mesa.,Ascultă unde merge fiecare lucru: pe masă sau sub masă.,frase,src/temas/temas.ts,borrador
+55d4955a9b70,Pon {cosa} arriba de la mesa.,Pune {cosa} pe masă.,frase,src/temas/temas.ts,borrador
+f1eb9f8d669a,Pon {cosa} abajo de la mesa.,Pune {cosa} sub masă.,frase,src/temas/temas.ts,borrador
+7726a3dfc393,¡Muy bien! Arriba de la mesa.,Foarte bine! Pe masă.,frase,src/temas/temas.ts,borrador
+14c166cb727d,¡Muy bien! Abajo de la mesa.,Foarte bine! Sub masă.,frase,src/temas/temas.ts,borrador
+e49adce42bc3,Círculo y cuadrado,Cerc și pătrat,trozo,src/temas/temas.ts,borrador
+0220468a3e75,"Mmm, esa forma no es redonda.","Mmm, forma aceea nu e rotundă.",frase,src/temas/temas.ts,borrador
+5562b3fe2778,"Mmm, esa forma no es un cuadrado.","Mmm, forma aceea nu e un pătrat.",frase,src/temas/temas.ts,borrador
+b572bb1f83bd,Círculo.,Cerc.,frase,src/temas/temas.ts,borrador
+3b6599d2e314,Cuadrado.,Pătrat.,frase,src/temas/temas.ts,borrador
+64bdc911a319,Los círculos van con el círculo. Los cuadrados van con el cuadrado.,Cercurile merg la cerc. Pătratele merg la pătrat.,frase,src/temas/temas.ts,borrador
+635e30c1c154,Mucho y poco,Mult și puțin,trozo,src/temas/temas.ts,borrador
+92c475b42299,¿Dónde hay muchas galletas?,Unde sunt mulți biscuiți?,frase,src/temas/temas.ts,borrador
+75cc8dcd04d2,¿Dónde hay pocas galletas?,Unde sunt puțini biscuiți?,frase,src/temas/temas.ts,borrador
+4cab35fcfbd4,¡Ahí hay muchas!,Acolo sunt mulți!,frase,src/temas/temas.ts,borrador
+20d6eb5120e1,¡Ahí hay poquitas!,Acolo sunt puțini!,frase,src/temas/temas.ts,borrador
+f38a22cce856,Ahí hay pocas. Busca donde hay muchas.,Acolo sunt puțini. Caută unde sunt mulți.,frase,src/temas/temas.ts,borrador
+a45b85476253,Ahí hay muchas. Busca donde hay pocas.,Acolo sunt mulți. Caută unde sunt puțini.,frase,src/temas/temas.ts,borrador
+d1d2ad93cef4,Día y noche,Zi și noapte,trozo,src/temas/temas.ts,borrador
+7427a9544c9a,¿Cuándo sale el sol?,Când răsare soarele?,frase,src/temas/temas.ts src/temas/temas4.ts,borrador
+b3596eed8f63,¿Cuándo salen las estrellas y la luna?,Când ies stelele și luna?,frase,src/temas/temas.ts,borrador
+d52a8b1f2a35,¿Cuándo dormimos?,Când dormim?,frase,src/temas/temas.ts src/temas/temas4.ts,borrador
+3ec0faacf1fb,¿Cuándo vamos al cole?,Când mergem la grădiniță?,frase,src/temas/temas.ts,borrador
+a76999c48f67,¿Cuándo jugamos en el parque?,Când ne jucăm în parc?,frase,src/temas/temas.ts,borrador
+824ce25a07ca,¿Cuándo está oscuro?,Când e întuneric?,frase,src/temas/temas.ts,borrador
+9cd3be39afef,¡De día!,Ziua!,frase,src/temas/temas.ts,borrador
+ee8a3f78a8a5,¡De noche!,Noaptea!,frase,src/temas/temas.ts,borrador
+cd60ba4955bb,Ese es de noche. Mira el otro.,Acela e noaptea. Uită-te la celălalt.,frase,src/temas/temas.ts,borrador
+c2f8f4101c56,Ese es de día. Mira el otro.,Acela e ziua. Uită-te la celălalt.,frase,src/temas/temas.ts,borrador
 c0ee6b76d784,El lunes. Es el primer día de la semana. ¡Volvemos al cole!,,frase,src/temas/temas4.ts,falta
 ac44325ea155,El martes. Viene después del lunes.,,frase,src/temas/temas4.ts,falta
 1028e85f47e7,El miércoles. Estamos en la mitad de la semana.,,frase,src/temas/temas4.ts,falta
@@ -4117,26 +4115,47 @@ a2c7daf90cb2,¿Empezar de nuevo?,Începi din nou?,adultos,src/head.html,borrador
 621191c27cfd,Zona de adultos,Zona adulților,adultos,src/head.html,borrador
 e6f1c8dd903b,Volver al juego,Înapoi la joc,adultos,src/head.html,borrador
 d02c4c4cde7a,zero,zero,tabla,,borrador
+d7ed4ee1df43,Zero,Zero,tabla,,borrador
 990b28c30550,unu,unu,tabla,,borrador
+28b7643d9290,Unu,Unu,tabla,,borrador
 44cc026eca40,doi,doi,tabla,,borrador
+170076d5abde,Doi,Doi,tabla,,borrador
 a58623d5623e,trei,trei,tabla,,borrador
+22e13fcd22de,Trei,Trei,tabla,,borrador
 f472fc68e0e5,patru,patru,tabla,,borrador
+7f909c5c6cae,Patru,Patru,tabla,,borrador
 fc4605c9915e,cinci,cinci,tabla,,borrador
+0ea97f513477,Cinci,Cinci,tabla,,borrador
 d884793fdd09,șase,șase,tabla,,borrador
+34346ec36f21,Șase,Șase,tabla,,borrador
 d2266e939f88,șapte,șapte,tabla,,borrador
+4b51ad6a66ea,Șapte,Șapte,tabla,,borrador
 4d29ea5f748c,opt,opt,tabla,,borrador
+903a033e59d9,Opt,Opt,tabla,,borrador
 cdae71a0ba3b,nouă,nouă,tabla,,borrador
+825d232c42c9,Nouă,Nouă,tabla,,borrador
 1f74c4c2c1b8,zece,zece,tabla,,borrador
+f636f460469e,Zece,Zece,tabla,,borrador
 5ebefd5d2551,unsprezece,unsprezece,tabla,,borrador
+a62d01a63e8c,Unsprezece,Unsprezece,tabla,,borrador
 b78eef870e76,doisprezece,doisprezece,tabla,,borrador
+3cd6c2f9c8b1,Doisprezece,Doisprezece,tabla,,borrador
 29bde6aad422,treisprezece,treisprezece,tabla,,borrador
+a64e4ff9b448,Treisprezece,Treisprezece,tabla,,borrador
 2616e94fc5df,paisprezece,paisprezece,tabla,,borrador
+3f811b725eab,Paisprezece,Paisprezece,tabla,,borrador
 d5a35dd65fa1,cincisprezece,cincisprezece,tabla,,borrador
+abe3f38e53c7,Cincisprezece,Cincisprezece,tabla,,borrador
 45d7eb04a0af,șaisprezece,șaisprezece,tabla,,borrador
+c7b5009417b2,Șaisprezece,Șaisprezece,tabla,,borrador
 3fe525c79730,șaptesprezece,șaptesprezece,tabla,,borrador
+840fff7f039b,Șaptesprezece,Șaptesprezece,tabla,,borrador
 fb45226103d6,optsprezece,optsprezece,tabla,,borrador
+b4e5916144f1,Optsprezece,Optsprezece,tabla,,borrador
 c96ca77c8e97,nouăsprezece,nouăsprezece,tabla,,borrador
+623448cb6af8,Nouăsprezece,Nouăsprezece,tabla,,borrador
 216527f33ed8,douăzeci,douăzeci,tabla,,borrador
+2fab224242cc,Douăzeci,Douăzeci,tabla,,borrador
 7b6391d99252,juegos,jocuri,tabla,,borrador
 d2dee6e34501,día regado,zi udată,tabla,,borrador
 bc1b419a310f,días regados,zile udate,tabla,,borrador
@@ -4212,3 +4231,63 @@ e2369eaf443f,trigo,grâu,tabla,,borrador
 41520119763b,zanahorias,morcovi,tabla,,borrador
 9b624d6b7079,manzanas,mere,tabla,,borrador
 f2f82a220fae,heno,fân,tabla,,borrador
+74a212a7786c,el lunes,luni,tabla,,borrador
+11fcae2fac17,el martes,marți,tabla,,borrador
+d9a3e86e0f3f,el miércoles,miercuri,tabla,,borrador
+4af0a13ae41e,el jueves,joi,tabla,,borrador
+079f265869f6,el viernes,vineri,tabla,,borrador
+65ca7b6cbd43,el sábado,sâmbătă,tabla,,borrador
+0332bad31827,el domingo,duminică,tabla,,borrador
+4b1ddd643fea,Lunes,Luni,tabla,,borrador
+739134fed84a,Martes,Marți,tabla,,borrador
+8605c790e31d,Miércoles,Miercuri,tabla,,borrador
+943a1bcc4ff4,Jueves,Joi,tabla,,borrador
+99e3c77bd9b8,Viernes,Vineri,tabla,,borrador
+003e4a381cf8,Sábado,Sâmbătă,tabla,,borrador
+ef48f9426086,Domingo,Duminică,tabla,,borrador
+fa44e2c7ccf6,"En otoño, las hojas se caen. ¡Chas, chas!","Toamna cad frunzele. Fâș, fâș!",tabla,,borrador
+5e7280543d85,"En invierno hace frío. ¡Brrr, brrr!","Iarna e frig. Brrr, brrr!",tabla,,borrador
+96b2e033bf48,En primavera salen las flores. ¡Qué bonito olor!,Primăvara ies florile. Ce miros frumos!,tabla,,borrador
+38e6a68fddcb,En verano hace calor. ¡A la piscina!,Vara e cald. La piscină!,tabla,,borrador
+72d0867a99f6,Rojo como la fresa.,Roșu ca o căpșună.,tabla,,borrador
+c05d271716da,Amarillo como el sol.,Galben ca soarele.,tabla,,borrador
+9d2c985eb4d1,Azul como el mar.,Albastru ca marea.,tabla,,borrador
+825a7b692d08,Verde como la rana.,Verde ca broscuța.,tabla,,borrador
+1068677ffb72,Naranja como la zanahoria.,Portocaliu ca morcovul.,tabla,,borrador
+e45a140c3493,Rosa como el cerdito.,Roz ca purcelușul.,tabla,,borrador
+cdb5a368f7b8,Morado como las uvas.,Mov ca strugurii.,tabla,,borrador
+6decaccf193b,Marrón como el chocolate.,Maro ca ciocolata.,tabla,,borrador
+0df15f3fa7b8,el rojo,roșul,tabla,,borrador
+59d008301906,el azul,albastrul,tabla,,borrador
+c6a1de65e88c,el amarillo,galbenul,tabla,,borrador
+a94e992b62c1,el verde,verdele,tabla,,borrador
+125f04966bb9,el naranja,portocaliul,tabla,,borrador
+9ca5b8885779,el rosa,rozul,tabla,,borrador
+c76c9938d263,el morado,movul,tabla,,borrador
+ccf2cc8ef572,el marrón,maroul,tabla,,borrador
+ee89e028576a,Enero,Ianuarie,tabla,,borrador
+5281601ba9e6,Febrero,Februarie,tabla,,borrador
+3151090b16fd,Marzo,Martie,tabla,,borrador
+5e60b5ec40e8,Abril,Aprilie,tabla,,borrador
+4ec3b69ed631,Mayo,Mai,tabla,,borrador
+10baa8b2e5f6,Junio,Iunie,tabla,,borrador
+a084288bc6a0,Julio,Iulie,tabla,,borrador
+1df861fe51f4,Agosto,August,tabla,,borrador
+6decc7a13941,Septiembre,Septembrie,tabla,,borrador
+7db10ce56f99,Octubre,Octombrie,tabla,,borrador
+1a2a1340f374,Noviembre,Noiembrie,tabla,,borrador
+748935a76554,Diciembre,Decembrie,tabla,,borrador
+88c9afd67da6,roja,roșu,tabla,,borrador
+0b4debb0d498,rojos,roșu,tabla,,borrador
+0f58fd4c84c0,rojas,roșu,tabla,,borrador
+5e03969c3b02,azules,albastru,tabla,,borrador
+af9f0dd6c27a,amarilla,galben,tabla,,borrador
+ab8958505032,amarillos,galben,tabla,,borrador
+e54afee3723a,amarillas,galben,tabla,,borrador
+5e006f4a47cf,verdes,verde,tabla,,borrador
+cacaa62e0935,naranjas,portocaliu,tabla,,borrador
+9119489c05aa,rosas,roz,tabla,,borrador
+383195b1a88d,morada,mov,tabla,,borrador
+6a2166545250,morados,mov,tabla,,borrador
+197696083b59,moradas,mov,tabla,,borrador
+37ee389f23bd,marrones,maro,tabla,,borrador
