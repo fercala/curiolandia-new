@@ -560,7 +560,7 @@ e0fc6cca498a,"Por la noche, Mateo miró las estrellas abrazado a su peluche. ¡Q
 672078dc8d56,¿Qué se puso Mateo para montar en bici?,Ce și-a pus Mateo ca să meargă cu bicicleta?,frase,src/contenido/cuentos.ts,borrador
 f8ea9231845b,¡El casco! Cuida la cabeza.,Casca! Apără capul.,frase,src/contenido/cuentos.ts,borrador
 e15c21b49d1c,La granja escuela,Ferma-școală,trozo,src/contenido/excursiones.ts,borrador
-0856a4aa9c78,Rosa,Rosa,trozo,src/contenido/excursiones.ts,borrador
+0856a4aa9c78,Rosa,Roz,trozo,src/contenido/excursiones.ts,borrador
 58642a0f0f21,Dar de comer a los animales,Hrănim animalele,trozo,src/contenido/excursiones.ts,borrador
 225f451d7fba,Recoger huevos,Strângem ouăle,trozo,src/contenido/excursiones.ts,borrador
 13eeaf6d58da,Ordeñar y hacer queso,Mulgem și facem brânză,trozo,src/contenido/excursiones.ts,borrador
@@ -570,201 +570,201 @@ b47b61f7e59a,Paseo en tractor,Plimbare cu tractorul,trozo,src/contenido/excursio
 7e2defd8ef9d,El zoo,Grădina zoologică,trozo,src/contenido/excursiones.ts,borrador
 d236fa6bc06b,El bosque,Pădurea,trozo,src/contenido/excursiones.ts,borrador
 eef5e5e9d7f8,Mum,,trozo,src/contenido/ingles.ts,falta
-48418f32fc2d,Mamá,,trozo,src/contenido/ingles.ts,falta
+48418f32fc2d,Mamá,Mama,trozo,src/contenido/ingles.ts,borrador
 cb525f817e00,Dad,,trozo,src/contenido/ingles.ts,falta
-6a5ddaf07455,Papá,,trozo,src/contenido/ingles.ts,falta
+6a5ddaf07455,Papá,Tata,trozo,src/contenido/ingles.ts,borrador
 a7b5bdb8cce7,Baby,,trozo,src/contenido/ingles.ts,falta
 47afaa827d38,Bebé,Bebeluș,trozo,src/contenido/ingles.ts src/aplicacion/adultos/progreso.ts,borrador
 e0efbdcea0ab,Brother,,trozo,src/contenido/ingles.ts,falta
-87d8d7228d6c,Hermano,,trozo,src/contenido/ingles.ts,falta
+87d8d7228d6c,Hermano,Frate,trozo,src/contenido/ingles.ts,borrador
 19cda37369e2,Sister,,trozo,src/contenido/ingles.ts,falta
-d0191daa70fb,Hermana,,trozo,src/contenido/ingles.ts,falta
+d0191daa70fb,Hermana,Soră,trozo,src/contenido/ingles.ts,borrador
 6ea4dc5cd6a8,Grandma,,trozo,src/contenido/ingles.ts,falta
-b2e74bcecba2,Abuela,,trozo,src/contenido/ingles.ts,falta
+b2e74bcecba2,Abuela,Bunica,trozo,src/contenido/ingles.ts,borrador
 16ba038ec0ed,Grandpa,,trozo,src/contenido/ingles.ts,falta
-d6fbd9f742f3,Abuelo,,trozo,src/contenido/ingles.ts,falta
+d6fbd9f742f3,Abuelo,Bunicul,trozo,src/contenido/ingles.ts,borrador
 a78b1ac16c0c,Hand,,trozo,src/contenido/ingles.ts,falta
-570e385975a9,Mano,,trozo,src/contenido/ingles.ts,falta
+570e385975a9,Mano,Mână,trozo,src/contenido/ingles.ts,borrador
 129e74dde7b4,Foot,,trozo,src/contenido/ingles.ts,falta
-996589a1a7e9,Pie,,trozo,src/contenido/ingles.ts,falta
+996589a1a7e9,Pie,Picior,trozo,src/contenido/ingles.ts,borrador
 ae160b4691f9,Eye,,trozo,src/contenido/ingles.ts,falta
-7d5cf47f02ef,Ojo,,trozo,src/contenido/ingles.ts,falta
+7d5cf47f02ef,Ojo,Ochi,trozo,src/contenido/ingles.ts,borrador
 4432170f33a2,Nose,,trozo,src/contenido/ingles.ts,falta
-181663fd11ff,Nariz,,trozo,src/contenido/ingles.ts,falta
+181663fd11ff,Nariz,Nas,trozo,src/contenido/ingles.ts,borrador
 d39f272ab2d5,Mouth,,trozo,src/contenido/ingles.ts,falta
-c5ff46a97f5a,Boca,,trozo,src/contenido/ingles.ts,falta
+c5ff46a97f5a,Boca,Gură,trozo,src/contenido/ingles.ts,borrador
 2fe8f26bc7c4,Ear,,trozo,src/contenido/ingles.ts,falta
-ff4688870a86,Oreja,,trozo,src/contenido/ingles.ts,falta
+ff4688870a86,Oreja,Ureche,trozo,src/contenido/ingles.ts,borrador
 c15be25ee7f2,Teeth,,trozo,src/contenido/ingles.ts,falta
-a284ce186d4b,Dientes,,trozo,src/contenido/ingles.ts,falta
+a284ce186d4b,Dientes,Dinți,trozo,src/contenido/ingles.ts,borrador
 353df421c4fc,Ball,,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts,falta
-c506d48a2bef,Pelota,,trozo,src/contenido/ingles.ts,falta
+c506d48a2bef,Pelota,Minge,trozo,src/contenido/ingles.ts,borrador
 10d3b77299c0,Doll,,trozo,src/contenido/ingles.ts,falta
-4b83df8ce2a2,Muñeca,,trozo,src/contenido/ingles.ts,falta
+4b83df8ce2a2,Muñeca,Păpușă,trozo,src/contenido/ingles.ts,borrador
 2b5fa564a125,Teddy,,trozo,src/contenido/ingles.ts,falta
-8731beb9c621,Osito de peluche,,trozo,src/contenido/ingles.ts,falta
+8731beb9c621,Osito de peluche,Ursuleț de pluș,trozo,src/contenido/ingles.ts,borrador
 502dd302b6d8,Balloon,,trozo,src/contenido/ingles.ts,falta
-4822f410294f,Globo,,trozo,src/contenido/ingles.ts,falta
+4822f410294f,Globo,Balon,trozo,src/contenido/ingles.ts,borrador
 e41273f43af5,Train,,trozo,src/contenido/ingles.ts,falta
-3954fa2ffba8,Tren,,trozo,src/contenido/ingles.ts,falta
+3954fa2ffba8,Tren,Tren,trozo,src/contenido/ingles.ts,borrador
 5d1eca158c00,Robot,,trozo,src/contenido/ingles.ts,falta
 65c449ad44e2,Kite,,trozo,src/contenido/ingles.ts,falta
-dd324db88ecd,Cometa,,trozo,src/contenido/ingles.ts,falta
+dd324db88ecd,Cometa,Zmeu,trozo,src/contenido/ingles.ts,borrador
 04c4f9f595c4,Blocks,,trozo,src/contenido/ingles.ts,falta
-cb0743bbd331,Bloques,,trozo,src/contenido/ingles.ts,falta
+cb0743bbd331,Bloques,Cuburi,trozo,src/contenido/ingles.ts,borrador
 9f6290f4436e,Apple,,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts,falta
-97a9faba76fe,Manzana,,trozo,src/contenido/ingles.ts,falta
+97a9faba76fe,Manzana,Măr,trozo,src/contenido/ingles.ts,borrador
 e6f9c347672d,Banana,,trozo,src/contenido/ingles.ts,falta
-6e093a7dc2ce,Plátano,,trozo,src/contenido/ingles.ts,falta
+6e093a7dc2ce,Plátano,Banană,trozo,src/contenido/ingles.ts,borrador
 909cea0c9705,Orange,,trozo,src/contenido/ingles.ts,falta
-2d06a1557b37,Naranja,,trozo,src/contenido/ingles.ts,falta
+2d06a1557b37,Naranja,Portocală,trozo,src/contenido/ingles.ts,borrador
 72db688c715c,Strawberry,,trozo,src/contenido/ingles.ts,falta
-79b1a8bec8a4,Fresa,,trozo,src/contenido/ingles.ts,falta
+79b1a8bec8a4,Fresa,Căpșună,trozo,src/contenido/ingles.ts,borrador
 dadbef2a06f4,Pear,,trozo,src/contenido/ingles.ts,falta
-817898bd17a1,Pera,,trozo,src/contenido/ingles.ts,falta
+817898bd17a1,Pera,Pară,trozo,src/contenido/ingles.ts,borrador
 af9d7c5a9abb,Grapes,,trozo,src/contenido/ingles.ts,falta
-ef4efc0cf0da,Uvas,,trozo,src/contenido/ingles.ts,falta
+ef4efc0cf0da,Uvas,Struguri,trozo,src/contenido/ingles.ts,borrador
 ff71ff25b2b0,Lemon,,trozo,src/contenido/ingles.ts,falta
-72690c18a6d8,Limón,,trozo,src/contenido/ingles.ts,falta
+72690c18a6d8,Limón,Lămâie,trozo,src/contenido/ingles.ts,borrador
 9aa80c57478c,Watermelon,,trozo,src/contenido/ingles.ts,falta
-08a5a4f01551,Sandía,,trozo,src/contenido/ingles.ts,falta
+08a5a4f01551,Sandía,Pepene verde,trozo,src/contenido/ingles.ts,borrador
 7855cca1372a,Pineapple,,trozo,src/contenido/ingles.ts,falta
-8dad40beeb6c,Piña,,trozo,src/contenido/ingles.ts,falta
+8dad40beeb6c,Piña,Ananas,trozo,src/contenido/ingles.ts,borrador
 a10d7a62aaff,Hat,,trozo,src/contenido/ingles.ts src/temas/ingles.ts,falta
-14e89d38cb53,Gorro,,trozo,src/contenido/ingles.ts,falta
+14e89d38cb53,Gorro,Căciulă,trozo,src/contenido/ingles.ts,borrador
 73f7830328e2,Shoe,,trozo,src/contenido/ingles.ts,falta
-5e98d07a53c3,Zapato,,trozo,src/contenido/ingles.ts,falta
-5ec3e2c4cb63,Camiseta,,trozo,src/contenido/ingles.ts,falta
+5e98d07a53c3,Zapato,Pantof,trozo,src/contenido/ingles.ts,borrador
+5ec3e2c4cb63,Camiseta,Tricou,trozo,src/contenido/ingles.ts,borrador
 6e162ed9a2bc,Coat,,trozo,src/contenido/ingles.ts,falta
-52f1de9b746a,Abrigo,,trozo,src/contenido/ingles.ts,falta
+52f1de9b746a,Abrigo,Haină,trozo,src/contenido/ingles.ts,borrador
 7c74ec2a0ca9,Scarf,,trozo,src/contenido/ingles.ts src/temas/ingles.ts,falta
-6dd9d8eb0979,Bufanda,,trozo,src/contenido/ingles.ts,falta
+6dd9d8eb0979,Bufanda,Fular,trozo,src/contenido/ingles.ts,borrador
 643fdaf1fef5,Gloves,,trozo,src/contenido/ingles.ts,falta
-c09a69cad323,Guantes,,trozo,src/contenido/ingles.ts,falta
+c09a69cad323,Guantes,Mănuși,trozo,src/contenido/ingles.ts,borrador
 797e65b9c5cd,Boots,,trozo,src/contenido/ingles.ts src/temas/ingles.ts,falta
-6b2fb3be41a8,Botas,,trozo,src/contenido/ingles.ts,falta
+6b2fb3be41a8,Botas,Cizme,trozo,src/contenido/ingles.ts,borrador
 b4159910295c,Pyjamas,,trozo,src/contenido/ingles.ts,falta
-0347b507203d,Pijama,,trozo,src/contenido/ingles.ts,falta
+0347b507203d,Pijama,Pijama,trozo,src/contenido/ingles.ts,borrador
 88d53497f4a9,Cap,,trozo,src/contenido/ingles.ts,falta
-9d18285fa570,Gorra,,trozo,src/contenido/ingles.ts,falta
+9d18285fa570,Gorra,Șapcă,trozo,src/contenido/ingles.ts,borrador
 1296fcaab5ec,Bread,,trozo,src/contenido/ingles.ts,falta
-f6d4a17b27da,Pan,,trozo,src/contenido/ingles.ts,falta
+f6d4a17b27da,Pan,Pâine,trozo,src/contenido/ingles.ts,borrador
 e89b2cbb7d11,Milk,,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts,falta
-4669737d86f9,Leche,,trozo,src/contenido/ingles.ts,falta
+4669737d86f9,Leche,Lapte,trozo,src/contenido/ingles.ts,borrador
 f04ba3c635d3,Egg,,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts,falta
-a09ea0d3d23a,Huevo,,trozo,src/contenido/ingles.ts,falta
+a09ea0d3d23a,Huevo,Ou,trozo,src/contenido/ingles.ts,borrador
 22322b2b47da,Ice cream,,trozo,src/contenido/ingles.ts,falta
-c4749370924c,Helado,,trozo,src/contenido/ingles.ts,falta
+c4749370924c,Helado,Înghețată,trozo,src/contenido/ingles.ts,borrador
 41a7f93915f9,Cake,,trozo,src/contenido/ingles.ts,falta
-35ca2e332f5d,Tarta,,trozo,src/contenido/ingles.ts,falta
+35ca2e332f5d,Tarta,Tort,trozo,src/contenido/ingles.ts,borrador
 a67778b3dcc8,Cheese,,trozo,src/contenido/ingles.ts,falta
-b15cb7694964,Queso,,trozo,src/contenido/ingles.ts,falta
+b15cb7694964,Queso,Brânză,trozo,src/contenido/ingles.ts,borrador
 3adc446fa1e7,Biscuit,,trozo,src/contenido/ingles.ts,falta
-bb64d121c2d7,Galleta,,trozo,src/contenido/ingles.ts,falta
+bb64d121c2d7,Galleta,Biscuit,trozo,src/contenido/ingles.ts,borrador
 b62ad612a8ad,Juice,,trozo,src/contenido/ingles.ts,falta
-9812daa0fc55,Zumo,,trozo,src/contenido/ingles.ts,falta
+9812daa0fc55,Zumo,Suc,trozo,src/contenido/ingles.ts,borrador
 6ea408ea56e8,Chocolate,,trozo,src/contenido/ingles.ts,falta
 d19c65bc26ec,Bed,,trozo,src/contenido/ingles.ts,falta
-a75e445f9f3a,Cama,,trozo,src/contenido/ingles.ts,falta
+a75e445f9f3a,Cama,Pat,trozo,src/contenido/ingles.ts,borrador
 a60db0f0d5ae,Chair,,trozo,src/contenido/ingles.ts,falta
-bd7acb1fee97,Silla,,trozo,src/contenido/ingles.ts,falta
+bd7acb1fee97,Silla,Scaun,trozo,src/contenido/ingles.ts,borrador
 51c45b795d5d,Table,,trozo,src/contenido/ingles.ts,falta
-2260b669d1c5,Mesa,,trozo,src/contenido/ingles.ts,falta
+2260b669d1c5,Mesa,Masă,trozo,src/contenido/ingles.ts,borrador
 528f274c304a,Sofa,,trozo,src/contenido/ingles.ts,falta
-d9ac8e0a5b3c,Sofá,,trozo,src/contenido/ingles.ts,falta
+d9ac8e0a5b3c,Sofá,Canapea,trozo,src/contenido/ingles.ts,borrador
 5331717d33d4,Lamp,,trozo,src/contenido/ingles.ts,falta
-d46a05dccb98,Lámpara,,trozo,src/contenido/ingles.ts,falta
+d46a05dccb98,Lámpara,Lampă,trozo,src/contenido/ingles.ts,borrador
 98a892aea335,Clock,,trozo,src/contenido/ingles.ts,falta
-c359b5c08d3c,Reloj,,trozo,src/contenido/ingles.ts,falta
+c359b5c08d3c,Reloj,Ceas,trozo,src/contenido/ingles.ts,borrador
 d260bc75293e,Bath,,trozo,src/contenido/ingles.ts,falta
-eaf60ff7f696,Bañera,,trozo,src/contenido/ingles.ts,falta
+eaf60ff7f696,Bañera,Cadă,trozo,src/contenido/ingles.ts,borrador
 5b9ccf399943,Fridge,,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts,falta
-9b94d7cabafb,Nevera,,trozo,src/contenido/ingles.ts,falta
+9b94d7cabafb,Nevera,Frigider,trozo,src/contenido/ingles.ts,borrador
 ffc76083445e,Sunny,,trozo,src/contenido/ingles.ts,falta
-db463603345c,Hace sol,,trozo,src/contenido/ingles.ts,falta
+db463603345c,Hace sol,E soare,trozo,src/contenido/ingles.ts,borrador
 c4bded8f0ac3,Rainy,,trozo,src/contenido/ingles.ts,falta
-c0e8de2ed791,Llueve,,trozo,src/contenido/ingles.ts,falta
+c0e8de2ed791,Llueve,Plouă,trozo,src/contenido/ingles.ts,borrador
 e3a1a93fc29a,Cloudy,,trozo,src/contenido/ingles.ts,falta
-8af1612b5698,Está nublado,,trozo,src/contenido/ingles.ts,falta
+8af1612b5698,Está nublado,E înnorat,trozo,src/contenido/ingles.ts,borrador
 db3e8d805f8b,Snowy,,trozo,src/contenido/ingles.ts,falta
-fa1c22d70be2,Nieva,,trozo,src/contenido/ingles.ts,falta
+fa1c22d70be2,Nieva,Ninge,trozo,src/contenido/ingles.ts,borrador
 0824bb2e1bab,Windy,,trozo,src/contenido/ingles.ts,falta
-69ba0d6d28c1,Hace viento,,trozo,src/contenido/ingles.ts,falta
+69ba0d6d28c1,Hace viento,Bate vântul,trozo,src/contenido/ingles.ts,borrador
 4aca5ee9a087,Rainbow,,trozo,src/contenido/ingles.ts,falta
-2b8c7f1fbe6d,Arcoíris,,trozo,src/contenido/ingles.ts,falta
+2b8c7f1fbe6d,Arcoíris,Curcubeu,trozo,src/contenido/ingles.ts,borrador
 908228e8d513,Stormy,,trozo,src/contenido/ingles.ts,falta
-587599fad966,Hay tormenta,,trozo,src/contenido/ingles.ts,falta
+587599fad966,Hay tormenta,E furtună,trozo,src/contenido/ingles.ts,borrador
 6e4b38bfd577,Bus,,trozo,src/contenido/ingles.ts,falta
-633a17adbff6,Autobús,,trozo,src/contenido/ingles.ts,falta
+633a17adbff6,Autobús,Autobuz,trozo,src/contenido/ingles.ts,borrador
 e9989db5dabe,Car,,trozo,src/contenido/ingles.ts,falta
-c651abb05b70,Coche,,trozo,src/contenido/ingles.ts,falta
+c651abb05b70,Coche,Mașină,trozo,src/contenido/ingles.ts,borrador
 0d3adee05153,Plane,,trozo,src/contenido/ingles.ts,falta
-baa95988c50d,Avión,,trozo,src/contenido/ingles.ts,falta
+baa95988c50d,Avión,Avion,trozo,src/contenido/ingles.ts,borrador
 f769aafbc2b8,Boat,,trozo,src/contenido/ingles.ts,falta
-aacac3392b9c,Barco,,trozo,src/contenido/ingles.ts,falta
+aacac3392b9c,Barco,Barcă,trozo,src/contenido/ingles.ts,borrador
 5f6d03332cb0,Bike,,trozo,src/contenido/ingles.ts,falta
-88d110f9adc6,Bici,,trozo,src/contenido/ingles.ts,falta
+88d110f9adc6,Bici,Bicicletă,trozo,src/contenido/ingles.ts,borrador
 2ab8b43468e8,Helicopter,,trozo,src/contenido/ingles.ts,falta
-c7d364ccc32b,Helicóptero,,trozo,src/contenido/ingles.ts,falta
+c7d364ccc32b,Helicóptero,Elicopter,trozo,src/contenido/ingles.ts,borrador
 15e8bfff2c10,Rocket,,trozo,src/contenido/ingles.ts,falta
-d2428718adee,Cohete,,trozo,src/contenido/ingles.ts,falta
+d2428718adee,Cohete,Rachetă,trozo,src/contenido/ingles.ts,borrador
 8029d0d49e9e,Tractor,,trozo,src/contenido/ingles.ts,falta
 fe0707cc476f,Cow,,trozo,src/contenido/ingles.ts,falta
-95455bbd4470,Vaca,,trozo,src/contenido/ingles.ts,falta
+95455bbd4470,Vaca,Vacă,trozo,src/contenido/ingles.ts,borrador
 8889740bf1ca,Moo,,trozo,src/contenido/ingles.ts,falta
 32e9edc16056,Pig,,trozo,src/contenido/ingles.ts,falta
-fc2d5c63ffa0,Cerdo,,trozo,src/contenido/ingles.ts,falta
+fc2d5c63ffa0,Cerdo,Porc,trozo,src/contenido/ingles.ts,borrador
 6beac3bab1b0,Oink,,trozo,src/contenido/ingles.ts,falta
 f97ca8decb3a,Duck,,trozo,src/contenido/ingles.ts,falta
-4d4faa1fae7b,Pato,,trozo,src/contenido/ingles.ts,falta
+4d4faa1fae7b,Pato,Rață,trozo,src/contenido/ingles.ts,borrador
 58c9a94d2265,Quack,,trozo,src/contenido/ingles.ts,falta
 572b2541c97a,Sheep,,trozo,src/contenido/ingles.ts,falta
-3f18ba4b9286,Oveja,,trozo,src/contenido/ingles.ts,falta
+3f18ba4b9286,Oveja,Oaie,trozo,src/contenido/ingles.ts,borrador
 6c647ded4d34,Baa,,trozo,src/contenido/ingles.ts,falta
 c935d187f0b9,Dog,,trozo,src/contenido/ingles.ts src/temas/inglesPueblo.ts,falta
-ce311f9a3d94,Perro,,trozo,src/contenido/ingles.ts,falta
+ce311f9a3d94,Perro,Câine,trozo,src/contenido/ingles.ts,borrador
 6d4a6c2c885a,Woof,,trozo,src/contenido/ingles.ts,falta
 fa3ebd6742c3,Cat,,trozo,src/contenido/ingles.ts,falta
-d8fe68a74f51,Gato,,trozo,src/contenido/ingles.ts,falta
+d8fe68a74f51,Gato,Pisică,trozo,src/contenido/ingles.ts,borrador
 049fc6be2ec5,Meow,,trozo,src/contenido/ingles.ts,falta
 38069b4eb64e,Horse,,trozo,src/contenido/ingles.ts,falta
-3d7a6c29aa6b,Caballo,,trozo,src/contenido/ingles.ts,falta
+3d7a6c29aa6b,Caballo,Cal,trozo,src/contenido/ingles.ts,borrador
 62c7a8295dbc,Neigh,,trozo,src/contenido/ingles.ts,falta
 5bc6999da893,Hen,,trozo,src/contenido/ingles.ts,falta
-0f195de97770,Gallina,,trozo,src/contenido/ingles.ts,falta
+0f195de97770,Gallina,Găină,trozo,src/contenido/ingles.ts,borrador
 88d18b8bd3e1,Cluck,,trozo,src/contenido/ingles.ts,falta
 38008dd81c2f,Spring,,trozo,src/contenido/ingles.ts,falta
-bd1777fec2f7,Primavera,,trozo,src/contenido/ingles.ts,falta
+bd1777fec2f7,Primavera,Primăvară,trozo,src/contenido/ingles.ts,borrador
 95884b5232ea,Summer,,trozo,src/contenido/ingles.ts,falta
-a3c6b24fda3b,Verano,,trozo,src/contenido/ingles.ts,falta
+a3c6b24fda3b,Verano,Vară,trozo,src/contenido/ingles.ts,borrador
 1e3576c804bb,Autumn,,trozo,src/contenido/ingles.ts,falta
 87ad485f96bb,Otoño,Toamnă,trozo,src/contenido/ingles.ts src/aplicacion/adultos/progreso.ts,borrador
 b18e66b41efd,Winter,,trozo,src/contenido/ingles.ts,falta
-9b8208544468,Invierno,,trozo,src/contenido/ingles.ts,falta
+9b8208544468,Invierno,Iarnă,trozo,src/contenido/ingles.ts,borrador
 cbb67c65f2ab,Doctor,,trozo,src/contenido/ingles.ts,falta
-7082fd7b1715,Médico,,trozo,src/contenido/ingles.ts,falta
+7082fd7b1715,Médico,Doctor,trozo,src/contenido/ingles.ts,borrador
 8ab7bbdf01a2,Teacher,,trozo,src/contenido/ingles.ts,falta
-c82dc04b1bff,Maestra,,trozo,src/contenido/ingles.ts,falta
+c82dc04b1bff,Maestra,Educatoare,trozo,src/contenido/ingles.ts,borrador
 fbb59c3d4a8e,Police officer,,trozo,src/contenido/ingles.ts,falta
-c6829dd7def1,Policía,,trozo,src/contenido/ingles.ts,falta
+c6829dd7def1,Policía,Polițistă,trozo,src/contenido/ingles.ts,borrador
 b74ad4852301,Firefighter,,trozo,src/contenido/ingles.ts,falta
-d7cfa370f2d6,Bombera,,trozo,src/contenido/ingles.ts,falta
+d7cfa370f2d6,Bombera,Pompieră,trozo,src/contenido/ingles.ts,borrador
 1bf70a91b0b2,Cook,,trozo,src/contenido/ingles.ts,falta
-3c3e0e585eb9,Cocinera,,trozo,src/contenido/ingles.ts,falta
+3c3e0e585eb9,Cocinera,Bucătăreasă,trozo,src/contenido/ingles.ts,borrador
 8bf7aa45eea8,Farmer,,trozo,src/contenido/ingles.ts,falta
-f8bb68fa3b2b,Granjera,,trozo,src/contenido/ingles.ts,falta
+f8bb68fa3b2b,Granjera,Fermieră,trozo,src/contenido/ingles.ts,borrador
 f30b7f25f10a,Baker,,trozo,src/contenido/ingles.ts,falta
-9dc7d941824d,Panadero,,trozo,src/contenido/ingles.ts,falta
+9dc7d941824d,Panadero,Brutar,trozo,src/contenido/ingles.ts,borrador
 46636203ccc3,Astronaut,,trozo,src/contenido/ingles.ts,falta
-af6867a7c88d,Astronauta,,trozo,src/contenido/ingles.ts,falta
+af6867a7c88d,Astronauta,Astronaut,trozo,src/contenido/ingles.ts,borrador
 6f061e1cad5e,Postman,,trozo,src/contenido/ingles.ts,falta
-915f898ac6e2,Cartero,,trozo,src/contenido/ingles.ts,falta
+915f898ac6e2,Cartero,Poștaș,trozo,src/contenido/ingles.ts,borrador
 1ed10d1bb14f,Carrot,,trozo,src/contenido/ingles.ts,falta
-3158b3e8b252,Zanahoria,,trozo,src/contenido/ingles.ts,falta
+3158b3e8b252,Zanahoria,Morcov,trozo,src/contenido/ingles.ts,borrador
 77bd79b3dca1,Tomato,,trozo,src/contenido/ingles.ts,falta
-9e4867f29741,Tomate,,trozo,src/contenido/ingles.ts,falta
+9e4867f29741,Tomate,Roșie,trozo,src/contenido/ingles.ts,borrador
 071642fa72ba,Fish,,trozo,src/contenido/ingles.ts,falta
-b02d82ebd8d6,Pescado,,trozo,src/contenido/ingles.ts,falta
+b02d82ebd8d6,Pescado,Pește,trozo,src/contenido/ingles.ts,borrador
 9da9124073d3,la a,,trozo,src/contenido/letras.ts,falta
 86a390376308,la e,,trozo,src/contenido/letras.ts,falta
 5e51f6b8abec,la i,,trozo,src/contenido/letras.ts,falta
@@ -1988,7 +1988,7 @@ a830de01ef81,miedo,frică,trozo,src/juegos/caras.ts,borrador
 68072fb6617f,Es {cosa},E {cosa},trozo,src/juegos/comps.ts,borrador
 39f16812adf7,Esas son {cosa},Acelea sunt {cosa},trozo,src/juegos/comps.ts,borrador
 61b5758bf8a5,Esos son {cosa},Aceia sunt {cosa},trozo,src/juegos/comps.ts,borrador
-1676621c6ece,Esa es {cosa},Aceea e {cosa},trozo,src/juegos/comps.ts src/temas/letras.ts,borrador
+1676621c6ece,Esa es {cosa},Aceea e {cosa},trozo,src/juegos/comps.ts,borrador
 b3bf81a9905d,Ese es {cosa},Acela e {cosa},trozo,src/juegos/comps.ts,borrador
 2a33451004a2,cero,zero,trozo,src/juegos/comps.ts,borrador
 1eaa8bb19586,uno,unu,trozo,src/juegos/comps.ts,borrador
@@ -2132,31 +2132,30 @@ c26e9fc0e00d,Escucha el cuento: {titulo}.,Ascultă povestea: {titulo}.,frase,src
 87e2719d8e78,NFD,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
 ef71c59747f0,litera ,,trozo,src/juegos/lectura.ts,falta
 451f3750f787,la ,,trozo,src/juegos/lectura.ts,falta
-ec885e10ce6f,. Toca el tambor una vez por cada trozo.,,trozo,src/juegos/lectura.ts,falta
-599aa33e94a9,Vamos a dar palmas.,,frase,src/juegos/lectura.ts,falta
-ca737bb082a8,Ahora: ,,trozo,src/juegos/lectura.ts,falta
-6bdb0c4319e1,. Toca el tambor.,,trozo,src/juegos/lectura.ts,falta
-88be6cc2e213, tiene ,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
-2cd1b892e862,una palma,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
-a6adc37e0595, palmas,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
-2cc4792f9e9f,Toca la letra que salta.,,frase,src/juegos/lectura.ts,falta
-fd7134d70d86, Así se escribe ,,trozo,src/juegos/lectura.ts,falta
+97b7c06bbe15,{intro} {Cosa}. Toca el tambor una vez por cada trozo.,{intro} {Cosa}. Bate în tobă o dată pentru fiecare bucată.,trozo,src/juegos/lectura.ts,borrador
+599aa33e94a9,Vamos a dar palmas.,Hai să batem din palme.,frase,src/juegos/lectura.ts,borrador
+5bbfb00d4d18,Ahora: {cosa}. Toca el tambor.,Acum: {cosa}. Bate în tobă.,frase,src/juegos/lectura.ts,borrador
+35b8bf38d820,{Cosa}. Toca el tambor una vez por cada trozo.,{Cosa}. Bate în tobă o dată pentru fiecare bucată.,trozo,src/juegos/lectura.ts,borrador
+5242b99f79cb,{Palabra} tiene {palmas}.,{Palabra} are {palmas}.,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+2cd1b892e862,una palma,o bătaie din palme,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+f991ba12b8f4,dos palmas,două bătăi din palme,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+c9eef304985c,{n} palmas,{n} bătăi din palme,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+2cc4792f9e9f,Toca la letra que salta.,Atinge litera care sare.,frase,src/juegos/lectura.ts,borrador
+a32e6373a7d0,Así se escribe {nombre}.,Așa se scrie {nombre}.,frase,src/juegos/lectura.ts,borrador
 c016e7527b97,¡Llega el tren de {letra}! Toca un vagón para engancharlo.,Vine trenul cu {letra}! Atinge un vagon ca să-l agăți.,frase,src/juegos/lectura.ts,borrador
 1472ee7b8d39,Toca un vagón para engancharlo a la locomotora.,Atinge un vagon ca să-l agăți de locomotivă.,frase,src/juegos/lectura.ts,borrador
 1803ed792ae8,{Letra} con {vocal}: {silaba}.,{Letra} cu {vocal}: {silaba}.,trozo,src/juegos/lectura.ts,borrador
 16f0be6e98f6,"¡Chu, chu! El tren se va.","Ciu, ciu! Trenul pleacă.",frase,src/juegos/lectura.ts,borrador
 c12dcbb5375e,Toca la huella que brilla.,Atinge urma care strălucește.,frase,src/juegos/lectura.ts,borrador
-b034806c1201,Haz la sílaba ,,trozo,src/juegos/lectura.ts,falta
-e5c960a74085,. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,,trozo,src/juegos/lectura.ts,falta
-b52e12769797,¡Esta es la máquina de las sílabas! ,,frase,src/juegos/lectura.ts,falta
-4938a7cf8e90,Haz:,,trozo,src/juegos/lectura.ts,falta
-6db26f694335, con ,,trozo,src/juegos/lectura.ts,falta
-18ce5a5063f4,Ha salido ,,trozo,src/juegos/lectura.ts,falta
-991d426af75b,. Queremos ,,trozo,src/juegos/lectura.ts,falta
-acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.",,frase,src/juegos/lectura.ts,falta
-1819906d8c99,Lee la frase y toca el dibujo que dice.,,frase,src/juegos/lectura.ts,falta
-f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.",,frase,src/juegos/lectura.ts,falta
-ba20461b2d04,Te la leo:,,trozo,src/juegos/lectura.ts,falta
+e89c9f746492,¡Esta es la máquina de las sílabas!,Aceasta este mașina de silabe!,frase,src/juegos/lectura.ts,borrador
+98f857d62220,Haz la sílaba {silaba}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,Fă silaba {silaba}. Atinge roțile ca să schimbi literele și apoi apasă butonul roșu.,frase,src/juegos/lectura.ts,borrador
+ad5e6dee6c70,Haz la sílaba {silaba}.,Fă silaba {silaba}.,frase,src/juegos/lectura.ts,borrador
+4938a7cf8e90,Haz:,Fă:,trozo,src/juegos/lectura.ts,borrador
+8abdbb984489,Ha salido {hecha}. Queremos {silaba}.,A ieșit {hecha}. Vrem {silaba}.,frase,src/juegos/lectura.ts,borrador
+acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.","Citește propoziția și atinge desenul potrivit. Dacă atingi un cuvânt, ți-l citesc.",frase,src/juegos/lectura.ts,borrador
+1819906d8c99,Lee la frase y toca el dibujo que dice.,Citește propoziția și atinge desenul potrivit.,frase,src/juegos/lectura.ts,borrador
+f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.","Mmm, nu e acela. Uită-te bine la propoziție.",frase,src/juegos/lectura.ts,borrador
+ba20461b2d04,Te la leo:,Ți-o citesc:,trozo,src/juegos/lectura.ts,borrador
 b09361a94769,¡Meta!,Linia de sosire!,frase,src/mundo3d/carreras3d.ts,borrador
 11d71e5d9f54,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la izquierda.,O răscruce! Mergem la stânga sau la dreapta? Stelele sunt la stânga.,frase,src/mundo3d/carreras3d.ts,borrador
 63b8a1ea2b08,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la derecha.,O răscruce! Mergem la stânga sau la dreapta? Stelele sunt la dreapta.,frase,src/mundo3d/carreras3d.ts,borrador
@@ -2640,231 +2639,232 @@ aae95e55c166,¿Qué casa se voló con un soplido?,Care casă a zburat dintr-o su
 40aca82fdc2e,¿Quiénes construyeron las casas?,Cine a construit căsuțele?,frase,src/temas/extras.ts,borrador
 f94eee9bbc0f,¡Sí! {Cosa}.,Da! {Cosa}.,frase,src/temas/extras.ts src/temas/temas5.ts,borrador
 89c2b9e29f6f,el trenecito,trenulețul,nombre,src/temas/extras.ts,borrador
-21c2e59531c8,Z,,trozo,src/temas/ingles.ts,falta
+21c2e59531c8,Z,Z,trozo,src/temas/ingles.ts,borrador
 8b1a9953c461,Hello,,trozo,src/temas/ingles.ts,falta
-f688ae26e9cf,Hola,,trozo,src/temas/ingles.ts,falta
+f688ae26e9cf,Hola,Salut,trozo,src/temas/ingles.ts,borrador
 ef97b40b2245,Happy,,trozo,src/temas/ingles.ts,falta
-e05ecef74d0b,Contento,,trozo,src/temas/ingles.ts,falta
+e05ecef74d0b,Contento,Vesel,trozo,src/temas/ingles.ts,borrador
 debd770bb8fb,Sad,,trozo,src/temas/ingles.ts,falta
-8ad876a3b89f,Triste,,trozo,src/temas/ingles.ts,falta
+8ad876a3b89f,Triste,Trist,trozo,src/temas/ingles.ts,borrador
 c843a05d2d7a,Good night,,trozo,src/temas/ingles.ts,falta
-b50d0838149f,Buenas noches,,trozo,src/temas/ingles.ts,falta
+b50d0838149f,Buenas noches,Noapte bună,trozo,src/temas/ingles.ts,borrador
 4e44298897ed,Good morning,,trozo,src/temas/ingles.ts,falta
-8183e776074f,Buenos días,,trozo,src/temas/ingles.ts,falta
+8183e776074f,Buenos días,Bună dimineața,trozo,src/temas/ingles.ts,borrador
 7a7c46aab7e0,Thank you,,trozo,src/temas/ingles.ts,falta
-e44165d04cae,Gracias,,trozo,src/temas/ingles.ts,falta
+e44165d04cae,Gracias,Mulțumesc,trozo,src/temas/ingles.ts,borrador
 e4f58a805a6e,I love you,,trozo,src/temas/ingles.ts,falta
-935156c3b307,Te quiero,,trozo,src/temas/ingles.ts,falta
+935156c3b307,Te quiero,Te iubesc,trozo,src/temas/ingles.ts,borrador
 cc3b72d79006,Angry,,trozo,src/temas/ingles.ts,falta
-6fdfd2ae16c4,Enfadado,,trozo,src/temas/ingles.ts,falta
-6b750c1f2a44,Toca cada dibujo y escucha cómo se dice en inglés. ¡Repítelo en voz alta!,,frase,src/temas/ingles.ts,falta
-5c60203af7d1,¿Quién dice,,trozo,src/temas/ingles.ts,falta
-56faf0ea7307,Toca,,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts,falta
+6fdfd2ae16c4,Enfadado,Supărat,trozo,src/temas/ingles.ts,borrador
+6b750c1f2a44,Toca cada dibujo y escucha cómo se dice en inglés. ¡Repítelo en voz alta!,Atinge fiecare desen și ascultă cum se spune în engleză. Repetă cu voce tare!,frase,src/temas/ingles.ts,borrador
+5c60203af7d1,¿Quién dice,Cine face,trozo,src/temas/ingles.ts,borrador
+56faf0ea7307,Toca,Atinge,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts,borrador
 5e6b6f09693c,@The ,,inglés,src/temas/ingles.ts src/temas/inglesPueblo.ts,falta
 682a493a3882, says ,,trozo,src/temas/ingles.ts,falta
-4da0b6011cda,Ese es,,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts,falta
-2d23d3154775,. Dice,,trozo,src/temas/ingles.ts,falta
-9e42517b7c1f,. Busca,,trozo,src/temas/ingles.ts,falta
-16526d50e695,Revienta los globos de,,trozo,src/temas/ingles.ts,falta
-896f94a91413,"Ahora, los globos de",,trozo,src/temas/ingles.ts,falta
-e0250c2d9fb4,"¡Contamos en inglés! Toca cada dibujo, de uno en uno.",,frase,src/temas/ingles.ts,falta
-107cf8f74066,Otra vez: toca cada dibujo y contamos.,,frase,src/temas/ingles.ts,falta
-ccd63adc0fa8,Toca cada dibujo y contamos en inglés.,,frase,src/temas/ingles.ts,falta
-c35410a1200f,{N}. ¡Hay {n}!,,trozo,src/temas/ingles.ts,falta
-16f9b9c53f10,"Escucha a Polly y repite en voz alta. Cuando lo hayas dicho, toca la boca.",,frase,src/temas/ingles.ts,falta
-7a5d4ad05350,Repite conmigo:,,trozo,src/temas/ingles.ts,falta
-3671aaa0c231,¡Suena el teléfono rojo! Cógelo tocándolo y escucha lo que pide Polly.,,frase,src/temas/ingles.ts,falta
-4488e7a157c8,", please!",,trozo,src/temas/ingles.ts,falta
-ee58d9c9aa3d,Toca el teléfono para cogerlo.,,frase,src/temas/ingles.ts,falta
+4da0b6011cda,Ese es,Asta e,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts,borrador
+2d23d3154775,. Dice,. Face,trozo,src/temas/ingles.ts,borrador
+9e42517b7c1f,. Busca,. Caută,trozo,src/temas/ingles.ts,borrador
+16526d50e695,Revienta los globos de,Sparge baloanele cu,trozo,src/temas/ingles.ts,borrador
+896f94a91413,"Ahora, los globos de","Acum, baloanele cu",trozo,src/temas/ingles.ts,borrador
+e0250c2d9fb4,"¡Contamos en inglés! Toca cada dibujo, de uno en uno.","Numărăm în engleză! Atinge fiecare desen, pe rând.",frase,src/temas/ingles.ts,borrador
+107cf8f74066,Otra vez: toca cada dibujo y contamos.,Încă o dată: atinge fiecare desen și numărăm.,frase,src/temas/ingles.ts,borrador
+ccd63adc0fa8,Toca cada dibujo y contamos en inglés.,Atinge fiecare desen și numărăm în engleză.,frase,src/temas/ingles.ts,borrador
+c35410a1200f,{N}. ¡Hay {n}!,{N}. Sunt {n}!,trozo,src/temas/ingles.ts,borrador
+16f9b9c53f10,"Escucha a Polly y repite en voz alta. Cuando lo hayas dicho, toca la boca.","Ascult-o pe Polly și repetă cu voce tare. După ce ai spus, atinge gura.",frase,src/temas/ingles.ts,borrador
+7a5d4ad05350,Repite conmigo:,Repetă cu mine:,trozo,src/temas/ingles.ts,borrador
+3671aaa0c231,¡Suena el teléfono rojo! Cógelo tocándolo y escucha lo que pide Polly.,Sună telefonul roșu! Răspunde atingându-l și ascultă ce cere Polly.,frase,src/temas/ingles.ts,borrador
+4488e7a157c8,", please!",", please!",trozo,src/temas/ingles.ts,borrador
+ee58d9c9aa3d,Toca el teléfono para cogerlo.,Atinge telefonul ca să răspunzi.,frase,src/temas/ingles.ts,borrador
 25a8538ab1d7,@Thank you!,,inglés,src/temas/ingles.ts,falta
-70d4e5a2b797,. Polly pide,,trozo,src/temas/ingles.ts,falta
+70d4e5a2b797,. Polly pide,. Polly cere,trozo,src/temas/ingles.ts,borrador
 0f461e64d283,Glasses,,trozo,src/temas/ingles.ts,falta
-8f8742737782,las gafas,,trozo,src/temas/ingles.ts,falta
-15687c144377,las botas,,trozo,src/temas/ingles.ts,falta
-633f6856958a,¡Vamos a vestir a Polly! Escucha qué se quiere poner y tócalo.,,frase,src/temas/ingles.ts,falta
+8f8742737782,las gafas,ochelarii,trozo,src/temas/ingles.ts,borrador
+15687c144377,las botas,cizmele,trozo,src/temas/ingles.ts,borrador
+633f6856958a,¡Vamos a vestir a Polly! Escucha qué se quiere poner y tócalo.,Hai s-o îmbrăcăm pe Polly! Ascultă ce vrea să poarte și atinge.,frase,src/temas/ingles.ts,borrador
 e1e04341f52b,@Put on the ,,inglés,src/temas/ingles.ts,falta
-6c67483ce79d,¡Qué guapa está Polly!,,frase,src/temas/ingles.ts,falta
-a90eec5a4c39,. Polly quiere,,trozo,src/temas/ingles.ts,falta
-cbc97f3e50f6,¡Vamos a cantar en inglés con Polly! Escucha.,,frase,src/temas/ingles.ts,falta
-d4434d1d66ba,¡Ahora jugamos! Toca lo que te digo.,,frase,src/temas/ingles.ts,falta
-92b5df07c1fa,¡Ahora te toca a ti! Toca los dibujos en el orden de la canción.,,frase,src/temas/ingles.ts,falta
-2ad4070e6386,¡Bravo! ¡Qué bien cantas en inglés!,,frase,src/temas/ingles.ts,falta
-9441a5a2c109,Escucha y repite,,trozo,src/temas/ingles.ts,falta
-c4d5806b8ac8,Revienta los globos,,trozo,src/temas/ingles.ts,falta
-0ba73f4612ee,Contar en inglés,,trozo,src/temas/ingles.ts,falta
-df9ef7929c5b,Repite conmigo,,trozo,src/temas/ingles.ts,falta
-7fbc901c0609,El teléfono rojo,,trozo,src/temas/ingles.ts,falta
-29df31812122,Viste a Polly,,trozo,src/temas/ingles.ts,falta
-89a8c84cff81,Sonidos de la granja,,trozo,src/temas/ingles.ts,falta
-301b703476f1,Canta los saludos,,trozo,src/temas/ingles.ts,falta
-224483f417bb,Canta los colores,,trozo,src/temas/ingles.ts,falta
-a069fa16a69a,Canta los números,,trozo,src/temas/ingles.ts,falta
+6c67483ce79d,¡Qué guapa está Polly!,Ce frumoasă e Polly!,frase,src/temas/ingles.ts,borrador
+a90eec5a4c39,. Polly quiere,. Polly vrea,trozo,src/temas/ingles.ts,borrador
+cbc97f3e50f6,¡Vamos a cantar en inglés con Polly! Escucha.,Hai să cântăm în engleză cu Polly! Ascultă.,frase,src/temas/ingles.ts,borrador
+d4434d1d66ba,¡Ahora jugamos! Toca lo que te digo.,Acum ne jucăm! Atinge ce-ți spun.,frase,src/temas/ingles.ts,borrador
+92b5df07c1fa,¡Ahora te toca a ti! Toca los dibujos en el orden de la canción.,Acum e rândul tău! Atinge desenele în ordinea din cântec.,frase,src/temas/ingles.ts,borrador
+2ad4070e6386,¡Bravo! ¡Qué bien cantas en inglés!,Bravo! Ce frumos cânți în engleză!,frase,src/temas/ingles.ts,borrador
+9441a5a2c109,Escucha y repite,Ascultă și repetă,trozo,src/temas/ingles.ts,borrador
+c4d5806b8ac8,Revienta los globos,Sparge baloanele,trozo,src/temas/ingles.ts,borrador
+0ba73f4612ee,Contar en inglés,Numărăm în engleză,trozo,src/temas/ingles.ts,borrador
+df9ef7929c5b,Repite conmigo,Repetă cu mine,trozo,src/temas/ingles.ts,borrador
+7fbc901c0609,El teléfono rojo,Telefonul roșu,trozo,src/temas/ingles.ts,borrador
+29df31812122,Viste a Polly,Îmbrac-o pe Polly,trozo,src/temas/ingles.ts,borrador
+89a8c84cff81,Sonidos de la granja,Sunetele fermei,trozo,src/temas/ingles.ts,borrador
+301b703476f1,Canta los saludos,Cântă salutul,trozo,src/temas/ingles.ts,borrador
+224483f417bb,Canta los colores,Cântă culorile,trozo,src/temas/ingles.ts,borrador
+a069fa16a69a,Canta los números,Cântă numerele,trozo,src/temas/ingles.ts,borrador
 8ad4c7d09071,Los saludos en inglés,Salutul în engleză,trozo,src/temas/ingles.ts,borrador
 5d41402abc4b,hello,,trozo,src/temas/ingles.ts,falta
-a3f22fa4c974,"saludarse en inglés al llegar y al irse: hello, good morning, good night.",,trozo,src/temas/ingles.ts,falta
+a3f22fa4c974,"saludarse en inglés al llegar y al irse: hello, good morning, good night.","vă salutați în engleză când veniți și când plecați: hello, good morning, good night.",trozo,src/temas/ingles.ts,borrador
 0dd5cf3bface,Los colores en inglés,Culorile în engleză,trozo,src/temas/ingles.ts,borrador
 62848e3ce580,colors,,trozo,src/temas/ingles.ts,falta
-4c996b8ad967,"jugar a ""I spy"": buscar en casa cosas red, blue, yellow...",,trozo,src/temas/ingles.ts,falta
+4c996b8ad967,"jugar a ""I spy"": buscar en casa cosas red, blue, yellow...","jucați „I spy”: căutați prin casă lucruri red, blue, yellow...",trozo,src/temas/ingles.ts,borrador
 4ea2dd70b7dd,Los números en inglés,Numerele în engleză,trozo,src/temas/ingles.ts,borrador
 ee5c35ce3d08,numbers,,trozo,src/temas/ingles.ts,falta
-6bf2ec704f83,"contar en inglés los escalones o los juguetes: one, two, three...",,trozo,src/temas/ingles.ts,falta
+6bf2ec704f83,"contar en inglés los escalones o los juguetes: one, two, three...","numărați în engleză treptele sau jucăriile: one, two, three...",trozo,src/temas/ingles.ts,borrador
 645863de3566,Los animales en inglés,Animalele în engleză,trozo,src/temas/ingles.ts,borrador
 a723e3dfb497,animals,,trozo,src/temas/ingles.ts src/temas/inglesPueblo.ts,falta
-3e5165059ba5,mirar un libro de animales y nombrarlos en inglés.,,trozo,src/temas/ingles.ts,falta
+3e5165059ba5,mirar un libro de animales y nombrarlos en inglés.,răsfoiți o carte cu animale și le numiți în engleză.,trozo,src/temas/ingles.ts,borrador
 2cb50c9115bd,La familia en inglés,Familia în engleză,trozo,src/temas/ingles.ts,borrador
 0d3fda0bdbb9,family,,trozo,src/temas/ingles.ts,falta
-addb03cbb121,"nombrar en inglés a la familia en las fotos de casa: mum, dad, baby...",,trozo,src/temas/ingles.ts,falta
+addb03cbb121,"nombrar en inglés a la familia en las fotos de casa: mum, dad, baby...","numiți în engleză familia din fotografiile de acasă: mum, dad, baby...",trozo,src/temas/ingles.ts,borrador
 b3be0f9a1383,Mi cuerpo en inglés,Corpul meu în engleză,trozo,src/temas/ingles.ts,borrador
 841a2d689ad8,body,,trozo,src/temas/ingles.ts,falta
-e7166427bdf9,"jugar a tocarse la nariz, los ojos o las manos diciéndolo en inglés.",,trozo,src/temas/ingles.ts,falta
+e7166427bdf9,"jugar a tocarse la nariz, los ojos o las manos diciéndolo en inglés.","jucați-vă atingându-vă nasul, ochii sau mâinile și spunând în engleză.",trozo,src/temas/ingles.ts,borrador
 a88a306561d0,Los juguetes en inglés,Jucăriile în engleză,trozo,src/temas/ingles.ts,borrador
 efacc1763324,toys,,trozo,src/temas/ingles.ts,falta
-dd042cc8b5c0,"al recoger, pedir los juguetes en inglés: the ball, please.",,trozo,src/temas/ingles.ts,falta
+dd042cc8b5c0,"al recoger, pedir los juguetes en inglés: the ball, please.","când strângeți, cereți jucăriile în engleză: the ball, please.",trozo,src/temas/ingles.ts,borrador
 f2c569afc34d,La fruta en inglés,Fructele în engleză,trozo,src/temas/ingles.ts,borrador
 e0deff349b2c,fruit,,trozo,src/temas/ingles.ts,falta
-c68f9f85b008,"en la compra o en la merienda, decir la fruta en inglés: apple, banana...",,trozo,src/temas/ingles.ts,falta
+c68f9f85b008,"en la compra o en la merienda, decir la fruta en inglés: apple, banana...","la cumpărături sau la gustare, spuneți fructele în engleză: apple, banana...",trozo,src/temas/ingles.ts,borrador
 a8e2a84b819c,Las formas en inglés,Formele în engleză,trozo,src/temas/ingles.ts,borrador
 8a995d2704d5,shapes,,trozo,src/temas/ingles.ts,falta
-959fe4f01139,"buscar formas por la calle: a circle, a square, a triangle.",,trozo,src/temas/ingles.ts,falta
+959fe4f01139,"buscar formas por la calle: a circle, a square, a triangle.","căutați forme pe stradă: a circle, a square, a triangle.",trozo,src/temas/ingles.ts,borrador
 5d028fdf62dd,Fiesta de la playa,Petrecerea de pe plajă,trozo,src/temas/ingles.ts,borrador
 7193529abbf9,beach,,trozo,src/temas/ingles.ts,falta
-b2440786e29a,repasar con la familia las palabras en inglés que ya sabe.,,trozo,src/temas/ingles.ts,falta
+b2440786e29a,repasar con la familia las palabras en inglés que ya sabe.,recapitulați în familie cuvintele în engleză pe care le știe deja.,trozo,src/temas/ingles.ts,borrador
 b27b4c65e425,Repaso de la playa,Recapitularea de pe plajă,trozo,src/temas/ingles.ts,borrador
-ec66a1f345ea,preguntar en inglés por lo que ya sabe: what colour is it?,,trozo,src/temas/ingles.ts,falta
+ec66a1f345ea,preguntar en inglés por lo que ya sabe: what colour is it?,întrebați în engleză despre ce știe deja: what colour is it?,trozo,src/temas/ingles.ts,borrador
 d1ce7db9239c,La ropa en inglés,Hainele în engleză,trozo,src/temas/ingles.ts,borrador
 e7a80f49aaf2,clothes,,trozo,src/temas/ingles.ts,falta
-eb23e419b364,"al vestirse, nombrar la ropa en inglés: put on your coat!",,trozo,src/temas/ingles.ts,falta
+eb23e419b364,"al vestirse, nombrar la ropa en inglés: put on your coat!","când se îmbracă, numiți hainele în engleză: put on your coat!",trozo,src/temas/ingles.ts,borrador
 79f639841891,La comida en inglés,Mâncarea în engleză,trozo,src/temas/ingles.ts,borrador
 62506be34d57,food,,trozo,src/temas/ingles.ts,falta
-b9e9c9684cb2,"en la mesa, pedir las cosas en inglés: milk, please.",,trozo,src/temas/ingles.ts,falta
+b9e9c9684cb2,"en la mesa, pedir las cosas en inglés: milk, please.","la masă, cereți lucrurile în engleză: milk, please.",trozo,src/temas/ingles.ts,borrador
 d0577b674b50,Mi casa en inglés,Casa mea în engleză,trozo,src/temas/ingles.ts,borrador
 2ca63cddd54f,house,,trozo,src/temas/ingles.ts,falta
-7d992c112cab,"buscar por casa la bed, la table o el sofa.",,trozo,src/temas/ingles.ts,falta
+7d992c112cab,"buscar por casa la bed, la table o el sofa.","căutați prin casă bed, table sau sofa.",trozo,src/temas/ingles.ts,borrador
 27883af102e0,El tiempo en inglés,Vremea în engleză,trozo,src/temas/ingles.ts,borrador
 aab92e69374e,weather,,trozo,src/temas/ingles.ts,falta
-c21a5e7f425e,"mirar por la ventana y decir qué tiempo hace: sunny, rainy...",,trozo,src/temas/ingles.ts,falta
+c21a5e7f425e,"mirar por la ventana y decir qué tiempo hace: sunny, rainy...","vă uitați pe fereastră și spuneți cum e vremea: sunny, rainy...",trozo,src/temas/ingles.ts,borrador
 818762406f83,Los transportes en inglés,Transportul în engleză,trozo,src/temas/ingles.ts,borrador
 7b334b726036,transport,,trozo,src/temas/ingles.ts,falta
-ce45e1eb30d5,"por la calle, nombrar los coches, autobuses y bicis en inglés.",,trozo,src/temas/ingles.ts,falta
+ce45e1eb30d5,"por la calle, nombrar los coches, autobuses y bicis en inglés.","pe stradă, numiți în engleză mașinile, autobuzele și bicicletele.",trozo,src/temas/ingles.ts,borrador
 45654c8772bc,La granja en inglés,Ferma în engleză,trozo,src/temas/ingles.ts,borrador
 e67ed91b512d,farm,,trozo,src/temas/ingles.ts,falta
-368a9b87fa64,imitar a los animales en inglés: the cow says moo.,,trozo,src/temas/ingles.ts,falta
+368a9b87fa64,imitar a los animales en inglés: the cow says moo.,imitați animalele în engleză: the cow says moo.,trozo,src/temas/ingles.ts,borrador
 b29b9b7d7dd5,Lo que hacemos,Ce facem,trozo,src/temas/ingles.ts,borrador
 ebb67a4271ab,actions,,trozo,src/temas/ingles.ts,falta
-a17d7d233413,"jugar a hacer lo que se dice en inglés: run, jump, sleep.",,trozo,src/temas/ingles.ts,falta
+a17d7d233413,"jugar a hacer lo que se dice en inglés: run, jump, sleep.","jucați-vă să faceți ce se spune în engleză: run, jump, sleep.",trozo,src/temas/ingles.ts,borrador
 52c646563dd1,Grande y pequeño,Mare și mic,trozo,src/temas/ingles.ts src/temas/temas.ts,borrador
 8ab0b4ecc974,opposites,,trozo,src/temas/ingles.ts,falta
-ed70dbe315a7,buscar cosas big y small en casa.,,trozo,src/temas/ingles.ts,falta
+ed70dbe315a7,buscar cosas big y small en casa.,căutați prin casă lucruri big și small.,trozo,src/temas/ingles.ts,borrador
 4896f9e7b3fe,Cómo me siento,Cum mă simt,trozo,src/temas/ingles.ts,borrador
 aa9009f64655,feelings,,trozo,src/temas/ingles.ts,falta
-36c6bc8c0404,preguntar cada día en inglés: are you happy?,,trozo,src/temas/ingles.ts,falta
+36c6bc8c0404,preguntar cada día en inglés: are you happy?,întrebați în fiecare zi în engleză: are you happy?,trozo,src/temas/ingles.ts,borrador
 276ad8d9fb34,Canciones del parque,Cântecele parcului,trozo,src/temas/ingles.ts,borrador
-e31b7b47c61a,cantar juntos en inglés los colores y los números.,,trozo,src/temas/ingles.ts,falta
+e31b7b47c61a,cantar juntos en inglés los colores y los números.,cântați împreună în engleză culorile și numerele.,trozo,src/temas/ingles.ts,borrador
 c9cd30b044fe,Fiesta del parque,Petrecerea din parc,trozo,src/temas/ingles.ts,borrador
 fb45615cea11,park,,trozo,src/temas/ingles.ts,falta
-7d233def8cf8,repasar con la familia las palabras en inglés del parque.,,trozo,src/temas/ingles.ts,falta
-b8f0ad4d81f0,"Haz lo que diga Polly, pero solo si empieza con «Polly says». Si no lo dice, toca la señal de stop.",,frase,src/temas/inglesPueblo.ts,falta
+7d233def8cf8,repasar con la familia las palabras en inglés del parque.,recapitulați în familie cuvintele în engleză din parc.,trozo,src/temas/ingles.ts,borrador
+b8f0ad4d81f0,"Haz lo que diga Polly, pero solo si empieza con «Polly says». Si no lo dice, toca la señal de stop.","Fă ce spune Polly, dar numai dacă începe cu „Polly says”. Dacă nu spune asta, atinge semnul de stop.",frase,src/temas/inglesPueblo.ts,borrador
 31f0308bf5d4,@Polly says: touch the ,,inglés,src/temas/inglesPueblo.ts,falta
 7baec532df5d,@Touch the ,,inglés,src/temas/inglesPueblo.ts,falta
-fe5cda212197,¡Muy bien! Polly no ha dicho «Polly says».,,frase,src/temas/inglesPueblo.ts,falta
-fa08c0b021f1,¡Sí lo ha dicho! Escucha otra vez:,,trozo,src/temas/inglesPueblo.ts,falta
-03f8442df9fd,¡Cuidado! Polly no ha dicho «Polly says». Toca la señal de stop.,,frase,src/temas/inglesPueblo.ts,falta
-615a46af3137,STOP,,trozo,src/temas/inglesPueblo.ts,falta
-b9d2e2e25c1a,"Escucha a Polly. Si le gusta, toca la carita contenta. Si no le gusta, la triste.",,frase,src/temas/inglesPueblo.ts,falta
+fe5cda212197,¡Muy bien! Polly no ha dicho «Polly says».,Foarte bine! Polly n-a spus „Polly says”.,frase,src/temas/inglesPueblo.ts,borrador
+fa08c0b021f1,¡Sí lo ha dicho! Escucha otra vez:,"Ba da, a spus! Ascultă încă o dată:",trozo,src/temas/inglesPueblo.ts,borrador
+03f8442df9fd,¡Cuidado! Polly no ha dicho «Polly says». Toca la señal de stop.,Atenție! Polly n-a spus „Polly says”. Atinge semnul de stop.,frase,src/temas/inglesPueblo.ts,borrador
+615a46af3137,STOP,STOP,trozo,src/temas/inglesPueblo.ts,borrador
+b9d2e2e25c1a,"Escucha a Polly. Si le gusta, toca la carita contenta. Si no le gusta, la triste.","Ascult-o pe Polly. Dacă îi place, atinge fața veselă. Dacă nu-i place, pe cea tristă.",frase,src/temas/inglesPueblo.ts,borrador
 165e4d0c7b00,@I like ,,inglés,src/temas/inglesPueblo.ts,falta
 8db004db423d,@I don't like ,,inglés,src/temas/inglesPueblo.ts,falta
-4af5a674a05a,¡Sí! A Polly le gusta.,,frase,src/temas/inglesPueblo.ts,falta
-8c9fc844b157,¡Eso es! A Polly no le gusta.,,frase,src/temas/inglesPueblo.ts,falta
-0c6d136693dc,Escucha bien:,,trozo,src/temas/inglesPueblo.ts,falta
-d0797ea9bcaf,Hay algo escondido. Mira bien y toca lo que es.,,frase,src/temas/inglesPueblo.ts,falta
+4af5a674a05a,¡Sí! A Polly le gusta.,Da! Lui Polly îi place.,frase,src/temas/inglesPueblo.ts,borrador
+8c9fc844b157,¡Eso es! A Polly no le gusta.,Așa e! Lui Polly nu-i place.,frase,src/temas/inglesPueblo.ts,borrador
+0c6d136693dc,Escucha bien:,Ascultă bine:,trozo,src/temas/inglesPueblo.ts,borrador
+d0797ea9bcaf,Hay algo escondido. Mira bien y toca lo que es.,E ceva ascuns. Uită-te bine și atinge ce este.,frase,src/temas/inglesPueblo.ts,borrador
 aeed8e9b5768,@What is it?,,inglés,src/temas/inglesPueblo.ts,falta
 b24c1018c32d,@It's ,,inglés,src/temas/inglesPueblo.ts,falta
 92daa34c8ad1,an ,,trozo,src/temas/inglesPueblo.ts,falta
 99020cb24bd1,a ,,trozo,src/temas/inglesPueblo.ts,falta
-39f1086cad51,¡Jugamos al bingo! Polly dice una palabra en inglés y tú tapas ese dibujo.,,frase,src/temas/inglesPueblo.ts,falta
-ef61f129ee2f,BINGO,,trozo,src/temas/inglesPueblo.ts,falta
-9aa4c0fc013f,BINGO!,,frase,src/temas/inglesPueblo.ts,falta
+39f1086cad51,¡Jugamos al bingo! Polly dice una palabra en inglés y tú tapas ese dibujo.,Jucăm bingo! Polly spune un cuvânt în engleză și tu acoperi desenul acela.,frase,src/temas/inglesPueblo.ts,borrador
+ef61f129ee2f,BINGO,BINGO,trozo,src/temas/inglesPueblo.ts,borrador
+9aa4c0fc013f,BINGO!,BINGO!,frase,src/temas/inglesPueblo.ts,borrador
 f49be959a4ab,@Bingo!,,inglés,src/temas/inglesPueblo.ts,falta
-8da1a35e66c3,¡Has tapado todo el cartón!,,frase,src/temas/inglesPueblo.ts,falta
-f76d97cba91d,. Polly ha dicho,,trozo,src/temas/inglesPueblo.ts,falta
-0f11d375687f,¡El autobús de Londres! Escucha qué animal sube y tócalo.,,frase,src/temas/inglesPueblo.ts,falta
+8da1a35e66c3,¡Has tapado todo el cartón!,Ai acoperit tot cartonul!,frase,src/temas/inglesPueblo.ts,borrador
+f76d97cba91d,. Polly ha dicho,. Polly a spus,trozo,src/temas/inglesPueblo.ts,borrador
+0f11d375687f,¡El autobús de Londres! Escucha qué animal sube y tócalo.,Autobuzul din Londra! Ascultă ce animal urcă și atinge-l.,frase,src/temas/inglesPueblo.ts,borrador
 eb46b31cbcd5, gets on the bus!,,trozo,src/temas/inglesPueblo.ts,falta
-0e0c9d888d10,BUS,,trozo,src/temas/inglesPueblo.ts,falta
+0e0c9d888d10,BUS,BUS,trozo,src/temas/inglesPueblo.ts,borrador
 b958568a008f,"@Goodbye, bus!",,inglés,src/temas/inglesPueblo.ts,falta
-c327832cca49,. Sube,,trozo,src/temas/inglesPueblo.ts,falta
-2cdc71f9e93a,El paseo de Polly,,trozo,src/temas/inglesPueblo.ts,falta
-da2aeaf8038e,Un día de,,trozo,src/temas/inglesPueblo.ts,falta
+c327832cca49,. Sube,. Urcă,trozo,src/temas/inglesPueblo.ts,borrador
+2cdc71f9e93a,El paseo de Polly,Plimbarea lui Polly,trozo,src/temas/inglesPueblo.ts,borrador
+da2aeaf8038e,Un día de,Într-o zi cu,trozo,src/temas/inglesPueblo.ts,borrador
 bc8cd7c2cd24,@sun,,inglés,src/temas/inglesPueblo.ts,falta
-4d3572bc0b3f,", Polly salió a pasear por el parque.",,trozo,src/temas/inglesPueblo.ts,falta
-9d66fa46f60b,En el parque vio un,,trozo,src/temas/inglesPueblo.ts,falta
+4d3572bc0b3f,", Polly salió a pasear por el parque.",", Polly a ieșit la plimbare prin parc.",trozo,src/temas/inglesPueblo.ts,borrador
+9d66fa46f60b,En el parque vio un,În parc a văzut un,trozo,src/temas/inglesPueblo.ts,borrador
 c8a6ad76e25a,@dog,,inglés,src/temas/inglesPueblo.ts,falta
-2539feb79c8f,y un,,trozo,src/temas/inglesPueblo.ts,falta
+2539feb79c8f,y un,și un,trozo,src/temas/inglesPueblo.ts,borrador
 9ff77d5adaa8,@cat,,inglés,src/temas/inglesPueblo.ts,falta
-9cf613017452,El,,trozo,src/temas/inglesPueblo.ts,falta
-7164eac96f2f,jugaba con una,,trozo,src/temas/inglesPueblo.ts,falta
+9cf613017452,El,Acel,trozo,src/temas/inglesPueblo.ts,borrador
+7164eac96f2f,jugaba con una,se juca cu o,trozo,src/temas/inglesPueblo.ts,borrador
 447bfa129241,@ball,,inglés,src/temas/inglesPueblo.ts,falta
-5e2e2850990f,Entonces empezó a llover. Polly abrió su,,trozo,src/temas/inglesPueblo.ts,falta
+5e2e2850990f,Entonces empezó a llover. Polly abrió su,Atunci a început să plouă. Polly și-a deschis,trozo,src/temas/inglesPueblo.ts,borrador
 412ab06bb5f9,@umbrella,,inglés,src/temas/inglesPueblo.ts,falta
-f1ed250a23e9,Y volvió a casa muy contenta.,,frase,src/temas/inglesPueblo.ts,falta
+f1ed250a23e9,Y volvió a casa muy contenta.,Și s-a întors acasă foarte veselă.,frase,src/temas/inglesPueblo.ts,borrador
 348f06268166,@Goodbye!,,inglés,src/temas/inglesPueblo.ts,falta
-91e0703aceed,Umbrella,,trozo,src/temas/inglesPueblo.ts,falta
-ef6572e4cd58,Sun,,trozo,src/temas/inglesPueblo.ts,falta
-2291bb491989,La merienda de Tito,,trozo,src/temas/inglesPueblo.ts,falta
-7bbb605bb619,Tito tenía mucha hambre y abrió la,,trozo,src/temas/inglesPueblo.ts,falta
+91e0703aceed,Umbrella,Umbrella,trozo,src/temas/inglesPueblo.ts,borrador
+ef6572e4cd58,Sun,Sun,trozo,src/temas/inglesPueblo.ts,borrador
+2291bb491989,La merienda de Tito,Gustarea lui Tito,trozo,src/temas/inglesPueblo.ts,borrador
+7bbb605bb619,Tito tenía mucha hambre y abrió la,Lui Tito îi era foarte foame și a deschis,trozo,src/temas/inglesPueblo.ts,borrador
 a9ae8d5fded3,@fridge,,inglés,src/temas/inglesPueblo.ts,falta
-22d3d77d995b,Dentro había,,trozo,src/temas/inglesPueblo.ts,falta
+22d3d77d995b,Dentro había,Înăuntru erau,trozo,src/temas/inglesPueblo.ts,borrador
 cfac60a726ba,@milk,,inglés,src/temas/inglesPueblo.ts,falta
-1f574b9dd44f,", un",,trozo,src/temas/inglesPueblo.ts,falta
+1f574b9dd44f,", un",", un",trozo,src/temas/inglesPueblo.ts,borrador
 f51d4d858555,@egg,,inglés,src/temas/inglesPueblo.ts,falta
-a2f20dccf0cd,y una,,trozo,src/temas/inglesPueblo.ts,falta
+a2f20dccf0cd,y una,și un,trozo,src/temas/inglesPueblo.ts,borrador
 d4696f72e224,@apple,,inglés,src/temas/inglesPueblo.ts,falta
-db693f59a494,Tito se comió la,,trozo,src/temas/inglesPueblo.ts,falta
-9de470b75d25,". ¡Ñam, ñam!",,trozo,src/temas/inglesPueblo.ts,falta
-5403e3ac2a83,Después se bebió la,,trozo,src/temas/inglesPueblo.ts,falta
-9eeb2d1ea83c,y le dijo a Polly:,,trozo,src/temas/inglesPueblo.ts,falta
+db693f59a494,Tito se comió la,Tito a mâncat,trozo,src/temas/inglesPueblo.ts,borrador
+9de470b75d25,". ¡Ñam, ñam!",". Mmm, ce bun!",trozo,src/temas/inglesPueblo.ts,borrador
+5403e3ac2a83,Después se bebió la,Apoi a băut,trozo,src/temas/inglesPueblo.ts,borrador
+9eeb2d1ea83c,y le dijo a Polly:,și i-a spus lui Polly:,trozo,src/temas/inglesPueblo.ts,borrador
 e1a81bacfe3c,"@Thank you, Polly!",,inglés,src/temas/inglesPueblo.ts,falta
-3e70bf6d557a,¿Te has fijado? Ahora te pregunto.,,frase,src/temas/inglesPueblo.ts,falta
+3e70bf6d557a,¿Te has fijado? Ahora te pregunto.,Ai fost atent? Acum te întreb eu.,frase,src/temas/inglesPueblo.ts,borrador
 d35194692d29,Polly says,Polly says,trozo,src/temas/inglesPueblo.ts,borrador
-f88c70634ad1,Me gusta,,trozo,src/temas/inglesPueblo.ts,falta
+f88c70634ad1,Me gusta,Îmi place,trozo,src/temas/inglesPueblo.ts,borrador
 6d07b621f405,What is it?,What is it?,frase,src/temas/inglesPueblo.ts,borrador
-6b99fc04045e,Bingo,,trozo,src/temas/inglesPueblo.ts,falta
-795767f7fb3f,El autobús de Londres,,trozo,src/temas/inglesPueblo.ts,falta
-8b9c2403d1b0,Canta los días,,trozo,src/temas/inglesPueblo.ts,falta
+6b99fc04045e,Bingo,Bingo,trozo,src/temas/inglesPueblo.ts,borrador
+795767f7fb3f,El autobús de Londres,Autobuzul din Londra,trozo,src/temas/inglesPueblo.ts,borrador
+8b9c2403d1b0,Canta los días,Cântă zilele,trozo,src/temas/inglesPueblo.ts,borrador
 44fdec47036f,days,,trozo,src/temas/inglesPueblo.ts,falta
-5631d1852805,decir cada mañana qué día es en inglés: today is Monday.,,trozo,src/temas/inglesPueblo.ts,falta
+5631d1852805,decir cada mañana qué día es en inglés: today is Monday.,spuneți în fiecare dimineață în engleză ce zi e: today is Monday.,trozo,src/temas/inglesPueblo.ts,borrador
 5c52ec57a520,Las estaciones en inglés,Anotimpurile în engleză,trozo,src/temas/inglesPueblo.ts,borrador
 85ed15c4d405,seasons,,trozo,src/temas/inglesPueblo.ts,falta
-0ba4255c2c7b,"al salir a la calle, decir en qué estación estamos: autumn, winter...",,trozo,src/temas/inglesPueblo.ts,falta
+0ba4255c2c7b,"al salir a la calle, decir en qué estación estamos: autumn, winter...","când ieșiți afară, spuneți în ce anotimp suntem: autumn, winter...",trozo,src/temas/inglesPueblo.ts,borrador
 ead4122d0054,"¿Dónde está? In, on, under","Unde este? In, on, under",trozo,src/temas/inglesPueblo.ts,borrador
 567904efe9e6,where,,trozo,src/temas/inglesPueblo.ts,falta
-bc6a9a8c2544,"esconder un juguete y decir dónde está: in the box, under the table.",,trozo,src/temas/inglesPueblo.ts,falta
-be8bc8e88c8c,jugar a «Polly says» en casa: Polly says touch your nose!,,trozo,src/temas/inglesPueblo.ts,falta
+bc6a9a8c2544,"esconder un juguete y decir dónde está: in the box, under the table.","ascundeți o jucărie și spuneți unde este: in the box, under the table.",trozo,src/temas/inglesPueblo.ts,borrador
+be8bc8e88c8c,jugar a «Polly says» en casa: Polly says touch your nose!,jucați „Polly says” acasă: Polly says touch your nose!,trozo,src/temas/inglesPueblo.ts,borrador
 bad232322424,Me gusta: I like,Îmi place: I like,trozo,src/temas/inglesPueblo.ts,borrador
 cc71d8f3dc88,likes,,trozo,src/temas/inglesPueblo.ts,falta
-87afd5054780,"en la comida, decir lo que nos gusta: I like apples!",,trozo,src/temas/inglesPueblo.ts,falta
+87afd5054780,"en la comida, decir lo que nos gusta: I like apples!","la masă, spuneți ce vă place: I like apples!",trozo,src/temas/inglesPueblo.ts,borrador
 5bd304e39125,whatis,,trozo,src/temas/inglesPueblo.ts,falta
-988392ad5634,"tapar un dibujo con la mano, enseñar un trozo y preguntar: what is it?",,trozo,src/temas/inglesPueblo.ts,falta
+988392ad5634,"tapar un dibujo con la mano, enseñar un trozo y preguntar: what is it?","acoperiți un desen cu mâna, arătați o bucățică și întrebați: what is it?",trozo,src/temas/inglesPueblo.ts,borrador
 9856d478c657,Cosas de colores,Lucruri colorate,trozo,src/temas/inglesPueblo.ts,borrador
 c0d6b124854b,colourThings,,trozo,src/temas/inglesPueblo.ts,falta
-c3eff7184d32,"nombrar las cosas con su color en inglés: a red apple, a yellow banana.",,trozo,src/temas/inglesPueblo.ts,falta
+c3eff7184d32,"nombrar las cosas con su color en inglés: a red apple, a yellow banana.","numiți lucrurile cu culoarea lor în engleză: a red apple, a yellow banana.",trozo,src/temas/inglesPueblo.ts,borrador
 62da6c4a236d,Contar hasta 20,Numărăm până la 20,trozo,src/temas/inglesPueblo.ts,borrador
 ffc8da13f1b7,numbers20,,trozo,src/temas/inglesPueblo.ts,falta
-0f7af59ad1e4,"contar en inglés más allá del diez: eleven, twelve, thirteen...",,trozo,src/temas/inglesPueblo.ts,falta
+0f7af59ad1e4,"contar en inglés más allá del diez: eleven, twelve, thirteen...","numărați în engleză mai departe de zece: eleven, twelve, thirteen...",trozo,src/temas/inglesPueblo.ts,borrador
 830906548f04,Los oficios en inglés,Meseriile în engleză,trozo,src/temas/inglesPueblo.ts,borrador
 27a06a9e3d5e,jobs,,trozo,src/temas/inglesPueblo.ts,falta
-edd8f707a991,"al ver a alguien trabajando, decir su oficio: a doctor, a farmer...",,trozo,src/temas/inglesPueblo.ts,falta
+edd8f707a991,"al ver a alguien trabajando, decir su oficio: a doctor, a farmer...","când vedeți pe cineva lucrând, spuneți-i meseria: a doctor, a farmer...",trozo,src/temas/inglesPueblo.ts,borrador
 0c483b89843e,La tienda de Polly,Magazinul lui Polly,trozo,src/temas/inglesPueblo.ts,borrador
 fb54f3c5992b,shop,,trozo,src/temas/inglesPueblo.ts,falta
-c84430fadcdc,"jugar a las tiendas pidiendo en inglés: an apple, please.",,trozo,src/temas/inglesPueblo.ts,falta
+c84430fadcdc,"jugar a las tiendas pidiendo en inglés: an apple, please.","jucați-vă de-a magazinul cerând în engleză: an apple, please.",trozo,src/temas/inglesPueblo.ts,borrador
 074101ec4775,Cuentos en inglés,Povești în engleză,trozo,src/temas/inglesPueblo.ts,borrador
 bec670e5a554,story,,trozo,src/temas/inglesPueblo.ts,falta
-0d08074802f3,contar cuentos de siempre metiendo alguna palabra en inglés.,,trozo,src/temas/inglesPueblo.ts,falta
+0d08074802f3,contar cuentos de siempre metiendo alguna palabra en inglés.,spuneți povești cunoscute cu câte un cuvânt în engleză.,trozo,src/temas/inglesPueblo.ts,borrador
 355858f4157e,Gran fiesta del inglés,Marea petrecere a englezei,trozo,src/temas/inglesPueblo.ts,borrador
 7198cda575b5,town,,trozo,src/temas/inglesPueblo.ts,falta
-bc9202a22afa,celebrar todo lo aprendido: repasar juntos las palabras en inglés.,,trozo,src/temas/inglesPueblo.ts,falta
+bc9202a22afa,celebrar todo lo aprendido: repasar juntos las palabras en inglés.,sărbătoriți tot ce ați învățat: recapitulați împreună cuvintele în engleză.,trozo,src/temas/inglesPueblo.ts,borrador
 89822b299bb0,RO-,,trozo,src/temas/letras.ts,falta
 19e25daf5584,{Cosa}. {Palabra} empieza por {letra}.,{Cosa}. {Palabra} începe cu {letra}.,trozo,src/temas/letras.ts,borrador
 9fabc7e09a01,{Cosa}. {Palabra} lleva {letra}.,{Cosa}. În {palabra} se aude {letra}.,trozo,src/temas/letras.ts,borrador
+e5e08f9ef3a2,Esa es {cosa}.,Aceea e {cosa}.,frase,src/temas/letras.ts,borrador
 1f99bb34b550,Esta es {letra}. {Letra} de {amigo}.,"Aceasta este {letra}. {Letra}, ca în {amigo}.",frase,src/temas/letras.ts,borrador
 68cd3b5c0b37,Y esta es {letra} minúscula.,Și aceasta este {letra} mică.,frase,src/temas/letras.ts,borrador
 70939573f64c,¡Vamos a conocer {letra}! Toca cada tarjeta.,Hai să cunoaștem {letra}! Atinge fiecare cartonaș.,frase,src/temas/letras.ts,borrador
@@ -2887,146 +2887,135 @@ d492706995aa,Atrapa {letra},Prinde {letra},trozo,src/temas/letras.ts,borrador
 35f98adc69f2,Las huellas de {letra},Urmele pentru {letra},trozo,src/temas/letras.ts,borrador
 1aa53f6f456d,La {l},Litera {l},trozo,src/temas/letras.ts,borrador
 63b9d8d79397,¡Vamos a conocer {letra}!,Hai să cunoaștem {letra}!,frase,src/temas/letras.ts,borrador
-24114dcddd06,Escucha: ,,trozo,src/temas/letras.ts,falta
-0f711e3e9d78,. ¿Qué es?,,trozo,src/temas/letras.ts,falta
-db182603c659,Esa es ,,trozo,src/temas/letras.ts,falta
-2aef5ce5e5e8,¿Cuál es más larga: ,,trozo,src/temas/letras.ts,falta
-1b4bfc33dcf3,? Da palmas con cada una.,,trozo,src/temas/letras.ts,falta
-869812c0a1f4,. ¿Cuál tiene más?,,trozo,src/temas/letras.ts,falta
-607f6eddbae4,¿Qué empieza por ,,trozo,src/temas/letras.ts,falta
-ed98257fa8ae, empieza por ,,trozo,src/temas/letras.ts,falta
-7602858967a0,otra letra,,trozo,src/temas/letras.ts,falta
-6b230476526a,Une cada dibujo con la letra por la que empieza.,,frase,src/temas/letras.ts,falta
-7ab941f3e418, no empieza por ,,trozo,src/temas/letras.ts,falta
-95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,,frase,src/temas/letras.ts,falta
-42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,,frase,src/temas/letras.ts,falta
-a0099f02b7d9,¿Dónde está ,,trozo,src/temas/letras.ts,falta
-f4b7f5c009fb, de ,,trozo,src/temas/letras.ts,falta
-6da2fc603d06,¡Atrapa las burbujas de ,,trozo,src/temas/letras.ts,falta
-1c701316e96d,Esta es ,,trozo,src/temas/letras.ts,falta
-572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,,frase,src/temas/letras.ts,falta
+012b7d624fc4,{Palabra} empieza por {letra}.,{Palabra} începe cu {letra}.,trozo,src/temas/letras.ts,borrador
+7602858967a0,otra letra,altă literă,trozo,src/temas/letras.ts,borrador
+79d1772a89a1,Escucha: {silabas}. ¿Qué es?,Ascultă: {silabas}. Ce este?,frase,src/temas/letras.ts,borrador
+561f03f86daa,¿Cuál es más larga: {a} o {b}? Da palmas con cada una.,Care e mai lung: {a} sau {b}? Bate din palme la fiecare.,frase,src/temas/letras.ts,borrador
+38b2bf19ffa6,{Palabra} tiene {palmas}. ¿Cuál tiene más?,{Palabra} are {palmas}. Care are mai multe?,trozo,src/temas/letras.ts,borrador
+d7a1e42cd1d3,¿Qué empieza por {letra}?,Ce începe cu {letra}?,frase,src/temas/letras.ts,borrador
+6b230476526a,Une cada dibujo con la letra por la que empieza.,Unește fiecare desen cu litera cu care începe.,frase,src/temas/letras.ts,borrador
+31e02bc2ca5a,{Palabra} no empieza por {letra}.,{Palabra} nu începe cu {letra}.,trozo,src/temas/letras.ts,borrador
+95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,Scormonește în nisip cu degetul. Sunt litere ascunse!,frase,src/temas/letras.ts,borrador
+42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,Joc de memorie cu litere. Atinge două cărți și caută două litere la fel.,frase,src/temas/letras.ts,borrador
+572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,E petrecerea vocalelor! Atinge-le pe fiecare.,frase,src/temas/letras.ts,borrador
 ce178861ab46,TITO,,trozo,src/temas/letras.ts,falta
-42f800d88029,Este es tu nombre: ,,trozo,src/temas/letras.ts,falta
-3dcfb097d8b3,". Toca sus letras, una a una.",,trozo,src/temas/letras.ts,falta
-d9af4926bc7f,"Este es el nombre de Tito. Toca sus letras, una a una.",,frase,src/temas/letras.ts,falta
-6cf7e0642e21,de tu nombre,,trozo,src/temas/letras.ts,falta
-4097e21a2fab,del nombre de Tito,,trozo,src/temas/letras.ts,falta
-07fa416e34ac,", la primera letra ",,trozo,src/temas/letras.ts,falta
-c4871a7d9c73,. Píntala con el dedo como tú quieras.,,trozo,src/temas/letras.ts,falta
-9c9d4245baea,¡Qué bonita te ha quedado ,,trozo,src/temas/letras.ts,falta
-30fea3f48a67, Con ,,trozo,src/temas/letras.ts,falta
-a766fcb58ccc, empieza ,,trozo,src/temas/letras.ts,falta
-eb052704f361,tu nombre,,trozo,src/temas/letras.ts,falta
+dfd85a26cd9f,"Este es tu nombre: {nombre}. Toca sus letras, una a una.","Acesta e numele tău: {nombre}. Atinge-i literele, una câte una.",frase,src/temas/letras.ts,borrador
+d9af4926bc7f,"Este es el nombre de Tito. Toca sus letras, una a una.","Acesta e numele lui Tito. Atinge-i literele, una câte una.",frase,src/temas/letras.ts,borrador
+5dcf11502343,"Esta es {letra}, la primera letra de tu nombre. Píntala con el dedo como tú quieras.","Aceasta este {letra}, prima literă din numele tău. Colorează-o cu degetul cum vrei tu.",frase,src/temas/letras.ts,borrador
+acbbd5af9c44,"Esta es {letra}, la primera letra del nombre de Tito. Píntala con el dedo como tú quieras.","Aceasta este {letra}, prima literă din numele lui Tito. Colorează-o cu degetul cum vrei tu.",frase,src/temas/letras.ts,borrador
+a0bc1a90c533,¡Qué bonita te ha quedado {letra}!,Ce frumos ți-a ieșit {letra}!,frase,src/temas/letras.ts,borrador
+6bc7143ccf8b,Con {letra} empieza tu nombre.,Cu {letra} începe numele tău.,frase,src/temas/letras.ts,borrador
+4b6a12d3a50e,Con {letra} empieza Tito.,Cu {letra} începe Tito.,frase,src/temas/letras.ts,borrador
 1a6f919b167e,L3-PAL,,trozo,src/temas/letras.ts,falta
-670587ba7bec,Las palmas,,trozo,src/temas/letras.ts,falta
-296d932947ee,¡Vamos a dar palmas con las palabras!,,frase,src/temas/letras.ts,falta
-a53f4801c5c9,Da palmas,,trozo,src/temas/letras.ts,falta
-39fc5ab85e99,Vamos a dar una palmada por cada trozo de la palabra.,,frase,src/temas/letras.ts,falta
-4f75181b9057,El eco de Tito,,trozo,src/temas/letras.ts,falta
-9199c5c5017c,Más palmas,,trozo,src/temas/letras.ts,falta
-69d4f0a6d0cc,La palabra larga,,trozo,src/temas/letras.ts,falta
+670587ba7bec,Las palmas,Bătăile din palme,trozo,src/temas/letras.ts,borrador
+296d932947ee,¡Vamos a dar palmas con las palabras!,Hai să batem din palme cu cuvintele!,frase,src/temas/letras.ts,borrador
+a53f4801c5c9,Da palmas,Bate din palme,trozo,src/temas/letras.ts,borrador
+39fc5ab85e99,Vamos a dar una palmada por cada trozo de la palabra.,Hai să batem o dată din palme pentru fiecare bucată a cuvântului.,frase,src/temas/letras.ts,borrador
+4f75181b9057,El eco de Tito,Ecoul lui Tito,trozo,src/temas/letras.ts,borrador
+9199c5c5017c,Más palmas,Mai multe bătăi din palme,trozo,src/temas/letras.ts,borrador
+69d4f0a6d0cc,La palabra larga,Cuvântul lung,trozo,src/temas/letras.ts,borrador
 2cb2e253aad7,L3-EMP,,trozo,src/temas/letras.ts,falta
-1ca906ffcda8,¿Cómo empieza?,,frase,src/temas/letras.ts,falta
-53584a60bfe9,¡Vamos a escuchar cómo empiezan las palabras!,,frase,src/temas/letras.ts,falta
-7309dc7536c3,Une cada dibujo con su letra,,trozo,src/temas/letras.ts,falta
-f7318a89d76e,Letras en la arena,,trozo,src/temas/letras.ts,falta
-b03accad761b,Memoria de letras,,trozo,src/temas/letras.ts,falta
+1ca906ffcda8,¿Cómo empieza?,Cum începe?,frase,src/temas/letras.ts,borrador
+53584a60bfe9,¡Vamos a escuchar cómo empiezan las palabras!,Hai să ascultăm cum încep cuvintele!,frase,src/temas/letras.ts,borrador
+7309dc7536c3,Une cada dibujo con su letra,Unește fiecare desen cu litera lui,trozo,src/temas/letras.ts,borrador
+f7318a89d76e,Letras en la arena,Litere în nisip,trozo,src/temas/letras.ts,borrador
+b03accad761b,Memoria de letras,Memoria literelor,trozo,src/temas/letras.ts,borrador
 83f413872b33,L3-NOM,,trozo,src/temas/letras.ts,falta
-b1e2892560d5,Mi nombre,,trozo,src/temas/letras.ts,falta
-424e5539ae0a,¡Vamos a jugar con las letras de tu nombre!,,frase,src/temas/letras.ts,falta
-1ad2e433e4b3,La pizarra,,trozo,src/temas/letras.ts,falta
-d1866a65eca4,Mi primera letra,,trozo,src/temas/letras.ts,falta
+b1e2892560d5,Mi nombre,Numele meu,trozo,src/temas/letras.ts,borrador
+424e5539ae0a,¡Vamos a jugar con las letras de tu nombre!,Hai să ne jucăm cu literele numelui tău!,frase,src/temas/letras.ts,borrador
+1ad2e433e4b3,La pizarra,Tabla,trozo,src/temas/letras.ts,borrador
+d1866a65eca4,Mi primera letra,Prima mea literă,trozo,src/temas/letras.ts,borrador
 5f703b9e9683,L3-MEZ,,trozo,src/temas/letras.ts,falta
-6761ed9b4870,Las vocales mezcladas,,trozo,src/temas/letras.ts,falta
-28065ead4e89,¡Las vocales se han mezclado! Vamos a encontrarlas.,,frase,src/temas/letras.ts,falta
-61a02d88a371,Atrapa las vocales,,trozo,src/temas/letras.ts,falta
+6761ed9b4870,Las vocales mezcladas,Vocalele amestecate,trozo,src/temas/letras.ts,borrador
+28065ead4e89,¡Las vocales se han mezclado! Vamos a encontrarlas.,Vocalele s-au amestecat! Hai să le găsim.,frase,src/temas/letras.ts,borrador
+61a02d88a371,Atrapa las vocales,Prinde vocalele,trozo,src/temas/letras.ts,borrador
 7b91a931492f,L3-FIE,,trozo,src/temas/letras.ts,falta
-c35229389f40,Fiesta de las vocales,,trozo,src/temas/letras.ts,falta
-d101c4d57c64,¡Es la fiesta de las vocales!,,frase,src/temas/letras.ts,falta
-438ae6e3393e,Las cinco vocales,,trozo,src/temas/letras.ts,falta
-289ddb498578,Palmas con los amigos,,trozo,src/temas/letras.ts,falta
-c78bf3a5d2fb,Escribe una vocal,,trozo,src/temas/letras.ts,falta
+c35229389f40,Fiesta de las vocales,Petrecerea vocalelor,trozo,src/temas/letras.ts,borrador
+d101c4d57c64,¡Es la fiesta de las vocales!,E petrecerea vocalelor!,frase,src/temas/letras.ts,borrador
+438ae6e3393e,Las cinco vocales,Vocalele,trozo,src/temas/letras.ts,borrador
+289ddb498578,Palmas con los amigos,Bătăi din palme cu prietenii,trozo,src/temas/letras.ts,borrador
+c78bf3a5d2fb,Escribe una vocal,Scrie o vocală,trozo,src/temas/letras.ts,borrador
 37b9b6c8fa74,"Las huellas de {cosa} forman {letra}. Tócalas en orden, empezando por la que brilla.","Urmele {deCosa} formează {letra}. Atinge-le pe rând, începând cu cea care strălucește.",frase,src/temas/letras.ts,borrador
 86e52ebc4372,Las huellas forman {letra}.,Urmele formează {letra}.,frase,src/temas/letras.ts,borrador
 2e573b62316a,L4-VOC,,trozo,src/temas/letras.ts,falta
-64495757762c,Repaso de vocales,,trozo,src/temas/letras.ts,falta
-67e46ec90549,¡Vamos a repasar las vocales antes de entrar en el bosque!,,frase,src/temas/letras.ts,falta
+64495757762c,Repaso de vocales,Recapitularea vocalelor,trozo,src/temas/letras.ts,borrador
+67e46ec90549,¡Vamos a repasar las vocales antes de entrar en el bosque!,Hai să recapitulăm vocalele înainte să intrăm în pădure!,frase,src/temas/letras.ts,borrador
 4aa0f8a9fd5a,L4,,trozo,src/temas/letras.ts,falta
 cd1afe341638,L4-NOM,,trozo,src/temas/letras.ts,falta
-78cc9a39ff8f,Escribo mi nombre,,trozo,src/temas/letras.ts,falta
-e22c7c8529c0,¡Vamos a escribir las letras de tu nombre!,,frase,src/temas/letras.ts,falta
-463f3a6b86df,Escribe mi primera letra,,trozo,src/temas/letras.ts,falta
-6a3c9ed04d71,Huellas de mi letra,,trozo,src/temas/letras.ts,falta
+78cc9a39ff8f,Escribo mi nombre,Îmi scriu numele,trozo,src/temas/letras.ts,borrador
+e22c7c8529c0,¡Vamos a escribir las letras de tu nombre!,Hai să scriem literele numelui tău!,frase,src/temas/letras.ts,borrador
+463f3a6b86df,Escribe mi primera letra,Scrie prima mea literă,trozo,src/temas/letras.ts,borrador
+6a3c9ed04d71,Huellas de mi letra,Urmele literei mele,trozo,src/temas/letras.ts,borrador
 f7e31bebd5d7,L4-FIE,,trozo,src/temas/letras.ts,falta
-1d20e2f45ef8,Fiesta de las letras,,trozo,src/temas/letras.ts,falta
-058888f822a9,¡Es la fiesta de las letras del bosque!,,frase,src/temas/letras.ts,falta
-fc7614bee946,El tren de las sílabas,,trozo,src/temas/letras.ts,falta
-3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,,frase,src/temas/letras.ts,falta
-2654c5494fd6, Pone ,,trozo,src/temas/letras.ts,falta
-44778f07deab,". Si tocas la palabra, te la leo a trozos.",,trozo,src/temas/letras.ts,falta
-0713fabbacb4,Esto es ,,trozo,src/temas/letras.ts,falta
-57f2b4eafc26,. ¿Con qué trozo empieza?,,trozo,src/temas/letras.ts,falta
-b8ff87d2ab8d,. ¿Qué trozo falta?,,trozo,src/temas/letras.ts,falta
-ca85cc8c5b91,Con ,,trozo,src/temas/letras.ts,falta
-507afec646af, no pone ,,trozo,src/temas/letras.ts,falta
-dd5e7d6c7c0d,"Mmm, ese trozo no va ahí. Escucha: ",,trozo,src/temas/letras.ts,falta
-c3dcd43563e4,. Arrastra los trozos en orden para escribir ,,trozo,src/temas/letras.ts,falta
-f1ab68c326af,Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.,,frase,src/temas/letras.ts,falta
-ae6fba38151f,Aquí no pone ,,trozo,src/temas/letras.ts,falta
-5d817438981f,¡Atrapa los globos que dicen ,,trozo,src/temas/letras.ts,falta
-0c5879749bf0,Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.,,frase,src/temas/letras.ts,falta
-e7854240534b,El pato y la luna,,trozo,src/temas/letras.ts,falta
-6861d9a40b54,Había una vez un,,trozo,src/temas/letras.ts,falta
-e7d4db33e0e3,que vivía en un lago.,,trozo,src/temas/letras.ts,falta
-500985f90306,"Una noche, el pato miró al cielo y vio la",,trozo,src/temas/letras.ts,falta
-a586b4fd8e01,La luna estaba sola. El pato le llevó una,,trozo,src/temas/letras.ts,falta
-8368153a0248,para que jugaran.,,trozo,src/temas/letras.ts,falta
-405ea22d6199,"Y la luna, la nube y el pato jugaron con una",,trozo,src/temas/letras.ts,falta
-bae611da83b4,toda la noche.,,trozo,src/temas/letras.ts,falta
-9aa32bc4cd2c,La vaca que quería volar,,trozo,src/temas/letras.ts,falta
-9e803381aacb,En el pueblo vivía una,,trozo,src/temas/letras.ts,falta
-0930e3cfb91c,muy curiosa.,,trozo,src/temas/letras.ts,falta
-1e37387519c1,"Un día, la vaca vio una",,trozo,src/temas/letras.ts,falta
-ddac612b2daa,en el cielo.,,trozo,src/temas/letras.ts,falta
-1d0de93dd8ac,"Quería volar tan alto como ella, así que subió a un",,trozo,src/temas/letras.ts,falta
-f3039b4992a3,Y desde arriba saludó a la,,trozo,src/temas/letras.ts,falta
-d6ade1fe632d,". ¡Hola, luna!",,trozo,src/temas/letras.ts,falta
-cbffc42b1dc4,... ¿Qué pone en la palabra amarilla? Toca su dibujo.,,trozo,src/temas/letras.ts,falta
-e2a14c29745f,Vamos a leer un cuento: ,,trozo,src/temas/letras.ts,falta
-86a990a26e4c," Y colorín, colorado, este cuento se ha acabado.",,frase,src/temas/letras.ts,falta
-27fb55b9c18f,. Lee la palabra amarilla.,,trozo,src/temas/letras.ts,falta
+1d20e2f45ef8,Fiesta de las letras,Petrecerea literelor,trozo,src/temas/letras.ts,borrador
+058888f822a9,¡Es la fiesta de las letras del bosque!,E petrecerea literelor din pădure!,frase,src/temas/letras.ts,borrador
+fc7614bee946,El tren de las sílabas,Trenul silabelor,trozo,src/temas/letras.ts,borrador
+3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,Ce scrie? Citește cuvântul și atinge desenul lui.,frase,src/temas/letras.ts,borrador
+a67c2e29ea86,Pone {palabra}.,Scrie {palabra}.,frase,src/temas/letras.ts,borrador
+ba19c7639978,"Esa es {cosa}. Si tocas la palabra, te la leo a trozos.","Aceea e {cosa}. Dacă atingi cuvântul, ți-l citesc pe silabe.",frase,src/temas/letras.ts,borrador
+1e5b574cd517,{trozos}: {palabra}.,{trozos}: {palabra}.,trozo,src/temas/letras.ts,borrador
+bdd2e5de3860,Esto es {cosa}. ¿Con qué trozo empieza?,Aceasta e {cosa}. Cu ce silabă începe?,frase,src/temas/letras.ts,borrador
+8b4058ca5720,Esto es {cosa}. ¿Qué trozo falta?,Aceasta e {cosa}. Ce silabă lipsește?,frase,src/temas/letras.ts,borrador
+e1e733160ea4,Con {trozo} no pone {palabra}.,Cu {trozo} nu scrie {palabra}.,frase,src/temas/letras.ts,borrador
+b1daf81f5b28,"Mmm, ese trozo no va ahí. Escucha: {oye}.","Mmm, silaba aceea nu merge acolo. Ascultă: {oye}.",frase,src/temas/letras.ts,borrador
+f1acb95b2e9b,Esto es {cosa}. Arrastra los trozos en orden para escribir {palabra}.,Aceasta e {cosa}. Trage silabele în ordine ca să scrii {palabra}.,frase,src/temas/letras.ts,borrador
+f1ab68c326af,Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.,Unește fiecare cuvânt cu desenul lui. Citește cuvântul și trage o linie până la desen.,frase,src/temas/letras.ts,borrador
+470e4baab51e,Aquí no pone {palabra}.,Aici nu scrie {palabra}.,frase,src/temas/letras.ts,borrador
+aa9149cf2c75,¡Atrapa los globos que dicen {silaba}!,Prinde baloanele pe care scrie {silaba}!,frase,src/temas/letras.ts,borrador
+0c5879749bf0,Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.,Uită-te la desen. Trage cuvintele în ordine ca să scrii ce se întâmplă.,frase,src/temas/letras.ts,borrador
+e7854240534b,El pato y la luna,Rața și luna,trozo,src/temas/letras.ts,borrador
+6861d9a40b54,Había una vez un,A fost odată o,trozo,src/temas/letras.ts,borrador
+e7d4db33e0e3,que vivía en un lago.,care trăia pe un lac.,trozo,src/temas/letras.ts,borrador
+500985f90306,"Una noche, el pato miró al cielo y vio la","Într-o noapte, rața s-a uitat la cer și a văzut o",trozo,src/temas/letras.ts,borrador
+a586b4fd8e01,La luna estaba sola. El pato le llevó una,Luna era singură. Rața i-a adus un,trozo,src/temas/letras.ts,borrador
+8368153a0248,para que jugaran.,ca să se joace împreună.,trozo,src/temas/letras.ts,borrador
+405ea22d6199,"Y la luna, la nube y el pato jugaron con una","Și luna, norul și rața s-au jucat cu o",trozo,src/temas/letras.ts,borrador
+bae611da83b4,toda la noche.,toată noaptea.,trozo,src/temas/letras.ts,borrador
+9aa32bc4cd2c,La vaca que quería volar,Vaca ce voia să zboare,trozo,src/temas/letras.ts,borrador
+9e803381aacb,En el pueblo vivía una,În sat trăia o,trozo,src/temas/letras.ts,borrador
+0930e3cfb91c,muy curiosa.,foarte curioasă.,trozo,src/temas/letras.ts,borrador
+1e37387519c1,"Un día, la vaca vio una","Într-o zi, vaca a văzut un",trozo,src/temas/letras.ts,borrador
+ddac612b2daa,en el cielo.,pe cer.,trozo,src/temas/letras.ts,borrador
+1d0de93dd8ac,"Quería volar tan alto como ella, así que subió a un","Voia să zboare la fel de sus ca el, așa că s-a urcat într-o",trozo,src/temas/letras.ts,borrador
+f3039b4992a3,Y desde arriba saludó a la,"Și sus, sus de tot, a întâlnit o",trozo,src/temas/letras.ts,borrador
+d6ade1fe632d,". ¡Hola, luna!",". Bună, lună!",trozo,src/temas/letras.ts,borrador
+c19172bae140,Vamos a leer un cuento: {titulo}.,Hai să citim o poveste: {titulo}.,frase,src/temas/letras.ts,borrador
+1c34f5d10a1b,{antes}... ¿Qué pone en la palabra amarilla? Toca su dibujo.,{antes}... Ce scrie în cuvântul galben? Atinge desenul lui.,trozo,src/temas/letras.ts,borrador
+fbe423925cf6,"Y colorín, colorado, este cuento se ha acabado.",Și-am încălecat pe-o șa și v-am spus povestea așa.,frase,src/temas/letras.ts,borrador
+2d7200f81e95,Esa es {cosa}. Lee la palabra amarilla.,Aceea e {cosa}. Citește cuvântul galben.,frase,src/temas/letras.ts,borrador
+6115067bc8e8,AĂÂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZ,,trozo,src/temas/letras.ts,falta
 efc0787e836e,ABCDEFGHIJKLMNÑOPQRSTUVWXYZ,,trozo,src/temas/letras.ts,falta
-c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,,frase,src/temas/letras.ts,falta
+c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,Hai să cântăm cântecul alfabetului! Ascultă.,frase,src/temas/letras.ts,borrador
 25d6c78aa672,L5,,trozo,src/temas/letras.ts,falta
 31b218bef63e,L5-FAB,,trozo,src/temas/letras.ts,falta
-8ecf7eff4024,Fábrica de sílabas,,trozo,src/temas/letras.ts,falta
-22ac18b7151a,¡Bienvenido a la fábrica de sílabas!,,frase,src/temas/letras.ts,falta
-de044df6b466,La máquina de sílabas,,trozo,src/temas/letras.ts,falta
-1043ab2e443c,Globos de sílabas,,trozo,src/temas/letras.ts,falta
-7bba0cd6b148,¿Con qué trozo empieza?,,frase,src/temas/letras.ts,falta
+8ecf7eff4024,Fábrica de sílabas,Fabrica de silabe,trozo,src/temas/letras.ts,borrador
+22ac18b7151a,¡Bienvenido a la fábrica de sílabas!,Bine ai venit la fabrica de silabe!,frase,src/temas/letras.ts,borrador
+de044df6b466,La máquina de sílabas,Mașina de silabe,trozo,src/temas/letras.ts,borrador
+1043ab2e443c,Globos de sílabas,Baloane cu silabe,trozo,src/temas/letras.ts,borrador
+7bba0cd6b148,¿Con qué trozo empieza?,Cu ce silabă începe?,frase,src/temas/letras.ts,borrador
 96dc2b86ca16,L5-DOS,,trozo,src/temas/letras.ts,falta
-07ebc2f81dbc,Palabras de dos sílabas,,trozo,src/temas/letras.ts,falta
-710b05ca52b3,¡Vamos a leer palabras cortas!,,frase,src/temas/letras.ts,falta
-abd6a7ff6080,Leo y elijo,,trozo,src/temas/letras.ts,falta
-1424311ca10d,Armo la palabra,,trozo,src/temas/letras.ts,falta
-220029cba633,La sílaba que falta,,trozo,src/temas/letras.ts,falta
-762d5abcb86d,Une la palabra con su dibujo,,trozo,src/temas/letras.ts,falta
+07ebc2f81dbc,Palabras de dos sílabas,Cuvinte cu două silabe,trozo,src/temas/letras.ts,borrador
+710b05ca52b3,¡Vamos a leer palabras cortas!,Hai să citim cuvinte scurte!,frase,src/temas/letras.ts,borrador
+abd6a7ff6080,Leo y elijo,Citesc și aleg,trozo,src/temas/letras.ts,borrador
+1424311ca10d,Armo la palabra,Construiesc cuvântul,trozo,src/temas/letras.ts,borrador
+220029cba633,La sílaba que falta,Silaba care lipsește,trozo,src/temas/letras.ts,borrador
+762d5abcb86d,Une la palabra con su dibujo,Unește cuvântul cu desenul,trozo,src/temas/letras.ts,borrador
 51c97e2e77bd,L5-TRE,,trozo,src/temas/letras.ts,falta
-8631c2161a39,Palabras de tres sílabas,,trozo,src/temas/letras.ts,falta
-8ba623bf05c0,"¡Ahora, palabras más largas!",,frase,src/temas/letras.ts,falta
+8631c2161a39,Palabras de tres sílabas,Cuvinte cu trei silabe,trozo,src/temas/letras.ts,borrador
+8ba623bf05c0,"¡Ahora, palabras más largas!","Acum, cuvinte mai lungi!",frase,src/temas/letras.ts,borrador
 d9ce629f70b7,L5-FRA,,trozo,src/temas/letras.ts,falta
-f3875ea37ae0,Frases que se mueven,,trozo,src/temas/letras.ts,falta
-f6e227a99acf,¡Vamos a leer frases!,,frase,src/temas/letras.ts,falta
-56af6a6d3826,¡Las frases se mueven!,,frase,src/temas/letras.ts,falta
-11d8ff405c53,Ordena la frase,,trozo,src/temas/letras.ts,falta
-3d4334518bc8,Más frases,,trozo,src/temas/letras.ts,falta
+f3875ea37ae0,Frases que se mueven,Propoziții care se mișcă,trozo,src/temas/letras.ts,borrador
+f6e227a99acf,¡Vamos a leer frases!,Hai să citim propoziții!,frase,src/temas/letras.ts,borrador
+56af6a6d3826,¡Las frases se mueven!,Propozițiile se mișcă!,frase,src/temas/letras.ts,borrador
+11d8ff405c53,Ordena la frase,Ordonează propoziția,trozo,src/temas/letras.ts,borrador
+3d4334518bc8,Más frases,Mai multe propoziții,trozo,src/temas/letras.ts,borrador
 d7b86a23b6e2,L5-CUE,,trozo,src/temas/letras.ts,falta
-6f21a9c01ee7,Cuentos para leer,,trozo,src/temas/letras.ts,falta
-51b429f28487,¡Vamos a leer cuentos! Tú lees la palabra amarilla.,,frase,src/temas/letras.ts,falta
+6f21a9c01ee7,Cuentos para leer,Povești de citit,trozo,src/temas/letras.ts,borrador
+51b429f28487,¡Vamos a leer cuentos! Tú lees la palabra amarilla.,Hai să citim povești! Tu citești cuvântul galben.,frase,src/temas/letras.ts,borrador
 e9ac2f996044,L5-FIE,,trozo,src/temas/letras.ts,falta
-6112046404d0,Fiesta del abecedario,,trozo,src/temas/letras.ts,falta
-1e80a86086ff,¡Es la fiesta del abecedario!,,frase,src/temas/letras.ts,falta
-83b033c3b049,La canción del abecedario,,trozo,src/temas/letras.ts,falta
+6112046404d0,Fiesta del abecedario,Petrecerea alfabetului,trozo,src/temas/letras.ts,borrador
+1e80a86086ff,¡Es la fiesta del abecedario!,E petrecerea alfabetului!,frase,src/temas/letras.ts,borrador
+83b033c3b049,La canción del abecedario,Cântecul alfabetului,trozo,src/temas/letras.ts,borrador
 e067f26392e3,la lancha,barca cu motor,nombre,src/temas/temas.ts,borrador
 50c036b75e36,el helicóptero,elicopterul,nombre,src/temas/temas.ts,borrador
 1eec213e0e4e,A  B  C  1  2  3,A  B  C  1  2  3,trozo,src/temas/temas.ts,borrador
@@ -4342,3 +4331,75 @@ d74461db1525,PAN,PÂINE,tabla,,borrador
 8b63940b3806,LUZ,LUNĂ,tabla,,borrador
 6ab0461982f8,MAR,MARE,tabla,,borrador
 6ab0bacebf5e,PIE,PAS,tabla,,borrador
+3ded744c42b8,Rojo,Roșu,tabla,,borrador
+582d2648b634,Azul,Albastru,tabla,,borrador
+14e6261890e0,Verde,Verde,tabla,,borrador
+a1b75119744a,Morado,Mov,tabla,,borrador
+2ccc4924e67e,Marrón,Maro,tabla,,borrador
+660e413be781,Negro,Negru,tabla,,borrador
+104bf393ae90,Blanco,Alb,tabla,,borrador
+371a1ddad52b,Pez,Pește,tabla,,borrador
+054cb7b04d8b,León,Leu,tabla,,borrador
+c54bae22fec5,Elefante,Elefant,tabla,,borrador
+5d9b47bd3b65,Mono,Maimuță,tabla,,borrador
+a93930b46b77,Rana,Broască,tabla,,borrador
+043fbef8d2f4,Círculo,Cerc,tabla,,borrador
+33078cd1e708,Cuadrado,Pătrat,tabla,,borrador
+e0bdf4a1a9a6,Triángulo,Triunghi,tabla,,borrador
+246f2145137d,Corazón,Inimă,tabla,,borrador
+714b289bdd34,Rectángulo,Dreptunghi,tabla,,borrador
+53982e65d65b,Óvalo,Oval,tabla,,borrador
+77f6f2756591,Rombo,Romb,tabla,,borrador
+413a4ea364d4,Correr,A alerga,tabla,,borrador
+cee8e7c7bff4,Dormir,A dormi,tabla,,borrador
+c92724b244a3,Comer,A mânca,tabla,,borrador
+5cab23aad83b,Nadar,A înota,tabla,,borrador
+2c3bd877b619,Volar,A zbura,tabla,,borrador
+6b12ba0abbb2,Cantar,A cânta,tabla,,borrador
+05b489f50a7d,Bailar,A dansa,tabla,,borrador
+44da8a01d138,Grande,Mare,tabla,,borrador
+dbe9c509f204,Pequeño,Mic,tabla,,borrador
+ae26cc109ee8,Caliente,Fierbinte,tabla,,borrador
+766533355ac6,Frío,Rece,tabla,,borrador
+22fe8bbe3c95,Rápido,Repede,tabla,,borrador
+4cb48f1a2ab4,Lento,Încet,tabla,,borrador
+4bac1cc21e74,Arriba,Sus,tabla,,borrador
+d6457f8d8f9d,Abajo,Jos,tabla,,borrador
+adb6f065eee0,Asustado,Speriat,tabla,,borrador
+29a41f97e072,Sorprendido,Surprins,tabla,,borrador
+7724505ec010,Tranquilo,Liniștit,tabla,,borrador
+a8d076ece240,Vergonzoso,Rușinos,tabla,,borrador
+bc26c82cac3b,Dentro,În,tabla,,borrador
+2ce4c3c0834d,Encima,Pe,tabla,,borrador
+0809e7b62fc7,Debajo,Sub,tabla,,borrador
+3b79d9234445,Al lado,Lângă,tabla,,borrador
+1ea9e92edc77,Detrás,În spate,tabla,,borrador
+70ea60f542a5,Delante,În față,tabla,,borrador
+2f7b6ef0824d,Manzanas,Mere,tabla,,borrador
+2a3961419016,Plátanos,Banane,tabla,,borrador
+ad77f3d7107f,Zanahorias,Morcovi,tabla,,borrador
+195a0e8d3626,Galletas,Biscuiți,tabla,,borrador
+930722ea53b6,Una manzana roja,Un măr roșu,tabla,,borrador
+5026f1a782ea,Un plátano amarillo,O banană galbenă,tabla,,borrador
+7e43ae2c9576,Una rana verde,O broască verde,tabla,,borrador
+7e4e223ae843,Una ballena azul,O balenă albastră,tabla,,borrador
+ab08fd86fb31,Una zanahoria naranja,Un morcov portocaliu,tabla,,borrador
+9e2972ef8efb,Un cerdo rosa,Un porc roz,tabla,,borrador
+c09489938e81,Uvas moradas,Struguri mov,tabla,,borrador
+f7760db03339,Un oso marrón,Un urs maro,tabla,,borrador
+e1a9dc9f2353,Once,Unsprezece,tabla,,borrador
+663f8c6a8668,Doce,Doisprezece,tabla,,borrador
+10a76274aee0,Trece,Treisprezece,tabla,,borrador
+054f53e51ec6,Catorce,Paisprezece,tabla,,borrador
+5f459173c569,Quince,Cincisprezece,tabla,,borrador
+8e94a72e26d9,Dieciséis,Șaisprezece,tabla,,borrador
+9446580bf4ce,Diecisiete,Șaptesprezece,tabla,,borrador
+b410d84b4ae0,Dieciocho,Optsprezece,tabla,,borrador
+9077c2154281,Diecinueve,Nouăsprezece,tabla,,borrador
+f90e6a36b381,Veinte,Douăzeci,tabla,,borrador
+9a60d9d8b710,Sol,Soare,tabla,,borrador
+71be97ae885c,Paraguas,Umbrelă,tabla,,borrador
+682a493a3882, says ,,tabla,,falta
+eb46b31cbcd5, gets on the bus!,,tabla,,falta
+92daa34c8ad1,an ,,tabla,,falta
+99020cb24bd1,a ,,tabla,,falta

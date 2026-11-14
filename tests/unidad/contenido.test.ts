@@ -9,6 +9,8 @@ import { codigoModulos } from '../../herramientas/vite/curiolandia.mts';
 import { ejecutaModulos } from './juegoEnVm.ts';
 import { LETRAS } from '../../src/contenido/letras.ts';
 import { NOREP } from '../../src/dominio/repaso.ts';
+import { PALABRAS_LEER_RO } from '../../src/contenido/lecturaRo.ts';
+import { NOMBRES_RO } from '../../src/idiomas/ro/nombres.ts';
 
 const SRC = join(import.meta.dirname, '..', '..', 'src');
 // Prefijo de las caritas de emoción ('emo:alegria'), que dibuja drawFace (juegos/caras.ts) y no son de IMG.
@@ -201,6 +203,24 @@ describe('las palabras para leer del Pueblo de las Palabras (fase L5 de docs/PLA
   test('las de dos sílabas tienen dos y las de tres, tres', () => {
     const p = lee<{ dos: Array<{ syl: string[] }>; tres: Array<{ syl: string[] }> }>('PALABRAS_LEER');
     expect(p.dos.every((w) => w.syl.length === 2) && p.tres.every((w) => w.syl.length === 3)).toBe(true);
+  });
+
+  // desde la fase ID6c de docs/PLAN-IDIOMAS.md, las del pueblo en rumano (contenido/lecturaRo.ts): cada una, como se llama
+  // su dibujo en rumano sin artículo (la forma sin de idiomas/ro/nombres.ts), y con las sílabas que dice su lista
+  test('en rumano, cada palabra se escribe como se llama su dibujo, con dos o tres sílabas que no se repiten', () => {
+    const lex = lee<Record<string, string>>('LEX'),
+      { dos, tres } = PALABRAS_LEER_RO;
+    const malas = [...dos, ...tres].flatMap((w) => {
+      const nombre = NOMBRES_RO[lex[w.k] ?? '']?.sin;
+      return [
+        ...(w.syl.join('') === nombre ? [] : [`${w.k}: ${w.syl.join('-')} no es «${nombre}»`]),
+        ...(new Set(w.syl).size === w.syl.length ? [] : [`${w.k}: sílabas repetidas`]),
+        ...(existeDibujo(w.k) ? [] : [`${w.k}: sin dibujo`]),
+      ];
+    });
+    expect(dos.length + tres.length).toBeGreaterThan(20);
+    expect(malas).toEqual([]);
+    expect(dos.every((w) => w.syl.length === 2) && tres.every((w) => w.syl.length === 3)).toBe(true);
   });
 });
 

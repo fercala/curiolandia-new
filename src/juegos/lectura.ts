@@ -11,7 +11,10 @@
  * Exporta además nombreDeLetra (cómo se dice cualquier letra: 'la be', 'la hache'...) y, desde la fase L5, ACCIONES y
  * drawEscena (un animal haciendo una acción, para las frases).
  * Importa: los tipos de juegos/tipos.ts, el núcleo (dibujo, voz, sonido, premios), thing, nameT y las tarjetas de elegir
- * (layoutChoice, drawChoice, hitItem) de juegos/comps.ts y picF de juegos/comps2.ts.
+ * (layoutChoice, drawChoice, hitItem) de juegos/comps.ts, picF de juegos/comps2.ts y, desde la fase ID6c de
+ * docs/PLAN-IDIOMAS.md, VERBOS_RO de contenido/lecturaRo.ts (los verbos de las frases en rumano). Desde la ID6c, todo lo
+ * que dicen la máquina de sílabas y las frases son plantillas de fmt, y las sílabas y las palabras escritas no se
+ * traducen (juntar).
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900 y tiempos de las
    animaciones, como en el resto de componentes. */
@@ -50,8 +53,9 @@ import {
   tr,
   whenQuiet,
 } from '../nucleo/indice.ts';
-import { NUM, drawChoice, hitItem, layoutChoice, nameT, thing } from './comps.ts';
+import { NUM, drawChoice, hitItem, layoutChoice, nameT, nombreCosa, thing } from './comps.ts';
 import { picF } from './comps2.ts';
+import { VERBOS_RO } from '../contenido/lecturaRo.ts';
 
 // NOMBRES: cómo se dice cada letra (sin tilde ni diéresis: quien llama las quita con sinTilde).
 const NOMBRES: Readonly<Record<string, string>> = {
@@ -148,14 +152,17 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
       later(350, () =>
         sayQ(
           primera
-            ? `${cfg.intro || 'Vamos a dar palmas.'} ${cap(nom)}. Toca el tambor una vez por cada trozo.`
-            : `Ahora: ${nom}. Toca el tambor.`,
+            ? fmt('{intro} {Cosa}. Toca el tambor una vez por cada trozo.', {
+                intro: tr(cfg.intro || 'Vamos a dar palmas.'),
+                cosa: nom,
+              })
+            : fmt('Ahora: {cosa}. Toca el tambor.', { cosa: nom }),
         ),
       );
     },
     // Repite la palabra y la consigna.
     prompt() {
-      say(`${cap(nameT(this.w.k))}. Toca el tambor una vez por cada trozo.`);
+      say(fmt('{Cosa}. Toca el tambor una vez por cada trozo.', { cosa: nameT(this.w.k) }));
     },
     // Ayuda: el tambor.
     hint() {
@@ -181,7 +188,8 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
         const x = x0 + j * (cw + gap),
           on = j < this.n;
         card(x - cw / 2, 500, cw, 100, on ? '#FFF3B0' : 'rgba(255,255,255,.6)', on ? 7 : 4, 30, on ? K : '#C9BFAF');
-        if (on) text(sy.toUpperCase(), x, 572, 58, '#5B8DEF', { f: LF });
+        // la sílaba ya está en el idioma del juego (juntar la da por traducida; fase ID6b)
+        if (on) text(juntar(sy.toUpperCase()), x, 572, 58, '#5B8DEF', { f: LF });
         else circ(x, 550, 10, '#C9BFAF', 0);
       });
       drawTambor(TAMBOR.x, TAMBOR.y, TAMBOR.r, this.golpe);
@@ -203,7 +211,7 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
       const x0 = 900 - ((w.syl.length - 1) * 204) / 2;
       sparkles(x0 + j * 204, 550, 6);
       if (this.n < w.syl.length) {
-        say(w.syl[j]!);
+        say(juntar(w.syl[j]!));
         return;
       }
       this.busy = true;
@@ -214,10 +222,16 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
       SFX.good();
       burst(900, 300, 30);
       const n = w.syl.length;
-      say(w.syl[j]!, () =>
+      say(juntar(w.syl[j]!), () =>
         later(250, () =>
           say(
-            `${praise()} ${cap(nameT(w.k).replace(/^(el|la|los|las) /, ''))} tiene ${n === 1 ? 'una palma' : `${NUM[n]} palmas`}.`,
+            juntar(
+              praise(),
+              fmt('{Palabra} tiene {palmas}.', {
+                palabra: IDIOMA === 'ro' ? nombreCosa(w.k).sin : nameT(w.k).replace(/^(el|la|los|las) /, ''),
+                palmas: n === 1 ? tr('una palma') : n === 2 ? tr('dos palmas') : fmt('{n} palmas', { n: NUM[n] }),
+              }),
+            ),
             () =>
               later(450, () => {
                 this.i++;
@@ -372,7 +386,8 @@ export function MiNombre(cfg: Config, onDone: AlTerminar): Juego {
         text(c.l, 0, s * 0.3, s * 0.85, c.on ? '#E8554E' : '#5B8DEF', { f: LF });
         ctx.restore();
       });
-      text(String(cfg.nombre), 900, 760, 64, K, { f: LF });
+      // el nombre de quien juega no se traduce (juntar; fase ID6b)
+      text(juntar(String(cfg.nombre)), 900, 760, 64, K, { f: LF });
     },
     // Toque en una letra: si es la que toca, se dice, se enciende y avanza (con la última, se lee el nombre y acaba);
     // si es otra, solo se dice cómo se llama.
@@ -406,7 +421,11 @@ export function MiNombre(cfg: Config, onDone: AlTerminar): Juego {
       SFX.good();
       burst(900, 470, 50);
       say(cap(nombreDeLetra(c.l)), () =>
-        later(300, () => say(`${praise()} Así se escribe ${cfg.dice || cfg.nombre}.`, () => later(600, onDone))),
+        later(300, () =>
+          say(juntar(praise(), fmt('Así se escribe {nombre}.', { nombre: cfg.dice || cfg.nombre })), () =>
+            later(600, onDone),
+          ),
+        ),
       );
     },
   };
@@ -731,14 +750,19 @@ export function Maquina(cfg: Config, onDone: AlTerminar): Juego {
         whenQuiet(() => {
           if (this.i === i0 && !this.busy)
             sayQ(
-              `${primera ? '¡Esta es la máquina de las sílabas! ' : ''}Haz la sílaba ${sil(s)}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.`,
+              juntar(
+                primera ? tr('¡Esta es la máquina de las sílabas!') : '',
+                fmt('Haz la sílaba {silaba}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.', {
+                  silaba: sil(s),
+                }),
+              ),
             );
         }),
       );
     },
     // Repite la sílaba que se pide.
     prompt() {
-      say(`Haz la sílaba ${sil(this.obj)}.`);
+      say(fmt('Haz la sílaba {silaba}.', { silaba: sil(this.obj) }));
     },
     // Ayuda: la rueda que no tiene la letra buena o, si las dos la tienen, el botón.
     hint() {
@@ -753,12 +777,12 @@ export function Maquina(cfg: Config, onDone: AlTerminar): Juego {
       cfg.bg();
       card(690, 40, 380, 150, '#FFFBF2', 6, 30);
       text('Haz:', 790, 132, 44, K);
-      text(this.obj, 950, 152, 110, '#5B8DEF', { f: LF });
+      text(juntar(this.obj), 950, 152, 110, '#5B8DEF', { f: LF });
       const p = this.papel;
       if (p) {
         const k = clamp((T - p.t) * 3, 0, 1);
         card(MAQ.papel.x - 130, 600 + k * 70, 260, 150, p.ok ? '#FFF3B0' : '#fff', 6, 14);
-        text(p.s, MAQ.papel.x, 715 + k * 70, 96, p.ok ? '#E8554E' : '#9A9086', { f: LF });
+        text(juntar(p.s), MAQ.papel.x, 715 + k * 70, 96, p.ok ? '#E8554E' : '#9A9086', { f: LF });
       }
       card(560, 250, 640, 400, '#7A8CA8', 8, 40);
       for (const [gx, gy] of [
@@ -829,12 +853,21 @@ export function Maquina(cfg: Config, onDone: AlTerminar): Juego {
         scene!.starPop = T;
         SFX.good();
         burst(MAQ.papel.x, 760, 30);
-        say(`${praise()} ${cap(nombreDeLetra(c.l))} con ${nombreDeLetra(v.l)}: ${sil(hecha)}.`, () =>
-          later(500, () => {
-            this.i++;
-            if (this.i >= R.length) onDone();
-            else this.ronda();
-          }),
+        say(
+          juntar(
+            praise(),
+            fmt('{Letra} con {vocal}: {silaba}.', {
+              letra: nombreDeLetra(c.l),
+              vocal: nombreDeLetra(v.l),
+              silaba: sil(hecha),
+            }),
+          ),
+          () =>
+            later(500, () => {
+              this.i++;
+              if (this.i >= R.length) onDone();
+              else this.ronda();
+            }),
         );
         return;
       }
@@ -842,7 +875,7 @@ export function Maquina(cfg: Config, onDone: AlTerminar): Juego {
       if (this.errs === 0) rec(cfg.key || 'silabas', false);
       this.errs++;
       if (this.errs === 2) onWrongTwice();
-      say(`Ha salido ${sil(hecha)}. Queremos ${sil(this.obj)}.`);
+      say(fmt('Ha salido {hecha}. Queremos {silaba}.', { hecha: sil(hecha), silaba: sil(this.obj) }));
     },
   };
 }
@@ -934,9 +967,10 @@ const FRASE_Y = 250;
 // cfg: frases ([{texto: 'EL GATO DUERME', escenas: [{k, acc}] (la primera es la buena)}]), bg, key, intro.
 export function Frase(cfg: Config, onDone: AlTerminar): Juego {
   const F: Array<{ texto: string; escenas: Array<{ k: Cosa; acc: string }> }> = cfg.frases;
-  // escena(e): la escena e como cosa de las tarjetas de elegir (con su nombre para la voz: 'el gato duerme').
+  // escena(e): la escena e como cosa de las tarjetas de elegir (con su nombre para la voz: 'el gato duerme'; en rumano,
+  // desde la ID6c, con el verbo de VERBOS_RO: 'pisica doarme').
   const escena = (e: { k: Cosa; acc: string }): Libre => ({
-    name: `${nameT(e.k)} ${e.acc}`,
+    name: IDIOMA === 'ro' ? juntar(nameT(e.k), VERBOS_RO[e.acc] ?? e.acc) : `${nameT(e.k)} ${e.acc}`,
     draw: (x: number, y: number, s: number) => drawEscena(e.k, e.acc, x, y, (s / 0.78) * 0.92),
   });
   return {
@@ -965,7 +999,7 @@ export function Frase(cfg: Config, onDone: AlTerminar): Juego {
         tot = an.reduce((a, b) => a + b, 0) + (ws.length - 1) * 30;
       let x = 900 - tot / 2;
       this.pal = ws.map((w, j) => {
-        const o = { w, x: x + an[j]! / 2, an: an[j]! };
+        const o = { w: juntar(w), x: x + an[j]! / 2, an: an[j]! };
         x += an[j]! + 30;
         return o;
       });
@@ -976,7 +1010,10 @@ export function Frase(cfg: Config, onDone: AlTerminar): Juego {
         whenQuiet(() => {
           if (this.i === i0 && !this.busy)
             sayQ(
-              `${primera ? (cfg.intro || '') + ' ' : ''}Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.`,
+              juntar(
+                primera && cfg.intro ? tr(cfg.intro) : '',
+                tr('Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.'),
+              ),
             );
         }),
       );
@@ -1000,7 +1037,7 @@ export function Frase(cfg: Config, onDone: AlTerminar): Juego {
             return;
           }
           this.lee = j;
-          say(ps[j]!.w.toLowerCase(), () => later(80, () => paso(j + 1)));
+          say(juntar(ps[j]!.w.toLowerCase()), () => later(80, () => paso(j + 1)));
         };
       paso(0);
     },
@@ -1021,7 +1058,7 @@ export function Frase(cfg: Config, onDone: AlTerminar): Juego {
       if (p) {
         if (!this.busy) {
           SFX.tap();
-          say(p.w.toLowerCase());
+          say(juntar(p.w.toLowerCase()));
         }
         return;
       }
