@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), y de la ID6 (la Isla de las Letras en rumano, por partes), **ID6a** (v0.2.149), **ID6b** (v0.2.151) e **ID6c** (v0.2.152), con lo que la ID6 está completa, apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), y de la ID6 (la Isla de las Letras en rumano, por partes), **ID6a** (v0.2.149), **ID6b** (v0.2.151) e **ID6c** (v0.2.152), con lo que la ID6 está completa, e **ID7** (v0.2.153), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,26 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID7 (v0.2.153): la Isla del Inglés desde el rumano
+
+- Tabla nueva `src/idiomas/ro/ingles.ts` (`INGLES_RO`, borrador de Claude, unos 290 textos): lo que explica Polly, los
+  trozos que van entre las palabras en inglés (`sayMix` traduce cada trozo por separado, así que están escritos para
+  encajar con la palabra inglesa de detrás: «Asta e» + «cat», «Sparge baloanele cu» + «red»), los dos cuentos de la
+  isla, los nombres de los juegos y lo que quiere decir cada palabra en inglés (el campo `es` de `contenido/ingles.ts` y
+  de `EN` en `temas/ingles.ts`: «Mum» quiere decir «Mama»). También los consejos para casa de la zona de adultos.
+- Lo que dice o escribe Polly en inglés no se traduce nunca: las palabras inglesas que se escriben (la tarjeta de
+  «Escucha y repite», las etiquetas de las tarjetas, el número en inglés de «Contar», los días abreviados, los carteles
+  3D del Pueblo de los Cuentos y los versos de las canciones) pasan por `enIngles` (`nucleo/traducir.ts`): no se
+  buscan en las tablas y, en el pseudoidioma, van entre ⟦⟧ sin alargar, para que `tests/regresion/idiomas.js` las dé por
+  miradas.
+- Arreglo (también en castellano): en «Repite conmigo», tocar a Polly mientras explica el juego, antes de la primera
+  palabra, daba un error (`prompt` sin palabra).
+- Los juegos de sonido inicial fuera de la isla que preveía el plan ya no existen: los juegos de letras están todos en
+  la Isla de las Letras, en rumano desde la ID6.
+- Jugando con `?idioma=ro` las 34 casitas de la isla con toques al azar, con 3 y 5 años, y sus escenas (la isla, sus
+  tres zonas y el diccionario), no queda nada sin traducir. `dialogos/ro.csv`: 4.121 de 4.373 traducidos.
+- Versión: la v0.2.150 la lleva el PR #144 (P13b, el circuito).
 
 ### ID6c (v0.2.152): el pueblo de la Isla de las Letras en rumano
 

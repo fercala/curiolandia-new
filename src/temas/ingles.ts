@@ -59,6 +59,7 @@ import {
   text,
   tone,
   fmt,
+  enIngles,
 } from '../nucleo/indice.ts';
 import { BG, NUM, drawFace } from '../juegos/indice.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
@@ -481,7 +482,7 @@ export function enCard(it: PalabraEn, x: number, y: number, s: number, o: Opcion
   if (o.label) {
     ctx.font = `600 ${Math.round(s * 0.13)}px ${DF}`;
     text(
-      it.en,
+      enIngles(it.en),
       0,
       s * 0.42,
       Math.min(s * 0.13, (s * 0.85) / Math.max(1, ctx.measureText(it.en).width / (s * 0.13))),
@@ -587,7 +588,7 @@ export function EnConocer(cfg: Config, onDone: AlTerminar): Juego {
         ctx.scale(back(k), back(k));
         card(-280, -290, 560, 580, it.col === '#FFFFFF' ? '#E9F3FA' : '#FFF6E6', 8, 50);
         enDraw(it, 0, -60, 330);
-        text(it.en.toUpperCase(), 0, 190, it.en.length > 9 ? 60 : 76, '#5B8DEF', { f: LF });
+        text(enIngles(it.en.toUpperCase()), 0, 190, it.en.length > 9 ? 60 : 76, '#5B8DEF', { f: LF });
         text(enEs(it), 0, 252, 40, '#7A6252');
         ctx.restore();
       }
@@ -968,7 +969,7 @@ export function EnCuenta(cfg: Config, onDone: AlTerminar): Juego {
       if (this.busy && this.c === this.n) {
         card(700, 110, 400, 120, '#fff', 7, 60);
         text(String(this.n), 760, 196, 80, '#5B8DEF', { f: LF });
-        text(EN.numbers[this.n - 1].en, 950, 190, 56, K, { w: 600 });
+        text(enIngles(EN.numbers[this.n - 1].en), 950, 190, 56, K, { w: 600 });
       }
     },
     // Toque: cuenta la cosa tocada (dice su número en inglés); al llegar al total, acierto y siguiente ronda.
@@ -1037,8 +1038,10 @@ export function EnRepite(cfg: Config, onDone: AlTerminar): Juego {
       this.busy = false;
       later(300, () => this.prompt!());
     },
-    // Polly dice la palabra (y se enciende el botón cuando termina).
+    // Polly dice la palabra (y se enciende el botón cuando termina). Antes de la primera ronda (mientras explica el
+    // juego) aún no hay palabra: un toque no hace nada (fallaba al tocar a Polly durante la explicación).
     prompt() {
+      if (!this.t) return;
       this.ready = 0;
       sayMix(['Repite conmigo:', '@' + this.t.en], () =>
         later(250, () =>
@@ -1510,7 +1513,7 @@ export function cancionIngles(lineas: [PalabraEn, string][], tune: string): Conf
       say: verso,
       draw: w.draw || ((x: number, y: number, s: number) => enDraw(w, x, y, s)),
       n: w.es.toLowerCase(),
-      n2: w.en + '!',
+      n2: enIngles(w.en + '!'),
       en: 1,
     })),
   };

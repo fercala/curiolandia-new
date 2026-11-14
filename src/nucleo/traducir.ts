@@ -124,6 +124,11 @@ export const fmt = (plantilla: string, huecos: Readonly<Record<string, string | 
 // una se traduce entera y el resultado no se vuelve a traducir. En castellano sale lo mismo que pegarlas con espacios.
 export const juntar = (...trozos: readonly string[]): string => recuerda(trozos.filter(Boolean).join(' '));
 
+// enIngles(t): el texto t, que está en inglés y se escribe tal cual en cualquier idioma (la Isla del Inglés, desde la fase
+// ID7): no se busca en las tablas ni se apunta como sin traducir. En el pseudoidioma (?idioma=xx) va entre ⟦⟧, sin
+// alargar, para que tests/regresion/idiomas.js vea que se ha mirado. En castellano, t sin más.
+export const enIngles = (t: string): string => recuerda(IDIOMA === 'xx' ? `⟦${t}⟧` : t);
+
 // estaTraducido(t): true si t ya salió traducido (de fmt, juntar o nombreEn) y no hay que volver a traducirlo. En
 // castellano, siempre false. Desde la ID5b, para que cap() (nucleo/voz.ts) conserve la marca al poner la mayúscula.
 export const estaTraducido = (t: string): boolean => yaTraducido.has(t);
