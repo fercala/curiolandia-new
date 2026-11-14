@@ -70,6 +70,15 @@ const MESES_RO: Record<string, Nombre> = Object.fromEntries(
   ).map(([es, ro]) => [es, N(ro, ro, 'f', `lunii ${ro}`)]),
 );
 
+// DE_LETRAS: las letras de la Isla de las Letras en rumano (contenido/letrasRo.ts, desde la fase ID6a) se llaman
+// «litera a»: cada una es su propio nombre, para cuando un juego dice la letra como dice un dibujo («Aceea e litera e»).
+const DE_LETRAS: Record<string, Nombre> = Object.fromEntries(
+  [...'aăâbcdefghiîjklmnopqrsștțuvwxyz'].map((l) => [
+    `litera ${l}`,
+    N(`litera ${l}`, `litera ${l}`, 'f', `literei ${l}`),
+  ]),
+);
+
 /** Del nombre en castellano con artículo a sus formas en rumano. */
 export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   ...DE_TEMAS,
@@ -77,6 +86,7 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   ...LEX_RO,
   ...DE_NUMEROS,
   ...MESES_RO,
+  ...DE_LETRAS,
   // el tema «Rincón de los Conceptos» y las zonas y sitios del mapa (zonas.ts: ZONES y los sitios del mapa)
   'el Rincón de los Conceptos': N('Colțul noțiunilor', 'Colțul noțiunilor', 'n', 'din Colțul noțiunilor'),
   'el Jardín de los 3 años': N('Grădina de 3 ani', 'Grădina de 3 ani', 'f', 'Grădinii de 3 ani'),

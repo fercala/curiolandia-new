@@ -785,6 +785,29 @@ e49e72e2c77c,la be,trozo,src/contenido/letras.ts
 1739f4c02ee6,la jota,trozo,src/contenido/letras.ts
 e5baa22d9f17,la uve,trozo,src/contenido/letras.ts
 00b9518e9743,la eñe,trozo,src/contenido/letras.ts
+7942493db268,litera a,trozo,src/contenido/letrasRo.ts
+a2383d0b3bf8,litera e,trozo,src/contenido/letrasRo.ts
+57a91ee5dc68,litera i,trozo,src/contenido/letrasRo.ts
+bb372c900987,litera o,trozo,src/contenido/letrasRo.ts
+f9cbf734e3e3,litera u,trozo,src/contenido/letrasRo.ts
+6789993f1892,litera ă,trozo,src/contenido/letrasRo.ts
+06244f6bd709,litera î,trozo,src/contenido/letrasRo.ts
+4c475b8c3eb8,litera m,trozo,src/contenido/letrasRo.ts
+e751586d42ef,litera p,trozo,src/contenido/letrasRo.ts
+231dacf786a8,litera l,trozo,src/contenido/letrasRo.ts
+d690d8918a51,litera s,trozo,src/contenido/letrasRo.ts
+460f6f425567,litera t,trozo,src/contenido/letrasRo.ts
+2210a5172cbd,litera n,trozo,src/contenido/letrasRo.ts
+08c4e5d398c0,litera d,trozo,src/contenido/letrasRo.ts
+9c238a96b896,litera f,trozo,src/contenido/letrasRo.ts
+288f0126c4f7,litera b,trozo,src/contenido/letrasRo.ts
+fd948e5f1f5f,litera r,trozo,src/contenido/letrasRo.ts
+b38bcf07acf2,litera c,trozo,src/contenido/letrasRo.ts
+775df67cec58,litera g,trozo,src/contenido/letrasRo.ts
+0c22f8e04b66,litera v,trozo,src/contenido/letrasRo.ts
+51bf863b4442,litera ș,trozo,src/contenido/letrasRo.ts
+fbd5143d11e8,litera ț,trozo,src/contenido/letrasRo.ts
+105eecf1bec0,litera â,trozo,src/contenido/letrasRo.ts
 9d9ccca0dcbc,el ñu,nombre,src/contenido/lex.ts
 7d9347a6d663,el cole,nombre,src/contenido/lex.ts src/escenas/zonas.ts
 0609b4925b7c,el parque,nombre,src/contenido/lex.ts
@@ -1686,7 +1709,7 @@ f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
-f4b7f5c009fb, de ,trozo,src/escenas/libroLetras.ts src/temas/letras.ts
+9324da358388,{Letra} de {amigo}.,trozo,src/escenas/libroLetras.ts src/temas/letras.ts
 7d441d06e300,¡Punto para nuestro equipo!,frase,src/escenas/panuelo.ts
 37b8fed7c382,¡Qué rápido! ¡Otro punto!,frase,src/escenas/panuelo.ts
 67c01ef33db6,¡Lo has cogido! ¡Muy bien!,frase,src/escenas/panuelo.ts
@@ -1934,7 +1957,7 @@ a830de01ef81,miedo,trozo,src/juegos/caras.ts
 68072fb6617f,Es {cosa},trozo,src/juegos/comps.ts
 39f16812adf7,Esas son {cosa},trozo,src/juegos/comps.ts
 61b5758bf8a5,Esos son {cosa},trozo,src/juegos/comps.ts
-1676621c6ece,Esa es {cosa},trozo,src/juegos/comps.ts
+1676621c6ece,Esa es {cosa},trozo,src/juegos/comps.ts src/temas/letras.ts
 b3bf81a9905d,Ese es {cosa},trozo,src/juegos/comps.ts
 2a33451004a2,cero,trozo,src/juegos/comps.ts
 1eaa8bb19586,uno,trozo,src/juegos/comps.ts
@@ -2076,6 +2099,7 @@ c26e9fc0e00d,Escucha el cuento: {titulo}.,frase,src/juegos/comps2.ts
 9ed0eb2cf404,uve doble,trozo,src/juegos/lectura.ts
 7d513e645434,i griega,trozo,src/juegos/lectura.ts
 87e2719d8e78,NFD,trozo,src/juegos/lectura.ts src/temas/letras.ts
+ef71c59747f0,litera ,trozo,src/juegos/lectura.ts
 451f3750f787,la ,trozo,src/juegos/lectura.ts
 ec885e10ce6f,. Toca el tambor una vez por cada trozo.,trozo,src/juegos/lectura.ts
 599aa33e94a9,Vamos a dar palmas.,frase,src/juegos/lectura.ts
@@ -2086,16 +2110,16 @@ ca737bb082a8,Ahora: ,trozo,src/juegos/lectura.ts
 a6adc37e0595, palmas,trozo,src/juegos/lectura.ts src/temas/letras.ts
 2cc4792f9e9f,Toca la letra que salta.,frase,src/juegos/lectura.ts
 fd7134d70d86, Así se escribe ,trozo,src/juegos/lectura.ts
-cececcade29a,¡Llega el tren de ,trozo,src/juegos/lectura.ts
-acb3133388b6,! Toca un vagón para engancharlo.,trozo,src/juegos/lectura.ts
+c016e7527b97,¡Llega el tren de {letra}! Toca un vagón para engancharlo.,frase,src/juegos/lectura.ts
 1472ee7b8d39,Toca un vagón para engancharlo a la locomotora.,frase,src/juegos/lectura.ts
-6db26f694335, con ,trozo,src/juegos/lectura.ts
-3ae78738bcbb," ¡Chu, chu! El tren se va.",frase,src/juegos/lectura.ts
+1803ed792ae8,{Letra} con {vocal}: {silaba}.,trozo,src/juegos/lectura.ts
+16f0be6e98f6,"¡Chu, chu! El tren se va.",frase,src/juegos/lectura.ts
 c12dcbb5375e,Toca la huella que brilla.,frase,src/juegos/lectura.ts
 b034806c1201,Haz la sílaba ,trozo,src/juegos/lectura.ts
 e5c960a74085,. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,trozo,src/juegos/lectura.ts
 b52e12769797,¡Esta es la máquina de las sílabas! ,frase,src/juegos/lectura.ts
 4938a7cf8e90,Haz:,trozo,src/juegos/lectura.ts
+6db26f694335, con ,trozo,src/juegos/lectura.ts
 18ce5a5063f4,Ha salido ,trozo,src/juegos/lectura.ts
 991d426af75b,. Queremos ,trozo,src/juegos/lectura.ts
 acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.",frase,src/juegos/lectura.ts
@@ -2807,37 +2831,34 @@ bec670e5a554,story,trozo,src/temas/inglesPueblo.ts
 355858f4157e,Gran fiesta del inglés,trozo,src/temas/inglesPueblo.ts
 7198cda575b5,town,trozo,src/temas/inglesPueblo.ts
 bc9202a22afa,celebrar todo lo aprendido: repasar juntos las palabras en inglés.,trozo,src/temas/inglesPueblo.ts
-0351bae97d6a,empieza por ,trozo,src/temas/letras.ts
-292f724537e8,lleva ,trozo,src/temas/letras.ts
-1c701316e96d,Esta es ,trozo,src/temas/letras.ts
-a448fcd4ac0a,Y esta es ,trozo,src/temas/letras.ts
-e8bcbed12b85, minúscula.,trozo,src/temas/letras.ts
-ebb7fd71260d,¡Vamos a conocer ,trozo,src/temas/letras.ts
-9ff5786dd2b2,! Toca cada tarjeta.,trozo,src/temas/letras.ts
-a0099f02b7d9,¿Dónde está ,trozo,src/temas/letras.ts
-db182603c659,Esa es ,trozo,src/temas/letras.ts
-006475045d1d,Vamos a escribir ,trozo,src/temas/letras.ts
-81fecf81b49b,. Empieza en el punto verde y sigue el camino con el dedo.,trozo,src/temas/letras.ts
-b3ba0ae1c94e,"Ahora, ",trozo,src/temas/letras.ts
-68a49ae177ac, minúscula. Empieza en el punto verde.,trozo,src/temas/letras.ts
+89822b299bb0,RO-,trozo,src/temas/letras.ts
+19e25daf5584,{Cosa}. {Palabra} empieza por {letra}.,trozo,src/temas/letras.ts
+9fabc7e09a01,{Cosa}. {Palabra} lleva {letra}.,trozo,src/temas/letras.ts
+1f99bb34b550,Esta es {letra}. {Letra} de {amigo}.,frase,src/temas/letras.ts
+68cd3b5c0b37,Y esta es {letra} minúscula.,frase,src/temas/letras.ts
+70939573f64c,¡Vamos a conocer {letra}! Toca cada tarjeta.,frase,src/temas/letras.ts
+213a508ae308,¿Dónde está {letra}?,frase,src/temas/letras.ts
+058984bc8b23,Vamos a escribir {letra}. Empieza en el punto verde y sigue el camino con el dedo.,frase,src/temas/letras.ts
+9c7a3b7da170,"Ahora, {letra} minúscula. Empieza en el punto verde.",frase,src/temas/letras.ts
 1adeb906cc07,"Ahora, el siguiente trazo. Empieza en el punto verde.",frase,src/temas/letras.ts
-efb17f22a082,¡Muy bien! ¡Ya sabes escribir ,trozo,src/temas/letras.ts
-642f309db8c4,Sigue el camino de ,trozo,src/temas/letras.ts
-4e4ed920f3c0, con el dedo.,trozo,src/temas/letras.ts
-6da2fc603d06,¡Atrapa las burbujas de ,trozo,src/temas/letras.ts
+1ebde5a4ffee,¡Muy bien! ¡Ya sabes escribir {letra}!,frase,src/temas/letras.ts
+892cf35b0919,Sigue el camino de {letra} con el dedo.,frase,src/temas/letras.ts
+9e9e919c9137,¡Atrapa las burbujas de {letra}!,frase,src/temas/letras.ts
 56e7a240aa23,Atrapa,trozo,src/temas/letras.ts
 d83fd84b3b1b,Une cada letra con su amigo. Arrastra una línea desde la letra hasta su dibujo.,frase,src/temas/letras.ts
-7ab941f3e418, no empieza por ,trozo,src/temas/letras.ts
+a04ca61a708a,{Cosa} no empieza por {letra}.,trozo,src/temas/letras.ts
 842ce6eb510f,L3,trozo,src/temas/letras.ts
-22204def8299,Conoce ,trozo,src/temas/letras.ts
-2c2aaa3129b1,Escribe ,trozo,src/temas/letras.ts
-96ac3c50f123,Atrapa ,trozo,src/temas/letras.ts
+013011024020,Conoce {letra},trozo,src/temas/letras.ts
+ebe14314a50e,Escribe {letra},trozo,src/temas/letras.ts
+d492706995aa,Atrapa {letra},trozo,src/temas/letras.ts
 717a24de0911,Une cada letra con su amigo,trozo,src/temas/letras.ts
-8e43c026830c,El tren de ,trozo,src/temas/letras.ts
-be0f242bcace,Las huellas de ,trozo,src/temas/letras.ts
-f316ef34364e,La ,trozo,src/temas/letras.ts
+7a06aea3bd19,El tren de {letra},trozo,src/temas/letras.ts
+35f98adc69f2,Las huellas de {letra},trozo,src/temas/letras.ts
+1aa53f6f456d,La {l},trozo,src/temas/letras.ts
+63b9d8d79397,¡Vamos a conocer {letra}!,frase,src/temas/letras.ts
 24114dcddd06,Escucha: ,trozo,src/temas/letras.ts
 0f711e3e9d78,. ¿Qué es?,trozo,src/temas/letras.ts
+db182603c659,Esa es ,trozo,src/temas/letras.ts
 2aef5ce5e5e8,¿Cuál es más larga: ,trozo,src/temas/letras.ts
 1b4bfc33dcf3,? Da palmas con cada una.,trozo,src/temas/letras.ts
 869812c0a1f4,. ¿Cuál tiene más?,trozo,src/temas/letras.ts
@@ -2845,8 +2866,13 @@ f316ef34364e,La ,trozo,src/temas/letras.ts
 ed98257fa8ae, empieza por ,trozo,src/temas/letras.ts
 7602858967a0,otra letra,trozo,src/temas/letras.ts
 6b230476526a,Une cada dibujo con la letra por la que empieza.,frase,src/temas/letras.ts
+7ab941f3e418, no empieza por ,trozo,src/temas/letras.ts
 95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,frase,src/temas/letras.ts
 42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,frase,src/temas/letras.ts
+a0099f02b7d9,¿Dónde está ,trozo,src/temas/letras.ts
+f4b7f5c009fb, de ,trozo,src/temas/letras.ts
+6da2fc603d06,¡Atrapa las burbujas de ,trozo,src/temas/letras.ts
+1c701316e96d,Esta es ,trozo,src/temas/letras.ts
 572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,frase,src/temas/letras.ts
 ce178861ab46,TITO,trozo,src/temas/letras.ts
 42f800d88029,Este es tu nombre: ,trozo,src/temas/letras.ts
@@ -2889,9 +2915,8 @@ d101c4d57c64,¡Es la fiesta de las vocales!,frase,src/temas/letras.ts
 438ae6e3393e,Las cinco vocales,trozo,src/temas/letras.ts
 289ddb498578,Palmas con los amigos,trozo,src/temas/letras.ts
 c78bf3a5d2fb,Escribe una vocal,trozo,src/temas/letras.ts
-8b40011deaa3, forman ,trozo,src/temas/letras.ts
-91c1338bfec4,". Tócalas en orden, empezando por la que brilla.",trozo,src/temas/letras.ts
-fa889f901148, Las huellas forman ,trozo,src/temas/letras.ts
+37b9b6c8fa74,"Las huellas de {cosa} forman {letra}. Tócalas en orden, empezando por la que brilla.",frase,src/temas/letras.ts
+86e52ebc4372,Las huellas forman {letra}.,frase,src/temas/letras.ts
 2e573b62316a,L4-VOC,trozo,src/temas/letras.ts
 64495757762c,Repaso de vocales,trozo,src/temas/letras.ts
 67e46ec90549,¡Vamos a repasar las vocales antes de entrar en el bosque!,frase,src/temas/letras.ts

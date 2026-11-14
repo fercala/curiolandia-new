@@ -12,7 +12,8 @@
  * mayúscula (alto h), las dos se apoyan en la misma línea.
  * Es CONTENIDO: solo datos y cálculo, sin dibujo ni S. Pruebas: tests/unidad/letras.test.ts (que existan los dibujos,
  * que no se repitan, que cada palabra empiece por su letra y que los trazos estén dentro de la caja).
- * Exporta: los tipos Punto, Trazo y Letra, ZONA_DE_LETRA, MINUS_CAJA, LETRAS, letra, letrasDeZona y letraEnPantalla.
+ * Exporta: los tipos Punto, Trazo y Letra, ZONA_DE_LETRA, MINUS_CAJA, LETRAS, letra, letrasDeZona, letraEnPantalla y
+ * (desde la fase ID6a de docs/PLAN-IDIOMAS.md, para las letras del rumano de contenido/letrasRo.ts) arco.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- las coordenadas de los trazos son el dibujo de cada letra: darles
@@ -56,7 +57,7 @@ export const ZONA_DE_LETRA = { playa: 'playaSonidos', bosque: 'bosqueLetras', pu
 // Puntos de un arco de elipse para los trazos curvos (O, U, S, C...): centro (cx, cy), radios (rx, ry) y ángulos de
 // a0 a a1 en radianes (0 = a la derecha, PI/2 = abajo, porque la y crece hacia abajo; si a1 < a0, gira al revés).
 // n = número de tramos.
-function arco(cx: number, cy: number, rx: number, ry: number, a0: number, a1: number, n = 16): Punto[] {
+export function arco(cx: number, cy: number, rx: number, ry: number, a0: number, a1: number, n = 16): Punto[] {
   return Array.from({ length: n + 1 }, (_x, i) => {
     const a = a0 + ((a1 - a0) * i) / n;
     return [

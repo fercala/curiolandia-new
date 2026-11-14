@@ -23,17 +23,24 @@
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900, como en el resto de
    los temas. */
 import type { AlTerminar, Cosa, JuegoTema, Libre, Palabra, Tema } from '../juegos/tipos.ts';
-import { LETRAS, letraEnPantalla, type Letra, type Trazo } from '../contenido/letras.ts';
+import { LETRAS as LETRAS_ES, letraEnPantalla, type Letra, type Trazo } from '../contenido/letras.ts';
+import { LETRAS_RO } from '../contenido/letrasRo.ts';
 import { K } from '../dibujos/todos.ts';
 import {
   AGE,
   DF,
   LF,
   S,
+  IDIOMA,
   W_,
+  Wn,
   cap,
   card,
   ctx,
+  fmt,
+  juntar,
+  nombreLex,
+  tr,
   nOpts,
   nRounds,
   pick,
@@ -68,6 +75,19 @@ import {
   nombreDeLetra,
   thing,
 } from '../juegos/indice.ts';
+
+// EN_RUMANO: la isla se juega en rumano (fase ID6a de docs/PLAN-IDIOMAS.md). El idioma se decide al cargar
+// nucleo/traducir.ts, antes que este módulo, y no cambia hasta recargar, así que la isla se monta una sola vez con sus
+// letras: en rumano, las de contenido/letrasRo.ts, y sus casitas llevan delante 'RO-' ('RO-L3-A'), para que el progreso
+// de las letras de un idioma no se mezcle con el del otro. En la ID6a, la isla en rumano solo tiene las casitas de las
+// letras: los demás juegos llegan en la ID6b (playa y bosque) y la ID6c (pueblo).
+const EN_RUMANO = IDIOMA === 'ro';
+// LETRAS: las letras de la isla en el idioma del juego. LETRAS_ISLA es lo mismo, para el libro de letras y la zona de
+// adultos (que antes miraban las de contenido/letras.ts).
+const LETRAS: readonly Letra[] = EN_RUMANO ? LETRAS_RO : LETRAS_ES;
+export const LETRAS_ISLA = LETRAS;
+// PRE_IDIOMA: lo que llevan delante los ids de las casitas de la isla en este idioma ('' en castellano, 'RO-' en rumano).
+const PRE_IDIOMA = EN_RUMANO ? 'RO-' : '';
 
 // BG.letras: el fondo de los juegos de letras: cielo claro, arena y letras grandes muy suaves al fondo.
 Object.assign(BG, {
@@ -139,7 +159,8 @@ export function densificar(pts: ReadonlyArray<readonly [number, number]>, paso =
 }
 
 // sinArticulo(k): el nombre del dibujo k sin el artículo ('la abeja' -> 'abeja').
-const sinArticulo = (k: string): string => W_(k).replace(/^(el|la|los|las) /, '');
+// Desde la ID6a, en rumano es Wn (el rumano pone el artículo al final de la palabra).
+const sinArticulo = (k: string): string => (EN_RUMANO ? Wn(k) : W_(k).replace(/^(el|la|los|las) /, ''));
 
 // CAJA: dónde va la letra grande al trazarla: esquina de arriba a la izquierda, ancho y alto (pantalla de 1600x900).
 const CAJA = { x: 690, y: 200, w: 420, h: 560 };
@@ -192,11 +213,25 @@ const distractoras = (L: Letra): Letra[] => {
 // dentro). Compara sin tildes, pero la Ñ no es una N.
 const empiezaPor = (L: Letra, k: string): boolean => {
   const c = [...sinArticulo(k).toUpperCase()][0] ?? '';
+  // en rumano, la Ă, la Â, la Î, la Ș y la Ț son letras distintas de la A, la I, la S y la T (ID6a)
+  if (EN_RUMANO) return c === L.l;
   return (c === 'Ñ' ? c : c.normalize('NFD').replace(/[̀-ͯ]/g, '')) === L.l;
 };
 // comoLleva(L, k): cómo dice Tito que la palabra k tiene la letra L: «empieza por la a» o, si la lleva dentro (piña y la
-// eñe), «lleva la eñe».
-const comoLleva = (L: Letra, k: string): string => (empiezaPor(L, k) ? `empieza por ${L.nombre}` : `lleva ${L.nombre}`);
+// eñe), «lleva la eñe». Desde la ID6a, la frase entera con el dibujo delante («La abeja. Abeja empieza por la a.»), con
+// plantillas de fmt.
+const comoLleva = (L: Letra, k: string): string =>
+  fmt(empiezaPor(L, k) ? '{Cosa}. {Palabra} empieza por {letra}.' : '{Cosa}. {Palabra} lleva {letra}.', {
+    cosa: W_(k),
+    palabra: sinArticulo(k),
+    letra: L.nombre,
+  });
+// deAmigo(L): «La a de abeja.» (en rumano, «Litera a, ca în albină.»), con plantilla de fmt (desde la ID6a).
+const deAmigo = (L: Letra): string => fmt('{Letra} de {amigo}.', { letra: L.nombre, amigo: L.amigoDice });
+// esaEs(w, ask): al tocar una letra que no es: «Esa es la e. ¿Dónde está la a?» (desde la ID6a, con fmt y juntar; el
+// nombre de la letra es el suyo, que en rumano no está en la tabla de nombres de los dibujos).
+const esaEs = (w: Cosa, ask: string): string =>
+  juntar(fmt('Esa es {cosa}', { cosa: EN_RUMANO && typeof w !== 'string' ? w.name : nameT(w) }) + '.', tr(ask));
 
 // conocerLetra(L, bg): el juego de conocer la letra: su tarjeta (se dice «Esta es la a. La a de abeja.»), con las
 // minúsculas (fase L7b) la de la minúscula («Y esta es la a minúscula.»), y las de su amigo y sus palabras («La abeja.
@@ -205,23 +240,23 @@ function conocerLetra(L: Letra, bg: () => void, d: AlTerminar) {
   const tarjeta = {
     draw: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s * 0.9),
     label: L.l,
-    say: `Esta es ${L.nombre}. ${cap(L.nombre)} de ${L.amigoDice}.`,
+    say: fmt('Esta es {letra}. {Letra} de {amigo}.', { letra: L.nombre, amigo: L.amigoDice }),
   };
   const palabras = [L.amigo, ...L.palabras].map((k) => ({
     k,
-    say: `${cap(W_(k))}. ${cap(sinArticulo(k))} ${comoLleva(L, k)}.`,
+    say: comoLleva(L, k),
   }));
   // con las minúsculas (fase L7b), una tarjeta más, la de la minúscula, detrás de la de la mayúscula
   const minus = {
     draw: (x: number, y: number, s: number) => dibujaMinus(L, x, y, s),
     label: L.l.toLowerCase(),
-    say: `Y esta es ${L.nombre} minúscula.`,
+    say: fmt('Y esta es {letra} minúscula.', { letra: L.nombre }),
   };
   return Conocer(
     {
       items: ambas() ? [tarjeta, minus, ...palabras] : [tarjeta, ...palabras],
       bg,
-      intro: `¡Vamos a conocer ${L.nombre}! Toca cada tarjeta.`,
+      intro: fmt('¡Vamos a conocer {letra}! Toca cada tarjeta.', { letra: L.nombre }),
     },
     d,
   );
@@ -243,13 +278,13 @@ function buscaLetra(L: Letra, bg: () => void, d: AlTerminar) {
         const otras = shuffle(distractoras(L))
           .slice(0, Math.max(1, nOpts() - 1))
           .map(forma);
-        const ask = `¿Dónde está ${L.nombre}?`;
+        const ask = fmt('¿Dónde está {letra}?', { letra: L.nombre });
         return {
           words: [buena, ...otras],
           ok: [buena],
           ask,
-          okSay: () => `${praise()} ${cap(L.nombre)} de ${L.amigoDice}.`,
-          badSay: (w: Cosa) => `Esa es ${nameT(w)}. ${ask}`,
+          okSay: () => juntar(praise(), deAmigo(L)),
+          badSay: (w: Cosa) => esaEs(w, ask),
         };
       },
     },
@@ -276,13 +311,16 @@ function trazaLetra(L: Letra, d: AlTerminar) {
     c: L.c,
     say:
       i === 0
-        ? `Vamos a escribir ${L.nombre}. Empieza en el punto verde y sigue el camino con el dedo.`
+        ? fmt('Vamos a escribir {letra}. Empieza en el punto verde y sigue el camino con el dedo.', { letra: L.nombre })
         : dos && i === m
-          ? `Ahora, ${L.nombre} minúscula. Empieza en el punto verde.`
+          ? fmt('Ahora, {letra} minúscula. Empieza en el punto verde.', { letra: L.nombre })
           : 'Ahora, el siguiente trazo. Empieza en el punto verde.',
-    ok: i === n - 1 ? `¡Muy bien! ¡Ya sabes escribir ${L.nombre}!` : praise(),
+    ok: i === n - 1 ? fmt('¡Muy bien! ¡Ya sabes escribir {letra}!', { letra: L.nombre }) : praise(),
   }));
-  return Tracer({ paths, bg: fondoTrazo(L), ask: `Sigue el camino de ${L.nombre} con el dedo.` }, d);
+  return Tracer(
+    { paths, bg: fondoTrazo(L), ask: fmt('Sigue el camino de {letra} con el dedo.', { letra: L.nombre }) },
+    d,
+  );
 }
 
 // atrapaLetra(L, bg): burbujas con letras; hay que atrapar las de L. Con las minúsculas (ambas(), fase L7b), también
@@ -301,7 +339,7 @@ function atrapaLetra(L: Letra, bg: () => void, d: AlTerminar) {
       ring: (k: Libre) => LETRAS.find((x) => x.l === k.l)?.c ?? '#5B8DEF',
       targets: [
         {
-          ask: `¡Atrapa las burbujas de ${L.nombre}!`,
+          ask: fmt('¡Atrapa las burbujas de {letra}!', { letra: L.nombre }),
           is: (k: Cosa) => buenas.includes(k),
           label: 'Atrapa',
           icon: (x: number, y: number, s: number) => {
@@ -330,8 +368,8 @@ function uneLetras(hasta: Letra, bg: () => void, d: AlTerminar) {
       bg,
       key: 'letras',
       ask: 'Une cada letra con su amigo. Arrastra una línea desde la letra hasta su dibujo.',
-      okSay: (a: Libre) => `${praise()} ${cap(a.name)} de ${deLetra(a).amigoDice}.`,
-      why: (a: Libre, b: string) => `${cap(W_(b))} no empieza por ${a.name}.`,
+      okSay: (a: Libre) => juntar(praise(), deAmigo(deLetra(a))),
+      why: (a: Libre, b: string) => fmt('{Cosa} no empieza por {letra}.', { cosa: W_(b), letra: a.name }),
     },
     d,
   );
@@ -343,15 +381,35 @@ function temaVocal(L: Letra, i: number): Tema {
   return temaLetra(L, i, 'L3', BG['letras']!);
 }
 
-// temaLetra(L, i, pre, bg): la casita de la letra L (id `${pre}-${L.l}`, en la zona de L, con el fondo bg): conocer,
+// temaLetra(L, i, pre, bg): la casita de la letra L (id `${pre}-${L.l}`, en rumano con 'RO-' delante (ID6a), en la zona de L, con el fondo bg): conocer,
 // buscar, trazar, atrapar y, desde la segunda (i > 0), unir. Fuera de la playa (desde la fase L4), además, el tren de
 // las sílabas y las huellas de la letra, al final (los juegos se guardan por posición).
 function temaLetra(L: Letra, i: number, pre: string, bg: () => void): Tema {
   const games: JuegoTema[] = [
-    { t: 'conocerLetra', icon: L.amigo, name: `Conoce ${L.nombre}`, make: (d: AlTerminar) => conocerLetra(L, bg, d) },
-    { t: 'buscaLetra', icon: 'lupa', name: `¿Dónde está ${L.nombre}?`, make: (d: AlTerminar) => buscaLetra(L, bg, d) },
-    { t: 'trazaLetra', icon: 'lapiz', name: `Escribe ${L.nombre}`, make: (d: AlTerminar) => trazaLetra(L, d) },
-    { t: 'atrapaLetra', icon: 'globo', name: `Atrapa ${L.nombre}`, make: (d: AlTerminar) => atrapaLetra(L, bg, d) },
+    {
+      t: 'conocerLetra',
+      icon: L.amigo,
+      name: fmt('Conoce {letra}', { letra: L.nombre }),
+      make: (d: AlTerminar) => conocerLetra(L, bg, d),
+    },
+    {
+      t: 'buscaLetra',
+      icon: 'lupa',
+      name: fmt('¿Dónde está {letra}?', { letra: L.nombre }),
+      make: (d: AlTerminar) => buscaLetra(L, bg, d),
+    },
+    {
+      t: 'trazaLetra',
+      icon: 'lapiz',
+      name: fmt('Escribe {letra}', { letra: L.nombre }),
+      make: (d: AlTerminar) => trazaLetra(L, d),
+    },
+    {
+      t: 'atrapaLetra',
+      icon: 'globo',
+      name: fmt('Atrapa {letra}', { letra: L.nombre }),
+      make: (d: AlTerminar) => atrapaLetra(L, bg, d),
+    },
   ];
   if (i > 0)
     games.push({
@@ -360,27 +418,33 @@ function temaLetra(L: Letra, i: number, pre: string, bg: () => void): Tema {
       name: 'Une cada letra con su amigo',
       make: (d: AlTerminar) => uneLetras(L, bg, d),
     });
-  if (L.zona !== 'playaSonidos')
+  // el tren de las sílabas, solo para las consonantes (en rumano, la Â, que es vocal, va en el pueblo: ID6a)
+  if (L.zona !== 'playaSonidos' && !'AEIOUĂÎÂ'.includes(L.l))
     games.push(
-      { t: 'trenLetra', icon: 'tren', name: `El tren de ${L.nombre}`, make: (d: AlTerminar) => trenLetra(L, bg, d) },
+      {
+        t: 'trenLetra',
+        icon: 'tren',
+        name: fmt('El tren de {letra}', { letra: L.nombre }),
+        make: (d: AlTerminar) => trenLetra(L, bg, d),
+      },
       {
         t: 'huellasLetra',
         icon: L.amigo,
-        name: `Las huellas de ${L.nombre}`,
+        name: fmt('Las huellas de {letra}', { letra: L.nombre }),
         make: (d: AlTerminar) => huellasLetra(L, bg, d),
       },
     );
   const words: Palabra[] = [L.amigo, ...L.palabras].map((k) => ({ k }));
   return {
-    id: `${pre}-${L.l}`,
+    id: `${PRE_IDIOMA}${pre}-${L.l}`,
     zone: L.zona,
-    n: `La ${L.l}`,
+    n: fmt('La {l}', { l: L.l }),
     icon: L.amigo,
     c: L.c,
     bg,
     words,
     games,
-    intro: `¡Vamos a conocer ${L.nombre}!`,
+    intro: fmt('¡Vamos a conocer {letra}!', { letra: L.nombre }),
   };
 }
 
@@ -828,8 +892,9 @@ function juegosPlaya(): Tema[] {
 }
 
 // TL3: las casitas de la Playa de los Sonidos (3 años), en el orden del camino: A, E, I, O, U (fase L2) y, detrás, las
-// palmas, ¿cómo empieza?, mi nombre, las vocales mezcladas y la fiesta de las vocales (fase L3).
-export const TL3: Tema[] = [...VOCALES.map(temaVocal), ...juegosPlaya()];
+// palmas, ¿cómo empieza?, mi nombre, las vocales mezcladas y la fiesta de las vocales (fase L3). En rumano (ID6a),
+// solo las de sus siete vocales.
+export const TL3: Tema[] = EN_RUMANO ? VOCALES.map(temaVocal) : [...VOCALES.map(temaVocal), ...juegosPlaya()];
 
 /* ---------- fase L4: el Bosque de las Letras ---------- */
 // BG.letrasBosque: el fondo de los juegos del bosque: cielo verde claro, hierba y letras suaves al fondo.
@@ -847,12 +912,13 @@ Object.assign(BG, {
 // BOSQUE: las nueve consonantes del bosque, en orden (M, P, L, S, T, N, D, F, B).
 const BOSQUE: Letra[] = LETRAS.filter((x) => x.zona === 'bosqueLetras');
 
-// trenLetra(L, bg): el tren de las sílabas de L con las cinco vocales (MA, ME, MI, MO, MU), con el componente Tren.
+// trenLetra(L, bg): el tren de las sílabas de L con las cinco vocales (MA, ME, MI, MO, MU), con el componente Tren. En
+// rumano (ID6a), también con la Ă (MĂ), pero no con la Î, que en medio de la palabra se escribe Â.
 function trenLetra(L: Letra, bg: () => void, d: AlTerminar) {
   return Tren(
     {
       letra: { l: L.l, nombre: L.nombre, c: L.c },
-      vocales: VOCALES.map((v) => ({ l: v.l, c: v.c })),
+      vocales: VOCALES.filter((v) => v.l !== 'Î').map((v) => ({ l: v.l, c: v.c })),
       bg,
       key: 'letras',
     },
@@ -869,8 +935,12 @@ function huellasLetra(L: Letra, bg: () => void, d: AlTerminar) {
       who: L.amigo,
       bg,
       key: 'trazos',
-      ask: `Las huellas de ${W_(L.amigo)} forman ${L.nombre}. Tócalas en orden, empezando por la que brilla.`,
-      ok: `${praise()} Las huellas forman ${L.nombre}.`,
+      ask: fmt('Las huellas de {cosa} forman {letra}. Tócalas en orden, empezando por la que brilla.', {
+        cosa: W_(L.amigo),
+        deCosa: nombreLex(L.amigo).de,
+        letra: L.nombre,
+      }),
+      ok: juntar(praise(), fmt('Las huellas forman {letra}.', { letra: L.nombre })),
     },
     d,
   );
@@ -960,8 +1030,11 @@ function juegosBosque(): Tema[] {
   ];
 }
 
-// TL4: las casitas del Bosque de las Letras (4 años), en el orden del camino (fase L4).
-export const TL4: Tema[] = juegosBosque();
+// TL4: las casitas del Bosque de las Letras (4 años), en el orden del camino (fase L4). En rumano (ID6a), solo las de
+// sus letras.
+export const TL4: Tema[] = EN_RUMANO
+  ? BOSQUE.map((L, i) => temaLetra(L, i, 'L4', BG['letrasBosque']!))
+  : juegosBosque();
 
 /* ---------- fase L5: el Pueblo de las Palabras ---------- */
 // BG.letrasPueblo: el fondo de los juegos del pueblo: cielo de tarde, una calle de tierra y letras suaves al fondo.
@@ -1645,13 +1718,17 @@ function juegosPueblo(): Tema[] {
   ];
 }
 
-// TL5: las casitas del Pueblo de las Palabras (5 años), en el orden del camino (fase L5).
-export const TL5: Tema[] = juegosPueblo();
+// TL5: las casitas del Pueblo de las Palabras (5 años), en el orden del camino (fase L5). En rumano (ID6a), solo las de
+// sus letras.
+export const TL5: Tema[] = EN_RUMANO
+  ? PUEBLO.map((L, i) => temaLetra(L, i, 'L5', BG['letrasPueblo']!))
+  : juegosPueblo();
 
 // TEMAS_LETRAS: todos los temas de la isla, para TEMAS (escenas/escenas2d.ts).
 export const TEMAS_LETRAS: Tema[] = [...TL3, ...TL4, ...TL5];
 
 // PREFIJO: el prefijo de las casitas de cada zona de la isla ('L3-A', 'L4-M', 'L5-R').
 const PREFIJO: Readonly<Record<string, string>> = { playaSonidos: 'L3', bosqueLetras: 'L4', puebloPalabras: 'L5' };
-// casitaDeLetra(L): el id de la casita de la letra L (fase L7: el libro de letras y el progreso por letra lo miran).
-export const casitaDeLetra = (L: Letra): string => `${PREFIJO[L.zona] ?? 'L3'}-${L.l}`;
+// casitaDeLetra(L): el id de la casita de la letra L (fase L7: el libro de letras y el progreso por letra lo miran);
+// en rumano, con 'RO-' delante (ID6a).
+export const casitaDeLetra = (L: Letra): string => `${PRE_IDIOMA}${PREFIJO[L.zona] ?? 'L3'}-${L.l}`;

@@ -18,6 +18,7 @@
 import type { AlTerminar, Config, Cosa, Juego, Libre } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
 import {
+  IDIOMA,
   LF,
   PI,
   SFX,
@@ -32,6 +33,8 @@ import {
   ctx,
   dist,
   ell,
+  fmt,
+  juntar,
   later,
   onRight,
   onWrongTwice,
@@ -44,6 +47,7 @@ import {
   sparkles,
   text,
   tone,
+  tr,
   whenQuiet,
 } from '../nucleo/indice.ts';
 import { NUM, drawChoice, hitItem, layoutChoice, nameT, thing } from './comps.ts';
@@ -81,8 +85,10 @@ const NOMBRES: Readonly<Record<string, string>> = {
 };
 // sinTilde(l): la letra mayúscula l sin tilde ni diéresis (Á -> A, Ü -> U); la Ñ se queda como está.
 const sinTilde = (l: string): string => (l === 'Ñ' ? l : l.normalize('NFD').replace(/[̀-ͯ]/g, ''));
-// nombreDeLetra(l): cómo se dice la letra l con su artículo ('la be'); si no es una letra, ella misma.
+// nombreDeLetra(l): cómo se dice la letra l con su artículo ('la be'); si no es una letra, ella misma. En rumano (fase
+// ID6a de docs/PLAN-IDIOMAS.md), «litera b», con su signo si lo tiene («litera ș»), ya traducido (juntar).
 export function nombreDeLetra(l: string): string {
+  if (IDIOMA === 'ro') return /^\p{L}$/u.test(l) ? juntar(`litera ${l.toLowerCase()}`) : l;
   const n = NOMBRES[sinTilde(l.toUpperCase())];
   return n ? `la ${n}` : l;
 }
@@ -459,7 +465,7 @@ export function Tren(cfg: Config, onDone: AlTerminar): Juego {
     fin: 0,
     // Dice la consigna.
     enter() {
-      later(300, () => sayQ(`¡Llega el tren de ${L.nombre}! Toca un vagón para engancharlo.`));
+      later(300, () => sayQ(fmt('¡Llega el tren de {letra}! Toca un vagón para engancharlo.', { letra: L.nombre })));
     },
     // Repite la consigna.
     prompt() {
@@ -493,7 +499,8 @@ export function Tren(cfg: Config, onDone: AlTerminar): Juego {
         drawVagon(lerpN(u.x, 830, k) + sale, lerpN(u.y, 630, k), u.l, u.c);
         if (k >= 1 && !this.fin) {
           card(700, 420, 330, 120, '#fff', 7, 30);
-          text((L.l + u.l).toUpperCase(), 865, 512, 96, '#5B8DEF', { f: LF });
+          // la sílaba no se traduce: es la del idioma del juego (juntar la da por traducida; fase ID6a)
+          text(juntar((L.l + u.l).toUpperCase()), 865, 512, 96, '#5B8DEF', { f: LF });
         }
       }
     },
@@ -517,7 +524,7 @@ export function Tren(cfg: Config, onDone: AlTerminar): Juego {
       rec(cfg.key || 'letras', true);
       onRight(true);
       const sil = (L.l + v.l).toLowerCase();
-      say(`${cap(L.nombre)} con ${nombreDeLetra(v.l)}: ${sil}.`, () =>
+      say(fmt('{Letra} con {vocal}: {silaba}.', { letra: L.nombre, vocal: nombreDeLetra(v.l), silaba: sil }), () =>
         later(400, () => {
           if (this.done < V.length) {
             this.busy = false;
@@ -526,7 +533,7 @@ export function Tren(cfg: Config, onDone: AlTerminar): Juego {
           this.fin = T;
           SFX.good();
           burst(830, 600, 40);
-          say(`${praise()} ¡Chu, chu! El tren se va.`, () => later(500, onDone));
+          say(juntar(praise(), tr('¡Chu, chu! El tren se va.')), () => later(500, onDone));
         }),
       );
     },
