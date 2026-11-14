@@ -14,7 +14,8 @@
 // siguiendo la ayuda, dan 3 monedas cada uno y se apuntan. Y lo mismo con los penaltis y las pompas (fase P12b), con la
 // cometa y el pañuelo (fase P12c) y con las sillas musicales, sin eliminar a nadie (fase P12d). Y el escondite (fase
 // P13a): con 5 años, Tito cuenta y encuentra a los cuatro amigos con las pistas (un sitio vacío no vale) y Lupi lo
-// encuentra a él en la casita; el circuito sale aún «muy pronto» y los botones del patio van en dos filas.
+// encuentra a él en la casita, y los botones del patio van en dos filas. Y el circuito (fase P13b): con 4 años, tres
+// vueltas de tres obstáculos que el niño toca en el orden de la profe (uno que no va no cuenta) y Tito recorre.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -906,9 +907,6 @@ const R = L.registro('cole');
         if (!bt) return 'no hay botón del escondite en el patio';
         const circuito = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'circuito'));
         if (!circuito || circuito.y <= bt.y - 10) return 'con ocho actividades, los botones van en dos filas';
-        await L.clic(p, circuito.x + circuito.w / 2, circuito.y + circuito.h / 2);
-        await p.waitForTimeout(800);
-        if ((await escena()) !== 'patio') return 'el circuito, aún en obras, lleva a: ' + (await escena());
         const monedas = await p.evaluate(() => __cl.S.coins || 0);
         await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
         await p.waitForTimeout(1500);
@@ -964,6 +962,74 @@ const R = L.registro('cole');
         await L.clic(p, 90, 90);
         await p.waitForTimeout(1000);
         return (await escena()) === 'patio' ? null : 'la casa del escondite no vuelve al patio: ' + (await escena());
+      },
+    );
+    await caso(
+      'P23',
+      'con 4 años, el circuito: la profe dice el orden, el niño programa a Tito y Tito recorre las tres vueltas',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 4;
+          save();
+          __cl.go('patio', {});
+        });
+        await p.waitForTimeout(1200);
+        const bt = await p.evaluate(() => BOTONES_PATIO.find((x) => x.a.id === 'circuito'));
+        if (!bt) return 'no hay botón del circuito en el patio';
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        await L.clic(p, bt.x + bt.w / 2, bt.y + bt.h / 2);
+        await p.waitForTimeout(1500);
+        if ((await escena()) !== 'circuito') return 'el botón del circuito lleva a: ' + (await escena());
+        // el primer toque de la primera vuelta es a un obstáculo que no va: no cuenta y la profe repite el orden
+        await p.evaluate(() => {
+          let ultimo = 0,
+            fallado = false;
+          const f = () => {
+            if (__cl.name !== 'circuito') return;
+            const sc = __cl.scene,
+              st = CIRCUITO_ST,
+              h = sc.hint && sc.hint(),
+              ahora = performance.now();
+            if (st.fase === 'fin') return;
+            if (h && ahora - ultimo > 200) {
+              ultimo = ahora;
+              if (st.fase === 'programa' && st.v === 0 && !fallado) {
+                fallado = true;
+                const otro = PUESTOS.find((q) => q.id !== st.plan[0][0]);
+                sc.down(otro.x, otro.y);
+                window.__falloCircuito = [CIRCUITO_ST.prog.length, CIRCUITO_ST.fase];
+              } else sc.down(h.x, h.y);
+            }
+            requestAnimationFrame(f);
+          };
+          requestAnimationFrame(f);
+        });
+        let st = null;
+        for (let i = 0; i < 300 && !(st && st.fase === 'fin'); i++) {
+          await p.waitForTimeout(500);
+          st = await p.evaluate(() => ({
+            fase: CIRCUITO_ST.fase,
+            v: CIRCUITO_ST.v,
+            largos: CIRCUITO_ST.plan.map((x) => x.length),
+            prog: CIRCUITO_ST.prog,
+            fallo: window.__falloCircuito,
+          }));
+        }
+        if (!st || st.fase !== 'fin') return 'el circuito no termina: ' + JSON.stringify(st);
+        if (!st.fallo || st.fallo[0] !== 0 || st.fallo[1] !== 'orden')
+          return 'un obstáculo que no va no cuenta y la profe repite el orden: ' + JSON.stringify(st);
+        if (st.v !== 3 || st.largos.join() !== '3,3,3')
+          return 'con 4 años son tres vueltas de tres obstáculos: ' + JSON.stringify(st);
+        await p.waitForTimeout(2500);
+        const [despues, cole] = await p.evaluate(() => [__cl.S.coins || 0, __cl.S.cole]);
+        if (despues - monedas !== 3) return `circuito: monedas ${monedas} -> ${despues}`;
+        if (!cole || !cole.veces || cole.veces.circuito !== 1) return 'circuito: S.cole ' + JSON.stringify(cole);
+        await p.evaluate(() => __cl.scene.down(1000, 700));
+        await p.waitForTimeout(800);
+        if ((await p.evaluate(() => CIRCUITO_ST.fase)) === 'fin') return 'el botón de otra vez no vuelve a empezar';
+        await L.clic(p, 90, 90);
+        await p.waitForTimeout(1000);
+        return (await escena()) === 'patio' ? null : 'la casa del circuito no vuelve al patio: ' + (await escena());
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

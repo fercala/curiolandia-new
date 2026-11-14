@@ -46,7 +46,7 @@ export const COLE = {
 // en 3D: sin WebGL su escena no existe y el patio también las enseña como «¡Muy pronto!» (escenas/patio.ts). El gran
 // día del deporte (fase P11) junta en una jornada la carrera y cuatro pruebas más (escenas/deporte.ts). «Juegos cortos»
 // (fase P12) no es un juego: abre el menú de los juegos cortos (dominio/juegosCortos.ts), que se apuntan cada uno con
-// su id. El escondite (fase P13a, dominio/escondite.ts) y el circuito de psicomotricidad (fase P13b, aún «muy pronto»).
+// su id. El escondite (fase P13a, dominio/escondite.ts) y el circuito de psicomotricidad (fase P13b, dominio/circuito.ts).
 export const ACTIVIDADES_PATIO: readonly ActividadPatio[] = [
   { id: 'estatuas', nombre: '¡Estatuas!', escena: 'estatuas', icono: 'notas' },
   { id: 'titoDice', nombre: 'Tito dice', escena: 'titoDice', icono: 'manos' },
@@ -55,7 +55,7 @@ export const ACTIVIDADES_PATIO: readonly ActividadPatio[] = [
   { id: 'deporte', nombre: 'Día del deporte', escena: 'deporte', icono: 'silbato' },
   { id: 'juegosCortos', nombre: 'Juegos cortos', escena: 'juegosCortos', icono: 'columpio' },
   { id: 'escondite', nombre: 'El escondite', escena: 'escondite', icono: 'lupa' },
-  { id: 'circuito', nombre: 'El circuito', icono: 'bloques' },
+  { id: 'circuito', nombre: 'El circuito', escena: 'circuito', icono: 'bloques' },
 ];
 
 // registroCole(r): el registro guardado si tiene la forma buena; si no (partidas de antes o algo roto), uno vacío.
