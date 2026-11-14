@@ -2268,7 +2268,7 @@ export function Story(data: Cuento, _cfg: Config, onDone: AlTerminar): Juego {
         onRight(this.errs === 0);
         this.done++;
         scene!.starPop = T;
-        say(praise() + ' ' + (q.okSay || ''), () => later(400, () => this.quiz(this.qi + 1)));
+        say(juntar(praise(), q.okSay ? tr(q.okSay) : ''), () => later(400, () => this.quiz(this.qi + 1)));
       } else {
         SFX.bad();
         it.shake = T;

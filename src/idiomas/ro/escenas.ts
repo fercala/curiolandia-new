@@ -500,6 +500,9 @@ export const ESCENAS_RO: Readonly<Record<string, string>> = {
   'Júpiter.': 'Jupiter.',
   JÚPITER: 'JUPITER',
   LUNA: 'LUNA',
+  // los nombres de zona con mayúscula (ID5e: los carteles de las zonas)
+  'Las rutinas y los hábitos': 'Rutinele și obiceiurile',
+  'El álbum': 'Albumul',
   'Buenas noches.': 'Noapte bună.',
   CONTENTO: 'VESEL',
 };

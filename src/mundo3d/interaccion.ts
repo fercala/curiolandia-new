@@ -34,6 +34,7 @@ import {
   tone,
 } from '../nucleo/indice.ts';
 import { ponDisposicion } from '../nucleo/disposicion.ts';
+import { juntar, tr } from '../nucleo/traducir.ts';
 import { TUNES, playTune } from '../juegos/indice.ts';
 import { isBday } from '../escenas/escenas2d.ts';
 import { HOUSE_AT, enIslaIngles } from '../escenas/zonas.ts';
@@ -412,7 +413,7 @@ export function wobTap(w: Mundo, x: number, y: number) {
       parts[parts.length - 1].hl = 1;
     }
     // el sol dice qué día es hoy (y por la mañana da los buenos días; en el Rincón del inglés, en inglés),
-    // con el número del día escrito al lado
+    // con el número del día escrito al lado (desde la ID5e, el día en el idioma del juego)
     else if (!w.dayT || T - w.dayT > 6) {
       w.dayT = T;
       const d = ahora().getDay(),
@@ -427,7 +428,7 @@ export function wobTap(w: Mundo, x: number, y: number) {
             : say3(D),
         300,
       );
-      numPop(x, y + 110, d + 1, D.slice(0, -1) + ' ' + ahora().getDate());
+      numPop(x, y + 110, d + 1, juntar(tr(D).slice(0, -1) + ' ' + ahora().getDate()));
       parts[parts.length - 1].hl = 1;
     }
     // el sol suelta rayitos de estrellas
@@ -713,7 +714,7 @@ export function wobTap(w: Mundo, x: number, y: number) {
           enIslaIngles(sceneName) ? sayMix3(['@Good night'], () => say3(M)) : say3('Buenas noches.', () => say3(M)),
         300,
       );
-      numPop(x, y + 110, m + 1, M.slice(0, -1));
+      numPop(x, y + 110, m + 1, juntar(tr(M).slice(0, -1)));
       parts[parts.length - 1].hl = 1;
     }
     /* la luna da las buenas noches y dice en qué mes estamos */ for (let i = 0; i < 3; i++)

@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146) e **ID5d** (v0.2.147), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,23 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID5e (v0.2.148): los cuentos y el paisaje 3D en rumano
+
+- **Tabla nueva `src/idiomas/ro/cuentos.ts`** (`CUENTOS_RO`, 407 textos): el título, las páginas, las preguntas y las
+  respuestas de los 37 cuentos (`contenido/cuentos.ts`). Los nombres de los niños de los cuentos no se traducen.
+- **Tabla nueva `src/idiomas/ro/cielo.ts`** (`CIELO_RO`): lo que Tito nombra al tocar el paisaje de las zonas (`NAMES3`),
+  los números con que cuenta las estrellas y las nubes, los colores del arcoíris, Saturno y Júpiter, y las PALABRAS que
+  salen flotando con sus sílabas en rumano: `sylClap` pasa por `tr` la cadena de sílabas entera («RA NA» → «BROAS CĂ»),
+  así que Tito palmea las sílabas del idioma del juego. `numPop` pasa su texto por `tr`, y el sol y la luna escriben el
+  día y el mes traducidos.
+- El acierto de las preguntas del cuento se junta con `juntar` (antes se pegaba con `+` y la respuesta salía en
+  castellano).
+- Dos carteles de zona con mayúscula («Las rutinas y los hábitos», «El álbum») van en `escenas.ts`.
+- Jugando con `?idioma=ro` cada cuento entero (páginas y preguntas), no queda nada sin traducir. Tocando el paisaje de
+  las zonas, solo queda lo de la Isla de las Letras y del inglés. Lo que falta en rumano
+  es la Isla de las Letras (ID6) y el inglés (ID7).
+- Versión: la v0.2.145 la lleva el PR #144 (P13b, el circuito). En castellano todo sigue igual.
 
 ### ID5d (v0.2.147): los temas de 5 años en rumano
 
