@@ -1044,6 +1044,31 @@ a29d50ec9ee6,Lupi,Lupi,trozo,src/dominio/carreras.ts,borrador
 95f622a25641,tercer lugar,al treilea loc,trozo,src/dominio/carreras.ts,borrador
 b593f2534404,cuarto lugar,al patrulea loc,trozo,src/dominio/carreras.ts,borrador
 a02e8bf6d838,último lugar,ultimul loc,trozo,src/dominio/carreras.ts,borrador
+063d8992503f,Los aros,,trozo,src/dominio/circuito.ts,falta
+055dd754f3e8,¡Saltando dentro de los aros!,,frase,src/dominio/circuito.ts,falta
+73a9ae22e970,"Primero, los aros.",,frase,src/dominio/circuito.ts,falta
+7ee07c7b19c2,"Después, los aros.",,frase,src/dominio/circuito.ts,falta
+b4103b199519,"Y al final, los aros.",,frase,src/dominio/circuito.ts,falta
+ce4b806fd40f,El túnel,,trozo,src/dominio/circuito.ts,falta
+2aa43dd87c31,¡Por dentro del túnel!,,frase,src/dominio/circuito.ts,falta
+0e176812ae1a,"Primero, el túnel.",,frase,src/dominio/circuito.ts,falta
+db49ddbecc55,"Después, el túnel.",,frase,src/dominio/circuito.ts,falta
+491ca8514775,"Y al final, el túnel.",,frase,src/dominio/circuito.ts,falta
+e6cb6903d39c,El banco,,trozo,src/dominio/circuito.ts,falta
+25167d5a3254,¡Por encima del banco!,,frase,src/dominio/circuito.ts,falta
+d5393bb84ce6,"Primero, el banco.",,frase,src/dominio/circuito.ts,falta
+399824b74862,"Después, el banco.",,frase,src/dominio/circuito.ts,falta
+94b5f7f95df9,"Y al final, el banco.",,frase,src/dominio/circuito.ts,falta
+25d60ebb2e50,Los conos,,trozo,src/dominio/circuito.ts,falta
+3b2195641a30,¡Alrededor de los conos!,,frase,src/dominio/circuito.ts,falta
+00da6f177a20,"Primero, los conos.",,frase,src/dominio/circuito.ts,falta
+700ec1939125,"Después, los conos.",,frase,src/dominio/circuito.ts,falta
+f62f1eca2f27,"Y al final, los conos.",,frase,src/dominio/circuito.ts,falta
+9d532420b800,La colchoneta,,trozo,src/dominio/circuito.ts,falta
+05876cefa015,¡Una voltereta en la colchoneta!,,frase,src/dominio/circuito.ts,falta
+043b182069a9,"Primero, la colchoneta.",,frase,src/dominio/circuito.ts,falta
+a1df26074b72,"Después, la colchoneta.",,frase,src/dominio/circuito.ts,falta
+6d27a9376b35,"Y al final, la colchoneta.",,frase,src/dominio/circuito.ts,falta
 1e86783773d9,¡Estatuas!,Statuile!,frase,src/dominio/cole.ts,borrador
 5a35caaa1a4e,Tito dice,Tito zice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts,borrador
 0c1cd1201d35,Yoga de los animales,Yoga animalelor,trozo,src/dominio/cole.ts,borrador
@@ -1051,7 +1076,7 @@ db65ad4c1c64,Carreras,Curse,trozo,src/dominio/cole.ts,borrador
 83d5c96d00d0,Día del deporte,Ziua sportului,trozo,src/dominio/cole.ts,borrador
 45e64e64f7e3,Juegos cortos,Jocuri scurte,trozo,src/dominio/cole.ts src/escenas/juegosCortos.ts,borrador
 ef81314d65d9,El escondite,De-a v-ați ascunselea,trozo,src/dominio/cole.ts src/escenas/escondite.ts,borrador
-c13fd3832755,El circuito,Circuitul,trozo,src/dominio/cole.ts,borrador
+c13fd3832755,El circuito,Circuitul,trozo,src/dominio/cole.ts src/escenas/circuito.ts,borrador
 25cbaa49e002,el pollito,puișorul,trozo,src/dominio/crias.ts src/nucleo/idioma.ts,borrador
 fcbe927d0a34,la gallina,găina,trozo,src/dominio/crias.ts src/escenas/granja.ts src/nucleo/idioma.ts,borrador
 ff3eef06c65b,Pío,Piu,trozo,src/dominio/crias.ts src/escenas/casaMascotas.ts,borrador
@@ -1335,6 +1360,14 @@ bea586d1a053,Tito baila,Tito dansează,trozo,src/escenas/casaTele.ts,borrador
 663c8b8f7035,Pipo salta,Pipo sare,trozo,src/escenas/casaTele.ts,borrador
 96cdbc3a5457,¡Mi tele! Con el mando de la derecha cambias de canal.,Televizorul meu! Cu telecomanda din dreapta schimbi canalul.,frase,src/escenas/casaTele.ts,borrador
 f60c90a30a0e,Toca los botones del mando para cambiar de canal.,Atinge butoanele telecomenzii ca să schimbi canalul.,frase,src/escenas/casaTele.ts,borrador
+df6d9ad08567,¡Te toca! Toca los obstáculos en orden.,,frase,src/escenas/circuito.ts,falta
+55d22d2c6f81,¡Ese no toca ahora! Escucha otra vez.,,frase,src/escenas/circuito.ts,falta
+0e33fa2d7a76,¡Ya está! Allá voy.,,frase,src/escenas/circuito.ts,falta
+029ed0455d10,¡Muy bien! Vamos con otra vuelta.,,frase,src/escenas/circuito.ts,falta
+825f4ade62b8,¡Qué buen circuito hemos hecho! ¿Lo hacemos otra vez?,,frase,src/escenas/circuito.ts,falta
+207be087d209,¡Vamos a hacer el circuito! Escucha a la profe y toca los obstáculos en el orden que diga.,,frase,src/escenas/circuito.ts,falta
+eeb4e40a76b7,Toca la flecha para jugar otra vez.,Atinge săgeata ca să ne jucăm din nou.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts,borrador
+fd81e90ff876,Otra vez.,Încă o dată.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts,borrador
 6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,Ai terminat toate jocurile {tema}{nino}! Ai câștigat un cufăr cu comori! Atinge-l de trei ori ca să-l deschizi.,frase,src/escenas/cofre.ts,borrador
 5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,Atinge cufărul ca să-l deschizi. Mai trebuie o atingere!,frase,src/escenas/cofre.ts,borrador
 ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,Atinge cufărul ca să-l deschizi. Mai trebuie {n} atingeri!,frase,src/escenas/cofre.ts,borrador
@@ -1369,9 +1402,7 @@ b271ba1d0f83,¡Espera a que vuelva hacia ti!,Așteaptă să vin înapoi spre tin
 b99ddbc4b11a,¡Estoy tocando el cielo! ¡Gracias por empujarme tan alto!,Ating cerul! Mulțumesc că m-ai împins atât de sus!,frase,src/escenas/columpios.ts,borrador
 0973858a9230,¡Qué bien me has columpiado! ¿Jugamos otra vez?,Ce bine m-ai dat în leagăn! Ne mai jucăm o dată?,frase,src/escenas/columpios.ts,borrador
 249b3d3ca207,"¡A los columpios! Empújame cuando el columpio llegue hasta la mano. Mueve los brazos, como si empujaras de verdad.","La leagăne! Împinge-mă când leagănul ajunge la mână. Mișcă brațele, ca și cum ai împinge de-adevăratelea.",frase,src/escenas/columpios.ts,borrador
-eeb4e40a76b7,Toca la flecha para jugar otra vez.,Atinge săgeata ca să ne jucăm din nou.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/escondite.ts,borrador
 5aed92d6a158,Toca la mano para empujar cuando el columpio llegue hasta ella.,Atinge mâna ca să împingi când leagănul ajunge la ea.,frase,src/escenas/columpios.ts,borrador
-fd81e90ff876,Otra vez.,Încă o dată.,frase,src/escenas/columpios.ts src/escenas/cometa.ts src/escenas/escondite.ts,borrador
 07bdde380441,¡Una estrella!,O stea!,frase,src/escenas/cometa.ts,borrador
 3cb5f1027583,¡Qué bien vuela!,Ce frumos zboară!,frase,src/escenas/cometa.ts,borrador
 e2970e7fe5be,¡Otra más!,Încă una!,frase,src/escenas/cometa.ts,borrador
