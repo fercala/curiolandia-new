@@ -1866,3 +1866,24 @@ Las huellas de {letra}
 Las huellas de {cosa} forman {letra}. Tócalas en orden, empezando por la que brilla.
 Las huellas forman {letra}.
 Atrapa
+{intro} {Cosa}. Toca el tambor una vez por cada trozo.
+Ahora: {cosa}. Toca el tambor.
+{Cosa}. Toca el tambor una vez por cada trozo.
+{Palabra} tiene {palmas}.
+una palma
+dos palmas
+{n} palmas
+Así se escribe {nombre}.
+{Palabra} empieza por {letra}.
+otra letra
+Escucha: {silabas}. ¿Qué es?
+¿Cuál es más larga: {a} o {b}? Da palmas con cada una.
+{Palabra} tiene {palmas}. ¿Cuál tiene más?
+¿Qué empieza por {letra}?
+{Palabra} no empieza por {letra}.
+Este es tu nombre: {nombre}. Toca sus letras, una a una.
+Esta es {letra}, la primera letra de tu nombre. Píntala con el dedo como tú quieras.
+Esta es {letra}, la primera letra del nombre de Tito. Píntala con el dedo como tú quieras.
+¡Qué bonita te ha quedado {letra}!
+Con {letra} empieza tu nombre.
+Con {letra} empieza Tito.

@@ -50,7 +50,7 @@ import {
   tr,
   whenQuiet,
 } from '../nucleo/indice.ts';
-import { NUM, drawChoice, hitItem, layoutChoice, nameT, thing } from './comps.ts';
+import { NUM, drawChoice, hitItem, layoutChoice, nameT, nombreCosa, thing } from './comps.ts';
 import { picF } from './comps2.ts';
 
 // NOMBRES: cómo se dice cada letra (sin tilde ni diéresis: quien llama las quita con sinTilde).
@@ -148,14 +148,17 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
       later(350, () =>
         sayQ(
           primera
-            ? `${cfg.intro || 'Vamos a dar palmas.'} ${cap(nom)}. Toca el tambor una vez por cada trozo.`
-            : `Ahora: ${nom}. Toca el tambor.`,
+            ? fmt('{intro} {Cosa}. Toca el tambor una vez por cada trozo.', {
+                intro: tr(cfg.intro || 'Vamos a dar palmas.'),
+                cosa: nom,
+              })
+            : fmt('Ahora: {cosa}. Toca el tambor.', { cosa: nom }),
         ),
       );
     },
     // Repite la palabra y la consigna.
     prompt() {
-      say(`${cap(nameT(this.w.k))}. Toca el tambor una vez por cada trozo.`);
+      say(fmt('{Cosa}. Toca el tambor una vez por cada trozo.', { cosa: nameT(this.w.k) }));
     },
     // Ayuda: el tambor.
     hint() {
@@ -181,7 +184,8 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
         const x = x0 + j * (cw + gap),
           on = j < this.n;
         card(x - cw / 2, 500, cw, 100, on ? '#FFF3B0' : 'rgba(255,255,255,.6)', on ? 7 : 4, 30, on ? K : '#C9BFAF');
-        if (on) text(sy.toUpperCase(), x, 572, 58, '#5B8DEF', { f: LF });
+        // la sílaba ya está en el idioma del juego (juntar la da por traducida; fase ID6b)
+        if (on) text(juntar(sy.toUpperCase()), x, 572, 58, '#5B8DEF', { f: LF });
         else circ(x, 550, 10, '#C9BFAF', 0);
       });
       drawTambor(TAMBOR.x, TAMBOR.y, TAMBOR.r, this.golpe);
@@ -203,7 +207,7 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
       const x0 = 900 - ((w.syl.length - 1) * 204) / 2;
       sparkles(x0 + j * 204, 550, 6);
       if (this.n < w.syl.length) {
-        say(w.syl[j]!);
+        say(juntar(w.syl[j]!));
         return;
       }
       this.busy = true;
@@ -214,10 +218,16 @@ export function Palmas(cfg: Config, onDone: AlTerminar): Juego {
       SFX.good();
       burst(900, 300, 30);
       const n = w.syl.length;
-      say(w.syl[j]!, () =>
+      say(juntar(w.syl[j]!), () =>
         later(250, () =>
           say(
-            `${praise()} ${cap(nameT(w.k).replace(/^(el|la|los|las) /, ''))} tiene ${n === 1 ? 'una palma' : `${NUM[n]} palmas`}.`,
+            juntar(
+              praise(),
+              fmt('{Palabra} tiene {palmas}.', {
+                palabra: IDIOMA === 'ro' ? nombreCosa(w.k).sin : nameT(w.k).replace(/^(el|la|los|las) /, ''),
+                palmas: n === 1 ? tr('una palma') : n === 2 ? tr('dos palmas') : fmt('{n} palmas', { n: NUM[n] }),
+              }),
+            ),
             () =>
               later(450, () => {
                 this.i++;
@@ -372,7 +382,8 @@ export function MiNombre(cfg: Config, onDone: AlTerminar): Juego {
         text(c.l, 0, s * 0.3, s * 0.85, c.on ? '#E8554E' : '#5B8DEF', { f: LF });
         ctx.restore();
       });
-      text(String(cfg.nombre), 900, 760, 64, K, { f: LF });
+      // el nombre de quien juega no se traduce (juntar; fase ID6b)
+      text(juntar(String(cfg.nombre)), 900, 760, 64, K, { f: LF });
     },
     // Toque en una letra: si es la que toca, se dice, se enciende y avanza (con la última, se lee el nombre y acaba);
     // si es otra, solo se dice cómo se llama.
@@ -406,7 +417,11 @@ export function MiNombre(cfg: Config, onDone: AlTerminar): Juego {
       SFX.good();
       burst(900, 470, 50);
       say(cap(nombreDeLetra(c.l)), () =>
-        later(300, () => say(`${praise()} Así se escribe ${cfg.dice || cfg.nombre}.`, () => later(600, onDone))),
+        later(300, () =>
+          say(juntar(praise(), fmt('Así se escribe {nombre}.', { nombre: cfg.dice || cfg.nombre })), () =>
+            later(600, onDone),
+          ),
+        ),
       );
     },
   };

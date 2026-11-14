@@ -80,7 +80,7 @@ import {
 // nucleo/traducir.ts, antes que este módulo, y no cambia hasta recargar, así que la isla se monta una sola vez con sus
 // letras: en rumano, las de contenido/letrasRo.ts, y sus casitas llevan delante 'RO-' ('RO-L3-A'), para que el progreso
 // de las letras de un idioma no se mezcle con el del otro. En la ID6a, la isla en rumano solo tiene las casitas de las
-// letras: los demás juegos llegan en la ID6b (playa y bosque) y la ID6c (pueblo).
+// letras; desde la ID6b, también los demás juegos de la playa y del bosque, y el pueblo llega en la ID6c.
 const EN_RUMANO = IDIOMA === 'ro';
 // LETRAS: las letras de la isla en el idioma del juego. LETRAS_ISLA es lo mismo, para el libro de letras y la zona de
 // adultos (que antes miraban las de contenido/letras.ts).
@@ -452,7 +452,9 @@ function temaLetra(L: Letra, i: number, pre: string, bg: () => void): Tema {
 // VOCALES: las cinco letras de la playa, en orden.
 const VOCALES: Letra[] = LETRAS.filter((x) => x.zona === 'playaSonidos');
 // SILABAS: cómo se parten en sílabas (para dar palmas y para el eco de Tito) las palabras con dibujo que usan los juegos.
-const SILABAS: Readonly<Record<string, readonly string[]>> = {
+// En rumano (desde la fase ID6b de docs/PLAN-IDIOMAS.md), SILABAS_RO, con las mismas claves de dibujo cuando se puede
+// (las palmas de la playa usan esas claves).
+const SILABAS_ES: Readonly<Record<string, readonly string[]>> = {
   sol: ['sol'],
   flor: ['flor'],
   tren: ['tren'],
@@ -481,6 +483,37 @@ const SILABAS: Readonly<Record<string, readonly string[]>> = {
   elefante: ['e', 'le', 'fan', 'te'],
   mariposa: ['ma', 'ri', 'po', 'sa'],
 };
+// SILABAS_RO: las sílabas de los dibujos en rumano (fase ID6b), con su nombre de idiomas/ro/lex.ts (sol: «soa-re»).
+const SILABAS_RO: Readonly<Record<string, readonly string[]>> = {
+  oso: ['urs'],
+  tren: ['tren'],
+  nube: ['nor'],
+  caballo: ['cal'],
+  manzana: ['măr'],
+  sol: ['soa', 're'],
+  flor: ['floa', 're'],
+  luna: ['lu', 'nă'],
+  casa: ['ca', 'să'],
+  pato: ['ra', 'ță'],
+  vaca: ['va', 'că'],
+  foca: ['fo', 'că'],
+  mesa: ['ma', 'să'],
+  pez: ['peș', 'te'],
+  pelota: ['min', 'ge'],
+  oveja: ['oa', 'ie'],
+  iglu: ['i', 'glu'],
+  abeja: ['al', 'bi', 'nă'],
+  mariposa: ['flu', 'tu', 're'],
+  gallina: ['gă', 'i', 'nă'],
+  ballena: ['ba', 'le', 'nă'],
+  elefante: ['e', 'le', 'fant'],
+  banana: ['ba', 'na', 'nă'],
+  conejo: ['ie', 'pu', 'raș'],
+  mono: ['mai', 'mu', 'ță'],
+  dinosaurio: ['di', 'no', 'za', 'ur'],
+  helado: ['în', 'ghe', 'ța', 'tă'],
+};
+const SILABAS = EN_RUMANO ? SILABAS_RO : SILABAS_ES;
 // silabas(k): las sílabas de la palabra k (copia, para el componente).
 const silabas = (k: string): string[] => [...(SILABAS[k] ?? [sinArticulo(k)])];
 // rondasPalmas(ks): las rondas de Palmas con las palabras ks, en ese orden.
@@ -491,6 +524,16 @@ const vocalDe = (k: string): Letra | undefined =>
 // palabrasVocal(L): el amigo y las palabras de la letra L que empiezan por ella (desde la fase L5 se quitan las que solo
 // la llevan dentro, como piña con la eñe).
 const palabrasVocal = (L: Letra): string[] => [L.amigo, ...L.palabras].filter((k) => empiezaPor(L, k));
+// conInicial(set): las letras de set que tienen alguna palabra que empiece por ellas (en rumano, la Ă no tiene ninguna:
+// sus palabras la llevan dentro; desde la ID6b), para «¿cómo empieza?».
+const conInicial = (set: readonly Letra[]): Letra[] => set.filter((L) => palabrasVocal(L).length > 0);
+// palmasDe(n): «una palma», «dos palmas», «tres palmas»..., en el idioma del juego (desde la ID6b; el dos va aparte
+// porque en rumano «palma» es femenina: «două»).
+const palmasDe = (n: number): string =>
+  n === 1 ? tr('una palma') : n === 2 ? tr('dos palmas') : fmt('{n} palmas', { n: NUM[n] ?? String(n) });
+// empiezaPorFrase(k, L): «Abeja empieza por la a.», con plantilla de fmt (desde la ID6b).
+const empiezaPorFrase = (k: string, L: Letra | undefined): string =>
+  fmt('{Palabra} empieza por {letra}.', { palabra: sinArticulo(k), letra: L ? L.nombre : tr('otra letra') });
 
 // ecoTito(bg): «el eco de Tito»: Tito dice una palabra a trozos («ma... ri... po... sa») y hay que tocar su dibujo.
 function ecoTito(bg: () => void, d: AlTerminar) {
@@ -505,13 +548,13 @@ function ecoTito(bg: () => void, d: AlTerminar) {
       gen: () => {
         const t = pick(pool),
           otras = shuffle(pool.filter((k) => k !== t)).slice(0, Math.max(1, nOpts() - 1));
-        const ask = `Escucha: ${silabas(t).join('... ')}. ¿Qué es?`;
+        const ask = fmt('Escucha: {silabas}. ¿Qué es?', { silabas: silabas(t).join('... ') });
         return {
           words: [t, ...otras],
           ok: [t],
           ask,
-          okSay: () => `${praise()} ${cap(nameT(t))}.`,
-          badSay: (w: Cosa) => `Esa es ${nameT(w)}. ${ask}`,
+          okSay: () => juntar(praise(), cap(nameT(t)) + '.'),
+          badSay: (w: Cosa) => esaEs(w, ask),
         };
       },
     },
@@ -524,10 +567,7 @@ function ecoTito(bg: () => void, d: AlTerminar) {
 function palabraLarga(bg: () => void, d: AlTerminar) {
   const cortas = Object.keys(SILABAS).filter((k) => SILABAS[k]!.length <= 2),
     largas = Object.keys(SILABAS).filter((k) => SILABAS[k]!.length >= 3);
-  const palmas = (k: Cosa) => {
-    const n = silabas(String(k)).length;
-    return n === 1 ? 'una palma' : `${NUM[n]} palmas`;
-  };
+  const palmas = (k: Cosa) => palmasDe(silabas(String(k)).length);
   return ChoiceGame(
     {
       rounds: nRounds(),
@@ -539,13 +579,18 @@ function palabraLarga(bg: () => void, d: AlTerminar) {
         const l = pick(largas),
           c = pick(cortas.filter((k) => SILABAS[k]!.length <= SILABAS[l]!.length - 1));
         const [a, b] = shuffle([l, c]);
-        const ask = `¿Cuál es más larga: ${sinArticulo(a!)} o ${sinArticulo(b!)}? Da palmas con cada una.`;
+        const ask = fmt('¿Cuál es más larga: {a} o {b}? Da palmas con cada una.', {
+          a: sinArticulo(a!),
+          b: sinArticulo(b!),
+        });
         return {
           words: [l, c],
           ok: [l],
           ask,
-          okSay: () => `${praise()} ${cap(sinArticulo(l))} tiene ${palmas(l)}.`,
-          badSay: (w: Cosa) => `${cap(sinArticulo(String(w)))} tiene ${palmas(w)}. ¿Cuál tiene más?`,
+          okSay: () =>
+            juntar(praise(), fmt('{Palabra} tiene {palmas}.', { palabra: sinArticulo(l), palmas: palmas(l) })),
+          badSay: (w: Cosa) =>
+            fmt('{Palabra} tiene {palmas}. ¿Cuál tiene más?', { palabra: sinArticulo(String(w)), palmas: palmas(w) }),
         };
       },
     },
@@ -553,9 +598,11 @@ function palabraLarga(bg: () => void, d: AlTerminar) {
   );
 }
 
-// comoEmpieza(bg, d, set): «¿cómo empieza?»: Tito dice una letra de set (las vocales, si no se da) y hay que tocar el
-// dibujo que empieza por ella, entre dibujos que empiezan por otras letras de set.
-function comoEmpieza(bg: () => void, d: AlTerminar, set: Letra[] = VOCALES) {
+// comoEmpieza(bg, d, todas): «¿cómo empieza?»: Tito dice una letra de todas (las vocales, si no se da) y hay que tocar
+// el dibujo que empieza por ella, entre dibujos que empiezan por otras de esas letras. Desde la ID6b, solo las letras que
+// tienen palabras que empiecen por ellas (conInicial).
+function comoEmpieza(bg: () => void, d: AlTerminar, todas: Letra[] = VOCALES) {
+  const set = conInicial(todas);
   return ChoiceGame(
     {
       rounds: nRounds(),
@@ -569,14 +616,13 @@ function comoEmpieza(bg: () => void, d: AlTerminar, set: Letra[] = VOCALES) {
         const otras = shuffle(set.filter((v) => v !== L))
           .slice(0, Math.max(1, nOpts() - 1))
           .map((v) => pick(palabrasVocal(v)));
-        const ask = `¿Qué empieza por ${L.nombre}?`;
+        const ask = fmt('¿Qué empieza por {letra}?', { letra: L.nombre });
         return {
           words: [t, ...otras],
           ok: [t],
           ask,
-          okSay: () => `${praise()} ${cap(sinArticulo(t))} empieza por ${L.nombre}.`,
-          badSay: (w: Cosa) =>
-            `${cap(sinArticulo(String(w)))} empieza por ${vocalDe(String(w))?.nombre ?? 'otra letra'}. ${ask}`,
+          okSay: () => juntar(praise(), empiezaPorFrase(t, L)),
+          badSay: (w: Cosa) => juntar(empiezaPorFrase(String(w), vocalDe(String(w))), ask),
         };
       },
     },
@@ -585,8 +631,9 @@ function comoEmpieza(bg: () => void, d: AlTerminar, set: Letra[] = VOCALES) {
 }
 
 // uneDibujoLetra(bg): unir cada dibujo con la vocal por la que empieza (al revés que uneLetras: del dibujo a la letra).
+// Desde la ID6b, solo las vocales cuyo amigo empieza por ellas (en rumano, la Ă de «măr» no).
 function uneDibujoLetra(bg: () => void, d: AlTerminar) {
-  const pairs = VOCALES.map((x) => [x.amigo, cosaLetra(x)]);
+  const pairs = VOCALES.filter((x) => empiezaPor(x, x.amigo)).map((x) => [x.amigo, cosaLetra(x)]);
   return Une(
     {
       pairs,
@@ -595,8 +642,10 @@ function uneDibujoLetra(bg: () => void, d: AlTerminar) {
       bg,
       key: 'letras',
       ask: 'Une cada dibujo con la letra por la que empieza.',
-      okSay: (a: string, b: Libre) => `${praise()} ${cap(sinArticulo(a))} empieza por ${b.name}.`,
-      why: (a: string, b: Libre) => `${cap(sinArticulo(a))} no empieza por ${b.name}.`,
+      okSay: (a: string, b: Libre) =>
+        juntar(praise(), fmt('{Palabra} empieza por {letra}.', { palabra: sinArticulo(a), letra: b.name })),
+      why: (a: string, b: Libre) =>
+        fmt('{Palabra} no empieza por {letra}.', { palabra: sinArticulo(a), letra: b.name }),
     },
     d,
   );
@@ -643,13 +692,13 @@ function buscaVocales(bg: () => void, d: AlTerminar, set: Letra[] = VOCALES) {
           otras = shuffle(set.filter((v) => v !== L))
             .slice(0, Math.max(1, nOpts() - 1))
             .map(cosaLetra);
-        const ask = `¿Dónde está ${L.nombre}?`;
+        const ask = fmt('¿Dónde está {letra}?', { letra: L.nombre });
         return {
           words: [buena, ...otras],
           ok: [buena],
           ask,
-          okSay: () => `${praise()} ${cap(L.nombre)} de ${L.amigoDice}.`,
-          badSay: (w: Cosa) => `Esa es ${nameT(w)}. ${ask}`,
+          okSay: () => juntar(praise(), deAmigo(L)),
+          badSay: (w: Cosa) => esaEs(w, ask),
         };
       },
     },
@@ -662,7 +711,7 @@ function atrapaVocales(bg: () => void, d: AlTerminar) {
   const [a, b] = shuffle(VOCALES).slice(0, 2) as [Letra, Letra];
   const pool = VOCALES.map(cosaLetra),
     obj = (L: Letra) => ({
-      ask: `¡Atrapa las burbujas de ${L.nombre}!`,
+      ask: fmt('¡Atrapa las burbujas de {letra}!', { letra: L.nombre }),
       is: (k: Cosa) => k === cosaLetra(L),
       label: 'Atrapa',
       icon: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s),
@@ -684,7 +733,7 @@ function conocerVocales(bg: () => void, d: AlTerminar) {
   const items = VOCALES.map((L) => ({
     draw: (x: number, y: number, s: number) => dibujaLetra(L, x, y, s * 0.9),
     label: L.l,
-    say: `Esta es ${L.nombre}. ${cap(L.nombre)} de ${L.amigoDice}.`,
+    say: fmt('Esta es {letra}. {Letra} de {amigo}.', { letra: L.nombre, amigo: L.amigoDice }),
   }));
   return Conocer({ items, bg, intro: '¡Es la fiesta de las vocales! Toca cada una.' }, d);
 }
@@ -709,6 +758,8 @@ function miNombre(): { escrito: string; dice: string; suyo: boolean } {
 // inicial(): la primera letra del nombre (sin tilde: É -> E).
 const inicial = (): string => {
   const l = [...miNombre().escrito].find((c) => /\p{L}/u.test(c)) ?? 'T';
+  // en rumano, la Ă, la Â, la Î, la Ș y la Ț son letras (desde la ID6b); las demás tildes se quitan
+  if (EN_RUMANO && 'ĂÂÎȘȚ'.includes(l)) return l;
   return l === 'Ñ' ? l : l.normalize('NFD').replace(/[̀-ͯ]/g, '');
 };
 
@@ -722,7 +773,7 @@ function juegoMiNombre(bg: () => void, d: AlTerminar) {
       bg,
       key: 'letras',
       intro: n.suyo
-        ? `Este es tu nombre: ${n.dice}. Toca sus letras, una a una.`
+        ? fmt('Este es tu nombre: {nombre}. Toca sus letras, una a una.', { nombre: n.dice })
         : 'Este es el nombre de Tito. Toca sus letras, una a una.',
     },
     d,
@@ -733,7 +784,7 @@ function juegoMiNombre(bg: () => void, d: AlTerminar) {
 function pizarraInicial(bg: () => void, d: AlTerminar) {
   const l = inicial(),
     L = LETRAS.find((x) => x.l === l),
-    de = miNombre().suyo ? 'de tu nombre' : 'del nombre de Tito';
+    suyo = miNombre().suyo;
   const path = L
     ? densificar(
         L.trazos.flatMap((t) => letraEnPantalla(t, 700, 220, 400, 520)),
@@ -747,8 +798,13 @@ function pizarraInicial(bg: () => void, d: AlTerminar) {
       bg,
       path,
       key: 'trazos',
-      ask: `Esta es ${nombreDeLetra(l)}, la primera letra ${de}. Píntala con el dedo como tú quieras.`,
-      ok: `¡Qué bonita te ha quedado ${nombreDeLetra(l)}!`,
+      ask: fmt(
+        suyo
+          ? 'Esta es {letra}, la primera letra de tu nombre. Píntala con el dedo como tú quieras.'
+          : 'Esta es {letra}, la primera letra del nombre de Tito. Píntala con el dedo como tú quieras.',
+        { letra: nombreDeLetra(l) },
+      ),
+      ok: fmt('¡Qué bonita te ha quedado {letra}!', { letra: nombreDeLetra(l) }),
     },
     d,
   );
@@ -769,13 +825,19 @@ function buscaInicial(bg: () => void, d: AlTerminar) {
           otras = shuffle(VOCALES.filter((v) => v.l !== l))
             .slice(0, Math.max(1, nOpts() - 1))
             .map(cosaLetra);
-        const ask = `¿Dónde está ${nombreDeLetra(l)}?`;
+        const ask = fmt('¿Dónde está {letra}?', { letra: nombreDeLetra(l) });
         return {
           words: [buena, ...otras],
           ok: [buena],
           ask,
-          okSay: () => `${praise()} Con ${nombreDeLetra(l)} empieza ${miNombre().suyo ? 'tu nombre' : 'Tito'}.`,
-          badSay: (w: Cosa) => `Esa es ${nameT(w)}. ${ask}`,
+          okSay: () =>
+            juntar(
+              praise(),
+              fmt(miNombre().suyo ? 'Con {letra} empieza tu nombre.' : 'Con {letra} empieza Tito.', {
+                letra: nombreDeLetra(l),
+              }),
+            ),
+          badSay: (w: Cosa) => esaEs(w, ask),
         };
       },
     },
@@ -786,10 +848,21 @@ function buscaInicial(bg: () => void, d: AlTerminar) {
 // trazaVocal(d): trazar una vocal elegida al azar (trazaLetra).
 const trazaVocal = (d: AlTerminar) => trazaLetra(pick(VOCALES), d);
 
-// temaPlaya(id, n, icon, c, intro, games): una casita de la playa que no es de una sola letra (fase L3).
+// temaPlaya(id, n, icon, c, intro, games): una casita de la playa que no es de una sola letra (fase L3); en rumano, su id
+// lleva 'RO-' delante (ID6b).
 function temaPlaya(id: string, n: string, icon: string, c: string, intro: string, games: JuegoTema[]): Tema {
   const bg = BG['letras']!;
-  return { id, zone: 'playaSonidos', n, icon, c, bg, words: VOCALES.map((L) => ({ k: L.amigo })), games, intro };
+  return {
+    id: PRE_IDIOMA + id,
+    zone: 'playaSonidos',
+    n,
+    icon,
+    c,
+    bg,
+    words: VOCALES.map((L) => ({ k: L.amigo })),
+    games,
+    intro,
+  };
 }
 
 // juegosPlaya(): las cinco casitas que van detrás de la U (fase L3). Sus ids y el orden de sus juegos son definitivos.
@@ -892,9 +965,9 @@ function juegosPlaya(): Tema[] {
 }
 
 // TL3: las casitas de la Playa de los Sonidos (3 años), en el orden del camino: A, E, I, O, U (fase L2) y, detrás, las
-// palmas, ¿cómo empieza?, mi nombre, las vocales mezcladas y la fiesta de las vocales (fase L3). En rumano (ID6a),
-// solo las de sus siete vocales.
-export const TL3: Tema[] = EN_RUMANO ? VOCALES.map(temaVocal) : [...VOCALES.map(temaVocal), ...juegosPlaya()];
+// palmas, ¿cómo empieza?, mi nombre, las vocales mezcladas y la fiesta de las vocales (fase L3). En rumano (desde la
+// ID6b), las mismas, con sus siete vocales.
+export const TL3: Tema[] = [...VOCALES.map(temaVocal), ...juegosPlaya()];
 
 /* ---------- fase L4: el Bosque de las Letras ---------- */
 // BG.letrasBosque: el fondo de los juegos del bosque: cielo verde claro, hierba y letras suaves al fondo.
@@ -954,7 +1027,7 @@ const letraDelNombre = (): Letra => LETRAS.find((x) => x.l === inicial()) ?? LET
 function juegosBosque(): Tema[] {
   const bg = BG['letrasBosque']!;
   const tema = (id: string, n: string, icon: string, c: string, intro: string, games: JuegoTema[]): Tema => ({
-    id,
+    id: PRE_IDIOMA + id,
     zone: 'bosqueLetras',
     n,
     icon,
@@ -1030,11 +1103,8 @@ function juegosBosque(): Tema[] {
   ];
 }
 
-// TL4: las casitas del Bosque de las Letras (4 años), en el orden del camino (fase L4). En rumano (ID6a), solo las de
-// sus letras.
-export const TL4: Tema[] = EN_RUMANO
-  ? BOSQUE.map((L, i) => temaLetra(L, i, 'L4', BG['letrasBosque']!))
-  : juegosBosque();
+// TL4: las casitas del Bosque de las Letras (4 años), en el orden del camino (fase L4), también en rumano (ID6b).
+export const TL4: Tema[] = juegosBosque();
 
 /* ---------- fase L5: el Pueblo de las Palabras ---------- */
 // BG.letrasPueblo: el fondo de los juegos del pueblo: cielo de tarde, una calle de tierra y letras suaves al fondo.
