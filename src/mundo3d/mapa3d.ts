@@ -8,7 +8,8 @@
  * escribía lo proyectado en MZ2 y envolvía goSeguir). Su seguir() hace que Tito camine hasta el lugar antes de entrar.
  * Exporta: montarMapa3D y, desde la fase L6 de docs/PLAN-LECTURA.md, sea3 y greyAll (los usa la Isla de las Letras en
  * 3D, mundo3d/isla3d.ts, y desde la fase I6 de docs/PLAN-INGLES.md la del Inglés, con globoAire3, el globo aerostático). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa (y mascotasMayores de escenas/casaMascotas.ts, desde la fase C7 de PLAN-CASA.md);
- * ahora() (aplicacion/puertos.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
+ * ahora() (aplicacion/puertos.ts); desde la fase P14 de docs/IDEAS-MEJORA.md, los tesoros escondidos (mundo3d/tesoros3d.ts y
+ * pistaTesoro de escenas/tesoros.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
 import * as THREE from 'three';
@@ -38,6 +39,7 @@ import {
   inCoinHUD,
   lerp,
   pic,
+  sayQ,
   sceneName,
   sparkles,
   speaker,
@@ -123,6 +125,8 @@ import {
 } from './objetos.ts';
 import { ffTap, makeHouse, makePipo, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 import { skyNow } from './cielo.ts';
+import { tesoros3, tocarTesoro } from './tesoros3d.ts';
+import { pistaTesoro } from '../escenas/tesoros.ts';
 
 /* ================= EL MAPA: la isla de Curiolandia ================= */
 // MZP: dónde ha quedado en la pantalla cada lugar del mapa {x,y,r} (id de MZ2 -> lo proyectado), lo último que proyectó
@@ -938,6 +942,8 @@ function buildMap(st: Escena) {
     h.userData.pet.userData.anim(st.petJump);
   });
   wobInit(w);
+  // los tesoros escondidos de hoy (desde la fase P14 de docs/IDEAS-MEJORA.md, mundo3d/tesoros3d.ts)
+  tesoros3(w);
   camRig(w, V3(1.2, 25, 20.5), V3(1.2, 0, 1.4), 1.6);
   return w;
 }
@@ -1023,7 +1029,8 @@ export function montarMapa3D(): void {
       }
     },
     // down(x,y): toque en el mapa. Botones 2D -> lógica original; objetos que vuelan; nada -> objeto tocable, mar o pasear;
-    // Tito -> salta; mascota -> lógica 2D de la mascota; lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
+    // Tito -> salta; mascota -> lógica 2D de la mascota (y una pista de los tesoros, desde la fase P14); tesoro -> Tito va
+    // y lo recoge (mundo3d/tesoros3d.ts); lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
     down(x: number, y: number) {
       const w = W3;
       if (!w || busy3(w)) return;
@@ -1049,6 +1056,14 @@ export function montarMapa3D(): void {
       if (u.id === 'pipo') {
         this.petJump = T;
         mapa2D.tocarPipo!.call(this);
+        // desde la fase P14, si quedan tesoros de hoy, Pipo da una pista de dónde buscar
+        const pista = pistaTesoro();
+        if (pista) sayQ(pista);
+        return;
+      }
+      if (u.id === 'tesoro') {
+        SFX.pop();
+        tocarTesoro(w, u.rincon as string);
         return;
       }
       const z = mzOf(u.spot);

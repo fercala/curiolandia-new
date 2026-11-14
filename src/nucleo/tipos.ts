@@ -121,6 +121,10 @@ export interface Estado {
   /** El cole (dominio/cole.ts, RegistroCole): el último día que se jugó en el patio, lo hecho ese día y cuántas veces
    * se ha hecho cada actividad. Desde la fase P1 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   cole?: { d: string; hechas: string[]; veces: Record<string, number> };
+  /** Los tesoros escondidos del mapa (dominio/tesoros.ts, RegistroTesoros): el día de lo de hoy, los rincones ya
+   * encontrados hoy y cuántas veces se ha encontrado cada tesoro (la vitrina de la casa de Tito). Desde la fase P14 de
+   * docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  tesoros?: { d: string; hoy: readonly string[]; vitrina: Readonly<Record<string, number>> };
   /** Los retos para hacer en casa (dominio/retos.ts, RegistroRetos): el último propuesto (día e id), si la familia lo
    * marcó como hecho, si Tito ya lo celebró y cuántos se han hecho. Desde la fase P4 de docs/IDEAS-MEJORA.md; opcional. */
   retos?: { d: string; id: string; hecho: boolean; celebrado: boolean; n: number };

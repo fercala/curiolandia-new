@@ -1169,6 +1169,30 @@ b97b6ad5d0d3,da un abrazo a cada persona de tu casa y cuéntalos.,trozo,src/domi
 00f22b621955,Aguantar a la pata coja contando hasta cinco.,frase,src/dominio/retos.ts
 165e74a75d87,busca algo de cada color del arcoíris.,trozo,src/dominio/retos.ts
 3fc548d3f1a4,Buscar algo de cada color del arcoíris.,frase,src/dominio/retos.ts
+3500892e2f7e,La pluma,trozo,src/dominio/tesoros.ts
+24b53a4f8781,¡Una pluma! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+00555b60621a,La concha,trozo,src/dominio/tesoros.ts
+4e9a49202e40,¡Una concha! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+41f1c0b51b02,La piña,trozo,src/dominio/tesoros.ts
+95aadd00b97c,¡Una piña! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+af91e801b1d5,La bellota,trozo,src/dominio/tesoros.ts
+fe33e27b76ee,¡Una bellota! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+d65f6094a87f,La estrella de mar,trozo,src/dominio/tesoros.ts
+f8311576b647,¡Una estrella de mar! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+9a3b54d73b17,La piedra bonita,trozo,src/dominio/tesoros.ts
+744f4f02be53,¡Una piedra bonita! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+0436aeb55cbc,La hoja,trozo,src/dominio/tesoros.ts
+004e11ca3bfa,¡Una hoja preciosa! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+193e943110a7,La castaña,trozo,src/dominio/tesoros.ts
+fc27caef1ea9,¡Una castaña! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
+742b8f97f6c6,¡Hay un tesoro cerca del jardín!,frase,src/dominio/tesoros.ts
+8b1cef43eacb,¡Hay un tesoro cerca del bosque!,frase,src/dominio/tesoros.ts
+c8731e0b28ea,¡Hay un tesoro cerca de la montaña!,frase,src/dominio/tesoros.ts
+980a1265f026,¡Hay un tesoro cerca de la plaza!,frase,src/dominio/tesoros.ts
+35ae00e66759,¡Hay un tesoro cerca del muelle!,frase,src/dominio/tesoros.ts
+74dfadec5375,¡Hay un tesoro cerca del cole!,frase,src/dominio/tesoros.ts
+eb8400ff4442,¡Hay un tesoro cerca de la casa de las fiestas!,frase,src/dominio/tesoros.ts
+a1c98fc8bd3b,¡Hay un tesoro cerca del globo!,frase,src/dominio/tesoros.ts
 c5525ece43f9,"Somos gatos: a cuatro patas, arqueamos la espalda hacia arriba, como un gato que se despierta.",frase,src/dominio/yoga.ts
 332605d4ee58,"Somos perros: manos y pies en el suelo y el culete bien alto, como una montaña.",frase,src/dominio/yoga.ts
 5afd3fc9748b,Somos ranas: nos agachamos con las rodillas abiertas y las manos en el suelo.,frase,src/dominio/yoga.ts
@@ -1805,6 +1829,14 @@ c169da87dd43,"¡Las sillas musicales! Baila con nosotros mientras suena la músi
 8782931894f8,Toca la silla libre para que me siente.,frase,src/escenas/sillas.ts
 76fb7b106917,¡Baila mientras suena la música!,frase,src/escenas/sillas.ts
 e1e276c85846,¡Todavía suena la música! Sigue bailando.,frase,src/escenas/sillas.ts
+868aac4edbd2,¡Has encontrado los tres tesoros de hoy! Mañana habrá otros.,frase,src/escenas/tesoros.ts
+996c072680da,¡Mi vitrina de tesoros! Ya tengo {n} de {total}. Toca uno para verlo.,frase,src/escenas/tesoros.ts
+5b1f41e87450,¡Mi vitrina de tesoros! Está vacía. Pasea por el mapa para encontrar tesoros escondidos.,frase,src/escenas/tesoros.ts
+0ac140a845ad,Cada día hay tres tesoros escondidos en el mapa. Pasea con Tito para encontrarlos.,frase,src/escenas/tesoros.ts
+268be8f7254d,Mi vitrina de tesoros,trozo,src/escenas/tesoros.ts
+72dc4c8054fc,Este tesoro aún no lo has encontrado.,frase,src/escenas/tesoros.ts
+4783c8ea9804,{nombre}. La has encontrado una vez.,trozo,src/escenas/tesoros.ts
+69976c0de0c3,{nombre}. La has encontrado {n} veces.,trozo,src/escenas/tesoros.ts
 15d657aa9510,Un cuento extra antes de dormir,trozo,src/escenas/tienda.ts
 4bf721c805e2,Ir a jugar al parque,trozo,src/escenas/tienda.ts
 9255f2bf1f4b,Elegir a qué jugamos juntos,trozo,src/escenas/tienda.ts
@@ -2357,6 +2389,7 @@ c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts
 087974002010,CONTENTO,trozo,src/mundo3d/objetos.ts
+6e058a19a686,¡Algo brilla por aquí!,frase,src/mundo3d/tesoros3d.ts
 e86410fa2d6e,ABCDEFGHIJ,trozo,src/mundo3d/zonas3d.ts
 c48462232a6a,Rincón de los Conceptos,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts
 9617d12b8ae3,el gato,nombre,src/nucleo/idioma.ts

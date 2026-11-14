@@ -15,7 +15,8 @@
 // que Tito solo va a jugar si se le toca antes (C31) y el botón de la escena tras dos toques (C32); desde la M3b, las
 // formas de jugar de Tito (C33), arrastrar a Tito (C34), la pista de pareja, la sorpresa al dejar algo encima de su
 // mueble y los 3 dibujos del cuadro (C35); desde la M6, «Un día con Tito»: la rutina de la hora con su bocadillo y su
-// pegatina, una vez al día (C36), y la noche por la ventana y el reloj que dice la hora (C37). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
+// pegatina, una vez al día (C36), y la noche por la ventana y el reloj que dice la hora (C37). Desde la fase P14 de
+// docs/IDEAS-MEJORA.md, los tesoros escondidos del mapa y la vitrina de la casa (C38). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
 // C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
@@ -1224,6 +1225,65 @@ const temas = (n) => {
       if (p.errs.length) return 'errores: ' + p.errs.slice(0, 3).join(' | ');
     },
     { hora: 22 },
+  );
+
+  await caso(
+    'C38',
+    'Tesoros del mapa (P14): hay tres, tocar uno lo recoge (moneda y S.tesoros) y la vitrina de la casa lo enseña',
+    async (p) => {
+      await p.evaluate(() => __cl.go('map', {}));
+      await p.waitForTimeout(2500);
+      const hay = await p.evaluate(() => {
+        const w = window.__w3 && window.__w3.W;
+        if (!w || !window.__w3.ok) return 'sin 3D';
+        return w.pick.filter((o) => o.userData.id === 'tesoro').map((o) => o.userData.rincon);
+      });
+      if (hay === 'sin 3D') return null; // sin WebGL el mapa es 2D y no tiene tesoros
+      const pend = await p.evaluate(() => tesorosPendientes().map((e) => e.rincon));
+      if (hay.length !== 3 || hay.join() !== pend.join()) return 'tesoros en el mapa: ' + hay + ' / ' + pend;
+      const monedas = await p.evaluate(() => __cl.S.coins || 0);
+      // toca el primer tesoro donde se ve en la pantalla: Tito va hasta él y lo recoge
+      await p.evaluate(() => {
+        window.__said = [];
+        const g = __w3.W.pick.find((o) => o.userData.id === 'tesoro');
+        const v = new __w3.THREE.Vector3();
+        g.getWorldPosition(v);
+        v.y += 0.8;
+        const [x, y] = __w3.proj(v);
+        __cl.scene.down(x, y);
+      });
+      let t = null;
+      for (let i = 0; i < 20 && !(t && t.hoy.length); i++) {
+        await p.waitForTimeout(500);
+        t = await p.evaluate(() => registroHoy());
+      }
+      if (!t || t.hoy.length !== 1 || t.hoy[0] !== hay[0]) return 'tras tocar el tesoro: ' + JSON.stringify(t);
+      await p.waitForTimeout(1500);
+      const [despues, dicho] = await p.evaluate(() => [__cl.S.coins || 0, window.__said.join('|')]);
+      if (despues - monedas !== 1) return `tesoro: monedas ${monedas} -> ${despues}`;
+      if (!dicho.includes('vitrina')) return 'Tito no dice qué ha encontrado: ' + dicho;
+      // la casa tiene el botón de la vitrina, que lleva a ella; allí el tesoro está y se puede tocar
+      await p.evaluate(() => __cl.go('casaTito', {}));
+      await p.waitForTimeout(1500);
+      await p.evaluate(() => __cl.scene.down(VITRINA_BOTON.x, VITRINA_BOTON.y));
+      await p.waitForTimeout(1200);
+      if ((await p.evaluate(() => __cl.name)) !== 'vitrina')
+        return 'el botón de la vitrina lleva a: ' + (await p.evaluate(() => __cl.name));
+      const toque = await p.evaluate(() => {
+        window.__said = [];
+        const id = Object.keys(registroHoy().vitrina)[0],
+          c = CASILLAS_VITRINA.find((x) => x.id === id),
+          falta = CASILLAS_VITRINA.find((x) => x.id !== id);
+        __cl.scene.down(c.x, c.y);
+        __cl.scene.down(falta.x, falta.y);
+        return window.__said.join('|');
+      });
+      if (!toque.includes('una vez') || !toque.includes('aún no')) return 'tocar en la vitrina dice: ' + toque;
+      await p.evaluate(() => __cl.scene.down(90, 90));
+      await p.waitForTimeout(1000);
+      const fin = await p.evaluate(() => __cl.name);
+      return fin === 'casaTito' ? null : 'la casa de la vitrina lleva a: ' + fin;
+    },
   );
 
   R.guardar();
