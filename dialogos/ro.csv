@@ -2101,15 +2101,16 @@ c26e9fc0e00d,Escucha el cuento: {titulo}.,Ascultă povestea: {titulo}.,frase,src
 87e2719d8e78,NFD,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
 ef71c59747f0,litera ,,trozo,src/juegos/lectura.ts,falta
 451f3750f787,la ,,trozo,src/juegos/lectura.ts,falta
-ec885e10ce6f,. Toca el tambor una vez por cada trozo.,,trozo,src/juegos/lectura.ts,falta
-599aa33e94a9,Vamos a dar palmas.,,frase,src/juegos/lectura.ts,falta
-ca737bb082a8,Ahora: ,,trozo,src/juegos/lectura.ts,falta
-6bdb0c4319e1,. Toca el tambor.,,trozo,src/juegos/lectura.ts,falta
-88be6cc2e213, tiene ,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
-2cd1b892e862,una palma,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
-a6adc37e0595, palmas,,trozo,src/juegos/lectura.ts src/temas/letras.ts,falta
-2cc4792f9e9f,Toca la letra que salta.,,frase,src/juegos/lectura.ts,falta
-fd7134d70d86, Así se escribe ,,trozo,src/juegos/lectura.ts,falta
+97b7c06bbe15,{intro} {Cosa}. Toca el tambor una vez por cada trozo.,{intro} {Cosa}. Bate în tobă o dată pentru fiecare bucată.,trozo,src/juegos/lectura.ts,borrador
+599aa33e94a9,Vamos a dar palmas.,Hai să batem din palme.,frase,src/juegos/lectura.ts,borrador
+5bbfb00d4d18,Ahora: {cosa}. Toca el tambor.,Acum: {cosa}. Bate în tobă.,frase,src/juegos/lectura.ts,borrador
+35b8bf38d820,{Cosa}. Toca el tambor una vez por cada trozo.,{Cosa}. Bate în tobă o dată pentru fiecare bucată.,trozo,src/juegos/lectura.ts,borrador
+5242b99f79cb,{Palabra} tiene {palmas}.,{Palabra} are {palmas}.,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+2cd1b892e862,una palma,o bătaie din palme,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+f991ba12b8f4,dos palmas,două bătăi din palme,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+c9eef304985c,{n} palmas,{n} bătăi din palme,trozo,src/juegos/lectura.ts src/temas/letras.ts,borrador
+2cc4792f9e9f,Toca la letra que salta.,Atinge litera care sare.,frase,src/juegos/lectura.ts,borrador
+a32e6373a7d0,Así se escribe {nombre}.,Așa se scrie {nombre}.,frase,src/juegos/lectura.ts,borrador
 c016e7527b97,¡Llega el tren de {letra}! Toca un vagón para engancharlo.,Vine trenul cu {letra}! Atinge un vagon ca să-l agăți.,frase,src/juegos/lectura.ts,borrador
 1472ee7b8d39,Toca un vagón para engancharlo a la locomotora.,Atinge un vagon ca să-l agăți de locomotivă.,frase,src/juegos/lectura.ts,borrador
 1803ed792ae8,{Letra} con {vocal}: {silaba}.,{Letra} cu {vocal}: {silaba}.,trozo,src/juegos/lectura.ts,borrador
@@ -2856,82 +2857,72 @@ d492706995aa,Atrapa {letra},Prinde {letra},trozo,src/temas/letras.ts,borrador
 35f98adc69f2,Las huellas de {letra},Urmele pentru {letra},trozo,src/temas/letras.ts,borrador
 1aa53f6f456d,La {l},Litera {l},trozo,src/temas/letras.ts,borrador
 63b9d8d79397,¡Vamos a conocer {letra}!,Hai să cunoaștem {letra}!,frase,src/temas/letras.ts,borrador
-24114dcddd06,Escucha: ,,trozo,src/temas/letras.ts,falta
-0f711e3e9d78,. ¿Qué es?,,trozo,src/temas/letras.ts,falta
-db182603c659,Esa es ,,trozo,src/temas/letras.ts,falta
-2aef5ce5e5e8,¿Cuál es más larga: ,,trozo,src/temas/letras.ts,falta
-1b4bfc33dcf3,? Da palmas con cada una.,,trozo,src/temas/letras.ts,falta
-869812c0a1f4,. ¿Cuál tiene más?,,trozo,src/temas/letras.ts,falta
-607f6eddbae4,¿Qué empieza por ,,trozo,src/temas/letras.ts,falta
-ed98257fa8ae, empieza por ,,trozo,src/temas/letras.ts,falta
-7602858967a0,otra letra,,trozo,src/temas/letras.ts,falta
-6b230476526a,Une cada dibujo con la letra por la que empieza.,,frase,src/temas/letras.ts,falta
-7ab941f3e418, no empieza por ,,trozo,src/temas/letras.ts,falta
-95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,,frase,src/temas/letras.ts,falta
-42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,,frase,src/temas/letras.ts,falta
-a0099f02b7d9,¿Dónde está ,,trozo,src/temas/letras.ts,falta
-f4b7f5c009fb, de ,,trozo,src/temas/letras.ts,falta
-6da2fc603d06,¡Atrapa las burbujas de ,,trozo,src/temas/letras.ts,falta
-1c701316e96d,Esta es ,,trozo,src/temas/letras.ts,falta
-572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,,frase,src/temas/letras.ts,falta
+012b7d624fc4,{Palabra} empieza por {letra}.,{Palabra} începe cu {letra}.,trozo,src/temas/letras.ts,borrador
+7602858967a0,otra letra,altă literă,trozo,src/temas/letras.ts,borrador
+79d1772a89a1,Escucha: {silabas}. ¿Qué es?,Ascultă: {silabas}. Ce este?,frase,src/temas/letras.ts,borrador
+561f03f86daa,¿Cuál es más larga: {a} o {b}? Da palmas con cada una.,Care e mai lung: {a} sau {b}? Bate din palme la fiecare.,frase,src/temas/letras.ts,borrador
+38b2bf19ffa6,{Palabra} tiene {palmas}. ¿Cuál tiene más?,{Palabra} are {palmas}. Care are mai multe?,trozo,src/temas/letras.ts,borrador
+d7a1e42cd1d3,¿Qué empieza por {letra}?,Ce începe cu {letra}?,frase,src/temas/letras.ts,borrador
+6b230476526a,Une cada dibujo con la letra por la que empieza.,Unește fiecare desen cu litera cu care începe.,frase,src/temas/letras.ts,borrador
+31e02bc2ca5a,{Palabra} no empieza por {letra}.,{Palabra} nu începe cu {letra}.,trozo,src/temas/letras.ts,borrador
+95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,Scormonește în nisip cu degetul. Sunt litere ascunse!,frase,src/temas/letras.ts,borrador
+42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,Joc de memorie cu litere. Atinge două cărți și caută două litere la fel.,frase,src/temas/letras.ts,borrador
+572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,E petrecerea vocalelor! Atinge-le pe fiecare.,frase,src/temas/letras.ts,borrador
 ce178861ab46,TITO,,trozo,src/temas/letras.ts,falta
-42f800d88029,Este es tu nombre: ,,trozo,src/temas/letras.ts,falta
-3dcfb097d8b3,". Toca sus letras, una a una.",,trozo,src/temas/letras.ts,falta
-d9af4926bc7f,"Este es el nombre de Tito. Toca sus letras, una a una.",,frase,src/temas/letras.ts,falta
-6cf7e0642e21,de tu nombre,,trozo,src/temas/letras.ts,falta
-4097e21a2fab,del nombre de Tito,,trozo,src/temas/letras.ts,falta
-07fa416e34ac,", la primera letra ",,trozo,src/temas/letras.ts,falta
-c4871a7d9c73,. Píntala con el dedo como tú quieras.,,trozo,src/temas/letras.ts,falta
-9c9d4245baea,¡Qué bonita te ha quedado ,,trozo,src/temas/letras.ts,falta
-30fea3f48a67, Con ,,trozo,src/temas/letras.ts,falta
-a766fcb58ccc, empieza ,,trozo,src/temas/letras.ts,falta
-eb052704f361,tu nombre,,trozo,src/temas/letras.ts,falta
+dfd85a26cd9f,"Este es tu nombre: {nombre}. Toca sus letras, una a una.","Acesta e numele tău: {nombre}. Atinge-i literele, una câte una.",frase,src/temas/letras.ts,borrador
+d9af4926bc7f,"Este es el nombre de Tito. Toca sus letras, una a una.","Acesta e numele lui Tito. Atinge-i literele, una câte una.",frase,src/temas/letras.ts,borrador
+5dcf11502343,"Esta es {letra}, la primera letra de tu nombre. Píntala con el dedo como tú quieras.","Aceasta este {letra}, prima literă din numele tău. Colorează-o cu degetul cum vrei tu.",frase,src/temas/letras.ts,borrador
+acbbd5af9c44,"Esta es {letra}, la primera letra del nombre de Tito. Píntala con el dedo como tú quieras.","Aceasta este {letra}, prima literă din numele lui Tito. Colorează-o cu degetul cum vrei tu.",frase,src/temas/letras.ts,borrador
+a0bc1a90c533,¡Qué bonita te ha quedado {letra}!,Ce frumos ți-a ieșit {letra}!,frase,src/temas/letras.ts,borrador
+6bc7143ccf8b,Con {letra} empieza tu nombre.,Cu {letra} începe numele tău.,frase,src/temas/letras.ts,borrador
+4b6a12d3a50e,Con {letra} empieza Tito.,Cu {letra} începe Tito.,frase,src/temas/letras.ts,borrador
 1a6f919b167e,L3-PAL,,trozo,src/temas/letras.ts,falta
-670587ba7bec,Las palmas,,trozo,src/temas/letras.ts,falta
-296d932947ee,¡Vamos a dar palmas con las palabras!,,frase,src/temas/letras.ts,falta
-a53f4801c5c9,Da palmas,,trozo,src/temas/letras.ts,falta
-39fc5ab85e99,Vamos a dar una palmada por cada trozo de la palabra.,,frase,src/temas/letras.ts,falta
-4f75181b9057,El eco de Tito,,trozo,src/temas/letras.ts,falta
-9199c5c5017c,Más palmas,,trozo,src/temas/letras.ts,falta
-69d4f0a6d0cc,La palabra larga,,trozo,src/temas/letras.ts,falta
+670587ba7bec,Las palmas,Bătăile din palme,trozo,src/temas/letras.ts,borrador
+296d932947ee,¡Vamos a dar palmas con las palabras!,Hai să batem din palme cu cuvintele!,frase,src/temas/letras.ts,borrador
+a53f4801c5c9,Da palmas,Bate din palme,trozo,src/temas/letras.ts,borrador
+39fc5ab85e99,Vamos a dar una palmada por cada trozo de la palabra.,Hai să batem o dată din palme pentru fiecare bucată a cuvântului.,frase,src/temas/letras.ts,borrador
+4f75181b9057,El eco de Tito,Ecoul lui Tito,trozo,src/temas/letras.ts,borrador
+9199c5c5017c,Más palmas,Mai multe bătăi din palme,trozo,src/temas/letras.ts,borrador
+69d4f0a6d0cc,La palabra larga,Cuvântul lung,trozo,src/temas/letras.ts,borrador
 2cb2e253aad7,L3-EMP,,trozo,src/temas/letras.ts,falta
-1ca906ffcda8,¿Cómo empieza?,,frase,src/temas/letras.ts,falta
-53584a60bfe9,¡Vamos a escuchar cómo empiezan las palabras!,,frase,src/temas/letras.ts,falta
-7309dc7536c3,Une cada dibujo con su letra,,trozo,src/temas/letras.ts,falta
-f7318a89d76e,Letras en la arena,,trozo,src/temas/letras.ts,falta
-b03accad761b,Memoria de letras,,trozo,src/temas/letras.ts,falta
+1ca906ffcda8,¿Cómo empieza?,Cum începe?,frase,src/temas/letras.ts,borrador
+53584a60bfe9,¡Vamos a escuchar cómo empiezan las palabras!,Hai să ascultăm cum încep cuvintele!,frase,src/temas/letras.ts,borrador
+7309dc7536c3,Une cada dibujo con su letra,Unește fiecare desen cu litera lui,trozo,src/temas/letras.ts,borrador
+f7318a89d76e,Letras en la arena,Litere în nisip,trozo,src/temas/letras.ts,borrador
+b03accad761b,Memoria de letras,Memoria literelor,trozo,src/temas/letras.ts,borrador
 83f413872b33,L3-NOM,,trozo,src/temas/letras.ts,falta
-b1e2892560d5,Mi nombre,,trozo,src/temas/letras.ts,falta
-424e5539ae0a,¡Vamos a jugar con las letras de tu nombre!,,frase,src/temas/letras.ts,falta
-1ad2e433e4b3,La pizarra,,trozo,src/temas/letras.ts,falta
-d1866a65eca4,Mi primera letra,,trozo,src/temas/letras.ts,falta
+b1e2892560d5,Mi nombre,Numele meu,trozo,src/temas/letras.ts,borrador
+424e5539ae0a,¡Vamos a jugar con las letras de tu nombre!,Hai să ne jucăm cu literele numelui tău!,frase,src/temas/letras.ts,borrador
+1ad2e433e4b3,La pizarra,Tabla,trozo,src/temas/letras.ts,borrador
+d1866a65eca4,Mi primera letra,Prima mea literă,trozo,src/temas/letras.ts,borrador
 5f703b9e9683,L3-MEZ,,trozo,src/temas/letras.ts,falta
-6761ed9b4870,Las vocales mezcladas,,trozo,src/temas/letras.ts,falta
-28065ead4e89,¡Las vocales se han mezclado! Vamos a encontrarlas.,,frase,src/temas/letras.ts,falta
-61a02d88a371,Atrapa las vocales,,trozo,src/temas/letras.ts,falta
+6761ed9b4870,Las vocales mezcladas,Vocalele amestecate,trozo,src/temas/letras.ts,borrador
+28065ead4e89,¡Las vocales se han mezclado! Vamos a encontrarlas.,Vocalele s-au amestecat! Hai să le găsim.,frase,src/temas/letras.ts,borrador
+61a02d88a371,Atrapa las vocales,Prinde vocalele,trozo,src/temas/letras.ts,borrador
 7b91a931492f,L3-FIE,,trozo,src/temas/letras.ts,falta
-c35229389f40,Fiesta de las vocales,,trozo,src/temas/letras.ts,falta
-d101c4d57c64,¡Es la fiesta de las vocales!,,frase,src/temas/letras.ts,falta
-438ae6e3393e,Las cinco vocales,,trozo,src/temas/letras.ts,falta
-289ddb498578,Palmas con los amigos,,trozo,src/temas/letras.ts,falta
-c78bf3a5d2fb,Escribe una vocal,,trozo,src/temas/letras.ts,falta
+c35229389f40,Fiesta de las vocales,Petrecerea vocalelor,trozo,src/temas/letras.ts,borrador
+d101c4d57c64,¡Es la fiesta de las vocales!,E petrecerea vocalelor!,frase,src/temas/letras.ts,borrador
+438ae6e3393e,Las cinco vocales,Vocalele,trozo,src/temas/letras.ts,borrador
+289ddb498578,Palmas con los amigos,Bătăi din palme cu prietenii,trozo,src/temas/letras.ts,borrador
+c78bf3a5d2fb,Escribe una vocal,Scrie o vocală,trozo,src/temas/letras.ts,borrador
 37b9b6c8fa74,"Las huellas de {cosa} forman {letra}. Tócalas en orden, empezando por la que brilla.","Urmele {deCosa} formează {letra}. Atinge-le pe rând, începând cu cea care strălucește.",frase,src/temas/letras.ts,borrador
 86e52ebc4372,Las huellas forman {letra}.,Urmele formează {letra}.,frase,src/temas/letras.ts,borrador
 2e573b62316a,L4-VOC,,trozo,src/temas/letras.ts,falta
-64495757762c,Repaso de vocales,,trozo,src/temas/letras.ts,falta
-67e46ec90549,¡Vamos a repasar las vocales antes de entrar en el bosque!,,frase,src/temas/letras.ts,falta
+64495757762c,Repaso de vocales,Recapitularea vocalelor,trozo,src/temas/letras.ts,borrador
+67e46ec90549,¡Vamos a repasar las vocales antes de entrar en el bosque!,Hai să recapitulăm vocalele înainte să intrăm în pădure!,frase,src/temas/letras.ts,borrador
 4aa0f8a9fd5a,L4,,trozo,src/temas/letras.ts,falta
 cd1afe341638,L4-NOM,,trozo,src/temas/letras.ts,falta
-78cc9a39ff8f,Escribo mi nombre,,trozo,src/temas/letras.ts,falta
-e22c7c8529c0,¡Vamos a escribir las letras de tu nombre!,,frase,src/temas/letras.ts,falta
-463f3a6b86df,Escribe mi primera letra,,trozo,src/temas/letras.ts,falta
-6a3c9ed04d71,Huellas de mi letra,,trozo,src/temas/letras.ts,falta
+78cc9a39ff8f,Escribo mi nombre,Îmi scriu numele,trozo,src/temas/letras.ts,borrador
+e22c7c8529c0,¡Vamos a escribir las letras de tu nombre!,Hai să scriem literele numelui tău!,frase,src/temas/letras.ts,borrador
+463f3a6b86df,Escribe mi primera letra,Scrie prima mea literă,trozo,src/temas/letras.ts,borrador
+6a3c9ed04d71,Huellas de mi letra,Urmele literei mele,trozo,src/temas/letras.ts,borrador
 f7e31bebd5d7,L4-FIE,,trozo,src/temas/letras.ts,falta
-1d20e2f45ef8,Fiesta de las letras,,trozo,src/temas/letras.ts,falta
-058888f822a9,¡Es la fiesta de las letras del bosque!,,frase,src/temas/letras.ts,falta
-fc7614bee946,El tren de las sílabas,,trozo,src/temas/letras.ts,falta
+1d20e2f45ef8,Fiesta de las letras,Petrecerea literelor,trozo,src/temas/letras.ts,borrador
+058888f822a9,¡Es la fiesta de las letras del bosque!,E petrecerea literelor din pădure!,frase,src/temas/letras.ts,borrador
+fc7614bee946,El tren de las sílabas,Trenul silabelor,trozo,src/temas/letras.ts,borrador
 3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,,frase,src/temas/letras.ts,falta
 2654c5494fd6, Pone ,,trozo,src/temas/letras.ts,falta
+db182603c659,Esa es ,,trozo,src/temas/letras.ts,falta
 44778f07deab,". Si tocas la palabra, te la leo a trozos.",,trozo,src/temas/letras.ts,falta
 0713fabbacb4,Esto es ,,trozo,src/temas/letras.ts,falta
 57f2b4eafc26,. ¿Con qué trozo empieza?,,trozo,src/temas/letras.ts,falta
@@ -2965,6 +2956,7 @@ e2a14c29745f,Vamos a leer un cuento: ,,trozo,src/temas/letras.ts,falta
 86a990a26e4c," Y colorín, colorado, este cuento se ha acabado.",,frase,src/temas/letras.ts,falta
 27fb55b9c18f,. Lee la palabra amarilla.,,trozo,src/temas/letras.ts,falta
 efc0787e836e,ABCDEFGHIJKLMNÑOPQRSTUVWXYZ,,trozo,src/temas/letras.ts,falta
+f4b7f5c009fb, de ,,trozo,src/temas/letras.ts,falta
 c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,,frase,src/temas/letras.ts,falta
 25d6c78aa672,L5,,trozo,src/temas/letras.ts,falta
 31b218bef63e,L5-FAB,,trozo,src/temas/letras.ts,falta

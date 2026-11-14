@@ -2101,15 +2101,16 @@ c26e9fc0e00d,Escucha el cuento: {titulo}.,frase,src/juegos/comps2.ts
 87e2719d8e78,NFD,trozo,src/juegos/lectura.ts src/temas/letras.ts
 ef71c59747f0,litera ,trozo,src/juegos/lectura.ts
 451f3750f787,la ,trozo,src/juegos/lectura.ts
-ec885e10ce6f,. Toca el tambor una vez por cada trozo.,trozo,src/juegos/lectura.ts
+97b7c06bbe15,{intro} {Cosa}. Toca el tambor una vez por cada trozo.,trozo,src/juegos/lectura.ts
 599aa33e94a9,Vamos a dar palmas.,frase,src/juegos/lectura.ts
-ca737bb082a8,Ahora: ,trozo,src/juegos/lectura.ts
-6bdb0c4319e1,. Toca el tambor.,trozo,src/juegos/lectura.ts
-88be6cc2e213, tiene ,trozo,src/juegos/lectura.ts src/temas/letras.ts
+5bbfb00d4d18,Ahora: {cosa}. Toca el tambor.,frase,src/juegos/lectura.ts
+35b8bf38d820,{Cosa}. Toca el tambor una vez por cada trozo.,trozo,src/juegos/lectura.ts
+5242b99f79cb,{Palabra} tiene {palmas}.,trozo,src/juegos/lectura.ts src/temas/letras.ts
 2cd1b892e862,una palma,trozo,src/juegos/lectura.ts src/temas/letras.ts
-a6adc37e0595, palmas,trozo,src/juegos/lectura.ts src/temas/letras.ts
+f991ba12b8f4,dos palmas,trozo,src/juegos/lectura.ts src/temas/letras.ts
+c9eef304985c,{n} palmas,trozo,src/juegos/lectura.ts src/temas/letras.ts
 2cc4792f9e9f,Toca la letra que salta.,frase,src/juegos/lectura.ts
-fd7134d70d86, Así se escribe ,trozo,src/juegos/lectura.ts
+a32e6373a7d0,Así se escribe {nombre}.,frase,src/juegos/lectura.ts
 c016e7527b97,¡Llega el tren de {letra}! Toca un vagón para engancharlo.,frase,src/juegos/lectura.ts
 1472ee7b8d39,Toca un vagón para engancharlo a la locomotora.,frase,src/juegos/lectura.ts
 1803ed792ae8,{Letra} con {vocal}: {silaba}.,trozo,src/juegos/lectura.ts
@@ -2856,36 +2857,25 @@ d492706995aa,Atrapa {letra},trozo,src/temas/letras.ts
 35f98adc69f2,Las huellas de {letra},trozo,src/temas/letras.ts
 1aa53f6f456d,La {l},trozo,src/temas/letras.ts
 63b9d8d79397,¡Vamos a conocer {letra}!,frase,src/temas/letras.ts
-24114dcddd06,Escucha: ,trozo,src/temas/letras.ts
-0f711e3e9d78,. ¿Qué es?,trozo,src/temas/letras.ts
-db182603c659,Esa es ,trozo,src/temas/letras.ts
-2aef5ce5e5e8,¿Cuál es más larga: ,trozo,src/temas/letras.ts
-1b4bfc33dcf3,? Da palmas con cada una.,trozo,src/temas/letras.ts
-869812c0a1f4,. ¿Cuál tiene más?,trozo,src/temas/letras.ts
-607f6eddbae4,¿Qué empieza por ,trozo,src/temas/letras.ts
-ed98257fa8ae, empieza por ,trozo,src/temas/letras.ts
+012b7d624fc4,{Palabra} empieza por {letra}.,trozo,src/temas/letras.ts
 7602858967a0,otra letra,trozo,src/temas/letras.ts
+79d1772a89a1,Escucha: {silabas}. ¿Qué es?,frase,src/temas/letras.ts
+561f03f86daa,¿Cuál es más larga: {a} o {b}? Da palmas con cada una.,frase,src/temas/letras.ts
+38b2bf19ffa6,{Palabra} tiene {palmas}. ¿Cuál tiene más?,trozo,src/temas/letras.ts
+d7a1e42cd1d3,¿Qué empieza por {letra}?,frase,src/temas/letras.ts
 6b230476526a,Une cada dibujo con la letra por la que empieza.,frase,src/temas/letras.ts
-7ab941f3e418, no empieza por ,trozo,src/temas/letras.ts
+31e02bc2ca5a,{Palabra} no empieza por {letra}.,trozo,src/temas/letras.ts
 95da73ffc563,Escarba en la arena con el dedo. ¡Hay letras escondidas!,frase,src/temas/letras.ts
 42e14fb09fbf,Juego de memoria con las letras. Toca dos cartas y busca dos letras iguales.,frase,src/temas/letras.ts
-a0099f02b7d9,¿Dónde está ,trozo,src/temas/letras.ts
-f4b7f5c009fb, de ,trozo,src/temas/letras.ts
-6da2fc603d06,¡Atrapa las burbujas de ,trozo,src/temas/letras.ts
-1c701316e96d,Esta es ,trozo,src/temas/letras.ts
 572dc34afd9c,¡Es la fiesta de las vocales! Toca cada una.,frase,src/temas/letras.ts
 ce178861ab46,TITO,trozo,src/temas/letras.ts
-42f800d88029,Este es tu nombre: ,trozo,src/temas/letras.ts
-3dcfb097d8b3,". Toca sus letras, una a una.",trozo,src/temas/letras.ts
+dfd85a26cd9f,"Este es tu nombre: {nombre}. Toca sus letras, una a una.",frase,src/temas/letras.ts
 d9af4926bc7f,"Este es el nombre de Tito. Toca sus letras, una a una.",frase,src/temas/letras.ts
-6cf7e0642e21,de tu nombre,trozo,src/temas/letras.ts
-4097e21a2fab,del nombre de Tito,trozo,src/temas/letras.ts
-07fa416e34ac,", la primera letra ",trozo,src/temas/letras.ts
-c4871a7d9c73,. Píntala con el dedo como tú quieras.,trozo,src/temas/letras.ts
-9c9d4245baea,¡Qué bonita te ha quedado ,trozo,src/temas/letras.ts
-30fea3f48a67, Con ,trozo,src/temas/letras.ts
-a766fcb58ccc, empieza ,trozo,src/temas/letras.ts
-eb052704f361,tu nombre,trozo,src/temas/letras.ts
+5dcf11502343,"Esta es {letra}, la primera letra de tu nombre. Píntala con el dedo como tú quieras.",frase,src/temas/letras.ts
+acbbd5af9c44,"Esta es {letra}, la primera letra del nombre de Tito. Píntala con el dedo como tú quieras.",frase,src/temas/letras.ts
+a0bc1a90c533,¡Qué bonita te ha quedado {letra}!,frase,src/temas/letras.ts
+6bc7143ccf8b,Con {letra} empieza tu nombre.,frase,src/temas/letras.ts
+4b6a12d3a50e,Con {letra} empieza Tito.,frase,src/temas/letras.ts
 1a6f919b167e,L3-PAL,trozo,src/temas/letras.ts
 670587ba7bec,Las palmas,trozo,src/temas/letras.ts
 296d932947ee,¡Vamos a dar palmas con las palabras!,frase,src/temas/letras.ts
@@ -2932,6 +2922,7 @@ f7e31bebd5d7,L4-FIE,trozo,src/temas/letras.ts
 fc7614bee946,El tren de las sílabas,trozo,src/temas/letras.ts
 3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,frase,src/temas/letras.ts
 2654c5494fd6, Pone ,trozo,src/temas/letras.ts
+db182603c659,Esa es ,trozo,src/temas/letras.ts
 44778f07deab,". Si tocas la palabra, te la leo a trozos.",trozo,src/temas/letras.ts
 0713fabbacb4,Esto es ,trozo,src/temas/letras.ts
 57f2b4eafc26,. ¿Con qué trozo empieza?,trozo,src/temas/letras.ts
@@ -2965,6 +2956,7 @@ e2a14c29745f,Vamos a leer un cuento: ,trozo,src/temas/letras.ts
 86a990a26e4c," Y colorín, colorado, este cuento se ha acabado.",frase,src/temas/letras.ts
 27fb55b9c18f,. Lee la palabra amarilla.,trozo,src/temas/letras.ts
 efc0787e836e,ABCDEFGHIJKLMNÑOPQRSTUVWXYZ,trozo,src/temas/letras.ts
+f4b7f5c009fb, de ,trozo,src/temas/letras.ts
 c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,frase,src/temas/letras.ts
 25d6c78aa672,L5,trozo,src/temas/letras.ts
 31b218bef63e,L5-FAB,trozo,src/temas/letras.ts
