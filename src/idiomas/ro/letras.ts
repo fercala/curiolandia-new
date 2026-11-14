@@ -2,7 +2,8 @@
  * idiomas/ro/letras.ts: la Isla de las Letras en rumano (fase ID6 de docs/PLAN-IDIOMAS.md, por partes). Desde la ID6a,
  * las casitas de cada letra (conocer, buscar, escribir, atrapar, unir, el tren de las sílabas y las huellas), el libro
  * de letras y lo que dice Tito de cada letra; desde la ID6b, los demás juegos de la playa y del bosque (palmas, eco,
- * ¿cómo empieza?, mi nombre, repasos y fiestas); las letras mismas, con sus palabras, están en contenido/letrasRo.ts.
+ * ¿cómo empieza?, mi nombre, repasos y fiestas), y desde la ID6c, el pueblo (las palabras, la máquina de sílabas, las
+ * frases, los cuentos para leer y la fiesta del abecedario); las letras mismas, con sus palabras, están en contenido/letrasRo.ts.
  * Borrador de Claude para que lo revise alguien que conozca cómo se enseña a leer en Rumanía (ID9). Va del texto en
  * castellano, tal como está en el código, a su traducción; textos.ts la junta con las demás tablas. El nombre de cada
  * letra («litera a») va en {letra} ({Letra}, con mayúscula), y {deCosa} es el amigo tras «urmele» («urmele albinei»).
@@ -130,6 +131,85 @@ export const LETRAS_TEXTOS_RO: Readonly<Record<string, string>> = {
     'Aceasta este cartea ta cu litere. Literele te așteaptă pe Insula Literelor!',
   'Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!':
     'Litera aceasta încă n-o știi. O vei învăța pe Insula Literelor!',
+  // el pueblo de las palabras (ID6c): leer palabras y sílabas
+  'Fábrica de sílabas': 'Fabrica de silabe',
+  '¡Bienvenido a la fábrica de sílabas!': 'Bine ai venit la fabrica de silabe!',
+  'La máquina de sílabas': 'Mașina de silabe',
+  'Globos de sílabas': 'Baloane cu silabe',
+  '¿Con qué trozo empieza?': 'Cu ce silabă începe?',
+  'Palabras de dos sílabas': 'Cuvinte cu două silabe',
+  '¡Vamos a leer palabras cortas!': 'Hai să citim cuvinte scurte!',
+  'Leo y elijo': 'Citesc și aleg',
+  'Armo la palabra': 'Construiesc cuvântul',
+  'La sílaba que falta': 'Silaba care lipsește',
+  'Une la palabra con su dibujo': 'Unește cuvântul cu desenul',
+  'Palabras de tres sílabas': 'Cuvinte cu trei silabe',
+  '¡Ahora, palabras más largas!': 'Acum, cuvinte mai lungi!',
+  'Frases que se mueven': 'Propoziții care se mișcă',
+  '¡Vamos a leer frases!': 'Hai să citim propoziții!',
+  'Ordena la frase': 'Ordonează propoziția',
+  'Más frases': 'Mai multe propoziții',
+  'Cuentos para leer': 'Povești de citit',
+  '¡Vamos a leer cuentos! Tú lees la palabra amarilla.': 'Hai să citim povești! Tu citești cuvântul galben.',
+  'Fiesta del abecedario': 'Petrecerea alfabetului',
+  '¡Es la fiesta del abecedario!': 'E petrecerea alfabetului!',
+  'La canción del abecedario': 'Cântecul alfabetului',
+  'Esa es {cosa}.': 'Aceea e {cosa}.',
+  'Pone {palabra}.': 'Scrie {palabra}.',
+  '¿Qué pone? Lee la palabra y toca su dibujo.': 'Ce scrie? Citește cuvântul și atinge desenul lui.',
+  'Esa es {cosa}. Si tocas la palabra, te la leo a trozos.':
+    'Aceea e {cosa}. Dacă atingi cuvântul, ți-l citesc pe silabe.',
+  'Esto es {cosa}. ¿Con qué trozo empieza?': 'Aceasta e {cosa}. Cu ce silabă începe?',
+  'Esto es {cosa}. ¿Qué trozo falta?': 'Aceasta e {cosa}. Ce silabă lipsește?',
+  '{trozos}: {palabra}.': '{trozos}: {palabra}.',
+  'Con {trozo} no pone {palabra}.': 'Cu {trozo} nu scrie {palabra}.',
+  'Mmm, ese trozo no va ahí. Escucha: {oye}.': 'Mmm, silaba aceea nu merge acolo. Ascultă: {oye}.',
+  'Esto es {cosa}. Arrastra los trozos en orden para escribir {palabra}.':
+    'Aceasta e {cosa}. Trage silabele în ordine ca să scrii {palabra}.',
+  'Aquí no pone {palabra}.': 'Aici nu scrie {palabra}.',
+  '¡Atrapa los globos que dicen {silaba}!': 'Prinde baloanele pe care scrie {silaba}!',
+  'Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.':
+    'Unește fiecare cuvânt cu desenul lui. Citește cuvântul și trage o linie până la desen.',
+  '¡Las frases se mueven!': 'Propozițiile se mișcă!',
+  // la máquina de sílabas
+  '¡Esta es la máquina de las sílabas!': 'Aceasta este mașina de silabe!',
+  'Haz la sílaba {silaba}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.':
+    'Fă silaba {silaba}. Atinge roțile ca să schimbi literele și apoi apasă butonul roșu.',
+  'Haz la sílaba {silaba}.': 'Fă silaba {silaba}.',
+  'Ha salido {hecha}. Queremos {silaba}.': 'A ieșit {hecha}. Vrem {silaba}.',
+  'Haz:': 'Fă:',
+  // las frases que se mueven
+  'Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.':
+    'Citește propoziția și atinge desenul potrivit. Dacă atingi un cuvânt, ți-l citesc.',
+  'Lee la frase y toca el dibujo que dice.': 'Citește propoziția și atinge desenul potrivit.',
+  'Mmm, no es ese. Mira bien la frase.': 'Mmm, nu e acela. Uită-te bine la propoziție.',
+  'Te la leo:': 'Ți-o citesc:',
+  'Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.':
+    'Uită-te la desen. Trage cuvintele în ordine ca să scrii ce se întâmplă.',
+  // los cuentos para leer: cada página va en trozos, y la palabra sin artículo encaja entre el de antes y el de después
+  'Vamos a leer un cuento: {titulo}.': 'Hai să citim o poveste: {titulo}.',
+  '{antes}... ¿Qué pone en la palabra amarilla? Toca su dibujo.':
+    '{antes}... Ce scrie în cuvântul galben? Atinge desenul lui.',
+  'Y colorín, colorado, este cuento se ha acabado.': 'Și-am încălecat pe-o șa și v-am spus povestea așa.',
+  'Esa es {cosa}. Lee la palabra amarilla.': 'Aceea e {cosa}. Citește cuvântul galben.',
+  'El pato y la luna': 'Rața și luna',
+  'Había una vez un': 'A fost odată o',
+  'que vivía en un lago.': 'care trăia pe un lac.',
+  'Una noche, el pato miró al cielo y vio la': 'Într-o noapte, rața s-a uitat la cer și a văzut o',
+  'La luna estaba sola. El pato le llevó una': 'Luna era singură. Rața i-a adus un',
+  'para que jugaran.': 'ca să se joace împreună.',
+  'Y la luna, la nube y el pato jugaron con una': 'Și luna, norul și rața s-au jucat cu o',
+  'toda la noche.': 'toată noaptea.',
+  'La vaca que quería volar': 'Vaca ce voia să zboare',
+  'En el pueblo vivía una': 'În sat trăia o',
+  'muy curiosa.': 'foarte curioasă.',
+  'Un día, la vaca vio una': 'Într-o zi, vaca a văzut un',
+  'en el cielo.': 'pe cer.',
+  'Quería volar tan alto como ella, así que subió a un': 'Voia să zboare la fel de sus ca el, așa că s-a urcat într-o',
+  'Y desde arriba saludó a la': 'Și sus, sus de tot, a întâlnit o',
+  '. ¡Hola, luna!': '. Bună, lună!',
+  // la fiesta del abecedario
+  '¡Vamos a cantar la canción del abecedario! Escucha.': 'Hai să cântăm cântecul alfabetului! Ascultă.',
   // las palabras de los carteles del pueblo de la isla: no se traducen, son palabras cortas del rumano para leer
   PAN: 'PÂINE',
   LUZ: 'LUNĂ',

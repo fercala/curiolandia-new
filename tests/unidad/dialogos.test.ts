@@ -28,7 +28,7 @@ test('cada id es único y los textos conocidos están (frase, trozo, nombre)', (
   expect(new Set(frases.map((f) => f.id)).size).toBe(frases.length);
   const tipo = (t: string): string | undefined => frases.find((f) => f.texto === t)?.tipo;
   expect(tipo('¿Cómo te llamas?')).toBe('frase');
-  expect(tipo('Haz la sílaba ')).toBe('trozo');
+  expect(tipo('Gira el móvil')).toBe('trozo');
   expect(tipo('el gato')).toBe('nombre');
   // las claves de dibujo no son textos
   expect(tipo('hojaNaranja')).toBeUndefined();

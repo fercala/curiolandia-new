@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), y de la ID6 (la Isla de las Letras en rumano, por partes), **ID6a** (v0.2.149) e **ID6b** (v0.2.151), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), y de la ID6 (la Isla de las Letras en rumano, por partes), **ID6a** (v0.2.149), **ID6b** (v0.2.151) e **ID6c** (v0.2.152), con lo que la ID6 está completa, apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,32 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID6c (v0.2.152): el pueblo de la Isla de las Letras en rumano
+
+- En rumano, el Pueblo de las Palabras tiene todas sus casitas: las siete de sus letras (R, C, G, V, Ș, Ț y Â) y, detrás,
+  la fábrica de sílabas, las palabras de dos y de tres sílabas, las frases que se mueven, los cuentos para leer y la
+  fiesta del abecedario (`RO-L5-FAB`...). Son trece: el camino de las zonas (`zonePos`, `escenas/zonas.ts`) admite ahora
+  cuatro casitas en la fila de abajo, y en 3D los carteles del pueblo se apartan (solo dos, delante a la derecha).
+- **Palabras para leer en rumano** (`src/contenido/lecturaRo.ts`, `PALABRAS_LEER_RO`): 22 de dos sílabas y 11 de tres,
+  partidas como en rumano («ra-ță», «co-pac», «ra-che-tă»). Entre ellas están los grupos que suenan de otra manera: ci
+  (cină, cizmă, arici), ge (minge), gi (girafă), che (rachetă, ureche) y ghi (ghindă). En «la sílaba que falta», si
+  falta una de esas, sale su gemela entre las opciones (CI y CHI, GE y GHE...: `gemela`). La máquina de sílabas y los
+  globos juntan la C y la G con la e y la i (la voz rumana ya lee «ce» como «che»), con la Ă y sin la Î, que en medio de
+  la palabra se escribe Â; la Â, que es vocal, no hace de consonante en la máquina ni en el tren.
+- **Frases en rumano**: el animal con su artículo pegado y el verbo (`VERBOS_RO`): «PISICA DOARME», «VACA ALEARGĂ».
+- **Cuentos para leer**: el título y los trozos de cada página pasan por `tr`, con su traducción escrita para que la
+  palabra sin artículo encaje en medio («A fost odată o RAȚĂ care trăia pe un lac.»). Termina con «Și-am încălecat
+  pe-o șa și v-am spus povestea așa», el final de los cuentos rumanos.
+- **La canción del abecedario** sigue el orden del rumano (A Ă Â B C D E F G H I Î ...), con 23 letras en ocho columnas.
+- Las frases del pueblo, de la máquina de sílabas (`Maquina`) y de las frases (`Frase`, en `juegos/lectura.ts`) pasan a
+  plantillas: **ya no queda ninguna frase compuesta en todo el juego** (`npm run idiomas:compuestas`; la prueba de
+  `tests/unidad/idiomas.test.ts` lo mira). Las sílabas y las palabras escritas no se traducen (`juntar`), y desde ahora
+  un nombre ya traducido es él mismo en todas sus formas (`nombreEn`, `nucleo/traducir.ts`).
+- Prueba nueva en `tests/unidad/contenido.test.ts`: cada palabra rumana se escribe como se llama su dibujo en rumano.
+- Jugando con `?idioma=ro` las trece casitas del pueblo con toques al azar, con 3 y 5 años, no queda nada sin traducir.
+  En castellano, el pueblo sigue igual.
+- Versión: la v0.2.150 la lleva el PR #144 (P13b, el circuito).
 
 ### ID6b (v0.2.151): la playa y el bosque de la Isla de las Letras en rumano
 

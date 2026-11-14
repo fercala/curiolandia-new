@@ -130,10 +130,13 @@ export const estaTraducido = (t: string): boolean => yaTraducido.has(t);
 
 // nombreEn(frase): las formas (Nombre) del nombre frase, que es el nombre en castellano con su artículo ('el gato'), en
 // el idioma del juego. En castellano salen de su artículo (formasEs); en el pseudoidioma, marcadas; en otro idioma, de su
-// tabla (src/idiomas/ro/nombres.ts) o, si no está, en castellano (y la frase se apunta en sinTraducir).
+// tabla (src/idiomas/ro/nombres.ts) o, si no está, en castellano (y la frase se apunta en sinTraducir). Desde la fase
+// ID6c, un nombre que ya está traducido (juntar: una sílaba o una palabra escrita para leer, como «ra», «rață») es él
+// mismo en todas sus formas.
 export function nombreEn(frase: string): Nombre {
   const es = formasEs(frase);
   if (IDIOMA === IDIOMA_BASE) return es;
+  if (yaTraducido.has(frase)) return { ...es, art: frase, sin: frase, de: frase, a: frase, plu: frase };
   const n: Nombre =
     IDIOMA === 'xx'
       ? { ...es, art: pseudo(es.art), sin: pseudo(es.sin), de: pseudo(es.de), a: pseudo(es.a) }
