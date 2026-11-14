@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), y de la ID6 (la Isla de las Letras en rumano, por partes), **ID6a** (v0.2.149), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -324,6 +324,33 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID6a (v0.2.149): las letras del rumano en la Isla de las Letras
+
+La ID6 va por partes: **ID6a**, las letras y sus casitas; **ID6b**, los demás juegos de la playa y del bosque (palmas,
+¿cómo empieza?, mi nombre, repasos y fiestas); **ID6c**, el pueblo (las sílabas ce, ci, ge, gi, che, chi, ghe y ghi,
+las palabras, las frases, los cuentos para leer y la fiesta del abecedario).
+
+- **`src/contenido/letrasRo.ts`** (`LETRAS_RO`, borrador de Claude): 23 letras. En la playa (3 años), las cinco vocales
+  y la Ă y la Î; en el bosque (4 años), las mismas nueve consonantes que en castellano (M P L S T N D F B); en el pueblo
+  (5 años), R C G V y las propias del rumano, Ș, Ț y Â (la Â suena como la Î, pero va en medio de la palabra, y por eso
+  va con las de 5 años). Las que también tiene el castellano toman de `contenido/letras.ts` sus trazos y su color; las
+  nuevas son la letra base con su signo (la breve, el circunflejo y la coma de abajo), en la mayúscula y en la
+  minúscula. Su nombre para la voz es «litera a», y su amigo y sus palabras, dibujos cuyo nombre en rumano empieza por
+  ella (o la lleva, en la Ă, la Ț y la Â, que casi nunca van delante: «măr», «față», «câine»). Las palabras de la C y la
+  G no empiezan por ce, ci, ge ni gi, que suenan de otra manera (ID6c).
+- **`temas/letras.ts`** monta la isla con las letras del idioma del juego (`LETRAS_ISLA`): en rumano, sus casitas son
+  las de las letras, con ids propios (`RO-L3-A`, `RO-L4-M`, `RO-L5-Ș`): el progreso de las letras de un idioma no se
+  mezcla con el del otro (decisión 5). Los demás juegos de la isla llegan en la ID6b y la ID6c. El tren de las sílabas
+  va con la Ă (MĂ) pero no con la Î, y solo en las consonantes (la Â no lo tiene).
+- Las frases de esas casitas pasan a plantillas (`fmt`, `juntar`): conocer, buscar, escribir, atrapar, unir, el tren
+  (`juegos/lectura.ts`) y las huellas, con su tabla en rumano `src/idiomas/ro/letras.ts`. `nombreDeLetra` dice en
+  rumano «litera b», y `nombres.ts` tiene cada «litera ...» como nombre (para «Aceea e litera e»).
+- El libro de letras del álbum y la zona de adultos miran las letras del idioma del juego; con más de 20 letras, el
+  libro las pone en seis columnas.
+- Jugando con `?idioma=ro` las 23 casitas con toques al azar, no queda nada sin traducir. En castellano la isla sigue
+  igual (las mismas casitas y frases).
+- Versión: la v0.2.145 la lleva el PR #144 (P13b, el circuito).
 
 ### ID5e (v0.2.148): los cuentos y el paisaje 3D en rumano
 

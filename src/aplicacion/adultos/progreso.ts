@@ -24,9 +24,9 @@ import {
   TL4,
   TL5,
   TRZ,
+  LETRAS_ISLA,
   casitaDeLetra,
 } from '../../temas/indice.ts';
-import { LETRAS } from '../../contenido/letras.ts';
 import { aciertosLetra, datosLetra, estadoLetra, type EstadoLetra } from '../../dominio/letras.ts';
 import { MASCOTAS, TOTAL_SORPRESAS, cuantasSorpresas, etapaFlor, etapaMascota, fichaDe } from '../../dominio/casa.ts';
 import { TEMA, dayIdx, gDone, tst } from '../../escenas/escenas2d.ts';
@@ -254,7 +254,7 @@ export const PROGRESO: PaginaAdultos = {
       cuesta: ['Le cuesta', 'pLecuesta'],
     };
     // letras: una fila por letra de la isla (fase L7): juegos de su casita hechos, porcentaje de aciertos y su estado.
-    const letras = LETRAS.map((L) => {
+    const letras = LETRAS_ISLA.map((L) => {
       const id = casitaDeLetra(L),
         d = datosLetra(id, TEMA[id]?.games.length ?? 0, tst(id).g, S.gs ?? {}),
         p = aciertosLetra(d),
