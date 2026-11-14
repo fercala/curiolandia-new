@@ -575,7 +575,9 @@ export function arrowAt(x: number, y: number) {
 // Zonas principales y de las islas (ZONAS_LETRAS y, desde la fase I2, ZONAS_INGLES): camino en zigzag de 3 filas (5, 4
 // y 3 casitas; la fila del medio va de derecha a izquierda) y el Rincón de los Conceptos (si hay) abajo a la derecha.
 // Fiestas: una sola fila centrada y más grandes (s = 1.25).
-// Admite hasta 12 casitas en el camino: un tema número 13 no tendría posición.
+// Admite hasta 13 casitas en el camino: desde la fase ID6c de docs/PLAN-IDIOMAS.md, la fila de abajo tiene sitio para
+// una cuarta, con las cuatro más juntas (el Pueblo de las Palabras en rumano tiene siete letras y seis casitas más); un tema número 14 no tendría
+// posición.
 function zonePos(z: string) {
   const P: Record<string, PosCasita> = {},
     L = ZONES[z].temas;
@@ -584,10 +586,13 @@ function zonePos(z: string) {
     return P;
   }
   const path = pathOf(z),
+    // abajo(j): la x de la casita j de la fila de abajo; con cuatro, más juntas, para dejar sitio a
+    // la decoración de delante a la derecha
+    abajo = (j: number): number => (path.length > 12 ? 470 + j * 230 : 450 + j * 280),
     rows = [
       [0, 1, 2, 3, 4],
       [5, 6, 7, 8],
-      [9, 10, 11],
+      [9, 10, 11, 12],
     ],
     ys = [250, 490, 725];
   rows.forEach((r, ri) =>
@@ -595,7 +600,7 @@ function zonePos(z: string) {
       const t = path[n];
       if (t)
         P[t.id] = {
-          x: ri === 0 ? 440 + j * 256 : ri === 1 ? 1290 - j * 280 : 450 + j * 280,
+          x: ri === 0 ? 440 + j * 256 : ri === 1 ? 1290 - j * 280 : abajo(j),
           y: ys[ri],
           band: ri,
           s: 1,

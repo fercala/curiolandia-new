@@ -1957,7 +1957,7 @@ a830de01ef81,miedo,trozo,src/juegos/caras.ts
 68072fb6617f,Es {cosa},trozo,src/juegos/comps.ts
 39f16812adf7,Esas son {cosa},trozo,src/juegos/comps.ts
 61b5758bf8a5,Esos son {cosa},trozo,src/juegos/comps.ts
-1676621c6ece,Esa es {cosa},trozo,src/juegos/comps.ts src/temas/letras.ts
+1676621c6ece,Esa es {cosa},trozo,src/juegos/comps.ts
 b3bf81a9905d,Ese es {cosa},trozo,src/juegos/comps.ts
 2a33451004a2,cero,trozo,src/juegos/comps.ts
 1eaa8bb19586,uno,trozo,src/juegos/comps.ts
@@ -2116,13 +2116,11 @@ c016e7527b97,¡Llega el tren de {letra}! Toca un vagón para engancharlo.,frase,
 1803ed792ae8,{Letra} con {vocal}: {silaba}.,trozo,src/juegos/lectura.ts
 16f0be6e98f6,"¡Chu, chu! El tren se va.",frase,src/juegos/lectura.ts
 c12dcbb5375e,Toca la huella que brilla.,frase,src/juegos/lectura.ts
-b034806c1201,Haz la sílaba ,trozo,src/juegos/lectura.ts
-e5c960a74085,. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,trozo,src/juegos/lectura.ts
-b52e12769797,¡Esta es la máquina de las sílabas! ,frase,src/juegos/lectura.ts
+e89c9f746492,¡Esta es la máquina de las sílabas!,frase,src/juegos/lectura.ts
+98f857d62220,Haz la sílaba {silaba}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,frase,src/juegos/lectura.ts
+ad5e6dee6c70,Haz la sílaba {silaba}.,frase,src/juegos/lectura.ts
 4938a7cf8e90,Haz:,trozo,src/juegos/lectura.ts
-6db26f694335, con ,trozo,src/juegos/lectura.ts
-18ce5a5063f4,Ha salido ,trozo,src/juegos/lectura.ts
-991d426af75b,. Queremos ,trozo,src/juegos/lectura.ts
+8abdbb984489,Ha salido {hecha}. Queremos {silaba}.,frase,src/juegos/lectura.ts
 acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.",frase,src/juegos/lectura.ts
 1819906d8c99,Lee la frase y toca el dibujo que dice.,frase,src/juegos/lectura.ts
 f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.",frase,src/juegos/lectura.ts
@@ -2835,6 +2833,7 @@ bc9202a22afa,celebrar todo lo aprendido: repasar juntos las palabras en inglés.
 89822b299bb0,RO-,trozo,src/temas/letras.ts
 19e25daf5584,{Cosa}. {Palabra} empieza por {letra}.,trozo,src/temas/letras.ts
 9fabc7e09a01,{Cosa}. {Palabra} lleva {letra}.,trozo,src/temas/letras.ts
+e5e08f9ef3a2,Esa es {cosa}.,frase,src/temas/letras.ts
 1f99bb34b550,Esta es {letra}. {Letra} de {amigo}.,frase,src/temas/letras.ts
 68cd3b5c0b37,Y esta es {letra} minúscula.,frase,src/temas/letras.ts
 70939573f64c,¡Vamos a conocer {letra}! Toca cada tarjeta.,frase,src/temas/letras.ts
@@ -2921,19 +2920,17 @@ f7e31bebd5d7,L4-FIE,trozo,src/temas/letras.ts
 058888f822a9,¡Es la fiesta de las letras del bosque!,frase,src/temas/letras.ts
 fc7614bee946,El tren de las sílabas,trozo,src/temas/letras.ts
 3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,frase,src/temas/letras.ts
-2654c5494fd6, Pone ,trozo,src/temas/letras.ts
-db182603c659,Esa es ,trozo,src/temas/letras.ts
-44778f07deab,". Si tocas la palabra, te la leo a trozos.",trozo,src/temas/letras.ts
-0713fabbacb4,Esto es ,trozo,src/temas/letras.ts
-57f2b4eafc26,. ¿Con qué trozo empieza?,trozo,src/temas/letras.ts
-b8ff87d2ab8d,. ¿Qué trozo falta?,trozo,src/temas/letras.ts
-ca85cc8c5b91,Con ,trozo,src/temas/letras.ts
-507afec646af, no pone ,trozo,src/temas/letras.ts
-dd5e7d6c7c0d,"Mmm, ese trozo no va ahí. Escucha: ",trozo,src/temas/letras.ts
-c3dcd43563e4,. Arrastra los trozos en orden para escribir ,trozo,src/temas/letras.ts
+a67c2e29ea86,Pone {palabra}.,frase,src/temas/letras.ts
+ba19c7639978,"Esa es {cosa}. Si tocas la palabra, te la leo a trozos.",frase,src/temas/letras.ts
+1e5b574cd517,{trozos}: {palabra}.,trozo,src/temas/letras.ts
+bdd2e5de3860,Esto es {cosa}. ¿Con qué trozo empieza?,frase,src/temas/letras.ts
+8b4058ca5720,Esto es {cosa}. ¿Qué trozo falta?,frase,src/temas/letras.ts
+e1e733160ea4,Con {trozo} no pone {palabra}.,frase,src/temas/letras.ts
+b1daf81f5b28,"Mmm, ese trozo no va ahí. Escucha: {oye}.",frase,src/temas/letras.ts
+f1acb95b2e9b,Esto es {cosa}. Arrastra los trozos en orden para escribir {palabra}.,frase,src/temas/letras.ts
 f1ab68c326af,Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.,frase,src/temas/letras.ts
-ae6fba38151f,Aquí no pone ,trozo,src/temas/letras.ts
-5d817438981f,¡Atrapa los globos que dicen ,trozo,src/temas/letras.ts
+470e4baab51e,Aquí no pone {palabra}.,frase,src/temas/letras.ts
+aa9149cf2c75,¡Atrapa los globos que dicen {silaba}!,frase,src/temas/letras.ts
 0c5879749bf0,Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.,frase,src/temas/letras.ts
 e7854240534b,El pato y la luna,trozo,src/temas/letras.ts
 6861d9a40b54,Había una vez un,trozo,src/temas/letras.ts
@@ -2951,12 +2948,12 @@ ddac612b2daa,en el cielo.,trozo,src/temas/letras.ts
 1d0de93dd8ac,"Quería volar tan alto como ella, así que subió a un",trozo,src/temas/letras.ts
 f3039b4992a3,Y desde arriba saludó a la,trozo,src/temas/letras.ts
 d6ade1fe632d,". ¡Hola, luna!",trozo,src/temas/letras.ts
-cbffc42b1dc4,... ¿Qué pone en la palabra amarilla? Toca su dibujo.,trozo,src/temas/letras.ts
-e2a14c29745f,Vamos a leer un cuento: ,trozo,src/temas/letras.ts
-86a990a26e4c," Y colorín, colorado, este cuento se ha acabado.",frase,src/temas/letras.ts
-27fb55b9c18f,. Lee la palabra amarilla.,trozo,src/temas/letras.ts
+c19172bae140,Vamos a leer un cuento: {titulo}.,frase,src/temas/letras.ts
+1c34f5d10a1b,{antes}... ¿Qué pone en la palabra amarilla? Toca su dibujo.,trozo,src/temas/letras.ts
+fbe423925cf6,"Y colorín, colorado, este cuento se ha acabado.",frase,src/temas/letras.ts
+2d7200f81e95,Esa es {cosa}. Lee la palabra amarilla.,frase,src/temas/letras.ts
+6115067bc8e8,AĂÂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZ,trozo,src/temas/letras.ts
 efc0787e836e,ABCDEFGHIJKLMNÑOPQRSTUVWXYZ,trozo,src/temas/letras.ts
-f4b7f5c009fb, de ,trozo,src/temas/letras.ts
 c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,frase,src/temas/letras.ts
 25d6c78aa672,L5,trozo,src/temas/letras.ts
 31b218bef63e,L5-FAB,trozo,src/temas/letras.ts

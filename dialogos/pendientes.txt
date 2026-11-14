@@ -1887,3 +1887,22 @@ Esta es {letra}, la primera letra del nombre de Tito. Píntala con el dedo como 
 ¡Qué bonita te ha quedado {letra}!
 Con {letra} empieza tu nombre.
 Con {letra} empieza Tito.
+Esa es {cosa}.
+Pone {palabra}.
+Esa es {cosa}. Si tocas la palabra, te la leo a trozos.
+Esto es {cosa}. ¿Con qué trozo empieza?
+Esto es {cosa}. ¿Qué trozo falta?
+{trozos}: {palabra}.
+Con {trozo} no pone {palabra}.
+Mmm, ese trozo no va ahí. Escucha: {oye}.
+Esto es {cosa}. Arrastra los trozos en orden para escribir {palabra}.
+Aquí no pone {palabra}.
+¡Atrapa los globos que dicen {silaba}!
+¡Esta es la máquina de las sílabas!
+Haz la sílaba {silaba}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.
+Haz la sílaba {silaba}.
+Ha salido {hecha}. Queremos {silaba}.
+Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.
+Vamos a leer un cuento: {titulo}.
+{antes}... ¿Qué pone en la palabra amarilla? Toca su dibujo.
+Esa es {cosa}. Lee la palabra amarilla.

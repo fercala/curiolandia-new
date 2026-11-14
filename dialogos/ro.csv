@@ -1957,7 +1957,7 @@ a830de01ef81,miedo,frică,trozo,src/juegos/caras.ts,borrador
 68072fb6617f,Es {cosa},E {cosa},trozo,src/juegos/comps.ts,borrador
 39f16812adf7,Esas son {cosa},Acelea sunt {cosa},trozo,src/juegos/comps.ts,borrador
 61b5758bf8a5,Esos son {cosa},Aceia sunt {cosa},trozo,src/juegos/comps.ts,borrador
-1676621c6ece,Esa es {cosa},Aceea e {cosa},trozo,src/juegos/comps.ts src/temas/letras.ts,borrador
+1676621c6ece,Esa es {cosa},Aceea e {cosa},trozo,src/juegos/comps.ts,borrador
 b3bf81a9905d,Ese es {cosa},Acela e {cosa},trozo,src/juegos/comps.ts,borrador
 2a33451004a2,cero,zero,trozo,src/juegos/comps.ts,borrador
 1eaa8bb19586,uno,unu,trozo,src/juegos/comps.ts,borrador
@@ -2116,17 +2116,15 @@ c016e7527b97,¡Llega el tren de {letra}! Toca un vagón para engancharlo.,Vine t
 1803ed792ae8,{Letra} con {vocal}: {silaba}.,{Letra} cu {vocal}: {silaba}.,trozo,src/juegos/lectura.ts,borrador
 16f0be6e98f6,"¡Chu, chu! El tren se va.","Ciu, ciu! Trenul pleacă.",frase,src/juegos/lectura.ts,borrador
 c12dcbb5375e,Toca la huella que brilla.,Atinge urma care strălucește.,frase,src/juegos/lectura.ts,borrador
-b034806c1201,Haz la sílaba ,,trozo,src/juegos/lectura.ts,falta
-e5c960a74085,. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,,trozo,src/juegos/lectura.ts,falta
-b52e12769797,¡Esta es la máquina de las sílabas! ,,frase,src/juegos/lectura.ts,falta
-4938a7cf8e90,Haz:,,trozo,src/juegos/lectura.ts,falta
-6db26f694335, con ,,trozo,src/juegos/lectura.ts,falta
-18ce5a5063f4,Ha salido ,,trozo,src/juegos/lectura.ts,falta
-991d426af75b,. Queremos ,,trozo,src/juegos/lectura.ts,falta
-acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.",,frase,src/juegos/lectura.ts,falta
-1819906d8c99,Lee la frase y toca el dibujo que dice.,,frase,src/juegos/lectura.ts,falta
-f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.",,frase,src/juegos/lectura.ts,falta
-ba20461b2d04,Te la leo:,,trozo,src/juegos/lectura.ts,falta
+e89c9f746492,¡Esta es la máquina de las sílabas!,Aceasta este mașina de silabe!,frase,src/juegos/lectura.ts,borrador
+98f857d62220,Haz la sílaba {silaba}. Toca las ruedas para cambiar las letras y después pulsa el botón rojo.,Fă silaba {silaba}. Atinge roțile ca să schimbi literele și apoi apasă butonul roșu.,frase,src/juegos/lectura.ts,borrador
+ad5e6dee6c70,Haz la sílaba {silaba}.,Fă silaba {silaba}.,frase,src/juegos/lectura.ts,borrador
+4938a7cf8e90,Haz:,Fă:,trozo,src/juegos/lectura.ts,borrador
+8abdbb984489,Ha salido {hecha}. Queremos {silaba}.,A ieșit {hecha}. Vrem {silaba}.,frase,src/juegos/lectura.ts,borrador
+acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.","Citește propoziția și atinge desenul potrivit. Dacă atingi un cuvânt, ți-l citesc.",frase,src/juegos/lectura.ts,borrador
+1819906d8c99,Lee la frase y toca el dibujo que dice.,Citește propoziția și atinge desenul potrivit.,frase,src/juegos/lectura.ts,borrador
+f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.","Mmm, nu e acela. Uită-te bine la propoziție.",frase,src/juegos/lectura.ts,borrador
+ba20461b2d04,Te la leo:,Ți-o citesc:,trozo,src/juegos/lectura.ts,borrador
 b09361a94769,¡Meta!,Linia de sosire!,frase,src/mundo3d/carreras3d.ts,borrador
 11d71e5d9f54,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la izquierda.,O răscruce! Mergem la stânga sau la dreapta? Stelele sunt la stânga.,frase,src/mundo3d/carreras3d.ts,borrador
 63b8a1ea2b08,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la derecha.,O răscruce! Mergem la stânga sau la dreapta? Stelele sunt la dreapta.,frase,src/mundo3d/carreras3d.ts,borrador
@@ -2835,6 +2833,7 @@ bc9202a22afa,celebrar todo lo aprendido: repasar juntos las palabras en inglés.
 89822b299bb0,RO-,,trozo,src/temas/letras.ts,falta
 19e25daf5584,{Cosa}. {Palabra} empieza por {letra}.,{Cosa}. {Palabra} începe cu {letra}.,trozo,src/temas/letras.ts,borrador
 9fabc7e09a01,{Cosa}. {Palabra} lleva {letra}.,{Cosa}. În {palabra} se aude {letra}.,trozo,src/temas/letras.ts,borrador
+e5e08f9ef3a2,Esa es {cosa}.,Aceea e {cosa}.,frase,src/temas/letras.ts,borrador
 1f99bb34b550,Esta es {letra}. {Letra} de {amigo}.,"Aceasta este {letra}. {Letra}, ca în {amigo}.",frase,src/temas/letras.ts,borrador
 68cd3b5c0b37,Y esta es {letra} minúscula.,Și aceasta este {letra} mică.,frase,src/temas/letras.ts,borrador
 70939573f64c,¡Vamos a conocer {letra}! Toca cada tarjeta.,Hai să cunoaștem {letra}! Atinge fiecare cartonaș.,frase,src/temas/letras.ts,borrador
@@ -2920,74 +2919,72 @@ f7e31bebd5d7,L4-FIE,,trozo,src/temas/letras.ts,falta
 1d20e2f45ef8,Fiesta de las letras,Petrecerea literelor,trozo,src/temas/letras.ts,borrador
 058888f822a9,¡Es la fiesta de las letras del bosque!,E petrecerea literelor din pădure!,frase,src/temas/letras.ts,borrador
 fc7614bee946,El tren de las sílabas,Trenul silabelor,trozo,src/temas/letras.ts,borrador
-3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,,frase,src/temas/letras.ts,falta
-2654c5494fd6, Pone ,,trozo,src/temas/letras.ts,falta
-db182603c659,Esa es ,,trozo,src/temas/letras.ts,falta
-44778f07deab,". Si tocas la palabra, te la leo a trozos.",,trozo,src/temas/letras.ts,falta
-0713fabbacb4,Esto es ,,trozo,src/temas/letras.ts,falta
-57f2b4eafc26,. ¿Con qué trozo empieza?,,trozo,src/temas/letras.ts,falta
-b8ff87d2ab8d,. ¿Qué trozo falta?,,trozo,src/temas/letras.ts,falta
-ca85cc8c5b91,Con ,,trozo,src/temas/letras.ts,falta
-507afec646af, no pone ,,trozo,src/temas/letras.ts,falta
-dd5e7d6c7c0d,"Mmm, ese trozo no va ahí. Escucha: ",,trozo,src/temas/letras.ts,falta
-c3dcd43563e4,. Arrastra los trozos en orden para escribir ,,trozo,src/temas/letras.ts,falta
-f1ab68c326af,Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.,,frase,src/temas/letras.ts,falta
-ae6fba38151f,Aquí no pone ,,trozo,src/temas/letras.ts,falta
-5d817438981f,¡Atrapa los globos que dicen ,,trozo,src/temas/letras.ts,falta
-0c5879749bf0,Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.,,frase,src/temas/letras.ts,falta
-e7854240534b,El pato y la luna,,trozo,src/temas/letras.ts,falta
-6861d9a40b54,Había una vez un,,trozo,src/temas/letras.ts,falta
-e7d4db33e0e3,que vivía en un lago.,,trozo,src/temas/letras.ts,falta
-500985f90306,"Una noche, el pato miró al cielo y vio la",,trozo,src/temas/letras.ts,falta
-a586b4fd8e01,La luna estaba sola. El pato le llevó una,,trozo,src/temas/letras.ts,falta
-8368153a0248,para que jugaran.,,trozo,src/temas/letras.ts,falta
-405ea22d6199,"Y la luna, la nube y el pato jugaron con una",,trozo,src/temas/letras.ts,falta
-bae611da83b4,toda la noche.,,trozo,src/temas/letras.ts,falta
-9aa32bc4cd2c,La vaca que quería volar,,trozo,src/temas/letras.ts,falta
-9e803381aacb,En el pueblo vivía una,,trozo,src/temas/letras.ts,falta
-0930e3cfb91c,muy curiosa.,,trozo,src/temas/letras.ts,falta
-1e37387519c1,"Un día, la vaca vio una",,trozo,src/temas/letras.ts,falta
-ddac612b2daa,en el cielo.,,trozo,src/temas/letras.ts,falta
-1d0de93dd8ac,"Quería volar tan alto como ella, así que subió a un",,trozo,src/temas/letras.ts,falta
-f3039b4992a3,Y desde arriba saludó a la,,trozo,src/temas/letras.ts,falta
-d6ade1fe632d,". ¡Hola, luna!",,trozo,src/temas/letras.ts,falta
-cbffc42b1dc4,... ¿Qué pone en la palabra amarilla? Toca su dibujo.,,trozo,src/temas/letras.ts,falta
-e2a14c29745f,Vamos a leer un cuento: ,,trozo,src/temas/letras.ts,falta
-86a990a26e4c," Y colorín, colorado, este cuento se ha acabado.",,frase,src/temas/letras.ts,falta
-27fb55b9c18f,. Lee la palabra amarilla.,,trozo,src/temas/letras.ts,falta
+3190e003325a,¿Qué pone? Lee la palabra y toca su dibujo.,Ce scrie? Citește cuvântul și atinge desenul lui.,frase,src/temas/letras.ts,borrador
+a67c2e29ea86,Pone {palabra}.,Scrie {palabra}.,frase,src/temas/letras.ts,borrador
+ba19c7639978,"Esa es {cosa}. Si tocas la palabra, te la leo a trozos.","Aceea e {cosa}. Dacă atingi cuvântul, ți-l citesc pe silabe.",frase,src/temas/letras.ts,borrador
+1e5b574cd517,{trozos}: {palabra}.,{trozos}: {palabra}.,trozo,src/temas/letras.ts,borrador
+bdd2e5de3860,Esto es {cosa}. ¿Con qué trozo empieza?,Aceasta e {cosa}. Cu ce silabă începe?,frase,src/temas/letras.ts,borrador
+8b4058ca5720,Esto es {cosa}. ¿Qué trozo falta?,Aceasta e {cosa}. Ce silabă lipsește?,frase,src/temas/letras.ts,borrador
+e1e733160ea4,Con {trozo} no pone {palabra}.,Cu {trozo} nu scrie {palabra}.,frase,src/temas/letras.ts,borrador
+b1daf81f5b28,"Mmm, ese trozo no va ahí. Escucha: {oye}.","Mmm, silaba aceea nu merge acolo. Ascultă: {oye}.",frase,src/temas/letras.ts,borrador
+f1acb95b2e9b,Esto es {cosa}. Arrastra los trozos en orden para escribir {palabra}.,Aceasta e {cosa}. Trage silabele în ordine ca să scrii {palabra}.,frase,src/temas/letras.ts,borrador
+f1ab68c326af,Une cada palabra con su dibujo. Lee la palabra y arrastra una línea hasta su dibujo.,Unește fiecare cuvânt cu desenul lui. Citește cuvântul și trage o linie până la desen.,frase,src/temas/letras.ts,borrador
+470e4baab51e,Aquí no pone {palabra}.,Aici nu scrie {palabra}.,frase,src/temas/letras.ts,borrador
+aa9149cf2c75,¡Atrapa los globos que dicen {silaba}!,Prinde baloanele pe care scrie {silaba}!,frase,src/temas/letras.ts,borrador
+0c5879749bf0,Mira el dibujo. Arrastra las palabras en orden para escribir lo que pasa.,Uită-te la desen. Trage cuvintele în ordine ca să scrii ce se întâmplă.,frase,src/temas/letras.ts,borrador
+e7854240534b,El pato y la luna,Rața și luna,trozo,src/temas/letras.ts,borrador
+6861d9a40b54,Había una vez un,A fost odată o,trozo,src/temas/letras.ts,borrador
+e7d4db33e0e3,que vivía en un lago.,care trăia pe un lac.,trozo,src/temas/letras.ts,borrador
+500985f90306,"Una noche, el pato miró al cielo y vio la","Într-o noapte, rața s-a uitat la cer și a văzut o",trozo,src/temas/letras.ts,borrador
+a586b4fd8e01,La luna estaba sola. El pato le llevó una,Luna era singură. Rața i-a adus un,trozo,src/temas/letras.ts,borrador
+8368153a0248,para que jugaran.,ca să se joace împreună.,trozo,src/temas/letras.ts,borrador
+405ea22d6199,"Y la luna, la nube y el pato jugaron con una","Și luna, norul și rața s-au jucat cu o",trozo,src/temas/letras.ts,borrador
+bae611da83b4,toda la noche.,toată noaptea.,trozo,src/temas/letras.ts,borrador
+9aa32bc4cd2c,La vaca que quería volar,Vaca ce voia să zboare,trozo,src/temas/letras.ts,borrador
+9e803381aacb,En el pueblo vivía una,În sat trăia o,trozo,src/temas/letras.ts,borrador
+0930e3cfb91c,muy curiosa.,foarte curioasă.,trozo,src/temas/letras.ts,borrador
+1e37387519c1,"Un día, la vaca vio una","Într-o zi, vaca a văzut un",trozo,src/temas/letras.ts,borrador
+ddac612b2daa,en el cielo.,pe cer.,trozo,src/temas/letras.ts,borrador
+1d0de93dd8ac,"Quería volar tan alto como ella, así que subió a un","Voia să zboare la fel de sus ca el, așa că s-a urcat într-o",trozo,src/temas/letras.ts,borrador
+f3039b4992a3,Y desde arriba saludó a la,"Și sus, sus de tot, a întâlnit o",trozo,src/temas/letras.ts,borrador
+d6ade1fe632d,". ¡Hola, luna!",". Bună, lună!",trozo,src/temas/letras.ts,borrador
+c19172bae140,Vamos a leer un cuento: {titulo}.,Hai să citim o poveste: {titulo}.,frase,src/temas/letras.ts,borrador
+1c34f5d10a1b,{antes}... ¿Qué pone en la palabra amarilla? Toca su dibujo.,{antes}... Ce scrie în cuvântul galben? Atinge desenul lui.,trozo,src/temas/letras.ts,borrador
+fbe423925cf6,"Y colorín, colorado, este cuento se ha acabado.",Și-am încălecat pe-o șa și v-am spus povestea așa.,frase,src/temas/letras.ts,borrador
+2d7200f81e95,Esa es {cosa}. Lee la palabra amarilla.,Aceea e {cosa}. Citește cuvântul galben.,frase,src/temas/letras.ts,borrador
+6115067bc8e8,AĂÂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZ,,trozo,src/temas/letras.ts,falta
 efc0787e836e,ABCDEFGHIJKLMNÑOPQRSTUVWXYZ,,trozo,src/temas/letras.ts,falta
-f4b7f5c009fb, de ,,trozo,src/temas/letras.ts,falta
-c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,,frase,src/temas/letras.ts,falta
+c0cfd97e08af,¡Vamos a cantar la canción del abecedario! Escucha.,Hai să cântăm cântecul alfabetului! Ascultă.,frase,src/temas/letras.ts,borrador
 25d6c78aa672,L5,,trozo,src/temas/letras.ts,falta
 31b218bef63e,L5-FAB,,trozo,src/temas/letras.ts,falta
-8ecf7eff4024,Fábrica de sílabas,,trozo,src/temas/letras.ts,falta
-22ac18b7151a,¡Bienvenido a la fábrica de sílabas!,,frase,src/temas/letras.ts,falta
-de044df6b466,La máquina de sílabas,,trozo,src/temas/letras.ts,falta
-1043ab2e443c,Globos de sílabas,,trozo,src/temas/letras.ts,falta
-7bba0cd6b148,¿Con qué trozo empieza?,,frase,src/temas/letras.ts,falta
+8ecf7eff4024,Fábrica de sílabas,Fabrica de silabe,trozo,src/temas/letras.ts,borrador
+22ac18b7151a,¡Bienvenido a la fábrica de sílabas!,Bine ai venit la fabrica de silabe!,frase,src/temas/letras.ts,borrador
+de044df6b466,La máquina de sílabas,Mașina de silabe,trozo,src/temas/letras.ts,borrador
+1043ab2e443c,Globos de sílabas,Baloane cu silabe,trozo,src/temas/letras.ts,borrador
+7bba0cd6b148,¿Con qué trozo empieza?,Cu ce silabă începe?,frase,src/temas/letras.ts,borrador
 96dc2b86ca16,L5-DOS,,trozo,src/temas/letras.ts,falta
-07ebc2f81dbc,Palabras de dos sílabas,,trozo,src/temas/letras.ts,falta
-710b05ca52b3,¡Vamos a leer palabras cortas!,,frase,src/temas/letras.ts,falta
-abd6a7ff6080,Leo y elijo,,trozo,src/temas/letras.ts,falta
-1424311ca10d,Armo la palabra,,trozo,src/temas/letras.ts,falta
-220029cba633,La sílaba que falta,,trozo,src/temas/letras.ts,falta
-762d5abcb86d,Une la palabra con su dibujo,,trozo,src/temas/letras.ts,falta
+07ebc2f81dbc,Palabras de dos sílabas,Cuvinte cu două silabe,trozo,src/temas/letras.ts,borrador
+710b05ca52b3,¡Vamos a leer palabras cortas!,Hai să citim cuvinte scurte!,frase,src/temas/letras.ts,borrador
+abd6a7ff6080,Leo y elijo,Citesc și aleg,trozo,src/temas/letras.ts,borrador
+1424311ca10d,Armo la palabra,Construiesc cuvântul,trozo,src/temas/letras.ts,borrador
+220029cba633,La sílaba que falta,Silaba care lipsește,trozo,src/temas/letras.ts,borrador
+762d5abcb86d,Une la palabra con su dibujo,Unește cuvântul cu desenul,trozo,src/temas/letras.ts,borrador
 51c97e2e77bd,L5-TRE,,trozo,src/temas/letras.ts,falta
-8631c2161a39,Palabras de tres sílabas,,trozo,src/temas/letras.ts,falta
-8ba623bf05c0,"¡Ahora, palabras más largas!",,frase,src/temas/letras.ts,falta
+8631c2161a39,Palabras de tres sílabas,Cuvinte cu trei silabe,trozo,src/temas/letras.ts,borrador
+8ba623bf05c0,"¡Ahora, palabras más largas!","Acum, cuvinte mai lungi!",frase,src/temas/letras.ts,borrador
 d9ce629f70b7,L5-FRA,,trozo,src/temas/letras.ts,falta
-f3875ea37ae0,Frases que se mueven,,trozo,src/temas/letras.ts,falta
-f6e227a99acf,¡Vamos a leer frases!,,frase,src/temas/letras.ts,falta
-56af6a6d3826,¡Las frases se mueven!,,frase,src/temas/letras.ts,falta
-11d8ff405c53,Ordena la frase,,trozo,src/temas/letras.ts,falta
-3d4334518bc8,Más frases,,trozo,src/temas/letras.ts,falta
+f3875ea37ae0,Frases que se mueven,Propoziții care se mișcă,trozo,src/temas/letras.ts,borrador
+f6e227a99acf,¡Vamos a leer frases!,Hai să citim propoziții!,frase,src/temas/letras.ts,borrador
+56af6a6d3826,¡Las frases se mueven!,Propozițiile se mișcă!,frase,src/temas/letras.ts,borrador
+11d8ff405c53,Ordena la frase,Ordonează propoziția,trozo,src/temas/letras.ts,borrador
+3d4334518bc8,Más frases,Mai multe propoziții,trozo,src/temas/letras.ts,borrador
 d7b86a23b6e2,L5-CUE,,trozo,src/temas/letras.ts,falta
-6f21a9c01ee7,Cuentos para leer,,trozo,src/temas/letras.ts,falta
-51b429f28487,¡Vamos a leer cuentos! Tú lees la palabra amarilla.,,frase,src/temas/letras.ts,falta
+6f21a9c01ee7,Cuentos para leer,Povești de citit,trozo,src/temas/letras.ts,borrador
+51b429f28487,¡Vamos a leer cuentos! Tú lees la palabra amarilla.,Hai să citim povești! Tu citești cuvântul galben.,frase,src/temas/letras.ts,borrador
 e9ac2f996044,L5-FIE,,trozo,src/temas/letras.ts,falta
-6112046404d0,Fiesta del abecedario,,trozo,src/temas/letras.ts,falta
-1e80a86086ff,¡Es la fiesta del abecedario!,,frase,src/temas/letras.ts,falta
-83b033c3b049,La canción del abecedario,,trozo,src/temas/letras.ts,falta
+6112046404d0,Fiesta del abecedario,Petrecerea alfabetului,trozo,src/temas/letras.ts,borrador
+1e80a86086ff,¡Es la fiesta del abecedario!,E petrecerea alfabetului!,frase,src/temas/letras.ts,borrador
+83b033c3b049,La canción del abecedario,Cântecul alfabetului,trozo,src/temas/letras.ts,borrador
 e067f26392e3,la lancha,barca cu motor,nombre,src/temas/temas.ts,borrador
 50c036b75e36,el helicóptero,elicopterul,nombre,src/temas/temas.ts,borrador
 1eec213e0e4e,A  B  C  1  2  3,A  B  C  1  2  3,trozo,src/temas/temas.ts,borrador
