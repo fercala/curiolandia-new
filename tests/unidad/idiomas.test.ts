@@ -10,9 +10,9 @@ test('encuentra las frases compuestas y los trucos de gramática conocidos', () 
   const todos = sitios(RAIZ);
   const hay = (archivo: string, tipo: string, trozo: string): boolean =>
     todos.some((s) => s.archivo === archivo && s.tipo === tipo && s.codigo.includes(trozo));
-  // `Haz la sílaba ${...}.`: una frase compuesta, con ${} (en el pueblo de la Isla de las Letras, que pasa a plantillas
-  // en la fase ID6c; las de la playa y el bosque ya lo son desde la ID6a y la ID6b)
-  expect(hay(join('src', 'juegos', 'lectura.ts'), 'compuesta', '`Haz la sílaba ${sil(this.obj)}.')).toBe(true);
+  // desde la fase ID6c (el pueblo de la Isla de las Letras), no queda ninguna frase compuesta en todo el juego: solo
+  // los trucos de gramática castellana que tienen al lado su versión rumana
+  expect(todos.filter((s) => s.tipo === 'compuesta').map((s) => s.archivo + ':' + s.linea)).toEqual([]);
   // desde la fase ID2e, las de los temas de 5 años son plantillas de fmt
   expect(todos.some((s) => s.archivo === join('src', 'temas', 'temas5.ts'))).toBe(false);
   // desde la fase ID2f, fuera de la Isla de las Letras (letras.ts y lectura.ts) ya no queda ninguna

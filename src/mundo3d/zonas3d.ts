@@ -563,8 +563,11 @@ function zoneDecor(w: Mundo, z: string) {
     });
   }
   // el Pueblo de las Palabras (fase L5): arbustos y flores a los lados, un buzón, un reloj, una cometa y, delante a la
-  // derecha (como las letras del bosque), carteles con palabras cortas que se mecen
+  // derecha (como las letras del bosque), carteles con palabras cortas que se mecen. Con trece casitas (en rumano, desde la
+  // fase ID6c de docs/PLAN-IDIOMAS.md), la fila de abajo llega más a la derecha: los carteles van más a la derecha, delante
+  // del buzón, y solo dos (el tercero se saldría de la pantalla).
   if (z === 'puebloPalabras') {
+    const trece = ZONES[z]!.temas.length > 12;
     for (const x of [-17.5, 17.5])
       for (let i = 0; i < 5; i++) {
         bush3(D, x, -6 + i * 3, 0.9);
@@ -573,7 +576,7 @@ function zoneDecor(w: Mundo, z: string) {
     post3(w, 14.6, 4.4, 1.1);
     clock3(w, -16.6, 8.8, 0.7);
     kite3(w, 10, 6.5, -6, 1);
-    ['SOL', 'PAN', 'LUZ'].forEach((l, i) => {
+    ['SOL', 'PAN', 'LUZ'].slice(0, trece ? 2 : 3).forEach((l, i) => {
       const q = spr(
         canvasTex(
           256,
@@ -586,7 +589,7 @@ function zoneDecor(w: Mundo, z: string) {
         ),
         2.6,
         1.3,
-        { p: [6.4 + i * 3, 1.1, 6.6 + (i % 2) * 0.6], to: D },
+        { p: trece ? [9.8 + i * 2.6, 1.1, 8.2 + (i % 2) * 0.6] : [6.4 + i * 3, 1.1, 6.6 + (i % 2) * 0.6], to: D },
       );
       w.upd.push(() => {
         q.position.y = 1.1 + Math.abs(Math.sin(T * 2 + i)) * 0.3;
