@@ -1,12 +1,14 @@
 // Pruebas de las letras de la Isla de las Letras (src/contenido/letras.ts, fase L1 de docs/PLAN-LECTURA.md): que estén
 // las 20 letras sin repetir y en sus zonas, que existan los dibujos de los amigos y las palabras, que cada palabra
 // empiece por su letra y que los trazos estén dentro de la caja de la letra (desde la fase L7b, también los de la
-// minúscula). Un error aquí es una letra mal escrita: el
+// minúscula), y desde la fase ID6a de docs/PLAN-IDIOMAS.md, lo mismo para las 23 letras del rumano (contenido/letrasRo.ts).
+// Un error aquí es una letra mal escrita: el
 // mensaje dice cuál.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso (cuántas letras, límites de la
    caja): leerlos tal cual es más claro que darles un nombre. */
 import { describe, expect, test } from 'vitest';
 import { LETRAS, MINUS_CAJA, letra, letraEnPantalla, letrasDeZona } from '../../src/contenido/letras.ts';
+import { LETRAS_RO } from '../../src/contenido/letrasRo.ts';
 import { ZONAS_LETRAS } from '../../src/dominio/apertura.ts';
 import { PICS } from '../../src/dibujos/todos.ts';
 
@@ -94,5 +96,54 @@ describe('letras de la isla', () => {
       [600, 200],
       [1000, 450],
     ]);
+  });
+});
+
+// Las letras de la isla en rumano (contenido/letrasRo.ts, fase ID6a de docs/PLAN-IDIOMAS.md).
+describe('letras de la isla en rumano', () => {
+  test('son 23, sin repetir, en sus zonas y en el orden de la isla', () => {
+    expect(LETRAS_RO).toHaveLength(23);
+    expect(new Set(LETRAS_RO.map((x) => x.l)).size).toBe(23);
+    const zona = (z: string) =>
+      LETRAS_RO.filter((x) => x.zona === z)
+        .map((x) => x.l)
+        .join('');
+    expect(zona('playaSonidos')).toBe('AEIOUĂÎ');
+    expect(zona('bosqueLetras')).toBe('MPLSTNDFB');
+    expect(zona('puebloPalabras')).toBe('RCGVȘȚÂ');
+  });
+
+  test('los dibujos existen, no se repiten y el amigo empieza por su letra (o la lleva, si casi nunca va delante)', () => {
+    const todos = LETRAS_RO.flatMap((x) => [x.amigo, ...x.palabras]);
+    expect(new Set(todos).size, 'dibujos repetidos').toBe(todos.length);
+    for (const x of LETRAS_RO) {
+      for (const k of [x.amigo, ...x.palabras]) expect(PICS, `dibujo ${k} de la ${x.l}`).toHaveProperty(k);
+      if ('ĂȚÂ'.includes(x.l)) expect(x.amigoDice, `amigo de la ${x.l}`).toContain(x.l.toLowerCase());
+      else expect(x.amigoDice[0]?.toUpperCase(), `amigo de la ${x.l}`).toBe(x.l);
+      expect(x.nombre).toBe(`litera ${x.l.toLowerCase()}`);
+    }
+  });
+
+  test('las letras con signo llevan un trazo más, y caben (la coma de la Ș y la Ț, un poco por debajo)', () => {
+    for (const [l, b] of [
+      ['Ă', 'A'],
+      ['Î', 'I'],
+      ['Ș', 'S'],
+      ['Ț', 'T'],
+      ['Â', 'A'],
+    ] as const) {
+      const x = LETRAS_RO.find((q) => q.l === l)!,
+        y = letra(b)!;
+      expect(x.trazos.length, `trazos de la ${l}`).toBe(y.trazos.length + 1);
+      // la î pequeña cambia el punto de la i por el circunflejo
+      expect(x.minus.length, `minúscula de la ${l}`).toBe(l === 'Î' ? y.minus.length : y.minus.length + 1);
+    }
+    for (const x of LETRAS_RO)
+      for (const [px, py] of [...x.trazos, ...x.minus].flat()) {
+        expect(px, `x de la ${x.l}`).toBeGreaterThanOrEqual(-0.01);
+        expect(px, `x de la ${x.l}`).toBeLessThanOrEqual(1.01);
+        expect(py, `y de la ${x.l}`).toBeGreaterThanOrEqual(-0.35);
+        expect(py, `y de la ${x.l}`).toBeLessThanOrEqual(1.18);
+      }
   });
 });

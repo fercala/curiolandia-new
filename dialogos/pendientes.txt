@@ -1840,3 +1840,29 @@ El circuito
 ¡Lupi me ha encontrado!
 ¡Qué bien nos lo hemos pasado jugando al escondite! ¿Jugamos otra vez?
 Toca dónde quieres que me esconda.
+Esta es {letra}. {Letra} de {amigo}.
+{Cosa}. {Palabra} empieza por {letra}.
+{Cosa}. {Palabra} lleva {letra}.
+{Letra} de {amigo}.
+Y esta es {letra} minúscula.
+¡Vamos a conocer {letra}! Toca cada tarjeta.
+¡Vamos a conocer {letra}!
+La {l}
+Conoce {letra}
+¿Dónde está {letra}?
+¡Atrapa las burbujas de {letra}!
+Atrapa {letra}
+Escribe {letra}
+Vamos a escribir {letra}. Empieza en el punto verde y sigue el camino con el dedo.
+Ahora, {letra} minúscula. Empieza en el punto verde.
+¡Muy bien! ¡Ya sabes escribir {letra}!
+Sigue el camino de {letra} con el dedo.
+{Cosa} no empieza por {letra}.
+El tren de {letra}
+¡Llega el tren de {letra}! Toca un vagón para engancharlo.
+{Letra} con {vocal}: {silaba}.
+¡Chu, chu! El tren se va.
+Las huellas de {letra}
+Las huellas de {cosa} forman {letra}. Tócalas en orden, empezando por la que brilla.
+Las huellas forman {letra}.
+Atrapa

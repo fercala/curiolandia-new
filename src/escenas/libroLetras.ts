@@ -6,14 +6,15 @@
  * Lo que lleva el niño de cada letra lo calculan las reglas de dominio/letras.ts (datosLetra, estadoLetra) con su
  * casita (casitaDeLetra de temas/letras.ts).
  * Exporta: LIBRO (dónde están las casillas y el botón para volver al álbum) y pone SCENES.libroLetras al cargarse.
- * Importa: el núcleo (dibujo, voz, toque, Tito), LETRAS de contenido/letras.ts, dibujaLetra, casitaDeLetra y (fase L7b)
+ * Importa: el núcleo (dibujo, voz, toque, Tito), las letras de la isla en el idioma del juego (LETRAS_ISLA, desde la
+ * fase ID6a; antes LETRAS de contenido/letras.ts), dibujaLetra, casitaDeLetra y (fase L7b)
  * ambas de
  * temas/letras.ts, TEMA y tst de escenas/escenas2d.ts y las reglas de dominio/letras.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones y tamaños en la pantalla de 1600x900, como en el resto de
    las escenas. */
 import { K } from '../dibujos/todos.ts';
-import { LETRAS, type Letra } from '../contenido/letras.ts';
+import type { Letra } from '../contenido/letras.ts';
 import {
   LF,
   S,
@@ -21,7 +22,6 @@ import {
   SFX,
   TITO,
   atHome,
-  cap,
   card,
   circ,
   ctx,
@@ -42,13 +42,17 @@ import {
   text,
   fmt,
 } from '../nucleo/indice.ts';
-import { ambas, casitaDeLetra, dibujaLetra } from '../temas/letras.ts';
+import { LETRAS_ISLA as LETRAS, ambas, casitaDeLetra, dibujaLetra } from '../temas/letras.ts';
 import { TEMA, tst } from './escenas2d.ts';
 import { datosLetra, estadoLetra, type DatosLetra } from '../dominio/letras.ts';
 
 // LIBRO: la cuadrícula de letras (5 columnas de 240 de ancho y 4 filas de 150 de alto, desde la casilla de arriba a la
 // izquierda en x0, y0) y el botón para volver al álbum (arriba a la derecha).
-export const LIBRO = { x0: 410, y0: 250, dx: 240, dy: 150, cols: 5, album: { x: 1440, y: 110, r: 60 } };
+// Con más de 20 letras (las 23 del rumano, desde la fase ID6a de docs/PLAN-IDIOMAS.md), seis columnas más juntas.
+export const LIBRO =
+  LETRAS.length > 20
+    ? { x0: 380, y0: 250, dx: 205, dy: 150, cols: 6, album: { x: 1440, y: 110, r: 60 } }
+    : { x0: 410, y0: 250, dx: 240, dy: 150, cols: 5, album: { x: 1440, y: 110, r: 60 } };
 
 // pos(i): el centro [x, y] de la casilla de la letra número i.
 const pos = (i: number): [number, number] => [
@@ -107,7 +111,7 @@ function drawCasilla(L: Letra, i: number): void {
   ctx.restore();
 }
 
-// LIBRO DE LETRAS: las 20 letras de la isla en una página del álbum.
+// LIBRO DE LETRAS: las letras de la isla (20; en rumano, 23) en una página del álbum.
 SCENES.libroLetras = {
   music: 'book',
   // enter(): Tito dice cuántas letras conoce ya el niño (las que tienen algún juego terminado).
@@ -156,7 +160,7 @@ SCENES.libroLetras = {
       }
       SFX.pop();
       sparkles(px, py, 6);
-      say(`${cap(L.nombre)} de ${L.amigoDice}.`);
+      say(fmt('{Letra} de {amigo}.', { letra: L.nombre, amigo: L.amigoDice }));
     });
   },
 };
