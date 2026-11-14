@@ -44,7 +44,7 @@ import {
   text,
   titoPos,
   tr,
-  juntar,
+  enIngles,
 } from '../nucleo/indice.ts';
 import { GLOBO, ISLA_INGLES, POLLY } from '../escenas/islaIngles.ts';
 import { SEGUIR, ZONES, drawSeguir, nextIngles, zoneOpen } from '../escenas/zonas.ts';
@@ -177,7 +177,7 @@ const SITIOS3: Record<string, (g: THREE.Group, w: Mundo, open: boolean) => void>
           128,
           () => {
             card(8, 14, 240, 100, '#fff', 8, 24);
-            text(juntar(pal), 128, 96, 76, DIAC[i + 3]!, { f: LF }); // en inglés: no se traduce
+            text(enIngles(pal), 128, 96, 76, DIAC[i + 3]!, { f: LF }); // en inglés: no se traduce
           },
           'islaIP' + pal,
         ),

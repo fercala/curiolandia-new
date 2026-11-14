@@ -334,7 +334,9 @@ quedan: 383 al terminar la ID2a, con la P11).
   de `EN` en `temas/ingles.ts`: «Mum» quiere decir «Mama»). También los consejos para casa de la zona de adultos.
 - Lo que dice o escribe Polly en inglés no se traduce nunca: las palabras inglesas que se escriben (la tarjeta de
   «Escucha y repite», las etiquetas de las tarjetas, el número en inglés de «Contar», los días abreviados, los carteles
-  3D del Pueblo de los Cuentos y los versos de las canciones) van marcadas con `juntar`.
+  3D del Pueblo de los Cuentos y los versos de las canciones) pasan por `enIngles` (`nucleo/traducir.ts`): no se
+  buscan en las tablas y, en el pseudoidioma, van entre ⟦⟧ sin alargar, para que `tests/regresion/idiomas.js` las dé por
+  miradas.
 - Arreglo (también en castellano): en «Repite conmigo», tocar a Polly mientras explica el juego, antes de la primera
   palabra, daba un error (`prompt` sin palabra).
 - Los juegos de sonido inicial fuera de la isla que preveía el plan ya no existen: los juegos de letras están todos en

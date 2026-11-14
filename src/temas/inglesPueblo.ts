@@ -49,7 +49,7 @@ import {
   sparkles,
   speaker,
   text,
-  juntar,
+  enIngles,
 } from '../nucleo/indice.ts';
 import { BG, drawFace } from '../juegos/indice.ts';
 import { azar } from '../aplicacion/puertos.ts';
@@ -66,7 +66,9 @@ function enDia(i: number, c: string) {
     ctx.translate(x, y);
     card(-s * 0.36, -s * 0.34, s * 0.72, s * 0.7, '#fff', Math.max(4, s * 0.025), s * 0.08);
     card(-s * 0.36, -s * 0.34, s * 0.72, s * 0.2, c, Math.max(4, s * 0.025), s * 0.08);
-    text(juntar(['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'][i] ?? ''), 0, -s * 0.19, s * 0.13, '#fff', { f: LF });
+    text(enIngles(['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'][i] ?? ''), 0, -s * 0.19, s * 0.13, '#fff', {
+      f: LF,
+    });
     text(String(i + 1), 0, s * 0.24, s * 0.3, c, { f: LF });
     ctx.restore();
   };
