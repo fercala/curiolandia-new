@@ -25,7 +25,7 @@
 // juegosCortos.ts (el menú de los juegos cortos del patio), rayuela.ts y columpios.ts (P12a), penaltis.ts y pompas.ts
 // (P12b), cometa.ts y panuelo.ts (P12c) y sillas.ts (P12d);
 // desde la P13a, escondite.ts (el escondite), y desde la P13b, circuito.ts (el circuito de psicomotricidad); desde la P14, tesoros.ts (los tesoros
-// del mapa y la vitrina).
+// del mapa y la vitrina), y desde la P15, fotos.ts (la cámara de fotos y el álbum de fotos).
 // src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
@@ -76,3 +76,4 @@ export * from './sillas.ts';
 export * from './escondite.ts';
 export * from './circuito.ts';
 export * from './tesoros.ts';
+export * from './fotos.ts';

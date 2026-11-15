@@ -125,6 +125,9 @@ export interface Estado {
    * encontrados hoy y cuántas veces se ha encontrado cada tesoro (la vitrina de la casa de Tito). Desde la fase P14 de
    * docs/IDEAS-MEJORA.md; opcional, sin migración. */
   tesoros?: { d: string; hoy: readonly string[]; vitrina: Readonly<Record<string, number>> };
+  /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
+   * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  fotos?: { vistas: Readonly<Record<string, number>> };
   /** Los retos para hacer en casa (dominio/retos.ts, RegistroRetos): el último propuesto (día e id), si la familia lo
    * marcó como hecho, si Tito ya lo celebró y cuántos se han hecho. Desde la fase P4 de docs/IDEAS-MEJORA.md; opcional. */
   retos?: { d: string; id: string; hecho: boolean; celebrado: boolean; n: number };

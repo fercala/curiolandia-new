@@ -1,6 +1,7 @@
 // ARCHIVO: escenas/casa.ts — la casa de Tito por dentro (SCENES.casaTito), en 2D: las habitaciones con sus objetos,
 //   Tito que anda y juega con ellos, el armario con su ropa, Pipo y los botones de las habitaciones, de la tienda y del
-//   álbum de sorpresas (y, desde la fase P14 de docs/IDEAS-MEJORA.md, el de la vitrina de tesoros, escenas/tesoros.ts).
+//   álbum de sorpresas (y, desde la fase P14 de docs/IDEAS-MEJORA.md, el de la vitrina de tesoros, escenas/tesoros.ts, y desde
+//   la P15, el del álbum de fotos, escenas/fotos.ts).
 // Cómo encaja: hasta la fase M1 de docs/PLAN-CASA-MEJORA.md estaba al final de escenas/tienda.ts; se sacó aquí sin
 //   cambiar nada. Desde la fase M2 la casa está ordenada: cada cosa en un sitio (dominio/casaSitios.ts) y lo demás en el
 //   baúl de Tito, con los casos de uso de aplicacion/casa.ts y la bandeja de escenas/casaBaul.ts. Lo de la tienda que
@@ -18,7 +19,8 @@
 //   arrowAt), azar() (aplicacion/puertos.ts), las reglas de la casa (dominio/casa.ts), sus frases (contenido/casa.ts),
 //   escenas/casaAlbum.ts, casaMascotas.ts, casaReacciones.ts, lo de la casa de escenas/tienda.ts y, desde la fase M2,
 //   aplicacion/casa.ts (los casos de uso de la casa ordenada), dominio/casaSitios.ts y escenas/casaBaul.ts; desde la
-//   P14 de IDEAS-MEJORA.md, el botón de la vitrina de escenas/tesoros.ts.
+//   P14 de IDEAS-MEJORA.md, el botón de la vitrina de escenas/tesoros.ts, y desde la P15, el del álbum de fotos de
+//   escenas/fotos.ts.
 import { K } from '../dibujos/todos.ts';
 import {
   FLC,
@@ -92,6 +94,7 @@ import {
 } from '../dominio/casa.ts';
 import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { VITRINA_BOTON, dibujaBotonVitrina } from './tesoros.ts';
+import { ALBUM_FOTOS_BOTON, dibujaBotonAlbumFotos } from './fotos.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
 import { FRASES_CASA, FRASES_COMBINACION, FRASES_HORA, FRASES_RUTINA, FRASES_VARIANTES } from '../contenido/casa.ts';
 import {
@@ -847,6 +850,8 @@ SCENES.casaTito = {
     }
     // el botón de la vitrina de tesoros (desde la fase P14 de docs/IDEAS-MEJORA.md, escenas/tesoros.ts)
     dibujaBotonVitrina();
+    // el botón del álbum de fotos (desde la fase P15, escenas/fotos.ts)
+    dibujaBotonAlbumFotos();
     // el botón grande de la escena (desde la fase M3), tras dos toques seguidos a un objeto que tiene escena
     const eb = this.botonEscena!();
     if (eb) {
@@ -934,6 +939,11 @@ SCENES.casaTito = {
     if (dist(x, y, VITRINA_BOTON.x, VITRINA_BOTON.y) < VITRINA_BOTON.r + 6) {
       SFX.whoosh();
       go('vitrina');
+      return;
+    }
+    if (dist(x, y, ALBUM_FOTOS_BOTON.x, ALBUM_FOTOS_BOTON.y) < ALBUM_FOTOS_BOTON.r + 6) {
+      SFX.whoosh();
+      go('albumFotos');
       return;
     }
     if (inCoinHUD(x, y)) {

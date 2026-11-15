@@ -1970,3 +1970,53 @@ Cada día hay tres tesoros escondidos en el mapa. Pasea con Tito para encontrarl
 Este tesoro aún no lo has encontrado.
 {nombre}. La has encontrado una vez.
 {nombre}. La has encontrado {n} veces.
+Bichos y animales del campo
+Del mar y de la playa
+De la nieve y del frío
+Animales de la granja
+Plantas y cosas
+La rana
+La abeja
+La mariposa
+La mariquita
+La hormiga
+El conejo
+La ardilla
+El búho
+La ballena
+El delfín
+El cangrejo
+El pájaro
+El barco
+El castillo de arena
+El pingüino
+El iglú
+El muñeco de nieve
+El reno
+La vaca
+El caballo
+El cerdo
+La oveja
+La gallina
+El pollito
+El pato
+El árbol
+La flor
+La seta
+La calabaza
+La hoja
+El nido
+La cometa
+El globo
+Guardo la cámara.
+¡La cámara! Toca un animal o una cosa para hacerle una foto.
+{nombre}. Esta foto ya la tenías.
+¡Foto nueva! {nombre}.
+¡Has completado una página del álbum de fotos!
+Ahí no hay nada para la foto. Busca un animal o una cosa.
+¡Mi álbum de fotos! Ya tengo {n} de {total}. Toca una foto para oír su nombre.
+¡Mi álbum de fotos! Está vacío. Saca la cámara en el mapa para hacer fotos.
+Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.
+Esta foto aún no la has hecho. ¡Busca con la cámara!
+{nombre}. Esta foto la has hecho una vez.
+{nombre}. Esta foto la has hecho {n} veces.

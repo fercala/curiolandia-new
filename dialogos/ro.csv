@@ -1122,11 +1122,81 @@ f73b6c2f7d1b,¡Está dentro de la caja!,E în cutie!,frase,src/dominio/escondite
 17eb8962117b,{dia} de {mes},{dia} {mes},trozo,src/dominio/excursiones.ts,borrador
 0d8682d733b3,una vez,o dată,trozo,src/dominio/excursiones.ts,borrador
 df787b379967,{n} veces,de {n} {n:de}ori,trozo,src/dominio/excursiones.ts,borrador
+23e6139f001d,Bichos y animales del campo,,trozo,src/dominio/fotos.ts,falta
+0a1a439a1271,Del mar y de la playa,,trozo,src/dominio/fotos.ts,falta
+ba7b7dff853b,De la nieve y del frío,,trozo,src/dominio/fotos.ts,falta
+c415fb4e3085,Animales de la granja,,trozo,src/dominio/fotos.ts,falta
+e6ce4d140a8d,Plantas y cosas,,trozo,src/dominio/fotos.ts,falta
+62ca599a8758,La rana,,trozo,src/dominio/fotos.ts,falta
+938c2cc0dcc0,frog,,trozo,src/dominio/fotos.ts,falta
+b5a7a2fa31ad,La abeja,,trozo,src/dominio/fotos.ts,falta
+9dfd70fdf15a,bee,,trozo,src/dominio/fotos.ts,falta
+d6f6a93725c2,La mariposa,,trozo,src/dominio/fotos.ts,falta
+9fd8301ac24f,butterfly,,trozo,src/dominio/fotos.ts,falta
+be8f6599fb57,La mariquita,,trozo,src/dominio/fotos.ts,falta
+02dad4f425d2,ladybird,,trozo,src/dominio/fotos.ts,falta
+45f4f38d7290,La hormiga,,trozo,src/dominio/fotos.ts,falta
+63b07e828bf0,ant,,trozo,src/dominio/fotos.ts,falta
+87405dce3e29,El conejo,,trozo,src/dominio/fotos.ts,falta
+a51e47f64637,rabbit,,trozo,src/dominio/fotos.ts,falta
+7f66490f0193,La ardilla,,trozo,src/dominio/fotos.ts,falta
+eac074b0503b,squirrel,,trozo,src/dominio/fotos.ts,falta
+8a4a57635617,El búho,,trozo,src/dominio/fotos.ts,falta
+50f8b6c98b0f,owl,,trozo,src/dominio/fotos.ts,falta
+aa86951e810a,La ballena,,trozo,src/dominio/fotos.ts,falta
+1ebfd5913ef4,whale,,trozo,src/dominio/fotos.ts,falta
+5bb9af8791f7,El delfín,,trozo,src/dominio/fotos.ts,falta
+36cdf8b887a5,dolphin,,trozo,src/dominio/fotos.ts,falta
+6780288f8b53,El cangrejo,,trozo,src/dominio/fotos.ts,falta
+bd589331b993,crab,,trozo,src/dominio/fotos.ts,falta
+72fdce45af75,El pájaro,,trozo,src/dominio/fotos.ts,falta
+abaecf8ca3f9,bird,,trozo,src/dominio/fotos.ts,falta
+f1183c323294,El barco,,trozo,src/dominio/fotos.ts,falta
+dd8fc45d87f9,boat,,trozo,src/dominio/fotos.ts,falta
+b59a14733708,El castillo de arena,,trozo,src/dominio/fotos.ts,falta
+85e8113bc3f6,sandcastle,,trozo,src/dominio/fotos.ts,falta
+2287d5506e1b,El pingüino,,trozo,src/dominio/fotos.ts,falta
+24f7ca5f6ff1,penguin,,trozo,src/dominio/fotos.ts,falta
+e60eb27485a3,El iglú,,trozo,src/dominio/fotos.ts,falta
+2678407a7a56,igloo,,trozo,src/dominio/fotos.ts,falta
+960ed9ff82e5,El muñeco de nieve,,trozo,src/dominio/fotos.ts,falta
+b932a6ec0f3b,snowman,,trozo,src/dominio/fotos.ts,falta
+af22d2ba6f49,El reno,Renul,trozo,src/dominio/fotos.ts src/mundo3d/cielo.ts,borrador
+a243bfbd00fd,reindeer,,trozo,src/dominio/fotos.ts,falta
+3b9e16d37103,La vaca,,trozo,src/dominio/fotos.ts,falta
+81566e986cf8,cow,,trozo,src/dominio/fotos.ts,falta
+267f36d9e43a,El caballo,,trozo,src/dominio/fotos.ts,falta
+f1bdf5ed1d7a,horse,,trozo,src/dominio/fotos.ts,falta
+87984e75c06a,El cerdo,,trozo,src/dominio/fotos.ts,falta
+f74c6af46a78,pig,,trozo,src/dominio/fotos.ts,falta
+57787e039e51,La oveja,,trozo,src/dominio/fotos.ts,falta
+23ec24c5ca59,sheep,,trozo,src/dominio/fotos.ts,falta
+f51402dc2ef0,La gallina,,trozo,src/dominio/fotos.ts,falta
+e811af40e80c,hen,,trozo,src/dominio/fotos.ts,falta
+04a31ea5f872,El pollito,,trozo,src/dominio/fotos.ts,falta
+8ddbddef26de,chick,,trozo,src/dominio/fotos.ts,falta
+8827e5958249,El pato,,trozo,src/dominio/fotos.ts,falta
+36846677e3a8,duck,,trozo,src/dominio/fotos.ts,falta
+231e62153e64,El árbol,,trozo,src/dominio/fotos.ts,falta
+c0af77cf8294,tree,,trozo,src/dominio/fotos.ts,falta
+987cd295738c,La flor,,trozo,src/dominio/fotos.ts,falta
+608f0b988db4,flower,,trozo,src/dominio/fotos.ts,falta
+4f0e86f0ae60,La seta,,trozo,src/dominio/fotos.ts,falta
+4e026537a7d3,mushroom,,trozo,src/dominio/fotos.ts,falta
+b16bc6b900fb,La calabaza,,trozo,src/dominio/fotos.ts,falta
+edf8377563f7,pumpkin,,trozo,src/dominio/fotos.ts,falta
+0436aeb55cbc,La hoja,,trozo,src/dominio/fotos.ts src/dominio/tesoros.ts,falta
+bab4ff04cc14,leaf,,trozo,src/dominio/fotos.ts,falta
+8c2f3d42987f,El nido,,trozo,src/dominio/fotos.ts,falta
+99475e3ed162,nest,,trozo,src/dominio/fotos.ts,falta
+8fbd08ad3d52,La cometa,Zmeul,trozo,src/dominio/fotos.ts src/dominio/juegosCortos.ts src/escenas/cometa.ts,borrador
+4781ac9273d3,kite,,trozo,src/dominio/fotos.ts,falta
+12279ee8216f,El globo,,trozo,src/dominio/fotos.ts,falta
+698777432d4b,balloon,,trozo,src/dominio/fotos.ts,falta
 2f05391d7e51,La rayuela,Șotronul,trozo,src/dominio/juegosCortos.ts,borrador
 99b376c14d04,Los columpios,Leagănele,trozo,src/dominio/juegosCortos.ts src/escenas/columpios.ts,borrador
 6bda4ebc15a3,Los penaltis,Penaltyurile,trozo,src/dominio/juegosCortos.ts,borrador
 1d4e8cddd4be,Las pompas,Baloanele de săpun,trozo,src/dominio/juegosCortos.ts,borrador
-8fbd08ad3d52,La cometa,Zmeul,trozo,src/dominio/juegosCortos.ts src/escenas/cometa.ts,borrador
 210d1bebbc85,El pañuelo,Batista,trozo,src/dominio/juegosCortos.ts,borrador
 88d5988c508b,Las sillas,Scaunele,trozo,src/dominio/juegosCortos.ts src/escenas/sillas.ts,borrador
 1927bfb65307,¡Explota las pompas rojas!,Sparge baloanele roșii!,frase,src/dominio/juegosCortos.ts,borrador
@@ -1181,7 +1251,6 @@ d65f6094a87f,La estrella de mar,,trozo,src/dominio/tesoros.ts,falta
 f8311576b647,¡Una estrella de mar! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
 9a3b54d73b17,La piedra bonita,,trozo,src/dominio/tesoros.ts,falta
 744f4f02be53,¡Una piedra bonita! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-0436aeb55cbc,La hoja,,trozo,src/dominio/tesoros.ts,falta
 004e11ca3bfa,¡Una hoja preciosa! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
 193e943110a7,La castaña,,trozo,src/dominio/tesoros.ts,falta
 fc27caef1ea9,¡Una castaña! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
@@ -1680,6 +1749,19 @@ f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 41b12a8a9434,Toca la casa para volver al cole.,Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,Acum: {estacion}! Atinge-i desenul.,frase,src/escenas/excursion.ts,borrador
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,{estacion}: în curând vom putea face asta!,trozo,src/escenas/excursion.ts,borrador
+34f9a121f8c2,Guardo la cámara.,,frase,src/escenas/fotos.ts,falta
+cc16b266690d,¡La cámara! Toca un animal o una cosa para hacerle una foto.,,frase,src/escenas/fotos.ts,falta
+8a9344afc729,{nombre}. Esta foto ya la tenías.,,trozo,src/escenas/fotos.ts,falta
+406fcb6ab4f0,¡Foto nueva! {nombre}.,,frase,src/escenas/fotos.ts,falta
+4d7f72f2dbdc,¡Has completado una página del álbum de fotos!,,frase,src/escenas/fotos.ts,falta
+35e913c1776b,Ahí no hay nada para la foto. Busca un animal o una cosa.,,frase,src/escenas/fotos.ts,falta
+aa85f1840e28,EN,,trozo,src/escenas/fotos.ts,falta
+3bfed39169d8,¡Mi álbum de fotos! Ya tengo {n} de {total}. Toca una foto para oír su nombre.,,frase,src/escenas/fotos.ts,falta
+62fbe376c26c,¡Mi álbum de fotos! Está vacío. Saca la cámara en el mapa para hacer fotos.,,frase,src/escenas/fotos.ts,falta
+d73640988498,Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.,,frase,src/escenas/fotos.ts,falta
+e218353c83cf,Esta foto aún no la has hecho. ¡Busca con la cámara!,,frase,src/escenas/fotos.ts,falta
+f1711db55537,{nombre}. Esta foto la has hecho una vez.,,trozo,src/escenas/fotos.ts,falta
+7b2a9330e5ea,{nombre}. Esta foto la has hecho {n} veces.,,trozo,src/escenas/fotos.ts,falta
 2951630908e0,el cerdo,porcul,trozo,src/escenas/granja.ts src/nucleo/idioma.ts,borrador
 23b2349b49e4,el caballo,calul,trozo,src/escenas/granja.ts src/nucleo/idioma.ts,borrador
 41a2bd573755,¡Todos los animales tienen la barriga llena! ¡Muchas gracias por ayudar!,Toate animalele au burtica plină! Mulțumesc mult că m-ai ajutat!,frase,src/escenas/granja.ts,borrador
@@ -2296,7 +2378,6 @@ dc17a77f2ac8,FOCA,FOCĂ,trozo,src/mundo3d/cielo.ts,borrador
 0d7b1183b24e,TRINEO,SANIE,trozo,src/mundo3d/cielo.ts,borrador
 061454ae7acd,"Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.","Surprins. Când se întâmplă ceva la care nu ne așteptam, simțim surpriză.",frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 fdff49ef9d45,SORPRESA,SURPRIZĂ,trozo,src/mundo3d/cielo.ts,borrador
-af22d2ba6f49,El reno,Renul,trozo,src/mundo3d/cielo.ts,borrador
 6a824f252455,RENO,REN,trozo,src/mundo3d/cielo.ts,borrador
 ba9f293c88bf,El globo aerostático. Vuela con aire caliente.,Balonul cu aer cald. Zboară cu aer fierbinte.,frase,src/mundo3d/cielo.ts src/temas/temas4.ts,borrador
 b07b65f9ed3d,GLOBO,BALON,trozo,src/mundo3d/cielo.ts,borrador
