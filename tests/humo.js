@@ -113,6 +113,7 @@ const ESCENAS = [
   ['albumFotos', {}], // P15
   ['aventura', {}], // P16
   ['aventuraCap', { cap: 0 }],
+  ['aventuraCap', { cap: 5 }], // P16b
 ];
 
 (async () => {

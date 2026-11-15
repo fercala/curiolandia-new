@@ -1,7 +1,8 @@
 /*
  * idiomas/ro/paseo.ts: los textos en rumano de la gran aventura de Tito (fase P16 de docs/IDEAS-MEJORA.md, desde la
  * v0.2.157, por la regla de Fernando del 15 de noviembre de 2026: toda funcionalidad nueva es multiidioma): el título,
- * los capítulos con sus cuentos y lo que dice Tito en el mapa del tesoro. Los tesoros y la cámara de fotos, que también
+ * los capítulos con sus cuentos y lo que dice Tito en el mapa del tesoro (desde la P16b, también los capítulos 4 a 6 y el
+ * gran tesoro). Los tesoros y la cámara de fotos, que también
  * se hacen paseando, están en escenas.ts (fase ID9a). Borrador de Claude para que lo revise una persona que hable rumano
  * (ID9b). Va del texto en castellano, tal como está en el código, a su traducción; textos.ts junta esta tabla con las
  * demás. Las plantillas llevan sus huecos ({n}, {total}).
@@ -51,4 +52,35 @@ export const PASEO_RO: Readonly<Record<string, string>> = {
   '¡Este capítulo llegará muy pronto!': 'Capitolul acesta va veni foarte curând!',
   '¡Lo pongo en el mapa del tesoro!': 'O pun pe harta comorii!',
   'Este trozo ya lo tenías. ¡Muy bien jugado!': 'Bucata asta o aveai deja. Foarte bine jucat!',
+  // desde la P16b: los capítulos 4 a 6 y el gran tesoro
+  'Los dibujos de Lupi': 'Desenele lui Lupi',
+  'La montaña nevada': 'Muntele înzăpezit',
+  'El tesoro escondido': 'Comoara ascunsă',
+  'Con tres trozos, el mapa llevaba al parque. Allí estaba Lupi, muy triste.':
+    'Cu trei bucăți, harta ducea în parc. Acolo era Lupi, foarte tristă.',
+  'Lupi dijo: «¡El viento ha roto mis dibujos en pedazos!»': 'Lupi a zis: „Vântul mi-a rupt desenele în bucăți!”',
+  'Ayuda a Lupi a juntar las piezas de sus dibujos. ¡El cuarto trozo es para quien lo consiga!':
+    'Ajut-o pe Lupi să pună la loc piesele desenelor ei. A patra bucată e pentru cine reușește!',
+  '¡El cuarto trozo del mapa! Gracias, Lupi.': 'A patra bucată din hartă! Mulțumesc, Lupi.',
+  'Con su mochila, Tito subió a la montaña nevada. ¡Qué frío hacía!':
+    'Cu rucsacul în spate, Tito a urcat pe muntele înzăpezit. Ce frig era!',
+  'Arriba, un muñeco de nieve guardaba una puerta de piedra con formas dibujadas.':
+    'Sus, un om de zăpadă păzea o ușă de piatră cu forme desenate.',
+  'Para abrir la puerta hay que seguir las series de formas. ¿Qué forma va después?':
+    'Ca să deschizi ușa, trebuie să continui șirurile de forme. Ce formă urmează?',
+  '¡El quinto trozo del mapa! La puerta se ha abierto.': 'A cincea bucată din hartă! Ușa s-a deschis.',
+  'Con cinco trozos, Tito navegó en barco hasta la isla de la cruz roja.':
+    'Cu cinci bucăți, Tito a navigat cu barca până la insula cu crucea roșie.',
+  'Allí estaba la cruz del mapa. ¡El tesoro tenía que estar enterrado debajo!':
+    'Acolo era crucea de pe hartă. Comoara trebuia să fie îngropată dedesubt!',
+  'Cava en la arena y encuentra todo lo que hay escondido. ¡Seguro que el último trozo está ahí!':
+    'Sapă în nisip și găsește tot ce e ascuns. Sigur ultima bucată e acolo!',
+  '¡El último trozo del mapa! ¡Ya está completo!': 'Ultima bucată din hartă! Acum e completă!',
+  '¡El mapa del tesoro está completo! Y mira lo que hay en la cruz roja...':
+    'Harta comorii e completă! Și uite ce e la crucea roșie...',
+  '¡El tesoro! Hay un sombrero de pirata. ¡Me lo pongo!': 'Comoara! E o pălărie de pirat. Mi-o pun!',
+  '¡El tesoro! Está lleno de monedas de oro.': 'Comoara! E plină de monede de aur.',
+  '¡Encontramos el gran tesoro! Puedes volver a jugar los capítulos cuando quieras.':
+    'Am găsit marea comoară! Poți juca din nou capitolele când vrei.',
+  '¡Nuestro gran tesoro! Lo encontramos con el mapa completo.': 'Marea noastră comoară! Am găsit-o cu harta completă.',
 };

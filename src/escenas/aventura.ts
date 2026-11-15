@@ -8,12 +8,16 @@
  * SCENES.aventuraCap: primero su cuento (Story, con las páginas de contenido/aventura.ts), después su reto (uno de los
  * juegos de siempre, retoDe) y al final el trozo del mapa (con monedas, solo la primera vez; dominio/aventura.ts). La
  * casa de la aventura vuelve al mapa; la del capítulo, a la aventura (sin terminarlo).
+ * Desde la P16b, los seis capítulos y el gran tesoro: al llegar el último trozo, el mapa completo se ilumina, sale el
+ * cofre del tesoro y Tito encuentra su regalo (el sombrero de pirata, que se pone, o monedas si ya lo tenía:
+ * premioFinal); después, el cofre abierto se queda junto al mapa.
  * Lo guardado va en S.aventura.
  * Exporta: AVENTURA_BOTON, MEDALLAS (dónde está la medalla de cada capítulo, para tocar y las pruebas),
- * registroDeAventura, estadoDe, hayCapituloHoy, retoDe, dibujaBotonAventura, tocarBotonAventura y pone SCENES.aventura y
+ * registroDeAventura, estadoDe, hayCapituloHoy, retoDe, COFRE, completa, dibujaBotonAventura, tocarBotonAventura y pone SCENES.aventura y
  * SCENES.aventuraCap.
- * Importa: el núcleo (dibujo, voz, sonido, toque, monedas, guardado), los componentes Story, Cuenta y Memoria y los
- * fondos BG de juegos/, EnEscucha y enItems de temas/ingles.ts, las reglas de dominio/aventura.ts y los capítulos de
+ * Importa: el núcleo (dibujo, voz, sonido, toque, monedas, guardado), los componentes Story, Cuenta, Memoria, Puzzle,
+ * Series y Excava y los fondos BG de juegos/, EnEscucha y enItems de temas/ingles.ts, las formas (shape2) de
+ * temas/temas4.ts, la tienda (SHOP) y grantGift de escenas/cofre.ts (el gran tesoro), las reglas de dominio/aventura.ts y los capítulos de
  * contenido/aventura.ts.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños, colores y tiempos en la pantalla de 1600x900,
@@ -55,11 +59,15 @@ import {
 } from '../nucleo/indice.ts';
 import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import type { AlTerminar, Juego } from '../juegos/tipos.ts';
-import { BG, Cuenta, Memoria, Story } from '../juegos/indice.ts';
+import { BG, Cuenta, Excava, Memoria, Puzzle, Series, Story } from '../juegos/indice.ts';
 import { EnEscucha, enItems } from '../temas/ingles.ts';
+import { shape2 } from '../temas/temas4.ts';
+import { SHOP } from './tienda.ts';
+import { grantGift } from './cofre.ts';
 import {
   AVENTURA,
   estadoCapitulo,
+  premioFinal,
   registroAventura,
   terminarCapitulo,
   type EstadoCapitulo,
@@ -89,13 +97,63 @@ export const estadoDe = (i: number): EstadoCapitulo | 'pronto' => {
 // hayCapituloHoy(): si hoy hay un capítulo abierto por jugar (el botón del mapa lo avisa).
 export const hayCapituloHoy = (): boolean => MEDALLAS.some((m) => estadoDe(m.i) === 'abierto');
 
-// retoDe(r, onDone): el componente del reto r de un capítulo: contar (Cuenta), las parejas (Memoria) o escuchar en
-// inglés (EnEscucha con las palabras de su grupo que van con la edad); onDone se llama al terminarlo.
+// COLORES_FORMAS: el color de cada forma en las series de la montaña (capítulo 5).
+const COLORES_FORMAS = ['#E2574C', '#4A90D9', '#7CC86E', '#FFC93C', '#B57EDC', '#F59E42'];
+
+// retoDe(r, onDone): el componente del reto r de un capítulo: contar (Cuenta), las parejas (Memoria), escuchar en
+// inglés (EnEscucha con las palabras de su grupo que van con la edad) o, desde la P16b, el puzle (Puzzle), las series
+// de formas (Series, con las formas de shape2, cada una de un color) o excavar (Excava); onDone se llama al terminarlo.
 export function retoDe(r: RetoAventura, onDone: AlTerminar): Juego {
   const bg = BG[r.bg];
   if (r.t === 'cuenta') return Cuenta({ pool: [...r.pool], bg }, onDone);
   if (r.t === 'memoria') return Memoria({ pool: [...r.pool], bg }, onDone);
+  if (r.t === 'puzle') return Puzzle({ list: [...r.pool], bg }, onDone);
+  if (r.t === 'formas')
+    return Series({ pool: r.pool.map((f, i) => shape2(f, COLORES_FORMAS[i % COLORES_FORMAS.length])), bg }, onDone);
+  if (r.t === 'excava') return Excava({ pool: [...r.pool], bg }, onDone);
   return EnEscucha({ items: enItems(r.grupo), bg, key: `ingles-${r.grupo}` }, onDone);
+}
+
+// COFRE: dónde está el cofre del gran tesoro en la aventura (a la derecha del mapa), cuando la temporada está completa.
+export const COFRE = { x: 1340, y: 420, r: 110 };
+// completa(): si ya están todos los capítulos (el gran tesoro encontrado).
+export const completa = (): boolean => MEDALLAS.every((m) => estadoDe(m.i) === 'hecho');
+
+// abrirTesoro(): el gran tesoro, al llegar el último trozo: el regalo de premioFinal (el sombrero de pirata, que Tito se
+// pone con grantGift) o sus monedas si ya lo tenía; Tito lo cuenta. Devuelve si fue el regalo.
+function abrirTesoro(): boolean {
+  const p = premioFinal(!!S.owned?.[AVENTURA.regalo]),
+    it = p.regalo ? SHOP.find((a) => a.id === p.regalo) : undefined;
+  burst(COFRE.x, COFRE.y, 60);
+  later(300, () => SFX.tada());
+  if (it) {
+    grantGift(it);
+    sayQ('¡El tesoro! Hay un sombrero de pirata. ¡Me lo pongo!');
+    return true;
+  }
+  creditCoins(p.monedas);
+  save();
+  later(800, () => giveCoins(p.monedas, COFRE.x, COFRE.y, undefined, true));
+  sayQ('¡El tesoro! Está lleno de monedas de oro.');
+  return false;
+}
+
+// dibujaCofre(desde): el cofre del gran tesoro junto al mapa: si la temporada está completa, abierto, con brillo y
+// estrellas que giran; acaba de aparecer (desde > 0) entra creciendo.
+function dibujaCofre(desde: number): void {
+  if (!completa()) return;
+  const k = desde > 0 ? Math.min(1, (T - desde) / 0.8) : 1,
+    s = hv('cofre', hC(COFRE.x, COFRE.y, COFRE.r));
+  ctx.save();
+  ctx.translate(COFRE.x, COFRE.y);
+  ctx.scale(k * s, k * s);
+  star(0, -10, COFRE.r * 1.15 + Math.sin(T * 3) * 6, '#FFE38A', 0);
+  pic('cofre', 0, 0, COFRE.r * 1.6);
+  Array.from({ length: 3 }, (_, j) => {
+    const a = T * 1.5 + (j * 2 * Math.PI) / 3;
+    star(Math.cos(a) * COFRE.r * 1.1, -20 + Math.sin(a) * COFRE.r * 0.6, 16, '#FFC93C', 0);
+  });
+  ctx.restore();
 }
 
 // PERGAMINO: el dibujo del mapa del tesoro entero, hecho una vez en un lienzo aparte (pergaminoHecho) para cortarlo en
@@ -268,18 +326,35 @@ export function tocarBotonAventura(x: number, y: number): boolean {
   return true;
 }
 
-// LA AVENTURA (el mapa del tesoro y los capítulos): estado: nuevo (el trozo que acaba de llegar, o -1) y desde (cuándo).
+// LA AVENTURA (el mapa del tesoro y los capítulos): estado: nuevo (el trozo que acaba de llegar, o -1), desde (cuándo)
+// y cofreT (cuándo salió el cofre del gran tesoro, o 0).
 SCENES.aventura = {
   music: null,
   // enter(o): con o.pieza, el trozo que se acaba de ganar entra en el tablero; Tito dice cuántos trozos hay y si hoy hay
-  // un capítulo nuevo, si el siguiente es para mañana o si llegará pronto (o, al empezar, de qué va la aventura).
+  // un capítulo nuevo, si el siguiente es para mañana o si llegará pronto (o, al empezar, de qué va la aventura). Desde la
+  // P16b, con el último trozo sale el cofre y se abre el gran tesoro (abrirTesoro); con la temporada completa, Tito
+  // recuerda que los capítulos se pueden repetir.
   enter(o?: OpcionesEscena) {
     this.nuevo = o?.pieza ?? -1;
     this.desde = T;
+    this.cofreT = 0;
     if (this.nuevo >= 0) later(300, () => SFX.tada());
     const n = registroDeAventura().hechos.length,
       sig = MEDALLAS.map((m) => estadoDe(m.i)).find((e) => e !== 'hecho');
+    // con el último trozo, el gran tesoro: el cofre sale y se abre
+    if (this.nuevo === AVENTURA.capitulos - 1 && completa()) {
+      later(1200, () => {
+        this.cofreT = T;
+        sayQ('¡El mapa del tesoro está completo! Y mira lo que hay en la cruz roja...');
+        later(1500, () => abrirTesoro());
+      });
+      return;
+    }
     later(this.nuevo >= 0 ? 900 : 400, () => {
+      if (completa()) {
+        sayQ('¡Encontramos el gran tesoro! Puedes volver a jugar los capítulos cuando quieras.');
+        return;
+      }
       if (!n) {
         sayQ(
           '¡La gran aventura de Tito! Un mapa del tesoro se ha roto en seis trozos. Toca el primer capítulo para empezar.',
@@ -292,16 +367,18 @@ SCENES.aventura = {
       if (sig === 'pronto') sayQ('El próximo capítulo llegará muy pronto.');
     });
   },
-  // prompt(): qué hacer.
+  // prompt(): qué hacer (con la temporada completa, que se pueden repetir).
   prompt() {
-    say('Toca un capítulo para jugarlo. Cada día se abre uno nuevo.');
+    if (completa()) say('¡Encontramos el gran tesoro! Puedes volver a jugar los capítulos cuando quieras.');
+    else say('Toca un capítulo para jugarlo. Cada día se abre uno nuevo.');
   },
   // hint(): la medalla del capítulo abierto, si lo hay.
   hint() {
     const m = MEDALLAS.find((q) => estadoDe(q.i) === 'abierto');
     return m ? { x: m.x, y: m.y, r: m.r } : null;
   },
-  // draw(): el fondo, el título, el tablero con los trozos, las medallas de los capítulos, Tito, la casa y las monedas.
+  // draw(): el fondo, el título, el tablero con los trozos, las medallas de los capítulos, el cofre del gran tesoro (con
+  // la temporada completa), Tito, la casa y las monedas.
   draw() {
     ctx.fillStyle = '#FDF1DC';
     ctx.fillRect(0, 0, 1600, 900);
@@ -309,11 +386,13 @@ SCENES.aventura = {
     text(TITULO_AVENTURA, 800, 80, 40, '#3A281E', { max: 640 });
     dibujaTablero(this.nuevo as number, this.desde as number);
     MEDALLAS.forEach(dibujaMedalla);
+    // con el último trozo, el cofre no sale hasta que el trozo está en su sitio (cofreT)
+    if (this.nuevo !== AVENTURA.capitulos - 1 || this.cofreT) dibujaCofre(this.cofreT as number);
     drawTito(TITO.x, TITO.y, TITO.w);
     drawHome();
     drawCoinHUD();
   },
-  // down(x, y): la casa vuelve al mapa; una medalla: abierta o hecha, se juega su capítulo; para mañana, cerrada o aún
+  // down(x, y): la casa vuelve al mapa; el cofre (con la temporada completa), Tito lo celebra; una medalla: abierta o hecha, se juega su capítulo; para mañana, cerrada o aún
   // por llegar, Tito lo explica; Tito repite qué hacer.
   down(x: number, y: number) {
     if (atHome(x, y)) {
@@ -323,6 +402,12 @@ SCENES.aventura = {
     }
     if (inTito(x, y)) {
       this.prompt!();
+      return;
+    }
+    if (completa() && dist(x, y, COFRE.x, COFRE.y) < COFRE.r) {
+      SFX.pop();
+      sparkles(COFRE.x, COFRE.y, 16);
+      say('¡Nuestro gran tesoro! Lo encontramos con el mapa completo.');
       return;
     }
     const m = MEDALLAS.find((q) => dist(x, y, q.x, q.y) < q.r + 6);

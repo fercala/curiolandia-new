@@ -343,7 +343,7 @@ quedan: 383 al terminar la ID2a, con la P11).
   - jugando en rumano, la sección del idioma avisa de que la traducción es un borrador (`idiomaHTML`,
     `aplicacion/adultos/titoYSonido.ts`).
 - Pruebas: `tests/unidad/idiomasReglas.test.ts` al día (el rumano completo, sin revisar).
-- La v0.2.159: la v0.2.158 es del PR #159 (P16b), abierto.
+- La v0.2.159: la v0.2.158 se dejó para el PR #159 (P16b), que al juntarse con esta salió como v0.2.160.
 
 ### ID9a (v0.2.156): lo que han traído otras fases, en rumano
 
