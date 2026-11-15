@@ -2,8 +2,8 @@
  * idiomas/ro/cole.ts: los textos en rumano del cole y lo que sale de él (fase ID4d de docs/PLAN-IDIOMAS.md): el cole,
  * el patio y sus juegos (estatuas, «Tito dice», yoga, retos en casa, las carreras 3D, el gran día del deporte y sus
  * pruebas, los juegos cortos y el escondite), el autobús, las excursiones y su álbum, la granja escuela con sus
- * estaciones, el manzano y las crías; desde la v0.2.156, el circuito de psicomotricidad (P13b); y lo poco que quedaba de otras escenas (nombres de juegos del repaso, emociones,
- * los planetas del cielo 3D). Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto en
+ * estaciones, el manzano y las crías; y lo poco que quedaba de otras escenas (nombres de juegos del repaso, emociones,
+ * los planetas del cielo 3D); desde la ID9a, el circuito del patio (P13b). Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto en
  * castellano, tal como está en el código, a su traducción; textos.ts junta esta tabla con las demás. Las plantillas
  * llevan sus huecos ({n}, {prueba}, {madre}...) y, entre un número y lo que cuenta, {n:de}.
  * Exporta: COLE_RO. No importa nada.
@@ -583,37 +583,37 @@ export const COLE_RO: Readonly<Record<string, string>> = {
   'La luna. Gira alrededor de la Tierra. De noche la vemos brillar.':
     'Luna. Se învârte în jurul Pământului. Noaptea o vedem strălucind.',
   '{a} / {b}': '{a} / {b}',
-  // el circuito de psicomotricidad (P13b; desde la v0.2.156)
+  // el circuito del patio (fase P13b, traducido en la ID9a)
   'Los aros': 'Cercurile',
   '¡Saltando dentro de los aros!': 'Sărim în cercuri!',
-  'Primero, los aros.': 'Mai întâi, cercurile.',
+  'Primero, los aros.': 'Întâi, cercurile.',
   'Después, los aros.': 'Apoi, cercurile.',
   'Y al final, los aros.': 'Și la sfârșit, cercurile.',
   'El túnel': 'Tunelul',
   '¡Por dentro del túnel!': 'Prin tunel!',
-  'Primero, el túnel.': 'Mai întâi, tunelul.',
+  'Primero, el túnel.': 'Întâi, tunelul.',
   'Después, el túnel.': 'Apoi, tunelul.',
   'Y al final, el túnel.': 'Și la sfârșit, tunelul.',
   'El banco': 'Banca',
   '¡Por encima del banco!': 'Pe deasupra băncii!',
-  'Primero, el banco.': 'Mai întâi, banca.',
+  'Primero, el banco.': 'Întâi, banca.',
   'Después, el banco.': 'Apoi, banca.',
   'Y al final, el banco.': 'Și la sfârșit, banca.',
   'Los conos': 'Conurile',
   '¡Alrededor de los conos!': 'În jurul conurilor!',
-  'Primero, los conos.': 'Mai întâi, conurile.',
+  'Primero, los conos.': 'Întâi, conurile.',
   'Después, los conos.': 'Apoi, conurile.',
   'Y al final, los conos.': 'Și la sfârșit, conurile.',
   'La colchoneta': 'Salteaua',
   '¡Una voltereta en la colchoneta!': 'O tumbă pe saltea!',
-  'Primero, la colchoneta.': 'Mai întâi, salteaua.',
+  'Primero, la colchoneta.': 'Întâi, salteaua.',
   'Después, la colchoneta.': 'Apoi, salteaua.',
   'Y al final, la colchoneta.': 'Și la sfârșit, salteaua.',
-  '¡Vamos a hacer el circuito! Escucha a la profe y toca los obstáculos en el orden que diga.':
-    'Hai să facem circuitul! Ascult-o pe doamna educatoare și atinge obstacolele în ordinea pe care o spune.',
   '¡Te toca! Toca los obstáculos en orden.': 'E rândul tău! Atinge obstacolele în ordine.',
-  '¡Ese no toca ahora! Escucha otra vez.': 'Nu e rândul acestuia acum! Ascultă încă o dată.',
+  '¡Ese no toca ahora! Escucha otra vez.': 'Nu e rândul lui acum! Mai ascultă o dată.',
   '¡Ya está! Allá voy.': 'Gata! Am plecat.',
   '¡Muy bien! Vamos con otra vuelta.': 'Foarte bine! Mai facem o tură.',
-  '¡Qué buen circuito hemos hecho! ¿Lo hacemos otra vez?': 'Ce circuit bun am făcut! Îl mai facem o dată?',
+  '¡Qué buen circuito hemos hecho! ¿Lo hacemos otra vez?': 'Ce traseu frumos am făcut! Îl mai facem o dată?',
+  '¡Vamos a hacer el circuito! Escucha a la profe y toca los obstáculos en el orden que diga.':
+    'Hai să facem traseul! Ascult-o pe doamna educatoare și atinge obstacolele în ordinea pe care o spune.',
 };

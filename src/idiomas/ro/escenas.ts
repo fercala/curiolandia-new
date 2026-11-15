@@ -1,7 +1,7 @@
 /*
  * idiomas/ro/escenas.ts: los textos en rumano de la portada, el mapa y sus zonas, la casita de cada tema, la asamblea,
  * el álbum, la tienda, el cofre, el repaso, las dos islas y la capa 3D de esas escenas, y los nombres de los temas (fase
- * ID4b de docs/PLAN-IDIOMAS.md). Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto
+ * ID4b de docs/PLAN-IDIOMAS.md); desde la ID9a, los tesoros del mapa y la vitrina (P14) y la cámara y el álbum de fotos (P15). Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto
  * en castellano, tal como está en el código, a su traducción; textos.ts junta esta tabla con las demás. Las plantillas
  * llevan sus huecos ({n}, {cosa}...) y, entre un número y lo que cuenta, {n:de} (la «de» del rumano: «20 de monede»).
  * Las casitas de la Isla de las Letras («La A», «Las palmas»...) se traducen en la ID6, con su versión rumana.
@@ -505,4 +505,96 @@ export const ESCENAS_RO: Readonly<Record<string, string>> = {
   'El álbum': 'Albumul',
   'Buenas noches.': 'Noapte bună.',
   CONTENTO: 'VESEL',
+  // los tesoros escondidos del mapa y la vitrina (fase P14, traducidos en la ID9a)
+  'La pluma': 'Pana',
+  '¡Una pluma! La guardo en mi vitrina.': 'O pană! O pun în vitrina mea.',
+  'La concha': 'Scoica',
+  '¡Una concha! La guardo en mi vitrina.': 'O scoică! O pun în vitrina mea.',
+  'La piña': 'Conul de brad',
+  '¡Una piña! La guardo en mi vitrina.': 'Un con de brad! Îl pun în vitrina mea.',
+  'La bellota': 'Ghinda',
+  '¡Una bellota! La guardo en mi vitrina.': 'O ghindă! O pun în vitrina mea.',
+  'La estrella de mar': 'Steaua de mare',
+  '¡Una estrella de mar! La guardo en mi vitrina.': 'O stea de mare! O pun în vitrina mea.',
+  'La piedra bonita': 'Piatra frumoasă',
+  '¡Una piedra bonita! La guardo en mi vitrina.': 'O piatră frumoasă! O pun în vitrina mea.',
+  'La hoja': 'Frunza',
+  '¡Una hoja preciosa! La guardo en mi vitrina.': 'O frunză minunată! O pun în vitrina mea.',
+  'La castaña': 'Castana',
+  '¡Una castaña! La guardo en mi vitrina.': 'O castană! O pun în vitrina mea.',
+  '¡Hay un tesoro cerca del jardín!': 'E o comoară lângă grădină!',
+  '¡Hay un tesoro cerca del bosque!': 'E o comoară lângă pădure!',
+  '¡Hay un tesoro cerca de la montaña!': 'E o comoară lângă munte!',
+  '¡Hay un tesoro cerca de la plaza!': 'E o comoară lângă piață!',
+  '¡Hay un tesoro cerca del muelle!': 'E o comoară lângă debarcader!',
+  '¡Hay un tesoro cerca del cole!': 'E o comoară lângă grădiniță!',
+  '¡Hay un tesoro cerca de la casa de las fiestas!': 'E o comoară lângă casa sărbătorilor!',
+  '¡Hay un tesoro cerca del globo!': 'E o comoară lângă balon!',
+  '¡Algo brilla por aquí!': 'Ceva strălucește pe aici!',
+  '¡Has encontrado los tres tesoros de hoy! Mañana habrá otros.':
+    'Ai găsit cele trei comori de azi! Mâine vor fi altele.',
+  '¡Mi vitrina de tesoros! Ya tengo {n} de {total}. Toca uno para verlo.':
+    'Vitrina mea cu comori! Am deja {n} din {total}. Atinge una ca s-o vezi.',
+  '¡Mi vitrina de tesoros! Está vacía. Pasea por el mapa para encontrar tesoros escondidos.':
+    'Vitrina mea cu comori! E goală. Plimbă-te pe hartă ca să găsești comori ascunse.',
+  'Cada día hay tres tesoros escondidos en el mapa. Pasea con Tito para encontrarlos.':
+    'În fiecare zi sunt trei comori ascunse pe hartă. Plimbă-te cu Tito ca să le găsești.',
+  'Mi vitrina de tesoros': 'Vitrina mea cu comori',
+  'Este tesoro aún no lo has encontrado.': 'Comoara asta n-ai găsit-o încă.',
+  '{nombre}. La has encontrado una vez.': '{nombre}. Ai găsit asta o dată.',
+  '{nombre}. La has encontrado {n} veces.': '{nombre}. Ai găsit asta de {n} {n:de}ori.',
+  // la cámara de fotos y el álbum de fotos (fase P15, traducidos en la ID9a)
+  'Bichos y animales del campo': 'Gâze și animale de la câmp',
+  'Del mar y de la playa': 'De la mare și de la plajă',
+  'De la nieve y del frío': 'De la zăpadă și de la frig',
+  'Animales de la granja': 'Animalele de la fermă',
+  'Plantas y cosas': 'Plante și lucruri',
+  'La rana': 'Broasca',
+  'La abeja': 'Albina',
+  'La mariposa': 'Fluturele',
+  'La mariquita': 'Buburuza',
+  'La hormiga': 'Furnica',
+  'El conejo': 'Iepurele',
+  'La ardilla': 'Veverița',
+  'El búho': 'Bufnița',
+  'La ballena': 'Balena',
+  'El delfín': 'Delfinul',
+  'El cangrejo': 'Crabul',
+  'El pájaro': 'Pasărea',
+  'El barco': 'Barca',
+  'El castillo de arena': 'Castelul de nisip',
+  'El pingüino': 'Pinguinul',
+  'El iglú': 'Igluul',
+  'El muñeco de nieve': 'Omul de zăpadă',
+  'La vaca': 'Vaca',
+  'El caballo': 'Calul',
+  'El cerdo': 'Porcul',
+  'La oveja': 'Oaia',
+  'La gallina': 'Găina',
+  'El pollito': 'Puiul',
+  'El pato': 'Rața',
+  'El árbol': 'Copacul',
+  'La flor': 'Floarea',
+  'La seta': 'Ciuperca',
+  'La calabaza': 'Dovleacul',
+  'El nido': 'Cuibul',
+  'El globo': 'Balonul',
+  'Guardo la cámara.': 'Pun aparatul foto deoparte.',
+  '¡La cámara! Toca un animal o una cosa para hacerle una foto.':
+    'Aparatul foto! Atinge un animal sau un lucru ca să-i faci o poză.',
+  '{nombre}. Esta foto ya la tenías.': '{nombre}. Poza asta o aveai deja.',
+  '¡Foto nueva! {nombre}.': 'Poză nouă! {nombre}.',
+  '¡Has completado una página del álbum de fotos!': 'Ai completat o pagină din albumul cu poze!',
+  'Ahí no hay nada para la foto. Busca un animal o una cosa.':
+    'Acolo nu e nimic de pozat. Caută un animal sau un lucru.',
+  EN: 'EN',
+  '¡Mi álbum de fotos! Ya tengo {n} de {total}. Toca una foto para oír su nombre.':
+    'Albumul meu cu poze! Am deja {n} din {total}. Atinge o poză ca să-i auzi numele.',
+  '¡Mi álbum de fotos! Está vacío. Saca la cámara en el mapa para hacer fotos.':
+    'Albumul meu cu poze! E gol. Scoate aparatul foto pe hartă ca să faci poze.',
+  'Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.':
+    'Atinge o poză ca să-i auzi numele. Steagul spune cum se numește în engleză.',
+  'Esta foto aún no la has hecho. ¡Busca con la cámara!': 'Poza asta n-ai făcut-o încă. Caut-o cu aparatul foto!',
+  '{nombre}. Esta foto la has hecho una vez.': '{nombre}. Poza asta ai făcut-o o dată.',
+  '{nombre}. Esta foto la has hecho {n} veces.': '{nombre}. Poza asta ai făcut-o de {n} {n:de}ori.',
 };

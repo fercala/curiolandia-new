@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, test } from 'vitest';
-import { catalogo, csv, csvIdioma, hojaIdioma } from '../../herramientas/dialogos/catalogo.mts';
+import { catalogo, csv, csvIdioma, hojaIdioma, leerSinTraducir } from '../../herramientas/dialogos/catalogo.mts';
 import { TEXTOS_RO } from '../../src/idiomas/ro/textos.ts';
 import { NOMBRES_RO } from '../../src/idiomas/ro/nombres.ts';
 
@@ -21,6 +21,18 @@ test('dialogos/ro.csv, la hoja de revisión del rumano, está al día con el cat
   const hoja = hojaIdioma(catalogo(RAIZ), TEXTOS_RO, NOMBRES_RO);
   expect(readFileSync(join(RAIZ, 'dialogos', 'ro.csv'), 'utf8')).toBe(csvIdioma(hoja, 'rumano'));
   expect(hoja.find((f) => f.texto === 'Zona de adultos')?.traduccion).toBe('Zona adulților');
+});
+
+// Regla (Fernando, 15 de noviembre de 2026): toda funcionalidad nueva es multiidioma. Cada texto nuevo del catálogo
+// tiene su rumano en src/idiomas/ro/ o, si no es castellano (inglés, ids, código), está en dialogos/ro-sin-traducir.txt.
+test('cada texto nuevo tiene su rumano (o está en dialogos/ro-sin-traducir.txt): regla de la ID9a', () => {
+  const hoja = hojaIdioma(catalogo(RAIZ), TEXTOS_RO, NOMBRES_RO),
+    aceptados = leerSinTraducir(readFileSync(join(RAIZ, 'dialogos', 'ro-sin-traducir.txt'), 'utf8')),
+    faltan = hoja.filter((f) => f.estado === 'falta'),
+    nuevos = faltan.filter((f) => !aceptados.has(f.id)).map((f) => `${f.texto} (${f.donde})`),
+    traducidos = [...aceptados].filter((id) => !faltan.some((f) => f.id === id));
+  expect(nuevos, 'textos sin rumano: tradúcelos en src/idiomas/ro/ y npm run dialogos').toEqual([]);
+  expect(traducidos, 'ya traducidos: npm run dialogos los quita de ro-sin-traducir.txt').toEqual([]);
 });
 
 test('cada id es único y los textos conocidos están (frase, trozo, nombre)', () => {

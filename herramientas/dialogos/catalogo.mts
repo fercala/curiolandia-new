@@ -292,3 +292,30 @@ export function csvIdioma(filas: readonly FilaIdioma[], idioma: string): string 
     ].join('\n') + '\n'
   );
 }
+
+/**
+ * sinTraducirTexto(filas): el texto de dialogos/ro-sin-traducir.txt (fase ID9a de docs/PLAN-IDIOMAS.md): lo que se
+ * acepta sin traducir porque no es castellano (palabras inglesas, ids, CSS...) o solo sale jugando en castellano (los
+ * nombres de las letras españolas), una línea por texto con su id, un
+ * tabulador y el texto (los saltos de línea, como \n), ordenadas por id para que los cambios se vean bien.
+ */
+export function sinTraducirTexto(filas: readonly FilaIdioma[]): string {
+  const cab = [
+    '# Textos del catálogo que se aceptan sin traducir al rumano: no son castellano (inglés, ids, código) o solo salen en castellano.',
+    '# Una línea por texto: id, tabulador y texto. La rehace npm run dialogos (quita lo traducido); lo nuevo se añade a mano.',
+  ];
+  const lineas = [...filas]
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .map((f) => `${f.id}\t${f.texto.replace(/\n/g, '\\n')}`);
+  return [...cab, ...lineas].join('\n') + '\n';
+}
+
+/** leerSinTraducir(texto): los ids de dialogos/ro-sin-traducir.txt (lo que va antes del tabulador; # es comentario). */
+export function leerSinTraducir(texto: string): Set<string> {
+  return new Set(
+    texto
+      .split('\n')
+      .filter((l) => l.trim() && !l.startsWith('#'))
+      .map((l) => l.split('\t')[0]!.trim()),
+  );
+}

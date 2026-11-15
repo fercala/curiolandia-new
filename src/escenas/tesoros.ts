@@ -183,7 +183,8 @@ SCENES.vitrina = {
     drawHome();
   },
   // down(x, y): la casa vuelve a la casa de Tito; un tesoro encontrado, Tito dice cuál es y cuántas veces lo ha
-  // encontrado (su nombre, traducido desde la v0.2.156); uno que falta, que aún está por encontrar.
+  // encontrado (el nombre, traducido con tr antes de ir al hueco de la plantilla: fase ID9a); uno que falta, que aún
+  // está por encontrar.
   down(x: number, y: number) {
     if (atHome(x, y)) {
       SFX.tap();

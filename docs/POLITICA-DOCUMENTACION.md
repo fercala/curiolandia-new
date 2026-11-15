@@ -33,7 +33,8 @@ El objetivo es que cualquier programador, también uno que empieza, pueda abrir 
 | Cómo está organizado el código: un archivo nuevo, el orden de los módulos (`src/modulos.ts` y los `indice.ts`), una capa o envoltura nueva, el flujo del niño, la capa 3D | [ARQUITECTURA.md](ARQUITECTURA.md) |
 | La forma de añadir algo (objeto 3D, tema, juego, componente, cuento, dibujo, tienda, escena, zona de adultos) o el proceso de montar, probar y publicar | [COMO-AGREGAR.md](COMO-AGREGAR.md) (su receta) |
 | Un campo nuevo o distinto del estado guardado `S` | [ESTADO-GUARDADO.md](ESTADO-GUARDADO.md) (tabla de campos, con su valor por defecto) |
-| Diálogos nuevos o cambiados de `say()` | `dialogos/pendientes.txt` (una por línea, texto exacto) y el catálogo `dialogos/todos.csv` rehecho con `npm run dialogos`. Ver [dialogos/LEEME.md](../dialogos/LEEME.md). Y su traducción a los demás idiomas, en el mismo cambio: la tabla de `src/idiomas/ro/` que toque, sin nada suyo como «falta» en `dialogos/ro.csv` |
+| Diálogos nuevos o cambiados de `say()` | `dialogos/pendientes.txt` (una por línea, texto exacto) y el catálogo `dialogos/todos.csv` rehecho con `npm run dialogos`. Ver [dialogos/LEEME.md](../dialogos/LEEME.md) |
+| Frases o textos de pantalla nuevos (toda funcionalidad nueva es multiidioma) | Su rumano en `src/idiomas/ro/` en el mismo cambio, y la escena nueva en `tests/regresion/idiomas.js`; lo que no es castellano, en `dialogos/ro-sin-traducir.txt`. Ver [PLAN-IDIOMAS.md](PLAN-IDIOMAS.md) |
 | Arreglas un fallo de la lista, o encuentras uno que no arreglas | [PROBLEMAS-CONOCIDOS.md](PROBLEMAS-CONOCIDOS.md) (quítalo o añádelo) |
 | Una herramienta, una prueba o un comando nuevo | El README y la sección del proceso en COMO-AGREGAR.md |
 | Una regla de trabajo nueva | `CLAUDE.md`, `AGENTS.md` y esta política; `CODEX.md` y `COLABORACION-CODEX.md` si cambia el procedimiento de Codex. Los planes son compartidos, no una copia por asistente. |
@@ -71,7 +72,7 @@ Antes de cada commit:
    - [ ] He actualizado los documentos de `docs/` que tocan (tabla 1.2).
    - [ ] `npm run formato` y `npm run lint` sin avisos ([FORMATO-Y-LINTER.md](FORMATO-Y-LINTER.md)).
    - [ ] He apuntado los diálogos nuevos o cambiados en `dialogos/pendientes.txt` y he rehecho `dialogos/todos.csv` (`npm run dialogos`).
-   - [ ] Lo nuevo está en todos los idiomas: sus textos traducidos en `src/idiomas/ro/`, nada suyo «falta» en `dialogos/ro.csv` y sus escenas en `tests/regresion/idiomas.js`.
+   - [ ] Lo nuevo es multiidioma: cada texto nuevo tiene su rumano en `src/idiomas/ro/` y la escena nueva está en `tests/regresion/idiomas.js`.
    - [ ] Si publico: he subido `version` en `package.json` y he añadido la entrada en `docs/CAMBIOS.md`.
 
 ## 3. Estilo

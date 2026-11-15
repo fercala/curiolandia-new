@@ -1,108 +1,15 @@
 /*
- * idiomas/ro/paseo.ts: los textos en rumano de lo que se hace paseando por el mapa (docs/PLAN-IDIOMAS.md; desde la
- * v0.2.156, por la regla de Fernando del 15 de noviembre de 2026: toda funcionalidad nueva llega ya en todos los
- * idiomas): los tesoros escondidos y la vitrina (fase P14 de docs/IDEAS-MEJORA.md), la cámara de fotos y el álbum de
- * fotos (P15) y la gran aventura de Tito con sus capítulos (P16). Borrador de Claude para que lo revise una persona que
- * hable rumano (ID9). Va del texto en castellano, tal como está en el código, a su traducción; textos.ts junta esta
- * tabla con las demás. Las plantillas llevan sus huecos ({n}, {total}, {nombre}) y, entre un número y lo que cuenta,
- * {n:de}. Las palabras inglesas de las fotos no se traducen (se dicen en inglés).
+ * idiomas/ro/paseo.ts: los textos en rumano de la gran aventura de Tito (fase P16 de docs/IDEAS-MEJORA.md, desde la
+ * v0.2.157, por la regla de Fernando del 15 de noviembre de 2026: toda funcionalidad nueva es multiidioma): el título,
+ * los capítulos con sus cuentos y lo que dice Tito en el mapa del tesoro. Los tesoros y la cámara de fotos, que también
+ * se hacen paseando, están en escenas.ts (fase ID9a). Borrador de Claude para que lo revise una persona que hable rumano
+ * (ID9b). Va del texto en castellano, tal como está en el código, a su traducción; textos.ts junta esta tabla con las
+ * demás. Las plantillas llevan sus huecos ({n}, {total}).
  * Exporta: PASEO_RO. No importa nada.
  */
 
-/** Los textos de los tesoros, la cámara de fotos y la gran aventura, del castellano al rumano. */
+/** Los textos de la gran aventura de Tito, del castellano al rumano. */
 export const PASEO_RO: Readonly<Record<string, string>> = {
-  // los tesoros escondidos (P14)
-  'La pluma': 'Pana',
-  'La concha': 'Scoica',
-  'La piña': 'Conul de brad',
-  'La bellota': 'Ghinda',
-  'La estrella de mar': 'Steaua de mare',
-  'La piedra bonita': 'Piatra frumoasă',
-  'La hoja': 'Frunza',
-  'La castaña': 'Castana',
-  '¡Una pluma! La guardo en mi vitrina.': 'O pană! O pun în vitrina mea.',
-  '¡Una concha! La guardo en mi vitrina.': 'O scoică! O pun în vitrina mea.',
-  '¡Una piña! La guardo en mi vitrina.': 'Un con de brad! Îl pun în vitrina mea.',
-  '¡Una bellota! La guardo en mi vitrina.': 'O ghindă! O pun în vitrina mea.',
-  '¡Una estrella de mar! La guardo en mi vitrina.': 'O stea de mare! O pun în vitrina mea.',
-  '¡Una piedra bonita! La guardo en mi vitrina.': 'O piatră frumoasă! O pun în vitrina mea.',
-  '¡Una hoja preciosa! La guardo en mi vitrina.': 'O frunză minunată! O pun în vitrina mea.',
-  '¡Una castaña! La guardo en mi vitrina.': 'O castană! O pun în vitrina mea.',
-  '¡Hay un tesoro cerca del jardín!': 'E o comoară lângă grădină!',
-  '¡Hay un tesoro cerca del bosque!': 'E o comoară lângă pădure!',
-  '¡Hay un tesoro cerca de la montaña!': 'E o comoară lângă munte!',
-  '¡Hay un tesoro cerca de la plaza!': 'E o comoară lângă piață!',
-  '¡Hay un tesoro cerca del muelle!': 'E o comoară lângă debarcader!',
-  '¡Hay un tesoro cerca del cole!': 'E o comoară lângă grădiniță!',
-  '¡Hay un tesoro cerca de la casa de las fiestas!': 'E o comoară lângă casa sărbătorilor!',
-  '¡Hay un tesoro cerca del globo!': 'E o comoară lângă balon!',
-  '¡Algo brilla por aquí!': 'Ceva strălucește pe aici!',
-  '¡Has encontrado los tres tesoros de hoy! Mañana habrá otros.':
-    'Ai găsit cele trei comori de azi! Mâine vor fi altele.',
-  '¡Mi vitrina de tesoros! Ya tengo {n} de {total}. Toca uno para verlo.':
-    'Vitrina mea cu comori! Am deja {n} din {total}. Atinge una ca s-o vezi.',
-  '¡Mi vitrina de tesoros! Está vacía. Pasea por el mapa para encontrar tesoros escondidos.':
-    'Vitrina mea cu comori! E goală. Plimbă-te pe hartă ca să găsești comori ascunse.',
-  'Cada día hay tres tesoros escondidos en el mapa. Pasea con Tito para encontrarlos.':
-    'În fiecare zi sunt trei comori ascunse pe hartă. Plimbă-te cu Tito ca să le găsești.',
-  'Mi vitrina de tesoros': 'Vitrina mea cu comori',
-  'Este tesoro aún no lo has encontrado.': 'Comoara asta n-ai găsit-o încă.',
-  '{nombre}. La has encontrado una vez.': '{nombre}. Ai găsit-o o dată.',
-  '{nombre}. La has encontrado {n} veces.': '{nombre}. Ai găsit-o de {n} ori.',
-  // la cámara de fotos y el álbum (P15)
-  'Bichos y animales del campo': 'Gâze și animale de la câmp',
-  'Del mar y de la playa': 'De la mare și de la plajă',
-  'De la nieve y del frío': 'De la zăpadă și de la frig',
-  'Animales de la granja': 'Animale de la fermă',
-  'Plantas y cosas': 'Plante și lucruri',
-  'La rana': 'Broasca',
-  'La abeja': 'Albina',
-  'La mariposa': 'Fluturele',
-  'La mariquita': 'Buburuza',
-  'La hormiga': 'Furnica',
-  'El conejo': 'Iepurele',
-  'La ardilla': 'Veverița',
-  'El búho': 'Bufnița',
-  'La ballena': 'Balena',
-  'El delfín': 'Delfinul',
-  'El cangrejo': 'Crabul',
-  'El pájaro': 'Pasărea',
-  'El barco': 'Barca',
-  'El castillo de arena': 'Castelul de nisip',
-  'El pingüino': 'Pinguinul',
-  'El iglú': 'Igluul',
-  'El muñeco de nieve': 'Omul de zăpadă',
-  'La vaca': 'Vaca',
-  'El caballo': 'Calul',
-  'El cerdo': 'Porcul',
-  'La oveja': 'Oaia',
-  'La gallina': 'Găina',
-  'El pollito': 'Puiul',
-  'El pato': 'Rața',
-  'El árbol': 'Copacul',
-  'La flor': 'Floarea',
-  'La seta': 'Ciuperca',
-  'La calabaza': 'Dovleacul',
-  'El nido': 'Cuibul',
-  'El globo': 'Balonul',
-  EN: 'EN',
-  'Guardo la cámara.': 'Pun aparatul foto deoparte.',
-  '¡La cámara! Toca un animal o una cosa para hacerle una foto.':
-    'Aparatul foto! Atinge un animal sau un lucru ca să-i faci o poză.',
-  '{nombre}. Esta foto ya la tenías.': '{nombre}. Poza asta o aveai deja.',
-  '¡Foto nueva! {nombre}.': 'Poză nouă! {nombre}.',
-  '¡Has completado una página del álbum de fotos!': 'Ai completat o pagină din albumul cu poze!',
-  'Ahí no hay nada para la foto. Busca un animal o una cosa.':
-    'Acolo nu e nimic de pozat. Caută un animal sau un lucru.',
-  '¡Mi álbum de fotos! Ya tengo {n} de {total}. Toca una foto para oír su nombre.':
-    'Albumul meu cu poze! Am deja {n} din {total}. Atinge o poză ca să-i auzi numele.',
-  '¡Mi álbum de fotos! Está vacío. Saca la cámara en el mapa para hacer fotos.':
-    'Albumul meu cu poze! E gol. Scoate aparatul foto pe hartă ca să faci poze.',
-  'Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.':
-    'Atinge o poză ca să-i auzi numele. Steagul îți spune cum se numește în engleză.',
-  'Esta foto aún no la has hecho. ¡Busca con la cámara!': 'Poza asta n-ai făcut-o încă. Caută cu aparatul foto!',
-  '{nombre}. Esta foto la has hecho una vez.': '{nombre}. Ai făcut poza asta o dată.',
-  '{nombre}. Esta foto la has hecho {n} veces.': '{nombre}. Ai făcut poza asta de {n} ori.',
   // la gran aventura de Tito (P16)
   'El mapa del tesoro perdido': 'Harta comorii pierdute',
   'La botella del mar': 'Sticla din mare',
