@@ -45,7 +45,7 @@ La [arquitectura](ARQUITECTURA.md) tiene el inventario completo. Sus apartados h
 - `save()` se llama al cambiar algo persistente. Revisar recarga, salida durante una animación, repetición y otra pestaña cuando el cambio afecte a premios o guardado.
 - Los nombres del puente, `window.__cl`, las coordenadas lógicas y las ayudas están en [CONTRATO-PRUEBAS](CONTRATO-PRUEBAS.md). El puente usa getters y rechaza reasignaciones y nombres duplicados; no es una vía para que nuevos módulos dependan de globales.
 - `__fast` evita la espera de voz. Una prueba con él acredita lógica rápida, no audio audible ni sincronización real.
-- Traducción: `tr` sale por voz, texto y HTML; `fmt` rellena plantillas, `nombreEn` da las formas del nombre. Cambiar idioma recarga. El rumano aún no está completo; no presentar como publicado lo que solo está preparado.
+- Traducción: `tr` sale por voz, texto y HTML; `fmt` rellena plantillas, `nombreEn` da las formas del nombre. Cambiar idioma recarga. Desde la ID9b el rumano se puede elegir en la zona de adultos, como borrador sin revisar por un hablante nativo (`revisado: false`, con su aviso).
 
 ## Cómo documenta Claude: evidencia en PR
 

@@ -57,15 +57,21 @@ function vozGuiaHTML() {
 
 // idiomaHTML(): la sección «Idioma» (fase ID1 de docs/PLAN-IDIOMAS.md): un selector con los idiomas que se pueden
 // elegir (idiomasElegibles: los completos y el que se usa). Con uno solo no sale nada. Al cambiarlo se recarga el juego.
+// Desde la ID9b, si se juega en un idioma sin revisar por una persona que lo hable (revisado), avisa de que es un borrador.
 function idiomaHTML(): string {
-  const ops = idiomasElegibles(IDIOMA);
+  const ops = idiomasElegibles(IDIOMA),
+    borrador = !ops.find((i) => i.id === IDIOMA)?.revisado;
   if (ops.length < 2) return '';
   const opciones = ops
     .map((i) => `<option value="${i.id}" ${i.id === IDIOMA ? 'selected' : ''}>${i.bandera} ${esc(i.nombre)}</option>`)
     .join('');
   return `<section><h3>Idioma</h3>
    <div class="row"><label for="a-idioma">Idioma del juego</label><select id="a-idioma">${opciones}</select></div>
-   <p class="note">Al cambiarlo, el juego se vuelve a abrir en el idioma nuevo. El progreso no se pierde.</p></section>`;
+   <p class="note">Al cambiarlo, el juego se vuelve a abrir en el idioma nuevo. El progreso no se pierde.</p>${
+     borrador
+       ? '<p class="note">Esta traducción es un borrador: aún no la ha revisado una persona que hable el idioma y puede tener errores.</p>'
+       : ''
+   }</section>`;
 }
 
 export const TITO_Y_SONIDO: PaginaAdultos = {
