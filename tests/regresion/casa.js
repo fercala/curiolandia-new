@@ -1346,16 +1346,17 @@ const temas = (n) => {
       if (e3) return 'en el jardín: ' + e3;
       await p.waitForTimeout(500);
       if (!(await p.evaluate(() => registroDeFotos().vistas.arbol))) return 'en el jardín no se hace la foto del árbol';
-      // en la granja escuela, a un animal que pasea
+      // en la granja escuela, a un animal que pasea (si hay otro delante, la foto es la de ese: el de más delante)
       await p.evaluate(() => __cl.go('excursion', { exc: 'granja' }));
       await p.waitForTimeout(2000);
       const g = await p.evaluate(() => {
         __cl.scene.down(CAMARA_BOTON.x, CAMARA_BOTON.y);
         const a = PASEO.animales.find((q) => !q.cria);
         __cl.scene.down(a.x, a.y - 30);
-        return [a.a.k, registroDeFotos().vistas, __cl.name];
+        const granja = ['vaca', 'caballo', 'cerdo', 'oveja', 'gallina', 'pollito', 'pato'];
+        return [Object.keys(registroDeFotos().vistas).filter((k) => granja.includes(k)), __cl.name];
       });
-      if (!g[1][g[0]] || g[2] !== 'excursion') return 'en la granja: ' + JSON.stringify(g);
+      if (g[0].length !== 1 || g[1] !== 'excursion') return 'en la granja: ' + JSON.stringify(g);
       // el álbum, desde la casa: la foto hecha dice su nombre y su palabra en inglés; una que falta, que aún no
       await p.evaluate(() => __cl.go('casaTito', {}));
       await p.waitForTimeout(1500);
