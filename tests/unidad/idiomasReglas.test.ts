@@ -26,8 +26,9 @@ describe('idiomas', () => {
 
   test('la primera vez, el idioma del navegador si está completo; si no, el castellano', () => {
     expect(idiomaDelNavegador(['es-ES'])).toBe('es');
-    // el rumano aún no está completo (hasta la fase ID9)
-    expect(idiomaDelNavegador(['ro-RO', 'en-GB'])).toBe('es');
+    // el rumano está completo desde la fase ID9b
+    expect(idiomaDelNavegador(['ro-RO', 'en-GB'])).toBe('ro');
+    expect(idiomaDelNavegador(['fr-FR'])).toBe('es');
     expect(idiomaDelNavegador(['en-GB', 'es_AR'])).toBe('es');
     expect(idiomaDelNavegador([])).toBe('es');
   });
@@ -37,15 +38,17 @@ describe('idiomas', () => {
     expect(idiomaActivo('es', 'xx', [])).toBe('xx');
     expect(idiomaActivo('ro', null, ['es-ES'])).toBe('ro');
     expect(idiomaActivo('ro', 'fr', ['es-ES'])).toBe('ro');
-    expect(idiomaActivo(undefined, null, ['ro-RO'])).toBe('es');
+    expect(idiomaActivo(undefined, null, ['ro-RO'])).toBe('ro');
+    expect(idiomaActivo('es', null, ['ro-RO'])).toBe('es');
     // el pseudoidioma no vale como guardado
     expect(idiomaActivo('xx', null, [])).toBe('es');
   });
 
   test('se ofrecen los completos y el que se usa, nunca el pseudoidioma', () => {
-    expect(idiomasElegibles('es').map((i) => i.id)).toEqual(['es']);
+    expect(idiomasElegibles('es').map((i) => i.id)).toEqual(['es', 'ro']);
     expect(idiomasElegibles('ro').map((i) => i.id)).toEqual(['es', 'ro']);
-    expect(idiomasElegibles('xx').map((i) => i.id)).toEqual(['es']);
+    expect(idiomasElegibles('xx').map((i) => i.id)).toEqual(['es', 'ro']);
+    expect(idioma('ro').revisado).toBe(false);
   });
 
   test('rellena los huecos de una plantilla y deja a la vista los que faltan', () => {

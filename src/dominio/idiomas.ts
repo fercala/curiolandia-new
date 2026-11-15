@@ -19,8 +19,9 @@ export type IdIdioma = 'es' | 'ro' | 'xx';
 export type IdiomaGuardado = Exclude<IdIdioma, 'xx'>;
 
 /** Un idioma: su id, su nombre escrito en ese idioma (para el selector), su bandera, el código de idioma de la página y
- * de la voz (lang), los prefijos de las voces del navegador que valen, de más a menos preferida, y si está completo (si
- * no, no se ofrece en la zona de adultos y solo se puede probar con ?idioma=). */
+ * de la voz (lang), los prefijos de las voces del navegador que valen, de más a menos preferida, si está completo (si
+ * no, no se ofrece en la zona de adultos y solo se puede probar con ?idioma=) y si lo ha revisado una persona que lo
+ * hable (si no, la zona de adultos avisa de que es un borrador; desde la fase ID9b). */
 export interface Idioma {
   readonly id: IdIdioma;
   readonly nombre: string;
@@ -28,9 +29,11 @@ export interface Idioma {
   readonly lang: string;
   readonly voces: readonly string[];
   readonly completo: boolean;
+  readonly revisado: boolean;
 }
 
-/** Los idiomas, en el orden del selector. El rumano no está completo hasta la fase ID9. El pseudoidioma habla con las
+/** Los idiomas, en el orden del selector. El rumano está completo desde la fase ID9b (Fernando, 15 de noviembre de
+ * 2026), como borrador revisado por Claude: sin revisar por una persona que hable rumano. El pseudoidioma habla con las
  * voces del castellano. */
 export const IDIOMAS: readonly Idioma[] = [
   {
@@ -40,9 +43,26 @@ export const IDIOMAS: readonly Idioma[] = [
     lang: 'es-ES',
     voces: ['es-ES', 'es-MX', 'es-US', 'es-419', 'es-AR', 'es'],
     completo: true,
+    revisado: true,
   },
-  { id: 'ro', nombre: 'Română', bandera: '🇷🇴', lang: 'ro-RO', voces: ['ro-RO', 'ro-MD', 'ro'], completo: false },
-  { id: 'xx', nombre: 'Pseudoidioma', bandera: '🧪', lang: 'es-ES', voces: ['es-ES', 'es'], completo: false },
+  {
+    id: 'ro',
+    nombre: 'Română',
+    bandera: '🇷🇴',
+    lang: 'ro-RO',
+    voces: ['ro-RO', 'ro-MD', 'ro'],
+    completo: true,
+    revisado: false,
+  },
+  {
+    id: 'xx',
+    nombre: 'Pseudoidioma',
+    bandera: '🧪',
+    lang: 'es-ES',
+    voces: ['es-ES', 'es'],
+    completo: false,
+    revisado: false,
+  },
 ];
 
 /** El idioma del código y el que sale si no se sabe otro. */

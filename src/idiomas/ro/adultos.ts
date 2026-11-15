@@ -491,4 +491,7 @@ export const ADULTOS_RO: Readonly<Record<string, string>> = {
   '‹ Categorías': '‹ Categorii',
   'Zona de adultos': 'Zona adulților',
   'Volver al juego': 'Înapoi la joc',
+  // el aviso de borrador del selector de idioma (fase ID9b)
+  'Esta traducción es un borrador: aún no la ha revisado una persona que hable el idioma y puede tener errores.':
+    'Această traducere este o ciornă: încă nu a revizuit-o o persoană care vorbește limba și poate avea greșeli.',
 };
