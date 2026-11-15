@@ -98,7 +98,7 @@ export const CASA_RO: Readonly<Record<string, string>> = {
   '¡Guitarra y tambor! ¡Somos una orquesta!': 'Chitară și tobă! Suntem o orchestră!',
   '¡Música con dos instrumentos! ¡Qué bonita suena!': 'Muzică cu două instrumente! Ce frumos sună!',
   '¡Oh, no! La cometa se ha quedado en el árbol.': 'Oh, nu! Zmeul a rămas în copac.',
-  '¡Riiing! El reloj me despierta. ¡Buenos días!': 'Ţârrr! Ceasul mă trezește. Bună dimineața!',
+  '¡Riiing! El reloj me despierta. ¡Buenos días!': 'Țârrr! Ceasul mă trezește. Bună dimineața!',
   '¡El pájaro canta en el árbol! Pío, pío.': 'Pasărea cântă în copac! Cip, cirip.',
   '¡Riego el árbol para que crezca mucho!': 'Ud copacul ca să crească mare!',
   '¡Globos y tarta! ¡Es una fiesta!': 'Baloane și tort! E o petrecere!',

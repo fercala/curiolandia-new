@@ -103,7 +103,7 @@ b44c09da6ca0,¡El patito nada en la piscina!,Rățușca înoată în piscină!,f
 a9788529cebb,¡Guitarra y tambor! ¡Somos una orquesta!,Chitară și tobă! Suntem o orchestră!,frase,src/contenido/casa.ts,borrador
 8544431e3945,¡Música con dos instrumentos! ¡Qué bonita suena!,Muzică cu două instrumente! Ce frumos sună!,frase,src/contenido/casa.ts,borrador
 0daad72a0918,"¡Oh, no! La cometa se ha quedado en el árbol.","Oh, nu! Zmeul a rămas în copac.",frase,src/contenido/casa.ts,borrador
-2a3092559c0e,¡Riiing! El reloj me despierta. ¡Buenos días!,Ţârrr! Ceasul mă trezește. Bună dimineața!,frase,src/contenido/casa.ts,borrador
+2a3092559c0e,¡Riiing! El reloj me despierta. ¡Buenos días!,Țârrr! Ceasul mă trezește. Bună dimineața!,frase,src/contenido/casa.ts,borrador
 ea9770da440b,"¡El pájaro canta en el árbol! Pío, pío.","Pasărea cântă în copac! Cip, cirip.",frase,src/contenido/casa.ts,borrador
 fe5d8cb427b3,¡Riego el árbol para que crezca mucho!,Ud copacul ca să crească mare!,frase,src/contenido/casa.ts,borrador
 5519a2a3794d,¡Globos y tarta! ¡Es una fiesta!,Baloane și tort! E o petrecere!,frase,src/contenido/casa.ts,borrador
@@ -4243,6 +4243,7 @@ aea23489ce3a,Windows,Windows,adultos,src/aplicacion/adultos/titoYSonido.ts,borra
 d62a3259ece1,Idioma,Limba,adultos,src/aplicacion/adultos/titoYSonido.ts,borrador
 9ae2a404887c,Idioma del juego,Limba jocului,adultos,src/aplicacion/adultos/titoYSonido.ts,borrador
 fd9c3f6ec8e0,"Al cambiarlo, el juego se vuelve a abrir en el idioma nuevo. El progreso no se pierde.","Când o schimbi, jocul se redeschide în limba nouă. Progresul nu se pierde.",adultos,src/aplicacion/adultos/titoYSonido.ts,borrador
+d125781fcd5e,Esta traducción es un borrador: aún no la ha revisado una persona que hable el idioma y puede tener errores.,Această traducere este o ciornă: încă nu a revizuit-o o persoană care vorbește limba și poate avea greșeli.,adultos,src/aplicacion/adultos/titoYSonido.ts,borrador
 841025c4ab7d,Tito y el sonido,Tito și sunetul,adultos,src/aplicacion/adultos/titoYSonido.ts,borrador
 84fc2f756cc3,no se encontró una voz en el idioma del juego en este dispositivo,nu s-a găsit nicio voce în limba jocului pe acest dispozitiv,adultos,src/aplicacion/adultos/titoYSonido.ts,borrador
 704b4afcc10c,Automática (la mejor que haya),Automată (cea mai bună disponibilă),adultos,src/aplicacion/adultos/titoYSonido.ts,borrador
