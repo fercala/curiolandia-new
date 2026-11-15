@@ -3,6 +3,22 @@ c8381bcbe32c,Aaăș,,trozo,src/aplicacion/arranque.ts,falta
 9c763d0ac223,(pointer:coarse),,trozo,src/aplicacion/bucle.ts src/mundo3d/motor.ts,falta
 70bf1ce400d3,Gira el móvil,Întoarce telefonul,trozo,src/aplicacion/bucle.ts,borrador
 1739af05fc06,(toca para seguir igual),(atinge ca să continui așa),trozo,src/aplicacion/bucle.ts,borrador
+2227f3e29a48,El mapa del tesoro perdido,Harta comorii pierdute,trozo,src/contenido/aventura.ts,borrador
+ef9652f3c4e2,La botella del mar,Sticla din mare,trozo,src/contenido/aventura.ts,borrador
+55da60357c02,"Una mañana, Tito paseaba por la playa. ¡Y las olas le trajeron una botella!","Într-o dimineață, Tito se plimba pe plajă. Și valurile i-au adus o sticlă!",frase,src/contenido/aventura.ts,borrador
+9d2b7b91157b,Dentro había un trozo de papel. ¡Era un mapa del tesoro! Pero estaba roto en seis trozos.,Înăuntru era o bucată de hârtie. Era o hartă a comorii! Dar era ruptă în șase bucăți.,frase,src/contenido/aventura.ts,borrador
+d01fb8ea2217,Una nota decía: «Cuenta las cosas del mar y el primer trozo será tuyo». ¡Vamos a contar!,Un bilet spunea: „Numără lucrurile din mare și prima bucată va fi a ta.” Hai să numărăm!,frase,src/contenido/aventura.ts,borrador
+e948371582ed,¡El primer trozo del mapa! ¡Qué emoción!,Prima bucată din hartă! Ce emoție!,frase,src/contenido/aventura.ts,borrador
+05d79a3706ef,Las parejas del bosque,Perechile din pădure,trozo,src/contenido/aventura.ts,borrador
+8ede22272fdb,El trozo del mapa llevó a Tito hasta el bosque. Allí lo esperaba la ardilla.,Bucata de hartă l-a dus pe Tito până în pădure. Acolo îl aștepta veverița.,frase,src/contenido/aventura.ts,borrador
+ae279a498eb9,¡Tengo el segundo trozo! Pero se me han mezclado las cartas de mis amigos del bosque.,Eu am a doua bucată! Dar mi s-au amestecat cărțile cu prietenii mei din pădure.,frase,src/contenido/aventura.ts,borrador
+41b929fd490e,Ayuda a la ardilla a juntar las parejas. ¡Hay que acordarse de dónde está cada carta!,Ajut-o pe veveriță să găsească perechile. Trebuie să ții minte unde e fiecare carte!,frase,src/contenido/aventura.ts,borrador
+d069985ac35a,"¡El segundo trozo del mapa! Gracias, ardilla.","A doua bucată din hartă! Mulțumesc, veveriță.",frase,src/contenido/aventura.ts,borrador
+c02d6abaef31,Polly y los animales,Polly și animalele,trozo,src/contenido/aventura.ts,borrador
+5da6cb41c9cf,"Con dos trozos, el mapa señalaba una isla lejana. ¡Tito voló hasta allí en globo!","Cu două bucăți, harta arăta o insulă îndepărtată. Tito a zburat până acolo cu balonul!",frase,src/contenido/aventura.ts,borrador
+5632c2a996e0,"Era la isla de Polly, la lorita. ¡Hello, Tito! Yo guardo el tercer trozo.","Era insula lui Polly, papagalul. Hello, Tito! Eu păstrez a treia bucată.",frase,src/contenido/aventura.ts,borrador
+b1cd23ac1c69,Polly dirá animales en inglés. Escucha bien y toca el animal que dice.,Polly va spune animale în engleză. Ascultă bine și atinge animalul pe care îl spune.,frase,src/contenido/aventura.ts,borrador
+486b2cabf66a,"¡El tercer trozo del mapa! Thank you, Polly.","A treia bucată din hartă! Thank you, Polly.",frase,src/contenido/aventura.ts,borrador
 4078c7480678,¡Cuántas estrellas se ven por mi telescopio!,Câte stele se văd prin telescopul meu!,frase,src/contenido/casa.ts,borrador
 fad80629d3fc,¡Mira cómo gira la Tierra! Aquí vivimos todos.,Uite cum se învârte Pământul! Aici trăim cu toții.,frase,src/contenido/casa.ts,borrador
 f4285e3680c7,Saturno es un planeta con anillos. ¡Cómo giran!,Saturn e o planetă cu inele. Cum se mai învârt!,frase,src/contenido/casa.ts,borrador
@@ -1044,31 +1060,31 @@ a29d50ec9ee6,Lupi,Lupi,trozo,src/dominio/carreras.ts,borrador
 95f622a25641,tercer lugar,al treilea loc,trozo,src/dominio/carreras.ts,borrador
 b593f2534404,cuarto lugar,al patrulea loc,trozo,src/dominio/carreras.ts,borrador
 a02e8bf6d838,último lugar,ultimul loc,trozo,src/dominio/carreras.ts,borrador
-063d8992503f,Los aros,,trozo,src/dominio/circuito.ts,falta
-055dd754f3e8,¡Saltando dentro de los aros!,,frase,src/dominio/circuito.ts,falta
-73a9ae22e970,"Primero, los aros.",,frase,src/dominio/circuito.ts,falta
-7ee07c7b19c2,"Después, los aros.",,frase,src/dominio/circuito.ts,falta
-b4103b199519,"Y al final, los aros.",,frase,src/dominio/circuito.ts,falta
-ce4b806fd40f,El túnel,,trozo,src/dominio/circuito.ts,falta
-2aa43dd87c31,¡Por dentro del túnel!,,frase,src/dominio/circuito.ts,falta
-0e176812ae1a,"Primero, el túnel.",,frase,src/dominio/circuito.ts,falta
-db49ddbecc55,"Después, el túnel.",,frase,src/dominio/circuito.ts,falta
-491ca8514775,"Y al final, el túnel.",,frase,src/dominio/circuito.ts,falta
-e6cb6903d39c,El banco,,trozo,src/dominio/circuito.ts,falta
-25167d5a3254,¡Por encima del banco!,,frase,src/dominio/circuito.ts,falta
-d5393bb84ce6,"Primero, el banco.",,frase,src/dominio/circuito.ts,falta
-399824b74862,"Después, el banco.",,frase,src/dominio/circuito.ts,falta
-94b5f7f95df9,"Y al final, el banco.",,frase,src/dominio/circuito.ts,falta
-25d60ebb2e50,Los conos,,trozo,src/dominio/circuito.ts,falta
-3b2195641a30,¡Alrededor de los conos!,,frase,src/dominio/circuito.ts,falta
-00da6f177a20,"Primero, los conos.",,frase,src/dominio/circuito.ts,falta
-700ec1939125,"Después, los conos.",,frase,src/dominio/circuito.ts,falta
-f62f1eca2f27,"Y al final, los conos.",,frase,src/dominio/circuito.ts,falta
-9d532420b800,La colchoneta,,trozo,src/dominio/circuito.ts,falta
-05876cefa015,¡Una voltereta en la colchoneta!,,frase,src/dominio/circuito.ts,falta
-043b182069a9,"Primero, la colchoneta.",,frase,src/dominio/circuito.ts,falta
-a1df26074b72,"Después, la colchoneta.",,frase,src/dominio/circuito.ts,falta
-6d27a9376b35,"Y al final, la colchoneta.",,frase,src/dominio/circuito.ts,falta
+063d8992503f,Los aros,Cercurile,trozo,src/dominio/circuito.ts,borrador
+055dd754f3e8,¡Saltando dentro de los aros!,Sărim în cercuri!,frase,src/dominio/circuito.ts,borrador
+73a9ae22e970,"Primero, los aros.","Mai întâi, cercurile.",frase,src/dominio/circuito.ts,borrador
+7ee07c7b19c2,"Después, los aros.","Apoi, cercurile.",frase,src/dominio/circuito.ts,borrador
+b4103b199519,"Y al final, los aros.","Și la sfârșit, cercurile.",frase,src/dominio/circuito.ts,borrador
+ce4b806fd40f,El túnel,Tunelul,trozo,src/dominio/circuito.ts,borrador
+2aa43dd87c31,¡Por dentro del túnel!,Prin tunel!,frase,src/dominio/circuito.ts,borrador
+0e176812ae1a,"Primero, el túnel.","Mai întâi, tunelul.",frase,src/dominio/circuito.ts,borrador
+db49ddbecc55,"Después, el túnel.","Apoi, tunelul.",frase,src/dominio/circuito.ts,borrador
+491ca8514775,"Y al final, el túnel.","Și la sfârșit, tunelul.",frase,src/dominio/circuito.ts,borrador
+e6cb6903d39c,El banco,Banca,trozo,src/dominio/circuito.ts,borrador
+25167d5a3254,¡Por encima del banco!,Pe deasupra băncii!,frase,src/dominio/circuito.ts,borrador
+d5393bb84ce6,"Primero, el banco.","Mai întâi, banca.",frase,src/dominio/circuito.ts,borrador
+399824b74862,"Después, el banco.","Apoi, banca.",frase,src/dominio/circuito.ts,borrador
+94b5f7f95df9,"Y al final, el banco.","Și la sfârșit, banca.",frase,src/dominio/circuito.ts,borrador
+25d60ebb2e50,Los conos,Conurile,trozo,src/dominio/circuito.ts,borrador
+3b2195641a30,¡Alrededor de los conos!,În jurul conurilor!,frase,src/dominio/circuito.ts,borrador
+00da6f177a20,"Primero, los conos.","Mai întâi, conurile.",frase,src/dominio/circuito.ts,borrador
+700ec1939125,"Después, los conos.","Apoi, conurile.",frase,src/dominio/circuito.ts,borrador
+f62f1eca2f27,"Y al final, los conos.","Și la sfârșit, conurile.",frase,src/dominio/circuito.ts,borrador
+9d532420b800,La colchoneta,Salteaua,trozo,src/dominio/circuito.ts,borrador
+05876cefa015,¡Una voltereta en la colchoneta!,O tumbă pe saltea!,frase,src/dominio/circuito.ts,borrador
+043b182069a9,"Primero, la colchoneta.","Mai întâi, salteaua.",frase,src/dominio/circuito.ts,borrador
+a1df26074b72,"Después, la colchoneta.","Apoi, salteaua.",frase,src/dominio/circuito.ts,borrador
+6d27a9376b35,"Y al final, la colchoneta.","Și la sfârșit, salteaua.",frase,src/dominio/circuito.ts,borrador
 1e86783773d9,¡Estatuas!,Statuile!,frase,src/dominio/cole.ts,borrador
 5a35caaa1a4e,Tito dice,Tito zice,trozo,src/dominio/cole.ts src/escenas/titoDice.ts,borrador
 0c1cd1201d35,Yoga de los animales,Yoga animalelor,trozo,src/dominio/cole.ts,borrador
@@ -1122,76 +1138,76 @@ f73b6c2f7d1b,¡Está dentro de la caja!,E în cutie!,frase,src/dominio/escondite
 17eb8962117b,{dia} de {mes},{dia} {mes},trozo,src/dominio/excursiones.ts,borrador
 0d8682d733b3,una vez,o dată,trozo,src/dominio/excursiones.ts,borrador
 df787b379967,{n} veces,de {n} {n:de}ori,trozo,src/dominio/excursiones.ts,borrador
-23e6139f001d,Bichos y animales del campo,,trozo,src/dominio/fotos.ts,falta
-0a1a439a1271,Del mar y de la playa,,trozo,src/dominio/fotos.ts,falta
-ba7b7dff853b,De la nieve y del frío,,trozo,src/dominio/fotos.ts,falta
-c415fb4e3085,Animales de la granja,,trozo,src/dominio/fotos.ts,falta
-e6ce4d140a8d,Plantas y cosas,,trozo,src/dominio/fotos.ts,falta
-62ca599a8758,La rana,,trozo,src/dominio/fotos.ts,falta
+23e6139f001d,Bichos y animales del campo,Gâze și animale de la câmp,trozo,src/dominio/fotos.ts,borrador
+0a1a439a1271,Del mar y de la playa,De la mare și de la plajă,trozo,src/dominio/fotos.ts,borrador
+ba7b7dff853b,De la nieve y del frío,De la zăpadă și de la frig,trozo,src/dominio/fotos.ts,borrador
+c415fb4e3085,Animales de la granja,Animale de la fermă,trozo,src/dominio/fotos.ts,borrador
+e6ce4d140a8d,Plantas y cosas,Plante și lucruri,trozo,src/dominio/fotos.ts,borrador
+62ca599a8758,La rana,Broasca,trozo,src/dominio/fotos.ts,borrador
 938c2cc0dcc0,frog,,trozo,src/dominio/fotos.ts,falta
-b5a7a2fa31ad,La abeja,,trozo,src/dominio/fotos.ts,falta
+b5a7a2fa31ad,La abeja,Albina,trozo,src/dominio/fotos.ts,borrador
 9dfd70fdf15a,bee,,trozo,src/dominio/fotos.ts,falta
-d6f6a93725c2,La mariposa,,trozo,src/dominio/fotos.ts,falta
+d6f6a93725c2,La mariposa,Fluturele,trozo,src/dominio/fotos.ts,borrador
 9fd8301ac24f,butterfly,,trozo,src/dominio/fotos.ts,falta
-be8f6599fb57,La mariquita,,trozo,src/dominio/fotos.ts,falta
+be8f6599fb57,La mariquita,Buburuza,trozo,src/dominio/fotos.ts,borrador
 02dad4f425d2,ladybird,,trozo,src/dominio/fotos.ts,falta
-45f4f38d7290,La hormiga,,trozo,src/dominio/fotos.ts,falta
+45f4f38d7290,La hormiga,Furnica,trozo,src/dominio/fotos.ts,borrador
 63b07e828bf0,ant,,trozo,src/dominio/fotos.ts,falta
-87405dce3e29,El conejo,,trozo,src/dominio/fotos.ts,falta
+87405dce3e29,El conejo,Iepurele,trozo,src/dominio/fotos.ts,borrador
 a51e47f64637,rabbit,,trozo,src/dominio/fotos.ts,falta
-7f66490f0193,La ardilla,,trozo,src/dominio/fotos.ts,falta
+7f66490f0193,La ardilla,Veverița,trozo,src/dominio/fotos.ts,borrador
 eac074b0503b,squirrel,,trozo,src/dominio/fotos.ts,falta
-8a4a57635617,El búho,,trozo,src/dominio/fotos.ts,falta
+8a4a57635617,El búho,Bufnița,trozo,src/dominio/fotos.ts,borrador
 50f8b6c98b0f,owl,,trozo,src/dominio/fotos.ts,falta
-aa86951e810a,La ballena,,trozo,src/dominio/fotos.ts,falta
+aa86951e810a,La ballena,Balena,trozo,src/dominio/fotos.ts,borrador
 1ebfd5913ef4,whale,,trozo,src/dominio/fotos.ts,falta
-5bb9af8791f7,El delfín,,trozo,src/dominio/fotos.ts,falta
+5bb9af8791f7,El delfín,Delfinul,trozo,src/dominio/fotos.ts,borrador
 36cdf8b887a5,dolphin,,trozo,src/dominio/fotos.ts,falta
-6780288f8b53,El cangrejo,,trozo,src/dominio/fotos.ts,falta
+6780288f8b53,El cangrejo,Crabul,trozo,src/dominio/fotos.ts,borrador
 bd589331b993,crab,,trozo,src/dominio/fotos.ts,falta
-72fdce45af75,El pájaro,,trozo,src/dominio/fotos.ts,falta
+72fdce45af75,El pájaro,Pasărea,trozo,src/dominio/fotos.ts,borrador
 abaecf8ca3f9,bird,,trozo,src/dominio/fotos.ts,falta
-f1183c323294,El barco,,trozo,src/dominio/fotos.ts,falta
+f1183c323294,El barco,Barca,trozo,src/dominio/fotos.ts,borrador
 dd8fc45d87f9,boat,,trozo,src/dominio/fotos.ts,falta
-b59a14733708,El castillo de arena,,trozo,src/dominio/fotos.ts,falta
+b59a14733708,El castillo de arena,Castelul de nisip,trozo,src/dominio/fotos.ts,borrador
 85e8113bc3f6,sandcastle,,trozo,src/dominio/fotos.ts,falta
-2287d5506e1b,El pingüino,,trozo,src/dominio/fotos.ts,falta
+2287d5506e1b,El pingüino,Pinguinul,trozo,src/dominio/fotos.ts,borrador
 24f7ca5f6ff1,penguin,,trozo,src/dominio/fotos.ts,falta
-e60eb27485a3,El iglú,,trozo,src/dominio/fotos.ts,falta
+e60eb27485a3,El iglú,Igluul,trozo,src/dominio/fotos.ts,borrador
 2678407a7a56,igloo,,trozo,src/dominio/fotos.ts,falta
-960ed9ff82e5,El muñeco de nieve,,trozo,src/dominio/fotos.ts,falta
+960ed9ff82e5,El muñeco de nieve,Omul de zăpadă,trozo,src/dominio/fotos.ts,borrador
 b932a6ec0f3b,snowman,,trozo,src/dominio/fotos.ts,falta
 af22d2ba6f49,El reno,Renul,trozo,src/dominio/fotos.ts src/mundo3d/cielo.ts,borrador
 a243bfbd00fd,reindeer,,trozo,src/dominio/fotos.ts,falta
-3b9e16d37103,La vaca,,trozo,src/dominio/fotos.ts,falta
+3b9e16d37103,La vaca,Vaca,trozo,src/dominio/fotos.ts,borrador
 81566e986cf8,cow,,trozo,src/dominio/fotos.ts,falta
-267f36d9e43a,El caballo,,trozo,src/dominio/fotos.ts,falta
+267f36d9e43a,El caballo,Calul,trozo,src/dominio/fotos.ts,borrador
 f1bdf5ed1d7a,horse,,trozo,src/dominio/fotos.ts,falta
-87984e75c06a,El cerdo,,trozo,src/dominio/fotos.ts,falta
+87984e75c06a,El cerdo,Porcul,trozo,src/dominio/fotos.ts,borrador
 f74c6af46a78,pig,,trozo,src/dominio/fotos.ts,falta
-57787e039e51,La oveja,,trozo,src/dominio/fotos.ts,falta
+57787e039e51,La oveja,Oaia,trozo,src/dominio/fotos.ts,borrador
 23ec24c5ca59,sheep,,trozo,src/dominio/fotos.ts,falta
-f51402dc2ef0,La gallina,,trozo,src/dominio/fotos.ts,falta
+f51402dc2ef0,La gallina,Găina,trozo,src/dominio/fotos.ts,borrador
 e811af40e80c,hen,,trozo,src/dominio/fotos.ts,falta
-04a31ea5f872,El pollito,,trozo,src/dominio/fotos.ts,falta
+04a31ea5f872,El pollito,Puiul,trozo,src/dominio/fotos.ts,borrador
 8ddbddef26de,chick,,trozo,src/dominio/fotos.ts,falta
-8827e5958249,El pato,,trozo,src/dominio/fotos.ts,falta
+8827e5958249,El pato,Rața,trozo,src/dominio/fotos.ts,borrador
 36846677e3a8,duck,,trozo,src/dominio/fotos.ts,falta
-231e62153e64,El árbol,,trozo,src/dominio/fotos.ts,falta
+231e62153e64,El árbol,Copacul,trozo,src/dominio/fotos.ts,borrador
 c0af77cf8294,tree,,trozo,src/dominio/fotos.ts,falta
-987cd295738c,La flor,,trozo,src/dominio/fotos.ts,falta
+987cd295738c,La flor,Floarea,trozo,src/dominio/fotos.ts,borrador
 608f0b988db4,flower,,trozo,src/dominio/fotos.ts,falta
-4f0e86f0ae60,La seta,,trozo,src/dominio/fotos.ts,falta
+4f0e86f0ae60,La seta,Ciuperca,trozo,src/dominio/fotos.ts,borrador
 4e026537a7d3,mushroom,,trozo,src/dominio/fotos.ts,falta
-b16bc6b900fb,La calabaza,,trozo,src/dominio/fotos.ts,falta
+b16bc6b900fb,La calabaza,Dovleacul,trozo,src/dominio/fotos.ts,borrador
 edf8377563f7,pumpkin,,trozo,src/dominio/fotos.ts,falta
-0436aeb55cbc,La hoja,,trozo,src/dominio/fotos.ts src/dominio/tesoros.ts,falta
+0436aeb55cbc,La hoja,Frunza,trozo,src/dominio/fotos.ts src/dominio/tesoros.ts,borrador
 bab4ff04cc14,leaf,,trozo,src/dominio/fotos.ts,falta
-8c2f3d42987f,El nido,,trozo,src/dominio/fotos.ts,falta
+8c2f3d42987f,El nido,Cuibul,trozo,src/dominio/fotos.ts,borrador
 99475e3ed162,nest,,trozo,src/dominio/fotos.ts,falta
 8fbd08ad3d52,La cometa,Zmeul,trozo,src/dominio/fotos.ts src/dominio/juegosCortos.ts src/escenas/cometa.ts,borrador
 4781ac9273d3,kite,,trozo,src/dominio/fotos.ts,falta
-12279ee8216f,El globo,,trozo,src/dominio/fotos.ts,falta
+12279ee8216f,El globo,Balonul,trozo,src/dominio/fotos.ts,borrador
 698777432d4b,balloon,,trozo,src/dominio/fotos.ts,falta
 2f05391d7e51,La rayuela,Șotronul,trozo,src/dominio/juegosCortos.ts,borrador
 99b376c14d04,Los columpios,Leagănele,trozo,src/dominio/juegosCortos.ts src/escenas/columpios.ts,borrador
@@ -1239,29 +1255,29 @@ b97b6ad5d0d3,da un abrazo a cada persona de tu casa y cuéntalos.,îmbrățișea
 00f22b621955,Aguantar a la pata coja contando hasta cinco.,Să stea într-un picior numărând până la cinci.,frase,src/dominio/retos.ts,borrador
 165e74a75d87,busca algo de cada color del arcoíris.,caută ceva din fiecare culoare a curcubeului.,trozo,src/dominio/retos.ts,borrador
 3fc548d3f1a4,Buscar algo de cada color del arcoíris.,Să caute ceva din fiecare culoare a curcubeului.,frase,src/dominio/retos.ts,borrador
-3500892e2f7e,La pluma,,trozo,src/dominio/tesoros.ts,falta
-24b53a4f8781,¡Una pluma! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-00555b60621a,La concha,,trozo,src/dominio/tesoros.ts,falta
-4e9a49202e40,¡Una concha! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-41f1c0b51b02,La piña,,trozo,src/dominio/tesoros.ts,falta
-95aadd00b97c,¡Una piña! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-af91e801b1d5,La bellota,,trozo,src/dominio/tesoros.ts,falta
-fe33e27b76ee,¡Una bellota! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-d65f6094a87f,La estrella de mar,,trozo,src/dominio/tesoros.ts,falta
-f8311576b647,¡Una estrella de mar! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-9a3b54d73b17,La piedra bonita,,trozo,src/dominio/tesoros.ts,falta
-744f4f02be53,¡Una piedra bonita! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-004e11ca3bfa,¡Una hoja preciosa! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-193e943110a7,La castaña,,trozo,src/dominio/tesoros.ts,falta
-fc27caef1ea9,¡Una castaña! La guardo en mi vitrina.,,frase,src/dominio/tesoros.ts,falta
-742b8f97f6c6,¡Hay un tesoro cerca del jardín!,,frase,src/dominio/tesoros.ts,falta
-8b1cef43eacb,¡Hay un tesoro cerca del bosque!,,frase,src/dominio/tesoros.ts,falta
-c8731e0b28ea,¡Hay un tesoro cerca de la montaña!,,frase,src/dominio/tesoros.ts,falta
-980a1265f026,¡Hay un tesoro cerca de la plaza!,,frase,src/dominio/tesoros.ts,falta
-35ae00e66759,¡Hay un tesoro cerca del muelle!,,frase,src/dominio/tesoros.ts,falta
-74dfadec5375,¡Hay un tesoro cerca del cole!,,frase,src/dominio/tesoros.ts,falta
-eb8400ff4442,¡Hay un tesoro cerca de la casa de las fiestas!,,frase,src/dominio/tesoros.ts,falta
-a1c98fc8bd3b,¡Hay un tesoro cerca del globo!,,frase,src/dominio/tesoros.ts,falta
+3500892e2f7e,La pluma,Pana,trozo,src/dominio/tesoros.ts,borrador
+24b53a4f8781,¡Una pluma! La guardo en mi vitrina.,O pană! O pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+00555b60621a,La concha,Scoica,trozo,src/dominio/tesoros.ts,borrador
+4e9a49202e40,¡Una concha! La guardo en mi vitrina.,O scoică! O pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+41f1c0b51b02,La piña,Conul de brad,trozo,src/dominio/tesoros.ts,borrador
+95aadd00b97c,¡Una piña! La guardo en mi vitrina.,Un con de brad! Îl pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+af91e801b1d5,La bellota,Ghinda,trozo,src/dominio/tesoros.ts,borrador
+fe33e27b76ee,¡Una bellota! La guardo en mi vitrina.,O ghindă! O pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+d65f6094a87f,La estrella de mar,Steaua de mare,trozo,src/dominio/tesoros.ts,borrador
+f8311576b647,¡Una estrella de mar! La guardo en mi vitrina.,O stea de mare! O pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+9a3b54d73b17,La piedra bonita,Piatra frumoasă,trozo,src/dominio/tesoros.ts,borrador
+744f4f02be53,¡Una piedra bonita! La guardo en mi vitrina.,O piatră frumoasă! O pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+004e11ca3bfa,¡Una hoja preciosa! La guardo en mi vitrina.,O frunză minunată! O pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+193e943110a7,La castaña,Castana,trozo,src/dominio/tesoros.ts,borrador
+fc27caef1ea9,¡Una castaña! La guardo en mi vitrina.,O castană! O pun în vitrina mea.,frase,src/dominio/tesoros.ts,borrador
+742b8f97f6c6,¡Hay un tesoro cerca del jardín!,E o comoară lângă grădină!,frase,src/dominio/tesoros.ts,borrador
+8b1cef43eacb,¡Hay un tesoro cerca del bosque!,E o comoară lângă pădure!,frase,src/dominio/tesoros.ts,borrador
+c8731e0b28ea,¡Hay un tesoro cerca de la montaña!,E o comoară lângă munte!,frase,src/dominio/tesoros.ts,borrador
+980a1265f026,¡Hay un tesoro cerca de la plaza!,E o comoară lângă piață!,frase,src/dominio/tesoros.ts,borrador
+35ae00e66759,¡Hay un tesoro cerca del muelle!,E o comoară lângă debarcader!,frase,src/dominio/tesoros.ts,borrador
+74dfadec5375,¡Hay un tesoro cerca del cole!,E o comoară lângă grădiniță!,frase,src/dominio/tesoros.ts,borrador
+eb8400ff4442,¡Hay un tesoro cerca de la casa de las fiestas!,E o comoară lângă casa sărbătorilor!,frase,src/dominio/tesoros.ts,borrador
+a1c98fc8bd3b,¡Hay un tesoro cerca del globo!,E o comoară lângă balon!,frase,src/dominio/tesoros.ts,borrador
 c5525ece43f9,"Somos gatos: a cuatro patas, arqueamos la espalda hacia arriba, como un gato que se despierta.","Suntem pisici: în patru labe, ne arcuim spatele în sus, ca o pisică ce se trezește.",frase,src/dominio/yoga.ts,borrador
 332605d4ee58,"Somos perros: manos y pies en el suelo y el culete bien alto, como una montaña.","Suntem câini: mâinile și picioarele pe jos și fundulețul sus, ca un munte.",frase,src/dominio/yoga.ts,borrador
 5afd3fc9748b,Somos ranas: nos agachamos con las rodillas abiertas y las manos en el suelo.,Suntem broscuțe: ne ghemuim cu genunchii depărtați și mâinile pe jos.,frase,src/dominio/yoga.ts,borrador
@@ -1279,6 +1295,17 @@ ba4ecea9b7ad,"¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te a
 a50ab6af698c,Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.,Acesta e albumul de excursii. Aici se păstrează pozele de grup. Atinge o poză.,frase,src/escenas/albumExcursiones.ts,borrador
 94ddc8c3d31d,Toca una foto del álbum.,Atinge o poză din album.,frase,src/escenas/albumExcursiones.ts,borrador
 89479dc025ba,Mis excursiones,Excursiile mele,trozo,src/escenas/albumExcursiones.ts,borrador
+70580be941ba,¡La gran aventura de Tito! Un mapa del tesoro se ha roto en seis trozos. Toca el primer capítulo para empezar.,Marea aventură a lui Tito! O hartă a comorii s-a rupt în șase bucăți. Atinge primul capitol ca să începi.,frase,src/escenas/aventura.ts,borrador
+11caba1a1275,¡Ya tenemos {n} de {total} trozos del mapa!,Avem deja {n} din {total} bucăți din hartă!,frase,src/escenas/aventura.ts,borrador
+88490896a7cb,Hoy hay un capítulo nuevo. ¡Tócalo para seguir la aventura!,Azi e un capitol nou. Atinge-l ca să continui aventura!,frase,src/escenas/aventura.ts,borrador
+017c39d75e6f,El próximo capítulo se abre mañana.,Capitolul următor se deschide mâine.,frase,src/escenas/aventura.ts,borrador
+b164bdd25e8d,El próximo capítulo llegará muy pronto.,Capitolul următor va veni foarte curând.,frase,src/escenas/aventura.ts,borrador
+223c32831b6f,Toca un capítulo para jugarlo. Cada día se abre uno nuevo.,Atinge un capitol ca să-l joci. În fiecare zi se deschide unul nou.,frase,src/escenas/aventura.ts,borrador
+4bfe1e261fc7,Este capítulo se abre mañana. ¡Vuelve mañana para seguir la aventura!,Capitolul acesta se deschide mâine. Vino înapoi mâine ca să continui aventura!,frase,src/escenas/aventura.ts,borrador
+75bf66346749,Primero hay que terminar el capítulo de antes.,Mai întâi trebuie terminat capitolul dinainte.,frase,src/escenas/aventura.ts,borrador
+9d52791c9b5c,¡Este capítulo llegará muy pronto!,Capitolul acesta va veni foarte curând!,frase,src/escenas/aventura.ts,borrador
+f3ed17994784,¡Lo pongo en el mapa del tesoro!,O pun pe harta comorii!,frase,src/escenas/aventura.ts,borrador
+6e7816f71018,Este trozo ya lo tenías. ¡Muy bien jugado!,Bucata asta o aveai deja. Foarte bine jucat!,frase,src/escenas/aventura.ts,borrador
 9931240f3654,¡Aquí está {cosa}!,Iată {cosa}!,frase,src/escenas/casa.ts,borrador
 2a32c6fe3055,¡Mira qué bonito me queda!,Uite ce bine îmi stă!,frase,src/escenas/casa.ts,borrador
 6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,Unde îl punem? Trage-l într-un loc care strălucește.,frase,src/escenas/casa.ts,borrador
@@ -1453,12 +1480,12 @@ bea586d1a053,Tito baila,Tito dansează,trozo,src/escenas/casaTele.ts,borrador
 663c8b8f7035,Pipo salta,Pipo sare,trozo,src/escenas/casaTele.ts,borrador
 96cdbc3a5457,¡Mi tele! Con el mando de la derecha cambias de canal.,Televizorul meu! Cu telecomanda din dreapta schimbi canalul.,frase,src/escenas/casaTele.ts,borrador
 f60c90a30a0e,Toca los botones del mando para cambiar de canal.,Atinge butoanele telecomenzii ca să schimbi canalul.,frase,src/escenas/casaTele.ts,borrador
-df6d9ad08567,¡Te toca! Toca los obstáculos en orden.,,frase,src/escenas/circuito.ts,falta
-55d22d2c6f81,¡Ese no toca ahora! Escucha otra vez.,,frase,src/escenas/circuito.ts,falta
-0e33fa2d7a76,¡Ya está! Allá voy.,,frase,src/escenas/circuito.ts,falta
-029ed0455d10,¡Muy bien! Vamos con otra vuelta.,,frase,src/escenas/circuito.ts,falta
-825f4ade62b8,¡Qué buen circuito hemos hecho! ¿Lo hacemos otra vez?,,frase,src/escenas/circuito.ts,falta
-207be087d209,¡Vamos a hacer el circuito! Escucha a la profe y toca los obstáculos en el orden que diga.,,frase,src/escenas/circuito.ts,falta
+df6d9ad08567,¡Te toca! Toca los obstáculos en orden.,E rândul tău! Atinge obstacolele în ordine.,frase,src/escenas/circuito.ts,borrador
+55d22d2c6f81,¡Ese no toca ahora! Escucha otra vez.,Nu e rândul acestuia acum! Ascultă încă o dată.,frase,src/escenas/circuito.ts,borrador
+0e33fa2d7a76,¡Ya está! Allá voy.,Gata! Am plecat.,frase,src/escenas/circuito.ts,borrador
+029ed0455d10,¡Muy bien! Vamos con otra vuelta.,Foarte bine! Mai facem o tură.,frase,src/escenas/circuito.ts,borrador
+825f4ade62b8,¡Qué buen circuito hemos hecho! ¿Lo hacemos otra vez?,Ce circuit bun am făcut! Îl mai facem o dată?,frase,src/escenas/circuito.ts,borrador
+207be087d209,¡Vamos a hacer el circuito! Escucha a la profe y toca los obstáculos en el orden que diga.,Hai să facem circuitul! Ascult-o pe doamna educatoare și atinge obstacolele în ordinea pe care o spune.,frase,src/escenas/circuito.ts,borrador
 eeb4e40a76b7,Toca la flecha para jugar otra vez.,Atinge săgeata ca să ne jucăm din nou.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts,borrador
 fd81e90ff876,Otra vez.,Încă o dată.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts,borrador
 6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,Ai terminat toate jocurile {tema}{nino}! Ai câștigat un cufăr cu comori! Atinge-l de trei ori ca să-l deschizi.,frase,src/escenas/cofre.ts,borrador
@@ -1749,19 +1776,19 @@ f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 41b12a8a9434,Toca la casa para volver al cole.,Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,Acum: {estacion}! Atinge-i desenul.,frase,src/escenas/excursion.ts,borrador
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,{estacion}: în curând vom putea face asta!,trozo,src/escenas/excursion.ts,borrador
-34f9a121f8c2,Guardo la cámara.,,frase,src/escenas/fotos.ts,falta
-cc16b266690d,¡La cámara! Toca un animal o una cosa para hacerle una foto.,,frase,src/escenas/fotos.ts,falta
-8a9344afc729,{nombre}. Esta foto ya la tenías.,,trozo,src/escenas/fotos.ts,falta
-406fcb6ab4f0,¡Foto nueva! {nombre}.,,frase,src/escenas/fotos.ts,falta
-4d7f72f2dbdc,¡Has completado una página del álbum de fotos!,,frase,src/escenas/fotos.ts,falta
-35e913c1776b,Ahí no hay nada para la foto. Busca un animal o una cosa.,,frase,src/escenas/fotos.ts,falta
-aa85f1840e28,EN,,trozo,src/escenas/fotos.ts,falta
-3bfed39169d8,¡Mi álbum de fotos! Ya tengo {n} de {total}. Toca una foto para oír su nombre.,,frase,src/escenas/fotos.ts,falta
-62fbe376c26c,¡Mi álbum de fotos! Está vacío. Saca la cámara en el mapa para hacer fotos.,,frase,src/escenas/fotos.ts,falta
-d73640988498,Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.,,frase,src/escenas/fotos.ts,falta
-e218353c83cf,Esta foto aún no la has hecho. ¡Busca con la cámara!,,frase,src/escenas/fotos.ts,falta
-f1711db55537,{nombre}. Esta foto la has hecho una vez.,,trozo,src/escenas/fotos.ts,falta
-7b2a9330e5ea,{nombre}. Esta foto la has hecho {n} veces.,,trozo,src/escenas/fotos.ts,falta
+34f9a121f8c2,Guardo la cámara.,Pun aparatul foto deoparte.,frase,src/escenas/fotos.ts,borrador
+cc16b266690d,¡La cámara! Toca un animal o una cosa para hacerle una foto.,Aparatul foto! Atinge un animal sau un lucru ca să-i faci o poză.,frase,src/escenas/fotos.ts,borrador
+8a9344afc729,{nombre}. Esta foto ya la tenías.,{nombre}. Poza asta o aveai deja.,trozo,src/escenas/fotos.ts,borrador
+406fcb6ab4f0,¡Foto nueva! {nombre}.,Poză nouă! {nombre}.,frase,src/escenas/fotos.ts,borrador
+4d7f72f2dbdc,¡Has completado una página del álbum de fotos!,Ai completat o pagină din albumul cu poze!,frase,src/escenas/fotos.ts,borrador
+35e913c1776b,Ahí no hay nada para la foto. Busca un animal o una cosa.,Acolo nu e nimic de pozat. Caută un animal sau un lucru.,frase,src/escenas/fotos.ts,borrador
+aa85f1840e28,EN,EN,trozo,src/escenas/fotos.ts,borrador
+3bfed39169d8,¡Mi álbum de fotos! Ya tengo {n} de {total}. Toca una foto para oír su nombre.,Albumul meu cu poze! Am deja {n} din {total}. Atinge o poză ca să-i auzi numele.,frase,src/escenas/fotos.ts,borrador
+62fbe376c26c,¡Mi álbum de fotos! Está vacío. Saca la cámara en el mapa para hacer fotos.,Albumul meu cu poze! E gol. Scoate aparatul foto pe hartă ca să faci poze.,frase,src/escenas/fotos.ts,borrador
+d73640988498,Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.,Atinge o poză ca să-i auzi numele. Steagul îți spune cum se numește în engleză.,frase,src/escenas/fotos.ts,borrador
+e218353c83cf,Esta foto aún no la has hecho. ¡Busca con la cámara!,Poza asta n-ai făcut-o încă. Caută cu aparatul foto!,frase,src/escenas/fotos.ts,borrador
+f1711db55537,{nombre}. Esta foto la has hecho una vez.,{nombre}. Ai făcut poza asta o dată.,trozo,src/escenas/fotos.ts,borrador
+7b2a9330e5ea,{nombre}. Esta foto la has hecho {n} veces.,{nombre}. Ai făcut poza asta de {n} ori.,trozo,src/escenas/fotos.ts,borrador
 2951630908e0,el cerdo,porcul,trozo,src/escenas/granja.ts src/nucleo/idioma.ts,borrador
 23b2349b49e4,el caballo,calul,trozo,src/escenas/granja.ts src/nucleo/idioma.ts,borrador
 41a2bd573755,¡Todos los animales tienen la barriga llena! ¡Muchas gracias por ayudar!,Toate animalele au burtica plină! Mulțumesc mult că m-ai ajutat!,frase,src/escenas/granja.ts,borrador
@@ -1911,14 +1938,14 @@ c169da87dd43,"¡Las sillas musicales! Baila con nosotros mientras suena la músi
 8782931894f8,Toca la silla libre para que me siente.,Atinge scaunul liber ca să mă așez.,frase,src/escenas/sillas.ts,borrador
 76fb7b106917,¡Baila mientras suena la música!,Dansează cât se aude muzica!,frase,src/escenas/sillas.ts,borrador
 e1e276c85846,¡Todavía suena la música! Sigue bailando.,Încă se aude muzica! Dansează mai departe.,frase,src/escenas/sillas.ts,borrador
-868aac4edbd2,¡Has encontrado los tres tesoros de hoy! Mañana habrá otros.,,frase,src/escenas/tesoros.ts,falta
-996c072680da,¡Mi vitrina de tesoros! Ya tengo {n} de {total}. Toca uno para verlo.,,frase,src/escenas/tesoros.ts,falta
-5b1f41e87450,¡Mi vitrina de tesoros! Está vacía. Pasea por el mapa para encontrar tesoros escondidos.,,frase,src/escenas/tesoros.ts,falta
-0ac140a845ad,Cada día hay tres tesoros escondidos en el mapa. Pasea con Tito para encontrarlos.,,frase,src/escenas/tesoros.ts,falta
-268be8f7254d,Mi vitrina de tesoros,,trozo,src/escenas/tesoros.ts,falta
-72dc4c8054fc,Este tesoro aún no lo has encontrado.,,frase,src/escenas/tesoros.ts,falta
-4783c8ea9804,{nombre}. La has encontrado una vez.,,trozo,src/escenas/tesoros.ts,falta
-69976c0de0c3,{nombre}. La has encontrado {n} veces.,,trozo,src/escenas/tesoros.ts,falta
+868aac4edbd2,¡Has encontrado los tres tesoros de hoy! Mañana habrá otros.,Ai găsit cele trei comori de azi! Mâine vor fi altele.,frase,src/escenas/tesoros.ts,borrador
+996c072680da,¡Mi vitrina de tesoros! Ya tengo {n} de {total}. Toca uno para verlo.,Vitrina mea cu comori! Am deja {n} din {total}. Atinge una ca s-o vezi.,frase,src/escenas/tesoros.ts,borrador
+5b1f41e87450,¡Mi vitrina de tesoros! Está vacía. Pasea por el mapa para encontrar tesoros escondidos.,Vitrina mea cu comori! E goală. Plimbă-te pe hartă ca să găsești comori ascunse.,frase,src/escenas/tesoros.ts,borrador
+0ac140a845ad,Cada día hay tres tesoros escondidos en el mapa. Pasea con Tito para encontrarlos.,În fiecare zi sunt trei comori ascunse pe hartă. Plimbă-te cu Tito ca să le găsești.,frase,src/escenas/tesoros.ts,borrador
+268be8f7254d,Mi vitrina de tesoros,Vitrina mea cu comori,trozo,src/escenas/tesoros.ts,borrador
+72dc4c8054fc,Este tesoro aún no lo has encontrado.,Comoara asta n-ai găsit-o încă.,frase,src/escenas/tesoros.ts,borrador
+4783c8ea9804,{nombre}. La has encontrado una vez.,{nombre}. Ai găsit-o o dată.,trozo,src/escenas/tesoros.ts,borrador
+69976c0de0c3,{nombre}. La has encontrado {n} veces.,{nombre}. Ai găsit-o de {n} ori.,trozo,src/escenas/tesoros.ts,borrador
 15d657aa9510,Un cuento extra antes de dormir,O poveste în plus înainte de culcare,trozo,src/escenas/tienda.ts,borrador
 4bf721c805e2,Ir a jugar al parque,Mergem să ne jucăm în parc,trozo,src/escenas/tienda.ts,borrador
 9255f2bf1f4b,Elegir a qué jugamos juntos,Alegi cu ce ne jucăm împreună,trozo,src/escenas/tienda.ts,borrador
@@ -2470,7 +2497,7 @@ c958e8f13e00,AEIOU,,trozo,src/mundo3d/isla3d.ts,falta
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",,trozo,src/mundo3d/materiales.ts,falta
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.","Vesel. Când ceva ne place mult, simțim bucurie și zâmbim.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts,borrador
 087974002010,CONTENTO,VESEL,trozo,src/mundo3d/objetos.ts,borrador
-6e058a19a686,¡Algo brilla por aquí!,,frase,src/mundo3d/tesoros3d.ts,falta
+6e058a19a686,¡Algo brilla por aquí!,Ceva strălucește pe aici!,frase,src/mundo3d/tesoros3d.ts,borrador
 e86410fa2d6e,ABCDEFGHIJ,,trozo,src/mundo3d/zonas3d.ts,falta
 c48462232a6a,Rincón de los Conceptos,Colțul noțiunilor,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts,borrador
 9617d12b8ae3,el gato,pisica,nombre,src/nucleo/idioma.ts,borrador

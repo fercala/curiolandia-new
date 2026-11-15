@@ -186,6 +186,10 @@ sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos de
 - Las reglas de documentación y de diálogos siguen igual; el catálogo `todos.csv` sigue siendo la lista de todos los
   textos, ahora también la de lo que hay que traducir.
 
+## 8b. Regla: todo lo nuevo, en todos los idiomas
+
+Toda funcionalidad nueva llega ya en todos los idiomas del juego (hoy, castellano y rumano), en el mismo PR: sus textos en la tabla de `src/idiomas/ro/` que le toque, sus escenas en la lista de `tests/regresion/idiomas.js` (I5) y, en `dialogos/ro.csv` (`npm run dialogos`), ninguna frase suya como «falta» (regla de Fernando, 15 de noviembre de 2026). Las funcionalidades hechas antes de la regla que se quedaron sin rumano (el circuito de la P13b, los tesoros de la P14 y la cámara de fotos de la P15) se tradujeron en la v0.2.156, con la P16a.
+
 ## 9. Fases hechas
 
 ### ID0 (v0.2.114): preparar sin cambiar el juego

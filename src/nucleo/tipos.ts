@@ -128,6 +128,9 @@ export interface Estado {
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };
+  /** La gran aventura de Tito (dominio/aventura.ts, RegistroAventura): los capítulos terminados, en orden, y el día en
+   * que se terminó el último. Desde la fase P16 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  aventura?: { hechos: readonly string[]; d: string };
   /** Los retos para hacer en casa (dominio/retos.ts, RegistroRetos): el último propuesto (día e id), si la familia lo
    * marcó como hecho, si Tito ya lo celebró y cuántos se han hecho. Desde la fase P4 de docs/IDEAS-MEJORA.md; opcional. */
   retos?: { d: string; id: string; hecho: boolean; celebrado: boolean; n: number };
@@ -203,6 +206,10 @@ export interface OpcionesEscena {
   deporte?: boolean;
   prueba?: string;
   puntos?: number;
+  /** En la gran aventura (fase P16 de docs/IDEAS-MEJORA.md): el número del capítulo que se juega (aventuraCap) y, al
+   * volver a la aventura, el número del trozo del mapa que se acaba de ganar. */
+  cap?: number;
+  pieza?: number;
 }
 
 /** Las opciones de las escenas que siempre se abren con un tema (la casita y el cofre): t es obligatorio. */

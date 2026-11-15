@@ -40,6 +40,7 @@ import {
   sparkles,
   text,
   today,
+  tr,
 } from '../nucleo/indice.ts';
 import {
   TESOROS,
@@ -182,7 +183,7 @@ SCENES.vitrina = {
     drawHome();
   },
   // down(x, y): la casa vuelve a la casa de Tito; un tesoro encontrado, Tito dice cuál es y cuántas veces lo ha
-  // encontrado; uno que falta, que aún está por encontrar.
+  // encontrado (su nombre, traducido desde la v0.2.156); uno que falta, que aún está por encontrar.
   down(x: number, y: number) {
     if (atHome(x, y)) {
       SFX.tap();
@@ -201,8 +202,8 @@ SCENES.vitrina = {
     sparkles(c.x, c.y, 10);
     say(
       n === 1
-        ? fmt('{nombre}. La has encontrado una vez.', { nombre: tesoro(c.id)?.nombre ?? '' })
-        : fmt('{nombre}. La has encontrado {n} veces.', { nombre: tesoro(c.id)?.nombre ?? '', n }),
+        ? fmt('{nombre}. La has encontrado una vez.', { nombre: tr(tesoro(c.id)?.nombre ?? '') })
+        : fmt('{nombre}. La has encontrado {n} veces.', { nombre: tr(tesoro(c.id)?.nombre ?? ''), n }),
     );
   },
 };
