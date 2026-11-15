@@ -5,8 +5,11 @@
  * el anterior). Los terminados se pueden repetir cuando se quiera, pero solo la primera vez dan monedas y trozo.
  * Los capítulos (sus cuentos y retos) están en contenido/aventura.ts; aquí, solo cuántos son y en qué orden van.
  * Lo guardado va en S.aventura ({hechos, d}): opcional, sin migración (un registro ausente o roto se lee vacío).
+ * Desde la P16b, el gran tesoro: al terminar el último capítulo (la temporada completa), Tito encuentra el tesoro: el
+ * sombrero de pirata (un artículo de la tienda, para ponérselo) o, si ya lo tiene, monedas (premioFinal).
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/aventura.test.ts.
- * Exporta: los tipos RegistroAventura y EstadoCapitulo, AVENTURA, registroAventura, estadoCapitulo y terminarCapitulo.
+ * Exporta: los tipos RegistroAventura y EstadoCapitulo, AVENTURA, registroAventura, estadoCapitulo, terminarCapitulo y
+ * premioFinal.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son las reglas mismas (los trozos y las monedas), en una
@@ -22,8 +25,9 @@ export interface RegistroAventura {
  * terminado uno) o cerrado (falta terminar los de antes). */
 export type EstadoCapitulo = 'hecho' | 'abierto' | 'manana' | 'cerrado';
 
-// AVENTURA: las reglas: cuántos capítulos (y trozos del mapa) tiene la temporada y las monedas de terminar uno.
-export const AVENTURA = { capitulos: 6, monedas: 3 } as const;
+// AVENTURA: las reglas: cuántos capítulos (y trozos del mapa) tiene la temporada, las monedas de terminar uno y el gran
+// tesoro del final (desde la P16b): el artículo que se regala y las monedas si ya se tenía.
+export const AVENTURA = { capitulos: 6, monedas: 3, regalo: 'sombreroPirata', tesoro: 10 } as const;
 
 // registroAventura(raw): lee lo guardado en S.aventura; si falta o está roto, un registro vacío (las partidas de antes no
 // lo tienen). Los ids repetidos se quitan.
@@ -66,4 +70,10 @@ export function terminarCapitulo(
     monedas: AVENTURA.monedas,
     completa: orden.every((c) => registro.hechos.includes(c)),
   };
+}
+
+// premioFinal(yaLoTiene): el gran tesoro de la temporada (desde la P16b): el regalo (AVENTURA.regalo) si aún no se
+// tiene; si ya se tiene, AVENTURA.tesoro monedas en su lugar.
+export function premioFinal(yaLoTiene: boolean): { regalo: string | null; monedas: number } {
+  return yaLoTiene ? { regalo: null, monedas: AVENTURA.tesoro } : { regalo: AVENTURA.regalo, monedas: 0 };
 }

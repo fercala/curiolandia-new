@@ -18,7 +18,8 @@
 // pegatina, una vez al día (C36), y la noche por la ventana y el reloj que dice la hora (C37). Desde la fase P14 de
 // docs/IDEAS-MEJORA.md, los tesoros escondidos del mapa y la vitrina de la casa (C38), y desde la P15, la cámara de
 // fotos en el mapa, una zona y la granja, y el álbum de fotos de la casa (C39), y desde la P16, la gran aventura de Tito:
-// el botón del mapa, un capítulo entero, su trozo del mapa y el siguiente para mañana (C40). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
+// el botón del mapa, un capítulo entero, su trozo del mapa y el siguiente para mañana (C40), y desde la P16b, el último
+// capítulo y el gran tesoro (C41). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
 // C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
@@ -1402,8 +1403,8 @@ const temas = (n) => {
       await p.waitForTimeout(1200);
       if ((await p.evaluate(() => __cl.name)) !== 'aventura')
         return 'el botón de la aventura lleva a: ' + (await p.evaluate(() => __cl.name));
-      const e0 = await p.evaluate(() => [estadoDe(0), estadoDe(1), estadoDe(3)]);
-      if (e0.join() !== 'abierto,cerrado,pronto') return 'al empezar: ' + e0;
+      const e0 = await p.evaluate(() => [estadoDe(0), estadoDe(1), estadoDe(5)]);
+      if (e0.join() !== 'abierto,cerrado,cerrado') return 'al empezar: ' + e0;
       await p.evaluate(() => __cl.scene.down(MEDALLAS[0].x, MEDALLAS[0].y));
       await p.waitForTimeout(1000);
       if ((await p.evaluate(() => [__cl.name, __cl.scene.fase].join())) !== 'aventuraCap,cuento')
@@ -1452,6 +1453,46 @@ const temas = (n) => {
       await p.waitForTimeout(1500);
       const fin = await p.evaluate(() => __cl.name);
       return fin === 'map' ? null : 'la casita de la aventura lleva a: ' + fin;
+    },
+  );
+
+  await caso(
+    'C41',
+    'El gran tesoro (P16b): con el último capítulo, el mapa está completo y Tito se pone el sombrero de pirata',
+    async (p) => {
+      const antes = await p.evaluate(() => {
+        __cl.S.aventura = { hechos: ['botella', 'bosque', 'polly', 'lupi', 'montana'], d: '2026-01-01' };
+        delete __cl.S.owned.sombreroPirata;
+        window.__said = [];
+        __cl.go('aventura', {});
+        return [estadoDe(5), completa()];
+      });
+      if (antes.join() !== 'abierto,false') return 'antes del último: ' + antes;
+      await p.waitForTimeout(800);
+      await p.evaluate(() => __cl.scene.down(MEDALLAS[5].x, MEDALLAS[5].y));
+      await p.waitForTimeout(800);
+      // el reto (excavar) se da por hecho: lo que se mira es lo que pasa después
+      await p.evaluate(() => {
+        __cl.scene.alReto();
+        __cl.scene.alTerminar();
+      });
+      let nombre = '';
+      for (let i = 0; i < 40 && nombre !== 'aventura'; i++) {
+        await p.waitForTimeout(500);
+        nombre = await p.evaluate(() => __cl.name);
+      }
+      if (nombre !== 'aventura') return 'el último capítulo no vuelve a la aventura: ' + nombre;
+      await p.waitForTimeout(4000);
+      const r = await p.evaluate(() => [completa(), !!__cl.S.owned.sombreroPirata, window.__said.join('|')]);
+      if (!r[0]) return 'la temporada no está completa';
+      if (!r[1]) return 'el gran tesoro no da el sombrero de pirata';
+      if (!r[2].includes('está completo') || !r[2].includes('sombrero de pirata')) return 'Tito dice: ' + r[2];
+      const t = await p.evaluate(() => {
+        window.__said = [];
+        __cl.scene.down(COFRE.x, COFRE.y);
+        return window.__said.join('|');
+      });
+      return t.includes('gran tesoro') ? null : 'tocar el cofre dice: ' + t;
     },
   );
 

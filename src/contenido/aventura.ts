@@ -5,7 +5,8 @@
  * de los juegos de siempre, con lo que necesita: ver RetoAventura) y la frase de Tito al ganar su trozo del mapa. Los
  * juega la escena SCENES.aventuraCap (escenas/aventura.ts); las reglas (en qué orden, uno al día) están en
  * dominio/aventura.ts.
- * Desde la P16a: los capítulos 1 a 3 (la playa, el bosque y la Isla del Inglés); los 4 a 6 llegan en la P16b.
+ * Desde la P16a: los capítulos 1 a 3 (la playa, el bosque y la Isla del Inglés); desde la P16b, los 4 a 6 (los dibujos
+ * de Lupi, la montaña nevada y el tesoro escondido), con los que la temporada está completa.
  * Exporta: los tipos RetoAventura y Capitulo, TITULO_AVENTURA y CAPITULOS.
  * Importa: el tipo PaginaCuento de contenido/tipos.ts.
  */
@@ -13,12 +14,17 @@
    pantalla de 1600x900, como en contenido/cuentos.ts. */
 import type { PaginaCuento } from './tipos.ts';
 
-/** El reto de un capítulo: contar (Cuenta, con los dibujos que se cuentan), las parejas (Memoria, con sus dibujos) o
- * escuchar en inglés (EnEscucha, con un grupo de palabras de temas/ingles.ts). bg: el fondo (un nombre de BG). */
+/** El reto de un capítulo: contar (Cuenta, con los dibujos que se cuentan), las parejas (Memoria, con sus dibujos),
+ * escuchar en inglés (EnEscucha, con un grupo de palabras de temas/ingles.ts) o, desde la P16b, el puzle (Puzzle, con
+ * los dibujos que se montan), las series de formas (Series, con las formas de temas/temas4.ts: 'circulo',
+ * 'triangulo'...) o excavar (Excava, con los dibujos que hay enterrados). bg: el fondo (un nombre de BG). */
 export type RetoAventura =
   | { readonly t: 'cuenta'; readonly pool: readonly string[]; readonly bg: string }
   | { readonly t: 'memoria'; readonly pool: readonly string[]; readonly bg: string }
-  | { readonly t: 'ingles'; readonly grupo: string; readonly bg: string };
+  | { readonly t: 'ingles'; readonly grupo: string; readonly bg: string }
+  | { readonly t: 'puzle'; readonly pool: readonly string[]; readonly bg: string }
+  | { readonly t: 'formas'; readonly pool: readonly string[]; readonly bg: string }
+  | { readonly t: 'excava'; readonly pool: readonly string[]; readonly bg: string };
 
 /** Un capítulo: su id, su título, el dibujo de su medalla, las páginas de su cuento, su reto y lo que dice Tito al
  * ganar el trozo del mapa (frase entera). */
@@ -140,5 +146,99 @@ export const CAPITULOS: readonly Capitulo[] = [
     ],
     reto: { t: 'ingles', grupo: 'animals', bg: 'selva' },
     pieza: '¡El tercer trozo del mapa! Thank you, Polly.',
+  },
+  {
+    id: 'lupi',
+    titulo: 'Los dibujos de Lupi',
+    dibujo: 'lupi',
+    paginas: [
+      {
+        bg: 'parque',
+        items: [
+          ['mapa', 760, 600, 180],
+          ['lupi', 1060, 600, 200],
+        ],
+        say: 'Con tres trozos, el mapa llevaba al parque. Allí estaba Lupi, muy triste.',
+      },
+      {
+        bg: 'parque',
+        items: [
+          ['lupi', 820, 600, 180],
+          ['oso', 1120, 620, 170],
+        ],
+        say: 'Lupi dijo: «¡El viento ha roto mis dibujos en pedazos!»',
+      },
+      {
+        bg: 'parque',
+        items: [['lupi', 1000, 600, 200]],
+        say: 'Ayuda a Lupi a juntar las piezas de sus dibujos. ¡El cuarto trozo es para quien lo consiga!',
+      },
+    ],
+    reto: { t: 'puzle', pool: ['lupi', 'oso'], bg: 'parque' },
+    pieza: '¡El cuarto trozo del mapa! Gracias, Lupi.',
+  },
+  {
+    id: 'montana',
+    titulo: 'La montaña nevada',
+    dibujo: 'pino',
+    paginas: [
+      {
+        bg: 'invierno',
+        items: [
+          ['mochila', 820, 640, 150],
+          ['pino', 1100, 560, 260],
+        ],
+        say: 'Con su mochila, Tito subió a la montaña nevada. ¡Qué frío hacía!',
+      },
+      {
+        bg: 'invierno',
+        items: [
+          ['muneco', 900, 600, 220],
+          ['piedra', 1160, 660, 150],
+        ],
+        say: 'Arriba, un muñeco de nieve guardaba una puerta de piedra con formas dibujadas.',
+      },
+      {
+        bg: 'invierno',
+        items: [['piedra', 1000, 620, 220]],
+        say: 'Para abrir la puerta hay que seguir las series de formas. ¿Qué forma va después?',
+      },
+    ],
+    reto: { t: 'formas', pool: ['circulo', 'cuadrado', 'triangulo', 'rectangulo', 'ovalo', 'rombo'], bg: 'invierno' },
+    pieza: '¡El quinto trozo del mapa! La puerta se ha abierto.',
+  },
+  {
+    id: 'tesoro',
+    titulo: 'El tesoro escondido',
+    dibujo: 'cofre',
+    paginas: [
+      {
+        bg: 'playa',
+        items: [
+          ['barco', 1000, 560, 260],
+          ['mapa', 760, 660, 150],
+        ],
+        say: 'Con cinco trozos, Tito navegó en barco hasta la isla de la cruz roja.',
+      },
+      {
+        bg: 'playa',
+        items: [
+          ['mapa', 820, 640, 160],
+          ['pala', 1080, 640, 170],
+        ],
+        say: 'Allí estaba la cruz del mapa. ¡El tesoro tenía que estar enterrado debajo!',
+      },
+      {
+        bg: 'playa',
+        items: [
+          ['pala', 820, 640, 150],
+          ['moneda', 1020, 660, 100],
+          ['corona', 1200, 640, 120],
+        ],
+        say: 'Cava en la arena y encuentra todo lo que hay escondido. ¡Seguro que el último trozo está ahí!',
+      },
+    ],
+    reto: { t: 'excava', pool: ['moneda', 'corona', 'cofre', 'estrella', 'concha', 'piedra'], bg: 'playa' },
+    pieza: '¡El último trozo del mapa! ¡Ya está completo!',
   },
 ];

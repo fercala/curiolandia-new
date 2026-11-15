@@ -1,8 +1,15 @@
 // Pruebas de las reglas de la gran aventura de Tito (src/dominio/aventura.ts, fase P16 de docs/IDEAS-MEJORA.md): los
-// capítulos en orden, uno nuevo cada día, lo guardado (S.aventura) y lo que da terminar uno. Sin navegador.
+// capítulos en orden, uno nuevo cada día, lo guardado (S.aventura), lo que da terminar uno y, desde la P16b, el gran
+// tesoro. Sin navegador.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso: leerlos tal cual es más claro. */
 import { describe, expect, test } from 'vitest';
-import { AVENTURA, estadoCapitulo, registroAventura, terminarCapitulo } from '../../src/dominio/aventura.ts';
+import {
+  AVENTURA,
+  estadoCapitulo,
+  premioFinal,
+  registroAventura,
+  terminarCapitulo,
+} from '../../src/dominio/aventura.ts';
 
 const ORDEN = ['c1', 'c2', 'c3'];
 
@@ -39,5 +46,10 @@ describe('la gran aventura de Tito', () => {
     expect(r3).toMatchObject({ nuevo: true, monedas: 3, completa: true });
     expect(r3.registro).toEqual({ hechos: ['c1', 'c2', 'c3'], d: '2026-11-17' });
     expect(terminarCapitulo(r3.registro, ORDEN, 'c2', '2026-11-18').completa).toBe(true);
+  });
+
+  test('el gran tesoro: el sombrero de pirata o, si ya se tiene, monedas', () => {
+    expect(premioFinal(false)).toEqual({ regalo: 'sombreroPirata', monedas: 0 });
+    expect(premioFinal(true)).toEqual({ regalo: null, monedas: AVENTURA.tesoro });
   });
 });
