@@ -40,7 +40,7 @@ La tabla ayuda a elegir pruebas, no sustituye `test:pr` ni las puertas de public
 | Responsabilidades, módulos, orden de carga o flujo | `ARQUITECTURA.md` y la receta de `COMO-AGREGAR.md`. |
 | Un contrato de partida | `ESTADO-GUARDADO.md`, tipos, valores por defecto y migraciones/pruebas cuando hagan falta. |
 | Lo que usa el arnés de pruebas | `CONTRATO-PRUEBAS.md` y las pruebas que lo consumen. |
-| Textos del juego | Pendientes y catálogo, según `dialogos/LEEME.md`; guías de idiomas cuando cambie su mecanismo. |
+| Textos del juego | Pendientes y catálogo, según `dialogos/LEEME.md`; su rumano en `src/idiomas/ro/` en el mismo cambio (toda funcionalidad nueva es multiidioma) y la escena nueva en `tests/regresion/idiomas.js`; guías de idiomas cuando cambie su mecanismo. |
 | Una fase o decisión | Su plan existente y el resumen de `CLAUDE.md` si cambia el estado. No actualizar una fotografía histórica como si fuese el plan vivo. |
 | Una regla compartida de colaboración | `CLAUDE.md`, `AGENTS.md`, la política y esta guía o `CODEX.md`, según corresponda. |
 | Un fallo sin resolver o corregido | `PROBLEMAS-CONOCIDOS.md` o el informe de hallazgos pertinente, con evidencia, estado y alcance actual. |

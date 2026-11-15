@@ -8,6 +8,7 @@ revisarlas y para poder traducir el juego algún día. Todo está en castellano 
 |---|---|
 | `todos.csv` | **Catálogo de todos los textos del juego**, sacado del código con `npm run dialogos` (`herramientas/dialogos/catalogo.mts`, desde la fase 5g). No se edita a mano. Columnas: `id` (las 12 primeras letras del md5 del texto), `texto`, `tipo` y `donde` (los archivos donde está, hasta tres). |
 | `ro.csv` | **Hoja de revisión del rumano** (desde la fase ID4a de [docs/PLAN-IDIOMAS.md](../docs/PLAN-IDIOMAS.md)), también de `npm run dialogos`: cada texto del catálogo con su traducción de `src/idiomas/ro/` y su estado (`borrador`, hasta que lo revise una persona que hable rumano, o `falta`), y al final los textos de la tabla que no están en el catálogo (tipo `tabla`). No se edita a mano: las correcciones van a las tablas de `src/idiomas/ro/`. |
+| `ro-sin-traducir.txt` | Lo que se acepta **sin rumano** porque no es castellano (inglés, ids, código) o solo sale en castellano. Ver la regla de abajo. |
 | `pendientes.txt` | **Diálogos nuevos o cambiados**, una frase por línea, con el texto exacto que dice Tito (sin el nombre del niño), para revisarlos. |
 
 ## Los tipos del catálogo
@@ -33,3 +34,12 @@ Cada vez que un cambio **añade una frase** o **cambia el texto de una que ya ex
 
 El gancho de commit (`herramientas/git-hooks/pre-commit`) para el commit si cambia el texto de un `say()` y no tocas
 `pendientes.txt`, o si tocas `pendientes.txt` y no `todos.csv`.
+
+## Regla: toda funcionalidad nueva es multiidioma
+
+Desde el 15 de noviembre de 2026 (Fernando), cada frase y cada texto de pantalla nuevos llevan su rumano en el mismo
+cambio: en la tabla de `src/idiomas/ro/` que toque (frases enteras, o plantillas de `fmt()` si varía una parte), y la
+escena nueva se añade a `tests/regresion/idiomas.js`. `npm run dialogos` avisa de los textos nuevos sin rumano y
+`tests/unidad/dialogos.test.ts` falla hasta que se traducen. Lo que no es castellano (palabras inglesas, ids, código) o
+solo sale jugando en castellano se apunta a mano en `ro-sin-traducir.txt` (id, tabulador y texto, como sale en el
+aviso); `npm run dialogos` quita de ahí lo que ya está traducido.
