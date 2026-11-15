@@ -3,6 +3,22 @@ c8381bcbe32c,Aaăș,trozo,src/aplicacion/arranque.ts
 9c763d0ac223,(pointer:coarse),trozo,src/aplicacion/bucle.ts src/mundo3d/motor.ts
 70bf1ce400d3,Gira el móvil,trozo,src/aplicacion/bucle.ts
 1739af05fc06,(toca para seguir igual),trozo,src/aplicacion/bucle.ts
+2227f3e29a48,El mapa del tesoro perdido,trozo,src/contenido/aventura.ts
+ef9652f3c4e2,La botella del mar,trozo,src/contenido/aventura.ts
+55da60357c02,"Una mañana, Tito paseaba por la playa. ¡Y las olas le trajeron una botella!",frase,src/contenido/aventura.ts
+9d2b7b91157b,Dentro había un trozo de papel. ¡Era un mapa del tesoro! Pero estaba roto en seis trozos.,frase,src/contenido/aventura.ts
+d01fb8ea2217,Una nota decía: «Cuenta las cosas del mar y el primer trozo será tuyo». ¡Vamos a contar!,frase,src/contenido/aventura.ts
+e948371582ed,¡El primer trozo del mapa! ¡Qué emoción!,frase,src/contenido/aventura.ts
+05d79a3706ef,Las parejas del bosque,trozo,src/contenido/aventura.ts
+8ede22272fdb,El trozo del mapa llevó a Tito hasta el bosque. Allí lo esperaba la ardilla.,frase,src/contenido/aventura.ts
+ae279a498eb9,¡Tengo el segundo trozo! Pero se me han mezclado las cartas de mis amigos del bosque.,frase,src/contenido/aventura.ts
+41b929fd490e,Ayuda a la ardilla a juntar las parejas. ¡Hay que acordarse de dónde está cada carta!,frase,src/contenido/aventura.ts
+d069985ac35a,"¡El segundo trozo del mapa! Gracias, ardilla.",frase,src/contenido/aventura.ts
+c02d6abaef31,Polly y los animales,trozo,src/contenido/aventura.ts
+5da6cb41c9cf,"Con dos trozos, el mapa señalaba una isla lejana. ¡Tito voló hasta allí en globo!",frase,src/contenido/aventura.ts
+5632c2a996e0,"Era la isla de Polly, la lorita. ¡Hello, Tito! Yo guardo el tercer trozo.",frase,src/contenido/aventura.ts
+b1cd23ac1c69,Polly dirá animales en inglés. Escucha bien y toca el animal que dice.,frase,src/contenido/aventura.ts
+486b2cabf66a,"¡El tercer trozo del mapa! Thank you, Polly.",frase,src/contenido/aventura.ts
 4078c7480678,¡Cuántas estrellas se ven por mi telescopio!,frase,src/contenido/casa.ts
 fad80629d3fc,¡Mira cómo gira la Tierra! Aquí vivimos todos.,frase,src/contenido/casa.ts
 f4285e3680c7,Saturno es un planeta con anillos. ¡Cómo giran!,frase,src/contenido/casa.ts
@@ -1279,6 +1295,17 @@ ba4ecea9b7ad,"¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te a
 a50ab6af698c,Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.,frase,src/escenas/albumExcursiones.ts
 94ddc8c3d31d,Toca una foto del álbum.,frase,src/escenas/albumExcursiones.ts
 89479dc025ba,Mis excursiones,trozo,src/escenas/albumExcursiones.ts
+70580be941ba,¡La gran aventura de Tito! Un mapa del tesoro se ha roto en seis trozos. Toca el primer capítulo para empezar.,frase,src/escenas/aventura.ts
+11caba1a1275,¡Ya tenemos {n} de {total} trozos del mapa!,frase,src/escenas/aventura.ts
+88490896a7cb,Hoy hay un capítulo nuevo. ¡Tócalo para seguir la aventura!,frase,src/escenas/aventura.ts
+017c39d75e6f,El próximo capítulo se abre mañana.,frase,src/escenas/aventura.ts
+b164bdd25e8d,El próximo capítulo llegará muy pronto.,frase,src/escenas/aventura.ts
+223c32831b6f,Toca un capítulo para jugarlo. Cada día se abre uno nuevo.,frase,src/escenas/aventura.ts
+4bfe1e261fc7,Este capítulo se abre mañana. ¡Vuelve mañana para seguir la aventura!,frase,src/escenas/aventura.ts
+75bf66346749,Primero hay que terminar el capítulo de antes.,frase,src/escenas/aventura.ts
+9d52791c9b5c,¡Este capítulo llegará muy pronto!,frase,src/escenas/aventura.ts
+f3ed17994784,¡Lo pongo en el mapa del tesoro!,frase,src/escenas/aventura.ts
+6e7816f71018,Este trozo ya lo tenías. ¡Muy bien jugado!,frase,src/escenas/aventura.ts
 9931240f3654,¡Aquí está {cosa}!,frase,src/escenas/casa.ts
 2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/casa.ts
 6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,frase,src/escenas/casa.ts

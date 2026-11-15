@@ -9,7 +9,8 @@
  * Exporta: montarMapa3D y, desde la fase L6 de docs/PLAN-LECTURA.md, sea3 y greyAll (los usa la Isla de las Letras en
  * 3D, mundo3d/isla3d.ts, y desde la fase I6 de docs/PLAN-INGLES.md la del Inglés, con globoAire3, el globo aerostático). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa (y mascotasMayores de escenas/casaMascotas.ts, desde la fase C7 de PLAN-CASA.md);
  * ahora() (aplicacion/puertos.ts); desde la fase P14 de docs/IDEAS-MEJORA.md, los tesoros escondidos (mundo3d/tesoros3d.ts y
- * pistaTesoro de escenas/tesoros.ts) y, desde la P15, la cámara de fotos (mundo3d/camara3d.ts y escenas/fotos.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
+ * pistaTesoro de escenas/tesoros.ts) y, desde la P15, la cámara de fotos (mundo3d/camara3d.ts y escenas/fotos.ts), y desde la P16, el botón
+ * de la gran aventura (escenas/aventura.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
 import * as THREE from 'three';
@@ -129,6 +130,7 @@ import { tesoros3, tocarTesoro } from './tesoros3d.ts';
 import { pistaTesoro } from '../escenas/tesoros.ts';
 import { fotoEnMundo } from './camara3d.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
+import { dibujaBotonAventura, tocarBotonAventura } from '../escenas/aventura.ts';
 
 /* ================= EL MAPA: la isla de Curiolandia ================= */
 // MZP: dónde ha quedado en la pantalla cada lugar del mapa {x,y,r} (id de MZ2 -> lo proyectado), lo último que proyectó
@@ -1021,6 +1023,7 @@ export function montarMapa3D(): void {
       drawHome();
       drawCoinHUD();
       dibujaCamara(); // desde la fase P15, la cámara de fotos
+      dibujaBotonAventura(); // desde la P16, la gran aventura de Tito
       if (VIVO.talking) {
         const tp = titoPos(),
           bx = tp.x + tp.w * 0.85,
@@ -1032,7 +1035,7 @@ export function montarMapa3D(): void {
       }
     },
     // down(x,y): toque en el mapa. Botones 2D -> lógica original; la cámara (desde la fase P15: su botón la enciende y,
-    // encendida, cada toque hace una foto, mundo3d/camara3d.ts); objetos que vuelan; nada -> objeto tocable, mar o pasear;
+    // encendida, cada toque hace una foto, mundo3d/camara3d.ts); el botón de la aventura (desde la P16); objetos que vuelan; nada -> objeto tocable, mar o pasear;
     // Tito -> salta; mascota -> lógica 2D de la mascota (y una pista de los tesoros, desde la fase P14); tesoro -> Tito va
     // y lo recoge (mundo3d/tesoros3d.ts); lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
     down(x: number, y: number) {
@@ -1042,6 +1045,7 @@ export function montarMapa3D(): void {
         return call0(mapa2D.down!, this, x, y);
       // desde la fase P15, el botón de la cámara; con ella encendida, un toque hace una foto (y no se va a ningún sitio)
       if (tocarBotonCamara(x, y)) return;
+      if (tocarBotonAventura(x, y)) return; // desde la P16, el botón de la gran aventura
       if (camaraActiva()) {
         if (!fotoEnMundo(w, x, y)) disparoVacio(x, y);
         return;

@@ -2020,3 +2020,30 @@ Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.
 Esta foto aún no la has hecho. ¡Busca con la cámara!
 {nombre}. Esta foto la has hecho una vez.
 {nombre}. Esta foto la has hecho {n} veces.
+El mapa del tesoro perdido
+La botella del mar
+Las parejas del bosque
+Polly y los animales
+Una mañana, Tito paseaba por la playa. ¡Y las olas le trajeron una botella!
+Dentro había un trozo de papel. ¡Era un mapa del tesoro! Pero estaba roto en seis trozos.
+Una nota decía: «Cuenta las cosas del mar y el primer trozo será tuyo». ¡Vamos a contar!
+El trozo del mapa llevó a Tito hasta el bosque. Allí lo esperaba la ardilla.
+¡Tengo el segundo trozo! Pero se me han mezclado las cartas de mis amigos del bosque.
+Ayuda a la ardilla a juntar las parejas. ¡Hay que acordarse de dónde está cada carta!
+Con dos trozos, el mapa señalaba una isla lejana. ¡Tito voló hasta allí en globo!
+Era la isla de Polly, la lorita. ¡Hello, Tito! Yo guardo el tercer trozo.
+Polly dirá animales en inglés. Escucha bien y toca el animal que dice.
+¡El primer trozo del mapa! ¡Qué emoción!
+¡El segundo trozo del mapa! Gracias, ardilla.
+¡El tercer trozo del mapa! Thank you, Polly.
+¡La gran aventura de Tito! Un mapa del tesoro se ha roto en seis trozos. Toca el primer capítulo para empezar.
+¡Ya tenemos {n} de {total} trozos del mapa!
+Hoy hay un capítulo nuevo. ¡Tócalo para seguir la aventura!
+El próximo capítulo se abre mañana.
+El próximo capítulo llegará muy pronto.
+Toca un capítulo para jugarlo. Cada día se abre uno nuevo.
+Este capítulo se abre mañana. ¡Vuelve mañana para seguir la aventura!
+Primero hay que terminar el capítulo de antes.
+¡Este capítulo llegará muy pronto!
+¡Lo pongo en el mapa del tesoro!
+Este trozo ya lo tenías. ¡Muy bien jugado!

@@ -17,7 +17,8 @@
 // mueble y los 3 dibujos del cuadro (C35); desde la M6, «Un día con Tito»: la rutina de la hora con su bocadillo y su
 // pegatina, una vez al día (C36), y la noche por la ventana y el reloj que dice la hora (C37). Desde la fase P14 de
 // docs/IDEAS-MEJORA.md, los tesoros escondidos del mapa y la vitrina de la casa (C38), y desde la P15, la cámara de
-// fotos en el mapa, una zona y la granja, y el álbum de fotos de la casa (C39). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
+// fotos en el mapa, una zona y la granja, y el álbum de fotos de la casa (C39), y desde la P16, la gran aventura de Tito:
+// el botón del mapa, un capítulo entero, su trozo del mapa y el siguiente para mañana (C40). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
 // C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
@@ -1382,6 +1383,75 @@ const temas = (n) => {
       await p.waitForTimeout(1000);
       const fin = await p.evaluate(() => __cl.name);
       return fin === 'casaTito' ? null : 'la casa del álbum lleva a: ' + fin;
+    },
+  );
+
+  await caso(
+    'C40',
+    'La gran aventura (P16): el botón del mapa abre el mapa del tesoro; el capítulo 1 da su trozo y el 2 es para mañana',
+    async (p) => {
+      await p.evaluate(() => __cl.go('map', {}));
+      await p.waitForTimeout(2500);
+      if (!(await p.evaluate(() => !!(window.__w3 && window.__w3.ok)))) return null; // sin WebGL, el botón no está
+      const monedas = await p.evaluate(() => {
+        delete __cl.S.aventura;
+        window.__said = [];
+        __cl.scene.down(AVENTURA_BOTON.x, AVENTURA_BOTON.y);
+        return __cl.S.coins || 0;
+      });
+      await p.waitForTimeout(1200);
+      if ((await p.evaluate(() => __cl.name)) !== 'aventura')
+        return 'el botón de la aventura lleva a: ' + (await p.evaluate(() => __cl.name));
+      const e0 = await p.evaluate(() => [estadoDe(0), estadoDe(1), estadoDe(3)]);
+      if (e0.join() !== 'abierto,cerrado,pronto') return 'al empezar: ' + e0;
+      await p.evaluate(() => __cl.scene.down(MEDALLAS[0].x, MEDALLAS[0].y));
+      await p.waitForTimeout(1000);
+      if ((await p.evaluate(() => [__cl.name, __cl.scene.fase].join())) !== 'aventuraCap,cuento')
+        return 'la medalla 1 no abre el cuento';
+      // el cuento y el reto, siguiendo la ayuda de cada uno
+      await p.evaluate(() => {
+        let u = 0;
+        const f = () => {
+          const sc = __cl.scene;
+          if (__cl.name !== 'aventuraCap' || sc.fase === 'pieza') return;
+          const h = sc.hint && sc.hint(),
+            a = performance.now();
+          if (h && a - u > 250) {
+            u = a;
+            sc.down(h.x, h.y);
+          }
+          requestAnimationFrame(f);
+        };
+        requestAnimationFrame(f);
+      });
+      let nombre = '';
+      for (let i = 0; i < 240 && nombre !== 'aventura'; i++) {
+        await p.waitForTimeout(500);
+        nombre = await p.evaluate(() => __cl.name);
+      }
+      if (nombre !== 'aventura') return 'el capítulo no termina: ' + nombre;
+      const r = await p.evaluate(() => [
+        registroDeAventura().hechos,
+        __cl.S.coins || 0,
+        estadoDe(0),
+        estadoDe(1),
+        window.__said.join('|'),
+      ]);
+      if (r[0].join() !== 'botella') return 'lo guardado: ' + JSON.stringify(r[0]);
+      if (r[1] - monedas !== 3) return `el trozo: monedas ${monedas} -> ${r[1]}`;
+      if (r[2] !== 'hecho' || r[3] !== 'manana') return 'después: ' + r[2] + ', ' + r[3];
+      if (!r[4].includes('primer trozo') || !r[4].includes('mañana')) return 'Tito dice: ' + r[4];
+      // el 2 hoy no se abre; el 1 se repite sin monedas; la casita vuelve al mapa
+      const t = await p.evaluate(() => {
+        window.__said = [];
+        __cl.scene.down(MEDALLAS[1].x, MEDALLAS[1].y);
+        return [__cl.name, window.__said.join('|')];
+      });
+      if (t[0] !== 'aventura' || !t[1].includes('mañana')) return 'la medalla 2: ' + JSON.stringify(t);
+      await p.evaluate(() => __cl.scene.down(90, 90));
+      await p.waitForTimeout(1500);
+      const fin = await p.evaluate(() => __cl.name);
+      return fin === 'map' ? null : 'la casita de la aventura lleva a: ' + fin;
     },
   );
 

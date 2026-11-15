@@ -8,7 +8,7 @@
 //   I5: (desde la fase ID4) lo que ya está en rumano (?idioma=ro) deja algo sin traducir: la zona de adultos (ID4a) y,
 //       desde la ID4b, la portada, el mapa y sus zonas, la casita, la asamblea, el álbum, la tienda, el cofre, el repaso
 //       y las islas, desde la ID4c la casa de Tito y sus escenas, y desde la ID4d el cole,
-//       el patio y sus juegos, el deporte, las excursiones y la granja; menos las casitas de la Isla de las Letras (ID6), el nombre del niño y las palabras sueltas de los
+//       el patio y sus juegos, el deporte, las excursiones y la granja, y desde la v0.2.157 la gran aventura; menos las casitas de la Isla de las Letras (ID6), el nombre del niño y las palabras sueltas de los
 //       carteles de las islas (de la ID6 y del inglés, que no se traduce);
 //   I0: hay errores de JavaScript.
 // La Isla de las Letras (sus letras, sílabas y palabras para leer) tendrá su versión rumana en la ID6: no se mira aquí.
@@ -92,6 +92,9 @@ const ESCENAS_RO = [
   'granjaNace',
   'granjaFamilias',
   'albumExcursiones',
+  // desde la v0.2.157 (toda funcionalidad nueva es multiidioma): la gran aventura y su primer capítulo (P16a)
+  'aventura',
+  'aventuraCap',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).
