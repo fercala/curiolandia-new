@@ -599,6 +599,12 @@ e15c21b49d1c,La granja escuela,Ferma-școală,trozo,src/contenido/excursiones.ts
 c833c8b1e578,El huerto,Grădina de legume,trozo,src/contenido/excursiones.ts,borrador
 b47b61f7e59a,Paseo en tractor,Plimbare cu tractorul,trozo,src/contenido/excursiones.ts,borrador
 7e2defd8ef9d,El zoo,Grădina zoologică,trozo,src/contenido/excursiones.ts,borrador
+48088fbd228a,Nico,Nico,trozo,src/contenido/excursiones.ts,borrador
+a97db07d98ad,La sabana,Savana,trozo,src/contenido/excursiones.ts,borrador
+ea02d1d0aea5,La selva,Jungla,trozo,src/contenido/excursiones.ts,borrador
+0aeb515e2327,La zona polar,Zona polară,trozo,src/contenido/excursiones.ts,borrador
+0e2fba450a47,La casa de los reptiles,Casa reptilelor,trozo,src/contenido/excursiones.ts,borrador
+d8c7da05159d,La gran pajarera,Marea volieră,trozo,src/contenido/excursiones.ts,borrador
 d236fa6bc06b,El bosque,Pădurea,trozo,src/contenido/excursiones.ts,borrador
 eef5e5e9d7f8,Mum,,trozo,src/contenido/ingles.ts,falta
 48418f32fc2d,Mamá,Mama,trozo,src/contenido/ingles.ts,borrador
@@ -855,6 +861,7 @@ c4147c6e88e2,el panadero,brutarul,nombre,src/contenido/lex.ts,borrador
 dba2185000a6,la cocinera,bucătăreasa,nombre,src/contenido/lex.ts,borrador
 9aacaa567765,el cartero,poștașul,nombre,src/contenido/lex.ts,borrador
 06d1edc4eb35,la granjera,fermiera,nombre,src/contenido/lex.ts,borrador
+dd4a21840b55,el cuidador,îngrijitorul,nombre,src/contenido/lex.ts,borrador
 392231973151,el peluquero,frizerul,nombre,src/contenido/lex.ts,borrador
 b91143f353da,la manguera,furtunul,nombre,src/contenido/lex.ts,borrador
 8a8b3529242b,el estetoscopio,stetoscopul,nombre,src/contenido/lex.ts,borrador
@@ -1157,6 +1164,7 @@ df787b379967,{n} veces,de {n} {n:de}ori,trozo,src/dominio/excursiones.ts,borrado
 0a1a439a1271,Del mar y de la playa,De la mare și de la plajă,trozo,src/dominio/fotos.ts,borrador
 ba7b7dff853b,De la nieve y del frío,De la zăpadă și de la frig,trozo,src/dominio/fotos.ts,borrador
 c415fb4e3085,Animales de la granja,Animalele de la fermă,trozo,src/dominio/fotos.ts,borrador
+71efee271ed3,Animales del zoo,Animalele de la grădina zoologică,trozo,src/dominio/fotos.ts,borrador
 e6ce4d140a8d,Plantas y cosas,Plante și lucruri,trozo,src/dominio/fotos.ts,borrador
 62ca599a8758,La rana,Broasca,trozo,src/dominio/fotos.ts,borrador
 938c2cc0dcc0,frog,,trozo,src/dominio/fotos.ts,falta
@@ -1208,6 +1216,20 @@ e811af40e80c,hen,,trozo,src/dominio/fotos.ts,falta
 8ddbddef26de,chick,,trozo,src/dominio/fotos.ts,falta
 8827e5958249,El pato,Rața,trozo,src/dominio/fotos.ts,borrador
 36846677e3a8,duck,,trozo,src/dominio/fotos.ts,falta
+19a9d0f8327f,El león,Leul,trozo,src/dominio/fotos.ts,borrador
+6b42d00c4ca6,lion,,trozo,src/dominio/fotos.ts,falta
+1b6065f311cf,El elefante,Elefantul,trozo,src/dominio/fotos.ts,borrador
+e4b48fd541b3,elephant,,trozo,src/dominio/fotos.ts,falta
+5260a329c65a,La jirafa,Girafa,trozo,src/dominio/fotos.ts,borrador
+6975a7ef5359,giraffe,,trozo,src/dominio/fotos.ts,falta
+e893911ddcbf,La cebra,Zebra,trozo,src/dominio/fotos.ts,borrador
+69c459dd76c6,zebra,,trozo,src/dominio/fotos.ts,falta
+f824427fb786,El tigre,Tigrul,trozo,src/dominio/fotos.ts,borrador
+43b909204096,tiger,,trozo,src/dominio/fotos.ts,falta
+7fc6acf22ead,El mono,Maimuța,trozo,src/dominio/fotos.ts,borrador
+d0763edaa9d9,monkey,,trozo,src/dominio/fotos.ts,falta
+92da373b0d30,El cocodrilo,Crocodilul,trozo,src/dominio/fotos.ts,borrador
+9d7d8f69be2c,crocodile,,trozo,src/dominio/fotos.ts,falta
 231e62153e64,El árbol,Copacul,trozo,src/dominio/fotos.ts,borrador
 c0af77cf8294,tree,,trozo,src/dominio/fotos.ts,falta
 987cd295738c,La flor,Floarea,trozo,src/dominio/fotos.ts,borrador
@@ -1305,8 +1327,8 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.","Mirosim o floare trăgând aer pe nas și suflăm încet într-o lumânare, fără s-o stingem.",frase,src/dominio/yoga.ts,borrador
 8c3d395b2a94,Aún no hemos ido,Încă n-am fost,trozo,src/escenas/albumExcursiones.ts,borrador
 444536e4029c,"Aquí irá la foto {excursion}, cuando vayamos de excursión.","Aici va fi poza {excursion}, când mergem în excursie.",frase,src/escenas/albumExcursiones.ts,borrador
-9f9bd5c24bed,"¡{Excursion}! Hemos ido una vez; la última, el {fecha}. ¿Te acuerdas de {guia}?","{Excursion}! Am fost o dată; ultima oară, pe {fecha}. Ți-o amintești pe {guia}?",trozo,src/escenas/albumExcursiones.ts,borrador
-ba4ecea9b7ad,"¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te acuerdas de {guia}?","{Excursion}! Am fost de {n} {n:de}ori; ultima oară, pe {fecha}. Ți-o amintești pe {guia}?",trozo,src/escenas/albumExcursiones.ts,borrador
+9f9bd5c24bed,"¡{Excursion}! Hemos ido una vez; la última, el {fecha}. ¿Te acuerdas de {guia}?","{Excursion}! Am fost o dată; ultima oară, pe {fecha}. Îți amintești de {guia}?",trozo,src/escenas/albumExcursiones.ts,borrador
+ba4ecea9b7ad,"¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te acuerdas de {guia}?","{Excursion}! Am fost de {n} {n:de}ori; ultima oară, pe {fecha}. Îți amintești de {guia}?",trozo,src/escenas/albumExcursiones.ts,borrador
 a50ab6af698c,Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.,Acesta e albumul de excursii. Aici se păstrează pozele de grup. Atinge o poză.,frase,src/escenas/albumExcursiones.ts,borrador
 94ddc8c3d31d,Toca una foto del álbum.,Atinge o poză din album.,frase,src/escenas/albumExcursiones.ts,borrador
 89479dc025ba,Mis excursiones,Excursiile mele,trozo,src/escenas/albumExcursiones.ts,borrador
@@ -1792,6 +1814,7 @@ a4c59ff8ba33,El álbum de excursiones.,Albumul de excursii.,frase,src/escenas/ex
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!","Mergem {excursion}! Brum, brum!",frase,src/escenas/excursion.ts,borrador
 f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,O poză de grup! Zâmbiți! A fost o excursie minunată. {guia} ne așteaptă altă dată: {excursion}. Poza rămâne în albumul de excursii. Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
+8f1a5d1d2982,"¡Hola{nino}! Soy {guia}, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.","Bună{nino}! Eu sunt {guia}, îngrijitorul de la grădina zoologică. Bine ai venit! Azi vizităm animalele sălbatice.",frase,src/escenas/excursion.ts,borrador
 850a40687e76,"¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.","Bună{nino}! Eu sunt {guia}, fermiera. Bine ai venit la ferma-școală! Azi mă ajuți să am grijă de animale.",frase,src/escenas/excursion.ts,borrador
 41b12a8a9434,Toca la casa para volver al cole.,Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,Acum: {estacion}! Atinge-i desenul.,frase,src/escenas/excursion.ts,borrador
@@ -2137,6 +2160,19 @@ fe653b97deac,¡Se abrió el juego número {n}! Tócalo para seguir.,S-a deschis 
 4687dd09f4e8,Empieza por el primero: ¡vamos a conocer!,Începe cu primul: hai să cunoaștem!,frase,src/escenas/zonas.ts,borrador
 76e0dc50891a,"Toca el que brilla, el número {n}.","Atinge-l pe cel care strălucește, numărul {n}.",frase,src/escenas/zonas.ts,borrador
 6a5f781c4d40,¡Ya jugaste todos! Puedes repetir el que más te guste.,Le-ai jucat pe toate! Îl poți repeta pe cel care îți place.,frase,src/escenas/zonas.ts,borrador
+f7435a6b5d9d,¡Esto es la sabana! Los animales tienen mucha hambre.,Aceasta e savana! Animalele sunt foarte flămânde.,frase,src/escenas/zoo.ts,borrador
+aeb80c8f3d1a,¿Sabes una cosa? La jirafa es el animal más alto del mundo. ¡Llega a las hojas de lo alto de los árboles!,Știi ceva? Girafa e cel mai înalt animal din lume. Ajunge la frunzele din vârful copacilor!,frase,src/escenas/zoo.ts,borrador
+512138c1108b,Une cada animal con su comida. Arrastra del animal a lo que come.,Unește fiecare animal cu mâncarea lui. Trage de la animal la ce mănâncă.,frase,src/escenas/zoo.ts,borrador
+c3e61be0d746,{Cosa} come {otra}.,{Cosa} mănâncă {otra}.,trozo,src/escenas/zoo.ts,borrador
+6ce51ad2dcaf,"Mmm, {cosa} no come {otra}.","Mmm, {cosa} nu mănâncă {otra}.",frase,src/escenas/zoo.ts,borrador
+d832a4d7a85a,¡Esto es la selva! Aquí se oyen muchos ruidos. ¿Sabes quién los hace?,Aceasta e jungla! Aici se aud multe zgomote. Știi cine le face?,frase,src/escenas/zoo.ts,borrador
+68f49e775f38,¿Sabes una cosa? Los monos viven en los árboles y saltan de rama en rama. ¡Son unos grandes trepadores!,Știi ceva? Maimuțele trăiesc în copaci și sar din ramură în ramură. Se cațără grozav!,frase,src/escenas/zoo.ts,borrador
+4a38f70e9593,¡Qué frío hace en la zona polar! Las crías están jugando en el hielo. ¡Vamos a contarlas!,Ce frig e în zona polară! Puii se joacă pe gheață. Hai să-i numărăm!,frase,src/escenas/zoo.ts,borrador
+8ba881e7674e,"¿Sabes una cosa? Los pingüinos no saben volar, ¡pero nadan rapidísimo!","Știi ceva? Pinguinii nu știu să zboare, dar înoată foarte repede!",frase,src/escenas/zoo.ts,borrador
+6e16c23d48ed,"¡Oh, no! El cartel de la casa de los reptiles se ha roto. ¿Me ayudas a arreglarlo?","Oh, nu! Panoul casei reptilelor s-a rupt. Mă ajuți să-l repar?",frase,src/escenas/zoo.ts,borrador
+975d968e3358,¿Sabes una cosa? La tortuga lleva su casa a cuestas: ¡es su caparazón!,Știi ceva? Broasca țestoasă își poartă casa în spate: e carapacea ei!,frase,src/escenas/zoo.ts,borrador
+543cdfbaf2b6,En la gran pajarera viven muchos pájaros. ¡Vamos a buscarlos!,În marea volieră trăiesc multe păsări. Hai să le căutăm!,frase,src/escenas/zoo.ts,borrador
+c4261d93b897,¿Sabes una cosa? El búho duerme de día y por la noche sale a volar.,"Știi ceva? Bufnița doarme ziua, iar noaptea iese să zboare.",frase,src/escenas/zoo.ts,borrador
 ae1feb6d3998,alegría,bucurie,trozo,src/juegos/caras.ts,borrador
 d9292c5677b5,tristeza,tristețe,trozo,src/juegos/caras.ts,borrador
 fda493ccee18,enfado,furie,trozo,src/juegos/caras.ts,borrador

@@ -1,9 +1,9 @@
 /*
  * escenas/fotos.ts: la cámara de fotos de Tito y el álbum de fotos (idea 20 de docs/IDEAS-MEJORA.md, fase P15). En el
- * mapa 3D, las zonas 3D y la granja escuela hay un botón con una cámara (CAMARA_BOTON, debajo de las monedas): al
+ * mapa 3D, las zonas 3D, la granja escuela y, desde la P17, el zoo hay un botón con una cámara (CAMARA_BOTON, debajo de las monedas): al
  * tocarlo, la cámara se enciende (se ve el visor con sus esquinas) y un toque a un animal o a una cosa le hace una foto
- * (hacerFotoDe: el destello, el clic, la foto que sale un momento y Tito que dice qué es); en la granja, a los animales
- * que pasean. Mientras la cámara está encendida, los toques no llevan a ningún sitio (no se sale sin querer); otro
+ * (hacerFotoDe: el destello, el clic, la foto que sale un momento y Tito que dice qué es); en la granja y en el zoo, a los
+ * animales que pasean. Mientras la cámara está encendida, los toques no llevan a ningún sitio (no se sale sin querer); otro
  * toque al botón la guarda, y al cambiar de escena se apaga sola. Lo que se puede fotografiar y lo que da está en
  * dominio/fotos.ts; mundo3d/camara3d.ts busca qué hay bajo el dedo en 3D. Las fotos van al álbum, la escena
  * SCENES.albumFotos: una página por grupo (PAGINAS_FOTOS), con dos filas de cuatro fotos; las hechas, con su dibujo, su

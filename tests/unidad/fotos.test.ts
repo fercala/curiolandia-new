@@ -34,6 +34,9 @@ describe('la cámara de fotos', () => {
     expect(fotoDeMarca((m) => m === 'bee' || m === 'bfly')?.id).toBe('abeja');
     expect(fotoDeMarca((m) => m === 'gull')?.id).toBe('pajaro');
     expect(fotoDeMarca((m) => m === 'vaca')?.id).toBe('vaca');
+    // desde la fase P17, los animales del zoo; su pingüino cuenta como el de la nieve
+    expect(fotoDeMarca((m) => m === 'leon')?.id).toBe('leon');
+    expect(fotoDeMarca((m) => m === 'pinguino')?.id).toBe('pinguino');
     expect(fotoDeMarca((m) => m === 'rock')).toBeUndefined();
   });
 

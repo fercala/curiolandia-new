@@ -57,6 +57,7 @@
 3adc446fa1e7	Biscuit
 412ab06bb5f9	@umbrella
 41a7f93915f9	Cake
+43b909204096	tiger
 4432170f33a2	Nose
 447bfa129241	@ball
 44fdec47036f	days
@@ -99,9 +100,12 @@
 65c449ad44e2	Kite
 682a493a3882	 says 
 682a493a3882	 says 
+6975a7ef5359	giraffe
 698777432d4b	balloon
+69c459dd76c6	zebra
 69cf0f05cab7	, pointer
 6aaa0c8b5072	attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}
+6b42d00c4ca6	lion
 6beac3bab1b0	Oink
 6c647ded4d34	Baa
 6d4a6c2c885a	Woof
@@ -164,6 +168,7 @@
 9aa80c57478c	Watermelon
 9b9e783a746f	la ese
 9c763d0ac223	(pointer:coarse)
+9d7d8f69be2c	crocodile
 9da9124073d3	la a
 9dfd70fdf15a	bee
 9ed0eb2cf404	uve doble
@@ -224,6 +229,7 @@ cd1afe341638	L4-NOM
 cd2dc1f511e3	@Good night
 ce178861ab46	TITO
 cfac60a726ba	@milk
+d0763edaa9d9	monkey
 d19c65bc26ec	Bed
 d260bc75293e	Bath
 d39f272ab2d5	Mouth
@@ -243,6 +249,7 @@ e1e04341f52b	@Put on the
 e3a1a93fc29a	Cloudy
 e41273f43af5	Train
 e49e72e2c77c	la be
+e4b48fd541b3	elephant
 e4f58a805a6e	I love you
 e5baa22d9f17	la uve
 e67ed91b512d	farm

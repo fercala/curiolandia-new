@@ -1,13 +1,15 @@
 /*
  * escenas/excursion.ts: el motor de excursiones en pantalla (base B1 de docs/IDEAS-MEJORA.md, fase P5): el autobús del
  * cole (SCENES.autobus: se elige adónde ir y se viaja) y la escena genérica de una excursión (SCENES.excursion, con
- * {exc: id}): el plano del sitio con sus estaciones, el guía (en la granja, la granjera Rosa) y Tito; al tocar una
+ * {exc: id}): el plano del sitio con sus estaciones, el guía (en la granja, la granjera Rosa; desde la P17, en el zoo, el
+ * cuidador Nico) y Tito; al tocar una
  * estación jugable se va a su escena, y al volver (volverDeEstacion, {hecha: id}) se apunta. Cuando se han hecho todas
  * las estaciones que ya se pueden jugar, la foto de grupo: un flash, «¡Patata!» y la foto de recuerdo, y monedas la
  * primera vez de cada día. Las reglas, en dominio/excursiones.ts; los datos, en contenido/excursiones.ts; lo guardado, en
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
- * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), DESTINOS (dónde está cada cartel del
+ * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
+ * de cada excursión) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
@@ -129,6 +131,109 @@ export function fondoGranja(): void {
   });
   ctx.restore();
 }
+
+// acacia(x, y): un árbol de la sabana: el tronco torcido y la copa ancha y plana (centro de la copa en x, y).
+function acacia(x: number, y: number): void {
+  ctx.save();
+  ctx.strokeStyle = '#4A3B2A';
+  ctx.lineWidth = 6;
+  ctx.fillStyle = '#9C6B3F';
+  ctx.beginPath();
+  ctx.moveTo(x - 12, y + 110);
+  ctx.lineTo(x - 4, y + 10);
+  ctx.lineTo(x + 10, y + 10);
+  ctx.lineTo(x + 12, y + 110);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#7DB55A';
+  ctx.beginPath();
+  ctx.ellipse(x, y, 120, 34, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+}
+
+// fondoZoo(): el zoo (desde la fase P17): el cielo, las rocas del fondo, la valla de bambú, las acacias, el estanque y,
+// en el centro, el arco de la entrada con la cara del león. Lo usan la excursión del zoo y sus recintos (escenas/zoo.ts).
+export function fondoZoo(): void {
+  cielo('#BFE3FF', '#FFF1D6', 300);
+  ctx.save();
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = '#4A3B2A';
+  // las rocas, al fondo a la izquierda
+  ctx.fillStyle = '#D9B98A';
+  ctx.beginPath();
+  ctx.moveTo(0, 290);
+  ctx.lineTo(150, 140);
+  ctx.lineTo(280, 220);
+  ctx.lineTo(400, 120);
+  ctx.lineTo(560, 290);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#C7DC8A';
+  ctx.fillRect(0, 280, W, H - 280);
+  // el estanque, abajo a la izquierda
+  ctx.fillStyle = '#8FD0F0';
+  ctx.beginPath();
+  ctx.ellipse(70, 820, 150, 60, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  // la valla de bambú, a lo largo del horizonte
+  ctx.strokeStyle = '#8A7A3A';
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(0, 262);
+  ctx.lineTo(1270, 262);
+  ctx.stroke();
+  Array.from({ length: 32 }, (_, i) => i * 40 + 10).forEach((x) => {
+    ctx.fillStyle = '#D6C25E';
+    ctx.fillRect(x - 6, 236, 12, 70);
+    ctx.strokeRect(x - 6, 236, 12, 70);
+  });
+  ctx.restore();
+  acacia(1000, 200);
+  acacia(1240, 225);
+  // el arco de la entrada, en el centro: dos columnas, el arco y la cara del león arriba
+  ctx.save();
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = '#4A3B2A';
+  ctx.fillStyle = '#E8B84A';
+  [540, 720].forEach((x) => {
+    ctx.fillRect(x, 120, 50, 180);
+    ctx.strokeRect(x, 120, 50, 180);
+  });
+  ctx.fillStyle = '#7CC86E';
+  ctx.beginPath();
+  ctx.moveTo(520, 140);
+  ctx.quadraticCurveTo(655, 20, 790, 140);
+  ctx.lineTo(790, 165);
+  ctx.quadraticCurveTo(655, 55, 520, 165);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+  pic('leon', 655, 85, 90);
+}
+
+// fondoDe(e): el fondo de la excursión e: el del zoo o el de la granja (desde la fase P17; el álbum también lo usa).
+export const fondoDe = (e: Excursion): void => (e.id === 'zoo' ? fondoZoo() : fondoGranja());
+
+// GRUPO_FOTO: los animales de la foto de grupo de cada excursión (dibujo, posición desde el centro de la foto y tamaño;
+// desde la fase P17). La foto grande (dibujaFoto) y la pequeña del álbum de excursiones los usan.
+export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, number, number, number])[]>> = {
+  granja: [
+    ['vaca', -220, 60, 200],
+    ['cerdo', 230, 90, 150],
+    ['gallina', 150, 20, 110],
+  ],
+  zoo: [
+    ['jirafa', -240, 20, 240],
+    ['elefante', 240, 80, 160],
+    ['pinguino', 140, 70, 110],
+  ],
+};
 
 // caminoGranja(): el camino de tierra que une las estaciones del plano de la granja.
 function caminoGranja(e: Excursion): void {
@@ -356,8 +461,8 @@ function dibujaEstacion(s: Estacion, hecha: boolean): void {
   ctx.restore();
 }
 
-// dibujaFoto(): la foto de grupo: el flash al hacerla y, después, la foto de recuerdo (Tito, la granjera y los animales)
-// en un marco blanco un poco torcido.
+// dibujaFoto(): la foto de grupo: el flash al hacerla y, después, la foto de recuerdo (Tito, el guía y los animales de
+// GRUPO_FOTO, con el fondo de la excursión) en un marco blanco un poco torcido.
 function dibujaFoto(): void {
   const t = T - exc.foto;
   ctx.save();
@@ -371,11 +476,9 @@ function dibujaFoto(): void {
   ctx.rect(-340, -260, 680, 440);
   ctx.clip();
   ctx.translate(-W / 2, -450);
-  fondoGranja();
+  fondoDe(excursionActual());
   ctx.restore();
-  pic('vaca', -220, 60, 200);
-  pic('cerdo', 230, 90, 150);
-  pic('gallina', 150, 20, 110);
+  (GRUPO_FOTO[exc.id] ?? GRUPO_FOTO['granja']!).forEach(([k, x, y, t]) => pic(k, x, y, t));
   pic(excursionActual().guia, 30, -20, 260);
   drawTito(-200, -40, 180);
   text('¡Patata!', 0, 250, 48, '#4A3B2A');
@@ -418,6 +521,20 @@ function hacerFoto(): void {
   );
 }
 
+// bienvenida(e): lo que dice el guía de la excursión e la primera vez que se va: la granjera Rosa en la granja y, desde
+// la fase P17, el cuidador Nico en el zoo.
+function bienvenida(e: Excursion): string {
+  if (e.id === 'zoo')
+    return fmt(
+      '¡Hola{nino}! Soy {guia}, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.',
+      { nino: kid(), guia: e.nombreGuia },
+    );
+  return fmt(
+    '¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.',
+    { nino: kid(), guia: e.nombreGuia },
+  );
+}
+
 SCENES['excursion'] = {
   music: 'jardin',
   // enter(o): la excursión o.exc. Si se vuelve de una estación (o.hecha), se apunta; si con eso la visita está completa,
@@ -446,15 +563,7 @@ SCENES['excursion'] = {
     if (primera) {
       S.first[clave] = 1;
       save();
-      later(500, () =>
-        sayQ(
-          fmt(
-            '¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.',
-            { nino: kid(), guia: e.nombreGuia },
-          ),
-          luego,
-        ),
-      );
+      later(500, () => sayQ(bienvenida(e), luego));
     } else later(500, luego);
   },
   // prompt(): lo que toca: la siguiente estación por hacer (o, tras la foto, volver).
@@ -486,7 +595,7 @@ SCENES['excursion'] = {
   draw() {
     const e = excursionActual(),
       v = visitaActual();
-    fondoGranja();
+    fondoDe(e);
     caminoGranja(e);
     if (e.id === 'granja') dibujaManzano();
     dibujaPaseo();

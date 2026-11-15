@@ -2067,3 +2067,31 @@ Cava en la arena y encuentra todo lo que hay escondido. ¡Seguro que el último 
 ¡El tesoro! Está lleno de monedas de oro.
 ¡Encontramos el gran tesoro! Puedes volver a jugar los capítulos cuando quieras.
 ¡Nuestro gran tesoro! Lo encontramos con el mapa completo.
+La sabana
+La selva
+La zona polar
+La casa de los reptiles
+La gran pajarera
+¡Hola! Soy Nico, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.
+¡Esto es la sabana! Los animales tienen mucha hambre.
+¿Sabes una cosa? La jirafa es el animal más alto del mundo. ¡Llega a las hojas de lo alto de los árboles!
+Une cada animal con su comida. Arrastra del animal a lo que come.
+{Cosa} come {otra}.
+Mmm, {cosa} no come {otra}.
+¡Esto es la selva! Aquí se oyen muchos ruidos. ¿Sabes quién los hace?
+¿Sabes una cosa? Los monos viven en los árboles y saltan de rama en rama. ¡Son unos grandes trepadores!
+¡Qué frío hace en la zona polar! Las crías están jugando en el hielo. ¡Vamos a contarlas!
+¿Sabes una cosa? Los pingüinos no saben volar, ¡pero nadan rapidísimo!
+¡Oh, no! El cartel de la casa de los reptiles se ha roto. ¿Me ayudas a arreglarlo?
+¿Sabes una cosa? La tortuga lleva su casa a cuestas: ¡es su caparazón!
+En la gran pajarera viven muchos pájaros. ¡Vamos a buscarlos!
+¿Sabes una cosa? El búho duerme de día y por la noche sale a volar.
+Animales del zoo
+El león
+El elefante
+La jirafa
+La cebra
+El tigre
+El mono
+El cocodrilo
+el cuidador

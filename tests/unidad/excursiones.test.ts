@@ -1,5 +1,5 @@
 // Pruebas del motor de excursiones (src/dominio/excursiones.ts) y de sus datos (src/contenido/excursiones.ts), fase P5
-// de docs/IDEAS-MEJORA.md. Sin navegador.
+// de docs/IDEAS-MEJORA.md (desde la P17, también el zoo). Sin navegador.
 /* eslint-disable ts-patterns/no-magic-numbers -- los números son los datos de cada caso: leerlos tal cual es más claro. */
 import { describe, expect, test } from 'vitest';
 import {
@@ -96,6 +96,20 @@ describe('las excursiones', () => {
   });
 
   test('una excursión sin estaciones nunca está completa', () => {
-    expect(visitaCompleta(excursionPorId('zoo')!, visitaDe(undefined, 'zoo'))).toBe(false);
+    expect(visitaCompleta(excursionPorId('bosque')!, visitaDe(undefined, 'bosque'))).toBe(false);
+  });
+
+  // desde la fase P17: el zoo, con Nico el cuidador, sus cinco recintos y sus animales que pasean
+  test('el zoo tiene cinco recintos jugables y se completa al hacerlos todos', () => {
+    const zoo = excursionPorId('zoo')!;
+    expect(zoo.nombreGuia).toBe('Nico');
+    expect(estacionesJugables(zoo).map((s) => s.id)).toEqual(['sabana', 'selva', 'polar', 'reptiles', 'pajarera']);
+    expect(new Set(zoo.animales).size).toBe(zoo.animales?.length);
+    let v = visitaDe(undefined, 'zoo');
+    zoo.estaciones.forEach((s) => {
+      expect(visitaCompleta(zoo, v)).toBe(false);
+      v = terminarEstacion(v, s.id);
+    });
+    expect(visitaCompleta(zoo, v)).toBe(true);
   });
 });

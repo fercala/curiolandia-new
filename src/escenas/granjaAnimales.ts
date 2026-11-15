@@ -2,7 +2,8 @@
  * escenas/granjaAnimales.ts: los animales de la granja como recortables (base B2 de docs/IDEAS-MEJORA.md, fase P7): de
  * lado y enteros, con su sombra y un saltito al andar. La vaca, el caballo y el cerdo, cuyos dibujos son solo la cabeza,
  * se dibujan con un cuerpo (dibujaCuerpo: cuerpo, patas y cola, y la cabeza delante); la oveja, la gallina, el pollito y
- * el pato ya son enteros. Por el plano de una excursión pasean los animales que dice su lista (Excursion.animales,
+ * el pato ya son enteros; desde la fase P17, también los animales del zoo (el león, el elefante y el mono, con cuerpo).
+ * Por el plano de una excursión pasean los animales que dice su lista (Excursion.animales,
  * contenido/excursiones.ts): andan hasta un sitio del prado, se paran un rato y siguen; al tocarlos dan un salto y
  * hacen su sonido (SOUNDS y ONO). Las estaciones de la granja (escenas/granjaTalleres.ts) usan dibujaCuerpo.
  * Exporta: dibujaCuerpo, ANIMALES_GRANJA (cómo es cada uno), PASEO (los que pasean, para las pruebas) y empezarPaseo,
@@ -77,6 +78,15 @@ export const ANIMALES_GRANJA: Readonly<Record<string, AnimalGranja>> = {
   gallina: { k: 'gallina', s: 110, v: 80 },
   pollito: { k: 'pollito', s: 70, v: 90 },
   pato: { k: 'pato', s: 105, v: 60 },
+  // los del zoo (desde la fase P17): el león, el elefante y el mono, cuyos dibujos son solo la cabeza, llevan cuerpo
+  leon: { k: 'leon', s: 120, cuerpo: { w: 180, h: 80, color: '#E8A04A' }, v: 55 },
+  elefante: { k: 'elefante', s: 150, cuerpo: { w: 230, h: 115, color: '#B7BFD0' }, v: 35 },
+  mono: { k: 'mono', s: 85, cuerpo: { w: 110, h: 55, color: '#A8683A' }, v: 85 },
+  jirafa: { k: 'jirafa', s: 210, v: 50 },
+  cebra: { k: 'cebra', s: 160, v: 70 },
+  tigre: { k: 'tigre', s: 150, v: 60 },
+  cocodrilo: { k: 'cocodrilo', s: 170, v: 30 },
+  pinguino: { k: 'pinguino', s: 100, v: 40 },
 };
 // PRADO: por dónde pasean los animales en el plano (los pies; las estaciones quedan por encima).
 const PRADO = { x0: 160, x1: 1440, y0: 440, y1: 830 };
