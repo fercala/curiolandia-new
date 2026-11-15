@@ -1122,11 +1122,81 @@ f73b6c2f7d1b,¡Está dentro de la caja!,frase,src/dominio/escondite.ts
 17eb8962117b,{dia} de {mes},trozo,src/dominio/excursiones.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 df787b379967,{n} veces,trozo,src/dominio/excursiones.ts
+23e6139f001d,Bichos y animales del campo,trozo,src/dominio/fotos.ts
+0a1a439a1271,Del mar y de la playa,trozo,src/dominio/fotos.ts
+ba7b7dff853b,De la nieve y del frío,trozo,src/dominio/fotos.ts
+c415fb4e3085,Animales de la granja,trozo,src/dominio/fotos.ts
+e6ce4d140a8d,Plantas y cosas,trozo,src/dominio/fotos.ts
+62ca599a8758,La rana,trozo,src/dominio/fotos.ts
+938c2cc0dcc0,frog,trozo,src/dominio/fotos.ts
+b5a7a2fa31ad,La abeja,trozo,src/dominio/fotos.ts
+9dfd70fdf15a,bee,trozo,src/dominio/fotos.ts
+d6f6a93725c2,La mariposa,trozo,src/dominio/fotos.ts
+9fd8301ac24f,butterfly,trozo,src/dominio/fotos.ts
+be8f6599fb57,La mariquita,trozo,src/dominio/fotos.ts
+02dad4f425d2,ladybird,trozo,src/dominio/fotos.ts
+45f4f38d7290,La hormiga,trozo,src/dominio/fotos.ts
+63b07e828bf0,ant,trozo,src/dominio/fotos.ts
+87405dce3e29,El conejo,trozo,src/dominio/fotos.ts
+a51e47f64637,rabbit,trozo,src/dominio/fotos.ts
+7f66490f0193,La ardilla,trozo,src/dominio/fotos.ts
+eac074b0503b,squirrel,trozo,src/dominio/fotos.ts
+8a4a57635617,El búho,trozo,src/dominio/fotos.ts
+50f8b6c98b0f,owl,trozo,src/dominio/fotos.ts
+aa86951e810a,La ballena,trozo,src/dominio/fotos.ts
+1ebfd5913ef4,whale,trozo,src/dominio/fotos.ts
+5bb9af8791f7,El delfín,trozo,src/dominio/fotos.ts
+36cdf8b887a5,dolphin,trozo,src/dominio/fotos.ts
+6780288f8b53,El cangrejo,trozo,src/dominio/fotos.ts
+bd589331b993,crab,trozo,src/dominio/fotos.ts
+72fdce45af75,El pájaro,trozo,src/dominio/fotos.ts
+abaecf8ca3f9,bird,trozo,src/dominio/fotos.ts
+f1183c323294,El barco,trozo,src/dominio/fotos.ts
+dd8fc45d87f9,boat,trozo,src/dominio/fotos.ts
+b59a14733708,El castillo de arena,trozo,src/dominio/fotos.ts
+85e8113bc3f6,sandcastle,trozo,src/dominio/fotos.ts
+2287d5506e1b,El pingüino,trozo,src/dominio/fotos.ts
+24f7ca5f6ff1,penguin,trozo,src/dominio/fotos.ts
+e60eb27485a3,El iglú,trozo,src/dominio/fotos.ts
+2678407a7a56,igloo,trozo,src/dominio/fotos.ts
+960ed9ff82e5,El muñeco de nieve,trozo,src/dominio/fotos.ts
+b932a6ec0f3b,snowman,trozo,src/dominio/fotos.ts
+af22d2ba6f49,El reno,trozo,src/dominio/fotos.ts src/mundo3d/cielo.ts
+a243bfbd00fd,reindeer,trozo,src/dominio/fotos.ts
+3b9e16d37103,La vaca,trozo,src/dominio/fotos.ts
+81566e986cf8,cow,trozo,src/dominio/fotos.ts
+267f36d9e43a,El caballo,trozo,src/dominio/fotos.ts
+f1bdf5ed1d7a,horse,trozo,src/dominio/fotos.ts
+87984e75c06a,El cerdo,trozo,src/dominio/fotos.ts
+f74c6af46a78,pig,trozo,src/dominio/fotos.ts
+57787e039e51,La oveja,trozo,src/dominio/fotos.ts
+23ec24c5ca59,sheep,trozo,src/dominio/fotos.ts
+f51402dc2ef0,La gallina,trozo,src/dominio/fotos.ts
+e811af40e80c,hen,trozo,src/dominio/fotos.ts
+04a31ea5f872,El pollito,trozo,src/dominio/fotos.ts
+8ddbddef26de,chick,trozo,src/dominio/fotos.ts
+8827e5958249,El pato,trozo,src/dominio/fotos.ts
+36846677e3a8,duck,trozo,src/dominio/fotos.ts
+231e62153e64,El árbol,trozo,src/dominio/fotos.ts
+c0af77cf8294,tree,trozo,src/dominio/fotos.ts
+987cd295738c,La flor,trozo,src/dominio/fotos.ts
+608f0b988db4,flower,trozo,src/dominio/fotos.ts
+4f0e86f0ae60,La seta,trozo,src/dominio/fotos.ts
+4e026537a7d3,mushroom,trozo,src/dominio/fotos.ts
+b16bc6b900fb,La calabaza,trozo,src/dominio/fotos.ts
+edf8377563f7,pumpkin,trozo,src/dominio/fotos.ts
+0436aeb55cbc,La hoja,trozo,src/dominio/fotos.ts src/dominio/tesoros.ts
+bab4ff04cc14,leaf,trozo,src/dominio/fotos.ts
+8c2f3d42987f,El nido,trozo,src/dominio/fotos.ts
+99475e3ed162,nest,trozo,src/dominio/fotos.ts
+8fbd08ad3d52,La cometa,trozo,src/dominio/fotos.ts src/dominio/juegosCortos.ts src/escenas/cometa.ts
+4781ac9273d3,kite,trozo,src/dominio/fotos.ts
+12279ee8216f,El globo,trozo,src/dominio/fotos.ts
+698777432d4b,balloon,trozo,src/dominio/fotos.ts
 2f05391d7e51,La rayuela,trozo,src/dominio/juegosCortos.ts
 99b376c14d04,Los columpios,trozo,src/dominio/juegosCortos.ts src/escenas/columpios.ts
 6bda4ebc15a3,Los penaltis,trozo,src/dominio/juegosCortos.ts
 1d4e8cddd4be,Las pompas,trozo,src/dominio/juegosCortos.ts
-8fbd08ad3d52,La cometa,trozo,src/dominio/juegosCortos.ts src/escenas/cometa.ts
 210d1bebbc85,El pañuelo,trozo,src/dominio/juegosCortos.ts
 88d5988c508b,Las sillas,trozo,src/dominio/juegosCortos.ts src/escenas/sillas.ts
 1927bfb65307,¡Explota las pompas rojas!,frase,src/dominio/juegosCortos.ts
@@ -1181,7 +1251,6 @@ d65f6094a87f,La estrella de mar,trozo,src/dominio/tesoros.ts
 f8311576b647,¡Una estrella de mar! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
 9a3b54d73b17,La piedra bonita,trozo,src/dominio/tesoros.ts
 744f4f02be53,¡Una piedra bonita! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
-0436aeb55cbc,La hoja,trozo,src/dominio/tesoros.ts
 004e11ca3bfa,¡Una hoja preciosa! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
 193e943110a7,La castaña,trozo,src/dominio/tesoros.ts
 fc27caef1ea9,¡Una castaña! La guardo en mi vitrina.,frase,src/dominio/tesoros.ts
@@ -1680,6 +1749,19 @@ f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 41b12a8a9434,Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,frase,src/escenas/excursion.ts
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,trozo,src/escenas/excursion.ts
+34f9a121f8c2,Guardo la cámara.,frase,src/escenas/fotos.ts
+cc16b266690d,¡La cámara! Toca un animal o una cosa para hacerle una foto.,frase,src/escenas/fotos.ts
+8a9344afc729,{nombre}. Esta foto ya la tenías.,trozo,src/escenas/fotos.ts
+406fcb6ab4f0,¡Foto nueva! {nombre}.,frase,src/escenas/fotos.ts
+4d7f72f2dbdc,¡Has completado una página del álbum de fotos!,frase,src/escenas/fotos.ts
+35e913c1776b,Ahí no hay nada para la foto. Busca un animal o una cosa.,frase,src/escenas/fotos.ts
+aa85f1840e28,EN,trozo,src/escenas/fotos.ts
+3bfed39169d8,¡Mi álbum de fotos! Ya tengo {n} de {total}. Toca una foto para oír su nombre.,frase,src/escenas/fotos.ts
+62fbe376c26c,¡Mi álbum de fotos! Está vacío. Saca la cámara en el mapa para hacer fotos.,frase,src/escenas/fotos.ts
+d73640988498,Toca una foto para oír su nombre. La bandera dice cómo se llama en inglés.,frase,src/escenas/fotos.ts
+e218353c83cf,Esta foto aún no la has hecho. ¡Busca con la cámara!,frase,src/escenas/fotos.ts
+f1711db55537,{nombre}. Esta foto la has hecho una vez.,trozo,src/escenas/fotos.ts
+7b2a9330e5ea,{nombre}. Esta foto la has hecho {n} veces.,trozo,src/escenas/fotos.ts
 2951630908e0,el cerdo,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
 23b2349b49e4,el caballo,trozo,src/escenas/granja.ts src/nucleo/idioma.ts
 41a2bd573755,¡Todos los animales tienen la barriga llena! ¡Muchas gracias por ayudar!,frase,src/escenas/granja.ts
@@ -2296,7 +2378,6 @@ dc17a77f2ac8,FOCA,trozo,src/mundo3d/cielo.ts
 0d7b1183b24e,TRINEO,trozo,src/mundo3d/cielo.ts
 061454ae7acd,"Sorprendido. Cuando pasa algo que no esperábamos, sentimos sorpresa.",frase,src/mundo3d/cielo.ts src/temas/temas4.ts
 fdff49ef9d45,SORPRESA,trozo,src/mundo3d/cielo.ts
-af22d2ba6f49,El reno,trozo,src/mundo3d/cielo.ts
 6a824f252455,RENO,trozo,src/mundo3d/cielo.ts
 ba9f293c88bf,El globo aerostático. Vuela con aire caliente.,frase,src/mundo3d/cielo.ts src/temas/temas4.ts
 b07b65f9ed3d,GLOBO,trozo,src/mundo3d/cielo.ts

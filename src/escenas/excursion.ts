@@ -11,7 +11,7 @@
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
- * manzano que crece por días de escenas/granjaManzano.ts, y desde la P9, las crías de escenas/granjaCrias.ts; desde la ID2f, el tipo Nombre de dominio/idiomas.ts.
+ * manzano que crece por días de escenas/granjaManzano.ts, y desde la P9, las crías de escenas/granjaCrias.ts; desde la ID2f, el tipo Nombre de dominio/idiomas.ts; desde la P15, la cámara de fotos (escenas/fotos.ts y fotoDeMarca de dominio/fotos.ts).
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -68,7 +68,9 @@ import {
 } from '../dominio/excursiones.ts';
 import type { Nombre } from '../dominio/idiomas.ts';
 import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
-import { dibujaPaseo, empezarPaseo, moverPaseo, ponerCrias, tocarPaseo } from './granjaAnimales.ts';
+import { animalEn, dibujaPaseo, empezarPaseo, moverPaseo, ponerCrias, tocarPaseo } from './granjaAnimales.ts';
+import { camaraActiva, disparoVacio, dibujaCamara, hacerFotoDe, tocarBotonCamara } from './fotos.ts';
+import { fotoDeMarca } from '../dominio/fotos.ts';
 import { cuidarManzano, dibujaManzano, tocarManzano } from './granjaManzano.ts';
 import { avisoCria, criasEnPaseo, dibujaBotonesCrias, tocarBotonesCrias } from './granjaCrias.ts';
 
@@ -480,7 +482,7 @@ SCENES['excursion'] = {
   },
   // draw(): la granja, el camino, el manzano (en la granja), los animales que pasean, la estrella de la cría y el botón
   // de las familias, las estaciones, el guía y Tito; tras la visita completa, la
-  // foto de grupo.
+  // foto de grupo; si no, la cámara de fotos (desde la P15).
   draw() {
     const e = excursionActual(),
       v = visitaActual();
@@ -495,9 +497,11 @@ SCENES['excursion'] = {
     if (exc.foto >= 0) dibujaFoto();
     drawHome();
     drawCoinHUD();
+    if (exc.foto < 0) dibujaCamara(); // desde la fase P15, la cámara de fotos (para los animales que pasean)
   },
   // down(x, y): casa -> el cole; monedas -> tienda; una estación jugable -> su escena; una «muy pronto» -> el guía lo
-  // dice; la estrella de la cría o el botón de las familias (desde la P9) -> su escena; el guía -> repite lo que toca; el manzano (en la granja) -> se mece y Tito dice cómo va; un animal que pasea
+  // dice; la cámara (desde la P15: su botón la enciende y, encendida, un toque a un animal le hace una foto); la
+  // estrella de la cría o el botón de las familias (desde la P9) -> su escena; el guía -> repite lo que toca; el manzano (en la granja) -> se mece y Tito dice cómo va; un animal que pasea
   // -> salta y hace su sonido.
   down(x: number, y: number) {
     if (atHome(x, y)) {
@@ -511,6 +515,15 @@ SCENES['excursion'] = {
       return;
     }
     if (exc.foto >= 0) return;
+    // desde la fase P15, el botón de la cámara; con ella encendida, un toque a un animal que pasea le hace una foto (y
+    // no se va a ninguna estación)
+    if (tocarBotonCamara(x, y)) return;
+    if (camaraActiva()) {
+      const f = fotoDeMarca((m) => m === animalEn(x, y));
+      if (f) hacerFotoDe(f.id, x, y);
+      else disparoVacio(x, y);
+      return;
+    }
     const s = excursionActual().estaciones.find((z) => dist(x, y, z.x, z.y) < sitioEstacion(z).r);
     if (s) {
       if (!s.escena) {
