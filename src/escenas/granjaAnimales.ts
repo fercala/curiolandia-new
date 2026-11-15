@@ -7,7 +7,8 @@
  * hacen su sonido (SOUNDS y ONO). Las estaciones de la granja (escenas/granjaTalleres.ts) usan dibujaCuerpo.
  * Exporta: dibujaCuerpo, ANIMALES_GRANJA (cómo es cada uno), PASEO (los que pasean, para las pruebas) y empezarPaseo,
  * ponerCrias (desde la P9, las crías que siguen a su madre; tipo CriaPaseo), moverPaseo, dibujaPaseo y tocarPaseo
- * (los usa SCENES.excursion de escenas/excursion.ts) y, desde la P9, dibujaAnimal (un animal suelto, para las crías).
+ * (los usa SCENES.excursion de escenas/excursion.ts) y, desde la P9, dibujaAnimal (un animal suelto, para las crías);
+ * desde la P15, animalEn (qué animal hay bajo el dedo, para la cámara de fotos).
  * Importa: el núcleo (dibujo, voz, sonido) y el azar de los puertos.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños, colores y velocidades en la pantalla de 1600x900,
@@ -241,12 +242,25 @@ export function dibujaPaseo(): void {
   [...PASEO.animales].sort((a, b) => a.y - b.y).forEach(dibujaPaseante);
 }
 
+// paseanteEn(x, y): el animal que pasea en (x, y) (el de más delante), o undefined.
+const paseanteEn = (x: number, y: number): Paseante | undefined =>
+  [...PASEO.animales]
+    .sort((a, b) => b.y - a.y)
+    .find((z) => Math.abs(x - z.x) < (anchoDe(z.a) * z.escala) / 2 && y < z.y + 20 && y > z.y - altoDe(z.a) * z.escala);
+
+// animalEn(x, y): la clave del animal que pasea en (x, y) (una cría, la de su especie), y lo hace saltar; o '' si no
+// hay ninguno (desde la fase P15 de docs/IDEAS-MEJORA.md, para la cámara de fotos de escenas/fotos.ts).
+export function animalEn(x: number, y: number): string {
+  const p = paseanteEn(x, y);
+  if (!p) return '';
+  p.salto = T;
+  return p.a.k;
+}
+
 // tocarPaseo(x, y): si en (x, y) hay un animal (el de más delante), salta y hace su sonido y su onomatopeya (una cría:
 // Tito dice cómo se llama). Devuelve si había alguno.
 export function tocarPaseo(x: number, y: number): boolean {
-  const p = [...PASEO.animales]
-    .sort((a, b) => b.y - a.y)
-    .find((z) => Math.abs(x - z.x) < (anchoDe(z.a) * z.escala) / 2 && y < z.y + 20 && y > z.y - altoDe(z.a) * z.escala);
+  const p = paseanteEn(x, y);
   if (!p) return false;
   p.salto = T;
   playSound(p.a.k);

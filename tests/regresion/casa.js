@@ -16,7 +16,8 @@
 // formas de jugar de Tito (C33), arrastrar a Tito (C34), la pista de pareja, la sorpresa al dejar algo encima de su
 // mueble y los 3 dibujos del cuadro (C35); desde la M6, «Un día con Tito»: la rutina de la hora con su bocadillo y su
 // pegatina, una vez al día (C36), y la noche por la ventana y el reloj que dice la hora (C37). Desde la fase P14 de
-// docs/IDEAS-MEJORA.md, los tesoros escondidos del mapa y la vitrina de la casa (C38). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
+// docs/IDEAS-MEJORA.md, los tesoros escondidos del mapa y la vitrina de la casa (C38), y desde la P15, la cámara de
+// fotos en el mapa, una zona y la granja, y el álbum de fotos de la casa (C39). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
 // C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
@@ -1283,6 +1284,104 @@ const temas = (n) => {
       await p.waitForTimeout(1000);
       const fin = await p.evaluate(() => __cl.name);
       return fin === 'casaTito' ? null : 'la casa de la vitrina lleva a: ' + fin;
+    },
+  );
+
+  await caso(
+    'C39',
+    'La cámara de fotos (P15): en el mapa, una zona y la granja hace fotos sin moverse de sitio; el álbum las enseña',
+    async (p) => {
+      await p.evaluate(() => __cl.go('map', {}));
+      await p.waitForTimeout(2500);
+      if (!(await p.evaluate(() => !!(window.__w3 && window.__w3.ok)))) return null; // sin WebGL, no hay cámara en el mapa
+      // foto(fn): toca en la pantalla el primer objeto 3D que cumple fn (lo busca en w.trees)
+      const tocar3d = (marca) =>
+        p.evaluate((m) => {
+          const o = __w3.W.trees.find((q) => q.userData[m]);
+          if (!o) return 'no hay ' + m;
+          const v = new __w3.THREE.Vector3();
+          o.getWorldPosition(v);
+          v.y += 0.4;
+          const [x, y] = __w3.proj(v);
+          __cl.scene.down(x, y);
+          return '';
+        }, marca);
+      const monedas = await p.evaluate(() => {
+        window.__said = [];
+        __cl.scene.down(CAMARA_BOTON.x, CAMARA_BOTON.y);
+        return __cl.S.coins || 0;
+      });
+      if (!(await p.evaluate(() => camaraActiva()))) return 'el botón no enciende la cámara';
+      const e1 = await tocar3d('crab');
+      if (e1) return e1;
+      await p.waitForTimeout(1500);
+      const r1 = await p.evaluate(() => [
+        registroDeFotos().vistas,
+        __cl.S.coins || 0,
+        window.__said.join('|'),
+        __cl.name,
+        !!__w3.W.walk,
+      ]);
+      if (r1[0].cangrejo !== 1) return 'la foto del cangrejo: ' + JSON.stringify(r1[0]);
+      if (r1[1] - monedas !== 1) return `foto nueva: monedas ${monedas} -> ${r1[1]}`;
+      if (!r1[2].includes('Foto nueva') || !r1[2].includes('cangrejo')) return 'Tito dice: ' + r1[2];
+      if (r1[3] !== 'map' || r1[4]) return 'con la cámara, Tito no va a ningún sitio';
+      // la misma foto otra vez: se cuenta, sin monedas; un toque en el cielo: solo el clic
+      await tocar3d('crab');
+      await p.evaluate(() => __cl.scene.down(800, 30));
+      await p.waitForTimeout(800);
+      const r2 = await p.evaluate(() => [
+        registroDeFotos().vistas.cangrejo,
+        __cl.S.coins || 0,
+        window.__said.join('|'),
+      ]);
+      if (r2[0] !== 2 || r2[1] !== r1[1]) return 'repetir la foto: ' + JSON.stringify(r2);
+      if (!r2[2].includes('ya la tenías') || !r2[2].includes('no hay nada')) return 'Tito dice: ' + r2[2];
+      // en una zona, la cámara se apaga al llegar y fotografía un árbol
+      await p.evaluate(() => __cl.go('jardin', {}));
+      await p.waitForTimeout(2500);
+      if (await p.evaluate(() => camaraActiva())) return 'la cámara sigue encendida al cambiar de escena';
+      await p.evaluate(() => __cl.scene.down(CAMARA_BOTON.x, CAMARA_BOTON.y));
+      const e3 = await tocar3d('tree');
+      if (e3) return 'en el jardín: ' + e3;
+      await p.waitForTimeout(500);
+      if (!(await p.evaluate(() => registroDeFotos().vistas.arbol))) return 'en el jardín no se hace la foto del árbol';
+      // en la granja escuela, a un animal que pasea (si hay otro delante, la foto es la de ese: el de más delante)
+      await p.evaluate(() => __cl.go('excursion', { exc: 'granja' }));
+      await p.waitForTimeout(2000);
+      const g = await p.evaluate(() => {
+        __cl.scene.down(CAMARA_BOTON.x, CAMARA_BOTON.y);
+        const a = PASEO.animales.find((q) => !q.cria);
+        __cl.scene.down(a.x, a.y - 30);
+        const granja = ['vaca', 'caballo', 'cerdo', 'oveja', 'gallina', 'pollito', 'pato'];
+        return [Object.keys(registroDeFotos().vistas).filter((k) => granja.includes(k)), __cl.name];
+      });
+      if (g[0].length !== 1 || g[1] !== 'excursion') return 'en la granja: ' + JSON.stringify(g);
+      // el álbum, desde la casa: la foto hecha dice su nombre y su palabra en inglés; una que falta, que aún no
+      await p.evaluate(() => __cl.go('casaTito', {}));
+      await p.waitForTimeout(1500);
+      await p.evaluate(() => __cl.scene.down(ALBUM_FOTOS_BOTON.x, ALBUM_FOTOS_BOTON.y));
+      await p.waitForTimeout(1200);
+      if ((await p.evaluate(() => __cl.name)) !== 'albumFotos')
+        return 'el botón del álbum lleva a: ' + (await p.evaluate(() => __cl.name));
+      const t = await p.evaluate(() => {
+        window.__said = [];
+        __cl.scene.down(1460, 480); // a la página del mar
+        const cs = CASILLAS_FOTOS('mar'),
+          c = cs.find((q) => q.id === 'cangrejo'),
+          falta = cs.find((q) => q.id === 'ballena');
+        __cl.scene.down(c.x, c.y);
+        __cl.scene.down(c.bx, c.by);
+        __cl.scene.down(falta.x, falta.y);
+        return [__cl.scene.pag, window.__said.join('|')];
+      });
+      if (t[0] !== 1) return 'la flecha no pasa de página: ' + t[0];
+      if (!t[1].includes('2 veces') || !t[1].includes('crab') || !t[1].includes('aún no'))
+        return 'tocar en el álbum dice: ' + t[1];
+      await p.evaluate(() => __cl.scene.down(90, 90));
+      await p.waitForTimeout(1000);
+      const fin = await p.evaluate(() => __cl.name);
+      return fin === 'casaTito' ? null : 'la casa del álbum lleva a: ' + fin;
     },
   );
 

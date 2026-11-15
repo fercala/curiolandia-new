@@ -332,13 +332,14 @@ quedan: 383 al terminar la ID2a, con la P11).
 - La ID9 va por partes: la ID9a traduce lo que ha entrado en `main` desde otras fases y lo pone en las pruebas; la ID9b,
   con la revisión de una persona que hable rumano, enseña el rumano en el selector.
 - Traducido (borrador de Claude): el circuito del patio (P13b, en `src/idiomas/ro/cole.ts`) y los tesoros del mapa y la
-  vitrina (P14, en `src/idiomas/ro/escenas.ts`). El nombre del tesoro que va en el hueco `{nombre}` de la vitrina pasa
+  vitrina (P14) y la cámara y el álbum de fotos (P15), en `src/idiomas/ro/escenas.ts`. El nombre del tesoro que va en el hueco `{nombre}` de la vitrina pasa
   por `tr` (`escenas/tesoros.ts`); en rumano la frase no lleva pronombre («Ai găsit asta de 3 ori»), porque unos tesoros
   son femeninos y otros no.
-- `tests/regresion/idiomas.js` abre también el circuito y la vitrina (I5).
+- `tests/regresion/idiomas.js` abre también el circuito, la vitrina y el álbum de fotos (I5). Las palabras inglesas de
+  las fotos las dice la voz inglesa y no se traducen.
 - Lo que sigue saliendo como «falta» en `dialogos/ro.csv` son palabras y frases en inglés de la Isla del Inglés (no se
   traducen) y trozos que no son texto (ids, CSS, sombreadores).
-- La v0.2.156: la v0.2.155 es del PR #156 (P15, la cámara de fotos), abierto.
+- La v0.2.156: la v0.2.155 es de la P15 (la cámara de fotos, PR #156).
 
 ### ID7 (v0.2.153): la Isla del Inglés desde el rumano
 

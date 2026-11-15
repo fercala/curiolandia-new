@@ -110,6 +110,7 @@ const ESCENAS = [
   ['escondite', {}],
   ['circuito', {}],
   ['vitrina', {}], // P14
+  ['albumFotos', {}], // P15
 ];
 
 (async () => {

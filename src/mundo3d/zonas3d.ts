@@ -7,7 +7,8 @@
  * (nucleo/disposicion.ts: lo que proyecta sync() cada cuadro, en ZP3) y pone en SCENES la zona 3D de cada zona de
  * ZONES, otra escena hecha a partir de la 2D (desde la fase 4j; antes la envolvía y escribía lo proyectado en ZPOS).
  * Exporta: roadPts y montarZonas3D. Importa: del núcleo, temas/, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja
- * y lee cada zona; ahora() (aplicacion/puertos.ts); el motor, las piezas y lo de los demás módulos de mundo3d/.
+ * y lee cada zona; ahora() (aplicacion/puertos.ts); desde la fase P15 de docs/IDEAS-MEJORA.md, la cámara de fotos
+ * (mundo3d/camara3d.ts y escenas/fotos.ts); el motor, las piezas y lo de los demás módulos de mundo3d/.
  */
 import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
@@ -156,6 +157,8 @@ import {
   wpk3,
   xmasNow,
 } from './objetos.ts';
+import { fotoEnMundo } from './camara3d.ts';
+import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
 import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 
 /* ================= LAS ZONAS: un camino de casitas en 3D ================= */
@@ -1067,6 +1070,7 @@ export function montarZonas3D(): void {
         }
         drawHome();
         drawCoinHUD();
+        dibujaCamara(); // desde la fase P15, la cámara de fotos
         if (VIVO.talking) {
           const tp = titoPos(),
             bx = tp.x + tp.w * 0.85,
@@ -1077,12 +1081,18 @@ export function montarZonas3D(): void {
           speaker(bx + 50, by + 36, 46 + Math.sin(T * 12) * 4);
         }
       },
-      // down(x,y): toque en la zona: botones; objetos que vuelan; nada -> objeto tocable, cielo (skyTap) o pasear; Tito -> salta;
+      // down(x,y): toque en la zona: botones; la cámara (desde la fase P15, como en el mapa); objetos que vuelan; nada -> objeto tocable, cielo (skyTap) o pasear; Tito -> salta;
       // casita cerrada -> tiembla el candado; casita abierta -> Tito camina hasta ella y luego se entra (down original)
       down(x: number, y: number) {
         const w = W3;
         if (!w || busy3(w)) return;
         if (atHome(x, y) || inCoinHUD(x, y)) return call0(zona2D.down!, this, x, y);
+        // desde la fase P15, el botón de la cámara; con ella encendida, un toque hace una foto (y no se va a ningún sitio)
+        if (tocarBotonCamara(x, y)) return;
+        if (camaraActiva()) {
+          if (!fotoEnMundo(w, x, y)) disparoVacio(x, y);
+          return;
+        }
         const u = pickAt(x, y);
         if (flyTap(w, x, y)) return;
         if (!u) {

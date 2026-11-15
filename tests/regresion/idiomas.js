@@ -77,9 +77,10 @@ const ESCENAS_RO = [
   'panuelo',
   'sillas',
   'escondite',
-  // desde la ID9a, el circuito del patio (P13b) y la vitrina de los tesoros (P14)
+  // desde la ID9a, el circuito del patio (P13b), la vitrina de los tesoros (P14) y el álbum de fotos (P15)
   'circuito',
   'vitrina',
+  'albumFotos',
   'autobus',
   'excursion:granja',
   'granjaComer',
