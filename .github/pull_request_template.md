@@ -14,5 +14,6 @@
 - [ ] La lógica complicada lleva comentarios dentro
 - [ ] He actualizado los documentos de `docs/` que tocan y `docs/CONTRATO-PRUEBAS.md` si cambia lo que leen las pruebas
 - [ ] He apuntado los diálogos nuevos o cambiados en `dialogos/pendientes.txt` y `dialogos/todos.csv`
+- [ ] Lo nuevo es multiidioma: cada texto nuevo tiene su rumano en `src/idiomas/ro/` y la escena nueva está en `tests/regresion/idiomas.js`
 - [ ] Partidas guardadas: nada incompatible con `S` (docs/ESTADO-GUARDADO.md)
 - [ ] Si se publica: he subido `version` en `package.json` y he añadido la entrada en `docs/CAMBIOS.md`

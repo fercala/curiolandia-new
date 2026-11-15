@@ -59,6 +59,7 @@ Lo que las pruebas leen del juego (`window.__cl`) está en [docs/CONTRATO-PRUEBA
 ## Reglas
 - Sin voces grabadas: el juego nuevo usa solo la voz del navegador.
 - Cada diálogo nuevo o cambiado se apunta en `dialogos/pendientes.txt` y se rehace el catálogo `dialogos/todos.csv` con `npm run dialogos` ([dialogos/LEEME.md](dialogos/LEEME.md)).
+- **Toda funcionalidad nueva es multiidioma** (Fernando, 15 de noviembre de 2026): cada frase y cada texto de pantalla nuevos llevan su rumano en `src/idiomas/ro/` en el mismo PR, con frases enteras o `fmt()`, y la escena nueva se añade a `tests/regresion/idiomas.js`. `tests/unidad/dialogos.test.ts` falla si un texto nuevo no tiene rumano; lo que no es castellano (inglés, ids) se apunta en `dialogos/ro-sin-traducir.txt` ([docs/PLAN-IDIOMAS.md](docs/PLAN-IDIOMAS.md)).
 - Las partidas guardadas no se rompen nunca: clave de guardado propia, copia única de la partida de `curiolandia-3d`, versión y migraciones.
 - El código lo formatea Prettier y lo revisa oxlint ([docs/FORMATO-Y-LINTER.md](docs/FORMATO-Y-LINTER.md)): `npm run formato` antes de cada commit.
 - Cada cambio va documentado: comentario de cabecera en cada función, `docs/` al día y una entrada en `docs/CAMBIOS.md`.

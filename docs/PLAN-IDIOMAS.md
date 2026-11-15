@@ -176,8 +176,9 @@ sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos de
 - **Conflictos con otros PR**: las fases ID2 y ID3 tocan muchos archivos que también cambian las fases P y M. Se harán en
   PR pequeños y se traerá `main` a menudo; las frases nuevas de otras fases se traducirán en la ID9 (la prueba dirá
   cuáles faltan).
-- **Frases nuevas después**: cada frase nueva del juego tendrá que traducirse. La regla de `dialogos/LEEME.md` se amplía:
-  la frase nueva se apunta en `pendientes.txt` y la prueba avisa de que falta su rumano.
+- **Frases nuevas después**: cada frase nueva del juego tendrá que traducirse. Desde la ID9a es regla (Fernando, 15 de
+  noviembre de 2026: «siempre las nuevas funcionalidades tienen que ser multiidioma»): el rumano va en el mismo PR y
+  `tests/unidad/dialogos.test.ts` falla si un texto nuevo no lo tiene (salvo los de `dialogos/ro-sin-traducir.txt`).
 
 ## 8. Lo que no cambia
 
@@ -335,6 +336,12 @@ quedan: 383 al terminar la ID2a, con la P11).
   vitrina (P14) y la cámara y el álbum de fotos (P15), en `src/idiomas/ro/escenas.ts`. El nombre del tesoro que va en el hueco `{nombre}` de la vitrina pasa
   por `tr` (`escenas/tesoros.ts`); en rumano la frase no lleva pronombre («Ai găsit asta de 3 ori»), porque unos tesoros
   son femeninos y otros no.
+- Regla nueva (Fernando, 15 de noviembre de 2026): **toda funcionalidad nueva es multiidioma**. Está en `CLAUDE.md`,
+  `AGENTS.md`, la política de documentación, `COLABORACION-CODEX.md` y `dialogos/LEEME.md`. La hace cumplir
+  `tests/unidad/dialogos.test.ts`: cada texto del catálogo sin rumano tiene que estar en `dialogos/ro-sin-traducir.txt`
+  (lo que no es castellano o solo sale en castellano; hoy, 285 textos). `npm run dialogos` avisa de los nuevos y quita
+  de esa lista lo ya traducido (`sinTraducirTexto` y `leerSinTraducir` de `herramientas/dialogos/catalogo.mts`).
+- Al acabar la ID9 se repasa otra vez si falta algo, por si entran más funcionalidades mientras tanto.
 - `tests/regresion/idiomas.js` abre también el circuito, la vitrina y el álbum de fotos (I5). Las palabras inglesas de
   las fotos las dice la voz inglesa y no se traducen.
 - Lo que sigue saliendo como «falta» en `dialogos/ro.csv` son palabras y frases en inglés de la Isla del Inglés (no se

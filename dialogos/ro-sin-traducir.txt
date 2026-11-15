@@ -1,0 +1,287 @@
+# Textos del catálogo que se aceptan sin traducir al rumano: no son castellano (inglés, ids, código) o solo salen en castellano.
+# Una línea por texto: id, tabulador y texto. La rehace npm run dialogos (quita lo traducido); lo nuevo se añade a mano.
+000812f04d5b	la ge
+00b9518e9743	la eñe
+025b36f1315a	la ce
+02dad4f425d2	ladybird
+0346395fbbe7	MPL
+049fc6be2ec5	Meow
+04c4f9f595c4	Blocks
+0591e6484b6d	la pe
+071642fa72ba	Fish
+0824bb2e1bab	Windy
+087ea784b50e	url(
+0b611671cf2b	la te
+0cc175b9c0f1	a
+0d3adee05153	Plane
+0d3fda0bdbb9	family
+0f0c9b9c836e	(display-mode: standalone)
+0f461e64d283	Glasses
+10d3b77299c0	Doll
+1296fcaab5ec	Bread
+129e74dde7b4	Foot
+15e8bfff2c10	Rocket
+165e4d0c7b00	@I like 
+16ba038ec0ed	Grandpa
+1739f4c02ee6	la jota
+19cda37369e2	Sister
+1a6f919b167e	L3-PAL
+1bf70a91b0b2	Cook
+1e3576c804bb	Autumn
+1ebfd5913ef4	whale
+1ed10d1bb14f	Carrot
+21eb96a2c526	una 
+22322b2b47da	Ice cream
+23ec24c5ca59	sheep
+24f7ca5f6ff1	penguin
+25a8538ab1d7	@Thank you!
+25d6c78aa672	L5
+2678407a7a56	igloo
+27a06a9e3d5e	jobs
+2ab8b43468e8	Helicopter
+2b5fa564a125	Teddy
+2ca63cddd54f	house
+2cb2e253aad7	L3-EMP
+2df0061efb7d	la de
+2e573b62316a	L4-VOC
+2fe8f26bc7c4	Ear
+31b218bef63e	L5-FAB
+31f0308bf5d4	@Polly says: touch the 
+32e9edc16056	Pig
+348f06268166	@Goodbye!
+353df421c4fc	Ball
+36846677e3a8	duck
+36cdf8b887a5	dolphin
+38008dd81c2f	Spring
+38069b4eb64e	Horse
+3adc446fa1e7	Biscuit
+412ab06bb5f9	@umbrella
+41a7f93915f9	Cake
+4432170f33a2	Nose
+447bfa129241	@ball
+44fdec47036f	days
+451f3750f787	la 
+46636203ccc3	Astronaut
+4781ac9273d3	kite
+4aa0f8a9fd5a	L4
+4aca5ee9a087	Rainbow
+4cb72ca44f61	(display-mode: fullscreen)
+4e026537a7d3	mushroom
+4e44298897ed	Good morning
+502dd302b6d8	Balloon
+50f8b6c98b0f	owl
+51c45b795d5d	Table
+51c97e2e77bd	L5-TRE
+528f274c304a	Sofa
+5331717d33d4	Lamp
+567904efe9e6	where
+56da1c79c97d	la erre
+572b2541c97a	Sheep
+58c9a94d2265	Quack
+5a1862e4ad90	la ene
+5b9ccf399943	Fridge
+5bc6999da893	Hen
+5bd304e39125	whatis
+5d1eca158c00	Robot
+5d41402abc4b	hello
+5e51f6b8abec	la i
+5e6b6f09693c	@The 
+5f6d03332cb0	Bike
+5f703b9e9683	L3-MEZ
+608f0b988db4	flower
+6115067bc8e8	AĂÂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZ
+61dfd5bf20ee	un 
+62506be34d57	food
+62848e3ce580	colors
+62c7a8295dbc	Neigh
+63b07e828bf0	ant
+643fdaf1fef5	Gloves
+65c449ad44e2	Kite
+682a493a3882	 says 
+682a493a3882	 says 
+698777432d4b	balloon
+69cf0f05cab7	, pointer
+6aaa0c8b5072	attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}
+6beac3bab1b0	Oink
+6c647ded4d34	Baa
+6d4a6c2c885a	Woof
+6dc795d7088d	 FPS · 
+6dc795d7088d	 FPS · 
+6e162ed9a2bc	Coat
+6e4b38bfd577	Bus
+6ea408ea56e8	Chocolate
+6ea4dc5cd6a8	Grandma
+6f061e1cad5e	Postman
+7193529abbf9	beach
+7198cda575b5	town
+72db688c715c	Strawberry
+73f7830328e2	Shoe
+77bd79b3dca1	Tomato
+7855cca1372a	Pineapple
+789c2551d09e	void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}
+797e65b9c5cd	Boots
+7987cc08e29b	@Red
+7a7c46aab7e0	Thank you
+7b334b726036	transport
+7b91a931492f	L3-FIE
+7baec532df5d	@Touch the 
+7c74ec2a0ca9	Scarf
+7d513e645434	i griega
+7fc56270e7a7	A
+8029d0d49e9e	Tractor
+81566e986cf8	cow
+83f413872b33	L3-NOM
+841a2d689ad8	body
+842ce6eb510f	L3
+85e8113bc3f6	sandcastle
+85ed15c4d405	seasons
+86a390376308	la e
+87e2719d8e78	NFD
+8889740bf1ca	Moo
+88d18b8bd3e1	Cluck
+88d53497f4a9	Cap
+89822b299bb0	RO-
+8a995d2704d5	shapes
+8ab0b4ecc974	opposites
+8ab7bbdf01a2	Teacher
+8b1a9953c461	Hello
+8bf7aa45eea8	Farmer
+8c0d39874f72	ABB
+8db004db423d	@I don't like 
+8ddbddef26de	chick
+908228e8d513	Stormy
+909cea0c9705	Orange
+92daa34c8ad1	an 
+92daa34c8ad1	an 
+938c2cc0dcc0	frog
+952d2c56d048	Hello!
+95884b5232ea	Summer
+96dc2b86ca16	L5-DOS
+98a892aea335	Clock
+99020cb24bd1	a 
+99020cb24bd1	a 
+99475e3ed162	nest
+9aa80c57478c	Watermelon
+9b9e783a746f	la ese
+9c763d0ac223	(pointer:coarse)
+9da9124073d3	la a
+9dfd70fdf15a	bee
+9ed0eb2cf404	uve doble
+9f6290f4436e	Apple
+9fd8301ac24f	butterfly
+9ff77d5adaa8	@cat
+a10d7a62aaff	Hat
+a243bfbd00fd	reindeer
+a39f206ba401	@Blue
+a3ab49ee4618	@Hello
+a51e47f64637	rabbit
+a60db0f0d5ae	Chair
+a67778b3dcc8	Cheese
+a723e3dfb497	animals
+a78b1ac16c0c	Hand
+a7ad39160d57	la eme
+a7b5bdb8cce7	Baby
+a9ae8d5fded3	@fridge
+aa9009f64655	feelings
+aab92e69374e	weather
+abaecf8ca3f9	bird
+ae160b4691f9	Eye
+aeed8e9b5768	@What is it?
+af9d7c5a9abb	Grapes
+b08b80509591	@White
+b0e530be912d	Andika, Fredoka, "Trebuchet MS", sans-serif
+b135a681e86d	la o
+b18e66b41efd	Winter
+b24c1018c32d	@It's 
+b26324d56117	data:image/svg+xml;charset=utf-8,
+b4159910295c	Pyjamas
+b62ad612a8ad	Juice
+b74ad4852301	Firefighter
+b86fc6b051f6	AB
+b932a6ec0f3b	snowman
+b958568a008f	@Goodbye, bus!
+bab4ff04cc14	leaf
+bc8cd7c2cd24	@sun
+bd589331b993	crab
+bec670e5a554	story
+bf2e5a1386f0	Fredoka, "Baloo 2", system-ui, sans-serif
+c0af77cf8294	tree
+c0d6b124854b	colourThings
+c15be25ee7f2	Teeth
+c4bded8f0ac3	Rainy
+c59f3224b8bb	con el juego (src/modulos.ts y todo lo que importa). Contiene: título, fuentes, estilos (CSS), los dos lienzos del juego, Three.js y los paneles HTML (nombre, empezar de nuevo y zona de adultos). El plugin cambia las fuentes de Google y Three.js por las copias locales de public/ para que la web funcione sin internet. -->
+c8381bcbe32c	Aaăș
+c843a05d2d7a	Good night
+c8a6ad76e25a	@dog
+c935d187f0b9	Dog
+c958e8f13e00	AEIOU
+cb525f817e00	Dad
+cbb67c65f2ab	Doctor
+cbdf67864202	el 
+cc3b72d79006	Angry
+cc71d8f3dc88	likes
+cd1afe341638	L4-NOM
+cd2dc1f511e3	@Good night
+ce178861ab46	TITO
+cfac60a726ba	@milk
+d19c65bc26ec	Bed
+d260bc75293e	Bath
+d39f272ab2d5	Mouth
+d4696f72e224	@apple
+d7b86a23b6e2	L5-CUE
+d9ce629f70b7	L5-FRA
+dadbef2a06f4	Pear
+db3e8d805f8b	Snowy
+db7f7b6e8307	la ele
+dd8fc45d87f9	boat
+dde882c0b4ec	@Good morning
+debd770bb8fb	Sad
+e0deff349b2c	fruit
+e0efbdcea0ab	Brother
+e1a81bacfe3c	@Thank you, Polly!
+e1e04341f52b	@Put on the 
+e3a1a93fc29a	Cloudy
+e41273f43af5	Train
+e49e72e2c77c	la be
+e4f58a805a6e	I love you
+e5baa22d9f17	la uve
+e67ed91b512d	farm
+e6f9c347672d	Banana
+e7a80f49aaf2	clothes
+e811af40e80c	hen
+e86410fa2d6e	ABCDEFGHIJ
+e89b2cbb7d11	Milk
+e934202c876b	AAB
+e9989db5dabe	Car
+e9ac2f996044	L5-FIE
+eac074b0503b	squirrel
+eb46b31cbcd5	 gets on the bus!
+eb46b31cbcd5	 gets on the bus!
+ebb67a4271ab	actions
+edf8377563f7	pumpkin
+ee5c35ce3d08	numbers
+eef5e5e9d7f8	Mum
+ef71c59747f0	litera 
+ef97b40b2245	Happy
+efacc1763324	toys
+efc0787e836e	ABCDEFGHIJKLMNÑOPQRSTUVWXYZ
+f04ba3c635d3	Egg
+f1bdf5ed1d7a	horse
+f30b7f25f10a	Baker
+f49be959a4ab	@Bingo!
+f4c5f5359f8e	la u
+f51d4d858555	@egg
+f74c6af46a78	pig
+f769aafbc2b8	Boat
+f7e31bebd5d7	L4-FIE
+f817701a9558	la efe
+f97ca8decb3a	Duck
+fa3ebd6742c3	Cat
+fb45615cea11	park
+fb54f3c5992b	shop
+fbade9e36a3f	z
+fbb59c3d4a8e	Police officer
+fe0707cc476f	Cow
+ff71ff25b2b0	Lemon
+ffc76083445e	Sunny
+ffc8da13f1b7	numbers20
