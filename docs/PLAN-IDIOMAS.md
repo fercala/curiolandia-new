@@ -5,7 +5,7 @@ incorporar además del castellano debería ser el rumano», y después: «crea u
 hacer, ya que no solo los diálogos deberían ser multiidioma sino que también los textos que se muestran».
 
 **Estado: aprobado, en marcha.** Fernando fusionó el plan el 9 de noviembre de 2026 (PR #122): se toma lo recomendado en
-las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), y de la ID6 (la Isla de las Letras en rumano, por partes), **ID6a** (v0.2.149), **ID6b** (v0.2.151) e **ID6c** (v0.2.152), con lo que la ID6 está completa, e **ID7** (v0.2.153), apartado 9. Si cambia una decisión, se apunta aquí y en
+las decisiones del apartado 3. Hechas: **ID0** (v0.2.114), **ID1** (v0.2.116) **ID2a** (v0.2.118), **ID2b** (v0.2.119), **ID2c** (v0.2.120), **ID2d** (v0.2.122), **ID2e** (v0.2.124), **ID2f** (v0.2.127) e **ID3** (v0.2.132), y de la ID4 (el rumano, por partes), **ID4a** (v0.2.134), **ID4b** (v0.2.136), **ID4c** (v0.2.138) e **ID4d** (v0.2.140), y de la ID5, **ID5a** (v0.2.142), **ID5b** (v0.2.144), **ID5c** (v0.2.146), **ID5d** (v0.2.147) e **ID5e** (v0.2.148), y de la ID6 (la Isla de las Letras en rumano, por partes), **ID6a** (v0.2.149), **ID6b** (v0.2.151) e **ID6c** (v0.2.152), con lo que la ID6 está completa, e **ID7** (v0.2.153); la ID8 no se hace por ahora (Fernando, 15 de noviembre de 2026: se salta y se va a la ID9), y de la ID9, **ID9a** (v0.2.156), apartado 9. Si cambia una decisión, se apunta aquí y en
 `CAMBIOS.md`. Las fases se llaman **ID0 a ID9** (ID de idiomas) para no confundirlas con las fases L (letras),
 I (inglés), C y M (casa), A (adultos) y P (ideas).
 
@@ -152,7 +152,7 @@ castellano **no cambia nada** para el niño (se comprueba con las pruebas de reg
 | **ID6** | Isla de las Letras en rumano: sus letras y su orden (las vocales primero, con Ă, Â e Î; luego las consonantes, con Ș y Ț; sin Ñ), los trazos nuevos (breve, circunflejo, coma de abajo), palabras con dibujo para cada letra, sílabas del rumano (ce/ci, ge/gi, che/chi, ghe/ghi), frases y cuentos para leer, con sus casitas `RO-L*`. Se revisa con alguien que conozca cómo se enseña a leer en Rumanía (el *abecedar*). | Solo con `?idioma=ro` |
 | **ID7** | Isla del Inglés desde el rumano: lo que explica Polly y las traducciones de cada palabra en rumano; lo que dice en inglés no cambia. Juegos de sonido inicial fuera de la isla con palabras rumanas. | Solo con `?idioma=ro` |
 | **ID8** | (Se decide al llegar.) Adaptación a Rumanía: fiestas, costumbres y fechas (Mărțișor, Moș Nicolae, Pascua ortodoxa, 1 de diciembre). | Solo en rumano |
-| **ID9** | Revisión de la persona que hable rumano, prueba de que no falta nada, pruebas de regresión en rumano, y se enseña el rumano en el selector. Se publica. | Sí: el rumano se puede elegir |
+| **ID9** | Revisión de la persona que hable rumano, prueba de que no falta nada, pruebas de regresión en rumano, y se enseña el rumano en el selector. Se publica. Por partes: **ID9a** traduce lo que han traído otras fases y lo añade a las pruebas; **ID9b**, con la revisión hecha, enseña el rumano en el selector. | Sí: el rumano se puede elegir |
 
 **Cuánto es**: ID0 a ID3 son el trabajo de código (sobre todo la ID2, porque toca muchos juegos); ID4, ID5 y ID6 son
 sobre todo traducción y contenido. El texto a traducir son unos 3.150 textos del catálogo más la zona de adultos.
@@ -324,6 +324,21 @@ quedan: 383 al terminar la ID2a, con la P11).
   llevan el «de» y el «veces» en castellano, y los números de las medallas en rumano necesitan su género.
 - La v0.2.127: la v0.2.125 la tomó la M3b (PR #123) y la v0.2.126, el PR #127 (P12a).
 - Las plantillas nuevas están en `dialogos/pendientes.txt`. En castellano el juego dice lo mismo (`npm run test:pr`).
+
+### ID9a (v0.2.156): lo que han traído otras fases, en rumano
+
+- La ID8 (fiestas de Rumanía) no se hace por ahora: Fernando eligió el 15 de noviembre de 2026 saltarla e ir a la ID9.
+  Se puede hacer más adelante.
+- La ID9 va por partes: la ID9a traduce lo que ha entrado en `main` desde otras fases y lo pone en las pruebas; la ID9b,
+  con la revisión de una persona que hable rumano, enseña el rumano en el selector.
+- Traducido (borrador de Claude): el circuito del patio (P13b, en `src/idiomas/ro/cole.ts`) y los tesoros del mapa y la
+  vitrina (P14, en `src/idiomas/ro/escenas.ts`). El nombre del tesoro que va en el hueco `{nombre}` de la vitrina pasa
+  por `tr` (`escenas/tesoros.ts`); en rumano la frase no lleva pronombre («Ai găsit asta de 3 ori»), porque unos tesoros
+  son femeninos y otros no.
+- `tests/regresion/idiomas.js` abre también el circuito y la vitrina (I5).
+- Lo que sigue saliendo como «falta» en `dialogos/ro.csv` son palabras y frases en inglés de la Isla del Inglés (no se
+  traducen) y trozos que no son texto (ids, CSS, sombreadores).
+- La v0.2.156: la v0.2.155 es del PR #156 (P15, la cámara de fotos), abierto.
 
 ### ID7 (v0.2.153): la Isla del Inglés desde el rumano
 
