@@ -1063,14 +1063,25 @@ const R = L.registro('cole');
           await L.clic(p, x, y);
           await p.waitForTimeout(1200);
           if ((await escena()) !== nombre) return 'no se ha abierto ' + nombre + ': ' + (await escena());
-          const dato = await L.conducir(p, () => ZOO.fase === 'dato', 120000, { esperarVoz: true });
-          if (!dato) return nombre + ' no llega al dato curioso';
+          // se juega siguiendo la ayuda, como conducir, pero mirando justo antes de cada toque que se sigue en el juego del
+          // recinto: si el juego acaba mientras Tito habla, un toque más caería en el plano y abriría otro recinto
+          const jugando = () => p.evaluate((n) => __cl.name === n && ZOO.fase === 'juego', nombre);
+          const t0 = Date.now();
+          while (Date.now() - t0 < 120000 && (await jugando())) {
+            const t1 = Date.now();
+            while (Date.now() - t1 < 12000 && (await p.evaluate(() => VIVO.talking))) await p.waitForTimeout(150);
+            await p.waitForTimeout(400);
+            if (await jugando()) await L.paso(p, 0);
+            await p.waitForTimeout(250);
+          }
+          if (!(await p.evaluate(() => ZOO.fase === 'dato'))) return nombre + ' no llega al dato curioso';
           for (let i = 0; i < 40 && (await escena()) === nombre; i++) await p.waitForTimeout(500);
           if ((await escena()) !== 'excursion') return 'tras ' + nombre + ', escena ' + (await escena());
         }
         await p.waitForTimeout(3000);
         const [v, despues, stk] = await p.evaluate(() => [__cl.S.exc.zoo, __cl.S.coins || 0, __cl.S.stk.leon]);
-        if (!v || v.veces !== 1 || v.vistas.length !== 5) return 'la visita al zoo: ' + JSON.stringify(v);
+        // al terminar la visita, sus estaciones se vacían para la próxima (terminarVisita)
+        if (!v || v.veces !== 1 || !v.foto) return 'la visita al zoo: ' + JSON.stringify(v);
         if (despues - monedas < 5) return `la foto de grupo da 5 monedas: ${monedas} -> ${despues}`;
         if (!stk) return 'la primera visita da la pegatina del león';
         // el safari fotográfico: con la cámara encendida, un toque a un animal que pasea le hace su foto
