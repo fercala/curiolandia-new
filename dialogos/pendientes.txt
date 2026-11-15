@@ -1937,3 +1937,36 @@ Lee la frase y toca el dibujo que dice. Si tocas una palabra, te la leo.
 Vamos a leer un cuento: {titulo}.
 {antes}... ¿Qué pone en la palabra amarilla? Toca su dibujo.
 Esa es {cosa}. Lee la palabra amarilla.
+La pluma
+¡Una pluma! La guardo en mi vitrina.
+La concha
+¡Una concha! La guardo en mi vitrina.
+La piña
+¡Una piña! La guardo en mi vitrina.
+La bellota
+¡Una bellota! La guardo en mi vitrina.
+La estrella de mar
+¡Una estrella de mar! La guardo en mi vitrina.
+La piedra bonita
+¡Una piedra bonita! La guardo en mi vitrina.
+La hoja
+¡Una hoja preciosa! La guardo en mi vitrina.
+La castaña
+¡Una castaña! La guardo en mi vitrina.
+¡Hay un tesoro cerca del jardín!
+¡Hay un tesoro cerca del bosque!
+¡Hay un tesoro cerca de la montaña!
+¡Hay un tesoro cerca de la plaza!
+¡Hay un tesoro cerca del muelle!
+¡Hay un tesoro cerca del cole!
+¡Hay un tesoro cerca de la casa de las fiestas!
+¡Hay un tesoro cerca del globo!
+¡Algo brilla por aquí!
+¡Has encontrado los tres tesoros de hoy! Mañana habrá otros.
+Mi vitrina de tesoros
+¡Mi vitrina de tesoros! Ya tengo {n} de {total}. Toca uno para verlo.
+¡Mi vitrina de tesoros! Está vacía. Pasea por el mapa para encontrar tesoros escondidos.
+Cada día hay tres tesoros escondidos en el mapa. Pasea con Tito para encontrarlos.
+Este tesoro aún no lo has encontrado.
+{nombre}. La has encontrado una vez.
+{nombre}. La has encontrado {n} veces.

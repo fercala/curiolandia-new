@@ -109,6 +109,7 @@ const ESCENAS = [
   ['sillas', {}],
   ['escondite', {}],
   ['circuito', {}],
+  ['vitrina', {}], // P14
 ];
 
 (async () => {
