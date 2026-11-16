@@ -9,7 +9,7 @@
 // Ayudas (prefijo PA_ para no chocar con otros archivos): PA_oct, PA_win, PA_P, PA_star, PA_hat,
 // PA_heart, PA_spiral, PA_wh, PA_lens.
 // Dibujos: escuela, hospital, parque, piscina, tienda, calendario, semáforo, paso de cebra, stop,
-// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, peluquero) y sus
+// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, peluquero) y sus
 // herramientas; cosas de los sentidos; vehículos (ambulancia, camión de bomberos, submarino...).
 // ==========================================================================
 /* ---------- Dibujos PA: lugares, oficios, objetos y vehiculos ---------- */
@@ -302,6 +302,18 @@ Object.assign(PICS, {
       mid: `<path d="M-12 -6 L-15 -12 M12 -6 L15 -12" stroke="${K}" stroke-width="7" stroke-linecap="round"/><path d="M-12 -6 L-15 -12 M12 -6 L15 -12" stroke="#5B8DEF" stroke-width="3.5" stroke-linecap="round"/><path d="M-13 -6 H13 V22 H-13 Z" fill="#5B8DEF" ${sw(3)}/><rect x="-6" y="2" width="12" height="8" rx="1" fill="#5B8DEF" ${sw(2.5)}/><circle cx="-9" cy="-2" r="2.5" fill="#FFC93C"/><circle cx="9" cy="-2" r="2.5" fill="#FFC93C"/>`,
       hold: `<path d="M-26 -42 q-2 -12 -10 -16 M-26 -42 q4 -12 12 -14 M-26 -42 q-8 -6 -18 -4" fill="none" stroke="${K}" stroke-width="8" stroke-linecap="round"/><path d="M-26 -42 q-2 -12 -10 -16 M-26 -42 q4 -12 12 -14 M-26 -42 q-8 -6 -18 -4" fill="none" stroke="#7CC86E" stroke-width="4" stroke-linecap="round"/><path d="M-30 -44 Q-20 -44 -22 -36 L-50 6 Q-52 8 -53 5 L-35 -38 Q-34 -44 -30 -44 Z" fill="#FFA94D" ${sw(3.5)}/><path d="M-30 -30 l4 2 M-38 -16 l4 2 M-44 -4 l3 2" ${sw(2)}/>`,
       top: `<ellipse cx="0" cy="-42" rx="32" ry="7" fill="#FFD66B" ${sw(4)}/><path d="M-16 -42 Q-17 -60 0 -60 Q17 -60 16 -42 Z" fill="#FFD66B" ${sw(4)}/><path d="M-16 -46 H16" stroke="#FF6B5E" stroke-width="5"/><path d="M-16 -42 Q-17 -60 0 -60 Q17 -60 16 -42" fill="none" ${sw(4)}/>`,
+    },
+  ),
+  // cuidador: Nico, el cuidador del zoo (fase P17): camisa caqui con bolsillos, pantalón verde, sombrero de safari y
+  // un pez en la mano levantada (la comida de los pingüinos).
+  cuidador: PA_P(
+    { skin: '#8D5A3B', hair: '#2E2A2A', style: 'short', shirt: '#C8B27A', pants: '#6E8B3D' },
+    {
+      T: -60,
+      R: ['M20 -6 Q34 -8 36 -22', 36, -24],
+      mid: `<path d="M-8 -12 L0 -3 L8 -12" fill="#E8DDB5" ${sw(2.5)}/><rect x="-15" y="-2" width="11" height="10" rx="2" fill="#B39B62" ${sw(2.5)}/><rect x="4" y="-2" width="11" height="10" rx="2" fill="#B39B62" ${sw(2.5)}/><rect x="-22" y="16" width="44" height="6" fill="#6B4A2E" ${sw(2.5)}/>`,
+      hold: `<g transform="translate(40 -40) rotate(-60)"><path d="M-16 0 Q-4 -11 10 -2 L18 -9 L16 0 L18 9 L10 2 Q-4 11 -16 0 Z" fill="#7FB6E0" ${sw(3)}/><circle cx="-9" cy="-2" r="2" fill="${K}"/></g>`,
+      top: `<ellipse cx="0" cy="-42" rx="31" ry="7" fill="#D9C48A" ${sw(4)}/><path d="M-17 -42 Q-18 -62 0 -62 Q18 -62 17 -42 Z" fill="#D9C48A" ${sw(4)}/><path d="M-17 -46 H17" stroke="#6E8B3D" stroke-width="5"/><path d="M-17 -42 Q-18 -62 0 -62 Q18 -62 17 -42" fill="none" ${sw(4)}/>`,
     },
   ),
   peluquero: PA_P(

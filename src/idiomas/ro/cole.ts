@@ -422,9 +422,9 @@ export const COLE_RO: Readonly<Record<string, string>> = {
   'Aún no hemos ido': 'Încă n-am fost',
   'Aquí irá la foto {excursion}, cuando vayamos de excursión.': 'Aici va fi poza {excursion}, când mergem în excursie.',
   '¡{Excursion}! Hemos ido una vez; la última, el {fecha}. ¿Te acuerdas de {guia}?':
-    '{Excursion}! Am fost o dată; ultima oară, pe {fecha}. Ți-o amintești pe {guia}?',
+    '{Excursion}! Am fost o dată; ultima oară, pe {fecha}. Îți amintești de {guia}?',
   '¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te acuerdas de {guia}?':
-    '{Excursion}! Am fost de {n} {n:de}ori; ultima oară, pe {fecha}. Ți-o amintești pe {guia}?',
+    '{Excursion}! Am fost de {n} {n:de}ori; ultima oară, pe {fecha}. Îți amintești de {guia}?',
   'Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.':
     'Acesta e albumul de excursii. Aici se păstrează pozele de grup. Atinge o poză.',
   'Toca una foto del álbum.': 'Atinge o poză din album.',

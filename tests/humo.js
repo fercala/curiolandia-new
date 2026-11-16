@@ -85,6 +85,12 @@ const ESCENAS = [
   ['autobus'], // el autobús de las excursiones (fase P5)
   ['excursion', { exc: 'granja' }], // la granja escuela
   ['granjaComer', { exc: 'granja' }],
+  ['excursion', { exc: 'zoo' }], // P17
+  ['zooSabana', {}],
+  ['zooSelva', {}],
+  ['zooPolar', {}],
+  ['zooReptiles', {}],
+  ['zooPajarera', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

@@ -28,6 +28,7 @@ Object.assign(LEX, {
   cocinera: 'la cocinera',
   cartero: 'el cartero',
   granjera: 'la granjera',
+  cuidador: 'el cuidador',
   peluquero: 'el peluquero',
   manguera: 'la manguera',
   fonendo: 'el estetoscopio',

@@ -1,8 +1,8 @@
 /*
  * dominio/fotos.ts: las reglas de la cámara de fotos de Tito (idea 20 de docs/IDEAS-MEJORA.md, fase P15). En el mapa,
- * las zonas y la granja escuela, el niño enciende la cámara y toca animales y cosas para hacerles una foto; cada foto
+ * las zonas, la granja escuela y, desde la P17, el zoo, el niño enciende la cámara y toca animales y cosas para hacerles una foto; cada foto
  * nueva va al álbum de fotos, que tiene una página por grupo (PAGINAS_FOTOS: los bichos y animales del campo, el mar y
- * la playa, la nieve, la granja y las plantas y cosas), con el nombre en castellano y en inglés. Una foto nueva da una moneda, y
+ * la playa, la nieve, la granja, desde la P17 el zoo, y las plantas y cosas), con el nombre en castellano y en inglés. Una foto nueva da una moneda, y
  * completar una página, tres más. Repetir una foto no da nada, pero se cuenta.
  * Lo guardado va en S.fotos ({vistas: {id: n}}): opcional, sin migración (un registro ausente o roto se lee vacío).
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/fotos.test.ts.
@@ -43,11 +43,13 @@ export const PAGINAS_FOTOS: readonly PaginaFotos[] = [
   { id: 'mar', titulo: 'Del mar y de la playa' },
   { id: 'nieve', titulo: 'De la nieve y del frío' },
   { id: 'granja', titulo: 'Animales de la granja' },
+  { id: 'zoo', titulo: 'Animales del zoo' },
   { id: 'cosas', titulo: 'Plantas y cosas' },
 ];
 
-// FOTOS: todas las fotos que se pueden hacer. En la página de la granja, la marca es la clave del animal que pasea
-// (escenas/granjaAnimales.ts); en las demás, las marcas de userData de los objetos 3D. Cuando un objeto tiene varias
+// FOTOS: todas las fotos que se pueden hacer. En las páginas de la granja y del zoo (desde la fase P17, el safari
+// fotográfico), la marca es la clave del animal que pasea (escenas/granjaAnimales.ts; el pingüino del zoo cuenta como la
+// foto del pingüino de la nieve); en las demás, las marcas de userData de los objetos 3D. Cuando un objeto tiene varias
 // marcas gana la primera foto de la lista que tenga una (la abeja lleva también la de la mariposa: va antes).
 export const FOTOS: readonly Foto[] = [
   { id: 'rana', pagina: 'campo', nombre: 'La rana', en: 'frog', marcas: ['frog'] },
@@ -64,7 +66,7 @@ export const FOTOS: readonly Foto[] = [
   { id: 'pajaro', pagina: 'mar', nombre: 'El pájaro', en: 'bird', marcas: ['gull', 'bird', 'skyb'] },
   { id: 'barco', pagina: 'mar', nombre: 'El barco', en: 'boat', marcas: ['boat'] },
   { id: 'castillo', pagina: 'mar', nombre: 'El castillo de arena', en: 'sandcastle', marcas: ['sandc'] },
-  { id: 'pinguino', pagina: 'nieve', nombre: 'El pingüino', en: 'penguin', marcas: ['peng'] },
+  { id: 'pinguino', pagina: 'nieve', nombre: 'El pingüino', en: 'penguin', marcas: ['peng', 'pinguino'] },
   { id: 'iglu', pagina: 'nieve', nombre: 'El iglú', en: 'igloo', marcas: ['igloo'] },
   { id: 'muneco', pagina: 'nieve', nombre: 'El muñeco de nieve', en: 'snowman', marcas: ['snowman'] },
   { id: 'reno', pagina: 'nieve', nombre: 'El reno', en: 'reindeer', marcas: ['sleigh'] },
@@ -75,6 +77,13 @@ export const FOTOS: readonly Foto[] = [
   { id: 'gallina', pagina: 'granja', nombre: 'La gallina', en: 'hen', marcas: ['gallina'] },
   { id: 'pollito', pagina: 'granja', nombre: 'El pollito', en: 'chick', marcas: ['pollito'] },
   { id: 'pato', pagina: 'granja', nombre: 'El pato', en: 'duck', marcas: ['pato'] },
+  { id: 'leon', pagina: 'zoo', nombre: 'El león', en: 'lion', marcas: ['leon'] },
+  { id: 'elefante', pagina: 'zoo', nombre: 'El elefante', en: 'elephant', marcas: ['elefante'] },
+  { id: 'jirafa', pagina: 'zoo', nombre: 'La jirafa', en: 'giraffe', marcas: ['jirafa'] },
+  { id: 'cebra', pagina: 'zoo', nombre: 'La cebra', en: 'zebra', marcas: ['cebra'] },
+  { id: 'tigre', pagina: 'zoo', nombre: 'El tigre', en: 'tiger', marcas: ['tigre'] },
+  { id: 'mono', pagina: 'zoo', nombre: 'El mono', en: 'monkey', marcas: ['mono'] },
+  { id: 'cocodrilo', pagina: 'zoo', nombre: 'El cocodrilo', en: 'crocodile', marcas: ['cocodrilo'] },
   { id: 'arbol', pagina: 'cosas', nombre: 'El árbol', en: 'tree', marcas: ['tree', 'palm', 'xtree'] },
   { id: 'flor', pagina: 'cosas', nombre: 'La flor', en: 'flower', marcas: ['flower'] },
   { id: 'seta', pagina: 'cosas', nombre: 'La seta', en: 'mushroom', marcas: ['mush'] },

@@ -15,7 +15,9 @@
 // cometa y el pañuelo (fase P12c) y con las sillas musicales, sin eliminar a nadie (fase P12d). Y el escondite (fase
 // P13a): con 5 años, Tito cuenta y encuentra a los cuatro amigos con las pistas (un sitio vacío no vale) y Lupi lo
 // encuentra a él en la casita, y los botones del patio van en dos filas. Y el circuito (fase P13b): con 4 años, tres
-// vueltas de tres obstáculos que el niño toca en el orden de la profe (uno que no va no cuenta) y Tito recorre.
+// vueltas de tres obstáculos que el niño toca en el orden de la profe (uno que no va no cuenta) y Tito recorre. Y el zoo
+// (fase P17): el autobús lleva al zoo, sus cinco recintos se juegan siguiendo la ayuda hasta el dato curioso de Nico, la
+// foto de grupo da 5 monedas y la pegatina del león, y con la cámara se le hace una foto a la jirafa que pasea (o al animal que la tape).
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -1030,6 +1032,72 @@ const R = L.registro('cole');
         await L.clic(p, 90, 90);
         await p.waitForTimeout(1000);
         return (await escena()) === 'patio' ? null : 'la casa del circuito no vuelve al patio: ' + (await escena());
+      },
+    );
+    await caso(
+      'P24',
+      'el autobús lleva al zoo; los cinco recintos se juegan siguiendo la ayuda, con su dato curioso; la foto de grupo y el safari fotográfico',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 3;
+          if (__cl.S.exc) delete __cl.S.exc.zoo;
+          delete __cl.S.fotos;
+          save();
+          __cl.go('autobus', {});
+        });
+        await p.waitForTimeout(1200);
+        const d = await p.evaluate(() => DESTINOS.find((x) => x.e.id === 'zoo'));
+        await L.clic(p, d.x + d.w / 2, d.y + d.h / 2);
+        let e = 'autobus';
+        for (let i = 0; i < 20 && e === 'autobus'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'excursion') return 'el viaje no ha llegado al zoo: ' + e;
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        const recintos = await p.evaluate(() =>
+          DESTINOS.find((x) => x.e.id === 'zoo').e.estaciones.map((s) => [s.x, s.y, s.escena]),
+        );
+        for (const [x, y, nombre] of recintos) {
+          await p.waitForTimeout(1500);
+          await L.clic(p, x, y);
+          await p.waitForTimeout(1200);
+          if ((await escena()) !== nombre) return 'no se ha abierto ' + nombre + ': ' + (await escena());
+          // se juega siguiendo la ayuda, como conducir, pero mirando justo antes de cada toque que se sigue en el juego del
+          // recinto: si el juego acaba mientras Tito habla, un toque más caería en el plano y abriría otro recinto
+          const jugando = () => p.evaluate((n) => __cl.name === n && ZOO.fase === 'juego', nombre);
+          const t0 = Date.now();
+          while (Date.now() - t0 < 120000 && (await jugando())) {
+            const t1 = Date.now();
+            while (Date.now() - t1 < 12000 && (await p.evaluate(() => VIVO.talking))) await p.waitForTimeout(150);
+            await p.waitForTimeout(400);
+            if (await jugando()) await L.paso(p, 0);
+            await p.waitForTimeout(250);
+          }
+          if (!(await p.evaluate(() => ZOO.fase === 'dato'))) return nombre + ' no llega al dato curioso';
+          for (let i = 0; i < 40 && (await escena()) === nombre; i++) await p.waitForTimeout(500);
+          if ((await escena()) !== 'excursion') return 'tras ' + nombre + ', escena ' + (await escena());
+        }
+        await p.waitForTimeout(3000);
+        const [v, despues, stk] = await p.evaluate(() => [__cl.S.exc.zoo, __cl.S.coins || 0, __cl.S.stk.leon]);
+        // al terminar la visita, sus estaciones se vacían para la próxima (terminarVisita)
+        if (!v || v.veces !== 1 || !v.foto) return 'la visita al zoo: ' + JSON.stringify(v);
+        if (despues - monedas < 5) return `la foto de grupo da 5 monedas: ${monedas} -> ${despues}`;
+        if (!stk) return 'la primera visita da la pegatina del león';
+        // el safari fotográfico: con la cámara encendida, un toque a un animal que pasea le hace su foto
+        await p.evaluate(() => __cl.go('excursion', { exc: 'zoo' }));
+        await p.waitForTimeout(1500);
+        const foto = await p.evaluate(() => {
+          __cl.scene.down(CAMARA_BOTON.x, CAMARA_BOTON.y);
+          const a = PASEO.animales.find((q) => q.a.k === 'jirafa'),
+            k = animalEn(a.x, a.y - 40);
+          __cl.scene.down(a.x, a.y - 40);
+          return [k, __cl.S.fotos && __cl.S.fotos.vistas];
+        });
+        // si otro animal tapa a la jirafa, la foto es la suya
+        return foto[0] && foto[1] && foto[1][foto[0]] === 1
+          ? null
+          : 'la foto del animal no está en el álbum: ' + JSON.stringify(foto);
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

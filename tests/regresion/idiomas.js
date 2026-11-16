@@ -95,6 +95,13 @@ const ESCENAS_RO = [
   // desde la v0.2.157 (toda funcionalidad nueva es multiidioma): la gran aventura y su primer capítulo (P16a)
   'aventura',
   'aventuraCap',
+  // desde la P17, el zoo y sus cinco recintos
+  'excursion:zoo',
+  'zooSabana',
+  'zooSelva',
+  'zooPolar',
+  'zooReptiles',
+  'zooPajarera',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).

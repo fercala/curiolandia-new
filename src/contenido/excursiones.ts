@@ -2,8 +2,10 @@
  * contenido/excursiones.ts: las excursiones del autobús del cole (base B1 de docs/IDEAS-MEJORA.md, fase P5) y sus
  * estaciones. La granja escuela (idea 1) es la primera: la granjera Rosa enseña la granja; desde la P5 se puede dar de
  * comer a los animales y recoger huevos, y desde la P6 también hacer queso, cepillar al caballo, el huerto y el paseo en
- * tractor (escenas/granjaTalleres.ts); las crías llegarán en su fase. El zoo y el bosque, sin estaciones todavía, salen en el
- * autobús como «¡Muy pronto!».
+ * tractor (escenas/granjaTalleres.ts). Desde la P17, el zoo (idea 2), con Nico el cuidador y cinco recintos
+ * (escenas/zoo.ts): la sabana, la selva, la zona polar, la casa de los reptiles y la gran pajarera; sus animales pasean
+ * por el plano y se les puede hacer fotos (el safari fotográfico). El bosque, sin estaciones todavía, sale en el autobús
+ * como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
  * Importa: el tipo Excursion de dominio/excursiones.ts.
@@ -29,7 +31,21 @@ export const EXCURSIONES: readonly Excursion[] = [
       { id: 'tractor', nombre: 'Paseo en tractor', escena: 'granjaTractor', icono: 'tractor', x: 420, y: 330 },
     ],
   },
-  { id: 'zoo', nombre: 'El zoo', icono: 'leon', guia: 'granjera', nombreGuia: '', estaciones: [] },
+  {
+    id: 'zoo',
+    nombre: 'El zoo',
+    icono: 'leon',
+    guia: 'cuidador',
+    nombreGuia: 'Nico',
+    animales: ['leon', 'elefante', 'jirafa', 'cebra', 'tigre', 'mono', 'cocodrilo', 'pinguino'],
+    estaciones: [
+      { id: 'sabana', nombre: 'La sabana', escena: 'zooSabana', icono: 'jirafa', x: 330, y: 560 },
+      { id: 'selva', nombre: 'La selva', escena: 'zooSelva', icono: 'mono', x: 640, y: 700 },
+      { id: 'polar', nombre: 'La zona polar', escena: 'zooPolar', icono: 'pinguino', x: 960, y: 700 },
+      { id: 'reptiles', nombre: 'La casa de los reptiles', escena: 'zooReptiles', icono: 'cocodrilo', x: 1260, y: 560 },
+      { id: 'pajarera', nombre: 'La gran pajarera', escena: 'zooPajarera', icono: 'buho', x: 1180, y: 330 },
+    ],
+  },
   { id: 'bosque', nombre: 'El bosque', icono: 'arbol', guia: 'granjera', nombreGuia: '', estaciones: [] },
 ];
 

@@ -599,6 +599,12 @@ e15c21b49d1c,La granja escuela,trozo,src/contenido/excursiones.ts
 c833c8b1e578,El huerto,trozo,src/contenido/excursiones.ts
 b47b61f7e59a,Paseo en tractor,trozo,src/contenido/excursiones.ts
 7e2defd8ef9d,El zoo,trozo,src/contenido/excursiones.ts
+48088fbd228a,Nico,trozo,src/contenido/excursiones.ts
+a97db07d98ad,La sabana,trozo,src/contenido/excursiones.ts
+ea02d1d0aea5,La selva,trozo,src/contenido/excursiones.ts
+0aeb515e2327,La zona polar,trozo,src/contenido/excursiones.ts
+0e2fba450a47,La casa de los reptiles,trozo,src/contenido/excursiones.ts
+d8c7da05159d,La gran pajarera,trozo,src/contenido/excursiones.ts
 d236fa6bc06b,El bosque,trozo,src/contenido/excursiones.ts
 eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 48418f32fc2d,Mamá,trozo,src/contenido/ingles.ts
@@ -855,6 +861,7 @@ c4147c6e88e2,el panadero,nombre,src/contenido/lex.ts
 dba2185000a6,la cocinera,nombre,src/contenido/lex.ts
 9aacaa567765,el cartero,nombre,src/contenido/lex.ts
 06d1edc4eb35,la granjera,nombre,src/contenido/lex.ts
+dd4a21840b55,el cuidador,nombre,src/contenido/lex.ts
 392231973151,el peluquero,nombre,src/contenido/lex.ts
 b91143f353da,la manguera,nombre,src/contenido/lex.ts
 8a8b3529242b,el estetoscopio,nombre,src/contenido/lex.ts
@@ -1157,6 +1164,7 @@ df787b379967,{n} veces,trozo,src/dominio/excursiones.ts
 0a1a439a1271,Del mar y de la playa,trozo,src/dominio/fotos.ts
 ba7b7dff853b,De la nieve y del frío,trozo,src/dominio/fotos.ts
 c415fb4e3085,Animales de la granja,trozo,src/dominio/fotos.ts
+71efee271ed3,Animales del zoo,trozo,src/dominio/fotos.ts
 e6ce4d140a8d,Plantas y cosas,trozo,src/dominio/fotos.ts
 62ca599a8758,La rana,trozo,src/dominio/fotos.ts
 938c2cc0dcc0,frog,trozo,src/dominio/fotos.ts
@@ -1208,6 +1216,20 @@ e811af40e80c,hen,trozo,src/dominio/fotos.ts
 8ddbddef26de,chick,trozo,src/dominio/fotos.ts
 8827e5958249,El pato,trozo,src/dominio/fotos.ts
 36846677e3a8,duck,trozo,src/dominio/fotos.ts
+19a9d0f8327f,El león,trozo,src/dominio/fotos.ts
+6b42d00c4ca6,lion,trozo,src/dominio/fotos.ts
+1b6065f311cf,El elefante,trozo,src/dominio/fotos.ts
+e4b48fd541b3,elephant,trozo,src/dominio/fotos.ts
+5260a329c65a,La jirafa,trozo,src/dominio/fotos.ts
+6975a7ef5359,giraffe,trozo,src/dominio/fotos.ts
+e893911ddcbf,La cebra,trozo,src/dominio/fotos.ts
+69c459dd76c6,zebra,trozo,src/dominio/fotos.ts
+f824427fb786,El tigre,trozo,src/dominio/fotos.ts
+43b909204096,tiger,trozo,src/dominio/fotos.ts
+7fc6acf22ead,El mono,trozo,src/dominio/fotos.ts
+d0763edaa9d9,monkey,trozo,src/dominio/fotos.ts
+92da373b0d30,El cocodrilo,trozo,src/dominio/fotos.ts
+9d7d8f69be2c,crocodile,trozo,src/dominio/fotos.ts
 231e62153e64,El árbol,trozo,src/dominio/fotos.ts
 c0af77cf8294,tree,trozo,src/dominio/fotos.ts
 987cd295738c,La flor,trozo,src/dominio/fotos.ts
@@ -1792,6 +1814,7 @@ a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!",frase,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
+8f1a5d1d2982,"¡Hola{nino}! Soy {guia}, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.",frase,src/escenas/excursion.ts
 850a40687e76,"¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.",frase,src/escenas/excursion.ts
 41b12a8a9434,Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,frase,src/escenas/excursion.ts
@@ -2137,6 +2160,19 @@ fe653b97deac,¡Se abrió el juego número {n}! Tócalo para seguir.,frase,src/es
 4687dd09f4e8,Empieza por el primero: ¡vamos a conocer!,frase,src/escenas/zonas.ts
 76e0dc50891a,"Toca el que brilla, el número {n}.",frase,src/escenas/zonas.ts
 6a5f781c4d40,¡Ya jugaste todos! Puedes repetir el que más te guste.,frase,src/escenas/zonas.ts
+f7435a6b5d9d,¡Esto es la sabana! Los animales tienen mucha hambre.,frase,src/escenas/zoo.ts
+aeb80c8f3d1a,¿Sabes una cosa? La jirafa es el animal más alto del mundo. ¡Llega a las hojas de lo alto de los árboles!,frase,src/escenas/zoo.ts
+512138c1108b,Une cada animal con su comida. Arrastra del animal a lo que come.,frase,src/escenas/zoo.ts
+c3e61be0d746,{Cosa} come {otra}.,trozo,src/escenas/zoo.ts
+6ce51ad2dcaf,"Mmm, {cosa} no come {otra}.",frase,src/escenas/zoo.ts
+d832a4d7a85a,¡Esto es la selva! Aquí se oyen muchos ruidos. ¿Sabes quién los hace?,frase,src/escenas/zoo.ts
+68f49e775f38,¿Sabes una cosa? Los monos viven en los árboles y saltan de rama en rama. ¡Son unos grandes trepadores!,frase,src/escenas/zoo.ts
+4a38f70e9593,¡Qué frío hace en la zona polar! Las crías están jugando en el hielo. ¡Vamos a contarlas!,frase,src/escenas/zoo.ts
+8ba881e7674e,"¿Sabes una cosa? Los pingüinos no saben volar, ¡pero nadan rapidísimo!",frase,src/escenas/zoo.ts
+6e16c23d48ed,"¡Oh, no! El cartel de la casa de los reptiles se ha roto. ¿Me ayudas a arreglarlo?",frase,src/escenas/zoo.ts
+975d968e3358,¿Sabes una cosa? La tortuga lleva su casa a cuestas: ¡es su caparazón!,frase,src/escenas/zoo.ts
+543cdfbaf2b6,En la gran pajarera viven muchos pájaros. ¡Vamos a buscarlos!,frase,src/escenas/zoo.ts
+c4261d93b897,¿Sabes una cosa? El búho duerme de día y por la noche sale a volar.,frase,src/escenas/zoo.ts
 ae1feb6d3998,alegría,trozo,src/juegos/caras.ts
 d9292c5677b5,tristeza,trozo,src/juegos/caras.ts
 fda493ccee18,enfado,trozo,src/juegos/caras.ts

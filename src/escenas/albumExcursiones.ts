@@ -6,7 +6,7 @@
  * marco vacío con una interrogación. Al tocar un marco, Tito lo cuenta. La casa (arriba a la izquierda) vuelve al autobús.
  * Exporta: MARCOS_ALBUM (dónde está cada marco, para las pruebas) y pone SCENES.albumExcursiones.
  * Importa: el núcleo (dibujo, voz, sonido, toque, meses), las reglas y las fechas de dominio/excursiones.ts, los datos de
- * contenido/excursiones.ts y fondoGranja de escenas/excursion.ts.
+ * contenido/excursiones.ts y, de escenas/excursion.ts, fondoDe y GRUPO_FOTO (desde la P17).
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -38,7 +38,7 @@ import {
 } from '../nucleo/indice.ts';
 import { type Excursion, diaYMes, vecesTexto, visitaDe } from '../dominio/excursiones.ts';
 import { EXCURSIONES } from '../contenido/excursiones.ts';
-import { fondoGranja, nombreExcursion } from './excursion.ts';
+import { GRUPO_FOTO, fondoDe, nombreExcursion } from './excursion.ts';
 
 /** Un marco del álbum: de qué excursión es y dónde está (esquina de arriba a la izquierda, ancho y alto). */
 interface MarcoAlbum {
@@ -61,8 +61,8 @@ const FOTO = { m: 24, alto: 300 };
 // enMarco(m, x, y): ¿se ha tocado el marco m?
 const enMarco = (m: MarcoAlbum, x: number, y: number): boolean => x > m.x && x < m.x + m.w && y > m.y && y < m.y + m.h;
 
-// dibujaFotoRecuerdo(m): la foto de grupo de la excursión del marco m, en pequeño: el fondo de la granja, sus animales,
-// el guía y Tito.
+// dibujaFotoRecuerdo(m): la foto de grupo de la excursión del marco m, en pequeño: su fondo (fondoDe), sus animales
+// (GRUPO_FOTO; desde la P17, también los del zoo), el guía y Tito.
 function dibujaFotoRecuerdo(m: MarcoAlbum): void {
   const fx = m.x + FOTO.m,
     fy = m.y + FOTO.m,
@@ -74,16 +74,16 @@ function dibujaFotoRecuerdo(m: MarcoAlbum): void {
   ctx.translate(fx, fy);
   ctx.scale(fw / W, fw / W);
   ctx.translate(0, -150);
-  fondoGranja();
+  fondoDe(m.e);
   ctx.restore();
   ctx.save();
   ctx.beginPath();
   ctx.rect(fx, fy, fw, FOTO.alto);
   ctx.clip();
   const cx = fx + fw / 2;
-  pic('vaca', cx - 120, fy + 200, 120);
-  pic('cerdo', cx + 125, fy + 220, 90);
-  pic('gallina', cx + 70, fy + 175, 70);
+  (GRUPO_FOTO[m.e.id] ?? GRUPO_FOTO['granja']!).forEach(([k, x, y, t]) =>
+    pic(k, cx + x * 0.55, fy + 165 + y * 0.55, t * 0.55),
+  );
   pic(m.e.guia, cx + 15, fy + 160, 170);
   drawTito(cx - 140, fy + 140, 110);
   ctx.restore();
