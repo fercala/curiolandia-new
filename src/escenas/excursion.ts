@@ -10,7 +10,7 @@
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
- * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
+ * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad, y desde la P21 el del bosque, fondoBosque) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
@@ -438,13 +438,81 @@ export function fondoCiudad(): void {
   pic('camion', ((T * 120) % 2000) - 200, 860, 150, 0.9);
 }
 
-// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad o el de la granja
-// (desde la fase P17; el álbum también lo usa).
+// HOJAS_CAEN: las hojas que caen en el bosque de otoño: dibujo, columna (x), fase y velocidad.
+const HOJAS_CAEN: readonly (readonly [string, number, number, number])[] = [
+  ['hojaRoja', 180, 0, 70],
+  ['hojaNaranja', 520, 0.3, 55],
+  ['hojaMarron', 860, 0.6, 65],
+  ['hojaRoja', 1120, 0.15, 60],
+  ['hojaNaranja', 1420, 0.45, 75],
+];
+
+// arbolOtono(x, y, s, c): un árbol de otoño en (x, y) (la base del tronco), de tamaño s y copa de color c.
+function arbolOtono(x: number, y: number, s: number, c: string): void {
+  ctx.fillStyle = '#7A4E2E';
+  ctx.fillRect(x - s * 0.08, y - s * 0.7, s * 0.16, s * 0.7);
+  [
+    [0, -0.85, 0.38],
+    [-0.25, -0.68, 0.28],
+    [0.25, -0.68, 0.28],
+  ].forEach(([dx, dy, r]) => {
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.arc(x + dx! * s, y + dy! * s, r! * s, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+// fondoBosque(): el bosque de otoño (desde la fase P21): el cielo, los árboles rojos, naranjas y amarillos, el suelo
+// lleno de hojas, el sendero, unas setas y las hojas que caen (con T).
+export function fondoBosque(): void {
+  cielo('#BFE3F2', '#F6E7C8', 470);
+  ctx.save();
+  // los árboles del fondo, más pequeños, y los de delante
+  [
+    [120, 470, 300, '#E2574C'],
+    [400, 470, 260, '#FFA94D'],
+    [700, 470, 300, '#FFC93C'],
+    [1000, 470, 270, '#E08A4A'],
+    [1290, 470, 310, '#E2574C'],
+    [1520, 470, 260, '#FFA94D'],
+  ].forEach(([x, y, t, c]) => arbolOtono(x as number, y as number, t as number, c as string));
+  // el suelo y el sendero
+  ctx.fillStyle = '#C9A15E';
+  ctx.fillRect(0, 470, W, H - 470);
+  ctx.fillStyle = '#E8D3A0';
+  ctx.beginPath();
+  ctx.moveTo(700, 470);
+  ctx.quadraticCurveTo(500, 650, 640, H);
+  ctx.lineTo(960, H);
+  ctx.quadraticCurveTo(820, 650, 900, 470);
+  ctx.closePath();
+  ctx.fill();
+  // hojitas en el suelo
+  Array.from({ length: 24 }, (_, i) => i).forEach((i) => {
+    ctx.fillStyle = ['#E2574C', '#FFA94D', '#C98A4B'][i % 3]!;
+    ctx.beginPath();
+    ctx.ellipse((i * 197) % W, 500 + ((i * 131) % 380), 14, 7, i, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.restore();
+  pic('seta', 110, 820, 90);
+  pic('seta', 1500, 840, 80);
+  // las hojas que caen, meciéndose
+  HOJAS_CAEN.forEach(([k, x, f, v]) => {
+    const y = ((T * v + f * 900) % 1000) - 60;
+    pic(k, x + Math.sin(T * 1.5 + f * 9) * 40, y, 50);
+  });
+}
+
+// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad, el del bosque o el
+// de la granja (desde la fase P17; el álbum también lo usa).
 export function fondoDe(e: Excursion): void {
   if (e.id === 'zoo') fondoZoo();
   else if (e.id === 'acuario') fondoAcuario();
   else if (e.id === 'museo') fondoMuseo();
   else if (e.id === 'ciudad') fondoCiudad();
+  else if (e.id === 'bosque') fondoBosque();
   else fondoGranja();
 }
 
@@ -460,6 +528,11 @@ export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, num
     ['delfin', -240, 30, 200],
     ['pulpo', 240, 90, 150],
     ['estrellaMar', 140, 110, 90],
+  ],
+  bosque: [
+    ['ardilla', -240, 40, 180],
+    ['buho', 240, 50, 150],
+    ['conejo', 130, 100, 110],
   ],
   ciudad: [
     ['camionBomberos', -230, 40, 230],
@@ -767,8 +840,14 @@ function hacerFoto(): void {
 
 // bienvenida(e): lo que dice el guía de la excursión e la primera vez que se va: la granjera Rosa en la granja y, desde
 // la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario, y desde la P19, el
-// paleontólogo Pablo en el museo de los dinosaurios, y desde la P20, la bombera Lucía en la ciudad.
+// paleontólogo Pablo en el museo de los dinosaurios, y desde la P20, la bombera Lucía en la ciudad, y desde la P21, el
+// guardabosques Hugo en el bosque de otoño.
 function bienvenida(e: Excursion): string {
+  if (e.id === 'bosque')
+    return fmt(
+      '¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.',
+      { nino: kid(), guia: e.nombreGuia },
+    );
   if (e.id === 'ciudad')
     return fmt(
       '¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.',

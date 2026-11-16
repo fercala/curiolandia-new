@@ -31,6 +31,7 @@ Object.assign(LEX, {
   cuidador: 'el cuidador',
   buceadora: 'la buceadora',
   paleontologo: 'el paleontólogo',
+  guardabosques: 'el guardabosques',
   delfin: 'el delfín',
   cangrejo: 'el cangrejo',
   peluquero: 'el peluquero',

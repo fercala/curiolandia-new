@@ -292,6 +292,10 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
   }, // desde la P19
   'la ciudad': { ...N('orașul', 'oraș', 'n', 'din oraș'), a: 'în oraș' }, // desde la P20
   'el bosque': { ...N('pădurea', 'pădure', 'f', 'din pădure'), a: 'în pădure' },
+  'el bosque de otoño': {
+    ...N('pădurea de toamnă', 'pădure de toamnă', 'f', 'din pădurea de toamnă'),
+    a: 'în pădurea de toamnă',
+  }, // desde la P21
   'la gallina': N('găina', 'găină', 'f', 'găinii', 'găini'),
   'la vaca': N('vaca', 'vacă', 'f', 'vacii', 'vaci'),
   'la oveja': N('oaia', 'oaie', 'f', 'oii', 'oi'),

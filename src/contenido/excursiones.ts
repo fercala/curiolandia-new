@@ -7,8 +7,9 @@
  * por el plano y se les puede hacer fotos (el safari fotográfico). Desde la P18, el acuario (idea 3), con Marina la
  * buceadora, el túnel debajo del agua y cinco salas (escenas/acuario.ts). Desde la P19, el museo de los dinosaurios
  * (idea 4), con Pablo el paleontólogo y cinco salas (escenas/museo.ts). Desde la P20, la ciudad (idea 5), con
- * Lucía la bombera: el parque de bomberos, la panadería, el centro de salud y la calle (escenas/ciudad.ts). El bosque, sin estaciones todavía, sale en el autobús
- * como «¡Muy pronto!».
+ * Lucía la bombera: el parque de bomberos, la panadería, el centro de salud y la calle (escenas/ciudad.ts). Desde la P21, el
+ * bosque de otoño (idea 6), con Hugo el guardabosques: las hojas, las huellas, los sonidos, la ardilla y el mural
+ * (escenas/bosque.ts). Una excursión sin estaciones saldría en el autobús como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
  * Importa: el tipo Excursion de dominio/excursiones.ts.
@@ -112,7 +113,27 @@ export const EXCURSIONES: readonly Excursion[] = [
       { id: 'calle', nombre: 'Cruzar la calle', escena: 'ciudadCalle', icono: 'semaforo', x: 1180, y: 330 },
     ],
   },
-  { id: 'bosque', nombre: 'El bosque', icono: 'arbol', guia: 'granjera', nombreGuia: '', estaciones: [] },
+  {
+    id: 'bosque',
+    nombre: 'El bosque de otoño',
+    icono: 'ardilla',
+    guia: 'guardabosques',
+    nombreGuia: 'Hugo',
+    estaciones: [
+      { id: 'hojas', nombre: 'Las hojas de colores', escena: 'bosqueHojas', icono: 'hojaRoja', x: 330, y: 560 },
+      { id: 'huellas', nombre: 'Las huellas del conejo', escena: 'bosqueHuellas', icono: 'conejo', x: 640, y: 700 },
+      { id: 'sonidos', nombre: 'Los sonidos del bosque', escena: 'bosqueSonidos', icono: 'buho', x: 960, y: 700 },
+      {
+        id: 'ardilla',
+        nombre: 'La despensa de la ardilla',
+        escena: 'bosqueArdilla',
+        icono: 'ardilla',
+        x: 1260,
+        y: 560,
+      },
+      { id: 'mural', nombre: 'El mural del otoño', escena: 'bosqueMural', icono: 'hojaNaranja', x: 1180, y: 330 },
+    ],
+  },
 ];
 
 // excursionPorId(id): la excursión con ese id, o undefined.
