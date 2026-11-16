@@ -109,10 +109,11 @@ function dibujaMarco(m: MarcoAlbum, i: number): void {
   }
   const cx = m.x + m.w / 2,
     y0 = m.y + FOTO.m + FOTO.alto;
-  text(m.e.nombre, cx, y0 + 60, 32, hecha ? '#4A3B2A' : '#9A9086');
+  // los textos se encogen si no caben en el marco (desde la P19, con cinco marcos y nombres largos)
+  text(m.e.nombre, cx, y0 + 60, 32, hecha ? '#4A3B2A' : '#9A9086', { max: m.w - 30 });
   // las veces y la fecha, cada una en el idioma del juego (juntar: no se vuelven a traducir)
-  if (hecha) text(juntar(vecesTexto(v.veces, tr), '·', fechaDe(v.d)), cx, y0 + 105, 26, '#7A6A5A');
-  else text('Aún no hemos ido', cx, y0 + 105, 26, '#9A9086');
+  if (hecha) text(juntar(vecesTexto(v.veces, tr), '·', fechaDe(v.d)), cx, y0 + 105, 26, '#7A6A5A', { max: m.w - 30 });
+  else text('Aún no hemos ido', cx, y0 + 105, 26, '#9A9086', { max: m.w - 30 });
   const est = m.e.estaciones,
     paso = Math.min(62, (m.w - 40) / Math.max(1, est.length));
   est.forEach((s, j) => {

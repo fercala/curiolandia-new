@@ -2118,3 +2118,35 @@ En esta sala hay animales pequeños y grandes. ¿Los ordenamos?
 la buceadora
 el delfín
 el cangrejo
+El museo de los dinosaurios
+Pablo
+La excavación
+Montar los dinosaurios
+La sala de medir
+¿Qué comían?
+El nido de los dinosaurios
+el paleontólogo
+¡Hola! Soy Pablo, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.
+Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.
+Toca las huellas una a una para contar los pasos.
+¿Cuál es el más largo? Tócalo.
+Ya los hemos medido todos. ¿Cuál es el más largo? Tócalo.
+¡{Cosa} mide {n} pasos de Tito!
+{Cosa} es el más largo.
+{Cosa} mide {n} pasos. Busca el que tiene más pasos.
+¡Ha nacido un triceratops bebé!
+¡Ha nacido un tiranosaurio bebé!
+¡Ha nacido un diplodoco bebé!
+¡Ha nacido un pterodáctilo bebé!
+Toca los huevos para ayudar a los dinosaurios a salir.
+¡Han nacido todos los bebés!
+¡Esto es la excavación! Aquí trabajamos los paleontólogos.
+¿Sabes una cosa? Los fósiles son huesos y huellas que se quedaron guardados en la piedra durante millones de años.
+¡Oh, no! Los cuadros de los dinosaurios se han caído y se han roto. ¿Me ayudas a montarlos?
+¿Sabes una cosa? El triceratops tenía tres cuernos en la cabeza para defenderse.
+En esta sala medimos a los dinosaurios. ¡Tito nos presta sus pasos!
+¿Sabes una cosa? El diplodoco era tan largo como tres autobuses, ¡y tenía la cabeza pequeñita!
+Unos dinosaurios comían plantas y otros comían carne. ¿Los separamos?
+¿Sabes una cosa? El tiranosaurio tenía los dientes tan grandes como plátanos.
+¡Mira este nido! Los huevos se están moviendo. ¡Van a nacer!
+¿Sabes una cosa? Las mamás dinosaurio ponían los huevos en nidos, como los pájaros.

@@ -38,6 +38,7 @@ export const LEX_RO: Readonly<Record<string, Nombre>> = {
   'la granjera': N('fermiera', 'fermieră', 'f', 'fermierei', 'fermiere'),
   'el cuidador': N('îngrijitorul', 'îngrijitor', 'm', 'îngrijitorului', 'îngrijitori'),
   'la buceadora': N('scafandra', 'scafandră', 'f', 'scafandrei', 'scafandre'),
+  'el paleontólogo': N('paleontologul', 'paleontolog', 'm', 'paleontologului', 'paleontologi'),
   'el delfín': N('delfinul', 'delfin', 'm', 'delfinului', 'delfini'),
   'el cangrejo': N('crabul', 'crab', 'm', 'crabului', 'crabi'),
   'el peluquero': N('frizerul', 'frizer', 'm', 'frizerului', 'frizeri'),
