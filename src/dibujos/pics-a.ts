@@ -9,7 +9,7 @@
 // Ayudas (prefijo PA_ para no chocar con otros archivos): PA_oct, PA_win, PA_P, PA_star, PA_hat,
 // PA_heart, PA_spiral, PA_wh, PA_lens.
 // Dibujos: escuela, hospital, parque, piscina, tienda, calendario, semáforo, paso de cebra, stop,
-// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, peluquero) y sus
+// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, paleontólogo, peluquero) y sus
 // herramientas; cosas de los sentidos; vehículos (ambulancia, camión de bomberos, submarino...).
 // ==========================================================================
 /* ---------- Dibujos PA: lugares, oficios, objetos y vehiculos ---------- */
@@ -326,6 +326,18 @@ Object.assign(PICS, {
       mid: `<path d="M-6 -12 V34" stroke="#FFC93C" stroke-width="4"/><rect x="-22" y="14" width="44" height="6" fill="#1E4F86" ${sw(2.5)}/>`,
       hold: `<g transform="translate(40 -40) scale(.55)"><polygon points="0,-24 7,-8 24,-7 11,4 15,21 0,12 -15,21 -11,4 -24,-7 -7,-8" fill="#FF8A5B" ${sw(4)}/></g>`,
       top: `<rect x="-20" y="-44" width="40" height="14" rx="7" fill="#7FD3F0" ${sw(3.5)}/><path d="M-20 -37 Q-26 -36 -27 -30 M20 -37 Q26 -36 27 -30" fill="none" ${sw(3.5)}/><path d="M0 -44 V-30" ${sw(2.5)}/><path d="M23 -44 V-62 Q23 -68 29 -68" fill="none" stroke="${K}" stroke-width="7" stroke-linecap="round"/><path d="M23 -44 V-62 Q23 -68 29 -68" fill="none" stroke="#FFC93C" stroke-width="3.5" stroke-linecap="round"/>`,
+    },
+  ),
+  // paleontologo: Pablo, el paleontólogo del museo de los dinosaurios (fase P19): chaleco verde con bolsillos sobre la
+  // camisa clara, gafas redondas, sombrero de ala ancha marrón y un pincel de limpiar fósiles en la mano levantada.
+  paleontologo: PA_P(
+    { skin: '#E8B48F', hair: '#5A4632', style: 'short', shirt: '#F1E6C8', pants: '#7A6A52' },
+    {
+      T: -60,
+      R: ['M20 -6 Q34 -8 36 -22', 36, -24],
+      mid: `<path d="M-20 -12 V20 H-6 V-12 Z M20 -12 V20 H6 V-12 Z" fill="#6E8B3D" ${sw(2.5)}/><rect x="-17" y="0" width="9" height="8" rx="2" fill="#5A7530" ${sw(2)}/><rect x="8" y="0" width="9" height="8" rx="2" fill="#5A7530" ${sw(2)}/><rect x="-22" y="16" width="44" height="6" fill="#6B4A2E" ${sw(2.5)}/>`,
+      hold: `<g transform="translate(40 -42) rotate(20)"><rect x="-3" y="-4" width="6" height="26" rx="2" fill="#C98A4B" ${sw(2.5)}/><rect x="-5" y="-10" width="10" height="7" fill="#B8B0A6" ${sw(2.5)}/><path d="M-6 -10 Q-7 -22 0 -26 Q7 -22 6 -10 Z" fill="#F2DDA4" ${sw(2.5)}/></g>`,
+      top: `<circle cx="-9" cy="-29" r="6" fill="none" stroke="${K}" stroke-width="3"/><circle cx="9" cy="-29" r="6" fill="none" stroke="${K}" stroke-width="3"/><path d="M-3 -29 H3" stroke="${K}" stroke-width="3"/><ellipse cx="0" cy="-43" rx="34" ry="7" fill="#8A6236" ${sw(4)}/><path d="M-17 -43 Q-18 -62 0 -60 Q18 -62 17 -43 Z" fill="#8A6236" ${sw(4)}/><path d="M-17 -47 H17" stroke="#4A3320" stroke-width="5"/>`,
     },
   ),
   peluquero: PA_P(

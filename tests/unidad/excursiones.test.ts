@@ -125,4 +125,12 @@ describe('las excursiones', () => {
       'ballena',
     ]);
   });
+
+  // desde la fase P19: el museo de los dinosaurios, con Pablo el paleontólogo y sus cinco salas
+  test('el museo tiene cinco salas jugables con ids distintos y va antes del bosque', () => {
+    const museo = excursionPorId('museo')!;
+    expect(museo.nombreGuia).toBe('Pablo');
+    expect(estacionesJugables(museo).map((s) => s.id)).toEqual(['excavacion', 'montar', 'medir', 'comida', 'nido']);
+    expect(EXCURSIONES.map((e) => e.id).slice(-2)).toEqual(['museo', 'bosque']);
+  });
 });

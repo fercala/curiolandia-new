@@ -97,6 +97,12 @@ const ESCENAS = [
   ['acuarioDelfines', {}],
   ['acuarioTamanos', {}],
   ['acuarioBallena', {}],
+  ['excursion', { exc: 'museo' }], // P19
+  ['museoExcavacion', {}],
+  ['museoMontar', {}],
+  ['museoMedir', {}],
+  ['museoComida', {}],
+  ['museoNido', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

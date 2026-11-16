@@ -3,7 +3,7 @@
  * por la regla de Fernando del 15 de noviembre de 2026: toda funcionalidad nueva es multiidioma): los recintos, lo que
  * dice Nico el cuidador (la bienvenida, las presentaciones y los datos curiosos), las frases de dar de comer y la página
  * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
- * la buceadora. Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -83,4 +83,48 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
     'Ascultă! Balena cântă. Prietenii ei s-au ascuns câte doi. Caută perechile!',
   '¿Sabes una cosa? Las ballenas cantan canciones muy largas que se oyen desde muy lejos.':
     'Știi ceva? Balenele cântă cântece foarte lungi, care se aud de foarte departe.',
+  // desde la P19 (v0.2.163): la excursión al museo de los dinosaurios, con Pablo el paleontólogo
+  'El museo de los dinosaurios': 'Muzeul dinozaurilor',
+  Pablo: 'Pablo',
+  'La excavación': 'Săpătura',
+  'Montar los dinosaurios': 'Montăm dinozaurii',
+  'La sala de medir': 'Sala de măsurat',
+  '¿Qué comían?': 'Ce mâncau?',
+  'El nido de los dinosaurios': 'Cuibul dinozaurilor',
+  '¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.':
+    'Bună{nino}! Eu sunt {guia}, paleontologul muzeului. Bine ai venit la muzeul dinozaurilor! Noi, paleontologii, căutăm oase de dinozaur.',
+  'Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.':
+    'Hai să măsurăm {cosa} cu pașii lui Tito. Atinge urmele una câte una.',
+  'Toca las huellas una a una para contar los pasos.': 'Atinge urmele una câte una ca să numeri pașii.',
+  '¿Cuál es el más largo? Tócalo.': 'Care e cel mai lung? Atinge-l.',
+  'Ya los hemos medido todos. ¿Cuál es el más largo? Tócalo.': 'I-am măsurat pe toți. Care e cel mai lung? Atinge-l.',
+  '¡{Cosa} mide {n} pasos de Tito!': '{Cosa} măsoară {n} pași de-ai lui Tito!',
+  '{Cosa} es el más largo.': '{Cosa} e cel mai lung.',
+  '{Cosa} mide {n} pasos. Busca el que tiene más pasos.':
+    '{Cosa} măsoară {n} pași. Caută-l pe cel cu cei mai mulți pași.',
+  '¡Ha nacido un triceratops bebé!': 'S-a născut un pui de triceratops!',
+  '¡Ha nacido un tiranosaurio bebé!': 'S-a născut un pui de tiranozaur!',
+  '¡Ha nacido un diplodoco bebé!': 'S-a născut un pui de diplodocus!',
+  '¡Ha nacido un pterodáctilo bebé!': 'S-a născut un pui de pterodactil!',
+  'Toca los huevos para ayudar a los dinosaurios a salir.': 'Atinge ouăle ca să-i ajuți pe dinozauri să iasă.',
+  '¡Han nacido todos los bebés!': 'S-au născut toți puii!',
+  '¡Esto es la excavación! Aquí trabajamos los paleontólogos.': 'Aceasta e săpătura! Aici lucrăm noi, paleontologii.',
+  '¿Sabes una cosa? Los fósiles son huesos y huellas que se quedaron guardados en la piedra durante millones de años.':
+    'Știi ceva? Fosilele sunt oase și urme care au rămas păstrate în piatră milioane de ani.',
+  '¡Oh, no! Los cuadros de los dinosaurios se han caído y se han roto. ¿Me ayudas a montarlos?':
+    'Vai! Tablourile cu dinozauri au căzut și s-au rupt. Mă ajuți să le refacem?',
+  '¿Sabes una cosa? El triceratops tenía tres cuernos en la cabeza para defenderse.':
+    'Știi ceva? Triceratopsul avea trei coarne pe cap ca să se apere.',
+  'En esta sala medimos a los dinosaurios. ¡Tito nos presta sus pasos!':
+    'În sala aceasta măsurăm dinozaurii. Tito ne împrumută pașii lui!',
+  '¿Sabes una cosa? El diplodoco era tan largo como tres autobuses, ¡y tenía la cabeza pequeñita!':
+    'Știi ceva? Diplodocusul era lung cât trei autobuze și avea capul foarte mic!',
+  'Unos dinosaurios comían plantas y otros comían carne. ¿Los separamos?':
+    'Unii dinozauri mâncau plante, iar alții mâncau carne. Îi despărțim?',
+  '¿Sabes una cosa? El tiranosaurio tenía los dientes tan grandes como plátanos.':
+    'Știi ceva? Tiranozaurul avea dinții mari cât niște banane.',
+  '¡Mira este nido! Los huevos se están moviendo. ¡Van a nacer!':
+    'Uite cuibul acesta! Ouăle se mișcă. Puii sunt gata să iasă!',
+  '¿Sabes una cosa? Las mamás dinosaurio ponían los huevos en nidos, como los pájaros.':
+    'Știi ceva? Mamele dinozaur își puneau ouăle în cuiburi, ca păsările.',
 };

@@ -2,14 +2,15 @@
  * escenas/excursion.ts: el motor de excursiones en pantalla (base B1 de docs/IDEAS-MEJORA.md, fase P5): el autobús del
  * cole (SCENES.autobus: se elige adónde ir y se viaja) y la escena genérica de una excursión (SCENES.excursion, con
  * {exc: id}): el plano del sitio con sus estaciones, el guía (en la granja, la granjera Rosa; desde la P17, en el zoo, el
- * cuidador Nico; desde la P18, en el acuario, la buceadora Marina) y Tito; al tocar una
+ * cuidador Nico; desde la P18, en el acuario, la buceadora Marina; desde la P19, en el museo de los dinosaurios, el
+ * paleontólogo Pablo) y Tito; al tocar una
  * estación jugable se va a su escena, y al volver (volverDeEstacion, {hecha: id}) se apunta. Cuando se han hecho todas
  * las estaciones que ya se pueden jugar, la foto de grupo: un flash, «¡Patata!» y la foto de recuerdo, y monedas la
  * primera vez de cada día. Las reglas, en dominio/excursiones.ts; los datos, en contenido/excursiones.ts; lo guardado, en
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
- * de cada excursión; desde la P18, también el del acuario, fondoAcuario) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
+ * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
@@ -289,11 +290,119 @@ export function fondoAcuario(): void {
   ctx.restore();
 }
 
-// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario o el de la granja (desde la fase P17; el álbum
-// también lo usa).
+// esqueleto(x, y, s): el esqueleto de un dinosaurio de cuello largo, de huesos blancos, en (x, y) (los pies) y de tamaño
+// s: la columna en curva, las costillas, las patas, el cuello y la cabeza. Para el gran salón del museo.
+function esqueleto(x: number, y: number, s: number): void {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s / 100, s / 100);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  // el contorno oscuro y, encima, el hueso claro
+  [
+    ['#7A6A52', 9],
+    ['#FFF8E8', 5],
+  ].forEach(([c, w]) => {
+    ctx.strokeStyle = c as string;
+    ctx.lineWidth = w as number;
+    ctx.beginPath();
+    // la columna: de la cola, por el lomo, al cuello y la cabeza
+    ctx.moveTo(-150, -20);
+    ctx.quadraticCurveTo(-60, -70, 20, -60);
+    ctx.quadraticCurveTo(70, -60, 90, -120);
+    ctx.quadraticCurveTo(100, -160, 130, -165);
+    // las patas
+    ctx.moveTo(-40, -62);
+    ctx.lineTo(-45, 0);
+    ctx.moveTo(-20, -64);
+    ctx.lineTo(-10, 0);
+    ctx.moveTo(30, -60);
+    ctx.lineTo(25, 0);
+    ctx.moveTo(50, -64);
+    ctx.lineTo(60, 0);
+    ctx.stroke();
+    // las costillas
+    [-30, -10, 10, 30].forEach((cx) => {
+      ctx.beginPath();
+      ctx.moveTo(cx, -63);
+      ctx.quadraticCurveTo(cx - 10, -40, cx, -28);
+      ctx.stroke();
+    });
+    // la cabeza
+    ctx.beginPath();
+    ctx.ellipse(140, -165, 16, 9, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  });
+  ctx.restore();
+}
+
+// fondoMuseo(): el museo de los dinosaurios (desde la fase P19): el gran salón, con la pared y sus columnas, los cuadros
+// de los dinosaurios, el gran esqueleto en su tarima (a la izquierda), el pterodáctilo colgado del techo que se balancea (con T) y el
+// suelo de baldosas.
+export function fondoMuseo(): void {
+  cielo('#F3E3C3', '#E8CFA0', 470);
+  ctx.save();
+  // el suelo de baldosas
+  ctx.fillStyle = '#D9C3A0';
+  ctx.fillRect(0, 470, W, H - 470);
+  ctx.strokeStyle = 'rgba(122,106,82,0.35)';
+  ctx.lineWidth = 3;
+  [560, 680, 820].forEach((y) => {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  });
+  Array.from({ length: 9 }, (_, i) => i).forEach((i) => {
+    ctx.beginPath();
+    ctx.moveTo(W / 2 + (i - 4) * 140, 470);
+    ctx.lineTo(W / 2 + (i - 4) * 360, H);
+    ctx.stroke();
+  });
+  // las columnas
+  [70, 1530].forEach((x) => {
+    ctx.fillStyle = '#FFF3DC';
+    ctx.fillRect(x - 40, 60, 80, 410);
+    ctx.fillStyle = '#E8D3AD';
+    ctx.fillRect(x - 52, 40, 104, 30);
+    ctx.fillRect(x - 52, 450, 104, 24);
+  });
+  // los cuadros
+  [
+    ['volcan', 380],
+    ['triceratops', 1220],
+  ].forEach(([k, x]) => {
+    card((x as number) - 90, 70, 180, 150, '#FFFFFF', 6, 10);
+    pic(k as string, x as number, 145, 120);
+  });
+  // la tarima y el gran esqueleto
+  ctx.fillStyle = '#B88A55';
+  ctx.beginPath();
+  ctx.ellipse(330, 440, 230, 30, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+  esqueleto(310, 435, 125);
+  // el pterodáctilo colgado del techo, en medio
+  const bal = Math.sin(T * 1.2) * 0.12;
+  ctx.save();
+  ctx.translate(W / 2, 0);
+  ctx.rotate(bal);
+  ctx.strokeStyle = '#7A6A52';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(0, 70);
+  ctx.stroke();
+  pic('pterodactilo', 0, 120, 120);
+  ctx.restore();
+}
+
+// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo o el de la granja (desde la fase P17;
+// el álbum también lo usa).
 export function fondoDe(e: Excursion): void {
   if (e.id === 'zoo') fondoZoo();
   else if (e.id === 'acuario') fondoAcuario();
+  else if (e.id === 'museo') fondoMuseo();
   else fondoGranja();
 }
 
@@ -309,6 +418,11 @@ export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, num
     ['delfin', -240, 30, 200],
     ['pulpo', 240, 90, 150],
     ['estrellaMar', 140, 110, 90],
+  ],
+  museo: [
+    ['diplodoco', -240, 20, 230],
+    ['tiranosaurio', 240, 70, 170],
+    ['triceratops', 130, 110, 110],
   ],
   zoo: [
     ['jirafa', -240, 20, 240],
@@ -340,10 +454,11 @@ interface Destino {
   readonly w: number;
   readonly h: number;
 }
-// DESTINOS: los carteles del autobús, uno por excursión, en fila y centrados.
+// DESTINOS: los carteles del autobús, uno por excursión, en fila y centrados (desde la P19 caben cinco: los carteles se
+// estrechan para que quepan todos con 40 de margen).
 export const DESTINOS: readonly Destino[] = EXCURSIONES.map((e, i, todas) => {
-  const w = 300,
-    sep = 50,
+  const sep = 50,
+    w = Math.min(300, (W - 80 - (todas.length - 1) * sep) / todas.length),
     ancho = todas.length * w + (todas.length - 1) * sep;
   return { e, x: (W - ancho) / 2 + i * (w + sep), y: 230, w, h: 330 };
 });
@@ -604,8 +719,14 @@ function hacerFoto(): void {
 }
 
 // bienvenida(e): lo que dice el guía de la excursión e la primera vez que se va: la granjera Rosa en la granja y, desde
-// la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario.
+// la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario, y desde la P19, el
+// paleontólogo Pablo en el museo de los dinosaurios.
 function bienvenida(e: Excursion): string {
+  if (e.id === 'museo')
+    return fmt(
+      '¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.',
+      { nino: kid(), guia: e.nombreGuia },
+    );
   if (e.id === 'acuario')
     return fmt(
       '¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.',

@@ -26,7 +26,8 @@
 // (P12b), cometa.ts y panuelo.ts (P12c) y sillas.ts (P12d);
 // desde la P13a, escondite.ts (el escondite), y desde la P13b, circuito.ts (el circuito de psicomotricidad); desde la P14, tesoros.ts (los tesoros
 // del mapa y la vitrina), y desde la P15, fotos.ts (la cámara de fotos y el álbum de fotos); desde la P16, aventura.ts (la gran aventura de
-// Tito), y desde la P17, zoo.ts (los recintos de la excursión al zoo), y desde la P18, acuario.ts (las salas del acuario).
+// Tito), y desde la P17, zoo.ts (los recintos de la excursión al zoo), y desde la P18, acuario.ts (las salas del acuario), y desde la P19, museo.ts
+// (las salas del museo de los dinosaurios).
 // src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
@@ -65,6 +66,7 @@ export * from './granjaCrias.ts';
 export * from './granjaTalleres.ts';
 export * from './zoo.ts';
 export * from './acuario.ts';
+export * from './museo.ts';
 export * from './albumExcursiones.ts';
 export * from './deporte.ts';
 export * from './deportePruebas.ts';
