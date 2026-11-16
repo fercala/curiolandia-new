@@ -9,7 +9,7 @@
 // Ayudas (prefijo PA_ para no chocar con otros archivos): PA_oct, PA_win, PA_P, PA_star, PA_hat,
 // PA_heart, PA_spiral, PA_wh, PA_lens.
 // Dibujos: escuela, hospital, parque, piscina, tienda, calendario, semáforo, paso de cebra, stop,
-// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, paleontólogo, guardabosques, peluquero) y sus
+// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, paleontólogo, guardabosques, frutera, peluquero) y sus
 // herramientas; cosas de los sentidos; vehículos (ambulancia, camión de bomberos, submarino...).
 // ==========================================================================
 /* ---------- Dibujos PA: lugares, oficios, objetos y vehiculos ---------- */
@@ -350,6 +350,18 @@ Object.assign(PICS, {
       mid: `<path d="M-12 -14 Q0 0 12 -14" fill="none" stroke="${K}" stroke-width="2.5"/><rect x="-11" y="-4" width="9" height="12" rx="3" fill="#3A3A3A" ${sw(2.5)}/><rect x="2" y="-4" width="9" height="12" rx="3" fill="#3A3A3A" ${sw(2.5)}/><rect x="-2" y="-1" width="4" height="5" fill="#3A3A3A"/><path d="M14 -10 q6 -6 6 2 q0 6 -6 4 Z" fill="#FFC93C" ${sw(2)}/><rect x="-22" y="16" width="44" height="6" fill="#6B4A2E" ${sw(2.5)}/>`,
       hold: `<g transform="translate(40 -44) rotate(-20)"><path d="M0 -20 Q16 -8 0 16 Q-16 -8 0 -20 Z" fill="#FFA94D" ${sw(3)}/><path d="M0 -14 V22" stroke="#D9762A" stroke-width="3" stroke-linecap="round"/></g>`,
       top: `<ellipse cx="0" cy="-43" rx="36" ry="7" fill="#B59A62" ${sw(4)}/><path d="M-16 -43 Q-16 -60 -6 -62 L0 -56 L6 -62 Q16 -60 16 -43 Z" fill="#B59A62" ${sw(4)}/><path d="M-16 -47 H16" stroke="#6B4A2E" stroke-width="5"/>`,
+    },
+  ),
+  // frutera: Carmen, la frutera del mercado (fase P22): blusa amarilla con un delantal verde con bolsillo, pañuelo
+  // rojo en la cabeza y una manzana en la mano levantada.
+  frutera: PA_P(
+    { skin: '#E8B48F', hair: '#3B2A1E', style: 'pig', shirt: '#FFD66B', pants: '#5B5F6B' },
+    {
+      T: -60,
+      R: ['M20 -6 Q34 -8 36 -22', 36, -24],
+      mid: `<path d="M-15 -10 H15 V24 H-15 Z" fill="#5FC77A" ${sw(3)}/><rect x="-8" y="6" width="16" height="10" rx="2" fill="#4E9A44" ${sw(2.5)}/><path d="M-15 -10 L-10 -16 M15 -10 L10 -16" stroke="#5FC77A" stroke-width="4" stroke-linecap="round"/>`,
+      hold: `<g transform="translate(40 -44)"><circle r="15" fill="#FF6B5E" ${sw(3)}/><path d="M0 -14 q2 -8 8 -10" fill="none" stroke="#7A4E2E" stroke-width="3" stroke-linecap="round"/><path d="M2 -16 q8 -8 14 -2 q-8 4 -14 2 Z" fill="#7CC86E" ${sw(2)}/><ellipse cx="-6" cy="-5" rx="3" ry="5" fill="#FFFFFF" opacity=".7"/></g>`,
+      top: `<path d="M-24 -40 Q-24 -64 0 -64 Q24 -64 24 -40 Q0 -48 -24 -40 Z" fill="#E2574C" ${sw(4)}/><circle cx="-10" cy="-54" r="2.5" fill="#FFFFFF"/><circle cx="6" cy="-58" r="2.5" fill="#FFFFFF"/><circle cx="12" cy="-48" r="2.5" fill="#FFFFFF"/><path d="M22 -42 l10 6 l-4 -10 Z" fill="#E2574C" ${sw(3)}/>`,
     },
   ),
   peluquero: PA_P(
