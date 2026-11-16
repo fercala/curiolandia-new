@@ -96,7 +96,8 @@ describe('las excursiones', () => {
   });
 
   test('una excursión sin estaciones nunca está completa', () => {
-    expect(visitaCompleta(excursionPorId('bosque')!, visitaDe(undefined, 'bosque'))).toBe(false);
+    const vacia = { ...excursionPorId('bosque')!, estaciones: [] };
+    expect(visitaCompleta(vacia, visitaDe(undefined, 'bosque'))).toBe(false);
   });
 
   // desde la fase P17: el zoo, con Nico el cuidador, sus cinco recintos y sus animales que pasean
@@ -139,5 +140,13 @@ describe('las excursiones', () => {
     expect(ciudad.nombreGuia).toBe('Lucía');
     expect(estacionesJugables(ciudad).map((s) => s.id)).toEqual(['vestir', 'fuego', 'pan', 'salud', 'calle']);
     expect(EXCURSIONES.map((e) => e.id).slice(-3)).toEqual(['museo', 'ciudad', 'bosque']);
+  });
+
+  // desde la fase P21: el bosque de otoño, con Hugo el guardabosques y sus cinco paradas, la última excursión
+  test('el bosque tiene cinco paradas jugables y va el último', () => {
+    const bosque = excursionPorId('bosque')!;
+    expect(bosque.nombreGuia).toBe('Hugo');
+    expect(estacionesJugables(bosque).map((s) => s.id)).toEqual(['hojas', 'huellas', 'sonidos', 'ardilla', 'mural']);
+    expect(EXCURSIONES.every((e) => estacionesJugables(e).length > 0)).toBe(true);
   });
 });

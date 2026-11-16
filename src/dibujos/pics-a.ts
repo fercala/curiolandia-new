@@ -9,7 +9,7 @@
 // Ayudas (prefijo PA_ para no chocar con otros archivos): PA_oct, PA_win, PA_P, PA_star, PA_hat,
 // PA_heart, PA_spiral, PA_wh, PA_lens.
 // Dibujos: escuela, hospital, parque, piscina, tienda, calendario, semáforo, paso de cebra, stop,
-// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, paleontólogo, peluquero) y sus
+// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, paleontólogo, guardabosques, peluquero) y sus
 // herramientas; cosas de los sentidos; vehículos (ambulancia, camión de bomberos, submarino...).
 // ==========================================================================
 /* ---------- Dibujos PA: lugares, oficios, objetos y vehiculos ---------- */
@@ -338,6 +338,18 @@ Object.assign(PICS, {
       mid: `<path d="M-20 -12 V20 H-6 V-12 Z M20 -12 V20 H6 V-12 Z" fill="#6E8B3D" ${sw(2.5)}/><rect x="-17" y="0" width="9" height="8" rx="2" fill="#5A7530" ${sw(2)}/><rect x="8" y="0" width="9" height="8" rx="2" fill="#5A7530" ${sw(2)}/><rect x="-22" y="16" width="44" height="6" fill="#6B4A2E" ${sw(2.5)}/>`,
       hold: `<g transform="translate(40 -42) rotate(20)"><rect x="-3" y="-4" width="6" height="26" rx="2" fill="#C98A4B" ${sw(2.5)}/><rect x="-5" y="-10" width="10" height="7" fill="#B8B0A6" ${sw(2.5)}/><path d="M-6 -10 Q-7 -22 0 -26 Q7 -22 6 -10 Z" fill="#F2DDA4" ${sw(2.5)}/></g>`,
       top: `<circle cx="-9" cy="-29" r="6" fill="none" stroke="${K}" stroke-width="3"/><circle cx="9" cy="-29" r="6" fill="none" stroke="${K}" stroke-width="3"/><path d="M-3 -29 H3" stroke="${K}" stroke-width="3"/><ellipse cx="0" cy="-43" rx="34" ry="7" fill="#8A6236" ${sw(4)}/><path d="M-17 -43 Q-18 -62 0 -60 Q18 -62 17 -43 Z" fill="#8A6236" ${sw(4)}/><path d="M-17 -47 H17" stroke="#4A3320" stroke-width="5"/>`,
+    },
+  ),
+  // guardabosques: Hugo, el guardabosques del bosque de otoño (fase P21): camisa verde con un escudo de una hoja,
+  // prismáticos colgados del cuello, sombrero de ala ancha caqui y una hoja naranja en la mano levantada.
+  guardabosques: PA_P(
+    { skin: '#C98E6B', hair: '#3B2A1E', style: 'short', shirt: '#4E9A44', pants: '#6B5A3E' },
+    {
+      T: -60,
+      R: ['M20 -6 Q34 -8 36 -22', 36, -24],
+      mid: `<path d="M-12 -14 Q0 0 12 -14" fill="none" stroke="${K}" stroke-width="2.5"/><rect x="-11" y="-4" width="9" height="12" rx="3" fill="#3A3A3A" ${sw(2.5)}/><rect x="2" y="-4" width="9" height="12" rx="3" fill="#3A3A3A" ${sw(2.5)}/><rect x="-2" y="-1" width="4" height="5" fill="#3A3A3A"/><path d="M14 -10 q6 -6 6 2 q0 6 -6 4 Z" fill="#FFC93C" ${sw(2)}/><rect x="-22" y="16" width="44" height="6" fill="#6B4A2E" ${sw(2.5)}/>`,
+      hold: `<g transform="translate(40 -44) rotate(-20)"><path d="M0 -20 Q16 -8 0 16 Q-16 -8 0 -20 Z" fill="#FFA94D" ${sw(3)}/><path d="M0 -14 V22" stroke="#D9762A" stroke-width="3" stroke-linecap="round"/></g>`,
+      top: `<ellipse cx="0" cy="-43" rx="36" ry="7" fill="#B59A62" ${sw(4)}/><path d="M-16 -43 Q-16 -60 -6 -62 L0 -56 L6 -62 Q16 -60 16 -43 Z" fill="#B59A62" ${sw(4)}/><path d="M-16 -47 H16" stroke="#6B4A2E" stroke-width="5"/>`,
     },
   ),
   peluquero: PA_P(

@@ -626,7 +626,13 @@ cea355abbc42,Vestirse de bombero,Ne îmbrăcăm ca pompierii,trozo,src/contenido
 8996dad9e07c,La panadería,Brutăria,trozo,src/contenido/excursiones.ts,borrador
 5649d6c04246,El centro de salud,Centrul medical,trozo,src/contenido/excursiones.ts,borrador
 4ca89e0485bf,Cruzar la calle,Traversăm strada,trozo,src/contenido/excursiones.ts,borrador
-d236fa6bc06b,El bosque,Pădurea,trozo,src/contenido/excursiones.ts,borrador
+daf0afb0e92b,El bosque de otoño,Pădurea de toamnă,trozo,src/contenido/excursiones.ts,borrador
+1b3840b0b70d,Hugo,Hugo,trozo,src/contenido/excursiones.ts,borrador
+e485229694b3,Las hojas de colores,Frunzele colorate,trozo,src/contenido/excursiones.ts,borrador
+4d9542a647a5,Las huellas del conejo,Urmele iepurelui,trozo,src/contenido/excursiones.ts,borrador
+bc9b6ffc5d62,Los sonidos del bosque,Sunetele pădurii,trozo,src/contenido/excursiones.ts,borrador
+ddcf0bdb8355,La despensa de la ardilla,Cămara veveriței,trozo,src/contenido/excursiones.ts src/temas/temas4.ts,borrador
+6b00f14144dd,El mural del otoño,Pictura toamnei,trozo,src/contenido/excursiones.ts,borrador
 eef5e5e9d7f8,Mum,,trozo,src/contenido/ingles.ts,falta
 48418f32fc2d,Mamá,Mama,trozo,src/contenido/ingles.ts,borrador
 cb525f817e00,Dad,,trozo,src/contenido/ingles.ts,falta
@@ -885,6 +891,7 @@ dba2185000a6,la cocinera,bucătăreasa,nombre,src/contenido/lex.ts,borrador
 dd4a21840b55,el cuidador,îngrijitorul,nombre,src/contenido/lex.ts,borrador
 73ae03336f74,la buceadora,scafandra,nombre,src/contenido/lex.ts,borrador
 13201afffc9f,el paleontólogo,paleontologul,nombre,src/contenido/lex.ts,borrador
+99fb17adc36b,el guardabosques,pădurarul,nombre,src/contenido/lex.ts,borrador
 f7f37fe70c49,el delfín,delfinul,nombre,src/contenido/lex.ts,borrador
 62fd85bfb3a4,el cangrejo,crabul,nombre,src/contenido/lex.ts,borrador
 392231973151,el peluquero,frizerul,nombre,src/contenido/lex.ts,borrador
@@ -1388,6 +1395,20 @@ b164bdd25e8d,El próximo capítulo llegará muy pronto.,Capitolul următor va ve
 9d52791c9b5c,¡Este capítulo llegará muy pronto!,Capitolul acesta va veni foarte curând!,frase,src/escenas/aventura.ts,borrador
 f3ed17994784,¡Lo pongo en el mapa del tesoro!,O pun pe harta comorii!,frase,src/escenas/aventura.ts,borrador
 6e7816f71018,Este trozo ya lo tenías. ¡Muy bien jugado!,Bucata asta o aveai deja. Foarte bine jucat!,frase,src/escenas/aventura.ts,borrador
+0990406df4d6,¡Mira cómo caen las hojas! En otoño se ponen de muchos colores.,Uite cum cad frunzele! Toamna se fac de multe culori.,frase,src/escenas/bosque.ts,borrador
+8524d5cc666e,"¿Sabes una cosa? En otoño, muchos árboles se quedan sin hojas para descansar durante el invierno.","Știi ceva? Toamna, mulți copaci rămân fără frunze ca să se odihnească peste iarnă.",frase,src/escenas/bosque.ts,borrador
+56975dcac5a0,¡Atrapa las hojas rojas!,Prinde frunzele roșii!,frase,src/escenas/bosque.ts,borrador
+fbd77033a49c,"¡Ahora, las hojas naranjas!","Acum, frunzele portocalii!",frase,src/escenas/bosque.ts,borrador
+810dc5387086,¡Mira! Aquí hay huellas. Son de un conejo. ¿Adónde irá?,Uite! Aici sunt urme. Sunt ale unui iepure. Unde o fi mergând?,frase,src/escenas/bosque.ts,borrador
+c7266bed559a,"¿Sabes una cosa? Los conejos viven en madrigueras, unas casas con túneles debajo de la tierra.","Știi ceva? Iepurii trăiesc în vizuini, niște căsuțe cu tuneluri sub pământ.",frase,src/escenas/bosque.ts,borrador
+ff898afc6c24,Sigue las huellas del conejo. Toca las huellas una a una.,Urmează urmele iepurelui. Atinge urmele una câte una.,frase,src/escenas/bosque.ts,borrador
+b9bb03cf99bf,¡Hemos llegado a la madriguera del conejo!,Am ajuns la vizuina iepurelui!,frase,src/escenas/bosque.ts,borrador
+0da2ac95534f,"¡Silencio! Si escuchamos bien, oiremos a los animales del bosque.","Liniște! Dacă ascultăm bine, o să auzim animalele pădurii.",frase,src/escenas/bosque.ts,borrador
+98a18daad6a5,¿Sabes una cosa? El búho puede girar la cabeza casi del todo para mirar hacia atrás.,"Știi ceva? Bufnița își poate întoarce capul aproape de tot, ca să se uite în spate.",frase,src/escenas/bosque.ts,borrador
+5208cac4c2b5,La ardilla guarda comida para el invierno. ¡Vamos a contar lo que tiene!,Veverița strânge mâncare pentru iarnă. Hai să numărăm ce are!,frase,src/escenas/bosque.ts,borrador
+bd71f945f73b,"¿Sabes una cosa? La ardilla esconde bellotas en muchos sitios, ¡y a veces se le olvida dónde las ha puesto!",Știi ceva? Veverița ascunde ghinde în multe locuri și uneori uită unde le-a pus!,frase,src/escenas/bosque.ts,borrador
+c0f582c334d1,"Para acabar, vamos a hacer un mural con todo lo que hemos visto en el bosque.","La sfârșit, facem o pictură mare cu tot ce am văzut în pădure.",frase,src/escenas/bosque.ts,borrador
+43ac9400fa64,¿Sabes una cosa? Con las hojas secas del otoño se pueden hacer dibujos muy bonitos.,Știi ceva? Din frunzele uscate de toamnă se pot face desene foarte frumoase.,frase,src/escenas/bosque.ts,borrador
 9931240f3654,¡Aquí está {cosa}!,Iată {cosa}!,frase,src/escenas/casa.ts,borrador
 2a32c6fe3055,¡Mira qué bonito me queda!,Uite ce bine îmi stă!,frase,src/escenas/casa.ts,borrador
 6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,Unde îl punem? Trage-l într-un loc care strălucește.,frase,src/escenas/casa.ts,borrador
@@ -1872,6 +1893,7 @@ a4c59ff8ba33,El álbum de excursiones.,Albumul de excursii.,frase,src/escenas/ex
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!","Mergem {excursion}! Brum, brum!",frase,src/escenas/excursion.ts,borrador
 f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,O poză de grup! Zâmbiți! A fost o excursie minunată. {guia} ne așteaptă altă dată: {excursion}. Poza rămâne în albumul de excursii. Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
+1fad0af05679,"¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.","Bună{nino}! Eu sunt {guia}, pădurarul. Bine ai venit în pădurea de toamnă! Vom vedea copacii, frunzele și animalele pădurii.",frase,src/escenas/excursion.ts,borrador
 0692f5ce89a1,"¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.","Bună{nino}! Eu sunt {guia}, pompiera. Bine ai venit în oraș! Vom vedea remiza de pompieri, brutăria și centrul medical.",frase,src/escenas/excursion.ts,borrador
 3812a3f93494,"¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.","Bună{nino}! Eu sunt {guia}, paleontologul muzeului. Bine ai venit la muzeul dinozaurilor! Noi, paleontologii, căutăm oase de dinozaur.",frase,src/escenas/excursion.ts,borrador
 64ddf6b02895,"¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.","Bună{nino}! Eu sunt {guia}, scafandra de la acvariu. Bine ai venit la acvariu! Ne plimbăm printr-un tunel pe sub apă.",frase,src/escenas/excursion.ts,borrador
@@ -3589,7 +3611,6 @@ b9b0c8c762d9,La nuez. Tiene una cáscara muy dura.,Nuca. Are o coajă foarte tar
 a7571674010d,El erizo. Se esconde entre las hojas secas.,Ariciul. Se ascunde printre frunzele uscate.,frase,src/temas/temas4.ts,borrador
 8b870e44469f,¡Se caen los frutos del otoño! Atrapa las bellotas.,Cad fructele toamnei! Prinde ghindele.,frase,src/temas/temas4.ts,borrador
 d22a631a52e4,¡Y ahora las nueces!,Și acum nucile!,frase,src/temas/temas4.ts,borrador
-ddcf0bdb8355,La despensa de la ardilla,Cămara veveriței,trozo,src/temas/temas4.ts,borrador
 2204c1fe3668,La ardilla necesita {n} frutos para el invierno. Lleva {n} a su casita del árbol.,Veverița are nevoie de {n} {n:de}fructe pentru iarnă. Du {n} la căsuța ei din copac.,frase,src/temas/temas4.ts,borrador
 0e57ea06aec0,¡La ardilla tiene {n} frutos! Gracias.,Veverița are {n} {n:de}fructe! Mulțumesc.,frase,src/temas/temas4.ts,borrador
 d1153cb14a5f,Las emociones,Emoțiile,trozo,src/temas/temas4.ts,borrador
@@ -4521,6 +4542,7 @@ e59f1c4fb1aa,META,SOSIRE,tabla,,borrador
 a13314e5b761,oro,aur,tabla,,borrador
 e0b95c145bd9,plata,argint,tabla,,borrador
 f80e5f83b0e1,bronce,bronz,tabla,,borrador
+d236fa6bc06b,El bosque,Pădurea,tabla,,borrador
 b733dd98f67f,hierba,iarbă,tabla,,borrador
 e2369eaf443f,trigo,grâu,tabla,,borrador
 41520119763b,zanahorias,morcovi,tabla,,borrador

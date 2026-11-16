@@ -4,7 +4,7 @@
  * dice Nico el cuidador (la bienvenida, las presentaciones y los datos curiosos), las frases de dar de comer y la página
  * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
  * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo, y desde la P20 (v0.2.164), la ciudad, con
- * Lucía la bombera. Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * Lucía la bombera, y desde la P21 (v0.2.165), el bosque de otoño, con Hugo el guardabosques. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -170,4 +170,38 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
     'Ca să ne întoarcem la grădiniță, trebuie să traversăm strada. Uită-te bine la semafor!',
   '¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el semáforo en verde y de la mano de un mayor.':
     'Știi ceva? Traversăm strada pe trecerea de pietoni, când semaforul e verde, și ținem de mână un adult.',
+  // desde la P21 (v0.2.165): el bosque de otoño, con Hugo el guardabosques
+  'El bosque de otoño': 'Pădurea de toamnă',
+  'Hugo': 'Hugo',
+  'Las hojas de colores': 'Frunzele colorate',
+  'Las huellas del conejo': 'Urmele iepurelui',
+  'Los sonidos del bosque': 'Sunetele pădurii',
+  'La despensa de la ardilla': 'Cămara veveriței',
+  'El mural del otoño': 'Pictura toamnei',
+  '¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.':
+    'Bună{nino}! Eu sunt {guia}, pădurarul. Bine ai venit în pădurea de toamnă! Vom vedea copacii, frunzele și animalele pădurii.',
+  '¡Mira cómo caen las hojas! En otoño se ponen de muchos colores.':
+    'Uite cum cad frunzele! Toamna se fac de multe culori.',
+  '¿Sabes una cosa? En otoño, muchos árboles se quedan sin hojas para descansar durante el invierno.':
+    'Știi ceva? Toamna, mulți copaci rămân fără frunze ca să se odihnească peste iarnă.',
+  '¡Atrapa las hojas rojas!': 'Prinde frunzele roșii!',
+  '¡Ahora, las hojas naranjas!': 'Acum, frunzele portocalii!',
+  '¡Mira! Aquí hay huellas. Son de un conejo. ¿Adónde irá?':
+    'Uite! Aici sunt urme. Sunt ale unui iepure. Unde o fi mergând?',
+  '¿Sabes una cosa? Los conejos viven en madrigueras, unas casas con túneles debajo de la tierra.':
+    'Știi ceva? Iepurii trăiesc în vizuini, niște căsuțe cu tuneluri sub pământ.',
+  'Sigue las huellas del conejo. Toca las huellas una a una.': 'Urmează urmele iepurelui. Atinge urmele una câte una.',
+  '¡Hemos llegado a la madriguera del conejo!': 'Am ajuns la vizuina iepurelui!',
+  '¡Silencio! Si escuchamos bien, oiremos a los animales del bosque.':
+    'Liniște! Dacă ascultăm bine, o să auzim animalele pădurii.',
+  '¿Sabes una cosa? El búho puede girar la cabeza casi del todo para mirar hacia atrás.':
+    'Știi ceva? Bufnița își poate întoarce capul aproape de tot, ca să se uite în spate.',
+  'La ardilla guarda comida para el invierno. ¡Vamos a contar lo que tiene!':
+    'Veverița strânge mâncare pentru iarnă. Hai să numărăm ce are!',
+  '¿Sabes una cosa? La ardilla esconde bellotas en muchos sitios, ¡y a veces se le olvida dónde las ha puesto!':
+    'Știi ceva? Veverița ascunde ghinde în multe locuri și uneori uită unde le-a pus!',
+  'Para acabar, vamos a hacer un mural con todo lo que hemos visto en el bosque.':
+    'La sfârșit, facem o pictură mare cu tot ce am văzut în pădure.',
+  '¿Sabes una cosa? Con las hojas secas del otoño se pueden hacer dibujos muy bonitos.':
+    'Știi ceva? Din frunzele uscate de toamnă se pot face desene foarte frumoase.',
 };
