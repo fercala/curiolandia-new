@@ -3,14 +3,14 @@
  * cole (SCENES.autobus: se elige adónde ir y se viaja) y la escena genérica de una excursión (SCENES.excursion, con
  * {exc: id}): el plano del sitio con sus estaciones, el guía (en la granja, la granjera Rosa; desde la P17, en el zoo, el
  * cuidador Nico; desde la P18, en el acuario, la buceadora Marina; desde la P19, en el museo de los dinosaurios, el
- * paleontólogo Pablo) y Tito; al tocar una
+ * paleontólogo Pablo; desde la P20, en la ciudad, la bombera Lucía) y Tito; al tocar una
  * estación jugable se va a su escena, y al volver (volverDeEstacion, {hecha: id}) se apunta. Cuando se han hecho todas
  * las estaciones que ya se pueden jugar, la foto de grupo: un flash, «¡Patata!» y la foto de recuerdo, y monedas la
  * primera vez de cada día. Las reglas, en dominio/excursiones.ts; los datos, en contenido/excursiones.ts; lo guardado, en
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
- * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
+ * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
@@ -397,12 +397,54 @@ export function fondoMuseo(): void {
   ctx.restore();
 }
 
-// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo o el de la granja (desde la fase P17;
-// el álbum también lo usa).
+// edificio(x, w, h, c, tejado): un edificio de la calle de la ciudad: la fachada de color c, ancho w y alto h sobre la
+// acera (y = 470), con su tejado o cornisa y dos filas de ventanas.
+function edificio(x: number, w: number, h: number, c: string, tejado: string): void {
+  card(x, 470 - h, w, h, c, 5, 6);
+  card(x - 10, 470 - h - 24, w + 20, 30, tejado, 5, 6);
+  [0, 1].forEach((fila) =>
+    [0, 1, 2].forEach((col) =>
+      card(x + 22 + col * ((w - 44) / 3), 470 - h + 40 + fila * 80, (w - 44) / 3 - 16, 50, '#BFEAF7', 4, 4),
+    ),
+  );
+}
+
+// fondoCiudad(): la ciudad (desde la fase P20): el cielo, los edificios de la calle (el parque de bomberos rojo con su
+// gran puerta, la panadería con su toldo de rayas y el centro de salud con su cruz), la acera, la carretera con el paso
+// de cebra y el semáforo, y un coche que pasa (con T).
+export function fondoCiudad(): void {
+  cielo('#8FD3F5', '#DDF3FF', 470);
+  ctx.save();
+  // los edificios: el parque de bomberos, la panadería y el centro de salud
+  edificio(150, 380, 300, '#E2574C', '#B8423A');
+  card(230, 330, 220, 140, '#F4EBD0', 5, 10);
+  [0, 1, 2].forEach((i) => card(240 + i * 70, 340, 60, 120, '#C9C1B4', 3, 4));
+  edificio(640, 300, 240, '#FFE3B3', '#C98A4B');
+  ['#FF6B5E', '#FFFFFF', '#FF6B5E', '#FFFFFF', '#FF6B5E'].forEach((c, i) => card(630 + i * 64, 300, 64, 40, c, 3, 0));
+  pic('pan', 790, 420, 80);
+  edificio(1050, 360, 280, '#FFFFFF', '#5BB8E6');
+  card(1205, 210, 50, 120, '#5FC77A', 0, 4);
+  card(1170, 245, 120, 50, '#5FC77A', 0, 4);
+  // la acera y la carretera con el paso de cebra
+  ctx.fillStyle = '#D9D2C6';
+  ctx.fillRect(0, 470, W, 60);
+  ctx.fillStyle = '#7A7A7A';
+  ctx.fillRect(0, 530, W, H - 530);
+  ctx.fillStyle = '#FFFFFF';
+  Array.from({ length: 6 }, (_, i) => i).forEach((i) => ctx.fillRect(560 + i * 85, 560, 50, H - 580));
+  ctx.restore();
+  pic('semaforo', 1470, 380, 200);
+  // el coche que pasa por la carretera, de izquierda a derecha
+  pic('camion', ((T * 120) % 2000) - 200, 860, 150, 0.9);
+}
+
+// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad o el de la granja
+// (desde la fase P17; el álbum también lo usa).
 export function fondoDe(e: Excursion): void {
   if (e.id === 'zoo') fondoZoo();
   else if (e.id === 'acuario') fondoAcuario();
   else if (e.id === 'museo') fondoMuseo();
+  else if (e.id === 'ciudad') fondoCiudad();
   else fondoGranja();
 }
 
@@ -418,6 +460,11 @@ export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, num
     ['delfin', -240, 30, 200],
     ['pulpo', 240, 90, 150],
     ['estrellaMar', 140, 110, 90],
+  ],
+  ciudad: [
+    ['camionBomberos', -230, 40, 230],
+    ['medico', 230, 60, 170],
+    ['panadero', 120, 90, 120],
   ],
   museo: [
     ['diplodoco', -240, 20, 230],
@@ -720,8 +767,13 @@ function hacerFoto(): void {
 
 // bienvenida(e): lo que dice el guía de la excursión e la primera vez que se va: la granjera Rosa en la granja y, desde
 // la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario, y desde la P19, el
-// paleontólogo Pablo en el museo de los dinosaurios.
+// paleontólogo Pablo en el museo de los dinosaurios, y desde la P20, la bombera Lucía en la ciudad.
 function bienvenida(e: Excursion): string {
+  if (e.id === 'ciudad')
+    return fmt(
+      '¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.',
+      { nino: kid(), guia: e.nombreGuia },
+    );
   if (e.id === 'museo')
     return fmt(
       '¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.',

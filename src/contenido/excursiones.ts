@@ -6,7 +6,8 @@
  * (escenas/zoo.ts): la sabana, la selva, la zona polar, la casa de los reptiles y la gran pajarera; sus animales pasean
  * por el plano y se les puede hacer fotos (el safari fotográfico). Desde la P18, el acuario (idea 3), con Marina la
  * buceadora, el túnel debajo del agua y cinco salas (escenas/acuario.ts). Desde la P19, el museo de los dinosaurios
- * (idea 4), con Pablo el paleontólogo y cinco salas (escenas/museo.ts). El bosque, sin estaciones todavía, sale en el autobús
+ * (idea 4), con Pablo el paleontólogo y cinco salas (escenas/museo.ts). Desde la P20, la ciudad (idea 5), con
+ * Lucía la bombera: el parque de bomberos, la panadería, el centro de salud y la calle (escenas/ciudad.ts). El bosque, sin estaciones todavía, sale en el autobús
  * como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
@@ -95,6 +96,20 @@ export const EXCURSIONES: readonly Excursion[] = [
       { id: 'medir', nombre: 'La sala de medir', escena: 'museoMedir', icono: 'diplodoco', x: 960, y: 700 },
       { id: 'comida', nombre: '¿Qué comían?', escena: 'museoComida', icono: 'tiranosaurio', x: 1260, y: 560 },
       { id: 'nido', nombre: 'El nido de los dinosaurios', escena: 'museoNido', icono: 'huevoDino', x: 1180, y: 330 },
+    ],
+  },
+  {
+    id: 'ciudad',
+    nombre: 'La ciudad',
+    icono: 'camionBomberos',
+    guia: 'bombera',
+    nombreGuia: 'Lucía',
+    estaciones: [
+      { id: 'vestir', nombre: 'Vestirse de bombero', escena: 'ciudadVestir', icono: 'bombera', x: 330, y: 560 },
+      { id: 'fuego', nombre: 'Apagar el fuego', escena: 'ciudadFuego', icono: 'manguera', x: 640, y: 700 },
+      { id: 'pan', nombre: 'La panadería', escena: 'ciudadPan', icono: 'pan', x: 960, y: 700 },
+      { id: 'salud', nombre: 'El centro de salud', escena: 'ciudadSalud', icono: 'medico', x: 1260, y: 560 },
+      { id: 'calle', nombre: 'Cruzar la calle', escena: 'ciudadCalle', icono: 'semaforo', x: 1180, y: 330 },
     ],
   },
   { id: 'bosque', nombre: 'El bosque', icono: 'arbol', guia: 'granjera', nombreGuia: '', estaciones: [] },

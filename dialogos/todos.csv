@@ -619,6 +619,13 @@ a070ee948c42,Montar los dinosaurios,trozo,src/contenido/excursiones.ts
 1d4e44903392,La sala de medir,trozo,src/contenido/excursiones.ts
 0ce1d41e5101,¿Qué comían?,frase,src/contenido/excursiones.ts
 c3603d62d9c1,El nido de los dinosaurios,trozo,src/contenido/excursiones.ts
+93d796bb16a4,La ciudad,trozo,src/contenido/excursiones.ts
+3a52109cd3a0,Lucía,trozo,src/contenido/excursiones.ts
+cea355abbc42,Vestirse de bombero,trozo,src/contenido/excursiones.ts
+07e863988b5a,Apagar el fuego,trozo,src/contenido/excursiones.ts
+8996dad9e07c,La panadería,trozo,src/contenido/excursiones.ts
+5649d6c04246,El centro de salud,trozo,src/contenido/excursiones.ts
+4ca89e0485bf,Cruzar la calle,trozo,src/contenido/excursiones.ts
 d236fa6bc06b,El bosque,trozo,src/contenido/excursiones.ts
 eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 48418f32fc2d,Mamá,trozo,src/contenido/ingles.ts
@@ -902,7 +909,7 @@ a5a403933a91,la campana,nombre,src/contenido/lex.ts
 7530979f7d2f,el cactus,nombre,src/contenido/lex.ts
 58c941ad26d1,el astronauta,nombre,src/contenido/lex.ts
 8fb57c36260a,el cinturón,nombre,src/contenido/lex.ts
-d173777c3ce9,el casco,nombre,src/contenido/lex.ts
+d173777c3ce9,el casco,nombre,src/contenido/lex.ts src/escenas/ciudad.ts
 fc1b5058f168,la señal de pare,nombre,src/contenido/lex.ts
 093b6c90052a,el mapa,nombre,src/contenido/lex.ts
 b2a278f16a7f,la maleta,nombre,src/contenido/lex.ts
@@ -1563,6 +1570,24 @@ df6d9ad08567,¡Te toca! Toca los obstáculos en orden.,frase,src/escenas/circuit
 207be087d209,¡Vamos a hacer el circuito! Escucha a la profe y toca los obstáculos en el orden que diga.,frase,src/escenas/circuito.ts
 eeb4e40a76b7,Toca la flecha para jugar otra vez.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts
 fd81e90ff876,Otra vez.,frase,src/escenas/circuito.ts src/escenas/columpios.ts src/escenas/cometa.ts
+4f2a94b089c4,"Para apagar fuegos, primero hay que ponerse el traje. Primero las botas, después la chaqueta, luego el casco y al final los guantes.",frase,src/escenas/ciudad.ts
+f332e1a0a05c,¿Sabes una cosa? El traje de los bomberos los protege del fuego y del calor.,frase,src/escenas/ciudad.ts
+46e03b3fd102,"Ordena la ropa del bombero: primero las botas, después la chaqueta, luego el casco y al final los guantes.",frase,src/escenas/ciudad.ts
+593b0d458353,¡Muy bien! Ya estamos listos para salir.,frase,src/escenas/ciudad.ts
+6ff21361edf2,¡Hay un fuego en una casa! Subimos al camión de bomberos y... ¡a apagarlo!,frase,src/escenas/ciudad.ts
+b45b8cba92dd,"¿Sabes una cosa? Si hay un fuego, hay que avisar a un mayor y llamar al ciento doce.",frase,src/escenas/ciudad.ts
+a684a92cb68e,Echa agua con la manguera: frota las llamas hasta que no quede ninguna.,frase,src/escenas/ciudad.ts
+2b1ea91173ba,¡Fuego apagado! Eres un bombero estupendo.,frase,src/escenas/ciudad.ts
+e67f421a7315,¡Qué bien huele! Estamos en la panadería. ¿Sabes cómo se hace el pan?,frase,src/escenas/ciudad.ts
+19674857b251,"¿Sabes una cosa? Los panaderos se levantan muy temprano, cuando todavía es de noche, para que el pan esté listo por la mañana.",frase,src/escenas/ciudad.ts
+693d6830cc47,¿Cómo se hace el pan? Ordena del primero al último.,frase,src/escenas/ciudad.ts
+8ccc5d51632d,"¡Muy bien! Del trigo sale la harina, el panadero hace la masa y la mete en el horno. ¡Y sale el pan!",frase,src/escenas/ciudad.ts
+202b455d0d4c,Esto es el centro de salud. Aquí nos cuidan cuando estamos malitos.,frase,src/escenas/ciudad.ts
+6f1da20c817d,"¿Sabes una cosa? Para no ponernos malos, nos lavamos las manos, comemos fruta y dormimos mucho.",frase,src/escenas/ciudad.ts
+2e3192266876,¡Ay! El conejito se ha caído y tiene pupas. Frota con la crema para curarlo.,frase,src/escenas/ciudad.ts
+0385822af6db,¡Ya está curado! El conejito está muy contento.,frase,src/escenas/ciudad.ts
+546f498c736a,Para volver al cole hay que cruzar la calle. ¡Mira bien el semáforo!,frase,src/escenas/ciudad.ts
+c6eff9337b90,"¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el semáforo en verde y de la mano de un mayor.",frase,src/escenas/ciudad.ts
 6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,frase,src/escenas/cofre.ts
 5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,frase,src/escenas/cofre.ts
 ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,frase,src/escenas/cofre.ts
@@ -1847,6 +1872,7 @@ a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!",frase,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
+0692f5ce89a1,"¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.",frase,src/escenas/excursion.ts
 3812a3f93494,"¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.",frase,src/escenas/excursion.ts
 64ddf6b02895,"¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.",frase,src/escenas/excursion.ts
 8f1a5d1d2982,"¡Hola{nino}! Soy {guia}, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.",frase,src/escenas/excursion.ts

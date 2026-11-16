@@ -103,6 +103,12 @@ const ESCENAS = [
   ['museoMedir', {}],
   ['museoComida', {}],
   ['museoNido', {}],
+  ['excursion', { exc: 'ciudad' }], // P20
+  ['ciudadVestir', {}],
+  ['ciudadFuego', {}],
+  ['ciudadPan', {}],
+  ['ciudadSalud', {}],
+  ['ciudadCalle', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

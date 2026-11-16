@@ -1206,6 +1206,61 @@ const R = L.registro('cole');
         return stk ? null : 'la primera visita da la pegatina del tiranosaurio';
       },
     );
+    await caso(
+      'P27',
+      'con 5 años, el autobús lleva a la ciudad; las cinco paradas (vestirse de bombero, apagar el fuego, la panadería, el centro de salud y cruzar la calle) se juegan siguiendo la ayuda, y la foto de grupo',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 5;
+          if (__cl.S.exc) delete __cl.S.exc.ciudad;
+          save();
+          __cl.go('autobus', {});
+        });
+        await p.waitForTimeout(1200);
+        const d = await p.evaluate(() => DESTINOS.find((x) => x.e.id === 'ciudad'));
+        // con seis excursiones, los carteles caben en la pantalla
+        if (d.x + d.w > 1600) return 'el cartel de la ciudad se sale: ' + JSON.stringify(d);
+        await L.clic(p, d.x + d.w / 2, d.y + d.h / 2);
+        let e = 'autobus';
+        for (let i = 0; i < 20 && e === 'autobus'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'excursion') return 'el viaje no ha llegado a la ciudad: ' + e;
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        const paradas = await p.evaluate(() =>
+          DESTINOS.find((x) => x.e.id === 'ciudad').e.estaciones.map((s) => [s.x, s.y, s.escena]),
+        );
+        for (const [x, y, nombre] of paradas) {
+          await p.waitForTimeout(1500);
+          await L.clic(p, x, y);
+          await p.waitForTimeout(1200);
+          if ((await escena()) !== nombre) return 'no se ha abierto ' + nombre + ': ' + (await escena());
+          // como en el zoo (P24): se sigue la ayuda solo mientras se juega en la sala
+          const jugando = () => p.evaluate((n) => __cl.name === n && ZOO.fase === 'juego', nombre);
+          const t0 = Date.now();
+          while (Date.now() - t0 < 150000 && (await jugando())) {
+            const t1 = Date.now();
+            while (Date.now() - t1 < 12000 && (await p.evaluate(() => VIVO.talking))) await p.waitForTimeout(150);
+            await p.waitForTimeout(400);
+            if (await jugando()) await L.paso(p, 0);
+            await p.waitForTimeout(250);
+          }
+          if (!(await p.evaluate(() => ZOO.fase === 'dato'))) return nombre + ' no llega al dato curioso';
+          for (let i = 0; i < 40 && (await escena()) === nombre; i++) await p.waitForTimeout(500);
+          if ((await escena()) !== 'excursion') return 'tras ' + nombre + ', escena ' + (await escena());
+        }
+        await p.waitForTimeout(3000);
+        const [v, despues, stk] = await p.evaluate(() => [
+          __cl.S.exc.ciudad,
+          __cl.S.coins || 0,
+          __cl.S.stk.camionBomberos,
+        ]);
+        if (!v || v.veces !== 1 || !v.foto) return 'la visita a la ciudad: ' + JSON.stringify(v);
+        if (despues - monedas < 5) return `la foto de grupo da 5 monedas: ${monedas} -> ${despues}`;
+        return stk ? null : 'la primera visita da la pegatina del camión de bomberos';
+      },
+    );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {
