@@ -605,6 +605,13 @@ ea02d1d0aea5,La selva,Jungla,trozo,src/contenido/excursiones.ts,borrador
 0aeb515e2327,La zona polar,Zona polară,trozo,src/contenido/excursiones.ts,borrador
 0e2fba450a47,La casa de los reptiles,Casa reptilelor,trozo,src/contenido/excursiones.ts,borrador
 d8c7da05159d,La gran pajarera,Marea volieră,trozo,src/contenido/excursiones.ts,borrador
+2200e65926da,El acuario,Acvariul,trozo,src/contenido/excursiones.ts,borrador
+7ba66c645ee1,Marina,Marina,trozo,src/contenido/excursiones.ts,borrador
+ac073707cc68,Las burbujas,Bulele,trozo,src/contenido/excursiones.ts,borrador
+d145ed9515ff,Las estrellas de mar,Stelele de mare,trozo,src/contenido/excursiones.ts,borrador
+8f9ac2ae0800,La piscina de los delfines,Piscina delfinilor,trozo,src/contenido/excursiones.ts,borrador
+d1d31176d269,La sala de los tamaños,Sala mărimilor,trozo,src/contenido/excursiones.ts,borrador
+d8cd008f5cad,La cueva de la ballena,Peștera balenei,trozo,src/contenido/excursiones.ts,borrador
 d236fa6bc06b,El bosque,Pădurea,trozo,src/contenido/excursiones.ts,borrador
 eef5e5e9d7f8,Mum,,trozo,src/contenido/ingles.ts,falta
 48418f32fc2d,Mamá,Mama,trozo,src/contenido/ingles.ts,borrador
@@ -862,6 +869,9 @@ dba2185000a6,la cocinera,bucătăreasa,nombre,src/contenido/lex.ts,borrador
 9aacaa567765,el cartero,poștașul,nombre,src/contenido/lex.ts,borrador
 06d1edc4eb35,la granjera,fermiera,nombre,src/contenido/lex.ts,borrador
 dd4a21840b55,el cuidador,îngrijitorul,nombre,src/contenido/lex.ts,borrador
+73ae03336f74,la buceadora,scafandra,nombre,src/contenido/lex.ts,borrador
+f7f37fe70c49,el delfín,delfinul,nombre,src/contenido/lex.ts,borrador
+62fd85bfb3a4,el cangrejo,crabul,nombre,src/contenido/lex.ts,borrador
 392231973151,el peluquero,frizerul,nombre,src/contenido/lex.ts,borrador
 b91143f353da,la manguera,furtunul,nombre,src/contenido/lex.ts,borrador
 8a8b3529242b,el estetoscopio,stetoscopul,nombre,src/contenido/lex.ts,borrador
@@ -1325,6 +1335,21 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 637e68234d84,"Somos leones: de rodillas, las manos como garras, sacamos la lengua y rugimos sin hacer ruido.","Suntem lei: în genunchi, cu mâinile ca niște gheare, scoatem limba și răgim fără zgomot.",frase,src/dominio/yoga.ts,borrador
 775469420154,Ahora inflamos un globo en la barriga: tomamos aire despacito y la barriga se hincha. Luego lo soltamos.,Acum umflăm un balon în burtică: tragem aer încet și burtica se umflă. Apoi îl dăm drumul.,frase,src/dominio/yoga.ts,borrador
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.","Mirosim o floare trăgând aer pe nas și suflăm încet într-o lumânare, fără s-o stingem.",frase,src/dominio/yoga.ts,borrador
+7510ccde75d7,¡Mira cuántas burbujas! Dentro hay animales del mar.,Uite câte bule! Înăuntru sunt animale din mare.,frase,src/escenas/acuario.ts,borrador
+871d233d0ef9,¿Sabes una cosa? Los peces respiran debajo del agua con las branquias.,Știi ceva? Peștii respiră sub apă cu branhiile.,frase,src/escenas/acuario.ts,borrador
+bbe51109117c,¡Atrapa los peces!,Prinde peștii!,frase,src/escenas/acuario.ts,borrador
+df18cfa245cc,"¡Ahora, los cangrejos!","Acum, crabii!",frase,src/escenas/acuario.ts,borrador
+9eb4ae7c4060,En el fondo del acuario hay estrellas de mar escondidas. ¡Vamos a contarlas!,Pe fundul acvariului sunt stele de mare ascunse. Hai să le numărăm!,frase,src/escenas/acuario.ts,borrador
+dbb17f323502,"¿Sabes una cosa? Las estrellas de mar tienen cinco brazos, ¡y si pierden uno les vuelve a crecer!","Știi ceva? Stelele de mare au cinci brațe și, dacă pierd unul, le crește la loc!",frase,src/escenas/acuario.ts,borrador
+2fd3700cb9e7,¡Los delfines saltan en fila! Fíjate bien en el orden.,Delfinii sar în șir! Uită-te bine la ordine.,frase,src/escenas/acuario.ts,borrador
+96140d45ba7f,¿Sabes una cosa? Los delfines hablan entre ellos con silbidos y chasquidos.,Știi ceva? Delfinii vorbesc între ei prin fluierături și pocnituri.,frase,src/escenas/acuario.ts,borrador
+9626cfdcccd8,En esta sala hay animales pequeños y grandes. ¿Los ordenamos?,În sala asta sunt animale mici și mari. Le punem în ordine?,frase,src/escenas/acuario.ts,borrador
+3e4b408fae53,¿Sabes una cosa? La ballena azul es el animal más grande del mundo. ¡Es más larga que un autobús!,Știi ceva? Balena albastră e cel mai mare animal din lume. E mai lungă decât un autobuz!,frase,src/escenas/acuario.ts,borrador
+bc776cfb5fdc,"Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.","Mmm, locul acela e de altă mărime. Uită-te bine la pătrate.",frase,src/escenas/acuario.ts src/temas/temas.ts src/temas/temas4.ts,borrador
+952c89d473c6,Ordena de más pequeñito a más grande. El más pequeñito va primero.,Pune în ordine de la cel mai mic la cel mai mare. Cel mai mic merge primul.,frase,src/escenas/acuario.ts src/temas/temas.ts,borrador
+94f67b84edc0,¡Muy bien! Del más pequeñito al más grande.,Foarte bine! De la cel mai mic la cel mai mare.,frase,src/escenas/acuario.ts src/temas/temas.ts,borrador
+dba41e9c17f2,¡Escucha! La ballena está cantando. Sus amigos se han escondido de dos en dos. ¡Busca las parejas!,Ascultă! Balena cântă. Prietenii ei s-au ascuns câte doi. Caută perechile!,frase,src/escenas/acuario.ts,borrador
+9c832d21e7d9,¿Sabes una cosa? Las ballenas cantan canciones muy largas que se oyen desde muy lejos.,"Știi ceva? Balenele cântă cântece foarte lungi, care se aud de foarte departe.",frase,src/escenas/acuario.ts,borrador
 8c3d395b2a94,Aún no hemos ido,Încă n-am fost,trozo,src/escenas/albumExcursiones.ts,borrador
 444536e4029c,"Aquí irá la foto {excursion}, cuando vayamos de excursión.","Aici va fi poza {excursion}, când mergem în excursie.",frase,src/escenas/albumExcursiones.ts,borrador
 9f9bd5c24bed,"¡{Excursion}! Hemos ido una vez; la última, el {fecha}. ¿Te acuerdas de {guia}?","{Excursion}! Am fost o dată; ultima oară, pe {fecha}. Îți amintești de {guia}?",trozo,src/escenas/albumExcursiones.ts,borrador
@@ -1814,6 +1839,7 @@ a4c59ff8ba33,El álbum de excursiones.,Albumul de excursii.,frase,src/escenas/ex
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!","Mergem {excursion}! Brum, brum!",frase,src/escenas/excursion.ts,borrador
 f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,O poză de grup! Zâmbiți! A fost o excursie minunată. {guia} ne așteaptă altă dată: {excursion}. Poza rămâne în albumul de excursii. Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
+64ddf6b02895,"¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.","Bună{nino}! Eu sunt {guia}, scafandra de la acvariu. Bine ai venit la acvariu! Ne plimbăm printr-un tunel pe sub apă.",frase,src/escenas/excursion.ts,borrador
 8f1a5d1d2982,"¡Hola{nino}! Soy {guia}, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.","Bună{nino}! Eu sunt {guia}, îngrijitorul de la grădina zoologică. Bine ai venit! Azi vizităm animalele sălbatice.",frase,src/escenas/excursion.ts,borrador
 850a40687e76,"¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.","Bună{nino}! Eu sunt {guia}, fermiera. Bine ai venit la ferma-școală! Azi mă ajuți să am grijă de animale.",frase,src/escenas/excursion.ts,borrador
 41b12a8a9434,Toca la casa para volver al cole.,Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
@@ -3273,9 +3299,6 @@ d54e4e0bd98b,El bebé. Es pequeñito y toma leche.,Bebelușul. E micuț și bea 
 993a25393c10,El abuelo. Es el papá de papá o de mamá.,Bunicul. E tatăl lui tata sau al mamei.,frase,src/temas/temas.ts,borrador
 806e4d312383,La abuela. Es la mamá de mamá o de papá.,Bunica. E mama mamei sau a lui tata.,frase,src/temas/temas.ts,borrador
 50cbdc70a9f1,"Esta es una familia. Todas las familias son distintas, ¡y todas son bonitas! Toca a cada uno.","Aceasta e o familie. Toate familiile sunt diferite, și toate sunt frumoase! Atinge-i pe fiecare.",frase,src/temas/temas.ts,borrador
-bc776cfb5fdc,"Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.","Mmm, locul acela e de altă mărime. Uită-te bine la pătrate.",frase,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts,borrador
-952c89d473c6,Ordena de más pequeñito a más grande. El más pequeñito va primero.,Pune în ordine de la cel mai mic la cel mai mare. Cel mai mic merge primul.,frase,src/temas/temas.ts,borrador
-94f67b84edc0,¡Muy bien! Del más pequeñito al más grande.,Foarte bine! De la cel mai mic la cel mai mare.,frase,src/temas/temas.ts,borrador
 d32a0fea72b0,"¡Arma tu familia! Lleva a la casa a las personas que viven con tú. Cuando termines, toca el botón verde.","Fă-ți familia! Du în casă persoanele care locuiesc cu tine. Când termini, atinge butonul verde.",frase,src/temas/temas.ts,borrador
 3f43728a9d04,El invierno y la ropa,Iarna și hainele,trozo,src/temas/temas.ts,borrador
 ab34eeffd26b,La nieve. En invierno hace mucho frío y a veces nieva.,Zăpada. Iarna e foarte frig și uneori ninge.,frase,src/temas/temas.ts,borrador

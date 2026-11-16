@@ -2,14 +2,14 @@
  * escenas/excursion.ts: el motor de excursiones en pantalla (base B1 de docs/IDEAS-MEJORA.md, fase P5): el autobús del
  * cole (SCENES.autobus: se elige adónde ir y se viaja) y la escena genérica de una excursión (SCENES.excursion, con
  * {exc: id}): el plano del sitio con sus estaciones, el guía (en la granja, la granjera Rosa; desde la P17, en el zoo, el
- * cuidador Nico) y Tito; al tocar una
+ * cuidador Nico; desde la P18, en el acuario, la buceadora Marina) y Tito; al tocar una
  * estación jugable se va a su escena, y al volver (volverDeEstacion, {hecha: id}) se apunta. Cuando se han hecho todas
  * las estaciones que ya se pueden jugar, la foto de grupo: un flash, «¡Patata!» y la foto de recuerdo, y monedas la
  * primera vez de cada día. Las reglas, en dominio/excursiones.ts; los datos, en contenido/excursiones.ts; lo guardado, en
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
- * de cada excursión) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
+ * de cada excursión; desde la P18, también el del acuario, fondoAcuario) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
@@ -217,8 +217,85 @@ export function fondoZoo(): void {
   pic('leon', 655, 85, 90);
 }
 
-// fondoDe(e): el fondo de la excursión e: el del zoo o el de la granja (desde la fase P17; el álbum también lo usa).
-export const fondoDe = (e: Excursion): void => (e.id === 'zoo' ? fondoZoo() : fondoGranja());
+// fondoAcuario(): el acuario (desde la fase P18): el túnel de cristal debajo del agua: el agua azul que se oscurece hacia
+// arriba, los rayos de luz, los arcos del túnel, la arena con algas que se mecen, burbujas que suben y peces que pasan
+// nadando por detrás (se mueven con T).
+export function fondoAcuario(): void {
+  cielo('#1F5F9E', '#5FB6E0', H);
+  ctx.save();
+  // los rayos de luz, desde arriba
+  ctx.fillStyle = 'rgba(255,255,255,0.08)';
+  [200, 650, 1100].forEach((x) => {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x + 160, 0);
+    ctx.lineTo(x + 360, H);
+    ctx.lineTo(x + 120, H);
+    ctx.closePath();
+    ctx.fill();
+  });
+  // los peces que pasan, en dos filas, unos hacia cada lado
+  [
+    ['pez', 150, 60, 1],
+    ['pez', 250, 45, -1],
+    ['delfin', 120, 90, 1],
+    ['pez', 330, 50, -1],
+  ].forEach(([k, y, v, d], i) => {
+    const vel = (v as number) * (d as number),
+      x = ((((T * vel + i * 420) % 1900) + 1900) % 1900) - 150;
+    ctx.save();
+    ctx.translate(x, (y as number) + Math.sin(T * 1.5 + i) * 10);
+    ctx.scale(-(d as number), 1);
+    pic(k as string, 0, 0, k === 'delfin' ? 130 : 80, 0.85);
+    ctx.restore();
+  });
+  // la arena y las algas
+  ctx.fillStyle = '#F2DDA4';
+  ctx.beginPath();
+  ctx.moveTo(0, 470);
+  ctx.quadraticCurveTo(400, 430, 800, 470);
+  ctx.quadraticCurveTo(1200, 510, W, 460);
+  ctx.lineTo(W, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#4FA35A';
+  ctx.lineWidth = 12;
+  ctx.lineCap = 'round';
+  [80, 210, 1450, 1540].forEach((x, i) => {
+    ctx.beginPath();
+    ctx.moveTo(x, 520);
+    ctx.quadraticCurveTo(x + Math.sin(T * 1.2 + i) * 30, 420, x + Math.sin(T * 1.2 + i + 1) * 20, 330);
+    ctx.stroke();
+  });
+  // los arcos del túnel de cristal
+  ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+  ctx.lineWidth = 14;
+  [0.7, 0.85, 1].forEach((k) => {
+    ctx.beginPath();
+    ctx.ellipse(W / 2, H + 40, (W / 2) * k + 120, (H - 40) * k, 0, Math.PI, 0);
+    ctx.stroke();
+  });
+  // las burbujas que suben
+  ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+  ctx.lineWidth = 3;
+  Array.from({ length: 10 }, (_, i) => i).forEach((i) => {
+    const y = H - ((T * 60 + i * 97) % H),
+      x = 100 + i * 150 + Math.sin(T * 2 + i) * 12;
+    ctx.beginPath();
+    ctx.arc(x, y, 6 + (i % 3) * 4, 0, Math.PI * 2);
+    ctx.stroke();
+  });
+  ctx.restore();
+}
+
+// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario o el de la granja (desde la fase P17; el álbum
+// también lo usa).
+export function fondoDe(e: Excursion): void {
+  if (e.id === 'zoo') fondoZoo();
+  else if (e.id === 'acuario') fondoAcuario();
+  else fondoGranja();
+}
 
 // GRUPO_FOTO: los animales de la foto de grupo de cada excursión (dibujo, posición desde el centro de la foto y tamaño;
 // desde la fase P17). La foto grande (dibujaFoto) y la pequeña del álbum de excursiones los usan.
@@ -227,6 +304,11 @@ export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, num
     ['vaca', -220, 60, 200],
     ['cerdo', 230, 90, 150],
     ['gallina', 150, 20, 110],
+  ],
+  acuario: [
+    ['delfin', -240, 30, 200],
+    ['pulpo', 240, 90, 150],
+    ['estrellaMar', 140, 110, 90],
   ],
   zoo: [
     ['jirafa', -240, 20, 240],
@@ -522,8 +604,13 @@ function hacerFoto(): void {
 }
 
 // bienvenida(e): lo que dice el guía de la excursión e la primera vez que se va: la granjera Rosa en la granja y, desde
-// la fase P17, el cuidador Nico en el zoo.
+// la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario.
 function bienvenida(e: Excursion): string {
+  if (e.id === 'acuario')
+    return fmt(
+      '¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.',
+      { nino: kid(), guia: e.nombreGuia },
+    );
   if (e.id === 'zoo')
     return fmt(
       '¡Hola{nino}! Soy {guia}, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.',

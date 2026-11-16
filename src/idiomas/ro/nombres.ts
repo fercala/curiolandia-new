@@ -285,6 +285,7 @@ export const NOMBRES_RO: Readonly<Record<string, Nombre>> = {
     ...N('grădina zoologică', 'grădină zoologică', 'f', 'de la grădina zoologică'),
     a: 'la grădina zoologică',
   },
+  'el acuario': { ...N('acvariul', 'acvariu', 'n', 'de la acvariu'), a: 'la acvariu' }, // desde la P18
   'el bosque': { ...N('pădurea', 'pădure', 'f', 'din pădure'), a: 'în pădure' },
   'la gallina': N('găina', 'găină', 'f', 'găinii', 'găini'),
   'la vaca': N('vaca', 'vacă', 'f', 'vacii', 'vaci'),

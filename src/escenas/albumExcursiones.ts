@@ -50,8 +50,9 @@ interface MarcoAlbum {
 }
 // MARCOS_ALBUM: un marco por excursión, en fila y centrados.
 export const MARCOS_ALBUM: readonly MarcoAlbum[] = EXCURSIONES.map((e, i, todas) => {
-  const w = 420,
-    sep = 50,
+  // desde la P18 caben cuatro: los marcos se estrechan para que quepan todos con 40 de margen
+  const sep = 50,
+    w = Math.min(420, (W - 80 - (todas.length - 1) * sep) / todas.length),
     ancho = todas.length * w + (todas.length - 1) * sep;
   return { e, x: (W - ancho) / 2 + i * (w + sep), y: 190, w, h: 560 };
 });

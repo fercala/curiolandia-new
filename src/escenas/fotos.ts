@@ -43,6 +43,7 @@ import {
   say,
   sayQ,
   sceneName,
+  sceneTok,
   sparkles,
   star,
   text,
@@ -64,9 +65,9 @@ import {
 export const CAMARA_BOTON = { x: 1490, y: 200, r: 50 };
 // ALBUM_FOTOS_BOTON: el botón del álbum de fotos en la casa de Tito (a la izquierda, debajo del de la vitrina).
 export const ALBUM_FOTOS_BOTON = { x: 80, y: 440, r: 52 };
-// CAMARA: el estado de la cámara: si está encendida y en qué escena, cuándo fue el último destello, la última foto
+// CAMARA: el estado de la cámara: si está encendida y en qué escena (y en qué visita: tok, el sceneTok de entonces), cuándo fue el último destello, la última foto
 // (y cuándo) y si ya se ha dicho que allí no había nada (una vez cada vez que se enciende).
-export const CAMARA = { activa: false, escena: '', flash: -9, foto: '', fotoT: -9, avisada: false };
+export const CAMARA = { activa: false, escena: '', tok: -1, flash: -9, foto: '', fotoT: -9, avisada: false };
 // MEDIDAS: lo que duran el destello y la foto que sale en la pantalla.
 const MEDIDAS = { flash: 0.35, foto: 2.4 };
 // VISOR: dónde van las esquinas del visor (sin tapar la casa, las monedas, el botón de la cámara ni el de seguir).
@@ -86,8 +87,12 @@ export const CASILLAS_FOTOS = (pagina: string): { id: string; x: number; y: numb
 
 // registroDeFotos(): lo guardado de las fotos (S.fotos), leído con registroFotos (vacío si falta o está roto).
 export const registroDeFotos = (): RegistroFotos => registroFotos(S.fotos);
-// camaraActiva(): si la cámara está encendida en la escena de ahora (al cambiar de escena se apaga sola).
-export const camaraActiva = (): boolean => CAMARA.activa && CAMARA.escena === sceneName;
+// enEstaEscena(): si la cámara se encendió en esta misma visita a la escena (mismo nombre y mismo sceneTok, que sube con
+// cada go): al volver más tarde a la misma escena (del recinto al plano de la excursión, por ejemplo) ya no cuenta.
+const enEstaEscena = (): boolean => CAMARA.escena === sceneName && CAMARA.tok === sceneTok;
+// camaraActiva(): si la cámara está encendida en la escena de ahora (al cambiar de escena se apaga sola, también al
+// volver después a la misma).
+export const camaraActiva = (): boolean => CAMARA.activa && enEstaEscena();
 
 // clic(): el sonido de la cámara al hacer una foto (un clic y el obturador).
 function clic(): void {
@@ -104,7 +109,7 @@ export function tocarBotonCamara(x: number, y: number): boolean {
     say('Guardo la cámara.');
     return true;
   }
-  Object.assign(CAMARA, { activa: true, escena: sceneName, avisada: false });
+  Object.assign(CAMARA, { activa: true, escena: sceneName, tok: sceneTok, avisada: false });
   SFX.pop();
   say('¡La cámara! Toca un animal o una cosa para hacerle una foto.');
   return true;
@@ -218,7 +223,7 @@ export function dibujaCamara(): void {
   if (on) circ(0, 0, B.r - 4, '#FFFFFF', 0);
   dibujaIconoCamara(0, 0, B.r * 1.5);
   ctx.restore();
-  if (CAMARA.escena === sceneName) dibujaFotoHecha();
+  if (enEstaEscena()) dibujaFotoHecha();
   const fl = T - CAMARA.flash;
   if (fl >= 0 && fl < MEDIDAS.flash) {
     ctx.save();

@@ -4,7 +4,8 @@
  * comer a los animales y recoger huevos, y desde la P6 también hacer queso, cepillar al caballo, el huerto y el paseo en
  * tractor (escenas/granjaTalleres.ts). Desde la P17, el zoo (idea 2), con Nico el cuidador y cinco recintos
  * (escenas/zoo.ts): la sabana, la selva, la zona polar, la casa de los reptiles y la gran pajarera; sus animales pasean
- * por el plano y se les puede hacer fotos (el safari fotográfico). El bosque, sin estaciones todavía, sale en el autobús
+ * por el plano y se les puede hacer fotos (el safari fotográfico). Desde la P18, el acuario (idea 3), con Marina la
+ * buceadora, el túnel debajo del agua y cinco salas (escenas/acuario.ts). El bosque, sin estaciones todavía, sale en el autobús
  * como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
@@ -44,6 +45,34 @@ export const EXCURSIONES: readonly Excursion[] = [
       { id: 'polar', nombre: 'La zona polar', escena: 'zooPolar', icono: 'pinguino', x: 960, y: 700 },
       { id: 'reptiles', nombre: 'La casa de los reptiles', escena: 'zooReptiles', icono: 'cocodrilo', x: 1260, y: 560 },
       { id: 'pajarera', nombre: 'La gran pajarera', escena: 'zooPajarera', icono: 'buho', x: 1180, y: 330 },
+    ],
+  },
+  {
+    id: 'acuario',
+    nombre: 'El acuario',
+    icono: 'delfin',
+    guia: 'buceadora',
+    nombreGuia: 'Marina',
+    estaciones: [
+      { id: 'burbujas', nombre: 'Las burbujas', escena: 'acuarioBurbujas', icono: 'pez', x: 330, y: 560 },
+      {
+        id: 'estrellas',
+        nombre: 'Las estrellas de mar',
+        escena: 'acuarioEstrellas',
+        icono: 'estrellaMar',
+        x: 640,
+        y: 700,
+      },
+      {
+        id: 'delfines',
+        nombre: 'La piscina de los delfines',
+        escena: 'acuarioDelfines',
+        icono: 'delfin',
+        x: 960,
+        y: 700,
+      },
+      { id: 'tamanos', nombre: 'La sala de los tamaños', escena: 'acuarioTamanos', icono: 'pulpo', x: 1260, y: 560 },
+      { id: 'ballena', nombre: 'La cueva de la ballena', escena: 'acuarioBallena', icono: 'ballena', x: 1180, y: 330 },
     ],
   },
   { id: 'bosque', nombre: 'El bosque', icono: 'arbol', guia: 'granjera', nombreGuia: '', estaciones: [] },
