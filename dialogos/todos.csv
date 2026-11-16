@@ -626,7 +626,13 @@ cea355abbc42,Vestirse de bombero,trozo,src/contenido/excursiones.ts
 8996dad9e07c,La panadería,trozo,src/contenido/excursiones.ts
 5649d6c04246,El centro de salud,trozo,src/contenido/excursiones.ts
 4ca89e0485bf,Cruzar la calle,trozo,src/contenido/excursiones.ts
-d236fa6bc06b,El bosque,trozo,src/contenido/excursiones.ts
+daf0afb0e92b,El bosque de otoño,trozo,src/contenido/excursiones.ts
+1b3840b0b70d,Hugo,trozo,src/contenido/excursiones.ts
+e485229694b3,Las hojas de colores,trozo,src/contenido/excursiones.ts
+4d9542a647a5,Las huellas del conejo,trozo,src/contenido/excursiones.ts
+bc9b6ffc5d62,Los sonidos del bosque,trozo,src/contenido/excursiones.ts
+ddcf0bdb8355,La despensa de la ardilla,trozo,src/contenido/excursiones.ts src/temas/temas4.ts
+6b00f14144dd,El mural del otoño,trozo,src/contenido/excursiones.ts
 eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 48418f32fc2d,Mamá,trozo,src/contenido/ingles.ts
 cb525f817e00,Dad,trozo,src/contenido/ingles.ts
@@ -885,6 +891,7 @@ dba2185000a6,la cocinera,nombre,src/contenido/lex.ts
 dd4a21840b55,el cuidador,nombre,src/contenido/lex.ts
 73ae03336f74,la buceadora,nombre,src/contenido/lex.ts
 13201afffc9f,el paleontólogo,nombre,src/contenido/lex.ts
+99fb17adc36b,el guardabosques,nombre,src/contenido/lex.ts
 f7f37fe70c49,el delfín,nombre,src/contenido/lex.ts
 62fd85bfb3a4,el cangrejo,nombre,src/contenido/lex.ts
 392231973151,el peluquero,nombre,src/contenido/lex.ts
@@ -1389,6 +1396,20 @@ b164bdd25e8d,El próximo capítulo llegará muy pronto.,frase,src/escenas/aventu
 9d52791c9b5c,¡Este capítulo llegará muy pronto!,frase,src/escenas/aventura.ts
 f3ed17994784,¡Lo pongo en el mapa del tesoro!,frase,src/escenas/aventura.ts
 6e7816f71018,Este trozo ya lo tenías. ¡Muy bien jugado!,frase,src/escenas/aventura.ts
+0990406df4d6,¡Mira cómo caen las hojas! En otoño se ponen de muchos colores.,frase,src/escenas/bosque.ts
+8524d5cc666e,"¿Sabes una cosa? En otoño, muchos árboles se quedan sin hojas para descansar durante el invierno.",frase,src/escenas/bosque.ts
+56975dcac5a0,¡Atrapa las hojas rojas!,frase,src/escenas/bosque.ts
+fbd77033a49c,"¡Ahora, las hojas naranjas!",frase,src/escenas/bosque.ts
+810dc5387086,¡Mira! Aquí hay huellas. Son de un conejo. ¿Adónde irá?,frase,src/escenas/bosque.ts
+c7266bed559a,"¿Sabes una cosa? Los conejos viven en madrigueras, unas casas con túneles debajo de la tierra.",frase,src/escenas/bosque.ts
+ff898afc6c24,Sigue las huellas del conejo. Toca las huellas una a una.,frase,src/escenas/bosque.ts
+b9bb03cf99bf,¡Hemos llegado a la madriguera del conejo!,frase,src/escenas/bosque.ts
+0da2ac95534f,"¡Silencio! Si escuchamos bien, oiremos a los animales del bosque.",frase,src/escenas/bosque.ts
+98a18daad6a5,¿Sabes una cosa? El búho puede girar la cabeza casi del todo para mirar hacia atrás.,frase,src/escenas/bosque.ts
+5208cac4c2b5,La ardilla guarda comida para el invierno. ¡Vamos a contar lo que tiene!,frase,src/escenas/bosque.ts
+bd71f945f73b,"¿Sabes una cosa? La ardilla esconde bellotas en muchos sitios, ¡y a veces se le olvida dónde las ha puesto!",frase,src/escenas/bosque.ts
+c0f582c334d1,"Para acabar, vamos a hacer un mural con todo lo que hemos visto en el bosque.",frase,src/escenas/bosque.ts
+43ac9400fa64,¿Sabes una cosa? Con las hojas secas del otoño se pueden hacer dibujos muy bonitos.,frase,src/escenas/bosque.ts
 9931240f3654,¡Aquí está {cosa}!,frase,src/escenas/casa.ts
 2a32c6fe3055,¡Mira qué bonito me queda!,frase,src/escenas/casa.ts
 6093898e2026,¿Dónde lo ponemos? Arrástralo a un sitio que brille.,frase,src/escenas/casa.ts
@@ -1888,6 +1909,7 @@ a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!",frase,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
+1fad0af05679,"¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.",frase,src/escenas/excursion.ts
 0692f5ce89a1,"¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.",frase,src/escenas/excursion.ts
 3812a3f93494,"¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.",frase,src/escenas/excursion.ts
 64ddf6b02895,"¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.",frase,src/escenas/excursion.ts
@@ -3619,7 +3641,6 @@ b9b0c8c762d9,La nuez. Tiene una cáscara muy dura.,frase,src/temas/temas4.ts
 a7571674010d,El erizo. Se esconde entre las hojas secas.,frase,src/temas/temas4.ts
 8b870e44469f,¡Se caen los frutos del otoño! Atrapa las bellotas.,frase,src/temas/temas4.ts
 d22a631a52e4,¡Y ahora las nueces!,frase,src/temas/temas4.ts
-ddcf0bdb8355,La despensa de la ardilla,trozo,src/temas/temas4.ts
 2204c1fe3668,La ardilla necesita {n} frutos para el invierno. Lleva {n} a su casita del árbol.,frase,src/temas/temas4.ts
 0e57ea06aec0,¡La ardilla tiene {n} frutos! Gracias.,frase,src/temas/temas4.ts
 d1153cb14a5f,Las emociones,trozo,src/temas/temas4.ts

@@ -109,6 +109,12 @@ const ESCENAS = [
   ['ciudadPan', {}],
   ['ciudadSalud', {}],
   ['ciudadCalle', {}],
+  ['excursion', { exc: 'bosque' }], // P21
+  ['bosqueHojas', {}],
+  ['bosqueHuellas', {}],
+  ['bosqueSonidos', {}],
+  ['bosqueArdilla', {}],
+  ['bosqueMural', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

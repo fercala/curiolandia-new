@@ -515,7 +515,7 @@ Fernando pide también «mejor calidad». Son cambios más pequeños que se nota
 | 3 | El acuario | Excursiones | M | Hecha (P18, v0.2.162) |
 | 4 | El museo de los dinosaurios | Excursiones | M | Hecha (P19, v0.2.163) |
 | 5 | Bomberos y la ciudad | Excursiones | M | Hecha (P20, v0.2.164) |
-| 6 | El bosque de otoño | Excursiones | M | Sí |
+| 6 | El bosque de otoño | Excursiones | M | Hecha (P21, v0.2.165) |
 | 7 | El mercado | Excursiones | M | No |
 | 8 | El viaje a la Luna | Excursiones | M | Sí |
 | 9 | Un día de playa | Excursiones | S–M | Opcional |
@@ -606,7 +606,8 @@ Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase 
 | P18 | El acuario (idea 3), la tercera excursión: Marina la buceadora y el túnel debajo del agua (en 2D, `fondoAcuario`, con peces que pasan, burbujas y algas; el 3D, más adelante) y cinco salas (`escenas/acuario.ts`) con juegos de siempre: las burbujas (`Atrapa`), las estrellas de mar (`Cuenta`), la piscina de los delfines (`Series`), la sala de los tamaños (`Arrastra`) y la cueva de la ballena, que canta (`Memoria`); cada una con su dato curioso. | 3 | ✅ v0.2.162 |
 | P19 | El museo de los dinosaurios (idea 4), la cuarta excursión: Pablo el paleontólogo y el gran salón del museo (`fondoMuseo`, con el esqueleto, los cuadros y el pterodáctilo colgado del techo) y cinco salas (`escenas/museo.ts`): la excavación (`Excava`), montar los dinosaurios (`Puzzle`), la sala de medir (`Mide`, nuevo: medir con los pasos de Tito y decir cuál es el más largo), ¿qué comían? (`Arrastra`, plantas o carne) y el nido (`Eclosiona`, nuevo: tocar los huevos hasta que nacen los bebés); cada una con su dato curioso. Los juegos que ya tenía el tema de los dinosaurios (5A-T7) se reutilizan tal cual. | 4 | ✅ v0.2.163 |
 | P20 | La ciudad (idea 5), la quinta excursión: Lucía la bombera y la calle de la ciudad (`fondoCiudad`: el parque de bomberos, la panadería, el centro de salud, el paso de cebra y el semáforo) y cinco paradas (`escenas/ciudad.ts`): vestirse de bombero (`Secuencia`, con el casco de bombero dibujado aparte), apagar el fuego (`Frota` con la manguera y las llamas), la panadería (`Secuencia`: del trigo al pan), el centro de salud (`Frota`: curar las pupas del conejito con la crema) y cruzar la calle (`Semaforo`); cada una con su dato curioso (el 112, la calle de la mano de un mayor...). | 5 | ✅ v0.2.164 |
-| Después | El resto de excursiones (6 a 9), el resto del 3D (19, 21, 23, 24, 25), los juegos más profundos (27 a 32), el mundo vivo (33 a 36), la familia (38 a 41) y pulir lo que hay (42 a 47). | — | — |
+| P21 | El bosque de otoño (idea 6), la sexta excursión: Hugo el guardabosques y el bosque de otoño (`fondoBosque`: árboles rojos, naranjas y amarillos, el sendero, las setas y hojas que caen) y cinco paradas (`escenas/bosque.ts`): las hojas de colores (`Atrapa`: las rojas y después las naranjas), las huellas del conejo (`Huellas` por un camino hasta su madriguera; con 3 años, un tramo), los sonidos del bosque (`Sonido`: el búho, el lobo, el pájaro...), la despensa de la ardilla (`Cuenta`: bellotas, castañas, piñas y setas) y el mural del otoño (`Pinta`); cada una con su dato curioso. Ya no queda ningún cartel «¡Muy pronto!» en el autobús. | 6 | ✅ v0.2.165 |
+| Después | El resto de excursiones (7 a 9), el resto del 3D (19, 21, 23, 24, 25), los juegos más profundos (27 a 32), el mundo vivo (33 a 36), la familia (38 a 41) y pulir lo que hay (42 a 47). | — | — |
 
 ### Primera entrega de actividades opcionales
 
