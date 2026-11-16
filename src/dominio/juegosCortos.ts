@@ -2,7 +2,7 @@
  * dominio/juegosCortos.ts: las reglas de los juegos cortos del patio del cole (idea 16 de docs/IDEAS-MEJORA.md, fase
  * P12, que se hace de dos en dos juegos: P12a, P12b...). Son juegos pequeños que se abren desde el botón «Juegos cortos»
  * del patio (escenas/juegosCortos.ts): la rayuela, los columpios, los penaltis, las pompas de jabón, la cometa, el
- * pañuelo y las sillas musicales. Todos tienen ya su escena (desde la P12d; uno sin escena saldría «¡Muy pronto!»).
+ * pañuelo, las sillas musicales y el laberinto. Todos tienen ya su escena (desde la P12d; uno sin escena saldría «¡Muy pronto!»).
  *   - La rayuela: Tito dice un número, se toca su casilla para tirar la piedra y Tito va saltando a la pata coja,
  *     contando, hasta la piedra (el niño salta con él). Las casillas, como en la tiza del patio: 1, 2 y 3 sueltas, 4 y 5
  *     juntas, 6 suelta, 7 y 8 juntas, 9 y 10 sueltas; con 3 años hasta el 5 y con 4 hasta el 8.
@@ -24,7 +24,7 @@
  *     Tito. En cada ronda hay una silla menos, pero nadie se va: los que se quedan sin silla se sientan encima de otro
  *     (repartoSillas), y al final todos caben en dos sillas. Con 3 años, tres rondas; con 5, cinco (planSillas).
  * Al terminar cada juego, como las demás actividades del patio, 3 monedas la primera vez de cada día (dominio/cole.ts,
- * con el id del juego).
+ * con el id del juego). El laberinto solo se juega en memoria y no concede premios.
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/juegosCortos.test.ts.
  * Exporta: los tipos JuegoCorto, CasillaRayuela, LadoPenalti, ColorPompa, RondaPompas, Punto, ArbolCometa, RondaSillas
  * y SitioSilla, JUEGOS_CORTOS, RAYUELA, COLUMPIO, PENALTIS, POMPAS, COLORES_POMPAS, COMETA, ARBOLES_COMETA, PANUELO,
@@ -52,7 +52,7 @@ export interface CasillaRayuela {
   readonly fila: 'sola' | 'abajo' | 'arriba';
 }
 
-// JUEGOS_CORTOS: los siete juegos cortos, en el orden de sus tarjetas (el de la idea 16). Se van haciendo de dos en dos.
+// JUEGOS_CORTOS: los juegos cortos, en el orden de sus tarjetas (el de la idea 16). Se van haciendo de dos en dos.
 export const JUEGOS_CORTOS: readonly JuegoCorto[] = [
   { id: 'rayuela', nombre: 'La rayuela', escena: 'rayuela', icono: 'piedra' },
   { id: 'columpios', nombre: 'Los columpios', escena: 'columpios', icono: 'columpio' },
@@ -61,6 +61,7 @@ export const JUEGOS_CORTOS: readonly JuegoCorto[] = [
   { id: 'cometa', nombre: 'La cometa', escena: 'cometa', icono: 'cometa' },
   { id: 'panuelo', nombre: 'El pañuelo', escena: 'panuelo', icono: 'manos' },
   { id: 'sillas', nombre: 'Las sillas', escena: 'sillas', icono: 'silla' },
+  { id: 'laberinto', nombre: 'El laberinto', escena: 'laberintoPatio', icono: 'lupa' },
 ];
 
 /** Hacia dónde se chuta un penalti (y hacia dónde se tira la portera). */

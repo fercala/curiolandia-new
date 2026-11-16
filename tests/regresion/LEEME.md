@@ -47,3 +47,6 @@ Para Chrome o Edge instalados, ver [AMPLIADA.md](AMPLIADA.md) y usar `lanzar.js`
 
 La existencia de una prueba no demuestra cobertura completa. Consultar el [mapa de cobertura funcional](../../docs/COBERTURA-PRUEBAS.md), que distingue pruebas ejecutadas, cobertura parcial y huecos pendientes.
 
+### Actividades opcionales
+
+`node tests/regresion/actividades-extras.js dist` recorre las cinco entradas en castellano y rumano. Comprueba navegación, resultados y que se conservan monedas y progreso. Leer el resultado con `node tests/regresion/comprobar.js actividades-extras`.

@@ -18,6 +18,8 @@
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
+import { botonExtra, tocaExtra } from './botonesExtras.ts';
+import { BOTON_MERCADO } from './mercado.ts';
 import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import {
   H,
@@ -581,11 +583,14 @@ SCENES['autobus'] = {
     const d = DESTINOS.find((x) => 'bus:' + x.e.id === id);
     if (d) say(d.e.nombre + '.');
   },
-  // update(): en el viaje, el motor suena de vez en cuando; a los 5 segundos se llega.
+  // update(): al acabar el viaje, abre la excursión elegida o el puesto del mercado.
   update() {
     if (bus.fase !== 'viaje') return;
     VIVO.idle = 0;
-    if (T - bus.t0 > 5.5 && sceneName === 'autobus') go('excursion', { exc: bus.destino, hello: true });
+    if (T - bus.t0 > 5.5 && sceneName === 'autobus') {
+      if (bus.destino === 'mercadoCole') go('mercadoCole');
+      else go('excursion', { exc: bus.destino, hello: true });
+    }
   },
   // draw(): eligiendo, los carteles (los que aún no tienen estaciones, en gris con «¡Muy pronto!») sobre la carretera y
   // el autobús parado; viajando, el autobús va dando botes por la carretera con el paisaje pasando.
@@ -613,7 +618,10 @@ SCENES['autobus'] = {
         ctx.restore();
       });
     else text('¡Nos vamos de excursión!', W / 2, 160, 56, '#4A3B2A');
-    if (!viaje) dibujaBotonAlbum();
+    if (!viaje) {
+      dibujaBotonAlbum();
+      botonExtra(BOTON_MERCADO, 'El mercado');
+    }
     drawHome();
     drawCoinHUD();
     if (!viaje) drawTito(60, 640, 200);
@@ -635,6 +643,11 @@ SCENES['autobus'] = {
     if (dist(x, y, ALBUM_EXC_BOTON.x, ALBUM_EXC_BOTON.y) < ALBUM_EXC_BOTON.r) {
       SFX.pop();
       go('albumExcursiones');
+      return;
+    }
+    if (tocaExtra(BOTON_MERCADO, x, y)) {
+      SFX.pop();
+      Object.assign(bus, { fase: 'viaje', destino: 'mercadoCole', t0: T });
       return;
     }
     const d = DESTINOS.find((z) => enDestino(z, x, y));

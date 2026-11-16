@@ -71,6 +71,8 @@
  *   S.houseSeen, S.petSeen, S.seenFl, S.gift (regalo diario), S.owned,
  *   S.cofres, S.coins (vía giveCoins) y S.stk.
  * ===================================================================== */
+import { botonExtra, tocaExtra } from './botonesExtras.ts';
+import { BOTON_CUENTO } from './cuentoDecisiones.ts';
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena, OpcionesEscena, OpcionesTema } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
@@ -1792,6 +1794,7 @@ export function stationPos(t: Tema, j: number): number[] {
     c = j % 4;
   return [400 + (r ? 3 - c : c) * 340, r ? 700 : 410];
 }
+
 // stLocked(t, j): true si el juego j del tema t aún está cerrado.
 const stLocked = (t: Tema, j: number) => !gameOpen(t, j);
 // CASITA v3: la escena de la casita de un tema: los juegos forman un camino y se abren de uno en uno (gameOpen). Desde
@@ -1880,6 +1883,7 @@ SCENES.casita = {
       pic(t.icon, 250, 90, 90);
       text(t.n, 310 + tw / 2, 110, 54, K, { w: 600 });
     }
+    botonExtra(BOTON_CUENTO, 'Cuento con decisiones');
     const pts = t.games.map((_g: JuegoTema, j: number) => stationPos(t, j)),
       nx = nextGameOf(t);
     drawRoad(pts, nx < 0 ? pts.length - 1 : nx, 150);
@@ -1913,6 +1917,10 @@ SCENES.casita = {
     if (inCoinHUD(x, y)) {
       SFX.pop();
       go('tienda');
+      return;
+    }
+    if (tocaExtra(BOTON_CUENTO, x, y)) {
+      go('cuentoDecisiones', { t: t.id });
       return;
     }
     for (let j = 0; j < t.games.length; j++) {

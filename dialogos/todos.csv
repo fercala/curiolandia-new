@@ -1277,6 +1277,7 @@ bab4ff04cc14,leaf,trozo,src/dominio/fotos.ts
 1d4e8cddd4be,Las pompas,trozo,src/dominio/juegosCortos.ts
 210d1bebbc85,El pañuelo,trozo,src/dominio/juegosCortos.ts
 88d5988c508b,Las sillas,trozo,src/dominio/juegosCortos.ts src/escenas/sillas.ts
+51b48b044dfa,El laberinto,trozo,src/dominio/juegosCortos.ts src/escenas/laberinto.ts
 1927bfb65307,¡Explota las pompas rojas!,frase,src/dominio/juegosCortos.ts
 0ac8f501655c,Esa pompa es roja.,frase,src/dominio/juegosCortos.ts
 8c679283ca8f,¡Explota las pompas azules!,frase,src/dominio/juegosCortos.ts
@@ -1612,6 +1613,7 @@ c45479ffa5f0,Las clases,trozo,src/escenas/cole.ts
 4dbbcb0da5dd,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!",frase,src/escenas/cole.ts
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,frase,src/escenas/cole.ts
 f780cf0b3b7a,"Toca el patio para jugar, o el autobús para ir de excursión.",frase,src/escenas/cole.ts
+43a9acc15692,¿Flota o se hunde?,frase,src/escenas/cole.ts src/escenas/flota.ts
 6fb2d58eed45,{Sitio} están en obras. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/cole.ts
 8ac8aeea9a0b,{Sitio} está en obras. ¡Muy pronto podrás jugar aquí!,trozo,src/escenas/cole.ts
 89b3f1dd7488,El patio está cerrado por ahora. ¡Hay muchas cosas más para jugar en el mapa!,frase,src/escenas/cole.ts
@@ -1633,6 +1635,19 @@ fa80ee037e45,¡El viento sopla hacia la derecha!,frase,src/escenas/cometa.ts
 6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,frase,src/escenas/cometa.ts
 a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!",frase,src/escenas/cometa.ts
 7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,frase,src/escenas/cometa.ts
+ba9bed0c956d,Tito oye un ruido cerca del árbol. ¿Por dónde va?,frase,src/escenas/cuentoDecisiones.ts
+9a4d6ab30cea,Por el camino,trozo,src/escenas/cuentoDecisiones.ts
+cdb61dba7e51,Por el prado,trozo,src/escenas/cuentoDecisiones.ts
+f5b2472757e5,Una ardilla busca su bellota. ¿Cómo la ayudas?,frase,src/escenas/cuentoDecisiones.ts
+e7e620c2a3a0,Buscar en el suelo,trozo,src/escenas/cuentoDecisiones.ts
+79b65b0f6647,Mirar en el árbol,trozo,src/escenas/cuentoDecisiones.ts
+a33f8bbaabe9,Una ardilla mira una pila de hojas. ¿Cómo la ayudas?,frase,src/escenas/cuentoDecisiones.ts
+8e06fdf342b2,Apartar las hojas,trozo,src/escenas/cuentoDecisiones.ts
+f183eab96a18,¡La bellota estaba escondida! La ardilla le da las gracias a Tito.,frase,src/escenas/cuentoDecisiones.ts
+c6c2229932fc,Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.,frase,src/escenas/cuentoDecisiones.ts
+6fffaa9493e8,La bellota perdida,trozo,src/escenas/cuentoDecisiones.ts
+d76d93fb8bf6,Leer de nuevo,trozo,src/escenas/cuentoDecisiones.ts
+e1f2d2d61772,Volver a la casita,trozo,src/escenas/cuentoDecisiones.ts
 88084c247f32,¡Medallero!,frase,src/escenas/deporte.ts
 15b8d74100c6,¡Copa nueva!,frase,src/escenas/deporte.ts
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,frase,src/escenas/deporte.ts
@@ -1868,6 +1883,7 @@ d4fda45f4254,Álbum,trozo,src/escenas/excursion.ts src/aplicacion/adultos/copia.
 773c440fc57f,¡Sube al autobús{nino}! ¿Adónde nos vamos de excursión? Toca un cartel.,frase,src/escenas/excursion.ts
 a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 684b61148825,¡Nos vamos de excursión!,frase,src/escenas/excursion.ts
+50f4dea80688,El mercado,trozo,src/escenas/excursion.ts src/escenas/mercado.ts
 35a442ff6b53,¡{Excursion} está en obras! Muy pronto podremos ir.,trozo,src/escenas/excursion.ts
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!",frase,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
@@ -1880,6 +1896,12 @@ f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 41b12a8a9434,Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,frase,src/escenas/excursion.ts
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,trozo,src/escenas/excursion.ts
+7ea82df74642,Flota,trozo,src/escenas/flota.ts
+f57a7921f6d5,Se hunde,trozo,src/escenas/flota.ts
+3cbbbcda4fa1,Otro objeto,trozo,src/escenas/flota.ts
+0900d94646e0,Soltar en el agua,trozo,src/escenas/flota.ts
+f55924e31317,¡Lo has adivinado!,frase,src/escenas/flota.ts
+436ee11d85c6,¡Ahora ya lo sabemos!,frase,src/escenas/flota.ts
 34f9a121f8c2,Guardo la cámara.,frase,src/escenas/fotos.ts
 cc16b266690d,¡La cámara! Toca un animal o una cosa para hacerle una foto.,frase,src/escenas/fotos.ts
 8a9344afc729,{nombre}. Esta foto ya la tenías.,trozo,src/escenas/fotos.ts
@@ -1972,12 +1994,19 @@ ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,fr
 2289289d6344,"¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.",frase,src/escenas/juegosCortos.ts
 d9cb034d851e,Elige un juego corto.,frase,src/escenas/juegosCortos.ts
 f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts
+d5928579516d,¡Llegaste a la meta!,frase,src/escenas/laberinto.ts
+f9bf8d050287,Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.,frase,src/escenas/laberinto.ts
+4a0523f29586,Otra vez,trozo,src/escenas/laberinto.ts src/escenas/mercado.ts
 4a117af24ff3,Este es tu libro de letras. Ya conoces 1 letra.,frase,src/escenas/libroLetras.ts
 2482d82c1265,Este es tu libro de letras. Ya conoces {n} letras.,frase,src/escenas/libroLetras.ts
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 9324da358388,{Letra} de {amigo}.,trozo,src/escenas/libroLetras.ts src/temas/letras.ts
+563bfcc142e0,Pon en la cesta la fruta de la lista.,frase,src/escenas/mercado.ts
+3b686947da97,Pagar con una ficha,trozo,src/escenas/mercado.ts
+8ce7478b0943,¡Compra hecha!,frase,src/escenas/mercado.ts
+5a858c14e404,Mira el siguiente dibujo de la lista.,frase,src/escenas/mercado.ts
 e3d8f426d44a,Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.,frase,src/escenas/museo.ts
 c83503444115,Toca las huellas una a una para contar los pasos.,frase,src/escenas/museo.ts
 aeb81513b171,¿Cuál es el más largo? Tócalo.,frase,src/escenas/museo.ts
@@ -2244,6 +2273,7 @@ fe653b97deac,¡Se abrió el juego número {n}! Tócalo para seguir.,frase,src/es
 4687dd09f4e8,Empieza por el primero: ¡vamos a conocer!,frase,src/escenas/zonas.ts
 76e0dc50891a,"Toca el que brilla, el número {n}.",frase,src/escenas/zonas.ts
 6a5f781c4d40,¡Ya jugaste todos! Puedes repetir el que más te guste.,frase,src/escenas/zonas.ts
+50908442bdc1,Cuento con decisiones,trozo,src/escenas/zonas.ts src/mundo3d/casita3d.ts
 f7435a6b5d9d,¡Esto es la sabana! Los animales tienen mucha hambre.,frase,src/escenas/zoo.ts
 aeb80c8f3d1a,¿Sabes una cosa? La jirafa es el animal más alto del mundo. ¡Llega a las hojas de lo alto de los árboles!,frase,src/escenas/zoo.ts
 512138c1108b,Une cada animal con su comida. Arrastra del animal a lo que come.,frase,src/escenas/zoo.ts
@@ -4154,6 +4184,12 @@ edebf8bc6646,"Sí, recuperar esta copia",adultos,src/aplicacion/adultos/copiaSeg
 4bbf011d7eec,"Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
 3bc31b6cd427,"Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
 033828b51588,❌ No se pudo guardar en este navegador.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+0411690e31a5,Fichas para imprimir,adultos,src/aplicacion/adultos/fichas.ts
+83928020a631,Usan los dibujos del último tema abierto.,adultos,src/aplicacion/adultos/fichas.ts
+e079b278ef82,Ficha para colorear,adultos,src/aplicacion/adultos/fichas.ts
+18720f14b3d2,Ficha para contar,adultos,src/aplicacion/adultos/fichas.ts
+6bd46f9c630f,Cuenta los dibujos y rodea el número.,adultos,src/aplicacion/adultos/fichas.ts
+36c7c6b9368d,Colorea el dibujo del tema.,adultos,src/aplicacion/adultos/fichas.ts
 fdc6446d8460,Premios y vales,adultos,src/aplicacion/adultos/premios.ts
 1548db2ef3d8,Premios,adultos,src/aplicacion/adultos/premios.ts
 f3176786e699,Entregado ✔,adultos,src/aplicacion/adultos/premios.ts

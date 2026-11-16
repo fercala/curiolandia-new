@@ -84,3 +84,7 @@ export * from './circuito.ts';
 export * from './tesoros.ts';
 export * from './fotos.ts';
 export * from './aventura.ts';
+export * from './laberinto.ts';
+export * from './flota.ts';
+export * from './cuentoDecisiones.ts';
+export * from './mercado.ts';
