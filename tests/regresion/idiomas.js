@@ -116,6 +116,13 @@ const ESCENAS_RO = [
   'museoMedir',
   'museoComida',
   'museoNido',
+  // desde la P20, la ciudad y sus cinco paradas
+  'excursion:ciudad',
+  'ciudadVestir',
+  'ciudadFuego',
+  'ciudadPan',
+  'ciudadSalud',
+  'ciudadCalle',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).

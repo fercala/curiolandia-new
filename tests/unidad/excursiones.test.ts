@@ -127,10 +127,17 @@ describe('las excursiones', () => {
   });
 
   // desde la fase P19: el museo de los dinosaurios, con Pablo el paleontólogo y sus cinco salas
-  test('el museo tiene cinco salas jugables con ids distintos y va antes del bosque', () => {
+  test('el museo tiene cinco salas jugables con ids distintos', () => {
     const museo = excursionPorId('museo')!;
     expect(museo.nombreGuia).toBe('Pablo');
     expect(estacionesJugables(museo).map((s) => s.id)).toEqual(['excavacion', 'montar', 'medir', 'comida', 'nido']);
-    expect(EXCURSIONES.map((e) => e.id).slice(-2)).toEqual(['museo', 'bosque']);
+  });
+
+  // desde la fase P20: la ciudad, con Lucía la bombera y sus cinco paradas; el bosque sigue el último
+  test('la ciudad tiene cinco paradas jugables y va después del museo y antes del bosque', () => {
+    const ciudad = excursionPorId('ciudad')!;
+    expect(ciudad.nombreGuia).toBe('Lucía');
+    expect(estacionesJugables(ciudad).map((s) => s.id)).toEqual(['vestir', 'fuego', 'pan', 'salud', 'calle']);
+    expect(EXCURSIONES.map((e) => e.id).slice(-3)).toEqual(['museo', 'ciudad', 'bosque']);
   });
 });

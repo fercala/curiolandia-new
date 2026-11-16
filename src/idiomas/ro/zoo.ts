@@ -3,7 +3,8 @@
  * por la regla de Fernando del 15 de noviembre de 2026: toda funcionalidad nueva es multiidioma): los recintos, lo que
  * dice Nico el cuidador (la bienvenida, las presentaciones y los datos curiosos), las frases de dar de comer y la página
  * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
- * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo. Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo, y desde la P20 (v0.2.164), la ciudad, con
+ * Lucía la bombera. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -127,4 +128,46 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
     'Uite cuibul acesta! Ouăle se mișcă. Puii sunt gata să iasă!',
   '¿Sabes una cosa? Las mamás dinosaurio ponían los huevos en nidos, como los pájaros.':
     'Știi ceva? Mamele dinozaur își puneau ouăle în cuiburi, ca păsările.',
+  // desde la P20 (v0.2.164): la excursión a la ciudad, con Lucía la bombera
+  'La ciudad': 'Orașul',
+  Lucía: 'Lucía',
+  'Vestirse de bombero': 'Ne îmbrăcăm ca pompierii',
+  'Apagar el fuego': 'Stingem focul',
+  'La panadería': 'Brutăria',
+  'El centro de salud': 'Centrul medical',
+  'Cruzar la calle': 'Traversăm strada',
+  '¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.':
+    'Bună{nino}! Eu sunt {guia}, pompiera. Bine ai venit în oraș! Vom vedea remiza de pompieri, brutăria și centrul medical.',
+  'Para apagar fuegos, primero hay que ponerse el traje. Primero las botas, después la chaqueta, luego el casco y al final los guantes.':
+    'Ca să stingem focul, mai întâi ne punem costumul. Întâi cizmele, apoi geaca, pe urmă casca și la sfârșit mănușile.',
+  '¿Sabes una cosa? El traje de los bomberos los protege del fuego y del calor.':
+    'Știi ceva? Costumul pompierilor îi apără de foc și de căldură.',
+  'Ordena la ropa del bombero: primero las botas, después la chaqueta, luego el casco y al final los guantes.':
+    'Pune în ordine hainele pompierului: întâi cizmele, apoi geaca, pe urmă casca și la sfârșit mănușile.',
+  '¡Muy bien! Ya estamos listos para salir.': 'Foarte bine! Suntem gata de plecare.',
+  '¡Hay un fuego en una casa! Subimos al camión de bomberos y... ¡a apagarlo!':
+    'Arde o casă! Urcăm în mașina de pompieri și... hai să stingem focul!',
+  '¿Sabes una cosa? Si hay un fuego, hay que avisar a un mayor y llamar al ciento doce.':
+    'Știi ceva? Dacă vezi un foc, spune-i unui adult și sunați la o sută doisprezece.',
+  'Echa agua con la manguera: frota las llamas hasta que no quede ninguna.':
+    'Aruncă apă cu furtunul: freacă flăcările până nu mai rămâne niciuna.',
+  '¡Fuego apagado! Eres un bombero estupendo.': 'Focul s-a stins! Ești un pompier grozav.',
+  '¡Qué bien huele! Estamos en la panadería. ¿Sabes cómo se hace el pan?':
+    'Ce bine miroase! Suntem la brutărie. Știi cum se face pâinea?',
+  '¿Sabes una cosa? Los panaderos se levantan muy temprano, cuando todavía es de noche, para que el pan esté listo por la mañana.':
+    'Știi ceva? Brutarii se trezesc foarte devreme, când încă e noapte, ca pâinea să fie gata dimineața.',
+  '¿Cómo se hace el pan? Ordena del primero al último.': 'Cum se face pâinea? Pune în ordine, de la primul la ultimul.',
+  '¡Muy bien! Del trigo sale la harina, el panadero hace la masa y la mete en el horno. ¡Y sale el pan!':
+    'Foarte bine! Din grâu se face făina, brutarul face aluatul și îl pune în cuptor. Și iese pâinea!',
+  'Esto es el centro de salud. Aquí nos cuidan cuando estamos malitos.':
+    'Acesta e centrul medical. Aici avem grijă de noi când suntem bolnavi.',
+  '¿Sabes una cosa? Para no ponernos malos, nos lavamos las manos, comemos fruta y dormimos mucho.':
+    'Știi ceva? Ca să nu ne îmbolnăvim, ne spălăm pe mâini, mâncăm fructe și dormim mult.',
+  '¡Ay! El conejito se ha caído y tiene pupas. Frota con la crema para curarlo.':
+    'Vai! Iepurașul a căzut și s-a julit. Freacă cu crema ca să-l vindeci.',
+  '¡Ya está curado! El conejito está muy contento.': 'S-a vindecat! Iepurașul e foarte bucuros.',
+  'Para volver al cole hay que cruzar la calle. ¡Mira bien el semáforo!':
+    'Ca să ne întoarcem la grădiniță, trebuie să traversăm strada. Uită-te bine la semafor!',
+  '¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el semáforo en verde y de la mano de un mayor.':
+    'Știi ceva? Traversăm strada pe trecerea de pietoni, când semaforul e verde, și ținem de mână un adult.',
 };
