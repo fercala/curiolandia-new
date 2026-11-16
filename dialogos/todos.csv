@@ -605,6 +605,13 @@ ea02d1d0aea5,La selva,trozo,src/contenido/excursiones.ts
 0aeb515e2327,La zona polar,trozo,src/contenido/excursiones.ts
 0e2fba450a47,La casa de los reptiles,trozo,src/contenido/excursiones.ts
 d8c7da05159d,La gran pajarera,trozo,src/contenido/excursiones.ts
+2200e65926da,El acuario,trozo,src/contenido/excursiones.ts
+7ba66c645ee1,Marina,trozo,src/contenido/excursiones.ts
+ac073707cc68,Las burbujas,trozo,src/contenido/excursiones.ts
+d145ed9515ff,Las estrellas de mar,trozo,src/contenido/excursiones.ts
+8f9ac2ae0800,La piscina de los delfines,trozo,src/contenido/excursiones.ts
+d1d31176d269,La sala de los tamaños,trozo,src/contenido/excursiones.ts
+d8cd008f5cad,La cueva de la ballena,trozo,src/contenido/excursiones.ts
 d236fa6bc06b,El bosque,trozo,src/contenido/excursiones.ts
 eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 48418f32fc2d,Mamá,trozo,src/contenido/ingles.ts
@@ -862,6 +869,9 @@ dba2185000a6,la cocinera,nombre,src/contenido/lex.ts
 9aacaa567765,el cartero,nombre,src/contenido/lex.ts
 06d1edc4eb35,la granjera,nombre,src/contenido/lex.ts
 dd4a21840b55,el cuidador,nombre,src/contenido/lex.ts
+73ae03336f74,la buceadora,nombre,src/contenido/lex.ts
+f7f37fe70c49,el delfín,nombre,src/contenido/lex.ts
+62fd85bfb3a4,el cangrejo,nombre,src/contenido/lex.ts
 392231973151,el peluquero,nombre,src/contenido/lex.ts
 b91143f353da,la manguera,nombre,src/contenido/lex.ts
 8a8b3529242b,el estetoscopio,nombre,src/contenido/lex.ts
@@ -1325,6 +1335,21 @@ c68b698207c7,"Somos pájaros: a la pata coja, con los brazos abiertos como alas.
 637e68234d84,"Somos leones: de rodillas, las manos como garras, sacamos la lengua y rugimos sin hacer ruido.",frase,src/dominio/yoga.ts
 775469420154,Ahora inflamos un globo en la barriga: tomamos aire despacito y la barriga se hincha. Luego lo soltamos.,frase,src/dominio/yoga.ts
 c8976da0d23a,"Olemos una flor tomando aire por la nariz, y soplamos una vela despacito, sin apagarla.",frase,src/dominio/yoga.ts
+7510ccde75d7,¡Mira cuántas burbujas! Dentro hay animales del mar.,frase,src/escenas/acuario.ts
+871d233d0ef9,¿Sabes una cosa? Los peces respiran debajo del agua con las branquias.,frase,src/escenas/acuario.ts
+bbe51109117c,¡Atrapa los peces!,frase,src/escenas/acuario.ts
+df18cfa245cc,"¡Ahora, los cangrejos!",frase,src/escenas/acuario.ts
+9eb4ae7c4060,En el fondo del acuario hay estrellas de mar escondidas. ¡Vamos a contarlas!,frase,src/escenas/acuario.ts
+dbb17f323502,"¿Sabes una cosa? Las estrellas de mar tienen cinco brazos, ¡y si pierden uno les vuelve a crecer!",frase,src/escenas/acuario.ts
+2fd3700cb9e7,¡Los delfines saltan en fila! Fíjate bien en el orden.,frase,src/escenas/acuario.ts
+96140d45ba7f,¿Sabes una cosa? Los delfines hablan entre ellos con silbidos y chasquidos.,frase,src/escenas/acuario.ts
+9626cfdcccd8,En esta sala hay animales pequeños y grandes. ¿Los ordenamos?,frase,src/escenas/acuario.ts
+3e4b408fae53,¿Sabes una cosa? La ballena azul es el animal más grande del mundo. ¡Es más larga que un autobús!,frase,src/escenas/acuario.ts
+bc776cfb5fdc,"Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.",frase,src/escenas/acuario.ts src/temas/temas.ts src/temas/temas4.ts
+952c89d473c6,Ordena de más pequeñito a más grande. El más pequeñito va primero.,frase,src/escenas/acuario.ts src/temas/temas.ts
+94f67b84edc0,¡Muy bien! Del más pequeñito al más grande.,frase,src/escenas/acuario.ts src/temas/temas.ts
+dba41e9c17f2,¡Escucha! La ballena está cantando. Sus amigos se han escondido de dos en dos. ¡Busca las parejas!,frase,src/escenas/acuario.ts
+9c832d21e7d9,¿Sabes una cosa? Las ballenas cantan canciones muy largas que se oyen desde muy lejos.,frase,src/escenas/acuario.ts
 8c3d395b2a94,Aún no hemos ido,trozo,src/escenas/albumExcursiones.ts
 444536e4029c,"Aquí irá la foto {excursion}, cuando vayamos de excursión.",frase,src/escenas/albumExcursiones.ts
 9f9bd5c24bed,"¡{Excursion}! Hemos ido una vez; la última, el {fecha}. ¿Te acuerdas de {guia}?",trozo,src/escenas/albumExcursiones.ts
@@ -1814,6 +1839,7 @@ a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!",frase,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
+64ddf6b02895,"¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.",frase,src/escenas/excursion.ts
 8f1a5d1d2982,"¡Hola{nino}! Soy {guia}, el cuidador del zoo. ¡Bienvenido al zoo! Hoy vamos a visitar a los animales salvajes.",frase,src/escenas/excursion.ts
 850a40687e76,"¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.",frase,src/escenas/excursion.ts
 41b12a8a9434,Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
@@ -3273,9 +3299,6 @@ d54e4e0bd98b,El bebé. Es pequeñito y toma leche.,frase,src/temas/temas.ts
 993a25393c10,El abuelo. Es el papá de papá o de mamá.,frase,src/temas/temas.ts
 806e4d312383,La abuela. Es la mamá de mamá o de papá.,frase,src/temas/temas.ts
 50cbdc70a9f1,"Esta es una familia. Todas las familias son distintas, ¡y todas son bonitas! Toca a cada uno.",frase,src/temas/temas.ts
-bc776cfb5fdc,"Mmm, ese lugar es de otro tamaño. Mira bien los cuadros.",frase,src/temas/temas.ts src/temas/temas4.ts src/temas/temas5.ts
-952c89d473c6,Ordena de más pequeñito a más grande. El más pequeñito va primero.,frase,src/temas/temas.ts
-94f67b84edc0,¡Muy bien! Del más pequeñito al más grande.,frase,src/temas/temas.ts
 d32a0fea72b0,"¡Arma tu familia! Lleva a la casa a las personas que viven con tú. Cuando termines, toca el botón verde.",frase,src/temas/temas.ts
 3f43728a9d04,El invierno y la ropa,trozo,src/temas/temas.ts
 ab34eeffd26b,La nieve. En invierno hace mucho frío y a veces nieva.,frase,src/temas/temas.ts

@@ -102,6 +102,13 @@ const ESCENAS_RO = [
   'zooPolar',
   'zooReptiles',
   'zooPajarera',
+  // desde la P18, el acuario y sus cinco salas
+  'excursion:acuario',
+  'acuarioBurbujas',
+  'acuarioEstrellas',
+  'acuarioDelfines',
+  'acuarioTamanos',
+  'acuarioBallena',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).

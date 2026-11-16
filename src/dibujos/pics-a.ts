@@ -9,7 +9,7 @@
 // Ayudas (prefijo PA_ para no chocar con otros archivos): PA_oct, PA_win, PA_P, PA_star, PA_hat,
 // PA_heart, PA_spiral, PA_wh, PA_lens.
 // Dibujos: escuela, hospital, parque, piscina, tienda, calendario, semáforo, paso de cebra, stop,
-// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, peluquero) y sus
+// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, peluquero) y sus
 // herramientas; cosas de los sentidos; vehículos (ambulancia, camión de bomberos, submarino...).
 // ==========================================================================
 /* ---------- Dibujos PA: lugares, oficios, objetos y vehiculos ---------- */
@@ -314,6 +314,18 @@ Object.assign(PICS, {
       mid: `<path d="M-8 -12 L0 -3 L8 -12" fill="#E8DDB5" ${sw(2.5)}/><rect x="-15" y="-2" width="11" height="10" rx="2" fill="#B39B62" ${sw(2.5)}/><rect x="4" y="-2" width="11" height="10" rx="2" fill="#B39B62" ${sw(2.5)}/><rect x="-22" y="16" width="44" height="6" fill="#6B4A2E" ${sw(2.5)}/>`,
       hold: `<g transform="translate(40 -40) rotate(-60)"><path d="M-16 0 Q-4 -11 10 -2 L18 -9 L16 0 L18 9 L10 2 Q-4 11 -16 0 Z" fill="#7FB6E0" ${sw(3)}/><circle cx="-9" cy="-2" r="2" fill="${K}"/></g>`,
       top: `<ellipse cx="0" cy="-42" rx="31" ry="7" fill="#D9C48A" ${sw(4)}/><path d="M-17 -42 Q-18 -62 0 -62 Q18 -62 17 -42 Z" fill="#D9C48A" ${sw(4)}/><path d="M-17 -46 H17" stroke="#6E8B3D" stroke-width="5"/><path d="M-17 -42 Q-18 -62 0 -62 Q18 -62 17 -42" fill="none" ${sw(4)}/>`,
+    },
+  ),
+  // buceadora: Marina, la buceadora del acuario (fase P18): traje de neopreno azul, las gafas de bucear en la frente, el
+  // tubo y una estrella de mar en la mano levantada.
+  buceadora: PA_P(
+    { skin: '#F2C29B', hair: '#8A5A3C', style: 'long', shirt: '#2F6FB5', pants: '#2F6FB5' },
+    {
+      T: -56,
+      R: ['M20 -6 Q34 -8 36 -22', 36, -24],
+      mid: `<path d="M-6 -12 V34" stroke="#FFC93C" stroke-width="4"/><rect x="-22" y="14" width="44" height="6" fill="#1E4F86" ${sw(2.5)}/>`,
+      hold: `<g transform="translate(40 -40) scale(.55)"><polygon points="0,-24 7,-8 24,-7 11,4 15,21 0,12 -15,21 -11,4 -24,-7 -7,-8" fill="#FF8A5B" ${sw(4)}/></g>`,
+      top: `<rect x="-20" y="-44" width="40" height="14" rx="7" fill="#7FD3F0" ${sw(3.5)}/><path d="M-20 -37 Q-26 -36 -27 -30 M20 -37 Q26 -36 27 -30" fill="none" ${sw(3.5)}/><path d="M0 -44 V-30" ${sw(2.5)}/><path d="M23 -44 V-62 Q23 -68 29 -68" fill="none" stroke="${K}" stroke-width="7" stroke-linecap="round"/><path d="M23 -44 V-62 Q23 -68 29 -68" fill="none" stroke="#FFC93C" stroke-width="3.5" stroke-linecap="round"/>`,
     },
   ),
   peluquero: PA_P(

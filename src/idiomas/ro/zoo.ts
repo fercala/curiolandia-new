@@ -2,7 +2,8 @@
  * idiomas/ro/zoo.ts: los textos en rumano de la excursión al zoo (fase P17 de docs/IDEAS-MEJORA.md, desde la v0.2.161,
  * por la regla de Fernando del 15 de noviembre de 2026: toda funcionalidad nueva es multiidioma): los recintos, lo que
  * dice Nico el cuidador (la bienvenida, las presentaciones y los datos curiosos), las frases de dar de comer y la página
- * del zoo del álbum de fotos (el safari fotográfico). Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
+ * la buceadora. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -52,4 +53,34 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
   'El tigre': 'Tigrul',
   'El mono': 'Maimuța',
   'El cocodrilo': 'Crocodilul',
+  // desde la P18 (v0.2.162): la excursión al acuario, con Marina la buceadora
+  'El acuario': 'Acvariul',
+  Marina: 'Marina',
+  'Las burbujas': 'Bulele',
+  'Las estrellas de mar': 'Stelele de mare',
+  'La piscina de los delfines': 'Piscina delfinilor',
+  'La sala de los tamaños': 'Sala mărimilor',
+  'La cueva de la ballena': 'Peștera balenei',
+  '¡Hola{nino}! Soy {guia}, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.':
+    'Bună{nino}! Eu sunt {guia}, scafandra de la acvariu. Bine ai venit la acvariu! Ne plimbăm printr-un tunel pe sub apă.',
+  '¡Mira cuántas burbujas! Dentro hay animales del mar.': 'Uite câte bule! Înăuntru sunt animale din mare.',
+  '¿Sabes una cosa? Los peces respiran debajo del agua con las branquias.':
+    'Știi ceva? Peștii respiră sub apă cu branhiile.',
+  '¡Atrapa los peces!': 'Prinde peștii!',
+  '¡Ahora, los cangrejos!': 'Acum, crabii!',
+  'En el fondo del acuario hay estrellas de mar escondidas. ¡Vamos a contarlas!':
+    'Pe fundul acvariului sunt stele de mare ascunse. Hai să le numărăm!',
+  '¿Sabes una cosa? Las estrellas de mar tienen cinco brazos, ¡y si pierden uno les vuelve a crecer!':
+    'Știi ceva? Stelele de mare au cinci brațe și, dacă pierd unul, le crește la loc!',
+  '¡Los delfines saltan en fila! Fíjate bien en el orden.': 'Delfinii sar în șir! Uită-te bine la ordine.',
+  '¿Sabes una cosa? Los delfines hablan entre ellos con silbidos y chasquidos.':
+    'Știi ceva? Delfinii vorbesc între ei prin fluierături și pocnituri.',
+  'En esta sala hay animales pequeños y grandes. ¿Los ordenamos?':
+    'În sala asta sunt animale mici și mari. Le punem în ordine?',
+  '¿Sabes una cosa? La ballena azul es el animal más grande del mundo. ¡Es más larga que un autobús!':
+    'Știi ceva? Balena albastră e cel mai mare animal din lume. E mai lungă decât un autobuz!',
+  '¡Escucha! La ballena está cantando. Sus amigos se han escondido de dos en dos. ¡Busca las parejas!':
+    'Ascultă! Balena cântă. Prietenii ei s-au ascuns câte doi. Caută perechile!',
+  '¿Sabes una cosa? Las ballenas cantan canciones muy largas que se oyen desde muy lejos.':
+    'Știi ceva? Balenele cântă cântece foarte lungi, care se aud de foarte departe.',
 };

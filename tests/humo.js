@@ -91,6 +91,12 @@ const ESCENAS = [
   ['zooPolar', {}],
   ['zooReptiles', {}],
   ['zooPajarera', {}],
+  ['excursion', { exc: 'acuario' }], // P18
+  ['acuarioBurbujas', {}],
+  ['acuarioEstrellas', {}],
+  ['acuarioDelfines', {}],
+  ['acuarioTamanos', {}],
+  ['acuarioBallena', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

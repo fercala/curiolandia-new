@@ -18,6 +18,8 @@
 // vueltas de tres obstáculos que el niño toca en el orden de la profe (uno que no va no cuenta) y Tito recorre. Y el zoo
 // (fase P17): el autobús lleva al zoo, sus cinco recintos se juegan siguiendo la ayuda hasta el dato curioso de Nico, la
 // foto de grupo da 5 monedas y la pegatina del león, y con la cámara se le hace una foto a la jirafa que pasea (o al animal que la tape).
+// Y el acuario (fase P18): sus cinco salas se juegan siguiendo la ayuda hasta el dato curioso de Marina, y la foto de
+// grupo da 5 monedas y la pegatina del delfín.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -1098,6 +1100,55 @@ const R = L.registro('cole');
         return foto[0] && foto[1] && foto[1][foto[0]] === 1
           ? null
           : 'la foto del animal no está en el álbum: ' + JSON.stringify(foto);
+      },
+    );
+    await caso(
+      'P25',
+      'el autobús lleva al acuario; las cinco salas se juegan siguiendo la ayuda, con su dato curioso, y la foto de grupo',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 3;
+          if (__cl.S.exc) delete __cl.S.exc.acuario;
+          save();
+          __cl.go('autobus', {});
+        });
+        await p.waitForTimeout(1200);
+        const d = await p.evaluate(() => DESTINOS.find((x) => x.e.id === 'acuario'));
+        await L.clic(p, d.x + d.w / 2, d.y + d.h / 2);
+        let e = 'autobus';
+        for (let i = 0; i < 20 && e === 'autobus'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'excursion') return 'el viaje no ha llegado al acuario: ' + e;
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        const salas = await p.evaluate(() =>
+          DESTINOS.find((x) => x.e.id === 'acuario').e.estaciones.map((s) => [s.x, s.y, s.escena]),
+        );
+        for (const [x, y, nombre] of salas) {
+          await p.waitForTimeout(1500);
+          await L.clic(p, x, y);
+          await p.waitForTimeout(1200);
+          if ((await escena()) !== nombre) return 'no se ha abierto ' + nombre + ': ' + (await escena());
+          // como en el zoo (P24): se sigue la ayuda solo mientras se juega en la sala
+          const jugando = () => p.evaluate((n) => __cl.name === n && ZOO.fase === 'juego', nombre);
+          const t0 = Date.now();
+          while (Date.now() - t0 < 150000 && (await jugando())) {
+            const t1 = Date.now();
+            while (Date.now() - t1 < 12000 && (await p.evaluate(() => VIVO.talking))) await p.waitForTimeout(150);
+            await p.waitForTimeout(400);
+            if (await jugando()) await L.paso(p, 0);
+            await p.waitForTimeout(250);
+          }
+          if (!(await p.evaluate(() => ZOO.fase === 'dato'))) return nombre + ' no llega al dato curioso';
+          for (let i = 0; i < 40 && (await escena()) === nombre; i++) await p.waitForTimeout(500);
+          if ((await escena()) !== 'excursion') return 'tras ' + nombre + ', escena ' + (await escena());
+        }
+        await p.waitForTimeout(3000);
+        const [v, despues, stk] = await p.evaluate(() => [__cl.S.exc.acuario, __cl.S.coins || 0, __cl.S.stk.delfin]);
+        if (!v || v.veces !== 1 || !v.foto) return 'la visita al acuario: ' + JSON.stringify(v);
+        if (despues - monedas < 5) return `la foto de grupo da 5 monedas: ${monedas} -> ${despues}`;
+        return stk ? null : 'la primera visita da la pegatina del delfín';
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

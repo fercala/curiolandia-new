@@ -112,4 +112,17 @@ describe('las excursiones', () => {
     });
     expect(visitaCompleta(zoo, v)).toBe(true);
   });
+
+  // desde la fase P18: el acuario, con Marina la buceadora y sus cinco salas
+  test('el acuario tiene cinco salas jugables con ids distintos', () => {
+    const acuario = excursionPorId('acuario')!;
+    expect(acuario.nombreGuia).toBe('Marina');
+    expect(estacionesJugables(acuario).map((s) => s.id)).toEqual([
+      'burbujas',
+      'estrellas',
+      'delfines',
+      'tamanos',
+      'ballena',
+    ]);
+  });
 });

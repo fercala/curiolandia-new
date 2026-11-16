@@ -13,8 +13,8 @@
  *   pingüino y la gallina.
  * Los animales que pasean por el plano del zoo y sus fotos (el safari fotográfico) están en escenas/granjaAnimales.ts y
  * dominio/fotos.ts. La casa (arriba a la izquierda) vuelve al plano sin terminar el recinto.
- * Exporta: RECINTOS_ZOO (cada recinto: su escena, su dibujo, lo que dice Nico y su juego), ZOO (el estado, para las
- * pruebas) y pone SCENES.zooSabana, SCENES.zooSelva, SCENES.zooPolar, SCENES.zooReptiles y SCENES.zooPajarera.
+ * Exporta: el tipo RecintoZoo, RECINTOS_ZOO (cada recinto: su escena, su dibujo, lo que dice Nico y su juego), ZOO (el
+ * estado, para las pruebas), escenaRecinto (desde la P18, también para las salas del acuario) y pone SCENES.zooSabana, SCENES.zooSelva, SCENES.zooPolar, SCENES.zooReptiles y SCENES.zooPajarera.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito), los componentes Une, Sonido, Cuenta, Puzzle y Busca y los
  * fondos BG de juegos/, y volverDeEstacion de escenas/excursion.ts.
  */
@@ -49,14 +49,16 @@ import { BG, Busca, Cuenta, Puzzle, Sonido, Une, nameT } from '../juegos/indice.
 import { volverDeEstacion } from './excursion.ts';
 
 /** Un recinto del zoo: su id (el de su estación en contenido/excursiones.ts), su escena, el animal del dato curioso, lo
- * que dice Nico al empezar (intro) y al terminar (dato), y su juego (que llama a onDone al acabar). */
-interface RecintoZoo {
+ * que dice el guía al empezar (intro) y al terminar (dato), su juego (que llama a onDone al acabar) y, si hace falta,
+ * algo más al empezar (alEmpezar: la canción de la ballena del acuario). */
+export interface RecintoZoo {
   readonly id: string;
   readonly escena: string;
   readonly animal: string;
   readonly intro: string;
   readonly dato: string;
   readonly juego: (onDone: AlTerminar) => Juego;
+  readonly alEmpezar?: () => void;
 }
 
 // COMIDAS_ZOO: qué come cada animal de la sabana (las parejas de Une: animal y comida).
@@ -125,9 +127,11 @@ export const RECINTOS_ZOO: readonly RecintoZoo[] = [
   },
 ];
 
-/** El estado del recinto en pantalla: cuál, la fase (jugando o el dato curioso), desde cuándo (T) está en ella, si ya ha
+/** El estado del recinto en pantalla (desde la P18, también el de las salas del acuario): de qué excursión es, cuál, la fase (jugando o el dato curioso), desde cuándo (T) está en ella, si ya ha
  * vuelto al plano y su juego. */
 export const ZOO = {
+  exc: 'zoo',
+  guia: 'cuidador',
   recinto: 'sabana',
   fase: 'juego' as 'juego' | 'dato',
   desde: 0,
@@ -149,15 +153,15 @@ function alTerminar(r: RecintoZoo): void {
   say(r.dato, () => volver(r));
 }
 
-// volver(r): del dato curioso del recinto r al plano del zoo, que lo apunta como hecho (solo una vez).
+// volver(r): del dato curioso del recinto r al plano de su excursión, que lo apunta como hecho (solo una vez).
 function volver(r: RecintoZoo): void {
   if (ZOO.fase !== 'dato' || ZOO.recinto !== r.id || ZOO.vuelto) return;
   ZOO.vuelto = true;
-  volverDeEstacion('zoo', r.id);
+  volverDeEstacion(ZOO.exc, r.id);
 }
 
-// dibujaDato(r): el dato curioso del recinto r: un velo, una estrella que late y, en una tarjeta, Nico el cuidador y el
-// animal del dato, que entra creciendo.
+// dibujaDato(r): el dato curioso del recinto r: un velo, una estrella que late y, en una tarjeta, el guía (Nico el
+// cuidador o, en el acuario, Marina la buceadora) y el animal del dato, que entra creciendo.
 function dibujaDato(r: RecintoZoo): void {
   const k = Math.min(1, (T - ZOO.desde) / 0.5);
   ctx.save();
@@ -166,19 +170,21 @@ function dibujaDato(r: RecintoZoo): void {
   ctx.restore();
   card(420, 170, 1000, 560, '#FFFFFF', 6, 40);
   star(1050, 450, 210 + Math.sin(T * 3) * 10, '#FFE38A', 0);
-  pic('cuidador', 640, 470, 360);
+  pic(ZOO.guia, 640, 470, 360);
   circ(1050, 450, 170 * k, '#FFF8E8', 0);
   pic(r.animal, 1050, 450, 300 * k);
 }
 
-// escenaRecinto(r): la escena del recinto r: Nico lo presenta y empieza su juego (con sus monedas de acierto, como en
-// cualquier juego); al terminarlo, el dato curioso y vuelta al plano.
-function escenaRecinto(r: RecintoZoo) {
+// escenaRecinto(r, exc): la escena del recinto r de la excursión exc: el guía lo presenta y empieza su juego (con sus
+// monedas de acierto, como en cualquier juego); al terminarlo, el dato curioso y vuelta al plano. Desde la fase P18, la
+// usan también las salas del acuario (escenas/acuario.ts), con exc 'acuario' y su propio guía (guia: su dibujo).
+export function escenaRecinto(r: RecintoZoo, exc = 'zoo', guia = 'cuidador') {
   return {
     music: 'game',
     // enter(): el juego del recinto, después de que Nico lo presente.
     enter() {
-      Object.assign(ZOO, { recinto: r.id, fase: 'juego', desde: T, vuelto: false });
+      Object.assign(ZOO, { exc, guia, recinto: r.id, fase: 'juego', desde: T, vuelto: false });
+      r.alEmpezar?.();
       alEmpezarJuego();
       ZOO.g = r.juego(() => alTerminar(r));
       say(r.intro);
@@ -203,7 +209,7 @@ function escenaRecinto(r: RecintoZoo) {
     down(x: number, y: number) {
       if (atHome(x, y)) {
         SFX.tap();
-        go('excursion', { exc: 'zoo' });
+        go('excursion', { exc });
         return;
       }
       if (ZOO.fase === 'dato') {

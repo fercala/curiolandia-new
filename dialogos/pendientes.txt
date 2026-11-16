@@ -2095,3 +2095,26 @@ El tigre
 El mono
 El cocodrilo
 el cuidador
+El acuario
+Marina
+Las burbujas
+Las estrellas de mar
+La piscina de los delfines
+La sala de los tamaños
+La cueva de la ballena
+¡Hola! Soy Marina, la buceadora del acuario. ¡Bienvenido al acuario! Vamos a pasear por un túnel debajo del agua.
+¡Mira cuántas burbujas! Dentro hay animales del mar.
+¿Sabes una cosa? Los peces respiran debajo del agua con las branquias.
+¡Atrapa los peces!
+¡Ahora, los cangrejos!
+En el fondo del acuario hay estrellas de mar escondidas. ¡Vamos a contarlas!
+¿Sabes una cosa? Las estrellas de mar tienen cinco brazos, ¡y si pierden uno les vuelve a crecer!
+¡Los delfines saltan en fila! Fíjate bien en el orden.
+¿Sabes una cosa? Los delfines hablan entre ellos con silbidos y chasquidos.
+En esta sala hay animales pequeños y grandes. ¿Los ordenamos?
+¿Sabes una cosa? La ballena azul es el animal más grande del mundo. ¡Es más larga que un autobús!
+¡Escucha! La ballena está cantando. Sus amigos se han escondido de dos en dos. ¡Busca las parejas!
+¿Sabes una cosa? Las ballenas cantan canciones muy largas que se oyen desde muy lejos.
+la buceadora
+el delfín
+el cangrejo
