@@ -51,9 +51,10 @@ interface MarcoAlbum {
 // MARCOS_ALBUM: un marco por excursión, en fila y centrados.
 export const MARCOS_ALBUM: readonly MarcoAlbum[] = EXCURSIONES.map((e, i, todas) => {
   // desde la P18 caben cuatro: los marcos se estrechan para que quepan todos con 40 de margen (desde la P22, con más de
-  // seis, se separan menos)
-  const sep = todas.length > 6 ? 26 : 50,
-    w = Math.min(420, (W - 80 - (todas.length - 1) * sep) / todas.length),
+  // seis, se separan menos, y desde la P23 dejan 70 de margen, para que el marco torcido de las puntas no se salga)
+  const muchos = todas.length > 6,
+    sep = muchos ? 26 : 50,
+    w = Math.min(420, (W - (muchos ? 140 : 80) - (todas.length - 1) * sep) / todas.length),
     ancho = todas.length * w + (todas.length - 1) * sep;
   return { e, x: (W - ancho) / 2 + i * (w + sep), y: 190, w, h: 560 };
 });
@@ -111,10 +112,13 @@ function dibujaMarco(m: MarcoAlbum, i: number): void {
   const cx = m.x + m.w / 2,
     y0 = m.y + FOTO.m + FOTO.alto;
   // los textos se encogen si no caben en el marco (desde la P19, con cinco marcos y nombres largos)
-  text(m.e.nombre, cx, y0 + 60, 32, hecha ? '#4A3B2A' : '#9A9086', { max: m.w - 30 });
+  text(m.e.nombre, cx, y0 + 60, m.w < 200 ? 24 : 32, hecha ? '#4A3B2A' : '#9A9086', { max: m.w - 30 });
   // las veces y la fecha, cada una en el idioma del juego (juntar: no se vuelven a traducir)
-  if (hecha) text(juntar(vecesTexto(v.veces, tr), '·', fechaDe(v.d)), cx, y0 + 105, 26, '#7A6A5A', { max: m.w - 30 });
-  else text('Aún no hemos ido', cx, y0 + 105, 26, '#9A9086', { max: m.w - 30 });
+  if (hecha)
+    text(juntar(vecesTexto(v.veces, tr), '·', fechaDe(v.d)), cx, y0 + 105, m.w < 200 ? 20 : 26, '#7A6A5A', {
+      max: m.w - 30,
+    });
+  else text('Aún no hemos ido', cx, y0 + 105, m.w < 200 ? 20 : 26, '#9A9086', { max: m.w - 30 });
   const est = m.e.estaciones,
     paso = Math.min(62, (m.w - 40) / Math.max(1, est.length));
   est.forEach((s, j) => {

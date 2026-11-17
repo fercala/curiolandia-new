@@ -10,7 +10,8 @@
  * Lucía la bombera: el parque de bomberos, la panadería, el centro de salud y la calle (escenas/ciudad.ts). Desde la P21, el
  * bosque de otoño (idea 6), con Hugo el guardabosques: las hojas, las huellas, los sonidos, la ardilla y el mural
  * (escenas/bosque.ts). Desde la P22, el mercado (idea 7), con
- * Carmen la frutera: la lista de la compra, la báscula, el pan, la pescadería y la caja (escenas/mercado.ts). Una excursión sin estaciones saldría en el autobús como «¡Muy pronto!».
+ * Carmen la frutera: la lista de la compra, la báscula, el pan, la pescadería y la caja (escenas/mercado.ts). Desde la P23, el planetario y
+ * el viaje a la Luna (idea 8), con Sara la astronauta (escenas/planetario.ts). Una excursión sin estaciones saldría en el autobús como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
  * Importa: el tipo Excursion de dominio/excursiones.ts.
@@ -147,6 +148,20 @@ export const EXCURSIONES: readonly Excursion[] = [
       { id: 'pan', nombre: 'Comprar el pan', escena: 'mercadoPan', icono: 'pan', x: 960, y: 700 },
       { id: 'pescado', nombre: 'La pescadería', escena: 'mercadoPescado', icono: 'pez', x: 1260, y: 560 },
       { id: 'caja', nombre: 'Pagar en la caja', escena: 'mercadoCaja', icono: 'euro', x: 1180, y: 330 },
+    ],
+  },
+  {
+    id: 'planetario',
+    nombre: 'El planetario',
+    icono: 'cohete',
+    guia: 'astronauta',
+    nombreGuia: 'Sara',
+    estaciones: [
+      { id: 'cuenta', nombre: 'La cuenta atrás', escena: 'planetarioCuenta', icono: 'cohete', x: 330, y: 560 },
+      { id: 'planetas', nombre: 'Los planetas', escena: 'planetarioPlanetas', icono: 'saturno', x: 640, y: 700 },
+      { id: 'dia', nombre: 'El día y la noche', escena: 'planetarioDia', icono: 'tierra', x: 960, y: 700 },
+      { id: 'luna', nombre: 'Pisar la Luna', escena: 'planetarioLuna', icono: 'luna', x: 1260, y: 560 },
+      { id: 'viaje', nombre: 'Volver a casa', escena: 'planetarioViaje', icono: 'astronauta', x: 1180, y: 330 },
     ],
   },
 ];
