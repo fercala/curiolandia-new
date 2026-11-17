@@ -86,6 +86,15 @@ export const TOQUES: Readonly<Record<string, Toque>> = {
   conejo: 'bota',
   hamster: 'salta',
   pecera: 'late',
+  // artículos de la tienda
+  maleta: 'sacude',
+  paraguas: 'gira',
+  campana: 'balancea',
+  lupa: 'sube',
+  camion: 'rueda',
+  maceta: 'sacude',
+  cactus: 'balancea',
+  calabaza: 'bota',
 };
 
 // ESTADOS: las cosas que tienen estado → cuántos estados tienen (con cada toque se pasa al siguiente y se vuelve al 0).

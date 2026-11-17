@@ -133,6 +133,7 @@ import {
   colocarObjeto,
   enBaul,
   guardarObjeto,
+  guardarTodoCasa,
   nuevosEnBaul,
   ordenarCasa,
   type Colocado,
@@ -142,6 +143,7 @@ import { EN_BAUL, PLANO, libres, sitioMasCercano, type Sitio } from '../dominio/
 import {
   BANDEJA,
   BAUL,
+  GUARDA_TODO,
   ORDENA,
   casillasBaul,
   dibujaBandeja,
@@ -207,6 +209,7 @@ function sonidoDe(id: string) {
     bloques: () => SFX.snap(),
     telescopio: () => SFX.sparkle(),
     lampara: () => SFX.snap(),
+    campana: () => playSound('campana'),
   };
   (A[id] || (() => {}))();
 }
@@ -496,6 +499,7 @@ SCENES.casaTito = {
     this.pest = 'todo';
     this.bpag = 0;
     this.ordenaT = -9;
+    this.guardaTodoT = -9;
     this.drag = null;
     this.wpg = 0;
     this.jump = -9;
@@ -884,6 +888,8 @@ SCENES.casaTito = {
         nuevo: this.nuevo && !this.nuevo.slot ? this.nuevo.id : '',
         nuevos: nuevosEnBaul(S),
         ordenaPide: T - this.ordenaT < 5,
+        hayFuera: homeItems().length > 0,
+        guardaTodoPide: T - this.guardaTodoT < 5,
         catDe,
         dibuja: dibujaCosa,
       });
@@ -1032,6 +1038,7 @@ SCENES.casaTito = {
     if (dist(x, y, BAUL.x, BAUL.y) < BAUL.r + 6) {
       SFX.whoosh();
       this.baul = !this.baul;
+      this.guardaTodoT = -9;
       if (this.baul) say(baulItems().length ? '¡Mi baúl! Saca lo que quieras.' : 'Mi baúl está vacío.');
       return;
     }
@@ -1290,9 +1297,33 @@ SCENES.casaTito = {
     return { id: e.id, x: clamp(o.x, 120, 1480), y: clamp(o.y - o.s - 50, 210, 640), r: 62 };
   },
   // toqueBandeja(x, y): un toque en la bandeja del baúl abierta (desde la fase M2): una pestaña (enseña solo esas cosas),
-  // una flecha (otra página), «¡Ordena, Tito!» (ordena) o una cosa guardada (empieza a sacarla: si se arrastra, va al
+  // una flecha, «Guardar todo», «¡Ordena, Tito!» o una cosa guardada (empieza a sacarla: si se arrastra, va al
   // sitio donde se suelte; si solo se toca, saca la pone en un sitio libre).
   toqueBandeja(x: number, y: number) {
+    const G = GUARDA_TODO;
+    if (dist(x, y, G.x, G.y + 12) < G.r + 13 && homeItems().length) {
+      this.ordenaT = -9;
+      if (T - this.guardaTodoT > 5) {
+        this.guardaTodoT = T;
+        SFX.pop();
+        say('¿Guardamos todo en el baúl? Toca otra vez para confirmar.');
+        return;
+      }
+      this.guardaTodoT = -9;
+      this.paseoTok++;
+      this.acc = null;
+      this.ultimo = null;
+      this.escena = null;
+      this.pest = 'todo';
+      this.bpag = 0;
+      casaEnS(guardarTodoCasa(S));
+      save();
+      SFX.whoosh();
+      sparkles(BAUL.x, BAUL.y - 30, 10);
+      say('¡Ya está todo guardado en el baúl!');
+      return;
+    }
+    this.guardaTodoT = -9;
     const ids = baulItems();
     const pe = pestanasDe(ids, catDe).find((p) => dist(x, y, p.x, p.y) < 26);
     if (pe) {

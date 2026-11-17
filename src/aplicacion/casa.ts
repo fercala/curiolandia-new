@@ -10,12 +10,13 @@
  * casa, todo lo que ya había cuenta como visto.
  * Pruebas: tests/unidad/casaAplicacion.test.ts (sin navegador: cada prueba inventa la partida).
  * Exporta: los tipos PartidaDeCasa, CasaArreglada y Colocado y los casos de uso arreglarCasa, nuevoAlBaul,
- * colocarObjeto, guardarObjeto, ordenarCasa, enBaul y nuevosEnBaul.
+ * colocarObjeto, guardarObjeto, guardarTodoCasa, ordenarCasa, enBaul y nuevosEnBaul.
  * Importa: las reglas y el plano de dominio/casaSitios.ts.
  */
 import {
   EN_BAUL,
   PLANO,
+  alBaul,
   asignarSitios,
   colocar,
   guardar,
@@ -114,6 +115,18 @@ export function guardarObjeto(p: PartidaDeCasa, id: string): Colocado | null {
   if (!antes[id]) return null;
   const home = guardar(PLANO, antes, id);
   return { home, casaVistos: vistosDe(p), alBaul: mandadosAlBaul(antes, home, id) };
+}
+
+// guardarTodoCasa(p): guarda juntos los objetos de todas las habitaciones, incluidos los que están encima
+// de muebles. Conserva lo que ya está guardado y qué objetos se han visto.
+export function guardarTodoCasa(p: PartidaDeCasa): CasaArreglada {
+  const home = Object.fromEntries(
+    Object.entries(p.home || {}).map(([id, pos]) => [
+      id,
+      pos && pos.r !== EN_BAUL && p.owned?.[id] ? alBaul(pos) : pos,
+    ]),
+  );
+  return { home, casaVistos: vistosDe(p) };
 }
 
 // ordenarCasa(p, habitual, abiertas): «¡Ordena, Tito!»: cada cosa que no está en el baúl va a su habitación habitual

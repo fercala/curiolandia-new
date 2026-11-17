@@ -2264,3 +2264,15 @@ Es hora de volver a casa. ¿Te acuerdas de cómo ha sido el viaje?
 ¿Sabes una cosa? Cuando vuelven, los astronautas caen al mar con paracaídas y los recoge un barco.
 Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y al final volvemos a la Tierra.
 ¡Muy bien! Ya estamos otra vez en casa.
+
+¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.
+¿Guardamos todo en el baúl? Toca otra vez para confirmar.
+¡Ya está todo guardado en el baúl!
+¿Qué llevo en mi maleta?
+¡Con mi paraguas no me mojo!
+¡Escucha cómo suena mi campana!
+¡Con la lupa todo parece más grande!
+¡Mi camión lleva una carga!
+¡En esta maceta podemos plantar una semilla!
+¡Mi cactus tiene pinchos!
+¡Qué redonda es mi calabaza!

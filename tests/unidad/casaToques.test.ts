@@ -8,7 +8,7 @@ import { ESTADOS, TOQUES, estadoDe, siguienteEstado, toqueDe } from '../../src/d
 import { MASCOTAS, REACCIONES } from '../../src/dominio/casa.ts';
 
 describe('toques de la casa', () => {
-  test('las 49 cosas de REACCIONES y las 6 mascotas tienen su toque', () => {
+  test('los objetos de REACCIONES y las mascotas tienen su toque', () => {
     const ids = [...Object.keys(REACCIONES), ...MASCOTAS];
     expect(ids.filter((id) => !Object.hasOwn(TOQUES, id))).toEqual([]);
     expect(Object.keys(TOQUES).length).toBe(ids.length);

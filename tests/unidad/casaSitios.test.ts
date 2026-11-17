@@ -49,7 +49,7 @@ describe('las tablas', () => {
   test('cada objeto de la casa de la tienda tiene tamaño, y no sobra ninguno', () => {
     expect(CASA.filter((id) => !TAMANOS[id])).toEqual([]);
     expect(Object.keys(TAMANOS).filter((id) => !CASA.includes(id))).toEqual([]);
-    expect(Object.keys(TAMANOS)).toHaveLength(55);
+    expect(new Set(CASA).size).toBe(CASA.length);
   });
 
   test('cada tamaño cabe en algún sitio de una habitación, y los ids de los sitios no se repiten', () => {

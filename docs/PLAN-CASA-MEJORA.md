@@ -110,6 +110,8 @@ y su tamaño:
 - Los objetos se dibujan **de atrás hacia delante por su sitio** (ya no por la `y` libre), con el tamaño que da la
   profundidad.
 
+**Guardar todo** (v0.2.168) recoge lo que esté colocado en todas las habitaciones tras un segundo toque. El niño puede volver a sacar las cosas del baúl. La disposición que ya tenía una partida se respeta al entrar.
+
 **Lo nuevo que se compra** va al baúl, que se abre con el objeto brillando, y Tito pregunta: «¿Dónde lo ponemos?».
 Los sitios libres de su habitación habitual brillan. Si el niño sale sin colocarlo, se queda guardado (ver
 decisión 2).

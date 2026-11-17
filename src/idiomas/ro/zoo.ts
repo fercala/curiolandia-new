@@ -5,7 +5,7 @@
  * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
  * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo, y desde la P20 (v0.2.164), la ciudad, con
  * Lucía la bombera, y desde la P21 (v0.2.165), el bosque de otoño, con Hugo el guardabosques, y desde
- * la P22 (v0.2.166), el mercado, con Carmen la frutera, y desde la P23 (v0.2.168), el planetario, con Sara la astronauta. Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * la P22 (v0.2.166), el mercado, con Carmen la frutera, y desde la P23 (v0.2.169), el planetario, con Sara la astronauta. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -245,7 +245,7 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
     'Costă {p} euro și plătim cu cinci euro. Câți euro primim rest?',
   '¡Sí! Nos devuelven {n}.': 'Da! Primim rest {n}.',
   'No. Cuenta las monedas que sobran.': 'Nu. Numără monedele care rămân.',
-  // desde la P23 (v0.2.168): el planetario y el viaje a la Luna, con Sara la astronauta
+  // desde la P23 (v0.2.169): el planetario y el viaje a la Luna, con Sara la astronauta
   'El planetario': 'Planetariul',
   'Sara': 'Sara',
   'La cuenta atrás': 'Numărătoarea inversă',

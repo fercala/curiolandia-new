@@ -476,6 +476,18 @@ export const SHOP: Articulo[] = [
       ['conejo', 35, 3],
     ] as [string, number, number][]
   ).map(([id, p, tier]) => ({ id, cat: 'mascotas', p, tier, pref: 'jardin' })),
+  ...(
+    [
+      ['maleta', 7, 'casa', 'dormitorio'],
+      ['paraguas', 6, 'casa', 'salon'],
+      ['campana', 8, 'juguetes', 'juegos'],
+      ['lupa', 7, 'juguetes', 'torre'],
+      ['camion', 12, 'juguetes', 'juegos'],
+      ['maceta', 5, 'jardin', 'jardin'],
+      ['cactus', 9, 'jardin', 'jardin'],
+      ['calabaza', 8, 'jardin', 'jardin'],
+    ] as [string, number, string, string][]
+  ).map(([id, p, cat, pref]) => ({ id, p, cat, pref, tier: 1 })),
 ];
 // Habitación preferida de los artículos de antes (sin candado): los juguetes, al cuarto de juegos (el telescopio, a la
 // torre); las mascotas, al jardín.
@@ -943,7 +955,7 @@ SCENES.tienda = {
     say(fmt('¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.', { cosa: itemName(it), n: it.p }));
   },
   // Compra el artículo con el caso de uso comprar (aplicacion/comprar.ts): gasta las monedas, celebra y lo da. Un vale
-  // se apunta en S.valesLog (para que el adulto lo canjee); la ropa se pone a Tito; lo demás se coloca en la casa y hace
+  // se apunta en S.valesLog (para que el adulto lo canjee); la ropa se pone a Tito; lo demás se guarda en el baúl y hace
   // saltar el botón de la casa. Si es un vale que el adulto desactivó mientras la confirmación estaba abierta, no se
   // compra (suena boing y no se cobra).
   buy(it: Articulo) {
@@ -980,7 +992,7 @@ SCENES.tienda = {
     say(
       it.slot
         ? '¡Es tuyo! ¡Mira qué bonito le queda a Tito!'
-        : '¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.',
+        : '¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.',
     );
   },
 };
@@ -1043,6 +1055,14 @@ export const HSIZE: Record<string, number> = {
   gato: 140,
   pajaro: 120,
   conejo: 140,
+  maleta: 150,
+  paraguas: 170,
+  campana: 110,
+  lupa: 110,
+  camion: 170,
+  maceta: 125,
+  cactus: 165,
+  calabaza: 130,
 };
 // Objetos de la casa: los de S.home que además son del niño, con su posición y tamaño. Con r, solo los de esa habitación
 // (con r = EN_BAUL, 'baul', lo guardado en el baúl); sin r, todos los que están en alguna habitación (desde la fase M2,
