@@ -633,7 +633,7 @@ e485229694b3,Las hojas de colores,Frunzele colorate,trozo,src/contenido/excursio
 bc9b6ffc5d62,Los sonidos del bosque,Sunetele pădurii,trozo,src/contenido/excursiones.ts,borrador
 ddcf0bdb8355,La despensa de la ardilla,Cămara veveriței,trozo,src/contenido/excursiones.ts src/temas/temas4.ts,borrador
 6b00f14144dd,El mural del otoño,Pictura toamnei,trozo,src/contenido/excursiones.ts,borrador
-50f4dea80688,El mercado,Piața,trozo,src/contenido/excursiones.ts,borrador
+50f4dea80688,El mercado,Piața,trozo,src/contenido/excursiones.ts src/escenas/mercadoPractica.ts,borrador
 7641b5b1c727,Carmen,Carmen,trozo,src/contenido/excursiones.ts,borrador
 624e2c64ab07,La lista de la compra,Lista de cumpărături,trozo,src/contenido/excursiones.ts,borrador
 ad84fd815b00,La báscula,Cântarul,trozo,src/contenido/excursiones.ts,borrador
@@ -1300,6 +1300,7 @@ bab4ff04cc14,leaf,,trozo,src/dominio/fotos.ts,falta
 1d4e8cddd4be,Las pompas,Baloanele de săpun,trozo,src/dominio/juegosCortos.ts,borrador
 210d1bebbc85,El pañuelo,Batista,trozo,src/dominio/juegosCortos.ts,borrador
 88d5988c508b,Las sillas,Scaunele,trozo,src/dominio/juegosCortos.ts src/escenas/sillas.ts,borrador
+51b48b044dfa,El laberinto,Labirintul,trozo,src/dominio/juegosCortos.ts src/escenas/laberinto.ts,borrador
 1927bfb65307,¡Explota las pompas rojas!,Sparge baloanele roșii!,frase,src/dominio/juegosCortos.ts,borrador
 0ac8f501655c,Esa pompa es roja.,Balonul acela e roșu.,frase,src/dominio/juegosCortos.ts,borrador
 8c679283ca8f,¡Explota las pompas azules!,Sparge baloanele albastre!,frase,src/dominio/juegosCortos.ts,borrador
@@ -1649,6 +1650,7 @@ c45479ffa5f0,Las clases,Clasele,trozo,src/escenas/cole.ts,borrador
 4dbbcb0da5dd,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!","Bine ai venit la grădiniță{nino}! Aici e curtea, ca să te joci și să te miști, și autobuzul, ca să mergem în excursie. În curând vor veni și clasele. Atinge curtea!",frase,src/escenas/cole.ts,borrador
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,Curtea e închisă deocamdată. Atinge căsuța ca să te întorci pe hartă.,frase,src/escenas/cole.ts,borrador
 f780cf0b3b7a,"Toca el patio para jugar, o el autobús para ir de excursión.",Atinge curtea ca să te joci sau autobuzul ca să mergem în excursie.,frase,src/escenas/cole.ts,borrador
+43a9acc15692,¿Flota o se hunde?,Plutește sau se scufundă?,frase,src/escenas/cole.ts src/escenas/flota.ts,borrador
 6fb2d58eed45,{Sitio} están en obras. ¡Muy pronto podrás jugar aquí!,{Sitio} sunt în lucru. În curând te vei putea juca aici!,trozo,src/escenas/cole.ts,borrador
 8ac8aeea9a0b,{Sitio} está en obras. ¡Muy pronto podrás jugar aquí!,{Sitio} e în lucru. În curând te vei putea juca aici!,trozo,src/escenas/cole.ts,borrador
 89b3f1dd7488,El patio está cerrado por ahora. ¡Hay muchas cosas más para jugar en el mapa!,Curtea e închisă deocamdată. Pe hartă sunt multe alte lucruri cu care să te joci!,frase,src/escenas/cole.ts,borrador
@@ -1670,6 +1672,19 @@ fa80ee037e45,¡El viento sopla hacia la derecha!,Vântul bate spre dreapta!,fras
 6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,Ce bine ai condus zmeul! Ai prins toate stelele. Ne mai jucăm o dată?,frase,src/escenas/cometa.ts,borrador
 a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!","Hai să înălțăm zmeul! Du-l cu degetul până la stele, fără să atingă copacii. Atenție la vânt!",frase,src/escenas/cometa.ts,borrador
 7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,Du zmeul cu degetul până la stea.,frase,src/escenas/cometa.ts,borrador
+ba9bed0c956d,Tito oye un ruido cerca del árbol. ¿Por dónde va?,Tito aude un zgomot lângă copac. Pe unde merge?,frase,src/escenas/cuentoDecisiones.ts,borrador
+9a4d6ab30cea,Por el camino,Pe potecă,trozo,src/escenas/cuentoDecisiones.ts,borrador
+cdb61dba7e51,Por el prado,Prin poiană,trozo,src/escenas/cuentoDecisiones.ts,borrador
+f5b2472757e5,Una ardilla busca su bellota. ¿Cómo la ayudas?,O veveriță își caută ghinda. Cum o ajuți?,frase,src/escenas/cuentoDecisiones.ts,borrador
+e7e620c2a3a0,Buscar en el suelo,Caută pe jos,trozo,src/escenas/cuentoDecisiones.ts,borrador
+79b65b0f6647,Mirar en el árbol,Privește în copac,trozo,src/escenas/cuentoDecisiones.ts,borrador
+a33f8bbaabe9,Una ardilla mira una pila de hojas. ¿Cómo la ayudas?,O veveriță se uită la o grămadă de frunze. Cum o ajuți?,frase,src/escenas/cuentoDecisiones.ts,borrador
+8e06fdf342b2,Apartar las hojas,Dă frunzele la o parte,trozo,src/escenas/cuentoDecisiones.ts,borrador
+f183eab96a18,¡La bellota estaba escondida! La ardilla le da las gracias a Tito.,Ghinda era ascunsă! Veverița îi mulțumește lui Tito.,frase,src/escenas/cuentoDecisiones.ts,borrador
+c6c2229932fc,Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.,Din copac văd ghinda. Tito și veverița o ridică împreună.,frase,src/escenas/cuentoDecisiones.ts,borrador
+6fffaa9493e8,La bellota perdida,Ghinda pierdută,trozo,src/escenas/cuentoDecisiones.ts,borrador
+d76d93fb8bf6,Leer de nuevo,Citește din nou,trozo,src/escenas/cuentoDecisiones.ts,borrador
+e1f2d2d61772,Volver a la casita,Înapoi la căsuță,trozo,src/escenas/cuentoDecisiones.ts,borrador
 88084c247f32,¡Medallero!,Clasamentul medaliilor!,frase,src/escenas/deporte.ts,borrador
 15b8d74100c6,¡Copa nueva!,O cupă nouă!,frase,src/escenas/deporte.ts,borrador
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,Și câștigi cupa săptămânii! Acum ai o cupă.,frase,src/escenas/deporte.ts,borrador
@@ -1919,7 +1934,14 @@ f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 850a40687e76,"¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.","Bună{nino}! Eu sunt {guia}, fermiera. Bine ai venit la ferma-școală! Azi mă ajuți să am grijă de animale.",frase,src/escenas/excursion.ts,borrador
 41b12a8a9434,Toca la casa para volver al cole.,Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,Acum: {estacion}! Atinge-i desenul.,frase,src/escenas/excursion.ts,borrador
+62b6c5e80991,Practicar la compra,Exersează cumpărăturile,trozo,src/escenas/excursion.ts,borrador
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,{estacion}: în curând vom putea face asta!,trozo,src/escenas/excursion.ts,borrador
+7ea82df74642,Flota,Plutește,trozo,src/escenas/flota.ts,borrador
+f57a7921f6d5,Se hunde,Se scufundă,trozo,src/escenas/flota.ts,borrador
+3cbbbcda4fa1,Otro objeto,Alt obiect,trozo,src/escenas/flota.ts,borrador
+0900d94646e0,Soltar en el agua,Lasă-l în apă,trozo,src/escenas/flota.ts,borrador
+f55924e31317,¡Lo has adivinado!,Ai ghicit!,frase,src/escenas/flota.ts,borrador
+436ee11d85c6,¡Ahora ya lo sabemos!,Acum știm!,frase,src/escenas/flota.ts,borrador
 34f9a121f8c2,Guardo la cámara.,Pun aparatul foto deoparte.,frase,src/escenas/fotos.ts,borrador
 cc16b266690d,¡La cámara! Toca un animal o una cosa para hacerle una foto.,Aparatul foto! Atinge un animal sau un lucru ca să-i faci o poză.,frase,src/escenas/fotos.ts,borrador
 8a9344afc729,{nombre}. Esta foto ya la tenías.,{nombre}. Poza asta o aveai deja.,trozo,src/escenas/fotos.ts,borrador
@@ -2012,6 +2034,9 @@ ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,Po
 2289289d6344,"¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.","Jocurile scurte din curte! Sunt jocuri mici, pentru puțină joacă. Alege unul.",frase,src/escenas/juegosCortos.ts,borrador
 d9cb034d851e,Elige un juego corto.,Alege un joc scurt.,frase,src/escenas/juegosCortos.ts,borrador
 f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,{juego}: în curând te vei putea juca!,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts,borrador
+d5928579516d,¡Llegaste a la meta!,Ai ajuns la țintă!,frase,src/escenas/laberinto.ts,borrador
+f9bf8d050287,Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.,Du-l pe Tito la stea. Atinge căsuța alăturată sau glisează cu degetul.,frase,src/escenas/laberinto.ts,borrador
+4a0523f29586,Otra vez,Încă o dată,trozo,src/escenas/laberinto.ts src/escenas/mercadoPractica.ts,borrador
 4a117af24ff3,Este es tu libro de letras. Ya conoces 1 letra.,Aceasta este cartea ta cu litere. Știi deja o literă.,frase,src/escenas/libroLetras.ts,borrador
 2482d82c1265,Este es tu libro de letras. Ya conoces {n} letras.,Aceasta este cartea ta cu litere. Știi deja {n} {n:de}litere.,frase,src/escenas/libroLetras.ts,borrador
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,Aceasta este cartea ta cu litere. Literele te așteaptă pe Insula Literelor!,frase,src/escenas/libroLetras.ts,borrador
@@ -2036,6 +2061,10 @@ ca8217c95460,El pan cuesta {n} euros. Mete {n} monedas en la caja.,Pâinea cost�
 3c96489ca9eb,"¿Sabes una cosa? El pescado viene del mar en barcos de pesca, muy temprano por la mañana.","Știi ceva? Peștele vine de pe mare cu bărcile pescarilor, foarte devreme dimineața.",frase,src/escenas/mercado.ts,borrador
 90ac4bca9c1f,Ya tenemos toda la compra. Ahora vamos a pagar. ¡Hay que contar bien el dinero!,Avem toate cumpărăturile. Acum plătim. Trebuie să numărăm bine banii!,frase,src/escenas/mercado.ts,borrador
 f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos devuelven lo que sobra: es la vuelta.","Știi ceva? Dacă plătim cu mai mulți bani decât costă, ni se dă înapoi ce e în plus: acesta e restul.",frase,src/escenas/mercado.ts,borrador
+563bfcc142e0,Pon en la cesta la fruta de la lista.,Pune în coș fructul de pe listă.,frase,src/escenas/mercadoPractica.ts,borrador
+3b686947da97,Pagar con una ficha,Plătește cu un jeton,trozo,src/escenas/mercadoPractica.ts,borrador
+8ce7478b0943,¡Compra hecha!,Ai terminat cumpărăturile!,frase,src/escenas/mercadoPractica.ts,borrador
+5a858c14e404,Mira el siguiente dibujo de la lista.,Uită-te la următorul desen din listă.,frase,src/escenas/mercadoPractica.ts,borrador
 e3d8f426d44a,Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.,Hai să măsurăm {cosa} cu pașii lui Tito. Atinge urmele una câte una.,frase,src/escenas/museo.ts,borrador
 c83503444115,Toca las huellas una a una para contar los pasos.,Atinge urmele una câte una ca să numeri pașii.,frase,src/escenas/museo.ts,borrador
 aeb81513b171,¿Cuál es el más largo? Tócalo.,Care e cel mai lung? Atinge-l.,frase,src/escenas/museo.ts,borrador
@@ -2320,6 +2349,7 @@ fe653b97deac,¡Se abrió el juego número {n}! Tócalo para seguir.,S-a deschis 
 4687dd09f4e8,Empieza por el primero: ¡vamos a conocer!,Începe cu primul: hai să cunoaștem!,frase,src/escenas/zonas.ts,borrador
 76e0dc50891a,"Toca el que brilla, el número {n}.","Atinge-l pe cel care strălucește, numărul {n}.",frase,src/escenas/zonas.ts,borrador
 6a5f781c4d40,¡Ya jugaste todos! Puedes repetir el que más te guste.,Le-ai jucat pe toate! Îl poți repeta pe cel care îți place.,frase,src/escenas/zonas.ts,borrador
+50908442bdc1,Cuento con decisiones,Poveste cu alegeri,trozo,src/escenas/zonas.ts src/mundo3d/casita3d.ts,borrador
 f7435a6b5d9d,¡Esto es la sabana! Los animales tienen mucha hambre.,Aceasta e savana! Animalele sunt foarte flămânde.,frase,src/escenas/zoo.ts,borrador
 aeb80c8f3d1a,¿Sabes una cosa? La jirafa es el animal más alto del mundo. ¡Llega a las hojas de lo alto de los árboles!,Știi ceva? Girafa e cel mai înalt animal din lume. Ajunge la frunzele din vârful copacilor!,frase,src/escenas/zoo.ts,borrador
 512138c1108b,Une cada animal con su comida. Arrastra del animal a lo que come.,Unește fiecare animal cu mâncarea lui. Trage de la animal la ce mănâncă.,frase,src/escenas/zoo.ts,borrador
@@ -4228,6 +4258,12 @@ edebf8bc6646,"Sí, recuperar esta copia","Da, recuperează această copie",adult
 4bbf011d7eec,"Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.","Copie găsită pentru {nombre}: teme terminate: {temas}, jocuri jucate: {juegos}, monede: {monedas}.",adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 3bc31b6cd427,"Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.","Copie găsită: teme terminate: {temas}, jocuri jucate: {juegos}, monede: {monedas}.",adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 033828b51588,❌ No se pudo guardar en este navegador.,❌ Nu s-a putut salva în acest browser.,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
+0411690e31a5,Fichas para imprimir,Fișe de imprimat,adultos,src/aplicacion/adultos/fichas.ts,borrador
+83928020a631,Usan los dibujos del último tema abierto.,Folosesc desenele din ultima temă deschisă.,adultos,src/aplicacion/adultos/fichas.ts,borrador
+e079b278ef82,Ficha para colorear,Fișă de colorat,adultos,src/aplicacion/adultos/fichas.ts,borrador
+18720f14b3d2,Ficha para contar,Fișă de numărat,adultos,src/aplicacion/adultos/fichas.ts,borrador
+6bd46f9c630f,Cuenta los dibujos y rodea el número.,Numără desenele și încercuiește numărul.,adultos,src/aplicacion/adultos/fichas.ts,borrador
+36c7c6b9368d,Colorea el dibujo del tema.,Colorează desenul temei.,adultos,src/aplicacion/adultos/fichas.ts,borrador
 fdc6446d8460,Premios y vales,Premii și tichete,adultos,src/aplicacion/adultos/premios.ts,borrador
 1548db2ef3d8,Premios,Premii,adultos,src/aplicacion/adultos/premios.ts,borrador
 f3176786e699,Entregado ✔,Dat ✔,adultos,src/aplicacion/adultos/premios.ts,borrador

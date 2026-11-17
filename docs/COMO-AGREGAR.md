@@ -339,3 +339,5 @@ actividad (`escenas/patio.ts`). Las actividades son datos, en `ACTIVIDADES_PATIO
    `enOtraVez(x, y)`; para las rondas, `dibujaRondas(n, hechas)`.
 4. Sus frases, a `dialogos/pendientes.txt` y `npm run dialogos`; la escena, a `tests/humo.js` y, si se puede jugar
    sola hasta el final, un caso en `tests/regresion/cole.js`.
+
+Para comprobar las actividades opcionales en ambos idiomas, compila y ejecuta `node tests/regresion/actividades-extras.js dist` y `node tests/regresion/comprobar.js actividades-extras`.

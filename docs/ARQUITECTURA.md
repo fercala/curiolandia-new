@@ -482,3 +482,9 @@ No hay tests unitarios. Se prueba de dos maneras:
 - **Automática**: `node tests/humo.js dist` abre el juego en un navegador sin ventana, recorre las escenas de día y de noche, guarda capturas en `tests/capturas/` y falla si hay errores de JavaScript. Las pruebas de regresión de `tests/regresion/` juegan como un niño; en cada PR, GitHub Actions pasa `npm run test:pr` (ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md) y [LINEA-BASE.md](LINEA-BASE.md)).
 
 Para pruebas desde la consola del navegador, el juego expone `window.__cl` (escenas, `go`, `S`...) y `window.__w3` (mundo 3D, `pickAt`, `proj`). Con `window.__fast = 1` la voz no espera al audio, y `window.__said` guarda lo que va diciendo Tito.
+
+## Actividades opcionales
+
+`src/escenas/laberinto.ts`, `flota.ts`, `cuentoDecisiones.ts` y `mercadoPractica.ts` registran cuatro escenas en el índice. Sus accesos están en los juegos cortos, el cole, la casita (2D y 3D) y el plano del mercado, respectivamente. La práctica usa el destino ya existente y queda fuera de las cinco paradas de la excursión. El estado de estas escenas se reinicia al entrar y sus premios, fichas y decisiones no se guardan.
+
+`src/aplicacion/adultos/fichas.ts` añade a Progreso dos hojas imprimibles que toman el dibujo del último tema. La impresión usa un marco separado del panel. Las cinco actividades comparten la tabla de traducciones `src/idiomas/ro/actividadesExtras.ts`.

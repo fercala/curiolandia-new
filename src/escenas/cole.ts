@@ -51,6 +51,10 @@ import {
   nombreEn,
 } from '../nucleo/indice.ts';
 
+import { botonExtra, tocaExtra } from './botonesExtras.ts';
+
+const BOTON_FLOTA = { x: 655, y: 630, w: 340, h: 75 };
+
 /** Un sitio del cole: su id, dónde está, su radio tocable, su nombre para la voz, el cartel y la escena a la que lleva
  * (sin escena: «en obras»). */
 interface SitioCole {
@@ -185,6 +189,7 @@ SCENES['cole'] = {
   draw() {
     fondoCole();
     COLE_SITIOS.forEach(drawSitio);
+    botonExtra(BOTON_FLOTA, '¿Flota o se hunde?');
     drawHome();
     drawCoinHUD();
     drawTito(TITO.x, TITO.y, TITO.w);
@@ -204,6 +209,10 @@ SCENES['cole'] = {
     if (inCoinHUD(x, y)) {
       SFX.pop();
       go('tienda');
+      return;
+    }
+    if (tocaExtra(BOTON_FLOTA, x, y)) {
+      go('flotaCole');
       return;
     }
     const z = COLE_SITIOS.find((s) => dist(x, y, s.x, s.y) < s.r);

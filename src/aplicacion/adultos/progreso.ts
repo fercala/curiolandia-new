@@ -5,6 +5,7 @@
 // cuesta primero y solo las 10 primeras habilidades a la vista (ordenHabilidades, etiquetaHabilidad; dominio/zonaAdultos.ts).
 // Usa las reglas del progreso por letra (dominio/letras.ts) y de la casa (dominio/casa.ts), palabrasDe
 // (escenas/diccionario.ts) para el inglés y los temas de temas/indice.ts.
+import { FICHAS_HTML, conectarFichas } from './fichas.ts';
 import type { Tema } from '../../juegos/tipos.ts';
 import { DIASL, S, SCENES, fmtHtml, hecho, tr } from '../../nucleo/indice.ts';
 import {
@@ -323,11 +324,12 @@ export const PROGRESO: PaginaAdultos = {
   <section id="p-ingles"><h3>Inglés</h3><p class="note">Cómo va la Isla del Inglés: las casitas terminadas de cada zona y las palabras que ya están en «Mi diccionario de inglés» (en el álbum, el botón de Polly). Los juegos de inglés que cuestan entran en el repaso de cada día. ${vozEn ? 'Polly dice las palabras con la voz inglesa de este dispositivo.' : '<b>Este dispositivo no tiene voz inglesa</b>: Polly dirá las palabras con acento castellano. Se puede instalar una voz inglesa en los ajustes de voz del sistema.'}</p><table><thead><tr><th>Zona</th><th>Casitas</th><th>Palabras</th></tr></thead><tbody>${ingles}</tbody></table></section>
   <section id="p-asambleas"><h3>Asambleas</h3><p class="note">El tiempo que eligió y cómo se sentía cada día.</p><div class="cal">${cal}</div></section>
   <section id="p-casa"><h3>Casa de Tito</h3><p class="note">Lo que ha descubierto jugando en la casa de Tito: <b>${fmtHtml('{n} de {total} sorpresas', { n: cuantasSorpresas(S.sorpresas || {}), total: TOTAL_SORPRESAS })}</b> del álbum «Sorpresas de la casa».</p><details><summary>Más información</summary><p class="note">${fmtHtml(huertoDias === 1 ? 'La flor del huerto lleva {n} día regado (etapa {etapa} de 4).' : 'La flor del huerto lleva {n} días regados (etapa {etapa} de 4).', { n: huertoDias, etapa: etapaFlor(huertoDias) })} Las mascotas crecen con los días en que se cuidan (dos cuidados distintos cuentan un día; joven con 3 días y mayor con 8), nunca enferman ni se ponen tristes, y no se ganan monedas por jugar en la casa.</p></details>${casa ? `<table><thead><tr><th>Mascota</th><th>Nombre</th><th>Etapa</th><th>Días cuidados</th></tr></thead><tbody>${casa}</tbody></table>` : '<p class="note">Todavía no tiene mascotas.</p>'}${SCENES.casa3dPrueba ? '<p class="note">Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.</p><div class="row"><button data-go="casa3dPrueba">Casa de Tito en 3D (prueba)</button></div>' : ''}</section>
-  <section id="p-minutos"><h3>Minutos de juego</h3><p class="note">Los minutos jugados en los últimos 7 días con datos.</p><div class="days">${days}</div></section>`;
+  <section id="p-minutos"><h3>Minutos de juego</h3><p class="note">Los minutos jugados en los últimos 7 días con datos.</p><div class="days">${days}</div></section>${FICHAS_HTML}`;
   },
   // conectar(el): no hay nada que guardar; los botones del índice llevan a su parte (scrollIntoView, sin animación si se
   // pidió reducir el movimiento). El botón de la casa 3D de prueba (data-go) lo conecta el panel.
   conectar(el) {
+    conectarFichas(el);
     const suave = typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
     el.querySelectorAll<HTMLButtonElement>('[data-sec]').forEach(
       (b) =>

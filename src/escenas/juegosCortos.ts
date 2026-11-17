@@ -4,7 +4,7 @@
  * corto (JUEGOS_CORTOS, dominio/juegosCortos.ts), en dos filas: los que ya tienen escena se juegan al tocarlos y los
  * demás salen «¡Muy pronto!», como en el patio. Los juegos se van haciendo de dos en dos (P12a: la rayuela y los
  * columpios, escenas/rayuela.ts y escenas/columpios.ts; P12b: los penaltis y las pompas, escenas/penaltis.ts y
- * escenas/pompas.ts). La casa vuelve al patio; desde cada juego, la casa vuelve aquí.
+ * escenas/pompas.ts). La casa vuelve al patio; desde cada juego, la casa vuelve aquí. El laberinto ocupa la octava tarjeta.
  * Exporta: TARJETAS_CORTOS (dónde está cada tarjeta, para las pruebas) y pone SCENES.juegosCortos al cargarse.
  * Importa: el núcleo (dibujo, voz, toque, Tito), los juegos de dominio/juegosCortos.ts y el fondo del patio.
  */
