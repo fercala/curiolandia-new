@@ -10,7 +10,7 @@
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
- * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad, y desde la P21 el del bosque, fondoBosque, y desde la P22 el del mercado, fondoMercado) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
+ * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad, y desde la P21 el del bosque, fondoBosque, y desde la P22 el del mercado, fondoMercado, y desde la P23 el del planetario, fondoPlanetario) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
@@ -546,8 +546,26 @@ export function fondoMercado(): void {
   ].forEach(([x, c], i) => circ(x as number, 60 + Math.sin(T * 2 + i) * 6, 22, c as string, 4));
 }
 
+// fondoPlanetario(): el planetario (desde la fase P23): la cúpula oscura llena de estrellas que parpadean (con T), la
+// Tierra, la Luna, Saturno y Júpiter y el cohete en su plataforma.
+export function fondoPlanetario(): void {
+  cielo('#141A3C', '#2E3F7A', H);
+  ctx.save();
+  Array.from({ length: 70 }, (_, i) => i).forEach((i) => {
+    ctx.globalAlpha = 0.5 + 0.5 * Math.sin(T * 2 + i);
+    circ((i * 197) % W, (i * 131) % H, 2 + (i % 3), '#FFE08A', 0);
+  });
+  ctx.restore();
+  pic('saturno', 260, 200, 170);
+  pic('jupiter', 1340, 420, 150);
+  pic('tierra', 760, 160, 130);
+  pic('luna', 1000, 110, 80);
+  card(60, 760, 260, 40, '#9AA3AD', 5, 10);
+  pic('cohete', 190, 640, 220);
+}
+
 // fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad, el del bosque, el
-// del mercado o el de la granja (desde la fase P17; el álbum también lo usa).
+// del mercado, el del planetario o el de la granja (desde la fase P17; el álbum también lo usa).
 export function fondoDe(e: Excursion): void {
   if (e.id === 'zoo') fondoZoo();
   else if (e.id === 'acuario') fondoAcuario();
@@ -555,6 +573,7 @@ export function fondoDe(e: Excursion): void {
   else if (e.id === 'ciudad') fondoCiudad();
   else if (e.id === 'bosque') fondoBosque();
   else if (e.id === 'mercado') fondoMercado();
+  else if (e.id === 'planetario') fondoPlanetario();
   else fondoGranja();
 }
 
@@ -570,6 +589,11 @@ export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, num
     ['delfin', -240, 30, 200],
     ['pulpo', 240, 90, 150],
     ['estrellaMar', 140, 110, 90],
+  ],
+  planetario: [
+    ['cohete', -240, 30, 200],
+    ['saturno', 240, 60, 150],
+    ['estrella', 130, 110, 90],
   ],
   mercado: [
     ['sandia', -240, 50, 180],
@@ -723,9 +747,12 @@ SCENES['autobus'] = {
         ctx.scale(s, s);
         ctx.translate(-d.x - d.w / 2, -d.y - d.h / 2);
         card(d.x, d.y, d.w, d.h, lista ? '#fff' : '#EEE8DE', 6, 30);
-        pic(d.e.icono, d.x + d.w / 2, d.y + 140, 190, lista ? 1 : 0.45);
+        // el dibujo y la letra, más pequeños si las tarjetas son estrechas (desde la P23, con ocho excursiones)
+        pic(d.e.icono, d.x + d.w / 2, d.y + 140, Math.min(190, d.w - 24), lista ? 1 : 0.45);
         // los textos se encogen si no caben en su tarjeta (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
-        text(d.e.nombre, d.x + d.w / 2, d.y + d.h - 40, 30, lista ? '#4A3B2A' : '#9A9086', { max: d.w - 30 });
+        text(d.e.nombre, d.x + d.w / 2, d.y + d.h - 40, d.w < 200 ? 24 : 30, lista ? '#4A3B2A' : '#9A9086', {
+          max: d.w - 24,
+        });
         if (!lista) {
           card(d.x + d.w / 2 - 100, d.y - 26, 200, 50, '#FFD66B', 5, 25);
           text('¡Muy pronto!', d.x + d.w / 2, d.y + 9, 28, undefined, { max: 180 });
@@ -888,8 +915,14 @@ function hacerFoto(): void {
 // bienvenida(e): lo que dice el guía de la excursión e la primera vez que se va: la granjera Rosa en la granja y, desde
 // la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario, y desde la P19, el
 // paleontólogo Pablo en el museo de los dinosaurios, y desde la P20, la bombera Lucía en la ciudad, y desde la P21, el
-// guardabosques Hugo en el bosque de otoño, y desde la P22, la frutera Carmen en el mercado.
+// guardabosques Hugo en el bosque de otoño, y desde la P22, la frutera Carmen en el mercado, y desde la P23, la
+// astronauta Sara en el planetario.
 function bienvenida(e: Excursion): string {
+  if (e.id === 'planetario')
+    return fmt('¡Hola{nino}! Soy {guia}, la astronauta. ¡Bienvenido al planetario! Hoy vamos a viajar a la Luna.', {
+      nino: kid(),
+      guia: e.nombreGuia,
+    });
   if (e.id === 'mercado')
     return fmt(
       '¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.',

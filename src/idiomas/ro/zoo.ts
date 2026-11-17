@@ -5,7 +5,7 @@
  * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
  * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo, y desde la P20 (v0.2.164), la ciudad, con
  * Lucía la bombera, y desde la P21 (v0.2.165), el bosque de otoño, con Hugo el guardabosques, y desde
- * la P22 (v0.2.166), el mercado, con Carmen la frutera. Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * la P22 (v0.2.166), el mercado, con Carmen la frutera, y desde la P23 (v0.2.167), el planetario, con Sara la astronauta. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -245,4 +245,44 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
     'Costă {p} euro și plătim cu cinci euro. Câți euro primim rest?',
   '¡Sí! Nos devuelven {n}.': 'Da! Primim rest {n}.',
   'No. Cuenta las monedas que sobran.': 'Nu. Numără monedele care rămân.',
+  // desde la P23 (v0.2.167): el planetario y el viaje a la Luna, con Sara la astronauta
+  'El planetario': 'Planetariul',
+  'Sara': 'Sara',
+  'La cuenta atrás': 'Numărătoarea inversă',
+  'Los planetas': 'Planetele',
+  'El día y la noche': 'Ziua și noaptea',
+  'Pisar la Luna': 'Pășim pe Lună',
+  'Volver a casa': 'Ne întoarcem acasă',
+  '¡Hola{nino}! Soy {guia}, la astronauta. ¡Bienvenido al planetario! Hoy vamos a viajar a la Luna.':
+    'Bună{nino}! Eu sunt {guia}, astronauta. Bine ai venit la planetariu! Astăzi călătorim pe Lună.',
+  '¡Subimos al cohete! Antes de despegar hay que hacer la cuenta atrás, hasta el cero.':
+    'Urcăm în rachetă! Înainte de decolare numărăm invers, până la zero.',
+  '¿Sabes una cosa? Los cohetes echan mucho fuego por abajo para subir muy deprisa hasta el espacio.':
+    'Știi ceva? Rachetele scot mult foc pe dedesubt ca să urce foarte repede în spațiu.',
+  '{a}, {b}, {c}... ¿Qué número viene ahora?': '{a}, {b}, {c}... Ce număr urmează acum?',
+  '¡Cero! ¡Despegamos!': 'Zero! Decolăm!',
+  '¡Sí! {N}.': 'Da! {N}.',
+  'No. Cuenta hacia atrás: ¿qué número va antes?': 'Nu. Numără invers: ce număr e înainte?',
+  '¡Ya estamos en el espacio! Mira por la ventana: se ven los planetas.':
+    'Suntem în spațiu! Uită-te pe geam: se văd planetele.',
+  '¿Sabes una cosa? Los planetas dan vueltas alrededor del sol, y la Tierra es nuestro planeta.':
+    'Știi ceva? Planetele se învârt în jurul Soarelui, iar Pământul este planeta noastră.',
+  'Desde aquí se ve la Tierra dando vueltas. Por eso hay día y noche.':
+    'De aici se vede Pământul cum se învârte. De aceea există zi și noapte.',
+  '¿Sabes una cosa? Cuando aquí es de día, al otro lado de la Tierra es de noche.':
+    'Știi ceva? Când aici e zi, pe partea cealaltă a Pământului e noapte.',
+  '¡Hemos llegado a la Luna! Aquí todo pesa muy poco y se camina dando saltitos.':
+    'Am ajuns pe Lună! Aici totul cântărește foarte puțin și mergem țopăind.',
+  '¿Sabes una cosa? En la Luna no hay viento, así que las huellas de los astronautas siguen allí.':
+    'Știi ceva? Pe Lună nu bate vântul, așa că urmele astronauților sunt încă acolo.',
+  'Pisa la Luna: toca las huellas una a una hasta la bandera.':
+    'Pășește pe Lună: atinge urmele una câte una până la steag.',
+  '¡Hemos plantado la bandera en la Luna!': 'Am înfipt steagul pe Lună!',
+  'Es hora de volver a casa. ¿Te acuerdas de cómo ha sido el viaje?':
+    'E timpul să ne întoarcem acasă. Îți amintești cum a fost călătoria?',
+  '¿Sabes una cosa? Cuando vuelven, los astronautas caen al mar con paracaídas y los recoge un barco.':
+    'Știi ceva? Când se întorc, astronauții cad în mare cu parașuta și îi ia o navă.',
+  'Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y al final volvemos a la Tierra.':
+    'Pune călătoria în ordine: întâi decolăm cu racheta, apoi ajungem pe Lună și la sfârșit ne întoarcem pe Pământ.',
+  '¡Muy bien! Ya estamos otra vez en casa.': 'Foarte bine! Suntem din nou acasă.',
 };

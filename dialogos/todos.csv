@@ -640,6 +640,13 @@ ad84fd815b00,La báscula,trozo,src/contenido/excursiones.ts
 7962049d1867,Comprar el pan,trozo,src/contenido/excursiones.ts
 3c663e446782,La pescadería,trozo,src/contenido/excursiones.ts
 00b94fe3697f,Pagar en la caja,trozo,src/contenido/excursiones.ts
+9fd902056179,El planetario,trozo,src/contenido/excursiones.ts
+4733a44073c8,Sara,trozo,src/contenido/excursiones.ts
+4cb38fc8998b,La cuenta atrás,trozo,src/contenido/excursiones.ts
+8c3b733c4f50,Los planetas,trozo,src/contenido/excursiones.ts
+52be8076d08b,El día y la noche,trozo,src/contenido/excursiones.ts src/temas/temas5.ts
+187534adb7f7,Pisar la Luna,trozo,src/contenido/excursiones.ts
+dfd20270ab0d,Volver a casa,trozo,src/contenido/excursiones.ts
 eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 48418f32fc2d,Mamá,trozo,src/contenido/ingles.ts
 cb525f817e00,Dad,trozo,src/contenido/ingles.ts
@@ -1902,6 +1909,7 @@ a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!",frase,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
+0c9debca070c,"¡Hola{nino}! Soy {guia}, la astronauta. ¡Bienvenido al planetario! Hoy vamos a viajar a la Luna.",frase,src/escenas/excursion.ts
 0521b97c1729,"¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.",frase,src/escenas/excursion.ts
 1fad0af05679,"¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.",frase,src/escenas/excursion.ts
 0692f5ce89a1,"¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.",frase,src/escenas/excursion.ts
@@ -2081,6 +2089,24 @@ f498f42ecc18,Izquierda.,frase,src/escenas/penaltis.ts
 4f9410833aab,Arriba.,frase,src/escenas/penaltis.ts
 7976e8a26f61,× {n},trozo,src/escenas/penaltis.ts
 f42bfe48c304,¡GOL!,frase,src/escenas/penaltis.ts
+88809b80416d,"{a}, {b}, {c}... ¿Qué número viene ahora?",trozo,src/escenas/planetario.ts
+32dee3bad834,¡Cero! ¡Despegamos!,frase,src/escenas/planetario.ts
+a73e1b03e1e6,¡Sí! {N}.,frase,src/escenas/planetario.ts
+64fe5f2a2de7,No. Cuenta hacia atrás: ¿qué número va antes?,frase,src/escenas/planetario.ts
+14ce185cc405,"¡Subimos al cohete! Antes de despegar hay que hacer la cuenta atrás, hasta el cero.",frase,src/escenas/planetario.ts
+5bdbb40a1254,¿Sabes una cosa? Los cohetes echan mucho fuego por abajo para subir muy deprisa hasta el espacio.,frase,src/escenas/planetario.ts
+fbede0836ed3,¡Ya estamos en el espacio! Mira por la ventana: se ven los planetas.,frase,src/escenas/planetario.ts
+3bb427b2d6ed,"¿Sabes una cosa? Los planetas dan vueltas alrededor del sol, y la Tierra es nuestro planeta.",frase,src/escenas/planetario.ts
+3ba50a8e947d,Desde aquí se ve la Tierra dando vueltas. Por eso hay día y noche.,frase,src/escenas/planetario.ts
+3f585aa35f6d,"¿Sabes una cosa? Cuando aquí es de día, al otro lado de la Tierra es de noche.",frase,src/escenas/planetario.ts
+941f794e5af8,¡Hemos llegado a la Luna! Aquí todo pesa muy poco y se camina dando saltitos.,frase,src/escenas/planetario.ts
+a587a824deaa,"¿Sabes una cosa? En la Luna no hay viento, así que las huellas de los astronautas siguen allí.",frase,src/escenas/planetario.ts
+bad231155e41,Pisa la Luna: toca las huellas una a una hasta la bandera.,frase,src/escenas/planetario.ts
+3eed29b540f9,¡Hemos plantado la bandera en la Luna!,frase,src/escenas/planetario.ts
+41f1067d900c,Es hora de volver a casa. ¿Te acuerdas de cómo ha sido el viaje?,frase,src/escenas/planetario.ts
+1d22eb9c7f03,"¿Sabes una cosa? Cuando vuelven, los astronautas caen al mar con paracaídas y los recoge un barco.",frase,src/escenas/planetario.ts
+c3109f2c0d61,"Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y al final volvemos a la Tierra.",frase,src/escenas/planetario.ts
+5a1011075d3f,¡Muy bien! Ya estamos otra vez en casa.,frase,src/escenas/planetario.ts
 0dccf65f49f2,"¡Muy bien! Ahora, otro color.",frase,src/escenas/pompas.ts
 92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,frase,src/escenas/pompas.ts
 aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.",frase,src/escenas/pompas.ts
@@ -3972,7 +3998,6 @@ af53620b60bd,Marte. Es el planeta rojo.,frase,src/temas/temas5.ts
 643083790f97,El cohete. Lleva a los astronautas al espacio.,frase,src/temas/temas5.ts
 66d547db23b9,La astronauta. Viaja al espacio con un traje especial.,frase,src/temas/temas5.ts
 5e28eaf29e58,El telescopio. Sirve para mirar las estrellas de cerca.,frase,src/temas/temas5.ts
-52be8076d08b,El día y la noche,trozo,src/temas/temas5.ts
 b9ab86aa5344,Contar estrellas,trozo,src/temas/temas5.ts
 2c0b9678eba8,Del más chico al más grande,trozo,src/temas/temas5.ts
 1b2aba04d04c,{Cosa}.,trozo,src/temas/temas5.ts

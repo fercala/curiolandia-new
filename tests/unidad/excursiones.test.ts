@@ -155,6 +155,14 @@ describe('las excursiones', () => {
     const mercado = excursionPorId('mercado')!;
     expect(mercado.nombreGuia).toBe('Carmen');
     expect(estacionesJugables(mercado).map((s) => s.id)).toEqual(['lista', 'bascula', 'pan', 'pescado', 'caja']);
-    expect(EXCURSIONES.map((e) => e.id).slice(-2)).toEqual(['bosque', 'mercado']);
+    expect(EXCURSIONES.map((e) => e.id).slice(5, 7)).toEqual(['bosque', 'mercado']);
+  });
+
+  // desde la fase P23: el planetario y el viaje a la Luna, con Sara la astronauta y sus cinco paradas
+  test('el planetario tiene cinco paradas jugables y va después del mercado', () => {
+    const planetario = excursionPorId('planetario')!;
+    expect(planetario.nombreGuia).toBe('Sara');
+    expect(estacionesJugables(planetario).map((s) => s.id)).toEqual(['cuenta', 'planetas', 'dia', 'luna', 'viaje']);
+    expect(EXCURSIONES.map((e) => e.id).slice(-2)).toEqual(['mercado', 'planetario']);
   });
 });

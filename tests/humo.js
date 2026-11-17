@@ -121,6 +121,12 @@ const ESCENAS = [
   ['mercadoPan', {}],
   ['mercadoPescado', {}],
   ['mercadoCaja', {}],
+  ['excursion', { exc: 'planetario' }], // P23
+  ['planetarioCuenta', {}],
+  ['planetarioPlanetas', {}],
+  ['planetarioDia', {}],
+  ['planetarioLuna', {}],
+  ['planetarioViaje', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

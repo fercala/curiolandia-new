@@ -640,6 +640,13 @@ ad84fd815b00,La báscula,Cântarul,trozo,src/contenido/excursiones.ts,borrador
 7962049d1867,Comprar el pan,Cumpărăm pâine,trozo,src/contenido/excursiones.ts,borrador
 3c663e446782,La pescadería,Pescăria,trozo,src/contenido/excursiones.ts,borrador
 00b94fe3697f,Pagar en la caja,Plătim la casă,trozo,src/contenido/excursiones.ts,borrador
+9fd902056179,El planetario,Planetariul,trozo,src/contenido/excursiones.ts,borrador
+4733a44073c8,Sara,Sara,trozo,src/contenido/excursiones.ts,borrador
+4cb38fc8998b,La cuenta atrás,Numărătoarea inversă,trozo,src/contenido/excursiones.ts,borrador
+8c3b733c4f50,Los planetas,Planetele,trozo,src/contenido/excursiones.ts,borrador
+52be8076d08b,El día y la noche,Ziua și noaptea,trozo,src/contenido/excursiones.ts src/temas/temas5.ts,borrador
+187534adb7f7,Pisar la Luna,Pășim pe Lună,trozo,src/contenido/excursiones.ts,borrador
+dfd20270ab0d,Volver a casa,Ne întoarcem acasă,trozo,src/contenido/excursiones.ts,borrador
 eef5e5e9d7f8,Mum,,trozo,src/contenido/ingles.ts,falta
 48418f32fc2d,Mamá,Mama,trozo,src/contenido/ingles.ts,borrador
 cb525f817e00,Dad,,trozo,src/contenido/ingles.ts,falta
@@ -1902,6 +1909,7 @@ a4c59ff8ba33,El álbum de excursiones.,Albumul de excursii.,frase,src/escenas/ex
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!","Mergem {excursion}! Brum, brum!",frase,src/escenas/excursion.ts,borrador
 f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,O poză de grup! Zâmbiți! A fost o excursie minunată. {guia} ne așteaptă altă dată: {excursion}. Poza rămâne în albumul de excursii. Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
+0c9debca070c,"¡Hola{nino}! Soy {guia}, la astronauta. ¡Bienvenido al planetario! Hoy vamos a viajar a la Luna.","Bună{nino}! Eu sunt {guia}, astronauta. Bine ai venit la planetariu! Astăzi călătorim pe Lună.",frase,src/escenas/excursion.ts,borrador
 0521b97c1729,"¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.","Bună{nino}! Eu sunt {guia}, vânzătoarea de fructe. Bine ai venit la piață! Facem cumpărăturile și plătim cu monede.",frase,src/escenas/excursion.ts,borrador
 1fad0af05679,"¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.","Bună{nino}! Eu sunt {guia}, pădurarul. Bine ai venit în pădurea de toamnă! Vom vedea copacii, frunzele și animalele pădurii.",frase,src/escenas/excursion.ts,borrador
 0692f5ce89a1,"¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.","Bună{nino}! Eu sunt {guia}, pompiera. Bine ai venit în oraș! Vom vedea remiza de pompieri, brutăria și centrul medical.",frase,src/escenas/excursion.ts,borrador
@@ -2081,6 +2089,24 @@ f498f42ecc18,Izquierda.,Stânga.,frase,src/escenas/penaltis.ts,borrador
 4f9410833aab,Arriba.,Sus.,frase,src/escenas/penaltis.ts,borrador
 7976e8a26f61,× {n},× {n},trozo,src/escenas/penaltis.ts,borrador
 f42bfe48c304,¡GOL!,GOL!,frase,src/escenas/penaltis.ts,borrador
+88809b80416d,"{a}, {b}, {c}... ¿Qué número viene ahora?","{a}, {b}, {c}... Ce număr urmează acum?",trozo,src/escenas/planetario.ts,borrador
+32dee3bad834,¡Cero! ¡Despegamos!,Zero! Decolăm!,frase,src/escenas/planetario.ts,borrador
+a73e1b03e1e6,¡Sí! {N}.,Da! {N}.,frase,src/escenas/planetario.ts,borrador
+64fe5f2a2de7,No. Cuenta hacia atrás: ¿qué número va antes?,Nu. Numără invers: ce număr e înainte?,frase,src/escenas/planetario.ts,borrador
+14ce185cc405,"¡Subimos al cohete! Antes de despegar hay que hacer la cuenta atrás, hasta el cero.","Urcăm în rachetă! Înainte de decolare numărăm invers, până la zero.",frase,src/escenas/planetario.ts,borrador
+5bdbb40a1254,¿Sabes una cosa? Los cohetes echan mucho fuego por abajo para subir muy deprisa hasta el espacio.,Știi ceva? Rachetele scot mult foc pe dedesubt ca să urce foarte repede în spațiu.,frase,src/escenas/planetario.ts,borrador
+fbede0836ed3,¡Ya estamos en el espacio! Mira por la ventana: se ven los planetas.,Suntem în spațiu! Uită-te pe geam: se văd planetele.,frase,src/escenas/planetario.ts,borrador
+3bb427b2d6ed,"¿Sabes una cosa? Los planetas dan vueltas alrededor del sol, y la Tierra es nuestro planeta.","Știi ceva? Planetele se învârt în jurul Soarelui, iar Pământul este planeta noastră.",frase,src/escenas/planetario.ts,borrador
+3ba50a8e947d,Desde aquí se ve la Tierra dando vueltas. Por eso hay día y noche.,De aici se vede Pământul cum se învârte. De aceea există zi și noapte.,frase,src/escenas/planetario.ts,borrador
+3f585aa35f6d,"¿Sabes una cosa? Cuando aquí es de día, al otro lado de la Tierra es de noche.","Știi ceva? Când aici e zi, pe partea cealaltă a Pământului e noapte.",frase,src/escenas/planetario.ts,borrador
+941f794e5af8,¡Hemos llegado a la Luna! Aquí todo pesa muy poco y se camina dando saltitos.,Am ajuns pe Lună! Aici totul cântărește foarte puțin și mergem țopăind.,frase,src/escenas/planetario.ts,borrador
+a587a824deaa,"¿Sabes una cosa? En la Luna no hay viento, así que las huellas de los astronautas siguen allí.","Știi ceva? Pe Lună nu bate vântul, așa că urmele astronauților sunt încă acolo.",frase,src/escenas/planetario.ts,borrador
+bad231155e41,Pisa la Luna: toca las huellas una a una hasta la bandera.,Pășește pe Lună: atinge urmele una câte una până la steag.,frase,src/escenas/planetario.ts,borrador
+3eed29b540f9,¡Hemos plantado la bandera en la Luna!,Am înfipt steagul pe Lună!,frase,src/escenas/planetario.ts,borrador
+41f1067d900c,Es hora de volver a casa. ¿Te acuerdas de cómo ha sido el viaje?,E timpul să ne întoarcem acasă. Îți amintești cum a fost călătoria?,frase,src/escenas/planetario.ts,borrador
+1d22eb9c7f03,"¿Sabes una cosa? Cuando vuelven, los astronautas caen al mar con paracaídas y los recoge un barco.","Știi ceva? Când se întorc, astronauții cad în mare cu parașuta și îi ia o navă.",frase,src/escenas/planetario.ts,borrador
+c3109f2c0d61,"Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y al final volvemos a la Tierra.","Pune călătoria în ordine: întâi decolăm cu racheta, apoi ajungem pe Lună și la sfârșit ne întoarcem pe Pământ.",frase,src/escenas/planetario.ts,borrador
+5a1011075d3f,¡Muy bien! Ya estamos otra vez en casa.,Foarte bine! Suntem din nou acasă.,frase,src/escenas/planetario.ts,borrador
 0dccf65f49f2,"¡Muy bien! Ahora, otro color.","Foarte bine! Acum, altă culoare.",frase,src/escenas/pompas.ts,borrador
 92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,Câte baloane ai spart! Știi foarte bine culorile. Ne mai jucăm o dată?,frase,src/escenas/pompas.ts,borrador
 aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.","Baloane de săpun! Suflă cu mine, tare, ca să facem multe baloane. Sparge doar baloanele de culoarea pe care ți-o spun.",frase,src/escenas/pompas.ts,borrador
@@ -3972,7 +3998,6 @@ af53620b60bd,Marte. Es el planeta rojo.,Marte. E planeta roșie.,frase,src/temas
 643083790f97,El cohete. Lleva a los astronautas al espacio.,Racheta. Îi duce pe astronauți în spațiu.,frase,src/temas/temas5.ts,borrador
 66d547db23b9,La astronauta. Viaja al espacio con un traje especial.,Astronauta. Călătorește în spațiu cu un costum special.,frase,src/temas/temas5.ts,borrador
 5e28eaf29e58,El telescopio. Sirve para mirar las estrellas de cerca.,Telescopul. Ne ajută să vedem stelele de aproape.,frase,src/temas/temas5.ts,borrador
-52be8076d08b,El día y la noche,Ziua și noaptea,trozo,src/temas/temas5.ts,borrador
 b9ab86aa5344,Contar estrellas,Numărăm stelele,trozo,src/temas/temas5.ts,borrador
 2c0b9678eba8,Del más chico al más grande,De la cel mai mic la cel mai mare,trozo,src/temas/temas5.ts,borrador
 1b2aba04d04c,{Cosa}.,{Cosa}.,trozo,src/temas/temas5.ts,borrador
