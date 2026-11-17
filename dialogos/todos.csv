@@ -91,6 +91,28 @@ d67aa9fe98ae,¡Con la lupa todo parece más grande!,frase,src/contenido/casa.ts
 37277b2d71d2,¡En esta maceta podemos plantar una semilla!,frase,src/contenido/casa.ts
 fdb93fc09492,¡Mi cactus tiene pinchos!,frase,src/contenido/casa.ts
 f01462544d27,¡Qué redonda es mi calabaza!,frase,src/contenido/casa.ts
+51cb55a53643,¡Un huevo a la sartén!,frase,src/contenido/casa.ts
+067cd915dd5c,Llenamos el vaso de agua.,frase,src/contenido/casa.ts
+0150083204b6,Abro el grifo para lavarme las manos.,frase,src/contenido/casa.ts
+07c0b852bc88,¡A cepillarnos los dientes!,frase,src/contenido/casa.ts
+c47fc226b5f9,Abro mi caja de música. ¡Escucha!,frase,src/contenido/casa.ts
+1e173c358dc1,¿Quién se esconde en la caja?,frase,src/contenido/casa.ts
+b0049a1ca369,El semáforo nos dice cuándo pasar.,frase,src/contenido/casa.ts
+bf5a9b145ac1,¡Mi lancha navega entre las olas!,frase,src/contenido/casa.ts
+91c51e4b7d1e,¡Mira cómo giran las ruedas de mi bici!,frase,src/contenido/casa.ts
+e3dec2c83748,¡Mi helicóptero se eleva!,frase,src/contenido/casa.ts
+b3856683800f,¡Piii! Así suena mi silbato.,frase,src/contenido/casa.ts
+f7ee57b49722,¡Mi globo vuela por encima de las nubes!,frase,src/contenido/casa.ts
+fbf13e3bfec1,Con la manguera riego el jardín.,frase,src/contenido/casa.ts
+2a9e95211079,¡Mi semilla está creciendo!,frase,src/contenido/casa.ts
+5946c57ebb22,¡El viento hace girar mi molinillo!,frase,src/contenido/casa.ts
+d7b5750d1a4f,¡El aspersor moja el césped!,frase,src/contenido/casa.ts
+aa22135ae32c,Rojo. Nos paramos.,frase,src/contenido/casa.ts
+b684f6d0d649,Verde. Podemos pasar.,frase,src/contenido/casa.ts
+5e2b2e699d65,Amarillo. Esperamos.,frase,src/contenido/casa.ts
+ea2fac305157,A sembrar otra vez.,frase,src/contenido/casa.ts
+a8aa63d07ca9,¡Ya ha salido un brote!,frase,src/contenido/casa.ts
+39b71ede0db8,¡Ha salido una flor!,frase,src/contenido/casa.ts
 f13d2458f0fd,España,trozo,src/contenido/casa.ts
 8aa41e16879b,¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.,frase,src/contenido/casa.ts
 0856d9814fce,El Polo Norte,trozo,src/contenido/casa.ts
@@ -918,6 +940,13 @@ a263733e0c11,el silbato,nombre,src/contenido/lex.ts
 452c8580a85f,la carta,nombre,src/contenido/lex.ts
 d8fba9325a62,las tijeras,nombre,src/contenido/lex.ts
 be04e7303d2d,la sartén,nombre,src/contenido/lex.ts
+b3a8be78cab8,la bici,nombre,src/contenido/lex.ts src/nucleo/idioma.ts
+e067f26392e3,la lancha,nombre,src/contenido/lex.ts src/temas/temas.ts
+50c036b75e36,el helicóptero,nombre,src/contenido/lex.ts src/temas/temas.ts
+7bb9977a0fab,el cepillo de dientes,nombre,src/contenido/lex.ts src/nucleo/idioma.ts
+5dbd692cba0a,la caja de música,nombre,src/contenido/lex.ts
+f66673891749,el molinillo,nombre,src/contenido/lex.ts
+f2cb11f02f21,el aspersor,nombre,src/contenido/lex.ts
 a2dedcb98357,la ambulancia,nombre,src/contenido/lex.ts
 32240e509132,el camión de bomberos,nombre,src/contenido/lex.ts
 050da5093d25,el patrullero,nombre,src/contenido/lex.ts
@@ -2824,13 +2853,11 @@ c99b32680719,la nevera,nombre,src/nucleo/idioma.ts
 1dce612fca9d,el sillón,nombre,src/nucleo/idioma.ts
 c20e74cf4e4a,el inodoro,nombre,src/nucleo/idioma.ts
 cb985825235c,la tele,nombre,src/nucleo/idioma.ts
-7bb9977a0fab,el cepillo de dientes,nombre,src/nucleo/idioma.ts
 1a27518dc7d0,la olla,nombre,src/nucleo/idioma.ts
 fee540b1f4eb,la mariquita,nombre,src/nucleo/idioma.ts
 ed0e23516cf6,el pájaro,nombre,src/nucleo/idioma.ts
 3b61dfa18dd5,la regadera,nombre,src/nucleo/idioma.ts
 1fe77ddaa918,el autobús,nombre,src/nucleo/idioma.ts
-b3a8be78cab8,la bici,nombre,src/nucleo/idioma.ts
 fbe7e531bdd8,el cubo,nombre,src/nucleo/idioma.ts
 7a3095614bbf,la toalla,nombre,src/nucleo/idioma.ts
 42d85bb73c62,la crema para el sol,nombre,src/nucleo/idioma.ts
@@ -3389,8 +3416,6 @@ e9ac2f996044,L5-FIE,trozo,src/temas/letras.ts
 6112046404d0,Fiesta del abecedario,trozo,src/temas/letras.ts
 1e80a86086ff,¡Es la fiesta del abecedario!,frase,src/temas/letras.ts
 83b033c3b049,La canción del abecedario,trozo,src/temas/letras.ts
-e067f26392e3,la lancha,nombre,src/temas/temas.ts
-50c036b75e36,el helicóptero,nombre,src/temas/temas.ts
 1eec213e0e4e,A  B  C  1  2  3,trozo,src/temas/temas.ts
 6a22bb6b5e52,el círculo,trozo,src/temas/temas.ts src/temas/temas4.ts
 524ba4cafebd,el cuadrado,trozo,src/temas/temas.ts src/temas/temas4.ts

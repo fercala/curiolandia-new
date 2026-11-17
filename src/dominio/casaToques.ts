@@ -20,7 +20,7 @@ export type Toque =
 /** Los estados guardados: id del objeto → su estado (0 = el normal). */
 export type Estados = Readonly<Record<string, number>>;
 
-// TOQUES: cómo se mueve cada cosa de la casa al tocarla (las 49 de REACCIONES y las 6 mascotas). Sigue la tabla del
+// TOQUES: cómo se mueve cada cosa de la casa al tocarla (las de REACCIONES y las mascotas). Sigue la tabla del
 // apartado 3.2 de docs/PLAN-CASA-MEJORA.md; lo que no tiene un movimiento propio, late.
 export const TOQUES: Readonly<Record<string, Toque>> = {
   // torre de las estrellas
@@ -95,6 +95,22 @@ export const TOQUES: Readonly<Record<string, Toque>> = {
   maceta: 'sacude',
   cactus: 'balancea',
   calabaza: 'bota',
+  sarten: 'gira',
+  vaso: 'balancea',
+  grifo: 'late',
+  cepillo: 'sacude',
+  cajaMusica: 'balancea',
+  cajaSorpresa: 'salta',
+  semaforo: 'late',
+  lancha: 'balancea',
+  bici: 'rueda',
+  helicoptero: 'sube',
+  silbato: 'tiembla',
+  globoAire: 'sube',
+  manguera: 'sacude',
+  brote: 'late',
+  molinillo: 'balancea',
+  aspersor: 'gira',
 };
 
 // ESTADOS: las cosas que tienen estado → cuántos estados tienen (con cada toque se pasa al siguiente y se vuelve al 0).
@@ -117,6 +133,21 @@ export const ESTADOS: Readonly<Record<string, number>> = {
   estrellas: 2,
   bloques: 6,
   cuadro: 3,
+  sarten: 2,
+  vaso: 2,
+  grifo: 2,
+  cepillo: 2,
+  cajaMusica: 3,
+  cajaSorpresa: 2,
+  semaforo: 3,
+  lancha: 2,
+  bici: 2,
+  helicoptero: 2,
+  globoAire: 2,
+  manguera: 2,
+  brote: 3,
+  molinillo: 2,
+  aspersor: 2,
 };
 
 // toqueDe(id): cómo se mueve id al tocarlo; 'late' si no está en la tabla (un objeto nuevo sin apuntar).

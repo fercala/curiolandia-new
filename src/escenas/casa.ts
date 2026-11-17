@@ -96,7 +96,14 @@ import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { VITRINA_BOTON, dibujaBotonVitrina } from './tesoros.ts';
 import { ALBUM_FOTOS_BOTON, dibujaBotonAlbumFotos } from './fotos.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
-import { FRASES_CASA, FRASES_COMBINACION, FRASES_HORA, FRASES_RUTINA, FRASES_VARIANTES } from '../contenido/casa.ts';
+import {
+  FRASES_CASA,
+  FRASES_COMBINACION,
+  FRASES_ESTADOS_CASA,
+  FRASES_HORA,
+  FRASES_RUTINA,
+  FRASES_VARIANTES,
+} from '../contenido/casa.ts';
 import {
   DURACION_ACCION,
   TITO_CASA,
@@ -154,6 +161,7 @@ import {
 } from './casaBaul.ts';
 import { ESTADOS, estadoDe, siguienteEstado, toqueDe } from '../dominio/casaToques.ts';
 import { dibujaEstado, poseToque } from './casaToques.ts';
+import { dibujoDeEstado } from './casaObjetos.ts';
 
 // Al jugar con un objeto de la casa (cuando Tito llega hasta él, desde la fase C2): chispitas, su sonido o acción
 // propia (tabla A) y Tito dice su frase (FRASES_CASA, contenido/casa.ts) o, si no tiene (las mascotas), su nombre.
@@ -210,6 +218,13 @@ function sonidoDe(id: string) {
     telescopio: () => SFX.sparkle(),
     lampara: () => SFX.snap(),
     campana: () => playSound('campana'),
+    silbato: () => tone(2200, 0.22, 'sine', 0.07),
+    cajaSorpresa: () => estadoDe(S.casaEst, id) && SFX.boing(),
+    cajaMusica: () => {
+      const e = estadoDe(S.casaEst, id);
+      if (e) playTune(e === 1 ? TUNES.colores : TUNES.meses, 210);
+    },
+    helicoptero: () => estadoDe(S.casaEst, id) && playSound('helicoptero'),
   };
   (A[id] || (() => {}))();
 }
@@ -739,7 +754,8 @@ SCENES.casaTito = {
         ctx.rotate(po.rot);
         ctx.translate(0, o.s * 0.42);
       }
-      if (o.id === 'lampara' && estadoDe(S.casaEst, 'lampara') === 0) {
+      const estado = estadoDe(S.casaEst, o.id);
+      if (o.id === 'lampara' && estado === 0) {
         ctx.globalAlpha = 0.25 + 0.05 * Math.sin(T * 3);
         circ(0, -o.s * 0.3, o.s * 0.5, '#FFE08A', 0);
         ctx.globalAlpha = 1;
@@ -750,9 +766,9 @@ SCENES.casaTito = {
         pic(o.id, 0, -o.s * 0.42, o.s);
         dibujaMascota(o.id, o.s * 0.62, Math.abs(Math.sin(T * 3)) * -6, o.s * 0.55);
       } else if (MASCOTAS.includes(o.id)) dibujaMascota(o.id, 0, 0, o.s);
-      else pic(o.id, 0, -o.s * 0.42, o.s);
+      else pic(dibujoDeEstado(o.id, estado), 0, -o.s * 0.42, o.s);
       // lo de su estado guardado (desde la fase M3): la tele encendida, el fuego de la olla, la torre de bloques...
-      dibujaEstado(o.id, estadoDe(S.casaEst, o.id), o.s);
+      dibujaEstado(o.id, estado, o.s);
       ctx.restore();
       // y, si le toca enseñar lo que pide hoy (pide), su bocadillo (no mientras se arrastra ni mientras Tito juega)
       if (o.id === pide && !dr && !this.acc)
@@ -1251,7 +1267,8 @@ SCENES.casaTito = {
   },
   // toca(id): el toque directo del niño en un objeto (desde la fase M3, capas 1 y 2): el objeto se mueve (su Toque de
   // dominio/casaToques.ts), suena, y si tiene estado pasa al siguiente y se guarda (S.casaEst); la torre de bloques,
-  // al llegar arriba, se cae. La primera vez en cada visita, Tito dice su nombre. Si se toca dos veces seguidas (en
+  // al llegar arriba, se cae. Tito dice el color del semáforo o la etapa de la semilla; para los demás, el nombre
+  // la primera vez. Si se toca dos veces seguidas (en
   // menos de 3 s) un objeto con escena o una mascota, sale el botón grande de su escena (this.escena).
   toca(id: string) {
     this.toques[id] = T;
@@ -1279,6 +1296,11 @@ SCENES.casaTito = {
     // el reloj dice la hora de verdad (desde la fase M6)
     if (id === 'reloj') {
       say(FRASES_HORA[Math.floor(horaCasa()) % 12] ?? '');
+      return;
+    }
+    const aviso = FRASES_ESTADOS_CASA[id]?.[e];
+    if (aviso) {
+      say(aviso);
       return;
     }
     this.dichos = this.dichos || {};
