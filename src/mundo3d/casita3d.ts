@@ -10,6 +10,8 @@
  * Exporta: montarCasita3D (y bgSample, para tests/unidad/telonCasita.test.ts). Importa: del núcleo y de escenas/ lo que dibuja y lee la casita; el motor, las piezas y lo de
  * los demás módulos de mundo3d/ (también roadPts de mundo3d/zonas3d.ts).
  */
+import { botonExtra, tocaExtra } from '../escenas/botonesExtras.ts';
+import { BOTON_CUENTO } from '../escenas/cuentoDecisiones.ts';
 import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
@@ -261,6 +263,7 @@ function buildCasita(t: Tema, st: Escena) {
   camRig(w, V3(0, 11, 15.5), V3(0, 2.4, 0), 1.1);
   return w;
 }
+
 // montarCasita3D(): pone la casita de un tema en 3D en lugar de la 2D (SCENES.casita) y su disposición (dónde están los
 // puestos en la pantalla: los proyectados). La llama mundo3d/mundo3d.ts al montar la capa 3D. Desde la fase 4i es otra
 // escena, no una envoltura: copia de la casita 2D (casita2D, de escenas/zonas.ts, que no se toca) la lógica (prompt,
@@ -340,6 +343,7 @@ export function montarCasita3D(): void {
       }
       drawHome();
       drawCoinHUD();
+      botonExtra(BOTON_CUENTO, 'Cuento con decisiones');
       if (VIVO.talking) {
         const tp = titoPos(),
           bx = tp.x + tp.w * 0.85,
@@ -355,7 +359,7 @@ export function montarCasita3D(): void {
       const w = W3;
       if (!w || busy3(w)) return;
       const t = this.t;
-      if (atHome(x, y) || inCoinHUD(x, y)) return call0(casita2D.down!, this, x, y);
+      if (atHome(x, y) || inCoinHUD(x, y) || tocaExtra(BOTON_CUENTO, x, y)) return call0(casita2D.down!, this, x, y);
       const u = pickAt(x, y);
       if (flyTap(w, x, y)) return;
       if (!u) {

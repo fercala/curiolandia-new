@@ -23,6 +23,7 @@ import { LETRAS_TEXTOS_RO } from './letras.ts';
 import { INGLES_RO } from './ingles.ts';
 import { PASEO_RO } from './paseo.ts';
 import { ZOO_RO } from './zoo.ts';
+import { ACTIVIDADES_EXTRAS_RO } from './actividadesExtras.ts';
 import { NUM_RO } from './numeros.ts';
 
 // NUMEROS: cada número en rumano, a sí mismo (ya está traducido).
@@ -54,4 +55,5 @@ export const TEXTOS_RO: Readonly<Record<string, string>> = {
   ...INGLES_RO,
   ...PASEO_RO,
   ...ZOO_RO,
+  ...ACTIVIDADES_EXTRAS_RO,
 };

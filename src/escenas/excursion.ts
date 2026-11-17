@@ -18,6 +18,8 @@
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
+import { botonExtra, tocaExtra } from './botonesExtras.ts';
+import { BOTON_MERCADO } from './mercadoPractica.ts';
 import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import {
   H,
@@ -757,6 +759,7 @@ SCENES['autobus'] = {
       go('albumExcursiones');
       return;
     }
+
     const d = DESTINOS.find((z) => enDestino(z, x, y));
     if (!d) {
       SFX.tap();
@@ -998,6 +1001,7 @@ SCENES['excursion'] = {
     drawHome();
     drawCoinHUD();
     if (exc.foto < 0) dibujaCamara(); // desde la fase P15, la cámara de fotos (para los animales que pasean)
+    if (e.id === 'mercado' && exc.foto < 0 && !camaraActiva()) botonExtra(BOTON_MERCADO, 'Practicar la compra');
   },
   // down(x, y): casa -> el cole; monedas -> tienda; una estación jugable -> su escena; una «muy pronto» -> el guía lo
   // dice; la cámara (desde la P15: su botón la enciende y, encendida, un toque a un animal le hace una foto); la
@@ -1022,6 +1026,10 @@ SCENES['excursion'] = {
       const f = fotoDeMarca((m) => m === animalEn(x, y));
       if (f) hacerFotoDe(f.id, x, y);
       else disparoVacio(x, y);
+      return;
+    }
+    if (exc.id === 'mercado' && tocaExtra(BOTON_MERCADO, x, y)) {
+      go('mercadoCole');
       return;
     }
     const s = excursionActual().estaciones.find((z) => dist(x, y, z.x, z.y) < sitioEstacion(z).r);

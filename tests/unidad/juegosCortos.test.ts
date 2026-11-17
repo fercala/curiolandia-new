@@ -34,10 +34,10 @@ const azarFijo = (valores: readonly number[]) => {
 };
 
 describe('los juegos cortos del patio', () => {
-  test('son siete con ids distintos y todos tienen escena', () => {
+  test('son ocho con ids distintos y todos tienen escena', () => {
     const ids = JUEGOS_CORTOS.map((j) => j.id);
-    expect(ids).toHaveLength(7);
-    expect(new Set(ids).size).toBe(7);
+    expect(ids).toHaveLength(8);
+    expect(new Set(ids).size).toBe(8);
     expect(juegoCorto('rayuela')?.escena).toBe('rayuela');
     expect(juegoCorto('columpios')?.escena).toBe('columpios');
     expect(juegoCorto('penaltis')?.escena).toBe('penaltis');
@@ -45,6 +45,7 @@ describe('los juegos cortos del patio', () => {
     expect(juegoCorto('cometa')?.escena).toBe('cometa');
     expect(juegoCorto('panuelo')?.escena).toBe('panuelo');
     expect(juegoCorto('sillas')?.escena).toBe('sillas');
+    expect(juegoCorto('laberinto')?.escena).toBe('laberintoPatio');
     expect(JUEGOS_CORTOS.every((j) => j.escena)).toBe(true);
     expect(juegoCorto('nada')).toBeUndefined();
   });

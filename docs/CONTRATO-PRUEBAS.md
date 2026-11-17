@@ -61,3 +61,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 
 Cuentas sacadas con `grep` sobre `tests/` el 24 de octubre de 2026 (fase 0). En la fase 2a, `talking`, `fade`, `sessionT`,
 `minuteAcc` y `MX` pasaron a `VIVO` y `camino.js` envuelve `go` con `ponGo`.
+
+### Actividades opcionales
+
+`actividades-extras.js` usa `TARJETAS_CORTOS` para tocar el laberinto por su id, `TEMAS[0].id` como casita de partida, `VIVO.fade` para esperar el final de la transición y `window.__said` para comprobar resultados en ambos idiomas con voz rápida. Usa `DESTINOS` y `sceneArg.exc` para comprobar el acceso por el autobús y el regreso al mismo mercado. Compara `S.coins`, `S.temas`, `S.cole` y `S.exc` antes y después. Los botones `data-ficha` abren una hoja en un marco y el guion sustituye temporalmente su cuadro de impresión para comprobar título y dibujos sin abrir el diálogo del sistema.

@@ -136,6 +136,10 @@ const ESCENAS = [
   ['deporteEquilibrio', { deporte: true }],
   ['deporteRelevos', { deporte: true }],
   ['juegosCortos', {}], // los juegos cortos del patio (P12)
+  ['laberintoPatio', {}],
+  ['flotaCole', {}],
+  ['cuentoDecisiones', {}],
+  ['mercadoCole', {}],
   ['rayuela', {}],
   ['columpios', {}],
   ['penaltis', {}], // P12b

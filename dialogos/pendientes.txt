@@ -2224,3 +2224,17 @@ Ya tenemos toda la compra. Ahora vamos a pagar. ¡Hay que contar bien el dinero!
 Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?
 ¡Sí! Nos devuelven {n}.
 No. Cuenta las monedas que sobran.
+
+Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.
+¡Llegaste a la meta!
+¿Flota o se hunde?
+¡Lo has adivinado!
+¡Ahora ya lo sabemos!
+Tito oye un ruido cerca del árbol. ¿Por dónde va?
+Una ardilla busca su bellota. ¿Cómo la ayudas?
+Una ardilla mira una pila de hojas. ¿Cómo la ayudas?
+¡La bellota estaba escondida! La ardilla le da las gracias a Tito.
+Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.
+Pon en la cesta la fruta de la lista.
+¡Compra hecha!
+Mira el siguiente dibujo de la lista.
