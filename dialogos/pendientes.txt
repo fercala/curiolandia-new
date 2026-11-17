@@ -2276,3 +2276,29 @@ Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y 
 ¡En esta maceta podemos plantar una semilla!
 ¡Mi cactus tiene pinchos!
 ¡Qué redonda es mi calabaza!
+La playa
+Leo
+Ponerse la crema
+Buscar conchas
+La playa limpia
+Mirar el mar
+¡Hola{nino}! Soy {guia}, el socorrista. ¡Bienvenido a la playa! Hoy vamos a pasar el día junto al mar.
+¡Qué sol hace! Antes de jugar, hay que ponerse crema para no quemarse.
+¿Sabes una cosa? En la playa también hay que beber mucha agua y ponerse la gorra.
+Extiende la crema: frota cada pegote blanco hasta que no se vea.
+¡Ya tenemos la crema puesta! Ahora, a jugar.
+¡Vamos a hacer un castillo de arena! ¿Te acuerdas de cómo se hace?
+¿Sabes una cosa? La arena mojada se pega mejor: por eso los castillos se hacen cerca del agua.
+Ordena el castillo: primero cavamos con la pala, después llenamos el cubo de arena y al final le damos la vuelta.
+¡Qué castillo tan bonito!
+En la orilla, el mar deja muchas conchas. ¡Vamos a buscarlas!
+¿Sabes una cosa? Las conchas eran la casa de animalitos del mar, como las almejas y los caracoles.
+En la arena hay conchas y otros tesoros escondidos. Frota con el dedo para encontrarlos.
+Oh, oh. Alguien ha dejado basura en la arena. ¡Vamos a dejar la playa limpia!
+¿Sabes una cosa? La basura que se queda en la playa llega al mar y les hace daño a los peces y a las tortugas.
+No, eso no es basura: es de la playa y se queda en la arena.
+Mete la basura en la papelera. Las conchas y las estrellas de mar se quedan en la playa.
+¡Qué limpia ha quedado la playa!
+Desde la orilla se ve el mar, con los barcos y el faro. ¡Vamos a contar lo que hay!
+¿Sabes una cosa? Por la noche, el faro se enciende y su luz da vueltas para que los barcos no choquen con las rocas.
+el socorrista

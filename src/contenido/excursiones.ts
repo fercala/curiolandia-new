@@ -11,7 +11,8 @@
  * bosque de otoño (idea 6), con Hugo el guardabosques: las hojas, las huellas, los sonidos, la ardilla y el mural
  * (escenas/bosque.ts). Desde la P22, el mercado (idea 7), con
  * Carmen la frutera: la lista de la compra, la báscula, el pan, la pescadería y la caja (escenas/mercado.ts). Desde la P23, el planetario y
- * el viaje a la Luna (idea 8), con Sara la astronauta (escenas/planetario.ts). Una excursión sin estaciones saldría en el autobús como «¡Muy pronto!».
+ * el viaje a la Luna (idea 8), con Sara la astronauta (escenas/planetario.ts). Desde la P24, la playa (idea 9), con Leo
+ * el socorrista: la crema, el castillo de arena, las conchas, la basura y el mar (escenas/playa.ts). Una excursión sin estaciones saldría en el autobús como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
  * Importa: el tipo Excursion de dominio/excursiones.ts.
@@ -162,6 +163,20 @@ export const EXCURSIONES: readonly Excursion[] = [
       { id: 'dia', nombre: 'El día y la noche', escena: 'planetarioDia', icono: 'tierra', x: 960, y: 700 },
       { id: 'luna', nombre: 'Pisar la Luna', escena: 'planetarioLuna', icono: 'luna', x: 1260, y: 560 },
       { id: 'viaje', nombre: 'Volver a casa', escena: 'planetarioViaje', icono: 'astronauta', x: 1180, y: 330 },
+    ],
+  },
+  {
+    id: 'playa',
+    nombre: 'La playa',
+    icono: 'castillo',
+    guia: 'socorrista',
+    nombreGuia: 'Leo',
+    estaciones: [
+      { id: 'crema', nombre: 'Ponerse la crema', escena: 'playaCrema', icono: 'crema', x: 330, y: 560 },
+      { id: 'castillo', nombre: 'El castillo de arena', escena: 'playaCastillo', icono: 'castillo', x: 640, y: 700 },
+      { id: 'conchas', nombre: 'Buscar conchas', escena: 'playaConchas', icono: 'concha', x: 960, y: 700 },
+      { id: 'basura', nombre: 'La playa limpia', escena: 'playaBasura', icono: 'botellaPlastico', x: 1260, y: 560 },
+      { id: 'mar', nombre: 'Mirar el mar', escena: 'playaMar', icono: 'barco', x: 1180, y: 330 },
     ],
   },
 ];

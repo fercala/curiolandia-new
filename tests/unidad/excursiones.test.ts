@@ -163,6 +163,14 @@ describe('las excursiones', () => {
     const planetario = excursionPorId('planetario')!;
     expect(planetario.nombreGuia).toBe('Sara');
     expect(estacionesJugables(planetario).map((s) => s.id)).toEqual(['cuenta', 'planetas', 'dia', 'luna', 'viaje']);
-    expect(EXCURSIONES.map((e) => e.id).slice(-2)).toEqual(['mercado', 'planetario']);
+    expect(EXCURSIONES.map((e) => e.id).slice(6, 8)).toEqual(['mercado', 'planetario']);
+  });
+
+  // desde la fase P24: el día de playa, con Leo el socorrista y sus cinco paradas
+  test('la playa tiene cinco paradas jugables y va después del planetario', () => {
+    const playa = excursionPorId('playa')!;
+    expect(playa.nombreGuia).toBe('Leo');
+    expect(estacionesJugables(playa).map((s) => s.id)).toEqual(['crema', 'castillo', 'conchas', 'basura', 'mar']);
+    expect(EXCURSIONES.map((e) => e.id).slice(-2)).toEqual(['planetario', 'playa']);
   });
 });

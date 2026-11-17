@@ -655,6 +655,13 @@ ad84fd815b00,La báscula,Cântarul,trozo,src/contenido/excursiones.ts,borrador
 52be8076d08b,El día y la noche,Ziua și noaptea,trozo,src/contenido/excursiones.ts src/temas/temas5.ts,borrador
 187534adb7f7,Pisar la Luna,Pășim pe Lună,trozo,src/contenido/excursiones.ts,borrador
 dfd20270ab0d,Volver a casa,Ne întoarcem acasă,trozo,src/contenido/excursiones.ts,borrador
+729d397bdef0,La playa,Plaja,trozo,src/contenido/excursiones.ts,borrador
+550eadb88a23,Leo,Leo,trozo,src/contenido/excursiones.ts,borrador
+6fa3c19b01d3,Ponerse la crema,Ne dăm cu cremă,trozo,src/contenido/excursiones.ts,borrador
+b59a14733708,El castillo de arena,Castelul de nisip,trozo,src/contenido/excursiones.ts src/dominio/fotos.ts,borrador
+a7b126324a27,Buscar conchas,Căutăm scoici,trozo,src/contenido/excursiones.ts,borrador
+ea234881621a,La playa limpia,Plaja curată,trozo,src/contenido/excursiones.ts,borrador
+c99c345adb20,Mirar el mar,Privim marea,trozo,src/contenido/excursiones.ts,borrador
 eef5e5e9d7f8,Mum,,trozo,src/contenido/ingles.ts,falta
 48418f32fc2d,Mamá,Mama,trozo,src/contenido/ingles.ts,borrador
 cb525f817e00,Dad,,trozo,src/contenido/ingles.ts,falta
@@ -914,6 +921,7 @@ dd4a21840b55,el cuidador,îngrijitorul,nombre,src/contenido/lex.ts,borrador
 73ae03336f74,la buceadora,scafandra,nombre,src/contenido/lex.ts,borrador
 13201afffc9f,el paleontólogo,paleontologul,nombre,src/contenido/lex.ts,borrador
 99fb17adc36b,el guardabosques,pădurarul,nombre,src/contenido/lex.ts,borrador
+d656486ce52d,el socorrista,salvamarul,nombre,src/contenido/lex.ts,borrador
 2fce2e558bad,la frutera,vânzătoarea de fructe,nombre,src/contenido/lex.ts,borrador
 9aa89530cce4,el euro,euro,nombre,src/contenido/lex.ts,borrador
 f7f37fe70c49,el delfín,delfinul,nombre,src/contenido/lex.ts,borrador
@@ -1250,7 +1258,6 @@ bd589331b993,crab,,trozo,src/dominio/fotos.ts,falta
 abaecf8ca3f9,bird,,trozo,src/dominio/fotos.ts,falta
 f1183c323294,El barco,Barca,trozo,src/dominio/fotos.ts,borrador
 dd8fc45d87f9,boat,,trozo,src/dominio/fotos.ts,falta
-b59a14733708,El castillo de arena,Castelul de nisip,trozo,src/dominio/fotos.ts,borrador
 85e8113bc3f6,sandcastle,,trozo,src/dominio/fotos.ts,falta
 2287d5506e1b,El pingüino,Pinguinul,trozo,src/dominio/fotos.ts,borrador
 24f7ca5f6ff1,penguin,,trozo,src/dominio/fotos.ts,falta
@@ -1938,6 +1945,7 @@ a4c59ff8ba33,El álbum de excursiones.,Albumul de excursii.,frase,src/escenas/ex
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!","Mergem {excursion}! Brum, brum!",frase,src/escenas/excursion.ts,borrador
 f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,O poză de grup! Zâmbiți! A fost o excursie minunată. {guia} ne așteaptă altă dată: {excursion}. Poza rămâne în albumul de excursii. Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
+ad914a5487a4,"¡Hola{nino}! Soy {guia}, el socorrista. ¡Bienvenido a la playa! Hoy vamos a pasar el día junto al mar.","Bună{nino}! Eu sunt {guia}, salvamarul. Bine ai venit la plajă! Astăzi petrecem ziua lângă mare.",frase,src/escenas/excursion.ts,borrador
 0c9debca070c,"¡Hola{nino}! Soy {guia}, la astronauta. ¡Bienvenido al planetario! Hoy vamos a viajar a la Luna.","Bună{nino}! Eu sunt {guia}, astronauta. Bine ai venit la planetariu! Astăzi călătorim pe Lună.",frase,src/escenas/excursion.ts,borrador
 0521b97c1729,"¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.","Bună{nino}! Eu sunt {guia}, vânzătoarea de fructe. Bine ai venit la piață! Facem cumpărăturile și plătim cu monede.",frase,src/escenas/excursion.ts,borrador
 1fad0af05679,"¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.","Bună{nino}! Eu sunt {guia}, pădurarul. Bine ai venit în pădurea de toamnă! Vom vedea copacii, frunzele și animalele pădurii.",frase,src/escenas/excursion.ts,borrador
@@ -2150,6 +2158,24 @@ bad231155e41,Pisa la Luna: toca las huellas una a una hasta la bandera.,Pășeș
 1d22eb9c7f03,"¿Sabes una cosa? Cuando vuelven, los astronautas caen al mar con paracaídas y los recoge un barco.","Știi ceva? Când se întorc, astronauții cad în mare cu parașuta și îi ia o navă.",frase,src/escenas/planetario.ts,borrador
 c3109f2c0d61,"Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y al final volvemos a la Tierra.","Pune călătoria în ordine: întâi decolăm cu racheta, apoi ajungem pe Lună și la sfârșit ne întoarcem pe Pământ.",frase,src/escenas/planetario.ts,borrador
 5a1011075d3f,¡Muy bien! Ya estamos otra vez en casa.,Foarte bine! Suntem din nou acasă.,frase,src/escenas/planetario.ts,borrador
+d5275f13392c,"¡Qué sol hace! Antes de jugar, hay que ponerse crema para no quemarse.","Ce soare e! Înainte să ne jucăm, trebuie să ne dăm cu cremă ca să nu ne ardem.",frase,src/escenas/playa.ts,borrador
+6fb4d434b9dd,¿Sabes una cosa? En la playa también hay que beber mucha agua y ponerse la gorra.,Știi ceva? La plajă trebuie să bem și multă apă și să ne punem șapca.,frase,src/escenas/playa.ts,borrador
+989d8a2f2a6c,Extiende la crema: frota cada pegote blanco hasta que no se vea.,Întinde crema: freacă fiecare pată albă până nu se mai vede.,frase,src/escenas/playa.ts,borrador
+c9ba69c9e301,"¡Ya tenemos la crema puesta! Ahora, a jugar.","Ne-am dat cu cremă! Acum, la joacă.",frase,src/escenas/playa.ts,borrador
+9dd1ef6f4e95,¡Vamos a hacer un castillo de arena! ¿Te acuerdas de cómo se hace?,Hai să facem un castel de nisip! Îți amintești cum se face?,frase,src/escenas/playa.ts,borrador
+4e9be9ca8fbc,¿Sabes una cosa? La arena mojada se pega mejor: por eso los castillos se hacen cerca del agua.,Știi ceva? Nisipul ud se lipește mai bine: de aceea castelele se fac lângă apă.,frase,src/escenas/playa.ts,borrador
+4c3fcc37e271,"Ordena el castillo: primero cavamos con la pala, después llenamos el cubo de arena y al final le damos la vuelta.","Pune castelul în ordine: întâi săpăm cu lopățica, apoi umplem găletușa cu nisip și la sfârșit o întoarcem.",frase,src/escenas/playa.ts,borrador
+e0d24e859034,¡Qué castillo tan bonito!,Ce castel frumos!,frase,src/escenas/playa.ts,borrador
+20ff3f768825,"En la orilla, el mar deja muchas conchas. ¡Vamos a buscarlas!","Pe mal, marea lasă multe scoici. Hai să le căutăm!",frase,src/escenas/playa.ts,borrador
+8105fd2f8293,"¿Sabes una cosa? Las conchas eran la casa de animalitos del mar, como las almejas y los caracoles.","Știi ceva? Scoicile erau casa unor animăluțe din mare, ca midiile și melcii.",frase,src/escenas/playa.ts,borrador
+705c2c695355,En la arena hay conchas y otros tesoros escondidos. Frota con el dedo para encontrarlos.,În nisip sunt scoici și alte comori ascunse. Freacă cu degetul ca să le găsești.,frase,src/escenas/playa.ts,borrador
+b37d44aee0af,"Oh, oh. Alguien ha dejado basura en la arena. ¡Vamos a dejar la playa limpia!","Oh, oh. Cineva a lăsat gunoi pe nisip. Hai să lăsăm plaja curată!",frase,src/escenas/playa.ts,borrador
+68e1b370cc7c,¿Sabes una cosa? La basura que se queda en la playa llega al mar y les hace daño a los peces y a las tortugas.,Știi ceva? Gunoiul care rămâne pe plajă ajunge în mare și le face rău peștilor și țestoaselor.,frase,src/escenas/playa.ts,borrador
+57eed1f5602f,"No, eso no es basura: es de la playa y se queda en la arena.","Nu, asta nu e gunoi: e de pe plajă și rămâne pe nisip.",frase,src/escenas/playa.ts,borrador
+287886c76bf0,Mete la basura en la papelera. Las conchas y las estrellas de mar se quedan en la playa.,Pune gunoiul în coșul de gunoi. Scoicile și stelele de mare rămân pe plajă.,frase,src/escenas/playa.ts,borrador
+68f507ce5e69,¡Qué limpia ha quedado la playa!,Ce curată a rămas plaja!,frase,src/escenas/playa.ts,borrador
+fa96670bdb20,"Desde la orilla se ve el mar, con los barcos y el faro. ¡Vamos a contar lo que hay!","De pe mal se vede marea, cu vapoarele și farul. Hai să numărăm ce este!",frase,src/escenas/playa.ts,borrador
+9d0e72335db3,"¿Sabes una cosa? Por la noche, el faro se enciende y su luz da vueltas para que los barcos no choquen con las rocas.","Știi ceva? Noaptea, farul se aprinde și lumina lui se rotește ca vapoarele să nu se lovească de stânci.",frase,src/escenas/playa.ts,borrador
 0dccf65f49f2,"¡Muy bien! Ahora, otro color.","Foarte bine! Acum, altă culoare.",frase,src/escenas/pompas.ts,borrador
 92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,Câte baloane ai spart! Știi foarte bine culorile. Ne mai jucăm o dată?,frase,src/escenas/pompas.ts,borrador
 aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.","Baloane de săpun! Suflă cu mine, tare, ca să facem multe baloane. Sparge doar baloanele de culoarea pe care ți-o spun.",frase,src/escenas/pompas.ts,borrador

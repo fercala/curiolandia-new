@@ -127,6 +127,12 @@ const ESCENAS = [
   ['planetarioDia', {}],
   ['planetarioLuna', {}],
   ['planetarioViaje', {}],
+  ['excursion', { exc: 'playa' }], // P24
+  ['playaCrema', {}],
+  ['playaCastillo', {}],
+  ['playaConchas', {}],
+  ['playaBasura', {}],
+  ['playaMar', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

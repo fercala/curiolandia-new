@@ -5,7 +5,7 @@
  * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
  * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo, y desde la P20 (v0.2.164), la ciudad, con
  * Lucía la bombera, y desde la P21 (v0.2.165), el bosque de otoño, con Hugo el guardabosques, y desde
- * la P22 (v0.2.166), el mercado, con Carmen la frutera, y desde la P23 (v0.2.169), el planetario, con Sara la astronauta. Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * la P22 (v0.2.166), el mercado, con Carmen la frutera, y desde la P23 (v0.2.169), el planetario, con Sara la astronauta, y desde la P24 (v0.2.170), la playa, con Leo el socorrista. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -285,4 +285,45 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
   'Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y al final volvemos a la Tierra.':
     'Pune călătoria în ordine: întâi decolăm cu racheta, apoi ajungem pe Lună și la sfârșit ne întoarcem pe Pământ.',
   '¡Muy bien! Ya estamos otra vez en casa.': 'Foarte bine! Suntem din nou acasă.',
+  // desde la P24 (v0.2.170): el día de playa, con Leo el socorrista
+  'La playa': 'Plaja',
+  'Leo': 'Leo',
+  'Ponerse la crema': 'Ne dăm cu cremă',
+  'Buscar conchas': 'Căutăm scoici',
+  'La playa limpia': 'Plaja curată',
+  'Mirar el mar': 'Privim marea',
+  '¡Hola{nino}! Soy {guia}, el socorrista. ¡Bienvenido a la playa! Hoy vamos a pasar el día junto al mar.':
+    'Bună{nino}! Eu sunt {guia}, salvamarul. Bine ai venit la plajă! Astăzi petrecem ziua lângă mare.',
+  '¡Qué sol hace! Antes de jugar, hay que ponerse crema para no quemarse.':
+    'Ce soare e! Înainte să ne jucăm, trebuie să ne dăm cu cremă ca să nu ne ardem.',
+  '¿Sabes una cosa? En la playa también hay que beber mucha agua y ponerse la gorra.':
+    'Știi ceva? La plajă trebuie să bem și multă apă și să ne punem șapca.',
+  'Extiende la crema: frota cada pegote blanco hasta que no se vea.':
+    'Întinde crema: freacă fiecare pată albă până nu se mai vede.',
+  '¡Ya tenemos la crema puesta! Ahora, a jugar.': 'Ne-am dat cu cremă! Acum, la joacă.',
+  '¡Vamos a hacer un castillo de arena! ¿Te acuerdas de cómo se hace?':
+    'Hai să facem un castel de nisip! Îți amintești cum se face?',
+  '¿Sabes una cosa? La arena mojada se pega mejor: por eso los castillos se hacen cerca del agua.':
+    'Știi ceva? Nisipul ud se lipește mai bine: de aceea castelele se fac lângă apă.',
+  'Ordena el castillo: primero cavamos con la pala, después llenamos el cubo de arena y al final le damos la vuelta.':
+    'Pune castelul în ordine: întâi săpăm cu lopățica, apoi umplem găletușa cu nisip și la sfârșit o întoarcem.',
+  '¡Qué castillo tan bonito!': 'Ce castel frumos!',
+  'En la orilla, el mar deja muchas conchas. ¡Vamos a buscarlas!': 'Pe mal, marea lasă multe scoici. Hai să le căutăm!',
+  '¿Sabes una cosa? Las conchas eran la casa de animalitos del mar, como las almejas y los caracoles.':
+    'Știi ceva? Scoicile erau casa unor animăluțe din mare, ca midiile și melcii.',
+  'En la arena hay conchas y otros tesoros escondidos. Frota con el dedo para encontrarlos.':
+    'În nisip sunt scoici și alte comori ascunse. Freacă cu degetul ca să le găsești.',
+  'Oh, oh. Alguien ha dejado basura en la arena. ¡Vamos a dejar la playa limpia!':
+    'Oh, oh. Cineva a lăsat gunoi pe nisip. Hai să lăsăm plaja curată!',
+  '¿Sabes una cosa? La basura que se queda en la playa llega al mar y les hace daño a los peces y a las tortugas.':
+    'Știi ceva? Gunoiul care rămâne pe plajă ajunge în mare și le face rău peștilor și țestoaselor.',
+  'No, eso no es basura: es de la playa y se queda en la arena.':
+    'Nu, asta nu e gunoi: e de pe plajă și rămâne pe nisip.',
+  'Mete la basura en la papelera. Las conchas y las estrellas de mar se quedan en la playa.':
+    'Pune gunoiul în coșul de gunoi. Scoicile și stelele de mare rămân pe plajă.',
+  '¡Qué limpia ha quedado la playa!': 'Ce curată a rămas plaja!',
+  'Desde la orilla se ve el mar, con los barcos y el faro. ¡Vamos a contar lo que hay!':
+    'De pe mal se vede marea, cu vapoarele și farul. Hai să numărăm ce este!',
+  '¿Sabes una cosa? Por la noche, el faro se enciende y su luz da vueltas para que los barcos no choquen con las rocas.':
+    'Știi ceva? Noaptea, farul se aprinde și lumina lui se rotește ca vapoarele să nu se lovească de stânci.',
 };
