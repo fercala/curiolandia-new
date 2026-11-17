@@ -83,6 +83,14 @@ d75b16331d5c,¡A regar el jardín!,frase,src/contenido/casa.ts
 7be035253169,"¡Más alto, más alto!",frase,src/contenido/casa.ts
 edea8e35ad92,¡Mi castillo ya tiene bandera!,frase,src/contenido/casa.ts
 702d0228e651,"¡Al agua, patos!",frase,src/contenido/casa.ts
+f6d925f32575,¿Qué llevo en mi maleta?,frase,src/contenido/casa.ts
+f4ddf316bc8b,¡Con mi paraguas no me mojo!,frase,src/contenido/casa.ts
+8e8d176f6cb2,¡Escucha cómo suena mi campana!,frase,src/contenido/casa.ts
+d67aa9fe98ae,¡Con la lupa todo parece más grande!,frase,src/contenido/casa.ts
+5c557b806acf,¡Mi camión lleva una carga!,frase,src/contenido/casa.ts
+37277b2d71d2,¡En esta maceta podemos plantar una semilla!,frase,src/contenido/casa.ts
+fdb93fc09492,¡Mi cactus tiene pinchos!,frase,src/contenido/casa.ts
+f01462544d27,¡Qué redonda es mi calabaza!,frase,src/contenido/casa.ts
 f13d2458f0fd,España,trozo,src/contenido/casa.ts
 8aa41e16879b,¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.,frase,src/contenido/casa.ts
 0856d9814fce,El Polo Norte,trozo,src/contenido/casa.ts
@@ -919,6 +927,8 @@ fb8570237398,el globo aerostático,nombre,src/contenido/lex.ts
 4f0b5810b1c6,el metro,nombre,src/contenido/lex.ts
 c729d913ec26,el camión,nombre,src/contenido/lex.ts
 c8804516325a,la lupa,nombre,src/contenido/lex.ts
+e9bf7dc75ad2,la maceta,nombre,src/contenido/lex.ts src/nucleo/idioma.ts
+21fa632eccd8,el paraguas,nombre,src/contenido/lex.ts src/nucleo/idioma.ts
 a5a403933a91,la campana,nombre,src/contenido/lex.ts
 94f3e14279a7,el tambor,nombre,src/contenido/lex.ts
 6bd135f6caca,el perfume,nombre,src/contenido/lex.ts
@@ -1458,6 +1468,8 @@ d11569c49cfa,¡Sorpresa nueva para el álbum!,frase,src/escenas/casa.ts
 fc00279183a9,¿A qué jugamos? Toca una cosa.,frase,src/escenas/casa.ts
 30125539ddb2,¡Vamos a jugar! ¿Con qué?,frase,src/escenas/casa.ts
 ab85c165b55f,¡Me encanta mi casa! ¿A qué jugamos?,frase,src/escenas/casa.ts
+6472e231ff72,¿Guardamos todo en el baúl? Toca otra vez para confirmar.,frase,src/escenas/casa.ts
+f87ff541f05e,¡Ya está todo guardado en el baúl!,frase,src/escenas/casa.ts
 b67a2d5f26ce,¿Ordeno la casa? Toca la varita otra vez.,frase,src/escenas/casa.ts
 6b3b8d2df2fe,¡Ya está! Cada cosa en su habitación.,frase,src/escenas/casa.ts
 920f2f384a96,Lo que había encima está en el baúl.,frase,src/escenas/casa.ts
@@ -1479,6 +1491,8 @@ b935b666ffa2,¡Ya has explotado {n} burbujas!,frase,src/escenas/casaBano.ts
 bcf696085120,¡Ya estoy limpito y sequito! ¡Gracias!,frase,src/escenas/casaBano.ts
 4088f57103ec,¡Cuánta espuma! Ahora sécame con la toalla.,frase,src/escenas/casaBano.ts
 0e441e949184,¡Cuánta espuma! ¡Qué limpito estoy!,frase,src/escenas/casaBano.ts
+2a1fc0bb8d7d,"Sí, guardar",trozo,src/escenas/casaBaul.ts
+3973f2b6544c,Guardar todo,trozo,src/escenas/casaBaul.ts
 35a4964e3b39,¡Has encontrado la Osa Mayor! ¿A que parece un carro?,frase,src/escenas/casaCielo.ts
 0c09b00990a8,¡Has dibujado un caracol con estrellas!,frase,src/escenas/casaCielo.ts
 1ad90bf4d27e,¡Qué noche tan bonita! Toca las estrellas para encenderlas.,frase,src/escenas/casaCielo.ts
@@ -2195,7 +2209,7 @@ f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,trozo,src/escenas/tien
 e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,frase,src/escenas/tienda.ts
 a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,frase,src/escenas/tienda.ts
 a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,frase,src/escenas/tienda.ts
-f3fee113889f,¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.,frase,src/escenas/tienda.ts
+70be5fa92b88,¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.,frase,src/escenas/tienda.ts
 05a9f9871aab,¡salta tres veces!,trozo,src/escenas/titoDice.ts
 7745f6cc2488,¡da cuatro palmadas!,trozo,src/escenas/titoDice.ts
 85545d54e6fb,¡tócate la nariz!,trozo,src/escenas/titoDice.ts
@@ -2785,7 +2799,6 @@ db727127b435,la cara,nombre,src/nucleo/idioma.ts
 16440421074f,la ballena,nombre,src/nucleo/idioma.ts
 cf4982de29c2,la castaña,nombre,src/nucleo/idioma.ts
 859c40d11be3,la seta,nombre,src/nucleo/idioma.ts
-21fa632eccd8,el paraguas,nombre,src/nucleo/idioma.ts
 e0f5f3abc58b,las botas de lluvia,nombre,src/nucleo/idioma.ts
 1a2c1baac3d2,la lluvia,nombre,src/nucleo/idioma.ts
 96346fd418f6,las nubes,nombre,src/nucleo/idioma.ts
@@ -2827,7 +2840,6 @@ fb35cf0da7a9,el castillo de arena,nombre,src/nucleo/idioma.ts
 c1b8c585945f,el plato,nombre,src/nucleo/idioma.ts
 3b9d9da95339,el bol,nombre,src/nucleo/idioma.ts
 19c5d413891b,la ensalada de frutas,nombre,src/nucleo/idioma.ts
-e9bf7dc75ad2,la maceta,nombre,src/nucleo/idioma.ts
 dd8095efbe03,la estrella de mar,nombre,src/nucleo/idioma.ts
 af7669a9b1a6,el hermano,nombre,src/nucleo/idioma.ts
 c1adabe9fc03,la hermana,nombre,src/nucleo/idioma.ts

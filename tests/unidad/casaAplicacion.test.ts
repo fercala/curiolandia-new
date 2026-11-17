@@ -9,6 +9,7 @@ import {
   colocarObjeto,
   enBaul,
   guardarObjeto,
+  guardarTodoCasa,
   nuevoAlBaul,
   nuevosEnBaul,
   ordenarCasa,
@@ -133,6 +134,28 @@ describe('colocar y guardar', () => {
     expect(r && r.alBaul).toEqual(['pato']);
     expect(guardarObjeto(base, 'piano')).toBeNull();
     expect(base.home.mesa.r).toBe('salon');
+  });
+});
+
+describe('Guardar todo', () => {
+  test('recoge lo comprado de todas las habitaciones y conserva qué se ha visto', () => {
+    const partida = {
+      home: {
+        mesa: { x: 640, y: 650, r: 'salon', h: 'salon:grande1' },
+        lupa: { x: 580, y: 520, r: 'salon', h: 'salon:mesa:1' },
+        cactus: { x: 900, y: 650, r: 'jardin', h: 'jardin:suelo1' },
+        camion: { x: 0, y: 0, r: EN_BAUL },
+      },
+      owned: { mesa: 1, lupa: 1, cactus: 1, camion: 1 },
+      casaVistos: { mesa: 1, lupa: 1, cactus: 1 },
+    };
+    const resultado = guardarTodoCasa(partida);
+    expect(Object.values(resultado.home).every((pos) => pos.r === EN_BAUL && !pos.h)).toBe(true);
+    expect(resultado.home.camion).toBe(partida.home.camion);
+    expect(resultado.casaVistos).toEqual(partida.casaVistos);
+    expect(partida.home.lupa.h).toBe('salon:mesa:1');
+    expect(arreglarCasa({ ...partida, ...resultado })).toEqual(resultado);
+    expect(nuevosEnBaul({ ...partida, ...resultado })).toEqual(['camion']);
   });
 });
 

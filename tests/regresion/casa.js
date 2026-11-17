@@ -3,7 +3,7 @@
 // teniéndolo todo en el salón, que lo comprado vaya a su habitación, que se pueda llevar una cosa a otra habitación
 // arrastrándola hasta su botón, que la tienda no deje comprar lo de una habitación cerrada y que pase de página.
 // Desde la fase C2 de docs/PLAN-CASA.md, también que Tito ande hasta lo que se toca y juegue con ello (C8), que ande
-// al tocar el suelo (C9) y que las 49 reacciones se dibujen sin errores (C10); desde la C3, el cielo de noche del
+// al tocar el suelo (C9) y que las reacciones se dibujen sin errores (C10); desde la C3, el cielo de noche del
 // telescopio (C11) y la vuelta al mundo del globo terráqueo (C12); desde la C4, los instrumentos (C13), la pizarra
 // (C14) y la tele (C15); desde la C5, la merienda y la sopa (C16), el baño (C17), buenas noches (C18) y el huerto
 // (C19); desde la C6, cuidar a las mascotas: ir a su escena y ponerles nombre (C20), crecer con los días cuidados
@@ -21,6 +21,7 @@
 // el botón del mapa, un capítulo entero, su trozo del mapa y el siguiente para mañana (C40), y desde la P16b, el último
 // capítulo y el gran tesoro (C41). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
 // C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
+// C42 comprueba una compra nueva y que «Guardar todo» recoge varias habitaciones tras confirmar.
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -284,25 +285,23 @@ const temas = (n) => {
     });
     if (r[0] !== 1200 || r[1] !== 720) return 'Tito va a ' + r.join();
   });
-  await caso('C10', 'Las reacciones de los 49 objetos se dibujan sin errores', async (p) => {
+  await caso('C10', 'Las reacciones de los objetos se dibujan sin errores', async (p) => {
     await p.evaluate(() => {
       const S = __cl.S;
       S.temas = {};
       for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
       S.rooms = 7;
-      for (const it of SHOP)
-        if (!it.slot) {
-          S.owned[it.id] = 1;
-          placeHome(it.id);
-        }
       __cl.go('casaTito', {});
     });
     await p.waitForTimeout(800);
     const ids = await p.evaluate(() => SHOP.filter((it) => !it.slot && it.cat !== 'vales').map((it) => it.id));
     for (const id of ids) {
       await p.evaluate((id) => {
-        const sc = __cl.scene,
-          o = S.home[id];
+        const sc = __cl.scene;
+        S.home = {};
+        S.owned[id] = 1;
+        placeHome(id);
+        const o = S.home[id];
         sc.room = homeRoom(id);
         sc.irA(id);
         sc.paseoTok++;
@@ -706,13 +705,15 @@ const temas = (n) => {
         const sc = __cl.scene,
           i = ENTRADAS_ALBUM.indexOf('telescopio');
         sc.down(230 + (i % 8) * 163, 230 + Math.floor(i / 8) * 160);
-        sc.down(1490, 470);
-        const j = ENTRADAS_ALBUM.indexOf('mesa+silla') - POR_PAGINA;
+        const entrada = ENTRADAS_ALBUM.indexOf('mesa+silla');
+        const pagina = Math.floor(entrada / POR_PAGINA);
+        for (let n = 0; n < pagina; n++) sc.down(1490, 470);
+        const j = entrada % POR_PAGINA;
         sc.down(230 + (j % 8) * 163, 230 + Math.floor(j / 8) * 160);
-        return [sc.pag, ENTRADAS_ALBUM.length, window.__said.join(' | ')];
+        return [sc.pag === pagina && pagina > 0, ENTRADAS_ALBUM.length, window.__said.join(' | ')];
       });
-      // 49 objetos y 27 combinaciones (14 de la fase C7 y 13 de la M3b de PLAN-CASA-MEJORA.md)
-      if (r[0] !== 1 || r[1] !== 76) return 'páginas: ' + JSON.stringify(r);
+      // 57 objetos (los 49 anteriores y los 8 nuevos) y 27 combinaciones.
+      if (!r[0] || r[1] !== 84) return 'páginas: ' + JSON.stringify(r);
       if (!/telescopio.*Me siento a la mesa/.test(r[2])) return 'Tito dice: ' + r[2];
     },
   );
@@ -816,13 +817,14 @@ const temas = (n) => {
           sinSitio: fuera.filter((id) => !S.home[id].h),
           repetidos: hs.filter((h, i) => hs.indexOf(h) !== i),
           salon: homeItems('salon').length,
+          total: SHOP.filter((it) => !it.slot).length,
           baul: baulItems().length,
           nuevos: baulNuevos().length,
           dice: (window.__said || []).join(' | '),
         };
       });
       if (r.sinSitio.length || r.repetidos.length) return 'sitios: ' + JSON.stringify(r);
-      if (r.salon < 10 || r.salon > 20 || r.salon + r.baul !== 55) return 'reparto: ' + JSON.stringify(r);
+      if (r.salon < 10 || r.salon > 20 || r.salon + r.baul !== r.total) return 'reparto: ' + JSON.stringify(r);
       if (r.nuevos) return 'lo que ya había sale como nuevo en el baúl: ' + r.nuevos;
       if (!/guardado en mi baúl/.test(r.dice)) return 'Tito dice: ' + r.dice;
     },
@@ -1495,6 +1497,60 @@ const temas = (n) => {
       return t.includes('gran tesoro') ? null : 'tocar el cofre dice: ' + t;
     },
   );
+
+  await caso('C42', 'Compra desde el catálogo y recogida de toda la casa con confirmación', async (p) => {
+    const articulo = await p.evaluate(() => {
+      S.coins = 100;
+      S.owned.mesa = S.owned.cactus = 1;
+      S.home = {
+        mesa: { x: 640, y: 650, r: 'salon', h: 'salon:grande1' },
+        cactus: { x: 900, y: 775, r: 'jardin', h: 'jardin:suelo1' },
+      };
+      S.casaVistos = { mesa: 1, cactus: 1 };
+      S.sorpresas = { mesa: 1 };
+      S.unlockAll = true;
+      __cl.go('tienda', {});
+      const sc = __cl.scene;
+      sc.cat = 'juguetes';
+      for (sc.page = 0; sc.page < sc.pages(); sc.page++) {
+        const casilla = sc.grid().find((g) => g.it.id === 'camion');
+        if (casilla) return { x: casilla.x, y: casilla.y, precio: casilla.it.p };
+      }
+      return null;
+    });
+    if (!articulo) return 'no aparece el camión en Juguetes';
+    await p.waitForFunction(() => VIVO.fade === 0);
+    await L.clic(p, articulo.x, articulo.y);
+    const elegido = await p.evaluate(() => __cl.scene.conf?.id);
+    if (elegido !== 'camion') return 'confirmación de compra: ' + elegido;
+    await p.waitForFunction(() => T - __cl.scene.confT >= 0.3);
+    await L.clic(p, 680, 690);
+    const compra = await p.evaluate(() => [S.coins, S.owned.camion, S.home.camion?.r, !!S.home.camion?.h]);
+    if (compra.join() !== [100 - articulo.precio, 1, 'baul', false].join()) return 'compra: ' + compra;
+    await L.clic(p, 1240, 70);
+    await p.waitForFunction(() => sceneName === 'casaTito' && VIVO.fade === 0);
+    const boton = await p.evaluate(() => GUARDA_TODO);
+    await L.clic(p, boton.x, boton.y);
+    const antes = await p.evaluate(() => [S.home.mesa.r, S.home.cactus.r]);
+    if (antes.join() !== 'salon,jardin') return 'recogió sin confirmar: ' + antes;
+    await L.clic(p, boton.x, boton.y);
+    const tras = await p.evaluate(() => [
+      homeItems().length,
+      baulItems().sort().join(' '),
+      baulNuevos().join(),
+      S.sorpresas.mesa,
+      S.coins,
+    ]);
+    if (tras.join() !== [0, 'cactus camion mesa', 'camion', 1, 100 - articulo.precio].join())
+      return 'casa recogida: ' + tras;
+    await p.reload();
+    await p.waitForFunction(() => typeof window.__cl?.go === 'function');
+    const recarga = await p.evaluate(() => {
+      __cl.go('casaTito', {});
+      return [homeItems().length, baulItems().length, S.owned.camion];
+    });
+    return recarga.join() === '0,3,1' ? null : 'tras recargar: ' + recarga;
+  });
 
   R.guardar();
   await b.close();

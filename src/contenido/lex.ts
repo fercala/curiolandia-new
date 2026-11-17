@@ -52,6 +52,8 @@ Object.assign(LEX, {
   metro: 'el metro',
   camion: 'el camión',
   lupa: 'la lupa',
+  maceta: 'la maceta',
+  paraguas: 'el paraguas',
   campana: 'la campana',
   tambor: 'el tambor',
   perfume: 'el perfume',

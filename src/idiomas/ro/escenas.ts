@@ -491,8 +491,8 @@ export const ESCENAS_RO: Readonly<Record<string, string>> = {
   '¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.':
     'Ai cumpărat tichetul! {vale}. Arată-l unui adult din familie ca să-l folosești.',
   '¡Es tuyo! ¡Mira qué bonito le queda a Tito!': 'E al tău! Uite ce frumos îi stă lui Tito!',
-  '¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.':
-    'E al tău! E deja în casa lui Tito. Atinge căsuța de sus ca să-l vezi.',
+  '¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.':
+    'E al tău! Este în cufăr. Atinge căsuța de sus ca să-l vezi.',
   // mundo3d: los carteles y lo que se dice al tocar el cielo
   SOL: 'SOARE',
   'Buenos días.': 'Bună dimineața.',
