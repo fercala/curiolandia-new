@@ -2198,6 +2198,32 @@ La ardilla guarda comida para el invierno. ¡Vamos a contar lo que tiene!
 ¿Sabes una cosa? La ardilla esconde bellotas en muchos sitios, ¡y a veces se le olvida dónde las ha puesto!
 Para acabar, vamos a hacer un mural con todo lo que hemos visto en el bosque.
 ¿Sabes una cosa? Con las hojas secas del otoño se pueden hacer dibujos muy bonitos.
+El mercado
+Carmen
+La lista de la compra
+La báscula
+Comprar el pan
+La pescadería
+Pagar en la caja
+¡Hola! Soy Carmen, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.
+Aquí tenemos la lista de la compra. ¡Vamos a buscar la fruta en la frutería!
+¿Sabes una cosa? La fruta de cada estación es la más rica: en otoño, las uvas, y en verano, la sandía.
+Con la báscula sabemos lo que pesa la fruta. ¿Qué pesa más?
+¿Sabes una cosa? Lo grande no siempre pesa más: ¡un globo es grande y no pesa casi nada!
+¿Qué pesa más?
+¡Sí! {Cosa} pesa más.
+No, esa pesa menos. ¿Qué pesa más?
+¡Qué bien huele la panadería! Vamos a comprar pan. Hay que pagar con monedas.
+¿Sabes una cosa? Cuando pagamos, damos el dinero y nos llevamos lo que compramos.
+El pan cuesta {n} euros. Mete {n} monedas en la caja.
+Has pagado {n} euros. ¡Aquí tienes el pan!
+En la pescadería, el pescado está en el hielo para que esté fresquito. ¡Vamos a contarlo!
+¿Sabes una cosa? El pescado viene del mar en barcos de pesca, muy temprano por la mañana.
+Ya tenemos toda la compra. Ahora vamos a pagar. ¡Hay que contar bien el dinero!
+¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos devuelven lo que sobra: es la vuelta.
+Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?
+¡Sí! Nos devuelven {n}.
+No. Cuenta las monedas que sobran.
 
 Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.
 ¡Llegaste a la meta!

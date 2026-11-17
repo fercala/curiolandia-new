@@ -28,7 +28,7 @@ export const ACTIVIDADES_EXTRAS_RO = {
   'Leer de nuevo': 'Citește din nou',
   'Otra vez': 'Încă o dată',
   'Volver a la casita': 'Înapoi la căsuță',
-  'El mercado': 'Piața',
+  'Practicar la compra': 'Exersează cumpărăturile',
   'Pon en la cesta la fruta de la lista.': 'Pune în coș fructul de pe listă.',
   'Pagar con una ficha': 'Plătește cu un jeton',
   '¡Compra hecha!': 'Ai terminat cumpărăturile!',

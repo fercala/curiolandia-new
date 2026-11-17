@@ -134,6 +134,13 @@ const ESCENAS_RO = [
   'bosqueSonidos',
   'bosqueArdilla',
   'bosqueMural',
+  // desde la P22, el mercado y sus cinco paradas
+  'excursion:mercado',
+  'mercadoLista',
+  'mercadoBascula',
+  'mercadoPan',
+  'mercadoPescado',
+  'mercadoCaja',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).

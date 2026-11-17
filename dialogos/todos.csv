@@ -633,6 +633,13 @@ e485229694b3,Las hojas de colores,trozo,src/contenido/excursiones.ts
 bc9b6ffc5d62,Los sonidos del bosque,trozo,src/contenido/excursiones.ts
 ddcf0bdb8355,La despensa de la ardilla,trozo,src/contenido/excursiones.ts src/temas/temas4.ts
 6b00f14144dd,El mural del otoño,trozo,src/contenido/excursiones.ts
+50f4dea80688,El mercado,trozo,src/contenido/excursiones.ts src/escenas/mercadoPractica.ts
+7641b5b1c727,Carmen,trozo,src/contenido/excursiones.ts
+624e2c64ab07,La lista de la compra,trozo,src/contenido/excursiones.ts
+ad84fd815b00,La báscula,trozo,src/contenido/excursiones.ts
+7962049d1867,Comprar el pan,trozo,src/contenido/excursiones.ts
+3c663e446782,La pescadería,trozo,src/contenido/excursiones.ts
+00b94fe3697f,Pagar en la caja,trozo,src/contenido/excursiones.ts
 eef5e5e9d7f8,Mum,trozo,src/contenido/ingles.ts
 48418f32fc2d,Mamá,trozo,src/contenido/ingles.ts
 cb525f817e00,Dad,trozo,src/contenido/ingles.ts
@@ -892,6 +899,8 @@ dd4a21840b55,el cuidador,nombre,src/contenido/lex.ts
 73ae03336f74,la buceadora,nombre,src/contenido/lex.ts
 13201afffc9f,el paleontólogo,nombre,src/contenido/lex.ts
 99fb17adc36b,el guardabosques,nombre,src/contenido/lex.ts
+2fce2e558bad,la frutera,nombre,src/contenido/lex.ts
+9aa89530cce4,el euro,nombre,src/contenido/lex.ts
 f7f37fe70c49,el delfín,nombre,src/contenido/lex.ts
 62fd85bfb3a4,el cangrejo,nombre,src/contenido/lex.ts
 392231973151,el peluquero,nombre,src/contenido/lex.ts
@@ -1904,11 +1913,11 @@ d4fda45f4254,Álbum,trozo,src/escenas/excursion.ts src/aplicacion/adultos/copia.
 773c440fc57f,¡Sube al autobús{nino}! ¿Adónde nos vamos de excursión? Toca un cartel.,frase,src/escenas/excursion.ts
 a4c59ff8ba33,El álbum de excursiones.,frase,src/escenas/excursion.ts
 684b61148825,¡Nos vamos de excursión!,frase,src/escenas/excursion.ts
-50f4dea80688,El mercado,trozo,src/escenas/excursion.ts src/escenas/mercado.ts
 35a442ff6b53,¡{Excursion} está en obras! Muy pronto podremos ir.,trozo,src/escenas/excursion.ts
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!",frase,src/escenas/excursion.ts
 f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
+0521b97c1729,"¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.",frase,src/escenas/excursion.ts
 1fad0af05679,"¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.",frase,src/escenas/excursion.ts
 0692f5ce89a1,"¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.",frase,src/escenas/excursion.ts
 3812a3f93494,"¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.",frase,src/escenas/excursion.ts
@@ -1917,6 +1926,7 @@ f3a647003ebe,¡Patata!,frase,src/escenas/excursion.ts
 850a40687e76,"¡Hola{nino}! Soy {guia}, la granjera. ¡Bienvenido a la granja escuela! Hoy vas a ayudarme a cuidar a los animales.",frase,src/escenas/excursion.ts
 41b12a8a9434,Toca la casa para volver al cole.,frase,src/escenas/excursion.ts
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,frase,src/escenas/excursion.ts
+62b6c5e80991,Practicar la compra,trozo,src/escenas/excursion.ts
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,trozo,src/escenas/excursion.ts
 7ea82df74642,Flota,trozo,src/escenas/flota.ts
 f57a7921f6d5,Se hunde,trozo,src/escenas/flota.ts
@@ -2018,17 +2028,35 @@ d9cb034d851e,Elige un juego corto.,frase,src/escenas/juegosCortos.ts
 f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts
 d5928579516d,¡Llegaste a la meta!,frase,src/escenas/laberinto.ts
 f9bf8d050287,Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.,frase,src/escenas/laberinto.ts
-4a0523f29586,Otra vez,trozo,src/escenas/laberinto.ts src/escenas/mercado.ts
+4a0523f29586,Otra vez,trozo,src/escenas/laberinto.ts src/escenas/mercadoPractica.ts
 4a117af24ff3,Este es tu libro de letras. Ya conoces 1 letra.,frase,src/escenas/libroLetras.ts
 2482d82c1265,Este es tu libro de letras. Ya conoces {n} letras.,frase,src/escenas/libroLetras.ts
 a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 9324da358388,{Letra} de {amigo}.,trozo,src/escenas/libroLetras.ts src/temas/letras.ts
-563bfcc142e0,Pon en la cesta la fruta de la lista.,frase,src/escenas/mercado.ts
-3b686947da97,Pagar con una ficha,trozo,src/escenas/mercado.ts
-8ce7478b0943,¡Compra hecha!,frase,src/escenas/mercado.ts
-5a858c14e404,Mira el siguiente dibujo de la lista.,frase,src/escenas/mercado.ts
+892b70c3da96,Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?,frase,src/escenas/mercado.ts
+f95fddbecbef,¡Sí! Nos devuelven {n}.,frase,src/escenas/mercado.ts
+c4d7d8e09119,No. Cuenta las monedas que sobran.,frase,src/escenas/mercado.ts
+d76f7c972fd9,Aquí tenemos la lista de la compra. ¡Vamos a buscar la fruta en la frutería!,frase,src/escenas/mercado.ts
+d44781d02290,"¿Sabes una cosa? La fruta de cada estación es la más rica: en otoño, las uvas, y en verano, la sandía.",frase,src/escenas/mercado.ts
+22e23bccde53,Con la báscula sabemos lo que pesa la fruta. ¿Qué pesa más?,frase,src/escenas/mercado.ts
+77abd9d02e7d,¿Sabes una cosa? Lo grande no siempre pesa más: ¡un globo es grande y no pesa casi nada!,frase,src/escenas/mercado.ts
+a6b905b480f9,¿Qué pesa más?,frase,src/escenas/mercado.ts
+9e6e0e317110,¡Sí! {Cosa} pesa más.,frase,src/escenas/mercado.ts
+481b0cc5d569,"No, esa pesa menos. ¿Qué pesa más?",frase,src/escenas/mercado.ts
+13f1cf23310b,¡Qué bien huele la panadería! Vamos a comprar pan. Hay que pagar con monedas.,frase,src/escenas/mercado.ts
+b4d2867cbfeb,"¿Sabes una cosa? Cuando pagamos, damos el dinero y nos llevamos lo que compramos.",frase,src/escenas/mercado.ts
+ca8217c95460,El pan cuesta {n} euros. Mete {n} monedas en la caja.,frase,src/escenas/mercado.ts
+477d7df1972b,Has pagado {n} euros. ¡Aquí tienes el pan!,frase,src/escenas/mercado.ts
+3e5a378da14b,"En la pescadería, el pescado está en el hielo para que esté fresquito. ¡Vamos a contarlo!",frase,src/escenas/mercado.ts
+3c96489ca9eb,"¿Sabes una cosa? El pescado viene del mar en barcos de pesca, muy temprano por la mañana.",frase,src/escenas/mercado.ts
+90ac4bca9c1f,Ya tenemos toda la compra. Ahora vamos a pagar. ¡Hay que contar bien el dinero!,frase,src/escenas/mercado.ts
+f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos devuelven lo que sobra: es la vuelta.",frase,src/escenas/mercado.ts
+563bfcc142e0,Pon en la cesta la fruta de la lista.,frase,src/escenas/mercadoPractica.ts
+3b686947da97,Pagar con una ficha,trozo,src/escenas/mercadoPractica.ts
+8ce7478b0943,¡Compra hecha!,frase,src/escenas/mercadoPractica.ts
+5a858c14e404,Mira el siguiente dibujo de la lista.,frase,src/escenas/mercadoPractica.ts
 e3d8f426d44a,Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.,frase,src/escenas/museo.ts
 c83503444115,Toca las huellas una a una para contar los pasos.,frase,src/escenas/museo.ts
 aeb81513b171,¿Cuál es el más largo? Tócalo.,frase,src/escenas/museo.ts

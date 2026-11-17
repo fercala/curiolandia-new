@@ -28,7 +28,7 @@
 // del mapa y la vitrina), y desde la P15, fotos.ts (la cámara de fotos y el álbum de fotos); desde la P16, aventura.ts (la gran aventura de
 // Tito), y desde la P17, zoo.ts (los recintos de la excursión al zoo), y desde la P18, acuario.ts (las salas del acuario), y desde la P19, museo.ts
 // (las salas del museo de los dinosaurios), y desde la P20, ciudad.ts (las paradas de la excursión a la ciudad), y desde la P21,
-// bosque.ts (las paradas del bosque de otoño).
+// bosque.ts (las paradas del bosque de otoño), y desde la P22, mercado.ts (las paradas del mercado).
 // src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
@@ -70,6 +70,7 @@ export * from './acuario.ts';
 export * from './museo.ts';
 export * from './ciudad.ts';
 export * from './bosque.ts';
+export * from './mercado.ts';
 export * from './albumExcursiones.ts';
 export * from './deporte.ts';
 export * from './deportePruebas.ts';
@@ -89,4 +90,4 @@ export * from './aventura.ts';
 export * from './laberinto.ts';
 export * from './flota.ts';
 export * from './cuentoDecisiones.ts';
-export * from './mercado.ts';
+export * from './mercadoPractica.ts';

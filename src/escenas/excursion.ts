@@ -10,7 +10,7 @@
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
- * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad, y desde la P21 el del bosque, fondoBosque) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
+ * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad, y desde la P21 el del bosque, fondoBosque, y desde la P22 el del mercado, fondoMercado) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
@@ -19,7 +19,7 @@
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
 import { botonExtra, tocaExtra } from './botonesExtras.ts';
-import { BOTON_MERCADO } from './mercado.ts';
+import { BOTON_MERCADO } from './mercadoPractica.ts';
 import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import {
   H,
@@ -507,14 +507,56 @@ export function fondoBosque(): void {
   });
 }
 
-// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad, el del bosque o el
-// de la granja (desde la fase P17; el álbum también lo usa).
+// puesto(x, w, toldo, cosas): un puesto del mercado en x, de ancho w: el mostrador de madera, el toldo de rayas blancas
+// y de color toldo, y encima lo que vende (cosas, dibujos).
+function puesto(x: number, w: number, toldo: string, cosas: readonly string[]): void {
+  card(x, 330, w, 140, '#C98A4B', 5, 8);
+  [x + 14, x + w - 24].forEach((px) => card(px, 120, 10, 220, '#8A5A3C', 4, 3));
+  const n = 6,
+    a = (w + 20) / n;
+  Array.from({ length: n }, (_, i) => i).forEach((i) =>
+    card(x - 10 + i * a, 80, a, 70, i % 2 ? '#FFFFFF' : toldo, 4, 0),
+  );
+  cosas.forEach((k, i) => pic(k, x + ((i + 0.5) * w) / cosas.length, 315, 90));
+}
+
+// fondoMercado(): el mercado (desde la fase P22): el cielo, la frutería (toldo verde), la panadería (toldo naranja) y
+// la pescadería (toldo azul) con lo que venden, el suelo de baldosas y unos globos de colores que se mecen (con T).
+export function fondoMercado(): void {
+  cielo('#BFE3FF', '#FFF3DC', 470);
+  ctx.save();
+  ctx.fillStyle = '#E8D8BE';
+  ctx.fillRect(0, 470, W, H - 470);
+  ctx.strokeStyle = 'rgba(122,106,82,0.25)';
+  ctx.lineWidth = 3;
+  [560, 680, 820].forEach((y) => {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  });
+  ctx.restore();
+  puesto(80, 420, '#5FC77A', ['manzana', 'banana', 'sandia', 'uva']);
+  puesto(590, 420, '#FFA94D', ['pan', 'pan', 'pan']);
+  puesto(1100, 420, '#5BB8E6', ['pez', 'pulpo', 'cangrejo']);
+  // los globos de colores colgados entre los puestos
+  [
+    [530, '#FF6B5E'],
+    [565, '#FFC93C'],
+    [1040, '#7CC86E'],
+    [1075, '#5B8DEF'],
+  ].forEach(([x, c], i) => circ(x as number, 60 + Math.sin(T * 2 + i) * 6, 22, c as string, 4));
+}
+
+// fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad, el del bosque, el
+// del mercado o el de la granja (desde la fase P17; el álbum también lo usa).
 export function fondoDe(e: Excursion): void {
   if (e.id === 'zoo') fondoZoo();
   else if (e.id === 'acuario') fondoAcuario();
   else if (e.id === 'museo') fondoMuseo();
   else if (e.id === 'ciudad') fondoCiudad();
   else if (e.id === 'bosque') fondoBosque();
+  else if (e.id === 'mercado') fondoMercado();
   else fondoGranja();
 }
 
@@ -530,6 +572,11 @@ export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, num
     ['delfin', -240, 30, 200],
     ['pulpo', 240, 90, 150],
     ['estrellaMar', 140, 110, 90],
+  ],
+  mercado: [
+    ['sandia', -240, 50, 180],
+    ['pan', 240, 70, 150],
+    ['euro', 130, 110, 90],
   ],
   bosque: [
     ['ardilla', -240, 40, 180],
@@ -577,9 +624,9 @@ interface Destino {
   readonly h: number;
 }
 // DESTINOS: los carteles del autobús, uno por excursión, en fila y centrados (desde la P19 caben cinco: los carteles se
-// estrechan para que quepan todos con 40 de margen).
+// estrechan para que quepan todos con 40 de margen; desde la P22, con más de seis, se separan menos).
 export const DESTINOS: readonly Destino[] = EXCURSIONES.map((e, i, todas) => {
-  const sep = 50,
+  const sep = todas.length > 6 ? 26 : 50,
     w = Math.min(300, (W - 80 - (todas.length - 1) * sep) / todas.length),
     ancho = todas.length * w + (todas.length - 1) * sep;
   return { e, x: (W - ancho) / 2 + i * (w + sep), y: 230, w, h: 330 };
@@ -656,14 +703,11 @@ SCENES['autobus'] = {
     const d = DESTINOS.find((x) => 'bus:' + x.e.id === id);
     if (d) say(d.e.nombre + '.');
   },
-  // update(): al acabar el viaje, abre la excursión elegida o el puesto del mercado.
+  // update(): en el viaje, el motor suena de vez en cuando; a los 5 segundos se llega.
   update() {
     if (bus.fase !== 'viaje') return;
     VIVO.idle = 0;
-    if (T - bus.t0 > 5.5 && sceneName === 'autobus') {
-      if (bus.destino === 'mercadoCole') go('mercadoCole');
-      else go('excursion', { exc: bus.destino, hello: true });
-    }
+    if (T - bus.t0 > 5.5 && sceneName === 'autobus') go('excursion', { exc: bus.destino, hello: true });
   },
   // draw(): eligiendo, los carteles (los que aún no tienen estaciones, en gris con «¡Muy pronto!») sobre la carretera y
   // el autobús parado; viajando, el autobús va dando botes por la carretera con el paisaje pasando.
@@ -691,10 +735,7 @@ SCENES['autobus'] = {
         ctx.restore();
       });
     else text('¡Nos vamos de excursión!', W / 2, 160, 56, '#4A3B2A');
-    if (!viaje) {
-      dibujaBotonAlbum();
-      botonExtra(BOTON_MERCADO, 'El mercado');
-    }
+    if (!viaje) dibujaBotonAlbum();
     drawHome();
     drawCoinHUD();
     if (!viaje) drawTito(60, 640, 200);
@@ -718,11 +759,7 @@ SCENES['autobus'] = {
       go('albumExcursiones');
       return;
     }
-    if (tocaExtra(BOTON_MERCADO, x, y)) {
-      SFX.pop();
-      Object.assign(bus, { fase: 'viaje', destino: 'mercadoCole', t0: T });
-      return;
-    }
+
     const d = DESTINOS.find((z) => enDestino(z, x, y));
     if (!d) {
       SFX.tap();
@@ -854,8 +891,13 @@ function hacerFoto(): void {
 // bienvenida(e): lo que dice el guía de la excursión e la primera vez que se va: la granjera Rosa en la granja y, desde
 // la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario, y desde la P19, el
 // paleontólogo Pablo en el museo de los dinosaurios, y desde la P20, la bombera Lucía en la ciudad, y desde la P21, el
-// guardabosques Hugo en el bosque de otoño.
+// guardabosques Hugo en el bosque de otoño, y desde la P22, la frutera Carmen en el mercado.
 function bienvenida(e: Excursion): string {
+  if (e.id === 'mercado')
+    return fmt(
+      '¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.',
+      { nino: kid(), guia: e.nombreGuia },
+    );
   if (e.id === 'bosque')
     return fmt(
       '¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.',
@@ -959,6 +1001,7 @@ SCENES['excursion'] = {
     drawHome();
     drawCoinHUD();
     if (exc.foto < 0) dibujaCamara(); // desde la fase P15, la cámara de fotos (para los animales que pasean)
+    if (e.id === 'mercado' && exc.foto < 0 && !camaraActiva()) botonExtra(BOTON_MERCADO, 'Practicar la compra');
   },
   // down(x, y): casa -> el cole; monedas -> tienda; una estación jugable -> su escena; una «muy pronto» -> el guía lo
   // dice; la cámara (desde la P15: su botón la enciende y, encendida, un toque a un animal le hace una foto); la
@@ -983,6 +1026,10 @@ SCENES['excursion'] = {
       const f = fotoDeMarca((m) => m === animalEn(x, y));
       if (f) hacerFotoDe(f.id, x, y);
       else disparoVacio(x, y);
+      return;
+    }
+    if (exc.id === 'mercado' && tocaExtra(BOTON_MERCADO, x, y)) {
+      go('mercadoCole');
       return;
     }
     const s = excursionActual().estaciones.find((z) => dist(x, y, z.x, z.y) < sitioEstacion(z).r);

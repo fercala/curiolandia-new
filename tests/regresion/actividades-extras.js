@@ -88,7 +88,14 @@ async function caso(p, idioma) {
   await p.evaluate(() => closeAdult());
 
   await ir('autobus');
-  await tocar(800, 670);
+  const cartelMercado = await p.evaluate(() => {
+    const d = DESTINOS.find(({ e }) => e.id === 'mercado');
+    return [d.x + d.w / 2, d.y + d.h / 2];
+  });
+  await tocar(...cartelMercado);
+  await escena('excursion');
+  assert.equal(await p.evaluate(() => sceneArg.exc), 'mercado');
+  await tocar(800, 205);
   await escena('mercadoCole');
   await tocar(520, 465);
   await tocar(800, 465);
@@ -101,7 +108,8 @@ async function caso(p, idioma) {
     ),
   );
   await tocar(90, 90);
-  await escena('autobus');
+  await escena('excursion');
+  assert.equal(await p.evaluate(() => sceneArg.exc), 'mercado');
 
   assert.equal(await p.evaluate(() => JSON.stringify([__cl.S.coins, __cl.S.temas, __cl.S.cole, __cl.S.exc])), antes);
   assert.deepEqual(p.errs, []);

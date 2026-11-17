@@ -9,7 +9,8 @@
  * (idea 4), con Pablo el paleontólogo y cinco salas (escenas/museo.ts). Desde la P20, la ciudad (idea 5), con
  * Lucía la bombera: el parque de bomberos, la panadería, el centro de salud y la calle (escenas/ciudad.ts). Desde la P21, el
  * bosque de otoño (idea 6), con Hugo el guardabosques: las hojas, las huellas, los sonidos, la ardilla y el mural
- * (escenas/bosque.ts). Una excursión sin estaciones saldría en el autobús como «¡Muy pronto!».
+ * (escenas/bosque.ts). Desde la P22, el mercado (idea 7), con
+ * Carmen la frutera: la lista de la compra, la báscula, el pan, la pescadería y la caja (escenas/mercado.ts). Una excursión sin estaciones saldría en el autobús como «¡Muy pronto!».
  * Es CONTENIDO: solo datos, sin dibujo ni S. Las reglas, en dominio/excursiones.ts. Pruebas: tests/unidad/excursiones.test.ts.
  * Exporta: EXCURSIONES y excursionPorId.
  * Importa: el tipo Excursion de dominio/excursiones.ts.
@@ -132,6 +133,20 @@ export const EXCURSIONES: readonly Excursion[] = [
         y: 560,
       },
       { id: 'mural', nombre: 'El mural del otoño', escena: 'bosqueMural', icono: 'hojaNaranja', x: 1180, y: 330 },
+    ],
+  },
+  {
+    id: 'mercado',
+    nombre: 'El mercado',
+    icono: 'sandia',
+    guia: 'frutera',
+    nombreGuia: 'Carmen',
+    estaciones: [
+      { id: 'lista', nombre: 'La lista de la compra', escena: 'mercadoLista', icono: 'manzana', x: 330, y: 560 },
+      { id: 'bascula', nombre: 'La báscula', escena: 'mercadoBascula', icono: 'sandia', x: 640, y: 700 },
+      { id: 'pan', nombre: 'Comprar el pan', escena: 'mercadoPan', icono: 'pan', x: 960, y: 700 },
+      { id: 'pescado', nombre: 'La pescadería', escena: 'mercadoPescado', icono: 'pez', x: 1260, y: 560 },
+      { id: 'caja', nombre: 'Pagar en la caja', escena: 'mercadoCaja', icono: 'euro', x: 1180, y: 330 },
     ],
   },
 ];
