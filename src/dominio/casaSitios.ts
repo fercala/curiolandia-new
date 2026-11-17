@@ -65,7 +65,7 @@ export interface Plano {
 // EN_BAUL: el valor de r de un objeto guardado en el baúl de Tito (sin sitio). Lo usa la escena desde la fase M2.
 export const EN_BAUL = 'baul';
 
-// TAMANOS: el tamaño de cada uno de los 55 objetos de la casa (los de la tienda sin slot, también las mascotas). Los
+// TAMANOS: el tamaño de cada uno de los objetos de la casa (los de la tienda sin slot, también las mascotas). Los
 // grandes son los muebles y lo que mide 240 o más en HSIZE (escenas/tienda.ts); los pequeños, lo que puede ir encima
 // de una mesa o una balda; los de pared, los que hoy van colgados (WALLITEMS). Lo comprueba casaSitios.test.ts.
 export const TAMANOS: Readonly<Record<string, TamanoObjeto>> = {
@@ -103,6 +103,10 @@ export const TAMANOS: Readonly<Record<string, TamanoObjeto>> = {
   regadera: 'pequeno',
   tarta: 'pequeno',
   pecera: 'pequeno',
+  campana: 'pequeno',
+  lupa: 'pequeno',
+  maceta: 'pequeno',
+  calabaza: 'pequeno',
   // medianos: en el suelo
   farol: 'mediano',
   plantaInterior: 'mediano',
@@ -129,6 +133,10 @@ export const TAMANOS: Readonly<Record<string, TamanoObjeto>> = {
   gato: 'mediano',
   pajaro: 'mediano',
   conejo: 'mediano',
+  maleta: 'mediano',
+  paraguas: 'mediano',
+  camion: 'mediano',
+  cactus: 'mediano',
 };
 
 // SITIOS_FIJOS: los sitios de una habitación, los mismos en las 7: 3 grandes al fondo del suelo, 5 normales delante, 4
@@ -283,7 +291,7 @@ function guardaEncima(plano: Plano, casa: Casa, mueble: string, nuevoH?: string)
 }
 
 // alBaul(p): la posición p guardada en el baúl: r = EN_BAUL y sin sitio (x e y se quedan, por si algo las lee).
-function alBaul(p: PosCasa): PosCasa {
+export function alBaul(p: PosCasa): PosCasa {
   return { x: p.x, y: p.y, r: EN_BAUL };
 }
 

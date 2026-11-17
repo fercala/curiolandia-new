@@ -52,7 +52,7 @@ describe('los objetos de la casa', () => {
     expect(sinMascotas.filter((id) => !reaccionDe(id))).toEqual([]);
     expect(Object.keys(REACCIONES).filter((id) => !sinMascotas.includes(id))).toEqual([]);
     expect(MASCOTAS.filter((id) => !casa.includes(id))).toEqual([]);
-    expect(Object.keys(REACCIONES)).toHaveLength(49);
+    expect(Object.keys(REACCIONES)).toHaveLength(sinMascotas.length);
   });
 
   test('cada objeto con reacción tiene su frase (contenido/casa.ts) y no sobra ninguna (fase C2)', () => {
@@ -128,7 +128,7 @@ describe('el álbum de sorpresas', () => {
   });
 
   test('se cuentan solo las que existen; el total es objetos más combinaciones', () => {
-    expect(TOTAL_SORPRESAS).toBe(49 + COMBINACIONES.length);
+    expect(TOTAL_SORPRESAS).toBe(Object.keys(REACCIONES).length + COMBINACIONES.length);
     expect(cuantasSorpresas({ piano: 1, 'pato+banera': 1, viejo: 1, 'banera+pato': 1 })).toBe(2);
   });
 });

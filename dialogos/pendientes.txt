@@ -2238,3 +2238,15 @@ Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.
 Pon en la cesta la fruta de la lista.
 ¡Compra hecha!
 Mira el siguiente dibujo de la lista.
+
+¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.
+¿Guardamos todo en el baúl? Toca otra vez para confirmar.
+¡Ya está todo guardado en el baúl!
+¿Qué llevo en mi maleta?
+¡Con mi paraguas no me mojo!
+¡Escucha cómo suena mi campana!
+¡Con la lupa todo parece más grande!
+¡Mi camión lleva una carga!
+¡En esta maceta podemos plantar una semilla!
+¡Mi cactus tiene pinchos!
+¡Qué redonda es mi calabaza!

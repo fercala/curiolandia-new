@@ -72,6 +72,14 @@ export const FRASES_CASA: Readonly<Record<string, string>> = {
   columpio: '¡Más alto, más alto!',
   castillo: '¡Mi castillo ya tiene bandera!',
   piscina: '¡Al agua, patos!',
+  maleta: '¿Qué llevo en mi maleta?',
+  paraguas: '¡Con mi paraguas no me mojo!',
+  campana: '¡Escucha cómo suena mi campana!',
+  lupa: '¡Con la lupa todo parece más grande!',
+  camion: '¡Mi camión lleva una carga!',
+  maceta: '¡En esta maceta podemos plantar una semilla!',
+  cactus: '¡Mi cactus tiene pinchos!',
+  calabaza: '¡Qué redonda es mi calabaza!',
 };
 
 /** Un sitio del mundo de la escena Vuelta al mundo (el globo terráqueo): su nombre, sus dibujos (claves de PICS), el

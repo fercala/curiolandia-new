@@ -83,6 +83,14 @@ d75b16331d5c,¡A regar el jardín!,Hai să udăm grădina!,frase,src/contenido/c
 7be035253169,"¡Más alto, más alto!","Mai sus, mai sus!",frase,src/contenido/casa.ts,borrador
 edea8e35ad92,¡Mi castillo ya tiene bandera!,Castelul meu are acum steag!,frase,src/contenido/casa.ts,borrador
 702d0228e651,"¡Al agua, patos!","La apă, rățuște!",frase,src/contenido/casa.ts,borrador
+f6d925f32575,¿Qué llevo en mi maleta?,Ce am în valiză?,frase,src/contenido/casa.ts,borrador
+f4ddf316bc8b,¡Con mi paraguas no me mojo!,Cu umbrela mea nu mă ud!,frase,src/contenido/casa.ts,borrador
+8e8d176f6cb2,¡Escucha cómo suena mi campana!,Ascultă cum sună clopotul meu!,frase,src/contenido/casa.ts,borrador
+d67aa9fe98ae,¡Con la lupa todo parece más grande!,Cu lupa totul pare mai mare!,frase,src/contenido/casa.ts,borrador
+5c557b806acf,¡Mi camión lleva una carga!,Camionul meu duce o încărcătură!,frase,src/contenido/casa.ts,borrador
+37277b2d71d2,¡En esta maceta podemos plantar una semilla!,În ghiveciul acesta putem planta o sămânță!,frase,src/contenido/casa.ts,borrador
+fdb93fc09492,¡Mi cactus tiene pinchos!,Cactusul meu are țepi!,frase,src/contenido/casa.ts,borrador
+f01462544d27,¡Qué redonda es mi calabaza!,Ce rotund e dovleacul meu!,frase,src/contenido/casa.ts,borrador
 f13d2458f0fd,España,Spania,trozo,src/contenido/casa.ts,borrador
 8aa41e16879b,¡España! Aquí vivimos nosotros. Hay castillos y hace mucho sol.,Spania! Aici trăim noi. Sunt castele și e mult soare.,frase,src/contenido/casa.ts,borrador
 0856d9814fce,El Polo Norte,Polul Nord,trozo,src/contenido/casa.ts,borrador
@@ -919,6 +927,8 @@ fb8570237398,el globo aerostático,balonul cu aer cald,nombre,src/contenido/lex.
 4f0b5810b1c6,el metro,metroul,nombre,src/contenido/lex.ts,borrador
 c729d913ec26,el camión,camionul,nombre,src/contenido/lex.ts,borrador
 c8804516325a,la lupa,lupa,nombre,src/contenido/lex.ts,borrador
+e9bf7dc75ad2,la maceta,ghiveciul,nombre,src/contenido/lex.ts src/nucleo/idioma.ts,borrador
+21fa632eccd8,el paraguas,umbrela,nombre,src/contenido/lex.ts src/nucleo/idioma.ts,borrador
 a5a403933a91,la campana,clopotul,nombre,src/contenido/lex.ts,borrador
 94f3e14279a7,el tambor,toba,nombre,src/contenido/lex.ts,borrador
 6bd135f6caca,el perfume,parfumul,nombre,src/contenido/lex.ts,borrador
@@ -1458,6 +1468,8 @@ d11569c49cfa,¡Sorpresa nueva para el álbum!,O surpriză nouă pentru album!,fr
 fc00279183a9,¿A qué jugamos? Toca una cosa.,De-a ce ne jucăm? Atinge un lucru.,frase,src/escenas/casa.ts,borrador
 30125539ddb2,¡Vamos a jugar! ¿Con qué?,Hai să ne jucăm! Cu ce?,frase,src/escenas/casa.ts,borrador
 ab85c165b55f,¡Me encanta mi casa! ¿A qué jugamos?,Îmi place mult casa mea! De-a ce ne jucăm?,frase,src/escenas/casa.ts,borrador
+6472e231ff72,¿Guardamos todo en el baúl? Toca otra vez para confirmar.,Strângem toate lucrurile în cufăr? Atinge din nou ca să confirmi.,frase,src/escenas/casa.ts,borrador
+f87ff541f05e,¡Ya está todo guardado en el baúl!,"Gata, toate lucrurile sunt în cufăr!",frase,src/escenas/casa.ts,borrador
 b67a2d5f26ce,¿Ordeno la casa? Toca la varita otra vez.,Fac ordine în casă? Mai atinge o dată bagheta.,frase,src/escenas/casa.ts,borrador
 6b3b8d2df2fe,¡Ya está! Cada cosa en su habitación.,Gata! Fiecare lucru în camera lui.,frase,src/escenas/casa.ts,borrador
 920f2f384a96,Lo que había encima está en el baúl.,Ce era deasupra e acum în cufăr.,frase,src/escenas/casa.ts,borrador
@@ -1479,6 +1491,8 @@ b935b666ffa2,¡Ya has explotado {n} burbujas!,Ai spart deja {n} {n:de}bule!,fras
 bcf696085120,¡Ya estoy limpito y sequito! ¡Gracias!,"Gata, sunt curat și uscat! Mulțumesc!",frase,src/escenas/casaBano.ts,borrador
 4088f57103ec,¡Cuánta espuma! Ahora sécame con la toalla.,Câtă spumă! Acum șterge-mă cu prosopul.,frase,src/escenas/casaBano.ts,borrador
 0e441e949184,¡Cuánta espuma! ¡Qué limpito estoy!,Câtă spumă! Ce curat sunt!,frase,src/escenas/casaBano.ts,borrador
+2a1fc0bb8d7d,"Sí, guardar","Da, strânge",trozo,src/escenas/casaBaul.ts,borrador
+3973f2b6544c,Guardar todo,Strânge tot,trozo,src/escenas/casaBaul.ts,borrador
 35a4964e3b39,¡Has encontrado la Osa Mayor! ¿A que parece un carro?,Ai găsit Ursa Mare! Nu-i așa că seamănă cu un car?,frase,src/escenas/casaCielo.ts,borrador
 0c09b00990a8,¡Has dibujado un caracol con estrellas!,Ai desenat un melc din stele!,frase,src/escenas/casaCielo.ts,borrador
 1ad90bf4d27e,¡Qué noche tan bonita! Toca las estrellas para encenderlas.,Ce noapte frumoasă! Atinge stelele ca să le aprinzi.,frase,src/escenas/casaCielo.ts,borrador
@@ -2195,7 +2209,7 @@ f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,{Cosa} e deja al tău.
 e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,Vrei să cumperi {cosa} cu {n} {n:de}monede? Atinge verdele ca să cumperi.,frase,src/escenas/tienda.ts,borrador
 a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,Ai cumpărat tichetul! {vale}. Arată-l unui adult din familie ca să-l folosești.,frase,src/escenas/tienda.ts,borrador
 a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,E al tău! Uite ce frumos îi stă lui Tito!,frase,src/escenas/tienda.ts,borrador
-f3fee113889f,¡Es tuyo! Ya está en la casa de Tito. Toca la casita de arriba para verlo.,E al tău! E deja în casa lui Tito. Atinge căsuța de sus ca să-l vezi.,frase,src/escenas/tienda.ts,borrador
+70be5fa92b88,¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.,E al tău! Este în cufăr. Atinge căsuța de sus ca să-l vezi.,frase,src/escenas/tienda.ts,borrador
 05a9f9871aab,¡salta tres veces!,sari de trei ori!,trozo,src/escenas/titoDice.ts,borrador
 7745f6cc2488,¡da cuatro palmadas!,bate din palme de patru ori!,trozo,src/escenas/titoDice.ts,borrador
 85545d54e6fb,¡tócate la nariz!,atinge-ți nasul!,trozo,src/escenas/titoDice.ts,borrador
@@ -2785,7 +2799,6 @@ db727127b435,la cara,fața,nombre,src/nucleo/idioma.ts,borrador
 16440421074f,la ballena,balena,nombre,src/nucleo/idioma.ts,borrador
 cf4982de29c2,la castaña,castana,nombre,src/nucleo/idioma.ts,borrador
 859c40d11be3,la seta,ciuperca,nombre,src/nucleo/idioma.ts,borrador
-21fa632eccd8,el paraguas,umbrela,nombre,src/nucleo/idioma.ts,borrador
 e0f5f3abc58b,las botas de lluvia,cizmele de cauciuc,nombre,src/nucleo/idioma.ts,borrador
 1a2c1baac3d2,la lluvia,ploaia,nombre,src/nucleo/idioma.ts,borrador
 96346fd418f6,las nubes,norii,nombre,src/nucleo/idioma.ts,borrador
@@ -2827,7 +2840,6 @@ fb35cf0da7a9,el castillo de arena,castelul de nisip,nombre,src/nucleo/idioma.ts,
 c1b8c585945f,el plato,farfuria,nombre,src/nucleo/idioma.ts,borrador
 3b9d9da95339,el bol,castronul,nombre,src/nucleo/idioma.ts,borrador
 19c5d413891b,la ensalada de frutas,salata de fructe,nombre,src/nucleo/idioma.ts,borrador
-e9bf7dc75ad2,la maceta,ghiveciul,nombre,src/nucleo/idioma.ts,borrador
 dd8095efbe03,la estrella de mar,steaua de mare,nombre,src/nucleo/idioma.ts,borrador
 af7669a9b1a6,el hermano,fratele,nombre,src/nucleo/idioma.ts,borrador
 c1adabe9fc03,la hermana,sora,nombre,src/nucleo/idioma.ts,borrador

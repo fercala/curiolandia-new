@@ -6,13 +6,13 @@
 //   libres donde cabe (círculos en el suelo, marcos en la pared). Aquí solo se dibuja y se calcula dónde está cada
 //   casilla; lo que pasa al tocar y soltar lo decide la escena con los casos de uso de aplicacion/casa.ts.
 // Exporta: BAUL (el botón), BANDEJA (el rectángulo de la bandeja), ORDENA (el botón «¡Ordena, Tito!»), los tipos
-//   CasillaBaul y FlechaBaul, pestanasDe, casillasBaul, flechasBaul, dibujaBotonBaul, dibujaBandeja y dibujaSitios.
+//   GUARDA_TODO (el botón «Guardar todo»), CasillaBaul y FlechaBaul, pestanasDe, casillasBaul, flechasBaul, dibujaBotonBaul, dibujaBandeja y dibujaSitios.
 // Importa: el núcleo (ctx, card, circ, pic, text, T, hv, hC), K (el color de las líneas) y el tipo Sitio
 //   (dominio/casaSitios.ts).
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
    1600×900, como el resto de src/escenas/: los números son posiciones y tamaños en píxeles y los bucles dibujan. */
 import { K } from '../dibujos/todos.ts';
-import { T, card, circ, ctx, hC, hv, pic, text } from '../nucleo/indice.ts';
+import { T, card, circ, ctx, hC, hv, pic, text, tr } from '../nucleo/indice.ts';
 import type { Sitio } from '../dominio/casaSitios.ts';
 
 /** El botón del baúl (abajo a la derecha de la casa): centro y radio. */
@@ -20,7 +20,9 @@ export const BAUL = { x: 1530, y: 845, r: 54 };
 /** La bandeja del baúl abierta: esquina de arriba a la izquierda, ancho y alto (tapa el armario mientras está abierta). */
 export const BANDEJA = { x: 290, y: 795, w: 1170, h: 105 };
 /** El botón «¡Ordena, Tito!», dentro de la bandeja, a la derecha. */
-export const ORDENA = { x: 1392, y: 848, r: 42 };
+export const ORDENA = { x: 1405, y: 848, r: 42 };
+/** El botón «Guardar todo», entre la última flecha y la varita. */
+export const GUARDA_TODO = { x: 1310, y: 835, r: 35 };
 
 // PESTANAS: las pestañas de la bandeja: todas las cosas y una por categoría de la tienda que va a la casa (SHOPCAT en
 // escenas/tienda.ts), con su dibujo.
@@ -80,7 +82,7 @@ export function casillasBaul(
     n = paginas(L.length),
     p = ((pag % n) + n) % n,
     trozo = L.slice(p * POR_FILA, p * POR_FILA + POR_FILA);
-  return trozo.map((id, i) => ({ id, x: 560 + i * 98, y: FILA_Y }));
+  return trozo.map((id, i) => ({ id, x: 555 + i * 93, y: FILA_Y }));
 }
 
 // flechasBaul(ids, pestana, catDe): las flechas de la bandeja, solo si las cosas de la pestaña no caben en una fila.
@@ -88,7 +90,7 @@ export function flechasBaul(ids: readonly string[], pestana: string, catDe: (id:
   return deLaPestana(ids, pestana, catDe).length > POR_FILA
     ? [
         { x: 492, y: FILA_Y, d: -1 },
-        { x: 1250, y: FILA_Y, d: 1 },
+        { x: 1225, y: FILA_Y, d: 1 },
       ]
     : [];
 }
@@ -131,13 +133,16 @@ interface EstadoBandeja {
   readonly nuevos: readonly string[];
   /** Si «¡Ordena, Tito!» espera el segundo toque (el botón late). */
   readonly ordenaPide: boolean;
+  /** Si se puede guardar todo y si falta el segundo toque de confirmación. */
+  readonly hayFuera: boolean;
+  readonly guardaTodoPide: boolean;
   /** La categoría de la tienda de cada cosa y cómo dibujarla. */
   readonly catDe: (id: string) => string;
   readonly dibuja: (id: string, x: number, y: number, s: number) => void;
 }
 
 // dibujaBandeja(e): la bandeja del baúl abierta: el fondo de madera, las pestañas (la elegida, amarilla), la fila de
-// cosas guardadas (o, si está vacío, un baúl abierto vacío), las flechas y el botón «¡Ordena, Tito!» (la varita).
+// cosas guardadas (o, si está vacío, un baúl abierto vacío), las flechas y los botones «Guardar todo» y «¡Ordena, Tito!» (la varita).
 export function dibujaBandeja(e: EstadoBandeja) {
   const B = BANDEJA;
   card(B.x, B.y, B.w, B.h, '#F4D9A8', 6, 34);
@@ -194,6 +199,17 @@ export function dibujaBandeja(e: EstadoBandeja) {
     ctx.lineJoin = 'round';
     ctx.stroke();
     ctx.restore();
+  }
+  if (e.hayFuera) {
+    const G = GUARDA_TODO;
+    const s = hv('guardaTodo', hC(G.x, G.y, G.r));
+    ctx.save();
+    ctx.translate(G.x, G.y);
+    ctx.scale(s, s);
+    circ(0, 0, G.r, e.guardaTodoPide ? '#FFE08A' : '#E6F4FF', 5, e.guardaTodoPide ? '#D9962A' : K);
+    pic('baul', 0, 0, G.r * 1.45);
+    ctx.restore();
+    text(e.guardaTodoPide ? tr('Sí, guardar') : tr('Guardar todo'), G.x, G.y + 59, 19, K, { max: 118 });
   }
   {
     const O = ORDENA,

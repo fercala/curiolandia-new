@@ -58,7 +58,7 @@ export interface Reaccion {
   readonly escena?: EscenaCasa;
 }
 
-// REACCIONES: id del objeto de la casa (el de la tienda, SHOP) → su reacción. Están los 49 objetos que no son
+// REACCIONES: id del objeto de la casa (el de la tienda, SHOP) → su reacción. Están los objetos que no son
 // mascotas, por habitación como en la tabla de docs/PLAN-CASA.md. Las mascotas no están: al tocarlas se cuidan.
 export const REACCIONES: Readonly<Record<string, Reaccion>> = {
   // torre de las estrellas
@@ -117,6 +117,14 @@ export const REACCIONES: Readonly<Record<string, Reaccion>> = {
   columpio: { tito: 'columpiarse' },
   castillo: { tito: 'tocar' },
   piscina: { tito: 'tirarse' },
+  maleta: { tito: 'abrir' },
+  paraguas: { tito: 'girar' },
+  campana: { tito: 'tocar' },
+  lupa: { tito: 'mirar' },
+  camion: { tito: 'empujar' },
+  maceta: { tito: 'regar' },
+  cactus: { tito: 'mirar' },
+  calabaza: { tito: 'mirar' },
 };
 
 // reaccionDe(id): la reacción del objeto id, o null si no tiene (una mascota, un id desconocido).
