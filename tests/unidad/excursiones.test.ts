@@ -139,14 +139,22 @@ describe('las excursiones', () => {
     const ciudad = excursionPorId('ciudad')!;
     expect(ciudad.nombreGuia).toBe('Lucía');
     expect(estacionesJugables(ciudad).map((s) => s.id)).toEqual(['vestir', 'fuego', 'pan', 'salud', 'calle']);
-    expect(EXCURSIONES.map((e) => e.id).slice(-3)).toEqual(['museo', 'ciudad', 'bosque']);
+    expect(EXCURSIONES.map((e) => e.id).slice(3, 6)).toEqual(['museo', 'ciudad', 'bosque']);
   });
 
-  // desde la fase P21: el bosque de otoño, con Hugo el guardabosques y sus cinco paradas, la última excursión
-  test('el bosque tiene cinco paradas jugables y va el último', () => {
+  // desde la fase P21: el bosque de otoño, con Hugo el guardabosques y sus cinco paradas
+  test('el bosque tiene cinco paradas jugables', () => {
     const bosque = excursionPorId('bosque')!;
     expect(bosque.nombreGuia).toBe('Hugo');
     expect(estacionesJugables(bosque).map((s) => s.id)).toEqual(['hojas', 'huellas', 'sonidos', 'ardilla', 'mural']);
     expect(EXCURSIONES.every((e) => estacionesJugables(e).length > 0)).toBe(true);
+  });
+
+  // desde la fase P22: el mercado, con Carmen la frutera y sus cinco paradas, después del bosque
+  test('el mercado tiene cinco paradas jugables y va después del bosque', () => {
+    const mercado = excursionPorId('mercado')!;
+    expect(mercado.nombreGuia).toBe('Carmen');
+    expect(estacionesJugables(mercado).map((s) => s.id)).toEqual(['lista', 'bascula', 'pan', 'pescado', 'caja']);
+    expect(EXCURSIONES.map((e) => e.id).slice(-2)).toEqual(['bosque', 'mercado']);
   });
 });

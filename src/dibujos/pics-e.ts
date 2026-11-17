@@ -1,5 +1,6 @@
 // ==========================================================================
-// pics-e.ts: dibujos de la tienda de Tito (escenas/tienda.ts): monedas, cofre, muebles y juguetes.
+// pics-e.ts: dibujos de la tienda de Tito (escenas/tienda.ts): monedas, cofre, muebles y juguetes; desde la P22, la
+// moneda de un euro del mercado (euro).
 // ==========================================================================
 // Añade dibujos a PICS (Object.assign sobre PICS, con clave:`...svg...`). Formato de un dibujo (SVG con
 // centro en 0,0 dentro de -62..62) y cómo se busca por su nombre con pic(clave,...): ver la cabecera
@@ -126,6 +127,8 @@ const PE_clip = (sub: number[][], clip: number[][]) => {
 // Dibujos de la tienda (ver la lista de la cabecera).
 Object.assign(PICS, {
   moneda: PE_coin(0, 0, 54),
+  // euro: una moneda de un euro (fase P22, el mercado): el aro dorado, el centro plateado y el símbolo €.
+  euro: `<circle r="50" fill="#E9C46A" ${sw()}/><circle r="34" fill="#D9DDE3" stroke="#9AA3AD" stroke-width="3"/><path d="M14 -17 A21 21 0 1 0 14 17" fill="none" stroke="#5B6470" stroke-width="7" stroke-linecap="round"/><path d="M-22 -5 H6 M-22 7 H6" stroke="#5B6470" stroke-width="5" stroke-linecap="round"/><ellipse cx="-30" cy="-30" rx="4" ry="9" transform="rotate(45 -30 -30)" fill="#FFFFFF" opacity=".8"/>`,
   monedas:
     PE_pile(-28, 44, 4) +
     PE_pile(26, 46, 7) +

@@ -633,6 +633,13 @@ e485229694b3,Las hojas de colores,Frunzele colorate,trozo,src/contenido/excursio
 bc9b6ffc5d62,Los sonidos del bosque,Sunetele pădurii,trozo,src/contenido/excursiones.ts,borrador
 ddcf0bdb8355,La despensa de la ardilla,Cămara veveriței,trozo,src/contenido/excursiones.ts src/temas/temas4.ts,borrador
 6b00f14144dd,El mural del otoño,Pictura toamnei,trozo,src/contenido/excursiones.ts,borrador
+50f4dea80688,El mercado,Piața,trozo,src/contenido/excursiones.ts,borrador
+7641b5b1c727,Carmen,Carmen,trozo,src/contenido/excursiones.ts,borrador
+624e2c64ab07,La lista de la compra,Lista de cumpărături,trozo,src/contenido/excursiones.ts,borrador
+ad84fd815b00,La báscula,Cântarul,trozo,src/contenido/excursiones.ts,borrador
+7962049d1867,Comprar el pan,Cumpărăm pâine,trozo,src/contenido/excursiones.ts,borrador
+3c663e446782,La pescadería,Pescăria,trozo,src/contenido/excursiones.ts,borrador
+00b94fe3697f,Pagar en la caja,Plătim la casă,trozo,src/contenido/excursiones.ts,borrador
 eef5e5e9d7f8,Mum,,trozo,src/contenido/ingles.ts,falta
 48418f32fc2d,Mamá,Mama,trozo,src/contenido/ingles.ts,borrador
 cb525f817e00,Dad,,trozo,src/contenido/ingles.ts,falta
@@ -892,6 +899,8 @@ dd4a21840b55,el cuidador,îngrijitorul,nombre,src/contenido/lex.ts,borrador
 73ae03336f74,la buceadora,scafandra,nombre,src/contenido/lex.ts,borrador
 13201afffc9f,el paleontólogo,paleontologul,nombre,src/contenido/lex.ts,borrador
 99fb17adc36b,el guardabosques,pădurarul,nombre,src/contenido/lex.ts,borrador
+2fce2e558bad,la frutera,vânzătoarea de fructe,nombre,src/contenido/lex.ts,borrador
+9aa89530cce4,el euro,euro,nombre,src/contenido/lex.ts,borrador
 f7f37fe70c49,el delfín,delfinul,nombre,src/contenido/lex.ts,borrador
 62fd85bfb3a4,el cangrejo,crabul,nombre,src/contenido/lex.ts,borrador
 392231973151,el peluquero,frizerul,nombre,src/contenido/lex.ts,borrador
@@ -1893,6 +1902,7 @@ a4c59ff8ba33,El álbum de excursiones.,Albumul de excursii.,frase,src/escenas/ex
 f63860a04a52,"¡Nos vamos {excursion}! ¡Brum, brum!","Mergem {excursion}! Brum, brum!",frase,src/escenas/excursion.ts,borrador
 f3a647003ebe,¡Patata!,Zâmbiți!,frase,src/escenas/excursion.ts,borrador
 00a2e7ce0a74,¡Una foto de grupo! ¡Patata! Ha sido una excursión estupenda. {guia} nos espera otro día en {excursion}. La foto se queda en el álbum de excursiones. Toca la casa para volver al cole.,O poză de grup! Zâmbiți! A fost o excursie minunată. {guia} ne așteaptă altă dată: {excursion}. Poza rămâne în albumul de excursii. Atinge căsuța ca să ne întoarcem la grădiniță.,frase,src/escenas/excursion.ts,borrador
+0521b97c1729,"¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.","Bună{nino}! Eu sunt {guia}, vânzătoarea de fructe. Bine ai venit la piață! Facem cumpărăturile și plătim cu monede.",frase,src/escenas/excursion.ts,borrador
 1fad0af05679,"¡Hola{nino}! Soy {guia}, el guardabosques. ¡Bienvenido al bosque de otoño! Vamos a ver los árboles, las hojas y los animales del bosque.","Bună{nino}! Eu sunt {guia}, pădurarul. Bine ai venit în pădurea de toamnă! Vom vedea copacii, frunzele și animalele pădurii.",frase,src/escenas/excursion.ts,borrador
 0692f5ce89a1,"¡Hola{nino}! Soy {guia}, la bombera. ¡Bienvenido a la ciudad! Vamos a ver el parque de bomberos, la panadería y el centro de salud.","Bună{nino}! Eu sunt {guia}, pompiera. Bine ai venit în oraș! Vom vedea remiza de pompieri, brutăria și centrul medical.",frase,src/escenas/excursion.ts,borrador
 3812a3f93494,"¡Hola{nino}! Soy {guia}, el paleontólogo del museo. ¡Bienvenido al museo de los dinosaurios! Los paleontólogos buscamos huesos de dinosaurio.","Bună{nino}! Eu sunt {guia}, paleontologul muzeului. Bine ai venit la muzeul dinozaurilor! Noi, paleontologii, căutăm oase de dinozaur.",frase,src/escenas/excursion.ts,borrador
@@ -2000,6 +2010,24 @@ a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de l
 e09fd6a12cc3,Mi libro de letras,Cartea mea cu litere,trozo,src/escenas/libroLetras.ts,borrador
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,Litera aceasta încă n-o știi. O vei învăța pe Insula Literelor!,frase,src/escenas/libroLetras.ts,borrador
 9324da358388,{Letra} de {amigo}.,"{Letra}, ca în {amigo}.",trozo,src/escenas/libroLetras.ts src/temas/letras.ts,borrador
+892b70c3da96,Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?,Costă {p} euro și plătim cu cinci euro. Câți euro primim rest?,frase,src/escenas/mercado.ts,borrador
+f95fddbecbef,¡Sí! Nos devuelven {n}.,Da! Primim rest {n}.,frase,src/escenas/mercado.ts,borrador
+c4d7d8e09119,No. Cuenta las monedas que sobran.,Nu. Numără monedele care rămân.,frase,src/escenas/mercado.ts,borrador
+d76f7c972fd9,Aquí tenemos la lista de la compra. ¡Vamos a buscar la fruta en la frutería!,Aici avem lista de cumpărături. Hai să căutăm fructele la tarabă!,frase,src/escenas/mercado.ts,borrador
+d44781d02290,"¿Sabes una cosa? La fruta de cada estación es la más rica: en otoño, las uvas, y en verano, la sandía.","Știi ceva? Fructele fiecărui anotimp sunt cele mai gustoase: toamna, strugurii, iar vara, pepenele.",frase,src/escenas/mercado.ts,borrador
+22e23bccde53,Con la báscula sabemos lo que pesa la fruta. ¿Qué pesa más?,Cu cântarul aflăm cât cântăresc fructele. Ce cântărește mai mult?,frase,src/escenas/mercado.ts,borrador
+77abd9d02e7d,¿Sabes una cosa? Lo grande no siempre pesa más: ¡un globo es grande y no pesa casi nada!,Știi ceva? Ce e mare nu cântărește mereu mai mult: un balon e mare și nu cântărește aproape nimic!,frase,src/escenas/mercado.ts,borrador
+a6b905b480f9,¿Qué pesa más?,Ce cântărește mai mult?,frase,src/escenas/mercado.ts,borrador
+9e6e0e317110,¡Sí! {Cosa} pesa más.,Da! {Cosa} cântărește mai mult.,frase,src/escenas/mercado.ts,borrador
+481b0cc5d569,"No, esa pesa menos. ¿Qué pesa más?","Nu, aceea cântărește mai puțin. Ce cântărește mai mult?",frase,src/escenas/mercado.ts,borrador
+13f1cf23310b,¡Qué bien huele la panadería! Vamos a comprar pan. Hay que pagar con monedas.,Ce bine miroase la brutărie! Hai să cumpărăm pâine. Plătim cu monede.,frase,src/escenas/mercado.ts,borrador
+b4d2867cbfeb,"¿Sabes una cosa? Cuando pagamos, damos el dinero y nos llevamos lo que compramos.","Știi ceva? Când plătim, dăm banii și luăm ce am cumpărat.",frase,src/escenas/mercado.ts,borrador
+ca8217c95460,El pan cuesta {n} euros. Mete {n} monedas en la caja.,Pâinea costă {n} {n:de}euro. Pune {n} {n:de}monede în casa de marcat.,frase,src/escenas/mercado.ts,borrador
+477d7df1972b,Has pagado {n} euros. ¡Aquí tienes el pan!,Ai plătit {n} {n:de}euro. Poftim pâinea!,frase,src/escenas/mercado.ts,borrador
+3e5a378da14b,"En la pescadería, el pescado está en el hielo para que esté fresquito. ¡Vamos a contarlo!","La pescărie, peștele stă pe gheață ca să fie proaspăt. Hai să-l numărăm!",frase,src/escenas/mercado.ts,borrador
+3c96489ca9eb,"¿Sabes una cosa? El pescado viene del mar en barcos de pesca, muy temprano por la mañana.","Știi ceva? Peștele vine de pe mare cu bărcile pescarilor, foarte devreme dimineața.",frase,src/escenas/mercado.ts,borrador
+90ac4bca9c1f,Ya tenemos toda la compra. Ahora vamos a pagar. ¡Hay que contar bien el dinero!,Avem toate cumpărăturile. Acum plătim. Trebuie să numărăm bine banii!,frase,src/escenas/mercado.ts,borrador
+f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos devuelven lo que sobra: es la vuelta.","Știi ceva? Dacă plătim cu mai mulți bani decât costă, ni se dă înapoi ce e în plus: acesta e restul.",frase,src/escenas/mercado.ts,borrador
 e3d8f426d44a,Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.,Hai să măsurăm {cosa} cu pașii lui Tito. Atinge urmele una câte una.,frase,src/escenas/museo.ts,borrador
 c83503444115,Toca las huellas una a una para contar los pasos.,Atinge urmele una câte una ca să numeri pașii.,frase,src/escenas/museo.ts,borrador
 aeb81513b171,¿Cuál es el más largo? Tócalo.,Care e cel mai lung? Atinge-l.,frase,src/escenas/museo.ts,borrador

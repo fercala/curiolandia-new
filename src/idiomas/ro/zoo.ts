@@ -4,7 +4,8 @@
  * dice Nico el cuidador (la bienvenida, las presentaciones y los datos curiosos), las frases de dar de comer y la página
  * del zoo del álbum de fotos (el safari fotográfico); desde la P18 (v0.2.162), también la excursión al acuario, con Marina
  * la buceadora, y desde la P19 (v0.2.163), el museo de los dinosaurios, con Pablo el paleontólogo, y desde la P20 (v0.2.164), la ciudad, con
- * Lucía la bombera, y desde la P21 (v0.2.165), el bosque de otoño, con Hugo el guardabosques. Lo común de las excursiones está en cole.ts. Borrador de Claude
+ * Lucía la bombera, y desde la P21 (v0.2.165), el bosque de otoño, con Hugo el guardabosques, y desde
+ * la P22 (v0.2.166), el mercado, con Carmen la frutera. Lo común de las excursiones está en cole.ts. Borrador de Claude
  * para que lo revise una persona que hable rumano. Va del texto en castellano, tal como está en el código, a su
  * traducción; textos.ts junta esta tabla con las demás. Las plantillas llevan sus huecos ({nino}, {guia}, {cosa}...).
  * Exporta: ZOO_RO. No importa nada.
@@ -204,4 +205,44 @@ export const ZOO_RO: Readonly<Record<string, string>> = {
     'La sfârșit, facem o pictură mare cu tot ce am văzut în pădure.',
   '¿Sabes una cosa? Con las hojas secas del otoño se pueden hacer dibujos muy bonitos.':
     'Știi ceva? Din frunzele uscate de toamnă se pot face desene foarte frumoase.',
+  // desde la P22 (v0.2.166): el mercado, con Carmen la frutera
+  'El mercado': 'Piața',
+  'Carmen': 'Carmen',
+  'La lista de la compra': 'Lista de cumpărături',
+  'La báscula': 'Cântarul',
+  'Comprar el pan': 'Cumpărăm pâine',
+  'La pescadería': 'Pescăria',
+  'Pagar en la caja': 'Plătim la casă',
+  '¡Hola{nino}! Soy {guia}, la frutera. ¡Bienvenido al mercado! Vamos a hacer la compra y a pagar con monedas.':
+    'Bună{nino}! Eu sunt {guia}, vânzătoarea de fructe. Bine ai venit la piață! Facem cumpărăturile și plătim cu monede.',
+  'Aquí tenemos la lista de la compra. ¡Vamos a buscar la fruta en la frutería!':
+    'Aici avem lista de cumpărături. Hai să căutăm fructele la tarabă!',
+  '¿Sabes una cosa? La fruta de cada estación es la más rica: en otoño, las uvas, y en verano, la sandía.':
+    'Știi ceva? Fructele fiecărui anotimp sunt cele mai gustoase: toamna, strugurii, iar vara, pepenele.',
+  'Con la báscula sabemos lo que pesa la fruta. ¿Qué pesa más?':
+    'Cu cântarul aflăm cât cântăresc fructele. Ce cântărește mai mult?',
+  '¿Sabes una cosa? Lo grande no siempre pesa más: ¡un globo es grande y no pesa casi nada!':
+    'Știi ceva? Ce e mare nu cântărește mereu mai mult: un balon e mare și nu cântărește aproape nimic!',
+  '¿Qué pesa más?': 'Ce cântărește mai mult?',
+  '¡Sí! {Cosa} pesa más.': 'Da! {Cosa} cântărește mai mult.',
+  'No, esa pesa menos. ¿Qué pesa más?': 'Nu, aceea cântărește mai puțin. Ce cântărește mai mult?',
+  '¡Qué bien huele la panadería! Vamos a comprar pan. Hay que pagar con monedas.':
+    'Ce bine miroase la brutărie! Hai să cumpărăm pâine. Plătim cu monede.',
+  '¿Sabes una cosa? Cuando pagamos, damos el dinero y nos llevamos lo que compramos.':
+    'Știi ceva? Când plătim, dăm banii și luăm ce am cumpărat.',
+  'El pan cuesta {n} euros. Mete {n} monedas en la caja.':
+    'Pâinea costă {n} {n:de}euro. Pune {n} {n:de}monede în casa de marcat.',
+  'Has pagado {n} euros. ¡Aquí tienes el pan!': 'Ai plătit {n} {n:de}euro. Poftim pâinea!',
+  'En la pescadería, el pescado está en el hielo para que esté fresquito. ¡Vamos a contarlo!':
+    'La pescărie, peștele stă pe gheață ca să fie proaspăt. Hai să-l numărăm!',
+  '¿Sabes una cosa? El pescado viene del mar en barcos de pesca, muy temprano por la mañana.':
+    'Știi ceva? Peștele vine de pe mare cu bărcile pescarilor, foarte devreme dimineața.',
+  'Ya tenemos toda la compra. Ahora vamos a pagar. ¡Hay que contar bien el dinero!':
+    'Avem toate cumpărăturile. Acum plătim. Trebuie să numărăm bine banii!',
+  '¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos devuelven lo que sobra: es la vuelta.':
+    'Știi ceva? Dacă plătim cu mai mulți bani decât costă, ni se dă înapoi ce e în plus: acesta e restul.',
+  'Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?':
+    'Costă {p} euro și plătim cu cinci euro. Câți euro primim rest?',
+  '¡Sí! Nos devuelven {n}.': 'Da! Primim rest {n}.',
+  'No. Cuenta las monedas que sobran.': 'Nu. Numără monedele care rămân.',
 };

@@ -115,6 +115,12 @@ const ESCENAS = [
   ['bosqueSonidos', {}],
   ['bosqueArdilla', {}],
   ['bosqueMural', {}],
+  ['excursion', { exc: 'mercado' }], // P22
+  ['mercadoLista', {}],
+  ['mercadoBascula', {}],
+  ['mercadoPan', {}],
+  ['mercadoPescado', {}],
+  ['mercadoCaja', {}],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],
