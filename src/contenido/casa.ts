@@ -80,6 +80,28 @@ export const FRASES_CASA: Readonly<Record<string, string>> = {
   maceta: '¡En esta maceta podemos plantar una semilla!',
   cactus: '¡Mi cactus tiene pinchos!',
   calabaza: '¡Qué redonda es mi calabaza!',
+  sarten: '¡Un huevo a la sartén!',
+  vaso: 'Llenamos el vaso de agua.',
+  grifo: 'Abro el grifo para lavarme las manos.',
+  cepillo: '¡A cepillarnos los dientes!',
+  cajaMusica: 'Abro mi caja de música. ¡Escucha!',
+  cajaSorpresa: '¿Quién se esconde en la caja?',
+  semaforo: 'El semáforo nos dice cuándo pasar.',
+  lancha: '¡Mi lancha navega entre las olas!',
+  bici: '¡Mira cómo giran las ruedas de mi bici!',
+  helicoptero: '¡Mi helicóptero se eleva!',
+  silbato: '¡Piii! Así suena mi silbato.',
+  globoAire: '¡Mi globo vuela por encima de las nubes!',
+  manguera: 'Con la manguera riego el jardín.',
+  brote: '¡Mi semilla está creciendo!',
+  molinillo: '¡El viento hace girar mi molinillo!',
+  aspersor: '¡El aspersor moja el césped!',
+};
+
+// FRASES_ESTADOS_CASA: lo que Tito dice al cambiar de color el semáforo o de etapa la semilla.
+export const FRASES_ESTADOS_CASA: Readonly<Record<string, readonly string[]>> = {
+  semaforo: ['Rojo. Nos paramos.', 'Verde. Podemos pasar.', 'Amarillo. Esperamos.'],
+  brote: ['A sembrar otra vez.', '¡Ya ha salido un brote!', '¡Ha salido una flor!'],
 };
 
 /** Un sitio del mundo de la escena Vuelta al mundo (el globo terráqueo): su nombre, sus dibujos (claves de PICS), el

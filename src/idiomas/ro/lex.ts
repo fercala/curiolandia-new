@@ -57,6 +57,9 @@ export const LEX_RO: Readonly<Record<string, Nombre>> = {
   'la carta': N('scrisoarea', 'scrisoare', 'f', 'scrisorii', 'scrisori'),
   'las tijeras': N('foarfeca', 'foarfecă', 'f', 'foarfecii', 'foarfece'),
   'la sartén': N('tigaia', 'tigaie', 'f', 'tigăii', 'tigăi'),
+  'la caja de música': N('cutia muzicală', 'cutie muzicală', 'f', 'cutiei muzicale', 'cutii muzicale'),
+  'el molinillo': N('morișca', 'morișcă', 'f', 'moriștii', 'moriști'),
+  'el aspersor': N('aspersorul', 'aspersor', 'n', 'aspersorului', 'aspersoare'),
   'la ambulancia': N('ambulanța', 'ambulanță', 'f', 'ambulanței', 'ambulanțe'),
   'el camión de bomberos': N(
     'mașina de pompieri',

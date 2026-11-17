@@ -41,6 +41,16 @@ describe('estados guardados', () => {
     expect(alturas).toEqual([1, 2, 3, 4, 5, 0, 1]);
   });
 
+  test('el semáforo y el brote recorren sus tres estados y la caja vuelve a cerrarse', () => {
+    const verde = siguienteEstado({}, 'semaforo');
+    const amarillo = siguienteEstado(verde, 'semaforo');
+    expect([estadoDe(verde, 'semaforo'), estadoDe(amarillo, 'semaforo')]).toEqual([1, 2]);
+    expect(siguienteEstado(amarillo, 'semaforo').semaforo).toBe(0);
+    expect(siguienteEstado({ brote: 1 }, 'brote').brote).toBe(2);
+    expect(siguienteEstado({ brote: 2 }, 'brote').brote).toBe(0);
+    expect(siguienteEstado({ cajaSorpresa: 1 }, 'cajaSorpresa').cajaSorpresa).toBe(0);
+  });
+
   test('lo que no tiene estado no cambia y un estado roto vale 0', () => {
     const est = { robot: 3 };
     expect(siguienteEstado(est, 'robot')).toBe(est);

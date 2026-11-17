@@ -11,3 +11,4 @@ import './pics-c.ts';
 import './pics-d.ts';
 import './pics-e.ts';
 import './pics-mine.ts';
+import './pics-tienda.ts';

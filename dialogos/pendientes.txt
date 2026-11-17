@@ -2276,3 +2276,26 @@ Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y 
 ¡En esta maceta podemos plantar una semilla!
 ¡Mi cactus tiene pinchos!
 ¡Qué redonda es mi calabaza!
+
+¡Un huevo a la sartén!
+Llenamos el vaso de agua.
+Abro el grifo para lavarme las manos.
+¡A cepillarnos los dientes!
+Abro mi caja de música. ¡Escucha!
+¿Quién se esconde en la caja?
+El semáforo nos dice cuándo pasar.
+¡Mi lancha navega entre las olas!
+¡Mira cómo giran las ruedas de mi bici!
+¡Mi helicóptero se eleva!
+¡Piii! Así suena mi silbato.
+¡Mi globo vuela por encima de las nubes!
+Con la manguera riego el jardín.
+¡Mi semilla está creciendo!
+¡El viento hace girar mi molinillo!
+¡El aspersor moja el césped!
+Rojo. Nos paramos.
+Verde. Podemos pasar.
+Amarillo. Esperamos.
+A sembrar otra vez.
+¡Ya ha salido un brote!
+¡Ha salido una flor!
