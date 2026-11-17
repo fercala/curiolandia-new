@@ -2238,6 +2238,32 @@ Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.
 Pon en la cesta la fruta de la lista.
 ¡Compra hecha!
 Mira el siguiente dibujo de la lista.
+El planetario
+Sara
+La cuenta atrás
+Los planetas
+El día y la noche
+Pisar la Luna
+Volver a casa
+¡Hola! Soy Sara, la astronauta. ¡Bienvenido al planetario! Hoy vamos a viajar a la Luna.
+¡Subimos al cohete! Antes de despegar hay que hacer la cuenta atrás, hasta el cero.
+¿Sabes una cosa? Los cohetes echan mucho fuego por abajo para subir muy deprisa hasta el espacio.
+{a}, {b}, {c}... ¿Qué número viene ahora?
+¡Cero! ¡Despegamos!
+¡Sí! {N}.
+No. Cuenta hacia atrás: ¿qué número va antes?
+¡Ya estamos en el espacio! Mira por la ventana: se ven los planetas.
+¿Sabes una cosa? Los planetas dan vueltas alrededor del sol, y la Tierra es nuestro planeta.
+Desde aquí se ve la Tierra dando vueltas. Por eso hay día y noche.
+¿Sabes una cosa? Cuando aquí es de día, al otro lado de la Tierra es de noche.
+¡Hemos llegado a la Luna! Aquí todo pesa muy poco y se camina dando saltitos.
+¿Sabes una cosa? En la Luna no hay viento, así que las huellas de los astronautas siguen allí.
+Pisa la Luna: toca las huellas una a una hasta la bandera.
+¡Hemos plantado la bandera en la Luna!
+Es hora de volver a casa. ¿Te acuerdas de cómo ha sido el viaje?
+¿Sabes una cosa? Cuando vuelven, los astronautas caen al mar con paracaídas y los recoge un barco.
+Ordena el viaje: primero despegamos en el cohete, después llegamos a la Luna y al final volvemos a la Tierra.
+¡Muy bien! Ya estamos otra vez en casa.
 
 ¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.
 ¿Guardamos todo en el baúl? Toca otra vez para confirmar.
