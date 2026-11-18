@@ -125,6 +125,22 @@ export const REACCIONES: Readonly<Record<string, Reaccion>> = {
   maceta: { tito: 'regar' },
   cactus: { tito: 'mirar' },
   calabaza: { tito: 'mirar' },
+  sarten: { tito: 'remover' },
+  vaso: { tito: 'tocar' },
+  grifo: { tito: 'abrir' },
+  cepillo: { tito: 'tocar' },
+  cajaMusica: { tito: 'tocar' },
+  cajaSorpresa: { tito: 'abrir' },
+  semaforo: { tito: 'mirar' },
+  lancha: { tito: 'empujar' },
+  bici: { tito: 'empujar' },
+  helicoptero: { tito: 'volar' },
+  silbato: { tito: 'soplar' },
+  globoAire: { tito: 'volar' },
+  manguera: { tito: 'regar' },
+  brote: { tito: 'regar' },
+  molinillo: { tito: 'soplar' },
+  aspersor: { tito: 'regar' },
 };
 
 // reaccionDe(id): la reacción del objeto id, o null si no tiene (una mascota, un id desconocido).

@@ -11,6 +11,7 @@
    1600×900, como el resto de src/escenas/: los números son posiciones, tamaños y ritmos, y los bucles dibujan. */
 import { PI, T, circ, ctx, star } from '../nucleo/indice.ts';
 import { ahora } from '../aplicacion/puertos.ts';
+import { efectosDeCompra } from './casaObjetos.ts';
 import type { Pose } from './casaReacciones.ts';
 import type { Toque } from '../dominio/casaToques.ts';
 
@@ -249,4 +250,5 @@ const ESTADO_DIBUJO: Readonly<Record<string, (e: number, s: number) => void>> = 
 export function dibujaEstado(id: string, e: number, s: number) {
   const f = ESTADO_DIBUJO[id];
   if (f) f(e, s);
+  else efectosDeCompra(id, e, s);
 }

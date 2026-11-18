@@ -110,6 +110,8 @@ y su tamaño:
 - Los objetos se dibujan **de atrás hacia delante por su sitio** (ya no por la `y` libre), con el tamaño que da la
   profundidad.
 
+**Compras interactivas** (v0.2.170). Hay artículos nuevos de nivel 1 en Casa, Juguetes y Jardín. El semáforo pasa por rojo, verde y amarillo, el brote pasa de semilla a flor, la caja de música alterna dos melodías y la caja sorpresa se abre o se cierra. Cada toque cambia el estado, que se recuerda en `S.casaEst`. El silbato suena sin cambiar el guardado. Los dibujos y efectos están en `dibujos/pics-tienda.ts` y `escenas/casaObjetos.ts`.
+
 **Guardar todo** (v0.2.168) recoge lo que esté colocado en todas las habitaciones tras un segundo toque. El niño puede volver a sacar las cosas del baúl. La disposición que ya tenía una partida se respeta al entrar.
 
 **Lo nuevo que se compra** va al baúl, que se abre con el objeto brillando, y Tito pregunta: «¿Dónde lo ponemos?».

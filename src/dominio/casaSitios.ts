@@ -107,6 +107,13 @@ export const TAMANOS: Readonly<Record<string, TamanoObjeto>> = {
   lupa: 'pequeno',
   maceta: 'pequeno',
   calabaza: 'pequeno',
+  sarten: 'pequeno',
+  vaso: 'pequeno',
+  grifo: 'pequeno',
+  cepillo: 'pequeno',
+  cajaMusica: 'pequeno',
+  silbato: 'pequeno',
+  brote: 'pequeno',
   // medianos: en el suelo
   farol: 'mediano',
   plantaInterior: 'mediano',
@@ -137,6 +144,15 @@ export const TAMANOS: Readonly<Record<string, TamanoObjeto>> = {
   paraguas: 'mediano',
   camion: 'mediano',
   cactus: 'mediano',
+  cajaSorpresa: 'mediano',
+  semaforo: 'mediano',
+  lancha: 'mediano',
+  bici: 'mediano',
+  helicoptero: 'mediano',
+  globoAire: 'mediano',
+  manguera: 'mediano',
+  molinillo: 'mediano',
+  aspersor: 'mediano',
 };
 
 // SITIOS_FIJOS: los sitios de una habitación, los mismos en las 7: 3 grandes al fondo del suelo, 5 normales delante, 4

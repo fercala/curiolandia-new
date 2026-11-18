@@ -22,6 +22,7 @@
 // capítulo y el gran tesoro (C41). Desde la M3, C8 toca a Tito antes que al objeto, y desde la M3b, C11, C13 y
 // C20 abren la escena con su botón. Desde la M2, lo comprado en la tienda va al baúl (C6).
 // C42 comprueba una compra nueva y que «Guardar todo» recoge varias habitaciones tras confirmar.
+// C43 compra el semáforo y comprueba los estados de las compras interactivas.
 // Uso: node tests/regresion/casa.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -712,8 +713,8 @@ const temas = (n) => {
         sc.down(230 + (j % 8) * 163, 230 + Math.floor(j / 8) * 160);
         return [sc.pag === pagina && pagina > 0, ENTRADAS_ALBUM.length, window.__said.join(' | ')];
       });
-      // 57 objetos (los 49 anteriores y los 8 nuevos) y 27 combinaciones.
-      if (!r[0] || r[1] !== 84) return 'páginas: ' + JSON.stringify(r);
+      // 73 objetos con reacción y 27 combinaciones.
+      if (!r[0] || r[1] !== 100) return 'páginas: ' + JSON.stringify(r);
       if (!/telescopio.*Me siento a la mesa/.test(r[2])) return 'Tito dice: ' + r[2];
     },
   );
@@ -1550,6 +1551,93 @@ const temas = (n) => {
       return [homeItems().length, baulItems().length, S.owned.camion];
     });
     return recarga.join() === '0,3,1' ? null : 'tras recargar: ' + recarga;
+  });
+
+  await caso('C43', 'Las compras nuevas reaccionan y sus estados se recuerdan al recargar', async (p) => {
+    const ids = [
+      'sarten',
+      'vaso',
+      'grifo',
+      'cepillo',
+      'cajaMusica',
+      'cajaSorpresa',
+      'semaforo',
+      'lancha',
+      'bici',
+      'helicoptero',
+      'silbato',
+      'globoAire',
+      'manguera',
+      'brote',
+      'molinillo',
+      'aspersor',
+    ];
+    const compra = await p.evaluate((ids) => {
+      const faltan = ids.filter((id) => !SHOP.some((it) => it.id === id && it.p > 0) || !Object.hasOwn(PICS, id));
+      if (faltan.length) return { error: 'faltan artículos o dibujos: ' + faltan.join() };
+      S.coins = 100;
+      S.unlockAll = true;
+      for (let i = 1; i <= 14; i++) S.temas['3A-T' + i] = { done: 1, g: {} };
+      S.rooms = 7;
+      __cl.go('tienda', {});
+      const tienda = __cl.scene;
+      tienda.cat = 'juguetes';
+      for (tienda.page = 0; tienda.page < tienda.pages(); tienda.page++) {
+        const c = tienda.grid().find((g) => g.it.id === 'semaforo');
+        if (c) return { x: c.x, y: c.y, precio: c.it.p };
+      }
+      return { error: 'no se encuentra el semáforo en Juguetes' };
+    }, ids);
+    if (compra.error) return compra.error;
+    await p.waitForFunction(() => VIVO.fade === 0);
+    await L.clic(p, compra.x, compra.y);
+    if ((await p.evaluate(() => __cl.scene.conf?.id)) !== 'semaforo') return 'no se abrió su confirmación';
+    await p.waitForFunction(() => T - __cl.scene.confT >= 0.3);
+    await L.clic(p, 680, 690);
+    const guardado = await p.evaluate(() => [S.coins, homeRoom('semaforo')]);
+    if (guardado.join() !== [100 - compra.precio, 'baul'].join()) return 'compra: ' + guardado;
+    await L.clic(p, 1240, 70);
+    await p.waitForFunction(() => sceneName === 'casaTito' && VIVO.fade === 0);
+    const c = await p.evaluate(`(${casillas})().find((c) => c.id === 'semaforo')`);
+    if (!c) return 'no aparece en el baúl';
+    await L.clic(p, c.x, c.y);
+    const semaforo = await p.evaluate(() => {
+      window.__said = [];
+      const s = homeItems().find((o) => o.id === 'semaforo');
+      return s && { x: s.x, y: s.y - s.s * 0.42 };
+    });
+    if (!semaforo) return 'no salió del baúl';
+    const luces = [];
+    for (let i = 0; i < 4; i++) {
+      await L.clic(p, semaforo.x, semaforo.y);
+      luces.push(await p.evaluate(() => S.casaEst.semaforo));
+    }
+    if (luces.join() !== '1,2,0,1') return 'secuencia del semáforo: ' + luces;
+    const voces = await p.evaluate(() => window.__said.join('|'));
+    if (!/Verde. Podemos pasar.*Amarillo. Esperamos.*Rojo. Nos paramos./.test(voces)) return 'voces: ' + voces;
+
+    const activos = await p.evaluate((ids) => {
+      const casa = __cl.scene;
+      for (const id of ids.filter((id) => id !== 'semaforo')) {
+        S.home = { semaforo: S.home.semaforo };
+        S.owned[id] = 1;
+        placeHome(id);
+        casa.room = homeRoom(id);
+        casa.toca(id);
+        casa.draw();
+      }
+      return ids.filter((id) => id !== 'silbato' && S.casaEst[id] !== 1);
+    }, ids);
+    if (activos.length) return 'estados que no cambiaron: ' + activos.join();
+    await p.reload();
+    await p.waitForFunction(() => typeof window.__cl?.go === 'function');
+    const quedan = await p.evaluate(() => [
+      S.casaEst.semaforo,
+      S.casaEst.brote,
+      S.casaEst.aspersor,
+      S.casaEst.cajaMusica,
+    ]);
+    return quedan.join() === '1,1,1,1' ? null : 'estados tras recargar: ' + quedan;
   });
 
   R.guardar();
