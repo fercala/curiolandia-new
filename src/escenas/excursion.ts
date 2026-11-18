@@ -10,11 +10,11 @@
  * S.exc. Desde la fase P4, si la familia ha quitado los juegos de moverse, no cambia nada aquí (las excursiones no son de
  * moverse).
  * Exporta: fondoGranja (el fondo de la granja, que usan también sus estaciones), desde la P17 fondoZoo, fondoDe (el fondo
- * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad, y desde la P21 el del bosque, fondoBosque, y desde la P22 el del mercado, fondoMercado, y desde la P23 el del planetario, fondoPlanetario) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
+ * de cada excursión; desde la P18, también el del acuario, fondoAcuario, y desde la P19 el del museo, fondoMuseo, y desde la P20 el de la ciudad, fondoCiudad, y desde la P21 el del bosque, fondoBosque, y desde la P22 el del mercado, fondoMercado, y desde la P23 el del planetario, fondoPlanetario, y desde la P24 el de la playa, fondoPlaya) y GRUPO_FOTO (los animales de la foto de grupo), DESTINOS (dónde está cada cartel del
  * autobús), ALBUM_EXC_BOTON (desde la P7, el botón del álbum de excursiones), sitioEstacion (lo mismo para las estaciones), volverDeEstacion y, desde la fase ID2f de docs/PLAN-IDIOMAS.md, nombreExcursion; pone SCENES.autobus y SCENES.excursion.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas), las reglas de dominio/excursiones.ts y los datos de
  * contenido/excursiones.ts; desde la P7, los animales que pasean de escenas/granjaAnimales.ts, y desde la P8, el
- * manzano que crece por días de escenas/granjaManzano.ts, y desde la P9, las crías de escenas/granjaCrias.ts; desde la ID2f, el tipo Nombre de dominio/idiomas.ts; desde la P15, la cámara de fotos (escenas/fotos.ts y fotoDeMarca de dominio/fotos.ts).
+ * manzano que crece por días de escenas/granjaManzano.ts, y desde la P9, las crías de escenas/granjaCrias.ts; desde la ID2f, el tipo Nombre de dominio/idiomas.ts; desde la P15, la cámara de fotos (escenas/fotos.ts y fotoDeMarca de dominio/fotos.ts); desde la P24, el contorno K de los dibujos (el faro y la sombrilla de la playa).
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos en la pantalla de 1600x900, como en el
    resto de las escenas. */
@@ -73,6 +73,7 @@ import {
 } from '../dominio/excursiones.ts';
 import type { Nombre } from '../dominio/idiomas.ts';
 import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
+import { K } from '../dibujos/todos.ts';
 import { animalEn, dibujaPaseo, empezarPaseo, moverPaseo, ponerCrias, tocarPaseo } from './granjaAnimales.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, hacerFotoDe, tocarBotonCamara } from './fotos.ts';
 import { fotoDeMarca } from '../dominio/fotos.ts';
@@ -566,8 +567,108 @@ export function fondoPlanetario(): void {
   pic('cohete', 190, 640, 220);
 }
 
+// faro(x, y): el faro de la playa, sobre sus rocas, con la base en (x, y): la torre blanca con rayas rojas, la linterna
+// y el destello hacia el mar, que se enciende y se apaga (con T). Va a la izquierda, lejos del botón de la cámara.
+function faro(x: number, y: number): void {
+  ctx.save();
+  ctx.fillStyle = '#8A8F99';
+  ctx.strokeStyle = K;
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.ellipse(x, y, 120, 46, 0, Math.PI, 0);
+  ctx.fill();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x - 46, y - 10);
+  ctx.lineTo(x - 32, y - 200);
+  ctx.lineTo(x + 32, y - 200);
+  ctx.lineTo(x + 46, y - 10);
+  ctx.closePath();
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#E2574C';
+  [-60, -120, -180].forEach((dy) => {
+    const a = 46 - ((-dy - 10) / 190) * 14;
+    ctx.fillRect(x - a + 3, y + dy - 18, (a - 3) * 2, 30);
+  });
+  ctx.restore();
+  card(x - 38, y - 248, 76, 50, '#FFE08A', 5, 10);
+  card(x - 48, y - 264, 96, 20, '#E2574C', 5, 8);
+  if (Math.sin(T * 3) > 0) {
+    ctx.save();
+    ctx.globalAlpha = 0.45;
+    ctx.fillStyle = '#FFF3B0';
+    ctx.beginPath();
+    ctx.moveTo(x, y - 222);
+    ctx.lineTo(x + 220, y - 270);
+    ctx.lineTo(x + 220, y - 175);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+// sombrilla(x, y): una sombrilla de rayas clavada en la arena, con la punta del palo en (x, y).
+function sombrilla(x: number, y: number): void {
+  ctx.save();
+  ctx.strokeStyle = K;
+  ctx.lineWidth = 8;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x, y - 200);
+  ctx.stroke();
+  ['#FF6B5E', '#FFFFFF', '#FF6B5E', '#FFFFFF'].forEach((c, i) => {
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.moveTo(x, y - 260);
+    ctx.lineTo(x - 140 + i * 70, y - 190);
+    ctx.lineTo(x - 70 + i * 70, y - 190);
+    ctx.closePath();
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.stroke();
+  });
+  ctx.restore();
+}
+
+// fondoPlaya(): la playa (desde la fase P24): el cielo con el sol, el mar con olas que se mueven, un barco y una lancha
+// que navegan (con T), el faro en sus rocas, la arena, la sombrilla y la toalla.
+export function fondoPlaya(): void {
+  cielo('#9ED9F5', '#E9F7FC', 220);
+  circ(900, 100, 56, '#FFD66B', 6);
+  ctx.save();
+  ctx.fillStyle = '#5BB8E6';
+  ctx.fillRect(0, 220, W, 200);
+  ctx.strokeStyle = '#B9E9F8';
+  ctx.lineWidth = 6;
+  [260, 320, 380].forEach((y, j) =>
+    Array.from({ length: 9 }, (_, i) => i).forEach((i) => {
+      const x = ((i * 200 + T * (20 + j * 10)) % 1800) - 100;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.quadraticCurveTo(x + 30, y - 16, x + 60, y);
+      ctx.stroke();
+    }),
+  );
+  ctx.fillStyle = '#FFE6A8';
+  ctx.beginPath();
+  ctx.moveTo(0, 430);
+  ctx.quadraticCurveTo(W / 2, 390, W, 430);
+  ctx.lineTo(W, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+  pic('barco', ((T * 30) % 1900) - 150, 270, 130);
+  pic('lancha', W + 150 - ((T * 45 + 900) % 1900), 350, 100);
+  faro(150, 420);
+  sombrilla(1450, 640);
+  pic('toalla', 1500, 700, 120);
+}
+
 // fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad, el del bosque, el
-// del mercado, el del planetario o el de la granja (desde la fase P17; el álbum también lo usa).
+// del mercado, el del planetario, el de la playa o el de la granja (desde la fase P17; el álbum también lo usa).
 export function fondoDe(e: Excursion): void {
   if (e.id === 'zoo') fondoZoo();
   else if (e.id === 'acuario') fondoAcuario();
@@ -576,6 +677,7 @@ export function fondoDe(e: Excursion): void {
   else if (e.id === 'bosque') fondoBosque();
   else if (e.id === 'mercado') fondoMercado();
   else if (e.id === 'planetario') fondoPlanetario();
+  else if (e.id === 'playa') fondoPlaya();
   else fondoGranja();
 }
 
@@ -591,6 +693,11 @@ export const GRUPO_FOTO: Readonly<Record<string, readonly (readonly [string, num
     ['delfin', -240, 30, 200],
     ['pulpo', 240, 90, 150],
     ['estrellaMar', 140, 110, 90],
+  ],
+  playa: [
+    ['castillo', -240, 50, 180],
+    ['cangrejo', 240, 90, 130],
+    ['concha', 140, 110, 80],
   ],
   planetario: [
     ['cohete', -240, 30, 200],
@@ -647,13 +754,23 @@ interface Destino {
   readonly w: number;
   readonly h: number;
 }
+// DOS_FILAS: con más de ocho excursiones (desde la P24), los carteles del autobús van en dos filas, más bajos, y el
+// autobús y Tito se apartan abajo para dejarles sitio.
+const DOS_FILAS = EXCURSIONES.length > 8;
 // DESTINOS: los carteles del autobús, uno por excursión, en fila y centrados (desde la P19 caben cinco: los carteles se
-// estrechan para que quepan todos con 40 de margen; desde la P22, con más de seis, se separan menos).
+// estrechan para que quepan todos con 40 de margen; desde la P22, con más de seis, se separan menos; desde la P24, con
+// más de ocho, en dos filas: la de arriba con la mitad y una más, y la de abajo un poco a la izquierda, para no tapar el
+// autobús).
 export const DESTINOS: readonly Destino[] = EXCURSIONES.map((e, i, todas) => {
-  const sep = todas.length > 6 ? 26 : 50,
-    w = Math.min(300, (W - 80 - (todas.length - 1) * sep) / todas.length),
-    ancho = todas.length * w + (todas.length - 1) * sep;
-  return { e, x: (W - ancho) / 2 + i * (w + sep), y: 230, w, h: 330 };
+  const porFila = DOS_FILAS ? Math.ceil(todas.length / 2) : todas.length,
+    fila = Math.floor(i / porFila),
+    enFila = fila === 0 ? porFila : todas.length - porFila,
+    sep = todas.length > 6 ? 26 : 50,
+    w = Math.min(DOS_FILAS ? 260 : 300, (W - 80 - (porFila - 1) * sep) / porFila),
+    h = DOS_FILAS ? 210 : 330,
+    ancho = enFila * w + (enFila - 1) * sep,
+    centro = fila === 0 ? W / 2 : W / 2 - 160;
+  return { e, x: centro - ancho / 2 + (i - fila * porFila) * (w + sep), y: DOS_FILAS ? 190 + fila * 235 : 230, w, h };
 });
 // enDestino(d, x, y): ¿se ha tocado el cartel d?
 const enDestino = (d: Destino, x: number, y: number): boolean => x > d.x && x < d.x + d.w && y > d.y && y < d.y + d.h;
@@ -739,7 +856,9 @@ SCENES['autobus'] = {
     const viaje = bus.fase === 'viaje',
       t = T - bus.t0;
     dibujaCarretera(viaje ? t * 120 : 0);
-    pic('autobus', viaje ? 800 : 1340, 690 + (viaje ? Math.sin(t * 18) * 5 : 0), viaje ? 420 : 300);
+    // parado, a la derecha (desde la P24, con dos filas de carteles, más abajo y algo más pequeño)
+    if (viaje) pic('autobus', 800, 690 + Math.sin(t * 18) * 5, 420);
+    else pic('autobus', DOS_FILAS ? 1400 : 1340, DOS_FILAS ? 760 : 690, DOS_FILAS ? 260 : 300);
     if (!viaje)
       DESTINOS.forEach((d) => {
         const lista = estacionesJugables(d.e).length > 0,
@@ -750,7 +869,8 @@ SCENES['autobus'] = {
         ctx.translate(-d.x - d.w / 2, -d.y - d.h / 2);
         card(d.x, d.y, d.w, d.h, lista ? '#fff' : '#EEE8DE', 6, 30);
         // el dibujo y la letra, más pequeños si las tarjetas son estrechas (desde la P23, con ocho excursiones)
-        pic(d.e.icono, d.x + d.w / 2, d.y + 140, Math.min(190, d.w - 24), lista ? 1 : 0.45);
+        // (desde la P24, también si son bajas: el dibujo va a 0,42 del alto)
+        pic(d.e.icono, d.x + d.w / 2, d.y + d.h * 0.42, Math.min(190, d.w - 24, d.h - 90), lista ? 1 : 0.45);
         // los textos se encogen si no caben en su tarjeta (desde la fase ID3 de docs/PLAN-IDIOMAS.md)
         text(d.e.nombre, d.x + d.w / 2, d.y + d.h - 40, d.w < 200 ? 24 : 30, lista ? '#4A3B2A' : '#9A9086', {
           max: d.w - 24,
@@ -765,7 +885,7 @@ SCENES['autobus'] = {
     if (!viaje) dibujaBotonAlbum();
     drawHome();
     drawCoinHUD();
-    if (!viaje) drawTito(60, 640, 200);
+    if (!viaje) drawTito(60, DOS_FILAS ? 700 : 640, DOS_FILAS ? 170 : 200);
   },
   // down(x, y): casa -> el cole; monedas -> tienda; el álbum -> el álbum de excursiones; un cartel con estaciones -> ¡al
   // viaje!; uno sin -> «muy pronto».
@@ -919,8 +1039,16 @@ function hacerFoto(): void {
 // la fase P17, el cuidador Nico en el zoo, y desde la P18, la buceadora Marina en el acuario, y desde la P19, el
 // paleontólogo Pablo en el museo de los dinosaurios, y desde la P20, la bombera Lucía en la ciudad, y desde la P21, el
 // guardabosques Hugo en el bosque de otoño, y desde la P22, la frutera Carmen en el mercado, y desde la P23, la
-// astronauta Sara en el planetario.
+// astronauta Sara en el planetario, y desde la P24, el socorrista Leo en la playa.
 function bienvenida(e: Excursion): string {
+  if (e.id === 'playa')
+    return fmt(
+      '¡Hola{nino}! Soy {guia}, el socorrista. ¡Bienvenido a la playa! Hoy vamos a pasar el día junto al mar.',
+      {
+        nino: kid(),
+        guia: e.nombreGuia,
+      },
+    );
   if (e.id === 'planetario')
     return fmt('¡Hola{nino}! Soy {guia}, la astronauta. ¡Bienvenido al planetario! Hoy vamos a viajar a la Luna.', {
       nino: kid(),

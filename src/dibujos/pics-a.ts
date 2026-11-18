@@ -9,7 +9,7 @@
 // Ayudas (prefijo PA_ para no chocar con otros archivos): PA_oct, PA_win, PA_P, PA_star, PA_hat,
 // PA_heart, PA_spiral, PA_wh, PA_lens.
 // Dibujos: escuela, hospital, parque, piscina, tienda, calendario, semáforo, paso de cebra, stop,
-// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, paleontólogo, guardabosques, frutera, peluquero) y sus
+// mapa; oficios (bombera, médico, policía, panadero, cocinera, cartero, granjera, cuidador del zoo, buceadora, paleontólogo, guardabosques, frutera, socorrista, peluquero) y sus
 // herramientas; cosas de los sentidos; vehículos (ambulancia, camión de bomberos, submarino...).
 // ==========================================================================
 /* ---------- Dibujos PA: lugares, oficios, objetos y vehiculos ---------- */
@@ -362,6 +362,18 @@ Object.assign(PICS, {
       mid: `<path d="M-15 -10 H15 V24 H-15 Z" fill="#5FC77A" ${sw(3)}/><rect x="-8" y="6" width="16" height="10" rx="2" fill="#4E9A44" ${sw(2.5)}/><path d="M-15 -10 L-10 -16 M15 -10 L10 -16" stroke="#5FC77A" stroke-width="4" stroke-linecap="round"/>`,
       hold: `<g transform="translate(40 -44)"><circle r="15" fill="#FF6B5E" ${sw(3)}/><path d="M0 -14 q2 -8 8 -10" fill="none" stroke="#7A4E2E" stroke-width="3" stroke-linecap="round"/><path d="M2 -16 q8 -8 14 -2 q-8 4 -14 2 Z" fill="#7CC86E" ${sw(2)}/><ellipse cx="-6" cy="-5" rx="3" ry="5" fill="#FFFFFF" opacity=".7"/></g>`,
       top: `<path d="M-24 -40 Q-24 -64 0 -64 Q24 -64 24 -40 Q0 -48 -24 -40 Z" fill="#E2574C" ${sw(4)}/><circle cx="-10" cy="-54" r="2.5" fill="#FFFFFF"/><circle cx="6" cy="-58" r="2.5" fill="#FFFFFF"/><circle cx="12" cy="-48" r="2.5" fill="#FFFFFF"/><path d="M22 -42 l10 6 l-4 -10 Z" fill="#E2574C" ${sw(3)}/>`,
+    },
+  ),
+  // socorrista: Leo, el socorrista de la playa (fase P24): camiseta roja con la cruz blanca, pantalón corto amarillo,
+  // gorra roja, el silbato colgado del cuello y el flotador salvavidas en la mano levantada.
+  socorrista: PA_P(
+    { skin: '#E8B48F', hair: '#E8B84A', style: 'short', shirt: '#E2574C', pants: '#FFD66B' },
+    {
+      T: -60,
+      R: ['M20 -6 Q34 -8 36 -22', 36, -24],
+      mid: `<path d="M-12 -14 Q0 4 12 -14" fill="none" stroke="${K}" stroke-width="2.5"/><rect x="-6" y="0" width="12" height="7" rx="3" fill="#5B8DEF" ${sw(2.5)}/><rect x="-4" y="10" width="8" height="18" fill="#FFFFFF" ${sw(2)}/><rect x="-9" y="15" width="18" height="8" fill="#FFFFFF" ${sw(2)}/><rect x="-3" y="11" width="6" height="16" fill="#FFFFFF"/>`,
+      hold: `<g transform="translate(42 -46)"><circle r="18" fill="none" stroke="${K}" stroke-width="15"/><circle r="18" fill="none" stroke="#FFFFFF" stroke-width="9"/><path d="M18 0 A18 18 0 0 1 0 18 M-18 0 A18 18 0 0 1 0 -18" fill="none" stroke="#FF6B5E" stroke-width="9"/></g>`,
+      top: `<path d="M-22 -42 Q-22 -62 0 -62 Q22 -62 22 -42 Z" fill="#E2574C" ${sw(4)}/><path d="M4 -44 Q22 -48 34 -42 Q22 -38 4 -40 Z" fill="#E2574C" ${sw(3)}/>`,
     },
   ),
   peluquero: PA_P(

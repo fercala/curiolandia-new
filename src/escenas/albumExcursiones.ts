@@ -48,18 +48,34 @@ interface MarcoAlbum {
   readonly w: number;
   readonly h: number;
 }
+// DOS_FILAS: con más de ocho excursiones (desde la P24), los marcos van en dos filas y son más bajos.
+const DOS_FILAS = EXCURSIONES.length > 8;
 // MARCOS_ALBUM: un marco por excursión, en fila y centrados.
 export const MARCOS_ALBUM: readonly MarcoAlbum[] = EXCURSIONES.map((e, i, todas) => {
   // desde la P18 caben cuatro: los marcos se estrechan para que quepan todos con 40 de margen (desde la P22, con más de
-  // seis, se separan menos, y desde la P23 dejan 70 de margen, para que el marco torcido de las puntas no se salga)
+  // seis, se separan menos, y desde la P23 dejan 70 de margen, para que el marco torcido de las puntas no se salga);
+  // desde la P24, con más de ocho, en dos filas (arriba, la mitad y una más), con 120 de margen para no tapar a Tito
   const muchos = todas.length > 6,
+    porFila = DOS_FILAS ? Math.ceil(todas.length / 2) : todas.length,
+    fila = Math.floor(i / porFila),
+    enFila = fila === 0 ? porFila : todas.length - porFila,
     sep = muchos ? 26 : 50,
-    w = Math.min(420, (W - (muchos ? 140 : 80) - (todas.length - 1) * sep) / todas.length),
-    ancho = todas.length * w + (todas.length - 1) * sep;
-  return { e, x: (W - ancho) / 2 + i * (w + sep), y: 190, w, h: 560 };
+    margen = DOS_FILAS ? 240 : muchos ? 140 : 80,
+    w = Math.min(420, (W - margen - (porFila - 1) * sep) / porFila),
+    ancho = enFila * w + (enFila - 1) * sep;
+  return {
+    e,
+    x: (W - ancho) / 2 + (i - fila * porFila) * (w + sep),
+    y: DOS_FILAS ? 165 + fila * 360 : 190,
+    w,
+    h: DOS_FILAS ? 335 : 560,
+  };
 });
-// FOTO: el hueco de la foto dentro del marco (separación por los lados y por arriba, y su alto).
-const FOTO = { m: 24, alto: 300 };
+// FOTO: el hueco de la foto dentro del marco (separación por los lados y por arriba, y su alto; desde la P24, con dos
+// filas, más bajo).
+const FOTO = { m: DOS_FILAS ? 18 : 24, alto: DOS_FILAS ? 170 : 300 };
+// ESCALA_FOTO: lo que se encoge lo de dentro de la foto de recuerdo (los animales, el guía y Tito) con el hueco más bajo.
+const ESCALA_FOTO = FOTO.alto / 300;
 
 // enMarco(m, x, y): ¿se ha tocado el marco m?
 const enMarco = (m: MarcoAlbum, x: number, y: number): boolean => x > m.x && x < m.x + m.w && y > m.y && y < m.y + m.h;
@@ -83,12 +99,13 @@ function dibujaFotoRecuerdo(m: MarcoAlbum): void {
   ctx.beginPath();
   ctx.rect(fx, fy, fw, FOTO.alto);
   ctx.clip();
-  const cx = fx + fw / 2;
+  const cx = fx + fw / 2,
+    e = ESCALA_FOTO;
   (GRUPO_FOTO[m.e.id] ?? GRUPO_FOTO['granja']!).forEach(([k, x, y, t]) =>
-    pic(k, cx + x * 0.55, fy + 165 + y * 0.55, t * 0.55),
+    pic(k, cx + x * 0.55 * e, fy + (165 + y * 0.55) * e, t * 0.55 * e),
   );
-  pic(m.e.guia, cx + 15, fy + 160, 170);
-  drawTito(cx - 140, fy + 140, 110);
+  pic(m.e.guia, cx + 15 * e, fy + 160 * e, 170 * e);
+  drawTito(cx - 140 * e, fy + 140 * e, 110 * e);
   ctx.restore();
 }
 
@@ -100,7 +117,9 @@ function dibujaMarco(m: MarcoAlbum, i: number): void {
     k = hv('alb:' + m.e.id, hR(m.x, m.y, m.w, m.h));
   ctx.save();
   ctx.translate(m.x + m.w / 2, m.y + m.h / 2);
-  ctx.rotate((i - 1) * 0.03);
+  // torcido un poco a un lado o al otro (desde la P24, según su sitio en la fila, para que los de la punta no se
+  // tuerzan cada vez más)
+  ctx.rotate(((i % 3) - 1) * 0.03);
   ctx.scale(k, k);
   ctx.translate(-m.x - m.w / 2, -m.y - m.h / 2);
   card(m.x, m.y, m.w, m.h, hecha ? '#fff' : '#EEE8DE', 6, 14);
@@ -110,21 +129,24 @@ function dibujaMarco(m: MarcoAlbum, i: number): void {
     text('?', m.x + m.w / 2, m.y + FOTO.m + FOTO.alto / 2 + 40, 140, '#fff');
   }
   const cx = m.x + m.w / 2,
-    y0 = m.y + FOTO.m + FOTO.alto;
+    y0 = m.y + FOTO.m + FOTO.alto,
+    // desde la P24, en los marcos bajos de dos filas, las líneas van más juntas
+    dy = DOS_FILAS ? [38, 70, 112] : [60, 105, 165],
+    peq = m.w < 200 || DOS_FILAS;
   // los textos se encogen si no caben en el marco (desde la P19, con cinco marcos y nombres largos)
-  text(m.e.nombre, cx, y0 + 60, m.w < 200 ? 24 : 32, hecha ? '#4A3B2A' : '#9A9086', { max: m.w - 30 });
+  text(m.e.nombre, cx, y0 + dy[0]!, peq ? 26 : 32, hecha ? '#4A3B2A' : '#9A9086', { max: m.w - 30 });
   // las veces y la fecha, cada una en el idioma del juego (juntar: no se vuelven a traducir)
   if (hecha)
-    text(juntar(vecesTexto(v.veces, tr), '·', fechaDe(v.d)), cx, y0 + 105, m.w < 200 ? 20 : 26, '#7A6A5A', {
+    text(juntar(vecesTexto(v.veces, tr), '·', fechaDe(v.d)), cx, y0 + dy[1]!, peq ? 20 : 26, '#7A6A5A', {
       max: m.w - 30,
     });
-  else text('Aún no hemos ido', cx, y0 + 105, m.w < 200 ? 20 : 26, '#9A9086', { max: m.w - 30 });
+  else text('Aún no hemos ido', cx, y0 + dy[1]!, peq ? 20 : 26, '#9A9086', { max: m.w - 30 });
   const est = m.e.estaciones,
-    paso = Math.min(62, (m.w - 40) / Math.max(1, est.length));
+    paso = Math.min(DOS_FILAS ? 46 : 62, (m.w - 40) / Math.max(1, est.length));
   est.forEach((s, j) => {
     const x = cx + (j - (est.length - 1) / 2) * paso;
-    circ(x, y0 + 165, paso / 2 - 3, '#fff', 3);
-    pic(s.icono, x, y0 + 165, paso * 0.8, hecha ? 1 : 0.3);
+    circ(x, y0 + dy[2]!, paso / 2 - 3, '#fff', 3);
+    pic(s.icono, x, y0 + dy[2]!, paso * 0.8, hecha ? 1 : 0.3);
   });
   ctx.restore();
 }

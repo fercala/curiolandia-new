@@ -1414,6 +1414,77 @@ const R = L.registro('cole');
         return stk ? null : 'la primera visita da la pegatina del cohete';
       },
     );
+    // P31 (fase P24): la playa con 5 años, con nueve excursiones en dos filas de carteles y de marcos
+    await caso(
+      'P31',
+      'con 5 años, el autobús (en dos filas, sin que los carteles se salgan ni se monten) lleva a la playa; las cinco paradas (la crema, el castillo, las conchas, la basura y el mar) se juegan siguiendo la ayuda, la foto de grupo, y el álbum en dos filas',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.age = 5;
+          if (__cl.S.exc) delete __cl.S.exc.playa;
+          save();
+          __cl.go('autobus', {});
+        });
+        await p.waitForTimeout(1200);
+        // los nueve carteles caben en la pantalla, sin montarse unos con otros
+        const mal = await p.evaluate(() => {
+          const fuera = DESTINOS.filter((d) => d.x < 0 || d.y < 0 || d.x + d.w > 1600 || d.y + d.h > 900);
+          const juntos = DESTINOS.filter((a, i) =>
+            DESTINOS.some((b, j) => j > i && a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h),
+          );
+          return [DESTINOS.length, fuera.map((d) => d.e.id), juntos.map((d) => d.e.id)];
+        });
+        if (mal[0] < 9 || mal[1].length || mal[2].length) return 'los carteles del autobús: ' + JSON.stringify(mal);
+        const d = await p.evaluate(() => DESTINOS.find((x) => x.e.id === 'playa'));
+        await L.clic(p, d.x + d.w / 2, d.y + d.h / 2);
+        let e = 'autobus';
+        for (let i = 0; i < 20 && e === 'autobus'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'excursion') return 'el viaje no ha llegado a la playa: ' + e;
+        const monedas = await p.evaluate(() => __cl.S.coins || 0);
+        const paradas = await p.evaluate(() =>
+          DESTINOS.find((x) => x.e.id === 'playa').e.estaciones.map((s) => [s.x, s.y, s.escena]),
+        );
+        for (const [x, y, nombre] of paradas) {
+          await p.waitForTimeout(1500);
+          await L.clic(p, x, y);
+          await p.waitForTimeout(1200);
+          if ((await escena()) !== nombre) return 'no se ha abierto ' + nombre + ': ' + (await escena());
+          // como en el zoo (P24): se sigue la ayuda solo mientras se juega en la parada
+          const jugando = () => p.evaluate((n) => __cl.name === n && ZOO.fase === 'juego', nombre);
+          const t0 = Date.now();
+          while (Date.now() - t0 < 150000 && (await jugando())) {
+            const t1 = Date.now();
+            while (Date.now() - t1 < 12000 && (await p.evaluate(() => VIVO.talking))) await p.waitForTimeout(150);
+            await p.waitForTimeout(400);
+            if (await jugando()) await L.paso(p, 0);
+            await p.waitForTimeout(250);
+          }
+          if (!(await p.evaluate(() => ZOO.fase === 'dato'))) return nombre + ' no llega al dato curioso';
+          for (let i = 0; i < 40 && (await escena()) === nombre; i++) await p.waitForTimeout(500);
+          if ((await escena()) !== 'excursion') return 'tras ' + nombre + ', escena ' + (await escena());
+        }
+        await p.waitForTimeout(3000);
+        const [v, despues, stk] = await p.evaluate(() => [__cl.S.exc.playa, __cl.S.coins || 0, __cl.S.stk.castillo]);
+        if (!v || v.veces !== 1 || !v.foto) return 'la visita a la playa: ' + JSON.stringify(v);
+        if (despues - monedas < 5) return `la foto de grupo da 5 monedas: ${monedas} -> ${despues}`;
+        if (!stk) return 'la primera visita da la pegatina del castillo';
+        // el álbum de excursiones, en dos filas: los nueve marcos caben y no se montan
+        const album = await p.evaluate(() => {
+          const M = MARCOS_ALBUM;
+          return [
+            M.length,
+            M.filter((m) => m.x < 0 || m.y < 0 || m.x + m.w > 1600 || m.y + m.h > 900).map((m) => m.e.id),
+            M.filter((a, i) =>
+              M.some((b, j) => j > i && a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h),
+            ).map((m) => m.e.id),
+          ];
+        });
+        return album[0] >= 9 && !album[1].length && !album[2].length ? null : 'el álbum: ' + JSON.stringify(album);
+      },
+    );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {
