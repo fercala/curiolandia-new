@@ -19,7 +19,8 @@
 // (fase P17): el autobús lleva al zoo, sus cinco recintos se juegan siguiendo la ayuda hasta el dato curioso de Nico, la
 // foto de grupo da 5 monedas y la pegatina del león, y con la cámara se le hace una foto a la jirafa que pasea (o al animal que la tape).
 // Y el acuario (fase P18): sus cinco salas se juegan siguiendo la ayuda hasta el dato curioso de Marina, y la foto de
-// grupo da 5 monedas y la pegatina del delfín.
+// grupo da 5 monedas y la pegatina del delfín. Y el tiempo de verdad (fase P26, P33): los charcos con lluvia, hasta el
+// arcoíris, y el muñeco de nieve y la guerra de bolas con nieve.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -1531,6 +1532,77 @@ const R = L.registro('cole');
           e = await escena();
         }
         return e === 'map' ? null : 'el globo no vuelve al mapa: ' + e;
+      },
+    );
+    // P33 (fase P26): el tiempo de verdad: con lluvia en la asamblea, el mapa tiene charcos; Tito va y salta en todos,
+    // sale el arcoíris, da 2 monedas y vuelve al mapa; con nieve, el mapa tiene el montón de nieve, el muñeco se hace
+    // por partes en orden (una parte que no toca no vale) y la guerra de bolas se gana acertando a los amigos
+    await caso(
+      'P33',
+      'con lluvia, el mapa tiene charcos y Tito salta en todos hasta el arcoíris (2 monedas); con nieve, el montón de nieve, el muñeco por partes en orden y la guerra de bolas',
+      async () => {
+        await p.evaluate(() => {
+          __cl.S.asam[today()] = { tiempo: 'lluvia' };
+          __cl.go('map', {});
+        });
+        await p.waitForTimeout(2500);
+        const c = await p.evaluate(() => juegoTiempoEnPantalla());
+        if (!c) return 'con lluvia no hay charcos en el mapa';
+        await L.clic(p, c.x, c.y);
+        // como en P1: en 3D, Tito anda primero hasta los charcos
+        let e = 'map';
+        for (let i = 0; i < 60 && e === 'map'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'charcos') return 'los charcos no llevan al juego: ' + e;
+        await p.waitForTimeout(800);
+        const monedas = await p.evaluate(() => __cl.S.coins),
+          n = await p.evaluate(() => CHARCOS.charcos.length);
+        for (let i = 0; i < n; i++) {
+          const s = await p.evaluate((j) => sitioCharco(j), i);
+          await L.clic(p, s.x, s.y);
+          await p.waitForTimeout(1500);
+        }
+        if ((await p.evaluate(() => CHARCOS.charcos.filter((o) => o.saltado).length)) !== n)
+          return 'Tito no ha saltado en todos los charcos';
+        await p.waitForTimeout(1200);
+        if (!(await p.evaluate(() => CHARCOS.arcoiris))) return 'no sale el arcoíris';
+        await p.waitForTimeout(1500);
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'los charcos no dan 2 monedas';
+        for (let i = 0; i < 30 && e === 'charcos'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'map') return 'los charcos no vuelven al mapa: ' + e;
+        await p.evaluate(() => {
+          __cl.S.asam[today()] = { tiempo: 'nieve' };
+          __cl.go('map', {});
+        });
+        await p.waitForTimeout(2500);
+        if (!(await p.evaluate(() => juegoTiempoEnPantalla()))) return 'con nieve no hay montón de nieve en el mapa';
+        await p.evaluate(() => __cl.go('muneco'));
+        await p.waitForTimeout(1500);
+        // una parte que no toca no se pone
+        const mal = await p.evaluate(() => sitioParte(MUNECO.bandeja.findIndex((id) => id !== MUNECO.partes[0].id)));
+        await L.clic(p, mal.x, mal.y);
+        if ((await p.evaluate(() => MUNECO.puestas)) !== 0) return 'se ha puesto una parte que no tocaba';
+        const k = await p.evaluate(() => MUNECO.partes.length);
+        for (let i = 0; i < k; i++) {
+          const s = await p.evaluate(() => sitioParte(MUNECO.bandeja.indexOf(MUNECO.partes[MUNECO.puestas].id)));
+          await L.clic(p, s.x, s.y);
+          await p.waitForTimeout(800);
+        }
+        for (let i = 0; i < 20 && (await p.evaluate(() => MUNECO.fase)) !== 'bolas'; i++) await p.waitForTimeout(500);
+        if ((await p.evaluate(() => MUNECO.fase)) !== 'bolas') return 'el muñeco no se termina';
+        for (let i = 0; i < 80 && (await p.evaluate(() => MUNECO.fase)) === 'bolas'; i++) {
+          const a = await p.evaluate(() => MUNECO.asoma && !MUNECO.bola && sitioMonton(MUNECO.asoma.m));
+          if (a) await L.clic(p, a.x, a.y);
+          await p.waitForTimeout(500);
+        }
+        await p.evaluate(() => delete __cl.S.asam[today()]);
+        const fin = await p.evaluate(() => [MUNECO.fase, MUNECO.aciertos, MUNECO.hacen]);
+        return fin[0] === 'fin' && fin[1] === fin[2] ? null : 'la guerra de bolas no se gana: ' + JSON.stringify(fin);
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

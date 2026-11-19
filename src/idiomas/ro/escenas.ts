@@ -1,7 +1,7 @@
 /*
  * idiomas/ro/escenas.ts: los textos en rumano de la portada, el mapa y sus zonas, la casita de cada tema, la asamblea,
  * el álbum, la tienda, el cofre, el repaso, las dos islas y la capa 3D de esas escenas, y los nombres de los temas (fase
- * ID4b de docs/PLAN-IDIOMAS.md); desde la ID9a, los tesoros del mapa y la vitrina (P14) y la cámara y el álbum de fotos (P15); desde la P25, los viajes en barco y en globo a las islas. Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto
+ * ID4b de docs/PLAN-IDIOMAS.md); desde la ID9a, los tesoros del mapa y la vitrina (P14) y la cámara y el álbum de fotos (P15); desde la P25, los viajes en barco y en globo a las islas; desde la P26, el tiempo de verdad en el mapa (los charcos y el muñeco de nieve). Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto
  * en castellano, tal como está en el código, a su traducción; textos.ts junta esta tabla con las demás. Las plantillas
  * llevan sus huecos ({n}, {cosa}...) y, entre un número y lo que cuenta, {n:de} (la «de» del rumano: «20 de monede»).
  * Las casitas de la Isla de las Letras («La A», «Las palmas»...) se traducen en la ID6, con su versión rumana.
@@ -608,4 +608,35 @@ export const ESCENAS_RO: Readonly<Record<string, string>> = {
   '¡Piiii! ¡Allá vamos!': 'Piiii! Hai că plecăm!',
   '¡Fuego! ¡El globo sube más alto!': 'Foc! Balonul urcă mai sus!',
   '¡Hola! ¡Adiós!': 'Bună! La revedere!',
+  // desde la P26 de docs/IDEAS-MEJORA.md: el tiempo de verdad en el mapa y sus juegos (escenas/tiempo.ts, dominio/tiempo.ts)
+  '¡Está lloviendo en Curiolandia! Toca los charcos para saltar con Tito.':
+    'Plouă în Curiolandia! Atinge bălțile ca să sari cu Tito.',
+  '¡Ha nevado en Curiolandia! Toca el montón de nieve para hacer un muñeco.':
+    'A nins în Curiolandia! Atinge grămada de zăpadă ca să facem un om de zăpadă.',
+  '¡Cuánto viento hace hoy en Curiolandia! Mira cómo vuelan las hojas.':
+    'Ce vânt bate azi în Curiolandia! Uite cum zboară frunzele.',
+  'Hoy hay muchas nubes en el cielo de Curiolandia.': 'Azi sunt mulți nori pe cerul din Curiolandia.',
+  '¡Qué niebla hay hoy! Casi no se ve el mar.': 'Ce ceață e azi! Aproape că nu se vede marea.',
+  '¡Está lloviendo! Tito se ha puesto las botas de agua. Toca los charcos para saltar en ellos.':
+    'Plouă! Tito și-a pus cizmele de cauciuc. Atinge bălțile ca să sară în ele.',
+  '¡Plof!': 'Pleosc!',
+  '¡Chof! ¡Qué salpicón!': 'Pleosc! Ce stropeală!',
+  '¡Ha dejado de llover! Mira: ha salido el arcoíris.': 'S-a oprit ploaia! Uite: a ieșit curcubeul.',
+  'Tiene siete colores: rojo, naranja, amarillo, verde, azul, añil y violeta.':
+    'Are șapte culori: roșu, portocaliu, galben, verde, albastru, indigo și violet.',
+  '¡Vamos a hacer un muñeco de nieve! Toca las partes en orden.':
+    'Hai să facem un om de zăpadă! Atinge părțile pe rând.',
+  'Primero, la bola grande de abajo.': 'Întâi, bulgărele mare de jos.',
+  'Ahora, la bola pequeña: la cabeza.': 'Acum, bulgărele mic: capul.',
+  'Le falta la nariz: ¡una zanahoria!': 'Îi lipsește nasul: un morcov!',
+  'Para que no tenga frío, el gorro.': 'Ca să nu-i fie frig, căciula.',
+  'Y una bufanda calentita.': 'Și un fular călduros.',
+  'Por último, los botones.': 'La final, nasturii.',
+  'Esa todavía no.': 'Pe aceea încă nu.',
+  '¡Qué muñeco de nieve tan bonito! Ahora, ¡guerra de bolas de nieve! Toca a los amigos cuando asomen.':
+    'Ce om de zăpadă frumos! Acum, bătaie cu bulgări! Atinge prietenii când se ivesc.',
+  'Toca a los amigos cuando asomen detrás de la nieve.': 'Atinge prietenii când se ivesc din spatele zăpezii.',
+  '¡Toma! ¡Le has dado!': 'Poftim! L-ai nimerit!',
+  '¡Plaf! ¡Otra vez!': 'Pleosc! Încă o dată!',
+  '¡Qué divertido! Nos lo hemos pasado en grande con la nieve.': 'Ce distractiv! Ne-am distrat de minune în zăpadă.',
 };

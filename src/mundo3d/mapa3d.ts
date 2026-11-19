@@ -10,7 +10,7 @@
  * 3D, mundo3d/isla3d.ts, y desde la fase I6 de docs/PLAN-INGLES.md la del Inglés, con globoAire3, el globo aerostático). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa (y mascotasMayores de escenas/casaMascotas.ts, desde la fase C7 de PLAN-CASA.md);
  * ahora() (aplicacion/puertos.ts); desde la fase P14 de docs/IDEAS-MEJORA.md, los tesoros escondidos (mundo3d/tesoros3d.ts y
  * pistaTesoro de escenas/tesoros.ts) y, desde la P15, la cámara de fotos (mundo3d/camara3d.ts y escenas/fotos.ts), y desde la P16, el botón
- * de la gran aventura (escenas/aventura.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
+ * de la gran aventura (escenas/aventura.ts), y desde la P26, el tiempo de hoy (mundo3d/tiempo3d.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
 import * as THREE from 'three';
@@ -127,6 +127,7 @@ import {
 import { ffTap, makeHouse, makePipo, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 import { skyNow } from './cielo.ts';
 import { tesoros3, tocarTesoro } from './tesoros3d.ts';
+import { tiempo3, tocarJuegoTiempo } from './tiempo3d.ts';
 import { pistaTesoro } from '../escenas/tesoros.ts';
 import { fotoEnMundo } from './camara3d.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
@@ -948,6 +949,8 @@ function buildMap(st: Escena) {
   wobInit(w);
   // los tesoros escondidos de hoy (desde la fase P14 de docs/IDEAS-MEJORA.md, mundo3d/tesoros3d.ts)
   tesoros3(w);
+  // el tiempo que se dijo hoy en la asamblea: lluvia y charcos, nieve, viento, nubes o niebla (desde la fase P26)
+  tiempo3(w);
   camRig(w, V3(1.2, 25, 20.5), V3(1.2, 0, 1.4), 1.6);
   return w;
 }
@@ -1037,7 +1040,8 @@ export function montarMapa3D(): void {
     // down(x,y): toque en el mapa. Botones 2D -> lógica original; la cámara (desde la fase P15: su botón la enciende y,
     // encendida, cada toque hace una foto, mundo3d/camara3d.ts); el botón de la aventura (desde la P16); objetos que vuelan; nada -> objeto tocable, mar o pasear;
     // Tito -> salta; mascota -> lógica 2D de la mascota (y una pista de los tesoros, desde la fase P14); tesoro -> Tito va
-    // y lo recoge (mundo3d/tesoros3d.ts); lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
+    // y lo recoge (mundo3d/tesoros3d.ts); charcos o montón de nieve -> Tito va y empieza su juego (desde la P26,
+    // mundo3d/tiempo3d.ts); lugar cerrado -> tiembla el candado; lugar abierto -> Tito camina y luego se entra
     down(x: number, y: number) {
       const w = W3;
       if (!w || busy3(w)) return;
@@ -1078,6 +1082,12 @@ export function montarMapa3D(): void {
       if (u.id === 'tesoro') {
         SFX.pop();
         tocarTesoro(w, u.rincon as string);
+        return;
+      }
+      // desde la fase P26, los charcos o el montón de nieve: Tito va y empieza el juego del tiempo (mundo3d/tiempo3d.ts)
+      if (u.id === 'charcos' || u.id === 'muneco') {
+        SFX.pop();
+        tocarJuegoTiempo(w, u.id);
         return;
       }
       const z = mzOf(u.spot);
