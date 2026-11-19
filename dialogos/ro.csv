@@ -1410,6 +1410,12 @@ c8731e0b28ea,¡Hay un tesoro cerca de la montaña!,E o comoară lângă munte!,f
 74dfadec5375,¡Hay un tesoro cerca del cole!,E o comoară lângă grădiniță!,frase,src/dominio/tesoros.ts,borrador
 eb8400ff4442,¡Hay un tesoro cerca de la casa de las fiestas!,E o comoară lângă casa sărbătorilor!,frase,src/dominio/tesoros.ts,borrador
 a1c98fc8bd3b,¡Hay un tesoro cerca del globo!,E o comoară lângă balon!,frase,src/dominio/tesoros.ts,borrador
+a5b4dcd79c2a,"Primero, la bola grande de abajo.","Întâi, bulgărele mare de jos.",frase,src/dominio/tiempo.ts,borrador
+2cb428687118,"Ahora, la bola pequeña: la cabeza.","Acum, bulgărele mic: capul.",frase,src/dominio/tiempo.ts,borrador
+c110470c3614,Le falta la nariz: ¡una zanahoria!,Îi lipsește nasul: un morcov!,frase,src/dominio/tiempo.ts,borrador
+48471e59abed,"Para que no tenga frío, el gorro.","Ca să nu-i fie frig, căciula.",frase,src/dominio/tiempo.ts,borrador
+cffc236e4738,Y una bufanda calentita.,Și un fular călduros.,frase,src/dominio/tiempo.ts,borrador
+c42bc96f63c4,"Por último, los botones.","La final, nasturii.",frase,src/dominio/tiempo.ts,borrador
 c5525ece43f9,"Somos gatos: a cuatro patas, arqueamos la espalda hacia arriba, como un gato que se despierta.","Suntem pisici: în patru labe, ne arcuim spatele în sus, ca o pisică ce se trezește.",frase,src/dominio/yoga.ts,borrador
 332605d4ee58,"Somos perros: manos y pies en el suelo y el culete bien alto, como una montaña.","Suntem câini: mâinile și picioarele pe jos și fundulețul sus, ca un munte.",frase,src/dominio/yoga.ts,borrador
 5afd3fc9748b,Somos ranas: nos agachamos con las rodillas abiertas y las manos en el suelo.,Suntem broscuțe: ne ghemuim cu genunchii depărtați și mâinile pe jos.,frase,src/dominio/yoga.ts,borrador
@@ -2247,6 +2253,23 @@ e1e276c85846,¡Todavía suena la música! Sigue bailando.,Încă se aude muzica!
 72dc4c8054fc,Este tesoro aún no lo has encontrado.,Comoara asta n-ai găsit-o încă.,frase,src/escenas/tesoros.ts,borrador
 4783c8ea9804,{nombre}. La has encontrado una vez.,{nombre}. Ai găsit asta o dată.,trozo,src/escenas/tesoros.ts,borrador
 69976c0de0c3,{nombre}. La has encontrado {n} veces.,{nombre}. Ai găsit asta de {n} {n:de}ori.,trozo,src/escenas/tesoros.ts,borrador
+07bb22019f11,¡Está lloviendo en Curiolandia! Toca los charcos para saltar con Tito.,Plouă în Curiolandia! Atinge bălțile ca să sari cu Tito.,frase,src/escenas/tiempo.ts,borrador
+1f6463da8e94,¡Ha nevado en Curiolandia! Toca el montón de nieve para hacer un muñeco.,A nins în Curiolandia! Atinge grămada de zăpadă ca să facem un om de zăpadă.,frase,src/escenas/tiempo.ts,borrador
+311fcc69151d,¡Cuánto viento hace hoy en Curiolandia! Mira cómo vuelan las hojas.,Ce vânt bate azi în Curiolandia! Uite cum zboară frunzele.,frase,src/escenas/tiempo.ts,borrador
+8fbeada97083,Hoy hay muchas nubes en el cielo de Curiolandia.,Azi sunt mulți nori pe cerul din Curiolandia.,frase,src/escenas/tiempo.ts,borrador
+4e88aae936d5,¡Qué niebla hay hoy! Casi no se ve el mar.,Ce ceață e azi! Aproape că nu se vede marea.,frase,src/escenas/tiempo.ts,borrador
+41eb885ad510,¡Plof!,Pleosc!,frase,src/escenas/tiempo.ts,borrador
+3e0fafcabb42,¡Chof! ¡Qué salpicón!,Pleosc! Ce stropeală!,frase,src/escenas/tiempo.ts,borrador
+276f37335b81,¡Ha dejado de llover! Mira: ha salido el arcoíris.,S-a oprit ploaia! Uite: a ieșit curcubeul.,frase,src/escenas/tiempo.ts,borrador
+a9f979e275da,"Tiene siete colores: rojo, naranja, amarillo, verde, azul, añil y violeta.","Are șapte culori: roșu, portocaliu, galben, verde, albastru, indigo și violet.",frase,src/escenas/tiempo.ts,borrador
+41c6605ddd13,¡Está lloviendo! Tito se ha puesto las botas de agua. Toca los charcos para saltar en ellos.,Plouă! Tito și-a pus cizmele de cauciuc. Atinge bălțile ca să sară în ele.,frase,src/escenas/tiempo.ts,borrador
+6a4fa85074aa,"¡Qué muñeco de nieve tan bonito! Ahora, ¡guerra de bolas de nieve! Toca a los amigos cuando asomen.","Ce om de zăpadă frumos! Acum, bătaie cu bulgări! Atinge prietenii când se ivesc.",frase,src/escenas/tiempo.ts,borrador
+da81ca0c7f5c,¡Qué divertido! Nos lo hemos pasado en grande con la nieve.,Ce distractiv! Ne-am distrat de minune în zăpadă.,frase,src/escenas/tiempo.ts,borrador
+928de4ce0294,¡Toma! ¡Le has dado!,Poftim! L-ai nimerit!,frase,src/escenas/tiempo.ts,borrador
+b247b8934caf,¡Plaf! ¡Otra vez!,Pleosc! Încă o dată!,frase,src/escenas/tiempo.ts,borrador
+332d4baae339,Toca a los amigos cuando asomen detrás de la nieve.,Atinge prietenii când se ivesc din spatele zăpezii.,frase,src/escenas/tiempo.ts,borrador
+69e4675d3c3f,¡Vamos a hacer un muñeco de nieve! Toca las partes en orden.,Hai să facem un om de zăpadă! Atinge părțile pe rând.,frase,src/escenas/tiempo.ts,borrador
+f28a88808b66,Esa todavía no.,Pe aceea încă nu.,frase,src/escenas/tiempo.ts,borrador
 15d657aa9510,Un cuento extra antes de dormir,O poveste în plus înainte de culcare,trozo,src/escenas/tienda.ts,borrador
 4bf721c805e2,Ir a jugar al parque,Mergem să ne jucăm în parc,trozo,src/escenas/tienda.ts,borrador
 9255f2bf1f4b,Elegir a qué jugamos juntos,Alegi cu ce ne jucăm împreună,trozo,src/escenas/tienda.ts,borrador

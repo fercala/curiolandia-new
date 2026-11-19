@@ -1410,6 +1410,12 @@ c8731e0b28ea,¡Hay un tesoro cerca de la montaña!,frase,src/dominio/tesoros.ts
 74dfadec5375,¡Hay un tesoro cerca del cole!,frase,src/dominio/tesoros.ts
 eb8400ff4442,¡Hay un tesoro cerca de la casa de las fiestas!,frase,src/dominio/tesoros.ts
 a1c98fc8bd3b,¡Hay un tesoro cerca del globo!,frase,src/dominio/tesoros.ts
+a5b4dcd79c2a,"Primero, la bola grande de abajo.",frase,src/dominio/tiempo.ts
+2cb428687118,"Ahora, la bola pequeña: la cabeza.",frase,src/dominio/tiempo.ts
+c110470c3614,Le falta la nariz: ¡una zanahoria!,frase,src/dominio/tiempo.ts
+48471e59abed,"Para que no tenga frío, el gorro.",frase,src/dominio/tiempo.ts
+cffc236e4738,Y una bufanda calentita.,frase,src/dominio/tiempo.ts
+c42bc96f63c4,"Por último, los botones.",frase,src/dominio/tiempo.ts
 c5525ece43f9,"Somos gatos: a cuatro patas, arqueamos la espalda hacia arriba, como un gato que se despierta.",frase,src/dominio/yoga.ts
 332605d4ee58,"Somos perros: manos y pies en el suelo y el culete bien alto, como una montaña.",frase,src/dominio/yoga.ts
 5afd3fc9748b,Somos ranas: nos agachamos con las rodillas abiertas y las manos en el suelo.,frase,src/dominio/yoga.ts
@@ -2247,6 +2253,23 @@ e1e276c85846,¡Todavía suena la música! Sigue bailando.,frase,src/escenas/sill
 72dc4c8054fc,Este tesoro aún no lo has encontrado.,frase,src/escenas/tesoros.ts
 4783c8ea9804,{nombre}. La has encontrado una vez.,trozo,src/escenas/tesoros.ts
 69976c0de0c3,{nombre}. La has encontrado {n} veces.,trozo,src/escenas/tesoros.ts
+07bb22019f11,¡Está lloviendo en Curiolandia! Toca los charcos para saltar con Tito.,frase,src/escenas/tiempo.ts
+1f6463da8e94,¡Ha nevado en Curiolandia! Toca el montón de nieve para hacer un muñeco.,frase,src/escenas/tiempo.ts
+311fcc69151d,¡Cuánto viento hace hoy en Curiolandia! Mira cómo vuelan las hojas.,frase,src/escenas/tiempo.ts
+8fbeada97083,Hoy hay muchas nubes en el cielo de Curiolandia.,frase,src/escenas/tiempo.ts
+4e88aae936d5,¡Qué niebla hay hoy! Casi no se ve el mar.,frase,src/escenas/tiempo.ts
+41eb885ad510,¡Plof!,frase,src/escenas/tiempo.ts
+3e0fafcabb42,¡Chof! ¡Qué salpicón!,frase,src/escenas/tiempo.ts
+276f37335b81,¡Ha dejado de llover! Mira: ha salido el arcoíris.,frase,src/escenas/tiempo.ts
+a9f979e275da,"Tiene siete colores: rojo, naranja, amarillo, verde, azul, añil y violeta.",frase,src/escenas/tiempo.ts
+41c6605ddd13,¡Está lloviendo! Tito se ha puesto las botas de agua. Toca los charcos para saltar en ellos.,frase,src/escenas/tiempo.ts
+6a4fa85074aa,"¡Qué muñeco de nieve tan bonito! Ahora, ¡guerra de bolas de nieve! Toca a los amigos cuando asomen.",frase,src/escenas/tiempo.ts
+da81ca0c7f5c,¡Qué divertido! Nos lo hemos pasado en grande con la nieve.,frase,src/escenas/tiempo.ts
+928de4ce0294,¡Toma! ¡Le has dado!,frase,src/escenas/tiempo.ts
+b247b8934caf,¡Plaf! ¡Otra vez!,frase,src/escenas/tiempo.ts
+332d4baae339,Toca a los amigos cuando asomen detrás de la nieve.,frase,src/escenas/tiempo.ts
+69e4675d3c3f,¡Vamos a hacer un muñeco de nieve! Toca las partes en orden.,frase,src/escenas/tiempo.ts
+f28a88808b66,Esa todavía no.,frase,src/escenas/tiempo.ts
 15d657aa9510,Un cuento extra antes de dormir,trozo,src/escenas/tienda.ts
 4bf721c805e2,Ir a jugar al parque,trozo,src/escenas/tienda.ts
 9255f2bf1f4b,Elegir a qué jugamos juntos,trozo,src/escenas/tienda.ts
