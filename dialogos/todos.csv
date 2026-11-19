@@ -2317,6 +2317,13 @@ a1def823d62e,¡Así se hace!,frase,src/escenas/titoDice.ts
 4b7c7dfa1dca,Tito dice: {orden},trozo,src/escenas/titoDice.ts
 6f4e1b2b51dd,¡Qué bien escuchas! Has hecho todo lo que dice Tito. ¿Jugamos otra vez?,frase,src/escenas/titoDice.ts
 1e032349cbdf,Escucha bien a Tito.,frase,src/escenas/titoDice.ts
+dbb9ab11f0e3,¡Todos al barco! Nos vamos a la Isla de las Letras. Toca el barco para tocar la bocina.,frase,src/escenas/viaje.ts
+231ce76ea1b0,¡Subimos al globo! Nos vamos volando a la Isla del Inglés. Toca el globo para subir.,frase,src/escenas/viaje.ts
+40dacca0ae20,Volvemos en barco a Curiolandia. ¡Saluda a los animales del mar!,frase,src/escenas/viaje.ts
+dfb8132f36d5,Volvemos en globo a Curiolandia. ¡Saluda a los pájaros!,frase,src/escenas/viaje.ts
+586e1bbd57f5,¡Piiii! ¡Allá vamos!,frase,src/escenas/viaje.ts
+61e8f3706a68,¡Fuego! ¡El globo sube más alto!,frase,src/escenas/viaje.ts
+d0241c5e8cb5,¡Hola! ¡Adiós!,frase,src/escenas/viaje.ts
 8491310ce7f7,¡Qué bien lo haces!,frase,src/escenas/yoga.ts
 67d959b2041b,¡Genial! Respiras muy tranquilo.,frase,src/escenas/yoga.ts
 594decd97b0a,¡Estupendo!,frase,src/escenas/yoga.ts

@@ -1767,6 +1767,8 @@ SCENES.map = {
       SFX.pop();
       if (z.id === 'plaza') go('asamblea');
       else if (z.t) go('casita', { t: z.t, hello: true });
+      // desde la fase P25 de docs/IDEAS-MEJORA.md, a las islas se va de viaje: en barco (el muelle) o en globo
+      else if (z.esc === 'isla' || z.esc === 'islaIngles') go('viaje', { a: z.esc });
       else go(z.esc || z.id, { hello: true });
       return;
     }

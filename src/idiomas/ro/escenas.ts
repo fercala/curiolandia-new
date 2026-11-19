@@ -1,7 +1,7 @@
 /*
  * idiomas/ro/escenas.ts: los textos en rumano de la portada, el mapa y sus zonas, la casita de cada tema, la asamblea,
  * el álbum, la tienda, el cofre, el repaso, las dos islas y la capa 3D de esas escenas, y los nombres de los temas (fase
- * ID4b de docs/PLAN-IDIOMAS.md); desde la ID9a, los tesoros del mapa y la vitrina (P14) y la cámara y el álbum de fotos (P15). Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto
+ * ID4b de docs/PLAN-IDIOMAS.md); desde la ID9a, los tesoros del mapa y la vitrina (P14) y la cámara y el álbum de fotos (P15); desde la P25, los viajes en barco y en globo a las islas. Borrador de Claude para que lo revise una persona que hable rumano (ID9). Va del texto
  * en castellano, tal como está en el código, a su traducción; textos.ts junta esta tabla con las demás. Las plantillas
  * llevan sus huecos ({n}, {cosa}...) y, entre un número y lo que cuenta, {n:de} (la «de» del rumano: «20 de monede»).
  * Las casitas de la Isla de las Letras («La A», «Las palmas»...) se traducen en la ID6, con su versión rumana.
@@ -597,4 +597,15 @@ export const ESCENAS_RO: Readonly<Record<string, string>> = {
   'Esta foto aún no la has hecho. ¡Busca con la cámara!': 'Poza asta n-ai făcut-o încă. Caut-o cu aparatul foto!',
   '{nombre}. Esta foto la has hecho una vez.': '{nombre}. Poza asta ai făcut-o o dată.',
   '{nombre}. Esta foto la has hecho {n} veces.': '{nombre}. Poza asta ai făcut-o de {n} {n:de}ori.',
+  // desde la P25 de docs/IDEAS-MEJORA.md: los viajes en barco y en globo a las islas (escenas/viaje.ts)
+  '¡Todos al barco! Nos vamos a la Isla de las Letras. Toca el barco para tocar la bocina.':
+    'Toată lumea pe vapor! Plecăm pe Insula Literelor. Atinge vaporul ca să claxonezi.',
+  '¡Subimos al globo! Nos vamos volando a la Isla del Inglés. Toca el globo para subir.':
+    'Urcăm în balon! Zburăm pe Insula Englezei. Atinge balonul ca să urce.',
+  'Volvemos en barco a Curiolandia. ¡Saluda a los animales del mar!':
+    'Ne întoarcem cu vaporul în Curiolandia. Salută animalele mării!',
+  'Volvemos en globo a Curiolandia. ¡Saluda a los pájaros!': 'Ne întoarcem cu balonul în Curiolandia. Salută păsările!',
+  '¡Piiii! ¡Allá vamos!': 'Piiii! Hai că plecăm!',
+  '¡Fuego! ¡El globo sube más alto!': 'Foc! Balonul urcă mai sus!',
+  '¡Hola! ¡Adiós!': 'Bună! La revedere!',
 };

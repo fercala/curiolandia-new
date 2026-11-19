@@ -1485,6 +1485,54 @@ const R = L.registro('cole');
         return album[0] >= 9 && !album[1].length && !album[2].length ? null : 'el álbum: ' + JSON.stringify(album);
       },
     );
+    // P32 (fase P25): los viajes en vehículo: del muelle del mapa, en barco a la Isla de las Letras; y la vuelta en globo
+    await caso(
+      'P32',
+      'el muelle del mapa lleva de viaje en barco (se toca la bocina) a la Isla de las Letras, y en el viaje de vuelta en globo se saluda a un pájaro y se llega al mapa',
+      async () => {
+        await p.evaluate(() => __cl.go('map', {}));
+        await p.waitForTimeout(2500);
+        const z = await p.evaluate(() => mzOf('muelle'));
+        await L.clic(p, z.x, z.y);
+        // como en P1: en 3D, Tito anda primero hasta el muelle
+        let e = 'map';
+        for (let i = 0; i < 60 && e === 'map'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'viaje') return 'el muelle no lleva al viaje: ' + e;
+        if ((await p.evaluate(() => [VIAJE.veh, VIAJE.a].join())) !== 'barco,isla')
+          return 'el viaje del muelle: ' + (await p.evaluate(() => JSON.stringify([VIAJE.veh, VIAJE.a])));
+        await p.waitForTimeout(800);
+        await L.clic(p, 640, 520);
+        if ((await p.evaluate(() => VIAJE.toques)) < 1) return 'tocar el barco no toca la bocina';
+        for (let i = 0; i < 40 && e === 'viaje'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'isla') return 'el barco no llega a la Isla de las Letras: ' + e;
+        await p.evaluate(() => __cl.go('viaje', { a: 'map', veh: 'globo' }));
+        // se espera a que pase el primer pájaro por la pantalla y se le toca
+        let s = null;
+        for (let i = 0; i < 30 && !s; i++) {
+          await p.waitForTimeout(200);
+          s = await p.evaluate(() => {
+            const q = VIAJE.pasan[0],
+              o = sitioPasajero(q);
+            return o.x > 300 && o.x < 1300 ? o : null;
+          });
+        }
+        if (!s) return 'no pasa ningún pájaro';
+        await L.clic(p, s.x, s.y);
+        if ((await p.evaluate(() => VIAJE.pasan.filter((q) => q.salto > 0).length)) < 1) return 'el pájaro no salta';
+        e = 'viaje';
+        for (let i = 0; i < 40 && e === 'viaje'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        return e === 'map' ? null : 'el globo no vuelve al mapa: ' + e;
+      },
+    );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
     else R.bien('P0', 'sin errores de JavaScript');
   } finally {

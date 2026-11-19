@@ -133,6 +133,9 @@ const ESCENAS = [
   ['playaConchas', {}],
   ['playaBasura', {}],
   ['playaMar', {}],
+  ['viaje', { a: 'isla' }], // P25
+  ['viaje', { a: 'islaIngles' }],
+  ['viaje', { a: 'map', veh: 'globo' }],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

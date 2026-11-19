@@ -2317,6 +2317,13 @@ a1def823d62e,¡Así se hace!,Așa se face!,frase,src/escenas/titoDice.ts,borrado
 4b7c7dfa1dca,Tito dice: {orden},Tito zice: {orden},trozo,src/escenas/titoDice.ts,borrador
 6f4e1b2b51dd,¡Qué bien escuchas! Has hecho todo lo que dice Tito. ¿Jugamos otra vez?,Ce bine asculți! Ai făcut tot ce a zis Tito. Ne mai jucăm o dată?,frase,src/escenas/titoDice.ts,borrador
 1e032349cbdf,Escucha bien a Tito.,Ascultă-l bine pe Tito.,frase,src/escenas/titoDice.ts,borrador
+dbb9ab11f0e3,¡Todos al barco! Nos vamos a la Isla de las Letras. Toca el barco para tocar la bocina.,Toată lumea pe vapor! Plecăm pe Insula Literelor. Atinge vaporul ca să claxonezi.,frase,src/escenas/viaje.ts,borrador
+231ce76ea1b0,¡Subimos al globo! Nos vamos volando a la Isla del Inglés. Toca el globo para subir.,Urcăm în balon! Zburăm pe Insula Englezei. Atinge balonul ca să urce.,frase,src/escenas/viaje.ts,borrador
+40dacca0ae20,Volvemos en barco a Curiolandia. ¡Saluda a los animales del mar!,Ne întoarcem cu vaporul în Curiolandia. Salută animalele mării!,frase,src/escenas/viaje.ts,borrador
+dfb8132f36d5,Volvemos en globo a Curiolandia. ¡Saluda a los pájaros!,Ne întoarcem cu balonul în Curiolandia. Salută păsările!,frase,src/escenas/viaje.ts,borrador
+586e1bbd57f5,¡Piiii! ¡Allá vamos!,Piiii! Hai că plecăm!,frase,src/escenas/viaje.ts,borrador
+61e8f3706a68,¡Fuego! ¡El globo sube más alto!,Foc! Balonul urcă mai sus!,frase,src/escenas/viaje.ts,borrador
+d0241c5e8cb5,¡Hola! ¡Adiós!,Bună! La revedere!,frase,src/escenas/viaje.ts,borrador
 8491310ce7f7,¡Qué bien lo haces!,Ce bine faci!,frase,src/escenas/yoga.ts,borrador
 67d959b2041b,¡Genial! Respiras muy tranquilo.,Grozav! Respiri foarte liniștit.,frase,src/escenas/yoga.ts,borrador
 594decd97b0a,¡Estupendo!,Minunat!,frase,src/escenas/yoga.ts,borrador

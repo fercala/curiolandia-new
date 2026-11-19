@@ -288,12 +288,18 @@ SCENES['isla'] = {
     drawCoinHUD();
     drawTito(TITO.x, TITO.y, TITO.w);
   },
-  // down(x, y): casa o barco -> el mapa grande; Tito -> consigna; monedas -> tienda; seguir -> la casita de letras
+  // down(x, y): casa -> el mapa grande; barco -> de viaje en barco al mapa grande (desde la fase P25 de
+  // docs/IDEAS-MEJORA.md, SCENES.viaje); Tito -> consigna; monedas -> tienda; seguir -> la casita de letras
   // que toca; Lupi -> se presenta; una zona hecha y abierta -> la zona; cerrada -> cuándo se abre; en obras -> pronto.
   down(x: number, y: number) {
-    if (atHome(x, y) || dist(x, y, BARCO.x, BARCO.y) < BARCO.r) {
+    if (atHome(x, y)) {
       SFX.whoosh();
       go('map');
+      return;
+    }
+    if (dist(x, y, BARCO.x, BARCO.y) < BARCO.r) {
+      SFX.whoosh();
+      go('viaje', { a: 'map', veh: 'barco' });
       return;
     }
     if (inTito(x, y)) {

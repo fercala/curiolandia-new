@@ -155,6 +155,10 @@ const ESCENAS_RO = [
   'playaConchas',
   'playaBasura',
   'playaMar',
+  // desde la P25, los viajes en barco y en globo (a las islas y de vuelta)
+  'viaje:isla',
+  'viaje:islaIngles',
+  'viaje:map',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).
@@ -303,7 +307,7 @@ const LETRAS = /^L\d-|lectura|letras/i;
       for (const e of ESCENAS_RO) {
         const [escena, inst] = e.split(':');
         try {
-          __cl.go(escena, { hello: true, t: TEMAS[0].id, inst, exc: inst });
+          __cl.go(escena, { hello: true, t: TEMAS[0].id, inst, exc: inst, a: inst });
         } catch (x) {}
         await new Promise((ok) => setTimeout(ok, 700));
         try {
