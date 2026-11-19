@@ -254,13 +254,19 @@ SCENES['islaIngles'] = {
     drawCoinHUD();
     drawTito(TITO.x, TITO.y, TITO.w);
   },
-  // down(x, y): casa o globo -> el mapa grande; Tito -> consigna; monedas -> tienda; seguir -> la casita de inglés que
+  // down(x, y): casa -> el mapa grande; globo -> de viaje en globo al mapa grande (desde la fase P25 de
+  // docs/IDEAS-MEJORA.md, SCENES.viaje); Tito -> consigna; monedas -> tienda; seguir -> la casita de inglés que
   // toca; Polly -> se presenta (en inglés y en castellano); una zona hecha y abierta -> la zona; cerrada -> cuándo se
   // abre; en obras -> pronto.
   down(x: number, y: number) {
-    if (atHome(x, y) || dist(x, y, GLOBO.x, GLOBO.y - 50) < GLOBO.r) {
+    if (atHome(x, y)) {
       SFX.whoosh();
       go('map');
+      return;
+    }
+    if (dist(x, y, GLOBO.x, GLOBO.y - 50) < GLOBO.r) {
+      SFX.whoosh();
+      go('viaje', { a: 'map', veh: 'globo' });
       return;
     }
     if (inTito(x, y)) {

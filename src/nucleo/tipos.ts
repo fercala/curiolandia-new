@@ -210,6 +210,10 @@ export interface OpcionesEscena {
    * volver a la aventura, el número del trozo del mapa que se acaba de ganar. */
   cap?: number;
   pieza?: number;
+  /** En los viajes (fase P25 de docs/IDEAS-MEJORA.md, SCENES.viaje): la escena de destino ('isla', 'islaIngles' o
+   * 'map') y el vehículo ('barco' o 'globo'). */
+  a?: string;
+  veh?: 'barco' | 'globo';
 }
 
 /** Las opciones de las escenas que siempre se abren con un tema (la casita y el cofre): t es obligatorio. */
