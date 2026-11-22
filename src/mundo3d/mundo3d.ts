@@ -69,7 +69,8 @@
  *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts; THREE es
  *   el paquete three de npm, que cada archivo importa (desde la fase 6a; antes era global, de three.min.js).
  * Exporta: R3frame (lo llama frame(), en aplicacion/bucle.ts) y, desde la fase P26 de docs/IDEAS-MEJORA.md,
- *   juegoTiempoEnPantalla (de mundo3d/tiempo3d.ts, para que las pruebas encuentren los charcos o el montón de nieve). Al montarse, la capa 3D deja window.__w3 (pruebas y
+ *   juegoTiempoEnPantalla (de mundo3d/tiempo3d.ts, para que las pruebas encuentren los charcos o el montón de nieve)
+ *   y, desde la P27, BLOQ, BOTON_JARDIN, botonJuego, casillaForma, opcionNumero y sitioPila (de mundo3d/bloques3d.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y pone la disposición de la vista 3D (ponDisposicion, de
  *   nucleo/disposicion.ts: los puestos de la casita, desde la fase 4i, en mundo3d/casita3d.ts; los sitios del mapa y las
  *   casitas de las zonas, desde la 4j, en mapa3d.ts y zonas3d.ts; Tito y su casa, desde la 4k, en interaccion.ts). Ya no
@@ -82,7 +83,8 @@
  *   montarCofre3D y montarPortada3D (en el mismo orden en que antes estaban aquí sus envolturas), desde la fase L6
  *   montarIsla3D, desde la fase I6 de docs/PLAN-INGLES.md montarIslaIngles3D (islaIngles3d.ts, la Isla del Inglés),
  *   desde la fase M0 de docs/PLAN-CASA-MEJORA.md montarCasa3D (casa3d.ts, la casa de Tito en 3D de prueba), desde la
- *   fase P10 de docs/IDEAS-MEJORA.md montarCarreras3D (carreras3d.ts, las carreras del patio), y pone __w3.ok.
+ *   fase P10 de docs/IDEAS-MEJORA.md montarCarreras3D (carreras3d.ts, las carreras del patio), desde la P27
+ *   montarBloques3D (bloques3d.ts, el rincón de las construcciones), y pone __w3.ok.
  * ========================================================================== */
 import { R, W3, camTick, fpsTick, montarMotor } from './motor.ts';
 import { scene } from '../nucleo/indice.ts';
@@ -96,8 +98,11 @@ import { montarIsla3D } from './isla3d.ts';
 import { montarIslaIngles3D } from './islaIngles3d.ts';
 import { montarCasa3D } from './casa3d.ts';
 import { montarCarreras3D } from './carreras3d.ts';
+import { montarBloques3D } from './bloques3d.ts';
 // desde la fase P26, dónde se ven los charcos o el montón de nieve del mapa (el puente lo deja para las pruebas)
 export { juegoTiempoEnPantalla } from './tiempo3d.ts';
+// desde la fase P27, lo del rincón de las construcciones que leen las pruebas
+export { BLOQ, BOTON_JARDIN, botonJuego, casillaForma, opcionNumero, sitioPila } from './bloques3d.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea al montar la capa 3D (si no hay WebGL se queda
 // en null).
@@ -130,6 +135,7 @@ export let R3frame: ((dt: number) => void) | null = null;
   montarIslaIngles3D();
   montarCasa3D();
   montarCarreras3D();
+  montarBloques3D(); // desde la fase P27, el rincón de las construcciones (bloques3d.ts)
   // marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
   window.__w3.ok = true;
 })();

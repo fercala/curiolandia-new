@@ -3,7 +3,8 @@
  * mapa, «El cole» (MZ2 en escenas/zonas.ts). Es el sitio que junta todo lo nuevo del banco de ideas sin llenar más el
  * mapa: el patio (juegos de moverse y, más adelante, las carreras), el autobús de las excursiones y las clases (los
  * rincones de lógica, experimentos y arte). Lo que aún no está hecho sale con el cartel «¡Muy pronto!» y, al tocarlo,
- * Tito dice que está en obras. Desde la fase P5, el autobús lleva a las excursiones (escenas/excursion.ts).
+ * Tito dice que está en obras. Desde la fase P5, el autobús lleva a las excursiones (escenas/excursion.ts), y desde la
+ * P27 las clases llevan al aula con sus rincones (escenas/clases.ts).
  * Es una escena 2D, como la Isla de las Letras antes de su fase 3D.
  * Exporta: COLE_SITIOS (los sitios del cole) y pone SCENES.cole al cargarse.
  * Desde la fase P4, si la familia ha quitado los juegos de moverse en la zona de adultos (S.sinMoverse), el patio sale
@@ -68,11 +69,12 @@ interface SitioCole {
 }
 
 // COLE_SITIOS: los sitios del cole. El patio, a la izquierda, y desde la fase P5 el autobús de las excursiones
-// (SCENES.autobus, escenas/excursion.ts) ya se pueden jugar; las clases llegan en las fases siguientes de
-// docs/IDEAS-MEJORA.md.
+// (SCENES.autobus, escenas/excursion.ts) ya se pueden jugar, y desde la fase P27 las clases (SCENES.clases,
+// escenas/clases.ts, con el rincón de las construcciones; los demás rincones llegan en las fases siguientes de
+// docs/IDEAS-MEJORA.md).
 export const COLE_SITIOS: readonly SitioCole[] = [
   { id: 'patio', x: 400, y: 600, r: 170, name: 'el patio', cartel: 'El patio', escena: 'patio' },
-  { id: 'clases', x: 830, y: 390, r: 170, name: 'las clases', cartel: 'Las clases' },
+  { id: 'clases', x: 830, y: 390, r: 170, name: 'las clases', cartel: 'Las clases', escena: 'clases' },
   {
     id: 'autobus',
     x: 1250,
@@ -163,7 +165,7 @@ SCENES['cole'] = {
       later(500, () =>
         sayQ(
           fmt(
-            '¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!',
+            '¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!',
             { nino: kid() },
           ),
         ),

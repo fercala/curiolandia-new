@@ -103,8 +103,9 @@ export interface OpcionesPaseo {
   zoom?: THREE.Vector3;
 }
 
-/** Tipo de mundo: portada, mapa (la isla), zona, casita de tema, cofre, las dos islas o la casa de Tito por dentro (casa: el prototipo de la fase M0 de docs/PLAN-CASA-MEJORA.md, mundo3d/casa3d.ts). */
-export type TipoMundo = 'title' | 'map' | 'zone' | 'casita' | 'cofre' | 'isla' | 'islaIngles' | 'casa' | 'carreras';
+/** Tipo de mundo: portada, mapa (la isla), zona, casita de tema, cofre, las dos islas o la casa de Tito por dentro (casa: el prototipo de la fase M0 de docs/PLAN-CASA-MEJORA.md, mundo3d/casa3d.ts), las carreras del patio y, desde la fase P27 de docs/IDEAS-MEJORA.md, el rincón de las construcciones (bloques). */
+export type TipoMundo =
+  'title' | 'map' | 'zone' | 'casita' | 'cofre' | 'isla' | 'islaIngles' | 'casa' | 'carreras' | 'bloques';
 
 /** Posición y punto de mira de la cámara (camRig, walkTo). */
 export interface Encuadre {

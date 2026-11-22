@@ -1682,6 +1682,18 @@ e67f421a7315,¡Qué bien huele! Estamos en la panadería. ¿Sabes cómo se hace 
 0385822af6db,¡Ya está curado! El conejito está muy contento.,frase,src/escenas/ciudad.ts
 546f498c736a,Para volver al cole hay que cruzar la calle. ¡Mira bien el semáforo!,frase,src/escenas/ciudad.ts
 c6eff9337b90,"¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el semáforo en verde y de la mano de un mayor.",frase,src/escenas/ciudad.ts
+2a38e02fe684,Construcciones,trozo,src/escenas/clases.ts src/mundo3d/bloques3d.ts
+1ec7e99207c1,El rincón de las construcciones.,frase,src/escenas/clases.ts
+2530064104a4,El rincón de las construcciones estará listo muy pronto.,frase,src/escenas/clases.ts
+aa37ac6a4153,Lógica,trozo,src/escenas/clases.ts
+edc0e8975506,El rincón de la lógica.,frase,src/escenas/clases.ts
+1a5505629eeb,El rincón de la lógica estará listo muy pronto.,frase,src/escenas/clases.ts
+e2e14219d8a7,Arte,trozo,src/escenas/clases.ts
+fc8590dc98f6,El rincón del arte.,frase,src/escenas/clases.ts
+1cf3dd08e236,El rincón del arte estará listo muy pronto.,frase,src/escenas/clases.ts
+c45479ffa5f0,Las clases,trozo,src/escenas/clases.ts src/escenas/cole.ts
+82a8c9409b57,¡Muy pronto!,frase,src/escenas/clases.ts src/escenas/cole.ts src/escenas/excursion.ts
+1f8977e7d249,¡Estas son las clases! Toca el rincón de las construcciones para jugar con los bloques.,frase,src/escenas/clases.ts
 6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,frase,src/escenas/cofre.ts
 5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,frase,src/escenas/cofre.ts
 ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,frase,src/escenas/cofre.ts
@@ -1698,12 +1710,10 @@ f9f93649a99e,¡Mira cuántas monedas{nino}! ¡Veinte monedas!,frase,src/escenas/
 a97c66fedfb2,el patio,trozo,src/escenas/cole.ts
 b44e34d68b1b,El patio,trozo,src/escenas/cole.ts src/escenas/patio.ts
 a32c8a6e5f50,las clases,trozo,src/escenas/cole.ts
-c45479ffa5f0,Las clases,trozo,src/escenas/cole.ts
 05999bcdbb62,el autobús de las excursiones,trozo,src/escenas/cole.ts
 4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts
 4e2af90d29d2,Cerrado,trozo,src/escenas/cole.ts
-82a8c9409b57,¡Muy pronto!,frase,src/escenas/cole.ts src/escenas/excursion.ts src/escenas/isla.ts
-4dbbcb0da5dd,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!",frase,src/escenas/cole.ts
+2a19d28ebbc6,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!",frase,src/escenas/cole.ts
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,frase,src/escenas/cole.ts
 f780cf0b3b7a,"Toca el patio para jugar, o el autobús para ir de excursión.",frase,src/escenas/cole.ts
 43a9acc15692,¿Flota o se hunde?,frase,src/escenas/cole.ts src/escenas/flota.ts
@@ -2522,7 +2532,7 @@ f73a1cc78d7a,"Mmm, {cosa} no va ahí. Prueba en otro lugar.",frase,src/juegos/co
 d2f1d6bb4f4f,Vamos a contar {cosas}. Toca cada una.,frase,src/juegos/comps.ts
 ab092eb6d258,Vamos a contar {cosas}. Toca cada uno.,frase,src/juegos/comps.ts
 c3e230b3f653,Toca cada uno para contar.,frase,src/juegos/comps.ts
-bc5f0457c9e8,¿Cuántos hay?,frase,src/juegos/comps.ts
+bc5f0457c9e8,¿Cuántos hay?,frase,src/juegos/comps.ts src/mundo3d/bloques3d.ts
 910c026f8a6b,¿Cuántas {cosas} hay? Toca el número.,frase,src/juegos/comps.ts
 72869a037442,¿Cuántos {cosas} hay? Toca el número.,frase,src/juegos/comps.ts
 e0f3fd7769a2,¡Hay {cuantos}!,frase,src/juegos/comps.ts
@@ -2642,6 +2652,42 @@ acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te l
 1819906d8c99,Lee la frase y toca el dibujo que dice.,frase,src/juegos/lectura.ts
 f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.",frase,src/juegos/lectura.ts
 ba20461b2d04,Te la leo:,trozo,src/juegos/lectura.ts
+3e50955e3238,Cubo,trozo,src/mundo3d/bloques3d.ts
+924feefb7cdc,Cilindro,trozo,src/mundo3d/bloques3d.ts
+3759c8464ee4,Arco,trozo,src/mundo3d/bloques3d.ts
+b236871ae972,Cono,trozo,src/mundo3d/bloques3d.ts
+e71dfaf15f72,Esfera,trozo,src/mundo3d/bloques3d.ts
+4b7463a0f874,Tejado,trozo,src/mundo3d/bloques3d.ts
+9c8d2eaab0da,Mira el modelo: ahora va el cubo.,frase,src/mundo3d/bloques3d.ts
+82c216ef9a53,Mira el modelo: ahora va el cilindro.,frase,src/mundo3d/bloques3d.ts
+cc903b9af550,Mira el modelo: ahora va el arco.,frase,src/mundo3d/bloques3d.ts
+c6c15f77faf7,Mira el modelo: ahora va el cono.,frase,src/mundo3d/bloques3d.ts
+12feb62719f7,Mira el modelo: ahora va la esfera.,frase,src/mundo3d/bloques3d.ts
+52688ff518b9,Mira el modelo.,frase,src/mundo3d/bloques3d.ts
+f0eb78b972d1,¿Cuántos bloques hay en la torre? Cuéntalos y toca el número.,frase,src/mundo3d/bloques3d.ts
+b580fedcfa3e,¿Cuántos cubos hay en la torre? Cuéntalos y toca el número.,frase,src/mundo3d/bloques3d.ts
+347292d4d917,¿Cuántos cilindros hay en la torre? Cuéntalos y toca el número.,frase,src/mundo3d/bloques3d.ts
+7cbc47620202,¿Cuántos arcos hay en la torre? Cuéntalos y toca el número.,frase,src/mundo3d/bloques3d.ts
+077264529709,"¡Vamos a copiar la torre! Mira el modelo y pon los bloques en el mismo orden, de abajo arriba.",frase,src/mundo3d/bloques3d.ts
+f3efa7b8bbe9,"¡Nuestro amigo necesita una casa! Haz las dos paredes con cubos o cilindros, y después pon el tejado.",frase,src/mundo3d/bloques3d.ts
+c5ec8825f85d,"¡Construye lo que quieras! Toca dónde poner los bloques y elige las formas. Cuando acabes, llévalo al jardín de Tito.",frase,src/mundo3d/bloques3d.ts
+241abc1c0034,Copia la torre,trozo,src/mundo3d/bloques3d.ts
+ad5a3f7a387f,Una casa,trozo,src/mundo3d/bloques3d.ts
+4e47fc74692a,Libre,trozo,src/mundo3d/bloques3d.ts
+e0c13e7a6a38,¡El rincón de las construcciones! Elige un juego.,frase,src/mundo3d/bloques3d.ts
+a2f438379a37,¡Esta torre ya está muy alta!,frase,src/mundo3d/bloques3d.ts
+1487c4fd65bf,Encima de la esfera no se sostiene nada: ¡ha rodado!,frase,src/mundo3d/bloques3d.ts
+68554ef5c2c9,Encima del cono no se sostiene nada: ¡se ha caído!,frase,src/mundo3d/bloques3d.ts
+c40b2e684d22,¡Igualita que el modelo! ¡Qué bien copiada!,frase,src/mundo3d/bloques3d.ts
+e9bd6ee1aff0,Primero hay que terminar las dos paredes.,frase,src/mundo3d/bloques3d.ts
+2df790fc4f10,¡Qué casa tan bonita! Ya tiene dónde vivir.,frase,src/mundo3d/bloques3d.ts
+a292dff90aa1,"Para las paredes, mejor cubos o cilindros: son rectos.",frase,src/mundo3d/bloques3d.ts
+11e1006e3d1c,Las paredes ya están. ¡Ahora el tejado!,frase,src/mundo3d/bloques3d.ts
+3e28168e7378,"¡Cuéntalos otra vez, despacito!",frase,src/mundo3d/bloques3d.ts
+e8baae654dbe,¡Muy bien! Son {n}.,frase,src/mundo3d/bloques3d.ts
+5b6def4957d9,Primero construye algo.,frase,src/mundo3d/bloques3d.ts
+7d7f51346cfe,"¡Lo llevamos al jardín de Tito! Míralo en el mapa, al lado de su casa.",frase,src/mundo3d/bloques3d.ts
+9c31378bac12,¡Al jardín!,frase,src/mundo3d/bloques3d.ts
 b09361a94769,¡Meta!,frase,src/mundo3d/carreras3d.ts
 11d71e5d9f54,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la izquierda.,frase,src/mundo3d/carreras3d.ts
 63b8a1ea2b08,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la derecha.,frase,src/mundo3d/carreras3d.ts

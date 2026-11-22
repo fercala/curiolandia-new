@@ -138,6 +138,8 @@ const ESCENAS = [
   ['viaje', { a: 'map', veh: 'globo' }],
   ['charcos'], // P26
   ['muneco'],
+  ['clases'], // P27: las clases del cole y el rincón de las construcciones, en 3D
+  ['bloques'],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

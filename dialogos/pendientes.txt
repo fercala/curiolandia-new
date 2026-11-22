@@ -2355,3 +2355,51 @@ Toca a los amigos cuando asomen detrás de la nieve.
 ¡Toma! ¡Le has dado!
 ¡Plaf! ¡Otra vez!
 ¡Qué divertido! Nos lo hemos pasado en grande con la nieve.
+¡Estas son las clases! Toca el rincón de las construcciones para jugar con los bloques.
+El rincón de las construcciones.
+El rincón de la lógica.
+El rincón del arte.
+El rincón de las construcciones estará listo muy pronto.
+El rincón de la lógica estará listo muy pronto.
+El rincón del arte estará listo muy pronto.
+Construcciones
+Lógica
+Arte
+Cubo
+Cilindro
+Arco
+Cono
+Esfera
+Tejado
+Copia la torre
+Una casa
+¿Cuántos hay?
+Libre
+¡Al jardín!
+¡El rincón de las construcciones! Elige un juego.
+¡Vamos a copiar la torre! Mira el modelo y pon los bloques en el mismo orden, de abajo arriba.
+¡Nuestro amigo necesita una casa! Haz las dos paredes con cubos o cilindros, y después pon el tejado.
+¡Construye lo que quieras! Toca dónde poner los bloques y elige las formas. Cuando acabes, llévalo al jardín de Tito.
+Mira el modelo: ahora va el cubo.
+Mira el modelo: ahora va el cilindro.
+Mira el modelo: ahora va el arco.
+Mira el modelo: ahora va el cono.
+Mira el modelo: ahora va la esfera.
+Mira el modelo.
+¿Cuántos bloques hay en la torre? Cuéntalos y toca el número.
+¿Cuántos cubos hay en la torre? Cuéntalos y toca el número.
+¿Cuántos cilindros hay en la torre? Cuéntalos y toca el número.
+¿Cuántos arcos hay en la torre? Cuéntalos y toca el número.
+¡Cuéntalos otra vez, despacito!
+¡Muy bien! Son {n}.
+¡Esta torre ya está muy alta!
+Encima de la esfera no se sostiene nada: ¡ha rodado!
+Encima del cono no se sostiene nada: ¡se ha caído!
+¡Igualita que el modelo! ¡Qué bien copiada!
+Primero hay que terminar las dos paredes.
+¡Qué casa tan bonita! Ya tiene dónde vivir.
+Para las paredes, mejor cubos o cilindros: son rectos.
+Las paredes ya están. ¡Ahora el tejado!
+Primero construye algo.
+¡Lo llevamos al jardín de Tito! Míralo en el mapa, al lado de su casa.
+¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!

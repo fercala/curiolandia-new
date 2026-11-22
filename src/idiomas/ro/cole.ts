@@ -17,8 +17,8 @@ export const COLE_RO: Readonly<Record<string, string>> = {
   'Excursiones': 'Excursii',
   'Cerrado': 'Închis',
   '¡Muy pronto!': 'În curând!',
-  '¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!':
-    'Bine ai venit la grădiniță{nino}! Aici e curtea, ca să te joci și să te miști, și autobuzul, ca să mergem în excursie. În curând vor veni și clasele. Atinge curtea!',
+  '¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!':
+    'Bine ai venit la grădiniță{nino}! Aici e curtea, ca să te joci și să te miști, clasele, cu colțurile lor, și autobuzul, ca să mergem în excursie. Atinge curtea!',
   'El patio está cerrado por ahora. Toca la casa para volver al mapa.':
     'Curtea e închisă deocamdată. Atinge căsuța ca să te întorci pe hartă.',
   'Toca el patio para jugar, o el autobús para ir de excursión.':
