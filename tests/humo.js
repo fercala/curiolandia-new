@@ -136,6 +136,8 @@ const ESCENAS = [
   ['viaje', { a: 'isla' }], // P25
   ['viaje', { a: 'islaIngles' }],
   ['viaje', { a: 'map', veh: 'globo' }],
+  ['charcos'], // P26
+  ['muneco'],
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

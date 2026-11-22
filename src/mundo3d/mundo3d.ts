@@ -68,7 +68,8 @@
  *   la aplicación: aplicacion/bucle.ts importa R3frame (antes iba después y R3frame era una global tardía). El puente deja
  *   R3frame en globalThis. Los tipos (el mundo, las opciones de las piezas...) están en mundo3d/tipos.ts; THREE es
  *   el paquete three de npm, que cada archivo importa (desde la fase 6a; antes era global, de three.min.js).
- * Exporta: R3frame (lo llama frame(), en aplicacion/bucle.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
+ * Exporta: R3frame (lo llama frame(), en aplicacion/bucle.ts) y, desde la fase P26 de docs/IDEAS-MEJORA.md,
+ *   juegoTiempoEnPantalla (de mundo3d/tiempo3d.ts, para que las pruebas encuentren los charcos o el montón de nieve). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y pone la disposición de la vista 3D (ponDisposicion, de
  *   nucleo/disposicion.ts: los puestos de la casita, desde la fase 4i, en mundo3d/casita3d.ts; los sitios del mapa y las
  *   casitas de las zonas, desde la 4j, en mapa3d.ts y zonas3d.ts; Tito y su casa, desde la 4k, en interaccion.ts). Ya no
@@ -95,6 +96,8 @@ import { montarIsla3D } from './isla3d.ts';
 import { montarIslaIngles3D } from './islaIngles3d.ts';
 import { montarCasa3D } from './casa3d.ts';
 import { montarCarreras3D } from './carreras3d.ts';
+// desde la fase P26, dónde se ven los charcos o el montón de nieve del mapa (el puente lo deja para las pruebas)
+export { juegoTiempoEnPantalla } from './tiempo3d.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea al montar la capa 3D (si no hay WebGL se queda
 // en null).
