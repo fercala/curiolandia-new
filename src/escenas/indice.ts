@@ -31,7 +31,7 @@
 // bosque.ts (las paradas del bosque de otoño), y desde la P22, mercado.ts (las paradas del mercado), y desde la P23,
 // planetario.ts (las paradas del planetario y el viaje a la Luna), y desde la P24, playa.ts (las paradas del día de
 // playa), y desde la P25, viaje.ts (los viajes en barco y en globo a las islas), y desde la P26, tiempo.ts (los juegos del
-// tiempo: saltar los charcos y el muñeco de nieve).
+// tiempo: saltar los charcos y el muñeco de nieve), y desde la P27, clases.ts (las clases del cole, con sus rincones).
 // src/modulos.ts pasa todo lo que exportan al puente.
 export * from './escenas2d.ts';
 export * from './zonas.ts';
@@ -78,6 +78,7 @@ export * from './planetario.ts';
 export * from './playa.ts';
 export * from './viaje.ts';
 export * from './tiempo.ts';
+export * from './clases.ts';
 export * from './albumExcursiones.ts';
 export * from './deporte.ts';
 export * from './deportePruebas.ts';

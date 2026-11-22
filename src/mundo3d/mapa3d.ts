@@ -10,7 +10,8 @@
  * 3D, mundo3d/isla3d.ts, y desde la fase I6 de docs/PLAN-INGLES.md la del Inglés, con globoAire3, el globo aerostático). Importa: del núcleo, escenas/escenas2d.ts y escenas/zonas.ts lo que dibuja y lee el mapa (y mascotasMayores de escenas/casaMascotas.ts, desde la fase C7 de PLAN-CASA.md);
  * ahora() (aplicacion/puertos.ts); desde la fase P14 de docs/IDEAS-MEJORA.md, los tesoros escondidos (mundo3d/tesoros3d.ts y
  * pistaTesoro de escenas/tesoros.ts) y, desde la P15, la cámara de fotos (mundo3d/camara3d.ts y escenas/fotos.ts), y desde la P16, el botón
- * de la gran aventura (escenas/aventura.ts), y desde la P26, el tiempo de hoy (mundo3d/tiempo3d.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
+ * de la gran aventura (escenas/aventura.ts), y desde la P26, el tiempo de hoy (mundo3d/tiempo3d.ts), y desde la P27, lo construido en el jardín
+ * (mundo3d/bloques3d.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
 import * as THREE from 'three';
@@ -128,6 +129,7 @@ import { ffTap, makeHouse, makePipo, makeTito, titoHearts, titoTapSfx } from './
 import { skyNow } from './cielo.ts';
 import { tesoros3, tocarTesoro } from './tesoros3d.ts';
 import { tiempo3, tocarJuegoTiempo } from './tiempo3d.ts';
+import { bloquesJardin3 } from './bloques3d.ts';
 import { pistaTesoro } from '../escenas/tesoros.ts';
 import { fotoEnMundo } from './camara3d.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
@@ -951,6 +953,8 @@ function buildMap(st: Escena) {
   tesoros3(w);
   // el tiempo que se dijo hoy en la asamblea: lluvia y charcos, nieve, viento, nubes o niebla (desde la fase P26)
   tiempo3(w);
+  // lo construido en el rincón de las construcciones que se llevó al jardín, en el césped a la izquierda de la casa, junto al camino (desde la P27)
+  if (w.spots?.casaTito) bloquesJardin3(w, w.spots.casaTito.position.x - 4.3, w.spots.casaTito.position.z - 0.4);
   camRig(w, V3(1.2, 25, 20.5), V3(1.2, 0, 1.4), 1.6);
   return w;
 }

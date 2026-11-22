@@ -1,5 +1,5 @@
 // Comprueba el cole y su patio (fase P1 de docs/IDEAS-MEJORA.md) con el ratón de verdad: desde el mapa (3D) se llega al
-// cole tocando su sitio (Tito anda hasta él y entra); del cole al patio; lo que está en obras (las clases) no lleva a ninguna parte y Tito lo dice;
+// cole tocando su sitio (Tito anda hasta él y entra); del cole al patio y a las clases (desde la P27; antes estaban en obras), cuya casa vuelve al cole;
 // del patio a «¡Estatuas!», que se juega sola hasta el final (Tito baila, para la música, estatua... en todas las rondas)
 // y da 3 monedas y apunta la actividad en S.cole; la casa vuelve de cada escena a la de antes (estatuas -> patio ->
 // cole -> mapa); y «Tito dice» (fase P2) se juega solo hasta el final y lo apunta, y su plan con 5 años tiene sus 3
@@ -20,7 +20,8 @@
 // foto de grupo da 5 monedas y la pegatina del león, y con la cámara se le hace una foto a la jirafa que pasea (o al animal que la tape).
 // Y el acuario (fase P18): sus cinco salas se juegan siguiendo la ayuda hasta el dato curioso de Marina, y la foto de
 // grupo da 5 monedas y la pegatina del delfín. Y el tiempo de verdad (fase P26, P33): los charcos con lluvia, hasta el
-// arcoíris, y el muñeco de nieve y la guerra de bolas con nieve.
+// arcoíris, y el muñeco de nieve y la guerra de bolas con nieve. Y las clases del cole con el rincón de las
+// construcciones (fase P27, P34): copiar la torre, la casa del animal, contar y construir libre, que se lleva al jardín.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -65,18 +66,25 @@ const R = L.registro('cole');
       }
       return e === 'cole' ? null : 'escena ' + e;
     });
-    await caso('P2', 'las clases están en obras y el patio lleva al patio', async () => {
-      if ((await escena()) !== 'cole') await p.evaluate(() => __cl.go('cole', {}));
-      await p.waitForTimeout(1200);
-      const [clases, patio] = await p.evaluate(() => [COLE_SITIOS[1], COLE_SITIOS[0]]);
-      await L.clic(p, clases.x, clases.y);
-      await p.waitForTimeout(600);
-      if ((await escena()) !== 'cole') return 'las clases en obras han cambiado de escena';
-      await L.clic(p, patio.x, patio.y);
-      await p.waitForTimeout(1200);
-      const e = await escena();
-      return e === 'patio' ? null : 'escena ' + e;
-    });
+    await caso(
+      'P2',
+      'las clases llevan a las clases (desde la P27), su casa vuelve al cole y el patio lleva al patio',
+      async () => {
+        if ((await escena()) !== 'cole') await p.evaluate(() => __cl.go('cole', {}));
+        await p.waitForTimeout(1200);
+        const [clases, patio] = await p.evaluate(() => [COLE_SITIOS[1], COLE_SITIOS[0]]);
+        await L.clic(p, clases.x, clases.y);
+        await p.waitForTimeout(1200);
+        if ((await escena()) !== 'clases') return 'las clases no llevan a las clases: ' + (await escena());
+        await L.clic(p, 80, 80);
+        await p.waitForTimeout(1200);
+        if ((await escena()) !== 'cole') return 'la casa de las clases no vuelve al cole';
+        await L.clic(p, patio.x, patio.y);
+        await p.waitForTimeout(1200);
+        const e = await escena();
+        return e === 'patio' ? null : 'escena ' + e;
+      },
+    );
     await caso('P3', '«¡Estatuas!» se juega hasta el final, da 3 monedas y apunta la actividad', async () => {
       if ((await escena()) !== 'patio') await p.evaluate(() => __cl.go('patio', {}));
       await p.waitForTimeout(1200);
@@ -1603,6 +1611,100 @@ const R = L.registro('cole');
         await p.evaluate(() => delete __cl.S.asam[today()]);
         const fin = await p.evaluate(() => [MUNECO.fase, MUNECO.aciertos, MUNECO.hacen]);
         return fin[0] === 'fin' && fin[1] === fin[2] ? null : 'la guerra de bolas no se gana: ' + JSON.stringify(fin);
+      },
+    );
+    await caso(
+      'P34',
+      'en las clases, el rincón de las construcciones: copiar la torre, la casa, contar y libre dan 2 monedas cada uno; lo que no toca no se pone y lo libre se lleva al jardín de Tito',
+      async () => {
+        await p.evaluate(() => __cl.go('cole', {}));
+        await p.waitForTimeout(800);
+        const cl = await p.evaluate(() => COLE_SITIOS.find((s) => s.id === 'clases'));
+        await L.clic(p, cl.x, cl.y);
+        await p.waitForTimeout(1500);
+        if ((await escena()) !== 'clases') return 'las clases no se abren desde el cole: ' + (await escena());
+        const r = await p.evaluate(() => RINCONES_CLASE[0]);
+        await L.clic(p, r.x, r.y);
+        await p.waitForTimeout(2500);
+        if ((await escena()) !== 'bloques') return 'el rincón de las construcciones no lleva a los bloques';
+        const tocar = async (f) => {
+          const c = await p.evaluate((x) => casillaForma(x), f);
+          await L.clic(p, c.x, c.y);
+          await p.waitForTimeout(700);
+        };
+        // alMenu(): espera a que se acabe el juego y vuelva el menú
+        const alMenu = async () => {
+          for (let i = 0; i < 40 && (await p.evaluate(() => BLOQ.fase)) !== 'menu'; i++) await p.waitForTimeout(500);
+        };
+        // hecho(): espera un poco a que el juego se dé por terminado (Tito lo celebra medio segundo después)
+        const hecho = async () => {
+          for (let i = 0; i < 10 && (await p.evaluate(() => BLOQ.fase)) !== 'hecho'; i++) await p.waitForTimeout(300);
+          return (await p.evaluate(() => BLOQ.fase)) === 'hecho';
+        };
+        const juego = async (j) => {
+          const b = await p.evaluate((x) => botonJuego(x), j);
+          await L.clic(p, b.x, b.y);
+          await p.waitForTimeout(1200);
+          return p.evaluate(() => [BLOQ.fase, BLOQ.juego]);
+        };
+        const monedas = await p.evaluate(() => __cl.S.coins);
+        // copiar: una forma que no toca no se pone
+        if ((await juego('copiar')).join() !== 'juego,copiar') return 'no empieza «copia la torre»';
+        await tocar(await p.evaluate(() => ['cubo', 'cilindro', 'arco'].find((f) => f !== BLOQ.modelo[0])));
+        if ((await p.evaluate(() => BLOQ.torres[1].length)) !== 0)
+          return 'al copiar se ha puesto un bloque que no toca';
+        const n = await p.evaluate(() => BLOQ.modelo.length);
+        for (let i = 0; i < n; i++) await tocar(await p.evaluate(() => BLOQ.modelo[BLOQ.torres[1].length]));
+        if (!(await hecho())) return 'la torre copiada no se termina';
+        await p.waitForTimeout(1500);
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'copiar la torre no da 2 monedas';
+        await alMenu();
+        // la casa: el arco no vale para las paredes, el tejado no va antes de las paredes
+        if ((await juego('casa')).join() !== 'juego,casa') return 'no empieza «una casa»';
+        await tocar('arco');
+        await tocar('tejado');
+        if ((await p.evaluate(() => BLOQ.torres.flat().length)) !== 0)
+          return 'en la casa se ha puesto el arco o el tejado antes de tiempo';
+        const alto = await p.evaluate(() => BLOQ.casa.alto);
+        for (let i = 0; i < alto * 2; i++) await tocar(i % 2 ? 'cilindro' : 'cubo');
+        await tocar('tejado');
+        if (!(await hecho())) return 'la casa no se termina: ' + (await p.evaluate(() => JSON.stringify(BLOQ.torres)));
+        await alMenu();
+        // contar: un número que no es no vale; dos rondas
+        if ((await juego('contar')).join() !== 'juego,contar') return 'no empieza «¿cuántos hay?»';
+        const malo = await p.evaluate(() =>
+          opcionNumero(BLOQ.contar.opciones.findIndex((o) => o !== BLOQ.contar.respuesta)),
+        );
+        await L.clic(p, malo.x, malo.y);
+        await p.waitForTimeout(600);
+        if ((await p.evaluate(() => BLOQ.ronda)) !== 0) return 'contar: un número que no es cuenta como acierto';
+        for (let i = 0; i < 2; i++) {
+          const o = await p.evaluate(() => opcionNumero(BLOQ.contar.opciones.indexOf(BLOQ.contar.respuesta)));
+          await L.clic(p, o.x, o.y);
+          await p.waitForTimeout(2500);
+        }
+        if (!(await hecho())) return 'contar no se termina';
+        await alMenu();
+        // libre: en un cono no se sostiene nada; lo construido se lleva al jardín
+        if ((await juego('libre')).join() !== 'juego,libre') return 'no empieza el juego libre';
+        const pila = await p.evaluate(() => sitioPila(0));
+        await L.clic(p, pila.x, pila.y);
+        await p.waitForTimeout(500);
+        for (const f of ['cubo', 'arco', 'cono', 'cubo']) await tocar(f);
+        const t = await p.evaluate(() => JSON.stringify(BLOQ.torres[0]));
+        if (t !== '["cubo","arco","cono"]') return 'en el juego libre, encima del cono se ha sostenido algo: ' + t;
+        await p.waitForTimeout(1500);
+        await L.clic(
+          p,
+          await p.evaluate(() => BOTON_JARDIN.x + BOTON_JARDIN.w / 2),
+          await p.evaluate(() => BOTON_JARDIN.y + BOTON_JARDIN.h / 2),
+        );
+        await p.waitForTimeout(1500);
+        const j = await p.evaluate(() => JSON.stringify(__cl.S.bloques && __cl.S.bloques.jardin));
+        if (j !== '[["cubo","arco","cono"],[],[]]') return 'lo construido no se lleva al jardín: ' + j;
+        await p.waitForTimeout(1500);
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 8) return 'los cuatro juegos no dan 8 monedas';
+        return null;
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

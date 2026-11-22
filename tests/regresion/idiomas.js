@@ -162,6 +162,10 @@ const ESCENAS_RO = [
   // desde la P26, los juegos del tiempo: saltar los charcos y el muñeco de nieve
   'charcos',
   'muneco',
+  // desde la P27, las clases del cole y el rincón de las construcciones (los bloques son en 3D, pero ligeros: una
+  // mesa y unos pocos bloques)
+  'clases',
+  'bloques',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).

@@ -1682,6 +1682,18 @@ e67f421a7315,¡Qué bien huele! Estamos en la panadería. ¿Sabes cómo se hace 
 0385822af6db,¡Ya está curado! El conejito está muy contento.,S-a vindecat! Iepurașul e foarte bucuros.,frase,src/escenas/ciudad.ts,borrador
 546f498c736a,Para volver al cole hay que cruzar la calle. ¡Mira bien el semáforo!,"Ca să ne întoarcem la grădiniță, trebuie să traversăm strada. Uită-te bine la semafor!",frase,src/escenas/ciudad.ts,borrador
 c6eff9337b90,"¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el semáforo en verde y de la mano de un mayor.","Știi ceva? Traversăm strada pe trecerea de pietoni, când semaforul e verde, și ținem de mână un adult.",frase,src/escenas/ciudad.ts,borrador
+2a38e02fe684,Construcciones,Construcții,trozo,src/escenas/clases.ts src/mundo3d/bloques3d.ts,borrador
+1ec7e99207c1,El rincón de las construcciones.,Colțul construcțiilor.,frase,src/escenas/clases.ts,borrador
+2530064104a4,El rincón de las construcciones estará listo muy pronto.,Colțul construcțiilor va fi gata în curând.,frase,src/escenas/clases.ts,borrador
+aa37ac6a4153,Lógica,Logică,trozo,src/escenas/clases.ts,borrador
+edc0e8975506,El rincón de la lógica.,Colțul logicii.,frase,src/escenas/clases.ts,borrador
+1a5505629eeb,El rincón de la lógica estará listo muy pronto.,Colțul logicii va fi gata în curând.,frase,src/escenas/clases.ts,borrador
+e2e14219d8a7,Arte,Artă,trozo,src/escenas/clases.ts,borrador
+fc8590dc98f6,El rincón del arte.,Colțul artei.,frase,src/escenas/clases.ts,borrador
+1cf3dd08e236,El rincón del arte estará listo muy pronto.,Colțul artei va fi gata în curând.,frase,src/escenas/clases.ts,borrador
+c45479ffa5f0,Las clases,Clasele,trozo,src/escenas/clases.ts src/escenas/cole.ts,borrador
+82a8c9409b57,¡Muy pronto!,În curând!,frase,src/escenas/clases.ts src/escenas/cole.ts src/escenas/excursion.ts,borrador
+1f8977e7d249,¡Estas son las clases! Toca el rincón de las construcciones para jugar con los bloques.,Acestea sunt clasele! Atinge colțul construcțiilor ca să te joci cu cuburile.,frase,src/escenas/clases.ts,borrador
 6ff5efcd7f4c,¡Terminaste todos los juegos {tema}{nino}! ¡Ganaste un cofre del tesoro! Tócalo tres veces para abrirlo.,Ai terminat toate jocurile {tema}{nino}! Ai câștigat un cufăr cu comori! Atinge-l de trei ori ca să-l deschizi.,frase,src/escenas/cofre.ts,borrador
 5da468df84ed,Toca el cofre para abrirlo. ¡Te falta un toque!,Atinge cufărul ca să-l deschizi. Mai trebuie o atingere!,frase,src/escenas/cofre.ts,borrador
 ef84dd995d03,Toca el cofre para abrirlo. ¡Te faltan {n} toques!,Atinge cufărul ca să-l deschizi. Mai trebuie {n} atingeri!,frase,src/escenas/cofre.ts,borrador
@@ -1698,12 +1710,10 @@ f9f93649a99e,¡Mira cuántas monedas{nino}! ¡Veinte monedas!,Uite câte monede{
 a97c66fedfb2,el patio,curtea,trozo,src/escenas/cole.ts,borrador
 b44e34d68b1b,El patio,Curtea,trozo,src/escenas/cole.ts src/escenas/patio.ts,borrador
 a32c8a6e5f50,las clases,clasele,trozo,src/escenas/cole.ts,borrador
-c45479ffa5f0,Las clases,Clasele,trozo,src/escenas/cole.ts,borrador
 05999bcdbb62,el autobús de las excursiones,autobuzul de excursii,trozo,src/escenas/cole.ts,borrador
 4a29fe3f57a6,Excursiones,Excursii,trozo,src/escenas/cole.ts,borrador
 4e2af90d29d2,Cerrado,Închis,trozo,src/escenas/cole.ts,borrador
-82a8c9409b57,¡Muy pronto!,În curând!,frase,src/escenas/cole.ts src/escenas/excursion.ts src/escenas/isla.ts,borrador
-4dbbcb0da5dd,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, y el autobús, para ir de excursión. Muy pronto vendrán las clases. ¡Toca el patio!","Bine ai venit la grădiniță{nino}! Aici e curtea, ca să te joci și să te miști, și autobuzul, ca să mergem în excursie. În curând vor veni și clasele. Atinge curtea!",frase,src/escenas/cole.ts,borrador
+2a19d28ebbc6,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!","Bine ai venit la grădiniță{nino}! Aici e curtea, ca să te joci și să te miști, clasele, cu colțurile lor, și autobuzul, ca să mergem în excursie. Atinge curtea!",frase,src/escenas/cole.ts,borrador
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,Curtea e închisă deocamdată. Atinge căsuța ca să te întorci pe hartă.,frase,src/escenas/cole.ts,borrador
 f780cf0b3b7a,"Toca el patio para jugar, o el autobús para ir de excursión.",Atinge curtea ca să te joci sau autobuzul ca să mergem în excursie.,frase,src/escenas/cole.ts,borrador
 43a9acc15692,¿Flota o se hunde?,Plutește sau se scufundă?,frase,src/escenas/cole.ts src/escenas/flota.ts,borrador
@@ -2522,7 +2532,7 @@ f73a1cc78d7a,"Mmm, {cosa} no va ahí. Prueba en otro lugar.","Mmm, {cosa} nu mer
 d2f1d6bb4f4f,Vamos a contar {cosas}. Toca cada una.,Hai să numărăm {cosas}. Atinge-le pe fiecare.,frase,src/juegos/comps.ts,borrador
 ab092eb6d258,Vamos a contar {cosas}. Toca cada uno.,Hai să numărăm {cosas}. Atinge-i pe fiecare.,frase,src/juegos/comps.ts,borrador
 c3e230b3f653,Toca cada uno para contar.,Atinge-i pe fiecare ca să numărăm.,frase,src/juegos/comps.ts,borrador
-bc5f0457c9e8,¿Cuántos hay?,Câți sunt?,frase,src/juegos/comps.ts,borrador
+bc5f0457c9e8,¿Cuántos hay?,Câte sunt?,frase,src/juegos/comps.ts src/mundo3d/bloques3d.ts,borrador
 910c026f8a6b,¿Cuántas {cosas} hay? Toca el número.,Câte {cosas} sunt? Atinge numărul.,frase,src/juegos/comps.ts,borrador
 72869a037442,¿Cuántos {cosas} hay? Toca el número.,Câți {cosas} sunt? Atinge numărul.,frase,src/juegos/comps.ts,borrador
 e0f3fd7769a2,¡Hay {cuantos}!,Sunt {cuantos}!,frase,src/juegos/comps.ts,borrador
@@ -2642,6 +2652,42 @@ acef823a43c5,"Lee la frase y toca el dibujo que dice. Si tocas una palabra, te l
 1819906d8c99,Lee la frase y toca el dibujo que dice.,Citește propoziția și atinge desenul potrivit.,frase,src/juegos/lectura.ts,borrador
 f7ba2dab9f9c,"Mmm, no es ese. Mira bien la frase.","Mmm, nu e acela. Uită-te bine la propoziție.",frase,src/juegos/lectura.ts,borrador
 ba20461b2d04,Te la leo:,Ți-o citesc:,trozo,src/juegos/lectura.ts,borrador
+3e50955e3238,Cubo,Cub,trozo,src/mundo3d/bloques3d.ts,borrador
+924feefb7cdc,Cilindro,Cilindru,trozo,src/mundo3d/bloques3d.ts,borrador
+3759c8464ee4,Arco,Arc,trozo,src/mundo3d/bloques3d.ts,borrador
+b236871ae972,Cono,Con,trozo,src/mundo3d/bloques3d.ts,borrador
+e71dfaf15f72,Esfera,Sferă,trozo,src/mundo3d/bloques3d.ts,borrador
+4b7463a0f874,Tejado,Acoperiș,trozo,src/mundo3d/bloques3d.ts,borrador
+9c8d2eaab0da,Mira el modelo: ahora va el cubo.,Uită-te la model: acum vine cubul.,frase,src/mundo3d/bloques3d.ts,borrador
+82c216ef9a53,Mira el modelo: ahora va el cilindro.,Uită-te la model: acum vine cilindrul.,frase,src/mundo3d/bloques3d.ts,borrador
+cc903b9af550,Mira el modelo: ahora va el arco.,Uită-te la model: acum vine arcul.,frase,src/mundo3d/bloques3d.ts,borrador
+c6c15f77faf7,Mira el modelo: ahora va el cono.,Uită-te la model: acum vine conul.,frase,src/mundo3d/bloques3d.ts,borrador
+12feb62719f7,Mira el modelo: ahora va la esfera.,Uită-te la model: acum vine sfera.,frase,src/mundo3d/bloques3d.ts,borrador
+52688ff518b9,Mira el modelo.,Uită-te la model.,frase,src/mundo3d/bloques3d.ts,borrador
+f0eb78b972d1,¿Cuántos bloques hay en la torre? Cuéntalos y toca el número.,Câte piese sunt în turn? Numără-le și atinge numărul.,frase,src/mundo3d/bloques3d.ts,borrador
+b580fedcfa3e,¿Cuántos cubos hay en la torre? Cuéntalos y toca el número.,Câte cuburi sunt în turn? Numără-le și atinge numărul.,frase,src/mundo3d/bloques3d.ts,borrador
+347292d4d917,¿Cuántos cilindros hay en la torre? Cuéntalos y toca el número.,Câți cilindri sunt în turn? Numără-i și atinge numărul.,frase,src/mundo3d/bloques3d.ts,borrador
+7cbc47620202,¿Cuántos arcos hay en la torre? Cuéntalos y toca el número.,Câte arcuri sunt în turn? Numără-le și atinge numărul.,frase,src/mundo3d/bloques3d.ts,borrador
+077264529709,"¡Vamos a copiar la torre! Mira el modelo y pon los bloques en el mismo orden, de abajo arriba.","Hai să copiem turnul! Uită-te la model și pune piesele în aceeași ordine, de jos în sus.",frase,src/mundo3d/bloques3d.ts,borrador
+f3efa7b8bbe9,"¡Nuestro amigo necesita una casa! Haz las dos paredes con cubos o cilindros, y después pon el tejado.","Prietenul nostru are nevoie de o casă! Fă cei doi pereți cu cuburi sau cilindri, apoi pune acoperișul.",frase,src/mundo3d/bloques3d.ts,borrador
+c5ec8825f85d,"¡Construye lo que quieras! Toca dónde poner los bloques y elige las formas. Cuando acabes, llévalo al jardín de Tito.","Construiește ce vrei! Atinge unde să pui piesele și alege formele. Când termini, du-l în grădina lui Tito.",frase,src/mundo3d/bloques3d.ts,borrador
+241abc1c0034,Copia la torre,Copiază turnul,trozo,src/mundo3d/bloques3d.ts,borrador
+ad5a3f7a387f,Una casa,O casă,trozo,src/mundo3d/bloques3d.ts,borrador
+4e47fc74692a,Libre,Liber,trozo,src/mundo3d/bloques3d.ts,borrador
+e0c13e7a6a38,¡El rincón de las construcciones! Elige un juego.,Colțul construcțiilor! Alege un joc.,frase,src/mundo3d/bloques3d.ts,borrador
+a2f438379a37,¡Esta torre ya está muy alta!,Turnul ăsta e deja foarte înalt!,frase,src/mundo3d/bloques3d.ts,borrador
+1487c4fd65bf,Encima de la esfera no se sostiene nada: ¡ha rodado!,Pe sferă nu stă nimic: s-a rostogolit!,frase,src/mundo3d/bloques3d.ts,borrador
+68554ef5c2c9,Encima del cono no se sostiene nada: ¡se ha caído!,Pe con nu stă nimic: a căzut!,frase,src/mundo3d/bloques3d.ts,borrador
+c40b2e684d22,¡Igualita que el modelo! ¡Qué bien copiada!,Exact ca modelul! Ce bine l-ai copiat!,frase,src/mundo3d/bloques3d.ts,borrador
+e9bd6ee1aff0,Primero hay que terminar las dos paredes.,Întâi trebuie terminați cei doi pereți.,frase,src/mundo3d/bloques3d.ts,borrador
+2df790fc4f10,¡Qué casa tan bonita! Ya tiene dónde vivir.,Ce casă frumoasă! Acum are unde să locuiască.,frase,src/mundo3d/bloques3d.ts,borrador
+a292dff90aa1,"Para las paredes, mejor cubos o cilindros: son rectos.","Pentru pereți, mai bine cuburi sau cilindri: sunt drepți.",frase,src/mundo3d/bloques3d.ts,borrador
+11e1006e3d1c,Las paredes ya están. ¡Ahora el tejado!,Pereții sunt gata. Acum acoperișul!,frase,src/mundo3d/bloques3d.ts,borrador
+3e28168e7378,"¡Cuéntalos otra vez, despacito!","Mai numără o dată, încetișor!",frase,src/mundo3d/bloques3d.ts,borrador
+e8baae654dbe,¡Muy bien! Son {n}.,Foarte bine! Sunt {n}.,frase,src/mundo3d/bloques3d.ts,borrador
+5b6def4957d9,Primero construye algo.,Întâi construiește ceva.,frase,src/mundo3d/bloques3d.ts,borrador
+7d7f51346cfe,"¡Lo llevamos al jardín de Tito! Míralo en el mapa, al lado de su casa.","Îl ducem în grădina lui Tito! Uită-te pe hartă, lângă casa lui.",frase,src/mundo3d/bloques3d.ts,borrador
+9c31378bac12,¡Al jardín!,În grădină!,frase,src/mundo3d/bloques3d.ts,borrador
 b09361a94769,¡Meta!,Linia de sosire!,frase,src/mundo3d/carreras3d.ts,borrador
 11d71e5d9f54,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la izquierda.,O răscruce! Mergem la stânga sau la dreapta? Stelele sunt la stânga.,frase,src/mundo3d/carreras3d.ts,borrador
 63b8a1ea2b08,¡Un cruce! ¿Vamos por la izquierda o por la derecha? Las estrellas están a la derecha.,O răscruce! Mergem la stânga sau la dreapta? Stelele sunt la dreapta.,frase,src/mundo3d/carreras3d.ts,borrador
@@ -4658,7 +4704,6 @@ bc1b419a310f,días regados,zile udate,tabla,,borrador
 debaf06557cd,Tito habla con la voz del navegador. Voz del navegador:,Tito vorbește cu vocea browserului. Vocea browserului:,tabla,,borrador
 e20fa4665dcf,Camino,Drum,tabla,,borrador
 c55c14cbfcda,(recomendado): todo se abre de uno en uno,(recomandat): totul se deschide pe rând,tabla,,borrador
-4e47fc74692a,Libre,Liber,tabla,,borrador
 167b07e73846,(todo abierto),(totul deschis),tabla,,borrador
 853958608f6c,Sin límite,Fără limită,tabla,,borrador
 7dd6a6ab32fd,10 min,10 min,tabla,,borrador
