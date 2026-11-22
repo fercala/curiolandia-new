@@ -22,6 +22,7 @@
 // grupo da 5 monedas y la pegatina del delfín. Y el tiempo de verdad (fase P26, P33): los charcos con lluvia, hasta el
 // arcoíris, y el muñeco de nieve y la guerra de bolas con nieve. Y las clases del cole con el rincón de las
 // construcciones (fase P27, P34): copiar la torre, la casa del animal, contar y construir libre, que se lleva al jardín.
+// Y el tren de Curiolandia (fase P28, P35): de la estación del mapa a la vuelta entera con sus túneles, paradas y animales.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -1705,6 +1706,62 @@ const R = L.registro('cole');
         await p.waitForTimeout(1500);
         if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 8) return 'los cuatro juegos no dan 8 monedas';
         return null;
+      },
+    );
+    await caso(
+      'P35',
+      'la estación del mapa lleva al tren: la bocina, decir adiós a un animal, las tres paradas, los túneles a oscuras y, al llegar, el número bueno da 2 monedas',
+      async () => {
+        await p.evaluate(() => __cl.go('map', {}));
+        await p.waitForTimeout(2500);
+        const est = await p.evaluate(() => estacionEnPantalla());
+        if (!est) return 'no hay estación en el mapa';
+        await L.clic(p, est.x, est.y);
+        let e = 'map';
+        for (let i = 0; i < 60 && e === 'map'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'tren') return 'la estación no lleva al tren: ' + e;
+        const monedas = await p.evaluate(() => __cl.S.coins);
+        await p.waitForTimeout(800);
+        const l = await p.evaluate(() => locoEnPantalla());
+        await L.clic(p, l.x, l.y);
+        if ((await p.evaluate(() => TREN_ST.bocina)) < 0) return 'tocar el tren no toca la bocina';
+        let oscuro = false,
+          adios = false;
+        for (let i = 0; i < 300 && (await p.evaluate(() => TREN_ST.fase)) !== 'pregunta'; i++) {
+          const st = await p.evaluate(() => ({ t: TREN_ST.tunel, u: TREN_ST.u }));
+          if (st.t >= 0) oscuro = true;
+          if (!adios && st.u > 0.27 && st.u < 0.31) {
+            const a = await p.evaluate(() => animalEnPantalla(0));
+            if (a && a.x > 0 && a.x < 1600 && a.y > 120 && a.y < 880) {
+              await L.clic(p, a.x, a.y);
+              adios = true;
+            }
+          }
+          await p.waitForTimeout(300);
+        }
+        if ((await p.evaluate(() => TREN_ST.fase)) !== 'pregunta') return 'el tren no termina la vuelta';
+        if (!oscuro) return 'en los túneles no se pone oscuro';
+        if (!adios) return 'no se ha podido decir adiós al primer animal';
+        const suben = await p.evaluate(() => JSON.stringify(TREN_ST.suben));
+        if (suben !== '["lupi","polly","pato"]') return 'no suben los tres pasajeros: ' + suben;
+        const mal = await p.evaluate(() =>
+          numeroTren(TREN_ST.plan.opciones.findIndex((n) => n !== TREN_ST.plan.tuneles.length)),
+        );
+        await L.clic(p, mal.x, mal.y);
+        await p.waitForTimeout(500);
+        if ((await p.evaluate(() => TREN_ST.fase)) !== 'pregunta') return 'un número que no es termina el viaje';
+        const ok = await p.evaluate(() => numeroTren(TREN_ST.plan.opciones.indexOf(TREN_ST.plan.tuneles.length)));
+        await L.clic(p, ok.x, ok.y);
+        await p.waitForTimeout(2000);
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'el número bueno no da 2 monedas';
+        for (let i = 0; i < 20 && e === 'tren'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        return e === 'map' ? null : 'el tren no vuelve al mapa: ' + e;
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));
