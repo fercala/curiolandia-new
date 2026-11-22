@@ -2403,3 +2403,17 @@ Las paredes ya están. ¡Ahora el tejado!
 Primero construye algo.
 ¡Lo llevamos al jardín de Tito! Míralo en el mapa, al lado de su casa.
 ¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!
+¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.
+Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.
+¡Ya hemos dado la vuelta a Curiolandia! ¿Cuántos túneles hemos pasado?
+¡Casi! Piensa otra vez: ¿cuántos túneles hemos pasado?
+¡Parada del bosque! Sube Lupi.
+¡Parada de la montaña! Sube Polly.
+¡Parada de la playa! Sube el pato.
+¡Adiós, vaca!
+¡Adiós, oveja!
+¡Adiós, cerdito!
+¡Adiós, caballo!
+¡Adiós, gallina!
+¡Muy bien! Hemos pasado {n} túneles.
+¿Cuántos túneles?

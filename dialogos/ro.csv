@@ -2889,6 +2889,20 @@ c958e8f13e00,AEIOU,,trozo,src/mundo3d/isla3d.ts,falta
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.","Vesel. Când ceva ne place mult, simțim bucurie și zâmbim.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts,borrador
 087974002010,CONTENTO,VESEL,trozo,src/mundo3d/objetos.ts,borrador
 6e058a19a686,¡Algo brilla por aquí!,Ceva strălucește pe aici!,frase,src/mundo3d/tesoros3d.ts,borrador
+7aa28286596a,"¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.","Călători, urcați în tren! Facem turul Curiolandiei. Numără tunelurile prin care trecem. Atinge trenul ca să claxonezi.",frase,src/mundo3d/tren3d.ts,borrador
+c06107a604e5,Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.,Numără tunelurile prin care trecem. Atinge trenul ca să claxonezi.,frase,src/mundo3d/tren3d.ts,borrador
+60b48baa85b6,¡Ya hemos dado la vuelta a Curiolandia! ¿Cuántos túneles hemos pasado?,Am făcut turul Curiolandiei! Prin câte tuneluri am trecut?,frase,src/mundo3d/tren3d.ts,borrador
+e235bc8b6693,¡Casi! Piensa otra vez: ¿cuántos túneles hemos pasado?,Aproape! Mai gândește-te: prin câte tuneluri am trecut?,frase,src/mundo3d/tren3d.ts,borrador
+89ccaf1e4f9d,¡Parada del bosque! Sube Lupi.,Stația pădurii! Urcă Lupi.,frase,src/mundo3d/tren3d.ts,borrador
+0d1be88fcfd3,¡Parada de la montaña! Sube Polly.,Stația muntelui! Urcă Polly.,frase,src/mundo3d/tren3d.ts,borrador
+f19a5541701e,¡Parada de la playa! Sube el pato.,Stația plajei! Urcă rățușca.,frase,src/mundo3d/tren3d.ts,borrador
+3facb12201d0,"¡Adiós, vaca!","La revedere, vacă!",frase,src/mundo3d/tren3d.ts,borrador
+14bc440dcee1,"¡Adiós, oveja!","La revedere, oaie!",frase,src/mundo3d/tren3d.ts,borrador
+8bb58fbc31aa,"¡Adiós, cerdito!","La revedere, purceluș!",frase,src/mundo3d/tren3d.ts,borrador
+4137c4de69dd,"¡Adiós, caballo!","La revedere, cal!",frase,src/mundo3d/tren3d.ts,borrador
+78a94477a1db,"¡Adiós, gallina!","La revedere, găină!",frase,src/mundo3d/tren3d.ts,borrador
+f32dad31bb35,¡Muy bien! Hemos pasado {n} túneles.,Foarte bine! Am trecut prin {n} tuneluri.,frase,src/mundo3d/tren3d.ts,borrador
+5d19333a5428,¿Cuántos túneles?,Câte tuneluri?,frase,src/mundo3d/tren3d.ts,borrador
 e86410fa2d6e,ABCDEFGHIJ,,trozo,src/mundo3d/zonas3d.ts,falta
 c48462232a6a,Rincón de los Conceptos,Colțul noțiunilor,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts,borrador
 9617d12b8ae3,el gato,pisica,nombre,src/nucleo/idioma.ts,borrador

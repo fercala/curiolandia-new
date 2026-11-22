@@ -2889,6 +2889,20 @@ c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts
 087974002010,CONTENTO,trozo,src/mundo3d/objetos.ts
 6e058a19a686,¡Algo brilla por aquí!,frase,src/mundo3d/tesoros3d.ts
+7aa28286596a,"¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.",frase,src/mundo3d/tren3d.ts
+c06107a604e5,Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.,frase,src/mundo3d/tren3d.ts
+60b48baa85b6,¡Ya hemos dado la vuelta a Curiolandia! ¿Cuántos túneles hemos pasado?,frase,src/mundo3d/tren3d.ts
+e235bc8b6693,¡Casi! Piensa otra vez: ¿cuántos túneles hemos pasado?,frase,src/mundo3d/tren3d.ts
+89ccaf1e4f9d,¡Parada del bosque! Sube Lupi.,frase,src/mundo3d/tren3d.ts
+0d1be88fcfd3,¡Parada de la montaña! Sube Polly.,frase,src/mundo3d/tren3d.ts
+f19a5541701e,¡Parada de la playa! Sube el pato.,frase,src/mundo3d/tren3d.ts
+3facb12201d0,"¡Adiós, vaca!",frase,src/mundo3d/tren3d.ts
+14bc440dcee1,"¡Adiós, oveja!",frase,src/mundo3d/tren3d.ts
+8bb58fbc31aa,"¡Adiós, cerdito!",frase,src/mundo3d/tren3d.ts
+4137c4de69dd,"¡Adiós, caballo!",frase,src/mundo3d/tren3d.ts
+78a94477a1db,"¡Adiós, gallina!",frase,src/mundo3d/tren3d.ts
+f32dad31bb35,¡Muy bien! Hemos pasado {n} túneles.,frase,src/mundo3d/tren3d.ts
+5d19333a5428,¿Cuántos túneles?,frase,src/mundo3d/tren3d.ts
 e86410fa2d6e,ABCDEFGHIJ,trozo,src/mundo3d/zonas3d.ts
 c48462232a6a,Rincón de los Conceptos,trozo,src/mundo3d/zonas3d.ts src/temas/temas.ts src/temas/temas4.ts
 9617d12b8ae3,el gato,nombre,src/nucleo/idioma.ts
