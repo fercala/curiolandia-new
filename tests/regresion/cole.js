@@ -22,7 +22,8 @@
 // grupo da 5 monedas y la pegatina del delfín. Y el tiempo de verdad (fase P26, P33): los charcos con lluvia, hasta el
 // arcoíris, y el muñeco de nieve y la guerra de bolas con nieve. Y las clases del cole con el rincón de las
 // construcciones (fase P27, P34): copiar la torre, la casa del animal, contar y construir libre, que se lleva al jardín.
-// Y el tren de Curiolandia (fase P28, P35): de la estación del mapa a la vuelta entera con sus túneles, paradas y animales.
+// El tren de Curiolandia (fase P28, P35): de la estación del mapa a la vuelta entera con sus túneles, paradas y animales.
+// Y la linterna de noche (fase P29, P36): de la tienda de campaña del mapa a buscar con la luz a los animales de la noche.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -1762,6 +1763,57 @@ const R = L.registro('cole');
           e = await escena();
         }
         return e === 'map' ? null : 'el tren no vuelve al mapa: ' + e;
+      },
+    );
+    await caso(
+      'P36',
+      'la tienda de campaña del mapa lleva a la linterna de noche: la estrella fugaz, alumbrar a un animal con la luz, tocar los demás y, con todos, 2 monedas y vuelta al mapa',
+      async () => {
+        await p.evaluate(() => __cl.go('map', {}));
+        await p.waitForTimeout(2500);
+        const t = await p.evaluate(() => acampadaEnPantalla());
+        if (!t) return 'no hay tienda de campaña en el mapa';
+        await L.clic(p, t.x, t.y);
+        let e = 'map';
+        for (let i = 0; i < 60 && e === 'map'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        if (e !== 'linterna') return 'la tienda no lleva a la linterna: ' + e;
+        const monedas = await p.evaluate(() => __cl.S.coins);
+        let f = null;
+        for (let i = 0; i < 40 && !f; i++) {
+          await p.waitForTimeout(250);
+          f = await p.evaluate(() => fugazEnPantalla());
+        }
+        if (!f) return 'no pasa ninguna estrella fugaz';
+        await p.waitForTimeout(300);
+        f = await p.evaluate(() => fugazEnPantalla());
+        if (f) await L.clic(p, f.x - 30, f.y + 4);
+        if ((await p.evaluate(() => LINTERNA_ST.fugazTocada)) < 0) return 'tocar la estrella fugaz no hace nada';
+        const n = await p.evaluate(() => LINTERNA_ST.plan.animales.length);
+        if (n < 3 || n > 5) return 'no hay entre 3 y 5 animales: ' + n;
+        const a0 = await p.evaluate(() => sitioAnimalNoche(0));
+        const [ax, ay] = await p.evaluate(([x, y]) => [OX + x * SC, OY + y * SC], [a0.x, a0.y]);
+        await p.mouse.move(ax + 200, ay);
+        await p.mouse.move(ax, ay, { steps: 8 });
+        await p.waitForTimeout(1200);
+        if (!(await p.evaluate(() => LINTERNA_ST.encontrados[0]))) return 'alumbrar a un animal no lo encuentra';
+        for (let i = 1; i < n; i++) {
+          const s = await p.evaluate((j) => sitioAnimalNoche(j), i);
+          await L.clic(p, s.x, s.y);
+          await p.waitForTimeout(300);
+        }
+        for (let i = 0; i < 40 && (await p.evaluate(() => LINTERNA_ST.fase)) !== 'fin'; i++)
+          await p.waitForTimeout(500);
+        if ((await p.evaluate(() => LINTERNA_ST.fase)) !== 'fin') return 'con todos encontrados no se termina';
+        await p.waitForTimeout(1800);
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'encontrarlos a todos no da 2 monedas';
+        for (let i = 0; i < 20 && e === 'linterna'; i++) {
+          await p.waitForTimeout(500);
+          e = await escena();
+        }
+        return e === 'map' ? null : 'la linterna no vuelve al mapa: ' + e;
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

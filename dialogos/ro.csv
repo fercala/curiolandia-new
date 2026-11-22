@@ -1355,6 +1355,12 @@ f1567e03c207,¡Explota las pompas amarillas!,Sparge baloanele galbene!,frase,src
 2dbd69f7501c,Esa pompa es amarilla.,Balonul acela e galben.,frase,src/dominio/juegosCortos.ts,borrador
 4da332214aea,¡Explota las pompas verdes!,Sparge baloanele verzi!,frase,src/dominio/juegosCortos.ts,borrador
 db5f7a946e23,Esa pompa es verde.,Balonul acela e verde.,frase,src/dominio/juegosCortos.ts,borrador
+7889f6ae087c,¡Un búho! Ve muy bien en la oscuridad y caza de noche.,O bufniță! Vede foarte bine în întuneric și vânează noaptea.,frase,src/dominio/linterna.ts,borrador
+e176f9b5d39e,¡Un murciélago! Duerme de día cabeza abajo y vuela de noche.,Un liliac! Doarme ziua cu capul în jos și zboară noaptea.,frase,src/dominio/linterna.ts,borrador
+6eb12be3ee03,¡Un erizo! Sale de noche a buscar bichitos para comer.,Un arici! Iese noaptea să caute gâze de mâncat.,frase,src/dominio/linterna.ts,borrador
+5ce9573b2676,"¡Una rana! Por la noche canta: ¡cro, cro!","O broscuță! Noaptea cântă: oac, oac!",frase,src/dominio/linterna.ts,borrador
+289faecd2092,¡Un lobo! Aúlla a la luna: ¡auuuu!,Un lup! Urlă la lună: auuuu!,frase,src/dominio/linterna.ts,borrador
+4f456e7c6b99,"¡Una polilla! Es como una mariposa, pero vuela de noche y le gusta la luz.","O molie! Seamănă cu un fluture, dar zboară noaptea și îi place lumina.",frase,src/dominio/linterna.ts,borrador
 0e365d166934,busca en casa tres cosas rojas.,caută prin casă trei lucruri roșii.,trozo,src/dominio/retos.ts,borrador
 e3afaf9c354c,Buscar en casa tres cosas rojas.,Să caute prin casă trei lucruri roșii.,frase,src/dominio/retos.ts,borrador
 6947454c9bd9,salta como una rana hasta la cocina.,sari ca o broscuță până la bucătărie.,trozo,src/dominio/retos.ts,borrador
@@ -2110,6 +2116,10 @@ a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de l
 e09fd6a12cc3,Mi libro de letras,Cartea mea cu litere,trozo,src/escenas/libroLetras.ts,borrador
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,Litera aceasta încă n-o știi. O vei învăța pe Insula Literelor!,frase,src/escenas/libroLetras.ts,borrador
 9324da358388,{Letra} de {amigo}.,"{Letra}, ca în {amigo}.",trozo,src/escenas/libroLetras.ts src/temas/letras.ts,borrador
+8a1c5b1c835b,¡Nos vamos de acampada! Ya es de noche. Mueve la linterna para buscar a los animales de la noche.,Mergem în camping! S-a făcut noapte. Mișcă lanterna ca să cauți animalele nopții.,frase,src/escenas/linterna.ts,borrador
+7a4b818aec1d,Mueve la linterna por el bosque para buscar a los animales de la noche.,Mișcă lanterna prin pădure ca să cauți animalele nopții.,frase,src/escenas/linterna.ts,borrador
+6d3dbc758328,¡Has encontrado a todos los animales de la noche! ¡Qué buena vista tienes!,Ai găsit toate animalele nopții! Ce bine vezi!,frase,src/escenas/linterna.ts,borrador
+96012df43c5c,¡Una estrella fugaz! Cierra los ojos y pide un deseo.,O stea căzătoare! Închide ochii și pune-ți o dorință.,frase,src/escenas/linterna.ts,borrador
 892b70c3da96,Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?,Costă {p} euro și plătim cu cinci euro. Câți euro primim rest?,frase,src/escenas/mercado.ts,borrador
 f95fddbecbef,¡Sí! Nos devuelven {n}.,Da! Primim rest {n}.,frase,src/escenas/mercado.ts,borrador
 c4d7d8e09119,No. Cuenta las monedas que sobran.,Nu. Numără monedele care rămân.,frase,src/escenas/mercado.ts,borrador

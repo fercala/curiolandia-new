@@ -2417,3 +2417,13 @@ Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.
 ¡Adiós, gallina!
 ¡Muy bien! Hemos pasado {n} túneles.
 ¿Cuántos túneles?
+¡Nos vamos de acampada! Ya es de noche. Mueve la linterna para buscar a los animales de la noche.
+Mueve la linterna por el bosque para buscar a los animales de la noche.
+¡Has encontrado a todos los animales de la noche! ¡Qué buena vista tienes!
+¡Una estrella fugaz! Cierra los ojos y pide un deseo.
+¡Un búho! Ve muy bien en la oscuridad y caza de noche.
+¡Un murciélago! Duerme de día cabeza abajo y vuela de noche.
+¡Un erizo! Sale de noche a buscar bichitos para comer.
+¡Una rana! Por la noche canta: ¡cro, cro!
+¡Un lobo! Aúlla a la luna: ¡auuuu!
+¡Una polilla! Es como una mariposa, pero vuela de noche y le gusta la luz.

@@ -1355,6 +1355,12 @@ f1567e03c207,¡Explota las pompas amarillas!,frase,src/dominio/juegosCortos.ts
 2dbd69f7501c,Esa pompa es amarilla.,frase,src/dominio/juegosCortos.ts
 4da332214aea,¡Explota las pompas verdes!,frase,src/dominio/juegosCortos.ts
 db5f7a946e23,Esa pompa es verde.,frase,src/dominio/juegosCortos.ts
+7889f6ae087c,¡Un búho! Ve muy bien en la oscuridad y caza de noche.,frase,src/dominio/linterna.ts
+e176f9b5d39e,¡Un murciélago! Duerme de día cabeza abajo y vuela de noche.,frase,src/dominio/linterna.ts
+6eb12be3ee03,¡Un erizo! Sale de noche a buscar bichitos para comer.,frase,src/dominio/linterna.ts
+5ce9573b2676,"¡Una rana! Por la noche canta: ¡cro, cro!",frase,src/dominio/linterna.ts
+289faecd2092,¡Un lobo! Aúlla a la luna: ¡auuuu!,frase,src/dominio/linterna.ts
+4f456e7c6b99,"¡Una polilla! Es como una mariposa, pero vuela de noche y le gusta la luz.",frase,src/dominio/linterna.ts
 0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
 e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
 6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
@@ -2110,6 +2116,10 @@ a6066dc4497e,Este es tu libro de letras. ¡Las letras te esperan en la Isla de l
 e09fd6a12cc3,Mi libro de letras,trozo,src/escenas/libroLetras.ts
 b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de las Letras!,frase,src/escenas/libroLetras.ts
 9324da358388,{Letra} de {amigo}.,trozo,src/escenas/libroLetras.ts src/temas/letras.ts
+8a1c5b1c835b,¡Nos vamos de acampada! Ya es de noche. Mueve la linterna para buscar a los animales de la noche.,frase,src/escenas/linterna.ts
+7a4b818aec1d,Mueve la linterna por el bosque para buscar a los animales de la noche.,frase,src/escenas/linterna.ts
+6d3dbc758328,¡Has encontrado a todos los animales de la noche! ¡Qué buena vista tienes!,frase,src/escenas/linterna.ts
+96012df43c5c,¡Una estrella fugaz! Cierra los ojos y pide un deseo.,frase,src/escenas/linterna.ts
 892b70c3da96,Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?,frase,src/escenas/mercado.ts
 f95fddbecbef,¡Sí! Nos devuelven {n}.,frase,src/escenas/mercado.ts
 c4d7d8e09119,No. Cuenta las monedas que sobran.,frase,src/escenas/mercado.ts
