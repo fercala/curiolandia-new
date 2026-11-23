@@ -11,7 +11,7 @@
  * ahora() (aplicacion/puertos.ts); desde la fase P14 de docs/IDEAS-MEJORA.md, los tesoros escondidos (mundo3d/tesoros3d.ts y
  * pistaTesoro de escenas/tesoros.ts) y, desde la P15, la cámara de fotos (mundo3d/camara3d.ts y escenas/fotos.ts), y desde la P16, el botón
  * de la gran aventura (escenas/aventura.ts), y desde la P26, el tiempo de hoy (mundo3d/tiempo3d.ts), y desde la P27, lo construido en el jardín
- * (mundo3d/bloques3d.ts), y desde la P28, la estación del tren (mundo3d/tren3d.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
+ * (mundo3d/bloques3d.ts), y desde la P28, la estación del tren (mundo3d/tren3d.ts), y desde la P29, la tienda de campaña (mundo3d/acampada3d.ts); el motor (mundo3d/motor.ts), las piezas (mundo3d/materiales.ts) y lo de los demás
  * módulos de mundo3d/ (decorado, cielo, objetos, personajes e interacción).
  */
 import * as THREE from 'three';
@@ -131,6 +131,7 @@ import { tesoros3, tocarTesoro } from './tesoros3d.ts';
 import { tiempo3, tocarJuegoTiempo } from './tiempo3d.ts';
 import { bloquesJardin3 } from './bloques3d.ts';
 import { estacionTren3, tocarEstacion } from './tren3d.ts';
+import { acampada3, tocarAcampada } from './acampada3d.ts';
 import { pistaTesoro } from '../escenas/tesoros.ts';
 import { fotoEnMundo } from './camara3d.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
@@ -957,6 +958,8 @@ function buildMap(st: Escena) {
   // lo construido en el rincón de las construcciones que se llevó al jardín, en el césped a la izquierda de la casa, junto al camino (desde la P27)
   // la estación del tren, a la izquierda de la isla, junto a la playa (desde la P28)
   estacionTren3(w, -11, 5.6);
+  // la tienda de campaña, al pie del monte: la linterna de noche (desde la P29)
+  acampada3(w, 12, 2.4);
   if (w.spots?.casaTito) bloquesJardin3(w, w.spots.casaTito.position.x - 4.3, w.spots.casaTito.position.z - 0.4);
   camRig(w, V3(1.2, 25, 20.5), V3(1.2, 0, 1.4), 1.6);
   return w;
@@ -1092,6 +1095,12 @@ export function montarMapa3D(): void {
         return;
       }
       // desde la fase P28, la estación del tren: Tito va y empieza el viaje (mundo3d/tren3d.ts)
+      // desde la fase P29, la tienda de campaña: Tito va y empieza la linterna de noche (mundo3d/acampada3d.ts)
+      if (u.id === 'acampada') {
+        SFX.pop();
+        tocarAcampada(w);
+        return;
+      }
       if (u.id === 'tren') {
         SFX.pop();
         tocarEstacion(w);

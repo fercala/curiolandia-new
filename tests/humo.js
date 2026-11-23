@@ -141,6 +141,7 @@ const ESCENAS = [
   ['clases'], // P27: las clases del cole y el rincón de las construcciones, en 3D
   ['bloques'],
   ['tren'], // P28: el viaje en tren alrededor de la isla, en 3D
+  ['linterna'], // P29: la linterna de noche, de acampada
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],
