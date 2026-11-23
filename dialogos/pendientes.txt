@@ -2427,3 +2427,21 @@ Mueve la linterna por el bosque para buscar a los animales de la noche.
 ¡Una rana! Por la noche canta: ¡cro, cro!
 ¡Un lobo! Aúlla a la luna: ¡auuuu!
 ¡Una polilla! Es como una mariposa, pero vuela de noche y le gusta la luz.
+¡Hola, Tito! Soy Lupi. ¡Qué día tan bonito para pasear!
+¡Hola, Tito! Soy Polly. ¡Hello, hello!
+¡Tito, he perdido mi pelota! ¿Me ayudas a buscarla?
+¡Mi pelota! ¡Muchas gracias, Tito! Eres un buen amigo.
+¡Tito, he perdido mi bufanda! ¿Me ayudas a buscarla?
+¡Mi bufanda! ¡Muchas gracias, Tito! Ya no tendré frío.
+¡Tito, he perdido mis gafas! ¿Me ayudas a buscarlas?
+¡Mis gafas! ¡Muchas gracias, Tito! Ahora lo veo todo.
+¡Tito, he perdido mi gorro! ¿Me ayudas a buscarlo?
+¡Mi gorro! ¡Muchas gracias, Tito! ¡Thank you!
+Creo que se me cayó cerca del jardín.
+Creo que se me cayó cerca del bosque.
+Creo que se me cayó cerca de la montaña.
+Creo que se me cayó cerca de la plaza.
+Creo que se me cayó cerca del muelle.
+Creo que se me cayó cerca del cole.
+Creo que se me cayó cerca de la casa de las fiestas.
+Creo que se me cayó cerca del globo.

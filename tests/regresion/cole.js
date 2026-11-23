@@ -23,7 +23,8 @@
 // arcoíris, y el muñeco de nieve y la guerra de bolas con nieve. Y las clases del cole con el rincón de las
 // construcciones (fase P27, P34): copiar la torre, la casa del animal, contar y construir libre, que se lleva al jardín.
 // El tren de Curiolandia (fase P28, P35): de la estación del mapa a la vuelta entera con sus túneles, paradas y animales.
-// Y la linterna de noche (fase P29, P36): de la tienda de campaña del mapa a buscar con la luz a los animales de la noche.
+// La linterna de noche (fase P29, P36): de la tienda de campaña del mapa a buscar con la luz a los animales de la noche.
+// Y los amigos de Tito (fase P31, P37): Lupi y Polly pasean por el mapa y uno pide ayuda para encontrar lo que ha perdido.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -1818,6 +1819,35 @@ const R = L.registro('cole');
           e = await escena();
         }
         return e === 'map' ? null : 'la linterna no vuelve al mapa: ' + e;
+      },
+    );
+    await caso(
+      'P37',
+      'en el mapa pasean Lupi y Polly; el amigo del encargo de hoy pide ayuda, lo perdido aparece en el mapa y, al recogerlo, se lo devuelve (2 monedas, una vez al día)',
+      async () => {
+        await p.evaluate(() => {
+          delete __cl.S.amigos;
+          __cl.go('map', {});
+        });
+        await p.waitForTimeout(2500);
+        if (!(await p.evaluate(() => amigoEnPantalla('lupi') && amigoEnPantalla('polly'))))
+          return 'no pasean los amigos';
+        const e = await p.evaluate(() => encargoHoy());
+        if ((await p.evaluate(() => faseHoy())) !== 'sinPedir') return 'el encargo no empieza sin pedir';
+        if (await p.evaluate(() => perdidoEnPantalla())) return 'lo perdido está en el mapa antes de pedirlo';
+        const a = await p.evaluate((id) => amigoEnPantalla(id), e.amigo);
+        await L.clic(p, a.x, a.y);
+        for (let i = 0; i < 60 && (await p.evaluate(() => faseHoy())) !== 'buscando'; i++) await p.waitForTimeout(500);
+        if ((await p.evaluate(() => faseHoy())) !== 'buscando') return 'tocar al amigo no pide ayuda';
+        const q = await p.evaluate(() => perdidoEnPantalla());
+        if (!q) return 'lo perdido no aparece en el mapa';
+        const monedas = await p.evaluate(() => __cl.S.coins);
+        await L.clic(p, q.x, q.y);
+        for (let i = 0; i < 60 && (await p.evaluate(() => faseHoy())) !== 'hecho'; i++) await p.waitForTimeout(500);
+        if ((await p.evaluate(() => faseHoy())) !== 'hecho') return 'recoger lo perdido no se lo devuelve';
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'devolverlo no da 2 monedas';
+        if (await p.evaluate(() => devolverPerdido(800, 450))) return 'se puede devolver dos veces el mismo día';
+        return null;
       },
     );
     if (p.errs.length) R.apuntar('P0', 'alta', 'errores de JavaScript', p.errs.slice(0, 3));

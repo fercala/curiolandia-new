@@ -128,6 +128,10 @@ export interface Estado {
   /** Lo construido en el rincón de las construcciones que se llevó al jardín de Tito (dominio/bloques.ts, leeJardin:
    * tres montones de formas, de abajo arriba). Desde la fase P27 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   bloques?: { jardin: string[][] };
+  /** Los amigos de Tito en el mapa (dominio/amigos.ts, RegistroAmigos): el día del encargo de hoy, si ya se ha pedido,
+   * si ya se ha devuelto lo perdido y cuántas veces se ha ayudado. Desde la fase P31 de docs/IDEAS-MEJORA.md; opcional,
+   * sin migración. */
+  amigos?: { d: string; pedido: boolean; hecho: boolean; ayudas: number };
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };

@@ -534,7 +534,7 @@ Fernando pide también «mejor calidad». Son cambios más pequeños que se nota
 | 22 | Crías y familias | Motor 3D | M | Sí |
 | 23 | Construir con bloques | Motor 3D | M | Hecha (P27, v0.2.173) |
 | 24 | Linternas de noche | Motor 3D | S–M | Hecha: de acampada en la tienda del mapa, en 2D (P29, v0.2.175) |
-| 25 | Amigos de Tito en 3D | Motor 3D | S–M | Sí |
+| 25 | Amigos de Tito en 3D | Motor 3D | S–M | Hecha: Lupi y Polly recortables por el mapa, con un encargo al día (P31, v0.2.177) |
 | 26 | La gran aventura (capítulos) ⭐ | Más profundos | L | Opcional |
 | 27 | Cuentos con decisiones | Más profundos | M | No |
 | 28 | Programa a Tito | Más profundos | M | Sí |
@@ -616,7 +616,8 @@ Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase 
 | P28 | El tren de Curiolandia (resto de la idea 19), en 3D: en el mapa, una estación con su trenecito a la izquierda de la isla; al tocarla, Tito va y el tren da la vuelta entera a la isla por una vía cerrada, con la cámara detrás (`mundo3d/tren3d.ts`; reglas en `dominio/tren.ts`). El niño cuenta los túneles (2, 3 o 4 según la edad; dentro, la pantalla se pone oscura), en las paradas del bosque, la montaña y la playa suben Lupi, Polly y el pato, se dice adiós a los animales de la vía tocándolos y la locomotora toca la bocina. Al volver, «¿Cuántos túneles?» con tres números: el bueno da 2 monedas. Quedan para más adelante los viajes del barco y el globo en 3D. | 19 | ✅ v0.2.174 |
 | P29 | Linternas de noche (idea 24): en el mapa, una tienda de campaña con su hoguera al pie del monte; al tocarla, Tito va y se van de acampada (`escenas/linterna.ts`, la tienda en `mundo3d/acampada3d.ts`; reglas en `dominio/linterna.ts`). Es de noche y el niño mueve la linterna por el bosque para encontrar a 3, 4 o 5 animales de la noche (búho, murciélago, erizo, rana, lobo y polilla, cada uno con su dato); con 3 años les brillan mucho los ojos, con 4 poco y con 5 nada. Luciérnagas y una estrella fugaz para pedir un deseo. Con todos, 2 monedas. La escena va en 2D (una linterna sobre un dibujo se lee mejor y va bien en cualquier móvil). | 24 | ✅ v0.2.175 |
 | P30 | Los viajes en barco y en globo en 3D (resto de la idea 19): con WebGL, el viaje a las islas y de vuelta se ve en 3D (`mundo3d/viaje3d.ts`): el barco de vela por el mar con olas, o el globo de rayas entre nubes con el mar abajo, con Tito dentro; la isla de destino, con Lupi, Polly o la casa de Tito, se acerca, y pasan los animales (los delfines saltan), que se saludan tocándolos. La lógica es la misma de la P25 (`escenas/viaje.ts`), y sin WebGL sigue en 2D. Sin frases nuevas. | 19 | ✅ v0.2.176 |
-| Después | El resto del 3D (la 25), los juegos más profundos (27 a 32), el mundo vivo (33 a 36), la familia (38 a 41) y pulir lo que hay (42 a 47). | — | — |
+| P31 | Los amigos de Tito en 3D (idea 25), como recortables: Lupi y Polly pasean por el mapa y saludan cuando Tito se acerca (`mundo3d/amigos3d.ts`; lo que dicen y guardan, `escenas/amigos.ts`; reglas en `dominio/amigos.ts`, `S.amigos`). Cada día uno ha perdido algo (la pelota, la bufanda, las gafas o el gorro) y lleva una exclamación encima: al tocarlo pide ayuda y dice cerca de dónde fue; lo perdido aparece en ese rincón y, al recogerlo, se le devuelve (2 monedas). Pipo sigue junto a la casa. Quedan para más adelante que los amigos vayan a las carreras, al escondite y de visita a la casa. | 25 | ✅ v0.2.177 |
+| Después | Los juegos más profundos (27 a 32), el mundo vivo (33 a 36), la familia (38 a 41) y pulir lo que hay (42 a 47). | — | — |
 
 ### Primera entrega de actividades opcionales
 

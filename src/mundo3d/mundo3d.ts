@@ -70,7 +70,7 @@
  *   el paquete three de npm, que cada archivo importa (desde la fase 6a; antes era global, de three.min.js).
  * Exporta: R3frame (lo llama frame(), en aplicacion/bucle.ts) y, desde la fase P26 de docs/IDEAS-MEJORA.md,
  *   juegoTiempoEnPantalla (de mundo3d/tiempo3d.ts, para que las pruebas encuentren los charcos o el montón de nieve)
- *   y, desde la P27, BLOQ, BOTON_JARDIN, botonJuego, casillaForma, opcionNumero y sitioPila (de mundo3d/bloques3d.ts); y, desde la P28, TREN_ST, numeroTren, animalEnPantalla, locoEnPantalla y estacionEnPantalla (de mundo3d/tren3d.ts); y, desde la P29, acampadaEnPantalla (de mundo3d/acampada3d.ts); y, desde la P30, vehiculoEnPantalla (de mundo3d/viaje3d.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
+ *   y, desde la P27, BLOQ, BOTON_JARDIN, botonJuego, casillaForma, opcionNumero y sitioPila (de mundo3d/bloques3d.ts); y, desde la P28, TREN_ST, numeroTren, animalEnPantalla, locoEnPantalla y estacionEnPantalla (de mundo3d/tren3d.ts); y, desde la P29, acampadaEnPantalla (de mundo3d/acampada3d.ts); y, desde la P30, vehiculoEnPantalla (de mundo3d/viaje3d.ts); y, desde la P31, amigoEnPantalla y perdidoEnPantalla (de mundo3d/amigos3d.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y pone la disposición de la vista 3D (ponDisposicion, de
  *   nucleo/disposicion.ts: los puestos de la casita, desde la fase 4i, en mundo3d/casita3d.ts; los sitios del mapa y las
  *   casitas de las zonas, desde la 4j, en mapa3d.ts y zonas3d.ts; Tito y su casa, desde la 4k, en interaccion.ts). Ya no
@@ -108,6 +108,7 @@ export { BLOQ, BOTON_JARDIN, botonJuego, casillaForma, opcionNumero, sitioPila }
 export { TREN_ST, animalEnPantalla, estacionEnPantalla, locoEnPantalla, numeroTren } from './tren3d.ts';
 export { acampadaEnPantalla } from './acampada3d.ts';
 export { vehiculoEnPantalla } from './viaje3d.ts';
+export { amigoEnPantalla, perdidoEnPantalla } from './amigos3d.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea al montar la capa 3D (si no hay WebGL se queda
 // en null).

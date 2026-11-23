@@ -1168,6 +1168,24 @@ d2a5b459beb5,"¡Snif, snif!","Sniff, sniff!",frase,src/contenido/lex.ts,borrador
 aab7ce644962,¡Gruuu!,Gruuu!,frase,src/contenido/lex.ts,borrador
 80f629ca5039,"¡Oh, oh!","Oh, oh!",frase,src/contenido/lex.ts,borrador
 5ff26ee03cc5,¡Iiiii!,Iiiii!,frase,src/contenido/lex.ts,borrador
+06191da3760d,"¡Hola, Tito! Soy Lupi. ¡Qué día tan bonito para pasear!","Salut, Tito! Sunt Lupi. Ce zi frumoasă de plimbare!",frase,src/dominio/amigos.ts,borrador
+672dd383cd94,"¡Hola, Tito! Soy Polly. ¡Hello, hello!","Salut, Tito! Sunt Polly. Hello, hello!",frase,src/dominio/amigos.ts,borrador
+4cf462dbc881,"¡Tito, he perdido mi pelota! ¿Me ayudas a buscarla?","Tito, mi-am pierdut mingea! Mă ajuți s-o caut?",frase,src/dominio/amigos.ts,borrador
+8ab97462f4ca,"¡Mi pelota! ¡Muchas gracias, Tito! Eres un buen amigo.","Mingea mea! Mulțumesc mult, Tito! Ești un prieten bun.",frase,src/dominio/amigos.ts,borrador
+aa90e0669b74,"¡Tito, he perdido mi bufanda! ¿Me ayudas a buscarla?","Tito, mi-am pierdut fularul! Mă ajuți să-l caut?",frase,src/dominio/amigos.ts,borrador
+b13ab6e32244,"¡Mi bufanda! ¡Muchas gracias, Tito! Ya no tendré frío.","Fularul meu! Mulțumesc mult, Tito! Acum n-o să-mi mai fie frig.",frase,src/dominio/amigos.ts,borrador
+6dbc247dfcf2,"¡Tito, he perdido mis gafas! ¿Me ayudas a buscarlas?","Tito, mi-am pierdut ochelarii! Mă ajuți să-i caut?",frase,src/dominio/amigos.ts,borrador
+75c0aeefba92,"¡Mis gafas! ¡Muchas gracias, Tito! Ahora lo veo todo.","Ochelarii mei! Mulțumesc mult, Tito! Acum văd tot.",frase,src/dominio/amigos.ts,borrador
+30403032c6eb,"¡Tito, he perdido mi gorro! ¿Me ayudas a buscarlo?","Tito, mi-am pierdut căciula! Mă ajuți s-o caut?",frase,src/dominio/amigos.ts,borrador
+641bf6aab654,"¡Mi gorro! ¡Muchas gracias, Tito! ¡Thank you!","Căciula mea! Mulțumesc mult, Tito! Thank you!",frase,src/dominio/amigos.ts,borrador
+ea394884c246,Creo que se me cayó cerca del jardín.,Cred că mi-a căzut lângă grădină.,frase,src/dominio/amigos.ts,borrador
+aa3a832b74c9,Creo que se me cayó cerca del bosque.,Cred că mi-a căzut lângă pădure.,frase,src/dominio/amigos.ts,borrador
+2807fb8d1a75,Creo que se me cayó cerca de la montaña.,Cred că mi-a căzut lângă munte.,frase,src/dominio/amigos.ts,borrador
+43822e7b79f1,Creo que se me cayó cerca de la plaza.,Cred că mi-a căzut lângă piață.,frase,src/dominio/amigos.ts,borrador
+24405bbf69e6,Creo que se me cayó cerca del muelle.,Cred că mi-a căzut lângă debarcader.,frase,src/dominio/amigos.ts,borrador
+c6afd63197e8,Creo que se me cayó cerca del cole.,Cred că mi-a căzut lângă școală.,frase,src/dominio/amigos.ts,borrador
+23754e3f51e8,Creo que se me cayó cerca de la casa de las fiestas.,Cred că mi-a căzut lângă casa sărbătorilor.,frase,src/dominio/amigos.ts,borrador
+c51c336fbca3,Creo que se me cayó cerca del globo.,Cred că mi-a căzut lângă balon.,frase,src/dominio/amigos.ts,borrador
 df9276a6b0eb,Tito,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/titoYSonido.ts,borrador
 803b0d23fbee,Polly,Polly,trozo,src/dominio/carreras.ts,borrador
 a29d50ec9ee6,Lupi,Lupi,trozo,src/dominio/carreras.ts,borrador
