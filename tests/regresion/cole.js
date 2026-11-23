@@ -1496,10 +1496,10 @@ const R = L.registro('cole');
         return album[0] >= 9 && !album[1].length && !album[2].length ? null : 'el álbum: ' + JSON.stringify(album);
       },
     );
-    // P32 (fase P25): los viajes en vehículo: del muelle del mapa, en barco a la Isla de las Letras; y la vuelta en globo
+    // P32 (fase P25; desde la P30, en 3D): los viajes en vehículo: del muelle del mapa, en barco a la Isla de las Letras; y la vuelta en globo
     await caso(
       'P32',
-      'el muelle del mapa lleva de viaje en barco (se toca la bocina) a la Isla de las Letras, y en el viaje de vuelta en globo se saluda a un pájaro y se llega al mapa',
+      'el muelle del mapa lleva de viaje en barco, en 3D (se toca la bocina), a la Isla de las Letras, y en el viaje de vuelta en globo se saluda a un pájaro y se llega al mapa',
       async () => {
         await p.evaluate(() => __cl.go('map', {}));
         await p.waitForTimeout(2500);
@@ -1515,6 +1515,10 @@ const R = L.registro('cole');
         if ((await p.evaluate(() => [VIAJE.veh, VIAJE.a].join())) !== 'barco,isla')
           return 'el viaje del muelle: ' + (await p.evaluate(() => JSON.stringify([VIAJE.veh, VIAJE.a])));
         await p.waitForTimeout(800);
+        // desde la P30, con WebGL el viaje es en 3D, con el barco donde estaba el de 2D
+        const v = await p.evaluate(() => vehiculoEnPantalla());
+        if (!v) return 'el viaje en barco no es en 3D';
+        if (Math.hypot(v.x - 640, v.y - 520) > 150) return 'el barco 3D no está donde se toca: ' + JSON.stringify(v);
         await L.clic(p, 640, 520);
         if ((await p.evaluate(() => VIAJE.toques)) < 1) return 'tocar el barco no toca la bocina';
         for (let i = 0; i < 40 && e === 'viaje'; i++) {
