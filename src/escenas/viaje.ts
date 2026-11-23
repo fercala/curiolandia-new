@@ -7,10 +7,12 @@
  * lo hace subir) y saludar a los animales que pasan (dan un salto). Al llegar, va a la escena de destino. La casa
  * (arriba a la izquierda) vuelve al mapa sin esperar.
  * Se entra con go('viaje', {a, veh}): a, la escena de destino ('isla', 'islaIngles' o 'map'); veh, 'barco' o 'globo'.
- * Es 2D, como el viaje del autobús de las excursiones (escenas/excursion.ts); el viaje en 3D queda para más adelante.
+ * Es 2D, como el viaje del autobús de las excursiones (escenas/excursion.ts). Desde la fase P30, con WebGL la capa 3D
+ * (mundo3d/viaje3d.ts) pone su versión 3D, que usa esta misma lógica (enter, update, hint, prompt y down) y solo cambia
+ * el dibujo y dónde se ven los que pasan (ponProyeccionViaje).
  * Exporta: VIAJE (el estado: vehículo, destino, inicio, los que pasan y cuántas veces se ha tocado), DURACION_VIAJE,
- * PASAN_VIAJE (quién pasa en cada vehículo) y sitioPasajero (dónde está uno de los que pasan, para las pruebas); pone
- * SCENES.viaje.
+ * PASAN_VIAJE (quién pasa en cada vehículo), QUIEN_ESPERA, el tipo Pasajero, sitioPasajero (dónde está uno de los que
+ * pasan, para las pruebas) y ponProyeccionViaje (desde la P30, para la versión 3D); pone SCENES.viaje.
  * Importa: el núcleo (dibujo, voz, sonido, toque, Tito, monedas y escenas, y el tipo OpcionesEscena) y el contorno K de
  * los dibujos.
  */
@@ -47,10 +49,10 @@ import type { OpcionesEscena } from '../nucleo/tipos.ts';
 import { K } from '../dibujos/todos.ts';
 
 /** Un vehículo de viaje. */
-type Vehiculo = 'barco' | 'globo';
+export type Vehiculo = 'barco' | 'globo';
 /** Uno de los que pasan durante el viaje: su dibujo, cuándo empieza a pasar (segundos desde que sale), a qué altura y
  * cuándo se le ha tocado (salta). */
-interface Pasajero {
+export interface Pasajero {
   readonly k: string;
   readonly t: number;
   readonly y: number;
@@ -93,9 +95,17 @@ export const VIAJE = {
   llegado: false,
 };
 
+// proyeccion: con el viaje en 3D (desde la P30), dónde se ve en la pantalla cada uno de los que pasan; null en 2D.
+let proyeccion: ((p: Pasajero) => { x: number; y: number }) | null = null;
+// ponProyeccionViaje(f): la versión 3D del viaje (mundo3d/viaje3d.ts) dice cómo se ven en la pantalla los que pasan.
+export function ponProyeccionViaje(f: (p: Pasajero) => { x: number; y: number }): void {
+  proyeccion = f;
+}
+
 // sitioPasajero(p): dónde está ahora p (centro): entra por la derecha y va hacia la izquierda; con un saltito si se le
-// ha tocado hace menos de un segundo.
+// ha tocado hace menos de un segundo. Con el viaje en 3D, dónde se ve (proyeccion).
 export function sitioPasajero(p: Pasajero): { x: number; y: number } {
+  if (proyeccion) return proyeccion(p);
   const t = T - VIAJE.t0 - p.t,
     s = T - p.salto < 1 ? Math.sin((T - p.salto) * Math.PI) * 90 : 0;
   return { x: W + 120 - t * VELOCIDAD, y: p.y - s + Math.sin(T * 3 + p.t) * 10 };
@@ -182,7 +192,7 @@ function globoRayas(x: number, y: number, s: number): void {
 }
 
 // QUIEN_ESPERA: quién espera en cada isla de destino (en el mapa, al volver, la casa de Tito).
-const QUIEN_ESPERA: Readonly<Record<string, string>> = { isla: 'lupi', islaIngles: 'polly' };
+export const QUIEN_ESPERA: Readonly<Record<string, string>> = { isla: 'lupi', islaIngles: 'polly' };
 
 // islaDestino(x, y): la isla adonde se va, con su centro en (x, y): un montículo de arena y hierba con quien espera allí
 // (Lupi en la Isla de las Letras, Polly en la del Inglés y la casa de Tito al volver a Curiolandia).
