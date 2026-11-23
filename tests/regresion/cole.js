@@ -240,8 +240,10 @@ const R = L.registro('cole');
         });
         await p.waitForTimeout(8000);
         const e = await escena();
+        // se deja la pausa activa como ya hecha: si no, al volver los juegos de moverse saltaría en el mapa de otro caso
         await p.evaluate(() => {
           delete __cl.S.sinMoverse;
+          VIVO.pausaHecha = true;
           save();
         });
         return e === 'map' ? null : 'con los juegos quitados, el mapa ha abierto ' + e;
