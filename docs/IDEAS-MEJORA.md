@@ -537,7 +537,7 @@ Fernando pide también «mejor calidad». Son cambios más pequeños que se nota
 | 25 | Amigos de Tito en 3D | Motor 3D | S–M | Hecha: Lupi y Polly recortables por el mapa, con un encargo al día (P31, v0.2.177) |
 | 26 | La gran aventura (capítulos) ⭐ | Más profundos | L | Opcional |
 | 27 | Cuentos con decisiones | Más profundos | M | No |
-| 28 | Programa a Tito | Más profundos | M | Sí |
+| 28 | Programa a Tito | Más profundos | M | Hecha: tablero 3D en el rincón de la lógica del cole (P32, v0.2.178) |
 | 29 | Rincón de lógica (6) | Más profundos | S cada uno | No |
 | 30 | Taller de experimentos | Más profundos | M | No |
 | 31 | Arte y música | Más profundos | M | No |
@@ -617,6 +617,7 @@ Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase 
 | P29 | Linternas de noche (idea 24): en el mapa, una tienda de campaña con su hoguera al pie del monte; al tocarla, Tito va y se van de acampada (`escenas/linterna.ts`, la tienda en `mundo3d/acampada3d.ts`; reglas en `dominio/linterna.ts`). Es de noche y el niño mueve la linterna por el bosque para encontrar a 3, 4 o 5 animales de la noche (búho, murciélago, erizo, rana, lobo y polilla, cada uno con su dato); con 3 años les brillan mucho los ojos, con 4 poco y con 5 nada. Luciérnagas y una estrella fugaz para pedir un deseo. Con todos, 2 monedas. La escena va en 2D (una linterna sobre un dibujo se lee mejor y va bien en cualquier móvil). | 24 | ✅ v0.2.175 |
 | P30 | Los viajes en barco y en globo en 3D (resto de la idea 19): con WebGL, el viaje a las islas y de vuelta se ve en 3D (`mundo3d/viaje3d.ts`): el barco de vela por el mar con olas, o el globo de rayas entre nubes con el mar abajo, con Tito dentro; la isla de destino, con Lupi, Polly o la casa de Tito, se acerca, y pasan los animales (los delfines saltan), que se saludan tocándolos. La lógica es la misma de la P25 (`escenas/viaje.ts`), y sin WebGL sigue en 2D. Sin frases nuevas. | 19 | ✅ v0.2.176 |
 | P31 | Los amigos de Tito en 3D (idea 25), como recortables: Lupi y Polly pasean por el mapa y saludan cuando Tito se acerca (`mundo3d/amigos3d.ts`; lo que dicen y guardan, `escenas/amigos.ts`; reglas en `dominio/amigos.ts`, `S.amigos`). Cada día uno ha perdido algo (la pelota, la bufanda, las gafas o el gorro) y lleva una exclamación encima: al tocarlo pide ayuda y dice cerca de dónde fue; lo perdido aparece en ese rincón y, al recogerlo, se le devuelve (2 monedas). Pipo sigue junto a la casa. Quedan para más adelante que los amigos vayan a las carreras, al escondite y de visita a la casa. | 25 | ✅ v0.2.177 |
+| P32 | Programa a Tito (idea 28), en el rincón de la lógica de las clases del cole: un tablero 3D visto desde arriba con Tito y la fresa; el niño pone tarjetas en orden (avanzar, girar y, con 5 años, «por dos») y Tito las sigue; la tarjeta que falla sale roja y se quita tocándola. Con 3 años solo avanzar, con 4 giros, con 5 rocas; tres tableros dan 2 monedas (`mundo3d/programa3d.ts`, reglas en `dominio/programa.ts`). | 28 | ✅ v0.2.178 |
 | Después | Los juegos más profundos (27 a 32), el mundo vivo (33 a 36), la familia (38 a 41) y pulir lo que hay (42 a 47). | — | — |
 
 ### Primera entrega de actividades opcionales

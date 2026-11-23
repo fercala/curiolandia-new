@@ -142,6 +142,7 @@ const ESCENAS = [
   ['bloques'],
   ['tren'], // P28: el viaje en tren alrededor de la isla, en 3D
   ['linterna'], // P29: la linterna de noche, de acampada
+  ['programa'], // P32: «Programa a Tito», el rincón de la lógica, en 3D
   ['granjaHuevos', { exc: 'granja' }],
   ['granjaQueso', { exc: 'granja' }],
   ['granjaCepillar', { exc: 'granja' }],

@@ -1,9 +1,9 @@
 /*
  * escenas/clases.ts: las clases del cole (fase P27 de docs/IDEAS-MEJORA.md), la escena SCENES.clases. Se llega desde el
  * cole (escenas/cole.ts: las clases, que hasta ahora estaban en obras). Es el aula de Infantil con sus rincones, como en
- * el cole de verdad: el rincón de las construcciones (los bloques en 3D, SCENES.bloques de mundo3d/bloques3d.ts) y los
- * rincones de la lógica y del arte, que llegan en las fases siguientes («¡Muy pronto!»). Sin WebGL no hay bloques en 3D
- * y el rincón de las construcciones sale también «¡Muy pronto!».
+ * el cole de verdad: el rincón de las construcciones (los bloques en 3D, SCENES.bloques de mundo3d/bloques3d.ts), el
+ * de la lógica (desde la fase P32, «Programa a Tito» en 3D, SCENES.programa de mundo3d/programa3d.ts) y el del arte,
+ * que llega más adelante («¡Muy pronto!»). Sin WebGL no hay 3D y los dos primeros salen también «¡Muy pronto!».
  * Es una escena 2D, como el cole.
  * Exporta: RINCONES_CLASE (los rincones del aula) y pone SCENES.clases al cargarse.
  * Importa: el núcleo (dibujo, voz, toque, Tito, monedas y escenas).
@@ -71,6 +71,7 @@ export const RINCONES_CLASE: readonly RinconClase[] = [
     cartel: 'Lógica',
     dice: 'El rincón de la lógica.',
     pronto: 'El rincón de la lógica estará listo muy pronto.',
+    escena: 'programa',
   },
   {
     id: 'arte',

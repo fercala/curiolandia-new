@@ -2445,3 +2445,20 @@ Creo que se me cayó cerca del muelle.
 Creo que se me cayó cerca del cole.
 Creo que se me cayó cerca de la casa de las fiestas.
 Creo que se me cayó cerca del globo.
+Programa a Tito
+¡Vamos!
+Borrar
+¡Vamos a programar a Tito! Pon flechas para llevarlo hasta la fresa y pulsa «¡Vamos!».
+Las flechas curvas hacen que Tito se gire, sin moverse de su casilla.
+La tarjeta «por dos» repite la tarjeta de antes. ¡Cuidado con las rocas!
+Adelante.
+Gira a la izquierda.
+Gira a la derecha.
+Otra vez la de antes.
+¡Ay! Tito se ha chocado con una roca. Toca la tarjeta roja para quitarla.
+¡Uy! Por ahí Tito se sale del tablero. Toca la tarjeta roja para quitarla.
+Tito no ha llegado a la fresa todavía. Pon más tarjetas.
+Ya no caben más tarjetas. Pulsa «¡Vamos!».
+Primero pon alguna flecha para Tito.
+¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!
+¡Qué bien programas! Tito se ha comido todas las fresas.
