@@ -1168,6 +1168,24 @@ d2a5b459beb5,"¡Snif, snif!",frase,src/contenido/lex.ts
 aab7ce644962,¡Gruuu!,frase,src/contenido/lex.ts
 80f629ca5039,"¡Oh, oh!",frase,src/contenido/lex.ts
 5ff26ee03cc5,¡Iiiii!,frase,src/contenido/lex.ts
+06191da3760d,"¡Hola, Tito! Soy Lupi. ¡Qué día tan bonito para pasear!",frase,src/dominio/amigos.ts
+672dd383cd94,"¡Hola, Tito! Soy Polly. ¡Hello, hello!",frase,src/dominio/amigos.ts
+4cf462dbc881,"¡Tito, he perdido mi pelota! ¿Me ayudas a buscarla?",frase,src/dominio/amigos.ts
+8ab97462f4ca,"¡Mi pelota! ¡Muchas gracias, Tito! Eres un buen amigo.",frase,src/dominio/amigos.ts
+aa90e0669b74,"¡Tito, he perdido mi bufanda! ¿Me ayudas a buscarla?",frase,src/dominio/amigos.ts
+b13ab6e32244,"¡Mi bufanda! ¡Muchas gracias, Tito! Ya no tendré frío.",frase,src/dominio/amigos.ts
+6dbc247dfcf2,"¡Tito, he perdido mis gafas! ¿Me ayudas a buscarlas?",frase,src/dominio/amigos.ts
+75c0aeefba92,"¡Mis gafas! ¡Muchas gracias, Tito! Ahora lo veo todo.",frase,src/dominio/amigos.ts
+30403032c6eb,"¡Tito, he perdido mi gorro! ¿Me ayudas a buscarlo?",frase,src/dominio/amigos.ts
+641bf6aab654,"¡Mi gorro! ¡Muchas gracias, Tito! ¡Thank you!",frase,src/dominio/amigos.ts
+ea394884c246,Creo que se me cayó cerca del jardín.,frase,src/dominio/amigos.ts
+aa3a832b74c9,Creo que se me cayó cerca del bosque.,frase,src/dominio/amigos.ts
+2807fb8d1a75,Creo que se me cayó cerca de la montaña.,frase,src/dominio/amigos.ts
+43822e7b79f1,Creo que se me cayó cerca de la plaza.,frase,src/dominio/amigos.ts
+24405bbf69e6,Creo que se me cayó cerca del muelle.,frase,src/dominio/amigos.ts
+c6afd63197e8,Creo que se me cayó cerca del cole.,frase,src/dominio/amigos.ts
+23754e3f51e8,Creo que se me cayó cerca de la casa de las fiestas.,frase,src/dominio/amigos.ts
+c51c336fbca3,Creo que se me cayó cerca del globo.,frase,src/dominio/amigos.ts
 df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/titoYSonido.ts
 803b0d23fbee,Polly,trozo,src/dominio/carreras.ts
 a29d50ec9ee6,Lupi,trozo,src/dominio/carreras.ts
