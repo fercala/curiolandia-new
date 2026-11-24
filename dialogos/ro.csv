@@ -620,6 +620,45 @@ e0fc6cca498a,"Por la noche, Mateo miró las estrellas abrazado a su peluche. ¡Q
 17964e86ef35,¡La señal de stop! Hay que parar y mirar.,Semnul de stop! Trebuie să oprim și să ne uităm.,frase,src/contenido/cuentos.ts,borrador
 672078dc8d56,¿Qué se puso Mateo para montar en bici?,Ce și-a pus Mateo ca să meargă cu bicicleta?,frase,src/contenido/cuentos.ts,borrador
 f8ea9231845b,¡El casco! Cuida la cabeza.,Casca! Apără capul.,frase,src/contenido/cuentos.ts,borrador
+6fffaa9493e8,La bellota perdida,Ghinda pierdută,trozo,src/contenido/cuentosDecisiones.ts,borrador
+ba9bed0c956d,Tito oye un ruido cerca del árbol. ¿Por dónde va?,Tito aude un zgomot lângă copac. Pe unde merge?,frase,src/contenido/cuentosDecisiones.ts,borrador
+9a4d6ab30cea,Por el camino,Pe potecă,trozo,src/contenido/cuentosDecisiones.ts,borrador
+cdb61dba7e51,Por el prado,Prin poiană,trozo,src/contenido/cuentosDecisiones.ts,borrador
+f5b2472757e5,Una ardilla busca su bellota. ¿Cómo la ayudas?,O veveriță își caută ghinda. Cum o ajuți?,frase,src/contenido/cuentosDecisiones.ts,borrador
+e7e620c2a3a0,Buscar en el suelo,Caută pe jos,trozo,src/contenido/cuentosDecisiones.ts,borrador
+79b65b0f6647,Mirar en el árbol,Privește în copac,trozo,src/contenido/cuentosDecisiones.ts,borrador
+a33f8bbaabe9,Una ardilla mira una pila de hojas. ¿Cómo la ayudas?,O veveriță se uită la o grămadă de frunze. Cum o ajuți?,frase,src/contenido/cuentosDecisiones.ts,borrador
+8e06fdf342b2,Apartar las hojas,Dă frunzele la o parte,trozo,src/contenido/cuentosDecisiones.ts,borrador
+f183eab96a18,¡La bellota estaba escondida! La ardilla le da las gracias a Tito.,Ghinda era ascunsă! Veverița îi mulțumește lui Tito.,frase,src/contenido/cuentosDecisiones.ts,borrador
+c6c2229932fc,Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.,Din copac văd ghinda. Tito și veverița o ridică împreună.,frase,src/contenido/cuentosDecisiones.ts,borrador
+21c8884168eb,El regalo de Lupi,Cadoul lui Lupi,trozo,src/contenido/cuentosDecisiones.ts,borrador
+42d3dc2a27c6,Hoy es el cumpleaños de Lupi. Tito quiere hacerle un regalo. ¿Qué le prepara?,Azi e ziua lui Lupi. Tito vrea să-i facă un cadou. Ce îi pregătește?,frase,src/contenido/cuentosDecisiones.ts,borrador
+8bbb1461499f,Una tarta,Un tort,trozo,src/contenido/cuentosDecisiones.ts,borrador
+ee6dbc16b4e1,Una flor,O floare,trozo,src/contenido/cuentosDecisiones.ts,borrador
+c3a3ec821c88,Tito hace una tarta muy rica. ¿Qué le pone encima?,Tito face un tort foarte gustos. Ce pune deasupra?,frase,src/contenido/cuentosDecisiones.ts,borrador
+c24b64fd63fd,Unas velas,Niște lumânări,trozo,src/contenido/cuentosDecisiones.ts,borrador
+61662a41e29d,Unas fresas,Niște căpșuni,trozo,src/contenido/cuentosDecisiones.ts,borrador
+2fadddbdb58a,Tito busca la flor más bonita del jardín. ¿Cómo se la da?,Tito caută cea mai frumoasă floare din grădină. Cum i-o dă?,frase,src/contenido/cuentosDecisiones.ts,borrador
+ccf41b3e734c,Con un lazo,Cu o fundă,trozo,src/contenido/cuentosDecisiones.ts,borrador
+3bdd3cfe3514,Con un globo,Cu un balon,trozo,src/contenido/cuentosDecisiones.ts,borrador
+58a8b487bc4a,Lupi sopla las velas y pide un deseo. ¡Todos cantan cumpleaños feliz!,Lupi suflă în lumânări și își pune o dorință. Toți cântă «La mulți ani»!,frase,src/contenido/cuentosDecisiones.ts,borrador
+212648b65e88,Lupi y Tito comparten la tarta de fresas. ¡Está riquísima!,Lupi și Tito împart tortul cu căpșuni. E foarte bun!,frase,src/contenido/cuentosDecisiones.ts,borrador
+1742a2404717,A Lupi le encanta la flor con su lazo. La pone en un vaso junto a la ventana.,Lui Lupi îi place mult floarea cu fundă. O pune într-un pahar lângă fereastră.,frase,src/contenido/cuentosDecisiones.ts,borrador
+5914cee899f6,Lupi recibe la flor atada a un globo rojo. ¡Qué sorpresa tan bonita!,Lupi primește floarea legată de un balon roșu. Ce surpriză frumoasă!,frase,src/contenido/cuentosDecisiones.ts,borrador
+e4a209d516bd,El barquito de papel,Bărcuța de hârtie,trozo,src/contenido/cuentosDecisiones.ts,borrador
+7db7652aa5cf,Ha llovido y Tito ha hecho un barquito de papel. ¿Dónde lo pone a navegar?,A plouat și Tito a făcut o bărcuță de hârtie. Unde o pune să plutească?,frase,src/contenido/cuentosDecisiones.ts,borrador
+cb9b84da3b68,En el estanque,În iaz,trozo,src/contenido/cuentosDecisiones.ts,borrador
+e9348a23d5ba,En el río,În râu,trozo,src/contenido/cuentosDecisiones.ts,borrador
+91081a506c95,El barquito navega por el estanque y se acerca un pato. ¿Qué hace Tito?,Bărcuța plutește pe iaz și se apropie o rață. Ce face Tito?,frase,src/contenido/cuentosDecisiones.ts,borrador
+3d99d93fc91c,Saludar al pato,Salută rața,trozo,src/contenido/cuentosDecisiones.ts,borrador
+7ba8c4e45739,Soplar fuerte,Suflă tare,trozo,src/contenido/cuentosDecisiones.ts,borrador
+5a3b51b1ef10,El río lleva el barquito muy deprisa. ¡Allí hay una rana! ¿Qué hace Tito?,Râul duce bărcuța foarte repede. Acolo e o broscuță! Ce face Tito?,frase,src/contenido/cuentosDecisiones.ts,borrador
+08b385434bc8,Llamar a la rana,Cheamă broscuța,trozo,src/contenido/cuentosDecisiones.ts,borrador
+f803aa52ed67,Correr por la orilla,Aleargă pe mal,trozo,src/contenido/cuentosDecisiones.ts,borrador
+07356a827db4,El pato empuja el barquito con el pico y se lo trae a Tito. ¡Ya son amigos!,Rața împinge bărcuța cu ciocul și i-o aduce lui Tito. Acum sunt prieteni!,frase,src/contenido/cuentosDecisiones.ts,borrador
+8ba215aa7c06,Tito sopla y el barquito cruza todo el estanque. ¡Ha llegado al otro lado!,Tito suflă și bărcuța traversează tot iazul. A ajuns pe partea cealaltă!,frase,src/contenido/cuentosDecisiones.ts,borrador
+c3d911003930,"La rana salta al barquito y navegan juntos un rato. ¡Croac, croac!","Broscuța sare în bărcuță și plutesc împreună o vreme. Oac, oac!",frase,src/contenido/cuentosDecisiones.ts,borrador
+e16fc43c087b,Tito corre por la orilla y recoge el barquito en una curva del río. ¡Lo ha salvado!,Tito aleargă pe mal și prinde bărcuța la o cotitură a râului. A salvat-o!,frase,src/contenido/cuentosDecisiones.ts,borrador
 e15c21b49d1c,La granja escuela,Ferma-școală,trozo,src/contenido/excursiones.ts,borrador
 0856a4aa9c78,Rosa,Roz,trozo,src/contenido/excursiones.ts,borrador
 58642a0f0f21,Dar de comer a los animales,Hrănim animalele,trozo,src/contenido/excursiones.ts,borrador
@@ -1762,19 +1801,12 @@ fa80ee037e45,¡El viento sopla hacia la derecha!,Vântul bate spre dreapta!,fras
 6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,Ce bine ai condus zmeul! Ai prins toate stelele. Ne mai jucăm o dată?,frase,src/escenas/cometa.ts,borrador
 a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!","Hai să înălțăm zmeul! Du-l cu degetul până la stele, fără să atingă copacii. Atenție la vânt!",frase,src/escenas/cometa.ts,borrador
 7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,Du zmeul cu degetul până la stea.,frase,src/escenas/cometa.ts,borrador
-ba9bed0c956d,Tito oye un ruido cerca del árbol. ¿Por dónde va?,Tito aude un zgomot lângă copac. Pe unde merge?,frase,src/escenas/cuentoDecisiones.ts,borrador
-9a4d6ab30cea,Por el camino,Pe potecă,trozo,src/escenas/cuentoDecisiones.ts,borrador
-cdb61dba7e51,Por el prado,Prin poiană,trozo,src/escenas/cuentoDecisiones.ts,borrador
-f5b2472757e5,Una ardilla busca su bellota. ¿Cómo la ayudas?,O veveriță își caută ghinda. Cum o ajuți?,frase,src/escenas/cuentoDecisiones.ts,borrador
-e7e620c2a3a0,Buscar en el suelo,Caută pe jos,trozo,src/escenas/cuentoDecisiones.ts,borrador
-79b65b0f6647,Mirar en el árbol,Privește în copac,trozo,src/escenas/cuentoDecisiones.ts,borrador
-a33f8bbaabe9,Una ardilla mira una pila de hojas. ¿Cómo la ayudas?,O veveriță se uită la o grămadă de frunze. Cum o ajuți?,frase,src/escenas/cuentoDecisiones.ts,borrador
-8e06fdf342b2,Apartar las hojas,Dă frunzele la o parte,trozo,src/escenas/cuentoDecisiones.ts,borrador
-f183eab96a18,¡La bellota estaba escondida! La ardilla le da las gracias a Tito.,Ghinda era ascunsă! Veverița îi mulțumește lui Tito.,frase,src/escenas/cuentoDecisiones.ts,borrador
-c6c2229932fc,Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.,Din copac văd ghinda. Tito și veverița o ridică împreună.,frase,src/escenas/cuentoDecisiones.ts,borrador
-6fffaa9493e8,La bellota perdida,Ghinda pierdută,trozo,src/escenas/cuentoDecisiones.ts,borrador
+7be4054e0c1d,¿Qué cuento leemos? Toca uno.,Ce poveste citim? Atinge una.,frase,src/escenas/cuentoDecisiones.ts,borrador
+ec8962736a51,¡Has descubierto todos los finales de este cuento!,Ai descoperit toate finalurile acestei povești!,frase,src/escenas/cuentoDecisiones.ts,borrador
+ae3d6762a99e,¡Un final nuevo! Lee otra vez y elige otras cosas para descubrir los demás.,Un final nou! Citește din nou și alege alte lucruri ca să le descoperi pe celelalte.,frase,src/escenas/cuentoDecisiones.ts,borrador
+c275a3d368c3,Elige un cuento,Alege o poveste,trozo,src/escenas/cuentoDecisiones.ts,borrador
 d76d93fb8bf6,Leer de nuevo,Citește din nou,trozo,src/escenas/cuentoDecisiones.ts,borrador
-e1f2d2d61772,Volver a la casita,Înapoi la căsuță,trozo,src/escenas/cuentoDecisiones.ts,borrador
+62ceccce2f21,Otro cuento,Altă poveste,trozo,src/escenas/cuentoDecisiones.ts,borrador
 88084c247f32,¡Medallero!,Clasamentul medaliilor!,frase,src/escenas/deporte.ts,borrador
 15b8d74100c6,¡Copa nueva!,O cupă nouă!,frase,src/escenas/deporte.ts,borrador
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,Și câștigi cupa săptămânii! Acum ai o cupă.,frase,src/escenas/deporte.ts,borrador
@@ -4990,3 +5022,4 @@ f90e6a36b381,Veinte,Douăzeci,tabla,,borrador
 eb46b31cbcd5, gets on the bus!,,tabla,,falta
 92daa34c8ad1,an ,,tabla,,falta
 99020cb24bd1,a ,,tabla,,falta
+e1f2d2d61772,Volver a la casita,Înapoi la căsuță,tabla,,borrador
