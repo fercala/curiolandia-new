@@ -25,6 +25,7 @@
 // El tren de Curiolandia (fase P28, P35): de la estación del mapa a la vuelta entera con sus túneles, paradas y animales.
 // La linterna de noche (fase P29, P36): de la tienda de campaña del mapa a buscar con la luz a los animales de la noche.
 // Y los amigos de Tito (fase P31, P37): Lupi y Polly pasean por el mapa y uno pide ayuda para encontrar lo que ha perdido.
+// Y «Programa a Tito» (fase P32, P38): en el rincón de la lógica, la tarjeta que falla sale roja y los tres tableros dan 2 monedas.
 // Uso: node tests/regresion/cole.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -1837,9 +1838,13 @@ const R = L.registro('cole');
         const e = await p.evaluate(() => encargoHoy());
         if ((await p.evaluate(() => faseHoy())) !== 'sinPedir') return 'el encargo no empieza sin pedir';
         if (await p.evaluate(() => perdidoEnPantalla())) return 'lo perdido está en el mapa antes de pedirlo';
-        const a = await p.evaluate((id) => amigoEnPantalla(id), e.amigo);
-        await L.clic(p, a.x, a.y);
-        for (let i = 0; i < 60 && (await p.evaluate(() => faseHoy())) !== 'buscando'; i++) await p.waitForTimeout(500);
+        // el amigo anda: si el toque no le da (o le da a otra cosa), se vuelve a mirar dónde está y se toca otra vez
+        for (let intento = 0; intento < 3 && (await p.evaluate(() => faseHoy())) !== 'buscando'; intento++) {
+          const a = await p.evaluate((id) => amigoEnPantalla(id), e.amigo);
+          await L.clic(p, a.x, a.y);
+          for (let i = 0; i < 30 && (await p.evaluate(() => faseHoy())) !== 'buscando'; i++)
+            await p.waitForTimeout(500);
+        }
         if ((await p.evaluate(() => faseHoy())) !== 'buscando') return 'tocar al amigo no pide ayuda';
         const q = await p.evaluate(() => perdidoEnPantalla());
         if (!q) return 'lo perdido no aparece en el mapa';
@@ -1849,6 +1854,62 @@ const R = L.registro('cole');
         if ((await p.evaluate(() => faseHoy())) !== 'hecho') return 'recoger lo perdido no se lo devuelve';
         if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'devolverlo no da 2 monedas';
         if (await p.evaluate(() => devolverPerdido(800, 450))) return 'se puede devolver dos veces el mismo día';
+        return null;
+      },
+    );
+    await caso(
+      'P38',
+      'en las clases, «Programa a Tito»: con 5 años, un programa que saca a Tito del tablero marca la tarjeta roja, que se quita tocándola; los tres tableros resueltos dan 2 monedas',
+      async () => {
+        const edad = await p.evaluate(() => __cl.S.age);
+        await p.evaluate(() => {
+          __cl.S.age = 5;
+          __cl.go('clases', {});
+        });
+        await p.waitForTimeout(1200);
+        const r = await p.evaluate(() => RINCONES_CLASE.find((x) => x.id === 'logica'));
+        await L.clic(p, r.x, r.y);
+        await p.waitForTimeout(2500);
+        if ((await escena()) !== 'programa') return 'el rincón de la lógica no lleva a «Programa a Tito»';
+        const tarjeta = async (o) => {
+          const c = await p.evaluate((x) => botonOrden(x), o);
+          await L.clic(p, c.x, c.y);
+          await p.waitForTimeout(300);
+        };
+        const vamos = async () => {
+          await p.evaluate(() => (VIVO.pausaHecha = true));
+          await L.clic(p, BOTON_VAMOS_X, BOTON_VAMOS_Y);
+          for (let i = 0; i < 40 && (await p.evaluate(() => PROG.fase)) === 'corre'; i++) await p.waitForTimeout(300);
+        };
+        const v = await p.evaluate(() => BOTON_VAMOS);
+        const BOTON_VAMOS_X = v.x + v.w / 2,
+          BOTON_VAMOS_Y = v.y + v.h / 2;
+        // un programa que se sale: la tarjeta que falla se pone roja y, al tocarla, se quita
+        await tarjeta('iz');
+        await tarjeta('av');
+        await vamos();
+        const f = await p.evaluate(() => [PROG.fase, PROG.fallo, PROG.programa.length]);
+        if (f.join() !== 'editar,1,2') return 'salirse del tablero no marca la tarjeta roja: ' + f.join();
+        const c = await p.evaluate(() => casillaPrograma(PROG.fallo));
+        await L.clic(p, c.x, c.y);
+        await p.waitForTimeout(400);
+        if ((await p.evaluate(() => PROG.programa.join())) !== 'iz') return 'tocar la tarjeta roja no la quita';
+        const b = await p.evaluate(() => BOTON_BORRAR);
+        await L.clic(p, b.x + b.w / 2, b.y + b.h / 2);
+        await p.waitForTimeout(400);
+        if (await p.evaluate(() => PROG.programa.length)) return '«Borrar» no vacía el programa';
+        const monedas = await p.evaluate(() => __cl.S.coins);
+        for (let n = 0; n < 3; n++) {
+          if ((await p.evaluate(() => PROG.nivel)) !== n) return 'no se pasa al tablero ' + (n + 1);
+          for (const o of await p.evaluate(() => solucionPrograma())) await tarjeta(o);
+          await vamos();
+          if ((await p.evaluate(() => PROG.fase)) !== 'bien')
+            return 'la solución no lleva a la fresa en el tablero ' + (n + 1);
+          for (let i = 0; i < 40 && (await p.evaluate(() => PROG.fase)) !== 'editar'; i++) await p.waitForTimeout(400);
+        }
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'los tres tableros no dan 2 monedas';
+        if ((await p.evaluate(() => PROG.nivel)) !== 0) return 'tras los tres tableros no se vuelve a empezar';
+        await p.evaluate((e) => (__cl.S.age = e), edad);
         return null;
       },
     );

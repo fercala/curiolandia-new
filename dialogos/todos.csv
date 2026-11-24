@@ -2916,6 +2916,23 @@ c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts
 087974002010,CONTENTO,trozo,src/mundo3d/objetos.ts
+608891d0aa14,Adelante.,frase,src/mundo3d/programa3d.ts
+4fcf80e99ed6,Gira a la izquierda.,frase,src/mundo3d/programa3d.ts
+12598561cd81,Gira a la derecha.,frase,src/mundo3d/programa3d.ts
+12ebfd7c2081,Otra vez la de antes.,frase,src/mundo3d/programa3d.ts
+8ac2921b1ae7,¡Ay! Tito se ha chocado con una roca. Toca la tarjeta roja para quitarla.,frase,src/mundo3d/programa3d.ts
+b9f6491e034a,¡Uy! Por ahí Tito se sale del tablero. Toca la tarjeta roja para quitarla.,frase,src/mundo3d/programa3d.ts
+02eeba41a327,Tito no ha llegado a la fresa todavía. Pon más tarjetas.,frase,src/mundo3d/programa3d.ts
+a2999a505500,"Las flechas curvas hacen que Tito se gire, sin moverse de su casilla.",frase,src/mundo3d/programa3d.ts
+cfbb2a521f0e,La tarjeta «por dos» repite la tarjeta de antes. ¡Cuidado con las rocas!,frase,src/mundo3d/programa3d.ts
+e8e436b3cb23,¡Vamos a programar a Tito! Pon flechas para llevarlo hasta la fresa y pulsa «¡Vamos!».,frase,src/mundo3d/programa3d.ts
+95dd82408336,Ya no caben más tarjetas. Pulsa «¡Vamos!».,frase,src/mundo3d/programa3d.ts
+ac2bba5b58e6,Primero pon alguna flecha para Tito.,frase,src/mundo3d/programa3d.ts
+d7ec2b06c56a,¡Qué bien programas! Tito se ha comido todas las fresas.,frase,src/mundo3d/programa3d.ts
+7e0282ef3543,¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!,frase,src/mundo3d/programa3d.ts
+37d61c4d8913,Programa a Tito,trozo,src/mundo3d/programa3d.ts
+b840dd15259b,¡Vamos!,frase,src/mundo3d/programa3d.ts
+a96f30f0a23d,Borrar,trozo,src/mundo3d/programa3d.ts
 6e058a19a686,¡Algo brilla por aquí!,frase,src/mundo3d/tesoros3d.ts
 7aa28286596a,"¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.",frase,src/mundo3d/tren3d.ts
 c06107a604e5,Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.,frase,src/mundo3d/tren3d.ts

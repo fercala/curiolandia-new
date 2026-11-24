@@ -70,7 +70,7 @@
  *   el paquete three de npm, que cada archivo importa (desde la fase 6a; antes era global, de three.min.js).
  * Exporta: R3frame (lo llama frame(), en aplicacion/bucle.ts) y, desde la fase P26 de docs/IDEAS-MEJORA.md,
  *   juegoTiempoEnPantalla (de mundo3d/tiempo3d.ts, para que las pruebas encuentren los charcos o el montón de nieve)
- *   y, desde la P27, BLOQ, BOTON_JARDIN, botonJuego, casillaForma, opcionNumero y sitioPila (de mundo3d/bloques3d.ts); y, desde la P28, TREN_ST, numeroTren, animalEnPantalla, locoEnPantalla y estacionEnPantalla (de mundo3d/tren3d.ts); y, desde la P29, acampadaEnPantalla (de mundo3d/acampada3d.ts); y, desde la P30, vehiculoEnPantalla (de mundo3d/viaje3d.ts); y, desde la P31, amigoEnPantalla y perdidoEnPantalla (de mundo3d/amigos3d.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
+ *   y, desde la P27, BLOQ, BOTON_JARDIN, botonJuego, casillaForma, opcionNumero y sitioPila (de mundo3d/bloques3d.ts); y, desde la P28, TREN_ST, numeroTren, animalEnPantalla, locoEnPantalla y estacionEnPantalla (de mundo3d/tren3d.ts); y, desde la P29, acampadaEnPantalla (de mundo3d/acampada3d.ts); y, desde la P30, vehiculoEnPantalla (de mundo3d/viaje3d.ts); y, desde la P31, amigoEnPantalla y perdidoEnPantalla (de mundo3d/amigos3d.ts); y, desde la P32, PROG, BOTON_VAMOS, BOTON_BORRAR, botonOrden, casillaPrograma, solucionPrograma y titoProgramaEnPantalla (de mundo3d/programa3d.ts). Al montarse, la capa 3D deja window.__w3 (pruebas y
  *   zona de adultos: retito, PRK...; lo pone montarInteraccion) y pone la disposición de la vista 3D (ponDisposicion, de
  *   nucleo/disposicion.ts: los puestos de la casita, desde la fase 4i, en mundo3d/casita3d.ts; los sitios del mapa y las
  *   casitas de las zonas, desde la 4j, en mapa3d.ts y zonas3d.ts; Tito y su casa, desde la 4k, en interaccion.ts). Ya no
@@ -84,7 +84,7 @@
  *   montarIsla3D, desde la fase I6 de docs/PLAN-INGLES.md montarIslaIngles3D (islaIngles3d.ts, la Isla del Inglés),
  *   desde la fase M0 de docs/PLAN-CASA-MEJORA.md montarCasa3D (casa3d.ts, la casa de Tito en 3D de prueba), desde la
  *   fase P10 de docs/IDEAS-MEJORA.md montarCarreras3D (carreras3d.ts, las carreras del patio), desde la P27
- *   montarBloques3D (bloques3d.ts, el rincón de las construcciones), montarTren3D (tren3d.ts, el viaje en tren), montarViaje3D (viaje3d.ts, desde la P30, el viaje en barco o en globo), y pone __w3.ok.
+ *   montarBloques3D (bloques3d.ts, el rincón de las construcciones), montarTren3D (tren3d.ts, el viaje en tren), montarViaje3D (viaje3d.ts, desde la P30, el viaje en barco o en globo), montarPrograma3D (programa3d.ts, desde la P32, «Programa a Tito»), y pone __w3.ok.
  * ========================================================================== */
 import { R, W3, camTick, fpsTick, montarMotor } from './motor.ts';
 import { scene } from '../nucleo/indice.ts';
@@ -101,6 +101,7 @@ import { montarCarreras3D } from './carreras3d.ts';
 import { montarBloques3D } from './bloques3d.ts';
 import { montarTren3D } from './tren3d.ts';
 import { montarViaje3D } from './viaje3d.ts';
+import { montarPrograma3D } from './programa3d.ts';
 // desde la fase P26, dónde se ven los charcos o el montón de nieve del mapa (el puente lo deja para las pruebas)
 export { juegoTiempoEnPantalla } from './tiempo3d.ts';
 // desde la fase P27, lo del rincón de las construcciones que leen las pruebas
@@ -109,6 +110,15 @@ export { TREN_ST, animalEnPantalla, estacionEnPantalla, locoEnPantalla, numeroTr
 export { acampadaEnPantalla } from './acampada3d.ts';
 export { vehiculoEnPantalla } from './viaje3d.ts';
 export { amigoEnPantalla, perdidoEnPantalla } from './amigos3d.ts';
+export {
+  BOTON_BORRAR,
+  BOTON_VAMOS,
+  PROG,
+  botonOrden,
+  casillaPrograma,
+  solucionPrograma,
+  titoProgramaEnPantalla,
+} from './programa3d.ts';
 
 // R3frame(dt): dibuja un cuadro del mundo 3D. Vale null hasta que se crea al montar la capa 3D (si no hay WebGL se queda
 // en null).
@@ -144,6 +154,7 @@ export let R3frame: ((dt: number) => void) | null = null;
   montarBloques3D(); // desde la fase P27, el rincón de las construcciones (bloques3d.ts)
   montarTren3D(); // desde la fase P28, el viaje en tren (tren3d.ts)
   montarViaje3D(); // desde la fase P30, el viaje en barco o en globo en 3D (viaje3d.ts)
+  montarPrograma3D(); // desde la fase P32, «Programa a Tito», el rincón de la lógica (programa3d.ts)
   // marca de que la capa 3D se ha cargado entera (ningún otro archivo la lee; sirve para comprobarlo desde la consola)
   window.__w3.ok = true;
 })();

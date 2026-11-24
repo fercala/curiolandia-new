@@ -2916,6 +2916,23 @@ c958e8f13e00,AEIOU,,trozo,src/mundo3d/isla3d.ts,falta
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",,trozo,src/mundo3d/materiales.ts,falta
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.","Vesel. Când ceva ne place mult, simțim bucurie și zâmbim.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts,borrador
 087974002010,CONTENTO,VESEL,trozo,src/mundo3d/objetos.ts,borrador
+608891d0aa14,Adelante.,Înainte.,frase,src/mundo3d/programa3d.ts,borrador
+4fcf80e99ed6,Gira a la izquierda.,Întoarce-te la stânga.,frase,src/mundo3d/programa3d.ts,borrador
+12598561cd81,Gira a la derecha.,Întoarce-te la dreapta.,frase,src/mundo3d/programa3d.ts,borrador
+12ebfd7c2081,Otra vez la de antes.,Încă o dată cel de dinainte.,frase,src/mundo3d/programa3d.ts,borrador
+8ac2921b1ae7,¡Ay! Tito se ha chocado con una roca. Toca la tarjeta roja para quitarla.,Au! Tito s-a lovit de o piatră. Atinge cartonașul roșu ca să-l scoți.,frase,src/mundo3d/programa3d.ts,borrador
+b9f6491e034a,¡Uy! Por ahí Tito se sale del tablero. Toca la tarjeta roja para quitarla.,Uf! Pe acolo Tito iese de pe tablă. Atinge cartonașul roșu ca să-l scoți.,frase,src/mundo3d/programa3d.ts,borrador
+02eeba41a327,Tito no ha llegado a la fresa todavía. Pon más tarjetas.,Tito n-a ajuns încă la căpșună. Mai pune cartonașe.,frase,src/mundo3d/programa3d.ts,borrador
+a2999a505500,"Las flechas curvas hacen que Tito se gire, sin moverse de su casilla.","Săgețile curbe îl fac pe Tito să se întoarcă, fără să plece din pătrățelul lui.",frase,src/mundo3d/programa3d.ts,borrador
+cfbb2a521f0e,La tarjeta «por dos» repite la tarjeta de antes. ¡Cuidado con las rocas!,Cartonașul «de două ori» repetă cartonașul de dinainte. Atenție la pietre!,frase,src/mundo3d/programa3d.ts,borrador
+e8e436b3cb23,¡Vamos a programar a Tito! Pon flechas para llevarlo hasta la fresa y pulsa «¡Vamos!».,Hai să-l programăm pe Tito! Pune săgeți ca să-l duci până la căpșună și apasă «Hai!».,frase,src/mundo3d/programa3d.ts,borrador
+95dd82408336,Ya no caben más tarjetas. Pulsa «¡Vamos!».,Nu mai încap cartonașe. Apasă «Hai!».,frase,src/mundo3d/programa3d.ts,borrador
+ac2bba5b58e6,Primero pon alguna flecha para Tito.,Mai întâi pune o săgeată pentru Tito.,frase,src/mundo3d/programa3d.ts,borrador
+d7ec2b06c56a,¡Qué bien programas! Tito se ha comido todas las fresas.,Ce bine programezi! Tito a mâncat toate căpșunile.,frase,src/mundo3d/programa3d.ts,borrador
+7e0282ef3543,¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!,Foarte bine! Tito a ajuns la căpșună. Hai cu încă una!,frase,src/mundo3d/programa3d.ts,borrador
+37d61c4d8913,Programa a Tito,Programează-l pe Tito,trozo,src/mundo3d/programa3d.ts,borrador
+b840dd15259b,¡Vamos!,Hai!,frase,src/mundo3d/programa3d.ts,borrador
+a96f30f0a23d,Borrar,Șterge,trozo,src/mundo3d/programa3d.ts,borrador
 6e058a19a686,¡Algo brilla por aquí!,Ceva strălucește pe aici!,frase,src/mundo3d/tesoros3d.ts,borrador
 7aa28286596a,"¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.","Călători, urcați în tren! Facem turul Curiolandiei. Numără tunelurile prin care trecem. Atinge trenul ca să claxonezi.",frase,src/mundo3d/tren3d.ts,borrador
 c06107a604e5,Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.,Numără tunelurile prin care trecem. Atinge trenul ca să claxonezi.,frase,src/mundo3d/tren3d.ts,borrador
