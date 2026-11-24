@@ -446,6 +446,19 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
         }));
       },
     );
+    await test('vale-editado', 'Editar el texto de un vale invalida su confirmación anterior', async (p) => {
+      await prepareVoucher(p);
+      await p.evaluate(() => {
+        S.vales[0].txt = 'Otra recompensa';
+        save();
+      });
+      await L.clic(p, 680, 690);
+      return p.evaluate(() => ({
+        fail: S.coins !== 100 || S.valesLog.length !== 0,
+        coins: S.coins,
+        purchases: S.valesLog,
+      }));
+    });
     await test(
       'vale-canje-control',
       'Control: comprar y marcar un vale entregado persiste sin cobro doble',

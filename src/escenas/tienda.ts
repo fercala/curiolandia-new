@@ -966,19 +966,20 @@ SCENES.tienda = {
       return;
     }
     SFX.pop();
-    this.conf = it;
+    // Conserva lo que se ofreció: los controles de adultos pueden editar el mismo objeto Vale.
+    this.conf = it.vale ? { ...it, vale: { ...it.vale } } : it;
     this.confT = T;
     say(fmt('¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.', { cosa: itemName(it), n: it.p }));
   },
   // Compra el artículo con el caso de uso comprar (aplicacion/comprar.ts): gasta las monedas, celebra y lo da. Un vale
   // se apunta en S.valesLog (para que el adulto lo canjee); la ropa se pone a Tito; lo demás se guarda en el baúl y hace
-  // saltar el botón de la casa. Si es un vale que el adulto desactivó mientras la confirmación estaba abierta, no se
-  // compra (suena boing y no se cobra).
+  // saltar el botón de la casa. Al confirmar valida saldo, propiedad y vales vigentes. Si cambiaron mientras
+  // la confirmación estaba abierta, suena boing y se cierra sin cobrar.
   buy(it: Articulo) {
     this.conf = null;
     // lo que cambia en la partida lo decide el caso de uso comprar (aplicacion/comprar.ts); aquí, la pantalla
     const c = comprar(S, it, today());
-    if (c.tipo === 'desactivado') {
+    if (c.tipo !== 'vale' && c.tipo !== 'articulo') {
       SFX.boing();
       return;
     }

@@ -96,6 +96,8 @@
 | `last` | id de tema | Último tema visitado. |
 | `ses` | `{t: segundos, at: hora en ms}` o `null` | Tiempo jugado en la sesión, para el límite `limit` (desde v1.586). Se guarda cada 15 s; al recargar, si es de hace menos de 30 min, la sesión sigue desde ahí. Se pone a `null` al cerrar la zona de adultos. |
 
+La tienda comprueba el saldo y el inventario actuales al confirmar una compra. Si otra pestaña ya notificó que el objeto es del niño, la confirmación anterior se cancela. Un vale conserva una copia de lo ofrecido para detectar cambios de texto y precio. Esto cubre confirmaciones posteriores al evento de almacenamiento. Las escrituras simultáneas anteriores a ese evento siguen requiriendo coordinación entre pestañas.
+
 ## 3. Reglas para no romper partidas guardadas
 
 1. **No renombres** ningún campo ni cambies su tipo o su significado. Si `temas` es un objeto, seguirá siendo un objeto con el mismo formato.

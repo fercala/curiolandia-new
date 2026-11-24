@@ -11,6 +11,8 @@ revisarlas y para poder traducir el juego algún día. Todo está en castellano 
 | `ro-sin-traducir.txt` | Lo que se acepta **sin rumano** porque no es castellano (inglés, ids, código) o solo sale en castellano. Ver la regla de abajo. |
 | `pendientes.txt` | **Diálogos nuevos o cambiados**, una frase por línea, con el texto exacto que dice Tito (sin el nombre del niño), para revisarlos. |
 
+Las rutas de la columna `donde` se escriben siempre con `/`, también al regenerar en Windows. Las pruebas admiten archivos CSV con finales de línea LF o CRLF y comparan íntegro el contenido.
+
 ## Los tipos del catálogo
 
 - `frase`: una frase entera tal como se escribe en el código ("¿Cómo te llamas?").

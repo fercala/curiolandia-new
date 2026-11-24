@@ -1640,6 +1640,35 @@ const temas = (n) => {
     return quedan.join() === '1,1,1,1' ? null : 'estados tras recargar: ' + quedan;
   });
 
+  await caso('C44', 'Confirmar una compra antigua respeta el saldo y los cambios de la familia', async (p) => {
+    const resultado = await p.evaluate(() => {
+      S.coins = 100;
+      S.owned.hamster = 1;
+      S.mascotas.hamster = { nombre: 'Nube', dias: 9, dia: '2026-10-21', hechos: [] };
+      __cl.go('tienda', {});
+      const tienda = __cl.scene;
+      tienda.buy(SHOP.find((it) => it.id === 'hamster'));
+      const mascota = [S.coins, S.mascotas.hamster.nombre, S.mascotas.hamster.dias];
+      S.coins = 0;
+      tienda.buy(SHOP.find((it) => it.id === 'piano'));
+      const saldo = [S.coins, !!S.owned.piano];
+      const vale = { id: 'prueba', txt: 'Ir al parque', on: 1, p: 10 };
+      S.coins = 100;
+      S.vales = [{ ...vale, p: 30 }];
+      S.valesLog = [];
+      tienda.buy({ id: 'vale:prueba', p: 10, vale });
+      const editado = [S.coins, S.valesLog.length];
+      S.vales = [vale];
+      tienda.buy({ id: 'vale:prueba', p: 10, vale });
+      return { mascota, saldo, editado, valida: [S.coins, S.valesLog.length] };
+    });
+    if (resultado.mascota.join() !== '100,Nube,9')
+      return 'se volvió a comprar la mascota: ' + JSON.stringify(resultado);
+    if (resultado.saldo.join() !== '0,false') return 'compra sin saldo: ' + JSON.stringify(resultado);
+    if (resultado.editado.join() !== '100,0') return 'vale editado: ' + JSON.stringify(resultado);
+    return resultado.valida.join() === '90,1' ? null : 'vale vigente: ' + JSON.stringify(resultado);
+  });
+
   R.guardar();
   await b.close();
   srv.close();

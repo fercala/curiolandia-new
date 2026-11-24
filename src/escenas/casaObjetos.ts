@@ -1,5 +1,7 @@
 // Dibujos y efectos de las compras interactivas de Tito, dentro de la casa 2D.
 // Se dibujan con el origen en el pie del objeto y leen su estado sin cambiar la partida.
+// Exporta: dibujoDeEstado y efectosDeCompra, que usan casa.ts y casaToques.ts.
+// Importa: K de dibujos/todos.ts y las funciones de dibujo y el reloj T del núcleo.
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- posiciones y ritmos de dibujo */
 import { K } from '../dibujos/todos.ts';
 import { PI, T, circ, ctx, pic } from '../nucleo/indice.ts';

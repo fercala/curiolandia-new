@@ -74,7 +74,7 @@ export function gastar(m: Readonly<Monedero>, n: number): Pick<Required<Monedero
   return { coins: (m.coins ?? 0) - n };
 }
 
-// alcanza(monedas, precio): ¿llegan las monedas para pagar el precio?
+// alcanza(monedas, precio): ¿llegan las monedas para un precio válido? Rechaza saldos o precios no finitos y negativos.
 export function alcanza(monedas: number, precio: number): boolean {
-  return !(monedas < precio);
+  return Number.isFinite(monedas) && Number.isFinite(precio) && precio >= 0 && monedas >= precio;
 }

@@ -14,12 +14,12 @@ const MIN_FRASES = 2000;
 test('dialogos/todos.csv está al día con el código (si no: npm run dialogos)', () => {
   const frases = catalogo(RAIZ);
   expect(frases.length).toBeGreaterThan(MIN_FRASES);
-  expect(readFileSync(join(RAIZ, 'dialogos', 'todos.csv'), 'utf8')).toBe(csv(frases));
+  expect(readFileSync(join(RAIZ, 'dialogos', 'todos.csv'), 'utf8').replace(/\r\n/g, '\n')).toBe(csv(frases));
 });
 
 test('dialogos/ro.csv, la hoja de revisión del rumano, está al día con el catálogo y las tablas (fase ID4)', () => {
   const hoja = hojaIdioma(catalogo(RAIZ), TEXTOS_RO, NOMBRES_RO);
-  expect(readFileSync(join(RAIZ, 'dialogos', 'ro.csv'), 'utf8')).toBe(csvIdioma(hoja, 'rumano'));
+  expect(readFileSync(join(RAIZ, 'dialogos', 'ro.csv'), 'utf8').replace(/\r\n/g, '\n')).toBe(csvIdioma(hoja, 'rumano'));
   expect(hoja.find((f) => f.texto === 'Zona de adultos')?.traduccion).toBe('Zona adulților');
 });
 
@@ -38,6 +38,7 @@ test('cada texto nuevo tiene su rumano (o está en dialogos/ro-sin-traducir.txt)
 test('cada id es único y los textos conocidos están (frase, trozo, nombre)', () => {
   const frases = catalogo(RAIZ);
   expect(new Set(frases.map((f) => f.id)).size).toBe(frases.length);
+  expect(frases.every((f) => f.donde.every((ruta) => !ruta.includes('\\')))).toBe(true);
   const tipo = (t: string): string | undefined => frases.find((f) => f.texto === t)?.tipo;
   expect(tipo('¿Cómo te llamas?')).toBe('frase');
   expect(tipo('Gira el móvil')).toBe('trozo');

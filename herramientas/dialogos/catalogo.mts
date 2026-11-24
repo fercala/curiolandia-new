@@ -213,9 +213,11 @@ export function catalogo(raiz: string): Frase[] {
   const src = join(raiz, 'src');
   const porTexto = new Map<string, { tipo: Frase['tipo']; donde: string[] }>();
   // apunta(t, tipo, rel): añade el texto t (o un archivo más donde sale, hasta DONDE_MAX).
+  // Las rutas del catálogo usan barras en todos los sistemas, para que regenerarlo en Windows conserve el CSV.
   const apunta = (t: string, tipo: Frase['tipo'], rel: string): void => {
     const fila = porTexto.get(t) ?? { tipo, donde: [] };
-    if (fila.donde.length < DONDE_MAX && !fila.donde.includes(rel)) fila.donde.push(rel);
+    const ruta = rel.replaceAll('\\', '/');
+    if (fila.donde.length < DONDE_MAX && !fila.donde.includes(ruta)) fila.donde.push(ruta);
     porTexto.set(t, fila);
   };
   for (const f of archivos(src)) {
