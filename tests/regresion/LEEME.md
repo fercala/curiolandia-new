@@ -50,3 +50,5 @@ La existencia de una prueba no demuestra cobertura completa. Consultar el [mapa 
 ### Actividades opcionales
 
 `node tests/regresion/actividades-extras.js dist` recorre las cinco entradas en castellano y rumano. Comprueba navegación, resultados y que se conservan monedas y progreso. Leer el resultado con `node tests/regresion/comprobar.js actividades-extras`.
+
+`node tests/regresion/ideas.js dist` recorre en castellano y rumano las escenas de las ideas pendientes (v0.2.180), una partida de «Jugar juntos», el primer paso de los primeros pasos y lo nuevo de la zona de adultos. Leer el resultado con `node tests/regresion/comprobar.js ideas`.
