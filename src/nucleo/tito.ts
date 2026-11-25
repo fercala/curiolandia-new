@@ -21,6 +21,7 @@ export interface OpcionesTito {
   bubble?: boolean;
   flowers?: number;
   plain?: boolean;
+  sombra?: boolean;
 }
 /* ---------- Tito ---------- */
 // TITO: posición y ancho de Tito en las escenas 2D (abajo a la izquierda). Dónde está de verdad en la pantalla se
@@ -101,23 +102,49 @@ export function ponRopaTito(img: () => HTMLImageElement, ropa: (k: number) => vo
   titoImgF = img;
   ropaF = ropa;
 }
+// SALTO: lo que dura el saltito de alegría de Tito (segundos); alegriaT: cuándo fue el último acierto (titoContento).
+const SALTO = 0.55;
+let alegriaT = -9;
+// titoContento(): Tito da un saltito de alegría (lo llama nucleo/toques.ts cuando suena un acierto).
+export function titoContento(): void {
+  alegriaT = T;
+}
 // drawTito(x,y,ancho,o): dibuja a Tito en 2D (en el mapa 3D lo dibuja mundo3d/personajes.ts) con su balanceo, parpadeo, la boca
 // que se abre mientras talking es true, las flores del caparazón y la ropa de la tienda (ropaF, de ponRopaTito).
 // Opciones o: flip (mira a la izquierda), sq (aplastado, para saltar), sleep (ojos cerrados), mouth:false (sin boca),
-// bubble:false (sin bocadillo de altavoz), flowers (número fijo de flores), plain (sin ropa).
+// bubble:false (sin bocadillo de altavoz), flowers (número fijo de flores), plain (sin ropa), sombra:false (sin sombra).
+// Desde la mejora gráfica 3 de docs/MEJORAS-GRAFICAS.md, Tito tiene más vida: una sombra suave en el suelo (sin ella con
+// sombra: false), respira (se estira y se encoge un poquito), se inclina un poco hacia donde está el dedo o el ratón y,
+// después de un acierto (titoContento), da un saltito de alegría.
 export function drawTito(x: number, y: number, w: number, o: OpcionesTito = {}): void {
   const k = w / 240,
     h = 200 * k,
     b = Math.sin(T * 2.2) * w * 0.02,
     i = titoImgF ? titoImgF() : (IMG['tito'] as HTMLImageElement);
   if (!i.complete) return;
+  const e = T - alegriaT,
+    salto = e >= 0 && e < SALTO ? Math.sin((e / SALTO) * Math.PI) * w * 0.16 : 0,
+    aterriza = e >= SALTO && e < SALTO + 0.15 ? 0.06 * (1 - (e - SALTO) / 0.15) : 0;
+  if (o.sombra !== false) {
+    ctx.save();
+    ctx.globalAlpha *= 0.16 * (1 - salto / (w * 0.4));
+    ell(x + w * 0.5, y + h * 0.95, w * 0.34 * (1 - salto / w), w * 0.045, '#4A3428', 0);
+    ctx.restore();
+  }
   ctx.save();
-  ctx.translate(x, y + b);
+  ctx.translate(x, y + b - salto);
+  if (!o.sleep) {
+    // se inclina hacia el puntero, girando sobre los pies (como mucho 0,05 radianes, unos 3 grados)
+    const hacia = Math.max(-1, Math.min(1, ((VIVO.MX ?? x + w / 2) - (x + w / 2)) / 700));
+    ctx.translate(w / 2, h);
+    ctx.rotate(hacia * 0.05);
+    ctx.translate(-w / 2, -h);
+  }
   if (o.flip) {
     ctx.translate(w, 0);
     ctx.scale(-1, 1);
   }
-  const sq = o.sq || 0;
+  const sq = (o.sq || 0) + Math.sin(T * 2.6) * 0.012 + aterriza;
   ctx.translate(w / 2, h);
   ctx.scale(1 + sq, 1 - sq);
   ctx.translate(-w / 2, -h);

@@ -79,6 +79,7 @@ import {
 } from '../nucleo/indice.ts';
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
+import { textura } from '../nucleo/texturas.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, houseLevel, petStage } from './zonas.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { ahora, azar } from '../aplicacion/puertos.ts';
@@ -262,7 +263,9 @@ const horaCasa = (): number => {
 // hl es el nivel de la casa (houseLevel): en el salón añade flores, banderines y arcoíris como antes. El suelo empieza
 // siempre en y = 600 (los objetos se colocan del 420 al 780). Con la luz apagada (homeLight) se ve la noche; desde la
 // fase M6, por la ventana (y en el cielo del jardín) se ve también el momento del día (homeMomento): la mañana, la
-// tarde (cielo naranja y el sol bajo) o la noche (luna, y la habitación un poco más oscura).
+// tarde (cielo naranja y el sol bajo) o la noche (luna, y la habitación un poco más oscura). Desde la mejora gráfica 4
+// de docs/MEJORAS-GRAFICAS.md, el salón y el dormitorio tienen zócalo y un cuadro, el suelo de
+// madera tiene vetas y la luz entra por la ventana (luzHabitacion).
 function roomBg(id: string, hl: number) {
   const noche = !homeLight || homeMomento === 'noche',
     tarde = !noche && homeMomento === 'tarde';
@@ -294,6 +297,7 @@ function roomBg(id: string, hl: number) {
   };
   const wood = (c: string) => {
     floor(600, c);
+    textura('madera', 0, 600, W, H - 600, 0.9);
     ctx.strokeStyle = 'rgba(74,52,40,.15)';
     ctx.lineWidth = 4;
     for (let y = 640; y < 900; y += 50) {
@@ -316,6 +320,8 @@ function roomBg(id: string, hl: number) {
     sky('#FFEFD9', '#FFE6C6');
     ctx.fillStyle = 'rgba(255,201,60,.12)';
     for (let x = 0; x < W; x += 80) ctx.fillRect(x, 0, 40, 600);
+    zocalo('#F7D9B0', '#E9C291');
+    cuadroPared(215, 330, 'arbol');
     win(1200, 130, 300, 230);
     wood('#E2B98A');
     if (hl >= 1) for (let i = 0; i < 20; i++) flower(40 + i * 80, 592, 12, FLC[i % 7], 2.5);
@@ -338,6 +344,8 @@ function roomBg(id: string, hl: number) {
     sky('#EDE6FB', '#E2D8F7');
     for (let y = 180; y < 600; y += 90)
       for (let x = ((y / 90) % 2) * 60; x < W; x += 120) star(x, y, 9, 'rgba(155,138,217,.35)', 0);
+    zocalo('#DCD0F5', '#C8B8EE');
+    cuadroPared(215, 330, 'luna');
     win(1210, 160, 280, 210, '#9B8AD9');
     wood('#D9B58A');
   } else if (id === 'cocina') {
@@ -435,6 +443,54 @@ function roomBg(id: string, hl: number) {
     ctx.fillStyle = homeLight ? 'rgba(30,30,70,.12)' : 'rgba(30,30,70,.25)';
     ctx.fillRect(0, 0, W, H);
   }
+  luzHabitacion(id, noche);
+}
+// zocalo(c, borde): el zócalo de madera pintada de la pared (de y = 470 al suelo), con paneles y su moldura (mejora
+// gráfica 4 de docs/MEJORAS-GRAFICAS.md), para que la pared no se vea vacía.
+function zocalo(c: string, borde: string): void {
+  ctx.fillStyle = c;
+  ctx.fillRect(0, 470, W, 130);
+  for (let x = 30; x < W; x += 200) card(x, 492, 160, 84, null, 4, 10, borde);
+  card(-10, 462, W + 20, 16, borde, 4, 6);
+}
+// cuadroPared(x, y, dibujo): un cuadro colgado con su marco de madera, su clavo y su cordel, con un dibujo dentro.
+function cuadroPared(x: number, y: number, dibujo: string): void {
+  ctx.beginPath();
+  ctx.moveTo(x - 34, y - 52);
+  ctx.lineTo(x, y - 86);
+  ctx.lineTo(x + 34, y - 52);
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = K;
+  ctx.stroke();
+  circ(x, y - 88, 6, '#C9A06A', 3);
+  card(x - 60, y - 52, 120, 104, '#C98A4B', 5, 8);
+  card(x - 46, y - 38, 92, 76, '#FFF9EC', 3, 4);
+  pic(dibujo, x, y, 66);
+}
+// luzHabitacion(id, noche): la luz que llena la habitación (mejora gráfica 4): de día, unos rayos de sol que entran en
+// diagonal por la ventana; de noche con la luz encendida (homeLight), un resplandor cálido que baja de arriba, en vez de
+// solo oscurecer. En el jardín y la torre (que son de fuera o ya de noche) no se pone.
+function luzHabitacion(id: string, noche: boolean): void {
+  if (id === 'jardin' || id === 'torre') return;
+  ctx.save();
+  if (!noche) {
+    ctx.globalAlpha = 0.16;
+    ctx.fillStyle = '#FFF6C9';
+    ctx.beginPath();
+    ctx.moveTo(1210, 150);
+    ctx.lineTo(1490, 150);
+    ctx.lineTo(1120, 880);
+    ctx.lineTo(760, 880);
+    ctx.closePath();
+    ctx.fill();
+  } else if (homeLight) {
+    const g = ctx.createRadialGradient(W / 2, 80, 60, W / 2, 80, 900);
+    g.addColorStop(0, 'rgba(255,200,110,.22)');
+    g.addColorStop(1, 'rgba(255,200,110,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+  }
+  ctx.restore();
 }
 // Botones de las habitaciones (arriba, entre el título y la tienda): x, y y la habitación.
 export const roomBtns = () => ROOMS.map((R, i) => ({ R, x: 660 + i * 76, y: 94 }));

@@ -102,6 +102,7 @@ import {
   drawHome,
   drawRounds,
   drawSticker,
+  drawStickerFalta,
   drawTito,
   easeOut,
   ell,
@@ -120,7 +121,6 @@ import {
   kid,
   later,
   pic,
-  picG,
   pick,
   pickVoice,
   praise,
@@ -1786,12 +1786,7 @@ SCENES.album = {
       ctx.translate(x, y);
       ctx.scale(hs, hs);
       if (has) drawSticker(k, 0, 0, 160, Math.sin(i) * 0.08);
-      else {
-        circ(0, 0, 80, '#F1E9DC', 4, '#E4D3B8');
-        ctx.globalAlpha = 0.18;
-        picG(k, 0, 0, 130);
-        ctx.globalAlpha = 1;
-      }
+      else drawStickerFalta(k, 0, 0, 160); // la silueta con «?» (mejora gráfica 10 de docs/MEJORAS-GRAFICAS.md)
       ctx.restore();
     });
     const pages = Math.ceil(ALBUM_KEYS.length / this.per);

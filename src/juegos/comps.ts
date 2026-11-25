@@ -2111,6 +2111,51 @@ export function Puzzle(cfg: Config, onDone: AlTerminar): Juego {
 }
 
 /* ---------- cavar en la arena ---------- */
+// texturaExcava(g, w, h): el relieve de la arena de Excava (mejora gráfica 9 de docs/MEJORAS-GRAFICAS.md): ondas de
+// arena más claras, piedrecitas con su borde, alguna conchita y una sombra suave en los bordes, como un hoyo. Las
+// posiciones salen de fórmulas fijas (no de azar()), para no cambiar el azar del juego.
+function texturaExcava(g: CanvasRenderingContext2D, w: number, h: number): void {
+  g.save();
+  g.strokeStyle = 'rgba(255,255,255,.35)';
+  g.lineWidth = 3;
+  g.lineCap = 'round';
+  for (let i = 0; i < 14; i++) {
+    const x = (i * 211) % w,
+      y = 20 + ((i * 97) % (h - 40));
+    g.beginPath();
+    g.moveTo(x, y);
+    g.quadraticCurveTo(x + 30, y - 8, x + 60, y);
+    g.stroke();
+  }
+  g.lineWidth = 1.5;
+  for (let i = 0; i < 18; i++) {
+    const x = (i * 157 + 31) % w,
+      y = (i * 89 + 17) % h;
+    g.fillStyle = ['#C9BBA6', '#B8A58C', '#D8CDBE'][i % 3]!;
+    g.strokeStyle = 'rgba(74,52,40,.55)';
+    g.beginPath();
+    g.ellipse(x, y, 4 + (i % 4) * 1.5, 3 + (i % 3), i, 0, PI * 2);
+    g.fill();
+    g.stroke();
+  }
+  g.strokeStyle = 'rgba(74,52,40,.45)';
+  g.lineWidth = 1.5;
+  for (let i = 0; i < 3; i++) {
+    const x = (i * 263 + 120) % w,
+      y = (i * 131 + 60) % h;
+    g.beginPath();
+    g.arc(x, y, 7, PI, 0);
+    g.lineTo(x, y + 5);
+    g.closePath();
+    g.stroke();
+  }
+  const sombra = g.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.35, w / 2, h / 2, Math.max(w, h) * 0.62);
+  sombra.addColorStop(0, 'rgba(120,80,30,0)');
+  sombra.addColorStop(1, 'rgba(120,80,30,.22)');
+  g.fillStyle = sombra;
+  g.fillRect(0, 0, w, h);
+  g.restore();
+}
 // COMPONENTE Excava: frotar la arena con el dedo para descubrir cosas
 // escondidas. cfg: pool (claves), n (cuántas, 4-6 según la edad; una cuadrícula
 // adapta las posiciones si se piden más de 6), cover/cover2 (colores de la arena), under (color
@@ -2133,6 +2178,7 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego {
     g.arc(azar() * cnv.width, azar() * cnv.height, rnd(1, 3), 0, PI * 2);
     g.fill();
   }
+  texturaExcava(g, cnv.width, cnv.height);
   const columnas = Math.ceil(Math.sqrt((list.length * A.w) / A.h)),
     filas = Math.ceil(list.length / columnas);
   const pos = shuffle(

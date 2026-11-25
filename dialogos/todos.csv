@@ -2620,7 +2620,7 @@ e27cab0bb05c,"¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!",frase,s
 7ffa5443482f,¡Pipo salió del cascarón y ya camina!,frase,src/escenas/zonas.ts
 9f6308686375,¡Pipo está creciendo un montón!,frase,src/escenas/zonas.ts
 a8d752e847f8,¡Pipo es un dinosaurio grandote! ¡Y tiene corona!,frase,src/escenas/zonas.ts
-8167cdb73129,Casa de Tito,trozo,src/escenas/zonas.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/progreso.ts
+8167cdb73129,Casa de Tito,trozo,src/escenas/zonas.ts src/mundo3d/personajes.ts src/aplicacion/adultos/copia.ts
 cfb13950107d,la plaza de la asamblea,trozo,src/escenas/zonas.ts
 d8f5db14848e,las canciones,trozo,src/escenas/zonas.ts
 02449fab297d,los trazos,trozo,src/escenas/zonas.ts
@@ -2630,11 +2630,11 @@ bf5fd63a874f,el globo de la Isla del Inglés,trozo,src/escenas/zonas.ts
 47ff295173a9,la casa de Tito,trozo,src/escenas/zonas.ts
 538329857e0b,el barco de la Isla de las Letras,trozo,src/escenas/zonas.ts
 f2ffb5dd6528,¡Terminaste todos los caminos{nino}! Puedes repetir lo que más te guste.,frase,src/escenas/zonas.ts
-ba425b157dcd,Isla de las Letras,trozo,src/escenas/zonas.ts src/aplicacion/adultos/comoSeJuega.ts
-969e43db941b,El cole,trozo,src/escenas/zonas.ts
-a623a5ae7a4d,Isla del Inglés,trozo,src/escenas/zonas.ts
+ba425b157dcd,Isla de las Letras,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts src/aplicacion/adultos/comoSeJuega.ts
+969e43db941b,El cole,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
+a623a5ae7a4d,Isla del Inglés,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 df09140b08d5,3 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
-5d400baad9f7,4 años,trozo,src/escenas/zonas.ts
+5d400baad9f7,4 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 dcf5a6f7e26e,5 años,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts
 036a58dcb9fa,¡Mira{nino}! ¡Se despertó {zona}! Ahora puedes jugar ahí también.,frase,src/escenas/zonas.ts
 d00ab6651ad0,¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.,frase,src/escenas/zonas.ts
@@ -3099,6 +3099,7 @@ c958e8f13e00,AEIOU,trozo,src/mundo3d/isla3d.ts
 0346395fbbe7,MPL,trozo,src/mundo3d/isla3d.ts
 8510453fad10, años,trozo,src/mundo3d/isla3d.ts src/mundo3d/islaIngles3d.ts
 0cc175b9c0f1,a,trozo,src/mundo3d/mapa3d.ts
+2e81eb4e952a,Tienda,trozo,src/mundo3d/mapa3d.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
 6aaa0c8b5072,"attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}",trozo,src/mundo3d/materiales.ts
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",trozo,src/mundo3d/materiales.ts
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts
@@ -4628,7 +4629,6 @@ dda9223f789e,♻️ Recuperar con este código,adultos,src/aplicacion/adultos/co
 71277ab82cf8,Bosque de 4 años,adultos,src/aplicacion/adultos/copia.ts
 4f46278d7973,Montaña de 5 años,adultos,src/aplicacion/adultos/copia.ts
 b2df064e0bf5,Días especiales,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/progreso.ts
-2e81eb4e952a,Tienda,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts
 9f68e81d9178,Ver el cuento del inicio,adultos,src/aplicacion/adultos/copia.ts
 3b8d9cd05c98,Ir al tema,adultos,src/aplicacion/adultos/copia.ts
 30ec2963474c,Empezar de cero,adultos,src/aplicacion/adultos/copia.ts

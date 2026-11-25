@@ -48,6 +48,7 @@ import {
 } from '../nucleo/indice.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from './puertos.ts';
+import { dibujaToques, ondaToque, sacudida } from '../nucleo/toques.ts';
 // R3frame: el dibujo de cada cuadro de la capa 3D (null sin WebGL). Desde la fase 4p se importa: la capa 3D se carga
 // antes que la aplicación (antes era al revés y R3frame se usaba como global tardía).
 import { R3frame } from '../mundo3d/mundo3d.ts';
@@ -93,6 +94,7 @@ cv.addEventListener('pointerdown', (e) => {
     return;
   } // solo el candado dibujado (drawLock): antes, un rectángulo más grande tapaba el centro del botón de saltar el cuento
   if (VIVO.fade > 0.6 || !scene) return;
+  ondaToque(x, y); // la onda donde se ha tocado (mejora gráfica 8 de docs/MEJORAS-GRAFICAS.md)
   try {
     scene.down && scene.down(x, y);
   } catch (err) {
@@ -218,7 +220,8 @@ function dibujaIris(f: number): void {
    2) ejecuta los temporizadores de later() que vencen (solo si siguen en su escena) y, si venció alguno, los quita de la lista; 3) candado: 3 s reales pulsado abre la
    zona de adultos; 4) cuenta el tiempo jugado (S.days cada 15 s, límite S.limit -> escena 'dormir');
    5) música y scene.update(dt); 6) fondo: si la escena es 3D (scene.three), mundo3d/mundo3d.ts la pinta con R3frame(dt);
-   7) dibuja la escena 2D encima, ayudas, partículas, aviso de pegatina y monedas, y el candado, recortado a 1600x900;
+   7) dibuja la escena 2D encima (movida a los lados si tiembla por un fallo), ayudas, partículas, las ondas de los toques
+   (nucleo/toques.ts), aviso de pegatina y monedas, y el candado, recortado a 1600x900;
    8) transición (el iris, dibujaIris); 9) rellena las bandas laterales en pantallas alargadas; 10) aviso de girar el móvil.
    Cada paso va en try/catch: un fallo de una escena se ve en la consola pero no para el juego. */
 export function frame(now: number) {
@@ -297,10 +300,19 @@ export function frame(now: number) {
   ctx.clip();
   // hovNow se vacía y lo vuelven a rellenar las llamadas a hv() mientras se dibuja la escena.
   VIVO.hovNow = null;
+  // el temblor suave de un fallo (nucleo/toques.ts): mueve la escena unos píxeles a los lados, sin las monedas ni avisos
+  const sh = sacudida();
   try {
-    scene!.draw();
+    ctx.save();
+    if (sh) ctx.translate(sh, 0);
+    try {
+      scene!.draw();
+    } finally {
+      ctx.restore();
+    }
     drawHelp();
     drawParts(dt);
+    dibujaToques();
     drawToast();
     drawCoinFx();
   } catch (e) {

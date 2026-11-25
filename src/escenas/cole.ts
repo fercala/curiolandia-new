@@ -44,13 +44,14 @@ import {
   save,
   say,
   sayQ,
-  sky,
   sparkles,
   text,
   tree,
   fmt,
   nombreEn,
 } from '../nucleo/indice.ts';
+import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
+import { textura } from '../nucleo/texturas.ts';
 
 import { botonExtra, tocaExtra } from './botonesExtras.ts';
 
@@ -87,13 +88,23 @@ export const COLE_SITIOS: readonly SitioCole[] = [
 ];
 
 // fondoCole(): el cielo, la hierba y el suelo de arena del cole, con dos árboles a los lados.
+// Desde las mejoras gráficas 1, 2 y 9 de docs/MEJORAS-GRAFICAS.md: el cielo cambia con la hora y tiene colinas al fondo
+// (cieloExterior), la hierba y la arena tienen textura y el velo de la hora oscurece el paisaje de noche (veloHora).
 function fondoCole(): void {
-  sky('#DDF2FB', '#F4FBEA');
+  cieloExterior('#DDF2FB', '#F4FBEA', 470, { colinas: true });
   ctx.fillStyle = '#BDE6A2';
   ctx.fillRect(0, 470, W, H - 470);
+  textura('hierba', 0, 480, W, H - 480, 0.8);
   ell(820, 700, 760, 170, '#F1DDB4', 0);
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(820, 700, 760, 170, 0, 0, Math.PI * 2);
+  ctx.clip();
+  textura('arena', 60, 530, 1520, 340);
+  ctx.restore();
   tree(90, 560, 1.1, 'verano');
   tree(1520, 520, 1, 'primavera');
+  veloHora();
 }
 
 // drawPatio(x, y): el patio en pequeño: la pista de colores, el tobogán y la pelota que bota.
