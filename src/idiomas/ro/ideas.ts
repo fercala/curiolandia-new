@@ -104,4 +104,25 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
     'Aceasta e sămânța noastră. Ud-o cu stropitoarea și vino și în alte zile să vezi cum crește.',
   'Hoy ya la hemos regado. Vuelve mañana para ver cómo crece.': 'Azi am udat-o deja. Vino mâine să vezi cum crește.',
   '¡Glu, glu! Ya tiene agua. Mañana la regamos otra vez.': 'Glu, glu! Are apă. Mâine o udăm din nou.',
+  // el estudio de arte (idea 31)
+  'El estudio de arte': 'Atelierul de artă',
+  '¡El estudio de arte! ¿Pintamos o hacemos música?': 'Atelierul de artă! Pictăm sau facem muzică?',
+  'Pintura de espejo': 'Pictura în oglindă',
+  'Compón una canción': 'Compune un cântec',
+  'Elige un color y pinta en el cuadro. ¡Lo que pintes en un lado sale también en el otro, como en un espejo!':
+    'Alege o culoare și pictează în tablou. Ce pictezi într-o parte apare și în cealaltă, ca într-o oglindă!',
+  'Colgar en la casa': 'Agață-l în căsuță',
+  'Primero pinta algo en el cuadro.': 'Mai întâi pictează ceva în tablou.',
+  '¡Qué cuadro tan bonito! Lo colgamos en la pared del salón de mi casa.':
+    'Ce tablou frumos! Îl agățăm pe peretele din sufrageria căsuței mele.',
+  'Toca las láminas del xilófono para hacer tu canción. Luego toca «Escuchar».':
+    'Atinge lamelele xilofonului ca să-ți faci cântecul. Apoi atinge «Ascultă».',
+  'Escuchar': 'Ascultă',
+  'Guardar': 'Păstrează',
+  'La canción ya está llena. Toca «Escuchar» o «Borrar».': 'Cântecul e plin. Atinge «Ascultă» sau «Șterge».',
+  'Primero toca unas notas del xilófono.': 'Mai întâi cântă câteva note la xilofon.',
+  '¡Qué canción tan bonita! Sonará cuando toques el cuadro de mi salón.':
+    'Ce cântec frumos! Va suna când atingi tabloul din sufrageria mea.',
+  '¡Nuestro cuadro y nuestra canción del estudio de arte!': 'Tabloul și cântecul nostru din atelierul de artă!',
+  'Este cuadro lo pintamos en el estudio de arte.': 'Tabloul acesta l-am pictat în atelierul de artă.',
 };

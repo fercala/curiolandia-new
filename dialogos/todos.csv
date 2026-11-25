@@ -1530,6 +1530,23 @@ ba4ecea9b7ad,"¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te a
 a50ab6af698c,Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.,frase,src/escenas/albumExcursiones.ts
 94ddc8c3d31d,Toca una foto del álbum.,frase,src/escenas/albumExcursiones.ts
 89479dc025ba,Mis excursiones,trozo,src/escenas/albumExcursiones.ts
+533048e1e4bc,El estudio de arte,trozo,src/escenas/arte.ts
+f6e7a60225da,¡El estudio de arte! ¿Pintamos o hacemos música?,frase,src/escenas/arte.ts
+a67f4967caef,Pintura de espejo,trozo,src/escenas/arte.ts
+af095cf77f39,Compón una canción,trozo,src/escenas/arte.ts
+d7e89076dc7e,"Elige un color y pinta en el cuadro. ¡Lo que pintes en un lado sale también en el otro, como en un espejo!",frase,src/escenas/arte.ts
+a96f30f0a23d,Borrar,trozo,src/escenas/arte.ts src/mundo3d/programa3d.ts
+986d657b7e29,Colgar en la casa,trozo,src/escenas/arte.ts
+ea64fcba58d8,Primero pinta algo en el cuadro.,frase,src/escenas/arte.ts
+41a781ebab82,¡Qué cuadro tan bonito! Lo colgamos en la pared del salón de mi casa.,frase,src/escenas/arte.ts
+596e0de9fad3,Toca las láminas del xilófono para hacer tu canción. Luego toca «Escuchar».,frase,src/escenas/arte.ts
+b2506ba033dd,Escuchar,trozo,src/escenas/arte.ts
+d3270bdb8d2c,Guardar,trozo,src/escenas/arte.ts
+3334183cbc6b,La canción ya está llena. Toca «Escuchar» o «Borrar».,frase,src/escenas/arte.ts
+68d7dbccf4d2,Primero toca unas notas del xilófono.,frase,src/escenas/arte.ts
+cea65444fd95,¡Qué canción tan bonita! Sonará cuando toques el cuadro de mi salón.,frase,src/escenas/arte.ts
+b47a10c671f9,¡Nuestro cuadro y nuestra canción del estudio de arte!,frase,src/escenas/arte.ts
+ac8dc61dda7e,Este cuadro lo pintamos en el estudio de arte.,frase,src/escenas/arte.ts
 a26e1520589b,¡El tesoro! Hay un sombrero de pirata. ¡Me lo pongo!,frase,src/escenas/aventura.ts
 4935a38af826,¡El tesoro! Está lleno de monedas de oro.,frase,src/escenas/aventura.ts
 3f69e3d99494,¡El mapa del tesoro está completo! Y mira lo que hay en la cruz roja...,frase,src/escenas/aventura.ts
@@ -3039,7 +3056,6 @@ ac2bba5b58e6,Primero pon alguna flecha para Tito.,frase,src/mundo3d/programa3d.t
 d7ec2b06c56a,¡Qué bien programas! Tito se ha comido todas las fresas.,frase,src/mundo3d/programa3d.ts
 7e0282ef3543,¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!,frase,src/mundo3d/programa3d.ts
 b840dd15259b,¡Vamos!,frase,src/mundo3d/programa3d.ts
-a96f30f0a23d,Borrar,trozo,src/mundo3d/programa3d.ts
 6e058a19a686,¡Algo brilla por aquí!,frase,src/mundo3d/tesoros3d.ts
 7aa28286596a,"¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.",frase,src/mundo3d/tren3d.ts
 c06107a604e5,Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.,frase,src/mundo3d/tren3d.ts

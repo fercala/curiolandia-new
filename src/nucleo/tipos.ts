@@ -139,6 +139,10 @@ export interface Estado {
    * días. Desde la PR de todas las ideas pendientes (idea 35 de docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin
    * migración. */
   diario?: Record<string, string[]>;
+  /** El estudio de arte (dominio/arte.ts): el cuadro simétrico colgado en el salón (LADO*LADO cifras de color) y la
+   * canción compuesta (índices de las notas del xilófono). Desde la PR de todas las ideas pendientes (idea 31 de
+   * docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin migración. */
+  arte?: { cuadro?: string; cancion?: number[] };
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };

@@ -93,6 +93,7 @@ export const RINCONES_CLASE: readonly RinconClase[] = [
     cartel: 'Arte',
     dice: 'El rincón del arte.',
     pronto: 'El rincón del arte estará listo muy pronto.',
+    escena: 'estudioArte',
   },
 ];
 // RADIO: lo que mide cada rincón para tocarlo.

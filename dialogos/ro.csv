@@ -1530,6 +1530,23 @@ ba4ecea9b7ad,"¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te a
 a50ab6af698c,Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.,Acesta e albumul de excursii. Aici se păstrează pozele de grup. Atinge o poză.,frase,src/escenas/albumExcursiones.ts,borrador
 94ddc8c3d31d,Toca una foto del álbum.,Atinge o poză din album.,frase,src/escenas/albumExcursiones.ts,borrador
 89479dc025ba,Mis excursiones,Excursiile mele,trozo,src/escenas/albumExcursiones.ts,borrador
+533048e1e4bc,El estudio de arte,Atelierul de artă,trozo,src/escenas/arte.ts,borrador
+f6e7a60225da,¡El estudio de arte! ¿Pintamos o hacemos música?,Atelierul de artă! Pictăm sau facem muzică?,frase,src/escenas/arte.ts,borrador
+a67f4967caef,Pintura de espejo,Pictura în oglindă,trozo,src/escenas/arte.ts,borrador
+af095cf77f39,Compón una canción,Compune un cântec,trozo,src/escenas/arte.ts,borrador
+d7e89076dc7e,"Elige un color y pinta en el cuadro. ¡Lo que pintes en un lado sale también en el otro, como en un espejo!","Alege o culoare și pictează în tablou. Ce pictezi într-o parte apare și în cealaltă, ca într-o oglindă!",frase,src/escenas/arte.ts,borrador
+a96f30f0a23d,Borrar,Șterge,trozo,src/escenas/arte.ts src/mundo3d/programa3d.ts,borrador
+986d657b7e29,Colgar en la casa,Agață-l în căsuță,trozo,src/escenas/arte.ts,borrador
+ea64fcba58d8,Primero pinta algo en el cuadro.,Mai întâi pictează ceva în tablou.,frase,src/escenas/arte.ts,borrador
+41a781ebab82,¡Qué cuadro tan bonito! Lo colgamos en la pared del salón de mi casa.,Ce tablou frumos! Îl agățăm pe peretele din sufrageria căsuței mele.,frase,src/escenas/arte.ts,borrador
+596e0de9fad3,Toca las láminas del xilófono para hacer tu canción. Luego toca «Escuchar».,Atinge lamelele xilofonului ca să-ți faci cântecul. Apoi atinge «Ascultă».,frase,src/escenas/arte.ts,borrador
+b2506ba033dd,Escuchar,Ascultă,trozo,src/escenas/arte.ts,borrador
+d3270bdb8d2c,Guardar,Păstrează,trozo,src/escenas/arte.ts,borrador
+3334183cbc6b,La canción ya está llena. Toca «Escuchar» o «Borrar».,Cântecul e plin. Atinge «Ascultă» sau «Șterge».,frase,src/escenas/arte.ts,borrador
+68d7dbccf4d2,Primero toca unas notas del xilófono.,Mai întâi cântă câteva note la xilofon.,frase,src/escenas/arte.ts,borrador
+cea65444fd95,¡Qué canción tan bonita! Sonará cuando toques el cuadro de mi salón.,Ce cântec frumos! Va suna când atingi tabloul din sufrageria mea.,frase,src/escenas/arte.ts,borrador
+b47a10c671f9,¡Nuestro cuadro y nuestra canción del estudio de arte!,Tabloul și cântecul nostru din atelierul de artă!,frase,src/escenas/arte.ts,borrador
+ac8dc61dda7e,Este cuadro lo pintamos en el estudio de arte.,Tabloul acesta l-am pictat în atelierul de artă.,frase,src/escenas/arte.ts,borrador
 a26e1520589b,¡El tesoro! Hay un sombrero de pirata. ¡Me lo pongo!,Comoara! E o pălărie de pirat. Mi-o pun!,frase,src/escenas/aventura.ts,borrador
 4935a38af826,¡El tesoro! Está lleno de monedas de oro.,Comoara! E plină de monede de aur.,frase,src/escenas/aventura.ts,borrador
 3f69e3d99494,¡El mapa del tesoro está completo! Y mira lo que hay en la cruz roja...,Harta comorii e completă! Și uite ce e la crucea roșie...,frase,src/escenas/aventura.ts,borrador
@@ -3039,7 +3056,6 @@ ac2bba5b58e6,Primero pon alguna flecha para Tito.,Mai întâi pune o săgeată p
 d7ec2b06c56a,¡Qué bien programas! Tito se ha comido todas las fresas.,Ce bine programezi! Tito a mâncat toate căpșunile.,frase,src/mundo3d/programa3d.ts,borrador
 7e0282ef3543,¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!,Foarte bine! Tito a ajuns la căpșună. Hai cu încă una!,frase,src/mundo3d/programa3d.ts,borrador
 b840dd15259b,¡Vamos!,Hai!,frase,src/mundo3d/programa3d.ts,borrador
-a96f30f0a23d,Borrar,Șterge,trozo,src/mundo3d/programa3d.ts,borrador
 6e058a19a686,¡Algo brilla por aquí!,Ceva strălucește pe aici!,frase,src/mundo3d/tesoros3d.ts,borrador
 7aa28286596a,"¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.","Călători, urcați în tren! Facem turul Curiolandiei. Numără tunelurile prin care trecem. Atinge trenul ca să claxonezi.",frase,src/mundo3d/tren3d.ts,borrador
 c06107a604e5,Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.,Numără tunelurile prin care trecem. Atinge trenul ca să claxonezi.,frase,src/mundo3d/tren3d.ts,borrador

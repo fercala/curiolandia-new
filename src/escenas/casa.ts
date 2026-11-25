@@ -20,7 +20,8 @@
 //   escenas/casaAlbum.ts, casaMascotas.ts, casaReacciones.ts, lo de la casa de escenas/tienda.ts y, desde la fase M2,
 //   aplicacion/casa.ts (los casos de uso de la casa ordenada), dominio/casaSitios.ts y escenas/casaBaul.ts; desde la
 //   P14 de IDEAS-MEJORA.md, el botón de la vitrina de escenas/tesoros.ts, y desde la P15, el del álbum de fotos de
-//   escenas/fotos.ts; desde la PR de todas las ideas pendientes (v0.2.180), los botones de escenas/casaExtras.ts.
+//   escenas/fotos.ts; desde la PR de todas las ideas pendientes (v0.2.180), los botones de escenas/casaExtras.ts y el cuadro
+//   del estudio de arte (escenas/arte.ts).
 import { K } from '../dibujos/todos.ts';
 import {
   FLC,
@@ -96,6 +97,7 @@ import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { VITRINA_BOTON, dibujaBotonVitrina } from './tesoros.ts';
 import { ALBUM_FOTOS_BOTON, dibujaBotonAlbumFotos } from './fotos.ts';
 import { dibujaBotonesCasa, tocaBotonCasa } from './casaExtras.ts';
+import { dibujaCuadroCasa, tocaCuadroCasa } from './arte.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
 import {
   FRASES_CASA,
@@ -655,6 +657,7 @@ SCENES.casaTito = {
     homeLight = !(homeRoom('lampara') === R.id && S.owned!.lampara && estadoDe(S.casaEst, 'lampara') === 1);
     homeMomento = momentoDe(horaCasa());
     roomBg(R.id, hl);
+    dibujaCuadroCasa(R.id); // el cuadro del estudio de arte, en el salón (idea 31, escenas/arte.ts)
     card(170, 44, 450, 100, '#fff', 6, 50);
     titoHouseIc(230, 94, 80);
     {
@@ -972,6 +975,7 @@ SCENES.casaTito = {
       return;
     }
     if (tocaBotonCasa(x, y)) return;
+    if (tocaCuadroCasa(roomOf(this.room).id, x, y)) return;
     if (inCoinHUD(x, y)) {
       say(fmt('Tienes {n} monedas.', { n: S.coins! }));
       return;
