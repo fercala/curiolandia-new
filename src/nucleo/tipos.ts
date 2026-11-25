@@ -146,6 +146,10 @@ export interface Estado {
   /** Las estrellas doradas del modo reto (dominio/reto.ts, RegistroReto): { [tema]: [juegos] }. Desde la PR de todas
    * las ideas pendientes (idea 32 de docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin migración. */
   reto?: Record<string, number[]>;
+  /** El corral de Tito (dominio/corral.ts, Corral): los animales, el día y a quién se ha cuidado hoy, y los productos
+   * guardados. Desde la PR de todas las ideas pendientes (idea 33 de docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin
+   * migración. */
+  corral?: { animales: string[]; d: string; cuidados: string[]; productos: Record<string, number> };
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };

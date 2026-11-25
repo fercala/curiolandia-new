@@ -1840,6 +1840,21 @@ fa80ee037e45,¡El viento sopla hacia la derecha!,Vântul bate spre dreapta!,fras
 6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,Ce bine ai condus zmeul! Ai prins toate stelele. Ne mai jucăm o dată?,frase,src/escenas/cometa.ts,borrador
 a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!","Hai să înălțăm zmeul! Du-l cu degetul până la stele, fără să atingă copacii. Atenție la vânt!",frase,src/escenas/cometa.ts,borrador
 7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,Du zmeul cu degetul până la stea.,frase,src/escenas/cometa.ts,borrador
+26a64b61746f,Tiene hambre. Dale trigo.,Îi e foame. Dă-i grâu.,frase,src/escenas/corral.ts,borrador
+ae906f03258b,Tiene sed. Dale el cubo de agua.,Îi e sete. Dă-i găleata cu apă.,frase,src/escenas/corral.ts,borrador
+e57288cd0ed4,Quiere que lo cepilles.,Vrea să-l periezi.,frase,src/escenas/corral.ts,borrador
+79a0169e7c38,¡Hoy ya están todos contentos! Puedes vender los productos en el mercado.,Azi sunt toți mulțumiți! Poți vinde produsele la piață.,frase,src/escenas/corral.ts,borrador
+f408115a6fef,¡Este es mi corral! Mira qué pide cada animal: toca la cosa de abajo y luego el animal.,Aceasta e curtea mea! Uită-te ce cere fiecare animal: atinge lucrul de jos și apoi animalul.,frase,src/escenas/corral.ts,borrador
+89ea426bafe6,Vender,Vinde,trozo,src/escenas/corral.ts,borrador
+203af1685e6c,¡Hemos vendido todo en el mercado! Cada cosa vale una moneda.,Am vândut totul la piață! Fiecare lucru valorează o monedă.,frase,src/escenas/corral.ts,borrador
+df18929c7087,Este ya está contento. Mañana pedirá otra cosa.,Acesta e deja mulțumit. Mâine va cere altceva.,frase,src/escenas/corral.ts,borrador
+c83f59b3b143,Para traer la vaca al corral hacen falta {n} monedas.,"Ca să aducem vaca în curte, e nevoie de {n} monede.",frase,src/escenas/corral.ts,borrador
+195bed26dbc6,¡Ya tenemos una vaca en el corral!,Avem o vacă în curte!,frase,src/escenas/corral.ts,borrador
+fc9f77aa2115,Para traer la oveja al corral hacen falta {n} monedas.,"Ca să aducem oaia în curte, e nevoie de {n} monede.",frase,src/escenas/corral.ts,borrador
+5b979164622b,¡Ya tenemos una oveja en el corral!,Avem o oaie în curte!,frase,src/escenas/corral.ts,borrador
+b8e802fa40fd,¡Gracias! La gallina ha puesto un huevo.,Mulțumesc! Găina a făcut un ou.,frase,src/escenas/corral.ts,borrador
+108e22b0d335,¡Gracias! La vaca nos da leche.,Mulțumesc! Vaca ne dă lapte.,frase,src/escenas/corral.ts,borrador
+694ecffd2f48,¡Gracias! Con la leche de la oveja hacemos queso.,Mulțumesc! Din laptele oii facem brânză.,frase,src/escenas/corral.ts,borrador
 7be4054e0c1d,¿Qué cuento leemos? Toca uno.,Ce poveste citim? Atinge una.,frase,src/escenas/cuentoDecisiones.ts,borrador
 ec8962736a51,¡Has descubierto todos los finales de este cuento!,Ai descoperit toate finalurile acestei povești!,frase,src/escenas/cuentoDecisiones.ts,borrador
 ae3d6762a99e,¡Un final nuevo! Lee otra vez y elige otras cosas para descubrir los demás.,Un final nou! Citește din nou și alege alte lucruri ca să le descoperi pe celelalte.,frase,src/escenas/cuentoDecisiones.ts,borrador

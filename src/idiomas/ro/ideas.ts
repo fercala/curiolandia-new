@@ -132,4 +132,23 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
     'Modul provocare! Mai multe variante, mai multe runde și fără ajutor. Fiecare joc reușit îți dă o stea de aur.',
   'Reto': 'Provocare',
   '¡Reto superado! Has ganado una estrella dorada.': 'Provocare reușită! Ai câștigat o stea de aur.',
+  // el corral de Tito (idea 33)
+  'Tiene hambre. Dale trigo.': 'Îi e foame. Dă-i grâu.',
+  'Tiene sed. Dale el cubo de agua.': 'Îi e sete. Dă-i găleata cu apă.',
+  'Quiere que lo cepilles.': 'Vrea să-l periezi.',
+  '¡Hoy ya están todos contentos! Puedes vender los productos en el mercado.':
+    'Azi sunt toți mulțumiți! Poți vinde produsele la piață.',
+  '¡Este es mi corral! Mira qué pide cada animal: toca la cosa de abajo y luego el animal.':
+    'Aceasta e curtea mea! Uită-te ce cere fiecare animal: atinge lucrul de jos și apoi animalul.',
+  'Vender': 'Vinde',
+  '¡Hemos vendido todo en el mercado! Cada cosa vale una moneda.':
+    'Am vândut totul la piață! Fiecare lucru valorează o monedă.',
+  'Este ya está contento. Mañana pedirá otra cosa.': 'Acesta e deja mulțumit. Mâine va cere altceva.',
+  'Para traer la vaca al corral hacen falta {n} monedas.': 'Ca să aducem vaca în curte, e nevoie de {n} monede.',
+  '¡Ya tenemos una vaca en el corral!': 'Avem o vacă în curte!',
+  'Para traer la oveja al corral hacen falta {n} monedas.': 'Ca să aducem oaia în curte, e nevoie de {n} monede.',
+  '¡Ya tenemos una oveja en el corral!': 'Avem o oaie în curte!',
+  '¡Gracias! La gallina ha puesto un huevo.': 'Mulțumesc! Găina a făcut un ou.',
+  '¡Gracias! La vaca nos da leche.': 'Mulțumesc! Vaca ne dă lapte.',
+  '¡Gracias! Con la leche de la oveja hacemos queso.': 'Mulțumesc! Din laptele oii facem brânză.',
 };

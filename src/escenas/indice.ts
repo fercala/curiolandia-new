@@ -108,3 +108,4 @@ export * from './menuRincon.ts';
 export * from './experimentos.ts';
 export * from './arte.ts';
 export * from './modoReto.ts';
+export * from './corral.ts';

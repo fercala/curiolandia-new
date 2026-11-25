@@ -1840,6 +1840,21 @@ fa80ee037e45,¡El viento sopla hacia la derecha!,frase,src/escenas/cometa.ts
 6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,frase,src/escenas/cometa.ts
 a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!",frase,src/escenas/cometa.ts
 7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,frase,src/escenas/cometa.ts
+26a64b61746f,Tiene hambre. Dale trigo.,frase,src/escenas/corral.ts
+ae906f03258b,Tiene sed. Dale el cubo de agua.,frase,src/escenas/corral.ts
+e57288cd0ed4,Quiere que lo cepilles.,frase,src/escenas/corral.ts
+79a0169e7c38,¡Hoy ya están todos contentos! Puedes vender los productos en el mercado.,frase,src/escenas/corral.ts
+f408115a6fef,¡Este es mi corral! Mira qué pide cada animal: toca la cosa de abajo y luego el animal.,frase,src/escenas/corral.ts
+89ea426bafe6,Vender,trozo,src/escenas/corral.ts
+203af1685e6c,¡Hemos vendido todo en el mercado! Cada cosa vale una moneda.,frase,src/escenas/corral.ts
+df18929c7087,Este ya está contento. Mañana pedirá otra cosa.,frase,src/escenas/corral.ts
+c83f59b3b143,Para traer la vaca al corral hacen falta {n} monedas.,frase,src/escenas/corral.ts
+195bed26dbc6,¡Ya tenemos una vaca en el corral!,frase,src/escenas/corral.ts
+fc9f77aa2115,Para traer la oveja al corral hacen falta {n} monedas.,frase,src/escenas/corral.ts
+5b979164622b,¡Ya tenemos una oveja en el corral!,frase,src/escenas/corral.ts
+b8e802fa40fd,¡Gracias! La gallina ha puesto un huevo.,frase,src/escenas/corral.ts
+108e22b0d335,¡Gracias! La vaca nos da leche.,frase,src/escenas/corral.ts
+694ecffd2f48,¡Gracias! Con la leche de la oveja hacemos queso.,frase,src/escenas/corral.ts
 7be4054e0c1d,¿Qué cuento leemos? Toca uno.,frase,src/escenas/cuentoDecisiones.ts
 ec8962736a51,¡Has descubierto todos los finales de este cuento!,frase,src/escenas/cuentoDecisiones.ts
 ae3d6762a99e,¡Un final nuevo! Lee otra vez y elige otras cosas para descubrir los demás.,frase,src/escenas/cuentoDecisiones.ts

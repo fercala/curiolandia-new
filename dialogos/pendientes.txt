@@ -2594,3 +2594,19 @@ Volvemos a jugar como siempre.
 ¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.
 Reto
 ¡Reto superado! Has ganado una estrella dorada.
+
+Tiene hambre. Dale trigo.
+Tiene sed. Dale el cubo de agua.
+Quiere que lo cepilles.
+¡Hoy ya están todos contentos! Puedes vender los productos en el mercado.
+¡Este es mi corral! Mira qué pide cada animal: toca la cosa de abajo y luego el animal.
+Vender
+¡Hemos vendido todo en el mercado! Cada cosa vale una moneda.
+Este ya está contento. Mañana pedirá otra cosa.
+Para traer la vaca al corral hacen falta {n} monedas.
+¡Ya tenemos una vaca en el corral!
+Para traer la oveja al corral hacen falta {n} monedas.
+¡Ya tenemos una oveja en el corral!
+¡Gracias! La gallina ha puesto un huevo.
+¡Gracias! La vaca nos da leche.
+¡Gracias! Con la leche de la oveja hacemos queso.
