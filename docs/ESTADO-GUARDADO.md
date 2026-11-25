@@ -15,7 +15,7 @@
 - Una lista de vales vacía es válida y se conserva. Los vales importados sin fecha siguen visibles y se pueden entregar desde Premios.
 - Los campos de `escenas/tienda.ts` (`DEF2`) se rellenan después: `sanoS(S, DEF2)` y luego `rellenaS(S, DEF2)` (`nucleo/guardado.ts`, desde la v0.2.93), que pone una copia de `DEF2[k]` en cada `S[k]` que sea `undefined`. `escenas/repaso.ts` pone `{}` en `kg` y `gs` si faltan o no son objetos.
 - Si no hay partida pero sí una de **Letrilandia** (otro juego de la familia, clave `letrilandia.v1`), se copian de ahí el nombre, la edad, el acento y el volumen.
-- **Copia de seguridad** (zona de adultos): `bkEncode()` genera un texto `CURIO1.` + JSON comprimido en base64; "Recuperar" lo vuelve a escribir en `localStorage` (con `escribirGuardado`) y recarga la página. `bkDecode()` solo acepta un objeto con `temas` que sea un objeto (no `null` ni una lista).
+- **Copia de seguridad** (zona de adultos): `bkEncode()` genera un texto `CURIO1.` + JSON comprimido en base64; "Recuperar" lo vuelve a escribir en `localStorage` (con `escribirGuardado`) y recarga la página. `bkDecode()` solo acepta un objeto con `temas` que sea un objeto (no `null` ni una lista). Al cargar un archivo, un error de lectura se explica sin modificar la partida; el selector se vacía para permitir elegir de nuevo el mismo archivo. Una lectura correcta muestra el resumen y solo reemplaza la partida al confirmarlo.
 
 ## 2. Los campos
 

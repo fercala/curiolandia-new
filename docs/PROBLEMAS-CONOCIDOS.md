@@ -13,6 +13,8 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 
 La tienda comprueba el saldo y el inventario actuales al confirmar una compra. Si otra pestaña ya notificó que el objeto es del niño, la confirmación anterior se cancela. Un vale conserva una copia de lo ofrecido para detectar cambios de texto y precio. Esto cubre confirmaciones posteriores al evento de almacenamiento. Las escrituras simultáneas anteriores a ese evento siguen requiriendo coordinación entre pestañas.
 
+En «Premios y vales», los controles conservan la entrada que mostraron. Si otra pestaña reemplaza esa entrada antes de la acción, el panel se renueva sin guardar: un índice antiguo no puede editar ni dar por entregado un vale diferente. Una partida recibida de otra pestaña puede exigir repetir la acción tras esa actualización, aunque los textos sean iguales.
+
 - Cada camino de edad admite 12 casitas (`zonePos()` en escenas/zonas.ts) y cada casita unos 8 juegos (`st3Pos()` en mundo3d/casita3d.ts).
 - Cada habitación de la casa de Tito tiene 13 sitios (3 grandes y 5 normales en el suelo, 4 en la pared y la alfombra) más los de encima de los muebles (`SITIOS_FIJOS` y `ENCIMA` en `dominio/casaSitios.ts`). Desde la fase M2 de PLAN-CASA-MEJORA.md las cosas ya no se pisan: lo que no cabe se guarda en el baúl. Con muchas cosas, el salón se llena (unas 16) y hay que repartirlas por las habitaciones.
 - Varios números están escritos a mano en frases grabadas ("tres casitas", "seis flores"): si se cambia `NEED` o la regla de 6 flores (`FLORES_PARA_SEGUIR`), los dos en `dominio/apertura.ts`, las frases dejan de cuadrar.

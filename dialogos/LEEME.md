@@ -15,6 +15,8 @@ Las rutas de la columna `donde` se escriben siempre con `/`, también al regener
 
 Los campos que contienen comas, comillas o saltos de línea (LF o CR) se entrecomillan para conservar una fila CSV válida.
 
+El recorrido de archivos mantiene el orden por nombre y las exclusiones, utiliza los tipos de las entradas del directorio y sigue los enlaces como antes. `tests/unidad/dialogos.test.ts` extrae una vez el catálogo del código inmutable para sus seis comprobaciones; compara completos los CSV y conserva las aserciones de traducción, ids, tipos y rutas.
+
 ## Los tipos del catálogo
 
 - `frase`: una frase entera tal como se escribe en el código ("¿Cómo te llamas?").

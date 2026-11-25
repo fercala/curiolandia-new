@@ -144,7 +144,13 @@ export const ADULTOS_RO: Readonly<Record<string, string>> = {
   'Reemplaza el progreso actual de este dispositivo.': 'Înlocuiește progresul actual de pe acest dispozitiv.',
   'Sí, recuperar esta copia': 'Da, recuperează această copie',
   '❌ No se pudo guardar en este navegador.': '❌ Nu s-a putut salva în acest browser.',
+  '❌ No se pudo leer el archivo de copia. Vuelve a elegirlo o usa el código de copia.':
+    '❌ Nu s-a putut citi fișierul copiei. Selectează-l din nou sau folosește codul copiei.',
   // adultos/premios.ts
+  'Activar el vale: {vale}': 'Activează tichetul: {vale}',
+  'Texto del vale: {vale}': 'Textul tichetului: {vale}',
+  'Precio del vale en monedas: {vale}': 'Prețul tichetului în monede: {vale}',
+  'Marcar como entregado: {vale}': 'Marchează ca dat: {vale}',
   'Premios y vales': 'Premii și tichete',
   Premios: 'Premii',
   'Entregado ✔': 'Dat ✔',

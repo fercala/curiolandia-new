@@ -51,7 +51,8 @@ export async function bkDecode(code: string): Promise<Libre> {
   return d;
 }
 // bkWire(q): conecta los botones de la sección "Copia de seguridad": ver código, copiarlo, descargar archivo .json,
-// recuperar desde código o archivo. Al recuperar, enseña un resumen y, si se confirma, escribe la copia directamente en
+// recuperar desde código o archivo. Un fallo de lectura permite volver a elegir el mismo archivo sin tocar la partida.
+// Al recuperar, enseña un resumen y, si se confirma, escribe la copia directamente en
 // el guardado (escribirGuardado; en el navegador, localStorage) y recarga la página (load() de nucleo/guardado.ts la pone al día y la mezcla con DEF como cualquier
 // partida guardada).
 export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => void = () => {}) {
@@ -130,9 +131,19 @@ export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => v
     };
   };
   q('#a-bk-load').onclick = () => ask(ta.value);
-  q('#a-bk-file').onchange = (e) => {
-    const f = (e.target as HTMLInputElement).files && (e.target as HTMLInputElement).files![0];
+  // Se conserva el File antes de vaciar el selector: así se puede reintentar el mismo archivo si la lectura falla.
+  q('#a-bk-file').onchange = async (e) => {
+    const entrada = e.target as HTMLInputElement,
+      f = entrada.files?.[0];
     if (!f) return;
-    f.text().then((t) => ask(t));
+    entrada.value = '';
+    let texto: string;
+    try {
+      texto = await f.text();
+    } catch (e) {
+      msg('❌ No se pudo leer el archivo de copia. Vuelve a elegirlo o usa el código de copia.');
+      return;
+    }
+    await ask(texto);
   };
 }

@@ -6,7 +6,7 @@
  * Júpiter, Saturno y el Carro (jupiter, saturn, bigDipper), el sol y la luna con cara (sunRays, orbFace, zoneMoon), el
  * águila, el trineo de Navidad, los pájaros y las nubes (mountEagle, xmasSleigh, skyBirds, skyClouds).
  * Usa THREE solo dentro de las funciones. Las frases se comparten con el catálogo y las traducciones.
- * Exporta: todo lo de arriba. Importa: del núcleo S, SCENES, T, PI, say, tone, noise, parts, rnd, sceneName; sayMix
+ * Exporta: todo lo de arriba. Importa: del núcleo S, SCENES, T, PI, say, later, tone, noise, parts, rnd, sceneName; sayMix
  * (temas/); ahora() (aplicacion/puertos.ts); RC y proj (mundo3d/motor.ts); piezas de mundo3d/materiales.ts; fhit y
  * softTex (mundo3d/decorado.ts) y cloud3 y hitS (mundo3d/objetos.ts).
  */

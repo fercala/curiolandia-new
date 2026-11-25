@@ -89,14 +89,15 @@ export function nombreDe(n: unknown): string {
 }
 
 // archivos(src, dir, fuera): los .ts de dir (y subcarpetas), salvo los de fuera (rutas desde src), ordenados para que
-// el catálogo sea estable. Si dir es un archivo, solo ese.
+// el catálogo sea estable. Si dir es un archivo, solo ese. Aprovecha los tipos del directorio para no volver a
+// consultar los metadatos de cada archivo; los enlaces se siguen como antes.
 export function archivos(src: string, dir = src, fuera: readonly string[] = FUERA): string[] {
   if (!statSync(dir).isDirectory()) return [dir];
   const r: string[] = [];
-  for (const f of readdirSync(dir).sort()) {
-    const p = join(dir, f);
+  for (const f of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)) {
+    const p = join(dir, f.name);
     if (fuera.includes(relative(src, p))) continue;
-    if (statSync(p).isDirectory()) r.push(...archivos(src, p, fuera));
+    if (f.isDirectory() || (f.isSymbolicLink() && statSync(p).isDirectory())) r.push(...archivos(src, p, fuera));
     else if (p.endsWith('.ts') && !p.endsWith('.d.ts')) r.push(p);
   }
   return r;

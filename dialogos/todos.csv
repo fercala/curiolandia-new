@@ -4491,6 +4491,7 @@ edebf8bc6646,"Sí, recuperar esta copia",adultos,src/aplicacion/adultos/copiaSeg
 4bbf011d7eec,"Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
 3bc31b6cd427,"Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
 033828b51588,❌ No se pudo guardar en este navegador.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
+54fc7d3b0e32,❌ No se pudo leer el archivo de copia. Vuelve a elegirlo o usa el código de copia.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
 0411690e31a5,Fichas para imprimir,adultos,src/aplicacion/adultos/fichas.ts
 83928020a631,Usan los dibujos del último tema abierto.,adultos,src/aplicacion/adultos/fichas.ts
 e079b278ef82,Ficha para colorear,adultos,src/aplicacion/adultos/fichas.ts
@@ -4499,7 +4500,11 @@ e079b278ef82,Ficha para colorear,adultos,src/aplicacion/adultos/fichas.ts
 36c7c6b9368d,Colorea el dibujo del tema.,adultos,src/aplicacion/adultos/fichas.ts
 fdc6446d8460,Premios y vales,adultos,src/aplicacion/adultos/premios.ts
 1548db2ef3d8,Premios,adultos,src/aplicacion/adultos/premios.ts
+33e11636f03f,Activar el vale: {vale},adultos,src/aplicacion/adultos/premios.ts
+cc84f8a330d2,Texto del vale: {vale},adultos,src/aplicacion/adultos/premios.ts
+dfe88d186847,Precio del vale en monedas: {vale},adultos,src/aplicacion/adultos/premios.ts
 f3176786e699,Entregado ✔,adultos,src/aplicacion/adultos/premios.ts
+e7ebc60f637d,Marcar como entregado: {vale},adultos,src/aplicacion/adultos/premios.ts
 741ff1b0620e,Monedas y estrellas,adultos,src/aplicacion/adultos/premios.ts
 af47433ab9f8,monedas,adultos,src/aplicacion/adultos/premios.ts src/aplicacion/adultos/resumen.ts
 e8d638c2ef44,Ha ganado,adultos,src/aplicacion/adultos/premios.ts

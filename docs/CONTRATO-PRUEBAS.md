@@ -69,3 +69,9 @@ Cuentas sacadas con `grep` sobre `tests/` el 24 de octubre de 2026 (fase 0). En 
 La regresión C45 de `casa.js` instancia `Excava` con 4, 6, 7 y 12 objetos, recorre sus ayudas y comprueba que todos se pueden descubrir y el final se llama una sola vez.
 
 `cobertura.js` comprueba el candado a dos cuadros por segundo (`candado-2fps`) y cancela una pulsación al ocultar la pestaña o perder la captura (`candado-interrumpido`). `cieloVoz.test.ts` comprueba que, al silenciar los comentarios del paisaje, sus continuaciones usan los temporizadores de escena; `temporizadores.test.ts` verifica que el bucle no ejecuta temporizadores de una visita anterior.
+
+`copia-archivo-reintento-es` y `copia-archivo-reintento-ro`, en `cobertura.js`, fuerzan un rechazo de `File.text()` y vuelven a cargar el mismo archivo sintético con el lector real. Comprueban el aviso traducido, el selector vacío, el resumen posterior y que tanto `S` como lo guardado permanecen intactos hasta confirmar.
+
+Los cuatro casos `vales-panel-antiguo-*` abren «Premios y vales» y reciben una lista diferente mediante un guardado real en otra pestaña. Pulsan el control antiguo de entrega, texto, precio o activación y comprueban que ni los vales ni lo guardado cambian, y que el panel enseña la entrada nueva. `adultos.js` Z3 fija voces castellana e inglesa para aislar los avisos de vales y copia; Z3-sin-ingles comprueba el aviso de voz inglesa ausente y su enlace al apartado de sonido. Estas listas sintéticas no demuestran audio audible.
+
+`vales-accesibles-es` y `vales-accesibles-ro`, en `cobertura.js`, localizan los cuatro controles por su papel y nombre accesible traducido. Usan un texto de familia con comillas y signos de HTML, editan los campos y marcan la entrega; comprueban los datos resultantes sin depender de selectores internos para esas acciones.
