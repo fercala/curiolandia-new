@@ -1834,7 +1834,7 @@ a97c66fedfb2,el patio,trozo,src/escenas/cole.ts
 b44e34d68b1b,El patio,trozo,src/escenas/cole.ts src/escenas/patio.ts
 a32c8a6e5f50,las clases,trozo,src/escenas/cole.ts
 05999bcdbb62,el autobús de las excursiones,trozo,src/escenas/cole.ts
-4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts
+4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts src/aplicacion/adultos/informe.ts
 4e2af90d29d2,Cerrado,trozo,src/escenas/cole.ts
 2a19d28ebbc6,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!",frase,src/escenas/cole.ts
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,frase,src/escenas/cole.ts
@@ -2284,7 +2284,7 @@ b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de l
 7a4b818aec1d,Mueve la linterna por el bosque para buscar a los animales de la noche.,frase,src/escenas/linterna.ts
 6d3dbc758328,¡Has encontrado a todos los animales de la noche! ¡Qué buena vista tienes!,frase,src/escenas/linterna.ts
 96012df43c5c,¡Una estrella fugaz! Cierra los ojos y pide un deseo.,frase,src/escenas/linterna.ts
-37d61c4d8913,Programa a Tito,trozo,src/escenas/logica.ts src/mundo3d/programa3d.ts
+37d61c4d8913,Programa a Tito,trozo,src/escenas/logica.ts src/mundo3d/programa3d.ts src/aplicacion/adultos/informe.ts
 0f5afd1f74f1,Sudoku de dibujos,trozo,src/escenas/logica.ts
 a68c544d6296,¿Qué falta?,frase,src/escenas/logica.ts
 0c1d210f25c7,Las diferencias,trozo,src/escenas/logica.ts
@@ -2391,7 +2391,7 @@ f498f42ecc18,Izquierda.,frase,src/escenas/penaltis.ts
 7976e8a26f61,× {n},trozo,src/escenas/penaltis.ts
 f42bfe48c304,¡GOL!,frase,src/escenas/penaltis.ts
 0dc8d1199c91,¿Quién juega hoy? Toca tu nombre.,frase,src/escenas/perfiles.ts
-4d0ebbbc1b0c,Sin nombre,trozo,src/escenas/perfiles.ts src/aplicacion/adultos/resumen.ts
+4d0ebbbc1b0c,Sin nombre,trozo,src/escenas/perfiles.ts src/aplicacion/adultos/informe.ts src/aplicacion/adultos/resumen.ts
 88809b80416d,"{a}, {b}, {c}... ¿Qué número viene ahora?",trozo,src/escenas/planetario.ts
 32dee3bad834,¡Cero! ¡Despegamos!,frase,src/escenas/planetario.ts
 a73e1b03e1e6,¡Sí! {N}.,frase,src/escenas/planetario.ts
@@ -4649,6 +4649,27 @@ d605362f0a12,svg.linea{width:170mm;display:block;margin:6mm auto},adultos,src/ap
 fb69ea8e6fa6,Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.,adultos,src/aplicacion/adultos/fichas.ts
 36c7c6b9368d,Colorea el dibujo del tema.,adultos,src/aplicacion/adultos/fichas.ts
 4211c1214adb,svg{width:125mm},adultos,src/aplicacion/adultos/fichas.ts
+038f8745b18e,Juegos de las casitas,adultos,src/aplicacion/adultos/informe.ts
+774cc5641fa8,Cuentos con decisiones,adultos,src/aplicacion/adultos/informe.ts
+7141e979d2f0,Construir con bloques,adultos,src/aplicacion/adultos/informe.ts
+b5834c04c561,Rincón de la lógica,adultos,src/aplicacion/adultos/informe.ts
+1cd09d9918a3,Taller de ciencias,adultos,src/aplicacion/adultos/informe.ts
+a1d8c1eeed45,Estudio de arte,adultos,src/aplicacion/adultos/informe.ts
+9ac8675a83ec,Corral de la granja,adultos,src/aplicacion/adultos/informe.ts
+5b936eac8ee4,Jugar juntos,adultos,src/aplicacion/adultos/informe.ts
+5f4c72d94652,Encargos de los vecinos,adultos,src/aplicacion/adultos/informe.ts
+37cf19efcb57,Juegos del patio,adultos,src/aplicacion/adultos/informe.ts
+8630bcb42288,Esta semana todavía no ha jugado.,adultos,src/aplicacion/adultos/informe.ts
+0bf4eea25bed,Minutos de juego en los últimos 7 días: {n}.,adultos,src/aplicacion/adultos/informe.ts
+789bf9abdb34,Días que ha jugado: {n} de 7.,adultos,src/aplicacion/adultos/informe.ts
+1921fbac3e92,Lo que mejor se le da: {h}.,adultos,src/aplicacion/adultos/informe.ts
+3a415a3a5800,"Lo que más le cuesta: {h}. Para reforzarlo en casa, jugad juntos a lo mismo con cosas de casa, sin pantalla.",adultos,src/aplicacion/adultos/informe.ts
+ec51ec969fdc,Lo que ha hecho esta semana:,adultos,src/aplicacion/adultos/informe.ts
+7e21b098c42c,La semana,adultos,src/aplicacion/adultos/informe.ts
+4ae7bd307934,Compartir con la profe,adultos,src/aplicacion/adultos/informe.ts
+59b3ed08e91d,Informe semanal de {nombre} en Curiolandia,adultos,src/aplicacion/adultos/informe.ts
+446e86a1c692,Informe copiado: ya se puede pegar en un mensaje.,adultos,src/aplicacion/adultos/informe.ts
+150796ea6833,No se ha podido copiar el informe.,adultos,src/aplicacion/adultos/informe.ts
 fdc6446d8460,Premios y vales,adultos,src/aplicacion/adultos/premios.ts
 1548db2ef3d8,Premios,adultos,src/aplicacion/adultos/premios.ts
 f3176786e699,Entregado ✔,adultos,src/aplicacion/adultos/premios.ts

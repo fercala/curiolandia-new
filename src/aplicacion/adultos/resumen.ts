@@ -3,13 +3,15 @@
 // familia (cada uno con un botón a su página), lo que sigue en el camino (suggestTema, escenas/zonas.ts) y los atajos
 // más usados. Las reglas (vales por entregar) están en dominio/zonaAdultos.ts. Desde la fase P4 de docs/IDEAS-MEJORA.md,
 // «Reto en casa»: el reto sin pantalla que propuso Tito (S.retos, dominio/retos.ts) y el botón para marcarlo como hecho
-// (Tito lo celebra con una pegatina al volver al mapa).
+// (Tito lo celebra con una pegatina al volver al mapa). Desde la v0.2.180 (idea 41), «La semana», el informe semanal
+// para la familia (adultos/informe.ts).
 import { IDIOMA, S, STARS, fmt, fmtHtml, hecho, save, temasDone, today, tr } from '../../nucleo/indice.ts';
 import { suggestTema } from '../../escenas/zonas.ts';
 import { valesPorEntregar } from '../../dominio/zonaAdultos.ts';
 import { marcarRetoHecho, registroRetos, retoPorId } from '../../dominio/retos.ts';
 import { IDIOMA_BASE, idioma } from '../../dominio/idiomas.ts';
 import { copiaPendiente } from './copia.ts';
+import { conectarInforme, informeHTML } from './informe.ts';
 import { buscador, esc } from './comun.ts';
 import type { IdPagina, PaginaAdultos } from './tipos.ts';
 
@@ -91,7 +93,8 @@ export const RESUMEN: PaginaAdultos = {
   titulo: 'Resumen',
   corto: 'Resumen',
   icono: '🏠',
-  // html(): «Hoy», «Avisos» (si hay; sus botones data-ir los conecta el panel), «Reto en casa» (desde la fase P4),
+  // html(): «Hoy», «Avisos» (si hay; sus botones data-ir los conecta el panel), «Reto en casa» (desde la fase P4), «La
+  // semana» (el informe semanal, desde la v0.2.180),
   // «Lo que sigue» (si queda algún tema en el camino) y los atajos (data-go, también del panel).
   html() {
     const sug = suggestTema(),
@@ -103,12 +106,15 @@ export const RESUMEN: PaginaAdultos = {
    <div class="cifras"><span>🪙 <b>${S.coins}</b> monedas</span><span>⭐ <b>${STARS()}</b> estrellas</span><span>🌼 <b>${temasDone()}</b> temas terminados</span></div></section>
   ${avisos.length ? `<section><h3>Avisos</h3>${avisos.map((a) => `<div class="aviso"><span>${a.texto}</span><button type="button" data-ir="${a.ir}">Ver</button></div>`).join('')}</section>` : ''}
   ${retoHTML()}
+  ${informeHTML()}
   ${sug ? `<section><h3>Lo que sigue</h3><p class="tip">Próximo tema del camino: <b>${esc(sug.n)}</b>. ${fmtHtml('Para seguir fuera de la pantalla: {tip}', { tip: esc(tr(sug.tip || 'nombrar juntos las cosas del tema que encuentren en casa o en la calle.')) })}</p></section>` : ''}
   <section><h3>Ir a</h3><div class="row"><button data-go="map">Mapa</button><button data-go="asamblea">Asamblea</button><button data-go="tienda">Tienda</button><button data-go="casaTito">Casa de Tito</button><button data-go="album">Álbum</button></div><p class="note">Más sitios y cualquier tema, en «Copia y aparato».</p></section>`;
   },
   // conectar(el, acciones): los atajos y los botones de los avisos los conecta el panel; aquí, el botón «¡Lo ha hecho!»
-  // del reto en casa: lo marca como hecho (marcarRetoHecho), guarda y vuelve a pintar la página.
+  // del reto en casa: lo marca como hecho (marcarRetoHecho), guarda y vuelve a pintar la página; y el de compartir el
+  // informe semanal (conectarInforme).
   conectar(el, acciones) {
+    conectarInforme(el);
     const b = buscador(el)('#a-reto-hecho');
     if (b)
       b.onclick = () => {

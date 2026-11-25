@@ -2657,3 +2657,24 @@ Ficha de trazos
 Ficha para recortar y pegar
 Repasa las líneas de puntos con el lápiz, sin levantarlo.
 Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.
+Juegos de las casitas
+Cuentos con decisiones
+Construir con bloques
+Rincón de la lógica
+Taller de ciencias
+Estudio de arte
+Corral de la granja
+Jugar juntos
+Encargos de los vecinos
+Juegos del patio
+La semana
+Compartir con la profe
+Esta semana todavía no ha jugado.
+Minutos de juego en los últimos 7 días: {n}.
+Días que ha jugado: {n} de 7.
+Lo que mejor se le da: {h}.
+Lo que más le cuesta: {h}. Para reforzarlo en casa, jugad juntos a lo mismo con cosas de casa, sin pantalla.
+Lo que ha hecho esta semana:
+Informe semanal de {nombre} en Curiolandia
+Informe copiado: ya se puede pegar en un mensaje.
+No se ha podido copiar el informe.

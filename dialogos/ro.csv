@@ -1834,7 +1834,7 @@ a97c66fedfb2,el patio,curtea,trozo,src/escenas/cole.ts,borrador
 b44e34d68b1b,El patio,Curtea,trozo,src/escenas/cole.ts src/escenas/patio.ts,borrador
 a32c8a6e5f50,las clases,clasele,trozo,src/escenas/cole.ts,borrador
 05999bcdbb62,el autobús de las excursiones,autobuzul de excursii,trozo,src/escenas/cole.ts,borrador
-4a29fe3f57a6,Excursiones,Excursii,trozo,src/escenas/cole.ts,borrador
+4a29fe3f57a6,Excursiones,Excursii,trozo,src/escenas/cole.ts src/aplicacion/adultos/informe.ts,borrador
 4e2af90d29d2,Cerrado,Închis,trozo,src/escenas/cole.ts,borrador
 2a19d28ebbc6,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!","Bine ai venit la grădiniță{nino}! Aici e curtea, ca să te joci și să te miști, clasele, cu colțurile lor, și autobuzul, ca să mergem în excursie. Atinge curtea!",frase,src/escenas/cole.ts,borrador
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,Curtea e închisă deocamdată. Atinge căsuța ca să te întorci pe hartă.,frase,src/escenas/cole.ts,borrador
@@ -2284,7 +2284,7 @@ b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de l
 7a4b818aec1d,Mueve la linterna por el bosque para buscar a los animales de la noche.,Mișcă lanterna prin pădure ca să cauți animalele nopții.,frase,src/escenas/linterna.ts,borrador
 6d3dbc758328,¡Has encontrado a todos los animales de la noche! ¡Qué buena vista tienes!,Ai găsit toate animalele nopții! Ce bine vezi!,frase,src/escenas/linterna.ts,borrador
 96012df43c5c,¡Una estrella fugaz! Cierra los ojos y pide un deseo.,O stea căzătoare! Închide ochii și pune-ți o dorință.,frase,src/escenas/linterna.ts,borrador
-37d61c4d8913,Programa a Tito,Programează-l pe Tito,trozo,src/escenas/logica.ts src/mundo3d/programa3d.ts,borrador
+37d61c4d8913,Programa a Tito,Programează-l pe Tito,trozo,src/escenas/logica.ts src/mundo3d/programa3d.ts src/aplicacion/adultos/informe.ts,borrador
 0f5afd1f74f1,Sudoku de dibujos,Sudoku cu desene,trozo,src/escenas/logica.ts,borrador
 a68c544d6296,¿Qué falta?,Ce lipsește?,frase,src/escenas/logica.ts,borrador
 0c1d210f25c7,Las diferencias,Diferențele,trozo,src/escenas/logica.ts,borrador
@@ -2391,7 +2391,7 @@ f498f42ecc18,Izquierda.,Stânga.,frase,src/escenas/penaltis.ts,borrador
 7976e8a26f61,× {n},× {n},trozo,src/escenas/penaltis.ts,borrador
 f42bfe48c304,¡GOL!,GOL!,frase,src/escenas/penaltis.ts,borrador
 0dc8d1199c91,¿Quién juega hoy? Toca tu nombre.,Cine se joacă azi? Atinge-ți numele.,frase,src/escenas/perfiles.ts,borrador
-4d0ebbbc1b0c,Sin nombre,Fără nume,trozo,src/escenas/perfiles.ts src/aplicacion/adultos/resumen.ts,borrador
+4d0ebbbc1b0c,Sin nombre,Fără nume,trozo,src/escenas/perfiles.ts src/aplicacion/adultos/informe.ts src/aplicacion/adultos/resumen.ts,borrador
 88809b80416d,"{a}, {b}, {c}... ¿Qué número viene ahora?","{a}, {b}, {c}... Ce număr urmează acum?",trozo,src/escenas/planetario.ts,borrador
 32dee3bad834,¡Cero! ¡Despegamos!,Zero! Decolăm!,frase,src/escenas/planetario.ts,borrador
 a73e1b03e1e6,¡Sí! {N}.,Da! {N}.,frase,src/escenas/planetario.ts,borrador
@@ -4649,6 +4649,27 @@ d605362f0a12,svg.linea{width:170mm;display:block;margin:6mm auto},,adultos,src/a
 fb69ea8e6fa6,Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.,Decupează desenele pe linia punctată și lipește-le peste umbra lor.,adultos,src/aplicacion/adultos/fichas.ts,borrador
 36c7c6b9368d,Colorea el dibujo del tema.,Colorează desenul temei.,adultos,src/aplicacion/adultos/fichas.ts,borrador
 4211c1214adb,svg{width:125mm},,adultos,src/aplicacion/adultos/fichas.ts,falta
+038f8745b18e,Juegos de las casitas,Jocurile din căsuțe,adultos,src/aplicacion/adultos/informe.ts,borrador
+774cc5641fa8,Cuentos con decisiones,Povești în care alegi,adultos,src/aplicacion/adultos/informe.ts,borrador
+7141e979d2f0,Construir con bloques,Construcții cu cuburi,adultos,src/aplicacion/adultos/informe.ts,borrador
+b5834c04c561,Rincón de la lógica,Colțul logicii,adultos,src/aplicacion/adultos/informe.ts,borrador
+1cd09d9918a3,Taller de ciencias,Atelierul de științe,adultos,src/aplicacion/adultos/informe.ts,borrador
+a1d8c1eeed45,Estudio de arte,Atelierul de artă,adultos,src/aplicacion/adultos/informe.ts,borrador
+9ac8675a83ec,Corral de la granja,Ograda fermei,adultos,src/aplicacion/adultos/informe.ts,borrador
+5b936eac8ee4,Jugar juntos,Joacă împreună,adultos,src/aplicacion/adultos/informe.ts,borrador
+5f4c72d94652,Encargos de los vecinos,Comisioanele vecinilor,adultos,src/aplicacion/adultos/informe.ts,borrador
+37cf19efcb57,Juegos del patio,Jocurile din curte,adultos,src/aplicacion/adultos/informe.ts,borrador
+8630bcb42288,Esta semana todavía no ha jugado.,Săptămâna aceasta nu s-a jucat încă.,adultos,src/aplicacion/adultos/informe.ts,borrador
+0bf4eea25bed,Minutos de juego en los últimos 7 días: {n}.,Minute de joacă în ultimele 7 zile: {n}.,adultos,src/aplicacion/adultos/informe.ts,borrador
+789bf9abdb34,Días que ha jugado: {n} de 7.,Zile în care s-a jucat: {n} din 7.,adultos,src/aplicacion/adultos/informe.ts,borrador
+1921fbac3e92,Lo que mejor se le da: {h}.,Ce îi iese cel mai bine: {h}.,adultos,src/aplicacion/adultos/informe.ts,borrador
+3a415a3a5800,"Lo que más le cuesta: {h}. Para reforzarlo en casa, jugad juntos a lo mismo con cosas de casa, sin pantalla.","Ce îi vine cel mai greu: {h}. Ca să exersați acasă, jucați-vă împreună la fel, cu lucruri din casă, fără ecran.",adultos,src/aplicacion/adultos/informe.ts,borrador
+ec51ec969fdc,Lo que ha hecho esta semana:,Ce a făcut săptămâna aceasta:,adultos,src/aplicacion/adultos/informe.ts,borrador
+7e21b098c42c,La semana,Săptămâna,adultos,src/aplicacion/adultos/informe.ts,borrador
+4ae7bd307934,Compartir con la profe,Trimite educatoarei,adultos,src/aplicacion/adultos/informe.ts,borrador
+59b3ed08e91d,Informe semanal de {nombre} en Curiolandia,Raportul săptămânal al lui {nombre} în Curiolandia,adultos,src/aplicacion/adultos/informe.ts,borrador
+446e86a1c692,Informe copiado: ya se puede pegar en un mensaje.,Raport copiat: acum îl puteți lipi într-un mesaj.,adultos,src/aplicacion/adultos/informe.ts,borrador
+150796ea6833,No se ha podido copiar el informe.,Raportul nu a putut fi copiat.,adultos,src/aplicacion/adultos/informe.ts,borrador
 fdc6446d8460,Premios y vales,Premii și tichete,adultos,src/aplicacion/adultos/premios.ts,borrador
 1548db2ef3d8,Premios,Premii,adultos,src/aplicacion/adultos/premios.ts,borrador
 f3176786e699,Entregado ✔,Dat ✔,adultos,src/aplicacion/adultos/premios.ts,borrador
