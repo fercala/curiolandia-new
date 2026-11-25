@@ -194,6 +194,7 @@ import { tocaPausaActiva } from '../dominio/yoga.ts';
 import { moverseActivo } from '../dominio/retos.ts';
 import { celebrarRetoSiToca, fraseReto } from './retos.ts';
 import { recuerdoDeAyer } from './diario.ts';
+import { anunciarEncargo, dibujaEncargo, tocaEncargo } from './encargos.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -1551,6 +1552,8 @@ SCENES.map = {
     celebrarRetoSiToca();
     // el diario (idea 35, escenas/diario.ts): la primera vez de cada día, si no hubo otro aviso, Tito recuerda lo de ayer
     if (!msg) later(4500, () => sceneName === 'map' && recuerdoDeAyer());
+    // el encargo del día (idea 34, escenas/encargos.ts): la primera vez de cada día, después de lo demás
+    later(6000, () => sceneName === 'map' && anunciarEncargo());
   },
   // ageZone(): zona que corresponde a la edad (ageZoneOpen). Hoy no la llama nadie (la capa 3D ya no la usa para colocar a
   // Tito).
@@ -1681,12 +1684,14 @@ SCENES.map = {
     drawSeguir();
     drawHome();
     drawCoinHUD();
+    dibujaEncargo(); // el encargo del día (idea 34, escenas/encargos.ts)
     drawTito(TITO.x, TITO.y, TITO.w);
     drawRepBtn();
   },
   // down(x, y): la lupa -> el repaso; casa -> portada; Tito; monedas -> tienda; botón seguir; Pipo (dice cuánto falta
   // para que nazca); y si no, el sitio más cercano bajo el dedo: dormido o cerrado -> explica qué falta; abierto -> va a él.
   down(x: number, y: number) {
+    if (tocaEncargo(x, y)) return; // el encargo del día (idea 34)
     if (dist(x, y, REPBTN.x, REPBTN.y) < 52) {
       SFX.pop();
       go('repaso', { hello: true });

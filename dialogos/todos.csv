@@ -1315,6 +1315,16 @@ d95ef9ad0df4,Resolvimos un juego del rincón de la lógica.,frase,src/dominio/di
 dd4dae301a8c,"Jugamos juntos a las parejas, por turnos.",frase,src/dominio/diario.ts
 d52eadfee91f,Ayudamos a un vecino con su encargo.,frase,src/dominio/diario.ts
 83700a709b9f,Jugamos en el patio del cole.,frase,src/dominio/diario.ts
+2dea5347048e,El cartero nos ha dado una carta para el cole. ¿La llevamos? Toca el cole en el mapa.,frase,src/dominio/encargos.ts
+607e1b8e18a2,¡Ya hemos dejado la carta en el cole! Gracias por ayudar al cartero.,frase,src/dominio/encargos.ts
+9cd22388e9c6,El panadero nos ha dado pan para la merienda. ¿Lo llevamos a mi casa?,frase,src/dominio/encargos.ts
+11659a375c3b,¡Ya tenemos el pan en casa! Gracias por ayudar al panadero.,frase,src/dominio/encargos.ts
+f77e4d3267bd,La granjera quiere vender zanahorias en la tienda. ¿Se las llevamos?,frase,src/dominio/encargos.ts
+70ba9ca534c0,¡Las zanahorias ya están en la tienda! Gracias por ayudar a la granjera.,frase,src/dominio/encargos.ts
+f458f596bf3a,La maestra se ha dejado un libro. ¿Se lo llevamos a las clases del cole?,frase,src/dominio/encargos.ts
+f534c825fcbd,¡La maestra ya tiene su libro! Gracias por ayudarla.,frase,src/dominio/encargos.ts
+551a0eb9e68c,La frutera nos ha regalado fresas. ¿Las llevamos a mi casa?,frase,src/dominio/encargos.ts
+052490df640c,¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.,frase,src/dominio/encargos.ts
 e15ad32125de,¡Está detrás del árbol!,frase,src/dominio/escondite.ts
 79a63b160235,¡Está debajo del tobogán!,frase,src/dominio/escondite.ts
 feee6dd228f8,¡Está dentro de la casita!,frase,src/dominio/escondite.ts

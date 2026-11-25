@@ -151,4 +151,24 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
   '¡Gracias! La gallina ha puesto un huevo.': 'Mulțumesc! Găina a făcut un ou.',
   '¡Gracias! La vaca nos da leche.': 'Mulțumesc! Vaca ne dă lapte.',
   '¡Gracias! Con la leche de la oveja hacemos queso.': 'Mulțumesc! Din laptele oii facem brânză.',
+  // los encargos de los vecinos (idea 34)
+  'El cartero nos ha dado una carta para el cole. ¿La llevamos? Toca el cole en el mapa.':
+    'Poștașul ne-a dat o scrisoare pentru grădiniță. O ducem? Atinge grădinița pe hartă.',
+  '¡Ya hemos dejado la carta en el cole! Gracias por ayudar al cartero.':
+    'Am lăsat scrisoarea la grădiniță! Mulțumesc că l-ai ajutat pe poștaș.',
+  'El panadero nos ha dado pan para la merienda. ¿Lo llevamos a mi casa?':
+    'Brutarul ne-a dat pâine pentru gustare. O ducem la căsuța mea?',
+  '¡Ya tenemos el pan en casa! Gracias por ayudar al panadero.':
+    'Avem pâinea acasă! Mulțumesc că l-ai ajutat pe brutar.',
+  'La granjera quiere vender zanahorias en la tienda. ¿Se las llevamos?':
+    'Fermiera vrea să vândă morcovi la magazin. I-i ducem?',
+  '¡Las zanahorias ya están en la tienda! Gracias por ayudar a la granjera.':
+    'Morcovii sunt deja la magazin! Mulțumesc că ai ajutat-o pe fermieră.',
+  'La maestra se ha dejado un libro. ¿Se lo llevamos a las clases del cole?':
+    'Educatoarea și-a uitat o carte. I-o ducem la clasele grădiniței?',
+  '¡La maestra ya tiene su libro! Gracias por ayudarla.': 'Educatoarea are cartea ei! Mulțumesc că ai ajutat-o.',
+  'La frutera nos ha regalado fresas. ¿Las llevamos a mi casa?':
+    'Vânzătoarea de fructe ne-a dăruit căpșuni. Le ducem la căsuța mea?',
+  '¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.':
+    'Ce gustoase sunt căpșunile acasă! Mulțumesc că ai ajutat-o pe vânzătoarea de fructe.',
 };

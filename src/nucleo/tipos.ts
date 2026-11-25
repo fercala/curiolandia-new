@@ -150,6 +150,10 @@ export interface Estado {
    * guardados. Desde la PR de todas las ideas pendientes (idea 33 de docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin
    * migración. */
   corral?: { animales: string[]; d: string; cuidados: string[]; productos: Record<string, number> };
+  /** Los encargos de los vecinos (dominio/encargos.ts, EstadoEncargos): el día, si Tito ya ha dicho el encargo, si está
+   * hecho y cuántos se han hecho. Desde la PR de todas las ideas pendientes (idea 34 de docs/IDEAS-MEJORA.md,
+   * v0.2.180); opcional, sin migración. */
+  encargos?: { d: string; dicho: boolean; hecho: boolean; veces: number };
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };

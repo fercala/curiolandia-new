@@ -1315,6 +1315,16 @@ d95ef9ad0df4,Resolvimos un juego del rincón de la lógica.,Am rezolvat un joc d
 dd4dae301a8c,"Jugamos juntos a las parejas, por turnos.","Ne-am jucat împreună cu perechile, pe rând.",frase,src/dominio/diario.ts,borrador
 d52eadfee91f,Ayudamos a un vecino con su encargo.,Am ajutat un vecin cu o treabă.,frase,src/dominio/diario.ts,borrador
 83700a709b9f,Jugamos en el patio del cole.,Ne-am jucat în curtea grădiniței.,frase,src/dominio/diario.ts,borrador
+2dea5347048e,El cartero nos ha dado una carta para el cole. ¿La llevamos? Toca el cole en el mapa.,Poștașul ne-a dat o scrisoare pentru grădiniță. O ducem? Atinge grădinița pe hartă.,frase,src/dominio/encargos.ts,borrador
+607e1b8e18a2,¡Ya hemos dejado la carta en el cole! Gracias por ayudar al cartero.,Am lăsat scrisoarea la grădiniță! Mulțumesc că l-ai ajutat pe poștaș.,frase,src/dominio/encargos.ts,borrador
+9cd22388e9c6,El panadero nos ha dado pan para la merienda. ¿Lo llevamos a mi casa?,Brutarul ne-a dat pâine pentru gustare. O ducem la căsuța mea?,frase,src/dominio/encargos.ts,borrador
+11659a375c3b,¡Ya tenemos el pan en casa! Gracias por ayudar al panadero.,Avem pâinea acasă! Mulțumesc că l-ai ajutat pe brutar.,frase,src/dominio/encargos.ts,borrador
+f77e4d3267bd,La granjera quiere vender zanahorias en la tienda. ¿Se las llevamos?,Fermiera vrea să vândă morcovi la magazin. I-i ducem?,frase,src/dominio/encargos.ts,borrador
+70ba9ca534c0,¡Las zanahorias ya están en la tienda! Gracias por ayudar a la granjera.,Morcovii sunt deja la magazin! Mulțumesc că ai ajutat-o pe fermieră.,frase,src/dominio/encargos.ts,borrador
+f458f596bf3a,La maestra se ha dejado un libro. ¿Se lo llevamos a las clases del cole?,Educatoarea și-a uitat o carte. I-o ducem la clasele grădiniței?,frase,src/dominio/encargos.ts,borrador
+f534c825fcbd,¡La maestra ya tiene su libro! Gracias por ayudarla.,Educatoarea are cartea ei! Mulțumesc că ai ajutat-o.,frase,src/dominio/encargos.ts,borrador
+551a0eb9e68c,La frutera nos ha regalado fresas. ¿Las llevamos a mi casa?,Vânzătoarea de fructe ne-a dăruit căpșuni. Le ducem la căsuța mea?,frase,src/dominio/encargos.ts,borrador
+052490df640c,¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.,Ce gustoase sunt căpșunile acasă! Mulțumesc că ai ajutat-o pe vânzătoarea de fructe.,frase,src/dominio/encargos.ts,borrador
 e15ad32125de,¡Está detrás del árbol!,E după copac!,frase,src/dominio/escondite.ts,borrador
 79a63b160235,¡Está debajo del tobogán!,E sub tobogan!,frase,src/dominio/escondite.ts,borrador
 feee6dd228f8,¡Está dentro de la casita!,E în căsuță!,frase,src/dominio/escondite.ts,borrador

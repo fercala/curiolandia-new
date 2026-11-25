@@ -70,6 +70,9 @@ export function ponRepOn(v: boolean): void {
 // Ejemplos: go('map',{hello:true}) vuelve al mapa saludando; go('casita',{t:idTema}) abre un tema.
 // Es let y no function porque las pruebas la envuelven con ponGo (tests/regresion/camino.js; hasta la fase 4k también la
 // capa 3D, mundo3d/interaccion.ts).
+// AL_ENTRAR: lo que se avisa cada vez que se entra en una escena (después de su enter), con su nombre. Desde la PR de
+// todas las ideas pendientes (v0.2.180): los encargos de los vecinos (escenas/encargos.ts) se entregan al llegar.
+export const AL_ENTRAR: ((nombre: string) => void)[] = [];
 export let go = (n: string, o: OpcionesEscena = {}): void => {
   if (REP_ON && ((n !== 'juego' && n !== 'casita') || o.hello)) REP_ON = false;
   const e = SCENES[n];
@@ -94,6 +97,7 @@ export let go = (n: string, o: OpcionesEscena = {}): void => {
   VIVO.fade = 1;
   ponMusica(e.music || null);
   if (e.enter) e.enter(o);
+  AL_ENTRAR.forEach((f) => f(n));
 };
 // ponGo(f): cambia go por otra función. Solo la usan las pruebas (tests/regresion/camino.js, para apuntar las escenas; ver
 // docs/CONTRATO-PRUEBAS.md); el juego ya no envuelve go (hasta la fase 4k, mundo3d/interaccion.ts, y hasta la 4c,

@@ -2610,3 +2610,14 @@ Para traer la oveja al corral hacen falta {n} monedas.
 ¡Gracias! La gallina ha puesto un huevo.
 ¡Gracias! La vaca nos da leche.
 ¡Gracias! Con la leche de la oveja hacemos queso.
+
+El cartero nos ha dado una carta para el cole. ¿La llevamos? Toca el cole en el mapa.
+¡Ya hemos dejado la carta en el cole! Gracias por ayudar al cartero.
+El panadero nos ha dado pan para la merienda. ¿Lo llevamos a mi casa?
+¡Ya tenemos el pan en casa! Gracias por ayudar al panadero.
+La granjera quiere vender zanahorias en la tienda. ¿Se las llevamos?
+¡Las zanahorias ya están en la tienda! Gracias por ayudar a la granjera.
+La maestra se ha dejado un libro. ¿Se lo llevamos a las clases del cole?
+¡La maestra ya tiene su libro! Gracias por ayudarla.
+La frutera nos ha regalado fresas. ¿Las llevamos a mi casa?
+¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.
