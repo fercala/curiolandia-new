@@ -2588,3 +2588,9 @@ Primero toca unas notas del xilófono.
 ¡Qué canción tan bonita! Sonará cuando toques el cuadro de mi salón.
 ¡Nuestro cuadro y nuestra canción del estudio de arte!
 Este cuadro lo pintamos en el estudio de arte.
+
+Modo reto
+Volvemos a jugar como siempre.
+¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.
+Reto
+¡Reto superado! Has ganado una estrella dorada.

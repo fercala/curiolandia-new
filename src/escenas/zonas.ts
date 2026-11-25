@@ -73,6 +73,7 @@
  * ===================================================================== */
 import { botonExtra, tocaExtra } from './botonesExtras.ts';
 import { BOTON_CUENTO } from './cuentoDecisiones.ts';
+import { alEntrarCasita, dibujaBotonReto, dibujaDorada, tocaBotonReto } from './modoReto.ts';
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena, OpcionesEscena, OpcionesTema } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
@@ -1826,6 +1827,7 @@ SCENES.casita = {
     }
     ponRepOn(false);
     this.t = TEMA[o.t];
+    alEntrarCasita(this.t); // el modo reto sigue solo en su casita (idea 32)
     S.last = o.t;
     save();
     this.unl = null;
@@ -1889,6 +1891,7 @@ SCENES.casita = {
       text(t.n, 310 + tw / 2, 110, 54, K, { w: 600 });
     }
     botonExtra(BOTON_CUENTO, 'Cuento con decisiones');
+    dibujaBotonReto(t); // el modo reto (idea 32, escenas/modoReto.ts)
     const pts = t.games.map((_g: JuegoTema, j: number) => stationPos(t, j)),
       nx = nextGameOf(t);
     drawRoad(pts, nx < 0 ? pts.length - 1 : nx, 150);
@@ -1900,6 +1903,7 @@ SCENES.casita = {
       if (!un && lk) lockOver(x, y, 124);
       circ(x - 96, y - 96, 30, lk ? '#EADFCF' : tst(t.id).g[j] ? '#7CC86E' : '#5B8DEF', 5);
       text(String(j + 1), x - 96, y - 84, 34, '#fff', { f: LF });
+      dibujaDorada(t, j, x - 96, y + 80);
       if (j === nx && !(this.unl && this.unl.j === j && T < this.unl.t + 0.4)) arrowAt(x, y - 170);
     });
     drawHome();
@@ -1928,6 +1932,7 @@ SCENES.casita = {
       go('cuentoDecisiones', { t: t.id });
       return;
     }
+    if (tocaBotonReto(t, x, y)) return;
     for (let j = 0; j < t.games.length; j++) {
       const [gx, gy] = stationPos(t, j);
       if (dist(x, y, gx, gy) < 140) {

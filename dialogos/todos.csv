@@ -2285,6 +2285,11 @@ f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos d
 3b686947da97,Pagar con una ficha,trozo,src/escenas/mercadoPractica.ts
 8ce7478b0943,¡Compra hecha!,frase,src/escenas/mercadoPractica.ts
 5a858c14e404,Mira el siguiente dibujo de la lista.,frase,src/escenas/mercadoPractica.ts
+811811248745,Modo reto,trozo,src/escenas/modoReto.ts
+357c32b59684,Volvemos a jugar como siempre.,frase,src/escenas/modoReto.ts
+bbd473c8512b,"¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.",frase,src/escenas/modoReto.ts
+46ec0575cb96,Reto,trozo,src/escenas/modoReto.ts
+91ecc611a9d0,¡Reto superado! Has ganado una estrella dorada.,frase,src/escenas/modoReto.ts
 e3d8f426d44a,Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.,frase,src/escenas/museo.ts
 c83503444115,Toca las huellas una a una para contar los pasos.,frase,src/escenas/museo.ts
 aeb81513b171,¿Cuál es el más largo? Tócalo.,frase,src/escenas/museo.ts

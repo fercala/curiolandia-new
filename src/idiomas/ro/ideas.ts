@@ -125,4 +125,11 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
     'Ce cântec frumos! Va suna când atingi tabloul din sufrageria mea.',
   '¡Nuestro cuadro y nuestra canción del estudio de arte!': 'Tabloul și cântecul nostru din atelierul de artă!',
   'Este cuadro lo pintamos en el estudio de arte.': 'Tabloul acesta l-am pictat în atelierul de artă.',
+  // el modo reto (idea 32)
+  'Modo reto': 'Modul provocare',
+  'Volvemos a jugar como siempre.': 'Ne jucăm din nou ca de obicei.',
+  '¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.':
+    'Modul provocare! Mai multe variante, mai multe runde și fără ajutor. Fiecare joc reușit îți dă o stea de aur.',
+  'Reto': 'Provocare',
+  '¡Reto superado! Has ganado una estrella dorada.': 'Provocare reușită! Ai câștigat o stea de aur.',
 };

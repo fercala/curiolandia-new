@@ -2285,6 +2285,11 @@ f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos d
 3b686947da97,Pagar con una ficha,Plătește cu un jeton,trozo,src/escenas/mercadoPractica.ts,borrador
 8ce7478b0943,¡Compra hecha!,Ai terminat cumpărăturile!,frase,src/escenas/mercadoPractica.ts,borrador
 5a858c14e404,Mira el siguiente dibujo de la lista.,Uită-te la următorul desen din listă.,frase,src/escenas/mercadoPractica.ts,borrador
+811811248745,Modo reto,Modul provocare,trozo,src/escenas/modoReto.ts,borrador
+357c32b59684,Volvemos a jugar como siempre.,Ne jucăm din nou ca de obicei.,frase,src/escenas/modoReto.ts,borrador
+bbd473c8512b,"¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.","Modul provocare! Mai multe variante, mai multe runde și fără ajutor. Fiecare joc reușit îți dă o stea de aur.",frase,src/escenas/modoReto.ts,borrador
+46ec0575cb96,Reto,Provocare,trozo,src/escenas/modoReto.ts,borrador
+91ecc611a9d0,¡Reto superado! Has ganado una estrella dorada.,Provocare reușită! Ai câștigat o stea de aur.,frase,src/escenas/modoReto.ts,borrador
 e3d8f426d44a,Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.,Hai să măsurăm {cosa} cu pașii lui Tito. Atinge urmele una câte una.,frase,src/escenas/museo.ts,borrador
 c83503444115,Toca las huellas una a una para contar los pasos.,Atinge urmele una câte una ca să numeri pașii.,frase,src/escenas/museo.ts,borrador
 aeb81513b171,¿Cuál es el más largo? Tócalo.,Care e cel mai lung? Atinge-l.,frase,src/escenas/museo.ts,borrador

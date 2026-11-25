@@ -143,6 +143,9 @@ export interface Estado {
    * canción compuesta (índices de las notas del xilófono). Desde la PR de todas las ideas pendientes (idea 31 de
    * docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin migración. */
   arte?: { cuadro?: string; cancion?: number[] };
+  /** Las estrellas doradas del modo reto (dominio/reto.ts, RegistroReto): { [tema]: [juegos] }. Desde la PR de todas
+   * las ideas pendientes (idea 32 de docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin migración. */
+  reto?: Record<string, number[]>;
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };
@@ -364,6 +367,8 @@ export interface Vivo {
   /** Dificultad adaptativa (-1 a 1) y veces que ya se jugó este juego (0 a 2). */
   ADAPT: number;
   REP: number;
+  /** El modo reto (idea 32 de docs/IDEAS-MEJORA.md, dominio/reto.ts): el id del tema de la casita en modo reto, o ''. */
+  RETO: string;
   /** Tiempo de juego: segundos de la sesión, si ya se propuso descansar y segundos sin apuntar en S.days. pausaHecha
    * (desde la fase P3 de docs/IDEAS-MEJORA.md): ya se propuso la pausa activa del yoga en esta sesión. */
   sessionT: number;

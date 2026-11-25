@@ -176,6 +176,7 @@ import { NUM, TUNES, drawFace, playTune } from '../juegos/indice.ts';
 import { esCumple } from '../dominio/progreso.ts';
 import { fraseReto } from './retos.ts';
 import { apuntarDiario } from './diario.ts';
+import { dibujaCartelReto, terminarReto } from './modoReto.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -780,6 +781,7 @@ export function finishGame(t: Tema, gi: number): void {
   const r = terminarJuego(S, t, gi, { hoy: today(), delRepaso: REP_ON });
   Object.assign(S, r.partida);
   apuntarDiario('casita'); // el diario de Tito (idea 35, escenas/diario.ts)
+  terminarReto(t, gi); // la estrella dorada del modo reto (idea 32, escenas/modoReto.ts)
   save();
   SFX.tada();
   burst(800, 380, 90);
@@ -827,6 +829,7 @@ SCENES.juego = {
     this.t = TEMA[o.t];
     this.gi = o.g;
     VIVO.REP = repeticion(tst(o.t).g[o.g]);
+    if (VIVO.RETO !== o.t) VIVO.RETO = ''; // el modo reto, solo en los juegos de su casita (idea 32)
     this.fin = false;
     this.g = makeGame(this.t.games[o.g], this.t, () => {
       if (this.fin) return;
@@ -846,7 +849,7 @@ SCENES.juego = {
     this.g.draw();
     drawHome();
     if (this.g.total) drawRounds(Math.min(this.g.done, this.g.total), this.g.total);
-    if (VIVO.REP > 0) {
+    if (!dibujaCartelReto() && VIVO.REP > 0) {
       card(1400, 140, 160, 56, '#9B8AD9', 5, 28);
       text(fmt('Nivel {n}', { n: VIVO.REP + 1 }), 1480, 180, 30, '#fff');
     }
@@ -880,7 +883,7 @@ SCENES.juego = {
   },
   // hint(): la ayuda la decide el juego (nada si ya terminó).
   hint() {
-    return this.fin ? null : this.g.hint && this.g.hint();
+    return this.fin || VIVO.RETO ? null : this.g.hint && this.g.hint(); // en el modo reto, sin ayudas (idea 32)
   },
   /* prompt(): la consigna la dice el juego. */ prompt() {
     this.g.prompt && this.g.prompt();
