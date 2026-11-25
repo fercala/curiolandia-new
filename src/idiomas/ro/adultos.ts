@@ -113,6 +113,7 @@ export const ADULTOS_RO: Readonly<Record<string, string>> = {
   '⬇️ Descargar copia': '⬇️ Descarcă copia',
   '🔑 Ver código de copia': '🔑 Vezi codul copiei',
   '📂 Cargar archivo de copia': '📂 Încarcă fișierul copiei',
+  'Código de copia de seguridad': 'Codul copiei de siguranță',
   '📋 Copiar código': '📋 Copiază codul',
   '♻️ Recuperar con este código': '♻️ Recuperează cu acest cod',
   'Instalar en el móvil o la tableta': 'Instalează pe telefon sau pe tabletă',
@@ -132,6 +133,7 @@ export const ADULTOS_RO: Readonly<Record<string, string>> = {
   'Sí, borrar': 'Da, șterge',
   No: 'Nu',
   // adultos/copiaSeguridad.ts
+  'Leyendo la copia de seguridad…': 'Se citește copia de siguranță…',
   'Este código tiene todo el progreso. Cópialo y guárdalo, por ejemplo enviándotelo por mensaje.':
     'Acest cod conține tot progresul. Copiază-l și păstrează-l, de exemplu trimițându-ți-l într-un mesaj.',
   '✅ Código copiado.': '✅ Cod copiat.',

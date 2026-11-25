@@ -52,6 +52,7 @@ export async function bkDecode(code: string): Promise<Libre> {
 }
 // bkWire(q): conecta los botones de la sección "Copia de seguridad": ver código, copiarlo, descargar archivo .json,
 // recuperar desde código o archivo. Un fallo de lectura permite volver a elegir el mismo archivo sin tocar la partida.
+// Si se inicia otra recuperación, descarta resultados y confirmaciones de las lecturas anteriores.
 // Al recuperar, enseña un resumen y, si se confirma, escribe la copia directamente en
 // el guardado (escribirGuardado; en el navegador, localStorage) y recarga la página (load() de nucleo/guardado.ts la pone al día y la mezcla con DEF como cualquier
 // partida guardada).
@@ -61,6 +62,13 @@ export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => v
       trHtml(q('#a-bk-msg'));
     },
     ta = q('#a-bk-txt');
+  let lecturaActual = 0;
+  // iniciarLectura(): invalida el resumen anterior antes de esperar un archivo o descomprimir un código.
+  const iniciarLectura = () => {
+    const turno = ++lecturaActual;
+    msg('Leyendo la copia de seguridad…');
+    return turno;
+  };
   // hecha(): apunta hoy como día de la última copia (S.bkFecha, fase A6) y avisa a la página (para quitar el número
   // del menú).
   const hecha = () => {
@@ -103,13 +111,14 @@ export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => v
     hecha();
     msg('Si no se ha descargado nada, usa el código de copia.');
   };
-  // ask(texto): intenta leer una copia y pide confirmación antes de reemplazar el progreso. Todo lo que viene de la copia
-  // y se enseña va escapado (esc) o pasado a número: una copia editada no puede meter HTML en el panel.
-  const ask = async (src: string) => {
+  // ask(texto, turno): intenta leer la copia elegida y solo muestra y confirma el resultado si sigue vigente ese turno.
+  // Todo lo que viene de la copia y se enseña va escapado (esc) o pasado a número: una copia editada no puede meter HTML.
+  const ask = async (src: string, turno: number) => {
     let d: Libre;
     try {
       d = await bkDecode(src);
     } catch (e) {
+      if (turno !== lecturaActual) return;
       msg(
         (e as Error).message === 'navegador'
           ? 'Este navegador no puede abrir ese código. Prueba con el archivo de copia.'
@@ -117,12 +126,14 @@ export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => v
       );
       return;
     }
+    if (turno !== lecturaActual) return;
     const nT = Object.values<Libre>(d.temas || {}).filter((t) => t && t.done).length,
       nG = Object.values<Libre>(d.temas || {}).reduce((a: number, t) => a + Object.keys((t && t.g) || {}).length, 0);
     msg(
       `${fmtHtml(d.name ? 'Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.' : 'Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.', { nombre: '<b>' + esc(d.name || '') + '</b>', temas: nT, juegos: nG, monedas: Math.max(0, Math.floor(+d.coins) || 0) })} <b>Reemplaza el progreso actual de este dispositivo.</b> <button id="a-bk-ok" class="danger">Sí, recuperar esta copia</button>`,
     );
     q('#a-bk-ok').onclick = () => {
+      if (turno !== lecturaActual) return;
       if (!escribirGuardado(KEY, JSON.stringify(d))) {
         msg('❌ No se pudo guardar en este navegador.');
         return;
@@ -130,20 +141,24 @@ export function bkWire(q: (s: string) => HTMLInputElement, alHacerCopia: () => v
       location.reload();
     };
   };
-  q('#a-bk-load').onclick = () => ask(ta.value);
+  q('#a-bk-load').onclick = () => ask(ta.value, iniciarLectura());
+  // El botón nativo conserva la activación de teclado y abre el selector dentro de ese gesto del usuario.
+  q('#a-bk-choose').onclick = () => q('#a-bk-file').click();
   // Se conserva el File antes de vaciar el selector: así se puede reintentar el mismo archivo si la lectura falla.
   q('#a-bk-file').onchange = async (e) => {
     const entrada = e.target as HTMLInputElement,
       f = entrada.files?.[0];
     if (!f) return;
     entrada.value = '';
+    const turno = iniciarLectura();
     let texto: string;
     try {
       texto = await f.text();
     } catch (e) {
+      if (turno !== lecturaActual) return;
       msg('❌ No se pudo leer el archivo de copia. Vuelve a elegirlo o usa el código de copia.');
       return;
     }
-    await ask(texto);
+    if (turno === lecturaActual) await ask(texto, turno);
   };
 }

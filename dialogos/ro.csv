@@ -4456,6 +4456,7 @@ f98179c5a893,el icono de instalar en la barra de direcciones.,pictograma de inst
 a59c8b731067,En iPhone la voz depende de las voces en español instaladas en Ajustes → Accesibilidad → Contenido leído.,"Pe iPhone, vocea depinde de vocile instalate în Configurări → Accesibilitate → Conținut vorbit.",adultos,src/aplicacion/adultos/copia.ts,borrador
 d77d10cc9a90,Copia y aparato,Copie și dispozitiv,adultos,src/aplicacion/adultos/copia.ts,borrador
 e5875df840b1,Copia,Copie,adultos,src/aplicacion/adultos/copia.ts,borrador
+bd77b621c85d,Código de copia de seguridad,Codul copiei de siguranță,adultos,src/aplicacion/adultos/copia.ts,borrador
 b7a98e43db03,"Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia.",Aici apare codul de copiat sau lipește aici un cod pentru a recupera o copie.,adultos,src/aplicacion/adultos/copia.ts,borrador
 df3692f3dcae,Copia de seguridad,Copie de siguranță,adultos,src/aplicacion/adultos/copia.ts,borrador
 67e45aabeb73,"Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia de vez en cuando.","Salvează tot progresul (drumul, monedele, casa lui Tito, abțibildurile și setările) ca să-l muți pe alt dispozitiv sau să-l recuperezi dacă se șterg datele browserului. E bine să faci din când în când o copie.",adultos,src/aplicacion/adultos/copia.ts,borrador
@@ -4480,6 +4481,7 @@ b2df064e0bf5,Días especiales,Zile speciale,adultos,src/aplicacion/adultos/copia
 10154cb74190,¿Seguro?,Sigur?,adultos,src/aplicacion/adultos/copia.ts,borrador
 777233f37eab,"Sí, borrar","Da, șterge",adultos,src/aplicacion/adultos/copia.ts,borrador
 bafd7322c6e9,No,Nu,adultos,src/aplicacion/adultos/copia.ts src/head.html,borrador
+85eb2ada7415,Leyendo la copia de seguridad…,Se citește copia de siguranță…,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 117ef289ce06,"Este código tiene todo el progreso. Cópialo y guárdalo, por ejemplo enviándotelo por mensaje.","Acest cod conține tot progresul. Copiază-l și păstrează-l, de exemplu trimițându-ți-l într-un mesaj.",adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 7d0c39e9a8f2,✅ Código copiado.,✅ Cod copiat.,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 a603cb7cbfb3,Selecciona el código de arriba y cópialo a mano.,Selectează codul de mai sus și copiază-l manual.,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador

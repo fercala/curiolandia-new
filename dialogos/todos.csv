@@ -4456,6 +4456,7 @@ f98179c5a893,el icono de instalar en la barra de direcciones.,adultos,src/aplica
 a59c8b731067,En iPhone la voz depende de las voces en español instaladas en Ajustes → Accesibilidad → Contenido leído.,adultos,src/aplicacion/adultos/copia.ts
 d77d10cc9a90,Copia y aparato,adultos,src/aplicacion/adultos/copia.ts
 e5875df840b1,Copia,adultos,src/aplicacion/adultos/copia.ts
+bd77b621c85d,Código de copia de seguridad,adultos,src/aplicacion/adultos/copia.ts
 b7a98e43db03,"Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia.",adultos,src/aplicacion/adultos/copia.ts
 df3692f3dcae,Copia de seguridad,adultos,src/aplicacion/adultos/copia.ts
 67e45aabeb73,"Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia de vez en cuando.",adultos,src/aplicacion/adultos/copia.ts
@@ -4480,6 +4481,7 @@ b2df064e0bf5,Días especiales,adultos,src/aplicacion/adultos/copia.ts src/aplica
 10154cb74190,¿Seguro?,adultos,src/aplicacion/adultos/copia.ts
 777233f37eab,"Sí, borrar",adultos,src/aplicacion/adultos/copia.ts
 bafd7322c6e9,No,adultos,src/aplicacion/adultos/copia.ts src/head.html
+85eb2ada7415,Leyendo la copia de seguridad…,adultos,src/aplicacion/adultos/copiaSeguridad.ts
 117ef289ce06,"Este código tiene todo el progreso. Cópialo y guárdalo, por ejemplo enviándotelo por mensaje.",adultos,src/aplicacion/adultos/copiaSeguridad.ts
 7d0c39e9a8f2,✅ Código copiado.,adultos,src/aplicacion/adultos/copiaSeguridad.ts
 a603cb7cbfb3,Selecciona el código de arriba y cópialo a mano.,adultos,src/aplicacion/adultos/copiaSeguridad.ts

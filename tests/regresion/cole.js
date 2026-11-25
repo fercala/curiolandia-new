@@ -1666,9 +1666,10 @@ const R = L.registro('cole');
         const n = await p.evaluate(() => BLOQ.modelo.length);
         for (let i = 0; i < n; i++) await tocar(await p.evaluate(() => BLOQ.modelo[BLOQ.torres[1].length]));
         if (!(await hecho())) return 'la torre copiada no se termina';
-        await p.waitForTimeout(1500);
-        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'copiar la torre no da 2 monedas';
+        // El premio usa later(1000), tiempo de juego: con pocos FPS puede tardar más de 1,5 s reales.
+        // El menú se programa después de pagarlo; esperamos ese final y conservamos el saldo exacto exigido.
         await alMenu();
+        if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 2) return 'copiar la torre no da 2 monedas';
         // la casa: el arco no vale para las paredes, el tejado no va antes de las paredes
         if ((await juego('casa')).join() !== 'juego,casa') return 'no empieza «una casa»';
         await tocar('arco');
@@ -1712,7 +1713,7 @@ const R = L.registro('cole');
         await p.waitForTimeout(1500);
         const j = await p.evaluate(() => JSON.stringify(__cl.S.bloques && __cl.S.bloques.jardin));
         if (j !== '[["cubo","arco","cono"],[],[]]') return 'lo construido no se lleva al jardín: ' + j;
-        await p.waitForTimeout(1500);
+        await alMenu();
         if ((await p.evaluate(() => __cl.S.coins)) !== monedas + 8) return 'los cuatro juegos no dan 8 monedas';
         return null;
       },

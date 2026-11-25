@@ -190,6 +190,8 @@ puerto Guardado.
 
 Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 
+Cuando otra pestaña guarda, el puerto Guardado notifica el evento `storage`. `nucleo/guardado.ts` migra y sanea la partida recibida antes de adoptarla en `S`, para no sobrescribirla después con datos anteriores. La tienda y los controles de vales vuelven a validar la acción contra ese estado recibido; los límites de las escrituras simultáneas se explican en [PROBLEMAS-CONOCIDOS.md](PROBLEMAS-CONOCIDOS.md).
+
 **Leer sí, reasignar no.** Un módulo puede leer lo que importa y cambiar los campos de sus objetos (`S.coins++`,
 `SCENES.map.draw = ...`), pero no reasignarlo: JavaScript no deja reasignar un `import` (y `npm run tipos` lo marca
 como error). Para lo que varios archivos cambian hay dos vías:
@@ -476,6 +478,10 @@ y «Cómo le va» con lo que cuesta primero (las reglas, en `dominio/zonaAdultos
 («Más información») y los textos están en castellano de España. El panel es un diálogo accesible: el foco no sale de él
 con el tabulador, vuelve a donde estaba al cerrar, las flechas recorren el menú, los controles miden 44 px o más y el
 contraste de «Volver al juego» y del foco pasa de 4,5 : 1. La copia de seguridad apunta su día en `S.bkFecha`.
+
+La recuperación de copias (`copiaSeguridad.ts`) mantiene un turno de lectura en memoria, sin añadir campos a la partida. Iniciar otra lectura de archivo o código retira el resumen y la confirmación anteriores. Los resultados o errores de turnos antiguos no sustituyen la última elección; solo una confirmación del turno vigente escribe en el guardado.
+
+En «Copia y aparato», el botón nativo `a-bk-choose` activa el selector oculto `a-bk-file` con ratón o teclado. `a-bk-txt` tiene nombre accesible traducido y `a-bk-msg` es una región `status` con avisos no interruptivos (`aria-live="polite"` y `aria-atomic="true"`).
 
 - El código está en `aplicacion/adultos/`: `panel.ts` (abrir, cerrar y navegar), `paginas.ts` (`PAGINAS_ADULTOS`, las
   páginas en el orden del menú), un módulo por página con su `html()` y su `conectar()` (`tipos.ts`), `copiaSeguridad.ts`

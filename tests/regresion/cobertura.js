@@ -1,17 +1,24 @@
 // Huecos de cobertura: guardado y recuperación, varias pestañas, salidas del repaso, reloj, PWA y recompensas.
 // node tests/regresion/lanzar.js cobertura.js . [filtro]
+// Los filtros largos o no válidos como nombre de archivo usan una huella corta y quedan completos dentro del JSON.
 const L = require('./lib'),
   fs = require('fs'),
-  path = require('path');
+  path = require('path'),
+  crypto = require('crypto');
 const [root = '.', filter = ''] = process.argv.slice(2),
-  name = 'cobertura' + (filter ? '-' + filter : '');
+  filtroArchivo =
+    filter &&
+    (/^[\w,-]{1,80}$/.test(filter)
+      ? filter
+      : 'filtro-' + crypto.createHash('sha256').update(filter).digest('hex').slice(0, 16)),
+  name = 'cobertura' + (filtroArchivo ? '-' + filtroArchivo : '');
 let repositoryCommit = null;
 try {
   repositoryCommit = require('child_process')
     .execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
     .trim();
 } catch {}
-const webSha256 = require('crypto')
+const webSha256 = crypto
   .createHash('sha256')
   .update(fs.readFileSync(path.join(root, 'index.html')))
   .digest('hex');
@@ -19,6 +26,7 @@ const gameVersion =
   (fs.readFileSync(path.join(root, 'sw.js'), 'utf8').match(/curiolandia-new-v([\d.]+)/) || [])[1] || null;
 const report = {
   date: new Date().toISOString(),
+  filter,
   repositoryCommit,
   gameVersion,
   webSha256,
@@ -365,6 +373,106 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
         },
         { guardado: { ...base, idioma } },
       );
+
+    for (const idioma of ['es', 'ro'])
+      await test(
+        'copia-archivo-teclado-' + idioma,
+        'El teclado abre el selector de copias y el resumen tiene una región de estado accesible (' + idioma + ')',
+        async (p) => {
+          await p.evaluate(() => openAdult('copia'));
+          const boton = p.getByRole('button', {
+            name: idioma === 'ro' ? '📂 Încarcă fișierul copiei' : '📂 Cargar archivo de copia',
+            exact: true,
+          });
+          await boton.focus();
+          const [selector] = await Promise.all([p.waitForEvent('filechooser'), boton.press('Enter')]);
+          await selector.setFiles({
+            name: 'copia-teclado.json',
+            mimeType: 'application/json',
+            buffer: Buffer.from(JSON.stringify({ name: 'Copia por teclado', temas: {}, coins: 37 })),
+          });
+          await p.locator('#a-bk-ok').waitFor();
+          await p
+            .getByRole('textbox', {
+              name: idioma === 'ro' ? 'Codul copiei de siguranță' : 'Código de copia de seguridad',
+              exact: true,
+            })
+            .waitFor();
+          const resultado = await p.evaluate(() => {
+            const mensaje = document.getElementById('a-bk-msg');
+            return {
+              resumen: mensaje.textContent.includes('Copia por teclado'),
+              estado:
+                mensaje.getAttribute('role') === 'status' &&
+                mensaje.getAttribute('aria-live') === 'polite' &&
+                mensaje.getAttribute('aria-atomic') === 'true',
+              sinRecuperar: S.name === 'QA' && S.coins === 100,
+            };
+          });
+          return { fail: !resultado.resumen || !resultado.estado || !resultado.sinRecuperar, ...resultado };
+        },
+        { guardado: { ...base, idioma } },
+      );
+
+    for (const idioma of ['es', 'ro'])
+      for (const falla of [false, true])
+        await test(
+          'copia-archivo-orden-' + idioma + (falla ? '-fallida' : '-tardia'),
+          'La última copia elegida prevalece sobre una lectura anterior (' +
+            idioma +
+            ', ' +
+            (falla ? 'error' : 'tardía') +
+            ')',
+          async (p) => {
+            await p.evaluate(() => openAdult('copia'));
+            const entrada = p.locator('#a-bk-file');
+            const archivo = (name) => ({
+              name: name + '.json',
+              mimeType: 'application/json',
+              buffer: Buffer.from(JSON.stringify({ name, age: 4, temas: {}, coins: 37 })),
+            });
+            await entrada.setInputFiles(archivo('Copia previa'));
+            await p.locator('#a-bk-ok').waitFor();
+            await p.evaluate(() => {
+              const leer = File.prototype.text;
+              File.prototype.text = function () {
+                if (this.name === 'Primera lenta.json')
+                  return new Promise((resolver, rechazar) => {
+                    window.__finalizarLectura = (error) =>
+                      error
+                        ? rechazar(new Error('Lectura anterior interrumpida'))
+                        : resolver(JSON.stringify({ name: 'Primera lenta', temas: {}, coins: 11 }));
+                  });
+                return leer.call(this);
+              };
+            });
+            await entrada.setInputFiles(archivo('Primera lenta'));
+            await p.waitForFunction(() => typeof window.__finalizarLectura === 'function');
+            const sinConfirmacionAntigua = (await p.locator('#a-bk-ok').count()) === 0;
+            const leyendo = await p.locator('#a-bk-msg').innerText();
+            await entrada.setInputFiles(archivo('Última copia'));
+            await p.locator('#a-bk-ok').waitFor();
+            const resumen = await p.locator('#a-bk-msg').innerText();
+            await p.evaluate(async (error) => {
+              window.__finalizarLectura(error);
+              await new Promise((r) => setTimeout(r, 0));
+            }, falla);
+            const sigueUltima =
+              resumen === (await p.locator('#a-bk-msg').innerText()) && resumen.includes('Última copia');
+            await p.locator('#a-bk-ok').click();
+            await p.waitForFunction(() => window.__cl && S.name === 'Última copia' && S.coins === 37);
+            return {
+              fail:
+                !sinConfirmacionAntigua ||
+                !sigueUltima ||
+                !leyendo.includes(idioma === 'ro' ? 'Se citește' : 'Leyendo'),
+              sinConfirmacionAntigua,
+              sigueUltima,
+              restaurada: await p.evaluate(() => ({ nombre: S.name, monedas: S.coins })),
+            };
+          },
+          { guardado: { ...base, idioma } },
+        );
 
     for (const accion of ['entrega', 'texto', 'precio', 'activar'])
       await test(
@@ -797,6 +905,15 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       },
       { fecha: '2028-02-29' },
     );
+    // Un filtro equivocado no puede dar verde sin haber ejecutado ninguna comprobación.
+    if (!report.results.length)
+      report.results.push({
+        id: 'sin-casos',
+        title: 'El filtro debe seleccionar al menos un caso',
+        status: 'ERROR_HARNESS',
+        error: 'Ningún caso coincide con el filtro: ' + filter,
+        ms: 0,
+      });
     report.summary = {
       cases: report.results.length,
       pass: report.results.filter((r) => r.status === 'PASS').length,

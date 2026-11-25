@@ -20,7 +20,8 @@ Todas reciben como primer argumento la carpeta de la web montada: `dist` despué
 | `ampliada.js <web> [filtro]` | B8–B14, recompensas interrumpidas, armario, arrastres reales, validación de copias, reinicio, 36 combinaciones de ajustes y control de regar manteniendo el arrastre. | unos minutos |
 | `guardado-viejo.js <web>` | Clave de guardado propia y copia única de la partida de curiolandia-3d: se copia, la propia manda, no vuelve tras «Borrar todo», la Voz de Fer pasa a voz del navegador y una partida vieja rota no impide jugar. Termina con 1 si algo falla. | 30 s |
 | `fps.js <web>` | Fotogramas por segundo del mapa, una casita, el cuento y un juego, para [docs/LINEA-BASE.md](../../docs/LINEA-BASE.md). Medir sin otras pruebas en marcha. | 25 s |
-| `cobertura.js <web> [filtro]` | Dos pestañas, salidas alternativas del repaso, reloj a 10 FPS, premios diario/cumpleaños, vales desactivados o editados, canje, candado a dos FPS, Escape y arranque cacheado sin conexión. Guarda resultados después de cada caso. | unos minutos |
+| `cobertura.js <web> [filtro]` | Dos pestañas, salidas alternativas del repaso, reloj a 10 FPS, premios diario/cumpleaños, vales desactivados o editados, canje, candado a dos FPS e interrumpido, volúmenes importados, vales antiguos sin fecha, copias con reintento y controles accesibles. Guarda resultados después de cada caso. Un filtro sin coincidencias devuelve error del guion (2). | unos minutos |
+| `npm run test:fiabilidad` | Subconjunto de `cobertura.js` sobre `dist`: compras antiguas, cambios de vales entre pestañas, copias con reintento y lecturas fuera de orden, volúmenes, vales sin fecha, candado y nombres accesibles en castellano y rumano. Se ejecuta también dentro de `test:pr`, en serie con las demás baterías. | unos minutos |
 
 `lib.js` tiene lo común (servidor, abrir el juego con una fecha y hora fijas, tocar siguiendo la ayuda, registro de hallazgos) y `espia.js` el espía del audio.
 
@@ -44,6 +45,8 @@ Necesitan Playwright con Chromium: `npm ci && npx playwright install chromium` (
 Para Chrome o Edge instalados, ver [AMPLIADA.md](AMPLIADA.md) y usar `lanzar.js`. Ejemplo: `node tests/regresion/lanzar.js cobertura.js .` con `PLAYWRIGHT_CHANNEL=chrome`.
 
 `cobertura.js` admite filtros separados por coma, por ejemplo `pwa,vale,cumple`. Devuelve 0 si todo pasa, 1 si detecta fallos y 2 si algún caso no pudo ejecutarse. Los fallos de un guion no se registran automáticamente como bugs del juego.
+
+Un filtro sin coincidencias produce un caso `ERROR_HARNESS` y termina con 2. Los filtros largos o con caracteres no válidos para un nombre de archivo generan `cobertura-filtro-<huella>.json`; el campo `filter` del informe conserva el filtro completo. Los filtros cortos habituales conservan su nombre legible.
 
 La existencia de una prueba no demuestra cobertura completa. Consultar el [mapa de cobertura funcional](../../docs/COBERTURA-PRUEBAS.md), que distingue pruebas ejecutadas, cobertura parcial y huecos pendientes.
 
