@@ -243,4 +243,14 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
   'Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!':
     'Dacă nu știi ce să faci, atinge-mă și îți spun din nou. Atinge-mă!',
   '¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!': 'Foarte bine! Acum știi să te joci. Hai la hartă!',
+  'Fluidez del 3D': 'Fluiditatea 3D',
+  'Este aparato juega sin 3D.': 'Acest dispozitiv se joacă fără 3D.',
+  'Última medida: {n} cuadros por segundo. Nitidez: {p} %.':
+    'Ultima măsurătoare: {n} cadre pe secundă. Claritate: {p} %.',
+  'Todavía no hay medida: se mide sola al jugar en el mapa o en otra escena en 3D.':
+    'Încă nu există o măsurătoare: se face singură când vă jucați pe hartă sau în altă scenă 3D.',
+  'Las sombras van en modo ligero para que el juego vaya más fluido.':
+    'Umbrele sunt în modul ușor, ca jocul să meargă mai fluid.',
+  'Si el aparato va lento, el juego baja la nitidez y, si hace falta, aligera las sombras él solo.':
+    'Dacă dispozitivul merge greu, jocul scade singur claritatea și, dacă e nevoie, simplifică umbrele.',
 };

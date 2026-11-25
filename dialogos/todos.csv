@@ -4600,6 +4600,12 @@ b42c72918406,Ordenador (Chrome o Edge):,adultos,src/aplicacion/adultos/copia.ts
 f98179c5a893,el icono de instalar en la barra de direcciones.,adultos,src/aplicacion/adultos/copia.ts
 3414b7942702,"Una vez instalado, se abre a pantalla completa y funciona sin internet.",adultos,src/aplicacion/adultos/copia.ts
 a59c8b731067,En iPhone la voz depende de las voces en español instaladas en Ajustes → Accesibilidad → Contenido leído.,adultos,src/aplicacion/adultos/copia.ts
+a69ea4279d9a,Fluidez del 3D,adultos,src/aplicacion/adultos/copia.ts
+e3176545719e,Este aparato juega sin 3D.,adultos,src/aplicacion/adultos/copia.ts
+14e78903b775,Última medida: {n} cuadros por segundo. Nitidez: {p} %.,adultos,src/aplicacion/adultos/copia.ts
+a97afa46ddbe,Todavía no hay medida: se mide sola al jugar en el mapa o en otra escena en 3D.,adultos,src/aplicacion/adultos/copia.ts
+65e40a4166b3,"Si el aparato va lento, el juego baja la nitidez y, si hace falta, aligera las sombras él solo.",adultos,src/aplicacion/adultos/copia.ts
+209d1ac8dc1c,Las sombras van en modo ligero para que el juego vaya más fluido.,adultos,src/aplicacion/adultos/copia.ts
 d77d10cc9a90,Copia y aparato,adultos,src/aplicacion/adultos/copia.ts
 e5875df840b1,Copia,adultos,src/aplicacion/adultos/copia.ts
 b7a98e43db03,"Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia.",adultos,src/aplicacion/adultos/copia.ts

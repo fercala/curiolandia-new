@@ -2,7 +2,9 @@
 // seguridad (bkWire, adultos/copiaSeguridad.ts), instalar el juego, «Ir a» con todos los sitios y temas y, al final,
 // «Empezar de cero» (doReset, aplicacion/dialogos.ts). Antes eran las últimas secciones de aplicacion/adultos.ts.
 // Desde la fase A6, la copia apunta su día en S.bkFecha y, si toca hacer otra, el menú y el Resumen lo recuerdan.
-import { S, VIVO, go, temasDone, today } from '../../nucleo/indice.ts';
+// Desde la v0.2.180 (idea 47 de docs/IDEAS-MEJORA.md), «Fluidez del 3D»: la última medida de cuadros por segundo, la
+// nitidez y si van las sombras ligeras (la calidad automática de mundo3d/motor.ts y dominio/calidad.ts).
+import { S, VIVO, fmtHtml, go, temasDone, today } from '../../nucleo/indice.ts';
 import { tocaCopia } from '../../dominio/zonaAdultos.ts';
 import { TEMAS, standalone } from '../../escenas/escenas2d.ts';
 import { doReset } from '../dialogos.ts';
@@ -28,6 +30,18 @@ function installHTML() {
   );
 }
 
+// fluidezHTML(): la sección «Fluidez del 3D»: lo que ha medido la capa 3D (window.__w3: FPS.medido, PRK y
+// FPS.ligeras). Sin 3D, lo dice; sin medida todavía, que se mide al jugar en el mapa.
+function fluidezHTML(): string {
+  const w = window.__w3 as { ok?: boolean; PRK?: number; FPS?: { medido?: number; ligeras?: boolean } } | undefined;
+  if (!w || !w.ok) return '<section><h3>Fluidez del 3D</h3><p class="note">Este aparato juega sin 3D.</p></section>';
+  const f = w.FPS ?? {},
+    medida = f.medido
+      ? `<p>${fmtHtml('Última medida: {n} cuadros por segundo. Nitidez: {p} %.', { n: `<b>${f.medido}</b>`, p: Math.round((w.PRK ?? 1) * 100) })}</p>`
+      : '<p class="note">Todavía no hay medida: se mide sola al jugar en el mapa o en otra escena en 3D.</p>';
+  return `<section><h3>Fluidez del 3D</h3>${medida}${f.ligeras ? '<p class="note">Las sombras van en modo ligero para que el juego vaya más fluido.</p>' : ''}<p class="note">Si el aparato va lento, el juego baja la nitidez y, si hace falta, aligera las sombras él solo.</p></section>`;
+}
+
 // copiaPendiente(): ¿conviene recordar la copia de seguridad? Hay progreso (monedas ganadas o algún tema terminado) y
 // nunca se ha hecho una o la última (S.bkFecha) es de hace 30 días o más (tocaCopia, dominio/zonaAdultos.ts; fase A6).
 export const copiaPendiente = () => tocaCopia(S.bkFecha, today(), (S.coinsTot || 0) > 0 || temasDone() > 0);
@@ -39,7 +53,7 @@ export const COPIA: PaginaAdultos = {
   icono: '💾',
   // aviso(): 1 si toca recordar la copia de seguridad (copiaPendiente), para el número del menú (fase A6).
   aviso: () => (copiaPendiente() ? 1 : 0),
-  // html(): copia de seguridad, instalar, ir a (los atajos data-go los conecta el panel) y empezar de cero.
+  // html(): copia de seguridad, instalar, la fluidez del 3D (desde la v0.2.180), ir a (los atajos data-go los conecta el panel) y empezar de cero.
   html: () => `
   <section><h3>Copia de seguridad</h3>
    <p class="note">Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia de vez en cuando.</p>
@@ -48,6 +62,7 @@ export const COPIA: PaginaAdultos = {
    <div class="row"><button id="a-bk-copy">📋 Copiar código</button><button id="a-bk-load">♻️ Recuperar con este código</button></div>
    <div id="a-bk-msg" class="note"></div></section>
   <section><h3>Instalar en el móvil o la tableta</h3>${installHTML()}</section>
+  ${fluidezHTML()}
   <section><h3>Ir a</h3><div class="row"><button data-go="map">Mapa</button><button data-go="asamblea">Asamblea</button><button data-go="jardin">Jardín de 3 años</button><button data-go="bosque">Bosque de 4 años</button><button data-go="montana">Montaña de 5 años</button><button data-go="fiestas">Días especiales</button><button data-go="tienda">Tienda</button><button data-go="casaTito">Casa de Tito</button><button data-go="album">Álbum</button><button data-go="intro">Ver el cuento del inicio</button></div>
    <div class="row"><select id="a-tema">${TEMAS.map((t) => `<option value="${t.id}">${esc(t.n)}</option>`).join('')}</select><button id="a-gotema">Ir al tema</button></div></section>
   <section><h3>Empezar de cero</h3><button id="a-reset" class="danger">Borrar todo el progreso</button><span id="a-confirm" hidden> ¿Seguro? <button id="a-yes" class="danger">Sí, borrar</button> <button id="a-no">No</button></span></section>`,

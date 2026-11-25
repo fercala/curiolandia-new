@@ -4600,6 +4600,12 @@ b42c72918406,Ordenador (Chrome o Edge):,Calculator (Chrome sau Edge):,adultos,sr
 f98179c5a893,el icono de instalar en la barra de direcciones.,pictograma de instalare din bara de adrese.,adultos,src/aplicacion/adultos/copia.ts,borrador
 3414b7942702,"Una vez instalado, se abre a pantalla completa y funciona sin internet.","Odată instalat, se deschide pe tot ecranul și funcționează fără internet.",adultos,src/aplicacion/adultos/copia.ts,borrador
 a59c8b731067,En iPhone la voz depende de las voces en español instaladas en Ajustes → Accesibilidad → Contenido leído.,"Pe iPhone, vocea depinde de vocile instalate în Configurări → Accesibilitate → Conținut vorbit.",adultos,src/aplicacion/adultos/copia.ts,borrador
+a69ea4279d9a,Fluidez del 3D,Fluiditatea 3D,adultos,src/aplicacion/adultos/copia.ts,borrador
+e3176545719e,Este aparato juega sin 3D.,Acest dispozitiv se joacă fără 3D.,adultos,src/aplicacion/adultos/copia.ts,borrador
+14e78903b775,Última medida: {n} cuadros por segundo. Nitidez: {p} %.,Ultima măsurătoare: {n} cadre pe secundă. Claritate: {p} %.,adultos,src/aplicacion/adultos/copia.ts,borrador
+a97afa46ddbe,Todavía no hay medida: se mide sola al jugar en el mapa o en otra escena en 3D.,Încă nu există o măsurătoare: se face singură când vă jucați pe hartă sau în altă scenă 3D.,adultos,src/aplicacion/adultos/copia.ts,borrador
+65e40a4166b3,"Si el aparato va lento, el juego baja la nitidez y, si hace falta, aligera las sombras él solo.","Dacă dispozitivul merge greu, jocul scade singur claritatea și, dacă e nevoie, simplifică umbrele.",adultos,src/aplicacion/adultos/copia.ts,borrador
+209d1ac8dc1c,Las sombras van en modo ligero para que el juego vaya más fluido.,"Umbrele sunt în modul ușor, ca jocul să meargă mai fluid.",adultos,src/aplicacion/adultos/copia.ts,borrador
 d77d10cc9a90,Copia y aparato,Copie și dispozitiv,adultos,src/aplicacion/adultos/copia.ts,borrador
 e5875df840b1,Copia,Copie,adultos,src/aplicacion/adultos/copia.ts,borrador
 b7a98e43db03,"Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia.",Aici apare codul de copiat sau lipește aici un cod pentru a recupera o copie.,adultos,src/aplicacion/adultos/copia.ts,borrador

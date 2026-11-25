@@ -2683,3 +2683,9 @@ Algunas cosas se arrastran. Pon el dedo en la manzana y llévala al cubo.
 El botón verde sirve para seguir. ¡Tócalo!
 Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!
 ¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!
+Fluidez del 3D
+Este aparato juega sin 3D.
+Última medida: {n} cuadros por segundo. Nitidez: {p} %.
+Todavía no hay medida: se mide sola al jugar en el mapa o en otra escena en 3D.
+Las sombras van en modo ligero para que el juego vaya más fluido.
+Si el aparato va lento, el juego baja la nitidez y, si hace falta, aligera las sombras él solo.
