@@ -6,12 +6,12 @@ Al comentar todo el código (octubre de 2026) se apuntaron estos fallos y rareza
 
 | Dónde | Qué pasa |
 |---|---|
-| juegos/comps.ts, `Excava` | Falla con más de 6 objetos (solo hay 6 posiciones). |
 | juegos/comps.ts y juegos/comps2.ts | `Atrapa`, `Excava`, `Riega`, `Frota` y `Velas` no llaman a `onRight`: no dan la moneda por acierto ni ajustan la dificultad. |
-| aplicacion/bucle.ts, `frame()` | El candado de adultos cuenta como mucho 0,25 s por fotograma (`VIVO.lockHold`): en un aparato que vaya a menos de 4 FPS (el mapa sin tarjeta gráfica va a unos 3) hay que mantenerlo pulsado más de 3 s. Visto en las pruebas de la fase 0 (B5 de `informe-b.js`, que ahora espera hasta 10 s). |
 | temas/extras.ts + temas | El cuento se añade al final de `games` al cargar: añadir un juego al final de un tema con cuento desplaza el progreso guardado del cuento (ver COMO-AGREGAR.md, receta 5). |
 
 ## Límites que conviene saber
+
+La tienda comprueba el saldo y el inventario actuales al confirmar una compra. Si otra pestaña ya notificó que el objeto es del niño, la confirmación anterior se cancela. Un vale conserva una copia de lo ofrecido para detectar cambios de texto y precio. Esto cubre confirmaciones posteriores al evento de almacenamiento. Las escrituras simultáneas anteriores a ese evento siguen requiriendo coordinación entre pestañas.
 
 - Cada camino de edad admite 12 casitas (`zonePos()` en escenas/zonas.ts) y cada casita unos 8 juegos (`st3Pos()` en mundo3d/casita3d.ts).
 - Cada habitación de la casa de Tito tiene 13 sitios (3 grandes y 5 normales en el suelo, 4 en la pared y la alfombra) más los de encima de los muebles (`SITIOS_FIJOS` y `ENCIMA` en `dominio/casaSitios.ts`). Desde la fase M2 de PLAN-CASA-MEJORA.md las cosas ya no se pisan: lo que no cabe se guarda en el baúl. Con muchas cosas, el salón se llena (unas 16) y hay que repartirlas por las habitaciones.

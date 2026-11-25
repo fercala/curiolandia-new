@@ -2349,6 +2349,9 @@ f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,trozo,src/escenas/tien
 94e40ceddf23,{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!,trozo,src/escenas/tienda.ts
 1040031103e2,{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!,trozo,src/escenas/tienda.ts
 e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,frase,src/escenas/tienda.ts
+35a57baa9b01,Ya tienes este objeto. Puedes encontrarlo en tu casa.,frase,src/escenas/tienda.ts
+b1beff242f9c,Ahora no tienes monedas suficientes para esta compra.,frase,src/escenas/tienda.ts
+9f83331cd606,Este vale ha cambiado. Mira los vales de la tienda otra vez.,frase,src/escenas/tienda.ts
 a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,frase,src/escenas/tienda.ts
 a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,frase,src/escenas/tienda.ts
 70be5fa92b88,¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.,frase,src/escenas/tienda.ts

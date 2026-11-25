@@ -2349,6 +2349,9 @@ f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,{Cosa} e deja al tău.
 94e40ceddf23,{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!,{Cosa} costă {n} {n:de}monede. Îți mai trebuie una. Jucându-te câștigi mai multe!,trozo,src/escenas/tienda.ts,borrador
 1040031103e2,{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!,{Cosa} costă {n} {n:de}monede. Îți mai trebuie {f}. Jucându-te câștigi mai multe!,trozo,src/escenas/tienda.ts,borrador
 e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,Vrei să cumperi {cosa} cu {n} {n:de}monede? Atinge verdele ca să cumperi.,frase,src/escenas/tienda.ts,borrador
+35a57baa9b01,Ya tienes este objeto. Puedes encontrarlo en tu casa.,Ai deja acest obiect. Îl găsești în casa ta.,frase,src/escenas/tienda.ts,borrador
+b1beff242f9c,Ahora no tienes monedas suficientes para esta compra.,Acum nu ai destule monede pentru această cumpărătură.,frase,src/escenas/tienda.ts,borrador
+9f83331cd606,Este vale ha cambiado. Mira los vales de la tienda otra vez.,Acest tichet s-a schimbat. Uită-te din nou la tichetele din magazin.,frase,src/escenas/tienda.ts,borrador
 a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,Ai cumpărat tichetul! {vale}. Arată-l unui adult din familie ca să-l folosești.,frase,src/escenas/tienda.ts,borrador
 a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,E al tău! Uite ce frumos îi stă lui Tito!,frase,src/escenas/tienda.ts,borrador
 70be5fa92b88,¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.,E al tău! Este în cufăr. Atinge căsuța de sus ca să-l vezi.,frase,src/escenas/tienda.ts,borrador

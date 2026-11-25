@@ -491,6 +491,10 @@ export const ESCENAS_RO: Readonly<Record<string, string>> = {
   '¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.':
     'Ai cumpărat tichetul! {vale}. Arată-l unui adult din familie ca să-l folosești.',
   '¡Es tuyo! ¡Mira qué bonito le queda a Tito!': 'E al tău! Uite ce frumos îi stă lui Tito!',
+  'Ya tienes este objeto. Puedes encontrarlo en tu casa.': 'Ai deja acest obiect. Îl găsești în casa ta.',
+  'Ahora no tienes monedas suficientes para esta compra.': 'Acum nu ai destule monede pentru această cumpărătură.',
+  'Este vale ha cambiado. Mira los vales de la tienda otra vez.':
+    'Acest tichet s-a schimbat. Uită-te din nou la tichetele din magazin.',
   '¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.':
     'E al tău! Este în cufăr. Atinge căsuța de sus ca să-l vezi.',
   // mundo3d: los carteles y lo que se dice al tocar el cielo

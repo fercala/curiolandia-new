@@ -244,7 +244,7 @@ export function catalogo(raiz: string): Frase[] {
 }
 
 // campoCsv(v): un campo del CSV, entre comillas si lleva coma, comillas o salto de línea.
-const campoCsv = (v: string): string => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
+const campoCsv = (v: string): string => (/[",\r\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
 
 /** csv(frases): el texto de dialogos/todos.csv: cabecera id,texto,tipo,donde y una fila por frase. */
 export function csv(frases: readonly Frase[]): string {

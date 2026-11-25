@@ -11,6 +11,12 @@ const RAIZ = join(import.meta.dirname, '..', '..');
 // Por debajo de este número de frases, el catálogo ha dejado de encontrar textos (hoy hay unas 2500).
 const MIN_FRASES = 2000;
 
+test('el CSV conserva comas, comillas y retornos de carro dentro de una frase', () => {
+  const frases = [{ id: 'prueba', texto: 'Hola\radiós', tipo: 'frase' as const, donde: ['src/prueba.ts'] }];
+  expect(csv(frases)).toContain('prueba,"Hola\radiós",frase,src/prueba.ts');
+  expect(csv([{ ...frases[0], texto: 'Tito dice: "hola, Lupi"' }])).toContain('"Tito dice: ""hola, Lupi"""');
+});
+
 test('dialogos/todos.csv está al día con el código (si no: npm run dialogos)', () => {
   const frases = catalogo(RAIZ);
   expect(frases.length).toBeGreaterThan(MIN_FRASES);

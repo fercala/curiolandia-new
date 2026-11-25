@@ -226,8 +226,7 @@ const R = L.registro('informe-b');
       const esc = await p.evaluate(() => __cl.name);
       if (esc !== 'map') return 'sigue en ' + esc;
       // el candado sigue funcionando: mantenerlo pulsado hasta que se abra la zona de adultos (máximo 10 s). El juego
-      // cuenta como mucho 0,25 s por fotograma (lockHold en frame()), así que sin tarjeta gráfica (el mapa a unos 3 FPS)
-      // hacen falta más de los 3 s de un aparato normal.
+      // cuenta tiempo real incluso a pocos FPS; el margen incluye el coste de pintar el mapa sin tarjeta gráfica.
       const [a, c] = await p.evaluate(() => [OX + 1546 * SC, OY + 852 * SC]);
       await p.mouse.move(a, c);
       await p.mouse.down();

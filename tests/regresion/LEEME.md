@@ -20,7 +20,7 @@ Todas reciben como primer argumento la carpeta de la web montada: `dist` despué
 | `ampliada.js <web> [filtro]` | B8–B14, recompensas interrumpidas, armario, arrastres reales, validación de copias, reinicio, 36 combinaciones de ajustes y control de regar manteniendo el arrastre. | unos minutos |
 | `guardado-viejo.js <web>` | Clave de guardado propia y copia única de la partida de curiolandia-3d: se copia, la propia manda, no vuelve tras «Borrar todo», la Voz de Fer pasa a voz del navegador y una partida vieja rota no impide jugar. Termina con 1 si algo falla. | 30 s |
 | `fps.js <web>` | Fotogramas por segundo del mapa, una casita, el cuento y un juego, para [docs/LINEA-BASE.md](../../docs/LINEA-BASE.md). Medir sin otras pruebas en marcha. | 25 s |
-| `cobertura.js <web> [filtro]` | Dos pestañas, salidas alternativas del repaso, reloj a 10 FPS, premios diario/cumpleaños, vales desactivados o editados, canje, Escape y arranque cacheado sin conexión. Guarda resultados después de cada caso. | unos minutos |
+| `cobertura.js <web> [filtro]` | Dos pestañas, salidas alternativas del repaso, reloj a 10 FPS, premios diario/cumpleaños, vales desactivados o editados, canje, candado a dos FPS, Escape y arranque cacheado sin conexión. Guarda resultados después de cada caso. | unos minutos |
 
 `lib.js` tiene lo común (servidor, abrir el juego con una fecha y hora fijas, tocar siguiendo la ayuda, registro de hallazgos) y `espia.js` el espía del audio.
 

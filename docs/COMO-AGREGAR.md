@@ -153,7 +153,7 @@ games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tu
 | `Memoria` | Parejas de cartas | `pool, pairs, intro` |
 | `Cuenta` | Contar y elegir el número | `pool, max, rounds` |
 | `Puzzle` | Rompecabezas | `list` |
-| `Excava` | Frotar la arena para descubrir (máx. 6) | `pool, n, cover, under` |
+| `Excava` | Frotar la arena para descubrir (cuadrícula adaptable al pedir más de 6) | `pool, n, cover, under` |
 | `Riega` | Regar macetas | `n, colors` |
 | `Pinta` | Elegir el color y pintar | `items:[[clave, color]]` |
 | `Secuencia` | Ordenar viñetas | `panels` o `sets, ask, okAll, first` |

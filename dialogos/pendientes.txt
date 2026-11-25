@@ -2462,3 +2462,7 @@ Ya no caben más tarjetas. Pulsa «¡Vamos!».
 Primero pon alguna flecha para Tito.
 ¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!
 ¡Qué bien programas! Tito se ha comido todas las fresas.
+
+Ya tienes este objeto. Puedes encontrarlo en tu casa.
+Ahora no tienes monedas suficientes para esta compra.
+Este vale ha cambiado. Mira los vales de la tienda otra vez.

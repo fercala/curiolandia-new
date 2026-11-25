@@ -2098,8 +2098,8 @@ export function Puzzle(cfg: Config, onDone: AlTerminar): Juego {
 
 /* ---------- cavar en la arena ---------- */
 // COMPONENTE Excava: frotar la arena con el dedo para descubrir cosas
-// escondidas. cfg: pool (claves), n (cuántas, 4-6 según la edad; como mucho 6,
-// que son las posiciones), cover/cover2 (colores de la arena), under (color
+// escondidas. cfg: pool (claves), n (cuántas, 4-6 según la edad; una cuadrícula
+// adapta las posiciones si se piden más de 6), cover/cover2 (colores de la arena), under (color
 // del fondo), intro, bg. Una estrella por cosa descubierta.
 export function Excava(cfg: Config, onDone: AlTerminar): Juego {
   const A = { x: 330, y: 180, w: 1180, h: 640 },
@@ -2119,16 +2119,39 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego {
     g.arc(azar() * cnv.width, azar() * cnv.height, rnd(1, 3), 0, PI * 2);
     g.fill();
   }
-  const pos = shuffle([
-    [0.17, 0.28],
-    [0.5, 0.25],
-    [0.83, 0.28],
-    [0.17, 0.74],
-    [0.5, 0.72],
-    [0.83, 0.74],
-  ]);
+  const columnas = Math.ceil(Math.sqrt((list.length * A.w) / A.h)),
+    filas = Math.ceil(list.length / columnas);
+  const pos = shuffle(
+    list.length > 6
+      ? Array.from({ length: list.length }, (_, i) => [
+          ((i % columnas) + 0.5) / columnas,
+          (Math.floor(i / columnas) + 0.5) / filas,
+        ])
+      : [
+          [0.17, 0.28],
+          [0.5, 0.25],
+          [0.83, 0.28],
+          [0.17, 0.74],
+          [0.5, 0.72],
+          [0.83, 0.74],
+        ],
+  );
   const objs = list.map((k, i) => ({ k, x: A.x + A.w * pos[i][0], y: A.y + A.h * pos[i][1], found: 0 }));
-  const digs: number[][] = [];
+  // Cada agujero borra un círculo de radio 58. Agruparlos por celdas de ese tamaño permite consultar solo
+  // las nueve celdas vecinas, sin recorrer todo el trazo del dedo en cada punto de comprobación.
+  const radio = 58,
+    digs = new Map<string, Map<string, readonly [number, number]>>();
+  // excavado(x, y): si un agujero del trazo cubre el punto, con el mismo radio que usa el lienzo.
+  const excavado = (x: number, y: number): boolean => {
+    const columna = Math.floor(x / radio),
+      fila = Math.floor(y / radio);
+    for (let i = columna - 1; i <= columna + 1; i++)
+      for (let j = fila - 1; j <= fila + 1; j++) {
+        const celda = digs.get(i + ':' + j);
+        if (celda) for (const [dx, dy] of celda.values()) if ((x - dx) ** 2 + (y - dy) ** 2 < radio ** 2) return true;
+      }
+    return false;
+  };
   return {
     total: objs.length,
     done: 0,
@@ -2147,16 +2170,22 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego {
     },
     // Cava un agujero en (x,y) y comprueba cada cosa cercana: mira 36 puntos a su
     // alrededor (12 ángulos x 3 radios); si más de la mitad están cerca de algún
-    // agujero (digs), la cosa queda descubierta: estrella, se limpia del todo su
+    // agujero (excavado), la cosa queda descubierta: estrella, se limpia del todo su
     // zona y Tito la nombra. Al encontrar todas, onDone.
     dig(x: number, y: number) {
       if (x < A.x || x > A.x + A.w || y < A.y || y > A.y + A.h) return;
       g.globalCompositeOperation = 'destination-out';
       g.beginPath();
-      g.arc((x - A.x) * sc, (y - A.y) * sc, 58 * sc, 0, PI * 2);
+      g.arc((x - A.x) * sc, (y - A.y) * sc, radio * sc, 0, PI * 2);
       g.fill();
       g.globalCompositeOperation = 'source-over';
-      digs.push([x, y]);
+      const clave = Math.floor(x / radio) + ':' + Math.floor(y / radio);
+      let celda = digs.get(clave);
+      if (!celda) {
+        celda = new Map();
+        digs.set(clave, celda);
+      }
+      celda.set(x + ':' + y, [x, y]);
       if (azar() < 0.4) {
         SFX.dig();
         parts.push({
@@ -2180,7 +2209,7 @@ export function Excava(cfg: Config, onDone: AlTerminar): Juego {
             n++;
             const px = o.x + Math.cos((a * PI) / 6) * rr,
               py = o.y + Math.sin((a * PI) / 6) * rr;
-            if (digs.some(([dx, dy]) => dist(px, py, dx, dy) < 58)) c++;
+            if (excavado(px, py)) c++;
           }
         if (c / n > 0.5) {
           o.found = T;

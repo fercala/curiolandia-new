@@ -89,6 +89,7 @@ cv.addEventListener('pointerdown', (e) => {
   if (dist(x, y, 1546, 852) < 50 && sceneName !== 'title') {
     VIVO.lockDown = true;
     VIVO.lockHold = 0;
+    VIVO.lockPrev = performance.now();
     return;
   } // solo el candado dibujado (drawLock): antes, un rectángulo más grande tapaba el centro del botón de saltar el cuento
   if (VIVO.fade > 0.6 || !scene) return;
@@ -220,7 +221,9 @@ export function frame(now: number) {
   }
   if (vencio) VIVO.timers = VIVO.timers.filter((t) => !t.done);
   if (VIVO.lockDown) {
-    VIVO.lockHold += Math.min(0.25, (now - VIVO.lockPrev) / 1000);
+    // Cuenta el tiempo real desde la pulsación también a pocos FPS. Una pausa larga aporta como máximo
+    // un segundo, igual que el reloj de sesión, para que volver de otra aplicación no abra el panel de golpe.
+    VIVO.lockHold += Math.min(1, Math.max(0, (now - VIVO.lockPrev) / 1000));
     if (VIVO.lockHold >= 3) openAdult();
   }
   VIVO.lockPrev = now; // en tiempo real, no de juego (dt tiene tope)

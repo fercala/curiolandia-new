@@ -1642,6 +1642,7 @@ const temas = (n) => {
 
   await caso('C44', 'Confirmar una compra antigua respeta el saldo y los cambios de la familia', async (p) => {
     const resultado = await p.evaluate(() => {
+      window.__said = [];
       S.coins = 100;
       S.owned.hamster = 1;
       S.mascotas.hamster = { nombre: 'Nube', dias: 9, dia: '2026-10-21', hechos: [] };
@@ -1660,13 +1661,51 @@ const temas = (n) => {
       const editado = [S.coins, S.valesLog.length];
       S.vales = [vale];
       tienda.buy({ id: 'vale:prueba', p: 10, vale });
-      return { mascota, saldo, editado, valida: [S.coins, S.valesLog.length] };
+      return { mascota, saldo, editado, valida: [S.coins, S.valesLog.length], avisos: window.__said.join('|') };
     });
     if (resultado.mascota.join() !== '100,Nube,9')
       return 'se volvió a comprar la mascota: ' + JSON.stringify(resultado);
     if (resultado.saldo.join() !== '0,false') return 'compra sin saldo: ' + JSON.stringify(resultado);
     if (resultado.editado.join() !== '100,0') return 'vale editado: ' + JSON.stringify(resultado);
+    if (
+      !resultado.avisos.includes('Ya tienes este objeto.') ||
+      !resultado.avisos.includes('Ahora no tienes monedas suficientes') ||
+      !resultado.avisos.includes('Este vale ha cambiado.')
+    )
+      return 'faltan avisos: ' + resultado.avisos;
     return resultado.valida.join() === '90,1' ? null : 'vale vigente: ' + JSON.stringify(resultado);
+  });
+
+  await caso('C45', 'Excavar admite más de seis objetos y termina una sola vez', async (p) => {
+    for (const n of [4, 6, 7, 12]) {
+      const resultado = await p.evaluate((n) => {
+        __cl.go('casaTito', {});
+        window.__excavaFin = 0;
+        const juego = Excava(
+          {
+            pool: Array(n).fill('moneda'),
+            n,
+            bg: () => {},
+          },
+          () => window.__excavaFin++,
+        );
+        juego.draw();
+        const primero = juego.hint();
+        for (let i = 0; i < 20; i++) juego.dig(primero.x, primero.y);
+        if (juego.done !== 0) return 'repetir un agujero cuenta como descubrir';
+        for (let i = 0; i < n; i++) {
+          const h = juego.hint();
+          if (!h || !Number.isFinite(h.x) || !Number.isFinite(h.y)) return 'falta una posición';
+          for (let dx = -90; dx <= 90; dx += 30) for (let dy = -90; dy <= 90; dy += 30) juego.dig(h.x + dx, h.y + dy);
+        }
+        juego.draw();
+        return juego.done === n && juego.hint() === null ? null : 'descubiertos ' + juego.done;
+      }, n);
+      if (resultado) return n + ' objetos: ' + resultado;
+      await p.waitForFunction(() => window.__excavaFin === 1);
+      await p.waitForTimeout(650);
+      if ((await p.evaluate(() => window.__excavaFin)) !== 1) return 'se repite el final';
+    }
   });
 
   R.guardar();

@@ -355,6 +355,31 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       },
     );
     await test(
+      'candado-2fps',
+      'El candado exige tres segundos continuos también a dos FPS',
+      async (p) => {
+        await p.evaluate(() => __cl.go('casaTito', {}));
+        await p.waitForFunction(() => VIVO.fade === 0);
+        const [x, y] = await p.evaluate(() => [OX + 1546 * SC, OY + 852 * SC]);
+        await p.mouse.move(x, y);
+        await p.mouse.down();
+        await p.waitForTimeout(1200);
+        await p.mouse.up();
+        await p.mouse.down();
+        await p.waitForTimeout(1800);
+        const antes = await p.evaluate(() => document.getElementById('adult').hidden);
+        await p.waitForFunction(() => !document.getElementById('adult').hidden, null, { timeout: 2700 });
+        await p.mouse.up();
+        return { fail: !antes, cerradoAntesDeTresSegundos: antes };
+      },
+      {
+        antes: () => {
+          window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 500);
+          window.cancelAnimationFrame = clearTimeout;
+        },
+      },
+    );
+    await test(
       'reloj-normal-control',
       'Control: el reloj cuenta el tiempo de la pestaña sin ralentización artificial',
       async (p) => {
