@@ -31,6 +31,9 @@ npm run test:humo
 npm run test:pr
 ```
 
+GitHub Actions solo pasa las pruebas rápidas (comentarios, formato, lint, tipos y Vitest). `test:humo` y `test:pr`
+(o los dos juntos, `npm run test:local`) se pasan en local antes de cada PR, y la PR dice que han pasado.
+
 `npm ci` activa los ganchos de Git mediante `prepare`. En Windows, las herramientas que invocan `sh` o `python3` necesitan esos ejecutables; indicar un problema de entorno como tal. No copiar el gancho de inicio de `.claude/`, sus rutas Linux ni sus opciones de navegador a una configuración de Codex.
 
 Si hay cambios de texto:

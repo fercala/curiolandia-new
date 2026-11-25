@@ -36,7 +36,7 @@ Características técnicas:
 ├── tests/              humo.js, comentarios.py y regresion/ (ver tests/regresion/LEEME.md)
 ├── dialogos/           catálogo de frases (todos.csv, sale del código) y frases nuevas o cambiadas (pendientes.txt)
 ├── docs/               esta documentación y el plan de migración
-├── .github/workflows/  web.yml: pruebas en cada PR y publicación desde main
+├── .github/workflows/  web.yml: pruebas rápidas en cada PR y publicación desde main
 ├── package.json        versión, órdenes (`npm run ...`) y herramientas: Vite, TypeScript, Vitest, Playwright
 ├── vite.config.mts, index.html  Vite; index.html es solo la entrada, la página la monta el plugin
 ├── herramientas/       vite/curiolandia.mts (el montaje), git-hooks/ (ganchos de commit), analisis/ y dialogos/ (catálogo de frases), idiomas/ (lista de trabajo para traducir)
@@ -506,7 +506,7 @@ contraste de «Volver al juego» y del foco pasa de 4,5 : 1. La copia de segurid
 ```
 src/head.html + src/modulos.ts (rolldown) + public/ ──Vite + herramientas/vite/curiolandia.mts──> dist/
   (index.html con Three.js dentro, sw.js, manifest.webmanifest, fuentes, iconos)
-main ──GitHub Actions (.github/workflows/web.yml)──> pruebas ──> dist/ en GitHub Pages
+main ──GitHub Actions (.github/workflows/web.yml)──> pruebas rápidas ──> dist/ en GitHub Pages
 ```
 
 `npm run build` hace el primer paso; `npm run dev` sirve lo mismo sin service worker y recarga al guardar. Nadie copia archivos a mano ni los sube montados: al fusionar en `main`,
@@ -518,7 +518,7 @@ el workflow monta, prueba y publica.
 
 No hay tests unitarios. Se prueba de dos maneras:
 - **A mano**: abrir el juego con un servidor local (`python3 -m http.server`) y jugar.
-- **Automática**: `node tests/humo.js dist` abre el juego en un navegador sin ventana, recorre las escenas de día y de noche, guarda capturas en `tests/capturas/` y falla si hay errores de JavaScript. Las pruebas de regresión de `tests/regresion/` juegan como un niño; en cada PR, GitHub Actions pasa `npm run test:pr` (ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md) y [LINEA-BASE.md](LINEA-BASE.md)).
+- **Automática**: `node tests/humo.js dist` abre el juego en un navegador sin ventana, recorre las escenas de día y de noche, guarda capturas en `tests/capturas/` y falla si hay errores de JavaScript. Las pruebas de regresión de `tests/regresion/` juegan como un niño; se pasan en local con `npm run test:pr` (o `npm run test:local`, con humo) antes de cada PR: GitHub Actions solo pasa las rápidas (ver [CONTRATO-PRUEBAS.md](CONTRATO-PRUEBAS.md) y [LINEA-BASE.md](LINEA-BASE.md)).
 
 Para pruebas desde la consola del navegador, el juego expone `window.__cl` (escenas, `go`, `S`...) y `window.__w3` (mundo 3D, `pickAt`, `proj`). Con `window.__fast = 1` la voz no espera al audio, y `window.__said` guarda lo que va diciendo Tito.
 

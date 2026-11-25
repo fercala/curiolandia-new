@@ -54,10 +54,14 @@ npm run dialogos             # rehace el catálogo de frases dialogos/todos.csv
 npm run tipos                # TypeScript estricto (el juego, el montaje y las pruebas .ts)
 npm run test:unidad          # Vitest (tests/unidad)
 npm run test:humo            # escenas de día y de noche sin errores
-npm run test:pr              # lo que pasa GitHub Actions en cada PR (unos minutos)
+npm run test:pr              # las regresiones de Playwright (unos 25 minutos), solo en local
+npm run test:local           # test:humo y test:pr: antes de pedir la fusión, en local
 ```
 Las pruebas de Playwright, de una en una (a la vez bajan los FPS y fallan). Para publicar, sube `version` en
-`package.json` (es el nombre de la caché del service worker) y fusiona en `main`: `.github/workflows/web.yml` monta, prueba y publica en GitHub Pages.
+`package.json` (es el nombre de la caché del service worker) y fusiona en `main`: `.github/workflows/web.yml` monta, pasa las pruebas rápidas y publica en GitHub Pages.
+**GitHub solo pasa las pruebas rápidas** (comentarios, formato, lint, tipos y Vitest): las de Playwright gastaban los
+minutos gratis (Fernando, 25 de noviembre de 2026), así que `npm run test:local` se pasa en local antes de cada PR y se
+dice en la PR que ha pasado.
 Lo que las pruebas leen del juego (`window.__cl`) está en [docs/CONTRATO-PRUEBAS.md](docs/CONTRATO-PRUEBAS.md): no lo rompas.
 
 ## Reglas

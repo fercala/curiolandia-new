@@ -36,7 +36,7 @@ node tests/regresion/audio-espera.js dist 0 1
 
 Las pruebas terminan con 0 aunque encuentren algo (apuntan hallazgos). Para saber si han pasado, `comprobar.js` lee sus
 resultados y termina con 1 si hay hallazgos: `node tests/regresion/comprobar.js informe-b voces`. Es lo que hace
-`npm run test:pr`, que pasa GitHub Actions en cada PR (informe-b, voces, casa, guardado-viejo, una octava parte de
+`npm run test:pr`, que desde la v0.2.181 se pasa solo en local, antes de cada PR, con `npm run test:local` (junto con humo; GitHub Actions ya no lo pasa porque gastaba los minutos gratis) (informe-b, voces, casa, guardado-viejo, una octava parte de
 los juegos, `juegos.js dist 0 8 90`, y, desde la fase A1 de docs/PLAN-MENU-ADULTOS.md, adultos, y desde la fase P1 de docs/IDEAS-MEJORA.md, cole).
 
 Necesitan Playwright con Chromium: `npm ci && npx playwright install chromium` (la versión está fijada en `package.json`). En un ordenador lento o con varias pruebas a la vez, el juego va a pocos fotogramas por segundo y algunos juegos pueden no terminar en el tiempo dado: repite esos con más segundos y un solo trabajador antes de darlos por fallidos.
