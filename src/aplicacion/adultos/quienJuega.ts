@@ -1,7 +1,7 @@
 // adultos/quienJuega.ts: página «Quién juega» de la zona de adultos (fase A1 de docs/PLAN-MENU-ADULTOS.md): nombre,
 // edad y cumpleaños (antes, la sección «Perfil» de aplicacion/adultos.ts). Guarda en S.name, S.age, S.bday y S.bdayDone.
 // Desde la v0.2.180 (idea 38 de docs/IDEAS-MEJORA.md), también «Varios niños»: los perfiles (aplicacion/perfiles.ts).
-import { MESES, S, VIVO, fmtHtml, save } from '../../nucleo/indice.ts';
+import { MESES, S, VIVO, fmt, fmtHtml, hecho, save } from '../../nucleo/indice.ts';
 import { buscador, esc, radios } from './comun.ts';
 import type { AccionesPagina, PaginaAdultos } from './tipos.ts';
 import { anadirNino, cambiarAPerfil, leerPerfiles } from '../perfiles.ts';
@@ -16,7 +16,7 @@ function htmlPerfiles(): string {
    ${ind.lista
      .map(
        (p) =>
-         `<div class="row"><span>${esc(p.nombre || '—')}${p.edad ? ' · ' + fmtHtml('{n} años', { n: p.edad }) : ''}</span>${
+         `<div class="row"><span>${hecho(esc(p.nombre || '—') + (p.edad ? ' · ' + fmt('{n} años', { n: p.edad }) : ''))}</span>${
            p.id === ind.activo
              ? '<b>Juega ahora</b>'
              : `<button class="btn" data-perfil="${p.id}">Jugar con este perfil</button>`
