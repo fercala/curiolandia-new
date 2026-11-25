@@ -50,7 +50,7 @@ const R = L.registro('camino');
       R.apuntar(id + '-quien', 'alta', 'Tras el nombre no empieza el cuento', { escena: await esc() });
     // 4. Cuento: a los 3 años se escucha entero (tocando para avanzar), a los 4 y 5 se salta con el botón
     if (edad === 3) {
-      // desde la v0.2.180, el cuento entero lleva a los primeros pasos guiados (idea 45): se saltan con su botón
+      // desde la v0.2.181, el cuento entero lleva a los primeros pasos guiados (idea 45): se saltan con su botón
       let ok = await L.conducir(p, () => ['map', 'primerosPasos'].includes(__cl.name), 60000, { real: true, azar: 1 });
       if (ok && (await esc()) === 'primerosPasos') {
         await L.clic(p, 1470, 790);

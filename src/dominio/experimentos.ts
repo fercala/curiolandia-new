@@ -1,6 +1,6 @@
 /*
  * dominio/experimentos.ts: las reglas del taller de experimentos del cole (idea 30 de docs/IDEAS-MEJORA.md, en la PR de
- * todas las ideas pendientes, v0.2.180): mezclar colores, los imanes, las sombras, el ciclo del agua y la semilla que
+ * todas las ideas pendientes, v0.2.181): mezclar colores, los imanes, las sombras, el ciclo del agua y la semilla que
  * crece con los días de verdad (con la regla común de dominio/crecer.ts y lo guardado en S.crece, con el id de
  * SEMILLA). Las escenas, en escenas/experimentos.ts.
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/experimentos.test.ts.

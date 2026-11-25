@@ -143,7 +143,7 @@ const ESCENAS = [
   ['tren'], // P28: el viaje en tren alrededor de la isla, en 3D
   ['linterna'], // P29: la linterna de noche, de acampada
   ['programa'], // P32: «Programa a Tito», el rincón de la lógica, en 3D
-  ['diario', {}], // v0.2.180: las escenas de las ideas pendientes (29 a 47)
+  ['diario', {}], // v0.2.181: las escenas de las ideas pendientes (29 a 47)
   ['rinconLogica', {}],
   ['logicaSudoku', {}],
   ['logicaFalta', {}],

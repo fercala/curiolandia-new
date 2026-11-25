@@ -297,7 +297,7 @@ export function frame(now: number) {
   }
   if (sceneName !== 'title') drawLock();
   hoverTick(dt);
-  // Transición entre escenas (un tercio de segundo, VIVO.fade de 1 a 0). Desde la v0.2.180 (idea 44 de
+  // Transición entre escenas (un tercio de segundo, VIVO.fade de 1 a 0). Desde la v0.2.181 (idea 44 de
   // docs/IDEAS-MEJORA.md), un iris: un círculo que se abre desde el centro sobre la escena nueva, con el resto de
   // color papel y un borde marrón, en vez del velo que se desvanecía.
   if (VIVO.fade > 0) dibujaIris(VIVO.fade);

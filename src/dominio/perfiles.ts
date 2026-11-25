@@ -1,6 +1,6 @@
 /*
  * dominio/perfiles.ts: las reglas de los perfiles, varios niños en el mismo móvil (idea 38 de docs/IDEAS-MEJORA.md, en
- * la PR de todas las ideas pendientes, v0.2.180). Hasta tres perfiles (A, B y C), cada uno con su nombre, su edad y su
+ * la PR de todas las ideas pendientes, v0.2.181). Hasta tres perfiles (A, B y C), cada uno con su nombre, su edad y su
  * partida entera. La partida del perfil que juega sigue siempre en la clave de guardado de siempre (nucleo/guardado.ts,
  * KEY), así que la partida de hoy pasa a ser el perfil A sin migrar nada; las de los demás esperan en su propia clave
  * (claveDePerfil). El índice de perfiles va aparte, en CLAVE_PERFILES. Si no hay índice, hay un solo perfil: el de hoy.

@@ -1,6 +1,6 @@
 /*
  * escenas/arte.ts: el estudio de arte de las clases del cole (idea 31 de docs/IDEAS-MEJORA.md, en la PR de todas las
- * ideas pendientes, v0.2.180). SCENES.estudioArte es su menú (desde el rincón del arte de escenas/clases.ts) con dos
+ * ideas pendientes, v0.2.181). SCENES.estudioArte es su menú (desde el rincón del arte de escenas/clases.ts) con dos
  * juegos:
  * - arteSimetria: la pintura simétrica: se elige un color y se pintan casillas (tocando o arrastrando); la otra mitad
  *   sale igual, como en un espejo. «Colgar en la casa» lo guarda (S.arte.cuadro) y se ve en la pared del salón de la

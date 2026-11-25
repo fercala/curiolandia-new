@@ -1,6 +1,6 @@
 /*
  * dominio/calidad.ts: la calidad automática del 3D (idea 47 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180). Cada cuatro segundos la capa 3D mide los cuadros por segundo (mundo3d/motor.ts, fpsTick) y esta
+ * pendientes, v0.2.181). Cada cuatro segundos la capa 3D mide los cuadros por segundo (mundo3d/motor.ts, fpsTick) y esta
  * regla dice qué hacer: si va lento (menos de 24), primero baja la nitidez (la resolución, PRK, hasta la mitad) y, si ya
  * está al mínimo y sigue lento, pasa a sombras ligeras (se recalculan de vez en cuando, no en cada cuadro). Si va
  * sobrado (55 o más) y nunca volvió a ir lento tras subir, la nitidez vuelve a subir; las sombras ligeras se quedan.

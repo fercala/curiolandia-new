@@ -1,4 +1,4 @@
-// Fichas del último tema en la zona de adultos: dibuja e imprime en el navegador sin guardar datos. Desde la v0.2.180
+// Fichas del último tema en la zona de adultos: dibuja e imprime en el navegador sin guardar datos. Desde la v0.2.181
 // (idea 40 de docs/IDEAS-MEJORA.md), además de colorear y contar, la de trazos (líneas de preescritura y el nombre en
 // letras de puntos) y la de recortar y pegar (los dibujos del tema y sus sombras).
 import { PICS } from '../../dibujos/todos.ts';

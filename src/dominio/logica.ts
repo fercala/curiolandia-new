@@ -1,6 +1,6 @@
 /*
  * dominio/logica.ts: las reglas de los juegos del rincón de la lógica (idea 29 de docs/IDEAS-MEJORA.md, en la PR de
- * todas las ideas pendientes, v0.2.180): el sudoku de dibujos, ¿qué falta?, las diferencias, la balanza y el tangram.
+ * todas las ideas pendientes, v0.2.181): el sudoku de dibujos, ¿qué falta?, las diferencias, la balanza y el tangram.
  * Cada juego se prepara con la edad y un azar (para que las pruebas lo repitan) y se comprueba aquí; las escenas, en
  * escenas/logica.ts. Cada juego terminado da 2 monedas (MONEDAS.juegoRepetido).
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/logica.test.ts.

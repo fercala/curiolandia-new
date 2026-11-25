@@ -193,7 +193,7 @@ export function montarCofre3D(): void {
       titoRect(W3!.tito!);
     },
     // draw(): cada cuadro: ratón sobre el cofre, apertura (this.op), el premio que sale, los toques que faltan (3 círculos) y botones;
-    // desde la v0.2.180 (idea 42), la fiesta de confeti con Lupi y Polly al abrirse (escenas/fiesta.ts)
+    // desde la v0.2.181 (idea 42), la fiesta de confeti con Lupi y Polly al abrirse (escenas/fiesta.ts)
     draw() {
       const w = W3;
       if (w && w.kind === 'cofre') titoRect(w.tito!);

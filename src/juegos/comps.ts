@@ -650,7 +650,7 @@ export function ChoiceGame(cfg: Config, onDone: AlTerminar): Juego {
   };
 }
 // COMPONENTE Busca: "¿Dónde está...?". Usa ChoiceGame.
-// cfg: items (claves o {k}), bg, estilo (el id del tema: su adorno, desde la v0.2.180), rounds (por defecto nRounds()), key, ask(k)
+// cfg: items (claves o {k}), bg, estilo (el id del tema: su adorno, desde la v0.2.181), rounds (por defecto nRounds()), key, ask(k)
 // (pregunta propia), okSay(w), sound (si true, suena SOUNDS[k] al preguntar).
 // Cada ronda busca el siguiente de la lista barajada entre nOpts() opciones.
 // Lo crea makeGame para {t:'busca'} con las palabras del tema.
@@ -659,7 +659,7 @@ export function Busca(cfg: Config, onDone: AlTerminar): Juego {
   const pool: Cosa[] = cfg.items.map((i: Libre) => i.k || i),
     R = cfg.rounds || nRounds();
   let order = shuffle(pool);
-  // desde la v0.2.180 (idea 46), el adorno del tema flota por el fondo (cfg.estilo: el id del tema; dominio/variedad.ts)
+  // desde la v0.2.181 (idea 46), el adorno del tema flota por el fondo (cfg.estilo: el id del tema; dominio/variedad.ts)
   const adorno = estiloDe(cfg.estilo).adorno;
   return ChoiceGame(
     {
@@ -750,7 +750,7 @@ export function Sonido(cfg: Config, onDone: AlTerminar): Juego {
 // cuando se han visto todas se llama onDone. No hay fallos.
 // cfg: items (claves o {k, say, label, snd, draw, ex, bg}: say = frase, label =
 // texto debajo, snd = sonido propio, draw = dibujo propio, ex = lista de
-// ejemplos pequeños), bg, intro (frase inicial) y, desde la v0.2.180 (idea 46), estilo (el id del tema: cómo entran
+// ejemplos pequeños), bg, intro (frase inicial) y, desde la v0.2.181 (idea 46), estilo (el id del tema: cómo entran
 // las tarjetas, su color y el adorno del fondo; dominio/variedad.ts y juegos/adornos.ts).
 // Lo crea makeGame para {t:'conocer'} con las palabras del tema (t.words).
 export function Conocer(cfg: Config, onDone: AlTerminar): Juego {
@@ -758,7 +758,7 @@ export function Conocer(cfg: Config, onDone: AlTerminar): Juego {
   // una partida anterior seguirían ahí al repetir sin recargar y el juego no se podría terminar.
   const items = cfg.items.map((o: Libre) => Object.assign({}, typeof o === 'string' ? { k: o } : o, { seen: 0 })),
     n = items.length,
-    // desde la v0.2.180 (idea 46), el estilo del tema (cfg.estilo, su id): cómo entran las tarjetas, su color y el adorno
+    // desde la v0.2.181 (idea 46), el estilo del tema (cfg.estilo, su id): cómo entran las tarjetas, su color y el adorno
     estilo = estiloDe(cfg.estilo);
   // Cuadrícula: columnas según el número de tarjetas y tamaño s que quepa en
   // la zona de 1220x660; luego se centra cada fila (la última puede ir incompleta).

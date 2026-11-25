@@ -1,6 +1,6 @@
 /*
  * escenas/corral.ts: el corral de Tito, su granja propia junto a la casa (idea 33 de docs/IDEAS-MEJORA.md, en la PR de
- * todas las ideas pendientes, v0.2.180), SCENES.corral. Se entra desde su botón en la casa de Tito
+ * todas las ideas pendientes, v0.2.181), SCENES.corral. Se entra desde su botón en la casa de Tito
  * (escenas/casaExtras.ts), que sale después de ir a la granja escuela. Cada animal tiene un bocadillo con lo que pide
  * hoy; se toca la cosa (abajo: el trigo, el cubo de agua o el cepillo) y luego el animal. Si era lo que pedía, da su
  * producto, que va a la cesta. Con «Vender» se venden los productos (1 moneda cada uno) y con monedas se compran la

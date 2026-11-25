@@ -62,7 +62,7 @@ antes. Si un módulo deja de exportar una de ellas, la prueba que la lee falla c
 Cuentas sacadas con `grep` sobre `tests/` el 24 de octubre de 2026 (fase 0). En la fase 2a, `talking`, `fade`, `sessionT`,
 `minuteAcc` y `MX` pasaron a `VIVO` y `camino.js` envuelve `go` con `ponGo`.
 
-### Las ideas pendientes (v0.2.180)
+### Las ideas pendientes (v0.2.181)
 
 `ideas.js` entra con `__cl.go` en las escenas nuevas (de `diario` a `misiones`) y espera con `VIVO.fade`. En «Jugar juntos» lee `JUNTOS.p.cartas`, `JUNTOS.tapando` y `JUNTOS.fin`, y toca cada carta con `cartaJuntos(i, n)`; comprueba `S.coins` y `S.diario[today()]`. En los primeros pasos toca la estrella (1050, 430) y espera `ESTADO_PASOS.paso`, y busca la frase en `window.__said`. En la zona de adultos usa `openAdult('resumen' | 'copia' | 'progreso')`, `closeAdult()`, `#a-informe`, los títulos «La semana» y «Fluidez del 3D» (y su rumano) y el botón `data-ficha="trazos"`, con el mismo cuadro de impresión sustituido que `actividades-extras.js`. Al final lee la partida de `localStorage` con `KEY`. Desde la misma versión, `cole.js` (P38) entra en «Programa a Tito» por el menú del rincón de la lógica (`rinconLogica`), tocando su primera tarjeta con `tarjetaRincon(0)`. `camino.js` salta los primeros pasos con su botón (1470, 790) cuando el cuento termina entero.
 

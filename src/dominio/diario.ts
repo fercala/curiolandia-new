@@ -1,6 +1,6 @@
 /*
  * dominio/diario.ts: las reglas del diario de Tito (idea 35 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180). Cada cosa que el niño y Tito hacen juntos (terminar un juego de una casita, una excursión, un
+ * pendientes, v0.2.181). Cada cosa que el niño y Tito hacen juntos (terminar un juego de una casita, una excursión, un
  * cuento, un juego del cole...) se apunta con una clave en el día de hoy; el diario lo enseña como un libro, una página
  * por día, con una frase entera y un dibujo por cosa. Se guardan los últimos 14 días con algo apuntado. Las mismas
  * claves sirven para las misiones del día (dominio/misiones.ts).

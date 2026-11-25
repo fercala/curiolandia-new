@@ -1,6 +1,6 @@
 /*
  * escenas/logica.ts: el rincón de la lógica de las clases del cole (idea 29 de docs/IDEAS-MEJORA.md, en la PR de todas
- * las ideas pendientes, v0.2.180). SCENES.rinconLogica es su menú (desde el rincón de la lógica de escenas/clases.ts):
+ * las ideas pendientes, v0.2.181). SCENES.rinconLogica es su menú (desde el rincón de la lógica de escenas/clases.ts):
  * «Programa a Tito» (mundo3d/programa3d.ts, si hay 3D) y cinco juegos en 2D, cada uno su escena:
  * - logicaSudoku: el sudoku de dibujos (3x3 o 4x4): se toca una fruta de abajo y luego su hueco.
  * - logicaFalta: ¿qué falta?: se miran unos dibujos, una cortina los tapa, se quita uno y se elige cuál falta.

@@ -1042,7 +1042,7 @@ export function montarMapa3D(): void {
       drawCoinHUD();
       dibujaCamara(); // desde la fase P15, la cámara de fotos
       dibujaBotonAventura(); // desde la P16, la gran aventura de Tito
-      dibujaEncargo(); // desde la v0.2.180, el encargo del día (idea 34, escenas/encargos.ts)
+      dibujaEncargo(); // desde la v0.2.181, el encargo del día (idea 34, escenas/encargos.ts)
       dibujaBotonMisiones(); // y las misiones del día (idea 36, escenas/misiones.ts)
       if (VIVO.talking) {
         const tp = titoPos(),
@@ -1067,7 +1067,7 @@ export function montarMapa3D(): void {
       // desde la fase P15, el botón de la cámara; con ella encendida, un toque hace una foto (y no se va a ningún sitio)
       if (tocarBotonCamara(x, y)) return;
       if (tocarBotonAventura(x, y)) return; // desde la P16, el botón de la gran aventura
-      if (tocaEncargo(x, y)) return; // desde la v0.2.180, el encargo del día
+      if (tocaEncargo(x, y)) return; // desde la v0.2.181, el encargo del día
       if (tocaBotonMisiones(x, y)) return; // y las misiones del día
       if (camaraActiva()) {
         if (!fotoEnMundo(w, x, y)) disparoVacio(x, y);

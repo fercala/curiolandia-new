@@ -1,6 +1,6 @@
 /*
  * escenas/modoReto.ts: el modo reto de las casitas (idea 32 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180). En una casita con todos los juegos terminados sale el botón «Modo reto» (debajo del de los
+ * pendientes, v0.2.181). En una casita con todos los juegos terminados sale el botón «Modo reto» (debajo del de los
  * cuentos, BOTON_RETO); al activarlo, VIVO.RETO es el id del tema y los juegos salen más difíciles (nOpts y nRounds,
  * nucleo/interfaz.ts) y sin ayudas (la escena 'juego', escenas/escenas2d.ts). Cada juego superado en modo reto da una
  * estrella dorada (S.reto), que se ve en la casita junto a su número. Las reglas, en dominio/reto.ts.

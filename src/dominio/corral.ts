@@ -1,6 +1,6 @@
 /*
  * dominio/corral.ts: las reglas del corral de Tito, la granja propia junto a su casa (idea 33 de docs/IDEAS-MEJORA.md,
- * en la PR de todas las ideas pendientes, v0.2.180). Se abre después de la excursión a la granja escuela y empieza con
+ * en la PR de todas las ideas pendientes, v0.2.181). Se abre después de la excursión a la granja escuela y empieza con
  * una gallina; con monedas se compran la vaca y la oveja. Cada día, cada animal pide una cosa (comida, agua o que lo
  * cepillen: sale de la fecha, para que sea la misma todo el día); al dársela, da su producto (un huevo, leche o queso),
  * una vez al día. Los productos se venden en el mercado del corral por 1 moneda cada uno.

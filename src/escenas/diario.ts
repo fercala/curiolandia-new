@@ -1,6 +1,6 @@
 /*
  * escenas/diario.ts: el diario de Tito (idea 35 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes,
- * v0.2.180). apuntarDiario(clave) apunta en el día de hoy lo que el niño y Tito acaban de hacer juntos (lo llaman al
+ * v0.2.181). apuntarDiario(clave) apunta en el día de hoy lo que el niño y Tito acaban de hacer juntos (lo llaman al
  * terminar un juego de una casita, una excursión, un cuento, los juegos del cole, el corral...); SCENES.diario es el
  * libro (desde su botón en la casa de Tito, escenas/casaExtras.ts): una página por día, de la más nueva a la más
  * vieja, con un dibujo y una frase por cosa, que Tito lee. Al entrar en el mapa el primer día después de haber jugado,

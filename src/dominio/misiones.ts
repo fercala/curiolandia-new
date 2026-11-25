@@ -1,6 +1,6 @@
 /*
  * dominio/misiones.ts: las reglas de las misiones del día y la semana temática (idea 36 de docs/IDEAS-MEJORA.md, en la
- * PR de todas las ideas pendientes, v0.2.180). Cada día hay tres misiones cortas (la primera, siempre terminar un juego
+ * PR de todas las ideas pendientes, v0.2.181). Cada día hay tres misiones cortas (la primera, siempre terminar un juego
  * de una casita; las otras dos salen de la fecha) que se cumplen solas con lo que se apunta en el diario de Tito
  * (dominio/diario.ts, las mismas claves). Al cumplir las tres, 5 monedas una vez al día; los viernes, además, la
  * pegatina de la semana. Cada semana tiene un tema (el mar, los bichos, la granja, el espacio) que sale en las misiones.

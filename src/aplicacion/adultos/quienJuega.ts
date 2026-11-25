@@ -1,13 +1,13 @@
 // adultos/quienJuega.ts: página «Quién juega» de la zona de adultos (fase A1 de docs/PLAN-MENU-ADULTOS.md): nombre,
 // edad y cumpleaños (antes, la sección «Perfil» de aplicacion/adultos.ts). Guarda en S.name, S.age, S.bday y S.bdayDone.
-// Desde la v0.2.180 (idea 38 de docs/IDEAS-MEJORA.md), también «Varios niños»: los perfiles (aplicacion/perfiles.ts).
+// Desde la v0.2.181 (idea 38 de docs/IDEAS-MEJORA.md), también «Varios niños»: los perfiles (aplicacion/perfiles.ts).
 import { MESES, S, VIVO, fmt, fmtHtml, hecho, save } from '../../nucleo/indice.ts';
 import { buscador, esc, radios } from './comun.ts';
 import type { AccionesPagina, PaginaAdultos } from './tipos.ts';
 import { anadirNino, cambiarAPerfil, leerPerfiles } from '../perfiles.ts';
 import { MAX_PERFILES } from '../../dominio/perfiles.ts';
 
-// htmlPerfiles(): la sección «Varios niños» (idea 38 de docs/IDEAS-MEJORA.md, v0.2.180): los perfiles, con un botón
+// htmlPerfiles(): la sección «Varios niños» (idea 38 de docs/IDEAS-MEJORA.md, v0.2.181): los perfiles, con un botón
 // para jugar con cada uno de los que no juegan, y, si caben más, el formulario para añadir otro (nombre y edad).
 function htmlPerfiles(): string {
   const ind = leerPerfiles();

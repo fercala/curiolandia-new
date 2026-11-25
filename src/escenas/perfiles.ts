@@ -1,6 +1,6 @@
 /*
  * escenas/perfiles.ts: «¿Quién juega?» con varios niños (idea 38 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180), SCENES.perfiles. Si hay más de un perfil, al empezar a jugar desde la portada sale una
+ * pendientes, v0.2.181), SCENES.perfiles. Si hay más de un perfil, al empezar a jugar desde la portada sale una
  * tarjeta por niño (Tito, su nombre y su edad); al tocar la del que ya juega se sigue, y al tocar otra se cambia de
  * perfil (la página se recarga con su partida, aplicacion/perfiles.ts). Los perfiles se añaden en la zona de adultos
  * («Quién juega»).

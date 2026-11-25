@@ -1,5 +1,5 @@
 // adultos/informe.ts: el informe semanal para la familia en el Resumen de la zona de adultos (idea 41 de
-// docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.180): los minutos y los días que ha jugado en los
+// docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.181): los minutos y los días que ha jugado en los
 // últimos siete días, qué ha hecho (lo apuntado en el diario de Tito, S.diario), lo que mejor se le da, lo que más le
 // cuesta con una idea para reforzarlo en casa, y un botón para compartirlo con la profe (con el menú de compartir del
 // móvil o, si no lo hay, copiado para pegarlo en un mensaje). Las reglas, en dominio/informe.ts.

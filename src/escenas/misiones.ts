@@ -1,6 +1,6 @@
 /*
  * escenas/misiones.ts: las misiones del día y la semana temática (idea 36 de docs/IDEAS-MEJORA.md, en la PR de todas las
- * ideas pendientes, v0.2.180). En el mapa hay un botón con una lista (MISIONES_BOTON, debajo del encargo) que abre
+ * ideas pendientes, v0.2.181). En el mapa hay un botón con una lista (MISIONES_BOTON, debajo del encargo) que abre
  * SCENES.misiones: el tema de la semana y las tres misiones de hoy, con una marca verde en las cumplidas (se cumplen
  * solas con lo que se apunta en el diario de Tito). Al volver al mapa con las tres cumplidas, Tito lo celebra con 5
  * monedas (y los viernes, la pegatina de la semana), una vez al día. Las reglas, en dominio/misiones.ts; lo guardado,

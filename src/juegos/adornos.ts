@@ -1,5 +1,5 @@
 // juegos/adornos.ts: lo que flota por el fondo de «conocer» y «busca» según el estilo del tema, y cómo entran sus
-// tarjetas (idea 46 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.180). El estilo de cada tema
+// tarjetas (idea 46 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.181). El estilo de cada tema
 // lo dice dominio/variedad.ts (estiloDe).
 // Exporta: dibujaAdorno y entradaTarjeta. Importa: el dibujo del núcleo.
 /* eslint-disable ts-patterns/no-magic-numbers -- posiciones, tamaños y tiempos del dibujo en la pantalla de 1600x900. */

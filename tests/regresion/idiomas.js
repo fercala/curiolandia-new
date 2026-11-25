@@ -171,7 +171,7 @@ const ESCENAS_RO = [
   'linterna',
   // desde la P32, «Programa a Tito» (3D, ligero: un tablero)
   'programa',
-  // desde la v0.2.180, las escenas de las ideas pendientes (29 a 47 de docs/IDEAS-MEJORA.md)
+  // desde la v0.2.181, las escenas de las ideas pendientes (29 a 47 de docs/IDEAS-MEJORA.md)
   'diario',
   'rinconLogica',
   'logicaSudoku',

@@ -1,5 +1,5 @@
 /*
- * idiomas/ro/ideas.ts: los textos en rumano de la PR de todas las ideas pendientes (v0.2.180, docs/IDEAS-MEJORA.md):
+ * idiomas/ro/ideas.ts: los textos en rumano de la PR de todas las ideas pendientes (v0.2.181, docs/IDEAS-MEJORA.md):
  * el rincón de la lógica, el diario de Tito, el taller de experimentos, el estudio de arte, el modo reto, el corral de
  * Tito, los encargos de los vecinos, las misiones del día, los perfiles, «Jugar juntos» y lo demás. Borrador de Claude
  * para que lo revise una persona que hable rumano (docs/PLAN-IDIOMAS.md, ID9). Va del texto en castellano, tal como
@@ -7,7 +7,7 @@
  * Exporta: IDEAS_RO. No importa nada.
  */
 
-/** Los textos de las ideas de la v0.2.180, del castellano al rumano. */
+/** Los textos de las ideas de la v0.2.181, del castellano al rumano. */
 export const IDEAS_RO: Readonly<Record<string, string>> = {
   // el diario de Tito (idea 35)
   'Terminamos un juego en una casita y ganamos una estrella.':

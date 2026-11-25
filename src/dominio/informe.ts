@@ -1,6 +1,6 @@
 /*
  * dominio/informe.ts: las reglas del informe semanal para la familia (idea 41 de docs/IDEAS-MEJORA.md, en la PR de todas
- * las ideas pendientes, v0.2.180). Con lo que ya guarda la partida (los minutos de cada día, S.days; el diario de Tito,
+ * las ideas pendientes, v0.2.181). Con lo que ya guarda la partida (los minutos de cada día, S.days; el diario de Tito,
  * S.diario; y los aciertos de cada habilidad, S.stats) resume los últimos siete días: minutos jugados, días que ha
  * jugado, qué ha hecho (cuántas veces cada cosa del diario), lo que mejor se le da y lo que más le cuesta. La página la
  * pinta en el Resumen de la zona de adultos (aplicacion/adultos/informe.ts), con un botón para compartirlo con la profe.

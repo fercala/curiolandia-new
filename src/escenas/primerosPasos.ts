@@ -1,6 +1,6 @@
 /*
  * escenas/primerosPasos.ts: los primeros pasos guiados (idea 45 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180), SCENES.primerosPasos. La primera vez, cuando el cuento del principio (SCENES.intro,
+ * pendientes, v0.2.181), SCENES.primerosPasos. La primera vez, cuando el cuento del principio (SCENES.intro,
  * escenas/escenas2d.ts) termina entero, Tito enseña a jugar en cuatro pasos cortos antes de ir al mapa: tocar (la
  * estrella), arrastrar (la manzana al cubo), el botón verde de seguir y tocar a Tito para que repita lo que hay que
  * hacer. Cada paso se celebra y pasa solo al siguiente; el botón de abajo a la derecha (como el del cuento) lo salta.

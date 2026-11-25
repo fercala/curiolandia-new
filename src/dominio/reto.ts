@@ -1,6 +1,6 @@
 /*
  * dominio/reto.ts: las reglas del modo reto de las casitas (idea 32 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180). Cuando se han terminado todos los juegos de una casita, se puede activar el modo reto: cada
+ * pendientes, v0.2.181). Cuando se han terminado todos los juegos de una casita, se puede activar el modo reto: cada
  * juego sale con la dificultad más alta (el máximo de opciones y una ronda más que al repetir) y sin ayudas, y al
  * terminarlo da una estrella dorada (la primera vez de cada juego, con 3 monedas más).
  * Lo guardado va en S.reto ({ [tema]: [juegos con estrella dorada] }): opcional, sin migración.

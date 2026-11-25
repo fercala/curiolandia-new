@@ -228,7 +228,7 @@ export function camTick(w: Mundo, dt: number) {
 }
 
 // calidad adaptable: si el aparato no llega a ~24 cuadros por segundo en 3D, se baja la resolución y, ya al mínimo, las
-// sombras pasan a ser ligeras (desde la v0.2.180, idea 47: la regla está en dominio/calidad.ts, ajustarCalidad);
+// sombras pasan a ser ligeras (desde la v0.2.181, idea 47: la regla está en dominio/calidad.ts, ajustarCalidad);
 // debajo de 20 cuadros el juego entero va más lento porque el paso de tiempo está topado en 0,05 s
 // FPS = {n: cuadros contados, t0: inicio de la medida, last: último cuadro, up: ya se subió la calidad, noUp: no volver a
 // subirla, medido: los cuadros por segundo de la última medida (la zona de adultos los enseña), ligeras: sombras ligeras}.

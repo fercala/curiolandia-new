@@ -1,6 +1,6 @@
 /*
  * escenas/experimentos.ts: el taller de experimentos de las clases del cole (idea 30 de docs/IDEAS-MEJORA.md, en la PR
- * de todas las ideas pendientes, v0.2.180). SCENES.taller es su menú (desde el rincón de las ciencias de
+ * de todas las ideas pendientes, v0.2.181). SCENES.taller es su menú (desde el rincón de las ciencias de
  * escenas/clases.ts) con cinco experimentos, cada uno su escena:
  * - expColores: se tocan dos botes de pintura y se mezclan en el cuenco; hay que descubrir las tres mezclas.
  * - expImanes: con cada objeto, se dice antes si el imán lo atraerá («se pega» o «no se pega») y luego se prueba.

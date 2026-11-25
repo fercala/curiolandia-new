@@ -3,7 +3,7 @@
 // familia (cada uno con un botón a su página), lo que sigue en el camino (suggestTema, escenas/zonas.ts) y los atajos
 // más usados. Las reglas (vales por entregar) están en dominio/zonaAdultos.ts. Desde la fase P4 de docs/IDEAS-MEJORA.md,
 // «Reto en casa»: el reto sin pantalla que propuso Tito (S.retos, dominio/retos.ts) y el botón para marcarlo como hecho
-// (Tito lo celebra con una pegatina al volver al mapa). Desde la v0.2.180 (idea 41), «La semana», el informe semanal
+// (Tito lo celebra con una pegatina al volver al mapa). Desde la v0.2.181 (idea 41), «La semana», el informe semanal
 // para la familia (adultos/informe.ts).
 import { IDIOMA, S, STARS, fmt, fmtHtml, hecho, save, temasDone, today, tr } from '../../nucleo/indice.ts';
 import { suggestTema } from '../../escenas/zonas.ts';
@@ -94,7 +94,7 @@ export const RESUMEN: PaginaAdultos = {
   corto: 'Resumen',
   icono: '🏠',
   // html(): «Hoy», «Avisos» (si hay; sus botones data-ir los conecta el panel), «Reto en casa» (desde la fase P4), «La
-  // semana» (el informe semanal, desde la v0.2.180),
+  // semana» (el informe semanal, desde la v0.2.181),
   // «Lo que sigue» (si queda algún tema en el camino) y los atajos (data-go, también del panel).
   html() {
     const sug = suggestTema(),

@@ -20,7 +20,7 @@
 //   escenas/casaAlbum.ts, casaMascotas.ts, casaReacciones.ts, lo de la casa de escenas/tienda.ts y, desde la fase M2,
 //   aplicacion/casa.ts (los casos de uso de la casa ordenada), dominio/casaSitios.ts y escenas/casaBaul.ts; desde la
 //   P14 de IDEAS-MEJORA.md, el botón de la vitrina de escenas/tesoros.ts, y desde la P15, el del álbum de fotos de
-//   escenas/fotos.ts; desde la PR de todas las ideas pendientes (v0.2.180), los botones de escenas/casaExtras.ts y el cuadro
+//   escenas/fotos.ts; desde la PR de todas las ideas pendientes (v0.2.181), los botones de escenas/casaExtras.ts y el cuadro
 //   del estudio de arte (escenas/arte.ts).
 import { K } from '../dibujos/todos.ts';
 import {

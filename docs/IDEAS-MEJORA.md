@@ -538,20 +538,20 @@ Fernando pide también «mejor calidad». Son cambios más pequeños que se nota
 | 26 | La gran aventura (capítulos) ⭐ | Más profundos | L | Opcional |
 | 27 | Cuentos con decisiones | Más profundos | M | Hecha: biblioteca de tres cuentos con finales que se descubren (P33, v0.2.179) |
 | 28 | Programa a Tito | Más profundos | M | Hecha: tablero 3D en el rincón de la lógica del cole (P32, v0.2.178) |
-| 29 | Rincón de lógica (6) | Más profundos | S cada uno | Hecha: cinco juegos en 2D en el rincón de la lógica (P34, v0.2.180) |
-| 30 | Taller de experimentos | Más profundos | M | Hecha: el taller con cinco experimentos (P34, v0.2.180) |
-| 31 | Arte y música | Más profundos | M | Hecha: pintura de espejo y canción del xilófono (P34, v0.2.180) |
-| 32 | Modo reto | Más profundos | S–M | Hecha: estrella dorada en cada juego de una casita terminada (P34, v0.2.180) |
-| 33 | La granja de Tito | Mundo vivo | L | Hecha: el corral de Tito en la casa (P34, v0.2.180) |
-| 34 | Encargos de los vecinos | Mundo vivo | M | Hecha: un encargo al día en el mapa (P34, v0.2.180) |
-| 35 | El diario de Tito | Mundo vivo | S–M | Hecha (P34, v0.2.180) |
-| 36 | Misiones del día | Mundo vivo | S | Hecha: tres misiones al día y la semana temática (P34, v0.2.180) |
+| 29 | Rincón de lógica (6) | Más profundos | S cada uno | Hecha: cinco juegos en 2D en el rincón de la lógica (P34, v0.2.181) |
+| 30 | Taller de experimentos | Más profundos | M | Hecha: el taller con cinco experimentos (P34, v0.2.181) |
+| 31 | Arte y música | Más profundos | M | Hecha: pintura de espejo y canción del xilófono (P34, v0.2.181) |
+| 32 | Modo reto | Más profundos | S–M | Hecha: estrella dorada en cada juego de una casita terminada (P34, v0.2.181) |
+| 33 | La granja de Tito | Mundo vivo | L | Hecha: el corral de Tito en la casa (P34, v0.2.181) |
+| 34 | Encargos de los vecinos | Mundo vivo | M | Hecha: un encargo al día en el mapa (P34, v0.2.181) |
+| 35 | El diario de Tito | Mundo vivo | S–M | Hecha (P34, v0.2.181) |
+| 36 | Misiones del día | Mundo vivo | S | Hecha: tres misiones al día y la semana temática (P34, v0.2.181) |
 | 37 | Retos en casa ⭐ | Familia | S | Hecha (P4, v0.2.105) |
-| 38 | Perfiles | Familia | M | Hecha: hasta tres niños (P34, v0.2.180) |
-| 39 | Jugar juntos | Familia | M | Hecha: las parejas por turnos (P34, v0.2.180) |
-| 40 | Fichas para imprimir | Familia | M | Hecha: colorear, contar, trazos y recortar (P34, v0.2.180) |
-| 41 | Informe semanal | Familia | S | Hecha: «La semana» en el Resumen (P34, v0.2.180) |
-| 42–47 | Pulir lo que ya hay | Calidad | S–M | Hechas en versión sencilla (P34, v0.2.180) |
+| 38 | Perfiles | Familia | M | Hecha: hasta tres niños (P34, v0.2.181) |
+| 39 | Jugar juntos | Familia | M | Hecha: las parejas por turnos (P34, v0.2.181) |
+| 40 | Fichas para imprimir | Familia | M | Hecha: colorear, contar, trazos y recortar (P34, v0.2.181) |
+| 41 | Informe semanal | Familia | S | Hecha: «La semana» en el Resumen (P34, v0.2.181) |
+| 42–47 | Pulir lo que ya hay | Calidad | S–M | Hechas en versión sencilla (P34, v0.2.181) |
 
 **Recomendación (primer paquete).** Empezar por lo que más cambia el juego con menos riesgo, en este orden:
 
@@ -619,7 +619,7 @@ Una idea (o una fase de una idea grande) por PR, en este orden. Lo de cada fase 
 | P31 | Los amigos de Tito en 3D (idea 25), como recortables: Lupi y Polly pasean por el mapa y saludan cuando Tito se acerca (`mundo3d/amigos3d.ts`; lo que dicen y guardan, `escenas/amigos.ts`; reglas en `dominio/amigos.ts`, `S.amigos`). Cada día uno ha perdido algo (la pelota, la bufanda, las gafas o el gorro) y lleva una exclamación encima: al tocarlo pide ayuda y dice cerca de dónde fue; lo perdido aparece en ese rincón y, al recogerlo, se le devuelve (2 monedas). Pipo sigue junto a la casa. Quedan para más adelante que los amigos vayan a las carreras, al escondite y de visita a la casa. | 25 | ✅ v0.2.177 |
 | P32 | Programa a Tito (idea 28), en el rincón de la lógica de las clases del cole: un tablero 3D visto desde arriba con Tito y la fresa; el niño pone tarjetas en orden (avanzar, girar y, con 5 años, «por dos») y Tito las sigue; la tarjeta que falla sale roja y se quita tocándola. Con 3 años solo avanzar, con 4 giros, con 5 rocas; tres tableros dan 2 monedas (`mundo3d/programa3d.ts`, reglas en `dominio/programa.ts`). | 28 | ✅ v0.2.178 |
 | P33 | Cuentos en los que el niño decide (idea 27), sobre la primera historia de las actividades opcionales: el botón de la casita abre una biblioteca con «La bellota perdida», «El regalo de Lupi» y «El barquito de papel»; se decide tocando una de dos tarjetas con dibujo, todos los finales son buenos y cada final nuevo da 2 monedas y se apunta (`escenas/cuentoDecisiones.ts`, cuentos en `contenido/cuentosDecisiones.ts`, reglas en `dominio/cuentosDecisiones.ts`, `S.cuentosDec`). | 27 | ✅ v0.2.179 |
-| P34 | Todas las ideas pendientes juntas, en una sola PR (Fernando, 25 de noviembre de 2026), cada una en una versión sencilla y con su rumano: el rincón de la lógica con cinco juegos en 2D (29, `escenas/logica.ts`), el taller de experimentos (30, `escenas/experimentos.ts`), el estudio de arte con el cuadro en el salón (31, `escenas/arte.ts`, `S.arte`), el modo reto con estrellas doradas (32, `escenas/modoReto.ts`, `S.reto`), el corral de Tito (33, `escenas/corral.ts`, `S.corral`), los encargos de los vecinos (34, `escenas/encargos.ts`, `S.encargos`), el diario de Tito (35, `escenas/diario.ts`, `S.diario`), las misiones del día y la semana temática (36, `escenas/misiones.ts`, `S.misiones`), varios niños en el mismo móvil (38, `aplicacion/perfiles.ts`), «Jugar juntos» (39, `escenas/juntos.ts`), las fichas de trazos y de recortar (40), el informe semanal (41, `aplicacion/adultos/informe.ts`), la fiesta del cofre (42, `escenas/fiesta.ts`), los sonidos de ambiente (43, `escenas/ambiente.ts`), la transición en iris (44), los primeros pasos guiados (45, `escenas/primerosPasos.ts`), el estilo de cada tema en «conocer» y «busca» (46, `juegos/adornos.ts`) y la calidad automática con sombras ligeras (47, `dominio/calidad.ts`). Reglas en `src/dominio/`, con sus pruebas de Vitest; recorrido en `tests/regresion/ideas.js`. | 29–36, 38–47 | ✅ v0.2.180 |
+| P34 | Todas las ideas pendientes juntas, en una sola PR (Fernando, 25 de noviembre de 2026), cada una en una versión sencilla y con su rumano: el rincón de la lógica con cinco juegos en 2D (29, `escenas/logica.ts`), el taller de experimentos (30, `escenas/experimentos.ts`), el estudio de arte con el cuadro en el salón (31, `escenas/arte.ts`, `S.arte`), el modo reto con estrellas doradas (32, `escenas/modoReto.ts`, `S.reto`), el corral de Tito (33, `escenas/corral.ts`, `S.corral`), los encargos de los vecinos (34, `escenas/encargos.ts`, `S.encargos`), el diario de Tito (35, `escenas/diario.ts`, `S.diario`), las misiones del día y la semana temática (36, `escenas/misiones.ts`, `S.misiones`), varios niños en el mismo móvil (38, `aplicacion/perfiles.ts`), «Jugar juntos» (39, `escenas/juntos.ts`), las fichas de trazos y de recortar (40), el informe semanal (41, `aplicacion/adultos/informe.ts`), la fiesta del cofre (42, `escenas/fiesta.ts`), los sonidos de ambiente (43, `escenas/ambiente.ts`), la transición en iris (44), los primeros pasos guiados (45, `escenas/primerosPasos.ts`), el estilo de cada tema en «conocer» y «busca» (46, `juegos/adornos.ts`) y la calidad automática con sombras ligeras (47, `dominio/calidad.ts`). Reglas en `src/dominio/`, con sus pruebas de Vitest; recorrido en `tests/regresion/ideas.js`. | 29–36, 38–47 | ✅ v0.2.181 |
 | Después | Ya no queda ninguna idea del banco por hacer: lo siguiente es mejorar lo que se ha hecho en versión sencilla (por ejemplo, la casa 3D de M4 y M5 cuando se mida el móvil, ahora con «Fluidez del 3D»). | — | — |
 
 ### Primera entrega de actividades opcionales

@@ -1,6 +1,6 @@
 // sonido.ts: efectos, sonidos de animales y vehículos, y música. Todo se genera con Web Audio (no hay archivos de efectos).
 //   AC, FX, MUS, initSonido(), setVol(), tone(), noise(), syn(), SFX, SOUNDS, ONO, playSound(), MUSIC, musKey,
-//   ponMusica(), musicTick(), ponAmbiente() (desde la v0.2.180, idea 43: los sonidos de ambiente de cada sitio).
+//   ponMusica(), musicTick(), ponAmbiente() (desde la v0.2.181, idea 43: los sonidos de ambiente de cada sitio).
 // La voz (say, voces grabadas) está en voz.ts; initAudio() (voz.ts) desbloquea la voz y llama a initSonido().
 import { S } from './guardado.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
@@ -368,7 +368,7 @@ const MUSIC: Record<string, Musica> = {
   casita: { s: [0, 2, 4, 5, 7, 9], b: 62, sp: 0.48 },
   game: { s: [0, 2, 4, 5, 7, 9], b: 60, sp: 0.48 },
   book: { s: [0, 3, 5, 7, 10], b: 57, sp: 0.6 },
-  // desde la v0.2.180 (idea 43), la música propia de algunos sitios (dominio/ambiente.ts): el mar y el bosque
+  // desde la v0.2.181 (idea 43), la música propia de algunos sitios (dominio/ambiente.ts): el mar y el bosque
   mar: { s: [0, 2, 4, 7, 9], b: 67, sp: 0.62 },
   bosque: { s: [0, 3, 5, 7, 10], b: 59, sp: 0.55 },
 };
@@ -438,7 +438,7 @@ function ambienteTick(): void {
 // musicTick(): se llama en cada cuadro desde frame(). Programa con 0,3 s de antelación las notas que tocan (así el ritmo no
 // depende de los cuadros por segundo): una melodía de 16 pasos que recorre la escala y, cada 8 pasos, una nota grave larga.
 // Algunas notas se saltan al azar para que no suene siempre igual.
-// Desde la v0.2.180 (idea 43), también los sonidos de ambiente (ambienteTick), con el volumen de la música.
+// Desde la v0.2.181 (idea 43), también los sonidos de ambiente (ambienteTick), con el volumen de la música.
 export function musicTick(): void {
   if (!AC || S.vol.mus <= 0) return;
   ambienteTick();

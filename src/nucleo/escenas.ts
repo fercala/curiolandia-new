@@ -71,7 +71,7 @@ export function ponRepOn(v: boolean): void {
 // Es let y no function porque las pruebas la envuelven con ponGo (tests/regresion/camino.js; hasta la fase 4k también la
 // capa 3D, mundo3d/interaccion.ts).
 // AL_ENTRAR: lo que se avisa cada vez que se entra en una escena (después de su enter), con su nombre. Desde la PR de
-// todas las ideas pendientes (v0.2.180): los encargos de los vecinos (escenas/encargos.ts) se entregan al llegar.
+// todas las ideas pendientes (v0.2.181): los encargos de los vecinos (escenas/encargos.ts) se entregan al llegar.
 export const AL_ENTRAR: ((nombre: string) => void)[] = [];
 export let go = (n: string, o: OpcionesEscena = {}): void => {
   if (REP_ON && ((n !== 'juego' && n !== 'casita') || o.hello)) REP_ON = false;

@@ -1,6 +1,6 @@
 /*
  * aplicacion/perfiles.ts: los casos de uso de los perfiles, varios niños en el mismo móvil (idea 38 de
- * docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.180). Lee y guarda el índice de perfiles y las
+ * docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.181). Lee y guarda el índice de perfiles y las
  * partidas de los que no juegan con el puerto de guardado (leerGuardado, escribirGuardado); las reglas, en
  * dominio/perfiles.ts.
  * Cambiar de perfil: la partida de ahora se guarda en la clave de su perfil, la del otro (o una nueva, si nunca ha

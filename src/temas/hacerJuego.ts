@@ -56,7 +56,7 @@ function juegoDelPueblo(g: Libre, t: Libre, items: unknown[], onDone: AlTerminar
 }
 
 // juegoDePalabras(g, t, onDone): el juego g que trae su propia fábrica (g.make) o que se arma con las palabras del tema
-// t (t.words): Conocer, Busca o Memoria; undefined si no es ninguno de ellos. Desde la v0.2.180 (idea 46), Conocer y
+// t (t.words): Conocer, Busca o Memoria; undefined si no es ninguno de ellos. Desde la v0.2.181 (idea 46), Conocer y
 // Busca reciben el id del tema como estilo, para que cada tema tenga su cara (dominio/variedad.ts).
 function juegoDePalabras(g: Libre, t: Libre, onDone: AlTerminar): Juego | undefined {
   if (g.make) return g.make(onDone, t);

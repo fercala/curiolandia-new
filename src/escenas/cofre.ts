@@ -236,7 +236,7 @@ SCENES.cofre = {
     if (id === 'cf:seguir') say('Seguir el camino.');
   },
   // draw(): fondo con estrellas, cofre (op crece desde openT), el regalo que sube con un rebote (back) y su nombre, los 3
-  // puntos de toques y, al final, los botones "casa de Tito" y "seguir". Desde la v0.2.180 (idea 42), al abrirse, la
+  // puntos de toques y, al final, los botones "casa de Tito" y "seguir". Desde la v0.2.181 (idea 42), al abrirse, la
   // fiesta de confeti con Lupi y Polly (escenas/fiesta.ts).
   draw() {
     sky('#FFE9C2', '#FFD7E4');

@@ -502,7 +502,7 @@ SCENES.quien = {
 
 /* ---------- INTRO (cuento) ---------- */
 // INTRO: el cuento del principio, en 4 frases (this.ph = frase actual). Al acabar, o al tocar el botón de saltar,
-// marca S.intro = true para no repetirlo y va al mapa (desde la v0.2.180, si termina entero, antes a los primeros pasos
+// marca S.intro = true para no repetirlo y va al mapa (desde la v0.2.181, si termina entero, antes a los primeros pasos
 // guiados de escenas/primerosPasos.ts).
 SCENES.intro = {
   music: 'title',
@@ -515,7 +515,7 @@ SCENES.intro = {
   },
   // next(): dice la frase this.ph y, cuando termina de hablar (callback de say) y pasan 0,7 s, pasa a la siguiente.
   // En la frase 1 lanza los 16 interrogantes. Cuando ya no quedan frases guarda S.intro y va a los primeros pasos
-  // guiados (desde la v0.2.180; antes, al mapa).
+  // guiados (desde la v0.2.181; antes, al mapa).
   next() {
     // la presentación cambia con el personaje de Tito (zona de adultos); la del caracol es la de siempre
     const lines = [
@@ -533,7 +533,7 @@ SCENES.intro = {
     if (this.ph >= lines.length) {
       S.intro = true;
       save();
-      // desde la v0.2.180 (idea 45), el cuento entero lleva a los primeros pasos guiados (escenas/primerosPasos.ts)
+      // desde la v0.2.181 (idea 45), el cuento entero lleva a los primeros pasos guiados (escenas/primerosPasos.ts)
       go('primerosPasos');
       return;
     }

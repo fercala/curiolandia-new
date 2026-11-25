@@ -1,6 +1,6 @@
 /*
  * escenas/fiesta.ts: la fiesta al abrir el cofre del tesoro (idea 42 de docs/IDEAS-MEJORA.md, en la PR de todas las
- * ideas pendientes, v0.2.180): durante los primeros segundos después de abrirlo caen confeti y serpentinas por toda la
+ * ideas pendientes, v0.2.181): durante los primeros segundos después de abrirlo caen confeti y serpentinas por toda la
  * pantalla, y Lupi y Polly vienen a los lados a aplaudir dando saltitos. Es solo dibujo, sin estado: lo pinta el cofre 2D
  * (escenas/cofre.ts) y el 3D (mundo3d/cofre3d.ts) a partir del momento en que se abrió (openT).
  * Exporta: DURA_FIESTA y dibujaFiesta.

@@ -1,6 +1,6 @@
 /*
  * dominio/juntos.ts: las reglas de «Jugar juntos», el juego de las parejas por turnos para dos (idea 39 de
- * docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.180): un niño y un adulto, o dos hermanos. Las
+ * docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.181): un niño y un adulto, o dos hermanos. Las
  * cartas están boca abajo; cada jugador da la vuelta a dos: si son pareja, se quedan boca arriba, se las apunta y sigue;
  * si no, se vuelven a tapar y le toca al otro. Cuando no quedan cartas, han terminado juntos.
  * Es una regla pura, sin dibujo ni S. Pruebas: tests/unidad/juntos.test.ts.

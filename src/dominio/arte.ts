@@ -1,6 +1,6 @@
 /*
  * dominio/arte.ts: las reglas del estudio de arte del cole (idea 31 de docs/IDEAS-MEJORA.md, en la PR de todas las
- * ideas pendientes, v0.2.180): la pintura simétrica (una cuadrícula de LADO x LADO: lo que se pinta en una mitad sale
+ * ideas pendientes, v0.2.181): la pintura simétrica (una cuadrícula de LADO x LADO: lo que se pinta en una mitad sale
  * igual, como en un espejo, en la otra) y la canción (ocho huecos con notas de un xilófono de cinco láminas). El cuadro
  * terminado se cuelga en el salón de la casa de Tito y la canción suena al tocarlo. Las escenas, en escenas/arte.ts.
  * Lo guardado va en S.arte ({ cuadro?: texto de LADO*LADO cifras, cancion?: notas }): opcional, sin migración (ausente

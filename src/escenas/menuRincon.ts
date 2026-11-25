@@ -1,6 +1,6 @@
 /*
  * escenas/menuRincon.ts: lo común de los rincones con varios juegos pequeños de la PR de todas las ideas pendientes
- * (v0.2.180, docs/IDEAS-MEJORA.md): el taller de experimentos (escenas/experimentos.ts) y el estudio de arte
+ * (v0.2.181, docs/IDEAS-MEJORA.md): el taller de experimentos (escenas/experimentos.ts) y el estudio de arte
  * (escenas/arte.ts). hacerMenu() pone la escena del menú (una tarjeta por juego, en dos filas de tres); cada juego usa
  * tituloRincon (su cartel), comunesRincon (la casa y las monedas) y terminarRincon (lo celebra, da 2 monedas, lo apunta
  * en el diario y vuelve al menú).

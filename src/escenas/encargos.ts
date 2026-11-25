@@ -1,6 +1,6 @@
 /*
  * escenas/encargos.ts: los encargos de los vecinos (idea 34 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180). La primera vez que se entra en el mapa cada día, Tito cuenta el encargo del día (anunciarEncargo,
+ * pendientes, v0.2.181). La primera vez que se entra en el mapa cada día, Tito cuenta el encargo del día (anunciarEncargo,
  * lo llama el mapa); mientras está por hacer, en el mapa sale un botón redondo con la cosa que hay que llevar
  * (dibujaEncargo; al tocarlo, Tito lo repite, tocaEncargo). Al entrar en la escena de destino (AL_ENTRAR, de
  * nucleo/escenas.ts) el encargo está hecho: Tito da las gracias, 3 monedas y se apunta en el diario. Las reglas, en

@@ -1,6 +1,6 @@
 /*
  * dominio/ambiente.ts: qué suena de fondo en cada sitio (idea 43 de docs/IDEAS-MEJORA.md, en la PR de todas las ideas
- * pendientes, v0.2.180): los sonidos de ambiente (pájaros en el mapa, la granja, el zoo y el bosque; olas en la playa y en
+ * pendientes, v0.2.181): los sonidos de ambiente (pájaros en el mapa, la granja, el zoo y el bosque; olas en la playa y en
  * el acuario; viento en el bosque) y la música propia de los sitios que la tienen (el mar y el bosque). Se elige por el
  * principio del nombre de la escena (las estaciones de cada excursión empiezan por su nombre: playaCastillo, bosqueHojas...).
  * Es una regla pura, sin sonido ni S: lo hace sonar nucleo/sonido.ts (ponAmbiente) desde escenas/ambiente.ts.

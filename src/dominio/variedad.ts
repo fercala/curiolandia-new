@@ -1,6 +1,6 @@
 /*
  * dominio/variedad.ts: el estilo de los juegos más repetidos, «conocer» y «busca», en cada tema (idea 46 de
- * docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.180), para que no parezcan iguales de un tema a otro:
+ * docs/IDEAS-MEJORA.md, en la PR de todas las ideas pendientes, v0.2.181), para que no parezcan iguales de un tema a otro:
  * cómo entran las tarjetas (con un rebote, cayendo, girando o desde el lado), qué adorno flota por el fondo (burbujas,
  * hojas, estrellas, corazones o notas) y el color de las tarjetas. Sale siempre el mismo para el mismo tema (se saca del
  * id del tema, sin azar), así cada tema tiene su cara.

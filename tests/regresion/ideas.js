@@ -1,4 +1,4 @@
-// Recorre las ideas de la PR de todas las ideas pendientes (v0.2.180, docs/IDEAS-MEJORA.md, ideas 29 a 47) en
+// Recorre las ideas de la PR de todas las ideas pendientes (v0.2.181, docs/IDEAS-MEJORA.md, ideas 29 a 47) en
 // castellano y rumano con una partida de prueba: entra en cada escena nueva sin errores (el diario, el rincón de la
 // lógica, el taller, el estudio de arte, el corral, las misiones, «Jugar juntos» y los primeros pasos), juega una
 // partida de «Jugar juntos» entera, hace el primer paso de los primeros pasos, mira el informe semanal y la fluidez del

@@ -1,6 +1,6 @@
 /*
  * dominio/encargos.ts: las reglas de los encargos de los vecinos (idea 34 de docs/IDEAS-MEJORA.md, en la PR de todas
- * las ideas pendientes, v0.2.180). Cada día un vecino de la isla (el cartero, el panadero, la granjera, la maestra o la
+ * las ideas pendientes, v0.2.181). Cada día un vecino de la isla (el cartero, el panadero, la granjera, la maestra o la
  * frutera) da a Tito algo que hay que llevar a un sitio: al llegar a ese sitio, el encargo está hecho (3 monedas, una
  * vez al día). El encargo del día sale de la fecha (el mismo todo el día).
  * Lo guardado va en S.encargos ({ d, dicho, hecho, veces }): opcional, sin migración.

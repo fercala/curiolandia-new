@@ -2,7 +2,7 @@
 // seguridad (bkWire, adultos/copiaSeguridad.ts), instalar el juego, «Ir a» con todos los sitios y temas y, al final,
 // «Empezar de cero» (doReset, aplicacion/dialogos.ts). Antes eran las últimas secciones de aplicacion/adultos.ts.
 // Desde la fase A6, la copia apunta su día en S.bkFecha y, si toca hacer otra, el menú y el Resumen lo recuerdan.
-// Desde la v0.2.180 (idea 47 de docs/IDEAS-MEJORA.md), «Fluidez del 3D»: la última medida de cuadros por segundo, la
+// Desde la v0.2.181 (idea 47 de docs/IDEAS-MEJORA.md), «Fluidez del 3D»: la última medida de cuadros por segundo, la
 // nitidez y si van las sombras ligeras (la calidad automática de mundo3d/motor.ts y dominio/calidad.ts).
 import { S, VIVO, fmtHtml, go, temasDone, today } from '../../nucleo/indice.ts';
 import { tocaCopia } from '../../dominio/zonaAdultos.ts';
@@ -53,7 +53,7 @@ export const COPIA: PaginaAdultos = {
   icono: '💾',
   // aviso(): 1 si toca recordar la copia de seguridad (copiaPendiente), para el número del menú (fase A6).
   aviso: () => (copiaPendiente() ? 1 : 0),
-  // html(): copia de seguridad, instalar, la fluidez del 3D (desde la v0.2.180), ir a (los atajos data-go los conecta el panel) y empezar de cero.
+  // html(): copia de seguridad, instalar, la fluidez del 3D (desde la v0.2.181), ir a (los atajos data-go los conecta el panel) y empezar de cero.
   html: () => `
   <section><h3>Copia de seguridad</h3>
    <p class="note">Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia de vez en cuando.</p>

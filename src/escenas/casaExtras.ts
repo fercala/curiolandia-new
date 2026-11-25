@@ -1,5 +1,5 @@
 /*
- * escenas/casaExtras.ts: los botones nuevos de la casa de Tito de la PR de todas las ideas pendientes (v0.2.180,
+ * escenas/casaExtras.ts: los botones nuevos de la casa de Tito de la PR de todas las ideas pendientes (v0.2.181,
  * docs/IDEAS-MEJORA.md): el diario (idea 35), el corral de Tito (idea 33, cuando ya se ha ido a la granja escuela) y
  * «Jugar juntos» (idea 39). Cada botón es un círculo con su dibujo; solo sale si su escena existe y, si tiene condición,
  * cuando se cumple. La casa (escenas/casa.ts) los dibuja con dibujaBotonesCasa() y los mira al tocar con

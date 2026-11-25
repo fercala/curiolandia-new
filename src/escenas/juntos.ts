@@ -1,6 +1,6 @@
 /*
  * escenas/juntos.ts: «Jugar juntos», las parejas por turnos para dos en el mismo móvil (idea 39 de docs/IDEAS-MEJORA.md,
- * en la PR de todas las ideas pendientes, v0.2.180), SCENES.juntos. Se entra desde su botón en la casa de Tito
+ * en la PR de todas las ideas pendientes, v0.2.181), SCENES.juntos. Se entra desde su botón en la casa de Tito
  * (escenas/casaExtras.ts). Un jugador va con Tito y el otro con Lupi: a cada lado, su dibujo y sus parejas, y el que
  * tiene el turno brilla y Tito dice a quién le toca. Al terminar, Tito celebra que lo han hecho juntos (2 monedas y el
  * diario). Las reglas, en dominio/juntos.ts.
