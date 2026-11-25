@@ -150,12 +150,15 @@ export function mayorPeso(r: PlanBalanza): 'izq' | 'der' | null {
 export function planBalanza(edad: number, azar: Azar): PlanBalanza[] {
   const claves = Object.keys(PESOS),
     rondas = [0, 1, 2].map(() => {
-      const [a, b] = elige(
-        claves.filter((k) => k !== 'pluma' || edad3a5(edad) > 3),
-        2,
-        azar,
-      );
-      return { izq: [a!], der: [b!], equilibrar: false };
+      const posibles = claves.filter((k) => k !== 'pluma' || edad3a5(edad) > 3),
+        a = elige(posibles, 1, azar)[0]!,
+        // el otro, de un peso distinto (si pesaran igual, no habría ninguno que pese más)
+        b = elige(
+          posibles.filter((k) => PESOS[k] !== PESOS[a]),
+          1,
+          azar,
+        )[0]!;
+      return { izq: [a], der: [b], equilibrar: false };
     });
   if (edad3a5(edad) < 5) return rondas;
   const ligero = elige(['manzana', 'libro', 'gato', 'perro'], 1, azar)[0]!;
