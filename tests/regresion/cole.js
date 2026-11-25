@@ -1838,14 +1838,35 @@ const R = L.registro('cole');
         const e = await p.evaluate(() => encargoHoy());
         if ((await p.evaluate(() => faseHoy())) !== 'sinPedir') return 'el encargo no empieza sin pedir';
         if (await p.evaluate(() => perdidoEnPantalla())) return 'lo perdido está en el mapa antes de pedirlo';
-        // el amigo anda: si el toque no le da (o le da a otra cosa), se vuelve a mirar dónde está y se toca otra vez
-        for (let intento = 0; intento < 3 && (await p.evaluate(() => faseHoy())) !== 'buscando'; intento++) {
-          const a = await p.evaluate((id) => amigoEnPantalla(id), e.amigo);
-          await L.clic(p, a.x, a.y);
+        // el amigo anda y algo puede taparlo (una mariposa, un árbol): se espera a que Tito no esté andando y se toca un
+        // punto cerca del amigo donde el toque le da a él (pickAt); si no, se vuelve a mirar dónde está y se toca otra vez
+        const diag = [];
+        for (let intento = 0; intento < 4 && (await p.evaluate(() => faseHoy())) !== 'buscando'; intento++) {
+          for (let i = 0; i < 20 && (await p.evaluate(() => !!(__w3.W && __w3.W.walk))); i++)
+            await p.waitForTimeout(300);
+          const a = await p.evaluate((id) => {
+            const c = amigoEnPantalla(id);
+            if (!c) return null;
+            const puntos = [0, -20, 20, -40, 40].flatMap((dy) => [0, -20, 20].map((dx) => [c.x + dx, c.y + dy]));
+            const bueno = puntos.find(([x, y]) => {
+              const u = __w3.pickAt(x, y);
+              return u && u.id === 'amigo' && u.amigo === id;
+            });
+            const u = __w3.pickAt(c.x, c.y);
+            return { x: bueno ? bueno[0] : c.x, y: bueno ? bueno[1] : c.y, bueno: !!bueno, toca: u ? u.id : null };
+          }, e.amigo);
+          diag.push(JSON.stringify(a));
+          if (a) await L.clic(p, a.x, a.y);
           for (let i = 0; i < 30 && (await p.evaluate(() => faseHoy())) !== 'buscando'; i++)
             await p.waitForTimeout(500);
         }
-        if ((await p.evaluate(() => faseHoy())) !== 'buscando') return 'tocar al amigo no pide ayuda';
+        if ((await p.evaluate(() => faseHoy())) !== 'buscando')
+          return (
+            'tocar al amigo no pide ayuda: ' +
+            diag.join(' ') +
+            ' ' +
+            (await p.evaluate(() => JSON.stringify([__cl.name, VIVO.talking, !!(__w3.W && __w3.W.walk)])))
+          );
         const q = await p.evaluate(() => perdidoEnPantalla());
         if (!q) return 'lo perdido no aparece en el mapa';
         const monedas = await p.evaluate(() => __cl.S.coins);
