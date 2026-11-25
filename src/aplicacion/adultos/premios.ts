@@ -1,9 +1,10 @@
 // adultos/premios.ts: página «Premios y vales» de la zona de adultos (fase A1 de docs/PLAN-MENU-ADULTOS.md): monedas,
 // estrellas, cómo se ganan, los vales para canjear en la vida real (activar, texto y precio: S.vales) y los vales por
 // entregar (S.valesLog). Antes, la sección «Monedas y premios» de aplicacion/adultos.ts. Desde la fase A4, los vales por
-// entregar van arriba y la explicación de las monedas, plegada.
+// entregar van arriba y la explicación de las monedas, plegada. Los controles antiguos se renuevan sin escribir si
+// otra pestaña ha reemplazado el vale que enseñaban.
 import type { Vale } from '../../nucleo/tipos.ts';
-import { S, STARS, save } from '../../nucleo/indice.ts';
+import { S, STARS, fmt, save } from '../../nucleo/indice.ts';
 import { valesPorEntregar } from '../../dominio/zonaAdultos.ts';
 import { esc } from './comun.ts';
 import type { PaginaAdultos } from './tipos.ts';
@@ -15,20 +16,22 @@ export const PREMIOS: PaginaAdultos = {
   icono: '🎟️',
   // aviso(): los vales comprados que faltan por entregar (fase A2).
   aviso: () => valesPorEntregar(S.valesLog || []),
-  // html(): vales (una fila por vale para editarlo) y pend (los comprados que aún no se han dado, con «Entregado»).
+  // html(): vales (una fila por vale para editarlo) y pendientes. Una copia antigua puede traer vales
+  // sin fecha; se muestran igualmente. Los textos importados se escapan antes de incluirlos en HTML. Los nombres
+  // accesibles de los controles identifican el vale sin cambiar el texto que ha elegido la familia.
   html() {
     // vales: una fila por vale (casilla de activo, texto y precio en monedas) para editarlos.
     const vales = S.vales!.map(
       (v, i) =>
-        `<div class="row vale"><label class="opt"><input type="checkbox" data-von="${i}" ${v.on ? 'checked' : ''}></label><input data-vtxt="${i}" maxlength="60" value="${esc(v.txt)}" style="flex:1;min-width:180px"><label>🪙 <input type="number" data-vp="${i}" min="5" max="500" value="${v.p}" style="width:70px"></label></div>`,
+        `<div class="row vale"><label class="opt"><input type="checkbox" data-von="${i}" aria-label="${esc(fmt('Activar el vale: {vale}', { vale: v.txt || v.id }))}" ${v.on ? 'checked' : ''}></label><input data-vtxt="${i}" aria-label="${esc(fmt('Texto del vale: {vale}', { vale: v.txt || v.id }))}" maxlength="60" value="${esc(v.txt)}" style="flex:1;min-width:180px"><label>🪙 <input type="number" data-vp="${i}" aria-label="${esc(fmt('Precio del vale en monedas: {vale}', { vale: v.txt || v.id }))}" min="5" max="500" value="${v.p}" style="width:70px"></label></div>`,
     ).join('');
     // pend: vales que el niño compró en la tienda y aún no se le dieron (con botón "Entregado").
     const pend = S.valesLog!.map((v, i) => [v, i] as [Vale, number])
       .filter(([v]) => !v.given)
-      .map(
-        ([v, i]) =>
-          `<div class="row"><span>🎟️ ${esc(v.txt)} <small>(${v.d!.slice(5).split('-').reverse().join('/')})</small></span><button data-vgive="${i}">Entregado ✔</button></div>`,
-      )
+      .map(([v, i]) => {
+        const fecha = typeof v.d === 'string' ? v.d.slice(5).split('-').reverse().join('/') : '';
+        return `<div class="row"><span>🎟️ ${esc(v.txt)} ${fecha ? `<small>(${esc(fecha)})</small>` : ''}</span><button data-vgive="${i}" aria-label="${esc(fmt('Marcar como entregado: {vale}', { vale: v.txt || v.id }))}">Entregado ✔</button></div>`;
+      })
       .join('');
     return `
   ${pend ? `<section><h3>Vales por entregar</h3><p class="note">Los ha comprado en la tienda: cuando se los des, toca «Entregado».</p>${pend}</section>` : ''}
@@ -38,43 +41,65 @@ export const PREMIOS: PaginaAdultos = {
   <section><h3>Vales para canjear en la vida real</h3><p class="note">Los vales marcados aparecen en la tienda. Cuando compre uno, sale arriba, en «Vales por entregar».</p>${vales}</section>`;
   },
   // conectar(el, acciones): activar/desactivar un vale, cambiar su texto (no vacío) y su precio (de 1 a 500), y
-  // «Entregado», que lo quita de pendientes y vuelve a pintar la página.
+  // «Entregado», que lo quita de pendientes y vuelve a pintar la página. Cada control conserva el vale mostrado;
+  // si otra pestaña ha cambiado esa entrada, se actualiza la página sin editar ni entregar un vale distinto.
   conectar(el, acciones) {
-    el.querySelectorAll<HTMLInputElement>('[data-von]').forEach(
-      (c) =>
-        (c.onchange = () => {
-          S.vales![+c.dataset.von!].on = c.checked ? 1 : 0;
+    const vales = S.vales || [],
+      pendientes = S.valesLog || [];
+    // vigente(lista, i, mostrado): devuelve el mismo vale, o renueva el panel si su posición ya pertenece a otro.
+    const vigente = (lista: readonly Vale[] | undefined, i: number, mostrado: Vale | undefined) => {
+      if (mostrado && lista?.[i] === mostrado) return mostrado;
+      acciones.rehacer();
+      acciones.menu();
+      return undefined;
+    };
+    el.querySelectorAll<HTMLInputElement>('[data-von]').forEach((c) => {
+      const i = +c.dataset.von!,
+        mostrado = vales[i];
+      c.onchange = () => {
+        const v = vigente(S.vales, i, mostrado);
+        if (!v) return;
+        v.on = c.checked ? 1 : 0;
+        save();
+      };
+    });
+    el.querySelectorAll<HTMLInputElement>('[data-vtxt]').forEach((c) => {
+      const i = +c.dataset.vtxt!,
+        mostrado = vales[i];
+      c.oninput = () => {
+        const v = vigente(S.vales, i, mostrado);
+        if (!v) return;
+        const t = c.value.trim();
+        if (t) {
+          v.txt = t;
           save();
-        }),
-    );
-    el.querySelectorAll<HTMLInputElement>('[data-vtxt]').forEach(
-      (c) =>
-        (c.oninput = () => {
-          const t = c.value.trim();
-          if (t) {
-            S.vales![+c.dataset.vtxt!].txt = t;
-            save();
-          }
-        }),
-    );
-    el.querySelectorAll<HTMLInputElement>('[data-vp]').forEach(
-      (c) =>
-        (c.onchange = () => {
-          const n = Math.round(+c.value);
-          if (n >= 1) {
-            S.vales![+c.dataset.vp!].p = Math.min(500, n);
-            save();
-          }
-        }),
-    );
-    el.querySelectorAll<HTMLInputElement>('[data-vgive]').forEach(
-      (b) =>
-        (b.onclick = () => {
-          S.valesLog![+b.dataset.vgive!].given = 1;
+        }
+      };
+    });
+    el.querySelectorAll<HTMLInputElement>('[data-vp]').forEach((c) => {
+      const i = +c.dataset.vp!,
+        mostrado = vales[i];
+      c.onchange = () => {
+        const v = vigente(S.vales, i, mostrado);
+        if (!v) return;
+        const n = Math.round(+c.value);
+        if (n >= 1) {
+          v.p = Math.min(500, n);
           save();
-          acciones.rehacer();
-          acciones.menu();
-        }),
-    );
+        }
+      };
+    });
+    el.querySelectorAll<HTMLInputElement>('[data-vgive]').forEach((b) => {
+      const i = +b.dataset.vgive!,
+        mostrado = pendientes[i];
+      b.onclick = () => {
+        const v = vigente(S.valesLog, i, mostrado);
+        if (!v) return;
+        v.given = 1;
+        save();
+        acciones.rehacer();
+        acciones.menu();
+      };
+    });
   },
 };

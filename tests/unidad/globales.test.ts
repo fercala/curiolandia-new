@@ -37,7 +37,7 @@ describe('globales', () => {
   // pueden pedir la hora o un número al azar al cargarse.
   test('los puertos se conectan antes que nada', () => {
     const modulos = readFileSync(join(SRC, 'modulos.ts'), 'utf8');
-    const imports = modulos.split('\n').filter((l) => l.startsWith('import '));
+    const imports = modulos.split(/\r?\n/).filter((l) => l.startsWith('import '));
     expect(imports[0]).toBe("import './infraestructura/conectar.ts';");
   });
 

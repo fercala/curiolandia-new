@@ -89,14 +89,15 @@ export function nombreDe(n: unknown): string {
 }
 
 // archivos(src, dir, fuera): los .ts de dir (y subcarpetas), salvo los de fuera (rutas desde src), ordenados para que
-// el catálogo sea estable. Si dir es un archivo, solo ese.
+// el catálogo sea estable. Si dir es un archivo, solo ese. Aprovecha los tipos del directorio para no volver a
+// consultar los metadatos de cada archivo; los enlaces se siguen como antes.
 export function archivos(src: string, dir = src, fuera: readonly string[] = FUERA): string[] {
   if (!statSync(dir).isDirectory()) return [dir];
   const r: string[] = [];
-  for (const f of readdirSync(dir).sort()) {
-    const p = join(dir, f);
+  for (const f of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)) {
+    const p = join(dir, f.name);
     if (fuera.includes(relative(src, p))) continue;
-    if (statSync(p).isDirectory()) r.push(...archivos(src, p, fuera));
+    if (f.isDirectory() || (f.isSymbolicLink() && statSync(p).isDirectory())) r.push(...archivos(src, p, fuera));
     else if (p.endsWith('.ts') && !p.endsWith('.d.ts')) r.push(p);
   }
   return r;
@@ -213,9 +214,11 @@ export function catalogo(raiz: string): Frase[] {
   const src = join(raiz, 'src');
   const porTexto = new Map<string, { tipo: Frase['tipo']; donde: string[] }>();
   // apunta(t, tipo, rel): añade el texto t (o un archivo más donde sale, hasta DONDE_MAX).
+  // Las rutas del catálogo usan barras en todos los sistemas, para que regenerarlo en Windows conserve el CSV.
   const apunta = (t: string, tipo: Frase['tipo'], rel: string): void => {
     const fila = porTexto.get(t) ?? { tipo, donde: [] };
-    if (fila.donde.length < DONDE_MAX && !fila.donde.includes(rel)) fila.donde.push(rel);
+    const ruta = rel.replaceAll('\\', '/');
+    if (fila.donde.length < DONDE_MAX && !fila.donde.includes(ruta)) fila.donde.push(ruta);
     porTexto.set(t, fila);
   };
   for (const f of archivos(src)) {
@@ -242,7 +245,7 @@ export function catalogo(raiz: string): Frase[] {
 }
 
 // campoCsv(v): un campo del CSV, entre comillas si lleva coma, comillas o salto de línea.
-const campoCsv = (v: string): string => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
+const campoCsv = (v: string): string => (/[",\r\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
 
 /** csv(frases): el texto de dialogos/todos.csv: cabecera id,texto,tipo,donde y una fila por frase. */
 export function csv(frases: readonly Frase[]): string {

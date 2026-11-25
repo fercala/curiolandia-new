@@ -1,5 +1,6 @@
 // El catálogo de frases (dialogos/todos.csv) tiene que estar al día con el código: lo saca de src/
 // herramientas/dialogos/catalogo.mts (fase 5g de docs/PLAN-MIGRACION.md). Si falla, rehazlo con `npm run dialogos`.
+// Todas las comprobaciones leen el mismo código inmutable: se extrae una vez y se conserva cada aserción completa.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, test } from 'vitest';
@@ -8,25 +9,32 @@ import { TEXTOS_RO } from '../../src/idiomas/ro/textos.ts';
 import { NOMBRES_RO } from '../../src/idiomas/ro/nombres.ts';
 
 const RAIZ = join(import.meta.dirname, '..', '..');
-// Por debajo de este número de frases, el catálogo ha dejado de encontrar textos (hoy hay unas 2500).
+const FRASES = catalogo(RAIZ);
+// Por debajo de este número de frases, el catálogo ha dejado de encontrar textos (el proyecto tiene varios miles).
 const MIN_FRASES = 2000;
 
+test('el CSV conserva comas, comillas y retornos de carro dentro de una frase', () => {
+  const frases = [{ id: 'prueba', texto: 'Hola\radiós', tipo: 'frase' as const, donde: ['src/prueba.ts'] }];
+  expect(csv(frases)).toContain('prueba,"Hola\radiós",frase,src/prueba.ts');
+  expect(csv([{ ...frases[0], texto: 'Tito dice: "hola, Lupi"' }])).toContain('"Tito dice: ""hola, Lupi"""');
+});
+
 test('dialogos/todos.csv está al día con el código (si no: npm run dialogos)', () => {
-  const frases = catalogo(RAIZ);
+  const frases = FRASES;
   expect(frases.length).toBeGreaterThan(MIN_FRASES);
-  expect(readFileSync(join(RAIZ, 'dialogos', 'todos.csv'), 'utf8')).toBe(csv(frases));
+  expect(readFileSync(join(RAIZ, 'dialogos', 'todos.csv'), 'utf8').replace(/\r\n/g, '\n')).toBe(csv(frases));
 });
 
 test('dialogos/ro.csv, la hoja de revisión del rumano, está al día con el catálogo y las tablas (fase ID4)', () => {
-  const hoja = hojaIdioma(catalogo(RAIZ), TEXTOS_RO, NOMBRES_RO);
-  expect(readFileSync(join(RAIZ, 'dialogos', 'ro.csv'), 'utf8')).toBe(csvIdioma(hoja, 'rumano'));
+  const hoja = hojaIdioma(FRASES, TEXTOS_RO, NOMBRES_RO);
+  expect(readFileSync(join(RAIZ, 'dialogos', 'ro.csv'), 'utf8').replace(/\r\n/g, '\n')).toBe(csvIdioma(hoja, 'rumano'));
   expect(hoja.find((f) => f.texto === 'Zona de adultos')?.traduccion).toBe('Zona adulților');
 });
 
 // Regla (Fernando, 15 de noviembre de 2026): toda funcionalidad nueva es multiidioma. Cada texto nuevo del catálogo
 // tiene su rumano en src/idiomas/ro/ o, si no es castellano (inglés, ids, código), está en dialogos/ro-sin-traducir.txt.
 test('cada texto nuevo tiene su rumano (o está en dialogos/ro-sin-traducir.txt): regla de la ID9a', () => {
-  const hoja = hojaIdioma(catalogo(RAIZ), TEXTOS_RO, NOMBRES_RO),
+  const hoja = hojaIdioma(FRASES, TEXTOS_RO, NOMBRES_RO),
     aceptados = leerSinTraducir(readFileSync(join(RAIZ, 'dialogos', 'ro-sin-traducir.txt'), 'utf8')),
     faltan = hoja.filter((f) => f.estado === 'falta'),
     nuevos = faltan.filter((f) => !aceptados.has(f.id)).map((f) => `${f.texto} (${f.donde})`),
@@ -36,8 +44,9 @@ test('cada texto nuevo tiene su rumano (o está en dialogos/ro-sin-traducir.txt)
 });
 
 test('cada id es único y los textos conocidos están (frase, trozo, nombre)', () => {
-  const frases = catalogo(RAIZ);
+  const frases = FRASES;
   expect(new Set(frases.map((f) => f.id)).size).toBe(frases.length);
+  expect(frases.every((f) => f.donde.every((ruta) => !ruta.includes('\\')))).toBe(true);
   const tipo = (t: string): string | undefined => frases.find((f) => f.texto === t)?.tipo;
   expect(tipo('¿Cómo te llamas?')).toBe('frase');
   expect(tipo('Gira el móvil')).toBe('trozo');
@@ -48,7 +57,7 @@ test('cada id es único y los textos conocidos están (frase, trozo, nombre)', (
 });
 
 test('la zona de adultos y las ventanas de head.html también salen, con el tipo adultos (fase ID0)', () => {
-  const frases = catalogo(RAIZ);
+  const frases = FRASES;
   const tipo = (t: string): string | undefined => frases.find((f) => f.texto === t)?.tipo;
   expect(tipo('Zona de adultos')).toBe('adultos');
   expect(tipo('¿Empezar de nuevo?')).toBe('adultos');

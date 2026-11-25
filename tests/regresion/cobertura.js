@@ -1,17 +1,24 @@
 // Huecos de cobertura: guardado y recuperación, varias pestañas, salidas del repaso, reloj, PWA y recompensas.
 // node tests/regresion/lanzar.js cobertura.js . [filtro]
+// Los filtros largos o no válidos como nombre de archivo usan una huella corta y quedan completos dentro del JSON.
 const L = require('./lib'),
   fs = require('fs'),
-  path = require('path');
+  path = require('path'),
+  crypto = require('crypto');
 const [root = '.', filter = ''] = process.argv.slice(2),
-  name = 'cobertura' + (filter ? '-' + filter : '');
+  filtroArchivo =
+    filter &&
+    (/^[\w,-]{1,80}$/.test(filter)
+      ? filter
+      : 'filtro-' + crypto.createHash('sha256').update(filter).digest('hex').slice(0, 16)),
+  name = 'cobertura' + (filtroArchivo ? '-' + filtroArchivo : '');
 let repositoryCommit = null;
 try {
   repositoryCommit = require('child_process')
     .execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
     .trim();
 } catch {}
-const webSha256 = require('crypto')
+const webSha256 = crypto
   .createHash('sha256')
   .update(fs.readFileSync(path.join(root, 'index.html')))
   .digest('hex');
@@ -19,6 +26,7 @@ const gameVersion =
   (fs.readFileSync(path.join(root, 'sw.js'), 'utf8').match(/curiolandia-new-v([\d.]+)/) || [])[1] || null;
 const report = {
   date: new Date().toISOString(),
+  filter,
   repositoryCommit,
   gameVersion,
   webSha256,
@@ -244,6 +252,320 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       },
     );
 
+    await test(
+      'guardado-volumenes',
+      'Carga y sincronización reparan el audio y conservan la lista de vales vacía',
+      async (p) => {
+        const antes = await p.evaluate(() => ({ vol: S.vol, vales: S.vales }));
+        const otra = await abrirOtra(p.context(), p.errs);
+        await otra.evaluate(() => {
+          S.vol = { voz: '0.6', mus: null, fx: 'roto' };
+          save();
+        });
+        await p.waitForFunction(() => S.vol.voz === 0.6);
+        const despues = await p.evaluate(() => {
+          initAudio();
+          setVol();
+          return { vol: S.vol, vales: S.vales };
+        });
+        return {
+          fail:
+            antes.vol.voz !== 0 ||
+            antes.vol.mus !== 0.2 ||
+            antes.vol.fx !== 1 ||
+            despues.vol.voz !== 0.6 ||
+            despues.vol.mus !== 0.45 ||
+            despues.vol.fx !== 0.8 ||
+            antes.vales.length !== 0 ||
+            despues.vales.length !== 0,
+          antes,
+          despues,
+        };
+      },
+      {
+        guardado: { ...base, vol: { voz: -1, mus: '0.2', fx: 5 }, vales: [] },
+      },
+    );
+
+    await test(
+      'candado-interrumpido',
+      'Ocultar la pestaña o perder la captura cancela la pulsación del candado',
+      async (p) => {
+        await p.evaluate(() => __cl.go('casaTito', {}));
+        await p.waitForFunction(() => VIVO.fade === 0);
+        const [x, y] = await p.evaluate(() => [OX + 1546 * SC, OY + 852 * SC]);
+        await p.mouse.move(x, y);
+        await p.mouse.down();
+        await p.waitForTimeout(500);
+        const oculto = await p.evaluate(() => {
+          Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
+          document.dispatchEvent(new Event('visibilitychange'));
+          const cancelado = !VIVO.lockDown && VIVO.lockHold === 0;
+          delete document.hidden;
+          document.dispatchEvent(new Event('visibilitychange'));
+          return cancelado;
+        });
+        await p.mouse.up();
+        await p.mouse.down();
+        await p.waitForTimeout(500);
+        const sinCaptura = await p.evaluate(() => {
+          document.getElementById('cv').dispatchEvent(new PointerEvent('lostpointercapture'));
+          return !VIVO.lockDown && VIVO.lockHold === 0;
+        });
+        await p.waitForTimeout(3100);
+        const cerrado = await p.evaluate(() => document.getElementById('adult').hidden);
+        await p.mouse.up();
+        return { fail: !oculto || !sinCaptura || !cerrado, oculto, sinCaptura, cerrado };
+      },
+    );
+
+    for (const idioma of ['es', 'ro'])
+      await test(
+        'copia-archivo-reintento-' + idioma,
+        'Un archivo que no se puede leer avisa y permite reintentar sin reemplazar el progreso (' + idioma + ')',
+        async (p) => {
+          await p.evaluate(() => openAdult('copia'));
+          const antes = await p.evaluate(() => {
+            save();
+            const leer = File.prototype.text;
+            // Solo falla la primera lectura; el segundo intento usa el mismo archivo y el lector real.
+            File.prototype.text = function () {
+              File.prototype.text = leer;
+              return Promise.reject(new Error('Lectura interrumpida para la prueba'));
+            };
+            return [JSON.stringify(S), localStorage.getItem(KEY)];
+          });
+          const archivo = {
+            name: 'copia-prueba.json',
+            mimeType: 'application/json',
+            buffer: Buffer.from(JSON.stringify({ name: 'Copia de prueba', age: 4, temas: {}, coins: 37 })),
+          };
+          const entrada = p.locator('#a-bk-file');
+          await entrada.setInputFiles(archivo);
+          await p.waitForFunction(
+            (texto) => document.getElementById('a-bk-msg').textContent.includes(texto),
+            idioma === 'ro' ? 'Nu s-a putut citi' : 'No se pudo leer',
+          );
+          const falloSeguro = await p.evaluate(() => ({
+            selectorVacio: document.getElementById('a-bk-file').value === '',
+            sinConfirmacion: !document.getElementById('a-bk-ok'),
+          }));
+          await entrada.setInputFiles(archivo);
+          await p.locator('#a-bk-ok').waitFor();
+          const despues = await p.evaluate(() => ({
+            partida: [JSON.stringify(S), localStorage.getItem(KEY)],
+            selectorVacio: document.getElementById('a-bk-file').value === '',
+            resumen: document.getElementById('a-bk-msg').textContent,
+          }));
+          const intacta = antes.every((v, i) => v === despues.partida[i]);
+          return {
+            fail:
+              !intacta ||
+              !falloSeguro.selectorVacio ||
+              !falloSeguro.sinConfirmacion ||
+              !despues.selectorVacio ||
+              !despues.resumen.includes('Copia de prueba'),
+            intacta,
+            falloSeguro,
+            reintento: despues.selectorVacio,
+            resumen: despues.resumen,
+          };
+        },
+        { guardado: { ...base, idioma } },
+      );
+
+    for (const idioma of ['es', 'ro'])
+      await test(
+        'copia-archivo-teclado-' + idioma,
+        'El teclado abre el selector de copias y el resumen tiene una región de estado accesible (' + idioma + ')',
+        async (p) => {
+          await p.evaluate(() => openAdult('copia'));
+          const boton = p.getByRole('button', {
+            name: idioma === 'ro' ? '📂 Încarcă fișierul copiei' : '📂 Cargar archivo de copia',
+            exact: true,
+          });
+          await boton.focus();
+          const [selector] = await Promise.all([p.waitForEvent('filechooser'), boton.press('Enter')]);
+          await selector.setFiles({
+            name: 'copia-teclado.json',
+            mimeType: 'application/json',
+            buffer: Buffer.from(JSON.stringify({ name: 'Copia por teclado', temas: {}, coins: 37 })),
+          });
+          await p.locator('#a-bk-ok').waitFor();
+          await p
+            .getByRole('textbox', {
+              name: idioma === 'ro' ? 'Codul copiei de siguranță' : 'Código de copia de seguridad',
+              exact: true,
+            })
+            .waitFor();
+          const resultado = await p.evaluate(() => {
+            const mensaje = document.getElementById('a-bk-msg');
+            return {
+              resumen: mensaje.textContent.includes('Copia por teclado'),
+              estado:
+                mensaje.getAttribute('role') === 'status' &&
+                mensaje.getAttribute('aria-live') === 'polite' &&
+                mensaje.getAttribute('aria-atomic') === 'true',
+              sinRecuperar: S.name === 'QA' && S.coins === 100,
+            };
+          });
+          return { fail: !resultado.resumen || !resultado.estado || !resultado.sinRecuperar, ...resultado };
+        },
+        { guardado: { ...base, idioma } },
+      );
+
+    for (const idioma of ['es', 'ro'])
+      for (const falla of [false, true])
+        await test(
+          'copia-archivo-orden-' + idioma + (falla ? '-fallida' : '-tardia'),
+          'La última copia elegida prevalece sobre una lectura anterior (' +
+            idioma +
+            ', ' +
+            (falla ? 'error' : 'tardía') +
+            ')',
+          async (p) => {
+            await p.evaluate(() => openAdult('copia'));
+            const entrada = p.locator('#a-bk-file');
+            const archivo = (name) => ({
+              name: name + '.json',
+              mimeType: 'application/json',
+              buffer: Buffer.from(JSON.stringify({ name, age: 4, temas: {}, coins: 37 })),
+            });
+            await entrada.setInputFiles(archivo('Copia previa'));
+            await p.locator('#a-bk-ok').waitFor();
+            await p.evaluate(() => {
+              const leer = File.prototype.text;
+              File.prototype.text = function () {
+                if (this.name === 'Primera lenta.json')
+                  return new Promise((resolver, rechazar) => {
+                    window.__finalizarLectura = (error) =>
+                      error
+                        ? rechazar(new Error('Lectura anterior interrumpida'))
+                        : resolver(JSON.stringify({ name: 'Primera lenta', temas: {}, coins: 11 }));
+                  });
+                return leer.call(this);
+              };
+            });
+            await entrada.setInputFiles(archivo('Primera lenta'));
+            await p.waitForFunction(() => typeof window.__finalizarLectura === 'function');
+            const sinConfirmacionAntigua = (await p.locator('#a-bk-ok').count()) === 0;
+            const leyendo = await p.locator('#a-bk-msg').innerText();
+            await entrada.setInputFiles(archivo('Última copia'));
+            await p.locator('#a-bk-ok').waitFor();
+            const resumen = await p.locator('#a-bk-msg').innerText();
+            await p.evaluate(async (error) => {
+              window.__finalizarLectura(error);
+              await new Promise((r) => setTimeout(r, 0));
+            }, falla);
+            const sigueUltima =
+              resumen === (await p.locator('#a-bk-msg').innerText()) && resumen.includes('Última copia');
+            await p.locator('#a-bk-ok').click();
+            await p.waitForFunction(() => window.__cl && S.name === 'Última copia' && S.coins === 37);
+            return {
+              fail:
+                !sinConfirmacionAntigua ||
+                !sigueUltima ||
+                !leyendo.includes(idioma === 'ro' ? 'Se citește' : 'Leyendo'),
+              sinConfirmacionAntigua,
+              sigueUltima,
+              restaurada: await p.evaluate(() => ({ nombre: S.name, monedas: S.coins })),
+            };
+          },
+          { guardado: { ...base, idioma } },
+        );
+
+    for (const accion of ['entrega', 'texto', 'precio', 'activar'])
+      await test(
+        'vales-panel-antiguo-' + accion,
+        'Un panel antiguo no modifica un vale distinto recibido de otra pestaña (' + accion + ')',
+        async (p) => {
+          await p.evaluate(() => {
+            S.vales = [{ id: 'v-original', txt: 'Vale original', p: 20, on: 1 }];
+            S.valesLog = [{ id: 'log-original', txt: 'Entrega original', d: '2026-10-24' }];
+            save();
+            openAdult('premios');
+          });
+          const otra = await p.context().newPage();
+          await otra.goto(`http://localhost:${server.port}/index.html`);
+          await otra.waitForFunction(() => window.__cl && sceneName === 'title');
+          await otra.evaluate(() => {
+            S.vales = [{ id: 'v-nuevo', txt: 'Vale nuevo', p: 35, on: 1 }];
+            S.valesLog = [{ id: 'log-nuevo', txt: 'Entrega nueva', d: '2026-10-24' }];
+            save();
+          });
+          await p.waitForFunction(() => S.vales[0].id === 'v-nuevo');
+          const antes = await p.evaluate(() => [JSON.stringify([S.vales, S.valesLog]), localStorage.getItem(KEY)]);
+          if (accion === 'entrega') await p.locator('[data-vgive="0"]').click();
+          else if (accion === 'texto') await p.locator('[data-vtxt="0"]').fill('Edición desde el panel antiguo');
+          else if (accion === 'precio') {
+            await p.locator('[data-vp="0"]').fill('60');
+            await p.locator('[data-vp="0"]').press('Tab');
+          } else {
+            // Un único clic físico: no se reintenta sobre el control nuevo que reemplaza al antiguo.
+            const caja = await p.locator('[data-von="0"]').boundingBox();
+            if (!caja) throw new Error('No se ve la casilla del vale');
+            await p.mouse.click(caja.x + caja.width / 2, caja.y + caja.height / 2);
+          }
+          const despues = await p.evaluate(() => ({
+            datos: [JSON.stringify([S.vales, S.valesLog]), localStorage.getItem(KEY)],
+            texto: document.querySelector('[data-vtxt="0"]').value,
+          }));
+          await otra.close();
+          const intacto = antes.every((v, i) => v === despues.datos[i]);
+          return {
+            fail: !intacto || despues.texto !== 'Vale nuevo',
+            intacto,
+            textoVisible: despues.texto,
+            valesAntes: JSON.parse(antes[0]),
+            valesDespues: JSON.parse(despues.datos[0]),
+            camposGuardadosDistintos: Object.keys(JSON.parse(antes[1])).filter(
+              (k) => JSON.stringify(JSON.parse(antes[1])[k]) !== JSON.stringify(JSON.parse(despues.datos[1])[k]),
+            ),
+          };
+        },
+      );
+
+    for (const idioma of ['es', 'ro'])
+      await test(
+        'vales-accesibles-' + idioma,
+        'Los controles de cada vale tienen nombre accesible traducido y conservan el texto de la familia (' +
+          idioma +
+          ')',
+        async (p) => {
+          const nombre = 'Un cuento "especial" <de Tito>';
+          await p.evaluate((txt) => {
+            S.vales = [{ id: 'vale-accesible', txt, p: 20, on: 1 }];
+            S.valesLog = [{ id: 'vale-accesible', txt, d: '2026-10-24' }];
+            save();
+            openAdult('premios');
+          }, nombre);
+          const nombres =
+            idioma === 'ro'
+              ? ['Activează tichetul: ', 'Textul tichetului: ', 'Prețul tichetului în monede: ', 'Marchează ca dat: ']
+              : ['Activar el vale: ', 'Texto del vale: ', 'Precio del vale en monedas: ', 'Marcar como entregado: '];
+          const roles = ['checkbox', 'textbox', 'spinbutton', 'button'];
+          for (let i = 0; i < roles.length; i++)
+            await p.getByRole(roles[i], { name: nombres[i] + nombre, exact: true }).waitFor();
+          await p.getByRole('checkbox', { name: nombres[0] + nombre, exact: true }).uncheck();
+          await p.getByRole('textbox', { name: nombres[1] + nombre, exact: true }).fill('Texto nuevo de la familia');
+          const precio = p.getByRole('spinbutton', { name: nombres[2] + nombre, exact: true });
+          await precio.fill('40');
+          await precio.press('Tab');
+          await p.getByRole('button', { name: nombres[3] + nombre, exact: true }).click();
+          const datos = await p.evaluate(() => ({ vale: S.vales[0], entregado: S.valesLog[0].given }));
+          return {
+            fail:
+              datos.vale.on !== 0 ||
+              datos.vale.txt !== 'Texto nuevo de la familia' ||
+              datos.vale.p !== 40 ||
+              datos.entregado !== 1,
+            nombresEncontrados: roles.length,
+            datos,
+          };
+        },
+        { guardado: { ...base, idioma } },
+      );
+
     const prepareReview = (p) =>
       p.evaluate(() => {
         S.temas['3A-T1'] = { g: { 1: 1 }, done: 0 };
@@ -355,6 +677,31 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       },
     );
     await test(
+      'candado-2fps',
+      'El candado exige tres segundos continuos también a dos FPS',
+      async (p) => {
+        await p.evaluate(() => __cl.go('casaTito', {}));
+        await p.waitForFunction(() => VIVO.fade === 0);
+        const [x, y] = await p.evaluate(() => [OX + 1546 * SC, OY + 852 * SC]);
+        await p.mouse.move(x, y);
+        await p.mouse.down();
+        await p.waitForTimeout(1200);
+        await p.mouse.up();
+        await p.mouse.down();
+        await p.waitForTimeout(1800);
+        const antes = await p.evaluate(() => document.getElementById('adult').hidden);
+        await p.waitForFunction(() => !document.getElementById('adult').hidden, null, { timeout: 2700 });
+        await p.mouse.up();
+        return { fail: !antes, cerradoAntesDeTresSegundos: antes };
+      },
+      {
+        antes: () => {
+          window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 500);
+          window.cancelAnimationFrame = clearTimeout;
+        },
+      },
+    );
+    await test(
       'reloj-normal-control',
       'Control: el reloj cuenta el tiempo de la pestaña sin ralentización artificial',
       async (p) => {
@@ -446,6 +793,35 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
         }));
       },
     );
+    await test('vale-fecha-incompleta', 'Premios muestra y permite entregar vales importados sin fecha', async (p) => {
+      await p.evaluate(() => {
+        S.valesLog = [
+          { id: 'sin-fecha', txt: 'Un abrazo', given: 0 },
+          { id: 'fecha-rota', txt: 'Un cuento', given: 0, d: '2026-<b id="fecha-inyectada">texto</b>' },
+        ];
+        save();
+        openAdult('premios');
+      });
+      const botones = await p.locator('[data-vgive]').count();
+      const inyectado = await p.locator('#fecha-inyectada').count();
+      await p.locator('[data-vgive="0"]').click();
+      const entregado = await p.evaluate(() => S.valesLog[0].given === 1);
+      return { fail: botones !== 2 || inyectado !== 0 || !entregado, botones, inyectado, entregado };
+    });
+
+    await test('vale-editado', 'Editar el texto de un vale invalida su confirmación anterior', async (p) => {
+      await prepareVoucher(p);
+      await p.evaluate(() => {
+        S.vales[0].txt = 'Otra recompensa';
+        save();
+      });
+      await L.clic(p, 680, 690);
+      return p.evaluate(() => ({
+        fail: S.coins !== 100 || S.valesLog.length !== 0,
+        coins: S.coins,
+        purchases: S.valesLog,
+      }));
+    });
     await test(
       'vale-canje-control',
       'Control: comprar y marcar un vale entregado persiste sin cobro doble',
@@ -529,6 +905,15 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       },
       { fecha: '2028-02-29' },
     );
+    // Un filtro equivocado no puede dar verde sin haber ejecutado ninguna comprobación.
+    if (!report.results.length)
+      report.results.push({
+        id: 'sin-casos',
+        title: 'El filtro debe seleccionar al menos un caso',
+        status: 'ERROR_HARNESS',
+        error: 'Ningún caso coincide con el filtro: ' + filter,
+        ms: 0,
+      });
     report.summary = {
       cases: report.results.length,
       pass: report.results.filter((r) => r.status === 'PASS').length,

@@ -150,7 +150,8 @@ export function rellenaS<D extends object>(partida: D, defecto: object): D {
 //   - stats.X y gs.X que no son objetos → se borran; sus ok/err que no son números → 0;
 //   - home.X sin x/y numéricos → se borra (el objeto sigue comprado; placeHome le busca sitio);
 //   - kg.X que no es una lista → se borra; cofreP que no es un objeto → se borra;
-//   - vales y valesLog: se quitan las entradas que no son objetos con id; si vales queda vacía se borra (vuelven los de fábrica);
+//   - vales y valesLog: se quitan las entradas que no son objetos con id; una lista de vales vacía se conserva.
+//     Si todas las entradas de una lista no vacía estaban rotas, vuelven los valores de fábrica;
 //   - rep sin list (lista) o done (objeto) → se borra (se vuelve a armar el repaso de hoy).
 function sanoHondo<D extends object>(partida: D): D {
   const d = partida as Crudo,
@@ -188,7 +189,7 @@ function sanoHondo<D extends object>(partida: D): D {
   if (Array.isArray(vales)) {
     const f = vales.filter(conId);
     d['vales'] = f;
-    if (!f.length) delete d['vales'];
+    if (vales.length && !f.length) delete d['vales'];
   }
   const log = d['valesLog'];
   if (Array.isArray(log)) d['valesLog'] = log.filter(conId);
@@ -196,9 +197,14 @@ function sanoHondo<D extends object>(partida: D): D {
   if (rep != null && !(ob(rep) && Array.isArray(rep['list']) && ob(rep['done']))) delete d['rep'];
   return partida;
 }
-// conVol(d): la partida d (ya arreglada) lista para mezclar encima de S, con sus volúmenes completados con los de DEF.
-const conVol = (d: Crudo): Partial<Estado> =>
-  Object.assign({}, d, { vol: Object.assign({}, DEF.vol, (d['vol'] || {}) as Partial<Volumenes>) });
+// conVol(d): la partida lista para mezclar encima de S. Completa los tres canales, descarta sus valores
+// inválidos y limita los válidos a 0–1. Carga, importación y sincronización usan la misma validación.
+const conVol = (d: Crudo): Partial<Estado> => {
+  const vol = Object.assign({}, DEF.vol, (d['vol'] || {}) as Partial<Volumenes>);
+  rellenaS(sanoS(vol, DEF.vol), DEF.vol);
+  for (const canal of ['voz', 'mus', 'fx'] as const) vol[canal] = Math.max(0, Math.min(1, vol[canal]));
+  return Object.assign({}, d, { vol });
+};
 // load(): se ejecuta una sola vez, al arrancar. Lee la partida guardada, la pone al día (migrar, de dominio/partida.ts:
 // aplica las migraciones desde su versión y apunta la nueva en ver) y la mezcla encima de DEF: lo que falte en una
 // partida vieja queda con su valor por defecto; vol se mezcla aparte para no perder volúmenes nuevos. Antes, sanoS() quita
@@ -226,7 +232,6 @@ const conVol = (d: Crudo): Partial<Estado> =>
     const c = migrar(d);
     sanoS(c, DEF);
     sanoHondo(c);
-    if (c['vol']) sanoS(c['vol'] as Crudo, DEF.vol);
     S = Object.assign(S, conVol(c));
     return;
   }
@@ -239,10 +244,11 @@ const conVol = (d: Crudo): Partial<Estado> =>
       accent?: string;
       vol?: Partial<Volumenes>;
     } | null;
-    if (l) {
+    if (esPartida(l)) {
+      sanoS(l, DEF);
       if (l.name) S.name = l.name;
       if (l.age) S.age = l.age;
-      if (l.vol) S.vol = Object.assign({}, DEF.vol, l.vol);
+      if (l.vol) S.vol = conVol({ vol: l.vol }).vol!;
       S.first['fromLetri'] = 1;
     }
   } catch (e) {}

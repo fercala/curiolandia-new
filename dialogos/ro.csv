@@ -2534,6 +2534,9 @@ f26435916639,{Cosa} ya es tuyo. Está en la casa de Tito.,{Cosa} e deja al tău.
 94e40ceddf23,{Cosa} cuesta {n} monedas. Te falta una. ¡Jugando ganas más!,{Cosa} costă {n} {n:de}monede. Îți mai trebuie una. Jucându-te câștigi mai multe!,trozo,src/escenas/tienda.ts,borrador
 1040031103e2,{Cosa} cuesta {n} monedas. Te faltan {f}. ¡Jugando ganas más!,{Cosa} costă {n} {n:de}monede. Îți mai trebuie {f}. Jucându-te câștigi mai multe!,trozo,src/escenas/tienda.ts,borrador
 e4e243e8701e,¿Quieres comprar {cosa} por {n} monedas? Toca el verde para comprar.,Vrei să cumperi {cosa} cu {n} {n:de}monede? Atinge verdele ca să cumperi.,frase,src/escenas/tienda.ts,borrador
+35a57baa9b01,Ya tienes este objeto. Puedes encontrarlo en tu casa.,Ai deja acest obiect. Îl găsești în casa ta.,frase,src/escenas/tienda.ts,borrador
+b1beff242f9c,Ahora no tienes monedas suficientes para esta compra.,Acum nu ai destule monede pentru această cumpărătură.,frase,src/escenas/tienda.ts,borrador
+9f83331cd606,Este vale ha cambiado. Mira los vales de la tienda otra vez.,Acest tichet s-a schimbat. Uită-te din nou la tichetele din magazin.,frase,src/escenas/tienda.ts,borrador
 a24f268b60ef,¡Compraste el vale! {vale}. Enséñaselo a un adulto de tu familia para canjearlo.,Ai cumpărat tichetul! {vale}. Arată-l unui adult din familie ca să-l folosești.,frase,src/escenas/tienda.ts,borrador
 a16cc27c6411,¡Es tuyo! ¡Mira qué bonito le queda a Tito!,E al tău! Uite ce frumos îi stă lui Tito!,frase,src/escenas/tienda.ts,borrador
 70be5fa92b88,¡Es tuyo! Está guardado en el baúl. Toca la casita de arriba para verlo.,E al tău! Este în cufăr. Atinge căsuța de sus ca să-l vezi.,frase,src/escenas/tienda.ts,borrador
@@ -4608,6 +4611,7 @@ a97afa46ddbe,Todavía no hay medida: se mide sola al jugar en el mapa o en otra 
 209d1ac8dc1c,Las sombras van en modo ligero para que el juego vaya más fluido.,"Umbrele sunt în modul ușor, ca jocul să meargă mai fluid.",adultos,src/aplicacion/adultos/copia.ts,borrador
 d77d10cc9a90,Copia y aparato,Copie și dispozitiv,adultos,src/aplicacion/adultos/copia.ts,borrador
 e5875df840b1,Copia,Copie,adultos,src/aplicacion/adultos/copia.ts,borrador
+bd77b621c85d,Código de copia de seguridad,Codul copiei de siguranță,adultos,src/aplicacion/adultos/copia.ts,borrador
 b7a98e43db03,"Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia.",Aici apare codul de copiat sau lipește aici un cod pentru a recupera o copie.,adultos,src/aplicacion/adultos/copia.ts,borrador
 df3692f3dcae,Copia de seguridad,Copie de siguranță,adultos,src/aplicacion/adultos/copia.ts,borrador
 67e45aabeb73,"Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia de vez en cuando.","Salvează tot progresul (drumul, monedele, casa lui Tito, abțibildurile și setările) ca să-l muți pe alt dispozitiv sau să-l recuperezi dacă se șterg datele browserului. E bine să faci din când în când o copie.",adultos,src/aplicacion/adultos/copia.ts,borrador
@@ -4632,6 +4636,7 @@ b2df064e0bf5,Días especiales,Zile speciale,adultos,src/aplicacion/adultos/copia
 10154cb74190,¿Seguro?,Sigur?,adultos,src/aplicacion/adultos/copia.ts,borrador
 777233f37eab,"Sí, borrar","Da, șterge",adultos,src/aplicacion/adultos/copia.ts,borrador
 bafd7322c6e9,No,Nu,adultos,src/aplicacion/adultos/copia.ts src/head.html,borrador
+85eb2ada7415,Leyendo la copia de seguridad…,Se citește copia de siguranță…,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 117ef289ce06,"Este código tiene todo el progreso. Cópialo y guárdalo, por ejemplo enviándotelo por mensaje.","Acest cod conține tot progresul. Copiază-l și păstrează-l, de exemplu trimițându-ți-l într-un mesaj.",adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 7d0c39e9a8f2,✅ Código copiado.,✅ Cod copiat.,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 a603cb7cbfb3,Selecciona el código de arriba y cópialo a mano.,Selectează codul de mai sus și copiază-l manual.,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
@@ -4643,6 +4648,7 @@ edebf8bc6646,"Sí, recuperar esta copia","Da, recuperează această copie",adult
 4bbf011d7eec,"Copia encontrada de {nombre}: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.","Copie găsită pentru {nombre}: teme terminate: {temas}, jocuri jucate: {juegos}, monede: {monedas}.",adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 3bc31b6cd427,"Copia encontrada: {temas} temas terminados, {juegos} juegos jugados y {monedas} monedas.","Copie găsită: teme terminate: {temas}, jocuri jucate: {juegos}, monede: {monedas}.",adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 033828b51588,❌ No se pudo guardar en este navegador.,❌ Nu s-a putut salva în acest browser.,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
+54fc7d3b0e32,❌ No se pudo leer el archivo de copia. Vuelve a elegirlo o usa el código de copia.,❌ Nu s-a putut citi fișierul copiei. Selectează-l din nou sau folosește codul copiei.,adultos,src/aplicacion/adultos/copiaSeguridad.ts,borrador
 0411690e31a5,Fichas para imprimir,Fișe de imprimat,adultos,src/aplicacion/adultos/fichas.ts,borrador
 83928020a631,Usan los dibujos del último tema abierto.,Folosesc desenele din ultima temă deschisă.,adultos,src/aplicacion/adultos/fichas.ts,borrador
 e079b278ef82,Ficha para colorear,Fișă de colorat,adultos,src/aplicacion/adultos/fichas.ts,borrador
@@ -4683,7 +4689,11 @@ ec51ec969fdc,Lo que ha hecho esta semana:,Ce a făcut săptămâna aceasta:,adul
 150796ea6833,No se ha podido copiar el informe.,Raportul nu a putut fi copiat.,adultos,src/aplicacion/adultos/informe.ts,borrador
 fdc6446d8460,Premios y vales,Premii și tichete,adultos,src/aplicacion/adultos/premios.ts,borrador
 1548db2ef3d8,Premios,Premii,adultos,src/aplicacion/adultos/premios.ts,borrador
+33e11636f03f,Activar el vale: {vale},Activează tichetul: {vale},adultos,src/aplicacion/adultos/premios.ts,borrador
+cc84f8a330d2,Texto del vale: {vale},Textul tichetului: {vale},adultos,src/aplicacion/adultos/premios.ts,borrador
+dfe88d186847,Precio del vale en monedas: {vale},Prețul tichetului în monede: {vale},adultos,src/aplicacion/adultos/premios.ts,borrador
 f3176786e699,Entregado ✔,Dat ✔,adultos,src/aplicacion/adultos/premios.ts,borrador
+e7ebc60f637d,Marcar como entregado: {vale},Marchează ca dat: {vale},adultos,src/aplicacion/adultos/premios.ts,borrador
 741ff1b0620e,Monedas y estrellas,Monede și stele,adultos,src/aplicacion/adultos/premios.ts,borrador
 af47433ab9f8,monedas,monede,adultos,src/aplicacion/adultos/premios.ts src/aplicacion/adultos/resumen.ts,borrador
 e8d638c2ef44,Ha ganado,A câștigat,adultos,src/aplicacion/adultos/premios.ts,borrador

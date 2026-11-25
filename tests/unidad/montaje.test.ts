@@ -162,6 +162,19 @@ describe('paginaJuego', () => {
     ).toBe(true);
   });
 
+  test('la importación de Letrilandia sanea el perfil y los volúmenes y descarta listas', () => {
+    const copia = JSON.stringify({ name: 123, age: '4', vol: { voz: -1, fx: '0.3' } });
+    const global = ejecutaModulos({ 'letrilandia.v1': copia });
+    expect(global['S']).toMatchObject({
+      name: '123',
+      age: 4,
+      vol: { voz: 0, mus: 0.45, fx: 0.3 },
+      first: { fromLetri: 1 },
+    });
+    const invalida = ejecutaModulos({ 'letrilandia.v1': '[]' });
+    expect(invalida['S']).toMatchObject({ name: '', age: 0, first: {} });
+  });
+
   test('al cargar, arranca el juego: espera a las fuentes Andika y Fredoka', () => {
     fuentesPedidas.length = 0;
     ejecutaModulos();

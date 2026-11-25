@@ -2,6 +2,7 @@
 // seguridad (bkWire, adultos/copiaSeguridad.ts), instalar el juego, «Ir a» con todos los sitios y temas y, al final,
 // «Empezar de cero» (doReset, aplicacion/dialogos.ts). Antes eran las últimas secciones de aplicacion/adultos.ts.
 // Desde la fase A6, la copia apunta su día en S.bkFecha y, si toca hacer otra, el menú y el Resumen lo recuerdan.
+// El selector de archivo se abre con un botón nativo accesible por teclado y los mensajes tienen una región de estado.
 // Desde la v0.2.181 (idea 47 de docs/IDEAS-MEJORA.md), «Fluidez del 3D»: la última medida de cuadros por segundo, la
 // nitidez y si van las sombras ligeras (la calidad automática de mundo3d/motor.ts y dominio/calidad.ts).
 import { S, VIVO, fmtHtml, go, temasDone, today } from '../../nucleo/indice.ts';
@@ -53,14 +54,15 @@ export const COPIA: PaginaAdultos = {
   icono: '💾',
   // aviso(): 1 si toca recordar la copia de seguridad (copiaPendiente), para el número del menú (fase A6).
   aviso: () => (copiaPendiente() ? 1 : 0),
-  // html(): copia de seguridad, instalar, la fluidez del 3D (desde la v0.2.181), ir a (los atajos data-go los conecta el panel) y empezar de cero.
+  // html(): copia de seguridad con controles accesibles, instalar, fluidez del 3D, ir a y empezar de cero.
+  // Los atajos data-go los conecta el panel.
   html: () => `
   <section><h3>Copia de seguridad</h3>
    <p class="note">Guarda todo el progreso (el camino, las monedas, la casa de Tito, las pegatinas y los ajustes) para pasarlo a otro dispositivo o recuperarlo si se borran los datos del navegador. Conviene hacer una copia de vez en cuando.</p>
-   <div class="row"><button id="a-bk-dl">⬇️ Descargar copia</button><button id="a-bk-code">🔑 Ver código de copia</button><label class="opt" style="cursor:pointer">📂 Cargar archivo de copia<input type="file" id="a-bk-file" accept=".json,.txt,application/json,text/plain" hidden></label></div>
-   <textarea id="a-bk-txt" rows="3" style="width:100%;box-sizing:border-box;font:13px/1.3 monospace;border:2px solid var(--ink);border-radius:12px;padding:8px;background:#fff" placeholder="Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia."></textarea>
+   <div class="row"><button id="a-bk-dl">⬇️ Descargar copia</button><button id="a-bk-code">🔑 Ver código de copia</button><button type="button" id="a-bk-choose">📂 Cargar archivo de copia</button><input type="file" id="a-bk-file" accept=".json,.txt,application/json,text/plain" hidden></div>
+   <textarea id="a-bk-txt" aria-label="Código de copia de seguridad" rows="3" style="width:100%;box-sizing:border-box;font:13px/1.3 monospace;border:2px solid var(--ink);border-radius:12px;padding:8px;background:#fff" placeholder="Aquí aparece el código para copiar, o pega aquí un código para recuperar una copia."></textarea>
    <div class="row"><button id="a-bk-copy">📋 Copiar código</button><button id="a-bk-load">♻️ Recuperar con este código</button></div>
-   <div id="a-bk-msg" class="note"></div></section>
+   <div id="a-bk-msg" class="note" role="status" aria-live="polite" aria-atomic="true"></div></section>
   <section><h3>Instalar en el móvil o la tableta</h3>${installHTML()}</section>
   ${fluidezHTML()}
   <section><h3>Ir a</h3><div class="row"><button data-go="map">Mapa</button><button data-go="asamblea">Asamblea</button><button data-go="jardin">Jardín de 3 años</button><button data-go="bosque">Bosque de 4 años</button><button data-go="montana">Montaña de 5 años</button><button data-go="fiestas">Días especiales</button><button data-go="tienda">Tienda</button><button data-go="casaTito">Casa de Tito</button><button data-go="album">Álbum</button><button data-go="intro">Ver el cuento del inicio</button></div>

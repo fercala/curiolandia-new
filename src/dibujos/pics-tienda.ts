@@ -1,5 +1,7 @@
 // Dibujos de los juguetes de la tienda de Tito y sus variantes en reposo.
 // todos.ts los carga en PICS. Cada dibujo cabe en el marco habitual de 124 × 124.
+// Exporta: nada. Añade los dibujos y las variantes de estado al catálogo PICS.
+// Importa: K, PICS y sw de pics-base.ts para usar los colores y contornos del juego.
 import { K, PICS, sw } from './pics-base.ts';
 
 Object.assign(PICS, {

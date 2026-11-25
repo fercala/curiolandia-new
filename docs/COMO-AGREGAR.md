@@ -40,7 +40,7 @@ en las guías existentes; una petición de revisión de PR se mantiene sin modif
    - Trucos de consola: `__cl.S.age=5; __cl.S.unlockAll=true; __cl.go('map')` (todo abierto); `__cl.go('casita',{t:'3A-T1'})` (ir a un tema); `window.__fast=1; window.__said=[]` (la voz no espera y `__said` guarda lo que dice Tito: útil para copiar frases exactas).
    - Para probar de noche sin esperar: en la consola, `Date.prototype.getHours=()=>22; __cl.go('map')`.
 6. **Prueba automática**: `npm run test:humo` (debe terminar con `TODO BIEN`; capturas en `tests/capturas/`) y `npm run test:pr`, en local antes del PR, porque GitHub Actions ya no las pasa (los dos juntos: `npm run test:local`; unos 25 minutos; las pruebas de una en una, nunca a la vez).
-   Para investigar el guardado, ejecuta `node tests/regresion/cobertura.js dist guardado-` tras compilar. Consulta [cobertura de guardado](COBERTURA-PRUEBAS.md#guardado-y-recuperación-11-de-noviembre-de-2026) para distinguir los fallos conocidos de los errores del guion.
+   `test:pr` conserva las pruebas de las ideas nuevas e incluye `npm run test:fiabilidad`, con las regresiones de compras, copias, vales, volúmenes y candado. Para investigar el guardado, ejecuta `node tests/regresion/cobertura.js dist guardado-` tras compilar. Un filtro que no seleccione casos devuelve error del guion (2). Consulta [cobertura de guardado](COBERTURA-PRUEBAS.md#guardado-y-recuperación-11-de-noviembre-de-2026) para distinguir los fallos conocidos de los errores del guion.
 7. **Prueba en un móvil** si has tocado algo visual o de rendimiento (el 3D es lo más pesado).
 8. **Frases nuevas o cambiadas**: apúntalas en `dialogos/pendientes.txt` y rehaz `dialogos/todos.csv` con `npm run dialogos` (ver [dialogos/LEEME.md](../dialogos/LEEME.md)).
 9. **Formato y linter**: `npm run formato` y `npm run lint` (sin avisos); el gancho de commit y GitHub Actions lo comprueban. Ver [FORMATO-Y-LINTER.md](FORMATO-Y-LINTER.md).
@@ -153,7 +153,7 @@ games:[ ...los que había..., {t:'cuento',icon:'libro',name:'El cuento'}, {t:'tu
 | `Memoria` | Parejas de cartas | `pool, pairs, intro` |
 | `Cuenta` | Contar y elegir el número | `pool, max, rounds` |
 | `Puzzle` | Rompecabezas | `list` |
-| `Excava` | Frotar la arena para descubrir (máx. 6) | `pool, n, cover, under` |
+| `Excava` | Frotar la arena para descubrir (cuadrícula adaptable al pedir más de 6) | `pool, n, cover, under` |
 | `Riega` | Regar macetas | `n, colors` |
 | `Pinta` | Elegir el color y pintar | `items:[[clave, color]]` |
 | `Secuencia` | Ordenar viñetas | `panels` o `sets, ask, okAll, first` |
@@ -297,7 +297,7 @@ Desde la fase A1 de [PLAN-MENU-ADULTOS.md](PLAN-MENU-ADULTOS.md) cada categoría
    ```
 3. Conectarla en `conectar(el)` de esa página: `radios(el, 'a-mi', (v) => { S.miAjuste = +v; save(); })` (`radios`, de `adultos/comun.ts`).
 4. Si debe sobrevivir a "Borrar todo el progreso", añádelo a `keep` en `doReset()`.
-5. Los textos del panel son HTML y no pasan por `say()`: se pueden cambiar sin problema (el catálogo de frases deja fuera la zona de adultos).
+5. Los textos del panel son HTML y no pasan por `say()`, pero el catálogo los incluye con tipo `adultos`. Cada texto nuevo lleva su rumano y se regenera con `npm run dialogos`. Los controles necesitan un nombre accesible; si incluye un texto de la familia, usa una plantilla traducida con `fmt()` y escapa el resultado con `esc()` antes de ponerlo en un atributo HTML.
 6. Una categoría nueva: un módulo con su `PaginaAdultos` (`adultos/tipos.ts`), su id en `IdPagina` y una fila en `PAGINAS_ADULTOS` (`adultos/paginas.ts`); la prueba `tests/regresion/adultos.js` espera 7 categorías.
 7. Si la página tiene algo pendiente que la familia debe hacer, dale `aviso()` (el número del menú) y, si conviene, un aviso en el Resumen (`avisosResumen`, `adultos/resumen.ts`); las reglas, en `dominio/zonaAdultos.ts`.
 

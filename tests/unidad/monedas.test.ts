@@ -45,4 +45,11 @@ describe('ganar y gastar', () => {
     expect(gastar({ coins: 30, coinsTot: 50 }, 12)).toEqual({ coins: 18 });
     expect([alcanza(10, 10), alcanza(9, 10), alcanza(40, 10)]).toEqual([true, false, true]);
   });
+  test('un saldo o precio inválido no permite comprar', () => {
+    for (const n of [NaN, Infinity, -Infinity, -1]) {
+      expect(alcanza(n, 6)).toBe(false);
+      expect(alcanza(100, n)).toBe(false);
+    }
+    expect(alcanza(0, 0)).toBe(true);
+  });
 });

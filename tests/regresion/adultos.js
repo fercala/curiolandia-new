@@ -4,7 +4,8 @@
 // juego» se ve siempre (también al bajar hasta el final de la página), Escape cierra, y openAdult(pagina) abre esa
 // página. Además, cada control de la zona guarda en su campo de S y sigue tras recargar. Desde las fases A2 a A6: el
 // Resumen avisa de los vales por entregar y de la copia de seguridad (con su número en el menú, que se va al resolverlo),
-// el progreso se pliega por zonas, el tabulador no sale del panel y las flechas recorren el menú.
+// el progreso se pliega por zonas, el tabulador no sale del panel y las flechas recorren el menú. Los avisos de voz
+// usan listas sintéticas explícitas para comprobar el caso con inglés y sin inglés en cualquier sistema operativo.
 // Uso: node tests/regresion/adultos.js <carpeta web>
 const L = require('./lib');
 const [raiz] = process.argv.slice(2);
@@ -169,7 +170,14 @@ const TAMANOS = [
   await caso(
     'Z3',
     'El Resumen avisa de vales y copia, con números en el menú que se van al resolverlo',
-    {},
+    {
+      antes: () => {
+        speechSynthesis.getVoices = () => [
+          { voiceURI: 'prueba-es', name: 'Prueba ES', lang: 'es-ES', localService: true, default: true },
+          { voiceURI: 'prueba-en', name: 'Prueba EN', lang: 'en-GB', localService: true, default: false },
+        ];
+      },
+    },
     async (p) => {
       await p.evaluate(() => {
         const S = __cl.S;
@@ -203,6 +211,26 @@ const TAMANOS = [
       if (r.nums.premios || r.nums.copia) return 'los números no se van: ' + JSON.stringify(r.nums);
       const f = await p.evaluate(() => [__cl.S.bkFecha, today()]);
       if (f[0] !== f[1]) return 'S.bkFecha: ' + f.join(' / ');
+    },
+  );
+
+  await caso(
+    'Z3-sin-ingles',
+    'Si hay voz castellana pero falta la inglesa, el Resumen explica el aviso y enlaza a Tito y el sonido',
+    {
+      antes: () => {
+        speechSynthesis.getVoices = () => [
+          { voiceURI: 'prueba-es', name: 'Prueba ES', lang: 'es-ES', localService: true, default: true },
+        ];
+      },
+    },
+    async (p) => {
+      await p.evaluate(() => openAdult());
+      const aviso = p.locator('#adult .pag[data-pag="resumen"] .aviso').filter({ hasText: 'no tiene voz inglesa' });
+      if ((await aviso.count()) !== 1) return 'falta el aviso de voz inglesa';
+      await aviso.locator('button[data-ir="titoYSonido"]').click();
+      if (!(await p.locator('#adult .pag[data-pag="titoYSonido"]').isVisible()))
+        return 'el aviso no lleva a Tito y el sonido';
     },
   );
 

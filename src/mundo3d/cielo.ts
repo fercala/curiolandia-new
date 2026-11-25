@@ -5,15 +5,15 @@
  * NAMES3, y las sílabas para dar palmas, SYL3 y sylClap); el toque en el cielo vacío (skyTap) y lo que hay en el cielo:
  * Júpiter, Saturno y el Carro (jupiter, saturn, bigDipper), el sol y la luna con cara (sunRays, orbFace, zoneMoon), el
  * águila, el trineo de Navidad, los pájaros y las nubes (mountEagle, xmasSleigh, skyBirds, skyClouds).
- * Usa THREE solo dentro de las funciones. No cambies el texto de las frases: tienen MP3 grabado en curiolandia-3d.
- * Exporta: todo lo de arriba. Importa: del núcleo S, SCENES, T, PI, say, tone, noise, parts, rnd, sceneName; sayMix
+ * Usa THREE solo dentro de las funciones. Las frases se comparten con el catálogo y las traducciones.
+ * Exporta: todo lo de arriba. Importa: del núcleo S, SCENES, T, PI, say, later, tone, noise, parts, rnd, sceneName; sayMix
  * (temas/); ahora() (aplicacion/puertos.ts); RC y proj (mundo3d/motor.ts); piezas de mundo3d/materiales.ts; fhit y
  * softTex (mundo3d/decorado.ts) y cloud3 y hitS (mundo3d/objetos.ts).
  */
 import * as THREE from 'three';
 import type { OpcionesSay } from '../nucleo/voz.ts';
 import type { Mundo, Nodo } from './tipos.ts';
-import { PI, S, SCENES, T, noise, parts, rnd, say, sceneName, tone } from '../nucleo/indice.ts';
+import { PI, S, SCENES, T, later, noise, parts, rnd, say, sceneName, tone } from '../nucleo/indice.ts';
 import { tr } from '../nucleo/traducir.ts';
 import { sayMix } from '../temas/indice.ts';
 // ahora() y azar(): la fecha y la hora y el azar (puertos de aplicacion/puertos.ts, desde la fase 3g; antes new
@@ -43,18 +43,19 @@ export function skyNow() {
 const NUM7 = ['Uno', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete'],
   NUM10 = NUM7.concat(['Ocho', 'Nueve', 'Diez']);
 // say3(t,cb,o): como say(), pero calla si en la zona de adultos se eligió "Sin comentarios en el paisaje" (S.quiet3);
-// en ese caso llama igualmente a cb al cabo de medio segundo.
+// en ese caso llama a cb al cabo de medio segundo, si se sigue en la misma visita a la escena.
 export function say3(t: string, cb?: (() => void) | null, o?: OpcionesSay) {
   /* lo que Tito comenta del paisaje; se puede callar desde la zona de adultos */ if (S.quiet3) {
-    if (cb) setTimeout(cb, 500);
+    if (cb) later(500, cb);
     return;
   }
   say(t, cb, o);
 }
 // sayMix3(p,cb): como sayMix() (frases en varios idiomas), con el mismo interruptor S.quiet3.
+// La continuación silenciosa se cancela al cambiar de escena, igual que en say3.
 export function sayMix3(p: readonly string[], cb?: (() => void) | null) {
   if (S.quiet3) {
-    if (cb) setTimeout(cb, 500);
+    if (cb) later(500, cb);
     return;
   }
   sayMix(p, cb);

@@ -9,7 +9,7 @@
  * deja window.__w3 (hasta la fase 4k también envolvía go con ponGo).
  * Exporta: lo de arriba (walkTo, wobInit, wobTap, flyTap, seaTap, walkGround, busy3, walkTick, titoRect, ponCasaP,
  * call0) y montarInteraccion. Importa: del núcleo T, PI, SCENES, TITO, scene, sceneName, tone, noise, parts, burst,
- * sparkles, pick, rnd, clamp; ponDisposicion (nucleo/disposicion.ts); TUNES y playTune (juegos/); isBday (escenas/escenas2d.ts); HOUSE_AT
+ * sparkles, pick, rnd, clamp y later (explicaciones ligadas a la visita actual); ponDisposicion (nucleo/disposicion.ts); TUNES y playTune (juegos/); isBday (escenas/escenas2d.ts); HOUSE_AT
  * (escenas/zonas.ts); ahora() y azar() (aplicacion/puertos.ts); de mundo3d/motor.ts W3, R, RC, PRK, FPS, pickAt, proj y
  * projR; V3 (mundo3d/materiales.ts); la voz del paisaje (mundo3d/cielo.ts), lo de tocar de mundo3d/objetos.ts y los
  * personajes (mundo3d/personajes.ts).
@@ -24,6 +24,7 @@ import {
   TITO,
   burst,
   clamp,
+  later,
   noise,
   parts,
   pick,
@@ -315,7 +316,7 @@ export function flyTap(w: Mundo, x: number, y: number) {
 // wobTap(w,x,y): x,y = punto tocado en la pantalla 2D. Busca el primer objeto de w.trees que corta el rayo y sube por sus padres hasta
 // el que tiene marca (WOBK). Si no hay ninguno devuelve false. Si lo hay: lo anima (u.wob=T; ignora toques repetidos en 0,3 s), Tito lo
 // mira, la primera vez Tito dice su nombre (NAMES3) y luego cada tipo tiene su rama 'else if(u.xxx)' con sonidos, partículas y voz.
-// Devuelve true.
+// Las explicaciones del sol, Júpiter y la luna usan later para no aparecer tras abandonar la escena. Devuelve true.
 export function wobTap(w: Mundo, x: number, y: number) {
   const th = w.trees && w.trees.length && RC.intersectObjects(w.trees, true)[0];
   let t: THREE.Object3D | null | undefined | 0 = th && th.object;
@@ -408,7 +409,7 @@ export function wobTap(w: Mundo, x: number, y: number) {
     // la segunda vez, el sol cuenta qué es
     if (w.dayT && !w.sunF && T - w.dayT > 3) {
       w.sunF = w.dayT = T;
-      setTimeout(() => say3('El sol. Es una estrella gigante que nos da luz y calor.'), 300);
+      later(300, () => say3('El sol. Es una estrella gigante que nos da luz y calor.'));
       numPop(x, y + 110, 3, 'SOL');
       parts[parts.length - 1].hl = 1;
     }
@@ -609,7 +610,7 @@ export function wobTap(w: Mundo, x: number, y: number) {
   } else if (u.jup) {
     if (w.jupT && !w.jupF && T - w.jupT > 3) {
       w.jupF = w.jupT = T;
-      setTimeout(() => say3('Júpiter. Es el planeta más grande de todos.'), 300);
+      later(300, () => say3('Júpiter. Es el planeta más grande de todos.'));
       numPop(x, y + 80, 5, 'Júpiter');
       parts[parts.length - 1].hl = 1;
     } /* la segunda vez, Júpiter cuenta que es el más grande */ else if (!w.jupT || T - w.jupT > 4) {
@@ -689,7 +690,7 @@ export function wobTap(w: Mundo, x: number, y: number) {
   } else if (u.orb === 'luna') {
     if (w.monT && !w.monF && T - w.monT > 3) {
       w.monF = w.monT = T;
-      setTimeout(() => say3('La luna. Gira alrededor de la Tierra. De noche la vemos brillar.'), 300);
+      later(300, () => say3('La luna. Gira alrededor de la Tierra. De noche la vemos brillar.'));
       numPop(x, y + 110, 3, 'LUNA');
       parts[parts.length - 1].hl = 1;
     } /* la segunda vez, la luna cuenta qué es */ else if (!w.monT || T - w.monT > 6) {

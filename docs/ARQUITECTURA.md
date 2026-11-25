@@ -100,7 +100,7 @@ cuando todo era global, se exportaba todo).
 | — | `aplicacion/abrirCofre.ts` (la importa `escenas/zonas.ts`) | **Casos de uso del cofre del tesoro** (aplicación, desde la fase 4l): ganarlo al terminar un tema (`ganarCofre`: `S.cofres` y el pendiente en `S.cofreP`) y abrirlo (`abrirCofre`: quita el pendiente, una figurita más en `S.stk` y cuántas monedas da). Los usan la escena del cofre (`enter` y `reward`) y `cofrePend`, que entrega al arrancar los que se quedaron sin abrir. El regalo lo sigue dando `grantGift`. Pruebas en `tests/unidad/abrirCofre.test.ts`. |
 | — | `aplicacion/premiosDelDia.ts` (la importan `escenas/zonas.ts`, `escenas/escenas2d.ts` y `escenas/repaso.ts`) | **Casos de uso de los premios del día** (aplicación, desde la fase 4m): el regalo del día (`regaloDelDia`: `S.gift`), el cumpleaños (`premioDelCumple`: `S.bdayDone` y la tarta), el repaso terminado (`premioDelRepaso`: la lupa) y terminar la asamblea (`terminarAsamblea`: `S.asam`, las más antiguas fuera, y la figurita de la semana en `S.first.wk`). Devuelven los campos nuevos y cuántas monedas dan; las suma quien llama con `creditCoins`. Pruebas en `tests/unidad/premiosDelDia.test.ts`. |
 | — | `aplicacion/casa.ts` (desde la fase M2 de [PLAN-CASA-MEJORA.md](PLAN-CASA-MEJORA.md); la importan `escenas/casa.ts`, `escenas/tienda.ts` y `escenas/cofre.ts`) | **Casos de uso de la casa ordenada** (aplicación): `arreglarCasa` (al entrar: lo comprado que falta y lo que no tiene sitio, al baúl; cada cosa en la posición de su sitio), `nuevoAlBaul` (lo comprado o regalado), `colocarObjeto`, `guardarObjeto` (con lo que se va al baúl de rebote), `ordenarCasa` («¡Ordena, Tito!»), `enBaul` y `nuevosEnBaul` (con `casaVistos`). Devuelven `home` y `casaVistos` nuevos; quien llama los pone en `S` (`casaEnS`, `escenas/tienda.ts`) y guarda. Pruebas en `tests/unidad/casaAplicacion.test.ts`. |
-| — | `aplicacion/comprar.ts` (la importa `escenas/tienda.ts`) | **Caso de uso comprar** (aplicación, desde la fase 4m): un artículo pasa a `S.owned`, un vale se apunta en `S.valesLog` y un vale que un adulto desactivó no se vende. Las monedas las gasta `buy` con `spendCoins`; ponérselo a Tito o colocarlo en su casa sigue siendo de la tienda. Pruebas en `tests/unidad/comprar.test.ts`. |
+| — | `aplicacion/comprar.ts` (la importa `escenas/tienda.ts`) | **Caso de uso comprar** (aplicación, desde la fase 4m): un artículo pasa a `S.owned`, un vale se apunta en `S.valesLog` y un vale que un adulto desactivó o editó no se vende con la confirmación anterior. Al confirmar se validan el saldo actual y la propiedad del artículo. Las monedas las gasta `buy` con `spendCoins`; ponérselo a Tito o colocarlo en su casa sigue siendo de la tienda. Pruebas en `tests/unidad/comprar.test.ts`. |
 | — | `dominio/apertura.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de apertura** (dominio, desde la fase 3a): qué zonas, casitas, juegos y sitios del mapa están abiertos y qué casita toca. Sin dibujo y sin `S`: recibe la partida y el mapa. Pruebas en `tests/unidad/apertura.test.ts`. |
 | — | `dominio/progreso.ts` (la importa `nucleo/tito.ts`, así que se carga con el núcleo) | **Reglas de progreso y premios** (dominio, desde la fase 3b): estrellas, temas terminados, casa de Tito (`HOUSE_NEXT`), Pipo (`PET_NEXT`), habitaciones, niveles de la tienda (`TIER_NEED`), regalo del cofre (`GIFTS`) y cumpleaños. Pruebas en `tests/unidad/progreso.test.ts`. |
 | — | `dominio/monedas.ts` (la importa `escenas/zonas.ts`, así que se carga justo antes que ella) | **Reglas de las monedas** (dominio, desde la fase 3c): cuántas da cada cosa (`MONEDAS`), los aciertos (como mucho 5 por juego) y cómo se suman y se gastan (`ganar` y `gastar` devuelven el monedero nuevo). Pruebas en `tests/unidad/monedas.test.ts`. |
@@ -191,6 +191,8 @@ puerto Guardado.
 
 Lo que comparten varios archivos se importa de su módulo. Por ejemplo, `S` (de `nucleo/guardado.ts`) se importa en casi todos.
 
+Cuando otra pestaña guarda, el puerto Guardado notifica el evento `storage`. `nucleo/guardado.ts` migra y sanea la partida recibida antes de adoptarla en `S`, para no sobrescribirla después con datos anteriores. La tienda y los controles de vales vuelven a validar la acción contra ese estado recibido; los límites de las escrituras simultáneas se explican en [PROBLEMAS-CONOCIDOS.md](PROBLEMAS-CONOCIDOS.md).
+
 **Leer sí, reasignar no.** Un módulo puede leer lo que importa y cambiar los campos de sus objetos (`S.coins++`,
 `SCENES.map.draw = ...`), pero no reasignarlo: JavaScript no deja reasignar un `import` (y `npm run tipos` lo marca
 como error). Para lo que varios archivos cambian hay dos vías:
@@ -214,7 +216,7 @@ Cada cuadro (unas 60 veces por segundo) `frame()` hace, en este orden:
 
 1. Calcula `dt` (segundos desde el cuadro anterior, máximo 0,05) y avanza el reloj global `T`.
 2. Ejecuta los temporizadores de `later()` que tocan (solo los de la escena actual) y, si venció alguno, los quita de `VIVO.timers` (desde la v0.2.53, en los cuadros en que no vence ninguno la lista no se rehace; lo prueba `tests/unidad/temporizadores.test.ts`).
-3. Comprueba el candado de adultos (mantener pulsado 3 s abajo a la derecha) y el límite de tiempo de juego (`S.limit`, que lleva a la escena `dormir`).
+3. Comprueba el candado de adultos (mantener pulsado 3 s abajo a la derecha) y el límite de tiempo de juego (`S.limit`, que lleva a la escena `dormir`). El candado cuenta desde la pulsación con tiempo real, con un máximo de un segundo por cuadro; soltar, perder la captura del puntero u ocultar la pestaña cancela la pulsación y exige empezar de nuevo.
 4. Música (`musicTick`) y `scene.update(dt)`.
 5. **Si la escena es 3D** (`scene.three`), llama a `R3frame(dt)` de `mundo3d/mundo3d.ts`, que anima y pinta el 3D en `#gl`.
 6. `scene.draw()` pinta lo 2D en `#cv` (encima del 3D), y luego la ayuda (`drawHelp`), las partículas (`drawParts`), avisos y monedas.
@@ -489,6 +491,10 @@ y «Cómo le va» con lo que cuesta primero (las reglas, en `dominio/zonaAdultos
 («Más información») y los textos están en castellano de España. El panel es un diálogo accesible: el foco no sale de él
 con el tabulador, vuelve a donde estaba al cerrar, las flechas recorren el menú, los controles miden 44 px o más y el
 contraste de «Volver al juego» y del foco pasa de 4,5 : 1. La copia de seguridad apunta su día en `S.bkFecha`.
+
+La recuperación de copias (`copiaSeguridad.ts`) mantiene un turno de lectura en memoria, sin añadir campos a la partida. Iniciar otra lectura de archivo o código retira el resumen y la confirmación anteriores. Los resultados o errores de turnos antiguos no sustituyen la última elección; solo una confirmación del turno vigente escribe en el guardado.
+
+En «Copia y aparato», el botón nativo `a-bk-choose` activa el selector oculto `a-bk-file` con ratón o teclado. `a-bk-txt` tiene nombre accesible traducido y `a-bk-msg` es una región `status` con avisos no interruptivos (`aria-live="polite"` y `aria-atomic="true"`).
 
 - El código está en `aplicacion/adultos/`: `panel.ts` (abrir, cerrar y navegar), `paginas.ts` (`PAGINAS_ADULTOS`, las
   páginas en el orden del menú), un módulo por página con su `html()` y su `conectar()` (`tipos.ts`), `copiaSeguridad.ts`
