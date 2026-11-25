@@ -59,6 +59,7 @@ import {
 import { camRig, newWorld, projO, setWorld } from './motor.ts';
 import { Box, Sph, V3, grp, mk, picTex, spr } from './materiales.ts';
 import { makeTito } from './personajes.ts';
+import { apuntarDiario } from '../escenas/diario.ts';
 
 /** La ejecución que se ve ahora: los pasos, cómo acaba, la tarjeta que falla y cuándo empezó. */
 interface Corre {
@@ -286,6 +287,7 @@ function termina(c: Corre, ultimo: Posicion): void {
   const [x, y] = fresa ? projO(fresa, 0) : [800, 400],
     ultimoNivel = PROG.nivel >= nivelesDe(edad()).length - 1;
   burst(x, y, 30);
+  apuntarDiario('programa'); // el diario de Tito (idea 35, escenas/diario.ts)
   if (ultimoNivel) {
     say('¡Qué bien programas! Tito se ha comido todas las fresas.');
     later(1000, () => giveCoins(MONEDAS.juegoRepetido, x, y));

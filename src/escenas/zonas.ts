@@ -73,6 +73,7 @@
  * ===================================================================== */
 import { botonExtra, tocaExtra } from './botonesExtras.ts';
 import { BOTON_CUENTO } from './cuentoDecisiones.ts';
+import { alEntrarCasita, dibujaBotonReto, dibujaDorada, tocaBotonReto } from './modoReto.ts';
 import type { JuegoTema, Libre, Tema } from '../juegos/tipos.ts';
 import type { Escena, OpcionesEscena, OpcionesTema } from '../nucleo/tipos.ts';
 import type { Mapa, Partida, Progreso } from '../dominio/apertura.ts';
@@ -192,6 +193,9 @@ import { mascotasMayores } from './casaMascotas.ts';
 import { tocaPausaActiva } from '../dominio/yoga.ts';
 import { moverseActivo } from '../dominio/retos.ts';
 import { celebrarRetoSiToca, fraseReto } from './retos.ts';
+import { recuerdoDeAyer } from './diario.ts';
+import { anunciarEncargo, dibujaEncargo, tocaEncargo } from './encargos.ts';
+import { dibujaBotonMisiones, tocaBotonMisiones } from './misiones.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -1547,6 +1551,10 @@ SCENES.map = {
     }
     // el reto en casa hecho (fase P4): Tito lo celebra con una pegatina cuando acabe de hablar
     celebrarRetoSiToca();
+    // el diario (idea 35, escenas/diario.ts): la primera vez de cada día, si no hubo otro aviso, Tito recuerda lo de ayer
+    if (!msg) later(4500, () => sceneName === 'map' && recuerdoDeAyer());
+    // el encargo del día (idea 34, escenas/encargos.ts): la primera vez de cada día, después de lo demás
+    later(6000, () => sceneName === 'map' && anunciarEncargo());
   },
   // ageZone(): zona que corresponde a la edad (ageZoneOpen). Hoy no la llama nadie (la capa 3D ya no la usa para colocar a
   // Tito).
@@ -1677,12 +1685,16 @@ SCENES.map = {
     drawSeguir();
     drawHome();
     drawCoinHUD();
+    dibujaEncargo(); // el encargo del día (idea 34, escenas/encargos.ts)
+    dibujaBotonMisiones(); // las misiones del día (idea 36, escenas/misiones.ts)
     drawTito(TITO.x, TITO.y, TITO.w);
     drawRepBtn();
   },
   // down(x, y): la lupa -> el repaso; casa -> portada; Tito; monedas -> tienda; botón seguir; Pipo (dice cuánto falta
   // para que nazca); y si no, el sitio más cercano bajo el dedo: dormido o cerrado -> explica qué falta; abierto -> va a él.
   down(x: number, y: number) {
+    if (tocaEncargo(x, y)) return; // el encargo del día (idea 34)
+    if (tocaBotonMisiones(x, y)) return; // las misiones del día (idea 36)
     if (dist(x, y, REPBTN.x, REPBTN.y) < 52) {
       SFX.pop();
       go('repaso', { hello: true });
@@ -1823,6 +1835,7 @@ SCENES.casita = {
     }
     ponRepOn(false);
     this.t = TEMA[o.t];
+    alEntrarCasita(this.t); // el modo reto sigue solo en su casita (idea 32)
     S.last = o.t;
     save();
     this.unl = null;
@@ -1886,6 +1899,7 @@ SCENES.casita = {
       text(t.n, 310 + tw / 2, 110, 54, K, { w: 600 });
     }
     botonExtra(BOTON_CUENTO, 'Cuento con decisiones');
+    dibujaBotonReto(t); // el modo reto (idea 32, escenas/modoReto.ts)
     const pts = t.games.map((_g: JuegoTema, j: number) => stationPos(t, j)),
       nx = nextGameOf(t);
     drawRoad(pts, nx < 0 ? pts.length - 1 : nx, 150);
@@ -1897,6 +1911,7 @@ SCENES.casita = {
       if (!un && lk) lockOver(x, y, 124);
       circ(x - 96, y - 96, 30, lk ? '#EADFCF' : tst(t.id).g[j] ? '#7CC86E' : '#5B8DEF', 5);
       text(String(j + 1), x - 96, y - 84, 34, '#fff', { f: LF });
+      dibujaDorada(t, j, x - 96, y + 80);
       if (j === nx && !(this.unl && this.unl.j === j && T < this.unl.t + 0.4)) arrowAt(x, y - 170);
     });
     drawHome();
@@ -1925,6 +1940,7 @@ SCENES.casita = {
       go('cuentoDecisiones', { t: t.id });
       return;
     }
+    if (tocaBotonReto(t, x, y)) return;
     for (let j = 0; j < t.games.length; j++) {
       const [gx, gy] = stationPos(t, j);
       if (dist(x, y, gx, gy) < 140) {

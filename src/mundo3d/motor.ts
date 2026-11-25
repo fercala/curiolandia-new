@@ -9,6 +9,7 @@
  * OX, OY y SC (de 1600x900 a píxeles), y de mundo3d/materiales.ts la caché de texturas TXC. fitCam, trimShadows
  * y disposeWorld son internas (desde la fase 4n).
  */
+import { ajustarCalidad } from '../dominio/calidad.ts';
 import * as THREE from 'three';
 import type { Mundo, Nodo, OpcionesMundo } from './tipos.ts';
 import { OX, OY, PI, SC, VIVO } from '../nucleo/indice.ts';
@@ -226,13 +227,26 @@ export function camTick(w: Mundo, dt: number) {
   w.cam.lookAt(w.camL!);
 }
 
-// calidad adaptable: si el aparato no llega a ~24 cuadros por segundo en 3D, se baja la resolución (nunca se sube);
+// calidad adaptable: si el aparato no llega a ~24 cuadros por segundo en 3D, se baja la resolución y, ya al mínimo, las
+// sombras pasan a ser ligeras (desde la v0.2.181, idea 47: la regla está en dominio/calidad.ts, ajustarCalidad);
 // debajo de 20 cuadros el juego entero va más lento porque el paso de tiempo está topado en 0,05 s
-// FPS = {n: cuadros contados, t0: inicio de la medida, last: último cuadro, up: ya se subió la calidad, noUp: no volver a subirla}.
+// FPS = {n: cuadros contados, t0: inicio de la medida, last: último cuadro, up: ya se subió la calidad, noUp: no volver a
+// subirla, medido: los cuadros por segundo de la última medida (la zona de adultos los enseña), ligeras: sombras ligeras}.
 // PRK = escala de la resolución (1 = completa, mínimo 0,5); rs() redimensiona el lienzo
-export const FPS: { n: number; t0: number; last: number; up?: boolean; noUp?: boolean } = { n: 0, t0: 0, last: 0 };
-// fpsTick(): se llama en cada cuadro 3D. Cuenta cuadros durante 4 s y baja o sube PRK. Tras una pausa de más de 1 s (o con la
-// pestaña oculta) empieza a contar de nuevo, para no confundir la pausa con lentitud
+export const FPS: {
+  n: number;
+  t0: number;
+  last: number;
+  up?: boolean;
+  noUp?: boolean;
+  medido?: number;
+  ligeras?: boolean;
+} = { n: 0, t0: 0, last: 0 };
+// CADA_SOMBRA: con sombras ligeras, cada cuántos cuadros se vuelven a calcular.
+const CADA_SOMBRA = 8;
+// fpsTick(): se llama en cada cuadro 3D. Cuenta cuadros durante 4 s y ajusta la calidad (ajustarCalidad). Tras una pausa
+// de más de 1 s (o con la pestaña oculta) empieza a contar de nuevo, para no confundir la pausa con lentitud. Con sombras
+// ligeras, las pide de nuevo cada CADA_SOMBRA cuadros (el resto de cuadros se reutilizan las de antes).
 export function fpsTick() {
   const now = performance.now();
   if (now - FPS.last > 1000 || document.hidden) {
@@ -241,17 +255,16 @@ export function fpsTick() {
   }
   FPS.last = now;
   FPS.n++;
+  if (FPS.ligeras && FPS.n % CADA_SOMBRA === 0) R.shadowMap.needsUpdate = true;
   if (now - FPS.t0 >= 4000) {
-    const fps = (FPS.n * 1000) / (now - FPS.t0);
-    if (fps < 24 && PRK > 0.5) {
-      PRK = Math.max(0.5, PRK * 0.75);
-      if (FPS.up) FPS.noUp = true;
-      rs();
-    }
-    // si fue un tirón pasajero (cargando, otra app) y ahora va sobrado, la nitidez vuelve a subir; si vuelve a ir lento después de subir, se queda baja
-    else if (fps >= 55 && PRK < 1 && !FPS.noUp) {
-      PRK = Math.min(1, PRK / 0.75);
-      FPS.up = true;
+    const fps = (FPS.n * 1000) / (now - FPS.t0),
+      antes = { prk: PRK, ligeras: !!FPS.ligeras, up: !!FPS.up, noUp: !!FPS.noUp },
+      c = ajustarCalidad(antes, fps);
+    FPS.medido = Math.round(fps);
+    Object.assign(FPS, { up: c.up, noUp: c.noUp, ligeras: c.ligeras });
+    if (c.ligeras && !antes.ligeras) R.shadowMap.autoUpdate = false;
+    if (c.prk !== PRK) {
+      PRK = c.prk;
       rs();
     }
     FPS.n = 0;

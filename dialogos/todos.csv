@@ -1225,7 +1225,7 @@ aa3a832b74c9,Creo que se me cayó cerca del bosque.,frase,src/dominio/amigos.ts
 c6afd63197e8,Creo que se me cayó cerca del cole.,frase,src/dominio/amigos.ts
 23754e3f51e8,Creo que se me cayó cerca de la casa de las fiestas.,frase,src/dominio/amigos.ts
 c51c336fbca3,Creo que se me cayó cerca del globo.,frase,src/dominio/amigos.ts
-df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/titoYSonido.ts
+df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/fichas.ts
 803b0d23fbee,Polly,trozo,src/dominio/carreras.ts
 a29d50ec9ee6,Lupi,trozo,src/dominio/carreras.ts
 80db790085db,Pipo,trozo,src/dominio/carreras.ts src/escenas/casaMascotas.ts
@@ -1303,6 +1303,28 @@ ccd9d9bd53d0,{n} medallas de {medalla},trozo,src/dominio/deporte.ts
 d6aab1bb5737,{n} de {medalla},trozo,src/dominio/deporte.ts
 e4967d139c87,{lista} y {ultimo},trozo,src/dominio/deporte.ts
 5778faca132a,Tienes {lista}.,frase,src/dominio/deporte.ts
+3001b87d28d3,Terminamos un juego en una casita y ganamos una estrella.,frase,src/dominio/diario.ts
+4ac512fa21e6,Fuimos de excursión en el autobús del cole.,frase,src/dominio/diario.ts
+db94fa8794dd,Leímos un cuento y elegimos qué pasaba.,frase,src/dominio/diario.ts
+e3913d26ba15,Programamos a Tito para llegar hasta la fresa.,frase,src/dominio/diario.ts
+439b8ac14e7a,Construimos con bloques en el cole.,frase,src/dominio/diario.ts
+d95ef9ad0df4,Resolvimos un juego del rincón de la lógica.,frase,src/dominio/diario.ts
+87902396a53a,Hicimos un experimento en el taller de ciencias.,frase,src/dominio/diario.ts
+6ef175f1078d,Pintamos y tocamos música en el estudio de arte.,frase,src/dominio/diario.ts
+03cc637965e3,Cuidamos a los animales del corral de Tito.,frase,src/dominio/diario.ts
+dd4dae301a8c,"Jugamos juntos a las parejas, por turnos.",frase,src/dominio/diario.ts
+d52eadfee91f,Ayudamos a un vecino con su encargo.,frase,src/dominio/diario.ts
+83700a709b9f,Jugamos en el patio del cole.,frase,src/dominio/diario.ts
+2dea5347048e,El cartero nos ha dado una carta para el cole. ¿La llevamos? Toca el cole en el mapa.,frase,src/dominio/encargos.ts
+607e1b8e18a2,¡Ya hemos dejado la carta en el cole! Gracias por ayudar al cartero.,frase,src/dominio/encargos.ts
+9cd22388e9c6,El panadero nos ha dado pan para la merienda. ¿Lo llevamos a mi casa?,frase,src/dominio/encargos.ts
+11659a375c3b,¡Ya tenemos el pan en casa! Gracias por ayudar al panadero.,frase,src/dominio/encargos.ts
+f77e4d3267bd,La granjera quiere vender zanahorias en la tienda. ¿Se las llevamos?,frase,src/dominio/encargos.ts
+70ba9ca534c0,¡Las zanahorias ya están en la tienda! Gracias por ayudar a la granjera.,frase,src/dominio/encargos.ts
+f458f596bf3a,La maestra se ha dejado un libro. ¿Se lo llevamos a las clases del cole?,frase,src/dominio/encargos.ts
+f534c825fcbd,¡La maestra ya tiene su libro! Gracias por ayudarla.,frase,src/dominio/encargos.ts
+551a0eb9e68c,La frutera nos ha regalado fresas. ¿Las llevamos a mi casa?,frase,src/dominio/encargos.ts
+052490df640c,¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.,frase,src/dominio/encargos.ts
 e15ad32125de,¡Está detrás del árbol!,frase,src/dominio/escondite.ts
 79a63b160235,¡Está debajo del tobogán!,frase,src/dominio/escondite.ts
 feee6dd228f8,¡Está dentro de la casita!,frase,src/dominio/escondite.ts
@@ -1312,6 +1334,13 @@ f73b6c2f7d1b,¡Está dentro de la caja!,frase,src/dominio/escondite.ts
 17eb8962117b,{dia} de {mes},trozo,src/dominio/excursiones.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 df787b379967,{n} veces,trozo,src/dominio/excursiones.ts
+b09d8481596b,¡El rojo y el amarillo hacen el naranja!,frase,src/dominio/experimentos.ts
+08bb9e1c8c68,¡El amarillo y el azul hacen el verde!,frase,src/dominio/experimentos.ts
+0a4699b460c7,¡El rojo y el azul hacen el morado!,frase,src/dominio/experimentos.ts
+20785403cb41,El sol calienta el agua del mar.,frase,src/dominio/experimentos.ts
+825e8f07051a,El agua sube al cielo y forma las nubes.,frase,src/dominio/experimentos.ts
+de9a4987372e,De las nubes cae la lluvia.,frase,src/dominio/experimentos.ts
+0272aacbdfb9,La lluvia baja por el río y vuelve al mar.,frase,src/dominio/experimentos.ts
 23e6139f001d,Bichos y animales del campo,trozo,src/dominio/fotos.ts
 0a1a439a1271,Del mar y de la playa,trozo,src/dominio/fotos.ts
 ba7b7dff853b,De la nieve y del frío,trozo,src/dominio/fotos.ts
@@ -1418,6 +1447,17 @@ e176f9b5d39e,¡Un murciélago! Duerme de día cabeza abajo y vuela de noche.,fra
 5ce9573b2676,"¡Una rana! Por la noche canta: ¡cro, cro!",frase,src/dominio/linterna.ts
 289faecd2092,¡Un lobo! Aúlla a la luna: ¡auuuu!,frase,src/dominio/linterna.ts
 4f456e7c6b99,"¡Una polilla! Es como una mariposa, pero vuela de noche y le gusta la luz.",frase,src/dominio/linterna.ts
+99a644cbbe8b,Termina un juego en una casita.,frase,src/dominio/misiones.ts
+6594d4900c26,Juega en el patio del cole.,frase,src/dominio/misiones.ts
+aa36a3a23829,Resuelve un juego del rincón de la lógica.,frase,src/dominio/misiones.ts
+c08657587c2a,Haz un experimento en el taller de ciencias.,frase,src/dominio/misiones.ts
+d136838e69af,Pinta o haz música en el estudio de arte.,frase,src/dominio/misiones.ts
+d22c2d4ad191,Lee un cuento y elige qué pasa.,frase,src/dominio/misiones.ts
+63d32605f48a,Ve de excursión en el autobús del cole.,frase,src/dominio/misiones.ts
+c0249142b5d1,Esta semana es la semana del mar.,frase,src/dominio/misiones.ts
+02b34937b1ad,Esta semana es la semana de los bichos.,frase,src/dominio/misiones.ts
+6761eb236c63,Esta semana es la semana de la granja.,frase,src/dominio/misiones.ts
+d949ed2f0c71,Esta semana es la semana del espacio.,frase,src/dominio/misiones.ts
 0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
 e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
 6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
@@ -1511,6 +1551,23 @@ ba4ecea9b7ad,"¡{Excursion}! Hemos ido {n} veces; la última, el {fecha}. ¿Te a
 a50ab6af698c,Este es el álbum de excursiones. Aquí se guardan las fotos de grupo. Toca una foto.,frase,src/escenas/albumExcursiones.ts
 94ddc8c3d31d,Toca una foto del álbum.,frase,src/escenas/albumExcursiones.ts
 89479dc025ba,Mis excursiones,trozo,src/escenas/albumExcursiones.ts
+533048e1e4bc,El estudio de arte,trozo,src/escenas/arte.ts
+f6e7a60225da,¡El estudio de arte! ¿Pintamos o hacemos música?,frase,src/escenas/arte.ts
+a67f4967caef,Pintura de espejo,trozo,src/escenas/arte.ts
+af095cf77f39,Compón una canción,trozo,src/escenas/arte.ts
+d7e89076dc7e,"Elige un color y pinta en el cuadro. ¡Lo que pintes en un lado sale también en el otro, como en un espejo!",frase,src/escenas/arte.ts
+a96f30f0a23d,Borrar,trozo,src/escenas/arte.ts src/mundo3d/programa3d.ts
+986d657b7e29,Colgar en la casa,trozo,src/escenas/arte.ts
+ea64fcba58d8,Primero pinta algo en el cuadro.,frase,src/escenas/arte.ts
+41a781ebab82,¡Qué cuadro tan bonito! Lo colgamos en la pared del salón de mi casa.,frase,src/escenas/arte.ts
+596e0de9fad3,Toca las láminas del xilófono para hacer tu canción. Luego toca «Escuchar».,frase,src/escenas/arte.ts
+b2506ba033dd,Escuchar,trozo,src/escenas/arte.ts
+d3270bdb8d2c,Guardar,trozo,src/escenas/arte.ts
+3334183cbc6b,La canción ya está llena. Toca «Escuchar» o «Borrar».,frase,src/escenas/arte.ts
+68d7dbccf4d2,Primero toca unas notas del xilófono.,frase,src/escenas/arte.ts
+cea65444fd95,¡Qué canción tan bonita! Sonará cuando toques el cuadro de mi salón.,frase,src/escenas/arte.ts
+b47a10c671f9,¡Nuestro cuadro y nuestra canción del estudio de arte!,frase,src/escenas/arte.ts
+ac8dc61dda7e,Este cuadro lo pintamos en el estudio de arte.,frase,src/escenas/arte.ts
 a26e1520589b,¡El tesoro! Hay un sombrero de pirata. ¡Me lo pongo!,frase,src/escenas/aventura.ts
 4935a38af826,¡El tesoro! Está lleno de monedas de oro.,frase,src/escenas/aventura.ts
 3f69e3d99494,¡El mapa del tesoro está completo! Y mira lo que hay en la cruz roja...,frase,src/escenas/aventura.ts
@@ -1748,9 +1805,12 @@ c6eff9337b90,"¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el s
 2a38e02fe684,Construcciones,trozo,src/escenas/clases.ts src/mundo3d/bloques3d.ts
 1ec7e99207c1,El rincón de las construcciones.,frase,src/escenas/clases.ts
 2530064104a4,El rincón de las construcciones estará listo muy pronto.,frase,src/escenas/clases.ts
-aa37ac6a4153,Lógica,trozo,src/escenas/clases.ts
+aa37ac6a4153,Lógica,trozo,src/escenas/clases.ts src/escenas/logica.ts
 edc0e8975506,El rincón de la lógica.,frase,src/escenas/clases.ts
 1a5505629eeb,El rincón de la lógica estará listo muy pronto.,frase,src/escenas/clases.ts
+fdab3f533b97,Ciencias,trozo,src/escenas/clases.ts
+3b46532a387b,El taller de ciencias.,frase,src/escenas/clases.ts
+4a0ee51d6d85,El taller de ciencias estará listo muy pronto.,frase,src/escenas/clases.ts
 e2e14219d8a7,Arte,trozo,src/escenas/clases.ts
 fc8590dc98f6,El rincón del arte.,frase,src/escenas/clases.ts
 1cf3dd08e236,El rincón del arte estará listo muy pronto.,frase,src/escenas/clases.ts
@@ -1774,7 +1834,7 @@ a97c66fedfb2,el patio,trozo,src/escenas/cole.ts
 b44e34d68b1b,El patio,trozo,src/escenas/cole.ts src/escenas/patio.ts
 a32c8a6e5f50,las clases,trozo,src/escenas/cole.ts
 05999bcdbb62,el autobús de las excursiones,trozo,src/escenas/cole.ts
-4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts
+4a29fe3f57a6,Excursiones,trozo,src/escenas/cole.ts src/aplicacion/adultos/informe.ts
 4e2af90d29d2,Cerrado,trozo,src/escenas/cole.ts
 2a19d28ebbc6,"¡Bienvenido al cole{nino}! Aquí está el patio, para jugar y moverse, las clases, con sus rincones, y el autobús, para ir de excursión. ¡Toca el patio!",frase,src/escenas/cole.ts
 242b502a89e2,El patio está cerrado por ahora. Toca la casa para volver al mapa.,frase,src/escenas/cole.ts
@@ -1801,6 +1861,21 @@ fa80ee037e45,¡El viento sopla hacia la derecha!,frase,src/escenas/cometa.ts
 6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,frase,src/escenas/cometa.ts
 a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!",frase,src/escenas/cometa.ts
 7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,frase,src/escenas/cometa.ts
+26a64b61746f,Tiene hambre. Dale trigo.,frase,src/escenas/corral.ts
+ae906f03258b,Tiene sed. Dale el cubo de agua.,frase,src/escenas/corral.ts
+e57288cd0ed4,Quiere que lo cepilles.,frase,src/escenas/corral.ts
+79a0169e7c38,¡Hoy ya están todos contentos! Puedes vender los productos en el mercado.,frase,src/escenas/corral.ts
+f408115a6fef,¡Este es mi corral! Mira qué pide cada animal: toca la cosa de abajo y luego el animal.,frase,src/escenas/corral.ts
+89ea426bafe6,Vender,trozo,src/escenas/corral.ts
+203af1685e6c,¡Hemos vendido todo en el mercado! Cada cosa vale una moneda.,frase,src/escenas/corral.ts
+df18929c7087,Este ya está contento. Mañana pedirá otra cosa.,frase,src/escenas/corral.ts
+c83f59b3b143,Para traer la vaca al corral hacen falta {n} monedas.,frase,src/escenas/corral.ts
+195bed26dbc6,¡Ya tenemos una vaca en el corral!,frase,src/escenas/corral.ts
+fc9f77aa2115,Para traer la oveja al corral hacen falta {n} monedas.,frase,src/escenas/corral.ts
+5b979164622b,¡Ya tenemos una oveja en el corral!,frase,src/escenas/corral.ts
+b8e802fa40fd,¡Gracias! La gallina ha puesto un huevo.,frase,src/escenas/corral.ts
+108e22b0d335,¡Gracias! La vaca nos da leche.,frase,src/escenas/corral.ts
+694ecffd2f48,¡Gracias! Con la leche de la oveja hacemos queso.,frase,src/escenas/corral.ts
 7be4054e0c1d,¿Qué cuento leemos? Toca uno.,frase,src/escenas/cuentoDecisiones.ts
 ec8962736a51,¡Has descubierto todos los finales de este cuento!,frase,src/escenas/cuentoDecisiones.ts
 ae3d6762a99e,¡Un final nuevo! Lee otra vez y elige otras cosas para descubrir los demás.,frase,src/escenas/cuentoDecisiones.ts
@@ -1850,6 +1925,10 @@ e341563ba2dd,¡Con el otro pie!,frase,src/escenas/deportePruebas.ts
 7e65ff75a791,"¡Los relevos! Cada uno corre un trozo y le pasa el testigo al siguiente. Cuando el siguiente brille, tócalo para pasarle el testigo.",frase,src/escenas/deportePruebas.ts
 a0185476a01c,"Cuando el siguiente brille, tócalo para pasarle el testigo.",frase,src/escenas/deportePruebas.ts
 9325ba5e4639,Los relevos,trozo,src/escenas/deportePruebas.ts
+168088fd88a2,¿Te acuerdas de ayer? Mira lo que hicimos:,trozo,src/escenas/diario.ts
+a2f06560d07a,Lo tienes todo en el diario de mi casa.,frase,src/escenas/diario.ts
+eaf4ea803287,Mi diario aún está vacío. ¡Vamos a jugar juntos y lo llenamos!,frase,src/escenas/diario.ts
+91d2c4a72091,El diario de Tito,trozo,src/escenas/diario.ts
 9192ecff8e35,Este es tu diccionario de inglés. Ya conoces 1 palabra.,frase,src/escenas/diccionario.ts
 dfdd92d63bd7,Este es tu diccionario de inglés. Ya conoces {n} palabras.,frase,src/escenas/diccionario.ts
 5500a4d3fb9c,Tu diccionario de inglés está vacío. ¡Polly te espera en la Isla del Inglés!,frase,src/escenas/diccionario.ts
@@ -1865,7 +1944,7 @@ cbde4daf3b50,Juega en la Isla del Inglés y aquí saldrán tus palabras,trozo,sr
 4cb72ca44f61,(display-mode: fullscreen),trozo,src/escenas/escenas2d.ts
 c046f6c492c5,Tito y las preguntas escondidas,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 e577921a91f3,Juega: {nombre},trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
-75b319068fef,¿Quién juega?,frase,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
+75b319068fef,¿Quién juega?,frase,src/escenas/escenas2d.ts src/escenas/perfiles.ts src/mundo3d/portada3d.ts
 0abfc7737a54,Empezar de nuevo,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 4b5f67b9d141,Instalar el juego,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 4f9ad52621f0,"¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.",frase,src/escenas/escenas2d.ts
@@ -2059,6 +2138,35 @@ ad914a5487a4,"¡Hola{nino}! Soy {guia}, el socorrista. ¡Bienvenido a la playa! 
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,frase,src/escenas/excursion.ts
 62b6c5e80991,Practicar la compra,trozo,src/escenas/excursion.ts
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,trozo,src/escenas/excursion.ts
+10e35dc90095,El taller de ciencias,trozo,src/escenas/experimentos.ts
+a0125bff80a0,¡El taller de ciencias! Elige un experimento.,frase,src/escenas/experimentos.ts
+a68c7ee407ba,Mezclar colores,trozo,src/escenas/experimentos.ts src/temas/temas5.ts
+ee0371fb0d90,Los imanes,trozo,src/escenas/experimentos.ts
+01566ffbcc44,Las sombras,trozo,src/escenas/experimentos.ts
+351addbeba21,El ciclo del agua,trozo,src/escenas/experimentos.ts
+34dea6303517,La semilla,trozo,src/escenas/experimentos.ts
+c3c817c6c226,Toca dos botes de pintura para mezclarlos. ¿Qué color saldrá?,frase,src/escenas/experimentos.ts
+43283b2d999a,Con el mismo color sale el mismo color. Prueba con otro.,frase,src/escenas/experimentos.ts
+1cb0642f6bb9,¡Se pega! Es de metal y el imán lo atrae.,frase,src/escenas/experimentos.ts
+9b5377068c6a,No se pega. El imán solo atrae el metal.,frase,src/escenas/experimentos.ts
+9c9d04fa1730,"¡Sorpresa! Se pega, porque es de metal y el imán lo atrae.",frase,src/escenas/experimentos.ts
+e5c06812eecc,"¡Sorpresa! No se pega, porque el imán solo atrae el metal.",frase,src/escenas/experimentos.ts
+34a21ee9ff7c,¿El imán atraerá este objeto? Toca «Se pega» o «No se pega» y lo probamos.,frase,src/escenas/experimentos.ts
+4c3741939c2a,¡Muy bien! Ya sabes qué cosas atrae el imán.,frase,src/escenas/experimentos.ts
+d3a210f6dcef,La lámpara da sombra al objeto. ¿Cuál es su sombra? Tócala en la pared.,frase,src/escenas/experimentos.ts
+b8e745a9e159,Esa sombra tiene otra forma. Mira bien el objeto.,frase,src/escenas/experimentos.ts
+e00cfcd76df2,¡Muy bien! La sombra tiene la misma forma que el objeto.,frase,src/escenas/experimentos.ts
+3ef100b4ff8c,¡Esa es! La sombra tiene su misma forma.,frase,src/escenas/experimentos.ts
+041bfdbbd677,"¿Cómo viaja el agua? Toca los dibujos en orden, empezando por el sol.",frase,src/escenas/experimentos.ts
+fecc0807cd53,Eso pasa más tarde. ¿Qué pasa antes?,frase,src/escenas/experimentos.ts
+00c7c3a4c5ea,¡Y vuelta a empezar! El agua siempre da la vuelta.,frase,src/escenas/experimentos.ts
+4ba513707f9d,¡Ha salido un brote! Mañana la regamos otra vez.,frase,src/escenas/experimentos.ts
+abdeaf658892,¡Ya es una plantita con hojas! Sigue regándola otros días.,frase,src/escenas/experimentos.ts
+3469bc565fc7,"¡Ha salido una flor! Las plantas crecen con agua, sol y tiempo.",frase,src/escenas/experimentos.ts
+da728a4adb78,¡Nuestra planta ya tiene flor! Puedes seguir regándola.,frase,src/escenas/experimentos.ts
+55ce4d29816f,Esta es nuestra semilla. Riégala con la regadera y vuelve otros días para ver cómo crece.,frase,src/escenas/experimentos.ts
+17911bada5e6,Hoy ya la hemos regado. Vuelve mañana para ver cómo crece.,frase,src/escenas/experimentos.ts
+cfa1a6988a74,"¡Glu, glu! Ya tiene agua. Mañana la regamos otra vez.",frase,src/escenas/experimentos.ts
 7ea82df74642,Flota,trozo,src/escenas/flota.ts
 f57a7921f6d5,Se hunde,trozo,src/escenas/flota.ts
 3cbbbcda4fa1,Otro objeto,trozo,src/escenas/flota.ts
@@ -2134,7 +2242,7 @@ af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts
-96b00383b22b,{n} años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/aplicacion/adultos/quienJuega.ts
+96b00383b22b,{n} años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/escenas/perfiles.ts
 8393ff8607d7,"¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",frase,src/escenas/isla.ts
 6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,frase,src/escenas/isla.ts
 b2b4b96d3c6d,"Lupi, la lechuza.",frase,src/escenas/isla.ts
@@ -2157,6 +2265,12 @@ ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,fr
 2289289d6344,"¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.",frase,src/escenas/juegosCortos.ts
 d9cb034d851e,Elige un juego corto.,frase,src/escenas/juegosCortos.ts
 f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts
+e426576a89e8,Le toca al jugador de Tito.,frase,src/escenas/juntos.ts
+bb38db0fec7d,Le toca al jugador de Lupi.,frase,src/escenas/juntos.ts
+81d3edbcb142,"¡Vamos a jugar juntos a las parejas! Uno juega con Tito y el otro con Lupi, por turnos.",frase,src/escenas/juntos.ts
+a973a5e3228f,¡Lo habéis hecho juntos!,frase,src/escenas/juntos.ts
+ec512ec86603,¡Pareja! Sigue jugando el mismo.,frase,src/escenas/juntos.ts
+067f1b9d6e00,¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.,frase,src/escenas/juntos.ts
 d5928579516d,¡Llegaste a la meta!,frase,src/escenas/laberinto.ts
 f9bf8d050287,Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.,frase,src/escenas/laberinto.ts
 4a0523f29586,Otra vez,trozo,src/escenas/laberinto.ts src/escenas/mercadoPractica.ts
@@ -2170,6 +2284,27 @@ b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de l
 7a4b818aec1d,Mueve la linterna por el bosque para buscar a los animales de la noche.,frase,src/escenas/linterna.ts
 6d3dbc758328,¡Has encontrado a todos los animales de la noche! ¡Qué buena vista tienes!,frase,src/escenas/linterna.ts
 96012df43c5c,¡Una estrella fugaz! Cierra los ojos y pide un deseo.,frase,src/escenas/linterna.ts
+37d61c4d8913,Programa a Tito,trozo,src/escenas/logica.ts src/mundo3d/programa3d.ts src/aplicacion/adultos/informe.ts
+0f5afd1f74f1,Sudoku de dibujos,trozo,src/escenas/logica.ts
+a68c544d6296,¿Qué falta?,frase,src/escenas/logica.ts
+0c1d210f25c7,Las diferencias,trozo,src/escenas/logica.ts
+354c83c12158,La balanza,trozo,src/escenas/logica.ts
+117578d3aa71,El tangram,trozo,src/escenas/logica.ts
+5fef2d8da51c,¡Muy bien! Lo has resuelto.,frase,src/escenas/logica.ts
+25b9c76c6bab,¡El rincón de la lógica! Elige un juego.,frase,src/escenas/logica.ts
+0f73d6d31ee1,"Pon cada fruta en un hueco. En cada fila y en cada columna, una de cada.",frase,src/escenas/logica.ts
+89324e87a1a1,Primero toca una fruta de abajo.,frase,src/escenas/logica.ts
+e3871202f198,Esa fruta ya está en esa fila o en esa columna. Prueba otra.,frase,src/escenas/logica.ts
+995b3b32e53a,Mira bien los dibujos. ¡Voy a esconder uno!,frase,src/escenas/logica.ts
+819e6225180d,¿Qué dibujo falta?,frase,src/escenas/logica.ts
+477a4d92e001,"No, ese sí estaba. Mira otra vez.",frase,src/escenas/logica.ts
+f8fc12bae84c,"Los dos dibujos parecen iguales, pero no lo son. Toca en el de la derecha lo que es distinto.",frase,src/escenas/logica.ts
+5a30c530b8a8,¡Una diferencia!,frase,src/escenas/logica.ts
+d437e996ba39,Pon bloques en el otro platillo hasta que la balanza quede recta.,frase,src/escenas/logica.ts
+68e0f617aa53,¿Qué pesa más? Toca el lado que pesa más.,frase,src/escenas/logica.ts
+5e1953dfcf4f,¡Mira la balanza! Pesa más el otro lado.,frase,src/escenas/logica.ts
+022afd6dcd01,Toca una pieza y luego su sitio en la figura.,frase,src/escenas/logica.ts
+c423204fb5f1,Esa pieza no va ahí. Mira la forma.,frase,src/escenas/logica.ts
 892b70c3da96,Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?,frase,src/escenas/mercado.ts
 f95fddbecbef,¡Sí! Nos devuelven {n}.,frase,src/escenas/mercado.ts
 c4d7d8e09119,No. Cuenta las monedas que sobran.,frase,src/escenas/mercado.ts
@@ -2192,6 +2327,16 @@ f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos d
 3b686947da97,Pagar con una ficha,trozo,src/escenas/mercadoPractica.ts
 8ce7478b0943,¡Compra hecha!,frase,src/escenas/mercadoPractica.ts
 5a858c14e404,Mira el siguiente dibujo de la lista.,frase,src/escenas/mercadoPractica.ts
+120e952ab1e1,¡Has cumplido las tres misiones de hoy! ¡Muy bien!,frase,src/escenas/misiones.ts
+c93bcf746c01,Estas son las misiones de hoy:,trozo,src/escenas/misiones.ts
+7293193bd082,Las misiones de hoy,trozo,src/escenas/misiones.ts
+40941e005476,¡Has cumplido las tres misiones de hoy! Te doy cinco monedas.,frase,src/escenas/misiones.ts
+295a2f3b0beb,"¡Y como es viernes, la pegatina de la semana!",frase,src/escenas/misiones.ts
+811811248745,Modo reto,trozo,src/escenas/modoReto.ts
+357c32b59684,Volvemos a jugar como siempre.,frase,src/escenas/modoReto.ts
+bbd473c8512b,"¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.",frase,src/escenas/modoReto.ts
+46ec0575cb96,Reto,trozo,src/escenas/modoReto.ts
+91ecc611a9d0,¡Reto superado! Has ganado una estrella dorada.,frase,src/escenas/modoReto.ts
 e3d8f426d44a,Vamos a medir {cosa} con los pasos de Tito. Toca las huellas una a una.,frase,src/escenas/museo.ts
 c83503444115,Toca las huellas una a una para contar los pasos.,frase,src/escenas/museo.ts
 aeb81513b171,¿Cuál es el más largo? Tócalo.,frase,src/escenas/museo.ts
@@ -2245,6 +2390,8 @@ f498f42ecc18,Izquierda.,frase,src/escenas/penaltis.ts
 4f9410833aab,Arriba.,frase,src/escenas/penaltis.ts
 7976e8a26f61,× {n},trozo,src/escenas/penaltis.ts
 f42bfe48c304,¡GOL!,frase,src/escenas/penaltis.ts
+0dc8d1199c91,¿Quién juega hoy? Toca tu nombre.,frase,src/escenas/perfiles.ts
+4d0ebbbc1b0c,Sin nombre,trozo,src/escenas/perfiles.ts src/aplicacion/adultos/informe.ts src/aplicacion/adultos/resumen.ts
 88809b80416d,"{a}, {b}, {c}... ¿Qué número viene ahora?",trozo,src/escenas/planetario.ts
 32dee3bad834,¡Cero! ¡Despegamos!,frase,src/escenas/planetario.ts
 a73e1b03e1e6,¡Sí! {N}.,frase,src/escenas/planetario.ts
@@ -2285,6 +2432,12 @@ fa96670bdb20,"Desde la orilla se ve el mar, con los barcos y el faro. ¡Vamos a 
 92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,frase,src/escenas/pompas.ts
 aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.",frase,src/escenas/pompas.ts
 02fdbb032ecb,{a} / {b},trozo,src/escenas/pompas.ts
+11112df29188,"Para jugar, toca las cosas con el dedo. ¡Toca la estrella!",frase,src/escenas/primerosPasos.ts
+f1eb8c37e434,Algunas cosas se arrastran. Pon el dedo en la manzana y llévala al cubo.,frase,src/escenas/primerosPasos.ts
+3ac0c15f9a87,El botón verde sirve para seguir. ¡Tócalo!,frase,src/escenas/primerosPasos.ts
+5062c9be0e41,"Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!",frase,src/escenas/primerosPasos.ts
+a0d92f683435,¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!,frase,src/escenas/primerosPasos.ts
+1178ef73e06c,¡Muy bien!,frase,src/escenas/primerosPasos.ts src/escenas/titoDice.ts src/escenas/yoga.ts
 cfd249310611,Tira la piedra a la casilla del {n}.,frase,src/escenas/rayuela.ts
 fe267e4ae7ab,"¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!",frase,src/escenas/rayuela.ts
 d40cd42c4fad,Esa es la casilla del {n}. Busca la del {objetivo}.,frase,src/escenas/rayuela.ts
@@ -2403,7 +2556,6 @@ b539e633e8c2,¡da una vuelta!,trozo,src/escenas/titoDice.ts
 9bbb2936abe1,¡abre mucho la boca!,trozo,src/escenas/titoDice.ts
 221ef7bf31d6,¡da cinco pisotones!,trozo,src/escenas/titoDice.ts
 b1a35e44836a,¡Eso es!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts src/temas/temas.ts
-1178ef73e06c,¡Muy bien!,frase,src/escenas/titoDice.ts src/escenas/yoga.ts src/juegos/comps2.ts
 ba8de4499a6c,¡Genial!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts
 a1def823d62e,¡Así se hace!,frase,src/escenas/titoDice.ts
 6d6b7169ae0d,"¡Je, je! No he dicho «Tito dice». Si no te has movido, ¡muy bien!",frase,src/escenas/titoDice.ts
@@ -2965,9 +3117,7 @@ e8e436b3cb23,¡Vamos a programar a Tito! Pon flechas para llevarlo hasta la fres
 ac2bba5b58e6,Primero pon alguna flecha para Tito.,frase,src/mundo3d/programa3d.ts
 d7ec2b06c56a,¡Qué bien programas! Tito se ha comido todas las fresas.,frase,src/mundo3d/programa3d.ts
 7e0282ef3543,¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!,frase,src/mundo3d/programa3d.ts
-37d61c4d8913,Programa a Tito,trozo,src/mundo3d/programa3d.ts
 b840dd15259b,¡Vamos!,frase,src/mundo3d/programa3d.ts
-a96f30f0a23d,Borrar,trozo,src/mundo3d/programa3d.ts
 6e058a19a686,¡Algo brilla por aquí!,frase,src/mundo3d/tesoros3d.ts
 7aa28286596a,"¡Viajeros, al tren! Vamos a dar la vuelta a Curiolandia. Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.",frase,src/mundo3d/tren3d.ts
 c06107a604e5,Cuenta los túneles por los que pasamos. Toca el tren para tocar la bocina.,frase,src/mundo3d/tren3d.ts
@@ -4390,7 +4540,6 @@ a425099c527a,{Cosa} es para la nieve.,trozo,src/temas/temas5.ts
 91bc3a3be47e,"{Cosa}, para la playa.",trozo,src/temas/temas5.ts
 25f625459b08,"{Cosa}, para la nieve.",trozo,src/temas/temas5.ts
 8dcbe3caa5d0,Nos vamos de vacaciones. ¿Qué llevamos a la playa y qué llevamos a la nieve? Lleva cada cosa a su maleta.,frase,src/temas/temas5.ts
-a68c7ee407ba,Mezclar colores,trozo,src/temas/temas5.ts
 7c6b6fac9c73,{Uno} y {otro} mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
 bbd2576991c0,¡Sí! {Uno} y {otro} hacen {mezcla}.,frase,src/temas/temas5.ts
 369d4d638a5c,Ese es el {color}. Piensa: {uno} y {otro}.,frase,src/temas/temas5.ts
@@ -4454,6 +4603,12 @@ b42c72918406,Ordenador (Chrome o Edge):,adultos,src/aplicacion/adultos/copia.ts
 f98179c5a893,el icono de instalar en la barra de direcciones.,adultos,src/aplicacion/adultos/copia.ts
 3414b7942702,"Una vez instalado, se abre a pantalla completa y funciona sin internet.",adultos,src/aplicacion/adultos/copia.ts
 a59c8b731067,En iPhone la voz depende de las voces en español instaladas en Ajustes → Accesibilidad → Contenido leído.,adultos,src/aplicacion/adultos/copia.ts
+a69ea4279d9a,Fluidez del 3D,adultos,src/aplicacion/adultos/copia.ts
+e3176545719e,Este aparato juega sin 3D.,adultos,src/aplicacion/adultos/copia.ts
+14e78903b775,Última medida: {n} cuadros por segundo. Nitidez: {p} %.,adultos,src/aplicacion/adultos/copia.ts
+a97afa46ddbe,Todavía no hay medida: se mide sola al jugar en el mapa o en otra escena en 3D.,adultos,src/aplicacion/adultos/copia.ts
+65e40a4166b3,"Si el aparato va lento, el juego baja la nitidez y, si hace falta, aligera las sombras él solo.",adultos,src/aplicacion/adultos/copia.ts
+209d1ac8dc1c,Las sombras van en modo ligero para que el juego vaya más fluido.,adultos,src/aplicacion/adultos/copia.ts
 d77d10cc9a90,Copia y aparato,adultos,src/aplicacion/adultos/copia.ts
 e5875df840b1,Copia,adultos,src/aplicacion/adultos/copia.ts
 bd77b621c85d,Código de copia de seguridad,adultos,src/aplicacion/adultos/copia.ts
@@ -4498,8 +4653,40 @@ edebf8bc6646,"Sí, recuperar esta copia",adultos,src/aplicacion/adultos/copiaSeg
 83928020a631,Usan los dibujos del último tema abierto.,adultos,src/aplicacion/adultos/fichas.ts
 e079b278ef82,Ficha para colorear,adultos,src/aplicacion/adultos/fichas.ts
 18720f14b3d2,Ficha para contar,adultos,src/aplicacion/adultos/fichas.ts
+754a421c4464,Ficha de trazos,adultos,src/aplicacion/adultos/fichas.ts
+dc9aa9209470,Ficha para recortar y pegar,adultos,src/aplicacion/adultos/fichas.ts
+c98c0f52af46,M10 40 Q35 5 60 40 T110 40 T160 40 T210 40 T260 40 T310 40,adultos,src/aplicacion/adultos/fichas.ts
+0ddd3541f789,M10 60 L45 15 L80 60 L115 15 L150 60 L185 15 L220 60 L255 15 L290 60,adultos,src/aplicacion/adultos/fichas.ts
+75ac5d864d78,M20 40 C20 0 70 0 60 40 C50 80 110 80 100 40 C90 0 150 0 140 40 C130 80 190 80 180 40 C170 0 230 0 220 40 C210 80 270 80 260 40 C250 0 310 0 300 40,adultos,src/aplicacion/adultos/fichas.ts
+526f821a7907,M10 60 L10 20 L60 20 L60 60 L110 60 L110 20 L160 20 L160 60 L210 60 L210 20 L260 20 L260 60,adultos,src/aplicacion/adultos/fichas.ts
 6bd46f9c630f,Cuenta los dibujos y rodea el número.,adultos,src/aplicacion/adultos/fichas.ts
+c23acbabee77,svg{width:24mm},adultos,src/aplicacion/adultos/fichas.ts
+e433c7c56526,"Repasa las líneas de puntos con el lápiz, sin levantarlo.",adultos,src/aplicacion/adultos/fichas.ts
+d605362f0a12,svg.linea{width:170mm;display:block;margin:6mm auto},adultos,src/aplicacion/adultos/fichas.ts
+fb69ea8e6fa6,Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.,adultos,src/aplicacion/adultos/fichas.ts
 36c7c6b9368d,Colorea el dibujo del tema.,adultos,src/aplicacion/adultos/fichas.ts
+4211c1214adb,svg{width:125mm},adultos,src/aplicacion/adultos/fichas.ts
+038f8745b18e,Juegos de las casitas,adultos,src/aplicacion/adultos/informe.ts
+774cc5641fa8,Cuentos con decisiones,adultos,src/aplicacion/adultos/informe.ts
+7141e979d2f0,Construir con bloques,adultos,src/aplicacion/adultos/informe.ts
+b5834c04c561,Rincón de la lógica,adultos,src/aplicacion/adultos/informe.ts
+1cd09d9918a3,Taller de ciencias,adultos,src/aplicacion/adultos/informe.ts
+a1d8c1eeed45,Estudio de arte,adultos,src/aplicacion/adultos/informe.ts
+9ac8675a83ec,Corral de la granja,adultos,src/aplicacion/adultos/informe.ts
+5b936eac8ee4,Jugar juntos,adultos,src/aplicacion/adultos/informe.ts
+5f4c72d94652,Encargos de los vecinos,adultos,src/aplicacion/adultos/informe.ts
+37cf19efcb57,Juegos del patio,adultos,src/aplicacion/adultos/informe.ts
+8630bcb42288,Esta semana todavía no ha jugado.,adultos,src/aplicacion/adultos/informe.ts
+0bf4eea25bed,Minutos de juego en los últimos 7 días: {n}.,adultos,src/aplicacion/adultos/informe.ts
+789bf9abdb34,Días que ha jugado: {n} de 7.,adultos,src/aplicacion/adultos/informe.ts
+1921fbac3e92,Lo que mejor se le da: {h}.,adultos,src/aplicacion/adultos/informe.ts
+3a415a3a5800,"Lo que más le cuesta: {h}. Para reforzarlo en casa, jugad juntos a lo mismo con cosas de casa, sin pantalla.",adultos,src/aplicacion/adultos/informe.ts
+ec51ec969fdc,Lo que ha hecho esta semana:,adultos,src/aplicacion/adultos/informe.ts
+7e21b098c42c,La semana,adultos,src/aplicacion/adultos/informe.ts
+4ae7bd307934,Compartir con la profe,adultos,src/aplicacion/adultos/informe.ts
+59b3ed08e91d,Informe semanal de {nombre} en Curiolandia,adultos,src/aplicacion/adultos/informe.ts
+446e86a1c692,Informe copiado: ya se puede pegar en un mensaje.,adultos,src/aplicacion/adultos/informe.ts
+150796ea6833,No se ha podido copiar el informe.,adultos,src/aplicacion/adultos/informe.ts
 fdc6446d8460,Premios y vales,adultos,src/aplicacion/adultos/premios.ts
 1548db2ef3d8,Premios,adultos,src/aplicacion/adultos/premios.ts
 33e11636f03f,Activar el vale: {vale},adultos,src/aplicacion/adultos/premios.ts
@@ -4677,12 +4864,18 @@ b1bd1be340c4,{n} de {total} sorpresas,adultos,src/aplicacion/adultos/progreso.ts
 976f31feca86,Todavía no tiene mascotas.,adultos,src/aplicacion/adultos/progreso.ts
 02abcbd7ccf6,"Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.",adultos,src/aplicacion/adultos/progreso.ts
 dd28901c98e3,Casa de Tito en 3D (prueba),adultos,src/aplicacion/adultos/progreso.ts
+77c0c627fd4f,Varios niños,adultos,src/aplicacion/adultos/quienJuega.ts
+bba099002f8b,"Hasta tres niños pueden jugar en este móvil, cada uno con su partida. Al empezar a jugar, Tito pregunta quién juega.",adultos,src/aplicacion/adultos/quienJuega.ts
+dabe36b119b6,Juega ahora,adultos,src/aplicacion/adultos/quienJuega.ts
+527179ddfeae,Jugar con este perfil,adultos,src/aplicacion/adultos/quienJuega.ts
+6e8c6fb65870,Opcional,adultos,src/aplicacion/adultos/quienJuega.ts
+c0818936643d,Nombre del niño nuevo,adultos,src/aplicacion/adultos/quienJuega.ts
+1100c0c0930d,Edad,adultos,src/aplicacion/adultos/quienJuega.ts
+af10757f3532,Añadir un niño,adultos,src/aplicacion/adultos/quienJuega.ts
 17ee8b09c24a,Quién juega,adultos,src/aplicacion/adultos/quienJuega.ts
 720129ddfbf9,Quién,adultos,src/aplicacion/adultos/quienJuega.ts
 326ffa2886c3,Perfil,adultos,src/aplicacion/adultos/quienJuega.ts
 9b9a7d9a323e,Nombre de quien juega,adultos,src/aplicacion/adultos/quienJuega.ts
-6e8c6fb65870,Opcional,adultos,src/aplicacion/adultos/quienJuega.ts
-1100c0c0930d,Edad,adultos,src/aplicacion/adultos/quienJuega.ts
 97b18dcd7130,Cumpleaños,adultos,src/aplicacion/adultos/quienJuega.ts
 68c84823d4d7,"El día del cumpleaños, la Asamblea lo celebra con una tarta y velitas.",adultos,src/aplicacion/adultos/quienJuega.ts
 f63319b32f11,Hay,adultos,src/aplicacion/adultos/resumen.ts
@@ -4706,7 +4899,6 @@ a3a3d392479a,Retos hechos hasta ahora:,adultos,src/aplicacion/adultos/resumen.ts
 6368f56d1df8,Hoy,adultos,src/aplicacion/adultos/resumen.ts
 e4345b0fed66,temas terminados,adultos,src/aplicacion/adultos/resumen.ts
 44f469b75346,"Más sitios y cualquier tema, en «Copia y aparato».",adultos,src/aplicacion/adultos/resumen.ts
-4d0ebbbc1b0c,Sin nombre,adultos,src/aplicacion/adultos/resumen.ts
 f2ddb27a5c6d,edad sin elegir,adultos,src/aplicacion/adultos/resumen.ts
 694f4075be0c,{n} minuto de juego hoy,adultos,src/aplicacion/adultos/resumen.ts
 2f13014f7bdc,{n} minutos de juego hoy,adultos,src/aplicacion/adultos/resumen.ts

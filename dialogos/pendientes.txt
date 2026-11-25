@@ -2499,3 +2499,197 @@ El pato empuja el barquito con el pico y se lo trae a Tito. ¡Ya son amigos!
 Tito sopla y el barquito cruza todo el estanque. ¡Ha llegado al otro lado!
 La rana salta al barquito y navegan juntos un rato. ¡Croac, croac!
 Tito corre por la orilla y recoge el barquito en una curva del río. ¡Lo ha salvado!
+
+Terminamos un juego en una casita y ganamos una estrella.
+Fuimos de excursión en el autobús del cole.
+Leímos un cuento y elegimos qué pasaba.
+Programamos a Tito para llegar hasta la fresa.
+Construimos con bloques en el cole.
+Resolvimos un juego del rincón de la lógica.
+Hicimos un experimento en el taller de ciencias.
+Pintamos y tocamos música en el estudio de arte.
+Cuidamos a los animales del corral de Tito.
+Jugamos juntos a las parejas, por turnos.
+Ayudamos a un vecino con su encargo.
+Jugamos en el patio del cole.
+¿Te acuerdas de ayer? Mira lo que hicimos:
+Lo tienes todo en el diario de mi casa.
+Mi diario aún está vacío. ¡Vamos a jugar juntos y lo llenamos!
+El diario de Tito
+Sudoku de dibujos
+¿Qué falta?
+Las diferencias
+La balanza
+El tangram
+¡Muy bien! Lo has resuelto.
+¡El rincón de la lógica! Elige un juego.
+Pon cada fruta en un hueco. En cada fila y en cada columna, una de cada.
+Primero toca una fruta de abajo.
+Esa fruta ya está en esa fila o en esa columna. Prueba otra.
+Mira bien los dibujos. ¡Voy a esconder uno!
+¿Qué dibujo falta?
+No, ese sí estaba. Mira otra vez.
+Los dos dibujos parecen iguales, pero no lo son. Toca en el de la derecha lo que es distinto.
+¡Una diferencia!
+Pon bloques en el otro platillo hasta que la balanza quede recta.
+¿Qué pesa más? Toca el lado que pesa más.
+¡Mira la balanza! Pesa más el otro lado.
+Toca una pieza y luego su sitio en la figura.
+Esa pieza no va ahí. Mira la forma.
+
+¡El rojo y el amarillo hacen el naranja!
+¡El amarillo y el azul hacen el verde!
+¡El rojo y el azul hacen el morado!
+El sol calienta el agua del mar.
+El agua sube al cielo y forma las nubes.
+De las nubes cae la lluvia.
+La lluvia baja por el río y vuelve al mar.
+Ciencias
+El taller de ciencias.
+El taller de ciencias estará listo muy pronto.
+El taller de ciencias
+¡El taller de ciencias! Elige un experimento.
+Los imanes
+Las sombras
+El ciclo del agua
+La semilla
+Toca dos botes de pintura para mezclarlos. ¿Qué color saldrá?
+Con el mismo color sale el mismo color. Prueba con otro.
+¡Se pega! Es de metal y el imán lo atrae.
+No se pega. El imán solo atrae el metal.
+¡Sorpresa! Se pega, porque es de metal y el imán lo atrae.
+¡Sorpresa! No se pega, porque el imán solo atrae el metal.
+¿El imán atraerá este objeto? Toca «Se pega» o «No se pega» y lo probamos.
+¡Muy bien! Ya sabes qué cosas atrae el imán.
+La lámpara da sombra al objeto. ¿Cuál es su sombra? Tócala en la pared.
+Esa sombra tiene otra forma. Mira bien el objeto.
+¡Muy bien! La sombra tiene la misma forma que el objeto.
+¡Esa es! La sombra tiene su misma forma.
+¿Cómo viaja el agua? Toca los dibujos en orden, empezando por el sol.
+Eso pasa más tarde. ¿Qué pasa antes?
+¡Y vuelta a empezar! El agua siempre da la vuelta.
+¡Ha salido un brote! Mañana la regamos otra vez.
+¡Ya es una plantita con hojas! Sigue regándola otros días.
+¡Ha salido una flor! Las plantas crecen con agua, sol y tiempo.
+¡Nuestra planta ya tiene flor! Puedes seguir regándola.
+Esta es nuestra semilla. Riégala con la regadera y vuelve otros días para ver cómo crece.
+Hoy ya la hemos regado. Vuelve mañana para ver cómo crece.
+¡Glu, glu! Ya tiene agua. Mañana la regamos otra vez.
+
+El estudio de arte
+¡El estudio de arte! ¿Pintamos o hacemos música?
+Pintura de espejo
+Compón una canción
+Elige un color y pinta en el cuadro. ¡Lo que pintes en un lado sale también en el otro, como en un espejo!
+Colgar en la casa
+Primero pinta algo en el cuadro.
+¡Qué cuadro tan bonito! Lo colgamos en la pared del salón de mi casa.
+Toca las láminas del xilófono para hacer tu canción. Luego toca «Escuchar».
+Escuchar
+Guardar
+La canción ya está llena. Toca «Escuchar» o «Borrar».
+Primero toca unas notas del xilófono.
+¡Qué canción tan bonita! Sonará cuando toques el cuadro de mi salón.
+¡Nuestro cuadro y nuestra canción del estudio de arte!
+Este cuadro lo pintamos en el estudio de arte.
+
+Modo reto
+Volvemos a jugar como siempre.
+¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.
+Reto
+¡Reto superado! Has ganado una estrella dorada.
+
+Tiene hambre. Dale trigo.
+Tiene sed. Dale el cubo de agua.
+Quiere que lo cepilles.
+¡Hoy ya están todos contentos! Puedes vender los productos en el mercado.
+¡Este es mi corral! Mira qué pide cada animal: toca la cosa de abajo y luego el animal.
+Vender
+¡Hemos vendido todo en el mercado! Cada cosa vale una moneda.
+Este ya está contento. Mañana pedirá otra cosa.
+Para traer la vaca al corral hacen falta {n} monedas.
+¡Ya tenemos una vaca en el corral!
+Para traer la oveja al corral hacen falta {n} monedas.
+¡Ya tenemos una oveja en el corral!
+¡Gracias! La gallina ha puesto un huevo.
+¡Gracias! La vaca nos da leche.
+¡Gracias! Con la leche de la oveja hacemos queso.
+
+El cartero nos ha dado una carta para el cole. ¿La llevamos? Toca el cole en el mapa.
+¡Ya hemos dejado la carta en el cole! Gracias por ayudar al cartero.
+El panadero nos ha dado pan para la merienda. ¿Lo llevamos a mi casa?
+¡Ya tenemos el pan en casa! Gracias por ayudar al panadero.
+La granjera quiere vender zanahorias en la tienda. ¿Se las llevamos?
+¡Las zanahorias ya están en la tienda! Gracias por ayudar a la granjera.
+La maestra se ha dejado un libro. ¿Se lo llevamos a las clases del cole?
+¡La maestra ya tiene su libro! Gracias por ayudarla.
+La frutera nos ha regalado fresas. ¿Las llevamos a mi casa?
+¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.
+
+Termina un juego en una casita.
+Juega en el patio del cole.
+Resuelve un juego del rincón de la lógica.
+Haz un experimento en el taller de ciencias.
+Pinta o haz música en el estudio de arte.
+Lee un cuento y elige qué pasa.
+Ve de excursión en el autobús del cole.
+Esta semana es la semana del mar.
+Esta semana es la semana de los bichos.
+Esta semana es la semana de la granja.
+Esta semana es la semana del espacio.
+¡Has cumplido las tres misiones de hoy! ¡Muy bien!
+Estas son las misiones de hoy:
+Las misiones de hoy
+¡Has cumplido las tres misiones de hoy! Te doy cinco monedas.
+¡Y como es viernes, la pegatina de la semana!
+
+¿Quién juega hoy? Toca tu nombre.
+Varios niños
+Hasta tres niños pueden jugar en este móvil, cada uno con su partida. Al empezar a jugar, Tito pregunta quién juega.
+Juega ahora
+Jugar con este perfil
+Nombre del niño nuevo
+Añadir un niño
+
+Le toca al jugador de Tito.
+Le toca al jugador de Lupi.
+¡Vamos a jugar juntos a las parejas! Uno juega con Tito y el otro con Lupi, por turnos.
+¡Lo habéis hecho juntos!
+¡Pareja! Sigue jugando el mismo.
+¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.
+Ficha de trazos
+Ficha para recortar y pegar
+Repasa las líneas de puntos con el lápiz, sin levantarlo.
+Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.
+Juegos de las casitas
+Cuentos con decisiones
+Construir con bloques
+Rincón de la lógica
+Taller de ciencias
+Estudio de arte
+Corral de la granja
+Jugar juntos
+Encargos de los vecinos
+Juegos del patio
+La semana
+Compartir con la profe
+Esta semana todavía no ha jugado.
+Minutos de juego en los últimos 7 días: {n}.
+Días que ha jugado: {n} de 7.
+Lo que mejor se le da: {h}.
+Lo que más le cuesta: {h}. Para reforzarlo en casa, jugad juntos a lo mismo con cosas de casa, sin pantalla.
+Lo que ha hecho esta semana:
+Informe semanal de {nombre} en Curiolandia
+Informe copiado: ya se puede pegar en un mensaje.
+No se ha podido copiar el informe.
+Para jugar, toca las cosas con el dedo. ¡Toca la estrella!
+Algunas cosas se arrastran. Pon el dedo en la manzana y llévala al cubo.
+El botón verde sirve para seguir. ¡Tócalo!
+Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!
+¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!
+Fluidez del 3D
+Este aparato juega sin 3D.
+Última medida: {n} cuadros por segundo. Nitidez: {p} %.
+Todavía no hay medida: se mide sola al jugar en el mapa o en otra escena en 3D.
+Las sombras van en modo ligero para que el juego vaya más fluido.
+Si el aparato va lento, el juego baja la nitidez y, si hace falta, aligera las sombras él solo.

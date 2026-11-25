@@ -1892,7 +1892,12 @@ const R = L.registro('cole');
         const r = await p.evaluate(() => RINCONES_CLASE.find((x) => x.id === 'logica'));
         await L.clic(p, r.x, r.y);
         await p.waitForTimeout(2500);
-        if ((await escena()) !== 'programa') return 'el rincón de la lógica no lleva a «Programa a Tito»';
+        // desde la v0.2.181 (idea 29), el rincón abre su menú: «Programa a Tito» es su primera tarjeta
+        if ((await escena()) !== 'rinconLogica') return 'el rincón de la lógica no abre su menú';
+        const t = await p.evaluate(() => tarjetaRincon(0));
+        await L.clic(p, t.x + t.w / 2, t.y + t.h / 2);
+        await p.waitForTimeout(2500);
+        if ((await escena()) !== 'programa') return 'el menú del rincón de la lógica no lleva a «Programa a Tito»';
         const tarjeta = async (o) => {
           const c = await p.evaluate((x) => botonOrden(x), o);
           await L.clic(p, c.x, c.y);

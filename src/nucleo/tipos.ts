@@ -135,6 +135,28 @@ export interface Estado {
   /** Los finales descubiertos de cada cuento con decisiones (dominio/cuentosDecisiones.ts, RegistroCuentos): { [cuento]:
    * [finales] }. Desde la fase P33 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   cuentosDec?: Record<string, string[]>;
+  /** El diario de Tito (dominio/diario.ts, RegistroDiario): { [fecha]: [claves de lo que se hizo] }, los últimos 14
+   * días. Desde la PR de todas las ideas pendientes (idea 35 de docs/IDEAS-MEJORA.md, v0.2.181); opcional, sin
+   * migración. */
+  diario?: Record<string, string[]>;
+  /** El estudio de arte (dominio/arte.ts): el cuadro simétrico colgado en el salón (LADO*LADO cifras de color) y la
+   * canción compuesta (índices de las notas del xilófono). Desde la PR de todas las ideas pendientes (idea 31 de
+   * docs/IDEAS-MEJORA.md, v0.2.181); opcional, sin migración. */
+  arte?: { cuadro?: string; cancion?: number[] };
+  /** Las estrellas doradas del modo reto (dominio/reto.ts, RegistroReto): { [tema]: [juegos] }. Desde la PR de todas
+   * las ideas pendientes (idea 32 de docs/IDEAS-MEJORA.md, v0.2.181); opcional, sin migración. */
+  reto?: Record<string, number[]>;
+  /** El corral de Tito (dominio/corral.ts, Corral): los animales, el día y a quién se ha cuidado hoy, y los productos
+   * guardados. Desde la PR de todas las ideas pendientes (idea 33 de docs/IDEAS-MEJORA.md, v0.2.181); opcional, sin
+   * migración. */
+  corral?: { animales: string[]; d: string; cuidados: string[]; productos: Record<string, number> };
+  /** Los encargos de los vecinos (dominio/encargos.ts, EstadoEncargos): el día, si Tito ya ha dicho el encargo, si está
+   * hecho y cuántos se han hecho. Desde la PR de todas las ideas pendientes (idea 34 de docs/IDEAS-MEJORA.md,
+   * v0.2.181); opcional, sin migración. */
+  encargos?: { d: string; dicho: boolean; hecho: boolean; veces: number };
+  /** Las misiones del día (dominio/misiones.ts): el día del último premio y si se dio. Desde la PR de todas las ideas
+   * pendientes (idea 36 de docs/IDEAS-MEJORA.md, v0.2.181); opcional, sin migración. */
+  misiones?: { d: string; premio: boolean };
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };
@@ -356,6 +378,8 @@ export interface Vivo {
   /** Dificultad adaptativa (-1 a 1) y veces que ya se jugó este juego (0 a 2). */
   ADAPT: number;
   REP: number;
+  /** El modo reto (idea 32 de docs/IDEAS-MEJORA.md, dominio/reto.ts): el id del tema de la casita en modo reto, o ''. */
+  RETO: string;
   /** Tiempo de juego: segundos de la sesión, si ya se propuso descansar y segundos sin apuntar en S.days. pausaHecha
    * (desde la fase P3 de docs/IDEAS-MEJORA.md): ya se propuso la pausa activa del yoga en esta sesión. */
   sessionT: number;

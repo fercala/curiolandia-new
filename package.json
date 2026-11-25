@@ -1,6 +1,6 @@
 {
   "name": "curiolandia-new",
-  "version": "0.2.180",
+  "version": "0.2.182",
   "private": true,
   "description": "Curiolandia: juego de temas de Educación Infantil con Tito como guía (migración de curiolandia-3d).",
   "scripts": {
@@ -17,8 +17,9 @@
     "dialogos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON herramientas/dialogos/escribir.mts",
     "idiomas:compuestas": "node herramientas/idiomas/compuestas.mts",
     "test:humo": "node tests/humo.js dist",
-    "test:fiabilidad": "node tests/regresion/cobertura.js dist guardado-compra-doble,guardado-volumenes,vale-fecha-incompleta,candado-2fps,candado-interrumpido,copia-archivo,vales-panel-antiguo,vales-accesibles,vale-desactivado,vale-editado,vale-canje-control",
-    "test:pr": "node tests/regresion/informe-b.js dist && node tests/regresion/voces.js dist && node tests/regresion/casa.js dist && node tests/regresion/guardado-viejo.js dist && node tests/regresion/juegos.js dist 0 8 90 && node tests/regresion/adultos.js dist && node tests/regresion/cole.js dist && node tests/regresion/idiomas.js dist && node tests/regresion/actividades-extras.js dist && npm run test:fiabilidad && node tests/regresion/comprobar.js informe-b voces casa guardado-viejo juegos-0 adultos cole idiomas actividades-extras"
+    "test:local": "npm run test:humo && npm run test:pr",
+    "test:pr": "node tests/regresion/informe-b.js dist && node tests/regresion/voces.js dist && node tests/regresion/casa.js dist && node tests/regresion/guardado-viejo.js dist && node tests/regresion/juegos.js dist 0 8 90 && node tests/regresion/adultos.js dist && node tests/regresion/cole.js dist && node tests/regresion/idiomas.js dist && node tests/regresion/actividades-extras.js dist && node tests/regresion/ideas.js dist && npm run test:fiabilidad && node tests/regresion/comprobar.js informe-b voces casa guardado-viejo juegos-0 adultos cole idiomas actividades-extras ideas",
+    "test:fiabilidad": "node tests/regresion/cobertura.js dist guardado-compra-doble,guardado-volumenes,vale-fecha-incompleta,candado-2fps,candado-interrumpido,copia-archivo,vales-panel-antiguo,vales-accesibles,vale-desactivado,vale-editado,vale-canje-control"
   },
   "devDependencies": {
     "@types/node": "26.6.5",

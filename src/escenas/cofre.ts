@@ -64,6 +64,7 @@ import {
 import { SHOP, casaEnS, drawItemPic, itemName, wear } from './tienda.ts';
 import { nuevoAlBaul } from '../aplicacion/casa.ts';
 import { TEMA } from './escenas2d.ts';
+import { dibujaFiesta } from './fiesta.ts';
 import { ZONES, claveTema, drawTitoHouse, houseLevel } from './zonas.ts';
 import { GIFTS, siguienteRegalo } from '../dominio/progreso.ts';
 import { ganar } from '../dominio/monedas.ts';
@@ -235,7 +236,8 @@ SCENES.cofre = {
     if (id === 'cf:seguir') say('Seguir el camino.');
   },
   // draw(): fondo con estrellas, cofre (op crece desde openT), el regalo que sube con un rebote (back) y su nombre, los 3
-  // puntos de toques y, al final, los botones "casa de Tito" y "seguir".
+  // puntos de toques y, al final, los botones "casa de Tito" y "seguir". Desde la v0.2.181 (idea 42), al abrirse, la
+  // fiesta de confeti con Lupi y Polly (escenas/fiesta.ts).
   draw() {
     sky('#FFE9C2', '#FFD7E4');
     for (let i = 0; i < 10; i++) {
@@ -304,6 +306,7 @@ SCENES.cofre = {
         ctx.restore();
       }
     }
+    dibujaFiesta(this.openT); // la fiesta de confeti y los amigos al abrirlo (idea 42)
     drawHome();
     drawCoinHUD();
     drawTito(TITO.x, TITO.y, TITO.w);
