@@ -175,6 +175,7 @@ import type { CatalogoDeTemas } from '../aplicacion/repasoDelDia.ts';
 import { NUM, TUNES, drawFace, playTune } from '../juegos/indice.ts';
 import { esCumple } from '../dominio/progreso.ts';
 import { fraseReto } from './retos.ts';
+import { apuntarDiario } from './diario.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -778,6 +779,7 @@ export function drawStation(t: Tema, j: number, x: number, y: number, o: Opcione
 export function finishGame(t: Tema, gi: number): void {
   const r = terminarJuego(S, t, gi, { hoy: today(), delRepaso: REP_ON });
   Object.assign(S, r.partida);
+  apuntarDiario('casita'); // el diario de Tito (idea 35, escenas/diario.ts)
   save();
   SFX.tada();
   burst(800, 380, 90);

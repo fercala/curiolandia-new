@@ -135,6 +135,10 @@ export interface Estado {
   /** Los finales descubiertos de cada cuento con decisiones (dominio/cuentosDecisiones.ts, RegistroCuentos): { [cuento]:
    * [finales] }. Desde la fase P33 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   cuentosDec?: Record<string, string[]>;
+  /** El diario de Tito (dominio/diario.ts, RegistroDiario): { [fecha]: [claves de lo que se hizo] }, los últimos 14
+   * días. Desde la PR de todas las ideas pendientes (idea 35 de docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin
+   * migración. */
+  diario?: Record<string, string[]>;
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };

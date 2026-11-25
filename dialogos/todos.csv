@@ -1303,6 +1303,18 @@ ccd9d9bd53d0,{n} medallas de {medalla},trozo,src/dominio/deporte.ts
 d6aab1bb5737,{n} de {medalla},trozo,src/dominio/deporte.ts
 e4967d139c87,{lista} y {ultimo},trozo,src/dominio/deporte.ts
 5778faca132a,Tienes {lista}.,frase,src/dominio/deporte.ts
+3001b87d28d3,Terminamos un juego en una casita y ganamos una estrella.,frase,src/dominio/diario.ts
+4ac512fa21e6,Fuimos de excursión en el autobús del cole.,frase,src/dominio/diario.ts
+db94fa8794dd,Leímos un cuento y elegimos qué pasaba.,frase,src/dominio/diario.ts
+e3913d26ba15,Programamos a Tito para llegar hasta la fresa.,frase,src/dominio/diario.ts
+439b8ac14e7a,Construimos con bloques en el cole.,frase,src/dominio/diario.ts
+d95ef9ad0df4,Resolvimos un juego del rincón de la lógica.,frase,src/dominio/diario.ts
+87902396a53a,Hicimos un experimento en el taller de ciencias.,frase,src/dominio/diario.ts
+6ef175f1078d,Pintamos y tocamos música en el estudio de arte.,frase,src/dominio/diario.ts
+03cc637965e3,Cuidamos a los animales del corral de Tito.,frase,src/dominio/diario.ts
+dd4dae301a8c,"Jugamos juntos a las parejas, por turnos.",frase,src/dominio/diario.ts
+d52eadfee91f,Ayudamos a un vecino con su encargo.,frase,src/dominio/diario.ts
+83700a709b9f,Jugamos en el patio del cole.,frase,src/dominio/diario.ts
 e15ad32125de,¡Está detrás del árbol!,frase,src/dominio/escondite.ts
 79a63b160235,¡Está debajo del tobogán!,frase,src/dominio/escondite.ts
 feee6dd228f8,¡Está dentro de la casita!,frase,src/dominio/escondite.ts
@@ -1748,7 +1760,7 @@ c6eff9337b90,"¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el s
 2a38e02fe684,Construcciones,trozo,src/escenas/clases.ts src/mundo3d/bloques3d.ts
 1ec7e99207c1,El rincón de las construcciones.,frase,src/escenas/clases.ts
 2530064104a4,El rincón de las construcciones estará listo muy pronto.,frase,src/escenas/clases.ts
-aa37ac6a4153,Lógica,trozo,src/escenas/clases.ts
+aa37ac6a4153,Lógica,trozo,src/escenas/clases.ts src/escenas/logica.ts
 edc0e8975506,El rincón de la lógica.,frase,src/escenas/clases.ts
 1a5505629eeb,El rincón de la lógica estará listo muy pronto.,frase,src/escenas/clases.ts
 e2e14219d8a7,Arte,trozo,src/escenas/clases.ts
@@ -1850,6 +1862,10 @@ e341563ba2dd,¡Con el otro pie!,frase,src/escenas/deportePruebas.ts
 7e65ff75a791,"¡Los relevos! Cada uno corre un trozo y le pasa el testigo al siguiente. Cuando el siguiente brille, tócalo para pasarle el testigo.",frase,src/escenas/deportePruebas.ts
 a0185476a01c,"Cuando el siguiente brille, tócalo para pasarle el testigo.",frase,src/escenas/deportePruebas.ts
 9325ba5e4639,Los relevos,trozo,src/escenas/deportePruebas.ts
+168088fd88a2,¿Te acuerdas de ayer? Mira lo que hicimos:,trozo,src/escenas/diario.ts
+a2f06560d07a,Lo tienes todo en el diario de mi casa.,frase,src/escenas/diario.ts
+eaf4ea803287,Mi diario aún está vacío. ¡Vamos a jugar juntos y lo llenamos!,frase,src/escenas/diario.ts
+91d2c4a72091,El diario de Tito,trozo,src/escenas/diario.ts
 9192ecff8e35,Este es tu diccionario de inglés. Ya conoces 1 palabra.,frase,src/escenas/diccionario.ts
 dfdd92d63bd7,Este es tu diccionario de inglés. Ya conoces {n} palabras.,frase,src/escenas/diccionario.ts
 5500a4d3fb9c,Tu diccionario de inglés está vacío. ¡Polly te espera en la Isla del Inglés!,frase,src/escenas/diccionario.ts
@@ -2170,6 +2186,27 @@ b43bce1c4fb7,Esta letra todavía no la conoces. ¡La aprenderás en la Isla de l
 7a4b818aec1d,Mueve la linterna por el bosque para buscar a los animales de la noche.,frase,src/escenas/linterna.ts
 6d3dbc758328,¡Has encontrado a todos los animales de la noche! ¡Qué buena vista tienes!,frase,src/escenas/linterna.ts
 96012df43c5c,¡Una estrella fugaz! Cierra los ojos y pide un deseo.,frase,src/escenas/linterna.ts
+37d61c4d8913,Programa a Tito,trozo,src/escenas/logica.ts src/mundo3d/programa3d.ts
+0f5afd1f74f1,Sudoku de dibujos,trozo,src/escenas/logica.ts
+a68c544d6296,¿Qué falta?,frase,src/escenas/logica.ts
+0c1d210f25c7,Las diferencias,trozo,src/escenas/logica.ts
+354c83c12158,La balanza,trozo,src/escenas/logica.ts
+117578d3aa71,El tangram,trozo,src/escenas/logica.ts
+5fef2d8da51c,¡Muy bien! Lo has resuelto.,frase,src/escenas/logica.ts
+25b9c76c6bab,¡El rincón de la lógica! Elige un juego.,frase,src/escenas/logica.ts
+0f73d6d31ee1,"Pon cada fruta en un hueco. En cada fila y en cada columna, una de cada.",frase,src/escenas/logica.ts
+89324e87a1a1,Primero toca una fruta de abajo.,frase,src/escenas/logica.ts
+e3871202f198,Esa fruta ya está en esa fila o en esa columna. Prueba otra.,frase,src/escenas/logica.ts
+995b3b32e53a,Mira bien los dibujos. ¡Voy a esconder uno!,frase,src/escenas/logica.ts
+819e6225180d,¿Qué dibujo falta?,frase,src/escenas/logica.ts
+477a4d92e001,"No, ese sí estaba. Mira otra vez.",frase,src/escenas/logica.ts
+f8fc12bae84c,"Los dos dibujos parecen iguales, pero no lo son. Toca en el de la derecha lo que es distinto.",frase,src/escenas/logica.ts
+5a30c530b8a8,¡Una diferencia!,frase,src/escenas/logica.ts
+d437e996ba39,Pon bloques en el otro platillo hasta que la balanza quede recta.,frase,src/escenas/logica.ts
+68e0f617aa53,¿Qué pesa más? Toca el lado que pesa más.,frase,src/escenas/logica.ts
+5e1953dfcf4f,¡Mira la balanza! Pesa más el otro lado.,frase,src/escenas/logica.ts
+022afd6dcd01,Toca una pieza y luego su sitio en la figura.,frase,src/escenas/logica.ts
+c423204fb5f1,Esa pieza no va ahí. Mira la forma.,frase,src/escenas/logica.ts
 892b70c3da96,Cuesta {p} euros y pagamos con cinco euros. ¿Cuántos euros nos devuelven?,frase,src/escenas/mercado.ts
 f95fddbecbef,¡Sí! Nos devuelven {n}.,frase,src/escenas/mercado.ts
 c4d7d8e09119,No. Cuenta las monedas que sobran.,frase,src/escenas/mercado.ts
@@ -2962,7 +2999,6 @@ e8e436b3cb23,¡Vamos a programar a Tito! Pon flechas para llevarlo hasta la fres
 ac2bba5b58e6,Primero pon alguna flecha para Tito.,frase,src/mundo3d/programa3d.ts
 d7ec2b06c56a,¡Qué bien programas! Tito se ha comido todas las fresas.,frase,src/mundo3d/programa3d.ts
 7e0282ef3543,¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!,frase,src/mundo3d/programa3d.ts
-37d61c4d8913,Programa a Tito,trozo,src/mundo3d/programa3d.ts
 b840dd15259b,¡Vamos!,frase,src/mundo3d/programa3d.ts
 a96f30f0a23d,Borrar,trozo,src/mundo3d/programa3d.ts
 6e058a19a686,¡Algo brilla por aquí!,frase,src/mundo3d/tesoros3d.ts

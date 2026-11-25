@@ -101,3 +101,6 @@ export * from './laberinto.ts';
 export * from './flota.ts';
 export * from './cuentoDecisiones.ts';
 export * from './mercadoPractica.ts';
+export * from './diario.ts';
+export * from './logica.ts';
+export * from './casaExtras.ts';

@@ -46,6 +46,7 @@ import {
   type CuentoDecision,
   type PaginaDecision,
 } from '../dominio/cuentosDecisiones.ts';
+import { apuntarDiario } from './diario.ts';
 
 // BOTON_CUENTO: el botón «Cuento con decisiones» de la casita (escenas/zonas.ts y mundo3d/casita3d.ts).
 export const BOTON_CUENTO = { x: 1120, y: 68, w: 285, h: 68 };
@@ -105,6 +106,7 @@ function llega(clave: string): void {
     say(p.frase);
     return;
   }
+  apuntarDiario('cuento'); // el diario de Tito (idea 35, escenas/diario.ts)
   const r = apuntarFinal(registroCuentos(S.cuentosDec), c, clave);
   if (!r.nuevo) {
     say(p.frase);

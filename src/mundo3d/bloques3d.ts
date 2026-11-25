@@ -72,6 +72,7 @@ import {
 } from '../dominio/bloques.ts';
 import { camRig, newWorld, projO, setWorld } from './motor.ts';
 import { Box, Cone, Cyl, Sph, V3, grp, mk, picTex, spr } from './materiales.ts';
+import { apuntarDiario } from '../escenas/diario.ts';
 
 /** Los juegos del rincón. */
 type Juego = 'copiar' | 'casa' | 'contar' | 'libre';
@@ -309,6 +310,7 @@ function empieza(j: Juego): void {
 // elegir juego.
 function acaba(frase: string): void {
   BLOQ.fase = 'hecho';
+  apuntarDiario('bloques'); // el diario de Tito (idea 35, escenas/diario.ts)
   SFX.tada();
   burst(800, 350, 30);
   say(frase);

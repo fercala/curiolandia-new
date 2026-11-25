@@ -79,6 +79,7 @@ import { camaraActiva, disparoVacio, dibujaCamara, hacerFotoDe, tocarBotonCamara
 import { fotoDeMarca } from '../dominio/fotos.ts';
 import { cuidarManzano, dibujaManzano, tocarManzano } from './granjaManzano.ts';
 import { avisoCria, criasEnPaseo, dibujaBotonesCrias, tocarBotonesCrias } from './granjaCrias.ts';
+import { apuntarDiario } from './diario.ts';
 
 /* ---------- lo común ---------- */
 
@@ -1011,6 +1012,7 @@ function hacerFoto(): void {
     r = terminarVisita(visitaActual(), today());
   exc.foto = T;
   guardarVisita(r.visita);
+  apuntarDiario('excursion'); // el diario de Tito (idea 35, escenas/diario.ts)
   if (r.monedas) {
     creditCoins(r.monedas);
     save();

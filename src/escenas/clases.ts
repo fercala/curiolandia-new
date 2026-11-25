@@ -71,7 +71,7 @@ export const RINCONES_CLASE: readonly RinconClase[] = [
     cartel: 'Lógica',
     dice: 'El rincón de la lógica.',
     pronto: 'El rincón de la lógica estará listo muy pronto.',
-    escena: 'programa',
+    escena: 'rinconLogica',
   },
   {
     id: 'arte',

@@ -192,6 +192,7 @@ import { mascotasMayores } from './casaMascotas.ts';
 import { tocaPausaActiva } from '../dominio/yoga.ts';
 import { moverseActivo } from '../dominio/retos.ts';
 import { celebrarRetoSiToca, fraseReto } from './retos.ts';
+import { recuerdoDeAyer } from './diario.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -1547,6 +1548,8 @@ SCENES.map = {
     }
     // el reto en casa hecho (fase P4): Tito lo celebra con una pegatina cuando acabe de hablar
     celebrarRetoSiToca();
+    // el diario (idea 35, escenas/diario.ts): la primera vez de cada día, si no hubo otro aviso, Tito recuerda lo de ayer
+    if (!msg) later(4500, () => sceneName === 'map' && recuerdoDeAyer());
   },
   // ageZone(): zona que corresponde a la edad (ageZoneOpen). Hoy no la llama nadie (la capa 3D ya no la usa para colocar a
   // Tito).

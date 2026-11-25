@@ -20,7 +20,7 @@
 //   escenas/casaAlbum.ts, casaMascotas.ts, casaReacciones.ts, lo de la casa de escenas/tienda.ts y, desde la fase M2,
 //   aplicacion/casa.ts (los casos de uso de la casa ordenada), dominio/casaSitios.ts y escenas/casaBaul.ts; desde la
 //   P14 de IDEAS-MEJORA.md, el botón de la vitrina de escenas/tesoros.ts, y desde la P15, el del álbum de fotos de
-//   escenas/fotos.ts.
+//   escenas/fotos.ts; desde la PR de todas las ideas pendientes (v0.2.180), los botones de escenas/casaExtras.ts.
 import { K } from '../dibujos/todos.ts';
 import {
   FLC,
@@ -95,6 +95,7 @@ import {
 import { ALBUM_CASA_BOTON } from './casaAlbum.ts';
 import { VITRINA_BOTON, dibujaBotonVitrina } from './tesoros.ts';
 import { ALBUM_FOTOS_BOTON, dibujaBotonAlbumFotos } from './fotos.ts';
+import { dibujaBotonesCasa, tocaBotonCasa } from './casaExtras.ts';
 import { bocadillo, dibujaMascota, pideAlgo } from './casaMascotas.ts';
 import {
   FRASES_CASA,
@@ -872,6 +873,8 @@ SCENES.casaTito = {
     dibujaBotonVitrina();
     // el botón del álbum de fotos (desde la fase P15, escenas/fotos.ts)
     dibujaBotonAlbumFotos();
+    // los botones del diario, el corral y «Jugar juntos» (PR de todas las ideas pendientes, escenas/casaExtras.ts)
+    dibujaBotonesCasa();
     // el botón grande de la escena (desde la fase M3), tras dos toques seguidos a un objeto que tiene escena
     const eb = this.botonEscena!();
     if (eb) {
@@ -968,6 +971,7 @@ SCENES.casaTito = {
       go('albumFotos');
       return;
     }
+    if (tocaBotonCasa(x, y)) return;
     if (inCoinHUD(x, y)) {
       say(fmt('Tienes {n} monedas.', { n: S.coins! }));
       return;
