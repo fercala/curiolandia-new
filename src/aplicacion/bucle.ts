@@ -186,13 +186,31 @@ function hoverTick(dt: number) {
     }
   }
 }
+// dibujaIris(f): la transición en iris: f va de 1 (recién cambiada la escena: todo tapado) a 0 (ya se ve entera). Tapa
+// la pantalla de color papel menos un círculo en el centro que crece (con un borde marrón), y se desvanece al final.
+function dibujaIris(f: number): void {
+  const r = (1 - f) * Math.hypot(W, H) * 0.55;
+  ctx.save();
+  ctx.globalAlpha = Math.min(1, f * 4);
+  ctx.beginPath();
+  ctx.rect(0, 0, W, H);
+  ctx.arc(W / 2, H / 2, r, 0, Math.PI * 2, true);
+  ctx.fillStyle = '#FFF6E6';
+  ctx.fill('evenodd');
+  ctx.beginPath();
+  ctx.arc(W / 2, H / 2, r, 0, Math.PI * 2);
+  ctx.lineWidth = 10;
+  ctx.strokeStyle = '#7A5230';
+  ctx.stroke();
+  ctx.restore();
+}
 /* frame(now): EL BUCLE DEL JUEGO. Se ejecuta en cada cuadro de pantalla (requestAnimationFrame; lo arranca aplicacion/arranque.ts).
    Pasos: 1) calcula rdt (tiempo real, máx. 1 s) y dt (máx. 0,05 s para que una pausa no dé un salto) y avanza T, idle (solo mientras Tito calla) y el velo fade;
    2) ejecuta los temporizadores de later() que vencen (solo si siguen en su escena) y, si venció alguno, los quita de la lista; 3) candado: 3 s reales pulsado abre la
    zona de adultos; 4) cuenta el tiempo jugado (S.days cada 15 s, límite S.limit -> escena 'dormir');
    5) música y scene.update(dt); 6) fondo: si la escena es 3D (scene.three), mundo3d/mundo3d.ts la pinta con R3frame(dt);
    7) dibuja la escena 2D encima, ayudas, partículas, aviso de pegatina y monedas, y el candado, recortado a 1600x900;
-   8) velo de transición; 9) rellena las bandas laterales en pantallas alargadas; 10) aviso de girar el móvil.
+   8) transición (el iris, dibujaIris); 9) rellena las bandas laterales en pantallas alargadas; 10) aviso de girar el móvil.
    Cada paso va en try/catch: un fallo de una escena se ve en la consola pero no para el juego. */
 export function frame(now: number) {
   const rdt = Math.min(1, Math.max(0, (now - lastF) / 1000)),
@@ -279,11 +297,10 @@ export function frame(now: number) {
   }
   if (sceneName !== 'title') drawLock();
   hoverTick(dt);
-  // Velo de transición entre escenas (de color papel, se desvanece en un tercio de segundo).
-  if (VIVO.fade > 0) {
-    ctx.fillStyle = `rgba(255,246,230,${VIVO.fade})`;
-    ctx.fillRect(0, 0, W, H);
-  }
+  // Transición entre escenas (un tercio de segundo, VIVO.fade de 1 a 0). Desde la v0.2.180 (idea 44 de
+  // docs/IDEAS-MEJORA.md), un iris: un círculo que se abre desde el centro sobre la escena nueva, con el resto de
+  // color papel y un borde marrón, en vez del velo que se desvanecía.
+  if (VIVO.fade > 0) dibujaIris(VIVO.fade);
   ctx.restore();
   // pantallas 2D en móviles alargados: las bandas de los lados (antes marrón oscuro) continúan el borde de la escena, como si siguiera
   if (!(scene && scene.three) && (OX > 2 || OY > 2)) {
