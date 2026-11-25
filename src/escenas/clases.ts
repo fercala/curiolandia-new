@@ -2,8 +2,10 @@
  * escenas/clases.ts: las clases del cole (fase P27 de docs/IDEAS-MEJORA.md), la escena SCENES.clases. Se llega desde el
  * cole (escenas/cole.ts: las clases, que hasta ahora estaban en obras). Es el aula de Infantil con sus rincones, como en
  * el cole de verdad: el rincón de las construcciones (los bloques en 3D, SCENES.bloques de mundo3d/bloques3d.ts), el
- * de la lógica (desde la fase P32, «Programa a Tito» en 3D, SCENES.programa de mundo3d/programa3d.ts) y el del arte,
- * que llega más adelante («¡Muy pronto!»). Sin WebGL no hay 3D y los dos primeros salen también «¡Muy pronto!».
+ * de la lógica (desde la fase P32, «Programa a Tito» en 3D, SCENES.programa de mundo3d/programa3d.ts; desde la v0.2.180,
+ * su menú con los juegos de lógica en 2D, SCENES.rinconLogica de escenas/logica.ts), el taller de ciencias (desde la
+ * v0.2.180, SCENES.taller de escenas/experimentos.ts) y el del arte (desde la v0.2.180, SCENES.estudioArte de
+ * escenas/arte.ts). Sin WebGL no hay 3D y las construcciones salen «¡Muy pronto!».
  * Es una escena 2D, como el cole.
  * Exporta: RINCONES_CLASE (los rincones del aula) y pone SCENES.clases al cargarse.
  * Importa: el núcleo (dibujo, voz, toque, Tito, monedas y escenas).
@@ -55,7 +57,7 @@ interface RinconClase {
 export const RINCONES_CLASE: readonly RinconClase[] = [
   {
     id: 'construcciones',
-    x: 400,
+    x: 410,
     y: 560,
     dibujo: 'bloques',
     cartel: 'Construcciones',
@@ -65,7 +67,7 @@ export const RINCONES_CLASE: readonly RinconClase[] = [
   },
   {
     id: 'logica',
-    x: 820,
+    x: 710,
     y: 560,
     dibujo: 'lupa',
     cartel: 'Lógica',
@@ -74,8 +76,18 @@ export const RINCONES_CLASE: readonly RinconClase[] = [
     escena: 'rinconLogica',
   },
   {
+    id: 'ciencias',
+    x: 1010,
+    y: 560,
+    dibujo: 'bombilla',
+    cartel: 'Ciencias',
+    dice: 'El taller de ciencias.',
+    pronto: 'El taller de ciencias estará listo muy pronto.',
+    escena: 'taller',
+  },
+  {
     id: 'arte',
-    x: 1240,
+    x: 1310,
     y: 560,
     dibujo: 'pinturas',
     cartel: 'Arte',
@@ -84,7 +96,7 @@ export const RINCONES_CLASE: readonly RinconClase[] = [
   },
 ];
 // RADIO: lo que mide cada rincón para tocarlo.
-const RADIO = 170;
+const RADIO = 140;
 
 // abierto(r): ¿se puede jugar ya en el rincón r? Si tiene escena y la escena existe (los bloques son en 3D).
 const abierto = (r: RinconClase): boolean => !!r.escena && !!SCENES[r.escena];
@@ -115,15 +127,15 @@ function drawRincon(r: RinconClase): void {
   ctx.translate(-r.x, -r.y);
   ctx.fillStyle = abierto(r) ? '#9ED2F5' : '#D6CFC4';
   ctx.beginPath();
-  ctx.ellipse(r.x, r.y + 90, 180, 60, 0, 0, Math.PI * 2);
+  ctx.ellipse(r.x, r.y + 90, 140, 52, 0, 0, Math.PI * 2);
   ctx.fill();
-  pic(r.dibujo, r.x, r.y - 10 + Math.sin(T * 2 + r.x) * 6, 220);
+  pic(r.dibujo, r.x, r.y - 10 + Math.sin(T * 2 + r.x) * 6, 190);
   if (!abierto(r)) {
     card(r.x - 100, r.y - 190, 200, 50, '#FFD66B', 5, 25);
     text('¡Muy pronto!', r.x, r.y - 155, 28, undefined, { max: 184 });
   }
-  card(r.x - 130, r.y + 140, 260, 56, abierto(r) ? '#FFA94D' : '#B8B0A6', 5, 28);
-  text(r.cartel, r.x, r.y + 180, 32, '#fff', { max: 240 });
+  card(r.x - 135, r.y + 140, 270, 56, abierto(r) ? '#FFA94D' : '#B8B0A6', 5, 28);
+  text(r.cartel, r.x, r.y + 180, 32, '#fff', { max: 250 });
   ctx.restore();
 }
 

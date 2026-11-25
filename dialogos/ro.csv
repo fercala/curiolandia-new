@@ -1324,6 +1324,13 @@ f73b6c2f7d1b,¡Está dentro de la caja!,E în cutie!,frase,src/dominio/escondite
 17eb8962117b,{dia} de {mes},{dia} {mes},trozo,src/dominio/excursiones.ts,borrador
 0d8682d733b3,una vez,o dată,trozo,src/dominio/excursiones.ts,borrador
 df787b379967,{n} veces,de {n} {n:de}ori,trozo,src/dominio/excursiones.ts,borrador
+b09d8481596b,¡El rojo y el amarillo hacen el naranja!,Roșul și galbenul fac portocaliul!,frase,src/dominio/experimentos.ts,borrador
+08bb9e1c8c68,¡El amarillo y el azul hacen el verde!,Galbenul și albastrul fac verdele!,frase,src/dominio/experimentos.ts,borrador
+0a4699b460c7,¡El rojo y el azul hacen el morado!,Roșul și albastrul fac movul!,frase,src/dominio/experimentos.ts,borrador
+20785403cb41,El sol calienta el agua del mar.,Soarele încălzește apa mării.,frase,src/dominio/experimentos.ts,borrador
+825e8f07051a,El agua sube al cielo y forma las nubes.,Apa urcă la cer și formează norii.,frase,src/dominio/experimentos.ts,borrador
+de9a4987372e,De las nubes cae la lluvia.,Din nori cade ploaia.,frase,src/dominio/experimentos.ts,borrador
+0272aacbdfb9,La lluvia baja por el río y vuelve al mar.,Ploaia coboară pe râu și se întoarce în mare.,frase,src/dominio/experimentos.ts,borrador
 23e6139f001d,Bichos y animales del campo,Gâze și animale de la câmp,trozo,src/dominio/fotos.ts,borrador
 0a1a439a1271,Del mar y de la playa,De la mare și de la plajă,trozo,src/dominio/fotos.ts,borrador
 ba7b7dff853b,De la nieve y del frío,De la zăpadă și de la frig,trozo,src/dominio/fotos.ts,borrador
@@ -1763,6 +1770,9 @@ c6eff9337b90,"¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el s
 aa37ac6a4153,Lógica,Logică,trozo,src/escenas/clases.ts src/escenas/logica.ts,borrador
 edc0e8975506,El rincón de la lógica.,Colțul logicii.,frase,src/escenas/clases.ts,borrador
 1a5505629eeb,El rincón de la lógica estará listo muy pronto.,Colțul logicii va fi gata în curând.,frase,src/escenas/clases.ts,borrador
+fdab3f533b97,Ciencias,Științe,trozo,src/escenas/clases.ts,borrador
+3b46532a387b,El taller de ciencias.,Atelierul de științe.,frase,src/escenas/clases.ts,borrador
+4a0ee51d6d85,El taller de ciencias estará listo muy pronto.,Atelierul de științe va fi gata foarte curând.,frase,src/escenas/clases.ts,borrador
 e2e14219d8a7,Arte,Artă,trozo,src/escenas/clases.ts,borrador
 fc8590dc98f6,El rincón del arte.,Colțul artei.,frase,src/escenas/clases.ts,borrador
 1cf3dd08e236,El rincón del arte estará listo muy pronto.,Colțul artei va fi gata în curând.,frase,src/escenas/clases.ts,borrador
@@ -2075,6 +2085,35 @@ ad914a5487a4,"¡Hola{nino}! Soy {guia}, el socorrista. ¡Bienvenido a la playa! 
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,Acum: {estacion}! Atinge-i desenul.,frase,src/escenas/excursion.ts,borrador
 62b6c5e80991,Practicar la compra,Exersează cumpărăturile,trozo,src/escenas/excursion.ts,borrador
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,{estacion}: în curând vom putea face asta!,trozo,src/escenas/excursion.ts,borrador
+10e35dc90095,El taller de ciencias,Atelierul de științe,trozo,src/escenas/experimentos.ts,borrador
+a0125bff80a0,¡El taller de ciencias! Elige un experimento.,Atelierul de științe! Alege un experiment.,frase,src/escenas/experimentos.ts,borrador
+a68c7ee407ba,Mezclar colores,Amestecăm culori,trozo,src/escenas/experimentos.ts src/temas/temas5.ts,borrador
+ee0371fb0d90,Los imanes,Magneții,trozo,src/escenas/experimentos.ts,borrador
+01566ffbcc44,Las sombras,Umbrele,trozo,src/escenas/experimentos.ts,borrador
+351addbeba21,El ciclo del agua,Circuitul apei,trozo,src/escenas/experimentos.ts,borrador
+34dea6303517,La semilla,Sămânța,trozo,src/escenas/experimentos.ts,borrador
+c3c817c6c226,Toca dos botes de pintura para mezclarlos. ¿Qué color saldrá?,Atinge două borcane cu vopsea ca să le amesteci. Ce culoare iese?,frase,src/escenas/experimentos.ts,borrador
+43283b2d999a,Con el mismo color sale el mismo color. Prueba con otro.,Din aceeași culoare iese aceeași culoare. Încearcă alta.,frase,src/escenas/experimentos.ts,borrador
+1cb0642f6bb9,¡Se pega! Es de metal y el imán lo atrae.,Se lipește! E din metal și magnetul îl atrage.,frase,src/escenas/experimentos.ts,borrador
+9b5377068c6a,No se pega. El imán solo atrae el metal.,Nu se lipește. Magnetul atrage doar metalul.,frase,src/escenas/experimentos.ts,borrador
+9c9d04fa1730,"¡Sorpresa! Se pega, porque es de metal y el imán lo atrae.","Surpriză! Se lipește, pentru că e din metal și magnetul îl atrage.",frase,src/escenas/experimentos.ts,borrador
+e5c06812eecc,"¡Sorpresa! No se pega, porque el imán solo atrae el metal.","Surpriză! Nu se lipește, pentru că magnetul atrage doar metalul.",frase,src/escenas/experimentos.ts,borrador
+34a21ee9ff7c,¿El imán atraerá este objeto? Toca «Se pega» o «No se pega» y lo probamos.,Magnetul va atrage obiectul acesta? Atinge «Se lipește» sau «Nu se lipește» și încercăm.,frase,src/escenas/experimentos.ts,borrador
+4c3741939c2a,¡Muy bien! Ya sabes qué cosas atrae el imán.,Foarte bine! Acum știi ce lucruri atrage magnetul.,frase,src/escenas/experimentos.ts,borrador
+d3a210f6dcef,La lámpara da sombra al objeto. ¿Cuál es su sombra? Tócala en la pared.,Lampa face umbră obiectului. Care e umbra lui? Atinge-o pe perete.,frase,src/escenas/experimentos.ts,borrador
+b8e745a9e159,Esa sombra tiene otra forma. Mira bien el objeto.,Umbra aceea are altă formă. Uită-te bine la obiect.,frase,src/escenas/experimentos.ts,borrador
+e00cfcd76df2,¡Muy bien! La sombra tiene la misma forma que el objeto.,Foarte bine! Umbra are aceeași formă ca obiectul.,frase,src/escenas/experimentos.ts,borrador
+3ef100b4ff8c,¡Esa es! La sombra tiene su misma forma.,Asta e! Umbra are aceeași formă.,frase,src/escenas/experimentos.ts,borrador
+041bfdbbd677,"¿Cómo viaja el agua? Toca los dibujos en orden, empezando por el sol.","Cum călătorește apa? Atinge desenele în ordine, începând cu soarele.",frase,src/escenas/experimentos.ts,borrador
+fecc0807cd53,Eso pasa más tarde. ¿Qué pasa antes?,Asta se întâmplă mai târziu. Ce se întâmplă înainte?,frase,src/escenas/experimentos.ts,borrador
+00c7c3a4c5ea,¡Y vuelta a empezar! El agua siempre da la vuelta.,Și o ia de la capăt! Apa face mereu înconjurul.,frase,src/escenas/experimentos.ts,borrador
+4ba513707f9d,¡Ha salido un brote! Mañana la regamos otra vez.,A ieșit un mugur! Mâine o udăm din nou.,frase,src/escenas/experimentos.ts,borrador
+abdeaf658892,¡Ya es una plantita con hojas! Sigue regándola otros días.,Acum e o plăntuță cu frunze! Ud-o și în alte zile.,frase,src/escenas/experimentos.ts,borrador
+3469bc565fc7,"¡Ha salido una flor! Las plantas crecen con agua, sol y tiempo.","A ieșit o floare! Plantele cresc cu apă, soare și timp.",frase,src/escenas/experimentos.ts,borrador
+da728a4adb78,¡Nuestra planta ya tiene flor! Puedes seguir regándola.,Planta noastră are deja floare! Poți s-o uzi în continuare.,frase,src/escenas/experimentos.ts,borrador
+55ce4d29816f,Esta es nuestra semilla. Riégala con la regadera y vuelve otros días para ver cómo crece.,Aceasta e sămânța noastră. Ud-o cu stropitoarea și vino și în alte zile să vezi cum crește.,frase,src/escenas/experimentos.ts,borrador
+17911bada5e6,Hoy ya la hemos regado. Vuelve mañana para ver cómo crece.,Azi am udat-o deja. Vino mâine să vezi cum crește.,frase,src/escenas/experimentos.ts,borrador
+cfa1a6988a74,"¡Glu, glu! Ya tiene agua. Mañana la regamos otra vez.","Glu, glu! Are apă. Mâine o udăm din nou.",frase,src/escenas/experimentos.ts,borrador
 7ea82df74642,Flota,Plutește,trozo,src/escenas/flota.ts,borrador
 f57a7921f6d5,Se hunde,Se scufundă,trozo,src/escenas/flota.ts,borrador
 3cbbbcda4fa1,Otro objeto,Alt obiect,trozo,src/escenas/flota.ts,borrador
@@ -4423,7 +4462,6 @@ a425099c527a,{Cosa} es para la nieve.,{Cosa} e pentru zăpadă.,trozo,src/temas/
 91bc3a3be47e,"{Cosa}, para la playa.","{Cosa}, pentru plajă.",trozo,src/temas/temas5.ts,borrador
 25f625459b08,"{Cosa}, para la nieve.","{Cosa}, pentru zăpadă.",trozo,src/temas/temas5.ts,borrador
 8dcbe3caa5d0,Nos vamos de vacaciones. ¿Qué llevamos a la playa y qué llevamos a la nieve? Lleva cada cosa a su maleta.,Plecăm în vacanță. Ce luăm la plajă și ce luăm la zăpadă? Du fiecare lucru la valiza lui.,frase,src/temas/temas5.ts,borrador
-a68c7ee407ba,Mezclar colores,Amestecăm culori,trozo,src/temas/temas5.ts,borrador
 7c6b6fac9c73,{Uno} y {otro} mezclados... ¿qué color hacen?,{Uno} și {otro} amestecate... ce culoare fac?,trozo,src/temas/temas5.ts,borrador
 bbd2576991c0,¡Sí! {Uno} y {otro} hacen {mezcla}.,Da! {Uno} și {otro} fac {mezcla}.,frase,src/temas/temas5.ts,borrador
 369d4d638a5c,Ese es el {color}. Piensa: {uno} y {otro}.,Aceea e culoarea {color}. Gândește-te: {uno} și {otro}.,frase,src/temas/temas5.ts,borrador
@@ -5058,4 +5096,6 @@ f90e6a36b381,Veinte,Douăzeci,tabla,,borrador
 eb46b31cbcd5, gets on the bus!,,tabla,,falta
 92daa34c8ad1,an ,,tabla,,falta
 99020cb24bd1,a ,,tabla,,falta
+c404a01e510c,Se pega,Se lipește,tabla,,borrador
+29c3db6491ca,No se pega,Nu se lipește,tabla,,borrador
 e1f2d2d61772,Volver a la casita,Înapoi la căsuță,tabla,,borrador

@@ -104,3 +104,5 @@ export * from './mercadoPractica.ts';
 export * from './diario.ts';
 export * from './logica.ts';
 export * from './casaExtras.ts';
+export * from './menuRincon.ts';
+export * from './experimentos.ts';

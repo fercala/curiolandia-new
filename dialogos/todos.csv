@@ -1324,6 +1324,13 @@ f73b6c2f7d1b,¡Está dentro de la caja!,frase,src/dominio/escondite.ts
 17eb8962117b,{dia} de {mes},trozo,src/dominio/excursiones.ts
 0d8682d733b3,una vez,trozo,src/dominio/excursiones.ts
 df787b379967,{n} veces,trozo,src/dominio/excursiones.ts
+b09d8481596b,¡El rojo y el amarillo hacen el naranja!,frase,src/dominio/experimentos.ts
+08bb9e1c8c68,¡El amarillo y el azul hacen el verde!,frase,src/dominio/experimentos.ts
+0a4699b460c7,¡El rojo y el azul hacen el morado!,frase,src/dominio/experimentos.ts
+20785403cb41,El sol calienta el agua del mar.,frase,src/dominio/experimentos.ts
+825e8f07051a,El agua sube al cielo y forma las nubes.,frase,src/dominio/experimentos.ts
+de9a4987372e,De las nubes cae la lluvia.,frase,src/dominio/experimentos.ts
+0272aacbdfb9,La lluvia baja por el río y vuelve al mar.,frase,src/dominio/experimentos.ts
 23e6139f001d,Bichos y animales del campo,trozo,src/dominio/fotos.ts
 0a1a439a1271,Del mar y de la playa,trozo,src/dominio/fotos.ts
 ba7b7dff853b,De la nieve y del frío,trozo,src/dominio/fotos.ts
@@ -1763,6 +1770,9 @@ c6eff9337b90,"¿Sabes una cosa? Cruzamos la calle por el paso de cebra, con el s
 aa37ac6a4153,Lógica,trozo,src/escenas/clases.ts src/escenas/logica.ts
 edc0e8975506,El rincón de la lógica.,frase,src/escenas/clases.ts
 1a5505629eeb,El rincón de la lógica estará listo muy pronto.,frase,src/escenas/clases.ts
+fdab3f533b97,Ciencias,trozo,src/escenas/clases.ts
+3b46532a387b,El taller de ciencias.,frase,src/escenas/clases.ts
+4a0ee51d6d85,El taller de ciencias estará listo muy pronto.,frase,src/escenas/clases.ts
 e2e14219d8a7,Arte,trozo,src/escenas/clases.ts
 fc8590dc98f6,El rincón del arte.,frase,src/escenas/clases.ts
 1cf3dd08e236,El rincón del arte estará listo muy pronto.,frase,src/escenas/clases.ts
@@ -2075,6 +2085,35 @@ ad914a5487a4,"¡Hola{nino}! Soy {guia}, el socorrista. ¡Bienvenido a la playa! 
 1a2c671f33da,¡Vamos a {estacion}! Toca su dibujo.,frase,src/escenas/excursion.ts
 62b6c5e80991,Practicar la compra,trozo,src/escenas/excursion.ts
 46617f7980f1,{estacion}: ¡muy pronto podremos hacerlo!,trozo,src/escenas/excursion.ts
+10e35dc90095,El taller de ciencias,trozo,src/escenas/experimentos.ts
+a0125bff80a0,¡El taller de ciencias! Elige un experimento.,frase,src/escenas/experimentos.ts
+a68c7ee407ba,Mezclar colores,trozo,src/escenas/experimentos.ts src/temas/temas5.ts
+ee0371fb0d90,Los imanes,trozo,src/escenas/experimentos.ts
+01566ffbcc44,Las sombras,trozo,src/escenas/experimentos.ts
+351addbeba21,El ciclo del agua,trozo,src/escenas/experimentos.ts
+34dea6303517,La semilla,trozo,src/escenas/experimentos.ts
+c3c817c6c226,Toca dos botes de pintura para mezclarlos. ¿Qué color saldrá?,frase,src/escenas/experimentos.ts
+43283b2d999a,Con el mismo color sale el mismo color. Prueba con otro.,frase,src/escenas/experimentos.ts
+1cb0642f6bb9,¡Se pega! Es de metal y el imán lo atrae.,frase,src/escenas/experimentos.ts
+9b5377068c6a,No se pega. El imán solo atrae el metal.,frase,src/escenas/experimentos.ts
+9c9d04fa1730,"¡Sorpresa! Se pega, porque es de metal y el imán lo atrae.",frase,src/escenas/experimentos.ts
+e5c06812eecc,"¡Sorpresa! No se pega, porque el imán solo atrae el metal.",frase,src/escenas/experimentos.ts
+34a21ee9ff7c,¿El imán atraerá este objeto? Toca «Se pega» o «No se pega» y lo probamos.,frase,src/escenas/experimentos.ts
+4c3741939c2a,¡Muy bien! Ya sabes qué cosas atrae el imán.,frase,src/escenas/experimentos.ts
+d3a210f6dcef,La lámpara da sombra al objeto. ¿Cuál es su sombra? Tócala en la pared.,frase,src/escenas/experimentos.ts
+b8e745a9e159,Esa sombra tiene otra forma. Mira bien el objeto.,frase,src/escenas/experimentos.ts
+e00cfcd76df2,¡Muy bien! La sombra tiene la misma forma que el objeto.,frase,src/escenas/experimentos.ts
+3ef100b4ff8c,¡Esa es! La sombra tiene su misma forma.,frase,src/escenas/experimentos.ts
+041bfdbbd677,"¿Cómo viaja el agua? Toca los dibujos en orden, empezando por el sol.",frase,src/escenas/experimentos.ts
+fecc0807cd53,Eso pasa más tarde. ¿Qué pasa antes?,frase,src/escenas/experimentos.ts
+00c7c3a4c5ea,¡Y vuelta a empezar! El agua siempre da la vuelta.,frase,src/escenas/experimentos.ts
+4ba513707f9d,¡Ha salido un brote! Mañana la regamos otra vez.,frase,src/escenas/experimentos.ts
+abdeaf658892,¡Ya es una plantita con hojas! Sigue regándola otros días.,frase,src/escenas/experimentos.ts
+3469bc565fc7,"¡Ha salido una flor! Las plantas crecen con agua, sol y tiempo.",frase,src/escenas/experimentos.ts
+da728a4adb78,¡Nuestra planta ya tiene flor! Puedes seguir regándola.,frase,src/escenas/experimentos.ts
+55ce4d29816f,Esta es nuestra semilla. Riégala con la regadera y vuelve otros días para ver cómo crece.,frase,src/escenas/experimentos.ts
+17911bada5e6,Hoy ya la hemos regado. Vuelve mañana para ver cómo crece.,frase,src/escenas/experimentos.ts
+cfa1a6988a74,"¡Glu, glu! Ya tiene agua. Mañana la regamos otra vez.",frase,src/escenas/experimentos.ts
 7ea82df74642,Flota,trozo,src/escenas/flota.ts
 f57a7921f6d5,Se hunde,trozo,src/escenas/flota.ts
 3cbbbcda4fa1,Otro objeto,trozo,src/escenas/flota.ts
@@ -4423,7 +4462,6 @@ a425099c527a,{Cosa} es para la nieve.,trozo,src/temas/temas5.ts
 91bc3a3be47e,"{Cosa}, para la playa.",trozo,src/temas/temas5.ts
 25f625459b08,"{Cosa}, para la nieve.",trozo,src/temas/temas5.ts
 8dcbe3caa5d0,Nos vamos de vacaciones. ¿Qué llevamos a la playa y qué llevamos a la nieve? Lleva cada cosa a su maleta.,frase,src/temas/temas5.ts
-a68c7ee407ba,Mezclar colores,trozo,src/temas/temas5.ts
 7c6b6fac9c73,{Uno} y {otro} mezclados... ¿qué color hacen?,trozo,src/temas/temas5.ts
 bbd2576991c0,¡Sí! {Uno} y {otro} hacen {mezcla}.,frase,src/temas/temas5.ts
 369d4d638a5c,Ese es el {color}. Piensa: {uno} y {otro}.,frase,src/temas/temas5.ts

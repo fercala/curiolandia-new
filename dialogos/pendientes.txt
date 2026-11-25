@@ -2532,3 +2532,42 @@ Pon bloques en el otro platillo hasta que la balanza quede recta.
 ¡Mira la balanza! Pesa más el otro lado.
 Toca una pieza y luego su sitio en la figura.
 Esa pieza no va ahí. Mira la forma.
+
+¡El rojo y el amarillo hacen el naranja!
+¡El amarillo y el azul hacen el verde!
+¡El rojo y el azul hacen el morado!
+El sol calienta el agua del mar.
+El agua sube al cielo y forma las nubes.
+De las nubes cae la lluvia.
+La lluvia baja por el río y vuelve al mar.
+Ciencias
+El taller de ciencias.
+El taller de ciencias estará listo muy pronto.
+El taller de ciencias
+¡El taller de ciencias! Elige un experimento.
+Los imanes
+Las sombras
+El ciclo del agua
+La semilla
+Toca dos botes de pintura para mezclarlos. ¿Qué color saldrá?
+Con el mismo color sale el mismo color. Prueba con otro.
+¡Se pega! Es de metal y el imán lo atrae.
+No se pega. El imán solo atrae el metal.
+¡Sorpresa! Se pega, porque es de metal y el imán lo atrae.
+¡Sorpresa! No se pega, porque el imán solo atrae el metal.
+¿El imán atraerá este objeto? Toca «Se pega» o «No se pega» y lo probamos.
+¡Muy bien! Ya sabes qué cosas atrae el imán.
+La lámpara da sombra al objeto. ¿Cuál es su sombra? Tócala en la pared.
+Esa sombra tiene otra forma. Mira bien el objeto.
+¡Muy bien! La sombra tiene la misma forma que el objeto.
+¡Esa es! La sombra tiene su misma forma.
+¿Cómo viaja el agua? Toca los dibujos en orden, empezando por el sol.
+Eso pasa más tarde. ¿Qué pasa antes?
+¡Y vuelta a empezar! El agua siempre da la vuelta.
+¡Ha salido un brote! Mañana la regamos otra vez.
+¡Ya es una plantita con hojas! Sigue regándola otros días.
+¡Ha salido una flor! Las plantas crecen con agua, sol y tiempo.
+¡Nuestra planta ya tiene flor! Puedes seguir regándola.
+Esta es nuestra semilla. Riégala con la regadera y vuelve otros días para ver cómo crece.
+Hoy ya la hemos regado. Vuelve mañana para ver cómo crece.
+¡Glu, glu! Ya tiene agua. Mañana la regamos otra vez.
