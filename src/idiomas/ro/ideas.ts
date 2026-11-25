@@ -207,4 +207,10 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
   '¡Pareja! Sigue jugando el mismo.': 'Pereche! Joacă tot el, mai departe.',
   '¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.':
     'Ați găsit toate perechile! E mai distractiv să vă jucați împreună.',
+  'Ficha de trazos': 'Fișă cu trasee',
+  'Ficha para recortar y pegar': 'Fișă de decupat și lipit',
+  'Repasa las líneas de puntos con el lápiz, sin levantarlo.':
+    'Trage cu creionul peste liniile punctate, fără să-l ridici.',
+  'Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.':
+    'Decupează desenele pe linia punctată și lipește-le peste umbra lor.',
 };

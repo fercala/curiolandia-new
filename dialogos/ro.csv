@@ -1225,7 +1225,7 @@ aa3a832b74c9,Creo que se me cayó cerca del bosque.,Cred că mi-a căzut lângă
 c6afd63197e8,Creo que se me cayó cerca del cole.,Cred că mi-a căzut lângă școală.,frase,src/dominio/amigos.ts,borrador
 23754e3f51e8,Creo que se me cayó cerca de la casa de las fiestas.,Cred că mi-a căzut lângă casa sărbătorilor.,frase,src/dominio/amigos.ts,borrador
 c51c336fbca3,Creo que se me cayó cerca del globo.,Cred că mi-a căzut lângă balon.,frase,src/dominio/amigos.ts,borrador
-df9276a6b0eb,Tito,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/titoYSonido.ts,borrador
+df9276a6b0eb,Tito,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/fichas.ts,borrador
 803b0d23fbee,Polly,Polly,trozo,src/dominio/carreras.ts,borrador
 a29d50ec9ee6,Lupi,Lupi,trozo,src/dominio/carreras.ts,borrador
 80db790085db,Pipo,Pipo,trozo,src/dominio/carreras.ts src/escenas/casaMascotas.ts,borrador
@@ -4636,8 +4636,19 @@ edebf8bc6646,"Sí, recuperar esta copia","Da, recuperează această copie",adult
 83928020a631,Usan los dibujos del último tema abierto.,Folosesc desenele din ultima temă deschisă.,adultos,src/aplicacion/adultos/fichas.ts,borrador
 e079b278ef82,Ficha para colorear,Fișă de colorat,adultos,src/aplicacion/adultos/fichas.ts,borrador
 18720f14b3d2,Ficha para contar,Fișă de numărat,adultos,src/aplicacion/adultos/fichas.ts,borrador
+754a421c4464,Ficha de trazos,Fișă cu trasee,adultos,src/aplicacion/adultos/fichas.ts,borrador
+dc9aa9209470,Ficha para recortar y pegar,Fișă de decupat și lipit,adultos,src/aplicacion/adultos/fichas.ts,borrador
+c98c0f52af46,M10 40 Q35 5 60 40 T110 40 T160 40 T210 40 T260 40 T310 40,,adultos,src/aplicacion/adultos/fichas.ts,falta
+0ddd3541f789,M10 60 L45 15 L80 60 L115 15 L150 60 L185 15 L220 60 L255 15 L290 60,,adultos,src/aplicacion/adultos/fichas.ts,falta
+75ac5d864d78,M20 40 C20 0 70 0 60 40 C50 80 110 80 100 40 C90 0 150 0 140 40 C130 80 190 80 180 40 C170 0 230 0 220 40 C210 80 270 80 260 40 C250 0 310 0 300 40,,adultos,src/aplicacion/adultos/fichas.ts,falta
+526f821a7907,M10 60 L10 20 L60 20 L60 60 L110 60 L110 20 L160 20 L160 60 L210 60 L210 20 L260 20 L260 60,,adultos,src/aplicacion/adultos/fichas.ts,falta
 6bd46f9c630f,Cuenta los dibujos y rodea el número.,Numără desenele și încercuiește numărul.,adultos,src/aplicacion/adultos/fichas.ts,borrador
+c23acbabee77,svg{width:24mm},,adultos,src/aplicacion/adultos/fichas.ts,falta
+e433c7c56526,"Repasa las líneas de puntos con el lápiz, sin levantarlo.","Trage cu creionul peste liniile punctate, fără să-l ridici.",adultos,src/aplicacion/adultos/fichas.ts,borrador
+d605362f0a12,svg.linea{width:170mm;display:block;margin:6mm auto},,adultos,src/aplicacion/adultos/fichas.ts,falta
+fb69ea8e6fa6,Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.,Decupează desenele pe linia punctată și lipește-le peste umbra lor.,adultos,src/aplicacion/adultos/fichas.ts,borrador
 36c7c6b9368d,Colorea el dibujo del tema.,Colorează desenul temei.,adultos,src/aplicacion/adultos/fichas.ts,borrador
+4211c1214adb,svg{width:125mm},,adultos,src/aplicacion/adultos/fichas.ts,falta
 fdc6446d8460,Premios y vales,Premii și tichete,adultos,src/aplicacion/adultos/premios.ts,borrador
 1548db2ef3d8,Premios,Premii,adultos,src/aplicacion/adultos/premios.ts,borrador
 f3176786e699,Entregado ✔,Dat ✔,adultos,src/aplicacion/adultos/premios.ts,borrador

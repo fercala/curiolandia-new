@@ -2653,3 +2653,7 @@ Le toca al jugador de Lupi.
 ¡Lo habéis hecho juntos!
 ¡Pareja! Sigue jugando el mismo.
 ¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.
+Ficha de trazos
+Ficha para recortar y pegar
+Repasa las líneas de puntos con el lápiz, sin levantarlo.
+Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.

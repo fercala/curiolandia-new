@@ -1225,7 +1225,7 @@ aa3a832b74c9,Creo que se me cayó cerca del bosque.,frase,src/dominio/amigos.ts
 c6afd63197e8,Creo que se me cayó cerca del cole.,frase,src/dominio/amigos.ts
 23754e3f51e8,Creo que se me cayó cerca de la casa de las fiestas.,frase,src/dominio/amigos.ts
 c51c336fbca3,Creo que se me cayó cerca del globo.,frase,src/dominio/amigos.ts
-df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/titoYSonido.ts
+df9276a6b0eb,Tito,trozo,src/dominio/carreras.ts src/temas/letras.ts src/aplicacion/adultos/fichas.ts
 803b0d23fbee,Polly,trozo,src/dominio/carreras.ts
 a29d50ec9ee6,Lupi,trozo,src/dominio/carreras.ts
 80db790085db,Pipo,trozo,src/dominio/carreras.ts src/escenas/casaMascotas.ts
@@ -4636,8 +4636,19 @@ edebf8bc6646,"Sí, recuperar esta copia",adultos,src/aplicacion/adultos/copiaSeg
 83928020a631,Usan los dibujos del último tema abierto.,adultos,src/aplicacion/adultos/fichas.ts
 e079b278ef82,Ficha para colorear,adultos,src/aplicacion/adultos/fichas.ts
 18720f14b3d2,Ficha para contar,adultos,src/aplicacion/adultos/fichas.ts
+754a421c4464,Ficha de trazos,adultos,src/aplicacion/adultos/fichas.ts
+dc9aa9209470,Ficha para recortar y pegar,adultos,src/aplicacion/adultos/fichas.ts
+c98c0f52af46,M10 40 Q35 5 60 40 T110 40 T160 40 T210 40 T260 40 T310 40,adultos,src/aplicacion/adultos/fichas.ts
+0ddd3541f789,M10 60 L45 15 L80 60 L115 15 L150 60 L185 15 L220 60 L255 15 L290 60,adultos,src/aplicacion/adultos/fichas.ts
+75ac5d864d78,M20 40 C20 0 70 0 60 40 C50 80 110 80 100 40 C90 0 150 0 140 40 C130 80 190 80 180 40 C170 0 230 0 220 40 C210 80 270 80 260 40 C250 0 310 0 300 40,adultos,src/aplicacion/adultos/fichas.ts
+526f821a7907,M10 60 L10 20 L60 20 L60 60 L110 60 L110 20 L160 20 L160 60 L210 60 L210 20 L260 20 L260 60,adultos,src/aplicacion/adultos/fichas.ts
 6bd46f9c630f,Cuenta los dibujos y rodea el número.,adultos,src/aplicacion/adultos/fichas.ts
+c23acbabee77,svg{width:24mm},adultos,src/aplicacion/adultos/fichas.ts
+e433c7c56526,"Repasa las líneas de puntos con el lápiz, sin levantarlo.",adultos,src/aplicacion/adultos/fichas.ts
+d605362f0a12,svg.linea{width:170mm;display:block;margin:6mm auto},adultos,src/aplicacion/adultos/fichas.ts
+fb69ea8e6fa6,Recorta los dibujos por la línea de puntos y pégalos encima de su sombra.,adultos,src/aplicacion/adultos/fichas.ts
 36c7c6b9368d,Colorea el dibujo del tema.,adultos,src/aplicacion/adultos/fichas.ts
+4211c1214adb,svg{width:125mm},adultos,src/aplicacion/adultos/fichas.ts
 fdc6446d8460,Premios y vales,adultos,src/aplicacion/adultos/premios.ts
 1548db2ef3d8,Premios,adultos,src/aplicacion/adultos/premios.ts
 f3176786e699,Entregado ✔,adultos,src/aplicacion/adultos/premios.ts
