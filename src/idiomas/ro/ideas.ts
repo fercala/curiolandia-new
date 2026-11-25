@@ -235,4 +235,12 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
   'Informe semanal de {nombre} en Curiolandia': 'Raportul săptămânal al lui {nombre} în Curiolandia',
   'Informe copiado: ya se puede pegar en un mensaje.': 'Raport copiat: acum îl puteți lipi într-un mesaj.',
   'No se ha podido copiar el informe.': 'Raportul nu a putut fi copiat.',
+  'Para jugar, toca las cosas con el dedo. ¡Toca la estrella!':
+    'Ca să te joci, atinge lucrurile cu degetul. Atinge steaua!',
+  'Algunas cosas se arrastran. Pon el dedo en la manzana y llévala al cubo.':
+    'Unele lucruri se trag cu degetul. Pune degetul pe măr și du-l în găleată.',
+  'El botón verde sirve para seguir. ¡Tócalo!': 'Butonul verde e ca să mergem mai departe. Atinge-l!',
+  'Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!':
+    'Dacă nu știi ce să faci, atinge-mă și îți spun din nou. Atinge-mă!',
+  '¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!': 'Foarte bine! Acum știi să te joci. Hai la hartă!',
 };

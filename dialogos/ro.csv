@@ -2432,6 +2432,12 @@ fa96670bdb20,"Desde la orilla se ve el mar, con los barcos y el faro. ¡Vamos a 
 92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,Câte baloane ai spart! Știi foarte bine culorile. Ne mai jucăm o dată?,frase,src/escenas/pompas.ts,borrador
 aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.","Baloane de săpun! Suflă cu mine, tare, ca să facem multe baloane. Sparge doar baloanele de culoarea pe care ți-o spun.",frase,src/escenas/pompas.ts,borrador
 02fdbb032ecb,{a} / {b},{a} / {b},trozo,src/escenas/pompas.ts,borrador
+11112df29188,"Para jugar, toca las cosas con el dedo. ¡Toca la estrella!","Ca să te joci, atinge lucrurile cu degetul. Atinge steaua!",frase,src/escenas/primerosPasos.ts,borrador
+f1eb8c37e434,Algunas cosas se arrastran. Pon el dedo en la manzana y llévala al cubo.,Unele lucruri se trag cu degetul. Pune degetul pe măr și du-l în găleată.,frase,src/escenas/primerosPasos.ts,borrador
+3ac0c15f9a87,El botón verde sirve para seguir. ¡Tócalo!,Butonul verde e ca să mergem mai departe. Atinge-l!,frase,src/escenas/primerosPasos.ts,borrador
+5062c9be0e41,"Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!","Dacă nu știi ce să faci, atinge-mă și îți spun din nou. Atinge-mă!",frase,src/escenas/primerosPasos.ts,borrador
+a0d92f683435,¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!,Foarte bine! Acum știi să te joci. Hai la hartă!,frase,src/escenas/primerosPasos.ts,borrador
+1178ef73e06c,¡Muy bien!,Foarte bine!,frase,src/escenas/primerosPasos.ts src/escenas/titoDice.ts src/escenas/yoga.ts,borrador
 cfd249310611,Tira la piedra a la casilla del {n}.,Aruncă pietricica în căsuța cu {n}.,frase,src/escenas/rayuela.ts,borrador
 fe267e4ae7ab,"¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!","Foarte bine, pe {n}! Într-un picior, sari cu mine și numără!",frase,src/escenas/rayuela.ts,borrador
 d40cd42c4fad,Esa es la casilla del {n}. Busca la del {objetivo}.,Aceea e căsuța cu {n}. Caută-o pe cea cu {objetivo}.,frase,src/escenas/rayuela.ts,borrador
@@ -2547,7 +2553,6 @@ b539e633e8c2,¡da una vuelta!,învârte-te o dată!,trozo,src/escenas/titoDice.t
 9bbb2936abe1,¡abre mucho la boca!,deschide gura mare!,trozo,src/escenas/titoDice.ts,borrador
 221ef7bf31d6,¡da cinco pisotones!,bate din picior de cinci ori!,trozo,src/escenas/titoDice.ts,borrador
 b1a35e44836a,¡Eso es!,Asta e!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts src/temas/temas.ts,borrador
-1178ef73e06c,¡Muy bien!,Foarte bine!,frase,src/escenas/titoDice.ts src/escenas/yoga.ts src/juegos/comps2.ts,borrador
 ba8de4499a6c,¡Genial!,Grozav!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts,borrador
 a1def823d62e,¡Así se hace!,Așa se face!,frase,src/escenas/titoDice.ts,borrador
 6d6b7169ae0d,"¡Je, je! No he dicho «Tito dice». Si no te has movido, ¡muy bien!","Hi, hi! Nu am zis «Tito zice». Dacă nu te-ai mișcat, foarte bine!",frase,src/escenas/titoDice.ts,borrador

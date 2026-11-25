@@ -110,6 +110,7 @@ export * from './arte.ts';
 export * from './modoReto.ts';
 export * from './corral.ts';
 export * from './encargos.ts';
+export * from './primerosPasos.ts';
 import './ambiente.ts'; // los sonidos de ambiente de cada sitio (idea 43): solo se apunta en AL_ENTRAR
 export * from './misiones.ts';
 export * from './perfiles.ts';

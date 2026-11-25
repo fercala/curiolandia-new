@@ -2432,6 +2432,12 @@ fa96670bdb20,"Desde la orilla se ve el mar, con los barcos y el faro. ¡Vamos a 
 92ce8bbce83d,¡Cuántas pompas has explotado! Conoces muy bien los colores. ¿Jugamos otra vez?,frase,src/escenas/pompas.ts
 aeaf25c64900,"¡Pompas de jabón! Sopla conmigo, fuerte, para hacer muchas pompas. Explota solo las del color que te diga.",frase,src/escenas/pompas.ts
 02fdbb032ecb,{a} / {b},trozo,src/escenas/pompas.ts
+11112df29188,"Para jugar, toca las cosas con el dedo. ¡Toca la estrella!",frase,src/escenas/primerosPasos.ts
+f1eb8c37e434,Algunas cosas se arrastran. Pon el dedo en la manzana y llévala al cubo.,frase,src/escenas/primerosPasos.ts
+3ac0c15f9a87,El botón verde sirve para seguir. ¡Tócalo!,frase,src/escenas/primerosPasos.ts
+5062c9be0e41,"Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!",frase,src/escenas/primerosPasos.ts
+a0d92f683435,¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!,frase,src/escenas/primerosPasos.ts
+1178ef73e06c,¡Muy bien!,frase,src/escenas/primerosPasos.ts src/escenas/titoDice.ts src/escenas/yoga.ts
 cfd249310611,Tira la piedra a la casilla del {n}.,frase,src/escenas/rayuela.ts
 fe267e4ae7ab,"¡Muy bien, en el {n}! ¡A la pata coja, salta conmigo y cuenta!",frase,src/escenas/rayuela.ts
 d40cd42c4fad,Esa es la casilla del {n}. Busca la del {objetivo}.,frase,src/escenas/rayuela.ts
@@ -2547,7 +2553,6 @@ b539e633e8c2,¡da una vuelta!,trozo,src/escenas/titoDice.ts
 9bbb2936abe1,¡abre mucho la boca!,trozo,src/escenas/titoDice.ts
 221ef7bf31d6,¡da cinco pisotones!,trozo,src/escenas/titoDice.ts
 b1a35e44836a,¡Eso es!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts src/temas/temas.ts
-1178ef73e06c,¡Muy bien!,frase,src/escenas/titoDice.ts src/escenas/yoga.ts src/juegos/comps2.ts
 ba8de4499a6c,¡Genial!,frase,src/escenas/titoDice.ts src/nucleo/voz.ts
 a1def823d62e,¡Así se hace!,frase,src/escenas/titoDice.ts
 6d6b7169ae0d,"¡Je, je! No he dicho «Tito dice». Si no te has movido, ¡muy bien!",frase,src/escenas/titoDice.ts

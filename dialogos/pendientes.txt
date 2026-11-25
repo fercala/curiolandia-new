@@ -2678,3 +2678,8 @@ Lo que ha hecho esta semana:
 Informe semanal de {nombre} en Curiolandia
 Informe copiado: ya se puede pegar en un mensaje.
 No se ha podido copiar el informe.
+Para jugar, toca las cosas con el dedo. ¡Toca la estrella!
+Algunas cosas se arrastran. Pon el dedo en la manzana y llévala al cubo.
+El botón verde sirve para seguir. ¡Tócalo!
+Si no sabes qué hacer, tócame y te lo repito. ¡Tócame!
+¡Muy bien! Ya sabes jugar. ¡Vamos al mapa!
