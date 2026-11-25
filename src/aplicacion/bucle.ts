@@ -131,6 +131,11 @@ const upH = (e: PointerEvent) => {
 };
 cv.addEventListener('pointerup', upH);
 cv.addEventListener('pointercancel', upH);
+// Si el navegador pierde la captura, la pulsación deja de ser continua y el candado debe empezar de nuevo.
+cv.addEventListener('lostpointercapture', () => {
+  VIVO.lockDown = false;
+  VIVO.lockHold = 0;
+});
 // Sin menú contextual (pulsación larga o clic derecho).
 cv.addEventListener('contextmenu', (e) => e.preventDefault());
 // Tecla Escape = tocar el botón de volver (casita) de la escena.
@@ -144,9 +149,12 @@ addEventListener('keydown', (e) => {
       } catch (err) {}
   }
 });
-// Si la pestaña se oculta, se calla la voz y se suspende el audio; al volver, se reanuda.
+// Si la pestaña se oculta, se cancela la pulsación del candado, se calla la voz y se suspende el audio.
+// Al volver, el audio se reanuda y el candado requiere una pulsación nueva.
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
+    VIVO.lockDown = false;
+    VIVO.lockHold = 0;
     try {
       speechSynthesis.cancel();
     } catch (e) {}

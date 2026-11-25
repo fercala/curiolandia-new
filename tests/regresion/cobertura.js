@@ -279,6 +279,38 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       },
     );
 
+    await test(
+      'candado-interrumpido',
+      'Ocultar la pestaña o perder la captura cancela la pulsación del candado',
+      async (p) => {
+        await p.evaluate(() => __cl.go('casaTito', {}));
+        await p.waitForFunction(() => VIVO.fade === 0);
+        const [x, y] = await p.evaluate(() => [OX + 1546 * SC, OY + 852 * SC]);
+        await p.mouse.move(x, y);
+        await p.mouse.down();
+        await p.waitForTimeout(500);
+        const oculto = await p.evaluate(() => {
+          Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
+          document.dispatchEvent(new Event('visibilitychange'));
+          const cancelado = !VIVO.lockDown && VIVO.lockHold === 0;
+          delete document.hidden;
+          document.dispatchEvent(new Event('visibilitychange'));
+          return cancelado;
+        });
+        await p.mouse.up();
+        await p.mouse.down();
+        await p.waitForTimeout(500);
+        const sinCaptura = await p.evaluate(() => {
+          document.getElementById('cv').dispatchEvent(new PointerEvent('lostpointercapture'));
+          return !VIVO.lockDown && VIVO.lockHold === 0;
+        });
+        await p.waitForTimeout(3100);
+        const cerrado = await p.evaluate(() => document.getElementById('adult').hidden);
+        await p.mouse.up();
+        return { fail: !oculto || !sinCaptura || !cerrado, oculto, sinCaptura, cerrado };
+      },
+    );
+
     const prepareReview = (p) =>
       p.evaluate(() => {
         S.temas['3A-T1'] = { g: { 1: 1 }, done: 0 };
