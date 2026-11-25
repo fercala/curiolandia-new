@@ -12,6 +12,7 @@ import { scene, sceneName } from './escenas.ts';
 import { AGE, S, save } from './guardado.ts';
 import type { Adaptacion } from '../dominio/dificultad.ts';
 import { SIN_ADAPTAR, opciones, rondas, trasAcierto, trasDosFallos } from '../dominio/dificultad.ts';
+import { opcionesReto, rondasReto } from '../dominio/reto.ts';
 import { monedasPorAcierto } from '../dominio/monedas.ts';
 // apuntarResultado: el caso de uso que dice qué apunta rec (desde la fase 4c).
 import { apuntarResultado } from '../aplicacion/repasoDelDia.ts';
@@ -127,7 +128,7 @@ export function drawHelp(): void {
 // primera seguidos; REP = veces que ya se jugó este juego (0 a 2; lo pone la escena 'juego' de escenas/escenas2d.ts).
 // Las reglas (cuántas opciones y rondas, cuándo sube o baja) están desde la fase 3e en dominio/dificultad.ts.
 let streak = SIN_ADAPTAR.racha;
-Object.assign(VIVO, { ADAPT: SIN_ADAPTAR.adapt, REP: 0 });
+Object.assign(VIVO, { ADAPT: SIN_ADAPTAR.adapt, REP: 0, RETO: '' });
 // adaptacion(): la dificultad adaptativa de ahora (VIVO.ADAPT y streak), para pasársela a las reglas.
 const adaptacion = (): Adaptacion => ({ adapt: VIVO.ADAPT, racha: streak });
 // adaptar(a): guarda la dificultad adaptativa nueva que devuelven las reglas en VIVO.ADAPT y streak.
@@ -136,9 +137,9 @@ function adaptar(a: Adaptacion): void {
   streak = a.racha;
 }
 // nOpts(): cuántas opciones enseñar en un juego (de 2 a 4): 2 a los 3 años y 3 a los 4 y 5, más ADAPT, y +1 al repetir
-// (opciones).
+// (opciones). En el modo reto (VIVO.RETO, idea 32), las de la dificultad más alta (opcionesReto).
 export function nOpts(): number {
-  return opciones(AGE(), VIVO.ADAPT, VIVO.REP);
+  return VIVO.RETO ? opcionesReto(AGE()) : opciones(AGE(), VIVO.ADAPT, VIVO.REP);
 }
 // monedasDeAcierto: cuántas monedas de acierto se han dado en el juego de ahora (como mucho 5; alEmpezarJuego las pone
 // a 0). Hasta la fase 4b era gameCoins, en escenas/tienda.ts.
@@ -174,8 +175,9 @@ export function rec(k: string, ok: unknown): void {
 export function onWrongTwice(): void {
   adaptar(trasDosFallos(adaptacion()));
 }
-// nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición (rondas).
-export const nRounds = (): number => rondas(AGE(), VIVO.REP);
+// nRounds(): rondas de cada juego: 4 a los 3 años y 5 después; una más a partir de la segunda repetición (rondas); en
+// el modo reto (VIVO.RETO, idea 32), otra más (rondasReto).
+export const nRounds = (): number => (VIVO.RETO ? rondasReto(AGE()) : rondas(AGE(), VIVO.REP));
 /* tiempo de juego */
 // sessionT: segundos jugados en esta sesión (para S.limit); restAsked: ya se propuso descansar; pausaHecha: ya se
 // propuso la pausa activa del yoga (fase P3 de docs/IDEAS-MEJORA.md, escenas/zonas.ts); minuteAcc: segundos aún

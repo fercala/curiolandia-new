@@ -175,6 +175,9 @@ import type { CatalogoDeTemas } from '../aplicacion/repasoDelDia.ts';
 import { NUM, TUNES, drawFace, playTune } from '../juegos/indice.ts';
 import { esCumple } from '../dominio/progreso.ts';
 import { fraseReto } from './retos.ts';
+import { apuntarDiario } from './diario.ts';
+import { dibujaCartelReto, terminarReto } from './modoReto.ts';
+import { yaElegido } from '../aplicacion/perfiles.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -385,7 +388,9 @@ SCENES.title = {
     SFX.pop();
     pickVoice();
     // Orden de la primera vez: edad -> (¿quién juega?) -> cuento de intro -> mapa.
-    if (!S.age) go('edad');
+    if (!yaElegido())
+      go('perfiles'); // con varios niños, «¿Quién juega?» (idea 38, escenas/perfiles.ts)
+    else if (!S.age) go('edad');
     else if (!S.intro) go('intro');
     else go('map', { hello: true });
   },
@@ -497,7 +502,8 @@ SCENES.quien = {
 
 /* ---------- INTRO (cuento) ---------- */
 // INTRO: el cuento del principio, en 4 frases (this.ph = frase actual). Al acabar, o al tocar el botón de saltar,
-// marca S.intro = true para no repetirlo y va al mapa.
+// marca S.intro = true para no repetirlo y va al mapa (desde la v0.2.181, si termina entero, antes a los primeros pasos
+// guiados de escenas/primerosPasos.ts).
 SCENES.intro = {
   music: 'title',
   // enter(): empieza por la primera frase. this.qs = interrogantes que salen volando de la mochila.
@@ -508,7 +514,8 @@ SCENES.intro = {
     this.next();
   },
   // next(): dice la frase this.ph y, cuando termina de hablar (callback de say) y pasan 0,7 s, pasa a la siguiente.
-  // En la frase 1 lanza los 16 interrogantes. Cuando ya no quedan frases guarda S.intro y va al mapa.
+  // En la frase 1 lanza los 16 interrogantes. Cuando ya no quedan frases guarda S.intro y va a los primeros pasos
+  // guiados (desde la v0.2.181; antes, al mapa).
   next() {
     // la presentación cambia con el personaje de Tito (zona de adultos); la del caracol es la de siempre
     const lines = [
@@ -526,7 +533,8 @@ SCENES.intro = {
     if (this.ph >= lines.length) {
       S.intro = true;
       save();
-      go('map', { hello: true });
+      // desde la v0.2.181 (idea 45), el cuento entero lleva a los primeros pasos guiados (escenas/primerosPasos.ts)
+      go('primerosPasos');
       return;
     }
     this.t = 0;
@@ -778,6 +786,8 @@ export function drawStation(t: Tema, j: number, x: number, y: number, o: Opcione
 export function finishGame(t: Tema, gi: number): void {
   const r = terminarJuego(S, t, gi, { hoy: today(), delRepaso: REP_ON });
   Object.assign(S, r.partida);
+  apuntarDiario('casita'); // el diario de Tito (idea 35, escenas/diario.ts)
+  terminarReto(t, gi); // la estrella dorada del modo reto (idea 32, escenas/modoReto.ts)
   save();
   SFX.tada();
   burst(800, 380, 90);
@@ -825,6 +835,7 @@ SCENES.juego = {
     this.t = TEMA[o.t];
     this.gi = o.g;
     VIVO.REP = repeticion(tst(o.t).g[o.g]);
+    if (VIVO.RETO !== o.t) VIVO.RETO = ''; // el modo reto, solo en los juegos de su casita (idea 32)
     this.fin = false;
     this.g = makeGame(this.t.games[o.g], this.t, () => {
       if (this.fin) return;
@@ -844,7 +855,7 @@ SCENES.juego = {
     this.g.draw();
     drawHome();
     if (this.g.total) drawRounds(Math.min(this.g.done, this.g.total), this.g.total);
-    if (VIVO.REP > 0) {
+    if (!dibujaCartelReto() && VIVO.REP > 0) {
       card(1400, 140, 160, 56, '#9B8AD9', 5, 28);
       text(fmt('Nivel {n}', { n: VIVO.REP + 1 }), 1480, 180, 30, '#fff');
     }
@@ -878,7 +889,7 @@ SCENES.juego = {
   },
   // hint(): la ayuda la decide el juego (nada si ya terminó).
   hint() {
-    return this.fin ? null : this.g.hint && this.g.hint();
+    return this.fin || VIVO.RETO ? null : this.g.hint && this.g.hint(); // en el modo reto, sin ayudas (idea 32)
   },
   /* prompt(): la consigna la dice el juego. */ prompt() {
     this.g.prompt && this.g.prompt();

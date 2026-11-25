@@ -137,6 +137,8 @@ import { pistaTesoro } from '../escenas/tesoros.ts';
 import { fotoEnMundo } from './camara3d.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
 import { dibujaBotonAventura, tocarBotonAventura } from '../escenas/aventura.ts';
+import { dibujaEncargo, tocaEncargo } from '../escenas/encargos.ts';
+import { dibujaBotonMisiones, tocaBotonMisiones } from '../escenas/misiones.ts';
 
 /* ================= EL MAPA: la isla de Curiolandia ================= */
 // MZP: dónde ha quedado en la pantalla cada lugar del mapa {x,y,r} (id de MZ2 -> lo proyectado), lo último que proyectó
@@ -1040,6 +1042,8 @@ export function montarMapa3D(): void {
       drawCoinHUD();
       dibujaCamara(); // desde la fase P15, la cámara de fotos
       dibujaBotonAventura(); // desde la P16, la gran aventura de Tito
+      dibujaEncargo(); // desde la v0.2.181, el encargo del día (idea 34, escenas/encargos.ts)
+      dibujaBotonMisiones(); // y las misiones del día (idea 36, escenas/misiones.ts)
       if (VIVO.talking) {
         const tp = titoPos(),
           bx = tp.x + tp.w * 0.85,
@@ -1063,6 +1067,8 @@ export function montarMapa3D(): void {
       // desde la fase P15, el botón de la cámara; con ella encendida, un toque hace una foto (y no se va a ningún sitio)
       if (tocarBotonCamara(x, y)) return;
       if (tocarBotonAventura(x, y)) return; // desde la P16, el botón de la gran aventura
+      if (tocaEncargo(x, y)) return; // desde la v0.2.181, el encargo del día
+      if (tocaBotonMisiones(x, y)) return; // y las misiones del día
       if (camaraActiva()) {
         if (!fotoEnMundo(w, x, y)) disparoVacio(x, y);
         return;

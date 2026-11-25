@@ -69,7 +69,7 @@ Las ramas abiertas pueden coincidir en `CLAUDE.md`, planes, catálogo, registro 
 
 ## Pruebas y alcance observado
 
-La fuente de órdenes es `package.json`. `.github/workflows/web.yml` usa Node 22, Python 3.12 y Chromium; monta, revisa comentarios, formato, lint y tipos, ejecuta Vitest, humo y `test:pr`. Al fusionar en `main` también publica Pages.
+La fuente de órdenes es `package.json`. `.github/workflows/web.yml` usa Node 22, Python 3.12 y Chromium; monta, revisa comentarios, formato, lint y tipos y ejecuta Vitest; humo y `test:pr` se pasan solo en local (`npm run test:local`), desde la v0.2.181. Al fusionar en `main` también publica Pages.
 
 En esta base, `test:pr` ejecuta `informe-b`, `voces`, `casa`, `guardado-viejo`, `juegos` con `0 8 90`, `adultos`, `cole` y el comprobador de sus resultados. La muestra de juegos es una octava parte; no incluye automáticamente todos los guiones de [tests/regresion/LEEME](../tests/regresion/LEEME.md). `comprobar.js` falla si faltan resultados o hay hallazgos: el código de salida del guion aislado puede no bastar.
 

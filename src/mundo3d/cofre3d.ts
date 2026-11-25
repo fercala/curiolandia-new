@@ -40,6 +40,7 @@ import {
 } from '../nucleo/indice.ts';
 import { drawTitoHouse, houseLevel } from '../escenas/zonas.ts';
 import { drawItemPic, itemName } from '../escenas/tienda.ts';
+import { dibujaFiesta } from '../escenas/fiesta.ts';
 import { W3, camRig, newWorld, pickAt, setWorld } from './motor.ts';
 import { Box, Cyl, M, V3, gradTex, grp, mk, rbox, starGeo } from './materiales.ts';
 import { fireflies, flower3 } from './decorado.ts';
@@ -191,7 +192,8 @@ export function montarCofre3D(): void {
       setWorld(buildCofre(this));
       titoRect(W3!.tito!);
     },
-    // draw(): cada cuadro: ratón sobre el cofre, apertura (this.op), el premio que sale, los toques que faltan (3 círculos) y botones
+    // draw(): cada cuadro: ratón sobre el cofre, apertura (this.op), el premio que sale, los toques que faltan (3 círculos) y botones;
+    // desde la v0.2.181 (idea 42), la fiesta de confeti con Lupi y Polly al abrirse (escenas/fiesta.ts)
     draw() {
       const w = W3;
       if (w && w.kind === 'cofre') titoRect(w.tito!);
@@ -262,6 +264,7 @@ export function montarCofre3D(): void {
           ctx.restore();
         }
       }
+      dibujaFiesta(this.openT); // la fiesta de confeti y los amigos al abrirlo (idea 42)
       drawHome();
       drawCoinHUD();
       if (VIVO.talking) {

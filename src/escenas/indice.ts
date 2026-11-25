@@ -101,3 +101,17 @@ export * from './laberinto.ts';
 export * from './flota.ts';
 export * from './cuentoDecisiones.ts';
 export * from './mercadoPractica.ts';
+export * from './diario.ts';
+export * from './logica.ts';
+export * from './casaExtras.ts';
+export * from './menuRincon.ts';
+export * from './experimentos.ts';
+export * from './arte.ts';
+export * from './modoReto.ts';
+export * from './corral.ts';
+export * from './encargos.ts';
+export * from './primerosPasos.ts';
+import './ambiente.ts'; // los sonidos de ambiente de cada sitio (idea 43): solo se apunta en AL_ENTRAR
+export * from './misiones.ts';
+export * from './perfiles.ts';
+export * from './juntos.ts';

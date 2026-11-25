@@ -46,7 +46,7 @@ import type { PaginaAdultos } from './tipos.ts';
 // no está, se muestra la clave con espacios. Al crear un juego con una habilidad nueva, añade aquí su nombre.
 // Las de inglés son 'ingles-' más el conjunto de palabras del tema (t.en); desde la fase I7 de docs/PLAN-INGLES.md
 // están todas las de la isla.
-const SKILL: Record<string, string> = {
+export const SKILL: Record<string, string> = {
   'ingles-hello': 'Inglés: saludos',
   'ingles-colors': 'Inglés: colores',
   'ingles-numbers': 'Inglés: números',

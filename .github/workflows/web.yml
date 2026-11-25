@@ -1,9 +1,9 @@
-# Monta la web y pasa las pruebas en cada PR y en cada push a main; desde main, además, la publica en GitHub Pages.
-# Pruebas: comentarios de cabecera, formato (Prettier) y linter (oxlint) (docs/FORMATO-Y-LINTER.md), tipos
-# (TypeScript estricto y el límite de avisos de src/*.js, docs/TIPOS.md),
-# Vitest (tests/unidad) y las de Playwright (tests/regresion/LEEME.md): humo (escenas de día y de noche), los fallos B1-B7,
-# la elección de voz, la casa de Tito, la copia de la partida de curiolandia-3d y una octava parte de los juegos.
-# Las pruebas de regresión siempre terminan con 0; comprobar.js lee sus resultados y falla si hay hallazgos.
+# Monta la web y pasa las pruebas rápidas en cada PR y en cada push a main; desde main, además, la publica en GitHub Pages.
+# Pruebas rápidas (unos 3 minutos): comentarios de cabecera, formato (Prettier) y linter (oxlint)
+# (docs/FORMATO-Y-LINTER.md), tipos (TypeScript estricto y el límite de avisos de src/*.js, docs/TIPOS.md) y Vitest
+# (tests/unidad). Las de Playwright (humo y `npm run test:pr`, tests/regresion/LEEME.md) tardan mucho con el 3D sin
+# tarjeta gráfica y gastaban los minutos gratis de GitHub: desde la v0.2.181 se pasan solo en local, con
+# `npm run test:local`, antes de pedir la fusión (Fernando, 25 de noviembre de 2026).
 name: Web
 
 on:
@@ -22,7 +22,7 @@ concurrency:
 jobs:
   pruebas:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,23 +33,12 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:comentarios
       - run: npm run formato:comprobar
       - run: npm run lint
       - run: npm run tipos
       - run: npm run test:unidad
-      - run: npm run test:humo
-      - run: npm run test:pr
-      - if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: resultados-pruebas
-          path: |
-            tests/regresion/salida/
-            tests/capturas/
-          if-no-files-found: ignore
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         with:

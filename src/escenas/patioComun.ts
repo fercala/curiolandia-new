@@ -27,6 +27,7 @@ import {
   today,
 } from '../nucleo/indice.ts';
 import { terminarActividad } from '../dominio/cole.ts';
+import { apuntarDiario } from './diario.ts';
 
 // OTRA_VEZ: el botón de volver a jugar que sale al final (centro y radio).
 export const OTRA_VEZ = { x: 1000, y: 700, r: 80 };
@@ -85,6 +86,7 @@ export function terminarEnElPatio(id: string, x: number, y: number): number {
   const r = terminarActividad(S.cole, id, today());
   S.cole = { ...r.registro, hechas: [...r.registro.hechas], veces: { ...r.registro.veces } };
   if (r.monedas) creditCoins(r.monedas);
+  apuntarDiario('patio'); // el diario de Tito (idea 35, escenas/diario.ts)
   save();
   SFX.tada();
   burst(W / 2, 400, 70);

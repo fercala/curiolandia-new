@@ -146,6 +146,8 @@ import { femenino, formasEs, pseudo, type Nombre } from '../dominio/idiomas.ts';
 import { NUM_RO, cantidadRo } from '../idiomas/ro/numeros.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { azar } from '../aplicacion/puertos.ts';
+import { estiloDe } from '../dominio/variedad.ts';
+import { dibujaAdorno, entradaTarjeta } from './adornos.ts';
 // una "cosa" es una clave de dibujo o un objeto {name, draw(x,y,s)}
 // thing(k, x, y, s): dibuja una "cosa" k centrada en (x,y) con tamaño s.
 // k puede ser una carita de emoción ('emo:alegria': la dibuja drawFace, de juegos/caras.ts), una clave de dibujo (texto, se pinta con pic()) o un objeto con su propio
@@ -648,7 +650,7 @@ export function ChoiceGame(cfg: Config, onDone: AlTerminar): Juego {
   };
 }
 // COMPONENTE Busca: "¿Dónde está...?". Usa ChoiceGame.
-// cfg: items (claves o {k}), bg, rounds (por defecto nRounds()), key, ask(k)
+// cfg: items (claves o {k}), bg, estilo (el id del tema: su adorno, desde la v0.2.181), rounds (por defecto nRounds()), key, ask(k)
 // (pregunta propia), okSay(w), sound (si true, suena SOUNDS[k] al preguntar).
 // Cada ronda busca el siguiente de la lista barajada entre nOpts() opciones.
 // Lo crea makeGame para {t:'busca'} con las palabras del tema.
@@ -657,10 +659,17 @@ export function Busca(cfg: Config, onDone: AlTerminar): Juego {
   const pool: Cosa[] = cfg.items.map((i: Libre) => i.k || i),
     R = cfg.rounds || nRounds();
   let order = shuffle(pool);
+  // desde la v0.2.181 (idea 46), el adorno del tema flota por el fondo (cfg.estilo: el id del tema; dominio/variedad.ts)
+  const adorno = estiloDe(cfg.estilo).adorno;
   return ChoiceGame(
     {
       rounds: R,
-      bg: cfg.bg,
+      bg: cfg.estilo
+        ? () => {
+            cfg.bg();
+            dibujaAdorno(adorno);
+          }
+        : cfg.bg,
       key: () => cfg.key || 'busca',
       y: 600,
       big: true,
@@ -741,13 +750,16 @@ export function Sonido(cfg: Config, onDone: AlTerminar): Juego {
 // cuando se han visto todas se llama onDone. No hay fallos.
 // cfg: items (claves o {k, say, label, snd, draw, ex, bg}: say = frase, label =
 // texto debajo, snd = sonido propio, draw = dibujo propio, ex = lista de
-// ejemplos pequeños), bg, intro (frase inicial).
+// ejemplos pequeños), bg, intro (frase inicial) y, desde la v0.2.181 (idea 46), estilo (el id del tema: cómo entran
+// las tarjetas, su color y el adorno del fondo; dominio/variedad.ts y juegos/adornos.ts).
 // Lo crea makeGame para {t:'conocer'} con las palabras del tema (t.words).
 export function Conocer(cfg: Config, onDone: AlTerminar): Juego {
   // Copias propias de cada partida, con seen a 0: si se usaran los objetos de t.words, las marcas de vista (seen) de
   // una partida anterior seguirían ahí al repetir sin recargar y el juego no se podría terminar.
   const items = cfg.items.map((o: Libre) => Object.assign({}, typeof o === 'string' ? { k: o } : o, { seen: 0 })),
-    n = items.length;
+    n = items.length,
+    // desde la v0.2.181 (idea 46), el estilo del tema (cfg.estilo, su id): cómo entran las tarjetas, su color y el adorno
+    estilo = estiloDe(cfg.estilo);
   // Cuadrícula: columnas según el número de tarjetas y tamaño s que quepa en
   // la zona de 1220x660; luego se centra cada fila (la última puede ir incompleta).
   const cols = n <= 3 ? n : n === 4 ? 4 : n <= 6 ? 3 : n <= 8 ? 4 : 5,
@@ -817,18 +829,20 @@ export function Conocer(cfg: Config, onDone: AlTerminar): Juego {
     // abierta, el fondo oscurecido con la tarjeta grande, su nombre y ejemplos.
     draw() {
       cfg.bg();
-      for (const it of items) {
+      if (cfg.estilo) dibujaAdorno(estilo.adorno);
+      items.forEach((it: Libre, i: number) => {
         const ap = clamp((T - it.in) * 3, 0, 1),
           hs = this.open ? 1 : hv(it, hR(it.x, it.y, it.s, it.s));
         ctx.save();
         ctx.translate(it.x, it.y);
-        ctx.scale((ap < 1 ? back(ap) : 1) * hs, (ap < 1 ? back(ap) : 1) * hs);
-        card(-it.s / 2, -it.s / 2, it.s, it.s, it.bg || '#fff', 7, 36);
+        const e = entradaTarjeta(cfg.estilo ? estilo.entrada : 'rebote', ap, i);
+        ctx.scale(e * hs, e * hs);
+        card(-it.s / 2, -it.s / 2, it.s, it.s, it.bg || estilo.color, 7, 36);
         if (it.draw) it.draw(0, 0, it.s * 0.8);
         else thing(it.k, 0, 0, it.s * 0.8);
         if (it.seen) star(it.s / 2 - 18, -it.s / 2 + 18, 22, '#FFC93C', 3.5);
         ctx.restore();
-      }
+      });
       if (this.open) {
         const it = this.open,
           k = clamp((T - this.ot) * 4, 0, 1);

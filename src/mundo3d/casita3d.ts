@@ -12,6 +12,7 @@
  */
 import { botonExtra, tocaExtra } from '../escenas/botonesExtras.ts';
 import { BOTON_CUENTO } from '../escenas/cuentoDecisiones.ts';
+import { BOTON_RETO, dibujaBotonReto, dibujaDorada } from '../escenas/modoReto.ts';
 import * as THREE from 'three';
 import type { Tema } from '../juegos/tipos.ts';
 import type { Escena, OpcionesEscena } from '../nucleo/tipos.ts';
@@ -344,6 +345,8 @@ export function montarCasita3D(): void {
       drawHome();
       drawCoinHUD();
       botonExtra(BOTON_CUENTO, 'Cuento con decisiones');
+      dibujaBotonReto(t); // el modo reto (idea 32, escenas/modoReto.ts)
+      w?.st?.forEach((st, j) => dibujaDorada(t, j, st.p2[0] - 80, st.p2[1] + 60)); // sus estrellas doradas
       if (VIVO.talking) {
         const tp = titoPos(),
           bx = tp.x + tp.w * 0.85,
@@ -359,7 +362,8 @@ export function montarCasita3D(): void {
       const w = W3;
       if (!w || busy3(w)) return;
       const t = this.t;
-      if (atHome(x, y) || inCoinHUD(x, y) || tocaExtra(BOTON_CUENTO, x, y)) return call0(casita2D.down!, this, x, y);
+      if (atHome(x, y) || inCoinHUD(x, y) || tocaExtra(BOTON_CUENTO, x, y) || tocaExtra(BOTON_RETO, x, y))
+        return call0(casita2D.down!, this, x, y);
       const u = pickAt(x, y);
       if (flyTap(w, x, y)) return;
       if (!u) {

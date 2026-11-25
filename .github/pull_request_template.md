@@ -5,7 +5,7 @@
 - [ ] `npm run build` y `npm run test:humo` terminan con TODO BIEN
 - [ ] `npm run tipos` y `npm run test:unidad`
 - [ ] `npm run formato:comprobar` y `npm run lint` sin avisos (docs/FORMATO-Y-LINTER.md)
-- [ ] `npm run test:pr` (lo pasa también GitHub Actions)
+- [ ] `npm run test:pr` en local (GitHub Actions ya no lo pasa: solo las pruebas rápidas)
 - [ ] Lo he jugado en el navegador sin errores en la consola
 
 ## Documentación (docs/POLITICA-DOCUMENTACION.md)

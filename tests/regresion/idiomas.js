@@ -171,6 +171,28 @@ const ESCENAS_RO = [
   'linterna',
   // desde la P32, «Programa a Tito» (3D, ligero: un tablero)
   'programa',
+  // desde la v0.2.181, las escenas de las ideas pendientes (29 a 47 de docs/IDEAS-MEJORA.md)
+  'diario',
+  'rinconLogica',
+  'logicaSudoku',
+  'logicaFalta',
+  'logicaDiferencias',
+  'logicaBalanza',
+  'logicaTangram',
+  'taller',
+  'expColores',
+  'expImanes',
+  'expSombras',
+  'expAgua',
+  'expSemilla',
+  'estudioArte',
+  'arteSimetria',
+  'arteCancion',
+  'corral',
+  'misiones',
+  'juntos',
+  'primerosPasos',
+  'perfiles',
 ];
 // LETRAS: las casitas de la Isla de las Letras (L3-..., L4-..., L5-...) y sus escenas: su contenido es del castellano
 // y sus juegos de letras y sonidos no funcionan con otras palabras hasta su versión rumana (ID6).
