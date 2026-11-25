@@ -1447,6 +1447,17 @@ e176f9b5d39e,¡Un murciélago! Duerme de día cabeza abajo y vuela de noche.,fra
 5ce9573b2676,"¡Una rana! Por la noche canta: ¡cro, cro!",frase,src/dominio/linterna.ts
 289faecd2092,¡Un lobo! Aúlla a la luna: ¡auuuu!,frase,src/dominio/linterna.ts
 4f456e7c6b99,"¡Una polilla! Es como una mariposa, pero vuela de noche y le gusta la luz.",frase,src/dominio/linterna.ts
+99a644cbbe8b,Termina un juego en una casita.,frase,src/dominio/misiones.ts
+6594d4900c26,Juega en el patio del cole.,frase,src/dominio/misiones.ts
+aa36a3a23829,Resuelve un juego del rincón de la lógica.,frase,src/dominio/misiones.ts
+c08657587c2a,Haz un experimento en el taller de ciencias.,frase,src/dominio/misiones.ts
+d136838e69af,Pinta o haz música en el estudio de arte.,frase,src/dominio/misiones.ts
+d22c2d4ad191,Lee un cuento y elige qué pasa.,frase,src/dominio/misiones.ts
+63d32605f48a,Ve de excursión en el autobús del cole.,frase,src/dominio/misiones.ts
+c0249142b5d1,Esta semana es la semana del mar.,frase,src/dominio/misiones.ts
+02b34937b1ad,Esta semana es la semana de los bichos.,frase,src/dominio/misiones.ts
+6761eb236c63,Esta semana es la semana de la granja.,frase,src/dominio/misiones.ts
+d949ed2f0c71,Esta semana es la semana del espacio.,frase,src/dominio/misiones.ts
 0e365d166934,busca en casa tres cosas rojas.,trozo,src/dominio/retos.ts
 e3afaf9c354c,Buscar en casa tres cosas rojas.,frase,src/dominio/retos.ts
 6947454c9bd9,salta como una rana hasta la cocina.,trozo,src/dominio/retos.ts
@@ -2310,6 +2321,11 @@ f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos d
 3b686947da97,Pagar con una ficha,trozo,src/escenas/mercadoPractica.ts
 8ce7478b0943,¡Compra hecha!,frase,src/escenas/mercadoPractica.ts
 5a858c14e404,Mira el siguiente dibujo de la lista.,frase,src/escenas/mercadoPractica.ts
+120e952ab1e1,¡Has cumplido las tres misiones de hoy! ¡Muy bien!,frase,src/escenas/misiones.ts
+c93bcf746c01,Estas son las misiones de hoy:,trozo,src/escenas/misiones.ts
+7293193bd082,Las misiones de hoy,trozo,src/escenas/misiones.ts
+40941e005476,¡Has cumplido las tres misiones de hoy! Te doy cinco monedas.,frase,src/escenas/misiones.ts
+295a2f3b0beb,"¡Y como es viernes, la pegatina de la semana!",frase,src/escenas/misiones.ts
 811811248745,Modo reto,trozo,src/escenas/modoReto.ts
 357c32b59684,Volvemos a jugar como siempre.,frase,src/escenas/modoReto.ts
 bbd473c8512b,"¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.",frase,src/escenas/modoReto.ts

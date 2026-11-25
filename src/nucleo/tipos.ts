@@ -154,6 +154,9 @@ export interface Estado {
    * hecho y cuántos se han hecho. Desde la PR de todas las ideas pendientes (idea 34 de docs/IDEAS-MEJORA.md,
    * v0.2.180); opcional, sin migración. */
   encargos?: { d: string; dicho: boolean; hecho: boolean; veces: number };
+  /** Las misiones del día (dominio/misiones.ts): el día del último premio y si se dio. Desde la PR de todas las ideas
+   * pendientes (idea 36 de docs/IDEAS-MEJORA.md, v0.2.180); opcional, sin migración. */
+  misiones?: { d: string; premio: boolean };
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };

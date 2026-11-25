@@ -2621,3 +2621,20 @@ La maestra se ha dejado un libro. ¿Se lo llevamos a las clases del cole?
 ¡La maestra ya tiene su libro! Gracias por ayudarla.
 La frutera nos ha regalado fresas. ¿Las llevamos a mi casa?
 ¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.
+
+Termina un juego en una casita.
+Juega en el patio del cole.
+Resuelve un juego del rincón de la lógica.
+Haz un experimento en el taller de ciencias.
+Pinta o haz música en el estudio de arte.
+Lee un cuento y elige qué pasa.
+Ve de excursión en el autobús del cole.
+Esta semana es la semana del mar.
+Esta semana es la semana de los bichos.
+Esta semana es la semana de la granja.
+Esta semana es la semana del espacio.
+¡Has cumplido las tres misiones de hoy! ¡Muy bien!
+Estas son las misiones de hoy:
+Las misiones de hoy
+¡Has cumplido las tres misiones de hoy! Te doy cinco monedas.
+¡Y como es viernes, la pegatina de la semana!

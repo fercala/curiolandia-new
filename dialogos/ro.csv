@@ -1447,6 +1447,17 @@ e176f9b5d39e,¡Un murciélago! Duerme de día cabeza abajo y vuela de noche.,Un 
 5ce9573b2676,"¡Una rana! Por la noche canta: ¡cro, cro!","O broscuță! Noaptea cântă: oac, oac!",frase,src/dominio/linterna.ts,borrador
 289faecd2092,¡Un lobo! Aúlla a la luna: ¡auuuu!,Un lup! Urlă la lună: auuuu!,frase,src/dominio/linterna.ts,borrador
 4f456e7c6b99,"¡Una polilla! Es como una mariposa, pero vuela de noche y le gusta la luz.","O molie! Seamănă cu un fluture, dar zboară noaptea și îi place lumina.",frase,src/dominio/linterna.ts,borrador
+99a644cbbe8b,Termina un juego en una casita.,Termină un joc într-o căsuță.,frase,src/dominio/misiones.ts,borrador
+6594d4900c26,Juega en el patio del cole.,Joacă-te în curtea grădiniței.,frase,src/dominio/misiones.ts,borrador
+aa36a3a23829,Resuelve un juego del rincón de la lógica.,Rezolvă un joc din colțul logicii.,frase,src/dominio/misiones.ts,borrador
+c08657587c2a,Haz un experimento en el taller de ciencias.,Fă un experiment în atelierul de științe.,frase,src/dominio/misiones.ts,borrador
+d136838e69af,Pinta o haz música en el estudio de arte.,Pictează sau fă muzică în atelierul de artă.,frase,src/dominio/misiones.ts,borrador
+d22c2d4ad191,Lee un cuento y elige qué pasa.,Citește o poveste și alege ce se întâmplă.,frase,src/dominio/misiones.ts,borrador
+63d32605f48a,Ve de excursión en el autobús del cole.,Mergi în excursie cu autobuzul grădiniței.,frase,src/dominio/misiones.ts,borrador
+c0249142b5d1,Esta semana es la semana del mar.,Săptămâna aceasta e săptămâna mării.,frase,src/dominio/misiones.ts,borrador
+02b34937b1ad,Esta semana es la semana de los bichos.,Săptămâna aceasta e săptămâna gâzelor.,frase,src/dominio/misiones.ts,borrador
+6761eb236c63,Esta semana es la semana de la granja.,Săptămâna aceasta e săptămâna fermei.,frase,src/dominio/misiones.ts,borrador
+d949ed2f0c71,Esta semana es la semana del espacio.,Săptămâna aceasta e săptămâna spațiului.,frase,src/dominio/misiones.ts,borrador
 0e365d166934,busca en casa tres cosas rojas.,caută prin casă trei lucruri roșii.,trozo,src/dominio/retos.ts,borrador
 e3afaf9c354c,Buscar en casa tres cosas rojas.,Să caute prin casă trei lucruri roșii.,frase,src/dominio/retos.ts,borrador
 6947454c9bd9,salta como una rana hasta la cocina.,sari ca o broscuță până la bucătărie.,trozo,src/dominio/retos.ts,borrador
@@ -2310,6 +2321,11 @@ f986a5e0608e,"¿Sabes una cosa? Si pagamos con más dinero del que cuesta, nos d
 3b686947da97,Pagar con una ficha,Plătește cu un jeton,trozo,src/escenas/mercadoPractica.ts,borrador
 8ce7478b0943,¡Compra hecha!,Ai terminat cumpărăturile!,frase,src/escenas/mercadoPractica.ts,borrador
 5a858c14e404,Mira el siguiente dibujo de la lista.,Uită-te la următorul desen din listă.,frase,src/escenas/mercadoPractica.ts,borrador
+120e952ab1e1,¡Has cumplido las tres misiones de hoy! ¡Muy bien!,Ai îndeplinit cele trei misiuni de azi! Foarte bine!,frase,src/escenas/misiones.ts,borrador
+c93bcf746c01,Estas son las misiones de hoy:,Acestea sunt misiunile de azi:,trozo,src/escenas/misiones.ts,borrador
+7293193bd082,Las misiones de hoy,Misiunile de azi,trozo,src/escenas/misiones.ts,borrador
+40941e005476,¡Has cumplido las tres misiones de hoy! Te doy cinco monedas.,Ai îndeplinit cele trei misiuni de azi! Îți dau cinci monede.,frase,src/escenas/misiones.ts,borrador
+295a2f3b0beb,"¡Y como es viernes, la pegatina de la semana!","Și pentru că e vineri, abțibildul săptămânii!",frase,src/escenas/misiones.ts,borrador
 811811248745,Modo reto,Modul provocare,trozo,src/escenas/modoReto.ts,borrador
 357c32b59684,Volvemos a jugar como siempre.,Ne jucăm din nou ca de obicei.,frase,src/escenas/modoReto.ts,borrador
 bbd473c8512b,"¡Modo reto! Más opciones, más rondas y sin ayudas. Cada juego superado da una estrella dorada.","Modul provocare! Mai multe variante, mai multe runde și fără ajutor. Fiecare joc reușit îți dă o stea de aur.",frase,src/escenas/modoReto.ts,borrador

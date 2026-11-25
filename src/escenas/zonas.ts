@@ -195,6 +195,7 @@ import { moverseActivo } from '../dominio/retos.ts';
 import { celebrarRetoSiToca, fraseReto } from './retos.ts';
 import { recuerdoDeAyer } from './diario.ts';
 import { anunciarEncargo, dibujaEncargo, tocaEncargo } from './encargos.ts';
+import { dibujaBotonMisiones, tocaBotonMisiones } from './misiones.ts';
 
 /** Una zona con camino de casitas (ZONES): temas en orden, nombre para la voz, saludo, fondo y colores opcionales. */
 export interface Zona {
@@ -1685,6 +1686,7 @@ SCENES.map = {
     drawHome();
     drawCoinHUD();
     dibujaEncargo(); // el encargo del día (idea 34, escenas/encargos.ts)
+    dibujaBotonMisiones(); // las misiones del día (idea 36, escenas/misiones.ts)
     drawTito(TITO.x, TITO.y, TITO.w);
     drawRepBtn();
   },
@@ -1692,6 +1694,7 @@ SCENES.map = {
   // para que nazca); y si no, el sitio más cercano bajo el dedo: dormido o cerrado -> explica qué falta; abierto -> va a él.
   down(x: number, y: number) {
     if (tocaEncargo(x, y)) return; // el encargo del día (idea 34)
+    if (tocaBotonMisiones(x, y)) return; // las misiones del día (idea 36)
     if (dist(x, y, REPBTN.x, REPBTN.y) < 52) {
       SFX.pop();
       go('repaso', { hello: true });

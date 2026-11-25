@@ -171,4 +171,22 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
     'Vânzătoarea de fructe ne-a dăruit căpșuni. Le ducem la căsuța mea?',
   '¡Qué ricas las fresas en casa! Gracias por ayudar a la frutera.':
     'Ce gustoase sunt căpșunile acasă! Mulțumesc că ai ajutat-o pe vânzătoarea de fructe.',
+  // las misiones del día (idea 36)
+  'Termina un juego en una casita.': 'Termină un joc într-o căsuță.',
+  'Juega en el patio del cole.': 'Joacă-te în curtea grădiniței.',
+  'Resuelve un juego del rincón de la lógica.': 'Rezolvă un joc din colțul logicii.',
+  'Haz un experimento en el taller de ciencias.': 'Fă un experiment în atelierul de științe.',
+  'Pinta o haz música en el estudio de arte.': 'Pictează sau fă muzică în atelierul de artă.',
+  'Lee un cuento y elige qué pasa.': 'Citește o poveste și alege ce se întâmplă.',
+  'Ve de excursión en el autobús del cole.': 'Mergi în excursie cu autobuzul grădiniței.',
+  'Esta semana es la semana del mar.': 'Săptămâna aceasta e săptămâna mării.',
+  'Esta semana es la semana de los bichos.': 'Săptămâna aceasta e săptămâna gâzelor.',
+  'Esta semana es la semana de la granja.': 'Săptămâna aceasta e săptămâna fermei.',
+  'Esta semana es la semana del espacio.': 'Săptămâna aceasta e săptămâna spațiului.',
+  '¡Has cumplido las tres misiones de hoy! ¡Muy bien!': 'Ai îndeplinit cele trei misiuni de azi! Foarte bine!',
+  'Estas son las misiones de hoy:': 'Acestea sunt misiunile de azi:',
+  'Las misiones de hoy': 'Misiunile de azi',
+  '¡Has cumplido las tres misiones de hoy! Te doy cinco monedas.':
+    'Ai îndeplinit cele trei misiuni de azi! Îți dau cinci monede.',
+  '¡Y como es viernes, la pegatina de la semana!': 'Și pentru că e vineri, abțibildul săptămânii!',
 };

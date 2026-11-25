@@ -110,3 +110,4 @@ export * from './arte.ts';
 export * from './modoReto.ts';
 export * from './corral.ts';
 export * from './encargos.ts';
+export * from './misiones.ts';
