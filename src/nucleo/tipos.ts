@@ -132,6 +132,9 @@ export interface Estado {
    * si ya se ha devuelto lo perdido y cuántas veces se ha ayudado. Desde la fase P31 de docs/IDEAS-MEJORA.md; opcional,
    * sin migración. */
   amigos?: { d: string; pedido: boolean; hecho: boolean; ayudas: number };
+  /** Los finales descubiertos de cada cuento con decisiones (dominio/cuentosDecisiones.ts, RegistroCuentos): { [cuento]:
+   * [finales] }. Desde la fase P33 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
+  cuentosDec?: Record<string, string[]>;
   /** Las fotos de la cámara de Tito (dominio/fotos.ts, RegistroFotos): cuántas veces se ha hecho cada una. Desde la
    * fase P15 de docs/IDEAS-MEJORA.md; opcional, sin migración. */
   fotos?: { vistas: Readonly<Record<string, number>> };

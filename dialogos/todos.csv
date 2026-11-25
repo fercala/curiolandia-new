@@ -620,6 +620,45 @@ e0fc6cca498a,"Por la noche, Mateo miró las estrellas abrazado a su peluche. ¡Q
 17964e86ef35,¡La señal de stop! Hay que parar y mirar.,frase,src/contenido/cuentos.ts
 672078dc8d56,¿Qué se puso Mateo para montar en bici?,frase,src/contenido/cuentos.ts
 f8ea9231845b,¡El casco! Cuida la cabeza.,frase,src/contenido/cuentos.ts
+6fffaa9493e8,La bellota perdida,trozo,src/contenido/cuentosDecisiones.ts
+ba9bed0c956d,Tito oye un ruido cerca del árbol. ¿Por dónde va?,frase,src/contenido/cuentosDecisiones.ts
+9a4d6ab30cea,Por el camino,trozo,src/contenido/cuentosDecisiones.ts
+cdb61dba7e51,Por el prado,trozo,src/contenido/cuentosDecisiones.ts
+f5b2472757e5,Una ardilla busca su bellota. ¿Cómo la ayudas?,frase,src/contenido/cuentosDecisiones.ts
+e7e620c2a3a0,Buscar en el suelo,trozo,src/contenido/cuentosDecisiones.ts
+79b65b0f6647,Mirar en el árbol,trozo,src/contenido/cuentosDecisiones.ts
+a33f8bbaabe9,Una ardilla mira una pila de hojas. ¿Cómo la ayudas?,frase,src/contenido/cuentosDecisiones.ts
+8e06fdf342b2,Apartar las hojas,trozo,src/contenido/cuentosDecisiones.ts
+f183eab96a18,¡La bellota estaba escondida! La ardilla le da las gracias a Tito.,frase,src/contenido/cuentosDecisiones.ts
+c6c2229932fc,Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.,frase,src/contenido/cuentosDecisiones.ts
+21c8884168eb,El regalo de Lupi,trozo,src/contenido/cuentosDecisiones.ts
+42d3dc2a27c6,Hoy es el cumpleaños de Lupi. Tito quiere hacerle un regalo. ¿Qué le prepara?,frase,src/contenido/cuentosDecisiones.ts
+8bbb1461499f,Una tarta,trozo,src/contenido/cuentosDecisiones.ts
+ee6dbc16b4e1,Una flor,trozo,src/contenido/cuentosDecisiones.ts
+c3a3ec821c88,Tito hace una tarta muy rica. ¿Qué le pone encima?,frase,src/contenido/cuentosDecisiones.ts
+c24b64fd63fd,Unas velas,trozo,src/contenido/cuentosDecisiones.ts
+61662a41e29d,Unas fresas,trozo,src/contenido/cuentosDecisiones.ts
+2fadddbdb58a,Tito busca la flor más bonita del jardín. ¿Cómo se la da?,frase,src/contenido/cuentosDecisiones.ts
+ccf41b3e734c,Con un lazo,trozo,src/contenido/cuentosDecisiones.ts
+3bdd3cfe3514,Con un globo,trozo,src/contenido/cuentosDecisiones.ts
+58a8b487bc4a,Lupi sopla las velas y pide un deseo. ¡Todos cantan cumpleaños feliz!,frase,src/contenido/cuentosDecisiones.ts
+212648b65e88,Lupi y Tito comparten la tarta de fresas. ¡Está riquísima!,frase,src/contenido/cuentosDecisiones.ts
+1742a2404717,A Lupi le encanta la flor con su lazo. La pone en un vaso junto a la ventana.,frase,src/contenido/cuentosDecisiones.ts
+5914cee899f6,Lupi recibe la flor atada a un globo rojo. ¡Qué sorpresa tan bonita!,frase,src/contenido/cuentosDecisiones.ts
+e4a209d516bd,El barquito de papel,trozo,src/contenido/cuentosDecisiones.ts
+7db7652aa5cf,Ha llovido y Tito ha hecho un barquito de papel. ¿Dónde lo pone a navegar?,frase,src/contenido/cuentosDecisiones.ts
+cb9b84da3b68,En el estanque,trozo,src/contenido/cuentosDecisiones.ts
+e9348a23d5ba,En el río,trozo,src/contenido/cuentosDecisiones.ts
+91081a506c95,El barquito navega por el estanque y se acerca un pato. ¿Qué hace Tito?,frase,src/contenido/cuentosDecisiones.ts
+3d99d93fc91c,Saludar al pato,trozo,src/contenido/cuentosDecisiones.ts
+7ba8c4e45739,Soplar fuerte,trozo,src/contenido/cuentosDecisiones.ts
+5a3b51b1ef10,El río lleva el barquito muy deprisa. ¡Allí hay una rana! ¿Qué hace Tito?,frase,src/contenido/cuentosDecisiones.ts
+08b385434bc8,Llamar a la rana,trozo,src/contenido/cuentosDecisiones.ts
+f803aa52ed67,Correr por la orilla,trozo,src/contenido/cuentosDecisiones.ts
+07356a827db4,El pato empuja el barquito con el pico y se lo trae a Tito. ¡Ya son amigos!,frase,src/contenido/cuentosDecisiones.ts
+8ba215aa7c06,Tito sopla y el barquito cruza todo el estanque. ¡Ha llegado al otro lado!,frase,src/contenido/cuentosDecisiones.ts
+c3d911003930,"La rana salta al barquito y navegan juntos un rato. ¡Croac, croac!",frase,src/contenido/cuentosDecisiones.ts
+e16fc43c087b,Tito corre por la orilla y recoge el barquito en una curva del río. ¡Lo ha salvado!,frase,src/contenido/cuentosDecisiones.ts
 e15c21b49d1c,La granja escuela,trozo,src/contenido/excursiones.ts
 0856a4aa9c78,Rosa,trozo,src/contenido/excursiones.ts
 58642a0f0f21,Dar de comer a los animales,trozo,src/contenido/excursiones.ts
@@ -1762,19 +1801,12 @@ fa80ee037e45,¡El viento sopla hacia la derecha!,frase,src/escenas/cometa.ts
 6ab5b3d8f3fc,¡Qué bien has llevado la cometa! Has cogido todas las estrellas. ¿Jugamos otra vez?,frase,src/escenas/cometa.ts
 a3906b0eb480,"¡Vamos a volar la cometa! Llévala con el dedo hasta las estrellas, sin que toque los árboles. ¡Cuidado con el viento!",frase,src/escenas/cometa.ts
 7553f9af1319,Lleva la cometa con el dedo hasta la estrella.,frase,src/escenas/cometa.ts
-ba9bed0c956d,Tito oye un ruido cerca del árbol. ¿Por dónde va?,frase,src/escenas/cuentoDecisiones.ts
-9a4d6ab30cea,Por el camino,trozo,src/escenas/cuentoDecisiones.ts
-cdb61dba7e51,Por el prado,trozo,src/escenas/cuentoDecisiones.ts
-f5b2472757e5,Una ardilla busca su bellota. ¿Cómo la ayudas?,frase,src/escenas/cuentoDecisiones.ts
-e7e620c2a3a0,Buscar en el suelo,trozo,src/escenas/cuentoDecisiones.ts
-79b65b0f6647,Mirar en el árbol,trozo,src/escenas/cuentoDecisiones.ts
-a33f8bbaabe9,Una ardilla mira una pila de hojas. ¿Cómo la ayudas?,frase,src/escenas/cuentoDecisiones.ts
-8e06fdf342b2,Apartar las hojas,trozo,src/escenas/cuentoDecisiones.ts
-f183eab96a18,¡La bellota estaba escondida! La ardilla le da las gracias a Tito.,frase,src/escenas/cuentoDecisiones.ts
-c6c2229932fc,Desde el árbol ven la bellota. Tito y la ardilla la recogen juntos.,frase,src/escenas/cuentoDecisiones.ts
-6fffaa9493e8,La bellota perdida,trozo,src/escenas/cuentoDecisiones.ts
+7be4054e0c1d,¿Qué cuento leemos? Toca uno.,frase,src/escenas/cuentoDecisiones.ts
+ec8962736a51,¡Has descubierto todos los finales de este cuento!,frase,src/escenas/cuentoDecisiones.ts
+ae3d6762a99e,¡Un final nuevo! Lee otra vez y elige otras cosas para descubrir los demás.,frase,src/escenas/cuentoDecisiones.ts
+c275a3d368c3,Elige un cuento,trozo,src/escenas/cuentoDecisiones.ts
 d76d93fb8bf6,Leer de nuevo,trozo,src/escenas/cuentoDecisiones.ts
-e1f2d2d61772,Volver a la casita,trozo,src/escenas/cuentoDecisiones.ts
+62ceccce2f21,Otro cuento,trozo,src/escenas/cuentoDecisiones.ts
 88084c247f32,¡Medallero!,frase,src/escenas/deporte.ts
 15b8d74100c6,¡Copa nueva!,frase,src/escenas/deporte.ts
 8ef85d5e12bf,¡Y ganas la copa de esta semana! Ya tienes una copa.,frase,src/escenas/deporte.ts

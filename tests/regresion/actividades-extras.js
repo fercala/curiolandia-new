@@ -1,4 +1,5 @@
-// Recorre las cinco actividades opcionales en castellano y rumano con una partida de prueba.
+// Recorre las cinco actividades opcionales en castellano y rumano con una partida de prueba. Desde la P33 de
+// docs/IDEAS-MEJORA.md, el cuento con decisiones empieza en la biblioteca de cuentos, y un final nuevo da 2 monedas.
 const L = require('./lib');
 const assert = require('node:assert/strict');
 const [raiz] = process.argv.slice(2);
@@ -19,7 +20,8 @@ async function caso(p, idioma) {
     }
   };
   await p.evaluate(() => {
-    Object.assign(__cl.S, { age: 3, intro: true, coins: 71 });
+    // los dos finales de «La bellota perdida» ya vistos: releerlo no da monedas (desde la P33, un final nuevo da 2)
+    Object.assign(__cl.S, { age: 3, intro: true, coins: 71, cuentosDec: { bellota: ['escondida', 'desdeArbol'] } });
     save();
   });
   const antes = await p.evaluate(() => JSON.stringify([__cl.S.coins, __cl.S.temas, __cl.S.cole, __cl.S.exc]));
@@ -65,6 +67,9 @@ async function caso(p, idioma) {
   await ir('casita', { t: tema, hello: true });
   await tocar(1260, 100);
   await escena('cuentoDecisiones');
+  // desde la P33, primero la biblioteca de cuentos: se elige «La bellota perdida»
+  const portada = await p.evaluate(() => tarjetaCuento(0));
+  await tocar(portada.x + portada.w / 2, portada.y + portada.h / 2);
   await tocar(575, 705);
   await tocar(1025, 705);
   assert(
@@ -73,7 +78,10 @@ async function caso(p, idioma) {
       idioma === 'ro',
     ),
   );
-  await tocar(1025, 705);
+  // en el final, «Otro cuento» vuelve a la biblioteca y la casa, a la casita
+  await tocar(1025, 745);
+  assert.equal(await p.evaluate(() => CDEC.cuento), -1);
+  await tocar(90, 90);
   await escena('casita');
 
   await p.evaluate(() => openAdult('progreso'));
@@ -112,6 +120,24 @@ async function caso(p, idioma) {
   assert.equal(await p.evaluate(() => sceneArg.exc), 'mercado');
 
   assert.equal(await p.evaluate(() => JSON.stringify([__cl.S.coins, __cl.S.temas, __cl.S.cole, __cl.S.exc])), antes);
+
+  // desde la P33: en «El regalo de Lupi», un final nuevo da 2 monedas y se apunta; volver a él no da más
+  await ir('cuentoDecisiones', { t: tema });
+  const regalo = await p.evaluate(() => tarjetaCuento(1));
+  const monedas = await p.evaluate(() => __cl.S.coins);
+  const leeHastaElFinal = async () => {
+    await tocar(regalo.x + regalo.w / 2, regalo.y + regalo.h / 2);
+    await tocar(550, 720);
+    await tocar(550, 720);
+    await p.waitForTimeout(1500);
+  };
+  await leeHastaElFinal();
+  assert.equal(await p.evaluate(() => CDEC.pagina), 'velas');
+  assert.equal(await p.evaluate(() => __cl.S.coins), monedas + 2);
+  assert.deepEqual(await p.evaluate(() => __cl.S.cuentosDec.regalo), ['velas']);
+  await tocar(1025, 745);
+  await leeHastaElFinal();
+  assert.equal(await p.evaluate(() => __cl.S.coins), monedas + 2);
   assert.deepEqual(p.errs, []);
 }
 

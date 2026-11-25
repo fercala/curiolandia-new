@@ -2462,3 +2462,36 @@ Ya no caben más tarjetas. Pulsa «¡Vamos!».
 Primero pon alguna flecha para Tito.
 ¡Muy bien! Tito ha llegado a la fresa. ¡Vamos con otra!
 ¡Qué bien programas! Tito se ha comido todas las fresas.
+Elige un cuento
+¿Qué cuento leemos? Toca uno.
+Otro cuento
+¡Has descubierto todos los finales de este cuento!
+¡Un final nuevo! Lee otra vez y elige otras cosas para descubrir los demás.
+El regalo de Lupi
+Hoy es el cumpleaños de Lupi. Tito quiere hacerle un regalo. ¿Qué le prepara?
+Una tarta
+Una flor
+Tito hace una tarta muy rica. ¿Qué le pone encima?
+Unas velas
+Unas fresas
+Tito busca la flor más bonita del jardín. ¿Cómo se la da?
+Con un lazo
+Con un globo
+Lupi sopla las velas y pide un deseo. ¡Todos cantan cumpleaños feliz!
+Lupi y Tito comparten la tarta de fresas. ¡Está riquísima!
+A Lupi le encanta la flor con su lazo. La pone en un vaso junto a la ventana.
+Lupi recibe la flor atada a un globo rojo. ¡Qué sorpresa tan bonita!
+El barquito de papel
+Ha llovido y Tito ha hecho un barquito de papel. ¿Dónde lo pone a navegar?
+En el estanque
+En el río
+El barquito navega por el estanque y se acerca un pato. ¿Qué hace Tito?
+Saludar al pato
+Soplar fuerte
+El río lleva el barquito muy deprisa. ¡Allí hay una rana! ¿Qué hace Tito?
+Llamar a la rana
+Correr por la orilla
+El pato empuja el barquito con el pico y se lo trae a Tito. ¡Ya son amigos!
+Tito sopla y el barquito cruza todo el estanque. ¡Ha llegado al otro lado!
+La rana salta al barquito y navegan juntos un rato. ¡Croac, croac!
+Tito corre por la orilla y recoge el barquito en una curva del río. ¡Lo ha salvado!
