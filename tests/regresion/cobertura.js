@@ -244,6 +244,41 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
       },
     );
 
+    await test(
+      'guardado-volumenes',
+      'Carga y sincronización reparan el audio y conservan la lista de vales vacía',
+      async (p) => {
+        const antes = await p.evaluate(() => ({ vol: S.vol, vales: S.vales }));
+        const otra = await abrirOtra(p.context(), p.errs);
+        await otra.evaluate(() => {
+          S.vol = { voz: '0.6', mus: null, fx: 'roto' };
+          save();
+        });
+        await p.waitForFunction(() => S.vol.voz === 0.6);
+        const despues = await p.evaluate(() => {
+          initAudio();
+          setVol();
+          return { vol: S.vol, vales: S.vales };
+        });
+        return {
+          fail:
+            antes.vol.voz !== 0 ||
+            antes.vol.mus !== 0.2 ||
+            antes.vol.fx !== 1 ||
+            despues.vol.voz !== 0.6 ||
+            despues.vol.mus !== 0.45 ||
+            despues.vol.fx !== 0.8 ||
+            antes.vales.length !== 0 ||
+            despues.vales.length !== 0,
+          antes,
+          despues,
+        };
+      },
+      {
+        guardado: { ...base, vol: { voz: -1, mus: '0.2', fx: 5 }, vales: [] },
+      },
+    );
+
     const prepareReview = (p) =>
       p.evaluate(() => {
         S.temas['3A-T1'] = { g: { 1: 1 }, done: 0 };
@@ -471,6 +506,22 @@ const checkpoint = () => fs.writeFileSync(path.join(L.SAL, name + '.json'), JSON
         }));
       },
     );
+    await test('vale-fecha-incompleta', 'Premios muestra y permite entregar vales importados sin fecha', async (p) => {
+      await p.evaluate(() => {
+        S.valesLog = [
+          { id: 'sin-fecha', txt: 'Un abrazo', given: 0 },
+          { id: 'fecha-rota', txt: 'Un cuento', given: 0, d: '2026-<b id="fecha-inyectada">texto</b>' },
+        ];
+        save();
+        openAdult('premios');
+      });
+      const botones = await p.locator('[data-vgive]').count();
+      const inyectado = await p.locator('#fecha-inyectada').count();
+      await p.locator('[data-vgive="0"]').click();
+      const entregado = await p.evaluate(() => S.valesLog[0].given === 1);
+      return { fail: botones !== 2 || inyectado !== 0 || !entregado, botones, inyectado, entregado };
+    });
+
     await test('vale-editado', 'Editar el texto de un vale invalida su confirmación anterior', async (p) => {
       await prepareVoucher(p);
       await p.evaluate(() => {

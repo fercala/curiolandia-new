@@ -15,7 +15,8 @@ export const PREMIOS: PaginaAdultos = {
   icono: '🎟️',
   // aviso(): los vales comprados que faltan por entregar (fase A2).
   aviso: () => valesPorEntregar(S.valesLog || []),
-  // html(): vales (una fila por vale para editarlo) y pend (los comprados que aún no se han dado, con «Entregado»).
+  // html(): vales (una fila por vale para editarlo) y pendientes. Una copia antigua puede traer vales
+  // sin fecha; se muestran igualmente. Los textos importados se escapan antes de incluirlos en HTML.
   html() {
     // vales: una fila por vale (casilla de activo, texto y precio en monedas) para editarlos.
     const vales = S.vales!.map(
@@ -25,10 +26,10 @@ export const PREMIOS: PaginaAdultos = {
     // pend: vales que el niño compró en la tienda y aún no se le dieron (con botón "Entregado").
     const pend = S.valesLog!.map((v, i) => [v, i] as [Vale, number])
       .filter(([v]) => !v.given)
-      .map(
-        ([v, i]) =>
-          `<div class="row"><span>🎟️ ${esc(v.txt)} <small>(${v.d!.slice(5).split('-').reverse().join('/')})</small></span><button data-vgive="${i}">Entregado ✔</button></div>`,
-      )
+      .map(([v, i]) => {
+        const fecha = typeof v.d === 'string' ? v.d.slice(5).split('-').reverse().join('/') : '';
+        return `<div class="row"><span>🎟️ ${esc(v.txt)} ${fecha ? `<small>(${esc(fecha)})</small>` : ''}</span><button data-vgive="${i}">Entregado ✔</button></div>`;
+      })
       .join('');
     return `
   ${pend ? `<section><h3>Vales por entregar</h3><p class="note">Los ha comprado en la tienda: cuando se los des, toca «Entregado».</p>${pend}</section>` : ''}
