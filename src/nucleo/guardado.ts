@@ -250,9 +250,17 @@ const conVol = (d: Crudo): Partial<Estado> =>
 // Esta versión no lleva voces grabadas (ni voz/ ni voz-fer/): todo lo dice la voz del navegador. Una partida copiada
 // de curiolandia-3d puede traer S.voz '' o 'fer'; se pasa a 'nav' para que vozLoad() no busque manifiestos.
 S.voz = 'nav';
+// guardadoParado: true mientras se cambia de perfil (aplicacion/perfiles.ts, idea 38 de docs/IDEAS-MEJORA.md): la
+// partida del otro perfil ya está en KEY y la página va a recargarse, así que save() no debe pisarla con la de antes.
+let guardadoParado = false;
+// pararGuardado(): desde ahora save() no guarda nada (hasta recargar la página). Solo la usa el cambio de perfil.
+export function pararGuardado(): void {
+  guardadoParado = true;
+}
 // save(): guarda S entero (con escribirGuardado: en el navegador, en localStorage). Llámala después de cada cambio de S.
 // Si falla (modo privado, sin espacio) no pasa nada: el juego sigue, pero sin guardar.
 export function save(): void {
+  if (guardadoParado) return;
   try {
     escribirGuardado(KEY, JSON.stringify(S));
   } catch (e) {}

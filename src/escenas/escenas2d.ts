@@ -177,6 +177,7 @@ import { esCumple } from '../dominio/progreso.ts';
 import { fraseReto } from './retos.ts';
 import { apuntarDiario } from './diario.ts';
 import { dibujaCartelReto, terminarReto } from './modoReto.ts';
+import { yaElegido } from '../aplicacion/perfiles.ts';
 /* ================= ESCENAS ================= */
 // SCENES: todas las escenas del juego, por nombre (el objeto está en src/nucleo/escenas.ts; aquí y en los demás
 // archivos se le añaden escenas). go('nombre', o) cambia a SCENES.nombre.
@@ -387,7 +388,9 @@ SCENES.title = {
     SFX.pop();
     pickVoice();
     // Orden de la primera vez: edad -> (¿quién juega?) -> cuento de intro -> mapa.
-    if (!S.age) go('edad');
+    if (!yaElegido())
+      go('perfiles'); // con varios niños, «¿Quién juega?» (idea 38, escenas/perfiles.ts)
+    else if (!S.age) go('edad');
     else if (!S.intro) go('intro');
     else go('map', { hello: true });
   },

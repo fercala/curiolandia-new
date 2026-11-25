@@ -189,4 +189,13 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
   '¡Has cumplido las tres misiones de hoy! Te doy cinco monedas.':
     'Ai îndeplinit cele trei misiuni de azi! Îți dau cinci monede.',
   '¡Y como es viernes, la pegatina de la semana!': 'Și pentru că e vineri, abțibildul săptămânii!',
+  // los perfiles (idea 38)
+  '¿Quién juega hoy? Toca tu nombre.': 'Cine se joacă azi? Atinge-ți numele.',
+  'Varios niños': 'Mai mulți copii',
+  'Hasta tres niños pueden jugar en este móvil, cada uno con su partida. Al empezar a jugar, Tito pregunta quién juega.':
+    'Până la trei copii se pot juca pe acest telefon, fiecare cu jocul lui. La început, Tito întreabă cine se joacă.',
+  'Juega ahora': 'Se joacă acum',
+  'Jugar con este perfil': 'Joacă cu acest profil',
+  'Nombre del niño nuevo': 'Numele copilului nou',
+  'Añadir un niño': 'Adaugă un copil',
 };

@@ -1944,7 +1944,7 @@ cbde4daf3b50,Juega en la Isla del Inglés y aquí saldrán tus palabras,trozo,sr
 4cb72ca44f61,(display-mode: fullscreen),trozo,src/escenas/escenas2d.ts
 c046f6c492c5,Tito y las preguntas escondidas,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 e577921a91f3,Juega: {nombre},trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
-75b319068fef,¿Quién juega?,frase,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
+75b319068fef,¿Quién juega?,frase,src/escenas/escenas2d.ts src/escenas/perfiles.ts src/mundo3d/portada3d.ts
 0abfc7737a54,Empezar de nuevo,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 4b5f67b9d141,Instalar el juego,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts
 4f9ad52621f0,"¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.",frase,src/escenas/escenas2d.ts
@@ -2242,7 +2242,7 @@ af3dcd1e7280,la Playa de los Sonidos,trozo,src/escenas/isla.ts src/escenas/zonas
 7e09422c6dd0,el Bosque de las Letras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 ea2cc9107450,el Pueblo de las Palabras,trozo,src/escenas/isla.ts src/escenas/zonas.ts
 7fc56270e7a7,A,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts
-96b00383b22b,{n} años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/aplicacion/adultos/quienJuega.ts
+96b00383b22b,{n} años,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/escenas/perfiles.ts
 8393ff8607d7,"¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.",frase,src/escenas/isla.ts
 6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,frase,src/escenas/isla.ts
 b2b4b96d3c6d,"Lupi, la lechuza.",frase,src/escenas/isla.ts
@@ -2384,6 +2384,8 @@ f498f42ecc18,Izquierda.,frase,src/escenas/penaltis.ts
 4f9410833aab,Arriba.,frase,src/escenas/penaltis.ts
 7976e8a26f61,× {n},trozo,src/escenas/penaltis.ts
 f42bfe48c304,¡GOL!,frase,src/escenas/penaltis.ts
+0dc8d1199c91,¿Quién juega hoy? Toca tu nombre.,frase,src/escenas/perfiles.ts
+4d0ebbbc1b0c,Sin nombre,trozo,src/escenas/perfiles.ts src/aplicacion/adultos/resumen.ts
 88809b80416d,"{a}, {b}, {c}... ¿Qué número viene ahora?",trozo,src/escenas/planetario.ts
 32dee3bad834,¡Cero! ¡Despegamos!,frase,src/escenas/planetario.ts
 a73e1b03e1e6,¡Sí! {N}.,frase,src/escenas/planetario.ts
@@ -4803,12 +4805,18 @@ b1bd1be340c4,{n} de {total} sorpresas,adultos,src/aplicacion/adultos/progreso.ts
 976f31feca86,Todavía no tiene mascotas.,adultos,src/aplicacion/adultos/progreso.ts
 02abcbd7ccf6,"Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.",adultos,src/aplicacion/adultos/progreso.ts
 dd28901c98e3,Casa de Tito en 3D (prueba),adultos,src/aplicacion/adultos/progreso.ts
+77c0c627fd4f,Varios niños,adultos,src/aplicacion/adultos/quienJuega.ts
+bba099002f8b,"Hasta tres niños pueden jugar en este móvil, cada uno con su partida. Al empezar a jugar, Tito pregunta quién juega.",adultos,src/aplicacion/adultos/quienJuega.ts
+dabe36b119b6,Juega ahora,adultos,src/aplicacion/adultos/quienJuega.ts
+527179ddfeae,Jugar con este perfil,adultos,src/aplicacion/adultos/quienJuega.ts
+6e8c6fb65870,Opcional,adultos,src/aplicacion/adultos/quienJuega.ts
+c0818936643d,Nombre del niño nuevo,adultos,src/aplicacion/adultos/quienJuega.ts
+1100c0c0930d,Edad,adultos,src/aplicacion/adultos/quienJuega.ts
+af10757f3532,Añadir un niño,adultos,src/aplicacion/adultos/quienJuega.ts
 17ee8b09c24a,Quién juega,adultos,src/aplicacion/adultos/quienJuega.ts
 720129ddfbf9,Quién,adultos,src/aplicacion/adultos/quienJuega.ts
 326ffa2886c3,Perfil,adultos,src/aplicacion/adultos/quienJuega.ts
 9b9a7d9a323e,Nombre de quien juega,adultos,src/aplicacion/adultos/quienJuega.ts
-6e8c6fb65870,Opcional,adultos,src/aplicacion/adultos/quienJuega.ts
-1100c0c0930d,Edad,adultos,src/aplicacion/adultos/quienJuega.ts
 97b18dcd7130,Cumpleaños,adultos,src/aplicacion/adultos/quienJuega.ts
 68c84823d4d7,"El día del cumpleaños, la Asamblea lo celebra con una tarta y velitas.",adultos,src/aplicacion/adultos/quienJuega.ts
 f63319b32f11,Hay,adultos,src/aplicacion/adultos/resumen.ts
@@ -4832,7 +4840,6 @@ a3a3d392479a,Retos hechos hasta ahora:,adultos,src/aplicacion/adultos/resumen.ts
 6368f56d1df8,Hoy,adultos,src/aplicacion/adultos/resumen.ts
 e4345b0fed66,temas terminados,adultos,src/aplicacion/adultos/resumen.ts
 44f469b75346,"Más sitios y cualquier tema, en «Copia y aparato».",adultos,src/aplicacion/adultos/resumen.ts
-4d0ebbbc1b0c,Sin nombre,adultos,src/aplicacion/adultos/resumen.ts
 f2ddb27a5c6d,edad sin elegir,adultos,src/aplicacion/adultos/resumen.ts
 694f4075be0c,{n} minuto de juego hoy,adultos,src/aplicacion/adultos/resumen.ts
 2f13014f7bdc,{n} minutos de juego hoy,adultos,src/aplicacion/adultos/resumen.ts

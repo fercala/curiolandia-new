@@ -111,3 +111,4 @@ export * from './modoReto.ts';
 export * from './corral.ts';
 export * from './encargos.ts';
 export * from './misiones.ts';
+export * from './perfiles.ts';

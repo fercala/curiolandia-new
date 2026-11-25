@@ -1944,7 +1944,7 @@ cbde4daf3b50,Juega en la Isla del Inglés y aquí saldrán tus palabras,Joacă-t
 4cb72ca44f61,(display-mode: fullscreen),,trozo,src/escenas/escenas2d.ts,falta
 c046f6c492c5,Tito y las preguntas escondidas,Tito și întrebările ascunse,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
 e577921a91f3,Juega: {nombre},Se joacă: {nombre},trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
-75b319068fef,¿Quién juega?,Cine se joacă?,frase,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
+75b319068fef,¿Quién juega?,Cine se joacă?,frase,src/escenas/escenas2d.ts src/escenas/perfiles.ts src/mundo3d/portada3d.ts,borrador
 0abfc7737a54,Empezar de nuevo,Începe din nou,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
 4b5f67b9d141,Instalar el juego,Instalează jocul,trozo,src/escenas/escenas2d.ts src/mundo3d/portada3d.ts,borrador
 4f9ad52621f0,"¡Hola! Para empezar, un mayor tiene que tocar la edad de quien va a jugar.","Bună! Ca să începem, un adult trebuie să atingă vârsta celui care se va juca.",frase,src/escenas/escenas2d.ts,borrador
@@ -2242,7 +2242,7 @@ af3dcd1e7280,la Playa de los Sonidos,Plaja Sunetelor,trozo,src/escenas/isla.ts s
 7e09422c6dd0,el Bosque de las Letras,Pădurea Literelor,trozo,src/escenas/isla.ts src/escenas/zonas.ts,borrador
 ea2cc9107450,el Pueblo de las Palabras,Satul Cuvintelor,trozo,src/escenas/isla.ts src/escenas/zonas.ts,borrador
 7fc56270e7a7,A,,trozo,src/escenas/isla.ts src/escenas/zonas.ts src/mundo3d/isla3d.ts,falta
-96b00383b22b,{n} años,{n} ani,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/aplicacion/adultos/quienJuega.ts,borrador
+96b00383b22b,{n} años,{n} ani,trozo,src/escenas/isla.ts src/escenas/islaIngles.ts src/escenas/perfiles.ts,borrador
 8393ff8607d7,"¡Llegamos a la Isla de las Letras{nino}! Mira, es Lupi, la lechuza que cuida las letras. Aquí vamos a aprender a leer. Toca el botón verde para empezar.","Am ajuns pe Insula Literelor{nino}! Uite, e Lupi, bufnița care are grijă de litere. Aici o să învățăm să citim. Atinge butonul verde ca să începem.",frase,src/escenas/isla.ts,borrador
 6749d7df51ce,Toca el botón verde para seguir con las letras. O toca una zona de la isla.,Atinge butonul verde ca să continui cu literele. Sau atinge o zonă a insulei.,frase,src/escenas/isla.ts,borrador
 b2b4b96d3c6d,"Lupi, la lechuza.","Lupi, bufnița.",frase,src/escenas/isla.ts,borrador
@@ -2384,6 +2384,8 @@ f498f42ecc18,Izquierda.,Stânga.,frase,src/escenas/penaltis.ts,borrador
 4f9410833aab,Arriba.,Sus.,frase,src/escenas/penaltis.ts,borrador
 7976e8a26f61,× {n},× {n},trozo,src/escenas/penaltis.ts,borrador
 f42bfe48c304,¡GOL!,GOL!,frase,src/escenas/penaltis.ts,borrador
+0dc8d1199c91,¿Quién juega hoy? Toca tu nombre.,Cine se joacă azi? Atinge-ți numele.,frase,src/escenas/perfiles.ts,borrador
+4d0ebbbc1b0c,Sin nombre,Fără nume,trozo,src/escenas/perfiles.ts src/aplicacion/adultos/resumen.ts,borrador
 88809b80416d,"{a}, {b}, {c}... ¿Qué número viene ahora?","{a}, {b}, {c}... Ce număr urmează acum?",trozo,src/escenas/planetario.ts,borrador
 32dee3bad834,¡Cero! ¡Despegamos!,Zero! Decolăm!,frase,src/escenas/planetario.ts,borrador
 a73e1b03e1e6,¡Sí! {N}.,Da! {N}.,frase,src/escenas/planetario.ts,borrador
@@ -4803,12 +4805,18 @@ b1bd1be340c4,{n} de {total} sorpresas,{n} din {total} surprize,adultos,src/aplic
 976f31feca86,Todavía no tiene mascotas.,Încă nu are animăluțe.,adultos,src/aplicacion/adultos/progreso.ts,borrador
 02abcbd7ccf6,"Prueba de la casa en 3D (fase M0 de la mejora de la casa): el salón con sus cosas, Tito que anda y los FPS arriba a la derecha, para ver si va bien en este aparato.","Probă a casei 3D (faza M0 a îmbunătățirii casei): sufrageria cu lucrurile ei, Tito care merge și FPS-urile sus în dreapta, ca să vezi dacă merge bine pe acest dispozitiv.",adultos,src/aplicacion/adultos/progreso.ts,borrador
 dd28901c98e3,Casa de Tito en 3D (prueba),Casa lui Tito în 3D (probă),adultos,src/aplicacion/adultos/progreso.ts,borrador
+77c0c627fd4f,Varios niños,Mai mulți copii,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
+bba099002f8b,"Hasta tres niños pueden jugar en este móvil, cada uno con su partida. Al empezar a jugar, Tito pregunta quién juega.","Până la trei copii se pot juca pe acest telefon, fiecare cu jocul lui. La început, Tito întreabă cine se joacă.",adultos,src/aplicacion/adultos/quienJuega.ts,borrador
+dabe36b119b6,Juega ahora,Se joacă acum,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
+527179ddfeae,Jugar con este perfil,Joacă cu acest profil,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
+6e8c6fb65870,Opcional,Opțional,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
+c0818936643d,Nombre del niño nuevo,Numele copilului nou,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
+1100c0c0930d,Edad,Vârsta,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
+af10757f3532,Añadir un niño,Adaugă un copil,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
 17ee8b09c24a,Quién juega,Cine se joacă,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
 720129ddfbf9,Quién,Cine,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
 326ffa2886c3,Perfil,Profil,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
 9b9a7d9a323e,Nombre de quien juega,Numele celui care se joacă,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
-6e8c6fb65870,Opcional,Opțional,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
-1100c0c0930d,Edad,Vârsta,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
 97b18dcd7130,Cumpleaños,Ziua de naștere,adultos,src/aplicacion/adultos/quienJuega.ts,borrador
 68c84823d4d7,"El día del cumpleaños, la Asamblea lo celebra con una tarta y velitas.","De ziua de naștere, Întâlnirea de dimineață o sărbătorește cu un tort și lumânări.",adultos,src/aplicacion/adultos/quienJuega.ts,borrador
 f63319b32f11,Hay,Este,adultos,src/aplicacion/adultos/resumen.ts,borrador
@@ -4832,7 +4840,6 @@ a3a3d392479a,Retos hechos hasta ahora:,Provocări făcute până acum:,adultos,s
 6368f56d1df8,Hoy,Azi,adultos,src/aplicacion/adultos/resumen.ts,borrador
 e4345b0fed66,temas terminados,teme terminate,adultos,src/aplicacion/adultos/resumen.ts,borrador
 44f469b75346,"Más sitios y cualquier tema, en «Copia y aparato».","Mai multe locuri și orice temă, în „Copie și dispozitiv”.",adultos,src/aplicacion/adultos/resumen.ts,borrador
-4d0ebbbc1b0c,Sin nombre,Fără nume,adultos,src/aplicacion/adultos/resumen.ts,borrador
 f2ddb27a5c6d,edad sin elegir,vârstă nealeasă,adultos,src/aplicacion/adultos/resumen.ts,borrador
 694f4075be0c,{n} minuto de juego hoy,{n} minut de joacă azi,adultos,src/aplicacion/adultos/resumen.ts,borrador
 2f13014f7bdc,{n} minutos de juego hoy,Joacă azi: {n} minute,adultos,src/aplicacion/adultos/resumen.ts,borrador
