@@ -112,3 +112,4 @@ export * from './corral.ts';
 export * from './encargos.ts';
 export * from './misiones.ts';
 export * from './perfiles.ts';
+export * from './juntos.ts';

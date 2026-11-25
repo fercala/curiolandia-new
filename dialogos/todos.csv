@@ -2265,6 +2265,12 @@ ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,fr
 2289289d6344,"¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.",frase,src/escenas/juegosCortos.ts
 d9cb034d851e,Elige un juego corto.,frase,src/escenas/juegosCortos.ts
 f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts
+e426576a89e8,Le toca al jugador de Tito.,frase,src/escenas/juntos.ts
+bb38db0fec7d,Le toca al jugador de Lupi.,frase,src/escenas/juntos.ts
+81d3edbcb142,"¡Vamos a jugar juntos a las parejas! Uno juega con Tito y el otro con Lupi, por turnos.",frase,src/escenas/juntos.ts
+a973a5e3228f,¡Lo habéis hecho juntos!,frase,src/escenas/juntos.ts
+ec512ec86603,¡Pareja! Sigue jugando el mismo.,frase,src/escenas/juntos.ts
+067f1b9d6e00,¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.,frase,src/escenas/juntos.ts
 d5928579516d,¡Llegaste a la meta!,frase,src/escenas/laberinto.ts
 f9bf8d050287,Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.,frase,src/escenas/laberinto.ts
 4a0523f29586,Otra vez,trozo,src/escenas/laberinto.ts src/escenas/mercadoPractica.ts

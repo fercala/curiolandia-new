@@ -198,4 +198,13 @@ export const IDEAS_RO: Readonly<Record<string, string>> = {
   'Jugar con este perfil': 'Joacă cu acest profil',
   'Nombre del niño nuevo': 'Numele copilului nou',
   'Añadir un niño': 'Adaugă un copil',
+  // jugar juntos (idea 39)
+  'Le toca al jugador de Tito.': 'E rândul celui care joacă cu Tito.',
+  'Le toca al jugador de Lupi.': 'E rândul celui care joacă cu Lupi.',
+  '¡Vamos a jugar juntos a las parejas! Uno juega con Tito y el otro con Lupi, por turnos.':
+    'Hai să ne jucăm împreună cu perechile! Unul joacă cu Tito și celălalt cu Lupi, pe rând.',
+  '¡Lo habéis hecho juntos!': 'Ați reușit împreună!',
+  '¡Pareja! Sigue jugando el mismo.': 'Pereche! Joacă tot el, mai departe.',
+  '¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.':
+    'Ați găsit toate perechile! E mai distractiv să vă jucați împreună.',
 };

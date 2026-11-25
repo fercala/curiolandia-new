@@ -2646,3 +2646,10 @@ Juega ahora
 Jugar con este perfil
 Nombre del niño nuevo
 Añadir un niño
+
+Le toca al jugador de Tito.
+Le toca al jugador de Lupi.
+¡Vamos a jugar juntos a las parejas! Uno juega con Tito y el otro con Lupi, por turnos.
+¡Lo habéis hecho juntos!
+¡Pareja! Sigue jugando el mismo.
+¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.

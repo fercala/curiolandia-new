@@ -2265,6 +2265,12 @@ ab00bb559c94,Polly está preparando {zona}. ¡Muy pronto podrás jugar aquí!,Po
 2289289d6344,"¡Juegos cortos del patio! Son juegos pequeñitos, para jugar un ratito. Elige uno.","Jocurile scurte din curte! Sunt jocuri mici, pentru puțină joacă. Alege unul.",frase,src/escenas/juegosCortos.ts,borrador
 d9cb034d851e,Elige un juego corto.,Alege un joc scurt.,frase,src/escenas/juegosCortos.ts,borrador
 f8fc4230eded,{juego}: ¡muy pronto podrás jugar!,{juego}: în curând te vei putea juca!,trozo,src/escenas/juegosCortos.ts src/escenas/patio.ts,borrador
+e426576a89e8,Le toca al jugador de Tito.,E rândul celui care joacă cu Tito.,frase,src/escenas/juntos.ts,borrador
+bb38db0fec7d,Le toca al jugador de Lupi.,E rândul celui care joacă cu Lupi.,frase,src/escenas/juntos.ts,borrador
+81d3edbcb142,"¡Vamos a jugar juntos a las parejas! Uno juega con Tito y el otro con Lupi, por turnos.","Hai să ne jucăm împreună cu perechile! Unul joacă cu Tito și celălalt cu Lupi, pe rând.",frase,src/escenas/juntos.ts,borrador
+a973a5e3228f,¡Lo habéis hecho juntos!,Ați reușit împreună!,frase,src/escenas/juntos.ts,borrador
+ec512ec86603,¡Pareja! Sigue jugando el mismo.,"Pereche! Joacă tot el, mai departe.",frase,src/escenas/juntos.ts,borrador
+067f1b9d6e00,¡Habéis encontrado todas las parejas! Jugar juntos es más divertido.,Ați găsit toate perechile! E mai distractiv să vă jucați împreună.,frase,src/escenas/juntos.ts,borrador
 d5928579516d,¡Llegaste a la meta!,Ai ajuns la țintă!,frase,src/escenas/laberinto.ts,borrador
 f9bf8d050287,Lleva a Tito hasta la estrella. Toca la casilla de al lado o arrastra el dedo.,Du-l pe Tito la stea. Atinge căsuța alăturată sau glisează cu degetul.,frase,src/escenas/laberinto.ts,borrador
 4a0523f29586,Otra vez,Încă o dată,trozo,src/escenas/laberinto.ts src/escenas/mercadoPractica.ts,borrador
