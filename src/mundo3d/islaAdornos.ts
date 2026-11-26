@@ -15,7 +15,8 @@ import { FLC, T } from '../nucleo/indice.ts';
 import { grp } from './materiales.ts';
 import { bez, bush3, fireflies, flower3, ribbon, rock3 } from './decorado.ts';
 import { palm3 } from './objetos.ts';
-import { destellosSol3 } from './lucesNoche.ts';
+import { destellosSol3, farolas3, resplandores3 } from './lucesNoche.ts';
+import { sombrasNubes3 } from './mapaVivo.ts';
 
 // ROCAS, PALMERAS, ARBUSTOS y FLORES: dónde va cada adorno ([x, z]; las rocas y conchas en la arena, a ras de la
 // orilla; las palmeras en el borde de la hierba; los arbustos y las flores entre las zonas).
@@ -72,7 +73,8 @@ function olas3(w: Mundo): void {
 }
 
 // adornarIsla(w, zonas, centro, noche): pone en la isla del mundo w los caminos (del centro a cada zona), las olas, las
-// rocas, las palmeras, los arbustos, las flores y, de noche, las luciérnagas; de día, los destellos del sol en el mar.
+// rocas, las palmeras, los arbustos, las flores y, de noche, las luciérnagas, las farolas de los caminos y las ventanas
+// encendidas (mejora 39); de día, los destellos del sol en el mar y las sombras de las nubes (mejora 37).
 export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: PuntoSuelo, noche: boolean): void {
   zonas.forEach((z) => {
     const c: PuntoSuelo = [(centro[0] + z[0]) / 2, (centro[1] + z[1]) / 2 + 1.2];
@@ -84,8 +86,22 @@ export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: Punt
   PALMERAS.forEach(([x, z], i) => palm3(w, x, z, 0.75 + (i % 2) * 0.15));
   ARBUSTOS.forEach(([x, z], i) => bush3(w.sc, x, z, 0.7 + (i % 2) * 0.2));
   FLORES.forEach(([x, z], i) => flower3(w.sc, x, z, FLC[i % FLC.length]!, 0.6, 0));
-  if (noche) fireflies(w, 26, 14, 1.8);
-  else {
+  if (noche) {
+    fireflies(w, 26, 14, 1.8);
+    // de noche, una farola junto a cada camino y las ventanas encendidas de las zonas (mejora gráfica 39)
+    farolas3(
+      w,
+      zonas.map(([x, z]): PuntoSuelo => {
+        const dx = x - centro[0],
+          dz = z - centro[1],
+          l = Math.hypot(dx, dz) || 1;
+        return [centro[0] + dx * 0.55 - (dz / l) * 1.1, centro[1] + dz * 0.55 + (dx / l) * 1.1];
+      }),
+      true,
+    );
+    resplandores3(w, zonas);
+  } else {
+    sombrasNubes3(w); // las sombras de las nubes (mejora gráfica 37)
     // de día, el sol brilla en el mar a los dos lados de la isla (mejora gráfica 17)
     destellosSol3(w, -26, 2, 7, 6);
     destellosSol3(w, 19, 2, 7, 6);

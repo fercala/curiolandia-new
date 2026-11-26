@@ -6,7 +6,8 @@
  *   - un acierto (cuando suena SFX.good) hace saltar estrellitas y un aro verde donde se tocó, y Tito da un saltito de
  *     alegría (titoContento, nucleo/tito.ts);
  *   - un fallo (SFX.bad) hace temblar la escena un momento, suave, de lado a lado;
- *   - al arrastrar algo, el dedo deja una estela de estrellitas de colores (mejora gráfica 12, estela).
+ *   - al arrastrar algo, el dedo deja una estela de estrellitas de colores (mejora gráfica 12, estela);
+ *   - con ratón, un brillo suave bajo el puntero cuando está encima de algo que se puede tocar (mejora 35).
  * Se engancha a los sonidos con ponRespuestaVisual (nucleo/sonido.ts) al cargarse; el bucle (aplicacion/bucle.ts)
  * llama a ondaToque al tocar, a sacudida antes de dibujar la escena y a dibujaToques después.
  * Exporta: ondaToque, estela, sacudida y dibujaToques.
@@ -92,6 +93,22 @@ function dibujaEstela(): void {
   });
 }
 
+// haloPuntero(): con ratón (en el ordenador), un brillo suave y cálido que late bajo el puntero cuando está encima de algo
+// que se puede tocar (VIVO.hovNow); con el dedo no sale (mejora gráfica 35).
+function haloPuntero(): void {
+  if (!VIVO.mouseOn || !VIVO.hovNow) return;
+  const x = VIVO.MX,
+    y = VIVO.MY,
+    r = 46 + Math.sin(T * 5) * 6,
+    g = ctx.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, 'rgba(255,236,150,0.45)');
+  g.addColorStop(1, 'rgba(255,236,150,0)');
+  ctx.save();
+  ctx.fillStyle = g;
+  ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  ctx.restore();
+}
+
 // sacudida(): cuánto se mueve ahora la escena a los lados por el último fallo (en píxeles; 0 si no tiembla).
 export function sacudida(): number {
   const e = T - falloT;
@@ -99,9 +116,10 @@ export function sacudida(): number {
   return Math.sin(e * 55) * 7 * (1 - e / TIEMBLA);
 }
 
-// dibujaToques(): dibuja la estela de estrellitas (dibujaEstela) y las ondas que siguen vivas: dos aros que crecen y
+// dibujaToques(): dibuja el halo del ratón (haloPuntero), la estela de estrellitas (dibujaEstela) y las ondas que siguen vivas: dos aros que crecen y
 // se desvanecen (los de acierto, más grandes y verdes), con un borde oscuro fino para que se vean también sobre fondos claros.
 export function dibujaToques(): void {
+  haloPuntero();
   dibujaEstela();
   ondas = ondas.filter((o) => T - o.t < DURA);
   if (!ondas.length) return;

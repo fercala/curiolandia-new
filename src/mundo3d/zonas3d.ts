@@ -159,6 +159,7 @@ import {
 } from './objetos.ts';
 import { fotoEnMundo } from './camara3d.ts';
 import { farolas3, resplandores3 } from './lucesNoche.ts';
+import { chispasSuben3, huellas3, sombrasNubes3 } from './mapaVivo.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
 import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 
@@ -964,6 +965,7 @@ function buildZone(z: string, st: Escena) {
     const p = B[st.cur.id];
     ar = arrow3(w.sc, [p[0], 5.2, p[1]], 0.85);
     rg = ring3(w.sc, [p[0], 0.08, p[1]], 2.1);
+    chispasSuben3(w, p[0], p[1], 2.1); // chispitas doradas que suben del aro (mejora gráfica 38)
   }
   const tito = makeTito();
   tito.scale.setScalar(0.62);
@@ -972,6 +974,8 @@ function buildZone(z: string, st: Escena) {
   tito.rotation.y = -0.3;
   w.sc.add(tito);
   w.tito = tito;
+  huellas3(w); // Tito deja huellas al pasear (mejora gráfica 40)
+  if (!skyNow().night) sombrasNubes3(w); // las sombras de las nubes (mejora gráfica 37)
   w.pick.push(tito);
   w.upd.push((dt: number) => {
     const wk = walkTick(w, tito, dt);

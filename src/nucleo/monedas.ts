@@ -129,7 +129,8 @@ export function spendCoins(n: number, x: number, y: number) {
   for (let i = 0; i < Math.min(n, 8); i++) coinFx.push({ x, y, t: T + i * 0.06, spend: 1 });
 }
 // Dibuja y avanza las monedas que vuelan y el cartel "+N". Cada moneda tarda 0,75 s; cuando llega
-// suma su valor al número visible y suena. Se llama en cada cuadro desde el bucle de dibujo.
+// suma su valor al número visible y suena. Desde las mejoras gráficas 33 y 34, las monedas dejan chispitas detrás y el
+// cartel lleva rayos de luz que giran. Se llama en cada cuadro desde el bucle de dibujo.
 export function drawCoinFx() {
   hudAt();
   for (const c of coinFx) {
@@ -153,7 +154,15 @@ export function drawCoinFx() {
     const e = k * k * (3 - 2 * k),
       a = c.spend ? [HUDX - 50, HUDY] : [c.x, c.y],
       b = c.spend ? [c.x, c.y] : [HUDX - 50, HUDY];
-    pic('moneda', lerp(a[0], b[0], e), lerp(a[1], b[1], e) - Math.sin(k * PI) * 130, 62 * (1 - k * 0.25));
+    const mx = lerp(a[0], b[0], e),
+      my = lerp(a[1], b[1], e) - Math.sin(k * PI) * 130;
+    // desde la mejora gráfica 33: tres chispitas doradas detrás de la moneda, por donde acaba de pasar
+    [0.06, 0.12, 0.18].forEach((d, j) => {
+      const kk = Math.max(0, k - d),
+        ee = kk * kk * (3 - 2 * kk);
+      star(lerp(a[0], b[0], ee), lerp(a[1], b[1], ee) - Math.sin(kk * PI) * 130, 9 - j * 2.5, '#FFE08A', 0);
+    });
+    pic('moneda', mx, my, 62 * (1 - k * 0.25));
   }
   // sin monedas volando, el marcador enseña S.coins menos las abonadas que aún esperan su animación en esta escena
   coinFx = coinFx.filter((c) => !c.done);
@@ -171,6 +180,20 @@ export function drawCoinFx() {
     ctx.globalAlpha = clamp(a, 0, 1);
     ctx.translate(VIVO.coinBanner.x || 800, VIVO.coinBanner.y || 470);
     ctx.scale(clamp(a, 0, 1.2), clamp(a, 0, 1.2));
+    // desde la mejora gráfica 34: rayos de luz dorados que giran detrás del cartel
+    ctx.save();
+    ctx.rotate(T * 0.6);
+    ctx.fillStyle = 'rgba(255,214,90,0.35)';
+    for (let i = 0; i < 12; i++) {
+      ctx.rotate(PI / 6);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-40, -380);
+      ctx.lineTo(40, -380);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
     card(-250, -90, 500, 180, '#FFF6D6', 7, 50);
     pic(VIVO.coinBanner.icon || 'monedas', -140, 0, 150);
     text('+' + VIVO.coinBanner.n, 60, 26, 92, '#D9962A', { f: LF, st: 8, sc: '#fff' });

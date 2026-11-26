@@ -63,6 +63,7 @@ import { cloud3, palm3, sandc3 } from './objetos.ts';
 import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 import { skyNow } from './cielo.ts';
 import { adornarIsla } from './islaAdornos.ts';
+import { huellas3 } from './mapaVivo.ts';
 import { greyAll, sea3 } from './mapa3d.ts';
 
 // POS3: dónde va cada sitio de la isla en el suelo 3D ([x, z]): las tres zonas, Lupi, el barco y dónde empieza Tito.
@@ -311,6 +312,7 @@ function buildIsla(st: Escena): Mundo {
   tito.rotation.y = -0.35;
   w.sc.add(tito);
   w.tito = tito;
+  huellas3(w); // Tito deja huellas al pasear (mejora gráfica 40)
   w.pick.push(tito);
   w.upd.push((dt: number) => {
     const wk = walkTick(w, tito, dt);
