@@ -16,7 +16,7 @@ import { opcionesReto, rondasReto } from '../dominio/reto.ts';
 import { monedasPorAcierto } from '../dominio/monedas.ts';
 // apuntarResultado: el caso de uso que dice qué apunta rec (desde la fase 4c).
 import { apuntarResultado } from '../aplicacion/repasoDelDia.ts';
-import { pic, picG } from './imagenes.ts';
+import { IMG, pic, picG } from './imagenes.ts';
 import { giveCoins } from './monedas.ts';
 import { ctx, T, VIVO } from './pantalla.ts';
 import { hC, hv } from './puntero.ts';
@@ -209,7 +209,8 @@ export function giveSticker(k: string, ya?: boolean): string {
   setTimeout(() => SFX.sparkle(), 300);
   return k;
 }
-// drawSticker(dibujo,x,y,tamaño,giro,gris): pegatina redonda con sombra; gris = una que aún no se tiene.
+// drawSticker(dibujo,x,y,tamaño,giro,gris): pegatina redonda con sombra; gris = una que aún no se tiene. Desde la mejora
+// gráfica 10 de docs/MEJORAS-GRAFICAS.md, las que no son grises brillan (brillo).
 export function drawSticker(k: string, x: number, y: number, s: number, rot = 0, grey?: boolean): void {
   ctx.save();
   ctx.translate(x, y);
@@ -224,7 +225,68 @@ export function drawSticker(k: string, x: number, y: number, s: number, rot = 0,
     ctx.globalAlpha = 0.25;
     picG(k, 0, 0, s * 0.86);
     ctx.globalAlpha = 1;
-  } else pic(k, 0, 0, s * 0.86);
+  } else {
+    pic(k, 0, 0, s * 0.86);
+    brillo(k, s);
+  }
+  ctx.restore();
+}
+// faseDe(k): un número de 0 a 1 propio de cada pegatina, para que no brillen todas a la vez.
+const faseDe = (k: string): number => (k.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 97) / 97;
+// brillo(k, s): el brillo de una pegatina ganada (mejora gráfica 10 de docs/MEJORAS-GRAFICAS.md): cada 4 segundos cruza
+// la pegatina una franja de luz en diagonal, y de vez en cuando titila una estrellita en su borde. Se dibuja en el
+// sitio de la pegatina (ya trasladado), recortado a su círculo de radio s * 0,55.
+function brillo(k: string, s: number): void {
+  const f = (T / 4 + faseDe(k)) % 1,
+    r = s * 0.55;
+  if (f < 0.3) {
+    const d = -r * 1.6 + (f / 0.3) * r * 3.2;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, PI * 2);
+    ctx.clip();
+    ctx.rotate(-0.6);
+    const g = ctx.createLinearGradient(d - r * 0.3, 0, d + r * 0.3, 0);
+    g.addColorStop(0, 'rgba(255,255,255,0)');
+    g.addColorStop(0.5, 'rgba(255,255,255,.6)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(d - r * 0.3, -r * 2, r * 0.6, r * 4);
+    ctx.restore();
+  }
+  const t = (T / 2.5 + faseDe(k) * 3) % 1;
+  if (t < 0.25) star(r * 0.7, -r * 0.7, s * 0.07 * Math.sin((t / 0.25) * PI), '#FFE08A', 0);
+}
+// SILUETAS: la silueta de cada dibujo ya hecha (un lienzo con el dibujo relleno de un color crema), por clave.
+const SILUETAS: Record<string, HTMLCanvasElement> = {};
+// silueta(k): la silueta del dibujo k (se hace la primera vez); null si el dibujo aún no ha cargado.
+function silueta(k: string): HTMLCanvasElement | null {
+  const i = IMG[k];
+  if (!i || !i.complete) return null;
+  if (!SILUETAS[k]) {
+    const c = document.createElement('canvas');
+    c.width = 160;
+    c.height = 160;
+    const g = c.getContext('2d');
+    if (!g) return null;
+    g.drawImage(i, 0, 0, 160, 160);
+    g.globalCompositeOperation = 'source-in';
+    g.fillStyle = '#D9CBB4';
+    g.fillRect(0, 0, 160, 160);
+    SILUETAS[k] = c;
+  }
+  return SILUETAS[k];
+}
+// drawStickerFalta(k, x, y, s): el hueco de una pegatina que aún no se tiene (mejora gráfica 10): su silueta en color
+// crema dentro del círculo y una chapita con «?» abajo a la derecha, para que den ganas de encontrarla.
+export function drawStickerFalta(k: string, x: number, y: number, s: number): void {
+  ctx.save();
+  ctx.translate(x, y);
+  circ(0, 0, s * 0.5, '#F1E9DC', 4, '#E4D3B8');
+  const c = silueta(k);
+  if (c) ctx.drawImage(c, -s * 0.4, -s * 0.4, s * 0.8, s * 0.8);
+  circ(s * 0.36, s * 0.36, s * 0.14, '#FFC93C', 4);
+  text('?', s * 0.36, s * 0.36 + s * 0.065, s * 0.19, K);
   ctx.restore();
 }
 // drawToast(): dibuja el aviso de pegatina nueva: entra con rebote, se queda y se va a los 2,8 s.

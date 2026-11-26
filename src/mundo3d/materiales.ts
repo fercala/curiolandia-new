@@ -12,7 +12,7 @@
 import * as THREE from 'three';
 import type { OpcionesPieza, OpcionesPlano, OpcionesSprite, PiezaUnida, TexturaDibujada, Trio } from './tipos.ts';
 import { K } from '../dibujos/todos.ts';
-import { DF, IMG, LF, PI, VIVO, card, ctx, flower, juntar, ponCtx, text, tr } from '../nucleo/indice.ts';
+import { DF, IMG, LF, PI, VIVO, card, circ, ctx, flower, juntar, ponCtx, text, tr } from '../nucleo/indice.ts';
 
 // V3(x,y,z): atajo para crear un vector 3D de Three.js.
 export const V3 = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
@@ -352,6 +352,34 @@ export function pillTex(t: string, bg = '#fff', fg = K, sz = 56) {
     },
     'pill:' + t + bg + fg + sz,
   );
+}
+// cartelTex(t, bg, fg, icono): el cartel de un sitio del mapa con dibujo (mejora gráfica 7 de docs/MEJORAS-GRAFICAS.md):
+// textura de 640x160 con un círculo blanco a la izquierda con el dibujo icono (una clave de IMG) o, si icono es una
+// cifra, esa cifra grande (los años de las zonas), y el texto t (traducido) al lado, con letra más grande que pillTex.
+// Así los que aún no leen reconocen cada sitio por su dibujo. Si el dibujo aún carga, se redibuja al terminar.
+export function cartelTex(t: string, bg: string, fg: string, icono: string) {
+  const tx = canvasTex(
+    640,
+    160,
+    (g) => {
+      const tt = tr(t);
+      g.font = `700 62px ${DF}`;
+      const tw = Math.min(620, g.measureText(tt).width + 190),
+        x0 = 320 - tw / 2;
+      card(x0, 12, tw, 136, bg, 9, 68);
+      circ(x0 + 70, 80, 52, '#fff', 6);
+      if (/^[0-9]$/.test(icono)) text(icono, x0 + 70, 80 + 27, 78, bg, { f: LF });
+      else {
+        const i = IMG[icono];
+        if (i && i.complete) g.drawImage(i, x0 + 70 - 42, 80 - 42, 84, 84);
+      }
+      text(juntar(tt), x0 + 132 + (tw - 152) / 2, 80 + 22, 62, fg, { max: tw - 160 });
+    },
+    'cartel:' + t + bg + fg + icono,
+  );
+  const im = IMG[icono];
+  if (im && !im.complete) im.addEventListener('load', () => tx.redraw(), { once: true });
+  return tx;
 }
 // pillSpr(t,bg,fg,o): sprite con el cartel pillTex, de o.w unidades de ancho (2,4 por defecto) y proporción 4:1.
 export const pillSpr = (t: string, bg?: string, fg?: string, o: OpcionesSprite = {}) =>

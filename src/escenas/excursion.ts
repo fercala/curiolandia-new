@@ -74,6 +74,8 @@ import {
 import type { Nombre } from '../dominio/idiomas.ts';
 import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
 import { K } from '../dibujos/todos.ts';
+import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
+import { textura } from '../nucleo/texturas.ts';
 import { animalEn, dibujaPaseo, empezarPaseo, moverPaseo, ponerCrias, tocarPaseo } from './granjaAnimales.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, hacerFotoDe, tocarBotonCamara } from './fotos.ts';
 import { fotoDeMarca } from '../dominio/fotos.ts';
@@ -100,9 +102,10 @@ export const nombreExcursion = (e: Excursion): Nombre => nombreEn(e.nombre.charA
 // fondoGranja(): la granja: el cielo, el prado, el granero rojo con su tejado, la valla y el camino de tierra. Lo usan la
 // excursión de la granja y sus estaciones.
 export function fondoGranja(): void {
-  cielo('#BFE3FF', '#E6F5FF', 300);
+  cieloExterior('#BFE3FF', '#E6F5FF', 300, { colinas: true });
   ctx.fillStyle = '#A6DB86';
   ctx.fillRect(0, 280, W, H - 280);
+  textura('hierba', 0, 300, W, H - 300, 0.8);
   ctx.save();
   ctx.lineWidth = 6;
   ctx.strokeStyle = '#4A3B2A';
@@ -135,6 +138,7 @@ export function fondoGranja(): void {
     ctx.fillRect(x - 7, 240, 14, 70);
   });
   ctx.restore();
+  veloHora();
 }
 
 // acacia(x, y): un árbol de la sabana: el tronco torcido y la copa ancha y plana (centro de la copa en x, y).
@@ -162,7 +166,7 @@ function acacia(x: number, y: number): void {
 // fondoZoo(): el zoo (desde la fase P17): el cielo, las rocas del fondo, la valla de bambú, las acacias, el estanque y,
 // en el centro, el arco de la entrada con la cara del león. Lo usan la excursión del zoo y sus recintos (escenas/zoo.ts).
 export function fondoZoo(): void {
-  cielo('#BFE3FF', '#FFF1D6', 300);
+  cieloExterior('#BFE3FF', '#FFF1D6', 300, { colinas: true });
   ctx.save();
   ctx.lineWidth = 6;
   ctx.strokeStyle = '#4A3B2A';
@@ -179,6 +183,7 @@ export function fondoZoo(): void {
   ctx.stroke();
   ctx.fillStyle = '#C7DC8A';
   ctx.fillRect(0, 280, W, H - 280);
+  textura('hierba', 0, 300, W, H - 300, 0.7);
   // el estanque, abajo a la izquierda
   ctx.fillStyle = '#8FD0F0';
   ctx.beginPath();
@@ -220,6 +225,7 @@ export function fondoZoo(): void {
   ctx.stroke();
   ctx.restore();
   pic('leon', 655, 85, 90);
+  veloHora();
 }
 
 // fondoAcuario(): el acuario (desde la fase P18): el túnel de cristal debajo del agua: el agua azul que se oscurece hacia
@@ -228,14 +234,20 @@ export function fondoZoo(): void {
 export function fondoAcuario(): void {
   cielo('#1F5F9E', '#5FB6E0', H);
   ctx.save();
-  // los rayos de luz, desde arriba
-  ctx.fillStyle = 'rgba(255,255,255,0.08)';
-  [200, 650, 1100].forEach((x) => {
+  // los rayos de luz, desde arriba: desde la mejora gráfica 18 de docs/MEJORAS-GRAFICAS.md, cinco rayos que se mecen y
+  // brillan más y menos, cada uno a su ritmo, y se apagan hacia abajo
+  [120, 420, 700, 1000, 1300].forEach((x, i) => {
+    const m = Math.sin(T * 0.4 + i * 1.7) * 60,
+      a = 0.16 + 0.08 * Math.sin(T * 0.9 + i * 2.3),
+      g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, `rgba(255,255,255,${(a * 1.8).toFixed(3)})`);
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
     ctx.beginPath();
     ctx.moveTo(x, 0);
-    ctx.lineTo(x + 160, 0);
-    ctx.lineTo(x + 360, H);
-    ctx.lineTo(x + 120, H);
+    ctx.lineTo(x + 110, 0);
+    ctx.lineTo(x + 300 + m, H);
+    ctx.lineTo(x + 100 + m, H);
     ctx.closePath();
     ctx.fill();
   });
@@ -264,6 +276,7 @@ export function fondoAcuario(): void {
   ctx.lineTo(0, H);
   ctx.closePath();
   ctx.fill();
+  causticas();
   ctx.strokeStyle = '#4FA35A';
   ctx.lineWidth = 12;
   ctx.lineCap = 'round';
@@ -289,6 +302,31 @@ export function fondoAcuario(): void {
       x = 100 + i * 150 + Math.sin(T * 2 + i) * 12;
     ctx.beginPath();
     ctx.arc(x, y, 6 + (i % 3) * 4, 0, Math.PI * 2);
+    ctx.stroke();
+    // el brillo de la burbuja (mejora gráfica 18)
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.beginPath();
+    ctx.arc(x - 2 - (i % 3), y - 2 - (i % 3), 2 + (i % 3) * 0.6, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.restore();
+}
+
+// causticas(): la luz que baila en la arena del acuario (mejora gráfica 18): unas manchas claras con forma de red que se
+// mueven despacio con T, como la que hace el sol al pasar por las olas.
+function causticas(): void {
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+  ctx.lineWidth = 3;
+  Array.from({ length: 4 }, (_, f) => f).forEach((f) => {
+    const y = 540 + f * 90;
+    ctx.beginPath();
+    Array.from({ length: 41 }, (_, i) => i).forEach((i) => {
+      const x = i * 40,
+        yy = y + Math.sin(i * 0.9 + T * 1.1 + f) * 16 + Math.sin(i * 0.37 - T * 0.7) * 10;
+      if (i) ctx.lineTo(x, yy);
+      else ctx.moveTo(x, yy);
+    });
     ctx.stroke();
   });
   ctx.restore();
@@ -349,6 +387,7 @@ export function fondoMuseo(): void {
   // el suelo de baldosas
   ctx.fillStyle = '#D9C3A0';
   ctx.fillRect(0, 470, W, H - 470);
+  textura('madera', 0, 470, W, H - 470, 0.9);
   ctx.strokeStyle = 'rgba(122,106,82,0.35)';
   ctx.lineWidth = 3;
   [560, 680, 820].forEach((y) => {
@@ -399,6 +438,36 @@ export function fondoMuseo(): void {
   ctx.stroke();
   pic('pterodactilo', 0, 120, 120);
   ctx.restore();
+  luzMuseo();
+}
+
+// luzMuseo(): la luz desde arriba del gran salón (mejora gráfica 18 de docs/MEJORAS-GRAFICAS.md): un haz cálido que baja
+// de la claraboya del techo sobre el esqueleto, con motas de polvo que flotan y brillan dentro del haz.
+function luzMuseo(): void {
+  ctx.save();
+  const g = ctx.createLinearGradient(0, 0, 0, 480);
+  g.addColorStop(0, 'rgba(255,214,110,0.55)');
+  g.addColorStop(1, 'rgba(255,214,110,0.05)');
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.moveTo(230, 0);
+  ctx.lineTo(430, 0);
+  ctx.lineTo(580, 470);
+  ctx.lineTo(90, 470);
+  ctx.closePath();
+  ctx.fill();
+  // la claraboya del techo, de donde baja la luz
+  card(225, -20, 210, 40, '#FFF8D8', 5, 8);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  Array.from({ length: 12 }, (_, i) => i).forEach((i) => {
+    const y = 40 + ((T * (10 + (i % 3) * 5) + i * 37) % 400),
+      x = 240 + ((i * 53) % 180) + (y / 470) * 80 + Math.sin(T * 0.8 + i) * 12;
+    ctx.globalAlpha = 0.3 + 0.5 * Math.abs(Math.sin(T * 1.3 + i));
+    ctx.beginPath();
+    ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.restore();
 }
 
 // edificio(x, w, h, c, tejado): un edificio de la calle de la ciudad: la fachada de color c, ancho w y alto h sobre la
@@ -417,7 +486,7 @@ function edificio(x: number, w: number, h: number, c: string, tejado: string): v
 // gran puerta, la panadería con su toldo de rayas y el centro de salud con su cruz), la acera, la carretera con el paso
 // de cebra y el semáforo, y un coche que pasa (con T).
 export function fondoCiudad(): void {
-  cielo('#8FD3F5', '#DDF3FF', 470);
+  cieloExterior('#8FD3F5', '#DDF3FF', 470, { colinas: true });
   ctx.save();
   // los edificios: el parque de bomberos, la panadería y el centro de salud
   edificio(150, 380, 300, '#E2574C', '#B8423A');
@@ -440,6 +509,7 @@ export function fondoCiudad(): void {
   pic('semaforo', 1470, 380, 200);
   // el coche que pasa por la carretera, de izquierda a derecha
   pic('camion', ((T * 120) % 2000) - 200, 860, 150, 0.9);
+  veloHora();
 }
 
 // HOJAS_CAEN: las hojas que caen en el bosque de otoño: dibujo, columna (x), fase y velocidad.
@@ -470,7 +540,7 @@ function arbolOtono(x: number, y: number, s: number, c: string): void {
 // fondoBosque(): el bosque de otoño (desde la fase P21): el cielo, los árboles rojos, naranjas y amarillos, el suelo
 // lleno de hojas, el sendero, unas setas y las hojas que caen (con T).
 export function fondoBosque(): void {
-  cielo('#BFE3F2', '#F6E7C8', 470);
+  cieloExterior('#BFE3F2', '#F6E7C8', 470, { colinas: true });
   ctx.save();
   // los árboles del fondo, más pequeños, y los de delante
   [
@@ -484,6 +554,7 @@ export function fondoBosque(): void {
   // el suelo y el sendero
   ctx.fillStyle = '#C9A15E';
   ctx.fillRect(0, 470, W, H - 470);
+  textura('tierra', 0, 470, W, H - 470, 0.8);
   ctx.fillStyle = '#E8D3A0';
   ctx.beginPath();
   ctx.moveTo(700, 470);
@@ -507,6 +578,7 @@ export function fondoBosque(): void {
     const y = ((T * v + f * 900) % 1000) - 60;
     pic(k, x + Math.sin(T * 1.5 + f * 9) * 40, y, 50);
   });
+  veloHora();
 }
 
 // puesto(x, w, toldo, cosas): un puesto del mercado en x, de ancho w: el mostrador de madera, el toldo de rayas blancas
@@ -525,7 +597,7 @@ function puesto(x: number, w: number, toldo: string, cosas: readonly string[]): 
 // fondoMercado(): el mercado (desde la fase P22): el cielo, la frutería (toldo verde), la panadería (toldo naranja) y
 // la pescadería (toldo azul) con lo que venden, el suelo de baldosas y unos globos de colores que se mecen (con T).
 export function fondoMercado(): void {
-  cielo('#BFE3FF', '#FFF3DC', 470);
+  cieloExterior('#BFE3FF', '#FFF3DC', 470, { colinas: true });
   ctx.save();
   ctx.fillStyle = '#E8D8BE';
   ctx.fillRect(0, 470, W, H - 470);
@@ -548,6 +620,7 @@ export function fondoMercado(): void {
     [1040, '#7CC86E'],
     [1075, '#5B8DEF'],
   ].forEach(([x, c], i) => circ(x as number, 60 + Math.sin(T * 2 + i) * 6, 22, c as string, 4));
+  veloHora();
 }
 
 // fondoPlanetario(): el planetario (desde la fase P23): la cúpula oscura llena de estrellas que parpadean (con T), la
@@ -636,8 +709,7 @@ function sombrilla(x: number, y: number): void {
 // fondoPlaya(): la playa (desde la fase P24): el cielo con el sol, el mar con olas que se mueven, un barco y una lancha
 // que navegan (con T), el faro en sus rocas, la arena, la sombrilla y la toalla.
 export function fondoPlaya(): void {
-  cielo('#9ED9F5', '#E9F7FC', 220);
-  circ(900, 100, 56, '#FFD66B', 6);
+  cieloExterior('#9ED9F5', '#E9F7FC', 220);
   ctx.save();
   ctx.fillStyle = '#5BB8E6';
   ctx.fillRect(0, 220, W, 200);
@@ -661,11 +733,14 @@ export function fondoPlaya(): void {
   ctx.closePath();
   ctx.fill();
   ctx.restore();
+  textura('arena', 0, 440, W, H - 440);
+  textura('agua', 0, 220, W, 190, 0.5);
   pic('barco', ((T * 30) % 1900) - 150, 270, 130);
   pic('lancha', W + 150 - ((T * 45 + 900) % 1900), 350, 100);
   faro(150, 420);
   sombrilla(1450, 640);
   pic('toalla', 1500, 700, 120);
+  veloHora();
 }
 
 // fondoDe(e): el fondo de la excursión e: el del zoo, el del acuario, el del museo, el de la ciudad, el del bosque, el
@@ -799,7 +874,7 @@ const bus = { fase: 'elige' as 'elige' | 'viaje', destino: '', t0: 0 };
 // dibujaCarretera(v): el paisaje del viaje: el cielo, las colinas, la carretera con sus rayas y árboles que pasan (v:
 // cuánto se ha avanzado).
 function dibujaCarretera(v: number): void {
-  cielo('#9ED6FF', '#E3F4FF', 520);
+  cieloExterior('#9ED6FF', '#E3F4FF', 520);
   ctx.fillStyle = '#9BD47A';
   ctx.beginPath();
   ctx.ellipse(400, 560, 600, 160, 0, Math.PI, 0);
@@ -820,6 +895,7 @@ function dibujaCarretera(v: number): void {
     const x = ((((i * 300 - v * 1.6) % 2100) + 2100) % 2100) - 250;
     pic('arbol', x, 520, 170);
   });
+  veloHora();
 }
 
 SCENES['autobus'] = {

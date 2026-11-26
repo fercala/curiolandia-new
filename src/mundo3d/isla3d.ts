@@ -45,7 +45,7 @@ import {
 import { BARCO, ISLA, LUPI } from '../escenas/isla.ts';
 import { SEGUIR, ZONES, drawSeguir, nextLetra, zoneOpen } from '../escenas/zonas.ts';
 import { W3, camRig, newWorld, pickAt, projR, setWorld } from './motor.ts';
-import { Box, Cyl, M, OLm, V3, canvasTex, grp, mk, olGeo, picTex, pillSpr, prism, spr } from './materiales.ts';
+import { Box, Cyl, M, OLm, V3, canvasTex, cartelTex, grp, mk, olGeo, picTex, prism, spr } from './materiales.ts';
 import { lock3, ring3, tree3 } from './decorado.ts';
 import {
   busy3,
@@ -62,6 +62,7 @@ import {
 import { cloud3, palm3, sandc3 } from './objetos.ts';
 import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 import { skyNow } from './cielo.ts';
+import { adornarIsla } from './islaAdornos.ts';
 import { greyAll, sea3 } from './mapa3d.ts';
 
 // POS3: dónde va cada sitio de la isla en el suelo 3D ([x, z]): las tres zonas, Lupi, el barco y dónde empieza Tito.
@@ -250,6 +251,13 @@ function buildIsla(st: Escena): Mundo {
     w = newWorld({ fov: 36, bg: sk.bg, kind: 'isla', shadow: 24 });
   sea3(w, sk.sea);
   isla3(w);
+  // caminos, olas, rocas, palmeras y flores (mejora gráfica 5 de docs/MEJORAS-GRAFICAS.md)
+  adornarIsla(
+    w,
+    ['playaSonidos', 'bosqueLetras', 'puebloPalabras'].map((id) => POS3[id]!),
+    POS3.lupi!,
+    !!sk.night,
+  );
   for (let i = 0; i < 4; i++) {
     const c = cloud3(w.sc, -30 + i * 16, 9 + (i % 2) * 1.5, -16 + (i % 2) * 5, 1 + (i % 3) * 0.3);
     w.upd.push((dt: number) => {
@@ -266,11 +274,17 @@ function buildIsla(st: Escena): Mundo {
     g.userData.spot = z.id;
     const open = !!ZONES[z.id] && zoneOpen(z.id);
     SITIOS3[z.id]!(g, w, open);
-    pillSpr(`${z.edad} años`, open ? ['#FF8A7A', '#7CC86E', '#5B8DEF'][z.edad - 3]! : '#B8B0A6', '#fff', {
-      p: [0, 0.6, 3],
-      w: 4.2,
-      to: g,
-    });
+    spr(
+      cartelTex(
+        `${z.edad} años`,
+        open ? ['#FF8A7A', '#7CC86E', '#5B8DEF'][z.edad - 3]! : '#B8B0A6',
+        '#fff',
+        String(z.edad),
+      ),
+      4.6,
+      1.15,
+      { p: [0, 0.6, 3], to: g },
+    );
     const hit = new THREE.Mesh(Cyl(3.2, 3.2, 3.6, 12), new THREE.MeshBasicMaterial({ visible: false }));
     hit.position.y = 1.6;
     g.add(hit);

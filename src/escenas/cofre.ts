@@ -89,7 +89,8 @@ export function grantGift(it: Articulo) {
   if (it.slot && scene && scene.three && window.__w3 && window.__w3.retito) window.__w3.retito();
 } // Tito 3D se viste ya (en el cofre), no al cambiar de escena
 // drawChest(x, y, s, op, sh): dibuja el cofre a escala s, desplazado sh en horizontal (temblor). op = cuánto está abierto
-// (0 cerrado, 1 abierto): con op > 0 salen rayos de luz y brillo dentro; la tapa se aplasta en vertical (escala Y) hasta
+// (0 cerrado, 1 abierto): con op > 0 salen rayos de luz (desde la mejora gráfica 19, con un resplandor que late y
+// rayos finos que giran al revés) y brillo dentro; la tapa se aplasta en vertical (escala Y) hasta
 // casi desaparecer y, pasada la mitad, reaparece abierta por dentro. Con op < 0,15 se ve la cerradura.
 function drawChest(x: number, y: number, s: number, op: number, sh: number) {
   ctx.save();
@@ -97,6 +98,15 @@ function drawChest(x: number, y: number, s: number, op: number, sh: number) {
   ctx.scale(s, s);
   if (op > 0) {
     ctx.save();
+    // desde la mejora gráfica 19 de docs/MEJORAS-GRAFICAS.md: un resplandor dorado redondo que late detrás de todo y,
+    // encima de los rayos anchos, otros finos que giran al revés y se apagan hacia fuera
+    const rg = ctx.createRadialGradient(0, -40, 20, 0, -40, 460);
+    rg.addColorStop(0, `rgba(255,236,150,${(0.75 * Math.min(1, op * 1.5)).toFixed(3)})`);
+    rg.addColorStop(1, 'rgba(255,236,150,0)');
+    ctx.fillStyle = rg;
+    ctx.beginPath();
+    ctx.arc(0, -40, 460 * (0.94 + 0.06 * Math.sin(T * 3)), 0, PI * 2);
+    ctx.fill();
     ctx.globalAlpha = Math.min(1, op * 1.5) * 0.85;
     for (let i = 0; i < 12; i++) {
       const a = T * 0.6 + (i / 12) * PI * 2;
@@ -106,6 +116,19 @@ function drawChest(x: number, y: number, s: number, op: number, sh: number) {
       ctx.lineTo(Math.cos(a + 0.12) * 520, -40 + Math.sin(a + 0.12) * 520);
       ctx.closePath();
       ctx.fillStyle = i % 2 ? '#FFF3B0' : '#FFE08A';
+      ctx.fill();
+    }
+    const fg = ctx.createRadialGradient(0, -40, 40, 0, -40, 480);
+    fg.addColorStop(0, 'rgba(255,255,255,0.9)');
+    fg.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = fg;
+    for (let i = 0; i < 16; i++) {
+      const a = -T * 0.9 + (i / 16) * PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(0, -40);
+      ctx.lineTo(Math.cos(a - 0.03) * 480, -40 + Math.sin(a - 0.03) * 480);
+      ctx.lineTo(Math.cos(a + 0.03) * 480, -40 + Math.sin(a + 0.03) * 480);
+      ctx.closePath();
       ctx.fill();
     }
     ctx.restore();

@@ -39,13 +39,14 @@ import {
   save,
   say,
   sayQ,
-  sky,
   sparkles,
   text,
   tree,
   fmt,
   tr,
 } from '../nucleo/indice.ts';
+import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
+import { textura } from '../nucleo/texturas.ts';
 import { ACTIVIDADES_PATIO, type ActividadPatio } from '../dominio/cole.ts';
 
 /** El rectángulo de un botón del patio (esquina de arriba a la izquierda, ancho y alto) con su actividad. */
@@ -87,16 +88,24 @@ export const BOTONES_PATIO: readonly BotonPatio[] = ACTIVIDADES_PATIO.map((a, i,
 });
 
 // fondoPatio(): el patio: el cielo, la valla, la hierba, el suelo de arena con la pista de colores y dos árboles. Lo
-// usan el patio y sus actividades (escenas/estatuas.ts, titoDice.ts y yoga.ts).
+// usan el patio y sus actividades (escenas/estatuas.ts, titoDice.ts y yoga.ts). Desde las mejoras gráficas 1, 2 y 9 de
+// docs/MEJORAS-GRAFICAS.md, con el cielo de la hora y sus colinas, la hierba y la arena con textura y el velo de la hora.
 export function fondoPatio(): void {
-  sky('#D6EFFB', '#F3FAEC');
+  cieloExterior('#D6EFFB', '#F3FAEC', 300, { colinas: true });
   ctx.fillStyle = '#B5E29A';
   ctx.fillRect(0, 300, W, H - 300);
+  textura('hierba', 0, 350, W, H - 350, 0.8);
   // la valla del fondo
   Array.from({ length: Math.ceil(W / 70) }, (_, i) => card(20 + i * 70, 250, 22, 110, '#F7E6C4', 4, 8));
   card(0, 280, W, 18, '#E8CFA0', 4, 4);
   card(0, 330, W, 18, '#E8CFA0', 4, 4);
   ell(W / 2, 760, 900, 170, '#F7D9A6', 0);
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(W / 2, 760, 900, 170, 0, 0, Math.PI * 2);
+  ctx.clip();
+  textura('arena', W / 2 - 900, 590, 1800, 340);
+  ctx.restore();
   ['#FF8A7A', '#FFD66B', '#7CC86E'].forEach((c, i) => {
     ctx.beginPath();
     ctx.ellipse(W / 2, 760, 820 - i * 70, 130 - i * 22, 0, 0, Math.PI * 2);
@@ -106,6 +115,7 @@ export function fondoPatio(): void {
   });
   tree(70, 470, 1, 'verano');
   tree(1540, 450, 0.9, 'primavera');
+  veloHora();
 }
 
 // sePuede(a): ¿se puede jugar ya la actividad a? Si tiene escena y la escena existe (las carreras son en 3D: sin WebGL,

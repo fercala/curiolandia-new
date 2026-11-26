@@ -27,6 +27,7 @@ import {
   VIVO,
   W,
   card,
+  star,
   ctx,
   cv,
   dist,
@@ -48,6 +49,8 @@ import {
 } from '../nucleo/indice.ts';
 // ahora(): la fecha y la hora (puerto de aplicacion/puertos.ts, desde la fase 3g; antes new Date()).
 import { ahora } from './puertos.ts';
+import { dibujaToques, estela, ondaToque, sacudida } from '../nucleo/toques.ts';
+import { ponPulsado } from '../nucleo/puntero.ts';
 // R3frame: el dibujo de cada cuadro de la capa 3D (null sin WebGL). Desde la fase 4p se importa: la capa 3D se carga
 // antes que la aplicación (antes era al revés y R3frame se usaba como global tardía).
 import { R3frame } from '../mundo3d/mundo3d.ts';
@@ -82,6 +85,7 @@ cv.addEventListener('pointerdown', (e) => {
   VIVO.MX = x;
   VIVO.MY = y;
   VIVO.mouseOn = e.pointerType === 'mouse';
+  ponPulsado(true); // el botón que hay debajo se hunde mientras se aprieta (nucleo/puntero.ts)
   if (isPortrait() && !portraitOk) {
     portraitOk = true;
     return;
@@ -93,6 +97,7 @@ cv.addEventListener('pointerdown', (e) => {
     return;
   } // solo el candado dibujado (drawLock): antes, un rectángulo más grande tapaba el centro del botón de saltar el cuento
   if (VIVO.fade > 0.6 || !scene) return;
+  ondaToque(x, y); // la onda donde se ha tocado (mejora gráfica 8 de docs/MEJORAS-GRAFICAS.md)
   try {
     scene.down && scene.down(x, y);
   } catch (err) {
@@ -100,12 +105,14 @@ cv.addEventListener('pointerdown', (e) => {
   }
 });
 // Mover: actualiza MX/MY y llama a scene.move(x,y) (arrastrar). Con ratón, moverse cuenta como "algo de actividad".
+// Mientras se arrastra algo (VIVO.drag), deja una estela de estrellitas.
 cv.addEventListener('pointermove', (e) => {
   const [x, y] = toLogical(e);
   VIVO.MX = x;
   VIVO.MY = y;
   VIVO.mouseOn = e.pointerType === 'mouse';
   if (e.pointerType === 'mouse') VIVO.idle = Math.min(VIVO.idle, 4);
+  if (VIVO.drag) estela(x, y); // la estela de estrellitas al arrastrar (nucleo/toques.ts)
   if (scene && scene.move)
     try {
       scene.move(x, y);
@@ -117,9 +124,10 @@ cv.addEventListener('pointermove', (e) => {
 cv.addEventListener('pointerleave', () => {
   VIVO.mouseOn = false;
 });
-// upH(evento): soltar (o cancelar): suelta el candado y llama a scene.up(x,y).
+// upH(evento): soltar (o cancelar): suelta el candado, deja de hundir el botón (ponPulsado) y llama a scene.up(x,y).
 const upH = (e: PointerEvent) => {
   VIVO.lockDown = false;
+  ponPulsado(false);
   if (!scene) return;
   const [x, y] = toLogical(e);
   if (e.pointerType !== 'mouse') VIVO.mouseOn = false;
@@ -196,7 +204,8 @@ function hoverTick(dt: number) {
   }
 }
 // dibujaIris(f): la transición en iris: f va de 1 (recién cambiada la escena: todo tapado) a 0 (ya se ve entera). Tapa
-// la pantalla de color papel menos un círculo en el centro que crece (con un borde marrón), y se desvanece al final.
+// la pantalla de color papel menos un círculo en el centro que crece (con un borde marrón y, desde la v0.2.183, estrellitas
+// que giran en el borde), y se desvanece al final.
 function dibujaIris(f: number): void {
   const r = (1 - f) * Math.hypot(W, H) * 0.55;
   ctx.save();
@@ -211,14 +220,34 @@ function dibujaIris(f: number): void {
   ctx.lineWidth = 10;
   ctx.strokeStyle = '#7A5230';
   ctx.stroke();
+  // estrellitas de colores que giran en el borde del círculo (mejora gráfica 20 de docs/MEJORAS-GRAFICAS.md)
+  if (r > 20)
+    IRIS_COLORES.forEach((c, i) => {
+      const a = (i / IRIS_COLORES.length) * Math.PI * 2 + f * 5;
+      star(W / 2 + Math.cos(a) * r, H / 2 + Math.sin(a) * r, 22 + 8 * Math.sin(f * 9 + i), c, 4);
+    });
   ctx.restore();
 }
+// IRIS_COLORES: los colores de las estrellitas del borde del iris (dos vueltas de colores).
+const IRIS_COLORES = [
+  '#FFD66B',
+  '#FF8A7A',
+  '#7FD3F0',
+  '#7CC86E',
+  '#B9A6F0',
+  '#FFA94D',
+  '#FFD66B',
+  '#FF8A7A',
+  '#7FD3F0',
+  '#7CC86E',
+];
 /* frame(now): EL BUCLE DEL JUEGO. Se ejecuta en cada cuadro de pantalla (requestAnimationFrame; lo arranca aplicacion/arranque.ts).
    Pasos: 1) calcula rdt (tiempo real, máx. 1 s) y dt (máx. 0,05 s para que una pausa no dé un salto) y avanza T, idle (solo mientras Tito calla) y el velo fade;
    2) ejecuta los temporizadores de later() que vencen (solo si siguen en su escena) y, si venció alguno, los quita de la lista; 3) candado: 3 s reales pulsado abre la
    zona de adultos; 4) cuenta el tiempo jugado (S.days cada 15 s, límite S.limit -> escena 'dormir');
    5) música y scene.update(dt); 6) fondo: si la escena es 3D (scene.three), mundo3d/mundo3d.ts la pinta con R3frame(dt);
-   7) dibuja la escena 2D encima, ayudas, partículas, aviso de pegatina y monedas, y el candado, recortado a 1600x900;
+   7) dibuja la escena 2D encima (movida a los lados si tiembla por un fallo), ayudas, partículas, las ondas de los toques
+   (nucleo/toques.ts), aviso de pegatina y monedas, y el candado, recortado a 1600x900;
    8) transición (el iris, dibujaIris); 9) rellena las bandas laterales en pantallas alargadas; 10) aviso de girar el móvil.
    Cada paso va en try/catch: un fallo de una escena se ve en la consola pero no para el juego. */
 export function frame(now: number) {
@@ -297,10 +326,19 @@ export function frame(now: number) {
   ctx.clip();
   // hovNow se vacía y lo vuelven a rellenar las llamadas a hv() mientras se dibuja la escena.
   VIVO.hovNow = null;
+  // el temblor suave de un fallo (nucleo/toques.ts): mueve la escena unos píxeles a los lados, sin las monedas ni avisos
+  const sh = sacudida();
   try {
-    scene!.draw();
+    ctx.save();
+    if (sh) ctx.translate(sh, 0);
+    try {
+      scene!.draw();
+    } finally {
+      ctx.restore();
+    }
     drawHelp();
     drawParts(dt);
+    dibujaToques();
     drawToast();
     drawCoinFx();
   } catch (e) {

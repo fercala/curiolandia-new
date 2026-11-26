@@ -158,6 +158,7 @@ import {
   xmasNow,
 } from './objetos.ts';
 import { fotoEnMundo } from './camara3d.ts';
+import { farolas3, resplandores3 } from './lucesNoche.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, tocarBotonCamara } from '../escenas/fotos.ts';
 import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 
@@ -621,6 +622,22 @@ function zoneDecor(w: Mundo, z: string) {
     }); /* desde la fase I2, delante a la derecha: detrás estaba la primera fila de casitas */
   }
 }
+// lucesZona(w, pts): de noche (mejora gráfica 16 de docs/MEJORAS-GRAFICAS.md), las luces del camino de casitas: una
+// farola encendida entre cada dos casitas seguidas de la misma fila (no en el salto de una fila a otra), un poco por
+// delante del camino (Tito las esquiva), y el resplandor
+// de las ventanas encendidas en cada casita. Usa las piezas de las luces del mapa (mundo3d/lucesNoche.ts).
+function lucesZona(w: Mundo, pts: readonly PuntoSuelo[]): void {
+  const d = (i: number): number => Math.hypot(pts[i + 1]![0] - pts[i]![0], pts[i + 1]![1] - pts[i]![1]),
+    corto = Math.min(...pts.slice(1).map((_, i) => d(i))),
+    fs: PuntoSuelo[] = pts
+      .slice(1)
+      .map((p, i): [PuntoSuelo, number] => [[(p[0] + pts[i]![0]) / 2, (p[1] + pts[i]![1]) / 2 + 1.6], i])
+      .filter(([, i]) => d(i) < corto * 1.5)
+      .map(([p]) => p);
+  farolas3(w, fs, true);
+  w.avoid = (w.avoid || []).concat(fs.map(([x, z]) => [x, z, 0.5]));
+  resplandores3(w, pts);
+}
 // buildZone(z,st): construye el mundo 3D de la zona z (camino de casitas). st es la escena de la zona (titoAt, cur = tema siguiente,
 // hov, hop, unl, lockShake). Pone suelo, decoración, cielo según la hora (luna con gorro, sol con accesorios según el mes),
 // carteles de estación, camino (en amarillo lo ya recorrido), casitas, flecha al tema siguiente, Tito y la animación por cuadro.
@@ -933,6 +950,7 @@ function buildZone(z: string, st: Escena) {
   w.avoid = (w.avoid || []).concat(
     Object.values(w.cas).map((g) => [g.position.x, g.position.z, (main ? 1 : 1.25) * 2.4]),
   );
+  if (skyNow().night) lucesZona(w, pts);
   const c = Z.temas.find((t) => t.concepts);
   if (c && !temaOpen(c)) {
     spr(flowerTex(FLC[0], Math.min(pathDone(z), 3) + '/3'), 2.3, 1.15, {

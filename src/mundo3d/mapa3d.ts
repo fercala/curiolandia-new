@@ -77,6 +77,7 @@ import {
   Sph,
   V3,
   canvasTex,
+  cartelTex,
   flowerTex,
   gradiente,
   grp,
@@ -84,14 +85,13 @@ import {
   mk,
   olGeo,
   picTex,
-  pillSpr,
-  pillTex,
   plane,
   prism,
   spr,
   starGeo,
 } from './materiales.ts';
 import { bez, bush3, fhit, fireflies, flower3, gull3, lock3, ribbon, ring3, rock3, tree3 } from './decorado.ts';
+import { destellosSol3, farolas3, reflejoLuna3, resplandores3 } from './lucesNoche.ts';
 import {
   busy3,
   call0,
@@ -164,6 +164,8 @@ const MAPPOS: Record<string, PuntoSuelo> = {
   muelle: [1225, 840],
   cole: [585, 600],
 };
+// FAROLAS: junto a qué caminos (los que van de la plaza a estos sitios) hay farola (mejora gráfica 6).
+const FAROLAS = ['jardin', 'bosque', 'montana', 'tienda', 'casaTito', 'cole', 'trazos'];
 // sea3(w,c): crea el mar (plano grande de color c) en w.sc, lo guarda en w.sea y añade a w.upd la animación de las olas.
 export function sea3(w: Mundo, c: string) {
   const g = new THREE.PlaneGeometry(220, 160, 70, 50);
@@ -325,7 +327,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
       mk(Box(0.28, 0.45, 0.06), '#C98A4B', { p: [0, 0.25, 0.46], to: h, ol: 0.02 });
     });
     for (let i = 0; i < 7; i++) flower3(g, -2.4 + i * 0.8, 1.75 + (i % 2) * 0.25, FLC[i % 7], 0.7, 0.2);
-    pillSpr('3 años', '#FF8A7A', '#fff', { p: [0, 2.9, 0], w: 3.2, to: g });
+    spr(cartelTex('3 años', '#FF8A7A', '#fff', '3'), 5.4, 1.35, { p: [0, 2.9, 0], to: g });
   },
   // bosque (4 años): árboles de varias estaciones y la pastilla «4 años»; cerrado: gris y con zzz
   bosque(g: THREE.Group, open: boolean) {
@@ -341,7 +343,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
         [2.3, -0.9, 0.7, null],
       ] as [number, number, number, string | null][]
     ).forEach(([x, z, s, k]) => tree3(g, x, z, s, open ? k || 'verano' : 'gris', !k));
-    spr(pillTex('4 años', open ? '#7CC86E' : '#B8B0A6', '#fff', 72), 4, 1, { p: [0, 0.65, 3.1], to: g });
+    spr(cartelTex('4 años', open ? '#7CC86E' : '#B8B0A6', '#fff', '4'), 5.8, 1.45, { p: [0, 0.65, 3.1], to: g });
     if (!open) zzz(g, [2, 3.2, 0]);
   },
   // montaña (5 años): dos picos nevados, flores si está abierta, piedras y la pastilla «5 años»
@@ -354,7 +356,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
     if (open) for (let i = 0; i < 5; i++) flower3(g, -2 + i * 1, 2 + (i % 2) * 0.3, FLC[i + 1], 0.75, 0);
     rock3(g, 2.8, 1.4, 0.8);
     rock3(g, -3, 1.2, 0.6);
-    pillSpr('5 años', open ? '#5B8DEF' : '#B8B0A6', '#fff', { p: [0, 0.6, 2.9], w: 3.2, to: g });
+    spr(cartelTex('5 años', open ? '#5B8DEF' : '#B8B0A6', '#fff', '5'), 5.4, 1.35, { p: [0, 0.6, 2.9], to: g });
     if (!open) zzz(g, [2.3, 4, 0]);
   },
   // canciones: carpa de rayas con bandera y notas musicales que suben
@@ -469,7 +471,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
   globo(g: THREE.Group) {
     const b = grp(g, [0, 0, 0]);
     globoAire3(b);
-    spr(pillTex('Isla del Inglés', '#E8554E', '#fff', 50), 5, 1.25, {
+    spr(cartelTex('Isla del Inglés', '#E8554E', '#fff', 'globoAire'), 5.6, 1.4, {
       p: [0, 5.8, 0.6],
       to: g,
     }); /* pegado a lo alto del globo: delante lo tapaba la montaña y más arriba parecía del globo que vuela en el cielo */
@@ -529,7 +531,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
     aw.rotation.x = 0.25;
     for (let i = 0; i < 6; i++)
       mk(Box(0.47, 0.12, 1.6), i % 2 ? '#fff' : '#FF6B5E', { p: [-1.18 + i * 0.47, 0, 0], to: aw, ol: 0.025 });
-    spr(pillTex('Tienda', '#7CC86E', '#fff', 80), 3.2, 0.8, { p: [0, 3.3, 0], to: g });
+    spr(cartelTex('Tienda', '#7CC86E', '#fff', 'tienda'), 5, 1.25, { p: [0, 3.3, 0], to: g });
     for (let i = 0; i < 5; i++)
       mk(Cyl(0.2, 0.2, 0.07, 16), '#FFC93C', {
         p: [-0.7 + (i % 3) * 0.3, 1.05 + Math.floor(i / 3) * 0.08, 0.4 + (i % 2) * 0.15],
@@ -582,7 +584,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
       { p: [0.55, 1.4, 0], to: b },
     );
     // el cartel, como el de la Casa de Tito, para que se vea adónde lleva (desde la v0.2.70)
-    spr(pillTex('Isla de las Letras', '#5B8DEF', '#fff', 50), 4.4, 1.1, { p: [0.4, 3.9, 0], to: g });
+    spr(cartelTex('Isla de las Letras', '#5B8DEF', '#fff', 'barco'), 6.2, 1.55, { p: [0.4, 3.9, 0], to: g });
     g.userData.anim = () => {
       b.position.y = -0.2 + Math.sin(T * 1.3) * 0.1;
       b.rotation.z = Math.sin(T * 1.1) * 0.06;
@@ -617,7 +619,7 @@ const SPOT3: Record<string, (g: THREE.Group, open: boolean) => void> = {
       [0.6, -0.46],
     ] as [number, number][])
       mk(Cyl(0.2, 0.2, 0.12, 12), '#4A4A4A', { p: [x, 0.2, z], r: [PI / 2, 0, 0], to: b, ol: 0.02 });
-    spr(pillTex('El cole', '#FFA94D', '#fff', 50), 3.4, 1.1, { p: [-0.3, 3.6, 0], to: g });
+    spr(cartelTex('El cole', '#FFA94D', '#fff', 'escuela'), 5, 1.25, { p: [-0.3, 3.6, 0], to: g });
     g.userData.anim = () => {
       b.position.y = 0.16 + Math.abs(Math.sin(T * 20)) * 0.02; // el motor en marcha
     };
@@ -773,14 +775,30 @@ function buildMap(st: Escena) {
       b.rotation.y = e < 0.8 ? q * PI * 2 : 0;
     });
   }
-  // caminos desde la plaza
-  const P = MP(...MAPPOS.plaza);
+  // caminos desde la plaza; desde la mejora gráfica 6 de docs/MEJORAS-GRAFICAS.md, con una farola junto a uno de cada
+  // dos caminos (a un lado, pasada la mitad del camino), que de noche se enciende (mundo3d/lucesNoche.ts)
+  const P = MP(...MAPPOS.plaza),
+    puntosFarola: PuntoSuelo[] = [];
   for (const id in MAPPOS) {
     if (id === 'plaza') continue;
     const Q = MP(...MAPPOS[id]),
-      c: PuntoSuelo = [(P[0] + Q[0]) / 2 + (Q[1] - P[1]) * 0.12, (P[1] + Q[1]) / 2 - (Q[0] - P[0]) * 0.08];
-    ribbon(w.sc, bez(P, c, Q, 30), 0.9, '#FFF3D6', 0.03, { dash: 3 });
+      c: PuntoSuelo = [(P[0] + Q[0]) / 2 + (Q[1] - P[1]) * 0.12, (P[1] + Q[1]) / 2 - (Q[0] - P[0]) * 0.08],
+      pts = bez(P, c, Q, 30);
+    ribbon(w.sc, pts, 0.9, '#FFF3D6', 0.03, { dash: 3 });
+    if (FAROLAS.includes(id)) {
+      const [a, b] = [pts[15]!, pts[16]!],
+        l = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+      puntosFarola.push([a[0] - ((b[1] - a[1]) / l) * 0.95, a[1] + ((b[0] - a[0]) / l) * 0.95]);
+    }
   }
+  farolas3(w, puntosFarola, !!sk.night);
+  if (sk.night) {
+    resplandores3(
+      w,
+      (['casaTito', 'tienda', 'cole', 'fiestas', 'rutinas'] as const).map((id) => MP(...MAPPOS[id]!)),
+    );
+    reflejoLuna3(w, -15, -12.6);
+  } else destellosSol3(w, -22, -14, 12, 3); // de día, el sol brilla en el mar (mejora gráfica 17)
   // decoración: árboles, arbustos, flores, piedras en lugares libres (desde la fase L2, sin el árbol de [14, 8.5], que
   // tapaba el barco del muelle)
   (

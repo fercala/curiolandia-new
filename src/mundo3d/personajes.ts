@@ -50,7 +50,7 @@ import {
   mg,
   mk,
   picTex,
-  pillTex,
+  cartelTex,
   plane,
   prism,
   rbox,
@@ -856,7 +856,7 @@ export function makeHouse(lvl: number) {
     spr(picTex('perro'), 0.75, 0.75, { p: [3.2, 0.45, 1.8], to: g });
   }
   if (own('banco')) spr(picTex('banco'), 1.1, 1.1, { p: [-1.5, 0.55, 2.2], to: g });
-  spr(pillTex('Casa de Tito', '#FFA94D', '#fff', 72), 3.4, 0.85, { p: [0, 0.55, 2.5], to: g });
+  spr(cartelTex('Casa de Tito', '#FFA94D', '#fff', 'casa'), 5.4, 1.35, { p: [0, 0.55, 2.5], to: g });
   const hit = new THREE.Mesh(Box(5, 5, 4), new THREE.MeshBasicMaterial({ visible: false }));
   hit.position.y = 2.2;
   g.add(hit);

@@ -2620,7 +2620,7 @@ e27cab0bb05c,"¡El huevo se abrió! ¡Nació Pipo, un dinosaurio bebé!","Oul s-
 7ffa5443482f,¡Pipo salió del cascarón y ya camina!,Pipo a ieșit din găoace și deja merge!,frase,src/escenas/zonas.ts,borrador
 9f6308686375,¡Pipo está creciendo un montón!,Pipo crește foarte mult!,frase,src/escenas/zonas.ts,borrador
 a8d752e847f8,¡Pipo es un dinosaurio grandote! ¡Y tiene corona!,Pipo e un dinozaur mare de tot! Și are coroană!,frase,src/escenas/zonas.ts,borrador
-8167cdb73129,Casa de Tito,Casa lui Tito,trozo,src/escenas/zonas.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/progreso.ts,borrador
+8167cdb73129,Casa de Tito,Casa lui Tito,trozo,src/escenas/zonas.ts src/mundo3d/personajes.ts src/aplicacion/adultos/copia.ts,borrador
 cfb13950107d,la plaza de la asamblea,piața întâlnirii,trozo,src/escenas/zonas.ts,borrador
 d8f5db14848e,las canciones,cântecele,trozo,src/escenas/zonas.ts,borrador
 02449fab297d,los trazos,liniile,trozo,src/escenas/zonas.ts,borrador
@@ -2630,11 +2630,11 @@ bf5fd63a874f,el globo de la Isla del Inglés,balonul Insulei Englezei,trozo,src/
 47ff295173a9,la casa de Tito,casa lui Tito,trozo,src/escenas/zonas.ts,borrador
 538329857e0b,el barco de la Isla de las Letras,barca Insulei Literelor,trozo,src/escenas/zonas.ts,borrador
 f2ffb5dd6528,¡Terminaste todos los caminos{nino}! Puedes repetir lo que más te guste.,Ai terminat toate drumurile{nino}! Poți repeta ce îți place cel mai mult.,frase,src/escenas/zonas.ts,borrador
-ba425b157dcd,Isla de las Letras,Insula Literelor,trozo,src/escenas/zonas.ts src/aplicacion/adultos/comoSeJuega.ts,borrador
-969e43db941b,El cole,Grădinița,trozo,src/escenas/zonas.ts,borrador
-a623a5ae7a4d,Isla del Inglés,Insula Englezei,trozo,src/escenas/zonas.ts,borrador
+ba425b157dcd,Isla de las Letras,Insula Literelor,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts src/aplicacion/adultos/comoSeJuega.ts,borrador
+969e43db941b,El cole,Grădinița,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
+a623a5ae7a4d,Isla del Inglés,Insula Englezei,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
 df09140b08d5,3 años,3 ani,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
-5d400baad9f7,4 años,4 ani,trozo,src/escenas/zonas.ts,borrador
+5d400baad9f7,4 años,4 ani,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
 dcf5a6f7e26e,5 años,5 ani,trozo,src/escenas/zonas.ts src/mundo3d/mapa3d.ts,borrador
 036a58dcb9fa,¡Mira{nino}! ¡Se despertó {zona}! Ahora puedes jugar ahí también.,Uite{nino}! S-a trezit {zona}! Acum te poți juca și acolo.,frase,src/escenas/zonas.ts,borrador
 d00ab6651ad0,¡Mira{nino}! ¡Se abrieron {zona}! Toca para jugar.,Uite{nino}! S-au deschis {zona}! Atinge ca să te joci.,frase,src/escenas/zonas.ts,borrador
@@ -3099,6 +3099,7 @@ c958e8f13e00,AEIOU,,trozo,src/mundo3d/isla3d.ts,falta
 0346395fbbe7,MPL,,trozo,src/mundo3d/isla3d.ts,falta
 8510453fad10, años,ani,trozo,src/mundo3d/isla3d.ts src/mundo3d/islaIngles3d.ts,borrador
 0cc175b9c0f1,a,,trozo,src/mundo3d/mapa3d.ts,falta
+2e81eb4e952a,Tienda,Magazin,trozo,src/mundo3d/mapa3d.ts src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts,borrador
 6aaa0c8b5072,"attribute vec3 onorm;uniform float w;void main(){gl_Position=projectionMatrix*modelViewMatrix*vec4(position+onorm*w,1.0);}",,trozo,src/mundo3d/materiales.ts,falta
 789c2551d09e,"void main(){gl_FragColor=vec4(0.29,0.204,0.157,1.0);}",,trozo,src/mundo3d/materiales.ts,falta
 84857e20ec55,"Contento. Cuando algo nos gusta mucho, sentimos alegría y sonreímos.","Vesel. Când ceva ne place mult, simțim bucurie și zâmbim.",frase,src/mundo3d/objetos.ts src/temas/temas4.ts,borrador
@@ -4628,7 +4629,6 @@ dda9223f789e,♻️ Recuperar con este código,♻️ Recuperează cu acest cod,
 71277ab82cf8,Bosque de 4 años,Pădurea de 4 ani,adultos,src/aplicacion/adultos/copia.ts,borrador
 4f46278d7973,Montaña de 5 años,Muntele de 5 ani,adultos,src/aplicacion/adultos/copia.ts,borrador
 b2df064e0bf5,Días especiales,Zile speciale,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/progreso.ts,borrador
-2e81eb4e952a,Tienda,Magazin,adultos,src/aplicacion/adultos/copia.ts src/aplicacion/adultos/resumen.ts,borrador
 9f68e81d9178,Ver el cuento del inicio,Vezi povestea de la început,adultos,src/aplicacion/adultos/copia.ts,borrador
 3b8d9cd05c98,Ir al tema,Mergi la temă,adultos,src/aplicacion/adultos/copia.ts,borrador
 30ec2963474c,Empezar de cero,Începe de la zero,adultos,src/aplicacion/adultos/copia.ts,borrador

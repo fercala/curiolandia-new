@@ -164,7 +164,17 @@ export function syn(o: OpcionesSyn): void {
   os.start(t);
   os.stop(t + d + 0.05);
 }
-// SFX: efectos cortos de la interfaz. Uso: SFX.good(). tap toque; hov ratón encima; pop; good acierto; bad fallo; whoosh;
+// respuestaVisual: lo que se ve al acertar (bien) y al fallar (mal), desde la mejora gráfica 8 de
+// docs/MEJORAS-GRAFICAS.md: lo pone nucleo/toques.ts con ponRespuestaVisual (estrellitas y el saltito de Tito; el
+// temblor suave). Así cada juego que suena SFX.good o SFX.bad tiene también su respuesta en la pantalla.
+const respuestaVisual = { bien: () => {}, mal: () => {} };
+// ponRespuestaVisual(bien, mal): pone lo que se ve al sonar SFX.good (bien) y SFX.bad (mal).
+export function ponRespuestaVisual(bien: () => void, mal: () => void): void {
+  respuestaVisual.bien = bien;
+  respuestaVisual.mal = mal;
+}
+// SFX: efectos cortos de la interfaz. Uso: SFX.good(). tap toque; hov ratón encima; pop; good acierto (y su respuesta
+// visual); bad fallo (y su temblor); whoosh;
 // tada premio; sparkle brillo; munch comer; boing; drip gota; dig cavar; snap encajar; grow crecer; splash agua;
 // count(n) nota que sube con cada número al contar.
 export const SFX = {
@@ -174,8 +184,12 @@ export const SFX = {
     tone(900, 0.09, 'sine', 0.5, 0.4);
     noise(0.06, 0.2, 3000);
   },
-  good: () => [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.22, 'triangle', 0.35, 0, i * 0.08)),
+  good: () => {
+    respuestaVisual.bien();
+    [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.22, 'triangle', 0.35, 0, i * 0.08));
+  },
   bad: () => {
+    respuestaVisual.mal();
     tone(300, 0.25, 'sine', 0.3, 0.6);
     tone(240, 0.3, 'triangle', 0.18, 0.7, 0.08);
   },

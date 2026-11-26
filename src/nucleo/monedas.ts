@@ -10,7 +10,7 @@
 //   (S, save), escenas.ts (sceneName, sceneTok), imagenes.ts (pic), dibujo.ts (card, text), puntero.ts (hv, hR) y
 //   sonido.ts (tone); K de los dibujos y ganar y gastar de dominio/monedas.ts.
 import { K } from '../dibujos/todos.ts';
-import { card, text } from './dibujo.ts';
+import { card, star, text } from './dibujo.ts';
 import { sceneName, sceneTok } from './escenas.ts';
 import { S, save } from './guardado.ts';
 import { pic } from './imagenes.ts';
@@ -71,16 +71,32 @@ export function drawCoinHUD() {
   hudAt();
   const b = 1 + 0.3 * Math.max(0, 1 - (T - coinBumpT) * 4),
     s = hv('coins', hR(HUDX + 10, HUDY, 220, 84));
+  // desde la mejora gráfica 13 de docs/MEJORAS-GRAFICAS.md: al llegar monedas, un resplandor dorado detrás del marcador
+  // y el número que salta; y, de vez en cuando, la moneda brilla con una estrellita
+  const k = Math.max(0, 1 - (T - coinBumpT) * 2.5);
   ctx.save();
   ctx.translate(HUDX, HUDY);
   ctx.scale(s, s);
+  if (k > 0) {
+    const g = ctx.createRadialGradient(10, 0, 40, 10, 0, 170);
+    g.addColorStop(0, `rgba(255,214,90,${(0.6 * k).toFixed(3)})`);
+    g.addColorStop(1, 'rgba(255,214,90,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(-160, -170, 340, 340);
+  }
   card(-96, -38, 216, 76, '#FFF6D6', 6, 38);
   ctx.save();
   ctx.translate(-50, 0);
   ctx.scale(b, b);
   pic('moneda', 0, 0, 70);
+  const f = (T / 5) % 1;
+  if (f < 0.12) star(16, -16, 9 * Math.sin((f / 0.12) * Math.PI), '#FFFFFF', 0);
   ctx.restore();
-  text(String(Math.max(0, Math.round(shownCoins))), 40, 16, 44, K, { f: LF });
+  ctx.save();
+  ctx.translate(40, 0);
+  ctx.scale(1 + 0.25 * k, 1 + 0.25 * k);
+  text(String(Math.max(0, Math.round(shownCoins))), 0, 16 - 10 * Math.sin(k * Math.PI), 44, K, { f: LF });
+  ctx.restore();
   ctx.restore();
 }
 // ¿El toque (x,y) está sobre el marcador de monedas?

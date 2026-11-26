@@ -45,6 +45,7 @@ import {
   text,
   fmt,
 } from '../nucleo/indice.ts';
+import { textura } from '../nucleo/texturas.ts';
 import { NUM } from '../juegos/indice.ts';
 import { fondoGranja, volverDeEstacion } from './excursion.ts';
 import { dibujaCuerpo } from './granjaAnimales.ts';
@@ -544,6 +545,7 @@ SCENES['granjaHuerto'] = {
   draw() {
     fondoGranja();
     card(180, 500, 1240, 200, '#8A6440', 0, 30);
+    textura('tierra', 200, 510, 1200, 180); // la tierra con terrones (mejora gráfica 9 de docs/MEJORAS-GRAFICAS.md)
     pic('sol', 1120, 130, huerto.fase === 2 ? 200 + Math.sin(T * 6) * 20 : 150);
     huerto.hoyos.forEach(dibujaHoyo);
     dibujaCestaHuerto();
