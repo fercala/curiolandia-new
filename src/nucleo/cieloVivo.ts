@@ -8,7 +8,8 @@
  *   - estrellaFugaz: de noche, una estrella fugaz con su estela cada pocos segundos;
  *   - sombrasNubes: de día, las sombras de las nubes que pasan despacio por el suelo.
  * Todo va con T (el reloj del juego) y fórmulas fijas, sin azar: así no cambia ninguna secuencia de azar de los juegos.
- * Exporta: rayosSol, arcoiris, globoAerostatico, estrellaFugaz y sombrasNubes.
+ *   - desde las mejoras 41 y 42 (v0.2.186), avion (un avión con su estela) y bandada (pájaros en V).
+ * Exporta: rayosSol, arcoiris, globoAerostatico, estrellaFugaz, sombrasNubes, avion y bandada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
    1600x900: posiciones, tamaños, colores y tiempos, y bucles que dibujan rayos y bandas. */
@@ -148,6 +149,66 @@ export function sombrasNubes(alto: number): void {
     ctx.translate(-x, -y);
     ctx.fillRect(x - 260, y - 260, 520, 520);
     ctx.restore();
+  }
+  ctx.restore();
+}
+
+// avion(alto): de día, una vez cada 75 segundos, un avioncito blanco que cruza alto el cielo de derecha a izquierda en
+// 25 s, dejando una estela blanca que se deshace detrás.
+export function avion(alto: number): void {
+  const t = (T + 50) % 75;
+  if (t > 25) return;
+  const x = W + 60 - (t / 25) * (W + 400),
+    y = Math.max(40, Math.min(70, alto - 200)),
+    g = ctx.createLinearGradient(x, y, x + 320, y);
+  g.addColorStop(0, 'rgba(255,255,255,0.8)');
+  g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.save();
+  ctx.strokeStyle = g;
+  ctx.lineWidth = 5;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(x + 18, y);
+  ctx.lineTo(x + 340, y + 6);
+  ctx.stroke();
+  ctx.fillStyle = '#FFFFFF';
+  ctx.strokeStyle = '#8A97A8';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.ellipse(x, y, 20, 5, 0, 0, PI * 2);
+  ctx.moveTo(x - 2, y);
+  ctx.lineTo(x + 8, y - 12);
+  ctx.lineTo(x + 12, y);
+  ctx.moveTo(x + 14, y);
+  ctx.lineTo(x + 20, y - 9);
+  ctx.lineTo(x + 22, y);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+}
+
+// bandada(alto): de día, una vez cada 60 segundos, una bandada de siete pájaros en forma de V que cruza el cielo de
+// izquierda a derecha en 30 s, aleteando cada uno a su ritmo, por encima del horizonte (alto).
+export function bandada(alto: number): void {
+  const t = (T + 15) % 60;
+  if (t > 30) return;
+  const x0 = -200 + (t / 30) * (W + 400),
+    y0 = Math.max(60, Math.min(120, alto - 160)) + Math.sin(T * 0.5) * 8;
+  ctx.save();
+  ctx.strokeStyle = '#4A3428';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  for (let i = 0; i < 7; i++) {
+    const fila = Math.ceil(i / 2),
+      lado = i % 2 ? -1 : 1,
+      x = x0 - fila * 34,
+      y = y0 + lado * fila * 20,
+      ala = Math.sin(T * 8 + i * 1.3) * 6;
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y - ala);
+    ctx.quadraticCurveTo(x - 4, y - 4, x, y);
+    ctx.quadraticCurveTo(x + 4, y - 4, x + 10, y - ala);
+    ctx.stroke();
   }
   ctx.restore();
 }

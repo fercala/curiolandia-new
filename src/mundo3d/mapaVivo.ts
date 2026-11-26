@@ -10,14 +10,20 @@
  * (La mejora 39, las islas de noche con luces, usa farolas3 y resplandores3 de mundo3d/lucesNoche.ts desde
  * mundo3d/islaAdornos.ts.)
  * Como las luces de lucesNoche.ts, son planos y sprites baratos (sin luces de three.js) que no se pueden tocar.
- * Exporta: espumaOrilla3, sombrasNubes3, chispasSuben3 y huellas3.
+ * Desde la v0.2.186 (mejoras 55 a 60): delfines3 (delfines que saltan en el mar), ballena3 (una ballena a lo lejos que
+ * echa agua), velero3 (un velero que navega alrededor de la isla, con su farol de noche), pajaros3 (pájaros que cruzan
+ * el cielo de las zonas), nubecitas de polvo en las huellas de Tito (huellas3) y mariposasIsla3 (mariposas en las
+ * islas, que no se pueden tocar para no quitarle el toque a las zonas).
+ * Exporta: espumaOrilla3, sombrasNubes3, chispasSuben3, huellas3, delfines3, ballena3, velero3, pajaros3 y
+ * mariposasIsla3.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- posiciones, tamaños, colores y
    tiempos de las piezas 3D, y bucles que las reparten. */
 import * as THREE from 'three';
 import type { Mundo, PuntoSuelo } from './tipos.ts';
 import { T } from '../nucleo/indice.ts';
-import { ribbon, softTex } from './decorado.ts';
+import { butterfly3, ribbon, softTex } from './decorado.ts';
+import { Box, Cone, Cyl, Sph, grp, mk } from './materiales.ts';
 
 // sinToque(o): o ya no se puede tocar (para que no le quite el toque a lo que está debajo).
 function sinToque<O extends THREE.Object3D>(o: O): O {
@@ -129,7 +135,7 @@ export function chispasSuben3(w: Mundo, x: number, z: number, r: number): void {
 
 // huellas3(w): Tito (w.tito) deja huellas al pasear: cada 0,55 de camino, una huella pequeña y oscura en el suelo, a un
 // lado y a otro por turnos, que se borra en 3 segundos (como mucho 14 a la vez, que se reutilizan). Va a la altura del
-// suelo donde estaba Tito al montar el mundo.
+// suelo donde estaba Tito al montar el mundo. Desde la mejora gráfica 59, cada paso levanta una nubecita de polvo.
 export function huellas3(w: Mundo): void {
   if (!w.tito) return;
   const t = w.tito,
@@ -156,6 +162,18 @@ export function huellas3(w: Mundo): void {
     w.sc.add(m);
     hs.push({ m, t: -9 });
   }
+  // las nubecitas de polvo que levanta cada paso (mejora gráfica 59): sprites blancos que crecen y se desvanecen
+  const ps: { s: THREE.Sprite; t: number }[] = [];
+  for (let i = 0; i < 6; i++) {
+    const sp = sinToque(
+      new THREE.Sprite(
+        new THREE.SpriteMaterial({ map: softTex(), color: '#FFF6E6', transparent: true, depthWrite: false }),
+      ),
+    );
+    sp.visible = false;
+    w.sc.add(sp);
+    ps.push({ s: sp, t: -9 });
+  }
   let ux = t.position.x,
     uz = t.position.z,
     n = 0;
@@ -173,6 +191,10 @@ export function huellas3(w: Mundo): void {
       h.m.rotation.y = Math.atan2(dx, dz);
       h.m.visible = true;
       h.t = T;
+      const p = ps[n % ps.length]!;
+      p.s.position.set(t.position.x, y + 0.15, t.position.z);
+      p.s.visible = true;
+      p.t = T;
       n++;
       ux = t.position.x;
       uz = t.position.z;
@@ -182,5 +204,147 @@ export function huellas3(w: Mundo): void {
       (h.m.material as THREE.MeshBasicMaterial).opacity = k < 1 ? 0.3 * (1 - k) : 0;
       if (k >= 1) h.m.visible = false;
     });
+    ps.forEach((p) => {
+      const k = (T - p.t) / 0.6;
+      p.s.scale.setScalar(0.25 + Math.min(1, k) * 0.45);
+      p.s.material.opacity = k < 1 ? 0.6 * (1 - k) : 0;
+      if (k >= 1) p.s.visible = false;
+    });
   });
+}
+
+// sinToqueTodo(o): quita el toque a una pieza y a todo lo que lleva dentro.
+function sinToqueTodo(o: THREE.Object3D): void {
+  o.traverse((h) => {
+    h.raycast = () => {};
+  });
+}
+
+// delfines3(w, sitios): un delfín en cada sitio del mar (x, z): cada 9 segundos (cada uno a destiempo) salta del agua
+// en un arco de 2 segundos, girando el cuerpo como el arco, y vuelve a meterse; el resto del tiempo está escondido.
+export function delfines3(w: Mundo, sitios: readonly PuntoSuelo[]): void {
+  sitios.forEach(([x, z], i) => {
+    const g = grp(w.sc, [x, -3, z]);
+    mk(Sph(0.35, 14, 10), '#7FA8C9', { s: [1, 0.8, 2.6], ol: 0.03, cs: false, to: g });
+    mk(Cone(0.18, 0.45, 8), '#7FA8C9', { p: [0, 0.35, 0.05], r: [-0.4, 0, 0], ol: 0.03, cs: false, to: g });
+    mk(Box(0.7, 0.06, 0.25), '#7FA8C9', { p: [0, 0, -0.95], ol: 0.03, cs: false, to: g });
+    sinToqueTodo(g);
+    w.upd.push(() => {
+      const t = (T + i * 4.5) % 9;
+      if (t > 2) {
+        g.visible = false;
+        return;
+      }
+      const k = t / 2;
+      g.visible = true;
+      g.position.set(x, -1.4 + Math.sin(k * Math.PI) * 1.8, z + (k - 0.5) * 3);
+      g.rotation.x = (k - 0.5) * 1.8;
+    });
+  });
+}
+
+// ballena3(w, x, z): una ballena azul a lo lejos en el mar, en (x, z): el lomo que asoma y se mece con las olas y, cada
+// 7 segundos, un chorro de agua (unas gotas blancas que suben y caen) que sale de su espiráculo.
+export function ballena3(w: Mundo, x: number, z: number): void {
+  const g = grp(w.sc, [x, -1.15, z]);
+  mk(Sph(1, 18, 12), '#4F6E9E', { s: [2.6, 0.7, 1.2], ol: 0.04, cs: false, to: g });
+  mk(Box(1.2, 0.08, 0.5), '#4F6E9E', { p: [-2.6, 0.25, 0], r: [0, 0, 0.5], ol: 0.03, cs: false, to: g });
+  sinToqueTodo(g);
+  const gotas: THREE.Sprite[] = [];
+  for (let i = 0; i < 8; i++) {
+    const s = sinToque(
+      new THREE.Sprite(
+        new THREE.SpriteMaterial({ map: softTex(), color: '#FFFFFF', transparent: true, depthWrite: false }),
+      ),
+    );
+    s.scale.setScalar(0.5);
+    g.add(s);
+    gotas.push(s);
+  }
+  w.upd.push(() => {
+    g.position.y = -1.15 + Math.sin(T * 0.8) * 0.12;
+    g.rotation.z = Math.sin(T * 0.5) * 0.04;
+    const t = T % 7;
+    gotas.forEach((s, i) => {
+      const k = (t - i * 0.06) / 1.4,
+        a = (i / 8) * Math.PI * 2;
+      s.visible = k > 0 && k < 1;
+      if (!s.visible) return;
+      s.position.set(1.2 + Math.cos(a) * k * 0.6, 0.7 + Math.sin(k * Math.PI) * 2.2, Math.sin(a) * k * 0.6);
+      s.material.opacity = 0.9 * (1 - k);
+    });
+  });
+}
+
+// velero3(w, R, Rz, noche): un velero de vela blanca y casco rojo que navega despacio alrededor de la isla, en una
+// elipse de radios R por Rz, meciéndose con las olas; de noche lleva un farol encendido en lo alto del mástil.
+export function velero3(w: Mundo, R: number, Rz: number, noche: boolean): void {
+  const g = grp(w.sc, [R, -1, 0]);
+  mk(Box(0.6, 0.35, 1.6), '#E2574C', { p: [0, 0.1, 0], ol: 0.03, cs: false, to: g });
+  mk(Cyl(0.04, 0.04, 2, 6), '#8A5A3C', { p: [0, 1.2, 0], ol: 0.02, cs: false, to: g });
+  const vela = new THREE.Shape();
+  vela.moveTo(0, 0);
+  vela.lineTo(0, 1.7);
+  vela.lineTo(0.9, 0);
+  vela.closePath();
+  mk(new THREE.ShapeGeometry(vela), new THREE.MeshBasicMaterial({ color: '#FFFFFF', side: THREE.DoubleSide }), {
+    p: [0.02, 0.35, 0.1],
+    r: [0, -Math.PI / 2, 0],
+    ol: 0,
+    cs: false,
+    to: g,
+  });
+  if (noche) {
+    const f = sinToque(
+      new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: softTex(),
+          color: '#FFD27A',
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+      ),
+    );
+    f.position.set(0, 2.25, 0);
+    f.scale.setScalar(1.4);
+    g.add(f);
+  }
+  sinToqueTodo(g);
+  w.upd.push(() => {
+    const t = T * 0.03,
+      x = Math.cos(t) * R,
+      z = Math.sin(t) * Rz;
+    g.position.set(x, -1 + Math.sin(T * 1.3) * 0.08, z);
+    g.rotation.y = Math.atan2(-Math.sin(t) * R, Math.cos(t) * Rz) + Math.PI;
+    g.rotation.z = Math.sin(T * 1.1) * 0.06;
+  });
+}
+
+// pajaros3(w, h, z, ancho): tres pajaritos oscuros que cruzan el cielo de una zona en fila, de izquierda a derecha, a la
+// altura h y en el fondo z, aleteando; al salir por un lado vuelven a entrar por el otro (ancho: de cuánto es la vuelta).
+export function pajaros3(w: Mundo, h: number, z: number, ancho: number): void {
+  for (let i = 0; i < 3; i++) {
+    const g = grp(w.sc, [0, h, z]),
+      alas: THREE.Mesh[] = [-1, 1].map((sd) =>
+        mk(Box(0.55, 0.04, 0.18), '#4A3428', { p: [sd * 0.27, 0, 0], ol: 0, cs: false, to: g }),
+      );
+    sinToqueTodo(g);
+    w.upd.push(() => {
+      const x = ((T * 1.6 + i * 1.4) % ancho) - ancho / 2;
+      g.position.set(x, h + i * 0.5 + Math.sin(T + i) * 0.3, z + i * 0.8);
+      const a = Math.sin(T * 9 + i) * 0.5;
+      alas[0]!.rotation.z = a;
+      alas[1]!.rotation.z = -a;
+    });
+  }
+}
+
+// MARIPOSA_COLOR: los colores de las mariposas de las islas.
+const MARIPOSA_COLOR = ['#FF8A7A', '#FFD66B', '#B9A6F0'];
+
+// mariposasIsla3(w, sitios): una mariposa revoloteando alrededor de cada sitio de la isla (x, z), sin toque, para que no
+// le quite el toque a las zonas ni a Lupi o Polly.
+export function mariposasIsla3(w: Mundo, sitios: readonly PuntoSuelo[]): void {
+  sitios.forEach(([x, z], i) => sinToqueTodo(butterfly3(w, x, z, MARIPOSA_COLOR[i % MARIPOSA_COLOR.length]!, i * 1.7)));
 }

@@ -52,6 +52,7 @@ import {
 } from '../nucleo/indice.ts';
 import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
 import { textura } from '../nucleo/texturas.ts';
+import { floresHierba } from './fondosVivos.ts';
 
 import { botonExtra, tocaExtra } from './botonesExtras.ts';
 
@@ -102,6 +103,14 @@ function fondoCole(): void {
   ctx.clip();
   textura('arena', 60, 530, 1520, 340);
   ctx.restore();
+  floresHierba([
+    [40, 860],
+    [210, 880],
+    [1390, 880],
+    [1560, 860],
+    [330, 500],
+    [1280, 500],
+  ]); // flores que se mecen (mejora gráfica 44)
   tree(90, 560, 1.1, 'verano');
   tree(1520, 520, 1, 'primavera');
   veloHora();

@@ -10,13 +10,19 @@
  *   - motasSol: motas doradas que flotan en el rayo de sol que entra por la ventana de la casa.
  * Las llaman los fondos de escenas/excursion.ts y la luz de la casa (luzHabitacion, escenas/casa.ts). Todo va con T y
  * fórmulas fijas, sin azar.
- * Exporta: ventanasCiudad, orillaPlaya, rayosBosque, banderinesMercado, molinoGranja, nebulosas y motasSol.
+ * Desde la v0.2.186 (mejoras 44 a 52), también: floresHierba (flores que se mecen en el cole y el patio), estanqueZoo
+ * (brillos y ondas en el estanque del zoo), bancoPeces (un banco de pececitos en el acuario), reflejosVentanas (la luz
+ * que cruza las ventanas de la ciudad de día), cangrejoPlaya, cometaPlanetario, veletaGranja, ardillaBosque y vaporPan
+ * (el vapor del pan recién hecho del mercado).
+ * Exporta: ventanasCiudad, orillaPlaya, rayosBosque, banderinesMercado, molinoGranja, nebulosas, motasSol, floresHierba,
+ * estanqueZoo, bancoPeces, reflejosVentanas, cangrejoPlaya, cometaPlanetario, veletaGranja, ardillaBosque y vaporPan.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
    1600x900: posiciones, tamaños, colores y tiempos. */
 import { ctx, H, T, W } from '../nucleo/pantalla.ts';
 import { PI } from '../nucleo/utilidades.ts';
 import { K } from '../dibujos/todos.ts';
+import { pic } from '../nucleo/imagenes.ts';
 import { estrellaFugaz } from '../nucleo/cieloVivo.ts';
 
 // halo(x, y, r, c, a): un brillo redondo y suave de color c («r,g,b») y opacidad a en (x, y), de radio r.
@@ -222,5 +228,234 @@ export function motasSol(): void {
     ctx.arc(x, y, 2.5 + (i % 3), 0, PI * 2);
     ctx.fill();
   }
+  ctx.restore();
+}
+
+// COLORES_FLOR: los colores de los pétalos de las flores de la hierba, por turnos.
+const COLORES_FLOR = ['#FF8A7A', '#FFD66B', '#B9A6F0', '#FFFFFF', '#7FD3F0'];
+
+// floresHierba(sitios): una flor en cada sitio (x, y de la base del tallo): el tallo verde, cinco pétalos de color y el
+// centro amarillo; se mecen con el viento, cada una a destiempo.
+export function floresHierba(sitios: readonly (readonly [number, number])[]): void {
+  ctx.save();
+  sitios.forEach(([x, y], i) => {
+    const m = Math.sin(T * 1.6 + i * 1.1) * 0.18;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(m);
+    ctx.strokeStyle = '#5DA34E';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -34);
+    ctx.stroke();
+    ctx.fillStyle = COLORES_FLOR[i % COLORES_FLOR.length]!;
+    for (let p = 0; p < 5; p++) {
+      const a = (p / 5) * PI * 2;
+      ctx.beginPath();
+      ctx.arc(Math.cos(a) * 8, -34 + Math.sin(a) * 8, 6.5, 0, PI * 2);
+      ctx.fill();
+    }
+    ctx.fillStyle = '#FFC93C';
+    ctx.beginPath();
+    ctx.arc(0, -34, 5, 0, PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+  ctx.restore();
+}
+
+// estanqueZoo(): el agua del estanque del zoo (la elipse de abajo a la izquierda, centro 70, 820): dos ondas que se
+// abren y se desvanecen y unos destellos que se encienden y se apagan.
+export function estanqueZoo(): void {
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(70, 820, 147, 57, 0, 0, PI * 2);
+  ctx.clip();
+  [0, 0.5].forEach((f) => {
+    const k = (T * 0.4 + f) % 1;
+    ctx.strokeStyle = `rgba(255,255,255,${(0.7 * (1 - k)).toFixed(3)})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(90, 815, 20 + k * 90, 8 + k * 34, 0, 0, PI * 2);
+    ctx.stroke();
+  });
+  ctx.fillStyle = '#FFFFFF';
+  for (let i = 0; i < 5; i++) {
+    const k = Math.sin(T * 1.7 + i * 2.4);
+    if (k < 0.5) continue;
+    ctx.globalAlpha = (k - 0.5) * 2;
+    ctx.beginPath();
+    ctx.ellipse(10 + i * 34, 795 + (i % 2) * 30, 9, 2.5, 0, 0, PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+// bancoPeces(): un banco de diez pececitos amarillos que nadan juntos por el agua del acuario, de un lado a otro, por
+// encima de la arena, ondulando como si fueran uno solo.
+export function bancoPeces(): void {
+  const vuelta = (T * 70) % (W + 600),
+    x0 = vuelta - 300,
+    y0 = 300 + Math.sin(T * 0.5) * 30;
+  ctx.save();
+  for (let i = 0; i < 10; i++) {
+    const x = x0 - (i % 4) * 34 - Math.floor(i / 4) * 18,
+      y = y0 + (Math.floor(i / 4) - 1) * 26 + Math.sin(T * 2 + i) * 6;
+    ctx.fillStyle = '#FFC93C';
+    ctx.beginPath();
+    ctx.ellipse(x, y, 13, 7, 0, 0, PI * 2);
+    ctx.moveTo(x - 10, y);
+    ctx.lineTo(x - 22, y - 7 + Math.sin(T * 10 + i) * 2);
+    ctx.lineTo(x - 22, y + 7 + Math.sin(T * 10 + i) * 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = K;
+    ctx.beginPath();
+    ctx.arc(x + 6, y - 1, 1.8, 0, PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+// reflejosVentanas(): de día, una franja de luz blanca que cruza en diagonal las ventanas de cada edificio de la ciudad
+// cada pocos segundos (cada edificio a destiempo), como el sol que se refleja en los cristales.
+export function reflejosVentanas(): void {
+  ctx.save();
+  EDIFICIOS.forEach(([x, w, h], b) => {
+    const k = ((T * 0.25 + b * 0.33) % 1) * 1.6 - 0.3,
+      vw = (w - 44) / 3 - 16;
+    ctx.save();
+    ctx.beginPath();
+    [0, 1].forEach((fila) =>
+      [0, 1, 2].forEach((col) => ctx.rect(x + 22 + col * ((w - 44) / 3), 470 - h + 40 + fila * 80, vw, 50)),
+    );
+    ctx.clip();
+    const fx = x + k * w,
+      top = 470 - h + 40;
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.beginPath();
+    ctx.moveTo(fx, top);
+    ctx.lineTo(fx + 40, top);
+    ctx.lineTo(fx - 60, top + 140);
+    ctx.lineTo(fx - 100, top + 140);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  });
+  ctx.restore();
+}
+
+// cangrejoPlaya(): un cangrejo que pasea de lado por la arena de la playa, de un lado a otro, dando saltitos con las
+// patas (va y vuelve entre x = 280 y x = 1250, abajo, lejos de la sombrilla).
+export function cangrejoPlaya(): void {
+  const x = 765 + Math.sin(T * 0.25) * 485,
+    y = 860 - Math.abs(Math.sin(T * 8)) * 4;
+  pic('cangrejo', x, y, 64);
+}
+
+// cometaPlanetario(): una vez cada 20 segundos, un cometa con su cola brillante que cruza despacio la cúpula del
+// planetario de izquierda a derecha, en 10 s.
+export function cometaPlanetario(): void {
+  const t = (T + 5) % 20;
+  if (t > 10) return;
+  const k = t / 10,
+    x = -100 + k * (W + 200),
+    y = 80 + k * 140,
+    g = ctx.createLinearGradient(x, y, x - 220, y - 50);
+  g.addColorStop(0, 'rgba(190,230,255,0.8)');
+  g.addColorStop(1, 'rgba(190,230,255,0)');
+  ctx.save();
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.moveTo(x, y - 9);
+  ctx.lineTo(x - 220, y - 62);
+  ctx.lineTo(x - 220, y - 38);
+  ctx.lineTo(x, y + 9);
+  ctx.closePath();
+  ctx.fill();
+  halo(x, y, 30, '220,240,255', 0.8);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.beginPath();
+  ctx.arc(x, y, 7, 0, PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// veletaGranja(): la veleta de la granja, en su palo junto a la valla de la izquierda: la flecha con el gallo encima,
+// que gira despacio con el viento (se ve de frente y de lado, se estrecha al girar).
+export function veletaGranja(): void {
+  const x = 180,
+    y = 170,
+    g = Math.cos(T * 0.6);
+  ctx.save();
+  ctx.strokeStyle = '#4A3B2A';
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.moveTo(x, 262);
+  ctx.lineTo(x, y);
+  ctx.stroke();
+  ctx.translate(x, y);
+  ctx.scale(g * 1.4, 1.4);
+  ctx.fillStyle = '#4A4E66';
+  ctx.beginPath();
+  ctx.moveTo(-40, 0);
+  ctx.lineTo(30, 0);
+  ctx.lineTo(30, -6);
+  ctx.lineTo(44, 2);
+  ctx.lineTo(30, 10);
+  ctx.lineTo(30, 4);
+  ctx.lineTo(-40, 4);
+  ctx.closePath();
+  ctx.fill();
+  // el gallo: el cuerpo, la cola y la cresta roja
+  ctx.beginPath();
+  ctx.ellipse(0, -16, 16, 12, 0, 0, PI * 2);
+  ctx.moveTo(-12, -20);
+  ctx.quadraticCurveTo(-30, -44, -14, -40);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(12, -28, 7, 0, PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#E2574C';
+  ctx.beginPath();
+  ctx.arc(13, -37, 4, 0, PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// ardillaBosque(): una vez cada 12 segundos, una ardilla se asoma junto al tronco del árbol naranja del bosque (lejos del guía): sale,
+// se queda un momento mirando y vuelve a esconderse.
+export function ardillaBosque(): void {
+  const t = T % 12;
+  if (t > 5) return;
+  const k = Math.min(1, t / 0.6, (5 - t) / 0.6);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0, W, 470);
+  ctx.clip();
+  pic('ardilla', 445, 470 - k * 52 + Math.sin(T * 6) * 2, 72);
+  ctx.restore();
+}
+
+// vaporPan(): el vapor del pan recién hecho del puesto de la panadería del mercado: tres hilillos grises claros que suben
+// ondulando desde los panes y se deshacen arriba.
+export function vaporPan(): void {
+  ctx.save();
+  ctx.lineWidth = 6;
+  ctx.lineCap = 'round';
+  [700, 800, 900].forEach((x, i) => {
+    const k = (T * 0.5 + i * 0.33) % 1;
+    ctx.strokeStyle = `rgba(190,190,205,${(0.7 * Math.sin(k * PI)).toFixed(3)})`;
+    ctx.beginPath();
+    for (let j = 0; j <= 8; j++) {
+      const yy = 280 - k * 30 - j * 11,
+        xx = x + Math.sin(j * 0.9 + T * 2 + i) * 9;
+      if (j) ctx.lineTo(xx, yy);
+      else ctx.moveTo(xx, yy);
+    }
+    ctx.stroke();
+  });
   ctx.restore();
 }

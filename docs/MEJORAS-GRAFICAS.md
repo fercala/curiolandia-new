@@ -1,4 +1,4 @@
-# Mejoras gráficas (v0.2.183, v0.2.184 y v0.2.185)
+# Mejoras gráficas (v0.2.183 a v0.2.186)
 
 Fernando pidió el 25 de noviembre de 2026 diez mejoras gráficas y luego que se hicieran todas en la misma PR. Salen de
 revisar unas 150 capturas del juego (v0.2.182), de día y de noche: el mapa y las zonas en 3D se veían muy bien, pero
@@ -13,6 +13,8 @@ cambian `S`, ni frases, ni textos de pantalla.
 
 Ese mismo día pidió otras veinte (de la 21 a la 40, v0.2.185), en una PR nueva. Tampoco cambian `S`, ni frases, ni
 textos de pantalla.
+
+Y después, otras veinte (de la 41 a la 60, v0.2.186), en otra PR, sin cambiar `S`, frases ni textos.
 
 | # | Mejora | Qué cambia | Dónde |
 | --- | --- | --- | --- |
@@ -56,6 +58,26 @@ textos de pantalla.
 | 38 | Chispitas en la casita que toca | Del aro dorado de la casita siguiente suben chispitas doradas que giran y se desvanecen. | `chispasSuben3` en `src/mundo3d/mapaVivo.ts`, desde `buildZone` (`zonas3d.ts`). |
 | 39 | Las islas de noche con luces | En las islas de las Letras y del Inglés, de noche, una farola junto a cada camino y el resplandor de las ventanas de cada zona. | `adornarIsla` (`src/mundo3d/islaAdornos.ts`) con `farolas3` y `resplandores3`. |
 | 40 | Huellas de Tito | Al pasear por el mapa, las islas y las zonas, Tito deja huellas a un lado y a otro que se borran en 3 segundos. | `huellas3` en `src/mundo3d/mapaVivo.ts`. |
+| 41 | Un avión en el cielo | De día, una vez cada 75 segundos, un avioncito cruza alto el cielo dejando una estela blanca. | `avion` en `src/nucleo/cieloVivo.ts`, desde `cieloExterior`. |
+| 42 | Bandadas de pájaros | De día, una vez por minuto, siete pájaros en forma de V cruzan el cielo aleteando. | `bandada` en `src/nucleo/cieloVivo.ts`. |
+| 43 | Nubes del color de la hora | Las nubes son rosadas al amanecer y anaranjadas por la tarde. | `COLOR_NUBE` en `src/nucleo/paisaje.ts`. |
+| 44 | Flores en la hierba | Flores de colores que se mecen con el viento en la hierba del cole y del patio, cada una a destiempo. | `floresHierba` en `src/escenas/fondosVivos.ts`, desde `fondoCole` y `fondoPatio`. |
+| 45 | El estanque del zoo | Ondas que se abren y destellos que se encienden en el agua del estanque. | `estanqueZoo` en `src/escenas/fondosVivos.ts`, desde `fondoZoo`. |
+| 46 | Un banco de peces | En el acuario, diez pececitos amarillos que nadan juntos de un lado a otro, ondulando. | `bancoPeces` en `src/escenas/fondosVivos.ts`, desde `fondoAcuario`. |
+| 47 | Reflejos en las ventanas | De día, una franja de luz cruza en diagonal las ventanas de cada edificio de la ciudad. | `reflejosVentanas` en `src/escenas/fondosVivos.ts`, desde `fondoCiudad`. |
+| 48 | Un cangrejo en la playa | Un cangrejo pasea de lado por la arena, de un lado a otro, dando saltitos. | `cangrejoPlaya` en `src/escenas/fondosVivos.ts`, desde `fondoPlaya`. |
+| 49 | Un cometa en el planetario | Una vez cada 20 segundos, un cometa con su cola brillante cruza despacio la cúpula. | `cometaPlanetario` en `src/escenas/fondosVivos.ts`, desde `fondoPlanetario`. |
+| 50 | La veleta de la granja | Junto a la valla, una veleta con su gallo que gira despacio con el viento. | `veletaGranja` en `src/escenas/fondosVivos.ts`, desde `fondoGranja`. |
+| 51 | Una ardilla en el bosque | Una vez cada 12 segundos, una ardilla se asoma junto a un tronco, mira y se vuelve a esconder. | `ardillaBosque` en `src/escenas/fondosVivos.ts`, desde `fondoBosque`. |
+| 52 | Vapor del pan | Tres hilillos de vapor suben ondulando desde el pan recién hecho del mercado. | `vaporPan` en `src/escenas/fondosVivos.ts`, desde `fondoMercado`. |
+| 53 | Las estaciones que faltan brillan | Un brillo blanco cruza en diagonal, cada 4 segundos, el círculo de las estaciones de la excursión que aún no se han hecho. | `brilloEstacion` en `src/escenas/excursion.ts`, desde `dibujaEstacion`. |
+| 54 | Y flotan | Esas estaciones flotan suavemente arriba y abajo, cada una a destiempo (el sitio que se toca no cambia). | `dibujaEstacion` en `src/escenas/excursion.ts`. |
+| 55 | Delfines | En el mar del mapa y de las islas, cada delfín salta del agua cada 9 segundos y se vuelve a meter. | `delfines3` en `src/mundo3d/mapaVivo.ts`, desde `buildMap` y `adornarIsla`. |
+| 56 | Una ballena | A lo lejos en el mar, una ballena que se mece con las olas y echa un chorro de agua cada 7 segundos. | `ballena3` en `src/mundo3d/mapaVivo.ts`. |
+| 57 | Un velero | Un velero navega despacio alrededor del mapa y de las islas; de noche lleva un farol encendido. | `velero3` en `src/mundo3d/mapaVivo.ts`. |
+| 58 | Pájaros en las zonas | De día, tres pajaritos cruzan el cielo de las zonas en fila, aleteando. | `pajaros3` en `src/mundo3d/mapaVivo.ts`, desde `buildZone`. |
+| 59 | Polvo bajo los pies de Tito | Cada paso de Tito levanta una nubecita de polvo que crece y se desvanece. | `huellas3` en `src/mundo3d/mapaVivo.ts`. |
+| 60 | Mariposas en las islas | De día, una mariposa revolotea cerca de cada zona de las islas (no se puede tocar, para no tapar las zonas). | `mariposasIsla3` en `src/mundo3d/mapaVivo.ts`, desde `adornarIsla`. |
 
 ## Cómo añadir el cielo de la hora a una escena 2D nueva
 

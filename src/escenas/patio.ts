@@ -47,6 +47,7 @@ import {
 } from '../nucleo/indice.ts';
 import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
 import { textura } from '../nucleo/texturas.ts';
+import { floresHierba } from './fondosVivos.ts';
 import { ACTIVIDADES_PATIO, type ActividadPatio } from '../dominio/cole.ts';
 
 /** El rectángulo de un botón del patio (esquina de arriba a la izquierda, ancho y alto) con su actividad. */
@@ -113,6 +114,14 @@ export function fondoPatio(): void {
     ctx.strokeStyle = c;
     ctx.stroke();
   });
+  floresHierba([
+    [150, 560],
+    [260, 400],
+    [1340, 400],
+    [1450, 560],
+    [700, 380],
+    [900, 380],
+  ]); // flores que se mecen (mejora gráfica 44)
   tree(70, 470, 1, 'verano');
   tree(1540, 450, 0.9, 'primavera');
   veloHora();
