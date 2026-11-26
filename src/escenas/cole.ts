@@ -52,7 +52,7 @@ import {
 } from '../nucleo/indice.ts';
 import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
 import { textura } from '../nucleo/texturas.ts';
-import { floresHierba } from './fondosVivos.ts';
+import { cometaCole, floresHierba } from './fondosVivos.ts';
 
 import { botonExtra, tocaExtra } from './botonesExtras.ts';
 
@@ -90,7 +90,8 @@ export const COLE_SITIOS: readonly SitioCole[] = [
 
 // fondoCole(): el cielo, la hierba y el suelo de arena del cole, con dos árboles a los lados.
 // Desde las mejoras gráficas 1, 2 y 9 de docs/MEJORAS-GRAFICAS.md: el cielo cambia con la hora y tiene colinas al fondo
-// (cieloExterior), la hierba y la arena tienen textura y el velo de la hora oscurece el paisaje de noche (veloHora).
+// (cieloExterior), la hierba y la arena tienen textura y el velo de la hora oscurece el paisaje de noche (veloHora). Desde las
+// mejoras 44, 61 y 73, con flores que se mecen (y mariquitas) y una cometa que vuela.
 function fondoCole(): void {
   cieloExterior('#DDF2FB', '#F4FBEA', 470, { colinas: true });
   ctx.fillStyle = '#BDE6A2';
@@ -112,6 +113,7 @@ function fondoCole(): void {
     [1280, 500],
   ]); // flores que se mecen (mejora gráfica 44)
   tree(90, 560, 1.1, 'verano');
+  cometaCole(); // la cometa que vuela (mejora gráfica 61)
   tree(1520, 520, 1, 'primavera');
   veloHora();
 }

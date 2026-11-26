@@ -1,4 +1,4 @@
-# Mejoras gráficas (v0.2.183 a v0.2.186)
+# Mejoras gráficas (v0.2.183 a v0.2.187)
 
 Fernando pidió el 25 de noviembre de 2026 diez mejoras gráficas y luego que se hicieran todas en la misma PR. Salen de
 revisar unas 150 capturas del juego (v0.2.182), de día y de noche: el mapa y las zonas en 3D se veían muy bien, pero
@@ -14,7 +14,8 @@ cambian `S`, ni frases, ni textos de pantalla.
 Ese mismo día pidió otras veinte (de la 21 a la 40, v0.2.185), en una PR nueva. Tampoco cambian `S`, ni frases, ni
 textos de pantalla.
 
-Y después, otras veinte (de la 41 a la 60, v0.2.186), en otra PR, sin cambiar `S`, frases ni textos.
+Y después, otras veinte (de la 41 a la 60, v0.2.186), en otra PR, sin cambiar `S`, frases ni textos. Y otras veinte
+(de la 61 a la 80, v0.2.187), en otra PR, también sin cambiar `S`, frases ni textos.
 
 | # | Mejora | Qué cambia | Dónde |
 | --- | --- | --- | --- |
@@ -78,6 +79,26 @@ Y después, otras veinte (de la 41 a la 60, v0.2.186), en otra PR, sin cambiar `
 | 58 | Pájaros en las zonas | De día, tres pajaritos cruzan el cielo de las zonas en fila, aleteando. | `pajaros3` en `src/mundo3d/mapaVivo.ts`, desde `buildZone`. |
 | 59 | Polvo bajo los pies de Tito | Cada paso de Tito levanta una nubecita de polvo que crece y se desvanece. | `huellas3` en `src/mundo3d/mapaVivo.ts`. |
 | 60 | Mariposas en las islas | De día, una mariposa revolotea cerca de cada zona de las islas (no se puede tocar, para no tapar las zonas). | `mariposasIsla3` en `src/mundo3d/mapaVivo.ts`, desde `adornarIsla`. |
+| 61 | Una cometa en el cielo del cole | Una cometa roja con su cola vuela a la izquierda del cole, con la cuerda hasta el suelo, dando bandazos con el viento. | `cometaCole` en `src/escenas/fondosVivos.ts`, desde `fondoCole` (`escenas/cole.ts`). |
+| 62 | Pompas de jabón en el patio | Diez pompas con brillo suben despacio por el patio, se balancean y vuelven a salir por abajo. | `pompasPatio` en `src/escenas/fondosVivos.ts`, desde `fondoPatio` (`escenas/patio.ts`). |
+| 63 | Patitos en el estanque del zoo | Dos patitos nadan en el estanque, de un lado a otro, meciéndose. | `patitosZoo` en `src/escenas/fondosVivos.ts`. |
+| 64 | Medusas en el acuario | Dos medusas transparentes suben y bajan latiendo, con los tentáculos que ondean. | `medusas` en `src/escenas/fondosVivos.ts`. |
+| 65 | Una tortuga marina | Cada 25 segundos una tortuga marina cruza el acuario nadando, moviendo las aletas. | `tortugaMarina` en `src/escenas/fondosVivos.ts`. |
+| 66 | Humo en el volcán del cuadro | El volcán del cuadro del museo echa bocanadas de humo que suben y se deshacen (dentro del marco). | `humoVolcan` en `src/escenas/fondosVivos.ts`, desde `fondoMuseo`. |
+| 67 | Palomas en la acera de la ciudad | Dos palomas andan por la acera picoteando, cabeceando al paso. | `paloma` y `palomasCiudad` en `src/escenas/fondosVivos.ts`. |
+| 68 | Un erizo en el bosque | Un erizo pasea despacio por el suelo del bosque, de un lado a otro. | `erizoBosque` en `src/escenas/fondosVivos.ts`. |
+| 69 | Una abeja en el mercado | Una abeja revolotea en ochos sobre la fruta del mercado, con las alas que zumban. | `abejaMercado` en `src/escenas/fondosVivos.ts`. |
+| 70 | Un satélite en la cúpula | Cada 30 segundos un satélite con sus paneles cruza la cúpula del planetario con una lucecita. | `sateliteCupula` en `src/escenas/fondosVivos.ts`. |
+| 71 | Estrellas de mar en la playa | Tres estrellas de mar en la arena que brillan a ratos. | `estrellasMarPlaya` en `src/escenas/fondosVivos.ts`. |
+| 72 | Un espantapájaros en la granja | Un espantapájaros con sombrero junto a la valla que mueve los brazos con el viento. | `espantapajaros` en `src/escenas/fondosVivos.ts`. |
+| 73 | Mariquitas en las flores | En una de cada tres flores del cole y del patio, una mariquita da vueltas a los pétalos. | `floresHierba` en `src/escenas/fondosVivos.ts`. |
+| 74 | Constelaciones de noche | De noche, en las escenas de fuera, el Carro (la Osa Mayor) con sus estrellas unidas por líneas finas que titilan. | `constelacion` en `src/nucleo/cieloVivo.ts`, desde `cieloExterior` (`nucleo/paisaje.ts`). |
+| 75 | Ráfagas de viento | Cada 40 segundos una ráfaga cruza la escena con líneas de viento y un remolino de hojas de colores. | `rafaga` en `src/nucleo/cieloVivo.ts`, desde `veloHora`. |
+| 76 | Gaviotas sobre las islas | De día, dos gaviotas vuelan en círculos sobre el mar de las islas de las Letras y del Inglés. | `gull3` (`mundo3d/decorado.ts`) desde `adornarIsla` (`mundo3d/islaAdornos.ts`). |
+| 77 | Una cometa sobre la plaza del mapa | De día, una cometa roja y amarilla con cola de lazos vuela junto a la plaza de la asamblea, atada al suelo. | `cometa3` en `src/mundo3d/mapaVivo.ts`, desde `buildMap`. |
+| 78 | Peces que saltan | Pececitos naranjas saltan del mar en un arco corto, cada uno a destiempo, en el mapa y en las islas. | `pecesSaltan3` en `src/mundo3d/mapaVivo.ts`, desde `buildMap` y `adornarIsla`. |
+| 79 | Salpicaduras de los delfines | Al salir y al entrar en el agua, los delfines (y los peces) dejan un aro de espuma que se abre y se borra. | `salpicadura` en `src/mundo3d/mapaVivo.ts`, en `delfines3` y `pecesSaltan3`. |
+| 80 | Nubes del color de la hora en 3D | Al amanecer (7 a 9) las nubes del mapa, las islas y las zonas son rosadas, y por la tarde (18 a 20), anaranjadas. | `tintarNubes3` en `src/mundo3d/mapaVivo.ts` (las nubes llevan `userData.nube`, de `cloud3` en `objetos.ts`). |
 
 ## Cómo añadir el cielo de la hora a una escena 2D nueva
 

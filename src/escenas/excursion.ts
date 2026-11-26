@@ -78,17 +78,27 @@ import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
 import { textura } from '../nucleo/texturas.ts';
 import { momentoAhora } from '../nucleo/paisaje.ts';
 import {
+  abejaMercado,
   ardillaBosque,
   bancoPeces,
   banderinesMercado,
   cangrejoPlaya,
   cometaPlanetario,
+  erizoBosque,
+  espantapajaros,
   estanqueZoo,
+  estrellasMarPlaya,
+  humoVolcan,
+  medusas,
   molinoGranja,
   nebulosas,
   orillaPlaya,
+  palomasCiudad,
+  patitosZoo,
   rayosBosque,
   reflejosVentanas,
+  sateliteCupula,
+  tortugaMarina,
   vaporPan,
   veletaGranja,
   ventanasCiudad,
@@ -118,7 +128,7 @@ export const nombreExcursion = (e: Excursion): Nombre => nombreEn(e.nombre.charA
 
 // fondoGranja(): la granja: el cielo, el prado, el granero rojo con su tejado, la valla y el camino de tierra (desde la
 // mejora gráfica 30, con un molino de viento que gira). Lo usan la excursión de la granja y sus estaciones. Desde la
-// mejora gráfica 50, con la veleta del gallo.
+// mejora gráfica 50, con la veleta del gallo, y desde la 72, con el espantapájaros.
 export function fondoGranja(): void {
   cieloExterior('#BFE3FF', '#E6F5FF', 300, { colinas: true });
   ctx.fillStyle = '#A6DB86';
@@ -145,6 +155,7 @@ export function fondoGranja(): void {
   ctx.restore();
   molinoGranja(); // el molino de viento (mejora gráfica 30)
   veletaGranja(); // la veleta del gallo (mejora gráfica 50)
+  espantapajaros(); // el espantapájaros que mueve los brazos (mejora gráfica 72)
   ctx.save();
   // la valla, a lo largo del horizonte
   ctx.strokeStyle = '#B08A5A';
@@ -186,7 +197,7 @@ function acacia(x: number, y: number): void {
 }
 
 // fondoZoo(): el zoo (desde la fase P17): el cielo, las rocas del fondo, la valla de bambú, las acacias, el estanque y,
-// en el centro, el arco de la entrada con la cara del león (desde la mejora gráfica 45, el estanque con brillos y ondas). Lo usan la excursión del zoo y sus recintos (escenas/zoo.ts).
+// en el centro, el arco de la entrada con la cara del león (desde la mejora gráfica 45, el estanque con brillos y ondas, y desde la 63, con patitos). Lo usan la excursión del zoo y sus recintos (escenas/zoo.ts).
 export function fondoZoo(): void {
   cieloExterior('#BFE3FF', '#FFF1D6', 300, { colinas: true });
   ctx.save();
@@ -213,6 +224,7 @@ export function fondoZoo(): void {
   ctx.fill();
   ctx.stroke();
   estanqueZoo(); // brillos y ondas en el agua (mejora gráfica 45)
+  patitosZoo(); // los patitos que nadan (mejora gráfica 63)
   // la valla de bambú, a lo largo del horizonte
   ctx.strokeStyle = '#8A7A3A';
   ctx.lineWidth = 6;
@@ -253,7 +265,8 @@ export function fondoZoo(): void {
 
 // fondoAcuario(): el acuario (desde la fase P18): el túnel de cristal debajo del agua: el agua azul que se oscurece hacia
 // arriba, los rayos de luz, los arcos del túnel, la arena con algas que se mecen, burbujas que suben y peces que pasan
-// nadando por detrás (se mueven con T); desde la mejora gráfica 46, también un banco de pececitos.
+// nadando por detrás (se mueven con T); desde la mejora gráfica 46, también un banco de pececitos, y desde las 64 y
+// 65, medusas y una tortuga marina.
 export function fondoAcuario(): void {
   cielo('#1F5F9E', '#5FB6E0', H);
   ctx.save();
@@ -290,6 +303,8 @@ export function fondoAcuario(): void {
     ctx.restore();
   });
   bancoPeces(); // un banco de pececitos (mejora gráfica 46)
+  medusas(); // medusas que laten (mejora gráfica 64)
+  tortugaMarina(); // una tortuga que cruza nadando (mejora gráfica 65)
   // la arena y las algas
   ctx.fillStyle = '#F2DDA4';
   ctx.beginPath();
@@ -404,7 +419,7 @@ function esqueleto(x: number, y: number, s: number): void {
 
 // fondoMuseo(): el museo de los dinosaurios (desde la fase P19): el gran salón, con la pared y sus columnas, los cuadros
 // de los dinosaurios, el gran esqueleto en su tarima (a la izquierda), el pterodáctilo colgado del techo que se balancea (con T) y el
-// suelo de baldosas.
+// suelo de baldosas. Desde la mejora gráfica 66, el volcán del cuadro echa humo.
 export function fondoMuseo(): void {
   cielo('#F3E3C3', '#E8CFA0', 470);
   ctx.save();
@@ -442,6 +457,7 @@ export function fondoMuseo(): void {
     card((x as number) - 90, 70, 180, 150, '#FFFFFF', 6, 10);
     pic(k as string, x as number, 145, 120);
   });
+  humoVolcan(); // el humito del volcán del cuadro (mejora gráfica 66)
   // la tarima y el gran esqueleto
   ctx.fillStyle = '#B88A55';
   ctx.beginPath();
@@ -509,7 +525,7 @@ function edificio(x: number, w: number, h: number, c: string, tejado: string): v
 // fondoCiudad(): la ciudad (desde la fase P20): el cielo, los edificios de la calle (el parque de bomberos rojo con su
 // gran puerta, la panadería con su toldo de rayas y el centro de salud con su cruz), la acera, la carretera con el paso
 // de cebra y el semáforo, y un coche que pasa (con T). Desde la mejora gráfica 26, de noche, las ventanas encendidas;
-// desde la 47, de día, la luz que cruza los cristales.
+// desde la 47, de día, la luz que cruza los cristales, y desde la 67, palomas en la acera.
 export function fondoCiudad(): void {
   cieloExterior('#8FD3F5', '#DDF3FF', 470, { colinas: true });
   ctx.save();
@@ -534,6 +550,7 @@ export function fondoCiudad(): void {
   pic('semaforo', 1470, 380, 200);
   // el coche que pasa por la carretera, de izquierda a derecha
   pic('camion', ((T * 120) % 2000) - 200, 860, 150, 0.9);
+  palomasCiudad(); // las palomas de la acera (mejora gráfica 67)
   veloHora();
   if (momentoAhora() === 'noche')
     ventanasCiudad(); // las ventanas encendidas (mejora gráfica 26)
@@ -567,7 +584,7 @@ function arbolOtono(x: number, y: number, s: number, c: string): void {
 
 // fondoBosque(): el bosque de otoño (desde la fase P21): el cielo, los árboles rojos, naranjas y amarillos, el suelo
 // lleno de hojas, el sendero, unas setas y las hojas que caen (con T); desde la mejora gráfica 28, de día, rayos de sol
-// entre los árboles, y desde la 51, una ardilla que se asoma.
+// entre los árboles; desde la 51, una ardilla que se asoma, y desde la 68, un erizo que pasea.
 export function fondoBosque(): void {
   cieloExterior('#BFE3F2', '#F6E7C8', 470, { colinas: true });
   ctx.save();
@@ -608,6 +625,7 @@ export function fondoBosque(): void {
     pic(k, x + Math.sin(T * 1.5 + f * 9) * 40, y, 50);
   });
   ardillaBosque(); // la ardilla que se asoma (mejora gráfica 51)
+  erizoBosque(); // el erizo que pasea (mejora gráfica 68)
   if (momentoAhora() !== 'noche') rayosBosque(); // rayos de sol entre los árboles (mejora gráfica 28)
   veloHora();
 }
@@ -627,7 +645,8 @@ function puesto(x: number, w: number, toldo: string, cosas: readonly string[]): 
 
 // fondoMercado(): el mercado (desde la fase P22): el cielo, la frutería (toldo verde), la panadería (toldo naranja) y
 // la pescadería (toldo azul) con lo que venden, el suelo de baldosas y unos globos de colores que se mecen (con T);
-// desde la mejora gráfica 29, una guirnalda de banderines, y desde la 52, el vapor del pan recién hecho.
+// desde la mejora gráfica 29, una guirnalda de banderines; desde la 52, el vapor del pan recién hecho, y desde la 69,
+// una abeja.
 export function fondoMercado(): void {
   cieloExterior('#BFE3FF', '#FFF3DC', 470, { colinas: true });
   ctx.save();
@@ -653,13 +672,14 @@ export function fondoMercado(): void {
     [1075, '#5B8DEF'],
   ].forEach(([x, c], i) => circ(x as number, 60 + Math.sin(T * 2 + i) * 6, 22, c as string, 4));
   vaporPan(); // el vapor del pan recién hecho (mejora gráfica 52)
+  abejaMercado(); // la abeja sobre la fruta (mejora gráfica 69)
   banderinesMercado(); // banderines que se mecen (mejora gráfica 29)
   veloHora();
 }
 
 // fondoPlanetario(): el planetario (desde la fase P23): la cúpula oscura llena de estrellas que parpadean (con T), la
 // Tierra, la Luna, Saturno y Júpiter y el cohete en su plataforma; desde la mejora gráfica 31, nebulosas de colores y
-// estrellas fugaces, y desde la 49, un cometa con su cola.
+// estrellas fugaces; desde la 49, un cometa con su cola, y desde la 70, un satélite.
 export function fondoPlanetario(): void {
   cielo('#141A3C', '#2E3F7A', H);
   ctx.save();
@@ -670,6 +690,7 @@ export function fondoPlanetario(): void {
   ctx.restore();
   nebulosas(); // nebulosas de colores y estrellas fugaces (mejora gráfica 31)
   cometaPlanetario(); // un cometa con su cola (mejora gráfica 49)
+  sateliteCupula(); // un satélite que cruza (mejora gráfica 70)
   pic('saturno', 260, 200, 170);
   pic('jupiter', 1340, 420, 150);
   pic('tierra', 760, 160, 130);
@@ -745,7 +766,8 @@ function sombrilla(x: number, y: number): void {
 
 // fondoPlaya(): la playa (desde la fase P24): el cielo con el sol, el mar con olas que se mueven, un barco y una lancha
 // que navegan (con T), el faro en sus rocas, la arena, la sombrilla y la toalla; desde la mejora gráfica 27, la espuma
-// de la orilla y los destellos del sol en el mar, y desde la 48, un cangrejo que pasea por la arena.
+// de la orilla y los destellos del sol en el mar; desde la 48, un cangrejo que pasea por la arena, y desde la 71,
+// estrellas de mar.
 export function fondoPlaya(): void {
   cieloExterior('#9ED9F5', '#E9F7FC', 220);
   ctx.save();
@@ -777,6 +799,7 @@ export function fondoPlaya(): void {
   pic('barco', ((T * 30) % 1900) - 150, 270, 130);
   pic('lancha', W + 150 - ((T * 45 + 900) % 1900), 350, 100);
   cangrejoPlaya(); // el cangrejo que pasea por la arena (mejora gráfica 48)
+  estrellasMarPlaya(); // estrellas de mar que brillan (mejora gráfica 71)
   faro(150, 420);
   sombrilla(1450, 640);
   pic('toalla', 1500, 700, 120);

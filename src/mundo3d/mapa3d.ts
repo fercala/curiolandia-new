@@ -92,7 +92,17 @@ import {
 } from './materiales.ts';
 import { bez, bush3, fhit, fireflies, flower3, gull3, lock3, ribbon, ring3, rock3, tree3 } from './decorado.ts';
 import { destellosSol3, farolas3, reflejoLuna3, resplandores3 } from './lucesNoche.ts';
-import { ballena3, delfines3, espumaOrilla3, huellas3, sombrasNubes3, velero3 } from './mapaVivo.ts';
+import {
+  ballena3,
+  delfines3,
+  espumaOrilla3,
+  huellas3,
+  tintarNubes3,
+  sombrasNubes3,
+  velero3,
+  cometa3,
+  pecesSaltan3,
+} from './mapaVivo.ts';
 import {
   busy3,
   call0,
@@ -816,6 +826,13 @@ function buildMap(st: Escena) {
   ]);
   ballena3(w, 6, -15.5);
   velero3(w, 22.5, 13, !!sk.night);
+  // peces que saltan y una cometa sobre la plaza (mejoras gráficas 78 y 77)
+  pecesSaltan3(w, [
+    [-14, -11.5],
+    [11, -12],
+    [21, 2],
+  ]);
+  if (!sk.night) cometa3(w, 3, 1.5);
   // decoración: árboles, arbustos, flores, piedras en lugares libres (desde la fase L2, sin el árbol de [14, 8.5], que
   // tapaba el barco del muelle)
   (
@@ -921,6 +938,7 @@ function buildMap(st: Escena) {
   w.sc.add(tito);
   w.tito = tito;
   huellas3(w); // Tito deja huellas al pasear (mejora gráfica 40)
+  tintarNubes3(w); // las nubes del color de la hora (mejora gráfica 80)
   w.pick.push(tito);
   const asam = w.spots.plaza,
     gl = ring3(asam, [0, 0.25, 0], 3.1);

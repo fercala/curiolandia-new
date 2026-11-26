@@ -47,7 +47,7 @@ import {
 } from '../nucleo/indice.ts';
 import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
 import { textura } from '../nucleo/texturas.ts';
-import { floresHierba } from './fondosVivos.ts';
+import { floresHierba, pompasPatio } from './fondosVivos.ts';
 import { ACTIVIDADES_PATIO, type ActividadPatio } from '../dominio/cole.ts';
 
 /** El rectángulo de un botón del patio (esquina de arriba a la izquierda, ancho y alto) con su actividad. */
@@ -91,6 +91,7 @@ export const BOTONES_PATIO: readonly BotonPatio[] = ACTIVIDADES_PATIO.map((a, i,
 // fondoPatio(): el patio: el cielo, la valla, la hierba, el suelo de arena con la pista de colores y dos árboles. Lo
 // usan el patio y sus actividades (escenas/estatuas.ts, titoDice.ts y yoga.ts). Desde las mejoras gráficas 1, 2 y 9 de
 // docs/MEJORAS-GRAFICAS.md, con el cielo de la hora y sus colinas, la hierba y la arena con textura y el velo de la hora.
+// Desde las mejoras 44, 62 y 73, con flores que se mecen (y mariquitas) y pompas de jabón.
 export function fondoPatio(): void {
   cieloExterior('#D6EFFB', '#F3FAEC', 300, { colinas: true });
   ctx.fillStyle = '#B5E29A';
@@ -123,6 +124,7 @@ export function fondoPatio(): void {
     [900, 380],
   ]); // flores que se mecen (mejora gráfica 44)
   tree(70, 470, 1, 'verano');
+  pompasPatio(); // pompas de jabón (mejora gráfica 62)
   tree(1540, 450, 0.9, 'primavera');
   veloHora();
 }

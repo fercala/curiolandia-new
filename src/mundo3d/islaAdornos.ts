@@ -13,10 +13,10 @@ import * as THREE from 'three';
 import type { Mundo, PuntoSuelo } from './tipos.ts';
 import { FLC, T } from '../nucleo/indice.ts';
 import { grp } from './materiales.ts';
-import { bez, bush3, fireflies, flower3, ribbon, rock3 } from './decorado.ts';
+import { bez, bush3, fireflies, flower3, gull3, ribbon, rock3 } from './decorado.ts';
 import { palm3 } from './objetos.ts';
 import { destellosSol3, farolas3, resplandores3 } from './lucesNoche.ts';
-import { ballena3, delfines3, mariposasIsla3, sombrasNubes3, velero3 } from './mapaVivo.ts';
+import { ballena3, delfines3, mariposasIsla3, sombrasNubes3, velero3, pecesSaltan3 } from './mapaVivo.ts';
 
 // ROCAS, PALMERAS, ARBUSTOS y FLORES: dónde va cada adorno ([x, z]; las rocas y conchas en la arena, a ras de la
 // orilla; las palmeras en el borde de la hierba; los arbustos y las flores entre las zonas).
@@ -75,7 +75,8 @@ function olas3(w: Mundo): void {
 // adornarIsla(w, zonas, centro, noche): pone en la isla del mundo w los caminos (del centro a cada zona), las olas, las
 // rocas, las palmeras, los arbustos, las flores y, de noche, las luciérnagas, las farolas de los caminos y las ventanas
 // encendidas (mejora 39); de día, los destellos del sol en el mar, las sombras de las nubes (mejora 37) y mariposas
-// (mejora 60); y siempre, delfines, una ballena y un velero en el mar (mejoras 55 a 57).
+// (mejora 60) y gaviotas (mejora 76); y siempre, delfines, una ballena, un velero y peces que saltan en el mar
+// (mejoras 55 a 57 y 78).
 export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: PuntoSuelo, noche: boolean): void {
   zonas.forEach((z) => {
     const c: PuntoSuelo = [(centro[0] + z[0]) / 2, (centro[1] + z[1]) / 2 + 1.2];
@@ -94,6 +95,15 @@ export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: Punt
   ]);
   ballena3(w, -10, -14);
   velero3(w, 21, 13, noche); // un velero que da la vuelta a la isla (mejora gráfica 57)
+  pecesSaltan3(w, [
+    [-20, 5],
+    [20, 6],
+  ]); // peces que saltan (mejora gráfica 78)
+  if (!noche) {
+    // gaviotas que vuelan en círculos sobre el mar (mejora gráfica 76)
+    gull3(w, 18, 10, 7, 0, 1);
+    gull3(w, 16, 9, 8, 3, -1);
+  }
   if (noche) {
     fireflies(w, 26, 14, 1.8);
     // de noche, una farola junto a cada camino y las ventanas encendidas de las zonas (mejora gráfica 39)
