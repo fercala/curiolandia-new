@@ -2535,6 +2535,7 @@ export function cloud3(to: THREE.Object3D, x: number, y: number, z: number, s: n
     '#FFFFFF',
     { cs: false, rs: false, ol: 0.04, to: g },
   );
+  g.userData.nube = 1; // para teñirla al amanecer y por la tarde (tintarNubes3, mundo3d/mapaVivo.ts)
   return g;
 }
 // balloon3(to,x,z,c,h): globo de color c con su cuerda de altura h. Marca balloon: wobInit lo hace subir y bajar al tocarlo. Devuelve el grupo.

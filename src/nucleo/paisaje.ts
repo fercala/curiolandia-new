@@ -12,6 +12,7 @@
  *   - desde las mejoras gráficas 21 a 25, lo que pasa en el cielo y en el suelo (nucleo/cieloVivo.ts): los rayos del
  *     sol, el arcoíris, el globo aerostático, las estrellas fugaces y las sombras de las nubes.
  *   - desde las mejoras 41 a 43, el avión con su estela, la bandada de pájaros y las nubes del color de la hora.
+ *   - desde las mejoras 74 y 75, la Osa Mayor de noche y las ráfagas de viento con su remolino de hojas.
  * Exporta: momentoAhora, cieloExterior, veloHora y el tipo OpcionesCielo.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
@@ -19,7 +20,17 @@
 import { ctx, H, T, VIVO, W } from './pantalla.ts';
 import { PI } from './utilidades.ts';
 import { cloud } from './dibujo.ts';
-import { arcoiris, avion, bandada, estrellaFugaz, globoAerostatico, rayosSol, sombrasNubes } from './cieloVivo.ts';
+import {
+  arcoiris,
+  avion,
+  bandada,
+  constelacion,
+  estrellaFugaz,
+  globoAerostatico,
+  rafaga,
+  rayosSol,
+  sombrasNubes,
+} from './cieloVivo.ts';
 import { ahora } from '../aplicacion/puertos.ts';
 import { VELO_LUZ, cieloDe, loQueCae, mezcla, momentoLuz, type MomentoLuz } from '../dominio/luz.ts';
 
@@ -122,7 +133,8 @@ const COLOR_NUBE: Readonly<Record<MomentoLuz, string>> = {
 // defecto); unas nubes que pasan despacio (o.nubes, sí por defecto; de noche no hay) y, con o.colinas, dos
 // filas de colinas al fondo que se funden con el cielo y se mueven un poco con el puntero (la de delante, el doble).
 // Desde las mejoras 21 a 25, también los rayos del sol, el arcoíris y el globo (de día) o la estrella fugaz (de noche);
-// desde las 41 a 43, el avión, la bandada de pájaros y las nubes del color del momento (COLOR_NUBE).
+// desde las 41 a 43, el avión, la bandada de pájaros y las nubes del color del momento (COLOR_NUBE); desde la 74, la
+// Osa Mayor de noche.
 export function cieloExterior(arriba: string, abajo: string, linea: number, o: OpcionesCielo = {}): void {
   horizonte = linea;
   const m = momentoAhora(),
@@ -135,6 +147,7 @@ export function cieloExterior(arriba: string, abajo: string, linea: number, o: O
   ctx.fillRect(0, 0, W, alto);
   if (m === 'noche') {
     estrellas(alto);
+    constelacion(alto);
     estrellaFugaz(alto);
   } else {
     arcoiris(alto);
@@ -167,7 +180,7 @@ export function cieloExterior(arriba: string, abajo: string, linea: number, o: O
 // veloHora(): el velo del momento de luz (VELO_LUZ) sobre toda la escena: se llama al final del fondo, antes de los
 // botones, Tito y lo que se toca (de día no pone velo). Desde las mejoras gráficas 14 y 15, después dibuja lo que cae
 // del cielo según la estación y la vida del fondo (vidaExterior), que se ven también de noche; y, de día, las sombras
-// de las nubes por el suelo (mejora 21, sombrasNubes).
+// de las nubes por el suelo (mejora 21, sombrasNubes); y, desde la mejora 75, las ráfagas de viento (rafaga).
 export function veloHora(): void {
   const m = momentoAhora(),
     v = VELO_LUZ[m];
@@ -180,6 +193,7 @@ export function veloHora(): void {
   }
   if (m !== 'noche') sombrasNubes(horizonte);
   estacion();
+  rafaga(horizonte);
   vidaExterior(m);
 }
 

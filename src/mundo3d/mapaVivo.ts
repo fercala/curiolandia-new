@@ -14,14 +14,18 @@
  * echa agua), velero3 (un velero que navega alrededor de la isla, con su farol de noche), pajaros3 (pájaros que cruzan
  * el cielo de las zonas), nubecitas de polvo en las huellas de Tito (huellas3) y mariposasIsla3 (mariposas en las
  * islas, que no se pueden tocar para no quitarle el toque a las zonas).
- * Exporta: espumaOrilla3, sombrasNubes3, chispasSuben3, huellas3, delfines3, ballena3, velero3, pajaros3 y
- * mariposasIsla3.
+ * Desde la v0.2.187 (mejoras 77 a 80): cometa3 (una cometa sobre la plaza del mapa), pecesSaltan3 (peces que saltan
+ * en el mar), las salpicaduras de los delfines (en delfines3 y pecesSaltan3, con salpicadura) y tintarNubes3 (las nubes
+ * rosadas al amanecer y anaranjadas por la tarde). (La 76, las gaviotas de las islas, usa gull3 en islaAdornos.ts.)
+ * Exporta: espumaOrilla3, sombrasNubes3, chispasSuben3, huellas3, delfines3, ballena3, velero3, pajaros3,
+ * mariposasIsla3, cometa3, pecesSaltan3 y tintarNubes3.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- posiciones, tamaños, colores y
    tiempos de las piezas 3D, y bucles que las reparten. */
 import * as THREE from 'three';
 import type { Mundo, PuntoSuelo } from './tipos.ts';
 import { T } from '../nucleo/indice.ts';
+import { ahora } from '../aplicacion/puertos.ts';
 import { butterfly3, ribbon, softTex } from './decorado.ts';
 import { Box, Cone, Cyl, Sph, grp, mk } from './materiales.ts';
 
@@ -220,8 +224,28 @@ function sinToqueTodo(o: THREE.Object3D): void {
   });
 }
 
+// salpicadura(w, x, z): un aro de espuma en el agua en (x, z) y unas gotas; devuelve la función que lo anima en cada
+// cuadro con el momento t del salto (de 0 a dura): salpica al principio (al salir) y al final (al entrar). Mejora 79.
+function salpicadura(w: Mundo, x: number, z: number): (t: number, dura: number) => void {
+  const g = new THREE.TorusGeometry(0.5, 0.06, 4, 24);
+  g.rotateX(Math.PI / 2);
+  const mat = new THREE.MeshBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0, depthWrite: false }),
+    aro = sinToque(new THREE.Mesh(g, mat));
+  aro.position.set(x, -0.9, z);
+  w.sc.add(aro);
+  return (t, dura) => {
+    const a = t < 0.5 ? t / 0.5 : t > dura - 0.1 && t < dura + 0.4 ? (t - dura + 0.1) / 0.5 : -1;
+    aro.visible = a >= 0 && a <= 1;
+    if (!aro.visible) return;
+    aro.position.z = z + (t < 0.5 ? -1.5 : 1.5) * (dura > 1 ? 1 : 0.4);
+    aro.scale.setScalar(0.6 + a * 1.6);
+    mat.opacity = 0.8 * (1 - a);
+  };
+}
+
 // delfines3(w, sitios): un delfín en cada sitio del mar (x, z): cada 9 segundos (cada uno a destiempo) salta del agua
 // en un arco de 2 segundos, girando el cuerpo como el arco, y vuelve a meterse; el resto del tiempo está escondido.
+// Desde la mejora gráfica 79, al salir y al entrar en el agua salpica (salpicadura).
 export function delfines3(w: Mundo, sitios: readonly PuntoSuelo[]): void {
   sitios.forEach(([x, z], i) => {
     const g = grp(w.sc, [x, -3, z]);
@@ -229,8 +253,10 @@ export function delfines3(w: Mundo, sitios: readonly PuntoSuelo[]): void {
     mk(Cone(0.18, 0.45, 8), '#7FA8C9', { p: [0, 0.35, 0.05], r: [-0.4, 0, 0], ol: 0.03, cs: false, to: g });
     mk(Box(0.7, 0.06, 0.25), '#7FA8C9', { p: [0, 0, -0.95], ol: 0.03, cs: false, to: g });
     sinToqueTodo(g);
+    const chof = salpicadura(w, x, z);
     w.upd.push(() => {
       const t = (T + i * 4.5) % 9;
+      chof(t, 2);
       if (t > 2) {
         g.visible = false;
         return;
@@ -347,4 +373,82 @@ const MARIPOSA_COLOR = ['#FF8A7A', '#FFD66B', '#B9A6F0'];
 // le quite el toque a las zonas ni a Lupi o Polly.
 export function mariposasIsla3(w: Mundo, sitios: readonly PuntoSuelo[]): void {
   sitios.forEach(([x, z], i) => sinToqueTodo(butterfly3(w, x, z, MARIPOSA_COLOR[i % MARIPOSA_COLOR.length]!, i * 1.7)));
+}
+
+// cometa3(w, x, z): una cometa de colores que vuela sobre (x, z) a 5 de altura, dando bandazos con el viento, con su
+// cola de lazos que ondea y la cuerda que baja hasta el suelo.
+export function cometa3(w: Mundo, x: number, z: number): void {
+  const g = grp(w.sc, [x, 5, z]),
+    forma = new THREE.Shape();
+  forma.moveTo(0, 0.9);
+  forma.lineTo(0.6, 0);
+  forma.lineTo(0, -1.1);
+  forma.lineTo(-0.6, 0);
+  forma.closePath();
+  mk(new THREE.ShapeGeometry(forma), new THREE.MeshBasicMaterial({ color: '#FF6B5E', side: THREE.DoubleSide }), {
+    ol: 0,
+    cs: false,
+    to: g,
+  });
+  mk(Box(1.2, 0.04, 0.02), '#FFD66B', { ol: 0, cs: false, to: g });
+  const lazos = [0, 1, 2, 3].map((i) =>
+    mk(Box(0.28, 0.14, 0.02), ['#FFD66B', '#7CC86E', '#5BB8E6', '#B9A6F0'][i]!, { ol: 0, cs: false, to: g }),
+  );
+  const cuerda = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
+    linea = new THREE.Line(cuerda, new THREE.LineBasicMaterial({ color: '#6B5A4A' }));
+  linea.raycast = () => {};
+  w.sc.add(linea);
+  sinToqueTodo(g);
+  const pos = cuerda.attributes.position as THREE.BufferAttribute;
+  w.upd.push(() => {
+    g.position.set(x + Math.sin(T * 0.7) * 0.6, 5 + Math.sin(T * 1.1) * 0.4, z);
+    g.rotation.z = Math.sin(T * 1.3) * 0.25;
+    lazos.forEach((l, i) => l.position.set(Math.sin(T * 3 + i) * 0.15 * (i + 1), -1.4 - i * 0.4, 0));
+    pos.setXYZ(0, g.position.x, g.position.y - 0.9, g.position.z);
+    pos.setXYZ(1, x - 1.5, 0.2, z + 2);
+    pos.needsUpdate = true;
+  });
+}
+
+// pecesSaltan3(w, sitios): en cada sitio del mar (x, z), un pececito naranja que salta del agua en un arco corto cada 5
+// segundos (cada uno a destiempo) y salpica al salir y al entrar.
+export function pecesSaltan3(w: Mundo, sitios: readonly PuntoSuelo[]): void {
+  sitios.forEach(([x, z], i) => {
+    const g = grp(w.sc, [x, -3, z]);
+    mk(Sph(0.16, 10, 8), '#FF9A3C', { s: [1, 0.8, 1.8], ol: 0.02, cs: false, to: g });
+    mk(Cone(0.12, 0.2, 6), '#FF9A3C', { p: [0, 0, -0.32], r: [-Math.PI / 2, 0, 0], ol: 0.02, cs: false, to: g });
+    sinToqueTodo(g);
+    const chof = salpicadura(w, x, z);
+    w.upd.push(() => {
+      const t = (T + i * 1.7) % 5;
+      chof(t, 0.8);
+      if (t > 0.8) {
+        g.visible = false;
+        return;
+      }
+      const k = t / 0.8;
+      g.visible = true;
+      g.position.set(x, -1.1 + Math.sin(k * Math.PI) * 0.9, z + (k - 0.5) * 1.2);
+      g.rotation.x = (k - 0.5) * 2;
+    });
+  });
+}
+
+// tintarNubes3(w): al amanecer (de 7 a 9) las nubes del mundo (las que marca cloud3 con userData.nube) se vuelven
+// rosadas, y por la tarde (de 18 a 20), anaranjadas; de día y de noche se quedan como están. Cambia una copia del
+// material, porque los materiales se comparten.
+export function tintarNubes3(w: Mundo): void {
+  const h = ahora().getHours(),
+    color = h >= 7 && h < 9 ? '#FFDCE8' : h >= 18 && h < 20 ? '#FFD2AE' : null;
+  if (!color) return;
+  w.sc.traverse((o) => {
+    if (!o.userData.nube) return;
+    o.traverse((m) => {
+      const mesh = m as THREE.Mesh;
+      if (!mesh.isMesh || !(mesh.material instanceof THREE.MeshToonMaterial)) return;
+      const copia = mesh.material.clone();
+      copia.color.set(color);
+      mesh.material = copia;
+    });
+  });
 }

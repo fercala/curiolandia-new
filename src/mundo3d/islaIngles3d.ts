@@ -82,7 +82,7 @@ import { clock3, cloud3, flag3, palm3, phone3, sandc3 } from './objetos.ts';
 import { ffTap, makeTito, titoHearts, titoTapSfx } from './personajes.ts';
 import { skyNow } from './cielo.ts';
 import { adornarIsla } from './islaAdornos.ts';
-import { huellas3 } from './mapaVivo.ts';
+import { huellas3, tintarNubes3 } from './mapaVivo.ts';
 import { globoAire3, greyAll, sea3 } from './mapa3d.ts';
 
 // POS3: dónde va cada sitio de la isla en el suelo 3D ([x, z]): las tres zonas, Polly, el globo y dónde empieza Tito.
@@ -314,6 +314,7 @@ function buildIslaIngles(st: Escena): Mundo {
   w.sc.add(tito);
   w.tito = tito;
   huellas3(w); // Tito deja huellas al pasear (mejora gráfica 40)
+  tintarNubes3(w); // las nubes del color de la hora (mejora gráfica 80)
   w.pick.push(tito);
   w.upd.push((dt: number) => {
     const wk = walkTick(w, tito, dt);

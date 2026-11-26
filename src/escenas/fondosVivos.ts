@@ -14,8 +14,13 @@
  * (brillos y ondas en el estanque del zoo), bancoPeces (un banco de pececitos en el acuario), reflejosVentanas (la luz
  * que cruza las ventanas de la ciudad de día), cangrejoPlaya, cometaPlanetario, veletaGranja, ardillaBosque y vaporPan
  * (el vapor del pan recién hecho del mercado).
+ * Desde la v0.2.187 (mejoras 61 a 73): cometaCole, pompasPatio, patitosZoo, medusas, tortugaMarina, humoVolcan,
+ * palomasCiudad, erizoBosque, abejaMercado, sateliteCupula, estrellasMarPlaya, espantapajaros y las mariquitas de
+ * floresHierba.
  * Exporta: ventanasCiudad, orillaPlaya, rayosBosque, banderinesMercado, molinoGranja, nebulosas, motasSol, floresHierba,
- * estanqueZoo, bancoPeces, reflejosVentanas, cangrejoPlaya, cometaPlanetario, veletaGranja, ardillaBosque y vaporPan.
+ * estanqueZoo, bancoPeces, reflejosVentanas, cangrejoPlaya, cometaPlanetario, veletaGranja, ardillaBosque, vaporPan,
+ * cometaCole, pompasPatio, patitosZoo, medusas, tortugaMarina, humoVolcan, palomasCiudad, erizoBosque, abejaMercado,
+ * sateliteCupula, estrellasMarPlaya y espantapajaros.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
    1600x900: posiciones, tamaños, colores y tiempos. */
@@ -235,7 +240,7 @@ export function motasSol(): void {
 const COLORES_FLOR = ['#FF8A7A', '#FFD66B', '#B9A6F0', '#FFFFFF', '#7FD3F0'];
 
 // floresHierba(sitios): una flor en cada sitio (x, y de la base del tallo): el tallo verde, cinco pétalos de color y el
-// centro amarillo; se mecen con el viento, cada una a destiempo.
+// centro amarillo; se mecen con el viento, cada una a destiempo. Desde la mejora 73, con mariquitas que pasean.
 export function floresHierba(sitios: readonly (readonly [number, number])[]): void {
   ctx.save();
   sitios.forEach(([x, y], i) => {
@@ -260,6 +265,20 @@ export function floresHierba(sitios: readonly (readonly [number, number])[]): vo
     ctx.beginPath();
     ctx.arc(0, -34, 5, 0, PI * 2);
     ctx.fill();
+    // desde la mejora gráfica 73, en una de cada tres flores pasea una mariquita alrededor de los pétalos
+    if (i % 3 === 0) {
+      const a = T * 0.8 + i;
+      ctx.translate(Math.cos(a) * 10, -34 + Math.sin(a) * 10);
+      ctx.fillStyle = '#E2574C';
+      ctx.beginPath();
+      ctx.arc(0, 0, 4.5, 0, PI * 2);
+      ctx.fill();
+      ctx.fillStyle = K;
+      ctx.beginPath();
+      ctx.arc(-1.5, -1, 1.2, 0, PI * 2);
+      ctx.arc(1.8, 1.2, 1.2, 0, PI * 2);
+      ctx.fill();
+    }
     ctx.restore();
   });
   ctx.restore();
@@ -457,5 +476,358 @@ export function vaporPan(): void {
     }
     ctx.stroke();
   });
+  ctx.restore();
+}
+
+// cometaCole(): una cometa roja y amarilla que vuela en el cielo del cole, a la izquierda, dando bandazos con el viento,
+// con su cuerda que baja hacia la hierba.
+export function cometaCole(): void {
+  const x = 330 + Math.sin(T * 0.7) * 30,
+    y = 150 + Math.sin(T * 1.1) * 18;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(74,52,40,0.6)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(x, y + 40);
+  ctx.quadraticCurveTo(x - 40, y + 200, 220, 470);
+  ctx.stroke();
+  ctx.restore();
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(Math.sin(T * 1.3) * 0.2);
+  pic('cometa', 0, 0, 90);
+  ctx.restore();
+}
+
+// pompasPatio(): diez pompas de jabón que suben despacio por el patio meciéndose, con su brillo de colores y un reflejo
+// blanco; cada una sale de abajo a su ritmo y se desvanece arriba.
+export function pompasPatio(): void {
+  ctx.save();
+  for (let i = 0; i < 10; i++) {
+    const k = (T * (0.05 + (i % 3) * 0.015) + i * 0.1) % 1,
+      x = 120 + ((i * 157) % (W - 240)) + Math.sin(T * 1.2 + i) * 30,
+      y = H - k * (H - 120),
+      r = 14 + (i % 4) * 5;
+    ctx.globalAlpha = Math.min(1, k * 6, (1 - k) * 4) * 0.8;
+    const g = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.2, x, y, r);
+    g.addColorStop(0, 'rgba(255,255,255,0.1)');
+    g.addColorStop(0.8, 'rgba(180,220,255,0.25)');
+    g.addColorStop(1, 'rgba(255,170,230,0.6)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.beginPath();
+    ctx.arc(x - r * 0.4, y - r * 0.4, r * 0.18, 0, PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+// patitosZoo(): dos patitos amarillos que nadan en el estanque del zoo (abajo a la izquierda), de un lado a otro,
+// meciéndose en el agua.
+export function patitosZoo(): void {
+  ctx.save();
+  [0, 1].forEach((i) => {
+    const d = Math.cos(T * 0.3 + i * 2),
+      x = 70 + Math.sin(T * 0.3 + i * 2) * 80,
+      y = 815 + i * 18 + Math.sin(T * 2 + i) * 2;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(d > 0 ? 1 : -1, 1);
+    ctx.fillStyle = '#FFD84A';
+    ctx.strokeStyle = K;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 16, 9, 0, 0, PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(11, -11, 7, 0, PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = '#FF8A3C';
+    ctx.beginPath();
+    ctx.moveTo(17, -12);
+    ctx.lineTo(24, -10);
+    ctx.lineTo(17, -8);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = K;
+    ctx.beginPath();
+    ctx.arc(13, -13, 1.5, 0, PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+  ctx.restore();
+}
+
+// MEDUSAS: las medusas del acuario: dónde están (x, y), su tamaño y su color («r,g,b»).
+const MEDUSAS: readonly (readonly [number, number, number, string])[] = [
+  [470, 200, 1, '255,170,220'],
+  [1230, 260, 0.8, '190,170,255'],
+];
+
+// medusas(): las medusas del acuario, que laten (la campana se encoge y se estira) y suben y bajan despacio, con los
+// tentáculos ondulando debajo.
+export function medusas(): void {
+  ctx.save();
+  MEDUSAS.forEach(([x0, y0, s, c], i) => {
+    const late = 1 + Math.sin(T * 2.5 + i) * 0.12,
+      y = y0 + Math.sin(T * 0.6 + i * 2) * 30;
+    ctx.save();
+    ctx.translate(x0, y);
+    ctx.scale(s, s);
+    ctx.strokeStyle = `rgba(${c},0.8)`;
+    ctx.lineWidth = 3;
+    for (let t = 0; t < 4; t++) {
+      ctx.beginPath();
+      ctx.moveTo(-15 + t * 10, 0);
+      for (let j = 1; j <= 5; j++) ctx.lineTo(-15 + t * 10 + Math.sin(T * 3 + j + t) * 5, j * 11);
+      ctx.stroke();
+    }
+    ctx.fillStyle = `rgba(${c},0.75)`;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 28 * late, 22 / late, 0, PI, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.beginPath();
+    ctx.ellipse(-8, -10, 6, 4, -0.4, 0, PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+  ctx.restore();
+}
+
+// tortugaMarina(): una vez cada 25 segundos, una tortuga marina verde que cruza nadando el acuario de derecha a
+// izquierda en 15 s, moviendo las aletas.
+export function tortugaMarina(): void {
+  const t = (T + 8) % 25;
+  if (t > 15) return;
+  const x = W + 80 - (t / 15) * (W + 160),
+    y = 140 + Math.sin(T * 0.8) * 15,
+    a = Math.sin(T * 3) * 0.5;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillStyle = '#7CC86E';
+  ctx.strokeStyle = K;
+  ctx.lineWidth = 3;
+  [-1, 1].forEach((sd) => {
+    ctx.save();
+    ctx.translate(-8, sd * 16);
+    ctx.rotate(sd * (0.6 + a));
+    ctx.beginPath();
+    ctx.ellipse(-14, 0, 18, 6, 0, 0, PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  });
+  ctx.beginPath();
+  ctx.arc(-34, 0, 10, 0, PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#4F9A5A';
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 30, 22, 0, 0, PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = K;
+  ctx.beginPath();
+  ctx.arc(-38, -3, 2, 0, PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// humoVolcan(): el humito que sale del volcán del cuadro del museo (el cuadro de la izquierda, centro 380, 145): tres
+// bolitas grises que suben, crecen y se desvanecen, sin salirse del marco.
+export function humoVolcan(): void {
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(296, 76, 168, 138);
+  ctx.clip();
+  for (let i = 0; i < 3; i++) {
+    const k = (T * 0.35 + i / 3) % 1;
+    ctx.globalAlpha = 0.7 * (1 - k);
+    ctx.fillStyle = '#9AA3AD';
+    ctx.beginPath();
+    ctx.arc(380 + Math.sin(T + i) * 6 + k * 14, 112 - k * 34, 6 + k * 10, 0, PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+// paloma(x, y, d, pica): una paloma gris de lado en (x, y), mirando a la derecha (d = 1) o a la izquierda (d = -1);
+// con pica, agacha la cabeza a picotear.
+function paloma(x: number, y: number, d: number, pica: boolean): void {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(d, 1);
+  ctx.fillStyle = '#A8AEBC';
+  ctx.strokeStyle = K;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 16, 10, 0, 0, PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  const hy = pica ? 4 : -12;
+  ctx.beginPath();
+  ctx.arc(14, hy, 7, 0, PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#FFA94D';
+  ctx.beginPath();
+  ctx.moveTo(20, hy);
+  ctx.lineTo(26, hy + 2);
+  ctx.lineTo(20, hy + 3);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#E2574C';
+  ctx.beginPath();
+  ctx.moveTo(-3, 9);
+  ctx.lineTo(-3, 15);
+  ctx.moveTo(4, 9);
+  ctx.lineTo(4, 15);
+  ctx.stroke();
+  ctx.restore();
+}
+
+// palomasCiudad(): dos palomas que pasean por la acera de la ciudad, de un lado a otro, y de vez en cuando se paran a
+// picotear el suelo.
+export function palomasCiudad(): void {
+  [0, 1].forEach((i) => {
+    const f = T * 0.15 + i * 1.7,
+      x = 760 + i * 220 + Math.sin(f) * 140,
+      d = Math.cos(f) > 0 ? 1 : -1;
+    paloma(x, 505, d, Math.sin(T * 2.3 + i * 2) > 0.6);
+  });
+}
+
+// erizoBosque(): un erizo que pasea despacio por el suelo del bosque, abajo a la derecha, de un lado a otro.
+export function erizoBosque(): void {
+  const f = T * 0.12,
+    x = 1150 + Math.sin(f) * 200,
+    d = Math.cos(f) > 0 ? -1 : 1;
+  ctx.save();
+  ctx.translate(x, 868 - Math.abs(Math.sin(T * 6)) * 2);
+  ctx.scale(d, 1);
+  pic('erizo', 0, 0, 70);
+  ctx.restore();
+}
+
+// abejaMercado(): una abeja que revolotea en ochos sobre la fruta de la frutería, con las alas que zumban.
+export function abejaMercado(): void {
+  const x = 290 + Math.sin(T * 0.9) * 150,
+    y = 270 + Math.sin(T * 1.8) * 30;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  const a = Math.abs(Math.sin(T * 30));
+  ctx.beginPath();
+  ctx.ellipse(-3, -9, 6, 8 * a + 2, -0.3, 0, PI * 2);
+  ctx.ellipse(4, -9, 6, 8 * a + 2, 0.3, 0, PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#FFC93C';
+  ctx.strokeStyle = K;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 11, 8, 0, 0, PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = K;
+  ctx.fillRect(-3, -7, 3, 14);
+  ctx.fillRect(4, -6, 2.5, 12);
+  ctx.restore();
+}
+
+// sateliteCupula(): una vez cada 30 segundos, un satélite con sus dos paneles azules que cruza despacio la parte de
+// abajo de la cúpula del planetario, de derecha a izquierda, girando un poco y con una lucecita que parpadea.
+export function sateliteCupula(): void {
+  const t = (T + 12) % 30;
+  if (t > 18) return;
+  const x = W + 80 - (t / 18) * (W + 160),
+    y = 560 + Math.sin(T * 0.5) * 12;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(Math.sin(T * 0.4) * 0.3);
+  ctx.strokeStyle = '#C9D1DB';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(-40, 0);
+  ctx.lineTo(40, 0);
+  ctx.stroke();
+  ctx.fillStyle = '#5B8DEF';
+  ctx.fillRect(-62, -10, 26, 20);
+  ctx.fillRect(36, -10, 26, 20);
+  ctx.fillStyle = '#E8ECF2';
+  ctx.fillRect(-12, -12, 24, 24);
+  if (Math.sin(T * 6) > 0) halo(0, -16, 10, '255,90,90', 0.9);
+  ctx.restore();
+}
+
+// ESTRELLAS_MAR: dónde están las estrellas de mar en la arena de la playa (x, y, tamaño).
+const ESTRELLAS_MAR: readonly (readonly [number, number, number])[] = [
+  [330, 820, 52],
+  [1180, 880, 44],
+  [620, 880, 38],
+];
+
+// estrellasMarPlaya(): las estrellas de mar en la arena de la playa, cada una con un destello que titila a destiempo.
+export function estrellasMarPlaya(): void {
+  ESTRELLAS_MAR.forEach(([x, y, s], i) => {
+    pic('estrellaMar', x, y, s);
+    const k = Math.sin(T * 1.6 + i * 2.2);
+    if (k > 0.7) halo(x + s * 0.25, y - s * 0.25, 16, '255,255,255', (k - 0.7) * 3);
+  });
+}
+
+// espantapajaros(): el espantapájaros de la granja, a la izquierda del prado: el palo, la camisa de cuadros, la cabeza
+// de saco con su sombrero de paja y los brazos que se mueven con el viento.
+export function espantapajaros(): void {
+  const x = 70,
+    y = 400,
+    b = Math.sin(T * 1.4) * 0.25;
+  ctx.save();
+  ctx.strokeStyle = '#8A5A3C';
+  ctx.lineWidth = 7;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x, y - 110);
+  ctx.stroke();
+  ctx.translate(x, y - 80);
+  [-1, 1].forEach((sd) => {
+    ctx.save();
+    ctx.rotate(sd * b);
+    ctx.strokeStyle = '#5B8DEF';
+    ctx.lineWidth = 9;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(sd * 42, -6);
+    ctx.stroke();
+    ctx.restore();
+  });
+  ctx.fillStyle = '#5B8DEF';
+  ctx.strokeStyle = K;
+  ctx.lineWidth = 3;
+  ctx.fillRect(-14, -8, 28, 40);
+  ctx.strokeRect(-14, -8, 28, 40);
+  ctx.fillStyle = '#E8D3A0';
+  ctx.beginPath();
+  ctx.arc(0, -22, 14, 0, PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#E8C25A';
+  ctx.beginPath();
+  ctx.ellipse(0, -34, 24, 5, 0, 0, PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillRect(-10, -46, 20, 12);
+  ctx.strokeRect(-10, -46, 20, 12);
+  ctx.fillStyle = K;
+  ctx.beginPath();
+  ctx.arc(-5, -23, 2, 0, PI * 2);
+  ctx.arc(5, -23, 2, 0, PI * 2);
+  ctx.fill();
   ctx.restore();
 }

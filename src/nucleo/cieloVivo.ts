@@ -9,7 +9,8 @@
  *   - sombrasNubes: de día, las sombras de las nubes que pasan despacio por el suelo.
  * Todo va con T (el reloj del juego) y fórmulas fijas, sin azar: así no cambia ninguna secuencia de azar de los juegos.
  *   - desde las mejoras 41 y 42 (v0.2.186), avion (un avión con su estela) y bandada (pájaros en V).
- * Exporta: rayosSol, arcoiris, globoAerostatico, estrellaFugaz, sombrasNubes, avion y bandada.
+ *   - desde las mejoras 74 y 75 (v0.2.187), constelacion (la Osa Mayor de noche) y rafaga (un remolino de hojas).
+ * Exporta: rayosSol, arcoiris, globoAerostatico, estrellaFugaz, sombrasNubes, avion, bandada, constelacion y rafaga.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
    1600x900: posiciones, tamaños, colores y tiempos, y bucles que dibujan rayos y bandas. */
@@ -209,6 +210,75 @@ export function bandada(alto: number): void {
     ctx.quadraticCurveTo(x - 4, y - 4, x, y);
     ctx.quadraticCurveTo(x + 4, y - 4, x + 10, y - ala);
     ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// OSA_MAYOR: las siete estrellas de la Osa Mayor (el carro), en el cielo de la izquierda (x, y desde arriba).
+const OSA_MAYOR: readonly (readonly [number, number])[] = [
+  [180, 150],
+  [250, 140],
+  [310, 160],
+  [370, 175],
+  [390, 230],
+  [470, 240],
+  [480, 180],
+];
+
+// constelacion(alto): de noche, la Osa Mayor: siete estrellas más grandes que titilan, unidas por líneas finas que
+// brillan más y menos despacio (si el cielo es muy bajito, no se dibuja).
+export function constelacion(alto: number): void {
+  if (alto < 300) return;
+  ctx.save();
+  ctx.strokeStyle = `rgba(255,246,208,${(0.25 + 0.12 * Math.sin(T * 0.6)).toFixed(3)})`;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  OSA_MAYOR.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+  ctx.lineTo(OSA_MAYOR[3]![0], OSA_MAYOR[3]![1]);
+  ctx.stroke();
+  ctx.fillStyle = '#FFF6D0';
+  OSA_MAYOR.forEach(([x, y], i) => {
+    ctx.globalAlpha = 0.7 + 0.3 * Math.sin(T * 2 + i);
+    ctx.beginPath();
+    ctx.arc(x, y, 3.5, 0, PI * 2);
+    ctx.fill();
+  });
+  ctx.restore();
+}
+
+// COLORES_RAFAGA: los colores de las hojas que levanta el viento.
+const COLORES_RAFAGA = ['#7CC86E', '#A6DB86', '#FFA94D', '#E2574C'];
+
+// rafaga(horizonte): una vez cada 40 segundos, una ráfaga de viento: doce hojas que cruzan la pantalla de izquierda a
+// derecha en 4 s, dando vueltas en remolino, por debajo del horizonte; y unas rayitas blancas de viento.
+export function rafaga(horizonte: number): void {
+  const t = (T + 20) % 40;
+  if (t > 4) return;
+  const k = t / 4;
+  ctx.save();
+  ctx.strokeStyle = `rgba(255,255,255,${(0.6 * Math.sin(k * PI)).toFixed(3)})`;
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  [0, 1, 2].forEach((j) => {
+    const x = -200 + k * (W + 400) - j * 120,
+      y = horizonte + 60 + j * 70;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + 60, y - 14, x + 130, y);
+    ctx.stroke();
+  });
+  for (let i = 0; i < 12; i++) {
+    const a = T * 5 + i,
+      x = -100 + k * (W + 300) - (i % 6) * 50 + Math.cos(a) * 40,
+      y = horizonte + 80 + Math.floor(i / 6) * 90 + Math.sin(a) * 40;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(a);
+    ctx.fillStyle = COLORES_RAFAGA[i % COLORES_RAFAGA.length]!;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 10, 5, 0, 0, PI * 2);
+    ctx.fill();
+    ctx.restore();
   }
   ctx.restore();
 }
