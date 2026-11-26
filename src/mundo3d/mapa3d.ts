@@ -91,7 +91,7 @@ import {
   starGeo,
 } from './materiales.ts';
 import { bez, bush3, fhit, fireflies, flower3, gull3, lock3, ribbon, ring3, rock3, tree3 } from './decorado.ts';
-import { farolas3, reflejoLuna3, resplandores3 } from './lucesNoche.ts';
+import { destellosSol3, farolas3, reflejoLuna3, resplandores3 } from './lucesNoche.ts';
 import {
   busy3,
   call0,
@@ -798,7 +798,7 @@ function buildMap(st: Escena) {
       (['casaTito', 'tienda', 'cole', 'fiestas', 'rutinas'] as const).map((id) => MP(...MAPPOS[id]!)),
     );
     reflejoLuna3(w, -15, -12.6);
-  }
+  } else destellosSol3(w, -22, -14, 12, 3); // de día, el sol brilla en el mar (mejora gráfica 17)
   // decoración: árboles, arbustos, flores, piedras en lugares libres (desde la fase L2, sin el árbol de [14, 8.5], que
   // tapaba el barco del muelle)
   (

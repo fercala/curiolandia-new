@@ -3,28 +3,46 @@
 // Los eventos (pointerdown, pointermove...) están en aplicacion/bucle.ts, que rellena VIVO.MX/MY/mouseOn.
 // Al cargar el módulo dibuja los dos cursores y pone el de la mano.
 import { K } from '../dibujos/todos.ts';
-import { cv, VIVO } from './pantalla.ts';
-import { dist } from './utilidades.ts';
+import { cv, T, VIVO } from './pantalla.ts';
+import { dist, PI } from './utilidades.ts';
 
 /* ---------- puntero: ratón grande, pasar por encima ---------- */
 // Puntero en coordenadas lógicas (1600x900): MX/MY posición; mouseOn solo es true con ratón (con el dedo no hay "pasar por encima").
 // hovNow: id de lo que está bajo el ratón en este cuadro (lo apunta hv() al dibujar); hovPrev, hovT y dwellDone sirven para
 // el sonidito al pasar por encima y para decir el nombre si el ratón se queda quieto (hoverTick() en aplicacion/bucle.ts).
 Object.assign(VIVO, { MX: -9, MY: -9, mouseOn: false, hovNow: null, hovPrev: null, hovT: 0, dwellDone: false });
-// hR(x,y,w,h): ¿el ratón está dentro del rectángulo centrado en (x,y)? Nunca con el dedo ni mientras se arrastra.
+// Botones que se hunden (mejora gráfica 11 de docs/MEJORAS-GRAFICAS.md): pulsado dice si el dedo o el botón del ratón
+// están apretados ahora (lo pone el bucle con ponPulsado); soltadoT, cuándo se soltó, y pulsadoId, lo último que se
+// hundió, para que rebote un poco al soltarlo.
+let pulsado = false,
+  soltadoT = -9,
+  pulsadoId: unknown = null;
+// REBOTE: lo que dura el rebote de un botón al soltarlo (segundos).
+const REBOTE = 0.35;
+// ponPulsado(p): el dedo o el ratón se aprieta (p true) o se suelta (false). Lo llama aplicacion/bucle.ts.
+export function ponPulsado(p: boolean): void {
+  if (pulsado && !p) soltadoT = T;
+  pulsado = p;
+}
+// hR(x,y,w,h): ¿el ratón está dentro del rectángulo centrado en (x,y)? Nunca mientras se arrastra. Con el dedo, solo
+// mientras está apretado (desde la mejora gráfica 11, para que el botón se hunda).
 export const hR = (x: number, y: number, w: number, h: number): boolean =>
-  VIVO.mouseOn && !VIVO.drag && Math.abs(VIVO.MX - x) < w / 2 && Math.abs(VIVO.MY - y) < h / 2;
-// hC(x,y,r): ¿el ratón está dentro del círculo de centro (x,y) y radio r?
+  (VIVO.mouseOn || pulsado) && !VIVO.drag && Math.abs(VIVO.MX - x) < w / 2 && Math.abs(VIVO.MY - y) < h / 2;
+// hC(x,y,r): ¿el ratón (o el dedo apretado) está dentro del círculo de centro (x,y) y radio r?
 export const hC = (x: number, y: number, r: number): boolean =>
-  VIVO.mouseOn && !VIVO.drag && dist(VIVO.MX, VIVO.MY, x, y) < r;
+  (VIVO.mouseOn || pulsado) && !VIVO.drag && dist(VIVO.MX, VIVO.MY, x, y) < r;
 // hv(id, encima): si encima es cierto, apunta id como lo que hay bajo el ratón y devuelve 1.07 (escala para agrandarlo un poco);
-// si no, devuelve 1. Uso típico al dibujar un botón: const s=hv('boton',hC(x,y,r)).
+// si no, devuelve 1. Uso típico al dibujar un botón: const s=hv('boton',hC(x,y,r)). Desde la mejora gráfica 11, mientras
+// se aprieta encima devuelve 0.92 (el botón se hunde) y, al soltarlo, unos instantes un poco más (rebota).
 export function hv(id: unknown, hit: unknown): number {
-  if (hit) {
-    VIVO.hovNow = id;
-    return 1.07;
+  if (hit) VIVO.hovNow = id;
+  if (hit && pulsado) {
+    pulsadoId = id;
+    return 0.92;
   }
-  return 1;
+  const e = T - soltadoT;
+  if (id === pulsadoId && e >= 0 && e < REBOTE) return 1 + Math.sin((e / REBOTE) * PI) * 0.1 * (1 - e / REBOTE);
+  return hit ? 1.07 : 1;
 }
 // CUR: cursores dibujados a mano (pt = mano que señala, grab = puño al arrastrar); curMode: el que está puesto.
 const CUR: Record<string, string> = {};

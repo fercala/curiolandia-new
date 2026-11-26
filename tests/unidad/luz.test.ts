@@ -2,7 +2,7 @@
 // el momento de cada hora, la mezcla de colores y el cielo de cada momento.
 /* eslint-disable ts-patterns/no-magic-numbers -- las horas y los colores de cada caso, tal cual, son más claros. */
 import { describe, expect, test } from 'vitest';
-import { CIELO_LUZ, VELO_LUZ, cieloDe, mezcla, momentoLuz } from '../../src/dominio/luz.ts';
+import { CIELO_LUZ, VELO_LUZ, cieloDe, loQueCae, mezcla, momentoLuz } from '../../src/dominio/luz.ts';
 
 describe('la luz de las escenas 2D', () => {
   test('el momento de cada hora, como el cielo del mapa', () => {
@@ -34,5 +34,18 @@ describe('la luz de las escenas 2D', () => {
     expect(VELO_LUZ.dia.alfa).toBe(0);
     expect(VELO_LUZ.noche.alfa).toBeGreaterThan(VELO_LUZ.tarde.alfa);
     expect(CIELO_LUZ.dia).toBeNull();
+  });
+  test('lo que cae del cielo cada mes, como en el mapa', () => {
+    expect([0, 1, 2, 4, 5, 8, 9, 10, 11].map(loQueCae)).toEqual([
+      'nieve',
+      'nieve',
+      'petalos',
+      'petalos',
+      null,
+      null,
+      'hojas',
+      'hojas',
+      'nieve',
+    ]);
   });
 });

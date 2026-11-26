@@ -7,7 +7,9 @@
  *   - el reflejo de la luna en el mar: unos destellos que brillan a destiempo sobre las olas.
  * Las luces no son luces de verdad de three.js (costarían mucho en el móvil): son sprites y planos con la textura suave
  * (softTex) y mezcla aditiva, y no se pueden tocar (raycast vacío).
- * Exporta: farolas3, resplandores3 y reflejoLuna3. Las llama buildMap (mundo3d/mapa3d.ts).
+ *   - de día, los destellos del sol en el mar (desde la mejora gráfica 17, destellosSol3).
+ * Exporta: farolas3, resplandores3, reflejoLuna3 y destellosSol3. Las llama buildMap (mundo3d/mapa3d.ts); las dos primeras, desde
+ * la mejora gráfica 16, también lucesZona (mundo3d/zonas3d.ts), en los caminos de casitas de noche.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- posiciones, tamaños, colores y
    tiempos de las piezas 3D, y bucles que las reparten. */
@@ -107,6 +109,26 @@ export function reflejoLuna3(w: Mundo, x: number, z: number): void {
   w.upd.push(() => {
     ds.forEach((d, i) => {
       (d.material as THREE.MeshBasicMaterial).opacity = 0.18 + 0.3 * Math.abs(Math.sin(T * 1.6 + i * 0.9));
+    });
+  });
+}
+
+// destellosSol3(w, x, z, ancho, fondo): de día (mejora gráfica 17 de docs/MEJORAS-GRAFICAS.md), los destellos del sol en
+// el mar: 14 chispitas blancas repartidas (siempre igual, sin azar) por el rectángulo de mar que empieza en (x, z) y mide
+// ancho por fondo; cada una se enciende y se apaga a su ritmo, como el sol que brilla en las olas.
+export function destellosSol3(w: Mundo, x: number, z: number, ancho: number, fondo: number): void {
+  const ds: THREE.Sprite[] = [];
+  for (let i = 0; i < 14; i++) {
+    const d = brillo('#FFFFFF', 0);
+    d.position.set(x + ((i * 0.618) % 1) * ancho, -0.85, z + ((i * 0.377) % 1) * fondo);
+    d.scale.set(0.9, 0.35, 1);
+    w.sc.add(d);
+    ds.push(d);
+  }
+  w.upd.push(() => {
+    ds.forEach((d, i) => {
+      const k = Math.sin(T * (1.3 + (i % 4) * 0.35) + i * 2.1);
+      d.material.opacity = k > 0.55 ? (k - 0.55) * 2 : 0;
     });
   });
 }

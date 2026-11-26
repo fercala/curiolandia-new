@@ -5,10 +5,11 @@
  *   - cada toque deja una onda (dos aros que se abren y se desvanecen) en el sitio del dedo;
  *   - un acierto (cuando suena SFX.good) hace saltar estrellitas y un aro verde donde se tocó, y Tito da un saltito de
  *     alegría (titoContento, nucleo/tito.ts);
- *   - un fallo (SFX.bad) hace temblar la escena un momento, suave, de lado a lado.
+ *   - un fallo (SFX.bad) hace temblar la escena un momento, suave, de lado a lado;
+ *   - al arrastrar algo, el dedo deja una estela de estrellitas de colores (mejora gráfica 12, estela).
  * Se engancha a los sonidos con ponRespuestaVisual (nucleo/sonido.ts) al cargarse; el bucle (aplicacion/bucle.ts)
  * llama a ondaToque al tocar, a sacudida antes de dibujar la escena y a dibujaToques después.
- * Exporta: ondaToque, sacudida y dibujaToques.
+ * Exporta: ondaToque, estela, sacudida y dibujaToques.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- tamaños, tiempos y colores del dibujo en la pantalla de 1600x900. */
 import { ctx, T, VIVO } from './pantalla.ts';
@@ -16,6 +17,7 @@ import { PI } from './utilidades.ts';
 import { ponRespuestaVisual } from './sonido.ts';
 import { sparkles } from './escenas.ts';
 import { titoContento } from './tito.ts';
+import { star } from './dibujo.ts';
 
 /** Una onda en pantalla: dónde, cuándo empezó (T) y de qué color. */
 interface Onda {
@@ -55,6 +57,41 @@ function alFallar(): void {
 
 ponRespuestaVisual(alAcertar, alFallar);
 
+// Estela al arrastrar (mejora gráfica 12): las estrellitas que va dejando el dedo (dónde, cuándo y de qué color) y dónde
+// se puso la última, para dejar una cada 22 píxeles y no llenar la pantalla.
+interface Chispa {
+  readonly x: number;
+  readonly y: number;
+  readonly t: number;
+  readonly c: string;
+}
+let chispas: readonly Chispa[] = [],
+  ultimaChispa = { x: -99, y: -99 };
+// COLORES_ESTELA: los colores de las estrellitas de la estela, por turnos.
+const COLORES_ESTELA = ['#FFD66B', '#FF8A7A', '#7FD3F0', '#B9A6F0', '#7CC86E'];
+
+// estela(x, y): mientras se arrastra algo, deja una estrellita en (x, y) si el dedo se ha movido 22 píxeles desde la
+// última (como mucho 24 a la vez). Lo llama el bucle (aplicacion/bucle.ts) al mover con VIVO.drag puesto.
+export function estela(x: number, y: number): void {
+  if (Math.hypot(x - ultimaChispa.x, y - ultimaChispa.y) < 22) return;
+  ultimaChispa = { x, y };
+  chispas = [...chispas.slice(-23), { x, y, t: T, c: COLORES_ESTELA[chispas.length % COLORES_ESTELA.length]! }];
+}
+
+// dibujaEstela(): las estrellitas de la estela, que se encogen, giran y se desvanecen en medio segundo.
+function dibujaEstela(): void {
+  chispas = chispas.filter((c) => T - c.t < DURA);
+  chispas.forEach((c, i) => {
+    const k = (T - c.t) / DURA;
+    ctx.save();
+    ctx.globalAlpha = 1 - k;
+    ctx.translate(c.x, c.y + k * 18);
+    ctx.rotate(k * 2 + i);
+    star(0, 0, 11 * (1 - k * 0.6), c.c, 2);
+    ctx.restore();
+  });
+}
+
 // sacudida(): cuánto se mueve ahora la escena a los lados por el último fallo (en píxeles; 0 si no tiembla).
 export function sacudida(): number {
   const e = T - falloT;
@@ -62,9 +99,10 @@ export function sacudida(): number {
   return Math.sin(e * 55) * 7 * (1 - e / TIEMBLA);
 }
 
-// dibujaToques(): dibuja las ondas que siguen vivas: dos aros que crecen y se desvanecen (los de acierto, más grandes
-// y verdes), con un borde oscuro fino para que se vean también sobre fondos claros.
+// dibujaToques(): dibuja la estela de estrellitas (dibujaEstela) y las ondas que siguen vivas: dos aros que crecen y
+// se desvanecen (los de acierto, más grandes y verdes), con un borde oscuro fino para que se vean también sobre fondos claros.
 export function dibujaToques(): void {
+  dibujaEstela();
   ondas = ondas.filter((o) => T - o.t < DURA);
   if (!ondas.length) return;
   ctx.save();

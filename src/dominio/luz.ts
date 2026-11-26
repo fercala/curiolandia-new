@@ -5,7 +5,9 @@
  * momento, el velo que oscurece o calienta el suelo y la mezcla de dos colores.
  * Es DOMINIO: no dibuja ni sabe de la hora del reloj; recibe la hora (0 a 23) y devuelve colores.
  * Pruebas: tests/unidad/luz.test.ts.
- * Exporta: el tipo MomentoLuz; las tablas CIELO_LUZ y VELO_LUZ y las reglas momentoLuz, mezcla y cieloDe.
+ * Desde la mejora gráfica 14, también lo que cae del cielo según el mes (como en el mapa 3D, seasonFx).
+ * Exporta: los tipos MomentoLuz y LoQueCae; las tablas CIELO_LUZ y VELO_LUZ y las reglas momentoLuz, mezcla, cieloDe
+ * y loQueCae.
  * No importa nada.
  */
 /* eslint-disable ts-patterns/no-magic-numbers -- las horas y los colores van en tablas con nombre; sacarlos a otra
@@ -64,4 +66,16 @@ export function cieloDe(m: MomentoLuz, arriba: string, abajo: string): readonly 
   const c = CIELO_LUZ[m];
   if (!c) return [arriba, abajo];
   return [mezcla(arriba, c[0], 0.75), mezcla(abajo, c[1], 0.75)];
+}
+
+/** Lo que cae del cielo en las escenas de fuera según la estación: hojas, nieve, pétalos o nada (en verano). */
+export type LoQueCae = 'hojas' | 'nieve' | 'petalos' | null;
+
+// loQueCae(mes): lo que cae del cielo en el mes (0 es enero), con los mismos meses que el mapa 3D (seasonFx): hojas en
+// octubre y noviembre, nieve de diciembre a febrero, pétalos de marzo a mayo y nada de junio a septiembre.
+export function loQueCae(mes: number): LoQueCae {
+  if (mes === 9 || mes === 10) return 'hojas';
+  if (mes === 11 || mes <= 1) return 'nieve';
+  if (mes <= 4) return 'petalos';
+  return null;
 }

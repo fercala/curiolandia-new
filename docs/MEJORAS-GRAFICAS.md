@@ -1,4 +1,4 @@
-# Mejoras gráficas (v0.2.183)
+# Mejoras gráficas (v0.2.183 y v0.2.184)
 
 Fernando pidió el 25 de noviembre de 2026 diez mejoras gráficas y luego que se hicieran todas en la misma PR. Salen de
 revisar unas 150 capturas del juego (v0.2.182), de día y de noche: el mapa y las zonas en 3D se veían muy bien, pero
@@ -7,6 +7,9 @@ muchas escenas 2D (el cole, el patio, las excursiones y la casa) se veían plana
 Ninguna cambia el estado guardado `S`, ninguna frase de `say()` ni ningún texto de pantalla (por eso no hay rumano nuevo:
 los carteles del mapa siguen diciendo lo mismo, ahora con dibujo). Todo es dibujo barato para el móvil: sin luces de
 verdad de three.js, sin sombras nuevas y con patrones que se hacen una sola vez.
+
+El 26 de noviembre de 2026 Fernando pidió seguir con otras diez (de la 11 a la 20, v0.2.184), en la misma PR. Tampoco
+cambian `S`, ni frases, ni textos de pantalla.
 
 | # | Mejora | Qué cambia | Dónde |
 | --- | --- | --- | --- |
@@ -20,6 +23,16 @@ verdad de three.js, sin sombras nuevas y con patrones que se hacen una sola vez.
 | 8 | Respuesta igual al tocar en todos los juegos | Cada toque deja una onda; cada acierto (`SFX.good`), estrellitas y un aro verde donde se tocó y el saltito de Tito; cada fallo (`SFX.bad`), un temblor suave de la escena. | `src/nucleo/toques.ts` (`ondaToque`, `sacudida`, `dibujaToques`), enganchado con `ponRespuestaVisual` (`src/nucleo/sonido.ts`); el bucle (`aplicacion/bucle.ts`) los dibuja. |
 | 9 | Superficies con textura | Patrones dibujados de arena, tierra, hierba, madera y agua, encima del color de siempre: la hierba y la arena del cole y del patio, el prado de la granja y del zoo, el suelo del bosque, la arena y el mar de la playa, el suelo del museo, la tierra del huerto de la granja, los suelos de madera de la casa y la arena de «Buscar fósiles» y de los demás juegos de excavar (ondas, piedrecitas, conchas y una sombra de hoyo). | `textura` en `src/nucleo/texturas.ts`; `texturaExcava` en `src/juegos/comps.ts` (con fórmulas fijas, sin `azar()`, para no cambiar el azar del juego). |
 | 10 | Pegatinas que brillan | Las pegatinas ganadas tienen una franja de luz que las cruza cada pocos segundos y una estrellita que titila; las que faltan salen en el álbum como silueta crema con una chapita «?». | `drawSticker` (con `brillo`) y `drawStickerFalta` en `src/nucleo/interfaz.ts`; el álbum, en `src/escenas/escenas2d.ts`. |
+| 11 | Botones que se hunden y rebotan | Al tocar un botón se hunde un poco (se encoge al 92 %) y, al soltarlo, rebota antes de volver a su tamaño. Funciona también con el dedo, sin ratón encima. | `hv`, `hR`, `hC` y `ponPulsado` en `src/nucleo/puntero.ts`; el bucle (`src/aplicacion/bucle.ts`) llama a `ponPulsado` al tocar y al soltar. |
+| 12 | Estela de estrellitas al arrastrar | Mientras se arrastra algo, el dedo deja estrellitas de colores que se encogen, giran y se desvanecen en medio segundo (una cada 22 píxeles, como mucho 24 a la vez). | `estela` y `dibujaEstela` en `src/nucleo/toques.ts`; el bucle llama a `estela` al mover con `VIVO.drag`. |
+| 13 | Monedas del marcador que saltan y brillan | Al llegar monedas, un resplandor dorado detrás del marcador y el número que salta y crece; cada pocos segundos, la moneda brilla con una estrellita. | `drawCoinHUD` en `src/nucleo/monedas.ts`. |
+| 14 | Estaciones en las escenas de fuera | Hojas naranjas y rojas que caen en otoño (octubre y noviembre), nieve en invierno (diciembre a febrero) y pétalos en primavera (marzo a mayo), con los mismos meses que el mapa 3D; en verano, nada. | Regla `loQueCae` en `src/dominio/luz.ts` (con su prueba); dibujo en `veloHora` (`estacion`) de `src/nucleo/paisaje.ts`, así que sale en todas las escenas con el cielo de la hora. |
+| 15 | Vida en el fondo | De día, dos pájaros que cruzan el cielo aleteando y dos mariposas que revolotean por la hierba; de noche, luciérnagas que flotan y parpadean. | `vidaExterior` en `src/nucleo/paisaje.ts` (desde `veloHora`, con el horizonte que guarda `cieloExterior`). |
+| 16 | Zonas 3D de noche con luces | En los caminos de casitas (el jardín, el bosque, la montaña y las zonas de las islas), de noche, una farola encendida entre cada dos casitas de la misma fila y el resplandor de las ventanas encendidas. | `lucesZona` en `src/mundo3d/zonas3d.ts`, con `farolas3` y `resplandores3` de `src/mundo3d/lucesNoche.ts`. |
+| 17 | El sol brilla en el mar | De día, chispitas blancas que se encienden y se apagan sobre el mar del mapa y a los dos lados de las islas. | `destellosSol3` en `src/mundo3d/lucesNoche.ts`; lo llaman `buildMap` (`mapa3d.ts`) y `adornarIsla` (`islaAdornos.ts`). |
+| 18 | Luz en el acuario y en el museo | En el acuario, cinco rayos de luz que se mecen y laten, la luz que baila en la arena y burbujas con su brillo; en el museo, un haz cálido que baja de una claraboya sobre el esqueleto, con motas de polvo que brillan. | `fondoAcuario` y `causticas`, y `fondoMuseo` y `luzMuseo`, en `src/escenas/excursion.ts`. |
+| 19 | El cofre se abre con más luz | Detrás de los rayos que ya giraban, un resplandor dorado que late y otros rayos finos que giran al revés y se apagan hacia fuera. | `drawChest` en `src/escenas/cofre.ts`. |
+| 20 | Transición iris con estrellitas | Al cambiar de escena, el círculo que se cierra y se abre lleva estrellitas de colores girando por su borde. | `dibujaIris` en `src/aplicacion/bucle.ts`. |
 
 ## Cómo añadir el cielo de la hora a una escena 2D nueva
 
@@ -27,4 +40,4 @@ verdad de three.js, sin sombras nuevas y con patrones que se hacen una sola vez.
 2. Dibuja el suelo y el paisaje y, si quieres, `textura('hierba', x, y, ancho, alto, 0.8)` encima del color del suelo.
 3. Al final del fondo, antes de los botones, Tito y lo que se toca, llama a `veloHora()`.
 
-Las escenas de dentro (la casa, el museo, el acuario, el planetario) no llevan el velo de la hora.
+Las escenas de dentro (la casa, el museo, el acuario, el planetario) no llevan el velo de la hora. Con `veloHora()` vienen también lo que cae del cielo según la estación y los pájaros, las mariposas o las luciérnagas (mejoras 14 y 15).

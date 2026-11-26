@@ -15,6 +15,7 @@ import { FLC, T } from '../nucleo/indice.ts';
 import { grp } from './materiales.ts';
 import { bez, bush3, fireflies, flower3, ribbon, rock3 } from './decorado.ts';
 import { palm3 } from './objetos.ts';
+import { destellosSol3 } from './lucesNoche.ts';
 
 // ROCAS, PALMERAS, ARBUSTOS y FLORES: dónde va cada adorno ([x, z]; las rocas y conchas en la arena, a ras de la
 // orilla; las palmeras en el borde de la hierba; los arbustos y las flores entre las zonas).
@@ -71,7 +72,7 @@ function olas3(w: Mundo): void {
 }
 
 // adornarIsla(w, zonas, centro, noche): pone en la isla del mundo w los caminos (del centro a cada zona), las olas, las
-// rocas, las palmeras, los arbustos, las flores y, de noche, las luciérnagas.
+// rocas, las palmeras, los arbustos, las flores y, de noche, las luciérnagas; de día, los destellos del sol en el mar.
 export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: PuntoSuelo, noche: boolean): void {
   zonas.forEach((z) => {
     const c: PuntoSuelo = [(centro[0] + z[0]) / 2, (centro[1] + z[1]) / 2 + 1.2];
@@ -84,4 +85,9 @@ export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: Punt
   ARBUSTOS.forEach(([x, z], i) => bush3(w.sc, x, z, 0.7 + (i % 2) * 0.2));
   FLORES.forEach(([x, z], i) => flower3(w.sc, x, z, FLC[i % FLC.length]!, 0.6, 0));
   if (noche) fireflies(w, 26, 14, 1.8);
+  else {
+    // de día, el sol brilla en el mar a los dos lados de la isla (mejora gráfica 17)
+    destellosSol3(w, -26, 2, 7, 6);
+    destellosSol3(w, 19, 2, 7, 6);
+  }
 }
