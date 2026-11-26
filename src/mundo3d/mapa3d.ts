@@ -92,6 +92,7 @@ import {
 } from './materiales.ts';
 import { bez, bush3, fhit, fireflies, flower3, gull3, lock3, ribbon, ring3, rock3, tree3 } from './decorado.ts';
 import { destellosSol3, farolas3, reflejoLuna3, resplandores3 } from './lucesNoche.ts';
+import { espumaOrilla3, huellas3, sombrasNubes3 } from './mapaVivo.ts';
 import {
   busy3,
   call0,
@@ -198,7 +199,7 @@ export function sea3(w: Mundo, c: string) {
   });
 }
 // island3(w): crea la isla del mapa (forma de curvas extruida, con césped arriba y tierra al lado), su contorno y la playa.
-// La isla queda como w.ground (el suelo por donde pasea Tito).
+// La isla queda como w.ground (el suelo por donde pasea Tito). Desde la mejora gráfica 36, con espuma en la orilla.
 function island3(w: Mundo) {
   const pts = [
     [150, 560],
@@ -248,6 +249,12 @@ function island3(w: Mundo) {
   b.position.y = -0.75;
   b.receiveShadow = true;
   w.sc.add(b);
+  // la espuma de las olas en la orilla (mejora gráfica 36)
+  espumaOrilla3(
+    w,
+    s.getPoints(24).map((v): PuntoSuelo => [v.x, v.y]),
+    1.9,
+  );
 }
 // SPOT3: un constructor por cada lugar del mapa (clave = id de MZ2). Cada uno recibe g (el grupo ya colocado en el mapa) y, las zonas
 // por edad, open (true si la zona está abierta; si no, se dibuja en gris y dormida con zzz). Añaden las piezas con mk/spr/plane
@@ -798,7 +805,10 @@ function buildMap(st: Escena) {
       (['casaTito', 'tienda', 'cole', 'fiestas', 'rutinas'] as const).map((id) => MP(...MAPPOS[id]!)),
     );
     reflejoLuna3(w, -15, -12.6);
-  } else destellosSol3(w, -22, -14, 12, 3); // de día, el sol brilla en el mar (mejora gráfica 17)
+  } else {
+    destellosSol3(w, -22, -14, 12, 3); // de día, el sol brilla en el mar (mejora gráfica 17)
+    sombrasNubes3(w); // y pasan las sombras de las nubes (mejora gráfica 37)
+  }
   // decoración: árboles, arbustos, flores, piedras en lugares libres (desde la fase L2, sin el árbol de [14, 8.5], que
   // tapaba el barco del muelle)
   (
@@ -903,6 +913,7 @@ function buildMap(st: Escena) {
   tito.rotation.y = -0.35;
   w.sc.add(tito);
   w.tito = tito;
+  huellas3(w); // Tito deja huellas al pasear (mejora gráfica 40)
   w.pick.push(tito);
   const asam = w.spots.plaza,
     gl = ring3(asam, [0, 0.25, 0], 3.1);

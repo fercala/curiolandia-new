@@ -80,6 +80,7 @@ import {
 import { NOTE, TUNES, playTune } from '../juegos/indice.ts';
 import { bunting, floor } from '../temas/indice.ts';
 import { textura } from '../nucleo/texturas.ts';
+import { motasSol } from './fondosVivos.ts';
 import { HOUSE_NEXT, PET_NEXT, arrowAt, drawPet, houseLevel, petStage } from './zonas.ts';
 // azar(): el azar del juego (puerto de aplicacion/puertos.ts, desde la fase 3g; antes Math.random()).
 import { ahora, azar } from '../aplicacion/puertos.ts';
@@ -468,7 +469,7 @@ function cuadroPared(x: number, y: number, dibujo: string): void {
   pic(dibujo, x, y, 66);
 }
 // luzHabitacion(id, noche): la luz que llena la habitación (mejora gráfica 4): de día, unos rayos de sol que entran en
-// diagonal por la ventana; de noche con la luz encendida (homeLight), un resplandor cálido que baja de arriba, en vez de
+// diagonal por la ventana (desde la mejora gráfica 32, con motas doradas que flotan en ellos, motasSol); de noche con la luz encendida (homeLight), un resplandor cálido que baja de arriba, en vez de
 // solo oscurecer. En el jardín y la torre (que son de fuera o ya de noche) no se pone.
 function luzHabitacion(id: string, noche: boolean): void {
   if (id === 'jardin' || id === 'torre') return;
@@ -483,6 +484,8 @@ function luzHabitacion(id: string, noche: boolean): void {
     ctx.lineTo(760, 880);
     ctx.closePath();
     ctx.fill();
+    ctx.globalAlpha = 1;
+    motasSol(); // las motas doradas en el rayo de sol (mejora gráfica 32)
   } else if (homeLight) {
     const g = ctx.createRadialGradient(W / 2, 80, 60, W / 2, 80, 900);
     g.addColorStop(0, 'rgba(255,200,110,.22)');

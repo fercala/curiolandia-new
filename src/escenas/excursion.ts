@@ -76,6 +76,8 @@ import { EXCURSIONES, excursionPorId } from '../contenido/excursiones.ts';
 import { K } from '../dibujos/todos.ts';
 import { cieloExterior, veloHora } from '../nucleo/paisaje.ts';
 import { textura } from '../nucleo/texturas.ts';
+import { momentoAhora } from '../nucleo/paisaje.ts';
+import { banderinesMercado, molinoGranja, nebulosas, orillaPlaya, rayosBosque, ventanasCiudad } from './fondosVivos.ts';
 import { animalEn, dibujaPaseo, empezarPaseo, moverPaseo, ponerCrias, tocarPaseo } from './granjaAnimales.ts';
 import { camaraActiva, disparoVacio, dibujaCamara, hacerFotoDe, tocarBotonCamara } from './fotos.ts';
 import { fotoDeMarca } from '../dominio/fotos.ts';
@@ -99,8 +101,8 @@ function cielo(a: string, b: string, alto: number): void {
 // Desde la fase ID2f de docs/PLAN-IDIOMAS.md; lo usa también el álbum de excursiones.
 export const nombreExcursion = (e: Excursion): Nombre => nombreEn(e.nombre.charAt(0).toLowerCase() + e.nombre.slice(1));
 
-// fondoGranja(): la granja: el cielo, el prado, el granero rojo con su tejado, la valla y el camino de tierra. Lo usan la
-// excursión de la granja y sus estaciones.
+// fondoGranja(): la granja: el cielo, el prado, el granero rojo con su tejado, la valla y el camino de tierra (desde la
+// mejora gráfica 30, con un molino de viento que gira). Lo usan la excursión de la granja y sus estaciones.
 export function fondoGranja(): void {
   cieloExterior('#BFE3FF', '#E6F5FF', 300, { colinas: true });
   ctx.fillStyle = '#A6DB86';
@@ -124,6 +126,9 @@ export function fondoGranja(): void {
   ctx.fillStyle = '#FFF4E0';
   ctx.fillRect(1365, 200, 80, 100);
   ctx.strokeRect(1365, 200, 80, 100);
+  ctx.restore();
+  molinoGranja(); // el molino de viento (mejora gráfica 30)
+  ctx.save();
   // la valla, a lo largo del horizonte
   ctx.strokeStyle = '#B08A5A';
   ctx.lineWidth = 10;
@@ -484,7 +489,7 @@ function edificio(x: number, w: number, h: number, c: string, tejado: string): v
 
 // fondoCiudad(): la ciudad (desde la fase P20): el cielo, los edificios de la calle (el parque de bomberos rojo con su
 // gran puerta, la panadería con su toldo de rayas y el centro de salud con su cruz), la acera, la carretera con el paso
-// de cebra y el semáforo, y un coche que pasa (con T).
+// de cebra y el semáforo, y un coche que pasa (con T). Desde la mejora gráfica 26, de noche, las ventanas encendidas.
 export function fondoCiudad(): void {
   cieloExterior('#8FD3F5', '#DDF3FF', 470, { colinas: true });
   ctx.save();
@@ -510,6 +515,7 @@ export function fondoCiudad(): void {
   // el coche que pasa por la carretera, de izquierda a derecha
   pic('camion', ((T * 120) % 2000) - 200, 860, 150, 0.9);
   veloHora();
+  if (momentoAhora() === 'noche') ventanasCiudad(); // las ventanas encendidas (mejora gráfica 26)
 }
 
 // HOJAS_CAEN: las hojas que caen en el bosque de otoño: dibujo, columna (x), fase y velocidad.
@@ -538,7 +544,8 @@ function arbolOtono(x: number, y: number, s: number, c: string): void {
 }
 
 // fondoBosque(): el bosque de otoño (desde la fase P21): el cielo, los árboles rojos, naranjas y amarillos, el suelo
-// lleno de hojas, el sendero, unas setas y las hojas que caen (con T).
+// lleno de hojas, el sendero, unas setas y las hojas que caen (con T); desde la mejora gráfica 28, de día, rayos de sol
+// entre los árboles.
 export function fondoBosque(): void {
   cieloExterior('#BFE3F2', '#F6E7C8', 470, { colinas: true });
   ctx.save();
@@ -578,6 +585,7 @@ export function fondoBosque(): void {
     const y = ((T * v + f * 900) % 1000) - 60;
     pic(k, x + Math.sin(T * 1.5 + f * 9) * 40, y, 50);
   });
+  if (momentoAhora() !== 'noche') rayosBosque(); // rayos de sol entre los árboles (mejora gráfica 28)
   veloHora();
 }
 
@@ -595,7 +603,8 @@ function puesto(x: number, w: number, toldo: string, cosas: readonly string[]): 
 }
 
 // fondoMercado(): el mercado (desde la fase P22): el cielo, la frutería (toldo verde), la panadería (toldo naranja) y
-// la pescadería (toldo azul) con lo que venden, el suelo de baldosas y unos globos de colores que se mecen (con T).
+// la pescadería (toldo azul) con lo que venden, el suelo de baldosas y unos globos de colores que se mecen (con T);
+// desde la mejora gráfica 29, una guirnalda de banderines.
 export function fondoMercado(): void {
   cieloExterior('#BFE3FF', '#FFF3DC', 470, { colinas: true });
   ctx.save();
@@ -620,11 +629,13 @@ export function fondoMercado(): void {
     [1040, '#7CC86E'],
     [1075, '#5B8DEF'],
   ].forEach(([x, c], i) => circ(x as number, 60 + Math.sin(T * 2 + i) * 6, 22, c as string, 4));
+  banderinesMercado(); // banderines que se mecen (mejora gráfica 29)
   veloHora();
 }
 
 // fondoPlanetario(): el planetario (desde la fase P23): la cúpula oscura llena de estrellas que parpadean (con T), la
-// Tierra, la Luna, Saturno y Júpiter y el cohete en su plataforma.
+// Tierra, la Luna, Saturno y Júpiter y el cohete en su plataforma; desde la mejora gráfica 31, nebulosas de colores y
+// estrellas fugaces.
 export function fondoPlanetario(): void {
   cielo('#141A3C', '#2E3F7A', H);
   ctx.save();
@@ -633,6 +644,7 @@ export function fondoPlanetario(): void {
     circ((i * 197) % W, (i * 131) % H, 2 + (i % 3), '#FFE08A', 0);
   });
   ctx.restore();
+  nebulosas(); // nebulosas de colores y estrellas fugaces (mejora gráfica 31)
   pic('saturno', 260, 200, 170);
   pic('jupiter', 1340, 420, 150);
   pic('tierra', 760, 160, 130);
@@ -707,7 +719,8 @@ function sombrilla(x: number, y: number): void {
 }
 
 // fondoPlaya(): la playa (desde la fase P24): el cielo con el sol, el mar con olas que se mueven, un barco y una lancha
-// que navegan (con T), el faro en sus rocas, la arena, la sombrilla y la toalla.
+// que navegan (con T), el faro en sus rocas, la arena, la sombrilla y la toalla; desde la mejora gráfica 27, la espuma
+// de la orilla y los destellos del sol en el mar.
 export function fondoPlaya(): void {
   cieloExterior('#9ED9F5', '#E9F7FC', 220);
   ctx.save();
@@ -735,6 +748,7 @@ export function fondoPlaya(): void {
   ctx.restore();
   textura('arena', 0, 440, W, H - 440);
   textura('agua', 0, 220, W, 190, 0.5);
+  orillaPlaya(); // la espuma de la orilla y el sol en el mar (mejora gráfica 27)
   pic('barco', ((T * 30) % 1900) - 150, 270, 130);
   pic('lancha', W + 150 - ((T * 45 + 900) % 1900), 350, 100);
   faro(150, 420);

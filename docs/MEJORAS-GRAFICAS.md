@@ -1,4 +1,4 @@
-# Mejoras gráficas (v0.2.183 y v0.2.184)
+# Mejoras gráficas (v0.2.183, v0.2.184 y v0.2.185)
 
 Fernando pidió el 25 de noviembre de 2026 diez mejoras gráficas y luego que se hicieran todas en la misma PR. Salen de
 revisar unas 150 capturas del juego (v0.2.182), de día y de noche: el mapa y las zonas en 3D se veían muy bien, pero
@@ -10,6 +10,9 @@ verdad de three.js, sin sombras nuevas y con patrones que se hacen una sola vez.
 
 El 26 de noviembre de 2026 Fernando pidió seguir con otras diez (de la 11 a la 20, v0.2.184), en la misma PR. Tampoco
 cambian `S`, ni frases, ni textos de pantalla.
+
+Ese mismo día pidió otras veinte (de la 21 a la 40, v0.2.185), en una PR nueva. Tampoco cambian `S`, ni frases, ni
+textos de pantalla.
 
 | # | Mejora | Qué cambia | Dónde |
 | --- | --- | --- | --- |
@@ -33,6 +36,26 @@ cambian `S`, ni frases, ni textos de pantalla.
 | 18 | Luz en el acuario y en el museo | En el acuario, cinco rayos de luz que se mecen y laten, la luz que baila en la arena y burbujas con su brillo; en el museo, un haz cálido que baja de una claraboya sobre el esqueleto, con motas de polvo que brillan. | `fondoAcuario` y `causticas`, y `fondoMuseo` y `luzMuseo`, en `src/escenas/excursion.ts`. |
 | 19 | El cofre se abre con más luz | Detrás de los rayos que ya giraban, un resplandor dorado que late y otros rayos finos que giran al revés y se apagan hacia fuera. | `drawChest` en `src/escenas/cofre.ts`. |
 | 20 | Transición iris con estrellitas | Al cambiar de escena, el círculo que se cierra y se abre lleva estrellitas de colores girando por su borde. | `dibujaIris` en `src/aplicacion/bucle.ts`. |
+| 21 | Sombras de nubes en el suelo | De día, tres sombras suaves de nube que pasan despacio por el suelo de las escenas de fuera. | `sombrasNubes` en `src/nucleo/cieloVivo.ts`, desde `veloHora` (`src/nucleo/paisaje.ts`). |
+| 22 | Estrellas fugaces | De noche, una estrella fugaz con su estela cada 7 segundos, cada vez desde un sitio distinto. | `estrellaFugaz` en `src/nucleo/cieloVivo.ts`, desde `cieloExterior`. |
+| 23 | Un globo aerostático | De día, un globo de rayas con su cesta cruza el cielo despacio una vez cada minuto y medio. | `globoAerostatico` en `src/nucleo/cieloVivo.ts`. |
+| 24 | Rayos de sol | Ocho rayos suaves que salen del sol y giran muy despacio (anaranjados al amanecer y por la tarde), sin bajar del horizonte. | `rayosSol` en `src/nucleo/cieloVivo.ts`. |
+| 25 | Un arcoíris a ratos | De día, un arcoíris a la izquierda del cielo que aparece, se queda 14 segundos y se desvanece, una vez cada dos minutos (la primera, al minuto de jugar). | `arcoiris` en `src/nucleo/cieloVivo.ts`. |
+| 26 | La ciudad de noche | Las ventanas de los edificios encendidas, con su resplandor (alguna se apaga y se enciende despacio), y dos farolas con su halo en la acera. | `ventanasCiudad` en `src/escenas/fondosVivos.ts`, desde `fondoCiudad` (`escenas/excursion.ts`). |
+| 27 | La orilla de la playa | La espuma blanca de la orilla sube y baja como las olas, y el sol hace destellos sobre el mar. | `orillaPlaya` en `src/escenas/fondosVivos.ts`, desde `fondoPlaya`. |
+| 28 | Rayos de sol en el bosque | De día, cuatro rayos de sol que bajan en diagonal entre los árboles y brillan más y menos. | `rayosBosque` en `src/escenas/fondosVivos.ts`, desde `fondoBosque`. |
+| 29 | Banderines en el mercado | Una guirnalda de banderines de colores, de lado a lado, que se mecen con el viento. | `banderinesMercado` en `src/escenas/fondosVivos.ts`, desde `fondoMercado`. |
+| 30 | Un molino en la granja | Un molino de viento junto al granero con las aspas girando. | `molinoGranja` en `src/escenas/fondosVivos.ts`, desde `fondoGranja`. |
+| 31 | Nebulosas en el planetario | Nubes de colores que laten en la cúpula y una estrella fugaz de vez en cuando. | `nebulosas` en `src/escenas/fondosVivos.ts`, desde `fondoPlanetario`. |
+| 32 | Motas doradas en la casa | Motas de polvo que flotan, suben y brillan en el rayo de sol que entra por la ventana. | `motasSol` en `src/escenas/fondosVivos.ts`, desde `luzHabitacion` (`escenas/casa.ts`). |
+| 33 | Monedas con chispas | Las monedas que vuelan al marcador dejan tres chispitas doradas detrás. | `drawCoinFx` en `src/nucleo/monedas.ts`. |
+| 34 | El cartel «+N» con rayos | Detrás del cartel de las monedas ganadas giran rayos de luz dorados. | `drawCoinFx` en `src/nucleo/monedas.ts`. |
+| 35 | Halo bajo el ratón | En el ordenador, un brillo suave que late bajo el puntero cuando está encima de algo que se puede tocar (con el dedo no sale). | `haloPuntero` en `src/nucleo/toques.ts`. |
+| 36 | Espuma en la orilla del mapa | Dos aros de espuma con la forma de la isla del mapa que se abren y se desvanecen. | `espumaOrilla3` en `src/mundo3d/mapaVivo.ts`, desde `island3` (`mapa3d.ts`). |
+| 37 | Sombras de nubes en 3D | De día, sombras suaves de nube que cruzan el mapa, las islas y las zonas. | `sombrasNubes3` en `src/mundo3d/mapaVivo.ts`. |
+| 38 | Chispitas en la casita que toca | Del aro dorado de la casita siguiente suben chispitas doradas que giran y se desvanecen. | `chispasSuben3` en `src/mundo3d/mapaVivo.ts`, desde `buildZone` (`zonas3d.ts`). |
+| 39 | Las islas de noche con luces | En las islas de las Letras y del Inglés, de noche, una farola junto a cada camino y el resplandor de las ventanas de cada zona. | `adornarIsla` (`src/mundo3d/islaAdornos.ts`) con `farolas3` y `resplandores3`. |
+| 40 | Huellas de Tito | Al pasear por el mapa, las islas y las zonas, Tito deja huellas a un lado y a otro que se borran en 3 segundos. | `huellas3` en `src/mundo3d/mapaVivo.ts`. |
 
 ## Cómo añadir el cielo de la hora a una escena 2D nueva
 
@@ -40,4 +63,4 @@ cambian `S`, ni frases, ni textos de pantalla.
 2. Dibuja el suelo y el paisaje y, si quieres, `textura('hierba', x, y, ancho, alto, 0.8)` encima del color del suelo.
 3. Al final del fondo, antes de los botones, Tito y lo que se toca, llama a `veloHora()`.
 
-Las escenas de dentro (la casa, el museo, el acuario, el planetario) no llevan el velo de la hora. Con `veloHora()` vienen también lo que cae del cielo según la estación y los pájaros, las mariposas o las luciérnagas (mejoras 14 y 15).
+Las escenas de dentro (la casa, el museo, el acuario, el planetario) no llevan el velo de la hora. Con `veloHora()` vienen también lo que cae del cielo según la estación y los pájaros, las mariposas o las luciérnagas (mejoras 14 y 15) y, desde la v0.2.185, las sombras de las nubes; y con `cieloExterior()`, los rayos del sol, el arcoíris, el globo y las estrellas fugaces (mejoras 21 a 25).
