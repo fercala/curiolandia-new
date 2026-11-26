@@ -92,7 +92,7 @@ import {
 } from './materiales.ts';
 import { bez, bush3, fhit, fireflies, flower3, gull3, lock3, ribbon, ring3, rock3, tree3 } from './decorado.ts';
 import { destellosSol3, farolas3, reflejoLuna3, resplandores3 } from './lucesNoche.ts';
-import { espumaOrilla3, huellas3, sombrasNubes3 } from './mapaVivo.ts';
+import { ballena3, delfines3, espumaOrilla3, huellas3, sombrasNubes3, velero3 } from './mapaVivo.ts';
 import {
   busy3,
   call0,
@@ -809,6 +809,13 @@ function buildMap(st: Escena) {
     destellosSol3(w, -22, -14, 12, 3); // de día, el sol brilla en el mar (mejora gráfica 17)
     sombrasNubes3(w); // y pasan las sombras de las nubes (mejora gráfica 37)
   }
+  // el mar con vida: delfines que saltan, una ballena a lo lejos y un velero que da la vuelta a la isla (mejoras 55 a 57)
+  delfines3(w, [
+    [-20, -12],
+    [17, -12.5],
+  ]);
+  ballena3(w, 6, -15.5);
+  velero3(w, 22.5, 13, !!sk.night);
   // decoración: árboles, arbustos, flores, piedras en lugares libres (desde la fase L2, sin el árbol de [14, 8.5], que
   // tapaba el barco del muelle)
   (

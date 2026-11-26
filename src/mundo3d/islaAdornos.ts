@@ -16,7 +16,7 @@ import { grp } from './materiales.ts';
 import { bez, bush3, fireflies, flower3, ribbon, rock3 } from './decorado.ts';
 import { palm3 } from './objetos.ts';
 import { destellosSol3, farolas3, resplandores3 } from './lucesNoche.ts';
-import { sombrasNubes3 } from './mapaVivo.ts';
+import { ballena3, delfines3, mariposasIsla3, sombrasNubes3, velero3 } from './mapaVivo.ts';
 
 // ROCAS, PALMERAS, ARBUSTOS y FLORES: dónde va cada adorno ([x, z]; las rocas y conchas en la arena, a ras de la
 // orilla; las palmeras en el borde de la hierba; los arbustos y las flores entre las zonas).
@@ -74,7 +74,8 @@ function olas3(w: Mundo): void {
 
 // adornarIsla(w, zonas, centro, noche): pone en la isla del mundo w los caminos (del centro a cada zona), las olas, las
 // rocas, las palmeras, los arbustos, las flores y, de noche, las luciérnagas, las farolas de los caminos y las ventanas
-// encendidas (mejora 39); de día, los destellos del sol en el mar y las sombras de las nubes (mejora 37).
+// encendidas (mejora 39); de día, los destellos del sol en el mar, las sombras de las nubes (mejora 37) y mariposas
+// (mejora 60); y siempre, delfines, una ballena y un velero en el mar (mejoras 55 a 57).
 export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: PuntoSuelo, noche: boolean): void {
   zonas.forEach((z) => {
     const c: PuntoSuelo = [(centro[0] + z[0]) / 2, (centro[1] + z[1]) / 2 + 1.2];
@@ -86,6 +87,13 @@ export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: Punt
   PALMERAS.forEach(([x, z], i) => palm3(w, x, z, 0.75 + (i % 2) * 0.15));
   ARBUSTOS.forEach(([x, z], i) => bush3(w.sc, x, z, 0.7 + (i % 2) * 0.2));
   FLORES.forEach(([x, z], i) => flower3(w.sc, x, z, FLC[i % FLC.length]!, 0.6, 0));
+  // delfines que saltan y una ballena a lo lejos (mejoras gráficas 55 y 56)
+  delfines3(w, [
+    [-22, -4],
+    [21, -5],
+  ]);
+  ballena3(w, -10, -14);
+  velero3(w, 21, 13, noche); // un velero que da la vuelta a la isla (mejora gráfica 57)
   if (noche) {
     fireflies(w, 26, 14, 1.8);
     // de noche, una farola junto a cada camino y las ventanas encendidas de las zonas (mejora gráfica 39)
@@ -102,6 +110,7 @@ export function adornarIsla(w: Mundo, zonas: readonly PuntoSuelo[], centro: Punt
     resplandores3(w, zonas);
   } else {
     sombrasNubes3(w); // las sombras de las nubes (mejora gráfica 37)
+    mariposasIsla3(w, zonas); // mariposas (mejora gráfica 60)
     // de día, el sol brilla en el mar a los dos lados de la isla (mejora gráfica 17)
     destellosSol3(w, -26, 2, 7, 6);
     destellosSol3(w, 19, 2, 7, 6);

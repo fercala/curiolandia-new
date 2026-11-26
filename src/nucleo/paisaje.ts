@@ -11,6 +11,7 @@
  *     fondo: pájaros y mariposas de día y luciérnagas de noche.
  *   - desde las mejoras gráficas 21 a 25, lo que pasa en el cielo y en el suelo (nucleo/cieloVivo.ts): los rayos del
  *     sol, el arcoíris, el globo aerostático, las estrellas fugaces y las sombras de las nubes.
+ *   - desde las mejoras 41 a 43, el avión con su estela, la bandada de pájaros y las nubes del color de la hora.
  * Exporta: momentoAhora, cieloExterior, veloHora y el tipo OpcionesCielo.
  */
 /* eslint-disable ts-patterns/no-magic-numbers, ts-patterns/no-loop-statements -- es código de dibujo en el lienzo de
@@ -18,7 +19,7 @@
 import { ctx, H, T, VIVO, W } from './pantalla.ts';
 import { PI } from './utilidades.ts';
 import { cloud } from './dibujo.ts';
-import { arcoiris, estrellaFugaz, globoAerostatico, rayosSol, sombrasNubes } from './cieloVivo.ts';
+import { arcoiris, avion, bandada, estrellaFugaz, globoAerostatico, rayosSol, sombrasNubes } from './cieloVivo.ts';
 import { ahora } from '../aplicacion/puertos.ts';
 import { VELO_LUZ, cieloDe, loQueCae, mezcla, momentoLuz, type MomentoLuz } from '../dominio/luz.ts';
 
@@ -107,11 +108,21 @@ function colina(base: number, alto: number, fase: number, color: string, dx: num
   ctx.fill();
 }
 
+// COLOR_NUBE: el color de las nubes de cada momento (mejora gráfica 43): rosadas al amanecer, anaranjadas por la tarde
+// y blancas de día (de noche no hay nubes).
+const COLOR_NUBE: Readonly<Record<MomentoLuz, string>> = {
+  amanecer: '#FFE1EA',
+  dia: '#FFFFFF',
+  tarde: '#FFE0C4',
+  noche: '#FFFFFF',
+};
+
 // cieloExterior(arriba, abajo, linea, o): el cielo de una escena de fuera con sus colores (arriba y abajo) hasta la
 // línea del horizonte (linea, que se guarda en horizonte), cambiado según la hora (cieloDe); de noche, las estrellas; el sol o la luna (o.astro, sí por
 // defecto); unas nubes que pasan despacio (o.nubes, sí por defecto; de noche no hay) y, con o.colinas, dos
 // filas de colinas al fondo que se funden con el cielo y se mueven un poco con el puntero (la de delante, el doble).
-// Desde las mejoras 21 a 25, también los rayos del sol, el arcoíris y el globo (de día) o la estrella fugaz (de noche).
+// Desde las mejoras 21 a 25, también los rayos del sol, el arcoíris y el globo (de día) o la estrella fugaz (de noche);
+// desde las 41 a 43, el avión, la bandada de pájaros y las nubes del color del momento (COLOR_NUBE).
 export function cieloExterior(arriba: string, abajo: string, linea: number, o: OpcionesCielo = {}): void {
   horizonte = linea;
   const m = momentoAhora(),
@@ -130,14 +141,18 @@ export function cieloExterior(arriba: string, abajo: string, linea: number, o: O
     if (o.astro !== false) rayosSol(1300, Math.max(60, Math.min(ASTRO[m].y(alto), alto - 70)), alto, m !== 'dia');
   }
   if (o.astro !== false) astro(m, alto);
-  if (m !== 'noche') globoAerostatico(alto);
+  if (m !== 'noche') {
+    globoAerostatico(alto);
+    avion(alto);
+    bandada(alto);
+  }
   if (o.nubes !== false && m !== 'noche') {
     ctx.save();
     ctx.globalAlpha = 0.85;
     for (let i = 0; i < 3; i++) {
       const x = ((T * (10 + i * 4) + i * 640) % (W + 400)) - 250,
         y = Math.min(70 + i * 55, alto - 90);
-      if (y > 30) cloud(x, y, 0.7 + (i % 2) * 0.25, '#FFFFFF');
+      if (y > 30) cloud(x, y, 0.7 + (i % 2) * 0.25, COLOR_NUBE[m]);
     }
     ctx.restore();
   }
